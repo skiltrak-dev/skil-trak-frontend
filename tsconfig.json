@@ -18,6 +18,8 @@
 		"paths": {
 			"@components": ["./components"],
 			"@components/*": ["./components/*"],
+			"@animations": ["./animations"],
+			"@animations/*": ["./animations/*"],
 			"@types": ["./types"],
 			"@theme": ["./themes"],
 			"@utils": ["./utils"]
