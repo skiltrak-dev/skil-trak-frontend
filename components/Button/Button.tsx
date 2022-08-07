@@ -10,11 +10,20 @@ export const ButtonType = {
 	Dark: "dark",
 };
 
+const VariantOptions = [
+	"primary",
+	"secondary",
+	"info",
+	"error",
+	"action",
+	"dark",
+] as const;
+
 interface ButtonProps {
-	variant: "primary" | "secondary" | "info" | "error" | "action" | "dark";
+	variant?: typeof VariantOptions[number];
 	Icon?: any;
 	children?: any;
-	text: string;
+	text?: string;
 	onClick: Function;
 	disabled?: boolean;
 	rounded?: boolean;

@@ -3,6 +3,7 @@ const TypographyType = {
 	h2: `text-3xl font-bold`,
 	h3: `text-2xl font-bold`,
 	h4: `text-xl font-bold`,
+	body: `text-base text-normal`,
 	title: `text-lg font-semibold`,
 	subtitle: `text-base font-medium`,
 	label: `text-sm font-medium`,
@@ -18,6 +19,7 @@ const VariantOptions = [
 	"h2",
 	"h3",
 	"h4",
+	"body",
 	"title",
 	"subtitle",
 	"label",
@@ -29,7 +31,7 @@ const VariantOptions = [
 ] as const;
 
 interface TypographyProps {
-	variant: typeof VariantOptions[number];
+	variant?: typeof VariantOptions[number];
 
 	children: string;
 
@@ -49,7 +51,7 @@ interface TypographyProps {
 }
 
 export const Typography = ({
-	variant,
+	variant = "body",
 	children,
 
 	// Alignment
