@@ -85,9 +85,14 @@ export const Typography = ({
 		classes = `${classes} uppercase`;
 	}
 
-	const Component = `${variant}` as keyof JSX.IntrinsicElements;
+	const Component = `${
+		variant === "body" ? "p" : variant
+	}` as keyof JSX.IntrinsicElements;
 	return (
-		<Component className={`${(TypographyType as any)[variant]} ${classes}`}>
+		<Component
+			className={`${(TypographyType as any)[variant]} ${classes}`}
+			{...(htmlFor ? { htmlFor } : {})}
+		>
 			{children}
 		</Component>
 	);
