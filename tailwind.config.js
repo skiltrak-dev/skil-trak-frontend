@@ -37,7 +37,7 @@ const colors = {
 		light: "var(--theme-link-light)",
 	},
 
-	base: {
+	typography: {
 		DEFAULT: "var(--theme-text-base)",
 		light: "var(--theme-text-secondary)",
 		dark: "var(--theme-text-dark)",
