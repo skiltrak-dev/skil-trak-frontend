@@ -5,3 +5,4 @@ export * from "./Typography";
 export * from "./ActionAlert";
 export * from "./Alert";
 export * from "./CircularProgressBar";
+export * from "./DocumentView";
