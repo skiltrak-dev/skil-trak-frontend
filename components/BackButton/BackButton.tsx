@@ -21,8 +21,8 @@ export const BackButton = ({ text, link }: BackButtonProps) => {
 
 	return link ? (
 		<Link href={`/${link === "/" ? "" : link}`} className={classes}>
-			<IoIosArrowRoundBack className="inline-flex mr-2 text-base" />
-			{text || "Back To Previous"}
+			<IoIosArrowRoundBack className="transition-all inline-flex text-base group-hover:-translate-x-1" />
+			<span className="ml-2">{text || "Back To Previous"}</span>
 		</Link>
 	) : (
 		<div className={classes} onClick={navigateBack}>
