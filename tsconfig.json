@@ -20,6 +20,8 @@
 			"@components/*": ["./components/*"],
 			"@animations": ["./animations"],
 			"@animations/*": ["./animations/*"],
+			"@hooks": ["./hooks"],
+			"@hooks/*": ["./hooks/*"],
 			"@types": ["./types"],
 			"@theme": ["./themes"],
 			"@utils": ["./utils"]
