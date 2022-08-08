@@ -8,7 +8,7 @@ import { AlertProvider } from "@hooks";
 const MyApp = ({ Component, pageProps }: AppProps) => {
 	// Apply theme from local storage
 	useEffect(() => {
-		applyTheme((Theme as any)[getCurrentTheme()]);
+		applyTheme((Theme as any)[getCurrentTheme()].theme);
 	}, []);
 
 	return (

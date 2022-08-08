@@ -49,4 +49,7 @@ const colors = {
 	},
 };
 
-export const baseTheme = createTheme(colors);
+export const baseTheme = {
+	theme: createTheme(colors),
+	colors,
+};
