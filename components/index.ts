@@ -7,3 +7,4 @@ export * from "./Alert";
 export * from "./CircularProgressBar";
 export * from "./DocumentView";
 export * from "./Footer";
+export * from "./BackButton";
