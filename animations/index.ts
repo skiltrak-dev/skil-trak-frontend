@@ -52,12 +52,11 @@ import IndustryConsultation from "./general-info/consultancy.json";
 import Signature from "./general-info/mou.json";
 
 export const Animations = {
-	NoConnection: noInternetConnection,
-	EmptyBox: emptyBox,
-	ShakeEmptyBox: shakeEmptyBox,
-	Loading: loading,
-
 	Common: {
+		NoConnection: noInternetConnection,
+		EmptyBox: emptyBox,
+		ShakeEmptyBox: shakeEmptyBox,
+		Loading: loading,
 		UnderConstruction: underConstruction,
 		Actions: {
 			Success: check,
@@ -66,8 +65,8 @@ export const Animations = {
 		},
 	},
 
-    Auth: {
-        SignUp: {
+	Auth: {
+		SignUp: {
 			Waiting: waiting,
 			Rejected: rejected,
 		},
@@ -76,7 +75,7 @@ export const Animations = {
 			Popup: loginPopup,
 			Simple: loginSimple,
 		},
-    },
+	},
 
 	Industry: {
 		Dashboard: {
