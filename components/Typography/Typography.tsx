@@ -1,17 +1,17 @@
-const TypographyType = {
-	h1: `text-4xl font-bold`,
-	h2: `text-3xl font-bold`,
-	h3: `text-2xl font-bold`,
-	h4: `text-xl font-bold`,
-	body: `text-base text-normal`,
-	title: `text-lg font-semibold`,
-	subtitle: `text-base font-medium`,
-	label: `text-sm font-medium`,
-	muted: `text-xs font-medium`,
-	small: `text-xs font-normal`,
-	xs: `text-[11px] font-normal`,
-	tableCell: `text-xs font-medium`,
-	badge: `text-[9px] font-semibold`,
+const TypographyOptions = {
+	h1: { className: `text-4xl font-bold`, element: "h1" },
+	h2: { className: `text-3xl font-bold`, element: "h2" },
+	h3: { className: `text-2xl font-bold`, element: "h3" },
+	h4: { className: `text-xl font-bold`, element: "h4" },
+	body: { className: `text-base text-normal`, element: "p" },
+	title: { className: `text-lg font-semibold`, element: "p" },
+	subtitle: { className: `text-base font-medium`, element: "p" },
+	label: { className: `text-sm font-medium`, element: "label" },
+	muted: { className: `text-xs font-medium`, element: "p" },
+	small: { className: `text-xs font-normal`, element: "p" },
+	xs: { className: `text-[11px] font-normal`, element: "p" },
+	tableCell: { className: `text-xs font-medium`, element: "p" },
+	badge: { className: `text-[9px] font-semibold`, element: "span" },
 };
 
 const VariantOptions = [
@@ -86,11 +86,13 @@ export const Typography = ({
 	}
 
 	const Component = `${
-		variant === "body" ? "p" : variant
+		(TypographyOptions as any)[variant].element
 	}` as keyof JSX.IntrinsicElements;
 	return (
 		<Component
-			className={`${(TypographyType as any)[variant]} ${classes}`}
+			className={`${
+				(TypographyOptions as any)[variant].className
+			} ${classes}`}
 			{...(htmlFor ? { htmlFor } : {})}
 		>
 			{children}

@@ -8,3 +8,4 @@ export * from "./CircularProgressBar";
 export * from "./DocumentView";
 export * from "./Footer";
 export * from "./BackButton";
+export * from "./navBars";
