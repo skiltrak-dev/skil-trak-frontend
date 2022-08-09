@@ -48,9 +48,9 @@ export const Button = ({
 	fullWidth,
 	mini,
 }: ButtonProps) => {
-	const buttonClass = `transition-all duration-300 border px-8 py-2 shadow focus:outline-none focus:ring-4 ${
+	const buttonClass = `text-sm font-semibold transition-all duration-300 border px-4 py-2 shadow focus:outline-none focus:ring-4 ${
 		rounded ? "rounded-full" : "rounded-md"
-	} ${fullWidth ? "w-full" : "min-w-[150px]"} `;
+	} ${fullWidth ? "w-full" : "min-w-[125px]"} `;
 
 	const miniButtonClass = `transition-all duration-300 cursor-pointer w-6 h-6 flex items-center justify-center rounded shadow`;
 
