@@ -3,7 +3,7 @@ import type { AppProps } from "next/app";
 import { useEffect } from "react";
 
 import { applyTheme, getCurrentTheme, Theme } from "@theme";
-import { AlertProvider } from "@hooks";
+import { AlertProvider, NavbarProvider } from "@hooks";
 
 const MyApp = ({ Component, pageProps }: AppProps) => {
 	// Apply theme from local storage
@@ -13,7 +13,9 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
 
 	return (
 		<AlertProvider>
-			<Component {...pageProps} />
+			<NavbarProvider>
+				<Component {...pageProps} />
+			</NavbarProvider>
 		</AlertProvider>
 	);
 };
