@@ -17,7 +17,7 @@ interface AlertContextType {
 
 const AlertContext = createContext<AlertContextType | null>(null);
 
-export const AlertProvider = ({ children }: { children: any }) => {
+export const AlertProvider = ({ children }: { children: React.ReactNode }) => {
 	const [lastId, setLastId] = useState(1);
 	const [alerts, setAlerts] = useState<any>([]);
 
