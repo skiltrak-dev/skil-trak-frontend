@@ -1,0 +1,92 @@
+// Icons
+import { MdCancel } from "react-icons/md";
+
+// components
+import { Typography, Button } from "@components";
+import { MouseEventHandler } from "react";
+
+interface ModalProps {
+	title: string;
+	subtitle: string;
+	children: any;
+	confirmText?: string;
+	onConfirmClick: Function;
+	cancelText?: string;
+	onCancelClick?: Function;
+}
+
+export const Modal = ({
+	title,
+	subtitle,
+	children,
+	confirmText,
+	onConfirmClick,
+	cancelText,
+	onCancelClick,
+}: ModalProps) => {
+	const onConfirmButtonClick = () => {
+		onConfirmClick && onConfirmClick();
+	};
+
+	const onCancelButtonClick = () => {
+		onCancelClick && onCancelClick();
+	};
+
+	return (
+		<div className="bg-[#00000050] w-full h-screen flex items-center justify-center relative z-50">
+			<div className="bg-white rounded-2xl flex flex-col justify-between shadow-md min-w-[450px]">
+				<div className="px-4 py-2 border-b border-secondary-dark flex justify-between items-center">
+					<div>
+						<Typography variant={"title"}>{title}</Typography>
+						<Typography variant={"subtitle"} color={"text-muted"}>
+							{subtitle}
+						</Typography>
+					</div>
+					<MdCancel className="transition-all duration-300 text-gray-400 hover:text-black text-3xl cursor-pointer" />
+				</div>
+
+				<div className="p-4">{children}</div>
+
+				<div className="flex justify-end items-end gap-x-4 px-4 py-2">
+					<Button variant={"secondary"} onClick={onCancelButtonClick}>
+						{cancelText || "Cancel"}
+					</Button>
+					<Button onClick={onConfirmButtonClick}>
+						{confirmText || "Confirm"}
+					</Button>
+				</div>
+			</div>
+		</div>
+	);
+};
+
+// Modal.propTypes = {
+//     color: PropTypes.oneOf(["transparent", "primary", "secondary"]),
+//     hoverColor: PropTypes.oneOf([
+//       "transparent",
+//       "primary",
+//       "secondary",
+//       "secondaryDark",
+//     ]),
+//     focusColor: PropTypes.oneOf([
+//       "transparent",
+//       "primary",
+//       "secondary",
+//       "secondaryDark",
+//     ]),
+//     rounded: PropTypes.oneOf(["lg", "2lg", "full"]),
+//     border: PropTypes.oneOf(["2"]),
+//     borderColor: PropTypes.oneOf(["primary", "secondary"]),
+//     shadow: PropTypes.oneOf(["sm"]),
+//     children: PropTypes.string.isRequired,
+//   };
+
+//   Modal.defaultProps = {
+//     color: "primary",
+//     hoverColor: "primary",
+//     focusColor: "primary",
+//     rounded: "lg",
+//     border: "2",
+//     borderColor: "primary",
+//     shadow: "sm",
+//   };

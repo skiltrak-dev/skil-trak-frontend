@@ -10,3 +10,4 @@ export * from "./Footer";
 export * from "./BackButton";
 export * from "./navBars";
 export * from "./LoadingAnimation";
+export * from "./Modal";
