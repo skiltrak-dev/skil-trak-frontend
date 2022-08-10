@@ -16,4 +16,6 @@ export * from "./SpecialLink";
 export * from "./Pagination";
 export * from "./PopUp";
 export * from "./PortalSelectButton";
-export * from './SearchBox'
+export * from "./SearchBox";
+export * from "./VideoPreview";
+export * from "./PortalDetail";
