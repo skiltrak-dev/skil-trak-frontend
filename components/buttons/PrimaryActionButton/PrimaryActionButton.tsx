@@ -3,7 +3,7 @@ import Link from "next/link";
 
 
 // components
-import { Typography } from "../Typography";
+import { Typography } from "../../Typography";
 
 export interface PrimaryActionButtonProps {
     title: string

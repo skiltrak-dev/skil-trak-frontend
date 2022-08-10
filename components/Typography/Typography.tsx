@@ -1,3 +1,5 @@
+import { ReactElement } from "react";
+
 const TypographyOptions = {
 	h1: { className: `text-4xl font-bold`, element: "h1" },
 	h2: { className: `text-3xl font-bold`, element: "h2" },
@@ -33,7 +35,7 @@ const VariantOptions = [
 interface TypographyProps {
 	variant?: typeof VariantOptions[number];
 
-	children: string;
+	children: string | ReactElement;
 
 	// Label Specific
 	htmlFor?: string;

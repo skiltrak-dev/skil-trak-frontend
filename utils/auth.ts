@@ -16,6 +16,7 @@ export const getUserCredentials = () => {
 	if (token) {
 		return jwt(token);
 	}
+	return null
 };
 
 export const isAuthenticated = () => {
