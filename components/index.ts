@@ -1,9 +1,9 @@
+export * from "./Alert";
+export * from "./ActionAlert";
 export * from "./Button";
 export * from "./Card";
 export * from "./LottieAnimation";
 export * from "./Typography";
-export * from "./ActionAlert";
-export * from "./Alert";
 export * from "./CircularProgressBar";
 export * from "./DocumentView";
 export * from "./Footer";
@@ -13,3 +13,5 @@ export * from "./LoadingAnimation";
 export * from "./Modal";
 export * from "./Notification";
 export * from "./SpecialLink";
+export * from "./Pagination";
+export * from "./PopUp";
