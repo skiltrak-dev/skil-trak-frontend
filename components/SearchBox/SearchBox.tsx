@@ -11,7 +11,6 @@ export const SearchBox = () => {
         name=""
         id=""
       />
-      <FiSearch className="text-2xl" />
     </div>
   );
 };
