@@ -35,7 +35,7 @@ const VariantOptions = [
 interface TypographyProps {
 	variant?: typeof VariantOptions[number];
 
-	children: string | ReactElement;
+	children:  any;
 
 	// Label Specific
 	htmlFor?: string;
