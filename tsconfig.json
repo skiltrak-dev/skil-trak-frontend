@@ -20,11 +20,15 @@
 			"@components/*": ["./components/*"],
 			"@animations": ["./animations"],
 			"@animations/*": ["./animations/*"],
+			"@layouts": ["./layouts"],
+			"@layouts/*": ["./layouts/*"],
 			"@hooks": ["./hooks"],
 			"@hooks/*": ["./hooks/*"],
 			"@types": ["./types"],
 			"@theme": ["./themes"],
-			"@utils": ["./utils"]
+			"@utils": ["./utils"],
+			"@queries": ["./redux/queries"],
+			"@queries/*": ["./redux/queries/*"]
 		}
 	},
 	"include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],

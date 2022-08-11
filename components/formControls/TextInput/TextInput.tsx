@@ -25,10 +25,18 @@ import { Typography } from "../../Typography";
 
 interface TextInputProps {
 	label?: string;
-	type?: "text" | "number" | "email" | "search" | "tel" | "date" | "time";
+	type?:
+		| "text"
+		| "number"
+		| "password"
+		| "email"
+		| "search"
+		| "tel"
+		| "date"
+		| "time";
 	min?: string | number;
 	max?: string | number;
-	placeHolder?: string;
+	placeholder?: string;
 	name: string;
 	id?: string;
 	required?: boolean;
@@ -47,7 +55,7 @@ export const TextInput = ({
 	name,
 	label,
 	type = "text",
-	placeHolder,
+	placeholder,
 	min,
 	max,
 	helpText,
@@ -68,7 +76,7 @@ export const TextInput = ({
 		type,
 		min,
 		max,
-		placeholder: placeHolder,
+		placeholder,
 		onChange,
 		onBlur,
 		required,

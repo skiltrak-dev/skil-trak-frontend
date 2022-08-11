@@ -24,7 +24,7 @@ interface ButtonProps {
 	Icon?: any;
 	children?: any;
 	text?: string;
-	onClick: Function;
+	onClick?: Function;
 	disabled?: boolean;
 	rounded?: boolean;
 	loading?: boolean;
@@ -73,7 +73,7 @@ export const Button = ({
 			disabled={disabled}
 			type={submit ? "submit" : "button"}
 			className={currentClass}
-			{...(!submit ? { onClick: () => onClick() } : {})}
+			{...(!submit ? { onClick: () => onClick && onClick() } : {})}
 		>
 			{loading ? (
 				<div className="flex items-center justify-center">

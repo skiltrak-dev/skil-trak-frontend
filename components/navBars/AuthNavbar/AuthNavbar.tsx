@@ -7,10 +7,10 @@ import { AuthUtils } from "@utils";
 import { HeaderLogo } from "../NavbarLogo";
 import { NavItem } from "../NavItem";
 
-const TypeOptions = ["sign-up", "log-in", "logged-in"] as const;
+import { AuthTypeOptions } from "@layouts";
 
 interface AuthHeaderProps {
-	type: typeof TypeOptions[number];
+	type: typeof AuthTypeOptions[number];
 }
 
 export const AuthNavbar = ({ type }: AuthHeaderProps) => {
