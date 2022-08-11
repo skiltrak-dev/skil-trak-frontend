@@ -1,6 +1,7 @@
 import { createTheme } from "./utils";
+import { ThemeColors } from "./type";
 
-const colors = {
+const colors: ThemeColors = {
 	primary: {
 		DEFAULT: "#F7910F",
 		dark: "#E5870E",
@@ -46,6 +47,7 @@ const colors = {
 	muted: {
 		DEFAULT: "#A5A3A9",
 		dark: "#77757F",
+		light: "#CCCCCC",
 	},
 };
 
