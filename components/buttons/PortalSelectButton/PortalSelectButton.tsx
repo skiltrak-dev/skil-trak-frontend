@@ -14,16 +14,20 @@ export const PortalSelectButton = ({
 	onMouseEnter,
 }: PortalSelectButtonProps) => {
 	return (
-		<Link
-			href={link}
-			className={`group transition-all text-center text-lg h-20 w-60 font-bold flex justify-start items-center px-4 py-2 border border-primary rounded-lg text-black hover:text-white hover:bg-primary`}
-		>
-			<img
-				src={Icon}
-				alt=""
-				className="filter group-hover:grayscale group-hover:saturate-100 group-hover:brightness-200 mr-8"
-			/>
-			{children}
+		<Link href={link}>
+			<a
+				className={`group transition-all text-center text-lg h-20 w-60 font-bold flex justify-start items-center px-4 py-2 border border-primary rounded-lg text-black hover:text-white hover:bg-primary`}
+				onMouseEnter={() => {
+					onMouseEnter();
+				}}
+			>
+				<img
+					src={Icon}
+					alt=""
+					className="filter group-hover:grayscale group-hover:saturate-100 group-hover:brightness-200 mr-8"
+				/>
+				{children}
+			</a>
 		</Link>
 	);
 };
