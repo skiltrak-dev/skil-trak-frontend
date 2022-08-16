@@ -4,7 +4,7 @@ import { useEffect } from "react";
 import { Provider } from "react-redux";
 
 import { applyTheme, getCurrentTheme, Theme } from "@theme";
-import { AlertProvider, NavbarProvider } from "@hooks";
+import { AlertProvider, NavbarProvider, NotificationProvider } from "@hooks";
 
 import { store } from "../redux/store";
 
@@ -17,9 +17,11 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
 	return (
 		<Provider store={store}>
 			<AlertProvider>
-				<NavbarProvider>
-					<Component {...pageProps} />
-				</NavbarProvider>
+				<NotificationProvider>
+					<NavbarProvider>
+						<Component {...pageProps} />
+					</NavbarProvider>
+				</NotificationProvider>
 			</AlertProvider>
 		</Provider>
 	);
