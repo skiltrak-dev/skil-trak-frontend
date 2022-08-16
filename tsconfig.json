@@ -28,7 +28,9 @@
 			"@theme": ["./themes"],
 			"@utils": ["./utils"],
 			"@queries": ["./redux/queries"],
-			"@queries/*": ["./redux/queries/*"]
+			"@queries/*": ["./redux/queries/*"],
+			"@constants": ["./constants"],
+			"@constants/*": ["./constants/*"]
 		}
 	},
 	"include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],

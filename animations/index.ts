@@ -2,6 +2,8 @@ import noInternetConnection from "./common/no-connection.json";
 import emptyBox from "./common/empty-box.json";
 import shakeEmptyBox from "./common/shake-empty-box.json";
 import loading from "./common/loading.json";
+import pageNotFound from "./common/404.json";
+import pageNotFound2 from "./common/404-sleeping-cat.json";
 
 // Actions
 import check from "./actions/check.json";
@@ -10,6 +12,7 @@ import error from "./actions/error.json";
 
 // General
 import underConstruction from "./common/under-construction.json";
+import emailSent from "./common/email-sent.json";
 
 // Dashboard Animations
 import requiredDocuments from "./dashboard/required-documents.json";
@@ -30,6 +33,8 @@ import rejected from "./signup/rejected.json";
 // Login
 import loginPopup from "./login/login-popup.json";
 import loginSimple from "./login/login-simple.json";
+import forgotPassword from "./login/forgot-password.json";
+import resetPassword from "./login/reset-password.json";
 
 // Communication Method Animations
 import communication from "./signup/communication-method/communication.json";
@@ -63,6 +68,9 @@ export const Animations = {
 			Info: info,
 			Error: error,
 		},
+		EmailSent: emailSent,
+		PageNotFound: pageNotFound,
+		PageNotFound2: pageNotFound2,
 	},
 
 	Auth: {
@@ -74,6 +82,8 @@ export const Animations = {
 		Login: {
 			Popup: loginPopup,
 			Simple: loginSimple,
+			ForgotPassword: forgotPassword,
+			ResetPassword: resetPassword,
 		},
 	},
 
