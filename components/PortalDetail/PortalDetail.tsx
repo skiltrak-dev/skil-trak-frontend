@@ -11,14 +11,14 @@ export const PortalDetail = ({
 	videoUrl,
 }: PortalDetailProps) => {
 	return (
-		<div className="w-480 h-auto">
-			<Typography variant={"h4"}>{`Beginning As A ${text}`}</Typography>
+		<div className="w-full h-auto">
+			<Typography variant={"h4"}>Beginning As A text</Typography>
 			<p>
 				Here are the things, you can do as a{" "}
 				<span className="text-primary capitalize">{text}</span> on
 				SkilTrak
 			</p>
-			<div className="w-full h-56 rounded-lg overflow-hidden mt-4 bg-secondary">
+			<div className="w-full h-96 rounded-lg overflow-hidden mt-4 bg-secondary">
 				<VideoPreview url={videoUrl} />
 			</div>
 		</div>
