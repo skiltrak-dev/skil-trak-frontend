@@ -10,7 +10,7 @@ import {
 } from "@components";
 import { getMethodsForInput } from "@utils";
 
-import { InputErrorMessage } from "./InputErrorMessage";
+import { InputErrorMessage } from "./components/InputErrorMessage";
 import { InputProps } from "./InputPropType";
 import { getTextInputClasses } from "./inputStyleClasses";
 

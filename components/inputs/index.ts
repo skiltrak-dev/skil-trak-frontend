@@ -6,3 +6,5 @@ export * from "./Switch";
 export * from "./Select";
 export * from "./FileUpload";
 export * from "./RadioGroup";
+
+export * from "./components";

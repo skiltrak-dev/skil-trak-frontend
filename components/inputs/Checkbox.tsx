@@ -1,6 +1,4 @@
-import { HelpText } from "@components/HelpText";
-import { RequiredStar } from "@components/RequiredStar";
-import { Tooltip } from "@components/Tooltip";
+import { HelpText, RequiredStar, Tooltip } from "@components";
 import { getMethodsForInput } from "@utils";
 
 import { useFormContext } from "react-hook-form";

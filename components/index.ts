@@ -25,11 +25,6 @@ export * from "./AuthBreadCrumb";
 
 // Forms
 export * from "./forms";
-export * from "./HelpText";
-export * from "./Tooltip";
-export * from "./RequiredStar";
-export * from "./ValidationIcon";
-export * from "./InputLoading";
 export * from "./inputs";
 
 export * from "./PdfViewer";

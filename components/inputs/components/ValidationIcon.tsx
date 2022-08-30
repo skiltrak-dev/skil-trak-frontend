@@ -12,7 +12,7 @@ export const ValidationIcon = ({
 
 	const canShowError = () => {
 		if (error) return true;
-		if (formContext.formState.touchedFields[name]) {
+		if (formContext && formContext.formState.touchedFields[name]) {
 			if (formContext.formState.errors[name]) return true;
 			return false;
 		}
