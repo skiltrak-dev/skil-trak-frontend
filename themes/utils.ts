@@ -49,5 +49,5 @@ export const applyTheme = (theme: Object) => {
 };
 
 export const getCurrentTheme = () => {
-	return "Base";
+	return "Base"; // localstorag
 };

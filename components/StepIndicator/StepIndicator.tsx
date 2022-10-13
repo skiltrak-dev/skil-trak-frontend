@@ -1,3 +1,5 @@
+
+import classNames from 'classnames'
 import { Step } from './Step'
 
 export interface IndicatorStep {
@@ -10,18 +12,25 @@ interface StepIndicatorProps {
     currentStep: IndicatorStep
     steps: IndicatorStep[]
     fluid?: boolean
+    center?: boolean
 }
 export const StepIndicator = ({
     currentStep,
     steps,
     fluid,
+    center,
 }: StepIndicatorProps) => {
     const stepIndex = steps.findIndex(
         (step) => step.label === currentStep.label
     )
 
+    const stepIndicatorClasses = classNames({
+        'w-full flex gap-x-2 py-4 mt-2': true,
+        'justify-center': center,
+    })
+
     return (
-        <div className={`w-full flex gap-x-2 py-4 mt-2`}>
+        <div className={stepIndicatorClasses}>
             {steps.map((step, index: number) => (
                 <Step
                     key={step.label}

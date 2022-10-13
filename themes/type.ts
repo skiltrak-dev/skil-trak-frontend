@@ -1,3 +1,5 @@
+import { ThemeColors } from "@utils";
+
 export interface ColorSet {
 	DEFAULT: string;
 	dark: string;
@@ -14,3 +16,4 @@ export interface ThemeColors {
 	base: ColorSet;
 	muted: ColorSet;
 }
+
