@@ -1,7 +1,7 @@
 export * from './Alert'
 export * from './ActionAlert'
 export * from './buttons'
-export * from './Card'
+export * from './cards/Card'
 export * from './LottieAnimation'
 export * from './Typography'
 export * from './CircularProgressBar'
@@ -30,3 +30,13 @@ export * from './inputs'
 export * from './PdfViewer'
 
 export * from './StepIndicator'
+export * from './PageTitle'
+export * from './HelpQuestionSet'
+
+export * from './specialCards'
+export * from './cards'
+
+export * from './UserProfile'
+export * from './Badge'
+
+export * from './InitialAvatar'
