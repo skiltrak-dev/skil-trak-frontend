@@ -1,7 +1,6 @@
 export * from './Alert'
 export * from './ActionAlert'
 export * from './buttons'
-export * from './cards/Card'
 export * from './LottieAnimation'
 export * from './Typography'
 export * from './CircularProgressBar'
