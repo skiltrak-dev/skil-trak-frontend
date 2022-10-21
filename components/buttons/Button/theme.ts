@@ -52,7 +52,7 @@ export const getTheme = (buttonClass: string, ButtonType: any) => {
 			},
 		},
 		[ButtonType.Dark]: {
-			default: `${buttonClass} bg-secondary-text text-white hover:bg-slate-600 border-transparent ring-primary-light`,
+			default: `${buttonClass} bg-typography text-white hover:bg-slate-600 border-transparent ring-primary-light`,
 			outline: `${buttonClass} bg-transparent text-gray-600 hover:bg-slate-600 hover:text-white border-secondary-text ring-primary-light`,
 			disabled: `${buttonClass} bg-gray-200 text-gray-300 border-transparent`,
 			loading: {
@@ -61,5 +61,15 @@ export const getTheme = (buttonClass: string, ButtonType: any) => {
 				disabled: "white",
 			},
 		},
+		[ButtonType.Success]: {
+            default: `${buttonClass} bg-success text-white hover:bg-success-dark border-transparent ring-success-light`,
+            outline: `${buttonClass} bg-transparent text-success hover:bg-success hover:text-white border-success-dark ring-success-light`,
+            disabled: `${buttonClass} bg-gray-200 text-gray-300 border-transparent`,
+            loading: {
+                default: `white`,
+                outline: `#2D3748`,
+                disabled: "white",
+            },
+        },
 	};
 };

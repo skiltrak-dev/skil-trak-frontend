@@ -12,8 +12,9 @@ export const CalendarStyles = styled.div`
 	}
 
 	.react-calendar__navigation .react-calendar__navigation__prev-button {
-		position: absolute;
-		margin-left: 180px;
+		position: relative;
+		left: 240px;
+		// top: px;
 	}
 
 	.react-calendar__navigation .react-calendar__navigation__next-button {

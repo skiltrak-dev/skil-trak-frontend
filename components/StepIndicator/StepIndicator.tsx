@@ -25,7 +25,7 @@ export const StepIndicator = ({
     )
 
     const stepIndicatorClasses = classNames({
-        'w-full flex gap-x-2 py-4 mt-2': true,
+        'w-full flex flex-col gap-y-2 py-4 mt-2': true,
         'justify-center': center,
     })
 

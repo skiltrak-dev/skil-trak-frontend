@@ -8,6 +8,7 @@ export const ButtonType = {
 	Error: "error",
 	Action: "action",
 	Dark: "dark",
+	Success: "success",
 };
 
 const VariantOptions = [
@@ -17,6 +18,7 @@ const VariantOptions = [
 	"error",
 	"action",
 	"dark",
+	"success",
 ] as const;
 
 interface ButtonProps {

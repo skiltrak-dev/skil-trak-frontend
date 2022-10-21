@@ -11,7 +11,6 @@ export const SidebarCalendar = () => {
 			<CalendarStyles>
 				<Calendar onChange={setDate} value={date} />
 			</CalendarStyles>
-			/
 		</>
 	);
 };

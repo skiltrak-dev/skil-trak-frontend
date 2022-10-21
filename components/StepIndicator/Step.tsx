@@ -33,29 +33,31 @@ export const Step = ({ label, visited, last, fluid }: StepProps) => {
     })
 
     const stepLineClasses = classNames({
-        'h-0.5 flex-shrink': true,
-        'w-full': fluid,
-        'w-16': !fluid,
+        'h-10 ': true,
+        'ml-4 ': true,
+        'w-0.5': !fluid,
         'bg-indigo-500': visited,
         'bg-gray-400': !visited,
     })
 
     const stepContainerClasses = classNames({
-        'flex items-center gap-x-2': true,
+        'flex flex-col gap-y-2': true,
         'w-full': fluid,
     })
 
     return (
         <div className={stepContainerClasses}>
             {/* Step Circle */}
-            <div className={stepCircleClasses.border}>
-                <div className={stepCircleClasses.inner}>
-                    <div className={stepCircleClasses.dot}></div>
+            <div className='flex items-center gap-x-2'>
+                <div className={stepCircleClasses.border}>
+                    <div className={stepCircleClasses.inner}>
+                        <div className={stepCircleClasses.dot}></div>
+                    </div>
                 </div>
-            </div>
 
-            {/* Step Label */}
-            <div className={stepLabelClasses}>{label}</div>
+                {/* Step Label */}
+                <div className={stepLabelClasses}>{label}</div>
+            </div>
 
             {/* Step Line */}
             {!last && <div className={stepLineClasses}></div>}
