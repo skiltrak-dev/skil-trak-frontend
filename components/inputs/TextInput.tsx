@@ -62,7 +62,7 @@ export const TextInput = ({
 			{label && (
 				<div className="flex justify-between items-center">
 					<div>
-						<Typography variant={"label"}>{label}</Typography>
+						<Typography variant={"label"} htmlFor={id}>{label}</Typography>
 						{required && <RequiredStar />}
 					</div>
 					{tooltip && <Tooltip text={tooltip} />}

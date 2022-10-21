@@ -1,32 +1,35 @@
-import { ReactElement } from 'react'
+import { ReactElement, useEffect } from 'react'
 
 import { Animations } from '@animations'
 import {
     DisplayPrimaryActions,
     HelpQuestionSet,
     RecentAppointmentCard,
+    Button,
+    SidebarCalendar,
 } from '@components'
 import { StudentLayout } from '@layouts'
 import { NextPageWithLayout } from '@types'
 import { PlacementProgressCard } from '@components/specialCards/PlacementProgress'
+import { useContextBar } from 'hooks'
 
 const PrimaryLinks = [
     {
         title: 'My Workplace',
         description: 'Track Progress or File a request',
-        link: '#',
+        link: 'workplace/my-workplace',
         animation: Animations.Student.Workplace.MyWorkplace,
     },
     {
         title: 'Appointments',
         description: 'View or Book Appointments',
-        link: '#',
+        link: 'workplace/appointments',
         animation: Animations.Student.Workplace.Appointments,
     },
     {
         title: 'Jobs',
         description: 'Track Progress Or File a request',
-        link: '#',
+        link: 'workplace/jobs',
         animation: Animations.Student.Workplace.Jobs,
     },
 ]
@@ -70,6 +73,15 @@ const OtherQuestions = [
 ]
 
 const StudentWorkplace: NextPageWithLayout = () => {
+    const { setContent } = useContextBar()
+    useEffect(() => {
+        setContent(
+            <>
+                <Button variant={'dark'} text={'My Schedule'} />
+                <SidebarCalendar />
+            </>
+        )
+    }, [setContent])
     return (
         <div className="flex flex-col">
             <div className="flex gap-x-6">

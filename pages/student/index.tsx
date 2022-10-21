@@ -299,13 +299,14 @@ const StudentDashboard: NextPageWithLayout = () => {
                                     </div>
 
                                     <InitialAvatarContainer show={2}>
-                                        <InitialAvatar name="John Smith" first/>
+                                        <InitialAvatar
+                                            name="John Smith"
+                                            first
+                                        />
                                         <InitialAvatar name="Yaseen Khan" />
                                         <InitialAvatar name="Julie Clarke" />
                                         <InitialAvatar name="Salman" />
                                     </InitialAvatarContainer>
-
-                                    
                                 </div>
                             </div>
                         </div>
