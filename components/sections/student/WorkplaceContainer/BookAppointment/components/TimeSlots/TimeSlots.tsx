@@ -7,6 +7,7 @@ type Props = {}
 export const TimeSlots = (props: Props) => {
     const [selectedTimeSlot, setSelectedTimeSlot] = useState('')
     const [selectedTimeSlotId, setSelectedTimeSlotId] = useState('')
+    const [selectedDate, setSelectedDate] = useState(null)
 
     const handleClick = (timeSlot: string, id: string) => {
         console.log('first', selectedTimeSlot)
@@ -15,6 +16,7 @@ export const TimeSlots = (props: Props) => {
         setSelectedTimeSlot(timeSlot)
         setSelectedTimeSlotId(id)
     }
+
 
     const timeSlots = [
         {
@@ -70,7 +72,10 @@ export const TimeSlots = (props: Props) => {
             </Typography>
             <div className="flex gap-x-8 mt-1">
                 <div className="w-2/6">
-                    <SidebarCalendar />
+                    <SidebarCalendar
+                        enbledDays={[1]}
+                        setSelectedDate={setSelectedDate}
+                    />
                 </div>
                 <div>
                     <div className="flex justify-between">
@@ -87,15 +92,16 @@ export const TimeSlots = (props: Props) => {
                     </Typography>
                     <div className="grid grid-cols-3 gap-2 mt-2.5">
                         {timeSlots.map((timeSlot, index) => (
-                            <div>
-                                <div className={`hover:border-none group hover:bg-orange-500  border bg-white w-26 h-11 flex justify-center items-center border-orange-500 px-4 py-3 rounded-lg`}>
-                                    <Typography
-                                        variant="body"
-                                        color="group-hover:bg-orange-500 text-orange-500 group-hover:text-white"
-                                    >
-                                        {timeSlot.time}
-                                    </Typography>
-                                </div>
+                            <div
+                                key={index}
+                                className={`hover:border-none group hover:bg-orange-500  border bg-white w-26 h-11 flex justify-center items-center border-orange-500 px-4 py-3 rounded-lg`}
+                            >
+                                <Typography
+                                    variant="body"
+                                    color="group-hover:bg-orange-500 text-orange-500 group-hover:text-white"
+                                >
+                                    {timeSlot.time}
+                                </Typography>
                             </div>
                         ))}
                     </div>

@@ -5,7 +5,7 @@ import { Typography, Card } from 'components'
 import { Button } from 'components'
 import { VerifyStudentDocs } from '../VerifyStudentDocs'
 
-export const IndustrySelection = ({ setActive }) => {
+export const IndustrySelection = ({ setActive }: { setActive: Function }) => {
     const [industrySelection, setIndustrySelection] = useState(true)
     return (
         <div>
@@ -65,7 +65,7 @@ export const IndustrySelection = ({ setActive }) => {
                         variant={'secondary'}
                         text={'Cancel Request'}
                         onClick={() => {
-                            setActive((active) => active - 1)
+                            setActive((active: number) => active - 1)
                         }}
                     />
                 </Card>

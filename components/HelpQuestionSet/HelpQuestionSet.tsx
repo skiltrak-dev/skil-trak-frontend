@@ -26,8 +26,8 @@ export const HelpQuestionSet = ({
             )}
 
             <ul>
-                {questions.map((question) => (
-                    <li>
+                {questions.map((question, i) => (
+                    <li key={i}>
                         <Link href={question.link}>
                             <a className="text-blue-400 text-sm hover:text-blue-500">
                                 {question.text}
