@@ -4,6 +4,7 @@ import { Formik, Form } from 'formik'
 import { Button } from 'components/buttons/Button'
 import { Select, TextInput, RadioButton, RadioGroup } from '@components'
 import { FormProvider, useForm } from 'react-hook-form'
+import { yupResolver } from '@hookform/resolvers/yup'
 
 // components
 import { Card, Typography } from 'components'
@@ -21,22 +22,27 @@ export const PersonalInfo = ({ setActive }: PersonalInfoProps) => {
     }
 
     const validationSchema = yup.object({
-        course: yup.string().required('Must provide course'),
-        currentQualification: yup
-            .string()
-            .required('Must provide currentQualification'),
-        currentWork: yup.string().required('Must provide currentWork'),
-        haveTransport: yup.string().required('Must provide haveTransport'),
-        haveDrivingLicense: yup
-            .string()
-            .required('Must provide haveDrivingLicense'),
-        preferableLocation: yup
-            .string()
-            .required('Must provide preferableLocation'),
+        // course: yup.string().required('Must provide course'),
+        // currentQualification: yup
+        //     .string()
+        //     .required('Must provide currentQualification'),
+        // currentWork: yup.string().required('Must provide currentWork'),
+        // haveTransport: yup.string().required('Must provide haveTransport'),
+        // haveDrivingLicense: yup
+        //     .string()
+        //     .required('Must provide haveDrivingLicense'),
+        // preferableLocation: yup
+        //     .string()
+        //     .required('Must provide preferableLocation'),
+    })
+
+    const formMethods = useForm({
+        mode: 'all',
+        resolver: yupResolver(validationSchema),
     })
 
     const onSubmit = (values: any) => {
-        console.log("values", values)
+        console.log('values', values)
         setActive((active: number) => active + 1)
     }
 
@@ -46,62 +52,67 @@ export const PersonalInfo = ({ setActive }: PersonalInfoProps) => {
                 Please provide following information
             </Typography>
             <Card>
-                <form onSubmit={onSubmit}>
-                    <div>
-                        <Select
-                            id="course"
-                            placeholder="Select Your Choice"
-                            name="course"
-                            label="Course"
-                            options={[
-                                { value: '1', label: 'Option 1' },
-                                { value: '2', label: 'Option 2' },
-                                { value: '3', label: 'Option 3' },
-                                { value: '4', label: 'Option 4' },
-                            ]}
-                        />
-                    </div>
-                    <div className="flex gap-x-2 mt-4">
-                        <TextInput
-                            name="currentQualification"
-                            label="Current Qualification"
-                            placeholder="Current Qualification"
-                        />
-                        <TextInput name="currentWork" label="Current Work" />
-                    </div>
-                    <div className=" flex mb-5">
-                        <RadioGroup
-                            gridColumns="2"
-                            layout="grid"
-                            value={'yes'}
-                            name="haveTransport"
-                            label="Do you have your own transport?"
-                            options={[
-                                { value: 'yes', label: 'Yes' },
-                                { value: 'no', label: 'No' },
-                            ]}
-                        />
-                        <RadioGroup
-                            gridColumns="2"
-                            layout="grid"
-                            value={'yes'}
-                            name="haveTransport"
-                            label="Do you have Australian driving license?"
-                            options={[
-                                { value: 'yes', label: 'Yes' },
-                                { value: 'no', label: 'No' },
-                            ]}
-                        />
-                    </div>
-                    <div>
-                        <TextInput
-                            name="preferableLocation"
-                            label="Preferable Location"
-                            placeholder='Preferable Location'
-                        />
-                    </div>
-                    <Button text={'Continue'} submit />
-                </form>
+                <FormProvider {...formMethods}>
+                    <form onSubmit={formMethods.handleSubmit(onSubmit)}>
+                        <div>
+                            <Select
+                                id="course"
+                                placeholder="Select Your Choice"
+                                name="course"
+                                label="Course"
+                                options={[
+                                    { value: '1', label: 'Option 1' },
+                                    { value: '2', label: 'Option 2' },
+                                    { value: '3', label: 'Option 3' },
+                                    { value: '4', label: 'Option 4' },
+                                ]}
+                            />
+                        </div>
+                        <div className="flex gap-x-2 mt-4">
+                            <TextInput
+                                name="currentQualification"
+                                label="Current Qualification"
+                                placeholder="Current Qualification"
+                            />
+                            <TextInput
+                                name="currentWork"
+                                label="Current Work"
+                            />
+                        </div>
+                        <div className=" flex mb-5">
+                            <RadioGroup
+                                gridColumns="2"
+                                layout="grid"
+                                // value={'yes'}
+                                name="haveTransport"
+                                label="Do you have your own transport?"
+                                options={[
+                                    { value: 'yes', label: 'Yes' },
+                                    { value: 'no', label: 'No' },
+                                ]}
+                            />
+                            <RadioGroup
+                                gridColumns="2"
+                                layout="grid"
+                                // value={'yes'}
+                                name="haveDrivingLicense"
+                                label="Do you have Australian driving license?"
+                                options={[
+                                    { value: 'yes', label: 'Yes' },
+                                    { value: 'no', label: 'No' },
+                                ]}
+                            />
+                        </div>
+                        <div>
+                            <TextInput
+                                name="preferableLocation"
+                                label="Preferable Location"
+                                placeholder="Preferable Location"
+                            />
+                        </div>
+                        <Button text={'Continue'} submit />
+                    </form>
+                </FormProvider>
             </Card>
 
             {/* 

@@ -44,7 +44,7 @@ export const JobDetail = (props: Props) => {
                                         objectFit="cover"
                                         className="w-full h-full"
                                         src={
-                                            data.image ||
+                                            data?.avatar ||
                                             'https://placeimg.com/100/10/any'
                                         }
                                         alt=""
@@ -67,7 +67,12 @@ export const JobDetail = (props: Props) => {
                                             </Typography>
                                         </div>
                                         <div className="">
-                                            <ApplyNowButton status="saved" />
+                                            <ApplyNowButton
+                                                onClick={() => {}}
+                                                savedJob={data?.savedJobs
+                                                    ?.map(({ id }: any) => id)
+                                                    .includes(5)}
+                                            />
                                         </div>
                                     </div>
                                     <div className="flex items-center justify-between">
@@ -176,7 +181,9 @@ export const JobDetail = (props: Props) => {
                         </div>
                     </div>
                     <div className="p-4">
-                        <Typography variant={"label"} color={"text-gray-400"}>{data?.description}</Typography>
+                        <Typography variant={'label'} color={'text-gray-400'}>
+                            {data?.description}
+                        </Typography>
                     </div>
                 </div>
             ) : (

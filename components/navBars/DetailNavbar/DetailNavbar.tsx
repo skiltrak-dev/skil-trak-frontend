@@ -59,7 +59,9 @@ export const DetailNavbar = () => {
                             icon={IoMdNotifications}
                             count={6}
                             max={5}
-                            onClick={() => setNotificationsExpanded(true)}
+                            onClick={() =>
+                                setNotificationsExpanded(!notificationsExpanded)
+                            }
                             text={'Notifications'}
                         />
 

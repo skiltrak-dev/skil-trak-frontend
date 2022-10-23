@@ -46,10 +46,11 @@ const MyWorkPlaces: NextPageWithLayout = (props: Props) => {
                 <StepIndicator
                     steps={StepIndicatorOptions}
                     currentStep={StepIndicatorOptions[active - 1]}
+                    vertical
                 />
             </div>
 
-            <div className='w-[75%]'>
+            <div className="w-[75%]">
                 {active === 1 && <PersonalInfo setActive={setActive} />}
 
                 {active === 2 && <Availability setActive={setActive} />}

@@ -19,7 +19,7 @@ type Props = {
     id: string
     title?: string
     companyName?: string
-    companyLogo?: string
+    avatar?: string
     address?: string
     positions?: number
     employmentType?: string
@@ -28,7 +28,6 @@ type Props = {
     salaryFrom?: string
     salaryTo?: string
     description?: string
-    days?: number
     expiry?: string
     savedJobs?: any
 }
@@ -37,7 +36,7 @@ export const JobCard = ({
     id,
     title,
     companyName,
-    companyLogo,
+    avatar,
     address,
     positions,
     employmentType,
@@ -46,7 +45,6 @@ export const JobCard = ({
     salaryFrom,
     salaryTo,
     description,
-    days,
     expiry,
     savedJobs,
 }: Props) => {
@@ -73,7 +71,7 @@ export const JobCard = ({
                                     <Image
                                         className="rounded-full"
                                         src={
-                                            companyLogo ||
+                                            avatar ||
                                             'https://placeimg.com/100/10/any'
                                         }
                                         alt="industry"

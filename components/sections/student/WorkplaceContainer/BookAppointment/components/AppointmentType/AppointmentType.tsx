@@ -34,6 +34,7 @@ export const AppointmentType = (props: Props) => {
             <div className="flex gap-x-4 items-center mt-1">
                 {appointmentTypes.map((appointmentType, index) => (
                     <AppointmentTypeCard
+                        key={index}
                         post={appointmentType.post}
                         imageUrl={appointmentType.imageUrl}
                         selectedImageUrl={appointmentType.selectedImageUrl}

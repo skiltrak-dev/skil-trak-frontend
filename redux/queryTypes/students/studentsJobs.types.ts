@@ -1,4 +1,4 @@
-export interface StudentJobsType {
+export interface StudentJobType {
     id: any
     isActive: any
     createdAt: any
@@ -20,6 +20,8 @@ export interface StudentJobsType {
     salaryTo: any
     expiry: any
     status: any
+    savedJobs: any
+    avatar: any
     industry: {
         id: any
         isActive: any
@@ -51,4 +53,8 @@ export interface StudentJobsType {
             avatar: any
         }
     }
+}
+
+export interface StudentJobsType {
+    data: StudentJobType[]
 }

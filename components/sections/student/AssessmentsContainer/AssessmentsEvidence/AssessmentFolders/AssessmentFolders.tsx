@@ -26,8 +26,8 @@ export const AssessmentFolders = (props: Props) => {
 
     return (
         <div className=''>
-            {folders.map((folder) => (
-                <AssessmentFolderCard status={folder.status} />
+            {folders.map((folder,idx) => (
+                <AssessmentFolderCard key={idx} status={folder.status} />
             ))}
         </div>
     )

@@ -5,6 +5,7 @@ import { LoadingAnimation } from '@components/LoadingAnimation'
 
 // query
 import { useGetStudentJobsQuery, useSaveJobMutation } from '@queries'
+import { StudentJobsType, StudentJobType } from 'redux/queryTypes'
 
 type Props = {}
 
@@ -16,29 +17,28 @@ export const JobContainer = (props: Props) => {
             {isError && 'Error '}
             {isLoading ? (
                 <LoadingAnimation />
-            ) : data?.data?.length > 0 ? (
-                data?.data?.map((job: any, index: any) => (
+            ) : data?.data.length ? (
+                data?.data?.map((job: StudentJobType, index: number) => (
                     <JobCard
                         key={index}
                         id={job.id}
                         title={job.title}
-                        companyName={job.industry.businessName}
-                        companyLogo={job.companyLogo}
-                        address={job.addressLine1 + job.addressLine2}
-                        positions={job.vacancies}
-                        employmentType={job.employmentType}
-                        contactPerson={job.contactPerson}
-                        phoneNumber={job.industry.phoneNumber}
-                        salaryFrom={job.salaryFrom}
-                        salaryTo={job.salaryTo}
-                        description={job.description}
-                        days={job.days}
+                        avatar={job.avatar}
                         expiry={job.expiry}
-                        savedJobs={data?.savedJobs}
+                        salaryTo={job.salaryTo}
+                        positions={job.vacancies}
+                        savedJobs={job?.savedJobs}
+                        salaryFrom={job.salaryFrom}
+                        description={job.description}
+                        contactPerson={job.contactPerson}
+                        employmentType={job.employmentType}
+                        phoneNumber={job.industry.phoneNumber}
+                        companyName={job.industry.businessName}
+                        address={job.addressLine1 + job.addressLine2}
                     />
                 ))
             ) : (
-                !isError && 'Empty Data'
+                !isError && 'Empty'
             )}
         </div>
     )

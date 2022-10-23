@@ -1,6 +1,6 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 import { AuthUtils } from '@utils'
-import { StudentJobsType } from 'redux/queryTypes'
+import { StudentJobsType, StudentJobType } from 'redux/queryTypes'
 
 export const studentJobsApi = createApi({
     reducerPath: 'studentJobsApi',
@@ -19,7 +19,7 @@ export const studentJobsApi = createApi({
     }),
     tagTypes: ['StudentJobs'],
     endpoints: (builder) => ({
-        getStudentJobs: builder.query<StudentJobsType[], void>({
+        getStudentJobs: builder.query<StudentJobsType, void>({
             query: (params: any) => {
                 return {
                     url: 'jobs/list',
@@ -28,7 +28,7 @@ export const studentJobsApi = createApi({
             },
             providesTags: ['StudentJobs'],
         }),
-        getStudentJobDetail: builder.query<StudentJobsType, string>({
+        getStudentJobDetail: builder.query<StudentJobType, string>({
             query: (id: string) => `jobs/view/${id}`,
             providesTags: ['StudentJobs'],
         }),
