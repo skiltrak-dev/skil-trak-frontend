@@ -14,19 +14,19 @@ const PrimaryLinks = [
     {
         title: 'Assessment Evidence',
         description: 'Submit your evidences',
-        link: '#',
+        link: 'assessments/assessment-evidence',
         animation: Animations.Student.Appointments.AssessmentEvidence,
     },
     {
         title: 'Assessment Tools',
         description: 'View assessment tools for courses',
-        link: '#',
+        link: 'assessments/assessment-tools',
         animation: Animations.Student.Appointments.AssessmentTool,
     },
     {
         title: 'E-Sign',
         description: 'Sign your digital documents',
-        link: '#',
+        link: 'assessments/e-sign',
         animation: Animations.Student.Appointments.Esign,
     },
 ]

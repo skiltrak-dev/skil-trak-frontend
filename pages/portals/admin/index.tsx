@@ -2,7 +2,7 @@ import { ReactElement, useEffect } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 
-import { StudentLayout } from '@layouts'
+import { AdminLayout, StudentLayout } from '@layouts'
 import { NextPageWithLayout } from '@types'
 import {
     Badge,
@@ -299,13 +299,14 @@ const AdminDashboard: NextPageWithLayout = () => {
                                     </div>
 
                                     <InitialAvatarContainer show={2}>
-                                        <InitialAvatar name="John Smith" first/>
+                                        <InitialAvatar
+                                            name="John Smith"
+                                            first
+                                        />
                                         <InitialAvatar name="Yaseen Khan" />
                                         <InitialAvatar name="Julie Clarke" />
                                         <InitialAvatar name="Salman" />
                                     </InitialAvatarContainer>
-
-                                    
                                 </div>
                             </div>
                         </div>
@@ -405,7 +406,7 @@ const AdminDashboard: NextPageWithLayout = () => {
 }
 
 AdminDashboard.getLayout = (page: ReactElement) => {
-    return <StudentLayout>{page}</StudentLayout>
+    return <AdminLayout>{page}</AdminLayout>
 }
 
 export default AdminDashboard
