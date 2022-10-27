@@ -21,6 +21,7 @@ export * from './PortalDetail'
 export * from './Calendar'
 export * from './AccountStatus'
 export * from './AuthBreadCrumb'
+export * from './sideBars'
 
 
 // Forms
