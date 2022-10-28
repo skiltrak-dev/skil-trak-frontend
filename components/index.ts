@@ -21,7 +21,8 @@ export * from './PortalDetail'
 export * from './Calendar'
 export * from './AccountStatus'
 export * from './AuthBreadCrumb'
-
+export * from './Paginate'
+export * from './ReactTable'
 
 // Forms
 export * from './forms'

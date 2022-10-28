@@ -13,6 +13,9 @@ type Props = {}
 
 const MyWorkPlaces: NextPageWithLayout = (props: Props) => {
     const [active, setActive] = useState(1)
+    const [personalInfoData, setPersonalInfoData] = useState({})
+    const [workplaceIndustries, setWorkplaceIndustries] = useState(null)
+    const [selectedCourses, setSelectedCourses] = useState<number[] | any>(null)
 
     const StepIndicatorOptions = [
         {
@@ -51,11 +54,29 @@ const MyWorkPlaces: NextPageWithLayout = (props: Props) => {
             </div>
 
             <div className="w-[75%]">
-                {active === 1 && <PersonalInfo setActive={setActive} />}
+                {active === 1 && (
+                    <PersonalInfo
+                        setActive={setActive}
+                        setPersonalInfoData={setPersonalInfoData}
+                    />
+                )}
 
-                {active === 2 && <Availability setActive={setActive} />}
+                {active === 2 && (
+                    <Availability
+                        setActive={setActive}
+                        personalInfoData={personalInfoData}
+                        setWorkplaceIndustries={setWorkplaceIndustries}
+                        setSelectedCourses={setSelectedCourses}
+                    />
+                )}
 
-                {active === 3 && <IndustrySelection setActive={setActive} />}
+                {active === 3 && (
+                    <IndustrySelection
+                        setActive={setActive}
+                        workplaceIndustries={workplaceIndustries}
+                        selectedCourses={selectedCourses}
+                    />
+                )}
 
                 {active === 4 && (
                     <Card>

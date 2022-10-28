@@ -17,6 +17,7 @@ export const DocumentCard = ({
     handleRemove,
     invalidSelection,
 }: any) => {
+    console.log(name, Array.isArray(file), file)
     return (
         <div className="bg-secondary rounded-lg p-2 flex justify-between items-center">
             <div className="flex items-center gap-x-2">
@@ -28,16 +29,19 @@ export const DocumentCard = ({
                     <AiFillExclamationCircle className="text-info" />
                 )}
 
-                <Typography variant={'label'}>
-                    National Identity Card
-                </Typography>
+                <Typography variant={'label'}>{name}</Typography>
                 {(file || invalidSelection) && (
                     <Typography variant={'label'}>-</Typography>
                 )}
                 {file && (
                     <>
                         <Typography variant={'xs'} color={'text-gray-400'}>
-                            {file?.name}
+                            {Array.isArray(file)
+                                ? file?.map(
+                                      (f) => `${f.name.substring(0, 10)}, `
+                                  )
+                                : file.name}
+                            {/* {Object.values(file).map((f) => f.name)} */}
                         </Typography>
                     </>
                 )}

@@ -2469,6 +2469,11 @@ react-calendar@^3.7.0:
     merge-class-names "^1.1.1"
     prop-types "^15.6.0"
 
+react-calendars@^1.0.6:
+  version "1.0.6"
+  resolved "https://registry.yarnpkg.com/react-calendars/-/react-calendars-1.0.6.tgz#7555897838264081776c50505d7c5a397d22ebde"
+  integrity sha512-9KruulcXTfqZFuAQo/YK6TistiUwXGZxM2IIoOSb+qQpMTGQlMCHsNL1+QNzO6zcDvdIvM4SZeSbNN9LOiBWKA==
+
 react-circular-progressbar@^2.1.0:
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/react-circular-progressbar/-/react-circular-progressbar-2.1.0.tgz#99e5ae499c21de82223b498289e96f66adb8fa3a"
@@ -2608,6 +2613,11 @@ react-switch@^7.0.0:
   integrity sha512-KkDeW+cozZXI6knDPyUt3KBN1rmhoVYgAdCJqAh7st7tk8YE6N0iR89zjCWO8T8dUTeJGTR0KU+5CHCRMRffiA==
   dependencies:
     prop-types "^15.7.2"
+
+react-table@^7.8.0:
+  version "7.8.0"
+  resolved "https://registry.yarnpkg.com/react-table/-/react-table-7.8.0.tgz#07858c01c1718c09f7f1aed7034fcfd7bda907d2"
+  integrity sha512-hNaz4ygkZO4bESeFfnfOft73iBUj8K5oKi1EcSHPAibEydfsX2MyU6Z8KCr3mv3C9Kqqh71U+DhZkFvibbnPbA==
 
 react-transition-group@^4.3.0:
   version "4.4.5"

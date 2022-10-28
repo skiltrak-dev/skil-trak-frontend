@@ -50,6 +50,8 @@ export const isFileTypeSelectable = (fileType: string, types: string[]) => {
 export type FileUploadProps = InputProps & {
     acceptTypes?: typeof AcceptMimeTypes[number][]
     component?: any
+    multiple?: boolean
+    limit?: number
 }
 
 export const FileUpload = ({
@@ -66,16 +68,18 @@ export const FileUpload = ({
     rules,
     onChange,
     onBlur,
+    limit,
 
     required,
     disabled,
     loading,
     component,
+    multiple,
 }: FileUploadProps) => {
     const formContext = useFormContext()
 
     const [values, setValues] = useState<File[] | null>(null)
-    const [file, setFile] = useState<File | null>(null)
+    const [file, setFile] = useState<FileList | null>(null)
     const [fileObject, setFileObject] = useState<string | null>(null)
     const [invalidSelection, setInvalidSelection] = useState(false)
 
@@ -100,7 +104,20 @@ export const FileUpload = ({
         setDragging(false)
 
         // Getting file Data
-        const fileData: File = event[0] || event.target.files[0]
+        const fileData: FileList = isDragging ? event : event.target.files
+
+        // for multiple files upload
+        if (multiple) {
+            let multipleFiles = []
+            for (let key in fileData) {
+                typeof fileData[key] === 'object' &&
+                    multipleFiles.push(fileData[key])
+            }
+            limit && fileData.length <= limit
+                ? fileData && onChange && onChange(multipleFiles)
+                : alert('Limit Exceed')
+            // setFile(multipleFiles)
+        }
 
         // console.log(":::: EVENT Before", event.target.files);
 
@@ -114,39 +131,38 @@ export const FileUpload = ({
         if (reader) {
             reader.onload = () => {
                 if (reader.readyState === 2) {
+                    fileData && onChange && onChange(fileData)
                     // Sending file data to field
-                    fileData &&
-                        onChange &&
-                        onChange({
-                            name: fileData.name,
-                            type: fileData.type,
-                            extension: getFileExtension(fileData),
-                            data: reader.result.toString(),
-                        } as FileData)
+                    // onChange({
+                    //     name: fileData.name,
+                    //     type: fileData.type,
+                    //     extension: getFileExtension(fileData),
+                    //     data: reader.result.toString(),
+                    // } as FileData)
                     // fileUpload(name, reader.result.toString());
                 }
             }
         }
 
         // setting file data to state to preview the Data
-        if (acceptTypes) {
+        if (acceptTypes && !multiple) {
             if (
                 isFileTypeAcceptable(acceptTypes) &&
                 isFileTypeSelectable(fileData.type, acceptTypes)
             ) {
                 setInvalidSelection(false)
                 setFile(fileData)
-                setFileObject(URL.createObjectURL(fileData))
+                setFileObject(URL.createObjectURL(fileData[0]))
             } else {
                 setInvalidSelection(true)
             }
         } else {
             setInvalidSelection(false)
             setFile(fileData)
-            setFileObject(URL.createObjectURL(fileData))
+            setFileObject(URL.createObjectURL(fileData[0]))
         }
 
-        reader.readAsDataURL(fileData)
+        // reader.readAsDataURL(fileData)
 
         // when user upload the file and after removing upload same file so its does upload
         // for that purpose removed the value
@@ -210,7 +226,7 @@ export const FileUpload = ({
                     {...(acceptTypes
                         ? { accept: getMimeTypes(acceptTypes) }
                         : {})}
-                    multiple
+                    {...(multiple ? { multiple } : {})}
                 />
                 {/* <Controller
 					control={formContext.control}

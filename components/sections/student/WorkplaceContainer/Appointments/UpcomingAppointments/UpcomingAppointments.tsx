@@ -2,9 +2,14 @@ import React from 'react'
 import { UpcomingAppointmentCard } from '@components/sections'
 import { Typography } from '@components/Typography'
 
+// query
+import { useGetStudentUpcomingAppointmentsQuery } from '@queries'
+import { LoadingAnimation } from '@components/LoadingAnimation'
+
 type Props = {}
 
 export const UpcomingAppointments = (props: Props) => {
+    const studentAppointments = useGetStudentUpcomingAppointmentsQuery()
     const UpcomingAppointmentsData = [
         {
             date: 'Wednesday, October 19',
@@ -32,20 +37,31 @@ export const UpcomingAppointments = (props: Props) => {
                     Your Upcoming Appointments
                 </Typography>
             </div>
-            <div className="flex gap-x-4">
-                {UpcomingAppointmentsData.map((data, index) => {
-                    return (
-                        <UpcomingAppointmentCard
-                            key={index}
-                            date={data.date}
-                            time={data.time}
-                            totalMinutes={data.totalMinutes}
-                            name={data.name}
-                            imageUrl={data.imageUrl}
-                            post={data.post}
-                        />
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {studentAppointments.isLoading ? (
+                    <LoadingAnimation />
+                ) : (
+                    studentAppointments?.data?.map(
+                        (upcomingAppointment: any, index: number) => {
+                            return (
+                                <UpcomingAppointmentCard
+                                    key={index}
+                                    date={upcomingAppointment.date}
+                                    time={upcomingAppointment.time}
+                                    totalMinutes={
+                                        upcomingAppointment.totalMinutes
+                                    }
+                                    address={upcomingAppointment.address}
+                                    name={upcomingAppointment.name}
+                                    imageUrl={
+                                        '/images/card-images/video-icon.png'
+                                    }
+                                    post={upcomingAppointment.post}
+                                />
+                            )
+                        }
                     )
-                })}
+                )}
             </div>
         </>
     )

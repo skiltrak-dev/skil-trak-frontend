@@ -5,7 +5,7 @@ import { LoadingAnimation } from '@components/LoadingAnimation'
 
 // query
 import { useGetStudentJobsQuery, useSaveJobMutation } from '@queries'
-import { StudentJobsType, StudentJobType } from 'redux/queryTypes'
+import { StudentJobType } from 'redux/queryTypes'
 
 type Props = {}
 

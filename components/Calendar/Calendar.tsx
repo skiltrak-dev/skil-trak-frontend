@@ -1,5 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import Calendar from 'react-calendar'
+import { Paginate } from '@components/Paginate/Paginate'
+// import { Calendar } from 'react-calendars'
+import 'react-calendar/dist/Calendar.css'
 
 import { CalendarStyles } from './style'
 
@@ -14,19 +17,28 @@ export const SidebarCalendar = ({ enbledDays, setSelectedDate }: any) => {
 
     return (
         <>
-            <CalendarStyles>
-                <Calendar
-                    {...(enbledDays
-                        ? {
-                              tileDisabled: ({ date }) => {
-                                  return !enbledDays?.includes(date.getDay())
-                              },
-                          }
-                        : {})}
-                    onChange={setDate}
-                    value={date}
-                />
-            </CalendarStyles>
+            {/* <CalendarStyles> */}
+
+            <Calendar
+                {...(enbledDays
+                    ? {
+                          tileDisabled: ({ date }) => {
+                              return (
+                                  !enbledDays?.includes(date.getDay()) ||
+                                  date < new Date()
+                              )
+                          },
+                      }
+                    : {})}
+                onChange={setDate}
+                value={date}
+            />
+            {/* <Calendar
+                onSelect={(a) => {
+                    console.log('aaaa', a)
+                }}
+            /> */}
+            {/* </CalendarStyles> */}
         </>
     )
 }

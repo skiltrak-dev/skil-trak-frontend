@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import * as yup from 'yup'
 import { Formik, Form } from 'formik'
 import { Button } from 'components/buttons/Button'
@@ -8,10 +8,32 @@ import { yupResolver } from '@hookform/resolvers/yup'
 
 // components
 import { Card, Typography } from 'components'
+
+import { useGetStudentCoursesQuery, useGetCourseDocumentsQuery } from '@queries'
+import { SignUpUtils } from '@utils'
 type PersonalInfoProps = {
     setActive: any
+    setPersonalInfoData: any
 }
-export const PersonalInfo = ({ setActive }: PersonalInfoProps) => {
+export const PersonalInfo = ({
+    setActive,
+    setPersonalInfoData,
+}: PersonalInfoProps) => {
+    const { data, isSuccess, isLoading } = useGetStudentCoursesQuery(null)
+    const [courses, setCourses] = useState(Array())
+
+    useEffect(() => {
+        if (isSuccess) {
+            const options = data?.data?.map((course: any) => ({
+                label: course.title,
+                value: course.id,
+            }))
+            setCourses(options)
+        }
+    }, [data, isSuccess])
+
+    console.log('courses', courses)
+
     const initialValues = {
         course: '',
         currentQualification: '',
@@ -42,7 +64,7 @@ export const PersonalInfo = ({ setActive }: PersonalInfoProps) => {
     })
 
     const onSubmit = (values: any) => {
-        console.log('values', values)
+        setPersonalInfoData(values)
         setActive((active: number) => active + 1)
     }
 
@@ -56,16 +78,15 @@ export const PersonalInfo = ({ setActive }: PersonalInfoProps) => {
                     <form onSubmit={formMethods.handleSubmit(onSubmit)}>
                         <div>
                             <Select
-                                id="course"
+                                id="courses"
                                 placeholder="Select Your Choice"
-                                name="course"
+                                name="courses"
                                 label="Course"
-                                options={[
-                                    { value: '1', label: 'Option 1' },
-                                    { value: '2', label: 'Option 2' },
-                                    { value: '3', label: 'Option 3' },
-                                    { value: '4', label: 'Option 4' },
-                                ]}
+                                options={courses}
+                                loading={isLoading}
+                                disabled={isLoading}
+                                multi
+                                onlyValue
                             />
                         </div>
                         <div className="flex gap-x-2 mt-4">
@@ -87,8 +108,8 @@ export const PersonalInfo = ({ setActive }: PersonalInfoProps) => {
                                 name="haveTransport"
                                 label="Do you have your own transport?"
                                 options={[
-                                    { value: 'yes', label: 'Yes' },
-                                    { value: 'no', label: 'No' },
+                                    { value: 'true', label: 'Yes' },
+                                    { value: 'false', label: 'No' },
                                 ]}
                             />
                             <RadioGroup
@@ -98,8 +119,8 @@ export const PersonalInfo = ({ setActive }: PersonalInfoProps) => {
                                 name="haveDrivingLicense"
                                 label="Do you have Australian driving license?"
                                 options={[
-                                    { value: 'yes', label: 'Yes' },
-                                    { value: 'no', label: 'No' },
+                                    { value: 'true', label: 'Yes' },
+                                    { value: 'false', label: 'No' },
                                 ]}
                             />
                         </div>
@@ -114,108 +135,6 @@ export const PersonalInfo = ({ setActive }: PersonalInfoProps) => {
                     </form>
                 </FormProvider>
             </Card>
-
-            {/* 
-<Card>
-                <Formik
-                    onSubmit={onSubmit}
-                    initialValues={initialValues}
-                    validationSchema={validationSchema}
-                    enableReinitialize
-                >
-                    {({ touched, errors, setFieldValue, values }) => {
-                        return (
-                            <Form>
-                                <div className="grid grid-cols-2 gap-2">
-                                    <SelectFieldOption
-                                        label={'Select a Course'}
-                                        setFieldValue={setFieldValue}
-                                        name={'course'}
-                                        options={[
-                                            {
-                                                label: 'Saad',
-                                                value: 'Saad',
-                                            },
-                                        ]}
-                                        touched={touched}
-                                        errors={errors}
-                                        errorIcons
-                                        onlyValue
-                                    />
-                                </div>
-                                <div className="grid grid-cols-2 gap-2 mt-4">
-                                    <InputField
-                                        label={'Current Qualification'}
-                                        name={'currentQualification'}
-                                        placeholder={
-                                            'Your Current Qualification...'
-                                        }
-                                        touched={touched}
-                                        errors={errors}
-                                        errorIcons
-                                        required
-                                    />
-                                    <InputField
-                                        label={'Current Work'}
-                                        name={'currentWork'}
-                                        placeholder={'Your Current Work...'}
-                                        touched={touched}
-                                        errors={errors}
-                                        errorIcons
-                                        required
-                                    />
-                                    <div>
-                                        <Typography variant={'label'}>
-                                            Do you have your own transport?
-                                        </Typography>
-                                        <div className="grid grid-cols-2">
-                                            <RadioButton
-                                                name={'haveTransport'}
-                                                value={'Yes'}
-                                            />
-                                            <RadioButton
-                                                name={'haveTransport'}
-                                                value={'No'}
-                                            />
-                                        </div>
-                                    </div>
-
-                                    <div>
-                                        <Typography variant={'label'}>
-                                            Do you have Australian driving
-                                            license?
-                                        </Typography>
-                                        <div className="grid grid-cols-2">
-                                            <RadioButton
-                                                name={'haveDrivingLicense'}
-                                                value={'Yes'}
-                                            />
-                                            <RadioButton
-                                                name={'haveDrivingLicense'}
-                                                value={'No'}
-                                            />
-                                        </div>
-                                    </div>
-
-                                    <InputField
-                                        label={'Preferable Location'}
-                                        name={'preferableLocation'}
-                                        placeholder={
-                                            'Your Preferable Location...'
-                                        }
-                                        touched={touched}
-                                        errors={errors}
-                                        errorIcons
-                                        required
-                                    />
-                                </div>
-
-                                <Button text={'Continue'} submit />
-                            </Form>
-                        )
-                    }}
-                </Formik>
-            </Card> */}
         </div>
     )
 }

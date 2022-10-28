@@ -1,45 +1,44 @@
+import { useState } from 'react'
 import { Typography } from '@components/Typography'
 import { AppointmentTypeCard } from './AppointmentTypeCard'
 
-type Props = {}
+// query
+import { useGetAppointmentsTypesQuery } from '@queries'
+import { LoadingAnimation } from '@components/LoadingAnimation'
 
-export const AppointmentType = (props: Props) => {
-    const appointmentTypes = [
-        {
-            imageUrl: '/images/card-images/video-icon.png',
-            selectedImageUrl: '/images/card-images/video-image.png',
-            post: 'Video Conference',
-        },
-        {
-            imageUrl: '/images/card-images/box-icon.png',
-            selectedImageUrl: '/images/card-images/box-image.png',
-            post: 'Work Place Visit',
-        },
-        {
-            imageUrl: '/images/card-images/save-icon.png',
-            selectedImageUrl: '/images/card-images/save-image.png',
-            post: 'Student Observation',
-        },
-        {
-            imageUrl: '/images/card-images/phone-icon.png',
-            selectedImageUrl: '/images/card-images/phone-image.png',
-            post: 'Phone Consultation',
-        },
-    ]
+type Props = {
+    setAppointmentTypeId: Function
+}
+
+export const AppointmentType = ({ setAppointmentTypeId }: Props) => {
+    const [selected, setSelected] = useState<string | null>(null)
+    const appointmentTypes = useGetAppointmentsTypesQuery()
+
     return (
-        <div className="mt-5">
+        <div className="mb-5">
             <Typography variant="body" color="text-black">
                 What kind of appointment you want to book?
             </Typography>
             <div className="flex gap-x-4 items-center mt-1">
-                {appointmentTypes.map((appointmentType, index) => (
-                    <AppointmentTypeCard
-                        key={index}
-                        post={appointmentType.post}
-                        imageUrl={appointmentType.imageUrl}
-                        selectedImageUrl={appointmentType.selectedImageUrl}
-                    />
-                ))}
+                {appointmentTypes.isLoading ? (
+                    <LoadingAnimation />
+                ) : (
+                    appointmentTypes?.data?.map(
+                        (appointmentType: any, index: number) => (
+                            <AppointmentTypeCard
+                                key={index}
+                                title={appointmentType.title}
+                                // imageUrl={appointmentType.imageUrl}
+                                // selectedImageUrl={appointmentType.selectedImageUrl}
+                                selected={selected}
+                                onClick={() => {
+                                    setSelected(appointmentType.title)
+                                    setAppointmentTypeId(appointmentType.id)
+                                }}
+                            />
+                        )
+                    )
+                )}
             </div>
         </div>
     )
