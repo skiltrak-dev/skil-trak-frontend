@@ -26,6 +26,10 @@ export const workplaceRequestApi = createApi({
             }),
             invalidatesTags: ['Workplace'],
         }),
+        getWorkplaceIndustries: builder.query<any[], void>({
+            query: () => 'workindustry/list',
+            providesTags: ['Workplace'],
+        }),
         getCourseDocuments: builder.query({
             query: ({ id, courses }: any) => {
                 return {
@@ -35,12 +39,40 @@ export const workplaceRequestApi = createApi({
             },
             providesTags: ['Workplace'],
         }),
+        uploadDocuments: builder.mutation({
+            query: ({ id, body }) => {
+                return {
+                    url: `workplace/response`,
+                    method: 'POST',
+                    params: { docs: id.join(',') },
+                    body,
+                }
+            },
+            invalidatesTags: ['Workplace'],
+        }),
+        cancelWorkplaceRequest: builder.mutation({
+            query: () => ({
+                url: `workplace/cancel`,
+                method: 'DELETE',
+            }),
+            invalidatesTags: ['Workplace'],
+        }),
+        applyForWorkplace: builder.mutation({
+            query: (id) => ({
+                url: `workplace/apply}`,
+                params: { id },
+                method: 'POST',
+            }),
+            invalidatesTags: ['Workplace'],
+        }),
     }),
 })
 
 export const {
     useGetCourseDocumentsQuery,
+    useGetWorkplaceIndustriesQuery,
     useWorkPlaceRequestMutation,
-    //   useUpdateJobMutation,
-    //   useRemoveJobMutation,
+    useUploadDocumentsMutation,
+    useCancelWorkplaceRequestMutation,
+    useApplyForWorkplaceMutation,
 } = workplaceRequestApi

@@ -94,6 +94,7 @@ export const AdminNavbar = () => {
                             expanded={notificationsExpanded}
                         />
                     </div>
+                    
                 </OutsideClickHandler>
             </div>
         </div>

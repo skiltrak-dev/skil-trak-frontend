@@ -48,7 +48,6 @@ const BookAppointment: NextPageWithLayout = (props: Props) => {
 
     useEffect(() => {
         if (createAppointmentResult.isSuccess) {
-            console.log('Success')
             notification.success({
                 title: 'Appointment Created Successfully',
                 description: 'Appointment Created Successfully',
@@ -60,7 +59,6 @@ const BookAppointment: NextPageWithLayout = (props: Props) => {
     const formMethods = useForm({
         mode: 'all',
     })
-    console.log('coordinatorAvailability', coordinatorAvailability)
     const onSubmit = (values: any) => {
         const meridiem = selectedTime ? selectedTime?.split(' ')[1] : ''
         const getTime = selectedTime?.split(' ')[0]

@@ -1,21 +1,40 @@
-import { ReactElement, useState } from 'react'
+import { ReactElement, useEffect, useState } from 'react'
 
 import { StudentLayout } from '@layouts'
 import { NextPageWithLayout } from '@types'
-import { ActionAlert, ActionAlertType, Card, StepIndicator } from '@components'
+import {
+    ActionAlert,
+    ActionAlertType,
+    Card,
+    LoadingAnimation,
+    StepIndicator,
+} from '@components'
 import {
     Availability,
     IndustrySelection,
     PersonalInfo,
 } from '@components/sections/student/WorkplaceContainer/MyWorkPlace'
 
+// query
+import { useGetWorkplaceIndustriesQuery } from '@queries'
+
 type Props = {}
 
 const MyWorkPlaces: NextPageWithLayout = (props: Props) => {
     const [active, setActive] = useState(1)
     const [personalInfoData, setPersonalInfoData] = useState({})
-    const [workplaceIndustries, setWorkplaceIndustries] = useState(null)
     const [selectedCourses, setSelectedCourses] = useState<number[] | any>(null)
+
+    // query
+    const workplace = useGetWorkplaceIndustriesQuery()
+
+    useEffect(() => {
+        if (workplace.isSuccess && workplace.data?.length > 0) {
+            setActive(3)
+        }
+    }, [workplace.data, workplace.isSuccess])
+
+    console.log('workplace', workplace)
 
     const StepIndicatorOptions = [
         {
@@ -40,7 +59,9 @@ const MyWorkPlaces: NextPageWithLayout = (props: Props) => {
         },
     ]
 
-    return (
+    return workplace.isLoading ? (
+        <LoadingAnimation />
+    ) : (
         <div className="flex gap-x-5 w-full">
             {/* <GoBackButton>Workplace Choice</GoBackButton> */}
 
@@ -65,7 +86,6 @@ const MyWorkPlaces: NextPageWithLayout = (props: Props) => {
                     <Availability
                         setActive={setActive}
                         personalInfoData={personalInfoData}
-                        setWorkplaceIndustries={setWorkplaceIndustries}
                         setSelectedCourses={setSelectedCourses}
                     />
                 )}
@@ -73,7 +93,7 @@ const MyWorkPlaces: NextPageWithLayout = (props: Props) => {
                 {active === 3 && (
                     <IndustrySelection
                         setActive={setActive}
-                        workplaceIndustries={workplaceIndustries}
+                        workplaceIndustries={workplace?.data}
                         selectedCourses={selectedCourses}
                     />
                 )}
@@ -87,7 +107,7 @@ const MyWorkPlaces: NextPageWithLayout = (props: Props) => {
                             }
                             variant={'primary' || 'info' || 'error'}
                             primaryAction={{
-                                text: 'Call To Action',
+                                text: 'Go Back',
                                 onClick: () => {
                                     setActive(1)
                                 },

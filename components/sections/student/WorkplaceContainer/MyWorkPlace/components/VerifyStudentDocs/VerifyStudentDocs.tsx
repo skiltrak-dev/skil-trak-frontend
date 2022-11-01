@@ -8,7 +8,7 @@ import { FileUpload } from 'hoc'
 // query
 import {
     useGetCourseDocumentsQuery,
-    useWorkPlaceRequestMutation,
+    useUploadDocumentsMutation,
 } from '@queries'
 import { LoadingAnimation } from '@components/LoadingAnimation'
 
@@ -26,11 +26,17 @@ export const VerifyStudentDocs = ({
     const [courseDocuments, setCourseDocuments] = useState<any | null>([])
 
     const courses = useGetCourseDocumentsQuery({ id, courses: selectedCourses })
-    const [addCourse, addCourseResult] = useWorkPlaceRequestMutation()
+    const [uploadDocs, uploadDocsResult] = useUploadDocumentsMutation()
 
     useEffect(() => {
         courses.refetch()
     }, [id, selectedCourses])
+
+    useEffect(() => {
+        if (uploadDocsResult.isSuccess) {
+            setActive((active: number) => active + 1)
+        }
+    }, [uploadDocsResult.isSuccess])
 
     return (
         <Card>
@@ -50,10 +56,17 @@ export const VerifyStudentDocs = ({
                         <FileUpload
                             key={i}
                             onChange={(docs: any) => {
+                                const removeDuplicate = courseDocuments.filter(
+                                    (c) => c.id !== course.id
+                                )
                                 setCourseDocuments([
-                                    ...courseDocuments,
-                                    { [course?.folder?.name]: docs },
+                                    ...removeDuplicate,
+                                    {
+                                        id: course?.id,
+                                        [course?.folder?.name]: docs,
+                                    },
                                 ])
+                                // setCourseDocuments([...courseDocuments, docs])
                             }}
                             name={course?.folder?.name}
                             component={DocumentCard}
@@ -68,22 +81,25 @@ export const VerifyStudentDocs = ({
             <div className="flex items-center gap-x-2">
                 <Button
                     text={'Upload'}
-                    onClick={() => {
+                    onClick={async () => {
                         const formData = new FormData()
+                        const flattedData = courseDocuments.flat()
+                        let ids: any[] = []
+
                         courseDocuments.forEach((c: any) => {
                             for (let key in c) {
-                                c[key].map((course: any) => {
-                                    formData.append(key, course)
-                                    console.log('ddd', key, ':', course)
-                                })
+                                Array.isArray(c[key])
+                                    ? c[key].forEach((course: any) => {
+                                          formData.append(key, course)
+                                      })
+                                    : (ids = [...ids, c[key]])
                             }
-                    })
+                        })
 
-                        // testing
-                        // addCourse(formData)
-                        console.log('courseDocuments', courseDocuments)
-                        // setActive((active: number) => active + 1)
+                        await uploadDocs({ id: ids, body: formData })
                     }}
+                    loading={uploadDocsResult.isLoading}
+                    disabled={uploadDocsResult.isLoading}
                 />
                 <Button
                     variant={'secondary'}

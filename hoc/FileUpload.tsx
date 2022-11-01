@@ -79,7 +79,8 @@ export const FileUpload = ({
     const formContext = useFormContext()
 
     const [values, setValues] = useState<File[] | null>(null)
-    const [file, setFile] = useState<FileList | null>(null)
+    const [file, setFile] = useState<File | null>(null)
+    const [fileList, setFileList] = useState<File[] | null>(null)
     const [fileObject, setFileObject] = useState<string | null>(null)
     const [invalidSelection, setInvalidSelection] = useState(false)
 
@@ -116,7 +117,7 @@ export const FileUpload = ({
             limit && fileData.length <= limit
                 ? fileData && onChange && onChange(multipleFiles)
                 : alert('Limit Exceed')
-            // setFile(multipleFiles)
+            setFileList(multipleFiles)
         }
 
         // console.log(":::: EVENT Before", event.target.files);
@@ -148,17 +149,17 @@ export const FileUpload = ({
         if (acceptTypes && !multiple) {
             if (
                 isFileTypeAcceptable(acceptTypes) &&
-                isFileTypeSelectable(fileData.type, acceptTypes)
+                isFileTypeSelectable(fileData[0].type, acceptTypes)
             ) {
                 setInvalidSelection(false)
-                setFile(fileData)
+                setFile(fileData[0])
                 setFileObject(URL.createObjectURL(fileData[0]))
             } else {
                 setInvalidSelection(true)
             }
         } else {
             setInvalidSelection(false)
-            setFile(fileData)
+            setFile(fileData[0])
             setFileObject(URL.createObjectURL(fileData[0]))
         }
 
@@ -195,6 +196,7 @@ export const FileUpload = ({
             >
                 <Components
                     file={file}
+                    fileList={fileList}
                     name={name}
                     dragging={dragging}
                     fileObject={fileObject}

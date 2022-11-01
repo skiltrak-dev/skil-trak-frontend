@@ -70,7 +70,7 @@ export const PersonalInfo = ({
 
     return (
         <div>
-            <Typography variant={'label'}>
+            <Typography variant={'label'} capitalize>
                 Please provide following information
             </Typography>
             <Card>

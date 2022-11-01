@@ -25,6 +25,7 @@ export const studentAppointmentsApi = createApi({
         }),
         getStudentPastAppointments: builder.query({
             query: () => 'pastappointments/list',
+            providesTags: ['StudentAppointments'],
         }),
         getStudentUpcomingAppointments: builder.query({
             query: () => 'futureappointments/list',
@@ -63,6 +64,7 @@ export const studentAppointmentsApi = createApi({
                 method: 'POST',
                 body,
             }),
+            providesTags: ['StudentAppointments'],
         }),
     }),
 })

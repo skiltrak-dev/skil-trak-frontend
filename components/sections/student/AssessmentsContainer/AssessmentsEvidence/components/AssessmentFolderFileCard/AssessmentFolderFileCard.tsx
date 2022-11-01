@@ -1,23 +1,21 @@
 import { Typography } from '@components/Typography'
 import Image from 'next/image'
 
-type AssessmentFolderDetailProps = {
+type AssessmentFolderFileCardProps = {
     imageUrl: string
 }
 
-export const AssessmentFolderDetail = ({
+export const AssessmentFolderFileCard = ({
     imageUrl,
-}: AssessmentFolderDetailProps) => {
+}: AssessmentFolderFileCardProps) => {
     return (
-        <div className=''>
+        <div className="">
             <Image
                 src={imageUrl || '/images/assessment-file-images/img-1.png'}
                 width={100}
                 height={100}
             />
-            <Typography variant='body'>
-                File Name
-            </Typography>
+            <Typography variant="body">File Name</Typography>
         </div>
     )
 }

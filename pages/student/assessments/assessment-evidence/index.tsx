@@ -4,7 +4,6 @@ import { StudentLayout } from '@layouts'
 import { NextPageWithLayout } from '@types'
 import {
     AssessmentFolderDetails,
-    AssessmentFolders,
     AssessmentsEvidence,
 } from '@components/sections/student/AssessmentsContainer/AssessmentsEvidence'
 

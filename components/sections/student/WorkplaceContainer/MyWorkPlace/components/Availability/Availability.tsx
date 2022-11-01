@@ -11,14 +11,12 @@ import { useWorkPlaceRequestMutation } from '@queries'
 type AvailabilityProps = {
     setActive: any
     personalInfoData: any
-    setWorkplaceIndustries: any
     setSelectedCourses: any
 }
 export const Availability = ({
     setActive,
     personalInfoData,
     setSelectedCourses,
-    setWorkplaceIndustries,
 }: AvailabilityProps) => {
     const [daysAvailability, setDaysAvailability] = useState(Array())
     // query
@@ -27,7 +25,6 @@ export const Availability = ({
 
     useEffect(() => {
         if (workplaceRequestResult.isSuccess) {
-            setWorkplaceIndustries(workplaceRequestResult?.data)
             setActive((active: number) => active + 1)
         }
     }, [workplaceRequestResult.isSuccess])
@@ -48,7 +45,6 @@ export const Availability = ({
                 : { name, [value]: checked },
         ])
     }
-    console.log('daysAvailability', daysAvailability)
     const days = [
         'monday',
         'tuesday',
@@ -59,7 +55,24 @@ export const Availability = ({
         'sunday',
     ]
 
-    const shifts = ['morning', 'afternoon', 'evening', 'night']
+    const shifts = [
+        {
+            time: 'morning',
+            icon: './icons/morning.svg',
+        },
+        {
+            time: 'afternoon',
+            icon: './icons/afternoon.svg',
+        },
+        {
+            time: 'evening',
+            icon: './icons/evening.svg',
+        },
+        {
+            time: 'night',
+            icon: './icons/night.svg',
+        },
+    ]
     return (
         <div>
             <Typography variant={'label'}>Select Your Availability</Typography>
@@ -67,22 +80,18 @@ export const Availability = ({
             {/*  */}
             <Card>
                 <div className="grid grid-cols-5 gap-4 px-3">
-                    <div className="col-start-2 mx-auto flex items-center gap-x-2">
-                        <img src="./icons/morning.svg" alt="" />
-                        <Typography variant={'label'}>Mornings</Typography>
-                    </div>
-                    <div className="mx-auto flex items-center gap-x-2">
-                        <img src="./icons/afternoon.svg" alt="" />
-                        <Typography variant={'label'}>After Noons</Typography>
-                    </div>
-                    <div className="mx-auto flex items-center gap-x-2">
-                        <img src="./icons/evening.svg" alt="" />
-                        <Typography variant={'label'}>Evenings</Typography>
-                    </div>
-                    <div className="mx-auto flex items-center gap-x-2">
-                        <img src="./icons/night.svg" alt="" />
-                        <Typography variant={'label'}>Nights</Typography>
-                    </div>
+                    {shifts.map((shift, i) => (
+                        <div
+                            className={`${
+                                i === 0 ? 'col-start-2' : ''
+                            } mx-auto flex items-center gap-x-2`}
+                        >
+                            <img src={shift.icon} alt="" />
+                            <Typography variant={'label'} capitalize>
+                                {shift.time}
+                            </Typography>
+                        </div>
+                    ))}
                 </div>
 
                 <div className="flex flex-col gap-y-2 mt-4">
@@ -96,10 +105,10 @@ export const Availability = ({
                             </Typography>
 
                             {shifts.map((shift, i) => (
-                                <div className="mx-auto">
+                                <div className="mx-auto" key={shift.time}>
                                     <Checkbox
                                         name={days}
-                                        value={shift}
+                                        value={shift.time}
                                         onChange={(e: any) => {
                                             handleChange(e)
                                         }}

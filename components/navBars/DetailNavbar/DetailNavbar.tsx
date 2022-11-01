@@ -18,6 +18,7 @@ import { NotificationDropDown } from '../AdminNavbar/components/notifications'
 
 import { ProfileOptionsDropDown } from './components'
 import { ProfileOptionButton } from './components/profileOption/ProfileOptionButton'
+import { DisplayNotifications } from '@components/Notification'
 
 export const DetailNavbar = () => {
     const [messagesExpanded, setMessagesExpanded] = useState(false)
@@ -88,6 +89,7 @@ export const DetailNavbar = () => {
                     </div>
                 </OutsideClickHandler>
             </div>
+            <DisplayNotifications />
         </div>
     )
 }

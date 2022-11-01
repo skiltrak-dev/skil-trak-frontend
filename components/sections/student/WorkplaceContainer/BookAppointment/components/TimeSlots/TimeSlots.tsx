@@ -34,6 +34,8 @@ export const TimeSlots = ({
         setSlotsTime([])
     }, [daysAvailability])
 
+    console.log('MMMMM', moment('22:45', 'hh:mm:ss').format('h:mm a'))
+
     const timeSlots = useCallback(() => {
         const days = [
             'sunday',
@@ -44,44 +46,54 @@ export const TimeSlots = ({
             'friday',
             'saturday',
         ]
-        const getFormatedHours = (hour) => {
+        const getIndexData = (text: string, index: number) => {
+            return Number(text.split(':')[index])
+        }
+
+        const getMeridiem = (hour: number) => {
+            return hour < 12 ? 'am' : 'pm'
+        }
+        const getFormattedHours = (hour: number) => {
             return hour <= 12 ? hour : hour - 12
         }
+
         const selectedDay = moment(selectedDate, 'YYYY-MM-DD').format(
             'YYYY-MM-DD'
         )
         const bookedSlot = coordinatorAvailability?.booked?.filter?.(
-            (b) => b.date === selectedDay
+            (b: any) => b.date === selectedDay
         )
-        const bookedSlotsTime = bookedSlot?.map((t) => t.time)
-        console.log('bookedSlotsTime', bookedSlotsTime)
-        console.log(
-            'aaaaaaaa',
-            moment(selectedDate, 'YYYY-MM-DD').format('YYYY-MM-DD')
+
+        const bookedSlotsTime = bookedSlot?.map(
+            (t: any) =>
+                `${getFormattedHours(getIndexData(t.time, 0))}:${getIndexData(
+                    t.time,
+                    1
+                )} ${getMeridiem(getIndexData(t.time, 0))}`
         )
+
         const findDay = selectedDate && days[selectedDate?.getDay()]
-        const selectedDayAvailability =
-            coordinatorAvailability?.availabilities?.find(
-                (t: any) => t.day === findDay
-            )
+        const selectedDayAvailability = timeAvailability?.find(
+            (t: any) => t.day === findDay
+        )
         const opening = selectedDayAvailability
             ? selectedDayAvailability.openingTime
             : '00:00'
         const closing = selectedDayAvailability
             ? selectedDayAvailability.closingTime
             : '00:00'
-        const start = Number(opening.split(':')[0])
-        const end = Number(closing.split(':')[0])
-        const startMins = Number(opening.split(':')[1])
-        const endMins = Number(closing.split(':')[1])
+        const start = getIndexData(opening, 0)
+        const end = getIndexData(closing, 0)
+        const startMins = getIndexData(opening, 1)
+        const endMins = getIndexData(closing, 1)
         const startHourIndex = Math.ceil(startMins / 15)
         const endHourIndex = Math.ceil(endMins / 15)
 
         let slots = []
 
         for (let i = start; i < end; i++) {
-            const meridiem = i < 12 ? 'am' : 'pm'
-            const hour = getFormatedHours(i)
+            const meridiem = getMeridiem(i)
+            const hour = getFormattedHours(i)
 
             slots.push(
                 { time: `${hour}:00 ${meridiem}` },
@@ -102,7 +114,9 @@ export const TimeSlots = ({
                 }
             }
         }
-        return slots.slice(startHourIndex)
+        return slots
+            .slice(startHourIndex)
+            .filter((t) => !bookedSlotsTime.includes(t.time))
     }, [selectedDate])
 
     useEffect(() => {
