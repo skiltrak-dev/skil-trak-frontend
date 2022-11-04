@@ -1,0 +1,113 @@
+import { FigureCard } from '@components/sections/subAdmin/components'
+import { Typography } from '@components/Typography'
+import { PendingStudents, RecentAppointment } from './components'
+
+type Props = {}
+
+export const RtoProfileOverview = (props: Props) => {
+  const FigureCardData = [
+    {
+      count: 38,
+      title: 'RTOs',
+      imagUrl: '/images/figure-card/school.png',
+    },
+    {
+      count: 97,
+      title: 'Students',
+      imagUrl: '/images/figure-card/school.png',
+    },
+    {
+      count: 98,
+      title: 'Industries',
+      imagUrl: '/images/figure-card/school.png',
+    },
+    {
+      count: 98,
+      title: 'Pending Students',
+      imageUrl: '/images/figure-card/school.png',
+    },
+  ]
+  const pendingStudents = [
+    {
+      name: 'Raminder Kaur Sharma',
+      email: 'k_thabal@yahoo.co.in',
+      phone: '0401748554',
+      status: 'Pending',
+      imageUrl:
+        'https://images.unsplash.com/photo-1664575602276-acd073f104c1?ixlib=rb-4.0.3&ixid=MnwxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80',
+    },
+    {
+      name: 'Raminder Kaur Sharma',
+      email: 'k_thabal@yahoo.co.in',
+      phone: '0401748554',
+      status: 'Pending',
+      imageUrl:
+        'https://images.unsplash.com/photo-1664575602276-acd073f104c1?ixlib=rb-4.0.3&ixid=MnwxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80',
+    },
+  ]
+  const recentAppointments = [
+    {
+      date: 'Wed, Jun 29, 2022',
+      time: '02:30 pm - 04:00 pm',
+      role: 'Staff Training',
+      name: 'Yaseen Khan',
+      address: 'Address/Link goes here',
+    },
+    {
+      date: 'Wed, Jun 29, 2022',
+      time: '02:30 pm - 04:00 pm',
+      role: 'Staff Training',
+      name: 'Yaseen Khan',
+      address: 'Address/Link goes here',
+    },
+  ]
+
+  return (
+    <>
+      <div className="">
+        <div className="flex gap-x-2 my-6">
+          {FigureCardData.map((data: any) => (
+            <FigureCard
+              imageUrl={data?.imageUrl}
+              count={data.count}
+              title={data.title}
+            />
+          ))}
+        </div>
+        <div className="flex justify-between mb-3">
+          <Typography variant="muted" color="text-gray-400">
+            Pending Students
+          </Typography>
+          <Typography variant="muted" color="text-gray-400">
+            Recent Appointments
+          </Typography>
+        </div>
+        <div className="">
+          <div className='grid grid-cols-4 gap-x-4'>
+            <div className="flex flex-col col-span-3 gap-y-2">
+              {pendingStudents.map((data: any) => (
+                <PendingStudents
+                  name={data.name}
+                  email={data.email}
+                  phoneNumber={data.phone}
+                  imageUrl={data.imageUrl}
+                />
+              ))}
+            </div>
+            <div className="flex flex-col gap-y-2">
+              {recentAppointments.map((data: any) => (
+                <RecentAppointment
+                  date={data.date}
+                  time={data.time}
+                  role={data.role}
+                  name={data.name}
+                  address={data.address}
+                />
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+    </>
+  )
+}

@@ -4,7 +4,7 @@ import { LoginCredentials } from "@types";
 export const authApi = createApi({
 	reducerPath: "authApi",
 	baseQuery: fetchBaseQuery({
-		baseUrl: `${process.env.NEXT_PUBLIC_HOST}/auth`,
+		baseUrl: `${process.env.NEXT_PUBLIC_END_POINT}/auth/`,
 	}),
 	tagTypes: ["Sectors"],
 	endpoints: (builder) => ({
@@ -18,7 +18,7 @@ export const authApi = createApi({
 
 		registerIndustry: builder.mutation({
 			query: (body) => ({
-				url: `auth/register/industry`,
+				url: `register/industry`,
 				method: "POST",
 				body,
 			}),
@@ -26,7 +26,7 @@ export const authApi = createApi({
 
 		registerRto: builder.mutation({
 			query: (body) => ({
-				url: `auth/register/rto`,
+				url: `register/rto`,
 				method: "POST",
 				body,
 			}),
@@ -34,7 +34,7 @@ export const authApi = createApi({
 
 		registerStudent: builder.mutation({
 			query: (body) => ({
-				url: `auth/register/student`,
+				url: `register/student`,
 				method: "POST",
 				body,
 			}),
@@ -47,7 +47,7 @@ export const authApi = createApi({
 
 		checkEmail: builder.mutation({
 			query: (body) => ({
-				url: `auth/email-exists`,
+				url: `email-exists`,
 				method: "POST",
 				body,
 			}),

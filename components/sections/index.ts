@@ -3,3 +3,5 @@
 // sections index.ts
 
 export * from "./student";
+export * from "./rto";
+export * from "./subAdmin";

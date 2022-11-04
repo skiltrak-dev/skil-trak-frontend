@@ -72,6 +72,10 @@ import esign from './students/sign.json'
 // Student Portal - Notifications
 import emails from './students/emails.json'
 import discussion from './students/discussion.json'
+//RTo portal- User- Student
+import student from './students/student.json'
+
+import consultation from './jobs/consultation.json'
 
 export const Animations = {
     Common: {
@@ -145,6 +149,9 @@ export const Animations = {
             IndustryConsultation,
             Signature,
         },
+        Consultation: {
+            Consultation: consultation,
+        }
     },
 
     Student: {
@@ -152,6 +159,7 @@ export const Animations = {
             MyWorkplace: myWorkplace,
             Appointments: appointments,
             Jobs: browseJobs,
+            Student: student,
         },
 
         Appointments: {

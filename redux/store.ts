@@ -2,17 +2,21 @@ import { configureStore } from "@reduxjs/toolkit";
 // Or from '@reduxjs/toolkit/query/react'
 import { setupListeners } from "@reduxjs/toolkit/query";
 
-import { authApi } from "@queries";
+import { authApi, rtoStudentsApi, rtoWorkplacesApi, rtoAssessmentToolsApi} from "@queries";
+
 
 export const store = configureStore({
 	reducer: {
 		// Add the generated reducer as a specific top-level slice
 		[authApi.reducerPath]: authApi.reducer,
+		[rtoStudentsApi.reducerPath]: rtoStudentsApi.reducer,
+		[rtoWorkplacesApi.reducerPath]: rtoWorkplacesApi.reducer,
+		[rtoAssessmentToolsApi.reducerPath]: rtoAssessmentToolsApi.reducer,
 	},
 	// Adding the api middleware enables caching, invalidation, polling,
 	// and other useful features of `rtk-query`.
 	middleware: (getDefaultMiddleware) =>
-		getDefaultMiddleware().concat(authApi.middleware),
+		getDefaultMiddleware().concat([authApi.middleware, rtoStudentsApi.middleware]),
 });
 
 // optional, but required for refetchOnFocus/refetchOnReconnect behaviors
