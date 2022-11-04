@@ -22,7 +22,9 @@ export const UploadFile = ({
 
     return (
         <Button variant={'info'} Icon={MdCloudUpload}>
-            <label htmlFor={`file_id_${name}`}> Add File </label>
+            <label htmlFor={`file_id_${name}`} className="cursor-pointer">
+                Add File
+            </label>
         </Button>
     )
 }

@@ -7,6 +7,7 @@ import {
     studentJobsApi,
     studentCoursesApi,
     workplaceRequestApi,
+    subAdminWorkplaceApi,
     studentAppointmentsApi,
     studentAssessmentEvidenceApi,
 } from '@queries'
@@ -19,6 +20,7 @@ export const store = configureStore({
         [studentCoursesApi.reducerPath]: studentCoursesApi.reducer,
         [workplaceRequestApi.reducerPath]: workplaceRequestApi.reducer,
         [studentAppointmentsApi.reducerPath]: studentAppointmentsApi.reducer,
+        [subAdminWorkplaceApi.reducerPath]: subAdminWorkplaceApi.reducer,
         [studentAssessmentEvidenceApi.reducerPath]:
             studentAssessmentEvidenceApi.reducer,
     },
@@ -30,6 +32,7 @@ export const store = configureStore({
             studentJobsApi.middleware,
             studentCoursesApi.middleware,
             workplaceRequestApi.middleware,
+            subAdminWorkplaceApi.middleware,
             studentAppointmentsApi.middleware,
             studentAssessmentEvidenceApi.middleware,
         ]),

@@ -44,7 +44,8 @@ export const workplaceRequestApi = createApi({
                 return {
                     url: `workplace/response`,
                     method: 'POST',
-                    params: { docs: id.join(',') },
+                    params: { docs: id },
+                    // params: { docs: id.join(',') },
                     body,
                 }
             },
@@ -53,15 +54,14 @@ export const workplaceRequestApi = createApi({
         cancelWorkplaceRequest: builder.mutation({
             query: () => ({
                 url: `workplace/cancel`,
-                method: 'DELETE',
+                method: 'PATCH',
             }),
             invalidatesTags: ['Workplace'],
         }),
         applyForWorkplace: builder.mutation({
             query: (id) => ({
-                url: `workplace/apply}`,
-                params: { id },
-                method: 'POST',
+                url: `workplace/apply/${id}`,
+                method: 'PATCH',
             }),
             invalidatesTags: ['Workplace'],
         }),

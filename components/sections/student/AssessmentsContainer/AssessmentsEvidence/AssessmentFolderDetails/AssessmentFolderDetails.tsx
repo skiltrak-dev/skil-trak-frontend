@@ -7,52 +7,27 @@ import { MdCloudUpload } from 'react-icons/md'
 // components
 import { Button, Typography } from '@components'
 import { AssessmentFolderFileCard } from '../components'
+import { UploadFile } from './UploadFile'
 
 // query
 import { useUploadFolderDocsMutation } from '@queries'
 
 // hoc
 import { FileUpload } from '@hoc'
+import { LoadingAnimation } from '@components/LoadingAnimation'
 
 type Props = {
     data: any
 }
 
-export const AssessmentFolderDetails = ({ data }: Props) => {
-    const [files, setFiles] = useState(null)
+const Loading = () => {
+    return <LoadingAnimation size={32} />
+}
 
+export const AssessmentFolderDetails = ({ data }: Props) => {
     // query
     const [uploadDocs, uploadDocsResult] = useUploadFolderDocsMutation()
 
-    useEffect(() => {
-        setFiles(null)
-    }, [data])
-
-    // useEffect(() => {
-    //     uploadDocs({ id: data.id, files })
-    // }, [files])
-
-    console.log('first', files)
-    const folderDetails = [
-        {
-            imageUrl: '/images/assessment-file-images/img-1.png',
-        },
-        {
-            imageUrl: '/images/assessment-file-images/img-2.png',
-        },
-        {
-            imageUrl: '/images/assessment-file-images/img-1.png',
-        },
-        {
-            imageUrl: '/images/assessment-file-images/img-2.png',
-        },
-        {
-            imageUrl: '/images/assessment-file-images/img-1.png',
-        },
-        {
-            imageUrl: '/images/assessment-file-images/img-2.png',
-        },
-    ]
     return (
         <>
             <div className="flex justify-between items-center p-2">
@@ -65,18 +40,15 @@ export const AssessmentFolderDetails = ({ data }: Props) => {
                 <div className="ml-auto">
                     <FileUpload
                         onChange={(docs: any) => {
-                            // const formData = new FormData()
-                            // docs.forEach((doc: any) => {
-                            //     formData.append('assessmentEvidence', doc)
-                            // })
-                            // uploadDocs({ id: docs.id, body: formData })
-                            // setCourseDocuments([...courseDocuments, docs])
+                            const formData = new FormData()
+                            docs.forEach((doc: any) => {
+                                formData.append('assessmentEvidence', doc)
+                            })
+                            uploadDocs({ id: data.id, body: formData })
                         }}
                         name={data?.name}
                         component={
-                            <>
-                                
-                            </>
+                            uploadDocsResult.isLoading ? Loading : UploadFile
                         }
                         limit={data?.capacity}
                         acceptTypes={['pdf']}
@@ -86,12 +58,20 @@ export const AssessmentFolderDetails = ({ data }: Props) => {
             </div>
             <div className="bg-white p-2 min-h-[290px] flex flex-col justify-between">
                 <div className="grid grid-cols-6 gap-x-2">
-                    {folderDetails.map((folder, idx) => (
-                        <AssessmentFolderFileCard
-                            key={idx}
-                            imageUrl={folder.imageUrl}
-                        />
-                    ))}
+                    {data.files?.length > 0 ? (
+                        data.files.map((file: any) => (
+                            <AssessmentFolderFileCard
+                                key={file.id}
+                                filename={file.filename}
+                                fileUrl={file.file}
+                                type={data.type}
+                            />
+                        ))
+                    ) : (
+                        <Typography variant={'title'} center>
+                            No Files Uploaded
+                        </Typography>
+                    )}
                 </div>
                 <div className="mt-4 border-dashed border border-gray-300 rounded-lg p-2">
                     <Typography variant="muted" color="text-gray-400">

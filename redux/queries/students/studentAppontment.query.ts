@@ -64,7 +64,7 @@ export const studentAppointmentsApi = createApi({
                 method: 'POST',
                 body,
             }),
-            providesTags: ['StudentAppointments'],
+            invalidatesTags: ['StudentAppointments'],
         }),
     }),
 })

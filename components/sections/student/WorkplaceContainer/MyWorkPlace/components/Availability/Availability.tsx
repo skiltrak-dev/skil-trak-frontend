@@ -11,12 +11,10 @@ import { useWorkPlaceRequestMutation } from '@queries'
 type AvailabilityProps = {
     setActive: any
     personalInfoData: any
-    setSelectedCourses: any
 }
 export const Availability = ({
     setActive,
     personalInfoData,
-    setSelectedCourses,
 }: AvailabilityProps) => {
     const [daysAvailability, setDaysAvailability] = useState(Array())
     // query
@@ -82,6 +80,7 @@ export const Availability = ({
                 <div className="grid grid-cols-5 gap-4 px-3">
                     {shifts.map((shift, i) => (
                         <div
+                            key={shift.time}
                             className={`${
                                 i === 0 ? 'col-start-2' : ''
                             } mx-auto flex items-center gap-x-2`}
@@ -136,7 +135,6 @@ export const Availability = ({
                     </Button>
                     <Button
                         onClick={async () => {
-                            setSelectedCourses(personalInfoData.courses)
                             await workplaceRequest({
                                 ...personalInfoData,
                                 generalAvailabilities: daysAvailability,

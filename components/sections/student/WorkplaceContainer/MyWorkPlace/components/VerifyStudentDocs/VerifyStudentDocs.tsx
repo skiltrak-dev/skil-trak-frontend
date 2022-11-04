@@ -11,6 +11,7 @@ import {
     useUploadDocumentsMutation,
 } from '@queries'
 import { LoadingAnimation } from '@components/LoadingAnimation'
+import { LinearProgress } from '@components/LinearProgress'
 
 export const VerifyStudentDocs = ({
     id,
@@ -21,22 +22,25 @@ export const VerifyStudentDocs = ({
     id: any
     setActive: Function
     setIndustrySelection: Function
-    selectedCourses: number[]
+    selectedCourses: number[] | null
 }) => {
-    const [courseDocuments, setCourseDocuments] = useState<any | null>([])
+    const [courseDocuments, setCourseDocuments] = useState<any[] | null>([])
 
-    const courses = useGetCourseDocumentsQuery({ id, courses: selectedCourses })
+    const courses = useGetCourseDocumentsQuery(
+        { id, courses: selectedCourses },
+        { skip: !id || !selectedCourses }
+    )
     const [uploadDocs, uploadDocsResult] = useUploadDocumentsMutation()
 
     useEffect(() => {
         courses.refetch()
     }, [id, selectedCourses])
 
-    useEffect(() => {
-        if (uploadDocsResult.isSuccess) {
-            setActive((active: number) => active + 1)
-        }
-    }, [uploadDocsResult.isSuccess])
+    // useEffect(() => {
+    //     if (uploadDocsResult.isSuccess) {
+    //         setActive((active: number) => active + 1)
+    //     }
+    // }, [uploadDocsResult.isSuccess])
 
     return (
         <Card>
@@ -48,6 +52,8 @@ export const VerifyStudentDocs = ({
                 documents to them.
             </Typography>
 
+            <LinearProgress percent={5} />
+
             <div className="my-4 flex flex-col gap-y-2">
                 {courses.isLoading ? (
                     <LoadingAnimation />
@@ -56,17 +62,11 @@ export const VerifyStudentDocs = ({
                         <FileUpload
                             key={i}
                             onChange={(docs: any) => {
-                                const removeDuplicate = courseDocuments.filter(
-                                    (c) => c.id !== course.id
-                                )
-                                setCourseDocuments([
-                                    ...removeDuplicate,
-                                    {
-                                        id: course?.id,
-                                        [course?.folder?.name]: docs,
-                                    },
-                                ])
-                                // setCourseDocuments([...courseDocuments, docs])
+                                const formData = new FormData()
+                                docs.forEach((doc: any) => {
+                                    formData.append(course?.folder?.name, doc)
+                                })
+                                uploadDocs({ id: course.id, body: formData })
                             }}
                             name={course?.folder?.name}
                             component={DocumentCard}
@@ -78,37 +78,13 @@ export const VerifyStudentDocs = ({
                 )}
             </div>
 
-            <div className="flex items-center gap-x-2">
-                <Button
-                    text={'Upload'}
-                    onClick={async () => {
-                        const formData = new FormData()
-                        const flattedData = courseDocuments.flat()
-                        let ids: any[] = []
-
-                        courseDocuments.forEach((c: any) => {
-                            for (let key in c) {
-                                Array.isArray(c[key])
-                                    ? c[key].forEach((course: any) => {
-                                          formData.append(key, course)
-                                      })
-                                    : (ids = [...ids, c[key]])
-                            }
-                        })
-
-                        await uploadDocs({ id: ids, body: formData })
-                    }}
-                    loading={uploadDocsResult.isLoading}
-                    disabled={uploadDocsResult.isLoading}
-                />
-                <Button
-                    variant={'secondary'}
-                    text={'Change Industry'}
-                    onClick={() => {
-                        setIndustrySelection(null)
-                    }}
-                />
-            </div>
+            <Button
+                variant={'secondary'}
+                text={'Back To Industries'}
+                onClick={() => {
+                    setIndustrySelection(null)
+                }}
+            />
         </Card>
     )
 }

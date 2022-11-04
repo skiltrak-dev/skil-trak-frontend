@@ -23,18 +23,15 @@ type Props = {}
 const MyWorkPlaces: NextPageWithLayout = (props: Props) => {
     const [active, setActive] = useState(1)
     const [personalInfoData, setPersonalInfoData] = useState({})
-    const [selectedCourses, setSelectedCourses] = useState<number[] | any>(null)
 
     // query
     const workplace = useGetWorkplaceIndustriesQuery()
 
     useEffect(() => {
-        if (workplace.isSuccess && workplace.data?.length > 0) {
+        if (workplace.isSuccess && workplace.data.length > 0) {
             setActive(3)
         }
     }, [workplace.data, workplace.isSuccess])
-
-    console.log('workplace', workplace)
 
     const StepIndicatorOptions = [
         {
@@ -86,7 +83,6 @@ const MyWorkPlaces: NextPageWithLayout = (props: Props) => {
                     <Availability
                         setActive={setActive}
                         personalInfoData={personalInfoData}
-                        setSelectedCourses={setSelectedCourses}
                     />
                 )}
 
@@ -94,7 +90,6 @@ const MyWorkPlaces: NextPageWithLayout = (props: Props) => {
                     <IndustrySelection
                         setActive={setActive}
                         workplaceIndustries={workplace?.data}
-                        selectedCourses={selectedCourses}
                     />
                 )}
 

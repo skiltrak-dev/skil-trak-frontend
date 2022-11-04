@@ -123,7 +123,8 @@ export const AssessmentsEvidence = (props: Props) => {
                     </div>
                 </div>
                 <div className="w-[67%]">
-                    {assessmentsFolderDetail.isLoading ? (
+                    {assessmentsFolderDetail.isLoading ||
+                    assessmentsFolderDetail.isFetching ? (
                         <LoadingAnimation />
                     ) : (
                         assessmentsFolderDetail.isSuccess && (
