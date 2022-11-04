@@ -4,10 +4,17 @@ import { ReactElement } from 'react'
 
 import { StudentLayout } from '@layouts'
 import { NextPageWithLayout } from '@types'
-import { ReactTable, Typography } from '@components'
+import { Card, ReactTable, Typography } from '@components'
 
 import { useGetJobsQuery } from '@queries'
 import Link from 'next/link'
+import {
+    NotesCard,
+    ScheduleCard,
+    StudentProfileCoursesCard,
+} from '@components/sections/subAdmin/components'
+import { TabNavigation, TabProps } from '@components/TabNavigation'
+import { SettingCard } from '@components/sections/subAdmin/components/SettingCard'
 
 type Props = {}
 
@@ -102,8 +109,79 @@ const Testing: NextPageWithLayout = (props: Props) => {
             },
         },
     ]
+
+    const tabs: TabProps[] = [
+        {
+            label: 'Pending',
+            href: { pathname: 'testing', query: { tab: 'pending' } },
+            badge: { text: '05', color: 'text-blue-500' },
+            element: <div>Pending RTOs</div>,
+        },
+        {
+            label: 'Approved',
+            href: { pathname: 'testing', query: { tab: 'approved' } },
+            badge: { text: '99+', color: 'text-error-500' },
+            element: <div>Approved RTOs</div>,
+        },
+        {
+            label: 'Rejected',
+            href: { pathname: 'testing', query: { tab: 'rejected' } },
+            element: <div>Rejected RTOs</div>,
+        },
+        {
+            label: 'Blocked',
+            href: { pathname: 'testing', query: { tab: 'blocked' } },
+            element: <div>Blocked RTOs</div>,
+        },
+        {
+            label: 'Archived',
+            href: { pathname: 'testing', query: { tab: 'archived' } },
+            element: <div>Archived RTOs</div>,
+        },
+    ]
     return (
-        <>
+        <div className="flex flex-col gap-y-3">
+            <SettingCard />
+            <Card>
+                <div className="flex flex-col gap-y-2">
+                    {[
+                        'Monday',
+                        'Tuesday',
+                        'Wednesday',
+                        'Thursday',
+                        'Friday',
+                        'Saturday',
+                        'Sunday',
+                    ].map((day, i) => (
+                        <ScheduleCard key={day} day={day} />
+                    ))}
+                </div>
+            </Card>
+            <Card>
+                <StudentProfileCoursesCard />
+            </Card>
+            <Card>
+                <TabNavigation tabs={tabs}>
+                    {({ header, element }: any) => {
+                        return (
+                            <div>
+                                <div>{header}</div>
+                                <div>{element}</div>
+                            </div>
+                        )
+                    }}
+                </TabNavigation>
+            </Card>
+            <Card>
+                <div className="flex flex-col gap-y-3 my-2">
+                    <NotesCard />
+                    <div className="flex items-center justify-between gap-x-2">
+                        <NotesCard pinnedNote />
+                        <NotesCard pinnedNote />
+                        <NotesCard pinnedNote />
+                    </div>
+                </div>
+            </Card>
             <ReactTable
                 action={useGetJobsQuery}
                 Columns={Columns}
@@ -111,7 +189,7 @@ const Testing: NextPageWithLayout = (props: Props) => {
                 pagination
                 pagesize
             />
-        </>
+        </div>
     )
 }
 Testing.getLayout = (page: ReactElement) => {

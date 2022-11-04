@@ -1,9 +1,6 @@
 import moment from 'moment'
 
 // Icons
-import { FaPhoneSquareAlt } from 'react-icons/fa'
-import { IoMdArrowDropdown } from 'react-icons/io'
-import { MdLocationOn } from 'react-icons/md'
 import { RiBook2Fill } from 'react-icons/ri'
 
 // components
