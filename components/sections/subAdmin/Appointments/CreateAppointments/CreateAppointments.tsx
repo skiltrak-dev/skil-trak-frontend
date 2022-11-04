@@ -2,20 +2,23 @@ import { useState } from 'react'
 import { useForm, FormProvider } from 'react-hook-form'
 
 // Icons
+import { BsDot } from 'react-icons/bs'
 import { BiMinus } from 'react-icons/bi'
+import { FiArrowRight } from 'react-icons/fi'
 
 // components
-import { Card, Typography } from '@components'
 import { AppointmentsForCard } from './components'
-import { FiArrowRight } from 'react-icons/fi'
-import { TextInput } from '@components/inputs'
-import { BsDot } from 'react-icons/bs'
+import { TimeSlots } from '@components/sections/student'
+import { Card, Typography, Button, TextInput } from '@components'
 
 export const CreateAppointments = () => {
     const [selectedAppointmentFor, setSelectedAppointmentFor] = useState<
         string | null
     >(null)
     const [selectedAppointmentWith, setSelectedAppointmentWith] = useState<
+        string | null
+    >(null)
+    const [selectedAppointmentType, setSelectedAppointmentType] = useState<
         string | null
     >(null)
 
@@ -26,58 +29,70 @@ export const CreateAppointments = () => {
     const onSubmit = (values: any) => {}
 
     return (
-        <div className="flex flex-col gap-y-2">
-            <Card>
-                <div className="grid grid-cols-7">
-                    <div className="col-span-3">
-                        <Typography variant={'small'} color={'text-gray-500'}>
-                            Book Appointment For
-                        </Typography>
-                        <div className="flex justify-between items-center gap-x-3">
-                            {['RTO', 'Students', 'Industry'].map((text) => (
-                                <AppointmentsForCard
-                                    key={text}
-                                    text={text}
-                                    selected={selectedAppointmentFor}
-                                    onClick={() => {
-                                        setSelectedAppointmentFor(text)
-                                    }}
-                                />
-                            ))}
+        <FormProvider {...formMethods}>
+            <form onSubmit={formMethods.handleSubmit(onSubmit)}>
+                <div className="flex flex-col gap-y-2">
+                    <Card>
+                        <div className="grid grid-cols-7">
+                            <div className="col-span-3">
+                                <Typography
+                                    variant={'small'}
+                                    color={'text-gray-500'}
+                                >
+                                    Book Appointment For
+                                </Typography>
+                                <div className="flex justify-between items-center gap-x-3">
+                                    {['RTO', 'Students', 'Industry'].map(
+                                        (text) => (
+                                            <AppointmentsForCard
+                                                key={text}
+                                                text={text}
+                                                selected={
+                                                    selectedAppointmentFor
+                                                }
+                                                onClick={() => {
+                                                    setSelectedAppointmentFor(
+                                                        text
+                                                    )
+                                                }}
+                                            />
+                                        )
+                                    )}
+                                </div>
+                            </div>
+                            <div className="flex items-center justify-center gap-x-0.5 col-span-1">
+                                <BiMinus className="text-gray-400" />
+                                <BiMinus className="text-gray-400" />
+                                <BiMinus className="text-gray-400" />
+                                <FiArrowRight className="text-gray-400" />
+                            </div>
+                            <div className="col-span-3">
+                                <Typography
+                                    variant={'small'}
+                                    color={'text-gray-500'}
+                                >
+                                    Book Appointment For
+                                </Typography>
+                                <div className="flex justify-between items-center gap-x-3">
+                                    {['Self', 'RTO', 'Students'].map((text) => (
+                                        <AppointmentsForCard
+                                            key={text}
+                                            text={text}
+                                            selected={selectedAppointmentWith}
+                                            onClick={() => {
+                                                setSelectedAppointmentWith(text)
+                                            }}
+                                        />
+                                    ))}
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                    <div className="flex items-center justify-center gap-x-0.5 col-span-1">
-                        <BiMinus className="text-gray-400" />
-                        <BiMinus className="text-gray-400" />
-                        <BiMinus className="text-gray-400" />
-                        <FiArrowRight className="text-gray-400" />
-                    </div>
-                    <div className="col-span-3">
+                    </Card>
+                    <Card>
                         <Typography variant={'small'} color={'text-gray-500'}>
-                            Book Appointment For
+                            Select Industry
                         </Typography>
-                        <div className="flex justify-between items-center gap-x-3">
-                            {['Self', 'RTO', 'Students'].map((text) => (
-                                <AppointmentsForCard
-                                    key={text}
-                                    text={text}
-                                    selected={selectedAppointmentWith}
-                                    onClick={() => {
-                                        setSelectedAppointmentWith(text)
-                                    }}
-                                />
-                            ))}
-                        </div>
-                    </div>
-                </div>
-            </Card>
-            <Card>
-                <Typography variant={'small'} color={'text-gray-500'}>
-                    Select Industry
-                </Typography>
-                <div>
-                    <FormProvider {...formMethods}>
-                        <form onSubmit={formMethods.handleSubmit(onSubmit)}>
+                        <div>
                             <div className="grid grid-cols-3 gap-x-5 my-5">
                                 <TextInput
                                     label={'Search BY Name'}
@@ -240,14 +255,61 @@ export const CreateAppointments = () => {
                                     validationIcons
                                 />
                             </div>
-                        </form>
-                    </FormProvider>
-                </div>
-            </Card>
+                        </div>
+                    </Card>
 
-            <Card>
-                
-            </Card>
-        </div>
+                    <Card>
+                        <Typography variant={'label'}>
+                            What kind of appointment you want to book?
+                        </Typography>
+                        <div className="flex justify-between items-center gap-x-3 w-5/12">
+                            {[
+                                'Industry Consultation',
+                                'Placement Strategy',
+                            ].map((text) => (
+                                <AppointmentsForCard
+                                    key={text}
+                                    text={text}
+                                    selected={selectedAppointmentType}
+                                    onClick={() => {
+                                        setSelectedAppointmentType(text)
+                                    }}
+                                />
+                            ))}
+                        </div>
+
+                        {/*  */}
+                        <div className="my-5">
+                            <Typography
+                                variant={'small'}
+                                color={'text-gray-500'}
+                            >
+                                Select Time Slot
+                            </Typography>
+                            <TimeSlots
+                                daysAvailability={[1]}
+                                timeAvailability={['']}
+                                setSelectedDate={() => {}}
+                                selectedDate={new Date()}
+                                setSelectedTime={() => {}}
+                                selectedTime={''}
+                                coordinatorAvailability={''}
+                            />
+                        </div>
+                        <TextInput
+                            name="notes"
+                            label={'Notes'}
+                            placeholder={'Notes'}
+                        />
+                        <div className="mt-4">
+                            <Button
+                                text={'Book Appointment'}
+                                variant={'info'}
+                            />
+                        </div>
+                    </Card>
+                </div>
+            </form>
+        </FormProvider>
     )
 }

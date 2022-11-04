@@ -26,7 +26,9 @@ export const AppointmentsForCard = ({
                 src="https://picsum.photos/100/100"
                 alt=""
             />
-            <Typography variant={'label'}>{text}</Typography>
+            <Typography variant={'label'} center>
+                {text}
+            </Typography>
         </div>
     )
 }
