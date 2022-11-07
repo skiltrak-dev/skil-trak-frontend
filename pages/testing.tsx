@@ -15,6 +15,7 @@ import {
 } from '@components/sections/subAdmin/components'
 import { TabNavigation, TabProps } from '@components/TabNavigation'
 import { SettingCard } from '@components/sections/subAdmin/components/SettingCard'
+import { FutureCandidates } from '@components/sections/industry/FutureCandidates'
 
 type Props = {}
 
@@ -141,6 +142,7 @@ const Testing: NextPageWithLayout = (props: Props) => {
     ]
     return (
         <div className="flex flex-col gap-y-3">
+            <FutureCandidates />
             <SettingCard />
             <Card>
                 <div className="flex flex-col gap-y-2">

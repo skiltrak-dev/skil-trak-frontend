@@ -24,9 +24,31 @@ export const subAdminWorkplaceApi = createApi({
             providesTags: ['SubAdminWorkplace'],
         }),
         assignToSubAdmin: builder.mutation({
-            query: (id) => ({
-                url: `assign-workplace-request/${id}`,
+            query: ({ industryId, id }) => ({
+                url: `assign-workplace-request/${industryId}/${id}`,
                 method: 'PATCH',
+            }),
+            invalidatesTags: ['SubAdminWorkplace'],
+        }),
+        sendInterviewNotification: builder.mutation({
+            query: (id) => ({
+                url: `interview-case-officer/${id}`,
+                method: 'PATCH',
+            }),
+            invalidatesTags: ['SubAdminWorkplace'],
+        }),
+        forwardWorkplaceToIndustry: builder.mutation({
+            query: ({ industryId, id }) => ({
+                url: `forward-industry-request/${industryId}/${id}`,
+                method: 'PATCH',
+            }),
+            invalidatesTags: ['SubAdminWorkplace'],
+        }),
+        industryResponse: builder.mutation({
+            query: ({ status, industryId }) => ({
+                url: `industry-response/${industryId}`,
+                method: 'PATCH',
+                body: { status },
             }),
             invalidatesTags: ['SubAdminWorkplace'],
         }),
@@ -34,8 +56,11 @@ export const subAdminWorkplaceApi = createApi({
 })
 
 export const {
-    useGetSubAdminWorkplacesQuery,
+    useIndustryResponseMutation,
     useAssignToSubAdminMutation,
+    useGetSubAdminWorkplacesQuery,
+    useSendInterviewNotificationMutation,
+    useForwardWorkplaceToIndustryMutation,
     // useGetCoordinatorsAvailabilityQuery,
     // useGetAppointmentsTypesQuery,
     // useGetCoordinatorsForStudentQuery,

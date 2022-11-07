@@ -7,10 +7,12 @@ export const AppointmentsForCard = ({
     text,
     onClick,
     selected,
+    icon,
 }: {
     selected: string | null
     text: string
     onClick: Function
+    icon: string | null
 }) => {
     return (
         <div
@@ -23,7 +25,7 @@ export const AppointmentsForCard = ({
         >
             <img
                 className="w-8 h-8"
-                src="https://picsum.photos/100/100"
+                src={icon || 'https://picsum.photos/100/100'}
                 alt=""
             />
             <Typography variant={'label'} center>

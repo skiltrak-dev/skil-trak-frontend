@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 
 // Icons
 import { IoMdArrowDropdown } from 'react-icons/io'
@@ -7,27 +7,9 @@ import { IoMdArrowDropdown } from 'react-icons/io'
 import { Typography } from '@components'
 import { requestType } from './requestTypeData'
 
-// query
-import { useSendInterviewNotificationMutation } from '@queries'
-
-export const RequestType = ({ data }: { data: any }) => {
+export const RequestType = () => {
     const [visibleRequestType, setVisibleRequestType] = useState(false)
     const [selectedRequestType, setSelectedRequestType] = useState(0)
-
-    const [interView, interViewResult] = useSendInterviewNotificationMutation()
-
-    useEffect(() => {
-        if (data?.caseOfficerAssigned) {
-            setSelectedRequestType(1)
-        }
-        if (data?.interview) {
-            setSelectedRequestType(2)
-        }
-        if (data?.awaitingWorkplaceResponse) {
-            setSelectedRequestType(3)
-        }
-    }, [data])
-
     return (
         <div className="relative">
             <div
@@ -62,7 +44,6 @@ export const RequestType = ({ data }: { data: any }) => {
                             onClick={() => {
                                 setSelectedRequestType(i)
                                 setVisibleRequestType(false)
-                                interView(data?.industry?.id)
                             }}
                         >
                             <Typography variant={'label'} color={type.color}>

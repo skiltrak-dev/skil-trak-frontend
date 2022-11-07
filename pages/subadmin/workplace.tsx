@@ -18,7 +18,7 @@ const Workplace: NextPageWithLayout = (props: Props) => {
     return (
         <>
             {subAdminWorkplace.isError && 'Error'}
-            {subAdminWorkplace.isLoading ? (
+            {subAdminWorkplace.isLoading && subAdminWorkplace.isFetching ? (
                 <LoadingAnimation />
             ) : subAdminWorkplace.data && subAdminWorkplace.data.length > 0 ? (
                 <div className="flex flex-col gap-y-2">

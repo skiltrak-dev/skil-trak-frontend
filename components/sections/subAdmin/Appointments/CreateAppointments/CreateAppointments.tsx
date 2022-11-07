@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useForm, FormProvider } from 'react-hook-form'
 
 // Icons
@@ -10,17 +10,28 @@ import { FiArrowRight } from 'react-icons/fi'
 import { AppointmentsForCard } from './components'
 import { TimeSlots } from '@components/sections/student'
 import { Card, Typography, Button, TextInput } from '@components'
+import { AppointmentFor, AppointmentWithData } from './appointmentData'
 
 export const CreateAppointments = () => {
     const [selectedAppointmentFor, setSelectedAppointmentFor] = useState<
         string | null
     >(null)
+    const [appointmentWith, setAppointmentWith] = useState<any[] | null>(null)
     const [selectedAppointmentWith, setSelectedAppointmentWith] = useState<
         string | null
     >(null)
     const [selectedAppointmentType, setSelectedAppointmentType] = useState<
         string | null
     >(null)
+
+    useEffect(() => {
+        setAppointmentWith(
+            AppointmentWithData.filter((f) =>
+                f.type.includes(selectedAppointmentFor || '')
+            )
+        )
+        setSelectedAppointmentWith(null)
+    }, [selectedAppointmentFor])
 
     const formMethods = useForm({
         mode: 'all',
@@ -42,22 +53,17 @@ export const CreateAppointments = () => {
                                     Book Appointment For
                                 </Typography>
                                 <div className="flex justify-between items-center gap-x-3">
-                                    {['RTO', 'Students', 'Industry'].map(
-                                        (text) => (
-                                            <AppointmentsForCard
-                                                key={text}
-                                                text={text}
-                                                selected={
-                                                    selectedAppointmentFor
-                                                }
-                                                onClick={() => {
-                                                    setSelectedAppointmentFor(
-                                                        text
-                                                    )
-                                                }}
-                                            />
-                                        )
-                                    )}
+                                    {AppointmentFor.map(({ text, icon }) => (
+                                        <AppointmentsForCard
+                                            key={text}
+                                            text={text}
+                                            icon={icon}
+                                            selected={selectedAppointmentFor}
+                                            onClick={() => {
+                                                setSelectedAppointmentFor(text)
+                                            }}
+                                        />
+                                    ))}
                                 </div>
                             </div>
                             <div className="flex items-center justify-center gap-x-0.5 col-span-1">
@@ -74,10 +80,11 @@ export const CreateAppointments = () => {
                                     Book Appointment For
                                 </Typography>
                                 <div className="flex justify-between items-center gap-x-3">
-                                    {['Self', 'RTO', 'Students'].map((text) => (
+                                    {appointmentWith?.map(({ text, icon }) => (
                                         <AppointmentsForCard
                                             key={text}
                                             text={text}
+                                            icon={icon}
                                             selected={selectedAppointmentWith}
                                             onClick={() => {
                                                 setSelectedAppointmentWith(text)

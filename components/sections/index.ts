@@ -4,3 +4,4 @@
 
 export * from './student'
 export * from './subAdmin'
+export * from './industry'

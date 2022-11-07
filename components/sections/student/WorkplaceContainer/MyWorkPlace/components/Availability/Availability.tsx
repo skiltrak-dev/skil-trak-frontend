@@ -27,6 +27,7 @@ export const Availability = ({
         }
     }, [workplaceRequestResult.isSuccess])
 
+
     const handleChange = (e: any) => {
         const { name, value, checked } = e.target
         const filterData = daysAvailability.filter((f) => f.name !== name)
@@ -35,13 +36,21 @@ export const Availability = ({
 
         setDaysAvailability([
             ...filterData,
-            daysAvailability.map((d) => d.name).includes(name)
-                ? {
-                      ...daysAvailability[findIndex],
-                      [value]: checked,
-                  }
-                : { name, [value]: checked },
+            {
+                ...daysAvailability[findIndex],
+                name,
+                [value]: checked,
+            },
         ])
+        // setDaysAvailability([
+        //     ...filterData,
+        //     daysAvailability.map((d) => d.name).includes(name)
+        //         ? {
+        //               ...daysAvailability[findIndex],
+        //               [value]: checked,
+        //           }
+        //         : { name, [value]: checked },
+        // ])
     }
     const days = [
         'monday',

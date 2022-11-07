@@ -1,8 +1,24 @@
+import { Button } from '@components/buttons'
 import { Typography } from '@components/Typography'
 import React from 'react'
 import { BsDot } from 'react-icons/bs'
+import { IndustryCard, SmallIndustryCard } from './components'
 
-export const Industries = ({ industries }: any) => {
+// query
+import {
+    useForwardWorkplaceToIndustryMutation,
+    useIndustryResponseMutation,
+} from '@queries'
+
+export const Industries = ({
+    industries,
+    workplaceId,
+    appliedIndustry,
+}: any) => {
+    const [forwardToIndustry, forwardToIndustryResult] =
+        useForwardWorkplaceToIndustryMutation()
+    const [industryResponse, industryResponseResult] =
+        useIndustryResponseMutation()
     return (
         <div>
             <div className="flex justify-between">
@@ -16,52 +32,71 @@ export const Industries = ({ industries }: any) => {
 
             {/* industries List */}
             <div className="border border-dashed border-gray-400 rounded-lg p-1 flex flex-col gap-y-1">
-                {industries && industries.length > 0
-                    ? industries.map((industry: any, i: number) => (
-                          <div
-                              key={i}
-                              className="bg-secondary py-1 px-2 rounded-lg flex justify-between items-center"
-                          >
-                              <div className="flex items-center gap-x-2">
-                                  <img
-                                      className="w-6 h-6 rounded-full"
-                                      src={`https://picsum.photos/100/10${i}`}
-                                      alt=""
-                                  />
-                                  <div>
-                                      <div className="flex items-center gap-x-0.5">
-                                          <Typography variant={'label'}>
-                                              {industry?.industry?.businessName}
-                                          </Typography>
-                                          <BsDot />
-                                          <Typography
-                                              variant={'xs'}
-                                              color={'text-gray-400'}
-                                          >
-                                              5km away
-                                          </Typography>
-                                      </div>
-                                      <Typography
-                                          variant={'muted'}
-                                          color={'gray'}
-                                      >
-                                          {industry?.industry?.addressLine1},{' '}
-                                          {industry?.industry?.addressLine2}
-                                      </Typography>
-                                  </div>
-                              </div>
-                              {industry.applied && (
-                                  <Typography
-                                      variant={'xs'}
-                                      color={'text-red-800'}
-                                      center
-                                  >
-                                      APPLIED
-                                  </Typography>
-                              )}
-                          </div>
-                      ))
-                    : 'No Industry Found'}
+                {/* {appliedIndustry} */}
+                {appliedIndustry && <IndustryCard industry={appliedIndustry} />}
+
+                {/* Book Appointment Button */}
+                {appliedIndustry?.awaitingWorkplaceResponse ? (
+                    <div className="mt-1.5 mb-2.5">
+                        <Button
+                            text={'NOT RESPONDED'}
+                            variant={'dark'}
+                            onClick={() => {
+                                industryResponse({
+                                    industryId: appliedIndustry?.id,
+                                    status: 'noResponse',
+                                })
+                            }}
+                            loading={forwardToIndustryResult?.isLoading}
+                            disabled={forwardToIndustryResult?.isLoading}
+                        />
+                    </div>
+                ) : (
+                    appliedIndustry?.interview && (
+                        <div className="mt-1.5 mb-2.5">
+                            <Button
+                                text={'FORWARD TO INDUSTRY'}
+                                variant={'dark'}
+                                onClick={() => {
+                                    forwardToIndustry({
+                                        industryId:
+                                            appliedIndustry?.industry?.id,
+                                        id: workplaceId,
+                                    })
+                                }}
+                                loading={forwardToIndustryResult?.isLoading}
+                                disabled={forwardToIndustryResult?.isLoading}
+                            />
+                        </div>
+                    )
+                )}
+
+                {industries && industries.length > 0 ? (
+                    appliedIndustry?.interview ? (
+                        <>
+                            <Typography variant={'xs'} color={'text-gray-400'}>
+                                Other Suggested Industries
+                            </Typography>
+                            <div className="flex items-center flex-wrap gap-2">
+                                {industries.map((industry: any, i: number) => (
+                                    <SmallIndustryCard
+                                        key={industry?.id}
+                                        industry={industry}
+                                    />
+                                ))}
+                            </div>
+                        </>
+                    ) : (
+                        industries.map((industry: any, i: number) => (
+                            <IndustryCard
+                                key={industry.id}
+                                industry={industry}
+                            />
+                        ))
+                    )
+                ) : (
+                    'No Industry Found'
+                )}
             </div>
         </div>
     )

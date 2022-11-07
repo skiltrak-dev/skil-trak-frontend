@@ -5,6 +5,7 @@ import { Button } from 'components/buttons/Button'
 import { Select, TextInput, RadioButton, RadioGroup } from '@components'
 import { FormProvider, useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
+import moment from 'moment'
 
 // components
 import { Card, Typography } from 'components'
@@ -19,8 +20,31 @@ export const PersonalInfo = ({
     setActive,
     setPersonalInfoData,
 }: PersonalInfoProps) => {
-    const { data, isSuccess, isLoading } = useGetStudentCoursesQuery(null)
-    const [courses, setCourses] = useState(Array())
+    const { data, isSuccess, isLoading } = useGetStudentCoursesQuery()
+    const [courses, setCourses] = useState<any[]>([])
+
+    // function getCurrentWeek() {
+    //     var currentDate = moment()
+
+    //     var weekStart = currentDate.clone().startOf('week')
+    //     var weekEnd = currentDate.clone().endOf('week')
+
+    //     var days = []
+
+    //     for (var i = 0; i <= 6; i++) {
+    //         days.push(moment(weekStart).add(i, 'days').format('DD'))
+    //     }
+    //     return days
+    // }
+    // console.log(moment.weekdaysShort())
+    // console.log(getCurrentWeek())
+
+    // const date = [...Array(7)].map((_, i) => ({
+    //     date: getCurrentWeek()[i],
+    //     day: moment.weekdaysShort()[i],
+    // }))
+
+    // console.log('date', date)
 
     useEffect(() => {
         if (isSuccess) {
