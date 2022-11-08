@@ -24,7 +24,10 @@ export const ContextBarProvider = ({
     const value = {
         content,
         setContent,
-        show: () => setVisible(true),
+        show: (fixed: boolean = false) => {
+            setVisible(true)
+            setFixed(fixed)
+        },
         hide: () => setVisible(false),
         isVisible,
         fixed,

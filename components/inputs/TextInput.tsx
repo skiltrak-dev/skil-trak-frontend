@@ -58,9 +58,9 @@ export const TextInput = ({
 	);
 
 	return (
-		<div className="w-full">
+		<div className="w-full mb-2">
 			{label && (
-				<div className="flex justify-between items-center">
+				<div className="flex justify-between items-center mb-1">
 					<div>
 						<Typography variant={"label"} htmlFor={id}>{label}</Typography>
 						{required && <RequiredStar />}

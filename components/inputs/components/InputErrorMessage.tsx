@@ -5,7 +5,7 @@ export const InputErrorMessage = ({ name }: { name: string }) => {
 	const formContext = useFormContext();
 
 	return (
-		<div className="help-text">
+		<div className="help-text text-xs mt-1">
 			{formContext && (
 				<ErrorMessage
 					errors={formContext.formState.errors}
@@ -13,7 +13,7 @@ export const InputErrorMessage = ({ name }: { name: string }) => {
 					name={name as any}
 					render={({ message }) => {
 						return (
-							<p className="mt-1 ml-1 text-xs text-left block text-red-600">
+							<p className="text-left block text-red-600">
 								{message}
 							</p>
 						);

@@ -12,7 +12,7 @@ export * from './LoadingAnimation'
 export * from './Modal'
 export * from './Notification'
 export * from './SpecialLink'
-export * from './Pagination'
+// export * from './Pagination'
 export * from './PopUp'
 export * from './buttons/PortalSelectButton'
 export * from './SearchBox'
@@ -22,7 +22,6 @@ export * from './Calendar'
 export * from './AccountStatus'
 export * from './AuthBreadCrumb'
 export * from './sideBars'
-
 
 // Forms
 export * from './forms'
@@ -41,3 +40,11 @@ export * from './UserProfile'
 export * from './Badge'
 
 export * from './InitialAvatar'
+
+export * from './TabNavigation'
+export * from './filters'
+export * from './Table'
+export * from './cards'
+
+export * from './ActionAnimations'
+export * from './DescriptiveInfo'
