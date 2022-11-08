@@ -3,7 +3,7 @@ import React from 'react'
 // components
 import { Typography } from '@components'
 
-export const AppointmentsForCard = ({
+export const CreateAppointmentCard = ({
     text,
     onClick,
     selected,

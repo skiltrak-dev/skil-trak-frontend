@@ -7,7 +7,7 @@ import { BiMinus } from 'react-icons/bi'
 import { FiArrowRight } from 'react-icons/fi'
 
 // components
-import { AppointmentsForCard } from './components'
+import { CreateAppointmentCard } from './components'
 import { TimeSlots } from '@components/sections/student'
 import { Card, Typography, Button, TextInput } from '@components'
 import { AppointmentFor, AppointmentWithData } from './appointmentData'
@@ -54,7 +54,7 @@ export const CreateAppointments = () => {
                                 </Typography>
                                 <div className="flex justify-between items-center gap-x-3">
                                     {AppointmentFor.map(({ text, icon }) => (
-                                        <AppointmentsForCard
+                                        <CreateAppointmentCard
                                             key={text}
                                             text={text}
                                             icon={icon}
@@ -81,7 +81,7 @@ export const CreateAppointments = () => {
                                 </Typography>
                                 <div className="flex justify-between items-center gap-x-3">
                                     {appointmentWith?.map(({ text, icon }) => (
-                                        <AppointmentsForCard
+                                        <CreateAppointmentCard
                                             key={text}
                                             text={text}
                                             icon={icon}
@@ -274,7 +274,7 @@ export const CreateAppointments = () => {
                                 'Industry Consultation',
                                 'Placement Strategy',
                             ].map((text) => (
-                                <AppointmentsForCard
+                                <CreateAppointmentCard
                                     key={text}
                                     text={text}
                                     selected={selectedAppointmentType}

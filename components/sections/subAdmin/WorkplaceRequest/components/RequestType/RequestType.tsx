@@ -26,6 +26,12 @@ export const RequestType = ({ data }: { data: any }) => {
         if (data?.awaitingWorkplaceResponse) {
             setSelectedRequestType(3)
         }
+        if (data?.awaitingAgreementSigned) {
+            setSelectedRequestType(5)
+        }
+        if (data?.AgreementSigned) {
+            setSelectedRequestType(6)
+        }
     }, [data])
 
     return (

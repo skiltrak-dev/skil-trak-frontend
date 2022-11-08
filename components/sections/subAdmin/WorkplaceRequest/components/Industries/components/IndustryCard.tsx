@@ -5,9 +5,10 @@ import { BsDot } from 'react-icons/bs'
 // query
 import { useApplyForWorkplaceMutation } from '@queries'
 
-export const IndustryCard = ({ industry }: any) => {
+export const IndustryCard = ({ industry, appliedIndustry }: any) => {
     const [applyForWorkplace, applyForWorkplaceResult] =
         useApplyForWorkplaceMutation()
+
     return (
         <div className="bg-secondary py-1 px-2 rounded-lg flex justify-between items-center">
             <div className="flex items-center gap-x-2">
@@ -33,7 +34,7 @@ export const IndustryCard = ({ industry }: any) => {
                 </div>
             </div>
 
-            {!industry.industryResponse && industry.applied ? (
+            {industry.industryResponse !== 'approved' && industry.applied ? (
                 <Typography variant={'xs'} color={'text-red-800'} center>
                     APPLIED
                 </Typography>
@@ -43,17 +44,25 @@ export const IndustryCard = ({ industry }: any) => {
                 <Typography variant={'xs'} color={'text-red-500'} center>
                     No Response
                 </Typography>
-            ) : (
-                <Typography variant={'xs'} color={'text-red-800'} center>
-                    <span
-                        className="cursor-pointer"
-                        onClick={() => {
-                            applyForWorkplace(industry?.industry?.id)
-                        }}
-                    >
-                        APPLY HERE
+            ) : industry.industryResponse === 'approved' ? (
+                <Typography variant={'xs'}>
+                    <span className="bg-success px-2 py-0.5 text-white rounded-full">
+                        Approved
                     </span>
                 </Typography>
+            ) : (
+                !appliedIndustry && (
+                    <Typography variant={'xs'} color={'text-red-800'} center>
+                        <span
+                            className="cursor-pointer"
+                            onClick={() => {
+                                applyForWorkplace(industry?.industry?.id)
+                            }}
+                        >
+                            APPLY HERE
+                        </span>
+                    </Typography>
+                )
             )}
         </div>
     )

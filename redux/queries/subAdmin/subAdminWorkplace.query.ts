@@ -52,12 +52,52 @@ export const subAdminWorkplaceApi = createApi({
             }),
             invalidatesTags: ['SubAdminWorkplace'],
         }),
+        agrementSign: builder.mutation({
+            query: (id) => ({
+                url: `sign-workplace-request-agreement/${id}`,
+                method: 'PATCH',
+            }),
+            invalidatesTags: ['SubAdminWorkplace'],
+        }),
+        startPlacement: builder.mutation({
+            query: (id) => ({
+                url: `workplace-started/${id}`,
+                method: 'PATCH',
+            }),
+            invalidatesTags: ['SubAdminWorkplace'],
+        }),
+        cancelPlacement: builder.mutation({
+            query: (id) => ({
+                url: `cancel-workplace-request/${id}`,
+                method: 'PATCH',
+            }),
+            invalidatesTags: ['SubAdminWorkplace'],
+        }),
+        terminatePlacement: builder.mutation({
+            query: (id) => ({
+                url: `terminate-workplace-request/${id}`,
+                method: 'PATCH',
+            }),
+            invalidatesTags: ['SubAdminWorkplace'],
+        }),
+        completePlacement: builder.mutation({
+            query: (id) => ({
+                url: `complete-workplace-request/${id}`,
+                method: 'PATCH',
+            }),
+            invalidatesTags: ['SubAdminWorkplace'],
+        }),
     }),
 })
 
 export const {
+    useAgrementSignMutation,
+    useStartPlacementMutation,
     useIndustryResponseMutation,
     useAssignToSubAdminMutation,
+    useCompletePlacementMutation,
+    useTerminatePlacementMutation,
+    useCancelPlacementMutation,
     useGetSubAdminWorkplacesQuery,
     useSendInterviewNotificationMutation,
     useForwardWorkplaceToIndustryMutation,
