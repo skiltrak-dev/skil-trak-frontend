@@ -28,7 +28,7 @@ const Appointments: NextPageWithLayout = (props: Props) => {
     )
 }
 Appointments.getLayout = (page: ReactElement) => {
-    return <StudentLayout title="Workplace">{page}</StudentLayout>
+    return <StudentLayout title="Appointments">{page}</StudentLayout>
 }
 
 export default Appointments

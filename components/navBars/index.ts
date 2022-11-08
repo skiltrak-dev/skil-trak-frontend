@@ -6,3 +6,5 @@ export * from './DetailNavbar'
 
 // Internal Navbar
 export * from './StudentNavbar'
+export * from './RtoNavbar'
+export * from './SubAdminNavbar'
