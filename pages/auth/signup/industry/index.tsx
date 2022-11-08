@@ -78,7 +78,11 @@ const IndustrySignUp: NextPage = () => {
                     />
                 </div>
 
-                <StepIndicator steps={FormSteps} currentStep={currentStep} />
+                <StepIndicator
+                    steps={FormSteps}
+                    currentStep={currentStep}
+                    horizontal
+                />
 
                 {/* <div>
 					<div className="flex flex-col lg:flex-row items-center lg:items-start gap-y-6">

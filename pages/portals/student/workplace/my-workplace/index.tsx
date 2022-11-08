@@ -1,18 +1,37 @@
-import { ReactElement, useState } from 'react'
+import { ReactElement, useEffect, useState } from 'react'
 
 import { StudentLayout } from '@layouts'
 import { NextPageWithLayout } from '@types'
-import { ActionAlert, ActionAlertType, Card, StepIndicator } from '@components'
+import {
+    ActionAlert,
+    ActionAlertType,
+    Card,
+    LoadingAnimation,
+    StepIndicator,
+} from '@components'
 import {
     Availability,
     IndustrySelection,
     PersonalInfo,
 } from '@components/sections/student/WorkplaceContainer/MyWorkPlace'
 
+// query
+import { useGetWorkplaceIndustriesQuery } from '@queries'
+
 type Props = {}
 
 const MyWorkPlaces: NextPageWithLayout = (props: Props) => {
     const [active, setActive] = useState(1)
+    const [personalInfoData, setPersonalInfoData] = useState({})
+
+    // query
+    const workplace = useGetWorkplaceIndustriesQuery()
+
+    useEffect(() => {
+        if (workplace.isSuccess && workplace.data.length > 0) {
+            setActive(3)
+        }
+    }, [workplace.data, workplace.isSuccess])
 
     const StepIndicatorOptions = [
         {
@@ -37,7 +56,9 @@ const MyWorkPlaces: NextPageWithLayout = (props: Props) => {
         },
     ]
 
-    return (
+    return workplace.isLoading ? (
+        <LoadingAnimation />
+    ) : (
         <div className="flex gap-x-5 w-full">
             {/* <GoBackButton>Workplace Choice</GoBackButton> */}
 
@@ -46,15 +67,31 @@ const MyWorkPlaces: NextPageWithLayout = (props: Props) => {
                 <StepIndicator
                     steps={StepIndicatorOptions}
                     currentStep={StepIndicatorOptions[active - 1]}
+                    vertical
                 />
             </div>
 
-            <div className='w-[75%]'>
-                {active === 1 && <PersonalInfo setActive={setActive} />}
+            <div className="w-[75%]">
+                {active === 1 && (
+                    <PersonalInfo
+                        setActive={setActive}
+                        setPersonalInfoData={setPersonalInfoData}
+                    />
+                )}
 
-                {active === 2 && <Availability setActive={setActive} />}
+                {active === 2 && (
+                    <Availability
+                        setActive={setActive}
+                        personalInfoData={personalInfoData}
+                    />
+                )}
 
-                {active === 3 && <IndustrySelection setActive={setActive} />}
+                {active === 3 && (
+                    <IndustrySelection
+                        setActive={setActive}
+                        workplaceIndustries={workplace?.data}
+                    />
+                )}
 
                 {active === 4 && (
                     <Card>
@@ -65,7 +102,7 @@ const MyWorkPlaces: NextPageWithLayout = (props: Props) => {
                             }
                             variant={'primary' || 'info' || 'error'}
                             primaryAction={{
-                                text: 'Call To Action',
+                                text: 'Go Back',
                                 onClick: () => {
                                     setActive(1)
                                 },

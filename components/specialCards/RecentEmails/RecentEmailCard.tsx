@@ -32,8 +32,8 @@ export const RecentEmailCard = ({ emails }: RecentEmailCardProps) => {
             </div>
             <div className="flex justify-between gap-x-8 items-center">
                 <div className="w-full">
-                    {emails.map((email) => (
-                        <Link href="#">
+                    {emails.map((email, i) => (
+                        <Link href="#" key={i}>
                             <a>
                                 <div
                                     key={email.subject}

@@ -202,3 +202,25 @@ tr[aria-hidden] td {
     border: none;
     padding: 0;
 }
+
+
+
+/*# sourceMappingURL=calendarStyle.css.map */
+
+.react-calendar-day-titles, .react-calendar-days {
+	display: grid !important;
+	grid-template-columns: repeat(7, minmax(0, 1fr));
+	justify-content: center;
+	place-items: center;
+	row-gap: 9px;
+}
+
+.react-calendar-day {
+	padding: 3px 10px;
+	border-radius: 100%;
+}
+
+.is-selected {
+	color: white;
+	background-color: #1f95af;
+}

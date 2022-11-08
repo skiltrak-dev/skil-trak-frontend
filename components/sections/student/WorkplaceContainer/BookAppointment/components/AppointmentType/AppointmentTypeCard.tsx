@@ -1,40 +1,67 @@
-import { Typography } from '@components/Typography'
 import Image from 'next/image'
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
+
+import { Typography } from '@components/Typography'
 
 type AppointmentTypeCardProps = {
-    post?: string
+    title?: string
     imageUrl?: string
     selectedImageUrl?: string
+    onClick: Function
+    selected: string | null
 }
 
 export const AppointmentTypeCard = ({
-    post,
+    title,
     imageUrl,
     selectedImageUrl,
+    onClick,
+    selected,
 }: AppointmentTypeCardProps) => {
-    const [selected, setSelected] = useState(false)
-    const handleClick = () => {
-        setSelected((e) => !e)
-    }
+    const AppointmentType = () => {
+        switch (title) {
+            case 'video Conference':
+                return {
+                    imageUrl: '/images/card-images/video-icon.png',
+                    selectedImageUrl: '/images/card-images/video-image.png',
+                    post: 'Video Conference',
+                }
 
+            default:
+                return {
+                    imageUrl: '/images/card-images/box-icon.png',
+                    selectedImageUrl: '/images/card-images/box-image.png',
+                    post: 'Work Place Visit',
+                }
+        }
+    }
+    const typeData = AppointmentType()
     return (
-        <div onClick={handleClick}>
+        <div
+            className="cursor-pointer"
+            onClick={() => {
+                onClick()
+            }}
+        >
             <div
                 className={`border ${
-                    !selected ? 'border-gray-300' : 'border-[#3782F3]'
+                    selected === title ? 'border-[#3782F3]' : 'border-gray-300'
                 } bg-white rounded-lg py-2 px-5`}
             >
                 <div className="flex flex-col gap-y-1 items-center">
                     <Image
-                        src={(!selected ? imageUrl : selectedImageUrl) || ' '}
+                        src={
+                            selected === title
+                                ? typeData.selectedImageUrl
+                                : typeData.imageUrl
+                        }
                         width={100}
                         height={100}
                         alt="appointment type"
                     />
                     <div className="">
                         <Typography variant="body" color="text-black">
-                            {post}
+                            {title}
                         </Typography>
                     </div>
                 </div>

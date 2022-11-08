@@ -79,7 +79,7 @@ const RtoSignUp: NextPage = () => {
                     />
                 </div>
 
-                <StepIndicator steps={FormSteps} currentStep={currentStep} />
+                <StepIndicator steps={FormSteps} currentStep={currentStep} horizontal />
 
                 <div>
                     <div className="w-full mt-4 pb-10">

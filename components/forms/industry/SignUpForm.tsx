@@ -408,7 +408,7 @@ export const SignUpForm = ({ onSubmit }: { onSubmit: any }) => {
                         </p>
                     </div>
 
-                    <div className='w-4/6'>
+                    <div className="w-4/6">
                         <div className="grid grid-cols-1 gap-x-8 gap-y-6 mt-2">
                             <TextInput
                                 label={'Address Line 1'}

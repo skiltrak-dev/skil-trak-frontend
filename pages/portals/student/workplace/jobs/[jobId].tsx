@@ -2,14 +2,14 @@ import { ReactElement } from 'react'
 
 import { StudentLayout } from '@layouts'
 import { NextPageWithLayout } from '@types'
-import { JobContainer } from '@components/sections'
+import { JobDetail } from '@components/sections'
 
 type Props = {}
 
 const JobsDetail: NextPageWithLayout = (props: Props) => {
     return (
         <>
-            <JobContainer />
+            <JobDetail />
         </>
     )
 }

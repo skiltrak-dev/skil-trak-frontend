@@ -195,7 +195,7 @@ const StudentDashboard: NextPageWithLayout = () => {
                                 Sector
                             </p>
                             <p className="text-sm font-semibold">
-                                Commercial Cookery & Hospitality
+                                Commercial Cookery &amp; Hospitality
                             </p>
                         </div>
 

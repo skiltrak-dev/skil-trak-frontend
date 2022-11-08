@@ -41,7 +41,7 @@ export const WorkplaceAgreementDetail = (props: Props) => {
                         Zoom console. But, as a programmer, we need to integrate
                         Zoom video meeting with our application and we need to
                         manage the Zoom meetings programmatically through our
-                        application so that our application's user does not
+                        application so that our application&apos;s user does not
                         required to be registered with Zoom to use Zoom meeting
                         through our application. If we want to integrate zoom
                         meeting functionality with our application, we need to
@@ -56,8 +56,8 @@ export const WorkplaceAgreementDetail = (props: Props) => {
                         your application. Login to Zoom market
                         place(https://marketplace.zoom.us/) with the credentials
                         generated after signing up in step 2. Click on the
-                        dropdown "Develop" and select "Build App" as shown in
-                        below screenshot
+                        dropdown &quot;Develop&quot; and select &quot;Build
+                        App&quot; as shown in below screenshot
                     </Typography>
                 </div>
             </Card>
