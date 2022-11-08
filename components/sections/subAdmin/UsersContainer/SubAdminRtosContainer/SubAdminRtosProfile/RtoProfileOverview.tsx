@@ -1,10 +1,23 @@
 import { FigureCard } from '@components/sections/subAdmin/components'
 import { Typography } from '@components/Typography'
 import { PendingStudents, RecentAppointment } from './components'
+// queries
+import { useGetSubAdminRtosStudentsQuery, useGetSubAdminRtoAppointmentsQuery } from '@queries'
+import { LoadingAnimation } from '@components/LoadingAnimation'
 
-type Props = {}
+type Props = {
+  rtoId: any
+}
 
-export const RtoProfileOverview = (props: Props) => {
+export const RtoProfileOverview = ({
+  rtoId,
+}: Props) => {
+  // pending students
+  const { data, error, isLoading } = useGetSubAdminRtosStudentsQuery(rtoId)
+  // recent appointments
+  const {data: rtoRecentAppointment} = useGetSubAdminRtoAppointmentsQuery(rtoId)
+  console.log("rto______RecentAppointment", rtoRecentAppointment);
+  
   const FigureCardData = [
     {
       count: 38,
@@ -27,24 +40,24 @@ export const RtoProfileOverview = (props: Props) => {
       imageUrl: '/images/figure-card/school.png',
     },
   ]
-  const pendingStudents = [
-    {
-      name: 'Raminder Kaur Sharma',
-      email: 'k_thabal@yahoo.co.in',
-      phone: '0401748554',
-      status: 'Pending',
-      imageUrl:
-        'https://images.unsplash.com/photo-1664575602276-acd073f104c1?ixlib=rb-4.0.3&ixid=MnwxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80',
-    },
-    {
-      name: 'Raminder Kaur Sharma',
-      email: 'k_thabal@yahoo.co.in',
-      phone: '0401748554',
-      status: 'Pending',
-      imageUrl:
-        'https://images.unsplash.com/photo-1664575602276-acd073f104c1?ixlib=rb-4.0.3&ixid=MnwxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80',
-    },
-  ]
+  // const pendingStudents = [
+  //   {
+  //     name: 'Raminder Kaur Sharma',
+  //     email: 'k_thabal@yahoo.co.in',
+  //     phone: '0401748554',
+  //     status: 'Pending',
+  //     imageUrl:
+  //       'https://images.unsplash.com/photo-1664575602276-acd073f104c1?ixlib=rb-4.0.3&ixid=MnwxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80',
+  //   },
+  //   {
+  //     name: 'Raminder Kaur Sharma',
+  //     email: 'k_thabal@yahoo.co.in',
+  //     phone: '0401748554',
+  //     status: 'Pending',
+  //     imageUrl:
+  //       'https://images.unsplash.com/photo-1664575602276-acd073f104c1?ixlib=rb-4.0.3&ixid=MnwxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80',
+  //   },
+  // ]
   const recentAppointments = [
     {
       date: 'Wed, Jun 29, 2022',
@@ -83,16 +96,21 @@ export const RtoProfileOverview = (props: Props) => {
           </Typography>
         </div>
         <div className="">
-          <div className='grid grid-cols-4 gap-x-4'>
+          <div className="grid grid-cols-4 gap-x-4">
             <div className="flex flex-col col-span-3 gap-y-2">
-              {pendingStudents.map((data: any) => (
-                <PendingStudents
-                  name={data.name}
-                  email={data.email}
-                  phoneNumber={data.phone}
-                  imageUrl={data.imageUrl}
-                />
-              ))}
+              {isLoading ? (
+                <LoadingAnimation />
+              ) : (
+                data?.data?.map((data: any) => (
+                  <PendingStudents
+                    name={data.user.name}
+                    email={data.user.email}
+                    phoneNumber={data.phone}
+                    studentId={data.user.id}
+                    imageUrl={"https://images.unsplash.com/photo-1664575602276-acd073f104c1?ixlib=rb-4.0.3&ixid=MnwxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80"}
+                  />
+                ))
+              )}
             </div>
             <div className="flex flex-col gap-y-2">
               {recentAppointments.map((data: any) => (
@@ -111,3 +129,6 @@ export const RtoProfileOverview = (props: Props) => {
     </>
   )
 }
+// {isLoading ? (
+//   <LoadingAnimation />
+// ) :

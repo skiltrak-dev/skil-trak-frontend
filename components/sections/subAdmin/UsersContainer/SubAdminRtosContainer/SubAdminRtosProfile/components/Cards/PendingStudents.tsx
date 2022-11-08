@@ -4,7 +4,11 @@ import { Typography } from '@components/Typography'
 import Image from 'next/image'
 import React from 'react'
 
+// queries
+import { useUpdateSubAdminRtoStudentStatusMutation } from '@queries'
+
 type PendingStudentsProps = {
+  studentId: number
   phoneNumber: string
   name: string
   email: string
@@ -12,11 +16,14 @@ type PendingStudentsProps = {
 }
 
 export const PendingStudents = ({
+  studentId,
   phoneNumber,
   name,
   email,
   imageUrl,
 }: PendingStudentsProps) => {
+  const [pendingStudentsStatus] = useUpdateSubAdminRtoStudentStatusMutation()
+  
   return (
     <>
       <Card>
@@ -45,10 +52,10 @@ export const PendingStudents = ({
             {phoneNumber}
           </Typography>
           <div className="flex gap-x-2 items-center">
-            <Button variant={'secondary'}>
+            <Button onClick={() => pendingStudentsStatus({id:studentId, status:'approved'})} variant={'secondary'}>
               <span className="text-green-500">ACCEPT</span>
             </Button>
-            <Button variant={'secondary'}>
+            <Button onClick={() => pendingStudentsStatus({id:studentId, status:'rejected'})} variant={'secondary'}>
               <span className="text-red-500">REJECT</span>
             </Button>
           </div>

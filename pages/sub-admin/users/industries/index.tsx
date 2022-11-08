@@ -7,13 +7,14 @@ import { NextPageWithLayout } from '@types'
 import { TabsView } from '@components/sections/rto'
 //components
 import { ReactTable, Typography } from '@components'
-import { useGetStudentsQuery } from '@queries'
+// queries
+import { useGetSubAdminIndustriesQuery } from '@queries'
 import { FaEnvelope, FaPhoneSquareAlt } from 'react-icons/fa'
 import Image from 'next/image'
 
 type Props = {}
 
-const Students: NextPageWithLayout = (props: Props) => {
+const Industries: NextPageWithLayout = (props: Props) => {
   const Columns = [
     {
       Header: 'Name',
@@ -21,7 +22,7 @@ const Students: NextPageWithLayout = (props: Props) => {
       sort: true,
       Cell: ({ row }: any) => {
         const {
-          phone,
+          phoneNumber,
           user: { name, email, image },
         } = row.original
         console.log('row', row.original)
@@ -39,22 +40,19 @@ const Students: NextPageWithLayout = (props: Props) => {
                 width={50}
                 height={50}
               />
-              <Link href={`/rto/profile/${row.original.id}`}>
+              <Link href={`/sub-admin/users/industries/profile/${row.original.id}?tab=overview`}>
                 <div>
-                  <div className="flex items-center gap-x-2">
-                    <Typography variant={'muted'}>
-                      {phone}
-                    </Typography>
-                    <div className="flex items-center gap-x-2 ">
-                      <div className="w-1 h-1 rounded-full bg-green-400"></div>
-                      <Typography variant="muted" color="text-green-400">
-                        completed
-                      </Typography>
-                    </div>
-                  </div>
+
                   <Typography color={'black'}>
-                    {name}
+                    {' '}
+                    {name}{' '}
                   </Typography>
+                  <div className="flex items-center gap-x-2">
+                    <FaPhoneSquareAlt className='text-gray' />
+                    <Typography variant={'muted'}>
+                      {phoneNumber}
+                    </Typography>
+                  </div>
                   <div className="flex items-center gap-x-2">
                     <FaEnvelope />
                     <Typography
@@ -90,57 +88,57 @@ const Students: NextPageWithLayout = (props: Props) => {
     //     disableFilters: true,
     // },
     {
-      Header: 'Phone #',
-      accessor: 'phone',
+      Header: 'Phone',
+      accessor: 'phoneNumber',
       Cell: ({ row }: any) => {
-        const { phone } = row.original
+        const { phoneNumber } = row.original
         return (
           <div className='flex justify-center'>
             <Typography variant={'muted'} color={'gray'}>
-              {phone}
+              {phoneNumber}
             </Typography>
           </div>
         )
       },
     },
-
     {
       Header: 'Address',
       accessor: 'address',
       Cell: ({ row }: any) => {
-        const { address, city, state, zipCode } = row.original
+        const { addressLine1, addressLine2, city, state, zipCode } = row.original
         return (
-          <div className='flex justify-center'>
-            <Typography color={'black'}>{address}</Typography>
+          <div className='flex justify-center gap-x-2'>
+            <Typography color={'black'}>{addressLine1}</Typography>
             <Typography color={'black'}>
-              {state}
+              {addressLine2}
             </Typography>
           </div>
         )
       },
     },
     {
-      Header: 'RTO Name',
-      accessor: 'rto',
-      Cell({ row }: any) {
-        const { rto } = row.original
+      Header: 'Student Capacity',
+      accessor: 'studentCapacity',
+      Cell: ({ row }: any) => {
+        const { studentCapacity } = row.original
         return (
           <div className='flex justify-center'>
-            <Typography variant='body' color={'black'}>
-              Job Training Institute
+            <Typography variant={'muted'} color={'gray'}>
+              {studentCapacity}
             </Typography>
           </div>
         )
       },
     },
     {
-      Header: 'Progress',
-      accessor: 'progress',
-      Cell: ({ }) => {
+      Header: 'Contact Person',
+      accessor: 'contactPersonNumber',
+      Cell: ({ row }: any) => {
+        const { contactPersonNumber } = row.original
         return (
-          <div className="flex justify-center">
-            <Typography variant="muted" color="text-blue-400">
-              Request
+          <div className='flex justify-center'>
+            <Typography variant={'muted'} color={'gray'}>
+              {contactPersonNumber}
             </Typography>
           </div>
         )
@@ -160,12 +158,12 @@ const Students: NextPageWithLayout = (props: Props) => {
       },
     },
   ]
-  // console.log("useGetStudentsQuery", useGetStudentsQuery());
+  // console.log("useGetSubAdminIndustriesQuery", useGetSubAdminIndustriesQuery());
 
   return (
     <>
       <ReactTable
-        action={useGetStudentsQuery}
+        action={useGetSubAdminIndustriesQuery}
         Columns={Columns}
         querySort={'title'}
         pagination
@@ -174,8 +172,8 @@ const Students: NextPageWithLayout = (props: Props) => {
     </>
   )
 }
-Students.getLayout = (page: ReactElement) => {
-  return <SubAdminLayout title="Students">{page}</SubAdminLayout>
+Industries.getLayout = (page: ReactElement) => {
+  return <SubAdminLayout title="Industries">{page}</SubAdminLayout>
 }
 
-export default Students
+export default Industries

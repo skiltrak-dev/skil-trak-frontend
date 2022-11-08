@@ -1,5 +1,8 @@
 import { ReactElement } from 'react'
+// Link
 import Link from 'next/link'
+// image
+import Image from 'next/image'
 //Layouts
 import { SubAdminLayout } from '@layouts'
 import { NextPageWithLayout } from '@types'
@@ -7,13 +10,16 @@ import { NextPageWithLayout } from '@types'
 import { TabsView } from '@components/sections/rto'
 //components
 import { ReactTable, Typography } from '@components'
-import { useGetStudentsQuery } from '@queries'
+// queries
+import { useGetSubAdminRtosQuery } from '@queries'
+// icons
 import { FaEnvelope, FaPhoneSquareAlt } from 'react-icons/fa'
-import Image from 'next/image'
 
 type Props = {}
 
 const RTOs: NextPageWithLayout = (props: Props) => {
+  const { data, error, isLoading } = useGetSubAdminRtosQuery()
+ 
   const Columns = [
     {
       Header: 'Name',
@@ -39,9 +45,8 @@ const RTOs: NextPageWithLayout = (props: Props) => {
                 width={50}
                 height={50}
               />
-              <Link href={`/rto/profile/${row.original.id}`}>
+              <Link href={`/sub-admin/users/rtos/profile/${row.original.id}?tab=overview`}>
                 <div>
-
                   <Typography color={'black'}>
                     {' '}
                     {name}{' '}
@@ -68,34 +73,17 @@ const RTOs: NextPageWithLayout = (props: Props) => {
         )
       },
     },
-    // {
-    //     Header: 'Type',
-    //     accessor: 'employmentType',
-    //     Cell: ({ row }) => {
-    //         const { employmentType } = row.original
-    //         switch (employmentType) {
-    //             case 'fullTime':
-    //                 return 'Full Time'
-
-    //             case 'partTime':
-    //                 return 'Part Time'
-
-    //             default:
-    //                 return 'Temporary'
-    //         }
-    //     },
-    //     disableFilters: true,
-    // },
     {
       Header: 'Package',
       accessor: 'package',
-      Cell: () => {
+      Cell: ({row}: any) => {
+        const {package: {name}} = row.original
         return (
-          <>
+          <div className='flex justify-center'>
             <Typography variant={'muted'} color={'gray'}>
-              Placement
+              {name}
             </Typography>
-          </>
+          </div>
         )
       },
     },
@@ -103,10 +91,11 @@ const RTOs: NextPageWithLayout = (props: Props) => {
       Header: 'Code',
       accessor: 'code',
       Cell: ({ row }: any) => {
+        const { rtoCode } = row.original
         return (
           <div className='flex justify-center'>
             <Typography variant={'muted'} color={'gray'}>
-              {row.original.zipCode}
+              {rtoCode}
             </Typography>
           </div>
         )
@@ -116,6 +105,7 @@ const RTOs: NextPageWithLayout = (props: Props) => {
       Header: 'Students',
       accessor: 'students',
       Cell: ({ row }: any) => {
+        const { students } = row.original
         return (
           <div className='flex justify-center'>
             <Typography variant={'muted'} color={'gray'}>
@@ -167,12 +157,12 @@ const RTOs: NextPageWithLayout = (props: Props) => {
       },
     },
   ]
-  // console.log("useGetStudentsQuery", useGetStudentsQuery());
+  // console.log("useGetSubAdminRtosQuery", useGetSubAdminRtosQuery());
 
   return (
     <>
       <ReactTable
-        action={useGetStudentsQuery}
+        action={useGetSubAdminRtosQuery}
         Columns={Columns}
         querySort={'title'}
         pagination

@@ -2,7 +2,7 @@ import { configureStore } from "@reduxjs/toolkit";
 // Or from '@reduxjs/toolkit/query/react'
 import { setupListeners } from "@reduxjs/toolkit/query";
 
-import { authApi, rtoStudentsApi, rtoWorkplacesApi, rtoAssessmentToolsApi} from "@queries";
+import { authApi, rtoStudentsApi, rtoWorkplacesApi, rtoAssessmentToolsApi, subAdminRtosApi, subAdminIndustriesApi} from "@queries";
 
 
 export const store = configureStore({
@@ -12,6 +12,9 @@ export const store = configureStore({
 		[rtoStudentsApi.reducerPath]: rtoStudentsApi.reducer,
 		[rtoWorkplacesApi.reducerPath]: rtoWorkplacesApi.reducer,
 		[rtoAssessmentToolsApi.reducerPath]: rtoAssessmentToolsApi.reducer,
+		[subAdminRtosApi.reducerPath]: subAdminRtosApi.reducer,
+		[subAdminIndustriesApi.reducerPath]: subAdminIndustriesApi.reducer,
+
 	},
 	// Adding the api middleware enables caching, invalidation, polling,
 	// and other useful features of `rtk-query`.

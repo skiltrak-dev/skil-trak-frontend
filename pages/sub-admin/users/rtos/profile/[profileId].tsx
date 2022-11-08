@@ -11,32 +11,16 @@ import Image from 'next/image'
 import { AppointmentProfile, FigureCard, RtoProfileOverview, SubAdminProfileTabsView } from '@components/sections'
 import { FaEdit } from 'react-icons/fa'
 import { useUpdateAssessmentToolArchiveMutation } from '@queries'
+import { useRouter } from 'next/router'
 
 type Props = {}
 
 const RtoProfile: NextPageWithLayout = (props: Props) => {
-  // const FigureCardData = [
-  //   {
-  //     count: 38,
-  //     title: 'RTOs',
-  //     imagUrl: '/images/figure-card/school.png'
-  //   },
-  //   {
-  //     count: 97,
-  //     title: 'Students',
-  //     imagUrl: '/images/figure-card/school.png'
-  //   },
-  //   {
-  //     count: 98,
-  //     title: 'Industries',
-  //     imagUrl: '/images/figure-card/school.png'
-  //   },
-  //   {
-  //     count: 98,
-  //     title: 'Pending Students',
-  //     imageUrl: "/images/figure-card/school.png"
-  //   },
-  // ]
+  const pathname = useRouter()
+  const profileId = pathname.query.profileId;
+  
+  
+  
   const [archiveAssessmentTool, archiveAssessmentToolResult] = useUpdateAssessmentToolArchiveMutation()
   const actions = (id: any) => {
     console.log(id)
@@ -61,33 +45,33 @@ const RtoProfile: NextPageWithLayout = (props: Props) => {
   }
   const tabs: TabProps[] = [
     {
-        label: 'Overview',
-        href: { pathname: 'profile', query: { tab: 'overview' } },
-        badge: { text: '05', color: 'text-blue-500' },
-        element: <RtoProfileOverview />,
+      label: 'Overview',
+      href: { pathname: String(profileId), query: { tab: 'overview' } },
+      badge: { text: '05', color: 'text-blue-500' },
+      element: <RtoProfileOverview rtoId={profileId}/>,
     },
     {
-        label: 'Assessments',
-        href: { pathname: 'profile', query: { tab: 'assessments' } },
-        badge: { text: '99+', color: 'text-error-500' },
-        element: <AssessmentsTools role={'RTO'} actions={actions}/>,
+      label: 'Assessments',
+      href: { pathname: 'profile', query: { tab: 'assessments' } },
+      badge: { text: '99+', color: 'text-error-500' },
+      element: <AssessmentsTools role={'RTO'} actions={actions} />,
     },
     {
-        label: 'Appointments',
-        href: { pathname: 'profile', query: { tab: 'appointments' } },
-        element: <AppointmentProfile />,
+      label: 'Appointments',
+      href: { pathname: 'profile', query: { tab: 'appointments' } },
+      element: <AppointmentProfile />,
     },
     {
-        label: 'Mails',
-        href: { pathname: 'profile', query: { tab: 'mails' } },
-        element: <div>Mails</div>,
+      label: 'Mails',
+      href: { pathname: 'profile', query: { tab: 'mails' } },
+      element: <div>Mails</div>,
     },
     {
-        label: 'Notes',
-        href: { pathname: 'profile', query: { tab: 'notes' } },
-        element: <div>Notes</div>,
+      label: 'Notes',
+      href: { pathname: 'profile', query: { tab: 'notes' } },
+      element: <div>Notes</div>,
     },
-]
+  ]
 
   return (
     <>
