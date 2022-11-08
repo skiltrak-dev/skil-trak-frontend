@@ -50,7 +50,7 @@ export const Button = ({
 	fullWidth,
 	mini,
 }: ButtonProps) => {
-	const buttonClass = `text-sm font-semibold transition-all duration-300 border px-4 py-2 shadow focus:outline-none focus:ring-4 ${
+	const buttonClass = `text-xs font-medium uppercase transition-all duration-300 border px-4 py-2 shadow focus:outline-none focus:ring-4 ${
 		rounded ? "rounded-full" : "rounded-md"
 	} ${fullWidth ? "w-full" : "min-w-[125px]"} `;
 

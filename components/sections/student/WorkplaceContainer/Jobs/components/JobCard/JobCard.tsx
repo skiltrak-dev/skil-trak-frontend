@@ -1,4 +1,5 @@
 import Image from 'next/image'
+import Link from 'next/link'
 
 // React icons
 import { HiUserGroup } from 'react-icons/hi'
@@ -11,55 +12,67 @@ import { RiTimeFill } from 'react-icons/ri'
 import { ApplyNowButton } from '../ApplyNowButton'
 import { Typography } from '@components/Typography'
 
+// query
+import { useSaveJobMutation } from '@queries'
+
 type Props = {
-    jobTitle?: string
+    id: string
+    title?: string
     companyName?: string
-    companyLogo?: string
-    companyLocation?: string
+    avatar?: string
+    address?: string
     positions?: number
-    jobType?: string
-    contactTo?: string
-    contactNumber?: string
-    salary?: string
-    jobDescription?: string
-    days?: number
-    timeAgo?: string
+    employmentType?: string
+    contactPerson?: string
+    phoneNumber?: string
+    salaryFrom?: string
+    salaryTo?: string
+    description?: string
+    expiry?: string
+    savedJobs?: any
 }
 
 export const JobCard = ({
-    jobTitle,
+    id,
+    title,
     companyName,
-    companyLogo,
-    companyLocation,
+    avatar,
+    address,
     positions,
-    jobType,
-    contactTo,
-    contactNumber,
-    salary,
-    jobDescription,
-    days,
-    timeAgo,
+    employmentType,
+    contactPerson,
+    phoneNumber,
+    salaryFrom,
+    salaryTo,
+    description,
+    expiry,
+    savedJobs,
 }: Props) => {
+    const [saveJob, saveHobResult] = useSaveJobMutation()
     return (
         <>
             <div className="my-3 bg-white border rounded-2xl shadow-sm">
-                <div className="px-4 ">
+                <div className="p-4">
                     <div className="flex justify-between items-center">
                         <div>
-                            <div className="pt-4">
-                                <Typography
-                                    variant="subtitle"
-                                    color="text-black"
-                                >
-                                    {jobTitle}
-                                </Typography>
-                            </div>
+                            <Link href={`/student/workplace/jobs/${id}`}>
+                                <a>
+                                    <Typography
+                                        variant="subtitle"
+                                        color="text-black"
+                                    >
+                                        {title}
+                                    </Typography>
+                                </a>
+                            </Link>
+
                             <div className="flex items-center gap-x-1">
                                 <div className="h-4 w-4">
                                     <Image
+                                        className="rounded-full"
                                         src={
-                                            companyLogo ||
-                                            '/images/placeholder.png'
+                                            avatar ||
+                                            'https://placeimg.com/100/10/any'
                                         }
                                         alt="industry"
                                         width={100}
@@ -75,7 +88,14 @@ export const JobCard = ({
                                 </Typography>
                             </div>
                         </div>
-                        <ApplyNowButton status="unsaved" />
+                        <ApplyNowButton
+                            onClick={() => {
+                                saveJob(id)
+                            }}
+                            savedJob={savedJobs
+                                ?.map(({ id }: any) => id)
+                                .includes(id)}
+                        />
                     </div>
                     <div className="flex item-center gap-x-2 pt-2">
                         <div className="flex item-center gap-x-2">
@@ -90,7 +110,7 @@ export const JobCard = ({
                         <div className="flex items-center gap-x-2">
                             <IoMdBriefcase className="text-[#7E9CAF]" />
                             <Typography variant="muted" color="text-black">
-                                {jobType}
+                                {employmentType}
                             </Typography>
                             <Typography variant="small" color="text-gray-400">
                                 Job
@@ -99,46 +119,48 @@ export const JobCard = ({
                         <div className="flex gap-x-2 items-center">
                             <MdContactPhone className="text-[#7E9CAF]" />
                             <Typography variant="muted" color="text-black">
-                                {contactTo}
+                                {contactPerson}
                             </Typography>
                             <Typography variant="small" color="text-gray-400">
                                 to Contact
                             </Typography>
                         </div>
                     </div>
-                    <div className='pt-2'>
+                    <div className="pt-2">
                         <Typography variant="small" color="text-gray-600">
-                            {jobDescription}
+                            {description}
                         </Typography>
                     </div>
-                    <div className="mt-2 mb-4 flex items-center gap-x-2">
+                    <div className="mt-2 flex items-center gap-x-2">
                         <GiBanknote className="text-[#D1D5DB]" />
                         <Typography variant="label" color="text-black">
-                            {salary}
+                            AUD {salaryFrom} - Aud {salaryTo}
                         </Typography>
                     </div>
                 </div>
-                <div className="border-t mt-4">
+                <div className="border-t">
                     <div className="flex justify-between px-4 py-2">
-                        <div className="flex gap-x-2 items-center">
-                            <FaLocationArrow className="text-[#D1D5DB]" />
-                            <Typography variant="muted" color="text-black">
-                                {companyLocation}
-                            </Typography>
-                        </div>
-                        <div className="flex gap-x-2 items-center">
-                            <FaPhoneAlt className="text-[#D1D5DB]" />
-                            <Typography variant="muted" color="text-black">
-                                {contactNumber}
-                            </Typography>
+                        <div className="flex items-center gap-x-6">
+                            <div className="flex gap-x-2 items-center">
+                                <FaLocationArrow className="text-[#D1D5DB]" />
+                                <Typography variant="muted" color="text-black">
+                                    {address}
+                                </Typography>
+                            </div>
+                            <div className="flex gap-x-2 items-center">
+                                <FaPhoneAlt className="text-[#D1D5DB]" />
+                                <Typography variant="muted" color="text-black">
+                                    {phoneNumber}
+                                </Typography>
+                            </div>
                         </div>
                         <div className="flex gap-x-2 items-center">
                             <RiTimeFill className="text-[#D1D5DB]" />
-                            <Typography variant="muted" color="text-black">
-                                {days}
-                            </Typography>
-                            <Typography variant="small" color="text-gray-400">
-                                {timeAgo}
+                            <Typography variant="small" color="text-black">
+                                {expiry || 0}{' '}
+                                <span className="text-gray-400 text-xs ">
+                                    Days Ago
+                                </span>
                             </Typography>
                         </div>
                     </div>

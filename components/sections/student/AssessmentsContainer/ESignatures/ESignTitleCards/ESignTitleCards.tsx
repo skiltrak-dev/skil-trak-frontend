@@ -19,7 +19,7 @@ export const ESignTitleCards = (props: Props) => {
     return (
         <>
             <Card noPadding>
-                <div className='min-h-[370px]'>
+                <div className="min-h-[370px]">
                     <div className="p-2">
                         <Typography variant="muted" color="text-gray-400">
                             Selected Folder
@@ -30,6 +30,7 @@ export const ESignTitleCards = (props: Props) => {
                     </div>
                     {eSignTitleCardData.map((course, index) => (
                         <ESignTitleCard
+                            key={index}
                             courseName={course.courseName}
                             status={course.status}
                         />

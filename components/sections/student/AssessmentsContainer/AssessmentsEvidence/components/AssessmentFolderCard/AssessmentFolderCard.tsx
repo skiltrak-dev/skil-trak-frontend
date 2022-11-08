@@ -1,21 +1,37 @@
 type AssessmentFolderCardProps = {
-    status: string
+    name: string
+    isActive: boolean
+    negativeComment: string
+    positiveComment: string
+    onClick: Function
+    selectedFolderId: string | null
+    id: string
 }
 import { Typography } from '@components/Typography'
 import { FaFolder } from 'react-icons/fa'
-export const AssessmentFolderCard = ({ status }: AssessmentFolderCardProps) => {
-    const statusColor =
-        status === 'Approved'
-            ? 'bg-green-100'
-            : status === 'Not Approved'
-            ? 'bg-red-100'
-            : 'bg-blue-100'
+export const AssessmentFolderCard = ({
+    name,
+    isActive,
+    negativeComment,
+    positiveComment,
+    onClick,
+    selectedFolderId,
+    id,
+}: AssessmentFolderCardProps) => {
+    const statusColor = isActive
+        ? 'bg-green-100'
+        : !isActive
+        ? 'bg-red-100'
+        : 'bg-blue-100'
     return (
         <>
             <div
                 className={`${
-                    status === 'Not Approved' ? 'bg-red-100' : 'bg-white'
-                } p-2 mb-1 cursor-pointer`}
+                    selectedFolderId === id ? 'bg-red-100' : 'bg-white'
+                } p-2 border-b border-gray-200 cursor-pointer`}
+                onClick={() => {
+                    onClick()
+                }}
             >
                 <div className="flex justify-between">
                     <div className="flex items-center gap-x-2 ">
@@ -23,7 +39,7 @@ export const AssessmentFolderCard = ({ status }: AssessmentFolderCardProps) => {
                             <FaFolder className="text-blue-500" />
                         </div>
                         <div>
-                            <Typography variant="label">Folder Name</Typography>
+                            <Typography variant="label">{name}</Typography>
                         </div>
                     </div>
                     <div>
@@ -31,14 +47,14 @@ export const AssessmentFolderCard = ({ status }: AssessmentFolderCardProps) => {
                             <Typography
                                 variant="body"
                                 color={
-                                    status === 'Approved'
+                                    isActive
                                         ? 'text-green-500'
-                                        : status === 'Not Approved'
+                                        : !isActive
                                         ? 'text-red-500'
                                         : 'text-blue-500'
                                 }
                             >
-                                {status}
+                                {isActive ? 'Approved' : 'Not Approved'}
                             </Typography>
                         </div>
                     </div>
@@ -47,14 +63,14 @@ export const AssessmentFolderCard = ({ status }: AssessmentFolderCardProps) => {
                     <Typography
                         variant="small"
                         color={
-                            status === 'Approved'
+                            isActive
                                 ? 'text-green-500'
-                                : status === 'Not Approved'
+                                : !isActive
                                 ? 'text-red-500'
                                 : 'text-blue-500'
                         }
                     >
-                        All videos are provided
+                        {isActive ? positiveComment : negativeComment}
                     </Typography>
                 </div>
             </div>

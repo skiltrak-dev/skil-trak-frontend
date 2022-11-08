@@ -25,6 +25,9 @@ export * from './RtoContextBarData'
 export * from './ReactTable'
 export * from './AssessmentsTools'
 export * from './TabNavigation'
+export * from './Paginate'
+export * from './ReactTable'
+export * from './sideBars'
 
 
 // Forms

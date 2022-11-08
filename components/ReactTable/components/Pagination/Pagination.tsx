@@ -5,8 +5,6 @@ import { IoIosArrowBack, IoIosArrowForward } from 'react-icons/io'
 
 // components
 import { Typography } from 'components/Typography'
-import { PrimaryActionButton } from '@components/buttons'
-import { BsFilter } from 'react-icons/bs'
 
 interface Props {
     pageCount: number

@@ -63,7 +63,6 @@ export const ReactTable = ({
                 : '',
         }
     )
-    console.log(data)
 
     const columns = useMemo(() => Columns, [Columns])
     const tableData = useMemo(() => (data ? data.data : []), [data])

@@ -5,3 +5,5 @@
 export * from "./student";
 export * from "./rto";
 export * from "./subAdmin";
+export * from './student'
+export * from './industry'

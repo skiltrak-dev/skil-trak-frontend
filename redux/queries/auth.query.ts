@@ -1,5 +1,5 @@
-import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { LoginCredentials } from "@types";
+import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
+import { LoginCredentials } from '@types'
 
 export const authApi = createApi({
 	reducerPath: "authApi",
@@ -40,10 +40,10 @@ export const authApi = createApi({
 			}),
 		}),
 
-		getSectors: builder.query({
-			query: () => "sectors",
-			providesTags: ["Sectors"],
-		}),
+        getSectors: builder.query({
+            query: () => 'sectors',
+            providesTags: ['Sectors'],
+        }),
 
 		checkEmail: builder.mutation({
 			query: (body) => ({
@@ -53,31 +53,31 @@ export const authApi = createApi({
 			}),
 		}),
 
-		checkStatus: builder.mutation({
-			query: () => ({
-				url: `user-status`,
-				method: "POST",
-			}),
-		}),
-	}),
-});
+        checkStatus: builder.mutation({
+            query: () => ({
+                url: `user-status`,
+                method: 'POST',
+            }),
+        }),
+    }),
+})
 
 const {
-	useLoginMutation,
-	useCheckStatusMutation,
-	useCheckEmailMutation,
-	useGetSectorsQuery,
-	useRegisterIndustryMutation,
-	useRegisterRtoMutation,
-	useRegisterStudentMutation,
-} = authApi;
+    useLoginMutation,
+    useCheckStatusMutation,
+    useCheckEmailMutation,
+    useGetSectorsQuery,
+    useRegisterIndustryMutation,
+    useRegisterRtoMutation,
+    useRegisterStudentMutation,
+} = authApi
 
 export const AuthApi = {
-	useLoginMutation,
-	useCheckStatusMutation,
-	useCheckEmailMutation,
-	useGetSectorsQuery,
-	useRegisterIndustryMutation,
-	useRegisterRtoMutation,
-	useRegisterStudentMutation,
-};
+    useLoginMutation,
+    useCheckStatusMutation,
+    useCheckEmailMutation,
+    useGetSectorsQuery,
+    useRegisterIndustryMutation,
+    useRegisterRtoMutation,
+    useRegisterStudentMutation,
+}

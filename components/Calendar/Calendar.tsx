@@ -1,16 +1,44 @@
-import React, { useState } from "react";
-import Calendar from "react-calendar";
+import React, { useEffect, useState } from 'react'
+import Calendar from 'react-calendar'
+import { Paginate } from '@components/Paginate/Paginate'
+// import { Calendar } from 'react-calendars'
+import 'react-calendar/dist/Calendar.css'
 
-import { CalendarStyles } from "./style";
+import { CalendarStyles } from './style'
 
-export const SidebarCalendar = () => {
-	const [date, setDate] = useState(new Date());
+export const SidebarCalendar = ({ enbledDays, setSelectedDate }: any) => {
+    const [date, setDate] = useState(new Date())
 
-	return (
-		<>
-			<CalendarStyles>
-				<Calendar onChange={setDate} value={date} />
-			</CalendarStyles>
-		</>
-	);
-};
+    useEffect(() => {
+        if (setSelectedDate) {
+            setSelectedDate(date)
+        }
+    }, [date])
+
+    return (
+        <>
+            {/* <CalendarStyles> */}
+
+            <Calendar
+                {...(enbledDays
+                    ? {
+                          tileDisabled: ({ date }) => {
+                              return (
+                                  !enbledDays?.includes(date.getDay()) ||
+                                  date < new Date()
+                              )
+                          },
+                      }
+                    : {})}
+                onChange={setDate}
+                value={date}
+            />
+            {/* <Calendar
+                onSelect={(a) => {
+                    console.log('aaaa', a)
+                }}
+            /> */}
+            {/* </CalendarStyles> */}
+        </>
+    )
+}

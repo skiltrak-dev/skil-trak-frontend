@@ -2,23 +2,26 @@ import { useState } from 'react'
 import { AiFillHeart } from 'react-icons/ai'
 
 type Props = {
-    status?: 'saved' | 'unsaved'
+    onClick?: any
+    savedJob?: boolean
 }
 
-export const ApplyNowButton = ({ status }: Props) => {
-    const [isSaved, setIsSaved] = useState(status)
+export const ApplyNowButton = ({ onClick, savedJob }: Props) => {
+    const [isSaved, setIsSaved] = useState('')
     return (
         <div>
             <div className="flex gap-x-2 items-center">
                 <div
-                    onClick={() => {setIsSaved(isSaved === 'saved' ? 'unsaved' : 'saved')}}
+                    onClick={() => {
+                        onClick()
+                    }}
                     className={`py-[6px] px-2 ${
-                        isSaved === 'saved' ? 'bg-red-600' : 'bg-white border'
+                        savedJob ? 'bg-red-600' : 'bg-white border'
                     } rounded cursor-pointer`}
                 >
                     <AiFillHeart
                         className={`${
-                            isSaved === 'saved' ? 'text-white' : 'text-red-600'
+                            savedJob ? 'text-white' : 'text-red-600'
                         }`}
                     />
                 </div>

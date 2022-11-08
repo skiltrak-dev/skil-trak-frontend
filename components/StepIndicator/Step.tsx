@@ -5,8 +5,17 @@ interface StepProps {
     label: string
     last?: boolean
     fluid?: boolean
+    vertical?: boolean
+    horizontal?: boolean
 }
-export const Step = ({ label, visited, last, fluid }: StepProps) => {
+export const Step = ({
+    label,
+    visited,
+    last,
+    fluid,
+    vertical,
+    horizontal,
+}: StepProps) => {
     const stepCircleClasses = {
         border: classNames({
             'border-2 h-9 w-9 rounded-full flex justify-center items-center flex-shrink-0':
@@ -33,22 +42,24 @@ export const Step = ({ label, visited, last, fluid }: StepProps) => {
     })
 
     const stepLineClasses = classNames({
-        'h-10 ': true,
-        'ml-4 ': true,
-        'w-0.5': !fluid,
+        'h-10 w-0.5': vertical,
+        'w-14 h-0.5': horizontal,
+        'ml-4 ': vertical,
+        // 'w-0.5': !fluid,
         'bg-indigo-500': visited,
         'bg-gray-400': !visited,
     })
 
     const stepContainerClasses = classNames({
-        'flex flex-col gap-y-2': true,
+        'flex flex-col gap-y-2': vertical,
+        'flex items-center gap-x-2': horizontal,
         'w-full': fluid,
     })
 
     return (
         <div className={stepContainerClasses}>
             {/* Step Circle */}
-            <div className='flex items-center gap-x-2'>
+            <div className="flex items-center gap-x-2">
                 <div className={stepCircleClasses.border}>
                     <div className={stepCircleClasses.inner}>
                         <div className={stepCircleClasses.dot}></div>

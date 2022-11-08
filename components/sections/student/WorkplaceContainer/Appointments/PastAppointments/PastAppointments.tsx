@@ -3,9 +3,14 @@ import { PastAppointmentCard } from '@components/sections/student/components/Car
 import { Typography } from '@components/Typography'
 import { Switch } from '@components/inputs'
 
+// query
+import { useGetStudentPastAppointmentsQuery } from '@queries'
+import { LoadingAnimation } from '@components/LoadingAnimation'
+
 type Props = {}
 
 export const PastAppointments = (props: Props) => {
+    const pastAppointments = useGetStudentPastAppointmentsQuery()
     const pastAppointmentsData = [
         {
             date: 'Wednesday, October 19',
@@ -44,26 +49,32 @@ export const PastAppointments = (props: Props) => {
                 <Typography variant={'label'} color={'text-black'}>
                     Past Appointments
                 </Typography>
-                <Switch
-                    name="Cancelled Appointments"
-                />
+                <Switch name="Cancelled Appointments" />
             </div>
             <div>
-                {pastAppointmentsData.map((data, index) => {
-                    return (
-                        <PastAppointmentCard
-                            key={index}
-                            time={data.time}
-                            totalMinutes={data.totalMinutes}
-                            name={data.name}
-                            imageUrl={data.imageUrl}
-                            post={data.post}
-                            status={data.status}
-                            address={data.address}
-                            date={data.date}
-                        />
+                {pastAppointments.isLoading ? (
+                    <LoadingAnimation />
+                ) : (
+                    pastAppointments?.data?.map(
+                        (pastAppointment: any, index: number) => {
+                            return (
+                                <PastAppointmentCard
+                                    key={index}
+                                    time={pastAppointment.time}
+                                    totalMinutes={pastAppointment.totalMinutes}
+                                    name={pastAppointment.name}
+                                    imageUrl={
+                                        '/images/card-images/phone-image.png'
+                                    }
+                                    post={pastAppointment.post}
+                                    status={pastAppointment.status}
+                                    address={pastAppointment.address}
+                                    date={pastAppointment.date}
+                                />
+                            )
+                        }
                     )
-                })}
+                )}
             </div>
         </div>
     )
