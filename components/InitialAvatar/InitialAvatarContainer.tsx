@@ -5,7 +5,6 @@ export const InitialAvatarContainer = ({
     children: any
     show: number
 }) => {
-    console.log(':::: KIDS', children[0].props.name)
     return (
         <div className="relative flex items-center">
             {children.map((child: any, idx: number) => {
