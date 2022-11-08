@@ -1,23 +1,43 @@
 import { Table } from '@tanstack/react-table'
+import { Paginate } from '@types'
 import { FaChevronLeft, FaChevronRight } from 'react-icons/fa'
 import ReactPaginate from 'react-paginate'
 
-export const Pagination = ({ table }: { table: Table<any> }) => {
+interface PaginationProps {
+    table: Table<any>
+    pagination?: Paginate
+    setPage?: Function
+}
+export const Pagination = ({ table, pagination, setPage }: PaginationProps) => {
     const handlePageClick = ({ selected }: any) => {
-        table.setPageIndex(selected)
+        if (!pagination) table.setPageIndex(selected)
+        else if (setPage) setPage(selected + 1)
     }
+
+    const hasNextPage = () => {
+        return pagination ? pagination.hasNext : table.getCanNextPage()
+    }
+
+    const hasPreviousPage = () => {
+        return pagination ? pagination.hasPrevious : table.getCanPreviousPage()
+    }
+
     return (
         <div className="flex items-center gap-x-2">
-            <div className='text-sm font-medium'>Page:</div>
+            <div className="text-sm font-medium">Page:</div>
             <ReactPaginate
                 breakLabel="..."
-                pageCount={table.getPageCount()}
+                pageCount={
+                    pagination ? pagination.totalPage : table.getPageCount()
+                }
                 selectedPageRel={null}
                 pageRangeDisplayed={3}
-                forcePage={table.getState().pagination.pageIndex}
+                forcePage={
+                    pagination ? 0 : table.getState().pagination.pageIndex
+                }
                 marginPagesDisplayed={3}
                 nextClassName={`${
-                    !table.getCanNextPage()
+                    !hasNextPage()
                         ? 'text-gray-400'
                         : 'text-gray-700 hover:text-gray-900 cursor-pointer'
                 }  h-4 w-4 flex justify-center items-center`}
@@ -25,7 +45,7 @@ export const Pagination = ({ table }: { table: Table<any> }) => {
                 prevRel={null}
                 nextRel={null}
                 previousClassName={`${
-                    !table.getCanPreviousPage()
+                    !hasPreviousPage()
                         ? 'text-gray-400'
                         : 'text-gray-700 hover:text-gray-900 cursor-pointer'
                 }  h-4 w-4 flex justify-center items-center`}

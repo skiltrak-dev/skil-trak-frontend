@@ -7,6 +7,7 @@ import {
     PaginationState,
     getPaginationRowModel,
 } from '@tanstack/react-table'
+import { Paginate } from '@types'
 import {
     HTMLProps,
     ReactElement,
@@ -82,6 +83,9 @@ export const Table = <Type,>({
 
     // Table Data
     const [tableData, setTableData] = useState(() => [...data])
+    useEffect(() => {
+        setTableData([...data])
+    }, [data])
 
     // Table Row Selection
     const [rowSelection, setRowSelection] = useState({})
@@ -161,8 +165,24 @@ export const Table = <Type,>({
     // Render Table
     return children({
         quickActions: selectedRowActions,
-        pageSize: pageSize ? <PageSize table={table} /> : null,
-        pagination: pagination ? <Pagination table={table} /> : null,
+        pageSize: pageSize
+            ? (itemPerPage: number, setItemPerPage: Function) => (
+                  <PageSize
+                      table={table}
+                      itemPerPage={itemPerPage}
+                      setItemPerPage={setItemPerPage}
+                  />
+              )
+            : null,
+        pagination: pagination
+            ? (paginated: Paginate, setPage: Function) => (
+                  <Pagination
+                      table={table}
+                      pagination={paginated}
+                      setPage={setPage}
+                  />
+              )
+            : null,
         table: (
             <table className="w-full">
                 <thead>
@@ -173,7 +193,7 @@ export const Table = <Type,>({
                                     key={header.id}
                                     {...(idx === 0 && enableRowSelection
                                         ? {
-                                              className: 'border-b',
+                                              className: '',
                                               style: {
                                                   width: '40px',
                                                   minWidth: '40px',
@@ -182,7 +202,7 @@ export const Table = <Type,>({
                                               },
                                           }
                                         : {
-                                              className: 'border-b',
+                                              className: '',
                                           })}
                                 >
                                     {header.isPlaceholder

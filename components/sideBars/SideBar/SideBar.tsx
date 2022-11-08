@@ -1,69 +1,81 @@
-import { Footer } from "components/Footer";
-import Link from "next/link";
-import { SideBarItem } from "../SideBarItem";
+import { Footer } from 'components/Footer'
+import Link from 'next/link'
+import { SideBarItem } from '../SideBarItem'
+import Image from 'next/image'
 
-import { Advertisement, UserActions } from "./components";
+import { Advertisement, UserActions } from './components'
+import { PortalTypeBadge } from '@components/Badge'
 
-export const SideBar = ({ routes }: any) => {
-	return (
-		<div className="min-w-240 max-w-240 h-screen bg-white border-r border-secondary-dark px-2 py-2 relative z-20 overflow-y-scroll remove-scrollbar">
-			<Link href="/">
-				<img
-					className="w-10/12 mx-auto"
-					src={`/images/skiltrak_logo.svg`}
-					alt="Logo"
-				/>
-			</Link>
+const PortalTypes = {
+    Admin: 'text-blue-500 border-blue-300',
+    Industry: 'text-green-500 border-green-300',
+}
 
-			<UserActions />
+export const SideBar = ({ routes, portalType }: any) => {
+    return (
+        <div className="w-56 flex-shrink-0 h-screen pb-24 bg-white border-r border-secondary-dark px-2 py-2 relative overflow-y-scroll remove-scrollbar">
+            <Link href="/">
+                <div className="relative w-fit mx-auto pt-2">
+                    <Image
+                        src={`/images/skiltrak_logo.svg`}
+                        alt="Skiltrak 2.0 Logo"
+                        width={150}
+                        height={45}
+                    />
+                    <PortalTypeBadge type={portalType} />
+                </div>
+            </Link>
 
-			<div className="px-2">
-				{/* Before Ad Routes */}
-				<div className="overflow-hidden">
-					<div
-						className={`my-1 flex flex-col items-start transition-all overflow-hidden`}
-					>
-						{routes.map((route: any, i: number) => {
-							if (route.placement && route.placement === "after")
-								return null;
-							if (route.type === "title" && route.text)
-								return (
-									<p
-										key={i}
-										className="text-sm font-semibold text-gray"
-									>
-										{route.text}
-									</p>
-								);
-							else if (route.type === "divider")
-								return (
-									<div
-										key={i}
-										className="w-full h-[0.1px] bg-gray-300 my-2"
-									></div>
-								);
-							else
-								return (
-									<SideBarItem
-										key={route.text}
-										Icon={route.Icon}
-										link={route.path.replace("*", "")}
-									>
-										{route.text}
-									</SideBarItem>
-								);
-						})}
-					</div>
-				</div>
+            <UserActions />
 
-				<Advertisement />
+            <div className="px-2">
+                {/* Before Ad Routes */}
+                <div className="overflow-hidden">
+                    <div
+                        className={`my-1 flex flex-col items-start transition-all overflow-hidden`}
+                    >
+                        {routes.map((route: any, i: number) => {
+                            if (route.placement && route.placement === 'after')
+                                return null
+                            if (route.type === 'title' && route.text)
+                                return (
+                                    <p
+                                        key={i}
+                                        className="text-xs font-semibold text-gray-400 mb-2"
+                                    >
+                                        {route.text}
+                                    </p>
+                                )
+                            else if (route.type === 'divider')
+                                return (
+                                    <div
+                                        key={i}
+                                        className="w-full h-[0.1px] bg-gray-200 my-2"
+                                    ></div>
+                                )
+                            else {
+                                return (
+                                    <SideBarItem
+                                        key={route.text}
+                                        Icon={route.Icon}
+                                        link={route.path.replace('*', '')}
+                                    >
+                                        {route.text}
+                                    </SideBarItem>
+                                )
+                            }
+                        })}
+                    </div>
+                </div>
 
-				{/* After Ad Routes */}
-				<div className="overflow-hidden">
-					<div
-						className={`my-1 flex flex-col items-start transition-all overflow-hidden`}
-					>
-						{routes.map((route: any) => {
+                <Advertisement />
+
+                {/* After Ad Routes */}
+                <div className="overflow-hidden">
+                    <div
+                        className={`my-1 flex flex-col items-start transition-all overflow-hidden`}
+                    >
+                        {routes.map((route: any) => {
 							if (
 								!route.placement ||
 								route.placement === "before"
@@ -90,11 +102,13 @@ export const SideBar = ({ routes }: any) => {
 									</SideBarItem>
 								);
 						})}
-					</div>
-				</div>
-			</div>
+                    </div>
+                </div>
+            </div>
 
-			<Footer />
-		</div>
-	);
-};
+            <div className="fixed bottom-0 left-0 w-[223px]">
+                <Footer />
+            </div>
+        </div>
+    )
+}

@@ -7,7 +7,7 @@ import _debounce from 'lodash/debounce'
 import * as yup from 'yup'
 
 import { useNotification } from '@hooks'
-import { AuthApi } from '@queries'
+import { AuthApi } from '@query/auth'
 import { isEmailValid, onlyAlphabets, SignUpUtils } from '@utils'
 
 import { Button, Checkbox, Select, TextInput, Typography } from '@components'
@@ -131,7 +131,6 @@ export const RtoSignUpForm = ({ onSubmit }: { onSubmit: any }) => {
         // Sector Information
         sectors: yup.array().min(1, 'Must select at least 1 sector'),
         courses: yup.array().min(1, 'Must select at least 1 course'),
-
 
         // Contact Person Information
         contactPersonName: yup
