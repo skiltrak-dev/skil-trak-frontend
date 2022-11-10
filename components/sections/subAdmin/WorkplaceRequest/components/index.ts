@@ -1,4 +1,5 @@
 export * from './Notes'
 export * from './Industries'
 export * from './RequestType'
+export * from './AssignToMe'
 export * from './StudentDetail'

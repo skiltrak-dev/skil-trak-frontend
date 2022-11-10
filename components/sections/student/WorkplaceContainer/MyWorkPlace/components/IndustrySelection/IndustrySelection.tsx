@@ -189,7 +189,7 @@ export const IndustrySelection = ({
                                                 .includes(true)}
                                             onClick={async () => {
                                                 await applyForWorkplace(
-                                                    industry?.industry?.id
+                                                    industry?.id
                                                 )
                                             }}
                                             loading={

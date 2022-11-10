@@ -6,56 +6,35 @@ import { RiBook2Fill } from 'react-icons/ri'
 // components
 import { Card, Typography, Button } from '@components'
 
-import { Industries, Notes, RequestType, StudentDetail } from './components'
+import {
+    AssignToMe,
+    Industries,
+    Notes,
+    RequestType,
+    StudentDetail,
+} from './components'
 
 // query
 import { useAssignToSubAdminMutation } from '@queries'
 import { useEffect, useState } from 'react'
 
 export const WorkplaceRequest = ({ workplace }: any) => {
-    const [assignToMe, assignToMeResult] = useAssignToSubAdminMutation()
     const [appliedIndustry, setAppliedIndustry] = useState<any | null>(null)
 
     useEffect(() => {
         setAppliedIndustry(workplace.industries?.find((i: any) => i.applied))
     }, [workplace])
 
+    console.log('appliedIndustry', appliedIndustry)
+
     return (
         <Card>
             <div className="flex justify-between items-center pb-2.5 border-b border-dashed">
-                <div>
-                    <Typography variant={'xs'} color={'text-gray-400'}>
-                        Allocated To:
-                    </Typography>
-                    {workplace?.assignedTo ? (
-                        <div>
-                            <Typography variant={'small'} capitalize>
-                                <span className="font-semibold">
-                                    {workplace?.assignedTo?.user?.name}
-                                </span>
-                            </Typography>
-                            <Typography
-                                variant={'badge'}
-                                color={'text-primary'}
-                            >
-                                + Change Coordinator
-                            </Typography>
-                        </div>
-                    ) : (
-                        <Button
-                            variant={'dark'}
-                            text={'ASSIGN TO ME'}
-                            onClick={() => {
-                                assignToMe({
-                                    industryId: appliedIndustry?.industry?.id,
-                                    id: workplace?.id,
-                                })
-                            }}
-                            loading={assignToMeResult?.isLoading}
-                            disabled={assignToMeResult?.isLoading}
-                        />
-                    )}
-                </div>
+                <AssignToMe
+                    workplace={workplace}
+                    appliedIndustry={appliedIndustry}
+                />
+
                 <div className="flex items-center relative">
                     <div className="flex items-center gap-x-2">
                         <img

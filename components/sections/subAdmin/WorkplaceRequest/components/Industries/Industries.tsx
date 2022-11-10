@@ -9,7 +9,9 @@ export const Industries = ({
    workplaceId,
    appliedIndustry,
 }: any) => {
-   console.log('appliedIndustry', appliedIndustry)
+   // const ii = industries.map((i) => i.industryResponse)
+   // const industryResponse = ii.includes('rejected') || ii.includes('noResponse')
+   // console.log('industries', industryResponse)
 
    return (
       <div>

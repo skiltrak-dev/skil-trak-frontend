@@ -29,7 +29,6 @@ const MyApp = ({ Component, pageProps }: AppPropsWithLayout) => {
     const getLayout = Component.getLayout ?? ((page) => page)
 
     return (
-
         <Provider store={store}>
             <AlertProvider>
                 <NotificationProvider>
@@ -44,7 +43,6 @@ const MyApp = ({ Component, pageProps }: AppPropsWithLayout) => {
                 </NotificationProvider>
             </AlertProvider>
         </Provider>
-
     )
 }
 
