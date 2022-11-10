@@ -7,7 +7,7 @@ import _debounce from 'lodash/debounce'
 import * as yup from 'yup'
 
 import { useNotification } from '@hooks'
-import { AuthApi } from '@queries'
+import { AuthApi } from '@query/auth'
 import { isEmailValid, onlyAlphabets, SignUpUtils } from '@utils'
 
 import { Button, Checkbox, Select, TextInput, Typography } from '@components'
@@ -475,7 +475,7 @@ export const StudentSignUpForm = ({ onSubmit }: { onSubmit: any }) => {
                     </div>
                 </div>
 
-                <div className='w-4/6 ml-auto pl-12'>
+                <div className="w-4/6 ml-auto pl-12">
                     <div className="mb-6">
                         <Checkbox
                             name={'agreedWithPrivacyPolicy'}

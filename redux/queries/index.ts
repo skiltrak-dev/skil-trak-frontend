@@ -1,5 +1,5 @@
-export * from "./auth.query";
+export * from './auth'
 export * from './rto'
 export * from './subAdmin'
-export * from './auth.query'
 export * from './students'
+export * from './portals'

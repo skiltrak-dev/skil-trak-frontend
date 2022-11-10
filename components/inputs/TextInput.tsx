@@ -57,19 +57,17 @@ export const TextInput = ({
       disabled
    )
 
-   return (
-      <div className="w-full">
-         {label && (
-            <div className="flex justify-between items-center">
-               <div>
-                  <Typography variant={'label'} htmlFor={id}>
-                     {label}
-                  </Typography>
-                  {required && <RequiredStar />}
-               </div>
-               {tooltip && <Tooltip text={tooltip} />}
-            </div>
-         )}
+	return (
+		<div className="w-full mb-2">
+			{label && (
+				<div className="flex justify-between items-center mb-1">
+					<div>
+						<Typography variant={"label"} htmlFor={id}>{label}</Typography>
+						{required && <RequiredStar />}
+					</div>
+					{tooltip && <Tooltip text={tooltip} />}
+				</div>
+			)}
 
          <div className="w-full">
             <div className="relative">
