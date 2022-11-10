@@ -61,7 +61,7 @@ export const ArchivedView = ({ role, actions }: ArchivedViewProps) => {
                                         text="VIEW CURRENT"
                                         onClick={() => {
                                             router.push(
-                                                '/rto/tasks/assessment-tools/view-archived'
+                                                '/portals/rto/tasks/assessment-tools/view-archived'
                                             )
                                         }}
                                     />

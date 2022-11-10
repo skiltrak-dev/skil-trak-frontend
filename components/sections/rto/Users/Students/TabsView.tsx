@@ -7,23 +7,23 @@ export const TabsView = (props: Props) => {
     const tabs = [
         {
             tab: 'Pending',
-            url: '/rto/users/students',
+            url: '/portals/rto/users/students',
         },
         {
             tab: 'Approved',
-            url: '/rto/users/students/approved',
+            url: '/portals/rto/users/students/approved',
         },
         {
             tab: 'Rejected',
-            url: '/rto/users/students/rejected',
+            url: '/portals/rto/users/students/rejected',
         },
         {
             tab: 'Blocked',
-            url: '/rto/users/students/blocked',
+            url: '/portals/rto/users/students/blocked',
         },
         {
             tab: 'Archived',
-            url: '/rto/users/students/archived',
+            url: '/portals/rto/users/students/archived',
         },
     ]
     console.log('TabsView')

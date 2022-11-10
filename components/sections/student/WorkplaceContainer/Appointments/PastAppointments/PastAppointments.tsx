@@ -74,7 +74,7 @@ export const PastAppointments = (props: Props) => {
                             )
                         }
                     )
-                )}
+                )?pastAppointments.data.length===0?<div className='text-xl text-red-500'>No Past Appointments...!</div>:null:null}
             </div>
         </div>
     )

@@ -23,11 +23,11 @@ export const studentAppointmentsApi = createApi({
             query: () => 'appointmenttype/list',
             providesTags: ['StudentAppointments'],
         }),
-        getStudentPastAppointments: builder.query({
+        getStudentPastAppointments: builder.query<any[], void>({
             query: () => 'pastappointments/list',
             providesTags: ['StudentAppointments'],
         }),
-        getStudentUpcomingAppointments: builder.query({
+        getStudentUpcomingAppointments: builder.query<any[], void>({
             query: () => 'futureappointments/list',
             providesTags: ['StudentAppointments'],
         }),

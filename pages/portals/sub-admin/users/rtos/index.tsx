@@ -1,4 +1,4 @@
-import { ReactElement } from 'react'
+import { ReactElement, useEffect } from 'react'
 // Link
 import Link from 'next/link'
 // image
@@ -9,15 +9,26 @@ import { NextPageWithLayout } from '@types'
 
 import { TabsView } from '@components/sections/rto'
 //components
-import { ReactTable, Typography } from '@components'
+import { Button, ReactTable, RtoContextBarData, SidebarCalendar, Typography } from '@components'
 // queries
 import { useGetSubAdminRtosQuery } from '@queries'
 // icons
 import { FaEnvelope, FaPhoneSquareAlt } from 'react-icons/fa'
+import { useContextBar } from '@hooks'
 
 type Props = {}
 
 const RTOs: NextPageWithLayout = (props: Props) => {
+  const { setContent } = useContextBar()
+  useEffect(() => {
+    setContent(
+      <>
+        <Button variant={'dark'} text={'My Schedule'} />
+        <SidebarCalendar />
+        <RtoContextBarData />
+      </>
+    )
+  }, [setContent])
   const { data, error, isLoading } = useGetSubAdminRtosQuery()
  
   const Columns = [
@@ -45,8 +56,8 @@ const RTOs: NextPageWithLayout = (props: Props) => {
                 width={50}
                 height={50}
               />
-              <Link href={`/sub-admin/users/rtos/profile/${row.original.id}?tab=overview`}>
-                <div>
+              <Link href={`/portals/sub-admin/users/rtos/profile/${row.original.id}?tab=overview`}>
+                <a>
                   <Typography color={'black'}>
                     {' '}
                     {name}{' '}
@@ -66,7 +77,7 @@ const RTOs: NextPageWithLayout = (props: Props) => {
                       {email}
                     </Typography>
                   </div>
-                </div>
+                </a>
               </Link>
             </div>
           </div>

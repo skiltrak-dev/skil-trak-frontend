@@ -14,10 +14,7 @@ import {
 import { store } from '../redux/store'
 import { NextPageWithLayout } from '@types'
 
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { HeadWrapper } from '@layouts'
-
-const queryClient = new QueryClient()
 
 type AppPropsWithLayout = AppProps & {
     Component: NextPageWithLayout
@@ -32,7 +29,7 @@ const MyApp = ({ Component, pageProps }: AppPropsWithLayout) => {
     const getLayout = Component.getLayout ?? ((page) => page)
 
     return (
-        // <QueryClientProvider client={queryClient}>
+
         <Provider store={store}>
             <AlertProvider>
                 <NotificationProvider>
@@ -47,7 +44,7 @@ const MyApp = ({ Component, pageProps }: AppPropsWithLayout) => {
                 </NotificationProvider>
             </AlertProvider>
         </Provider>
-        // </QueryClientProvider>
+
     )
 }
 

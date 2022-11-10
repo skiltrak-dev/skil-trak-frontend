@@ -1,3 +1,4 @@
+import { Card } from '@components/cards'
 import { Typography } from '@components/Typography'
 import React from 'react'
 import { FaBook } from 'react-icons/fa'
@@ -5,7 +6,7 @@ import { Course } from './Course'
 
 export const StudentProfileCoursesCard = () => {
     return (
-        <div>
+        <Card>
             <div className="flex items-center gap-x-2">
                 <div className="bg-gray-100 p-2 rounded-full">
                     <FaBook className="text-xl text-red-500" />
@@ -33,6 +34,6 @@ export const StudentProfileCoursesCard = () => {
                     <Course />
                 ))}
             </div>
-        </div>
+        </Card>
     )
 }

@@ -14,9 +14,9 @@ export const SubAdminNavbar = () => {
   return (
     <ul className="flex gap-x-2 py-4">
       <li>
-        <Link href="/sub-admin">
+        <Link href="/portals/sub-admin">
           <a
-            className={`${router.pathname == '/sub-admin'
+            className={`${router.pathname == '/portals/sub-admin'
               ? 'bg-indigo-100 text-indigo-700'
               : 'text-slate-700'
               } ${defaultClasses} hover:bg-indigo-100 hover:text-indigo-700`}
@@ -30,9 +30,9 @@ export const SubAdminNavbar = () => {
       </li>
 
       <li>
-        <Link href="/sub-admin/users">
+        <Link href="/portals/sub-admin/users">
           <a
-            className={`${router.pathname == '/sub-admin/users'
+            className={`${router.pathname == '/portals/sub-admin/users'
               ? 'bg-green-100 text-accent-700'
               : 'text-slate-700'
               } ${defaultClasses} hover:bg-blue-100 hover:text-blue-700`}
@@ -46,9 +46,9 @@ export const SubAdminNavbar = () => {
       </li>
 
       <li>
-        <Link href="/sub-admin/tasks">
+        <Link href="/portals/sub-admin/tasks">
           <a
-            className={`${router.pathname == '/sub-admin/tasks'
+            className={`${router.pathname == '/portals/sub-admin/tasks'
               ? 'bg-orange-100 text-orange-700'
               : 'text-slate-700'
               } ${defaultClasses} hover:bg-orange-100 hover:text-orange-700`}
@@ -61,9 +61,9 @@ export const SubAdminNavbar = () => {
         </Link>
       </li>
       <li>
-        <Link href="/sub-admin/e-signature">
+        <Link href="/portals/sub-admin/e-signature">
           <a
-            className={`${router.pathname == '/sub-admin/e-signature'
+            className={`${router.pathname == '/portals/sub-admin/e-signature'
               ? 'bg-green-100 text-green-700'
               : 'text-slate-700'
               } ${defaultClasses} hover:bg-green-100 hover:text-green-700`}
@@ -79,9 +79,9 @@ export const SubAdminNavbar = () => {
       </li>
 
       <li>
-        <Link href="/sub-admin/notifications">
+        <Link href="/portals/sub-admin/notifications">
           <a
-            className={`${router.pathname == '/sub-admin/notifications'
+            className={`${router.pathname == '/portals/sub-admin/notifications'
               ? 'bg-blue-100 text-blue-700'
               : 'text-slate-700'
               } ${defaultClasses} hover:bg-blue-100 hover:text-blue-700`}

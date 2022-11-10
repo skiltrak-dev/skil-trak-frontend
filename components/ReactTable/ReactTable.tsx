@@ -113,7 +113,7 @@ export const ReactTable = ({
         getTableProps,
         getTableBodyProps,
         setPageSize,
-    } = useTable(
+    }:any = useTable(
         {
             columns,
             data: tableData,

@@ -43,6 +43,8 @@ export * from './specialCards'
 export * from './cards'
 
 export * from './UserProfile'
+export * from './IndustryProfile'
+export * from './SubAdminStudentProfile'
 export * from './Badge'
 
 export * from './InitialAvatar'

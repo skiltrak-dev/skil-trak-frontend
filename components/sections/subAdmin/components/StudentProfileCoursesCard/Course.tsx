@@ -38,7 +38,7 @@ export const Course = () => {
             </div>
             <div>
                 {addDate ? (
-                    <div className="flex items-end gap-x-2.5">
+                    <div className="flex items-center gap-x-2.5">
                         <TextInput
                             label={'Start Date'}
                             type={'date'}
@@ -49,8 +49,8 @@ export const Course = () => {
                             type={'date'}
                             name={'endDate'}
                         />
-                        <div className="p-2 rounded bg-success-light cursor-pointer">
-                            <BiCheck className="text-2xl text-success-dark" />
+                        <div className="p-2 rounded bg-green-100 cursor-pointer">
+                            <BiCheck className="text-2xl text-green-700" />
                         </div>
                         <div
                             className="p-2 rounded bg-red-100 cursor-pointer"
@@ -58,7 +58,7 @@ export const Course = () => {
                                 setAddDate(false)
                             }}
                         >
-                            <IoClose className="text-2xl text-red-800" />
+                            <IoClose className="text-2xl text-red-700" />
                         </div>
                     </div>
                 ) : (

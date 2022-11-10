@@ -14,10 +14,10 @@ export const RtoNavbar = () => {
     return (
         <ul className="flex gap-x-2 py-4">
             <li>
-                <Link href="/rto">
+                <Link href="/portals/rto">
                     <a
                         className={`${
-                            router.pathname == '/rto'
+                            router.pathname == '/portals/rto'
                                 ? 'bg-indigo-100 text-indigo-700'
                                 : 'text-slate-700'
                         } ${defaultClasses} hover:bg-indigo-100 hover:text-indigo-700`}
@@ -31,10 +31,10 @@ export const RtoNavbar = () => {
             </li>
 
             <li>
-                <Link href="/rto/users">
+                <Link href="/portals/rto/users">
                     <a
                         className={`${
-                            router.pathname == '/rto/users'
+                            router.pathname == '/portals/rto/users'
                                 ? 'bg-green-100 text-accent-700'
                                 : 'text-slate-700'
                         } ${defaultClasses} hover:bg-blue-100 hover:text-blue-700`}
@@ -48,10 +48,10 @@ export const RtoNavbar = () => {
             </li>
 
             <li>
-                <Link href="/rto/industries">
+                <Link href="/portals/rto/industries">
                     <a
                         className={`${
-                            router.pathname == '/rto/industries'
+                            router.pathname == '/portals/rto/industries'
                                 ? 'bg-green-100 text-green-700'
                                 : 'text-slate-700'
                         } ${defaultClasses} hover:bg-green-100 hover:text-green-700`}
@@ -67,10 +67,10 @@ export const RtoNavbar = () => {
             </li>
 
             <li>
-                <Link href="/rto/tasks">
+                <Link href="/portals/rto/tasks">
                     <a
                         className={`${
-                            router.pathname == '/rto/tasks'
+                            router.pathname == '/portals/rto/tasks'
                                 ? 'bg-orange-100 text-orange-700'
                                 : 'text-slate-700'
                         } ${defaultClasses} hover:bg-orange-100 hover:text-orange-700`}
@@ -84,10 +84,10 @@ export const RtoNavbar = () => {
             </li>
 
             <li>
-                <Link href="/rto/notifications">
+                <Link href="/portals/rto/notifications">
                     <a
                         className={`${
-                            router.pathname == '/rto/notifications'
+                            router.pathname == '/portals/rto/notifications'
                                 ? 'bg-blue-100 text-blue-700'
                                 : 'text-slate-700'
                         } ${defaultClasses} hover:bg-blue-100 hover:text-blue-700`}

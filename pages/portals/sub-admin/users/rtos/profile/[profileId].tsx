@@ -1,26 +1,39 @@
-import { ReactElement } from 'react'
-import Link from 'next/link'
+import { useRouter } from 'next/router'
+import { ReactElement, useEffect } from 'react'
+
+// hooks
+import { useContextBar } from '@hooks'
 //Layouts
 import { SubAdminLayout } from '@layouts'
 import { NextPageWithLayout } from '@types'
 
-import { TabsView } from '@components/sections/rto'
 //components
-import { AssessmentsTools, ReactTable, TabNavigation, TabProps, Typography } from '@components'
-import Image from 'next/image'
-import { AppointmentProfile, FigureCard, IndustryProfileOverview, RtoProfileOverview, SubAdminProfileTabsView } from '@components/sections'
+import { AssessmentsTools, IndustryProfile, ReactTable, TabNavigation, TabProps, Typography } from '@components'
+import { AppointmentProfile, FigureCard, RtoProfileOverview, SubAdminProfileTabsView } from '@components/sections'
+// icons
 import { FaEdit } from 'react-icons/fa'
+// queries
 import { useUpdateAssessmentToolArchiveMutation } from '@queries'
-import { useRouter } from 'next/router'
 
 type Props = {}
 
-const IndustriesProfile: NextPageWithLayout = (props: Props) => {
+const RtoProfile: NextPageWithLayout = (props: Props) => {
+  const { setContent } = useContextBar()
+  useEffect(() => {
+    setContent(
+      <>
+        <IndustryProfile />
+      </>
+    )
+  }, [setContent])
   const pathname = useRouter()
   const profileId = pathname.query.profileId;
 
+
+
   const [archiveAssessmentTool, archiveAssessmentToolResult] = useUpdateAssessmentToolArchiveMutation()
   const actions = (id: any) => {
+    console.log(id)
     return (
       <div className="flex gap-x-2 ">
         <a href={`${process.env.NEXT_PUBLIC_END_POINT}/rtos/course/content/${id}`} target="blank" rel="noreferrer">
@@ -45,23 +58,18 @@ const IndustriesProfile: NextPageWithLayout = (props: Props) => {
       label: 'Overview',
       href: { pathname: String(profileId), query: { tab: 'overview' } },
       badge: { text: '05', color: 'text-blue-500' },
-      element: <IndustryProfileOverview />,
+      element: <RtoProfileOverview rtoId={profileId} />,
     },
     {
-      label: 'Students',
-      href: { pathname: 'profile', query: { tab: 'students' } },
+      label: 'Assessments',
+      href: { pathname: 'profile', query: { tab: 'assessments' } },
       badge: { text: '99+', color: 'text-error-500' },
-      element: <div>Students</div>,
+      element: <AssessmentsTools role={'RTO'} actions={actions} />,
     },
     {
       label: 'Appointments',
       href: { pathname: 'profile', query: { tab: 'appointments' } },
       element: <AppointmentProfile />,
-    },
-    {
-      label: 'Schedule',
-      href: { pathname: 'profile', query: { tab: 'schedule' } },
-      element: <div>schedule</div>,
     },
     {
       label: 'Mails',
@@ -90,8 +98,8 @@ const IndustriesProfile: NextPageWithLayout = (props: Props) => {
     </>
   )
 }
-IndustriesProfile.getLayout = (page: ReactElement) => {
-  return <SubAdminLayout title="Industries Profile">{page}</SubAdminLayout>
+RtoProfile.getLayout = (page: ReactElement) => {
+  return <SubAdminLayout title="RTO Profile">{page}</SubAdminLayout>
 }
 
-export default IndustriesProfile
+export default RtoProfile
