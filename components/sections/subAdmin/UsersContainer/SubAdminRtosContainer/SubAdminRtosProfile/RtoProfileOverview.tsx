@@ -1,4 +1,4 @@
-import { FigureCard } from '@components/sections/subAdmin/components'
+import { FigureCard, NotesCard } from '@components/sections/subAdmin/components'
 import { Typography } from '@components/Typography'
 import { PendingStudents, RecentAppointment } from './components'
 // queries
@@ -13,11 +13,11 @@ export const RtoProfileOverview = ({
   rtoId,
 }: Props) => {
   // pending students
-  const { data, error, isLoading } = useGetSubAdminRtosStudentsQuery(rtoId)
+  const { data, error, isLoading }:any = useGetSubAdminRtosStudentsQuery(rtoId)
   // recent appointments
-  const {data: rtoRecentAppointment} = useGetSubAdminRtoAppointmentsQuery(rtoId)
+  const { data: rtoRecentAppointment } = useGetSubAdminRtoAppointmentsQuery(rtoId)
   console.log("rto______RecentAppointment", rtoRecentAppointment);
-  
+
   const FigureCardData = [
     {
       count: 38,
@@ -79,13 +79,23 @@ export const RtoProfileOverview = ({
     <>
       <div className="">
         <div className="flex gap-x-2 my-6">
-          {FigureCardData.map((data: any) => (
+          {FigureCardData?.map((data: any) => (
             <FigureCard
               imageUrl={data?.imageUrl}
               count={data.count}
               title={data.title}
             />
           ))}
+        </div>
+        <div className='mb-3'>
+          <Typography variant={'muted'} color={'text-gray-400'}>
+            Pinned Notes
+          </Typography>
+        </div>
+        <div className='flex items-center gap-x-2 my-3'>
+          <NotesCard pinnedNote />
+          <NotesCard pinnedNote />
+          <NotesCard pinnedNote />
         </div>
         <div className="flex justify-between mb-3">
           <Typography variant="muted" color="text-gray-400">
@@ -110,10 +120,10 @@ export const RtoProfileOverview = ({
                     imageUrl={"https://images.unsplash.com/photo-1664575602276-acd073f104c1?ixlib=rb-4.0.3&ixid=MnwxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80"}
                   />
                 ))
-              )}
+              ) ? data.data.length === 0 : (<div className='text-xl text-red-500'>No Pending Student...!</div>)}
             </div>
             <div className="flex flex-col gap-y-2">
-              {recentAppointments.map((data: any) => (
+              {recentAppointments?.map((data: any) => (
                 <RecentAppointment
                   date={data.date}
                   time={data.time}

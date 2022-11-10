@@ -61,7 +61,7 @@ export const UpcomingAppointments = (props: Props) => {
                             )
                         }
                     )
-                )}
+                )?(studentAppointments.data.length === 0 && (<div className='text-xl text-red-500'>No Upcoming Appointment...! </div>) ):null}
             </div>
         </>
     )

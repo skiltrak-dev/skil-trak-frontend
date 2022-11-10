@@ -1,4 +1,5 @@
-import { ReactElement } from 'react'
+import { useRouter } from 'next/router'
+import { ReactElement, useEffect } from 'react'
 import Link from 'next/link'
 //Layouts
 import { SubAdminLayout } from '@layouts'
@@ -6,21 +7,33 @@ import { NextPageWithLayout } from '@types'
 
 import { TabsView } from '@components/sections/rto'
 //components
-import { AssessmentsTools, ReactTable, TabNavigation, TabProps, Typography } from '@components'
-import Image from 'next/image'
-import { AppointmentProfile, FigureCard, RtoProfileOverview, SubAdminProfileTabsView } from '@components/sections'
+import { AssessmentsTools, ReactTable, TabNavigation, TabProps, Typography, IndustryProfile, SubAdminStudentProfile } from '@components'
+import { AppointmentProfile, FigureCard, RtoProfileOverview, StudentsProfileOverview, SubAdminProfileTabsView } from '@components/sections'
+// icons
 import { FaEdit } from 'react-icons/fa'
+// queries
 import { useUpdateAssessmentToolArchiveMutation } from '@queries'
-import { useRouter } from 'next/router'
+import { AssessmentsEvidence } from '@components/sections/student/AssessmentsContainer'
+
+// hooks
+import { useContextBar } from '@hooks'
 
 type Props = {}
 
-const RtoProfile: NextPageWithLayout = (props: Props) => {
+const StudentsProfile: NextPageWithLayout = (props: Props) => {
+  const { setContent } = useContextBar()
+  useEffect(() => {
+    setContent(
+      <>
+        <SubAdminStudentProfile />
+      </>
+    )
+  }, [setContent])
   const pathname = useRouter()
   const profileId = pathname.query.profileId;
-  
-  
-  
+
+
+
   const [archiveAssessmentTool, archiveAssessmentToolResult] = useUpdateAssessmentToolArchiveMutation()
   const actions = (id: any) => {
     console.log(id)
@@ -48,18 +61,13 @@ const RtoProfile: NextPageWithLayout = (props: Props) => {
       label: 'Overview',
       href: { pathname: String(profileId), query: { tab: 'overview' } },
       badge: { text: '05', color: 'text-blue-500' },
-      element: <RtoProfileOverview rtoId={profileId}/>,
+      element: <StudentsProfileOverview />,
     },
     {
       label: 'Assessments',
       href: { pathname: 'profile', query: { tab: 'assessments' } },
       badge: { text: '99+', color: 'text-error-500' },
-      element: <AssessmentsTools role={'RTO'} actions={actions} />,
-    },
-    {
-      label: 'Appointments',
-      href: { pathname: 'profile', query: { tab: 'appointments' } },
-      element: <AppointmentProfile />,
+      element: <AssessmentsEvidence />,
     },
     {
       label: 'Mails',
@@ -88,8 +96,8 @@ const RtoProfile: NextPageWithLayout = (props: Props) => {
     </>
   )
 }
-RtoProfile.getLayout = (page: ReactElement) => {
-  return <SubAdminLayout title="RTO Profile">{page}</SubAdminLayout>
+StudentsProfile.getLayout = (page: ReactElement) => {
+  return <SubAdminLayout title="Student Profile">{page}</SubAdminLayout>
 }
 
-export default RtoProfile
+export default StudentsProfile

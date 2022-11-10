@@ -1,4 +1,5 @@
-import { ReactElement } from 'react'
+import { ReactElement, useEffect } from 'react'
+import Image from 'next/image'
 import Link from 'next/link'
 //Layouts
 import { SubAdminLayout } from '@layouts'
@@ -6,15 +7,30 @@ import { NextPageWithLayout } from '@types'
 
 import { TabsView } from '@components/sections/rto'
 //components
-import { ReactTable, Typography } from '@components'
+import { Button, ReactTable, RtoContextBarData, SidebarCalendar, Typography } from '@components'
 // queries
-import { useGetSubAdminIndustriesQuery } from '@queries'
+import { useGetSubAdminStudentsQuery } from '@queries'
+// icons
 import { FaEnvelope, FaPhoneSquareAlt } from 'react-icons/fa'
-import Image from 'next/image'
+// hooks
+import { useContextBar } from '@hooks'
 
 type Props = {}
 
-const Industries: NextPageWithLayout = (props: Props) => {
+const Students: NextPageWithLayout = (props: Props) => {
+  const { data, isLoading } = useGetSubAdminStudentsQuery()
+  console.log("students___________table", data);
+  
+  const { setContent } = useContextBar()
+  useEffect(() => {
+    setContent(
+      <>
+        <Button variant={'dark'} text={'My Schedule'} />
+        <SidebarCalendar />
+        <RtoContextBarData />
+      </>
+    )
+  }, [setContent])
   const Columns = [
     {
       Header: 'Name',
@@ -22,10 +38,12 @@ const Industries: NextPageWithLayout = (props: Props) => {
       sort: true,
       Cell: ({ row }: any) => {
         const {
-          phoneNumber,
+          phone,
+          workplace,
+          industries,
           user: { name, email, image },
         } = row.original
-        console.log('row', row.original)
+        console.log('isCompleted', industries)
 
         return (
           <div className="flex items-center relative">
@@ -40,19 +58,22 @@ const Industries: NextPageWithLayout = (props: Props) => {
                 width={50}
                 height={50}
               />
-              <Link href={`/sub-admin/users/industries/profile/${row.original.id}?tab=overview`}>
-                <div>
-
-                  <Typography color={'black'}>
-                    {' '}
-                    {name}{' '}
-                  </Typography>
+              <Link  href={`/portals/sub-admin/users/students/profile/${row.original.id}?tab=overview`}>
+                <a>
                   <div className="flex items-center gap-x-2">
-                    <FaPhoneSquareAlt className='text-gray' />
                     <Typography variant={'muted'}>
-                      {phoneNumber}
+                      {phone}
                     </Typography>
+                    <div className="flex items-center gap-x-2 ">
+                      <div className={`w-1 h-1 rounded-full ${industries === null? "bg-red-400": 'bg-green-400'} `}></div>
+                      <Typography variant="muted" color="text-green-400">
+                        Completed
+                      </Typography>
+                    </div>
                   </div>
+                  <Typography color={'black'}>
+                    {name}
+                  </Typography>
                   <div className="flex items-center gap-x-2">
                     <FaEnvelope />
                     <Typography
@@ -62,7 +83,7 @@ const Industries: NextPageWithLayout = (props: Props) => {
                       {email}
                     </Typography>
                   </div>
-                </div>
+                </a>
               </Link>
             </div>
           </div>
@@ -88,57 +109,58 @@ const Industries: NextPageWithLayout = (props: Props) => {
     //     disableFilters: true,
     // },
     {
-      Header: 'Phone',
-      accessor: 'phoneNumber',
+      Header: 'Phone #',
+      accessor: 'phone',
       Cell: ({ row }: any) => {
-        const { phoneNumber } = row.original
+        const { phone } = row.original
         return (
           <div className='flex justify-center'>
             <Typography variant={'muted'} color={'gray'}>
-              {phoneNumber}
+              {phone}
             </Typography>
           </div>
         )
       },
     },
+
     {
       Header: 'Address',
       accessor: 'address',
       Cell: ({ row }: any) => {
-        const { addressLine1, addressLine2, city, state, zipCode } = row.original
+        const { address, city, state, zipCode } = row.original
         return (
-          <div className='flex justify-center gap-x-2'>
-            <Typography color={'black'}>{addressLine1}</Typography>
+          <div className='flex justify-center'>
+            <Typography color={'black'}>{address}</Typography>
             <Typography color={'black'}>
-              {addressLine2}
+              {state}
             </Typography>
           </div>
         )
       },
     },
     {
-      Header: 'Student Capacity',
-      accessor: 'studentCapacity',
-      Cell: ({ row }: any) => {
-        const { studentCapacity } = row.original
+      Header: 'RTO Name',
+      accessor: 'rto',
+      Cell({ row }: any) {
+        const { rto } = row.original
+
         return (
           <div className='flex justify-center'>
-            <Typography variant={'muted'} color={'gray'}>
-              {studentCapacity}
+            <Typography variant='body' color={'black'}>
+              {rto.user.name}
             </Typography>
           </div>
         )
       },
     },
     {
-      Header: 'Contact Person',
-      accessor: 'contactPersonNumber',
-      Cell: ({ row }: any) => {
-        const { contactPersonNumber } = row.original
+      Header: 'Progress',
+      accessor: 'progress',
+      Cell: ({ }) => {
         return (
-          <div className='flex justify-center'>
-            <Typography variant={'muted'} color={'gray'}>
-              {contactPersonNumber}
+          <div className="flex justify-center">
+            <Typography variant="muted" color="text-blue-400">
+              Request
             </Typography>
           </div>
         )
@@ -158,12 +180,12 @@ const Industries: NextPageWithLayout = (props: Props) => {
       },
     },
   ]
-  // console.log("useGetSubAdminIndustriesQuery", useGetSubAdminIndustriesQuery());
+  // console.log("useGetSubAdminStudentsQuery", useGetSubAdminStudentsQuery());
 
   return (
     <>
       <ReactTable
-        action={useGetSubAdminIndustriesQuery}
+        action={useGetSubAdminStudentsQuery}
         Columns={Columns}
         querySort={'title'}
         pagination
@@ -172,8 +194,8 @@ const Industries: NextPageWithLayout = (props: Props) => {
     </>
   )
 }
-Industries.getLayout = (page: ReactElement) => {
-  return <SubAdminLayout title="Industries">{page}</SubAdminLayout>
+Students.getLayout = (page: ReactElement) => {
+  return <SubAdminLayout title="Students">{page}</SubAdminLayout>
 }
 
-export default Industries
+export default Students

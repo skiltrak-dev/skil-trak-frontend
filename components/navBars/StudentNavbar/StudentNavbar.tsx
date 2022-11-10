@@ -13,7 +13,7 @@ export const StudentNavbar = () => {
     return (
         <ul className="flex gap-x-2 py-4">
             <li>
-                <Link href="/student">
+                <Link href="/portals/student">
                     <a
                         className={`${
                             router.pathname == '/student'
@@ -30,10 +30,10 @@ export const StudentNavbar = () => {
             </li>
 
             <li>
-                <Link href="/student/workplace">
+                <Link href="/portals/student/workplace">
                     <a
                         className={`${
-                            router.pathname == '/student/workplace'
+                            router.pathname == '/portals/student/workplace'
                                 ? 'bg-green-100 text-green-700'
                                 : 'text-slate-700'
                         } ${defaultClasses} hover:bg-green-100 hover:text-green-700`}
@@ -47,10 +47,10 @@ export const StudentNavbar = () => {
             </li>
 
             <li>
-                <Link href="/student/assessments">
+                <Link href="/portals/student/assessments">
                     <a
                         className={`${
-                            router.pathname == '/student/assessments'
+                            router.pathname == '/portals/student/assessments'
                                 ? 'bg-orange-100 text-orange-700'
                                 : 'text-slate-700'
                         } ${defaultClasses} hover:bg-orange-100 hover:text-orange-700`}
@@ -66,10 +66,10 @@ export const StudentNavbar = () => {
             </li>
 
             <li>
-                <Link href="/student/notifications">
+                <Link href="/portals/student/notifications">
                     <a
                         className={`${
-                            router.pathname == '/student/notifications'
+                            router.pathname == '/portals/student/notifications'
                                 ? 'bg-blue-100 text-blue-700'
                                 : 'text-slate-700'
                         } ${defaultClasses} hover:bg-blue-100 hover:text-blue-700`}
