@@ -68,7 +68,7 @@ export const RequestType = ({ data }: { data: any }) => {
                             onClick={() => {
                                 setSelectedRequestType(i)
                                 setVisibleRequestType(false)
-                                interView(data?.industry?.id)
+                                interView(data?.id)
                             }}
                         >
                             <Typography variant={'label'} color={type.color}>

@@ -5,6 +5,7 @@ import { ReactElement } from 'react'
 import { StudentLayout } from '@layouts'
 import { NextPageWithLayout } from '@types'
 import { Card, ReactTable, Typography } from '@components'
+import { SettingCard } from '@components/sections'
 
 import { useGetJobsQuery } from '@queries'
 import Link from 'next/link'
@@ -14,7 +15,6 @@ import {
     StudentProfileCoursesCard,
 } from '@components/sections/subAdmin/components'
 import { TabNavigation, TabProps } from '@components/TabNavigation'
-import { SettingCard } from '@components/sections/subAdmin/components/SettingCard'
 import { FutureCandidates } from '@components/sections/industry/FutureCandidates'
 
 type Props = {}

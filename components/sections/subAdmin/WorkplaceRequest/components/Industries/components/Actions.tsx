@@ -31,48 +31,46 @@ export const Actions = ({ appliedIndustry, workplaceId }: any) => {
       <div className="mt-1.5 mb-2.5">
          {appliedIndustry?.industryResponse === 'approved' ? (
             <>
-               {!appliedIndustry?.AgreementSigned &&
-                  !appliedIndustry?.placementStarted && (
-                     <div className="flex justify-between">
-                        <div className="flex items-center flex-wrap gap-2">
-                           {!appliedIndustry?.AgreementSigned && (
-                              <Button
-                                 text={'SIGN AGREEMENT'}
-                                 variant={'dark'}
-                                 onClick={() => {
-                                    agrementSign(appliedIndustry?.industry?.id)
-                                 }}
-                                 loading={agrementSignResult.isLoading}
-                                 disabled={agrementSignResult.isLoading}
-                              />
-                           )}
-                           {!appliedIndustry.placementStarted && (
-                              <Button
-                                 text={'START PLACEMENT'}
-                                 variant={'primary'}
-                                 onClick={() => {
-                                    startPlacement(
-                                       appliedIndustry?.industry?.id
-                                    )
-                                 }}
-                                 loading={startPlacementResult.isLoading}
-                                 disabled={startPlacementResult.isLoading}
-                              />
-                           )}
-                           <Button text={'Book Appointment'} variant={'info'} />
-                        </div>
-                        <div className="flex gap-x-1">
-                           <Typography variant={'xs'}>
-                              <span className="text-success bg-secondary px-1">
-                                 APPROVED
-                              </span>
-                           </Typography>
-                           <Typography variant={'xs'} color={'text-gray-500'}>
-                              <span className="whitespace-pre">5 Days ago</span>
-                           </Typography>
-                        </div>
+               {!appliedIndustry.placementStarted && (
+                  <div className="flex justify-between">
+                     <div className="flex items-center flex-wrap gap-2">
+                        {!appliedIndustry?.AgreementSigned && (
+                           <Button
+                              text={'SIGN AGREEMENT'}
+                              variant={'dark'}
+                              onClick={() => {
+                                 agrementSign(appliedIndustry?.id)
+                              }}
+                              loading={agrementSignResult.isLoading}
+                              disabled={agrementSignResult.isLoading}
+                           />
+                        )}
+                        {!appliedIndustry.placementStarted && (
+                           <Button
+                              text={'START PLACEMENT'}
+                              variant={'primary'}
+                              onClick={() => {
+                                 startPlacement(appliedIndustry?.id)
+                              }}
+                              loading={startPlacementResult.isLoading}
+                              disabled={startPlacementResult.isLoading}
+                           />
+                        )}
+
+                        <Button text={'Book Appointment'} variant={'info'} />
                      </div>
-                  )}
+                     <div className="flex gap-x-1">
+                        <Typography variant={'xs'}>
+                           <span className="text-success bg-secondary px-1">
+                              APPROVED
+                           </span>
+                        </Typography>
+                        <Typography variant={'xs'} color={'text-gray-500'}>
+                           <span className="whitespace-pre">5 Days ago</span>
+                        </Typography>
+                     </div>
+                  </div>
+               )}
 
                {/* Placement Started Message */}
                {appliedIndustry?.placementStarted && (
@@ -94,7 +92,7 @@ export const Actions = ({ appliedIndustry, workplaceId }: any) => {
                            text={'CANCEL'}
                            variant={'secondary'}
                            onClick={() => {
-                              cancelPlacement(appliedIndustry?.industry?.id)
+                              cancelPlacement(appliedIndustry?.id)
                            }}
                            loading={cancelPlacementResult.isLoading}
                            disabled={cancelPlacementResult.isLoading}
@@ -103,7 +101,7 @@ export const Actions = ({ appliedIndustry, workplaceId }: any) => {
                            text={'TERMINATE'}
                            variant={'error'}
                            onClick={() => {
-                              terminatePlacement(appliedIndustry?.industry?.id)
+                              terminatePlacement(appliedIndustry?.id)
                            }}
                            loading={terminatePlacementResult.isLoading}
                            disabled={terminatePlacementResult.isLoading}
@@ -112,7 +110,7 @@ export const Actions = ({ appliedIndustry, workplaceId }: any) => {
                            text={'COMPLETE'}
                            variant={'success'}
                            onClick={() => {
-                              completePlacement(appliedIndustry?.industry?.id)
+                              completePlacement(appliedIndustry?.id)
                            }}
                            loading={completePlacementResult.isLoading}
                            disabled={completePlacementResult.isLoading}
@@ -168,8 +166,8 @@ export const Actions = ({ appliedIndustry, workplaceId }: any) => {
                         status: 'noResponse',
                      })
                   }}
-                  loading={forwardToIndustryResult?.isLoading}
-                  disabled={forwardToIndustryResult?.isLoading}
+                  loading={industryResponseResult?.isLoading}
+                  disabled={industryResponseResult?.isLoading}
                />
             </div>
          ) : (
@@ -180,7 +178,7 @@ export const Actions = ({ appliedIndustry, workplaceId }: any) => {
                      variant={'dark'}
                      onClick={() => {
                         forwardToIndustry({
-                           industryId: appliedIndustry?.industry?.id,
+                           industryId: appliedIndustry?.id,
                            id: workplaceId,
                         })
                      }}
