@@ -1,11 +1,11 @@
 type AssessmentFolderCardProps = {
-    name: string
-    isActive: boolean
-    negativeComment: string
-    positiveComment: string
-    onClick: Function
-    selectedFolderId: string | null
-    id: string
+    name?: string
+    isActive?: boolean
+    negativeComment?: string
+    positiveComment?: string
+    onClick?: Function
+    selectedFolderId?: string | null
+    id?: string
 }
 import { Typography } from '@components/Typography'
 import { FaFolder } from 'react-icons/fa'

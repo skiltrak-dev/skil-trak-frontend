@@ -4,7 +4,7 @@ import { AuthUtils } from '@utils'
 export const subAdminRtosApi = createApi({
     reducerPath: 'subAdminRtosApi',
     baseQuery: fetchBaseQuery({
-        baseUrl: `${process.env.NEXT_PUBLIC_END_POINT}/`,
+        baseUrl: `${process.env.NEXT_PUBLIC_END_POINT}/subadmin/`,
         prepareHeaders: (headers, { getState }) => {
             const token = AuthUtils.getToken()
 
@@ -18,54 +18,59 @@ export const subAdminRtosApi = createApi({
     }),
     tagTypes: ['SubAdminRtos'],
     endpoints: (builder) => ({
-
         getSubAdminRtos: builder.query<any[], void>({
             query: () => {
                 return {
-                    url: 'subadmin/rtos/list',
+                    url: 'rtos/list',
                 }
             },
             providesTags: ['SubAdminRtos'],
         }),
+        getSubAdminRTODetail: builder.query<any[], string>({
+            query: (id) => `rto/profile/${id}`,
+            providesTags: ['SubAdminRtos'],
+        }),
         getSubAdminRtosStudents: builder.query<any[], string>({
             query: (id) => {
-                console.log("rto students", id);
-                
                 return {
-                    url: `subadmin/rto/students/list/${id}`,
-                    params: {id}
+                    url: `rto/students/list/${id}`,
+                    params: { id },
                 }
             },
             providesTags: ['SubAdminRtos'],
         }),
         getSubAdminRtoAppointments: builder.query<any[], string>({
             query: (id) => {
-                console.log("rto appointments", id);
                 return {
-                    url: `subadmin/rto/appointments/${id}`,
-                    params: {id}
+                    url: `rto/appointments/${id}`,
+                    params: { id },
                 }
             },
             providesTags: ['SubAdminRtos'],
         }),
 
         updateSubAdminRtoStudentStatus: builder.mutation<any, any | null>({
-            query: ({id, status}:any) => {
+            query: ({ id, status }: any) => {
                 return {
-                    url: `subadmin/student/update-status/${id}`,
+                    url: `student/update-status/${id}`,
                     method: 'PATCH',
-                    body: {status}
+                    body: { status },
                 }
             },
             invalidatesTags: ['SubAdminRtos'],
         }),
-       
+        getRTOAssessmentTools: builder.query<any[], string>({
+            query: (id) => `rto/assessment-tool/list/${id}`,
+            providesTags: ['SubAdminRtos'],
+        }),
     }),
 })
 
 export const {
     useGetSubAdminRtosQuery,
+    useGetSubAdminRTODetailQuery,
+    useGetRTOAssessmentToolsQuery,
     useGetSubAdminRtosStudentsQuery,
-    useGetSubAdminRtoAppointmentsQuery, 
-    useUpdateSubAdminRtoStudentStatusMutation
+    useGetSubAdminRtoAppointmentsQuery,
+    useUpdateSubAdminRtoStudentStatusMutation,
 } = subAdminRtosApi

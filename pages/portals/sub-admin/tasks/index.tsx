@@ -22,6 +22,12 @@ import { useContextBar } from '@hooks'
 
 const PrimaryLinks = [
     {
+        title: 'Assessment Evidence',
+        description: 'Some helping text',
+        link: 'tasks/assessment-evidence',
+        animation: Animations.Student.Appointments.AssessmentEvidence,
+    },
+    {
         title: 'Assessment Tools',
         description: 'Some helping text',
         link: 'tasks/assessment-tools',
