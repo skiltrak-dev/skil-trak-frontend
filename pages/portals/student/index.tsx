@@ -1,9 +1,10 @@
 import { ReactElement, useEffect } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
-
+// layout
 import { StudentLayout } from '@layouts'
 import { NextPageWithLayout } from '@types'
+// components
 import {
     Badge,
     Card,
@@ -12,13 +13,16 @@ import {
     InitialAvatar,
     LottieAnimation,
     UserProfile,
+    InitialAvatarContainer,
 } from '@components'
-import { FaBook, FaMapMarker, FaMapMarkerAlt, FaSchool } from 'react-icons/fa'
 import { Animations } from '@animations'
+// icons
+import { FaBook, FaMapMarker, FaMapMarkerAlt, FaSchool } from 'react-icons/fa'
 import { MdPermContactCalendar, MdPhone, MdVerified } from 'react-icons/md'
 import { IoBriefcase } from 'react-icons/io5'
+// hooks
 import { useContextBar } from '@hooks'
-import { InitialAvatarContainer } from '@components/InitialAvatar/InitialAvatarContainer'
+// import { InitialAvatarContainer } from '@components/InitialAvatar/InitialAvatarContainer'
 
 const WorkplaceQuestions = [
     {
@@ -401,6 +405,7 @@ const StudentDashboard: NextPageWithLayout = () => {
                     </div>
                 </Card>
             </div>
+            
         </div>
     )
 }

@@ -1,4 +1,4 @@
-import { ReactElement } from 'react'
+import { ReactElement, useEffect } from 'react'
 import Link from 'next/link'
 //Layouts
 import { SubAdminLayout } from '@layouts'
@@ -6,15 +6,26 @@ import { NextPageWithLayout } from '@types'
 
 import { TabsView } from '@components/sections/rto'
 //components
-import { ReactTable, Typography } from '@components'
+import { Button, ReactTable, RtoContextBarData, SidebarCalendar, Typography } from '@components'
 // queries
 import { useGetSubAdminIndustriesQuery } from '@queries'
 import { FaEnvelope, FaPhoneSquareAlt } from 'react-icons/fa'
 import Image from 'next/image'
+import { useContextBar } from '@hooks'
 
 type Props = {}
 
 const Industries: NextPageWithLayout = (props: Props) => {
+  const { setContent } = useContextBar()
+  useEffect(() => {
+    setContent(
+      <>
+        <Button variant={'dark'} text={'My Schedule'} />
+        <SidebarCalendar />
+        <RtoContextBarData />
+      </>
+    )
+  }, [setContent])
   const Columns = [
     {
       Header: 'Name',
@@ -25,7 +36,7 @@ const Industries: NextPageWithLayout = (props: Props) => {
           phoneNumber,
           user: { name, email, image },
         } = row.original
-        console.log('row', row.original)
+        // console.log('row', row.original)
 
         return (
           <div className="flex items-center relative">
@@ -41,7 +52,7 @@ const Industries: NextPageWithLayout = (props: Props) => {
                 height={50}
               />
               <Link href={`/portals/sub-admin/users/industries/profile/${row.original.id}?tab=overview`}>
-                <div>
+                <a>
 
                   <Typography color={'black'}>
                     {' '}
@@ -62,7 +73,7 @@ const Industries: NextPageWithLayout = (props: Props) => {
                       {email}
                     </Typography>
                   </div>
-                </div>
+                </a>
               </Link>
             </div>
           </div>

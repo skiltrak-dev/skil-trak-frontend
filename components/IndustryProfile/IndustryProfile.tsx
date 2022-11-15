@@ -1,6 +1,7 @@
 import { InitialAvatar, InitialAvatarContainer } from '@components/InitialAvatar'
 import { Typography } from '@components/Typography'
 import Image from 'next/image'
+import { useRouter } from 'next/router'
 import { AiFillEdit } from 'react-icons/ai'
 import { BiRename } from 'react-icons/bi'
 
@@ -12,10 +13,16 @@ import {
   MdBlock,
   MdVerified,
 } from 'react-icons/md'
+import { useGetSubAdminIndustriesProfileQuery } from '@queries'
 
 type Props = {}
 
 export const IndustryProfile = (props: Props) => {
+  const pathname = useRouter()
+  const profileId = pathname.query.profileId;
+  const {data}: any= useGetSubAdminIndustriesProfileQuery(String(profileId))
+  // console.log("Industry__________Profile", data);
+  
   return (
     <div>
       <div className='flex justify-end gap-x-2'>
@@ -38,10 +45,10 @@ export const IndustryProfile = (props: Props) => {
         </div>
 
         <div className="flex flex-col items-center">
-          <p className="text-lg font-semibold">Dosa Hut</p>
+          <p className="text-lg font-semibold">{data?.user?.name}</p>
           <div className="flex items-center gap-x-2">
             <p className="text-sm text-gray-400">
-              debbie@encompass-cs.org.au
+              {data?.user?.email}
             </p>
             <span className="text-blue-500">
               <MdVerified />
@@ -57,7 +64,7 @@ export const IndustryProfile = (props: Props) => {
             <span className="text-gray-300">
               <FaAddressCard />
             </span>
-            <p className="text-sm font-medium">22355</p>
+            <p className="text-sm font-medium">{data?.abn}</p>
           </div>
           <div className="text-gray-400 text-[11px] -mt-0.5 text-center">
             ABN
@@ -71,7 +78,7 @@ export const IndustryProfile = (props: Props) => {
             <span className="text-gray-300">
               <MdPhone />
             </span>
-            <p className="text-sm font-medium">043 6456 076</p>
+            <p className="text-sm font-medium">{data?.phoneNumber}</p>
           </div>
           <div className="text-gray-400 text-[11px] -mt-0.5 text-center">
             Phone Number
@@ -90,32 +97,7 @@ export const IndustryProfile = (props: Props) => {
         </div>
       </div>
 
-      {/* Info Row 2 */}
-      {/* <div className="flex justify-around divide-x border-b">
-        <div className="p-2">
-          <div className="flex items-center space-x-2">
-            <span className="text-gray-300">
-              <FaBirthdayCake />
-            </span>
-            <p className="text-sm font-medium">11 April, 1985</p>
-          </div>
-          <div className="text-gray-400 text-[11px] -mt-0.5 text-center">
-            Date Of Birth
-          </div>
-        </div>
-
-        <div className="p-2">
-          <div className="flex items-center space-x-2">
-            <span className="text-gray-300">
-              <FaUserCircle />
-            </span>
-            <p className="text-sm font-medium">Male</p>
-          </div>
-          <div className="text-gray-400 text-[11px] -mt-0.5 text-center">
-            Gender
-          </div>
-        </div>
-      </div> */}
+      
 
       {/* Info Row 3 */}
       <div className="flex justify-around">
@@ -125,7 +107,7 @@ export const IndustryProfile = (props: Props) => {
               <IoLocation />
             </span>
             <p className="text-sm font-medium">
-              93 Garden Street East Geelong 3219
+              {data?.addressLine1}, {data?.addressLine2}, {data?.state}, {data?.suburb}
             </p>
           </div>
           <div className="text-gray-400 text-[11px] -mt-0.5 text-center">
@@ -138,7 +120,7 @@ export const IndustryProfile = (props: Props) => {
         Contact Person
       </Typography>
       <div className="flex justify-around divide-x border-t border-b">
-        <div className=''>
+        <div className='p-2'>
           <div className='flex items-center gap-x-2'>
             <BiRename className='text-gray-400' />
             <Typography variant={'small'} color={"text-gray-400"}>
@@ -146,11 +128,10 @@ export const IndustryProfile = (props: Props) => {
             </Typography>
           </div>
           <Typography variant={'small'} color={"text-black"}>
-            Debbie Pecar
+            {data?.contactPerson}
           </Typography>
         </div>
-        <div className=''></div>
-        <div>
+        <div className='p-2'>
           <div className='flex items-center gap-x-2'>
             <FaPhoneAlt className='text-gray-400' />
             <Typography variant={'small'} color={"text-gray-400"}>
@@ -158,7 +139,7 @@ export const IndustryProfile = (props: Props) => {
             </Typography>
           </div>
           <Typography variant={'small'} color={"text-black"}>
-            (03) 9529 1783
+            {data?.contactPersonNumber}
           </Typography>
         </div>
       </div>
