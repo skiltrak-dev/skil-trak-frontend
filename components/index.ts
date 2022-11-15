@@ -28,6 +28,8 @@ export * from './TabNavigation'
 export * from './Paginate'
 export * from './ReactTable'
 export * from './sideBars'
+export * from './Portal'
+export * from './CreaetNote'
 
 // Forms
 export * from './forms'

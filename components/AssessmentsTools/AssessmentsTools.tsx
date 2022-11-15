@@ -7,7 +7,10 @@ import { Button, Card, Typography, LoadingAnimation } from '@components'
 
 import { AssessmentCourse, DownloadableFile } from './components'
 // queries
-import { useGetAssessmentToolQuery, useGetAssessmentToolDetailQuery } from '@queries'
+import {
+    useGetAssessmentToolQuery,
+    useGetAssessmentToolDetailQuery,
+} from '@queries'
 import { useState } from 'react'
 type AssessmentsToolsProps = {
     role: 'RTO' | 'Student'
@@ -15,19 +18,15 @@ type AssessmentsToolsProps = {
 }
 
 export const AssessmentsTools = ({ role, actions }: AssessmentsToolsProps) => {
-    const [selectedCourseId, setSelectedCourseId] = useState(1);
+    const [selectedCourseId, setSelectedCourseId] = useState(1)
 
     const router = useRouter()
     const { data, isLoading, isError } = useGetAssessmentToolQuery('archived')
-    const { data: assessmentToolDetail, isLoading: isLoadingDetail } = useGetAssessmentToolDetailQuery(selectedCourseId)
-    console.log("Details", assessmentToolDetail);
+    const { data: assessmentToolDetail, isLoading: isLoadingDetail } =
+        useGetAssessmentToolDetailQuery(selectedCourseId)
+    console.log('Details', assessmentToolDetail)
 
-
-
-
-
-    console.log("first", data);
-
+    console.log('first', data)
 
     return (
         <>
@@ -52,7 +51,9 @@ export const AssessmentsTools = ({ role, actions }: AssessmentsToolsProps) => {
                                     code={course.course.code}
                                     name={course.course.title}
                                     id={course.id}
-                                    onClick={() => setSelectedCourseId(course.id)}
+                                    onClick={() =>
+                                        setSelectedCourseId(course.id)
+                                    }
                                     selectedCourseId={selectedCourseId}
                                 />
                             </>
@@ -65,23 +66,25 @@ export const AssessmentsTools = ({ role, actions }: AssessmentsToolsProps) => {
                                     <Button
                                         variant="primary"
                                         text="ADD ASSESSMENT"
-
                                     />
                                     <Button
                                         variant="dark"
                                         text="VIEW ARCHIVED"
                                         onClick={() => {
-                                            router.push('/rto/tasks/assessment-tools/view-archived')
+                                            router.push(
+                                                `/portals/sub-admin/users/rtos/profile/7?tab=archived-assessments`
+                                            )
                                         }}
                                     />
                                 </div>
                             </>
                         )}
                         <div
-                            className={`${role === 'RTO'
-                                ? 'border-b border-t'
-                                : 'border-b'
-                                } p-4`}
+                            className={`${
+                                role === 'RTO'
+                                    ? 'border-b border-t'
+                                    : 'border-b'
+                            } p-4`}
                         >
                             <div className="flex justify-between">
                                 <Typography variant="label" color="text-black">
@@ -95,15 +98,17 @@ export const AssessmentsTools = ({ role, actions }: AssessmentsToolsProps) => {
                         <div className="p-2 min-h-[260px]">
                             {isLoading ? (
                                 <LoadingAnimation />
-                            ) : 
+                            ) : (
                                 <DownloadableFile
-                                    actions={() => actions(assessmentToolDetail?.course.id)}
+                                    actions={() =>
+                                        actions(assessmentToolDetail?.course.id)
+                                    }
                                     role={role}
                                     key={assessmentToolDetail?.id}
                                     name={assessmentToolDetail?.course?.title}
                                     archivedView={false}
                                 />
-                            }
+                            )}
                         </div>
                     </div>
                 </div>

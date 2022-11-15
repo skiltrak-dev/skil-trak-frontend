@@ -4,7 +4,13 @@ import Link from 'next/link'
 import { FormProvider, useForm } from 'react-hook-form'
 import * as Yup from 'yup'
 
-export const LoginForm = ({ onSubmit }: { onSubmit: any }) => {
+export const LoginForm = ({
+    onSubmit,
+    loginResult,
+}: {
+    onSubmit: any
+    loginResult: any
+}) => {
     const validationSchema = Yup.object({
         email: Yup.string()
             .email('Invalid Email')
@@ -51,7 +57,7 @@ export const LoginForm = ({ onSubmit }: { onSubmit: any }) => {
                     <Button
                         submit
                         // disabled={!(isValid && dirty)}
-                        // loading={loginResult.isLoading}
+                        loading={loginResult.isLoading}
                     >
                         Login
                     </Button>

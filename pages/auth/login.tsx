@@ -67,12 +67,13 @@ const Login: NextPage = () => {
     }
 
     const onLogin = (status: StatusType) => {
+        const role = AuthUtils.getUserCredentials().role
         switch (status) {
             case 'pending':
                 setRequested(true)
                 break
             case 'approved':
-                router.push('/')
+                router.push(`/portals/${role}`)
                 break
             case 'rejected':
                 setRejected(true)
@@ -126,7 +127,10 @@ const Login: NextPage = () => {
                             </p>
                         )}
 
-                        <LoginForm onSubmit={onSubmit} />
+                        <LoginForm
+                            onSubmit={onSubmit}
+                            loginResult={loginResult}
+                        />
 
                         <div className="mt-16">
                             <Typography variant="muted">

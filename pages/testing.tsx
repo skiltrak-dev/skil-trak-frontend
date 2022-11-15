@@ -4,7 +4,7 @@ import { ReactElement } from 'react'
 
 import { StudentLayout } from '@layouts'
 import { NextPageWithLayout } from '@types'
-import { Card, ReactTable, Typography } from '@components'
+import { Card, ReactTable, Typography, Portal } from '@components'
 import { SettingCard } from '@components/sections'
 
 import { useGetJobsQuery } from '@queries'
@@ -143,6 +143,14 @@ const Testing: NextPageWithLayout = (props: Props) => {
     return (
         <div className="flex flex-col gap-y-3">
             <FutureCandidates />
+
+            <Card>
+                <Portal>
+                    <div className="fixed flex justify-center items-center bg-[#00000040] w-full h-screen top-0 left-0 z-50">
+                        <p className="text-white">Portal Testing</p>
+                    </div>
+                </Portal>
+            </Card>
             <SettingCard />
             <Card>
                 <div className="flex flex-col gap-y-2">

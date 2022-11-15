@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 
 // compornents
-import { DocumentCard } from './components'
+import { DocumentCard, UploadDocs } from './components'
 import { Typography, Button, Card } from '@components'
 import { FileUpload } from 'hoc'
 
@@ -25,15 +25,15 @@ export const VerifyStudentDocs = ({
     selectedCourses: number[] | null
 }) => {
     const [courseDocuments, setCourseDocuments] = useState<any[] | null>([])
+    const [progressPercent, setProgressPercent] = useState<any | null>(null)
 
-    const courses = useGetCourseDocumentsQuery(
+    const requiredDocs = useGetCourseDocumentsQuery(
         { id, courses: selectedCourses },
         { skip: !id || !selectedCourses }
     )
-    const [uploadDocs, uploadDocsResult] = useUploadDocumentsMutation()
 
     useEffect(() => {
-        courses.refetch()
+        requiredDocs.refetch()
     }, [id, selectedCourses])
 
     // useEffect(() => {
@@ -41,6 +41,24 @@ export const VerifyStudentDocs = ({
     //         setActive((active: number) => active + 1)
     //     }
     // }, [uploadDocsResult.isSuccess])
+
+    const getUploadedDocPercent = () => {
+        const totalDocs = requiredDocs?.data?.reduce(
+            (acum, curr) => acum + curr?.folder?.capacity,
+            0
+        )
+        const uploadedDocs = requiredDocs?.data?.reduce(
+            (acum, curr) => acum + curr?.ResponseCount,
+            0
+        )
+        return (uploadedDocs * 100) / totalDocs
+    }
+
+    useEffect(() => {
+        setProgressPercent(getUploadedDocPercent())
+    }, [requiredDocs])
+
+    // console.log('totalll', totalll)
 
     return (
         <Card>
@@ -52,27 +70,16 @@ export const VerifyStudentDocs = ({
                 documents to them.
             </Typography>
 
-            <LinearProgress percent={5} />
+            <LinearProgress percent={progressPercent} />
 
             <div className="my-4 flex flex-col gap-y-2">
-                {courses.isLoading ? (
+                {requiredDocs.isLoading ? (
                     <LoadingAnimation />
                 ) : (
-                    courses?.data?.map((course: any, i: number) => (
-                        <FileUpload
-                            key={i}
-                            onChange={(docs: any) => {
-                                const formData = new FormData()
-                                docs.forEach((doc: any) => {
-                                    formData.append(course?.folder?.name, doc)
-                                })
-                                uploadDocs({ id: course.id, body: formData })
-                            }}
-                            name={course?.folder?.name}
-                            component={DocumentCard}
-                            limit={course?.folder?.capacity}
-                            acceptTypes={['pdf']}
-                            multiple={course?.folder?.capacity > 1}
+                    requiredDocs?.data?.map((requiredDoc: any, i: number) => (
+                        <UploadDocs
+                            key={requiredDoc.id}
+                            requiredDoc={requiredDoc}
                         />
                     ))
                 )}

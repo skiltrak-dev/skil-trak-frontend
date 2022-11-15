@@ -19,8 +19,9 @@ export const AssessmentCourse = ({
         <div>
             <div
                 onClick={() => onClick()}
-                className={`${id === selectedCourseId ? 'bg-red-100' : 'bg-white'
-                    } border-gray-200 rounded cursor-pointer p-2`}
+                className={`${
+                    id === selectedCourseId ? 'bg-red-100' : 'bg-white'
+                } hover:bg-red-100 border-gray-200 rounded cursor-pointer p-2 border-b`}
             >
                 <Typography variant="muted" color="text-black">
                     {code}

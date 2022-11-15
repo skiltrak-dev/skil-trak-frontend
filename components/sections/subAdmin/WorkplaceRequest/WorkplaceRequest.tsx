@@ -119,9 +119,7 @@ export const WorkplaceRequest = ({ workplace }: any) => {
                 {/* Industries */}
                 <Industries
                     appliedIndustry={appliedIndustry}
-                    industries={workplace?.industries?.filter(
-                        (i: any) => !i.applied
-                    )}
+                    industries={workplace?.industries}
                     workplaceId={workplace?.id}
                 />
 
