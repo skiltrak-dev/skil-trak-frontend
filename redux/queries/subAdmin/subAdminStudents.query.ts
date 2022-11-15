@@ -37,16 +37,16 @@ export const subAdminStudentsApi = createApi({
             providesTags: ['SubAdminStudents'],
         }),
 
-        // updateSubAdminRtoStudentStatus: builder.mutation<any, any | null>({
-        //     query: ({id, status}:any) => {
-        //         return {
-        //             url: `subadmin/student/update-status/${id}`,
-        //             method: 'PATCH',
-        //             body: {status}
-        //         }
-        //     },
-        //     invalidatesTags: ['SubAdminRtos'],
-        // }),
+        updateSubAdminCourseDuration: builder.mutation<any, any | null>({
+            query: ({id,body}:any) => {
+                return {
+                    url: `subadmin/student/course/timing/${id}`,
+                    method: 'POST',
+                    body
+                }
+            },
+            invalidatesTags: ['SubAdminStudents'],
+        }),
        
     }),
 })
@@ -54,5 +54,6 @@ export const subAdminStudentsApi = createApi({
 export const {
     useGetSubAdminStudentsQuery,
     useGetSubAdminMyRtoQuery,
+    useUpdateSubAdminCourseDurationMutation,
     
 } = subAdminStudentsApi

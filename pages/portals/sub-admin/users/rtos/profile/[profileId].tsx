@@ -9,7 +9,7 @@ import { NextPageWithLayout } from '@types'
 
 //components
 import {
-    IndustryProfile,
+    RtoProfileSidebar,
     LoadingAnimation,
     ReactTable,
     TabNavigation,
@@ -40,7 +40,7 @@ const RtoProfile: NextPageWithLayout = (props: Props) => {
     useEffect(() => {
         setContent(
             <>
-                <IndustryProfile />
+                <RtoProfileSidebar />
             </>
         )
     }, [setContent])
@@ -48,12 +48,12 @@ const RtoProfile: NextPageWithLayout = (props: Props) => {
     const profileId = pathname.query.profileId
 
     // query
-    const rtoDetail = useGetSubAdminRTODetailQuery(String(profileId), {
+    const rtoDetail:any = useGetSubAdminRTODetailQuery(String(profileId), {
         skip: !profileId,
     })
 
     const [archiveAssessmentTool, archiveAssessmentToolResult] =
-        useUpdateAssessmentToolArchiveMutation()
+    useUpdateAssessmentToolArchiveMutation()
     const actions = (id: any) => {
         console.log(id)
         return (

@@ -7,13 +7,15 @@ export const InitialAvatarContainer = ({
 }) => {
     return (
         <div className="relative flex items-center">
-            {children.map((child: any, idx: number) => {
-                if (idx < show) {
-                    return child
-                }
-            })}
+            {children?.length > 1 &&
+                children.map((child: any, idx: number) => {
+                    if (idx < show) {
+                        return child
+                    }
+                    return
+                })}
 
-            {children.length > show && (
+            {children?.length > 1 && children.length > show && (
                 <div className="text-blue-500 text-xs font-semibold ml-2 relative cursor-pointer group">
                     <span> +{children.length - show} More</span>
 
@@ -22,11 +24,10 @@ export const InitialAvatarContainer = ({
                             if (idx >= show) {
                                 return (
                                     <span
-                                        className={`whitespace-nowrap p-1 ${
-                                            idx !== children.length - 1
+                                        className={`whitespace-nowrap p-1 ${idx !== children.length - 1
                                                 ? 'border-b border-slate-700'
                                                 : ''
-                                        }`}
+                                            }`}
                                     >
                                         {child.props.name}
                                     </span>

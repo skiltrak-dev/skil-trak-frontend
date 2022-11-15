@@ -19,13 +19,11 @@ import { useAssignToSubAdminMutation } from '@queries'
 import { useEffect, useState } from 'react'
 
 export const WorkplaceRequest = ({ workplace }: any) => {
-    const [appliedIndustry, setAppliedIndustry] = useState<any | null>(null)
-
+    const [appliedIndustry, setAppliedIndustry] = useState<any | null>(null)    
     useEffect(() => {
         setAppliedIndustry(workplace.industries?.find((i: any) => i.applied))
     }, [workplace])
 
-    console.log('appliedIndustry', appliedIndustry)
 
     return (
         <Card>
@@ -44,21 +42,21 @@ export const WorkplaceRequest = ({ workplace }: any) => {
                         />
                         <div>
                             <Typography color={'black'} variant={'small'}>
-                                Job Tranining Institute{' '}
+                                {workplace?.student?.rto?.user?.name}
                             </Typography>
                             <div className="flex items-center gap-x-2">
                                 <Typography
                                     variant={'muted'}
                                     color={'text-gray-400'}
                                 >
-                                    info@jti.edu.au
+                                    {workplace?.student?.rto?.user?.email}
                                 </Typography>
                                 <span className="text-gray-400">|</span>
                                 <Typography
                                     variant={'muted'}
                                     color={'text-gray-400'}
                                 >
-                                    041 610 9825
+                                    {workplace?.student?.rto?.phone}
                                 </Typography>
                             </div>
                         </div>
@@ -71,10 +69,10 @@ export const WorkplaceRequest = ({ workplace }: any) => {
                         <RiBook2Fill className="text-gray-400 text-2xl" />
                         <div>
                             <Typography color={'black'} variant={'xs'}>
-                                Commercial Cookery {'&'} Hospitality
+                               {workplace?.courses[0]?.title}
                             </Typography>
                             <Typography variant={'muted'}>
-                                SITHCCC020 - Work Effectively As A Cook
+                                {workplace?.courses[0]?.code} - {workplace?.courses[0]?.description}
                             </Typography>
                         </div>
                     </div>

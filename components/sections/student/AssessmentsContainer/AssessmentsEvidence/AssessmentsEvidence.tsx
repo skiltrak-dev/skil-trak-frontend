@@ -17,11 +17,10 @@ export const AssessmentsEvidence = (props: Props) => {
     const [selectedCourseId, setSelectedCourseId] = useState(null)
     const [selectedFolder, setSelectedFolder] = useState(null)
 
-    console.log('Saad')
 
     // query
-    const assessmentsCourses = useGetAssessmentsCoursesQuery()
-    const assessmentsFolders = useGetAssessmentsFoldersQuery(selectedCourseId, {
+    const assessmentsCourses: any = useGetAssessmentsCoursesQuery()
+    const assessmentsFolders: any = useGetAssessmentsFoldersQuery(selectedCourseId, {
         skip: !selectedCourseId,
     })
 
@@ -33,7 +32,7 @@ export const AssessmentsEvidence = (props: Props) => {
                 ) : (
                     <>
                         <div className="mb-3 grid grid-cols-3 gap-x-2">
-                            {assessmentsCourses?.data?.map((course, index) => (
+                            {assessmentsCourses?.data?.map((course:any) => (
                                 <AssessmentCourseCard
                                     key={course.id}
                                     id={course.id}
@@ -88,7 +87,7 @@ export const AssessmentsEvidence = (props: Props) => {
                                         </Typography>
                                     </div>
                                     {assessmentsFolders?.data?.map(
-                                        (folder, idx) => (
+                                        (folder:any) => (
                                             <AssessmentFolderCard
                                                 key={folder.id}
                                                 id={folder.id}

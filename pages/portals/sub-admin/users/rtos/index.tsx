@@ -41,7 +41,7 @@ const RTOs: NextPageWithLayout = (props: Props) => {
           phone,
           user: { name, email, image },
         } = row.original
-        console.log('row', row.original)
+        // console.log('row', row.original)
 
         return (
           <div className="flex items-center relative">
@@ -89,11 +89,11 @@ const RTOs: NextPageWithLayout = (props: Props) => {
       Header: 'Package',
       accessor: 'package',
       Cell: ({row}: any) => {
-        const {package: {name}} = row.original
+        // const {package}:any = row.original
         return (
           <div className='flex justify-center'>
             <Typography variant={'muted'} color={'gray'}>
-              {name}
+              {row?.original?.package?.name}
             </Typography>
           </div>
         )

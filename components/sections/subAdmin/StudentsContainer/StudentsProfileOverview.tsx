@@ -9,9 +9,12 @@ import { MdPermContactCalendar, MdPhone } from 'react-icons/md'
 import { NotesCard, StudentProfileCoursesCard } from '../components'
 import { MyRtoInfoCard, ProgressStep, StudentRecentAppointmentCard, WorkplaceInfoCard } from './components'
 type StudentsProfileOverviewProps = {
+  data: any
 }
 
-export const StudentsProfileOverview = (props: StudentsProfileOverviewProps) => {
+export const StudentsProfileOverview = ({
+  data,
+}: StudentsProfileOverviewProps) => {
   // const {data} = useGetSubAdminMyRtoQuery(studentId)
   // console.log("useGetSubAdminMyRtoQuery", data);
   
@@ -28,7 +31,7 @@ export const StudentsProfileOverview = (props: StudentsProfileOverviewProps) => 
         <NotesCard pinnedNote />
       </div>
       <ProgressStep />
-      <StudentProfileCoursesCard />
+      <StudentProfileCoursesCard courses={data?.courses}/>
       <div className='w-full flex justify-between gap-x-6 mt-4'>
         <div className='w-full flex flex-col gap-y-4'>
           <MyRtoInfoCard />

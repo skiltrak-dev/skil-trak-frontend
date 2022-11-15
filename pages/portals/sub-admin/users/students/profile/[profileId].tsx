@@ -26,7 +26,7 @@ import {
 // icons
 import { FaEdit } from 'react-icons/fa'
 // queries
-import { useUpdateAssessmentToolArchiveMutation } from '@queries'
+import { useUpdateAssessmentToolArchiveMutation, useGetSubAdminMyRtoQuery } from '@queries'
 import { AssessmentsEvidence } from '@components/sections/student/AssessmentsContainer'
 
 // hooks
@@ -35,21 +35,24 @@ import { useContextBar } from '@hooks'
 type Props = {}
 
 const StudentsProfile: NextPageWithLayout = (props: Props) => {
+    const pathname = useRouter()
+    const profileId: any = pathname.query.profileId
+
+    const { data } = useGetSubAdminMyRtoQuery(String(profileId))
+
     const { setContent } = useContextBar()
     useEffect(() => {
         setContent(
             <>
-                <SubAdminStudentProfile />
+                <SubAdminStudentProfile data={data} />
             </>
         )
-    }, [setContent])
-    const pathname = useRouter()
-    const profileId = pathname.query.profileId
+    }, [setContent, data])
 
     const [archiveAssessmentTool, archiveAssessmentToolResult] =
         useUpdateAssessmentToolArchiveMutation()
     const actions = (id: any) => {
-        console.log(id)
+
         return (
             <div className="flex gap-x-2 ">
                 <a
@@ -87,7 +90,7 @@ const StudentsProfile: NextPageWithLayout = (props: Props) => {
             label: 'Overview',
             href: { pathname: String(profileId), query: { tab: 'overview' } },
             badge: { text: '05', color: 'text-blue-500' },
-            element: <StudentsProfileOverview />,
+            element: <StudentsProfileOverview data={data} />,
         },
         {
             label: 'Assessments',
@@ -121,6 +124,7 @@ const StudentsProfile: NextPageWithLayout = (props: Props) => {
             </TabNavigation>
         </>
     )
+}
 
 StudentsProfile.getLayout = (page: ReactElement) => {
     return <SubAdminLayout title="Student Profile">{page}</SubAdminLayout>

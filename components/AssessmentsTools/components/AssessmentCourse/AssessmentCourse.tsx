@@ -15,6 +15,8 @@ export const AssessmentCourse = ({
     onClick,
     selectedCourseId,
 }: AssessmentCourseProps) => {
+    console.log("Name.........:", name);
+    
     return (
         <div>
             <div
