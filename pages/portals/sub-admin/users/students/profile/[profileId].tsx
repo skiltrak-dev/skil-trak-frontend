@@ -121,7 +121,7 @@ const StudentsProfile: NextPageWithLayout = (props: Props) => {
             </TabNavigation>
         </>
     )
-}
+
 StudentsProfile.getLayout = (page: ReactElement) => {
     return <SubAdminLayout title="Student Profile">{page}</SubAdminLayout>
 }

@@ -1,20 +1,29 @@
+import Image from 'next/image'
+// moment
+import moment from 'moment'
 import {
   InitialAvatar,
   InitialAvatarContainer,
 } from '@components/InitialAvatar'
 import { Typography } from '@components/Typography'
-import Image from 'next/image'
-import React from 'react'
+import { useRouter } from 'next/router'
+// icons
 import { AiFillEdit } from 'react-icons/ai'
 import { BiRename } from 'react-icons/bi'
-import { FaAddressCard, FaBirthdayCake, FaPhoneAlt, FaUserCircle } from 'react-icons/fa'
-import { GiBackwardTime } from 'react-icons/gi'
 import { IoLocation } from 'react-icons/io5'
+import { GiBackwardTime } from 'react-icons/gi'
+import { FaAddressCard, FaBirthdayCake, FaPhoneAlt, FaUserCircle } from 'react-icons/fa'
 import { MdBatchPrediction, MdBlock, MdPhone, MdVerified } from 'react-icons/md'
+// queries
+import { useGetSubAdminMyRtoQuery } from '@queries'
 
 type Props = {}
 
 export const SubAdminStudentProfile = (props: Props) => {
+  const pathname = useRouter()
+  const profileId = pathname.query.profileId;
+  const { data }: any = useGetSubAdminMyRtoQuery(String(profileId))
+  console.log("useGetSubAdminMyRtoQuery", data);
   const studentProfileData = [
     {
       courseCode: 'SITHCCC020',
@@ -57,10 +66,10 @@ export const SubAdminStudentProfile = (props: Props) => {
         </div>
 
         <div className="flex flex-col items-center">
-          <p className="text-lg font-semibold">Dosa Hut</p>
+          <p className="text-lg font-semibold">{data?.user?.name}</p>
           <div className="flex items-center gap-x-2">
             <p className="text-sm text-gray-400">
-              debbie@encompass-cs.org.au
+              {data?.user?.email}
             </p>
             <span className="text-blue-500">
               <MdVerified />
@@ -76,7 +85,7 @@ export const SubAdminStudentProfile = (props: Props) => {
             <span className="text-gray-300">
               <FaAddressCard />
             </span>
-            <p className="text-sm font-medium">16029</p>
+            <p className="text-sm font-medium">{data?.studentId}</p>
           </div>
           <div className="text-gray-400 text-[11px] -mt-0.5 text-center">
             Student ID
@@ -100,7 +109,7 @@ export const SubAdminStudentProfile = (props: Props) => {
             <span className="text-gray-300">
               <MdPhone />
             </span>
-            <p className="text-sm font-medium">043 6456 076</p>
+            <p className="text-sm font-medium">{data?.phone}</p>
           </div>
           <div className="text-gray-400 text-[11px] -mt-0.5 text-center">
             Phone Number
@@ -114,7 +123,7 @@ export const SubAdminStudentProfile = (props: Props) => {
             <span className="text-gray-300">
               <FaBirthdayCake />
             </span>
-            <p className="text-sm font-medium">11 April, 1985</p>
+            <p className="text-sm font-medium">{moment(data?.dob).format('LL')}</p>
           </div>
           <div className="text-gray-400 text-[11px] -mt-0.5 text-center">
             Date Of Birth
@@ -142,7 +151,7 @@ export const SubAdminStudentProfile = (props: Props) => {
               <IoLocation />
             </span>
             <p className="text-sm font-medium">
-              93 Garden Street East Geelong 3219
+              {data?.addressLine1}, {data?.addressLine2}, {data?.state}, {data?.suburb}
             </p>
           </div>
           <div className="text-gray-400 text-[11px] -mt-0.5 text-center">
@@ -163,7 +172,7 @@ export const SubAdminStudentProfile = (props: Props) => {
             </Typography>
           </div>
           <Typography variant={'small'} color={'text-black'}>
-            Neetu
+            {data?.emergencyPerson}
           </Typography>
         </div>
         <div className='p-2'>
@@ -175,7 +184,7 @@ export const SubAdminStudentProfile = (props: Props) => {
           </div>
           <div className='py-1'>
             <Typography variant={'small'} color={'text-black'}>
-              (03) 9529 1783
+              {data?.emergencyPersonPhone}
             </Typography>
           </div>
         </div>
