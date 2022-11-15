@@ -1,10 +1,8 @@
 import { Button, Checkbox, TextInput } from '@components'
-import { useYupValidationResolver } from '@hooks'
+import { yupResolver } from '@hookform/resolvers/yup'
 import Link from 'next/link'
 import { FormProvider, useForm } from 'react-hook-form'
-import { yupResolver } from '@hookform/resolvers/yup'
 import * as Yup from 'yup'
-import { useEffect } from 'react'
 
 export const LoginForm = ({ onSubmit }: { onSubmit: any }) => {
     const validationSchema = Yup.object({

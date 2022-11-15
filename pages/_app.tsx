@@ -14,6 +14,7 @@ import {
 import { store } from '../redux/store'
 import { NextPageWithLayout } from '@types'
 
+import { HeadWrapper } from '@layouts'
 
 type AppPropsWithLayout = AppProps & {
     Component: NextPageWithLayout
@@ -28,20 +29,20 @@ const MyApp = ({ Component, pageProps }: AppPropsWithLayout) => {
     const getLayout = Component.getLayout ?? ((page) => page)
 
     return (
-
         <Provider store={store}>
             <AlertProvider>
                 <NotificationProvider>
                     <NavbarProvider>
                         <ContextBarProvider>
                             {/* <Component {...pageProps} /> */}
-                            {getLayout(<Component {...pageProps} />)}
+                            <HeadWrapper>
+                                {getLayout(<Component {...pageProps} />)}
+                            </HeadWrapper>
                         </ContextBarProvider>
                     </NavbarProvider>
                 </NotificationProvider>
             </AlertProvider>
         </Provider>
-
     )
 }
 

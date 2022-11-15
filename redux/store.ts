@@ -16,14 +16,18 @@ import {
    subAdminRtosApi,
    subAdminIndustriesApi,
    subAdminStudentsApi,
+   industryWorkplaceApi,
+   adminApi,
 } from '@queries'
 
 export const store = configureStore({
    reducer: {
       // Add the generated reducer as a specific top-level slice
       [authApi.reducerPath]: authApi.reducer,
+      [adminApi.reducerPath]: adminApi.reducer,
       [rtoStudentsApi.reducerPath]: rtoStudentsApi.reducer,
       [rtoWorkplacesApi.reducerPath]: rtoWorkplacesApi.reducer,
+      [industryWorkplaceApi.reducerPath]: industryWorkplaceApi.reducer,
       [rtoAssessmentToolsApi.reducerPath]: rtoAssessmentToolsApi.reducer,
       [subAdminRtosApi.reducerPath]: subAdminRtosApi.reducer,
       [subAdminIndustriesApi.reducerPath]: subAdminIndustriesApi.reducer,
@@ -41,11 +45,13 @@ export const store = configureStore({
    middleware: (getDefaultMiddleware) =>
       getDefaultMiddleware().concat([
          authApi.middleware,
+         adminApi.middleware,
          rtoStudentsApi.middleware,
          studentJobsApi.middleware,
          studentCoursesApi.middleware,
          workplaceRequestApi.middleware,
          subAdminWorkplaceApi.middleware,
+         industryWorkplaceApi.middleware,
          studentAppointmentsApi.middleware,
          studentAssessmentEvidenceApi.middleware,
       ]),

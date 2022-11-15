@@ -12,7 +12,7 @@ export * from './LoadingAnimation'
 export * from './Modal'
 export * from './Notification'
 export * from './SpecialLink'
-export * from './Pagination'
+// export * from './Pagination'
 export * from './PopUp'
 export * from './buttons/PortalSelectButton'
 export * from './SearchBox'
@@ -28,7 +28,6 @@ export * from './TabNavigation'
 export * from './Paginate'
 export * from './ReactTable'
 export * from './sideBars'
-
 
 // Forms
 export * from './forms'
@@ -49,3 +48,11 @@ export * from './SubAdminStudentProfile'
 export * from './Badge'
 
 export * from './InitialAvatar'
+
+export * from './TabNavigation'
+export * from './filters'
+export * from './Table'
+export * from './cards'
+
+export * from './ActionAnimations'
+export * from './DescriptiveInfo'

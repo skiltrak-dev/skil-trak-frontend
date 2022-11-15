@@ -32,7 +32,9 @@
             "@constants": ["./constants"],
             "@constants/*": ["./constants/*"],
             "@hoc": ["./hoc"],
-            "@hoc/*": ["./hoc/*"]
+            "@hoc/*": ["./hoc/*"],
+            "@partials": ["./partials"],
+            "@partials/*": ["./partials/*"],
         }
     },
     "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],

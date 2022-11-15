@@ -108,7 +108,10 @@ export const IndustrySelection = ({
                                                 ?.map((i: any) => i.applied)
                                                 .includes(true)}
                                             onClick={async () => {
-                                                await applyForWorkplace(industry?.industry?.id)
+
+                                                await applyForWorkplace(
+                                                    industry?.id
+                                                )
                                             }}
                                             loading={
                                                 applyForWorkplaceResult.isLoading &&

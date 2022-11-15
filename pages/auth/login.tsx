@@ -27,6 +27,7 @@ const Login: NextPage = () => {
     const router = useRouter()
 
     const [login, loginResult] = AuthApi.useLoginMutation()
+
     const [checkStatus, checkStatusResult] = AuthApi.useCheckStatusMutation()
 
     const [requested, setRequested] = useState(false)
@@ -44,6 +45,26 @@ const Login: NextPage = () => {
             .required('Email is required!'),
         password: Yup.string().required('Password is required'),
     })
+
+    const nextDestination = (role: string) => {
+        switch (role) {
+            case 'admin':
+                router.push('/portals/admin')
+                break
+            case 'industry':
+                router.push('/portals/industry')
+                break
+            case 'rto':
+                router.push('/portals/rto')
+                break
+            case 'student':
+                router.push('/portals/student')
+                break
+            case 'sub-admin':
+                router.push('/portals/sub-admin')
+                break
+        }
+    }
 
     const onLogin = (status: StatusType) => {
         switch (status) {
@@ -81,7 +102,6 @@ const Login: NextPage = () => {
     }, [checkStatusResult])
 
     const onSubmit = async (values: LoginCredentials) => {
-        console.log('values', values)
         await login(values)
     }
 
@@ -91,7 +111,8 @@ const Login: NextPage = () => {
             {rejected && <AccountStatus status={'rejected'} />}
 
             {!requested && !rejected && (
-                <div className="w-4/5 mx-auto flex items-center justify-between">
+                // <div className="w-4/5 mx-auto flex items-center justify-between">
+                <div className="w-full sm:w-4/5 mx-auto flex flex-col sm:flex-row items-center justify-between">
                     <div className="flex flex-col items-center flex-grow">
                         <div className="w-full mb-8">
                             <Typography variant={'h3'}>
@@ -105,56 +126,6 @@ const Login: NextPage = () => {
                             </p>
                         )}
 
-                        {/* <FormProvider>
-							<form className="mt-2 w-full">
-								<div className="">
-									<TextInput
-										label={"Email"}
-										name={"email"}
-										type={"email"}
-										placeholder={"Your Email Here..."}
-										validationIcons
-										required
-									/>
-
-									<TextInput
-										label={"Password"}
-										name={"password"}
-										type={"password"}
-										placeholder={"Your Password Here..."}
-										validationIcons
-										required
-									/>
-								</div>
-
-								<div className="mb-6">
-									<Checkbox
-										name={"rememberMe"}
-										label={"Remember Me"}
-									/>
-								</div>
-
-								<div className="mt-4 flex items-center justify-between">
-									<Button
-										submit
-										disabled={!(isValid && dirty)}
-										loading={loginResult.isLoading}
-									>
-										Login
-									</Button>
-
-									<Link href="/auth/forgot-password">
-										<a
-											className={
-												"text-sm font-semibold text-muted hover:text-link transition-all duration-300"
-											}
-										>
-											Forgot Password?
-										</a>
-									</Link>
-								</div>
-							</form>
-						</FormProvider> */}
                         <LoginForm onSubmit={onSubmit} />
 
                         <div className="mt-16">
@@ -169,7 +140,7 @@ const Login: NextPage = () => {
                         </div>
                     </div>
 
-                    <div className="h-48 w-px bg-gray-300 mx-8"></div>
+                    <div className="hidden sm:block h-48 w-px bg-gray-300 mx-8"></div>
 
                     <div className="">
                         <LottieAnimation

@@ -475,7 +475,7 @@ export const StudentSignUpForm = ({ onSubmit }: { onSubmit: any }) => {
                     </div>
                 </div>
 
-                <div className='w-4/6 ml-auto pl-12'>
+                <div className="w-4/6 ml-auto pl-12">
                     <div className="mb-6">
                         <Checkbox
                             name={'agreedWithPrivacyPolicy'}
