@@ -2,7 +2,7 @@ import React from 'react'
 import update from 'immutability-helper'
 
 // components
-import { Typography, Loading } from 'components'
+import { Typography, LoadingAnimation } from 'components'
 import { ScheduleCard } from './components/ScheduleCard'
 
 // redux
@@ -55,7 +55,7 @@ export const Schedule = ({
         <div className={`w-full mt-6 border border-secondary-dark relative`}>
             {employeeTaskLoading && (
                 <div className="absolute w-full h-full flex justify-center items-center bg-[#00000015]">
-                    <Loading />
+                    <LoadingAnimation />
                 </div>
             )}
             <div className="w-full border-b border-secondary-dark px-2 py-4 grid grid-cols-7  items-center">

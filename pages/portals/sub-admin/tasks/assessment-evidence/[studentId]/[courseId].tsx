@@ -15,35 +15,19 @@ import { AssesmentEvidenceDetail } from '@components/sections'
 type Props = {}
 
 const AssessmentEvidenceDetail: NextPageWithLayout = (props: Props) => {
-    const pathname = useRouter()
-    const courseId = pathname.query.courseId
-    const getAssessmentDetails = useGetAssessmentEvidenceDetailQuery(
-        String(courseId),
-        {
-            skip: !courseId,
-        }
-    )
+  const pathname = useRouter()
+  const courseId = pathname.query.courseId
 
-    return (
-        <>
-            {getAssessmentDetails?.isError && 'Error'}
-            {getAssessmentDetails?.isLoading ? (
-                <LoadingAnimation />
-            ) : getAssessmentDetails?.data &&
-              getAssessmentDetails?.data?.length ? (
-                <AssesmentEvidenceDetail data={getAssessmentDetails?.data} />
-            ) : (
-                !getAssessmentDetails?.isError && 'Empty'
-            )}
-        </>
-    )
+  return (
+    <>
+      <AssesmentEvidenceDetail courseId={courseId} />
+    </>
+  )
 }
 AssessmentEvidenceDetail.getLayout = (page: ReactElement) => {
-    return (
-        <SubAdminLayout title="Assessment Evidence Detail">
-            {page}
-        </SubAdminLayout>
-    )
+  return (
+    <SubAdminLayout title="Assessment Evidence Detail">{page}</SubAdminLayout>
+  )
 }
 
 export default AssessmentEvidenceDetail
