@@ -16,8 +16,8 @@ type Props = {}
 export const MyRtoInfoCard = (props: Props) => {
   const pathname = useRouter()
   const profileId = pathname.query.profileId;
-   const {data}:any = useGetSubAdminMyRtoQuery(String(profileId))
-  // console.log("useGetSubAdminMyRtoQuery", data);
+  const { data }: any = useGetSubAdminMyRtoQuery(String(profileId))
+  console.log("useGetSubAdminMyRtoQuery", data);
   return (
     <div className='w-full'>
       <Card>
@@ -68,28 +68,30 @@ export const MyRtoInfoCard = (props: Props) => {
               </div>
             </div>
 
-            <div className="mt-4">
-              <p className="text-[11px] text-gray-400">
-                Coordinators
-              </p>
-              <div className="flex justify-between gap-x-4">
-                <div>
-                  <p className="font-medium text-sm">
-                    Yaseen Khan
-                  </p>
-                  <p className="text-xs font-medium text-slate-400">
-                    yaseen@skiltrak.com.au
-                  </p>
-                </div>
+            {data?.rto?.subadmin.map((coordinator:any) => (
+              <div className="mt-4">
+                <p className="text-[11px] text-gray-400">
+                  Coordinators
+                </p>
+                <div className="flex justify-between gap-x-4">
+                  <div>
+                    <p className="font-medium text-sm">
+                      {coordinator?.user?.name}
+                    </p>
+                    <p className="text-xs font-medium text-slate-400">
+                      {coordinator?.user?.email}
+                    </p>
+                  </div>
 
-                <InitialAvatarContainer show={2}>
-                  <InitialAvatar name="John Smith" first />
-                  <InitialAvatar name="Yaseen Khan" />
-                  <InitialAvatar name="Julie Clarke" />
-                  <InitialAvatar name="Salman" />
-                </InitialAvatarContainer>
+                  <InitialAvatarContainer show={2}>
+                    <InitialAvatar name="John Smith" first />
+                    <InitialAvatar name="Yaseen Khan" />
+                    <InitialAvatar name="Julie Clarke" />
+                    <InitialAvatar name="Salman" />
+                  </InitialAvatarContainer>
+                </div>
               </div>
-            </div>
+            ))}
           </div>
         </div>
       </Card>

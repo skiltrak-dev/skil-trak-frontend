@@ -61,6 +61,7 @@ const RTOs: NextPageWithLayout = (props: Props) => {
                   <Typography color={'black'}>
                     {' '}
                     {name}{' '}
+                    {/* name */}
                   </Typography>
                   <div className="flex items-center gap-x-2">
                     <FaPhoneSquareAlt className='text-gray' />

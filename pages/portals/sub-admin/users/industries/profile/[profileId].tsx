@@ -1,19 +1,20 @@
 import { ReactElement, useEffect } from 'react'
-import Link from 'next/link'
+import { useRouter } from 'next/router'
+
 //Layouts
 import { SubAdminLayout } from '@layouts'
 import { NextPageWithLayout } from '@types'
 
-import { TabsView } from '@components/sections/rto'
-//components
-import { AssessmentsTools, ReactTable, TabNavigation, TabProps, Typography } from '@components'
-import Image from 'next/image'
-import { AppointmentProfile, FigureCard, IndustryProfileOverview, RtoProfileOverview, SubAdminProfileTabsView } from '@components/sections'
-import { FaEdit } from 'react-icons/fa'
-import { useUpdateAssessmentToolArchiveMutation } from '@queries'
-import { useRouter } from 'next/router'
+// hooks
 import { useContextBar } from '@hooks'
+//components
+import { TabNavigation, TabProps } from '@components'
 import { IndustryProfile } from '@components/IndustryProfile'
+import { AppointmentProfile, IndustryProfileOverview } from '@components/sections'
+// icons
+// import { FaEdit } from 'react-icons/fa'
+// queries
+// import { useGetSubAdminIndustriesProfileQuery } from '@queries'
 
 type Props = {}
 
@@ -29,27 +30,8 @@ const IndustriesProfile: NextPageWithLayout = (props: Props) => {
   const pathname = useRouter()
   const profileId = pathname.query.profileId;
 
-  const [archiveAssessmentTool, archiveAssessmentToolResult] = useUpdateAssessmentToolArchiveMutation()
-  const actions = (id: any) => {
-    return (
-      <div className="flex gap-x-2 ">
-        <a href={`${process.env.NEXT_PUBLIC_END_POINT}/rtos/course/content/${id}`} target="blank" rel="noreferrer">
-          <Typography variant="tableCell" color="text-blue-600">
-            Download
-          </Typography>
-        </a>
+  // const {data} = useGetSubAdminIndustriesProfileQuery(String(profileId))
 
-        <div className='cursor-pointer' onClick={() => { archiveAssessmentTool(id) }}>
-          <Typography variant="tableCell" color="text-[#7081A0]">
-            Archive
-          </Typography>
-        </div>
-        <div onClick={() => { console.log("Edit") }}>
-          <FaEdit className="text-[#686DE0] cursor-pointer" />
-        </div>
-      </div>
-    )
-  }
   const tabs: TabProps[] = [
     {
       label: 'Overview',
