@@ -11,7 +11,6 @@ export const RecentActivityLinks = ({
   color,
   bgColor,
 }: Props) => {
-  console.log("title", title);
   
   return <div>
     <div className={`${bgColor} rounded-full px-2 text-center whitespace-nowrap`}>

@@ -1,5 +1,8 @@
 import { Card } from '@components/cards'
-import { InitialAvatar, InitialAvatarContainer } from '@components/InitialAvatar'
+import {
+  InitialAvatar,
+  InitialAvatarContainer,
+} from '@components/InitialAvatar'
 import { Typography } from '@components/Typography'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -7,36 +10,38 @@ import React from 'react'
 import { FaSchool } from 'react-icons/fa'
 import { MdPermContactCalendar, MdPhone } from 'react-icons/md'
 import { NotesCard, StudentProfileCoursesCard } from '../components'
-import { MyRtoInfoCard, ProgressStep, StudentRecentAppointmentCard, WorkplaceInfoCard } from './components'
+import {
+  MyRtoInfoCard,
+  ProgressStep,
+  StudentRecentAppointmentCard,
+  WorkplaceInfoCard,
+} from './components'
+import { PinnedNotes } from '../components'
 type StudentsProfileOverviewProps = {
+  studentDetail: any
 }
 
-export const StudentsProfileOverview = (props: StudentsProfileOverviewProps) => {
+export const StudentsProfileOverview = ({
+  studentDetail,
+}: StudentsProfileOverviewProps) => {
   // const {data} = useGetSubAdminMyRtoQuery(studentId)
   // console.log("useGetSubAdminMyRtoQuery", data);
-  
+
   return (
-    <div className='mt-6'>
-      <div className='mb-3'>
-        <Typography variant={'muted'} color={'text-gray-400'}>
-          Pinned Notes
-        </Typography>
-      </div>
-      <div className='flex items-center gap-x-2 mb-6'>
-        <NotesCard pinnedNote />
-        <NotesCard pinnedNote />
-        <NotesCard pinnedNote />
-      </div>
+    <div className="mt-6">
+      {/* pinned Notes */}
+      <PinnedNotes id={studentDetail?.user?.id} />
+
+      {/* Progress */}
       <ProgressStep />
       <StudentProfileCoursesCard />
-      <div className='w-full flex justify-between gap-x-6 mt-4'>
-        <div className='w-full flex flex-col gap-y-4'>
+      <div className="w-full flex justify-between gap-x-6 mt-4">
+        <div className="w-full flex flex-col gap-y-4">
           <MyRtoInfoCard />
           <WorkplaceInfoCard />
         </div>
         <StudentRecentAppointmentCard />
       </div>
-
     </div>
   )
 }

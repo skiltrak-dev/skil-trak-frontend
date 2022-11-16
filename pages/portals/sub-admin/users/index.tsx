@@ -80,22 +80,22 @@ const FigureCardData = [
   {
     count: 38,
     title: 'RTOs',
-    imagUrl: '/images/figure-card/school.png'
+    imagUrl: '/images/figure-card/school.png',
   },
   {
     count: 97,
     title: 'Students',
-    imagUrl: '/images/figure-card/school.png'
+    imagUrl: '/images/figure-card/school.png',
   },
   {
     count: 98,
     title: 'Industries',
-    imagUrl: '/images/figure-card/school.png'
+    imagUrl: '/images/figure-card/school.png',
   },
   {
     count: 98,
     title: 'Pending Students',
-    imageUrl: "/images/figure-card/school.png"
+    imageUrl: '/images/figure-card/school.png',
   },
 ]
 
@@ -121,9 +121,14 @@ const SubAdminUsers: NextPageWithLayout = () => {
         {/* Figure Cards */}
 
         <div className="flex gap-y-2 flex-col w-full">
-          <div className='flex gap-x-2'>
+          <div className="flex gap-x-2">
             {FigureCardData.map((data, index) => (
-              <FigureCard imageUrl={data.imageUrl} count={data.count} title={data.title} />
+              <FigureCard
+                key={index}
+                imageUrl={data.imageUrl}
+                count={data.count}
+                title={data.title}
+              />
             ))}
           </div>
 

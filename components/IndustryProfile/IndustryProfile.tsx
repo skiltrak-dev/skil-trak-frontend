@@ -1,36 +1,37 @@
-import { InitialAvatar, InitialAvatarContainer } from '@components/InitialAvatar'
+import {
+  InitialAvatar,
+  InitialAvatarContainer,
+} from '@components/InitialAvatar'
 import { Typography } from '@components/Typography'
 import Image from 'next/image'
-import { useRouter } from 'next/router'
+
 import { AiFillEdit } from 'react-icons/ai'
 import { BiRename } from 'react-icons/bi'
 
-import { FaAddressCard, FaBirthdayCake, FaPhoneAlt, FaUserCircle } from 'react-icons/fa'
+import {
+  FaAddressCard,
+  FaBirthdayCake,
+  FaPhoneAlt,
+  FaUserCircle,
+} from 'react-icons/fa'
 import { GiBackwardTime } from 'react-icons/gi'
 import { IoLocation } from 'react-icons/io5'
-import {
-  MdPhone,
-  MdBlock,
-  MdVerified,
-} from 'react-icons/md'
+import { MdPhone, MdBlock, MdVerified } from 'react-icons/md'
 import { useGetSubAdminIndustriesProfileQuery } from '@queries'
 
-type Props = {}
+type Props = {
+  data: any
+}
 
-export const IndustryProfile = (props: Props) => {
-  const pathname = useRouter()
-  const profileId = pathname.query.profileId;
-  const {data}: any= useGetSubAdminIndustriesProfileQuery(String(profileId))
-  // console.log("Industry__________Profile", data);
-  
+export const IndustryProfile = ({ data }: Props) => {
   return (
     <div>
-      <div className='flex justify-end gap-x-2'>
-        <div className='bg-blue-100 rounded-full p-1'>
-          <AiFillEdit className='text-blue-400  cursor-pointer ' />
+      <div className="flex justify-end gap-x-2">
+        <div className="bg-blue-100 rounded-full p-1">
+          <AiFillEdit className="text-blue-400  cursor-pointer " />
         </div>
-        <div className='bg-red-100 rounded-full p-1'>
-          <MdBlock className='text-red-400  cursor-pointer bg-red-100 rounded-full' />
+        <div className="bg-red-100 rounded-full p-1">
+          <MdBlock className="text-red-400  cursor-pointer bg-red-100 rounded-full" />
         </div>
       </div>
       <div className="flex flex-col items-center">
@@ -47,9 +48,7 @@ export const IndustryProfile = (props: Props) => {
         <div className="flex flex-col items-center">
           <p className="text-lg font-semibold">{data?.user?.name}</p>
           <div className="flex items-center gap-x-2">
-            <p className="text-sm text-gray-400">
-              {data?.user?.email}
-            </p>
+            <p className="text-sm text-gray-400">{data?.user?.email}</p>
             <span className="text-blue-500">
               <MdVerified />
             </span>
@@ -70,8 +69,6 @@ export const IndustryProfile = (props: Props) => {
             ABN
           </div>
         </div>
-
-
 
         <div className="p-2">
           <div className="flex items-center space-x-2">
@@ -97,8 +94,6 @@ export const IndustryProfile = (props: Props) => {
         </div>
       </div>
 
-      
-
       {/* Info Row 3 */}
       <div className="flex justify-around">
         <div className="p-2">
@@ -107,7 +102,8 @@ export const IndustryProfile = (props: Props) => {
               <IoLocation />
             </span>
             <p className="text-sm font-medium">
-              {data?.addressLine1}, {data?.addressLine2}, {data?.state}, {data?.suburb}
+              {data?.addressLine1}, {data?.addressLine2}, {data?.state},{' '}
+              {data?.suburb}
             </p>
           </div>
           <div className="text-gray-400 text-[11px] -mt-0.5 text-center">
@@ -120,49 +116,42 @@ export const IndustryProfile = (props: Props) => {
         Contact Person
       </Typography>
       <div className="flex justify-around divide-x border-t border-b">
-        <div className='p-2'>
-          <div className='flex items-center gap-x-2'>
-            <BiRename className='text-gray-400' />
-            <Typography variant={'small'} color={"text-gray-400"}>
+        <div className="p-2">
+          <div className="flex items-center gap-x-2">
+            <BiRename className="text-gray-400" />
+            <Typography variant={'small'} color={'text-gray-400'}>
               Name
             </Typography>
           </div>
-          <Typography variant={'small'} color={"text-black"}>
+          <Typography variant={'small'} color={'text-black'}>
             {data?.contactPerson}
           </Typography>
         </div>
-        <div className='p-2'>
-          <div className='flex items-center gap-x-2'>
-            <FaPhoneAlt className='text-gray-400' />
-            <Typography variant={'small'} color={"text-gray-400"}>
+        <div className="p-2">
+          <div className="flex items-center gap-x-2">
+            <FaPhoneAlt className="text-gray-400" />
+            <Typography variant={'small'} color={'text-gray-400'}>
               Phone
             </Typography>
           </div>
-          <Typography variant={'small'} color={"text-black"}>
+          <Typography variant={'small'} color={'text-black'}>
             {data?.contactPersonNumber}
           </Typography>
         </div>
       </div>
       {/* placement coordinator row 5 */}
       <div className="mt-4">
-        <p className="text-[11px] text-gray-400">
-          Placement Coordinators
-        </p>
+        <p className="text-[11px] text-gray-400">Placement Coordinators</p>
         <div className="flex justify-between gap-x-2">
           <div>
-            <p className="font-medium text-sm">
-              Yaseen Khan
-            </p>
+            <p className="font-medium text-sm">Yaseen Khan</p>
             <p className="text-xs font-medium text-slate-400">
               yaseen@skiltrak.com.au
             </p>
           </div>
 
           <InitialAvatarContainer show={3}>
-            <InitialAvatar
-              name="John Smith"
-              first
-            />
+            <InitialAvatar name="John Smith" first />
             <InitialAvatar name="Yaseen Khan" />
             <InitialAvatar name="Julie Clarke" />
             <InitialAvatar name="Salman" />
@@ -174,53 +163,50 @@ export const IndustryProfile = (props: Props) => {
         </div>
       </div>
 
-
-
       {/* Eligible sectors */}
-      <div className='mt-4'>
-        <Typography variant={'small'} color={"text-gray-500"}>
+      <div className="mt-4">
+        <Typography variant={'small'} color={'text-gray-500'}>
           Eligible Sectors
         </Typography>
-        <Typography variant={'label'} color={"text-black"}>
+        <Typography variant={'label'} color={'text-black'}>
           Commercial Cookery & Hospitality
         </Typography>
-        <div className='mt-2 flex items-center gap-x-2'>
-          <div className='flex flex-col items-center'>
-            <div className='bg-blue-400 p-2 rounded-full'></div>
-            <div className='bg-blue-400 w-[1px] h-10'></div>
-            <div className='bg-blue-400 p-2 rounded-full'></div>
-            <div className='bg-blue-400 w-[1px] h-10'></div>
-            <div className='bg-blue-400 p-2 rounded-full'></div>
+        <div className="mt-2 flex items-center gap-x-2">
+          <div className="flex flex-col items-center">
+            <div className="bg-blue-400 p-2 rounded-full"></div>
+            <div className="bg-blue-400 w-[1px] h-10"></div>
+            <div className="bg-blue-400 p-2 rounded-full"></div>
+            <div className="bg-blue-400 w-[1px] h-10"></div>
+            <div className="bg-blue-400 p-2 rounded-full"></div>
           </div>
-          <div className='flex flex-col gap-y-4'>
-            <div className=''>
-              <Typography variant={'small'} color={"text-gray-500"}>
+          <div className="flex flex-col gap-y-4">
+            <div className="">
+              <Typography variant={'small'} color={'text-gray-500'}>
                 SITHCCC020
               </Typography>
-              <Typography variant={'small'} color={"text-gray-800"}>
+              <Typography variant={'small'} color={'text-gray-800'}>
                 Work Effectively As Cook
               </Typography>
             </div>
-            <div className=''>
-              <Typography variant={'small'} color={"text-gray-500"}>
+            <div className="">
+              <Typography variant={'small'} color={'text-gray-500'}>
                 SITHKOP005
               </Typography>
-              <Typography variant={'small'} color={"text-gray-800"}>
+              <Typography variant={'small'} color={'text-gray-800'}>
                 Coordinate Cooking Operations
               </Typography>
             </div>
-            <div className=''>
-              <Typography variant={'small'} color={"text-gray-500"}>
+            <div className="">
+              <Typography variant={'small'} color={'text-gray-500'}>
                 SITHIND004
               </Typography>
-              <Typography variant={'small'} color={"text-gray-800"}>
+              <Typography variant={'small'} color={'text-gray-800'}>
                 Work Effectively In Hospitality Service
               </Typography>
             </div>
           </div>
         </div>
       </div>
-
     </div>
   )
 }
