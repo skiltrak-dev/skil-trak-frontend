@@ -50,6 +50,8 @@ export const AdvertiseNewJobContainer = () => {
   //     )
   //   }, [setContent])
 
+  
+
   const isLoading = addResult.isLoading || updateResult.isLoading
   // const isError = addResult.isError || updateResult.isError;
   const isSuccess = addResult.isSuccess || updateResult.isSuccess

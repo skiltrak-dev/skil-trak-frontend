@@ -4,7 +4,7 @@ import { AuthUtils } from '@utils'
 export const jobsApi = createApi({
   reducerPath: 'jobsApi',
   baseQuery: fetchBaseQuery({
-    baseUrl: process.env.REACT_APP_END_POINT,
+    baseUrl: process.env.NEXT_PUBLIC_END_POINT,
     prepareHeaders: (headers, { getState }) => {
       const token = AuthUtils.getToken()
 

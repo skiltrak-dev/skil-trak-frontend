@@ -8,7 +8,6 @@ import { AiFillDelete } from 'react-icons/ai'
 
 // components
 import {
-  Card,
   Popup,
   Button,
   EmptyData,
@@ -24,7 +23,7 @@ import { JobsFilter } from './components'
 // import { useContextBar } from "hooks";
 
 // redux
-import { useGetJobsQuery, useRemoveJobMutation } from '@queries'
+import { useGetIndustryJobsQuery, useRemoveJobMutation } from '@queries'
 
 // utills
 import { getThemeColors } from '@theme'
@@ -159,6 +158,18 @@ export const AdvertisedJobs = () => {
     },
   ]
 
+  const ABC = [
+    {
+      Header: 'Action',
+      accessor: 'Action',
+      Cell: ({ row }) => {
+        // const action = TableActionOption(row.original)
+        return 'Saad'
+        // return <ActionDropDown title={'More'} dropDown={action} />
+      },
+    },
+  ]
+
   const filterInitialValues = {
     title: '',
     type: '',
@@ -196,11 +207,11 @@ export const AdvertisedJobs = () => {
         <p className="text-sm font-bold">Your Jobs</p>
       </div>
       <ReactTable
-        Columns={Columns}
-        pagination
         pagesize
-        action={useGetJobsQuery}
+        pagination
+        Columns={Columns}
         querySort={'title'}
+        action={useGetIndustryJobsQuery}
       />
 
       {/* Delete */}

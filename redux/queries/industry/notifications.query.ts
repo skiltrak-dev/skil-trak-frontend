@@ -1,49 +1,49 @@
-import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 import { AuthUtils } from '@utils'
 
 export const notificationsApi = createApi({
-  reducerPath: "notificationsApi",
+  reducerPath: 'notificationsApi',
   baseQuery: fetchBaseQuery({
-    baseUrl: process.env.REACT_APP_END_POINT,
+    baseUrl: process.env.NEXT_PUBLIC_END_POINT,
     prepareHeaders: (headers) => {
       // const token = (getState()).usersSlice.token;
-      const token = AuthUtils.getToken();
+      const token = AuthUtils.getToken()
 
       // // If we have a token set in state, let's assume that we should be passing it.
       if (token) {
-        headers.set("authorization", `Bearer ${token}`);
+        headers.set('authorization', `Bearer ${token}`)
       }
 
-      return headers;
+      return headers
     },
   }),
-  tagTypes: ["Notifications"],
+  tagTypes: ['Notifications'],
   endpoints: (builder) => ({
     getNotifications: builder.query({
       query: (params) => {
         return {
-          url: "/notifications",
+          url: '/notifications',
           params,
-        };
+        }
       },
-      providesTags: ["Notifications"],
+      providesTags: ['Notifications'],
     }),
     getNotificationDetail: builder.query({
       query: (id) => `/notifications/${id}`,
-      providesTags: ["Notifications"],
+      providesTags: ['Notifications'],
     }),
     readNotification: builder.mutation({
       query: (id) => ({
         url: `/notifications/read/${id}`,
-        method: "PATCH",
+        method: 'PATCH',
       }),
-      invalidatesTags: ["Notifications"],
+      invalidatesTags: ['Notifications'],
     }),
   }),
-});
+})
 
 export const {
   useGetNotificationsQuery,
   useGetNotificationDetailQuery,
   useReadNotificationMutation,
-} = notificationsApi;
+} = notificationsApi

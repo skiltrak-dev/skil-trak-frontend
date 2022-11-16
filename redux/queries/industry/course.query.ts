@@ -4,7 +4,7 @@ import { AuthUtils } from '@utils'
 export const courseApi = createApi({
     reducerPath: 'courseApi',
     baseQuery: fetchBaseQuery({
-        baseUrl: process.env.REACT_APP_END_POINT,
+        baseUrl: process.env.NEXT_PUBLIC_END_POINT,
         prepareHeaders: (headers) => {
             // const token = (getState()).usersSlice.token;
             const token = AuthUtils.getToken()
