@@ -1,5 +1,5 @@
-import React from "react";
-import { useNavigate } from "react-router-dom";
+import React from 'react'
+import { useRouter } from 'next/router'
 
 // componemts
 import {
@@ -7,10 +7,10 @@ import {
   OtherDocumentLinks,
   PrimaryActionLink,
   Typography,
-} from "components";
+} from 'components'
 
 export const RightSidebarData = () => {
-  const navigate = useNavigate();
+  const router = useRouter()
   return (
     <div className="flex flex-col items-start gap-y-4">
       <img
@@ -19,16 +19,16 @@ export const RightSidebarData = () => {
         alt="Sidebar"
       />
       <Button
-        border={"2"}
-        borderColor={"primary"}
-        bgColor={"primary"}
-        onClick={() => navigate("/apply-for-rpl")}
+        border={'2'}
+        borderColor={'primary'}
+        bgColor={'primary'}
+        onClick={() => navigate('/apply-for-rpl')}
       >
         Apply For RPL
       </Button>
 
       <div className="flex flex-col gap-y-2 mt-2">
-        <Typography varient={"text"} color={"gray"}>
+        <Typography varient={'text'} color={'gray'}>
           Related Links
         </Typography>
         <OtherDocumentLinks />
@@ -36,25 +36,25 @@ export const RightSidebarData = () => {
 
       {/* Other Links */}
       <div className="flex flex-col gap-y-2 mt-2">
-        <Typography varient={"text"} color={"gray"}>
+        <Typography varient={'text'} color={'gray'}>
           Other Links
         </Typography>
         <PrimaryActionLink
-          bgColor={"white"}
-          bgHoverColor={"secondary"}
-          title={"Documentation Required"}
-          desc={"Some helping text"}
-          img={"./images/dashboardbtn.png"}
+          bgColor={'white'}
+          bgHoverColor={'secondary'}
+          title={'Documentation Required'}
+          desc={'Some helping text'}
+          img={'./images/dashboardbtn.png'}
         />
 
         <PrimaryActionLink
-          bgColor={"white"}
-          bgHoverColor={"secondary"}
-          title={"Documentation Required"}
-          desc={"Some helping text"}
-          img={"./images/dashboardbtn2.png"}
+          bgColor={'white'}
+          bgHoverColor={'secondary'}
+          title={'Documentation Required'}
+          desc={'Some helping text'}
+          img={'./images/dashboardbtn2.png'}
         />
       </div>
     </div>
-  );
-};
+  )
+}

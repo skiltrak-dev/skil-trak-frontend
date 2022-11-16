@@ -1,5 +1,5 @@
 import React, { createContext, useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useRouter } from 'next/router'
 
 // components
 import {
@@ -7,38 +7,41 @@ import {
   Button,
   ReactTable,
   Typography,
-  GoBackButton,
-  ActionDropDown,
+  BackButton,
+  // ActionDropDown,
 } from 'components'
 import { RightSidebarData, RTOFilter } from './components'
 
 // Context
 import { useContextBar } from 'hooks'
-import { Colors } from 'utills'
+
+// colors
+import { getThemeColors } from '@theme'
+const Colors = getThemeColors()
 
 // redux query
 import {
-  useGetMOUQuery,
-  useCancelMOUMutation,
-  useRejectMOUMutation,
-} from 'redux/query'
+  useGetIndustryMOUQuery,
+  useCancelIndustryMOUMutation,
+  useRejectIndustryMOUMutation,
+} from '@queries'
 
 // filter
-import { Filter } from 'HigherOrderComponents'
+import { Filter } from '@hoc'
 
 // functions
-import { userStatus } from 'utills'
+import { userStatus } from '@utils'
 
 export const SelectRtoData = createContext(null)
 
-export const MoU = () => {
-  const navigate = useNavigate()
+export const MoUContainer = () => {
+  const router = useRouter()
   const [queryFilters, setQueryFilters] = useState({})
   const [filterActionButton, setFilterActionButton] = useState(null)
 
   // Redux Query
-  const [cancelMou, cancelMouData] = useCancelMOUMutation()
-  const [rejectMou, rejectMouData] = useRejectMOUMutation()
+  const [cancelMou, cancelMouData] = useCancelIndustryMOUMutation()
+  const [rejectMou, rejectMouData] = useRejectIndustryMOUMutation()
 
   const { setContent } = useContextBar()
   useEffect(() => {
@@ -182,7 +185,9 @@ export const MoU = () => {
                   {
                     text: 'Sign',
                     action: () => {
-                      navigate(`/general-information/memorendum-ou/${mou.id}`)
+                      router.push(
+                        `/portals/industry/general-information/memorendum-ou/${mou.id}`
+                      )
                     },
                     Icon: '',
                     color: Colors.error,
@@ -206,7 +211,9 @@ export const MoU = () => {
                   {
                     text: 'View',
                     action: () => {
-                      navigate(`/general-information/memorendum-ou/${mou.id}`)
+                      router.push(
+                        `/portals/industry/general-information/memorendum-ou/${mou.id}`
+                      )
                     },
                     Icon: '',
                     color: Colors.info,
@@ -244,7 +251,7 @@ export const MoU = () => {
           return (
             <Button
               onClick={() =>
-                navigate(`/general-information/memorendum-ou/${id}`)
+                router.push(`/portals/industry/general-information/mou/${id}`)
               }
               variant={'secondary'}
               text={'Sign'}
@@ -266,7 +273,7 @@ export const MoU = () => {
   }
   return (
     <div>
-      <GoBackButton>Back To MoU Instructions</GoBackButton>
+      <BackButton text={'Back To MoU Instructions'} />
 
       {/* Title */}
       <div className="flex justify-between items-center py-4">
@@ -291,26 +298,23 @@ export const MoU = () => {
       />
 
       {/* Data */}
-      <Card px={'none'} mt={6}>
-        <ReactTable
-          pagesize
-          pagination
-          borderBottom={1}
-          Columns={Columns}
-          querySort={'name'}
-          action={useGetMOUQuery}
-          queryFilters={queryFilters}
-        />
+      <ReactTable
+        pagesize
+        pagination
+        Columns={Columns}
+        querySort={'name'}
+        action={useGetIndustryMOUQuery}
+        queryFilters={queryFilters}
+      />
 
-        {/* <div className="mt-4">
+      {/* <div className="mt-4">
           <Button
             disabled={!Object.keys(selectedRow).length}
-            onClick={() => navigate("/general-information/memorendum-ou")}
+            onClick={() => router.push("/general-information/memorendum-ou")}
           >
             Continue
           </Button>
         </div> */}
-      </Card>
     </div>
   )
 }

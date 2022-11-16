@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState } from 'react'
 
 // Icons
-import { BsFillCheckCircleFill } from "react-icons/bs";
+import { BsFillCheckCircleFill } from 'react-icons/bs'
 
 // components
 import {
@@ -11,44 +11,44 @@ import {
   Card,
   DocumentView,
   Typography,
-} from "../../../../components";
-import { RightSidebarData } from "./components";
+} from '../../../../components'
+import { RightSidebarData } from './components'
 
 // Context
-import { useContextBar } from "hooks";
-import { useNavigate } from "react-router-dom";
+import { useContextBar } from 'hooks'
+import { useRouter } from 'next/router'
 
 export const RequestAVolunteerStudent = () => {
-  const { setContent } = useContextBar();
-  const [isVolunteer, setIsVolunteer] = useState(false);
-  const navigate = useNavigate();
+  const { setContent } = useContextBar()
+  const [isVolunteer, setIsVolunteer] = useState(false)
+  const router = useRouter()
 
   useEffect(() => {
     setContent(
       <>
         <RightSidebarData />
       </>
-    );
-  }, [setContent]);
+    )
+  }, [setContent])
 
   useEffect(() => {
     isVolunteer &&
       setTimeout(() => {
-        navigate("/students");
-      }, 2000);
-  }, [isVolunteer, navigate]);
+        navigate('/students')
+      }, 2000)
+  }, [isVolunteer, navigate])
 
   const onVolunteer = () => {
-    setIsVolunteer(true);
-  };
+    setIsVolunteer(true)
+  }
 
   return isVolunteer ? (
     <Card>
       <ActionAlert
         Icon={BsFillCheckCircleFill}
-        title={"Successfully requested a volunteer student"}
-        description={"You will be redirected to jobs in a moment."}
-        iconsColor={"success"}
+        title={'Successfully requested a volunteer student'}
+        description={'You will be redirected to jobs in a moment.'}
+        iconsColor={'success'}
       />
     </Card>
   ) : (
@@ -56,8 +56,8 @@ export const RequestAVolunteerStudent = () => {
       <GoBackButton>Back To Dashboard</GoBackButton>
 
       {/* Data */}
-      <DocumentView title={"Request A Volunteer Student"}>
-        <Typography variant={"title"}>Section 1</Typography>
+      <DocumentView title={'Request A Volunteer Student'}>
+        <Typography variant={'title'}>Section 1</Typography>
         <div className="flex flex-col gap-y-3 my-2.5">
           <Typography>
             Lorem ipsum dolor sit amet. Quo dolore repellat qui culpa voluptates
@@ -79,19 +79,19 @@ export const RequestAVolunteerStudent = () => {
 
           <div className="w-full mt-6 flex gap-x-2">
             <Button
-              border={"2"}
-              borderColor={"primary"}
-              bgColor={"primary"}
+              border={'2'}
+              borderColor={'primary'}
+              bgColor={'primary'}
               onClick={onVolunteer}
             >
               Yes
             </Button>
             <Button
-              border={"2"}
-              borderColor={"primary"}
-              bgColor={"secondary"}
-              textColor={"text"}
-              onClick={() => navigate("/students")}
+              border={'2'}
+              borderColor={'primary'}
+              bgColor={'secondary'}
+              textColor={'text'}
+              onClick={() => navigate('/students')}
             >
               No
             </Button>
@@ -99,5 +99,5 @@ export const RequestAVolunteerStudent = () => {
         </div>
       </DocumentView>
     </>
-  );
-};
+  )
+}

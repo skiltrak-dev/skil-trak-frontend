@@ -1,40 +1,34 @@
-import React, { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useEffect } from 'react'
+import { useRouter } from 'next/router'
 
 // components
-import {
-  Button,
-  GoBackButton,
-  Card,
-  DocumentView,
-  Typography,
-} from "../../../../components";
-import { RightSidebarData } from "./components";
+import { Button, BackButton, Card, DocumentView, Typography } from '@components'
+import { RightSidebarData } from './components'
 // import {RelatedLinkPageData} from '../../components'
 
 // Context
-import { useContextBar } from "hooks";
+import { useContextBar } from 'hooks'
 
-export const IndustryConsultation = () => {
-  const navigate = useNavigate();
-  const { setContent } = useContextBar();
+export const IndustryConsultationContainer = () => {
+  const router = useRouter()
+  const { setContent } = useContextBar()
   useEffect(() => {
     setContent(
       <>
         <RightSidebarData />
       </>
-    );
-  }, [setContent]);
+    )
+  }, [setContent])
   return (
     <div>
-      <GoBackButton>Back To Dashboard</GoBackButton>
+      <BackButton text={'Back To Dashboard'} />
 
       {/* Data */}
       <DocumentView
-        title={"Industry Consultation"}
-        downloadLink={"http://www.africau.edu/images/default/sample.pdf"}
+        title={'Industry Consultation'}
+        downloadLink={'http://www.africau.edu/images/default/sample.pdf'}
       >
-        <Typography variant={"title"}>Section 1</Typography>
+        <Typography variant={'title'}>Section 1</Typography>
         <div className="flex flex-col gap-y-3 my-2.5">
           <Typography>
             Lorem ipsum dolor sit amet. Quo dolore repellat qui culpa voluptates
@@ -56,33 +50,22 @@ export const IndustryConsultation = () => {
         </div>
       </DocumentView>
 
-      <Card mt={6}>
-        <Typography variant={"subtitle"}>
+      <Card>
+        <Typography variant={'subtitle'}>
           Want to become a consultant?
         </Typography>
 
         <div className="flex items-center gap-x-4 mt-4">
           <Button
-            border={"2"}
-            borderColor={"primary"}
-            bgColor={"primary"}
-            onClick={() => navigate("/general-information/consultation")}
-          >
-            Yes
-          </Button>
-          <Button border={"2"} borderColor={"primary"} bgColor={"text"}>
-            Confirm Upon Request
-          </Button>
-          <Button
-            border={"2"}
-            borderColor={"primary"}
-            bgColor={"secondary"}
-            textColor={"text"}
-          >
-            No
-          </Button>
+            variant={'primary'}
+            text={'Yes'}
+            onClick={() => router.push('/general-information/consultation')}
+          />
+
+          <Button variant={'primary'} text={'Confirm Upon Request'} />
+          <Button text={'No'} />
         </div>
       </Card>
     </div>
-  );
-};
+  )
+}

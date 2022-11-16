@@ -1,36 +1,43 @@
-import jwt from "jwt-decode";
+import jwt from 'jwt-decode'
+import { isBrowser } from './browser-supported'
 
 const KEYS = {
-	TOKEN: "user-token",
-};
+  TOKEN: 'user-token',
+}
 export const setToken = (token: string) => {
-	localStorage.setItem(KEYS.TOKEN, token);
-};
+  if (isBrowser()) {
+    localStorage.setItem(KEYS.TOKEN, token)
+  }
+}
 
 export const getToken = () => {
-	return localStorage.getItem(KEYS.TOKEN);
-};
+  if (isBrowser()) {
+    return localStorage.getItem(KEYS.TOKEN)
+  }
+}
 
-export const getUserCredentials = () => {
-	const token = getToken();
-	if (token) {
-		return jwt(token);
-	}
-	return null
-};
+export const getUserCredentials: any = () => {
+  const token = getToken()
+  if (token) {
+    return jwt(token)
+  }
+  return null
+}
 
 export const isAuthenticated = () => {
-	return getToken() !== null;
-};
+  return getToken() !== null
+}
 
 export const logout = () => {
-	localStorage.removeItem(KEYS.TOKEN);
-};
+  if (isBrowser()) {
+    localStorage.removeItem(KEYS.TOKEN)
+  }
+}
 
 export const AuthUtils = {
-	setToken,
-	getToken,
-	getUserCredentials,
-	isAuthenticated,
-	logout,
-};
+  setToken,
+  getToken,
+  getUserCredentials,
+  isAuthenticated,
+  logout,
+}

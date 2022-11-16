@@ -4,14 +4,17 @@ import { useRouter } from 'next/router'
 import { IndustryLayout } from '@layouts'
 import { NextPageWithLayout } from '@types'
 
-import { CurrentStudnts } from '@components/sections'
-import { TabNavigation, TabProps } from '@components/TabNavigation'
+import { MemorendumOU } from '@components/sections'
 
 const MOUDetail: NextPageWithLayout = () => {
   const router = useRouter()
   const { query } = router
 
-  return <div>MOUDetail</div>
+  return (
+    <div>
+      <MemorendumOU />
+    </div>
+  )
 }
 
 MOUDetail.getLayout = (page: ReactElement) => {
