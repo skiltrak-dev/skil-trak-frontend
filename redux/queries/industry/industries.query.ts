@@ -1,96 +1,96 @@
-import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 import { AuthUtils } from '@utils'
 
 export const industriesApi = createApi({
-  reducerPath: "industriesApi",
+  reducerPath: 'industriesApi',
   baseQuery: fetchBaseQuery({
-    baseUrl: process.env.REACT_APP_END_POINT,
+    baseUrl: process.env.NEXT_PUBLIC_END_POINT,
     prepareHeaders: (headers, { getState }) => {
-      const token = AuthUtils.getToken();
+      const token = AuthUtils.getToken()
 
       // // If we have a token set in state, let's assume that we should be passing it.
       if (token) {
-        headers.set("authorization", `Bearer ${token}`);
+        headers.set('authorization', `Bearer ${token}`)
       }
 
-      return headers;
+      return headers
     },
   }),
-  tagTypes: ["Industries"],
+  tagTypes: ['Industries'],
   endpoints: (builder) => ({
     getIndustryListCount: builder.query({
-      query: () => "admin/industries/list/count",
-      providesTags: ["Industries"],
+      query: () => 'admin/industries/list/count',
+      providesTags: ['Industries'],
     }),
     getActiveIndustries: builder.query({
       query: (params) => {
         return {
-          url: "admin/industries/list",
+          url: 'admin/industries/list',
           params,
-        };
+        }
       },
-      providesTags: ["Industries"],
+      providesTags: ['Industries'],
     }),
     getArchivedIndustries: builder.query({
       query: (params) => {
         return {
-          url: "admin/industries/archived/list",
+          url: 'admin/industries/archived/list',
           params,
-        };
+        }
       },
-      providesTags: ["Industries"],
+      providesTags: ['Industries'],
     }),
     getPendingIndustries: builder.query({
       query: (params) => {
         return {
-          url: "admin/industries/pending/list",
+          url: 'admin/industries/pending/list',
           params,
-        };
+        }
       },
-      providesTags: ["Industries"],
+      providesTags: ['Industries'],
     }),
     getRejectedIndustries: builder.query({
       query: (params) => {
         return {
-          url: "admin/industries/rejected/list",
+          url: 'admin/industries/rejected/list',
           params,
-        };
+        }
       },
-      providesTags: ["Industries"],
+      providesTags: ['Industries'],
     }),
     getBlockedIndustries: builder.query({
       query: (params) => {
         return {
-          url: "admin/industries/blocked/list",
+          url: 'admin/industries/blocked/list',
           params,
-        };
+        }
       },
-      providesTags: ["Industries"],
+      providesTags: ['Industries'],
     }),
     getIndustryDetail: builder.query({
       query: (id) => `admin/industries/${id}`,
-      providesTags: ["Industries"],
+      providesTags: ['Industries'],
     }),
     changeIndustryStatus: builder.mutation({
-      query: ({id,status}) => {
+      query: ({ id, status }) => {
         return {
           url: `admin/industries/status`,
-          method: "PATCH",
-          params : {id},
-          body : {status},
-        };
+          method: 'PATCH',
+          params: { id },
+          body: { status },
+        }
       },
-      invalidatesTags: ["Industries"],
+      invalidatesTags: ['Industries'],
     }),
     removeIndustry: builder.mutation({
       query: (id) => ({
         url: `admin/industry/remove/${id}`,
-        method: "DELETE",
+        method: 'DELETE',
       }),
-      invalidatesTags: ["Industries"],
+      invalidatesTags: ['Industries'],
     }),
   }),
-});
+})
 
 export const {
   useGetIndustryListCountQuery,
@@ -102,4 +102,4 @@ export const {
   useGetBlockedIndustriesQuery,
   useRemoveIndustryMutation,
   useChangeIndustryStatusMutation,
-} = industriesApi;
+} = industriesApi

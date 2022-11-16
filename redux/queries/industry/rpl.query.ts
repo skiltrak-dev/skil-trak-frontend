@@ -1,41 +1,41 @@
-import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 import { AuthUtils } from '@utils'
 
 export const rplApi = createApi({
-  reducerPath: "rplApi",
+  reducerPath: 'rplApi',
   baseQuery: fetchBaseQuery({
-    baseUrl: process.env.REACT_APP_END_POINT,
+    baseUrl: process.env.NEXT_PUBLIC_END_POINT,
     prepareHeaders: (headers, { getState }) => {
       // const token = (getState()).usersSlice.token;
-      const token = AuthUtils.getToken();
+      const token = AuthUtils.getToken()
 
       // // If we have a token set in state, let's assume that we should be passing it.
       if (token) {
-        headers.set("authorization", `Bearer ${token}`);
+        headers.set('authorization', `Bearer ${token}`)
       }
 
-      return headers;
+      return headers
     },
   }),
-  tagTypes: ["rpl"],
+  tagTypes: ['rpl'],
   endpoints: (builder) => ({
     getRpl: builder.query({
       query: () => {
         return {
-          url: "industries/rpl/list",
-        };
+          url: 'industries/rpl/list',
+        }
       },
-      providesTags: ["rpl"],
+      providesTags: ['rpl'],
     }),
     addRpl: builder.mutation({
       query: (body) => ({
         url: `industries/rpl/add`,
-        method: "POST",
+        method: 'POST',
         body: body,
       }),
-      invalidatesTags: ["rpl"],
+      invalidatesTags: ['rpl'],
     }),
   }),
-});
+})
 
-export const { useGetRplQuery, useAddRplMutation } = rplApi;
+export const { useGetRplQuery, useAddRplMutation } = rplApi

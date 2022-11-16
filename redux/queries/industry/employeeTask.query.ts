@@ -4,7 +4,7 @@ import { AuthUtils } from '@utils'
 export const employeeTaskApi = createApi({
   reducerPath: 'employeeTaskApi',
   baseQuery: fetchBaseQuery({
-    baseUrl: process.env.REACT_APP_END_POINT,
+    baseUrl: process.env.NEXT_PUBLIC_END_POINT,
     prepareHeaders: (headers, { getState }) => {
       // const token = (getState()).usersSlice.token;
       const token = AuthUtils.getToken()
