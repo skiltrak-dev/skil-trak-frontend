@@ -50,24 +50,7 @@ export const RtoProfileOverview = ({ userId, rtoId }: Props) => {
             imageUrl: '/images/figure-card/school.png',
         },
     ]
-    // const pendingStudents = [
-    //   {
-    //     name: 'Raminder Kaur Sharma',
-    //     email: 'k_thabal@yahoo.co.in',
-    //     phone: '0401748554',
-    //     status: 'Pending',
-    //     imageUrl:
-    //       'https://images.unsplash.com/photo-1664575602276-acd073f104c1?ixlib=rb-4.0.3&ixid=MnwxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80',
-    //   },
-    //   {
-    //     name: 'Raminder Kaur Sharma',
-    //     email: 'k_thabal@yahoo.co.in',
-    //     phone: '0401748554',
-    //     status: 'Pending',
-    //     imageUrl:
-    //       'https://images.unsplash.com/photo-1664575602276-acd073f104c1?ixlib=rb-4.0.3&ixid=MnwxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80',
-    //   },
-    // ]
+    
     const recentAppointments = [
         {
             date: 'Wed, Jun 29, 2022',

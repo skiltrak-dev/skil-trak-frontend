@@ -4,7 +4,7 @@ import React from 'react'
 import { FaBook } from 'react-icons/fa'
 import { Course } from './Course'
 
-export const StudentProfileCoursesCard = () => {
+export const StudentProfileCoursesCard = ({ courses }: any) => {
     return (
         <Card>
             <div className="flex items-center gap-x-2">
@@ -30,8 +30,8 @@ export const StudentProfileCoursesCard = () => {
 
             {/*  */}
             <div className="mt-2 flex flex-col gap-y-1">
-                {[...Array(3)].map((_, i) => (
-                    <Course />
+                {courses?.map((course: any) => (
+                    <Course course={course} />
                 ))}
             </div>
         </Card>

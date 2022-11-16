@@ -22,16 +22,10 @@ import { useContextBar } from '@hooks'
 
 const PrimaryLinks = [
     {
-        title: 'Assessment Evidence',
-        description: 'Some helping text',
-        link: 'tasks/assessment-evidence',
-        animation: Animations.Student.Appointments.AssessmentEvidence,
-    },
-    {
-        title: 'Assessment Tools',
-        description: 'Some helping text',
-        link: 'tasks/assessment-tools',
-        animation: Animations.Student.Appointments.AssessmentEvidence,
+        title: 'Student Workplace',
+        description: 'Student Workplace',
+        link: 'tasks/workplace',
+        animation: Animations.Student.Appointments.AssessmentTool,
     },
     {
         title: 'Appointments',
@@ -40,10 +34,10 @@ const PrimaryLinks = [
         animation: Animations.Student.Appointments.AssessmentTool,
     },
     {
-        title: 'E-Signs',
-        description: 'E-signs',
-        link: 'tasks/e-signs',
-        animation: Animations.Student.Appointments.Esign,
+        title: 'Assessment Evidence',
+        description: 'Some helping text',
+        link: 'tasks/assessment-evidence',
+        animation: Animations.Student.Appointments.AssessmentEvidence,
     },
 ]
 

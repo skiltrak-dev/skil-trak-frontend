@@ -28,10 +28,12 @@ import {
 // icons
 import { FaEdit } from 'react-icons/fa'
 // queries
+
 import {
   useUpdateAssessmentToolArchiveMutation,
   useGetSubAdminStudentDetailQuery,
 } from '@queries'
+
 import { AssessmentsEvidence } from '@components/sections/student/AssessmentsContainer'
 
 // hooks
@@ -40,16 +42,36 @@ import { useContextBar } from '@hooks'
 type Props = {}
 
 const StudentsProfile: NextPageWithLayout = (props: Props) => {
-  const { setContent } = useContextBar()
-  useEffect(() => {
-    setContent(
-      <>
-        <SubAdminStudentProfile />
-      </>
-    )
-  }, [setContent])
-  const pathname = useRouter()
-  const profileId = pathname.query.profileId
+    const pathname = useRouter()
+    const profileId: any = pathname.query.profileId
+
+    const { data } = useGetSubAdminMyRtoQuery(String(profileId))
+
+    const { setContent } = useContextBar()
+    useEffect(() => {
+        setContent(
+            <>
+                <SubAdminStudentProfile data={data} />
+            </>
+        )
+    }, [setContent, data])
+
+    const [archiveAssessmentTool, archiveAssessmentToolResult] =
+        useUpdateAssessmentToolArchiveMutation()
+    const actions = (id: any) => {
+
+        return (
+            <div className="flex gap-x-2 ">
+                <a
+                    href={`${process.env.NEXT_PUBLIC_END_POINT}/rtos/course/content/${id}`}
+                    target="blank"
+                    rel="noreferrer"
+                >
+                    <Typography variant="tableCell" color="text-blue-600">
+                        Download
+                    </Typography>
+                </a>
+
 
   const [archiveAssessmentTool, archiveAssessmentToolResult] =
     useUpdateAssessmentToolArchiveMutation()
@@ -58,9 +80,33 @@ const StudentsProfile: NextPageWithLayout = (props: Props) => {
     {
       skip: !profileId,
     }
-  )
-  const actions = (id: any) => {
-    console.log(id)
+
+    const tabs: TabProps[] = [
+        {
+            label: 'Overview',
+            href: { pathname: String(profileId), query: { tab: 'overview' } },
+            badge: { text: '05', color: 'text-blue-500' },
+            element: <StudentsProfileOverview data={data} />,
+        },
+        {
+            label: 'Assessments',
+            href: { pathname: String(profileId), query: { tab: 'assessments' } },
+            badge: { text: '99+', color: 'text-error-500' },
+            element: <AssessmentsEvidence />,
+        },
+        {
+            label: 'Mails',
+            href: { pathname: String(profileId), query: { tab: 'mails' } },
+            element: <div>Mails</div>,
+        },
+        {
+            label: 'Notes',
+            href: { pathname: String(profileId), query: { tab: 'notes' } },
+            element: <div>Notes</div>,
+        },
+    ]
+
+
     return (
       <div className="flex gap-x-2 ">
         <a
@@ -92,31 +138,8 @@ const StudentsProfile: NextPageWithLayout = (props: Props) => {
         </div>
       </div>
     )
-  }
-  const tabs: TabProps[] = [
-    {
-      label: 'Overview',
-      href: { pathname: String(profileId), query: { tab: 'overview' } },
-      badge: { text: '05', color: 'text-blue-500' },
-      element: <StudentsProfileOverview studentDetail={data} />,
-    },
-    {
-      label: 'Assessments',
-      href: { pathname: String(profileId), query: { tab: 'assessments' } },
-      badge: { text: '99+', color: 'text-error-500' },
-      element: <AssesmentEvidenceDetail courseId={data?.courses[0]?.id} />,
-    },
-    {
-      label: 'Mails',
-      href: { pathname: String(profileId), query: { tab: 'mails' } },
-      element: <div>Mails</div>,
-    },
-    {
-      label: 'Notes',
-      href: { pathname: String(profileId), query: { tab: 'notes' } },
-      element: <Notes id={data?.user?.id} />,
-    },
-  ]
+
+}
 
   return (
     <>

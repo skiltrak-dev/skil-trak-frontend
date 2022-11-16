@@ -7,15 +7,26 @@ import { BiCheck } from 'react-icons/bi'
 import { Typography, Button, TextInput } from '@components'
 import { IoClose } from 'react-icons/io5'
 
-export const Course = () => {
+// queries
+import { useUpdateSubAdminCourseDurationMutation } from '@queries'
+import { useRouter } from 'next/router'
+
+export const Course = ({ course }: any) => {
+   const [timeDuration] = useUpdateSubAdminCourseDurationMutation()
+   const pathname = useRouter()
+   const profileId: any = pathname.query.profileId
    const [addDate, setAddDate] = useState(false)
+   const [duration, setDuration] = useState({
+      startTime: '',
+      endTime: '',
+   })
+
    const badge = (text: string, outline?: boolean) => {
       return (
          <Typography variant={'badge'}>
             <span
-               className={`p-1 rounded ${
-                  outline ? 'border border-success' : 'bg-success'
-               }`}
+               className={`p-1 rounded ${outline ? 'border border-success' : 'bg-success'
+                  }`}
             >
                {text}
             </span>
@@ -43,13 +54,15 @@ export const Course = () => {
                      label={'Start Date'}
                      type={'date'}
                      name={'startDate'}
+                     onChange={(e: any) => { setDuration({ ...duration, startTime: e.target.value }) }}
                   />
                   <TextInput
                      label={'End Date'}
                      type={'date'}
                      name={'endDate'}
+                     onChange={(e: any) => { setDuration({ ...duration, endTime: e.target.value }) }}
                   />
-                  <div className="p-2 rounded bg-success-light cursor-pointer">
+                  <div onClick={() => { timeDuration({ id: String(profileId), body: { course: course?.id, startTime: duration.startTime, endTime: duration.endTime } }) }} className="p-2 rounded bg-success-light cursor-pointer">
                      <BiCheck className="text-2xl text-success-dark" />
                   </div>
                   <div

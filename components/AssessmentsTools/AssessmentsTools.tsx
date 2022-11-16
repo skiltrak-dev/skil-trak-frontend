@@ -48,11 +48,11 @@ export const AssessmentsTools = ({ role, actions }: AssessmentsToolsProps) => {
                         {data?.map((course: any, index: any) => (
                             <>
                                 <AssessmentCourse
-                                    code={course.course.code}
-                                    name={course.course.title}
+                                    code={course?.course?.code}
+                                    name={course?.course?.title}
                                     id={course.id}
                                     onClick={() =>
-                                        setSelectedCourseId(course.id)
+                                        setSelectedCourseId(course?.id)
                                     }
                                     selectedCourseId={selectedCourseId}
                                 />

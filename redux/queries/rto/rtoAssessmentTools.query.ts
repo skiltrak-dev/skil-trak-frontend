@@ -23,8 +23,7 @@ export const rtoAssessmentToolsApi = createApi({
             query: (status:string) => {
                 return {
                     url: 'rtos/assessmenttool/list',
-                    params: {status}
-                    
+                    params: {status}  
                 }
             },
             providesTags: ['RtoAssessmentToolsList'],

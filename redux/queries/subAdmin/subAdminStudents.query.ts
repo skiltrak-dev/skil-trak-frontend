@@ -25,9 +25,39 @@ export const subAdminStudentsApi = createApi({
       },
       providesTags: ['SubAdminStudents'],
     }),
-    getSubAdminStudentDetail: builder.query<any, string>({
-      query: (id) => `student/profile/${id}`,
-      providesTags: ['SubAdminStudents'],
+    tagTypes: ['SubAdminStudents'],
+    endpoints: (builder) => ({
+
+        getSubAdminStudents: builder.query<any[], void>({
+            query: () => {
+                return {
+                    url: 'subadmin/students/list-all',
+                }
+            },
+            providesTags: ['SubAdminStudents'],
+        }),
+        getSubAdminMyRto: builder.query<any[], string>({
+            query: (id) => {
+                return {
+                    url: `subadmin/student/view/${id}`,
+                    params: {id}
+
+                }
+            },
+            providesTags: ['SubAdminStudents'],
+        }),
+
+        updateSubAdminCourseDuration: builder.mutation<any, any | null>({
+            query: ({id,body}:any) => {
+                return {
+                    url: `subadmin/student/course/timing/${id}`,
+                    method: 'POST',
+                    body
+                }
+            },
+            invalidatesTags: ['SubAdminStudents'],
+        }),
+       
     }),
     getSubAdminMyRto: builder.query<any[], string>({
       query: (id) => {
@@ -53,7 +83,9 @@ export const subAdminStudentsApi = createApi({
 })
 
 export const {
-  useGetSubAdminStudentsQuery,
-  useGetSubAdminMyRtoQuery,
-  useGetSubAdminStudentDetailQuery,
+    useGetSubAdminStudentsQuery,
+    useGetSubAdminMyRtoQuery,
+    useUpdateSubAdminCourseDurationMutation,
+    
 } = subAdminStudentsApi
+

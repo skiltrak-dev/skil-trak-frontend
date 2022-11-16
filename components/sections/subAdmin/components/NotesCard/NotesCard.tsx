@@ -66,7 +66,7 @@ export const NotesCard = ({ note, pinnedNote, setEditValues }: any) => {
                         <PinNoteIcon
                             className="text-base-light text-xl cursor-pointer"
                             onClick={() => {
-                                updateNoteStatus(note.id)
+                                updateNoteStatus(note?.id)
                             }}
                         />
                     </div>
