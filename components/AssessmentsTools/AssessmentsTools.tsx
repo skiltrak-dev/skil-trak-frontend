@@ -26,7 +26,7 @@ export const AssessmentsTools = ({ role, actions }: AssessmentsToolsProps) => {
         useGetAssessmentToolDetailQuery(selectedCourseId)
     console.log('Details', assessmentToolDetail)
 
-    console.log('first', data)
+    // console.log('first', data)
 
     return (
         <>
@@ -45,7 +45,16 @@ export const AssessmentsTools = ({ role, actions }: AssessmentsToolsProps) => {
                                 Select a Course
                             </Typography>
                         </div>
-                        {data?.map((course: any, index: any) => (
+                        <AssessmentCourse
+                            code={assessmentToolDetail?.course?.code}
+                            name={assessmentToolDetail?.course?.title}
+                            id={assessmentToolDetail?.course.id}
+                            onClick={() =>
+                                setSelectedCourseId(assessmentToolDetail?.course.id)
+                            }
+                            selectedCourseId={selectedCourseId}
+                        />
+                        {/* {data?.map((course: any, index: any) => (
                             <>
                                 <AssessmentCourse
                                     code={course?.course?.code}
@@ -57,7 +66,7 @@ export const AssessmentsTools = ({ role, actions }: AssessmentsToolsProps) => {
                                     selectedCourseId={selectedCourseId}
                                 />
                             </>
-                        ))}
+                        ))} */}
                     </div>
                     <div className="w-[75%]">
                         {role === 'RTO' && (
@@ -80,11 +89,10 @@ export const AssessmentsTools = ({ role, actions }: AssessmentsToolsProps) => {
                             </>
                         )}
                         <div
-                            className={`${
-                                role === 'RTO'
-                                    ? 'border-b border-t'
-                                    : 'border-b'
-                            } p-4`}
+                            className={`${role === 'RTO'
+                                ? 'border-b border-t'
+                                : 'border-b'
+                                } p-4`}
                         >
                             <div className="flex justify-between">
                                 <Typography variant="label" color="text-black">

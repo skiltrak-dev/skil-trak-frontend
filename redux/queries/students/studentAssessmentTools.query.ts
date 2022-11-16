@@ -1,8 +1,8 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 import { AuthUtils } from '@utils'
 
-export const rtoAssessmentToolsApi = createApi({
-    reducerPath: 'rtoAssessmentToolsApi',
+export const studentAssessmentToolsApi = createApi({
+    reducerPath: 'studentAssessmentToolsApi',
     baseQuery: fetchBaseQuery({
         baseUrl: `${process.env.NEXT_PUBLIC_END_POINT}/`,
         prepareHeaders: (headers, { getState }) => {
@@ -16,7 +16,7 @@ export const rtoAssessmentToolsApi = createApi({
             return headers
         },
     }),
-    tagTypes: ['RtoAssessmentToolsList'],
+    tagTypes: ['StudentAssessmentToolsList'],
     endpoints: (builder) => ({
 
         getAssessmentTool: builder.query<any, string>({
@@ -26,40 +26,38 @@ export const rtoAssessmentToolsApi = createApi({
                     params: {status}  
                 }
             },
-            providesTags: ['RtoAssessmentToolsList'],
+            providesTags: ['StudentAssessmentToolsList'],
         }),
-        getAssessmentToolDetail: builder.query<any, number | null>({
-            query: (id: number | null) => {
-                return {
-                    url: `rtos/assessmenttool/${id}`,
-                }
-            },
-            providesTags: ['RtoAssessmentToolsList'],
-        }),
+        // getAssessmentToolDetail: builder.query<any, number | null>({
+        //     query: (id: number | null) => {
+        //         return {
+        //             url: `rtos/assessmenttool/${id}`,
+        //         }
+        //     },
+        //     providesTags: ['StudentAssessmentToolsList'],
+        // }),
         // getAssessmentToolCourses: builder.query<any, number | null>({
         //     query: (id: number | null) => {
         //         return {
         //             url: `rtos/assessmenttool/${id}`,
         //         }
         //     },
-        //     providesTags: ['RtoAssessmentToolsList'],
+        //     providesTags: ['StudentAssessmentToolsList'],
         // }),
 
-        updateAssessmentToolArchive: builder.mutation<any, any | null>({
-            query: (id:any) => {
-                return {
-                    url: `rtos/assessmenttool/archived/${id}`,
-                    method: 'PATCH',
-                }
-            },
-            invalidatesTags: ['RtoAssessmentToolsList'],
-        }),
+        // updateAssessmentToolArchive: builder.mutation<any, any | null>({
+        //     query: (id:any) => {
+        //         return {
+        //             url: `rtos/assessmenttool/archived/${id}`,
+        //             method: 'PATCH',
+        //         }
+        //     },
+        //     invalidatesTags: ['StudentAssessmentToolsList'],
+        // }),
 
     }),
 })
 
 export const {
-    useGetAssessmentToolQuery,
-    useGetAssessmentToolDetailQuery,
-    useUpdateAssessmentToolArchiveMutation
-} = rtoAssessmentToolsApi
+    
+} = studentAssessmentToolsApi
