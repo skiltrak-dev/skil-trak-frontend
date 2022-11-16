@@ -8,9 +8,7 @@ type OfficeShiftTimingsProps = {
   title: string
 }
 
-export const OfficeShiftTimings = ({
-  title,
-}: OfficeShiftTimingsProps) => {
+export const OfficeShiftTimings = ({ title }: OfficeShiftTimingsProps) => {
   const officeTimings = [
     {
       timings: '12:00 PM - 1:00 PM',
@@ -60,6 +58,7 @@ export const OfficeShiftTimings = ({
         <div className="flex flex-wrap items-center gap-2">
           {officeTimings.map((item, index) => (
             <OfficeTimings
+              key={index}
               timings={item.timings}
               days={item.days}
               breakTime={item.break}
@@ -67,7 +66,6 @@ export const OfficeShiftTimings = ({
           ))}
         </div>
       </Card>
-      
     </div>
   )
 }

@@ -9,7 +9,13 @@ import { NextPageWithLayout } from '@types'
 
 import { TabsView } from '@components/sections/rto'
 //components
-import { Button, ReactTable, RtoContextBarData, SidebarCalendar, Typography } from '@components'
+import {
+  Button,
+  ReactTable,
+  RtoContextBarData,
+  SidebarCalendar,
+  Typography,
+} from '@components'
 // queries
 import { useGetSubAdminRtosQuery } from '@queries'
 // icons
@@ -30,7 +36,7 @@ const RTOs: NextPageWithLayout = (props: Props) => {
     )
   }, [setContent])
   const { data, error, isLoading } = useGetSubAdminRtosQuery()
- 
+
   const Columns = [
     {
       Header: 'Name',
@@ -56,25 +62,21 @@ const RTOs: NextPageWithLayout = (props: Props) => {
                 width={50}
                 height={50}
               />
-              <Link href={`/portals/sub-admin/users/rtos/profile/${row.original.id}?tab=overview`}>
+              <Link
+                href={`/portals/sub-admin/users/rtos/profile/${row.original.id}?tab=overview`}
+              >
                 <a>
                   <Typography color={'black'}>
                     {' '}
-                    {name}{' '}
-                    {/* name */}
+                    {name} {/* name */}
                   </Typography>
                   <div className="flex items-center gap-x-2">
-                    <FaPhoneSquareAlt className='text-gray' />
-                    <Typography variant={'muted'}>
-                      {phone}
-                    </Typography>
+                    <FaPhoneSquareAlt className="text-gray" />
+                    <Typography variant={'muted'}>{phone}</Typography>
                   </div>
                   <div className="flex items-center gap-x-2">
                     <FaEnvelope />
-                    <Typography
-                      variant={'muted'}
-                      color={'gray'}
-                    >
+                    <Typography variant={'muted'} color={'gray'}>
                       {email}
                     </Typography>
                   </div>
@@ -91,7 +93,7 @@ const RTOs: NextPageWithLayout = (props: Props) => {
       Cell: ({row}: any) => {
         // const {package}:any = row.original
         return (
-          <div className='flex justify-center'>
+          <div className="flex justify-center">
             <Typography variant={'muted'} color={'gray'}>
               {row?.original?.package?.name}
             </Typography>
@@ -105,7 +107,7 @@ const RTOs: NextPageWithLayout = (props: Props) => {
       Cell: ({ row }: any) => {
         const { rtoCode } = row.original
         return (
-          <div className='flex justify-center'>
+          <div className="flex justify-center">
             <Typography variant={'muted'} color={'gray'}>
               {rtoCode}
             </Typography>
@@ -119,7 +121,7 @@ const RTOs: NextPageWithLayout = (props: Props) => {
       Cell: ({ row }: any) => {
         const { students } = row.original
         return (
-          <div className='flex justify-center'>
+          <div className="flex justify-center">
             <Typography variant={'muted'} color={'gray'}>
               150
             </Typography>
@@ -132,8 +134,8 @@ const RTOs: NextPageWithLayout = (props: Props) => {
       accessor: 'courses',
       Cell: ({ row }: any) => {
         return (
-          <div className='flex justify-center'>
-            <Typography variant={'muted'} color='text-blue-400'>
+          <div className="flex justify-center">
+            <Typography variant={'muted'} color="text-blue-400">
               View
             </Typography>
           </div>
@@ -148,9 +150,7 @@ const RTOs: NextPageWithLayout = (props: Props) => {
         return (
           <div>
             <Typography color={'black'}>{address}</Typography>
-            <Typography color={'black'}>
-              {state} 
-            </Typography>
+            <Typography color={'black'}>{state}</Typography>
           </div>
         )
       },
@@ -158,7 +158,7 @@ const RTOs: NextPageWithLayout = (props: Props) => {
     {
       Header: 'Action',
       accessor: 'Action',
-      Cell: ({ }) => {
+      Cell: ({}) => {
         return (
           <div className="flex justify-center">
             <Typography variant="muted" color="text-blue-400">

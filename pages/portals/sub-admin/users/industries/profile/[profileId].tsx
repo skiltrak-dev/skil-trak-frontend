@@ -8,78 +8,83 @@ import { NextPageWithLayout } from '@types'
 // hooks
 import { useContextBar } from '@hooks'
 //components
-import { TabNavigation, TabProps } from '@components'
+import { LoadingAnimation, TabNavigation, TabProps } from '@components'
 import { IndustryProfile } from '@components/IndustryProfile'
-import { AppointmentProfile, IndustryProfileOverview } from '@components/sections'
+import {
+  AppointmentProfile,
+  IndustryProfileOverview,
+  Notes,
+} from '@components/sections'
 // icons
 // import { FaEdit } from 'react-icons/fa'
 // queries
-// import { useGetSubAdminIndustriesProfileQuery } from '@queries'
+import { useGetSubAdminIndustriesProfileQuery } from '@queries'
 
 type Props = {}
 
 const IndustriesProfile: NextPageWithLayout = (props: Props) => {
   const { setContent } = useContextBar()
+  const pathname = useRouter()
+  const profileId = pathname.query.profileId
+
+  const { data, isLoading } = useGetSubAdminIndustriesProfileQuery(
+    String(profileId)
+  )
+
   useEffect(() => {
     setContent(
       <>
-        <IndustryProfile />
+        <IndustryProfile data={data} />
       </>
     )
-  }, [setContent])
-  const pathname = useRouter()
-  const profileId = pathname.query.profileId;
-
-  // const {data} = useGetSubAdminIndustriesProfileQuery(String(profileId))
+  }, [data, setContent])
 
   const tabs: TabProps[] = [
     {
       label: 'Overview',
       href: { pathname: String(profileId), query: { tab: 'overview' } },
       badge: { text: '05', color: 'text-blue-500' },
-      element: <IndustryProfileOverview />,
+      element: <IndustryProfileOverview industryProfile={data} />,
     },
     {
       label: 'Students',
-      href: { pathname: 'profile', query: { tab: 'students' } },
-      badge: { text: '99+', color: 'text-error-500' },
+      href: { pathname: String(profileId), query: { tab: 'students' } },
+      badge: { text: '99', color: 'text-error-500' },
       element: <div>Students</div>,
     },
     {
       label: 'Appointments',
-      href: { pathname: 'profile', query: { tab: 'appointments' } },
+      href: { pathname: String(profileId), query: { tab: 'appointments' } },
       element: <AppointmentProfile />,
     },
     {
       label: 'Schedule',
-      href: { pathname: 'profile', query: { tab: 'schedule' } },
+      href: { pathname: String(profileId), query: { tab: 'schedule' } },
       element: <div>schedule</div>,
     },
     {
       label: 'Mails',
-      href: { pathname: 'profile', query: { tab: 'mails' } },
+      href: { pathname: String(profileId), query: { tab: 'mails' } },
       element: <div>Mails</div>,
     },
     {
       label: 'Notes',
-      href: { pathname: 'profile', query: { tab: 'notes' } },
-      element: <div>Notes</div>,
+      href: { pathname: String(profileId), query: { tab: 'notes' } },
+      element: <Notes id={data?.user?.id} />,
     },
   ]
 
   return (
-    <>
-      <TabNavigation tabs={tabs}>
-        {({ header, element }: any) => {
-          return (
-            <div>
-              <div>{header}</div>
-              <div>{element}</div>
-            </div>
-          )
-        }}
-      </TabNavigation>
-    </>
+    <TabNavigation tabs={tabs}>
+      {({ header, element }: any) => {
+        return (
+          <div>
+            <div>{header}</div>
+            <div>{element}</div>
+          </div>
+        )
+      }}
+    </TabNavigation>
   )
 }
 IndustriesProfile.getLayout = (page: ReactElement) => {

@@ -1,9 +1,9 @@
 export const InitialAvatarContainer = ({
-    children,
-    show = 3,
+  children,
+  show = 3,
 }: {
-    children: any
-    show: number
+  children: any
+  show: number
 }) => {
     return (
         <div className="relative flex items-center">
@@ -37,6 +37,9 @@ export const InitialAvatarContainer = ({
                     </div>
                 </div>
             )}
+
         </div>
-    )
+      )}
+    </div>
+  )
 }

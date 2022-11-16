@@ -8,25 +8,32 @@ import { NextPageWithLayout } from '@types'
 import { TabsView } from '@components/sections/rto'
 //components
 import {
-    AssessmentsTools,
-    ReactTable,
-    TabNavigation,
-    TabProps,
-    Typography,
-    IndustryProfile,
-    SubAdminStudentProfile,
+  AssessmentsTools,
+  ReactTable,
+  TabNavigation,
+  TabProps,
+  Typography,
+  IndustryProfile,
+  SubAdminStudentProfile,
 } from '@components'
 import {
-    AppointmentProfile,
-    FigureCard,
-    RtoProfileOverview,
-    StudentsProfileOverview,
-    SubAdminProfileTabsView,
+  AppointmentProfile,
+  AssesmentEvidenceDetail,
+  FigureCard,
+  Notes,
+  RtoProfileOverview,
+  StudentsProfileOverview,
+  SubAdminProfileTabsView,
 } from '@components/sections'
 // icons
 import { FaEdit } from 'react-icons/fa'
 // queries
-import { useUpdateAssessmentToolArchiveMutation, useGetSubAdminMyRtoQuery } from '@queries'
+
+import {
+  useUpdateAssessmentToolArchiveMutation,
+  useGetSubAdminStudentDetailQuery,
+} from '@queries'
+
 import { AssessmentsEvidence } from '@components/sections/student/AssessmentsContainer'
 
 // hooks
@@ -65,26 +72,15 @@ const StudentsProfile: NextPageWithLayout = (props: Props) => {
                     </Typography>
                 </a>
 
-                <div
-                    className="cursor-pointer"
-                    onClick={() => {
-                        archiveAssessmentTool(id)
-                    }}
-                >
-                    <Typography variant="tableCell" color="text-[#7081A0]">
-                        Archive
-                    </Typography>
-                </div>
-                <div
-                    onClick={() => {
-                        console.log('Edit')
-                    }}
-                >
-                    <FaEdit className="text-[#686DE0] cursor-pointer" />
-                </div>
-            </div>
-        )
+
+  const [archiveAssessmentTool, archiveAssessmentToolResult] =
+    useUpdateAssessmentToolArchiveMutation()
+  const { data, isLoading } = useGetSubAdminStudentDetailQuery(
+    String(profileId),
+    {
+      skip: !profileId,
     }
+
     const tabs: TabProps[] = [
         {
             label: 'Overview',
@@ -110,24 +106,58 @@ const StudentsProfile: NextPageWithLayout = (props: Props) => {
         },
     ]
 
+
     return (
-        <>
-            <TabNavigation tabs={tabs}>
-                {({ header, element }: any) => {
-                    return (
-                        <div>
-                            <div>{header}</div>
-                            <div>{element}</div>
-                        </div>
-                    )
-                }}
-            </TabNavigation>
-        </>
+      <div className="flex gap-x-2 ">
+        <a
+          href={`${process.env.NEXT_PUBLIC_END_POINT}/rtos/course/content/${id}`}
+          target="blank"
+          rel="noreferrer"
+        >
+          <Typography variant="tableCell" color="text-blue-600">
+            Download
+          </Typography>
+        </a>
+
+        <div
+          className="cursor-pointer"
+          onClick={() => {
+            archiveAssessmentTool(id)
+          }}
+        >
+          <Typography variant="tableCell" color="text-[#7081A0]">
+            Archive
+          </Typography>
+        </div>
+        <div
+          onClick={() => {
+            console.log('Edit')
+          }}
+        >
+          <FaEdit className="text-[#686DE0] cursor-pointer" />
+        </div>
+      </div>
     )
+
 }
 
+  return (
+    <>
+      <TabNavigation tabs={tabs}>
+        {({ header, element }: any) => {
+          return (
+            <div>
+              <div>{header}</div>
+              <div>{element}</div>
+            </div>
+          )
+        }}
+      </TabNavigation>
+    </>
+  )
+}
 StudentsProfile.getLayout = (page: ReactElement) => {
-    return <SubAdminLayout title="Student Profile">{page}</SubAdminLayout>
+  return <SubAdminLayout title="Student Profile">{page}</SubAdminLayout>
 }
 
 export default StudentsProfile

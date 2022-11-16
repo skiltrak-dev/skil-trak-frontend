@@ -5,62 +5,62 @@ import { ReactElement, ReactNode } from 'react'
 import { BounceLoader, PuffLoader, PulseLoader } from 'react-spinners'
 
 interface TabBadge {
-    text: string | number | undefined
-    color?: string
-    loading?: boolean
+  text: string | number | undefined
+  color?: string
+  loading?: boolean
 }
 
 interface Href {
-    pathname: string
-    query: any
+  pathname: string
+  query: any
 }
 
 export interface TabProps {
-    label: string
-    href: Href
-    badge?: TabBadge
-    active?: boolean
-    element: ReactElement | ReactNode
+  label: string
+  href: Href
+  badge?: TabBadge
+  active?: boolean
+  element: ReactElement | ReactNode
 }
 
 const formattedCount = (count: number) => {
-    return count < 10 ? `0${count}` : count > 100 ? `${count}+` : count
+  return count < 10 ? `0${count}` : count > 100 ? `${count}+` : count
 }
 
 export const Tab = ({ label, href, badge, active, element }: TabProps) => {
-    const classes = classNames({
-        'text-sm font-semibold p-4 border-b transition-all duration-500 hover:text-gray-600':
-            true,
-        'flex items-center': true,
-        'text-gray-400 border-transparent': !active,
-        'text-gray-800 border-orange-500': active,
-    })
+  const classes = classNames({
+    'text-sm font-semibold p-4 border-b transition-all duration-500 hover:text-gray-600':
+      true,
+    'flex items-center': true,
+    'text-gray-400 border-transparent': !active,
+    'text-gray-800 border-orange-500': active,
+  })
 
-    const badgeClasses = classNames({
-        'text-[11px] ml-2 font-medium w-7 h-full flex items-center justify-center rounded transition-all duration-500':
-            true,
-        'bg-gray-300 text-gray-400': !active && Number(badge?.text) === 0,
-        'bg-indigo-300 text-indigo-700': !active && Number(badge?.text) !== 0,
-        'bg-indigo-500 text-white': active,
-    })
+  const badgeClasses = classNames({
+    'text-[11px] ml-2 font-medium w-7 h-full flex items-center justify-center rounded transition-all duration-500':
+      true,
+    'bg-gray-300 text-gray-400': !active && Number(badge?.text) === 0,
+    'bg-indigo-300 text-indigo-700': !active && Number(badge?.text) !== 0,
+    'bg-indigo-500 text-white': active,
+  })
 
-    return (
-        <div className={classes}>
-            <Link href={href}>{label}</Link>
-            {badge && (
-                <>
-                    {badge?.loading && (
-                        <span className={badgeClasses}>
-                            <PulseLoader size={3} color={'#ffffff'} />
-                        </span>
-                    )}
-                    {badge.text !== undefined && (
-                        <span className={badgeClasses}>
-                            {formattedCount(Number(badge?.text))}
-                        </span>
-                    )}
-                </>
-            )}
-        </div>
-    )
+  return (
+    <div className={classes}>
+      <Link href={href}>{label}</Link>
+      {badge && (
+        <>
+          {badge?.loading && (
+            <span className={badgeClasses}>
+              <PulseLoader size={3} color={'#ffffff'} />
+            </span>
+          )}
+          {badge.text !== undefined && (
+            <span className={badgeClasses}>
+              {formattedCount(Number(badge?.text))}
+            </span>
+          )}
+        </>
+      )}
+    </div>
+  )
 }
