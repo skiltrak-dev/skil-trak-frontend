@@ -1,16 +1,17 @@
-import React from "react";
-import { useNavigate } from "react-router-dom";
+import React from 'react'
+import { useRouter } from 'next/router'
 
 // componemts
 import {
   Button,
-  OtherDocumentLinks,
-  PrimaryActionLink,
+  // OtherDocumentLinks,
   Typography,
-} from "components";
+  DisplayPrimaryActions,
+} from '@components'
+import { GeneralInfoPrimaryActions } from '@components/sections/industry/GeneralInfromation/GeneralInfromation'
 
 export const RightSidebarData = () => {
-  const navigate = useNavigate();
+  const router = useRouter()
   return (
     <div className="w-full flex flex-col items-start gap-y-4">
       <img
@@ -18,57 +19,24 @@ export const RightSidebarData = () => {
         src="https://picsum.photos/800/800"
         alt="Sidebar"
       />
-      <Button onClick={() => navigate("/apply-for-rpl")}>Apply For RPL</Button>
+      <Button onClick={() => navigate('/apply-for-rpl')}>Apply For RPL</Button>
 
       <div className="flex flex-col gap-y-2 mt-2">
-        <Typography varient={"text"} color={"gray"}>
+        <Typography variant={'small'} color={'text-gray-700'}>
           Related Links
         </Typography>
 
-        <PrimaryActionLink
-          link={"general-information/unit-requirements"}
-          border={"1"}
-          bgColor={"white"}
-          bgHoverColor={"secondary"}
-          borderColor={"secondary"}
-          shadow={1}
-          title={"Unit Requirement"}
-          desc={"Some helping text"}
-          img={"./images/dashboardbtn5.png"}
-        />
-
-        <PrimaryActionLink
-          border={"1"}
-          link={"general-information/placement-workflow"}
-          bgColor={"white"}
-          bgHoverColor={"secondary"}
-          borderColor={"secondary"}
-          shadow={1}
-          title={"Placement Workflow"}
-          desc={"Some helping text"}
-          img={"./images/dashboardbtn6.png"}
-        />
-        <PrimaryActionLink
-          border={"1"}
-          link={"general-information/industry-consultation"}
-          bgColor={"white"}
-          bgHoverColor={"secondary"}
-          borderColor={"secondary"}
-          shadow={1}
-          title={"Industry Consultation"}
-          desc={"Some helping text"}
-          img={"./images/dashboardbtn7.png"}
-        />
+        <DisplayPrimaryActions actions={GeneralInfoPrimaryActions} />
       </div>
 
       {/* Other Links */}
       <div className="w-full flex flex-col gap-y-2 mt-2">
-        <Typography varient={"text"} color={"gray"}>
+        <Typography varient={'text'} color={'gray'}>
           Other Links
         </Typography>
 
-        <OtherDocumentLinks />
+        {/* <OtherDocumentLinks /> */}
       </div>
     </div>
-  );
-};
+  )
+}

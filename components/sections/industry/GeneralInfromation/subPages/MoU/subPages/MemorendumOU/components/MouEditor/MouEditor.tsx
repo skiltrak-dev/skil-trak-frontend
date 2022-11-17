@@ -9,68 +9,68 @@ import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css'
 import { Button } from 'components'
 
 export const MouEditor = ({
-    content,
-    saveContent,
-    setEditMou,
-    setSaveContentButton,
-}) => {
-    const blocksFromHtml = htmlToDraft(content || '')
-    const { contentBlocks, entityMap } = blocksFromHtml
-    const contentState = ContentState.createFromBlockArray(
-        contentBlocks,
-        entityMap
-    )
+  content,
+  saveContent,
+  setEditMou,
+  setSaveContentButton,
+}: any) => {
+  // const blocksFromHtml = htmlToDraft(content || '')
+  // const { contentBlocks, entityMap } = blocksFromHtml
+  // const contentState = ContentState.createFromBlockArray(
+  //   contentBlocks,
+  //   entityMap
+  // )
 
-    const raw = convertToRaw(contentState)
+  // const raw = convertToRaw(contentState)
 
-    const [editorState, setEditorState] = useState(raw)
-    const [newContentState, setNewContentState] = useState(
-        EditorState.createEmpty()
-    )
-    const [isContentChange, setIsContentChange] = useState(false)
+  // const [editorState, setEditorState] = useState(raw)
+  // const [newContentState, setNewContentState] = useState(
+  //   EditorState.createEmpty()
+  // )
+  // const [isContentChange, setIsContentChange] = useState(false)
 
-    const _html = draftToHtml(convertToRaw(newContentState.getCurrentContent()))
-    useEffect(() => {
-        if (setSaveContentButton) {
-            setSaveContentButton(
-                <>
-                    <Button
-                        onClick={() => {
-                            saveContent(isContentChange ? _html : content)
-                            setEditMou(false)
-                        }}
-                        text={'Save'}
-                    />
-                </>
-            )
-        }
-    }, [
-        _html,
-        content,
-        setEditMou,
-        saveContent,
-        newContentState,
-        isContentChange,
-        setSaveContentButton,
-    ])
+  // const _html = draftToHtml(convertToRaw(newContentState.getCurrentContent()))
+  // useEffect(() => {
+  //   if (setSaveContentButton) {
+  //     setSaveContentButton(
+  //       <>
+  //         <Button
+  //           onClick={() => {
+  //             saveContent(isContentChange ? _html : content)
+  //             setEditMou(false)
+  //           }}
+  //           text={'Save'}
+  //         />
+  //       </>
+  //     )
+  //   }
+  // }, [
+  //   _html,
+  //   content,
+  //   setEditMou,
+  //   saveContent,
+  //   newContentState,
+  //   isContentChange,
+  //   setSaveContentButton,
+  // ])
 
-    const onEditorStateChange = (editorState) => {
-        setEditorState(editorState)
-        setNewContentState(editorState)
-        setIsContentChange(true)
-    }
+  // const onEditorStateChange = (editorState: any) => {
+  //   setEditorState(editorState)
+  //   setNewContentState(editorState)
+  //   setIsContentChange(true)
+  // }
 
-    // console.log('editorStateeditorState', editorState)
+  // console.log('editorStateeditorState', editorState)
 
-    return (
-        <>
-            <Editor
-                defaultContentState={editorState}
-                toolbarClassName="border"
-                wrapperClassName="border"
-                editorClassName="h-80 px-5 remove-scrollbar"
-                onEditorStateChange={onEditorStateChange}
-            />
-        </>
-    )
+  return (
+    <>
+      {/* <Editor
+        defaultContentState={editorState}
+        toolbarClassName="border"
+        wrapperClassName="border"
+        editorClassName="h-80 px-5 remove-scrollbar"
+        onEditorStateChange={onEditorStateChange}
+      /> */}
+    </>
+  )
 }

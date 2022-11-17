@@ -1,31 +1,31 @@
-import React, { useEffect } from "react";
+import React, { useEffect } from 'react'
 
 // components
-import { Typography, GoBackButton, DocumentView } from "components";
-import { RightSidebarData } from "./components";
+import { Typography, BackButton, DocumentView } from 'components'
+import { RightSidebarData } from './components'
 
 // Context
-import { useContextBar } from "hooks";
+import { useContextBar } from 'hooks'
 
-export const PlacementWorkflow = () => {
-  const { setContent } = useContextBar();
+export const PlacementWorkflowContainer = () => {
+  const { setContent } = useContextBar()
   useEffect(() => {
     setContent(
       <>
         <RightSidebarData />
       </>
-    );
-  }, [setContent]);
+    )
+  }, [setContent])
   return (
     <div>
-      <GoBackButton>Back To Dashboard</GoBackButton>
+      <BackButton text={'Back To Dashboard'} />
 
       {/* Data */}
       <DocumentView
-        title={"Placement Workflow"}
-        downloadLink={"http://www.africau.edu/images/default/sample.pdf"}
+        title={'Placement Workflow'}
+        downloadLink={'http://www.africau.edu/images/default/sample.pdf'}
       >
-        <Typography variant={"title"}>Section 1</Typography>
+        <Typography variant={'title'}>Section 1</Typography>
         <div className="flex flex-col gap-y-3 my-2.5">
           <Typography>
             Lorem ipsum dolor sit amet. Quo dolore repellat qui culpa voluptates
@@ -47,7 +47,7 @@ export const PlacementWorkflow = () => {
         </div>
 
         {/* Section 2 */}
-        <Typography variant={"title"}>Section 2</Typography>
+        <Typography variant={'title'}>Section 2</Typography>
         <div className="flex flex-col gap-y-3 my-2.5">
           <Typography>
             Lorem ipsum dolor sit amet. Quo dolore repellat qui culpa voluptates
@@ -69,5 +69,5 @@ export const PlacementWorkflow = () => {
         </div>
       </DocumentView>
     </div>
-  );
-};
+  )
+}

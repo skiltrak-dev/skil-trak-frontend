@@ -1,7 +1,7 @@
 import { Button, Checkbox, TextInput } from '@components'
 import { yupResolver } from '@hookform/resolvers/yup'
-import Link from 'next/link'
 import { FormProvider, useForm } from 'react-hook-form'
+import Link from 'next/link'
 import * as Yup from 'yup'
 
 export const LoginForm = ({

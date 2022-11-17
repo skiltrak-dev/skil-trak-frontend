@@ -13,7 +13,7 @@ import {
 // import { RightSidebarData } from './components'
 
 // hooks
-import { useContextBar } from 'hooks'
+import { useContextBar, useNotification } from 'hooks'
 
 // query
 import {
@@ -34,6 +34,7 @@ export const AdvertiseNewJobContainer = () => {
 
   // hooks
   const { setContent } = useContextBar()
+  const { notification } = useNotification()
 
   // query
   const editValues = useGetJobDetailQuery(jobId, { skip: !jobId })
@@ -42,6 +43,25 @@ export const AdvertiseNewJobContainer = () => {
 
   const [editing] = useState(editValues?.data?.id !== undefined)
 
+  // useEffect(() => {
+  //   if (addResult.isSuccess) {
+  //     notification.success({
+  //       title: 'Job Added Successfully',
+  //       description: 'Job Added Successfully',
+  //     })
+  //     router.push('/portals/industry/jobs/advertised-jobs')
+  //   }
+  // }, [addResult.isSuccess])
+
+  // useEffect(() => {
+  //   if (updateResult.isSuccess) {
+  //     notification.success({
+  //       title: 'Job Updated Successfully',
+  //       description: 'Job Updated Successfully',
+  //     })
+  //   }
+  // }, [updateResult.isSuccess])
+
   //   useEffect(() => {
   //     setContent(
   //       <>
@@ -49,8 +69,6 @@ export const AdvertiseNewJobContainer = () => {
   //       </>
   //     )
   //   }, [setContent])
-
-  
 
   const isLoading = addResult.isLoading || updateResult.isLoading
   // const isError = addResult.isError || updateResult.isError;
@@ -94,15 +112,15 @@ export const AdvertiseNewJobContainer = () => {
             primaryAction={{
               text: 'Back To List',
               onClick: () => {
-                router.push(`/jobs/advertised-jobs`)
+                router.push(`/portals/industry/jobs/advertised-jobs`)
               },
             }}
             secondaryAction={{
               text: 'View Job Detail',
               onClick: () => {
                 router.push(
-                  `/jobs/job-detail/${
-                    editing ? updateResult?.originalArgs?.id : addResult.data.id
+                  `/portals/industry/jobs/job-detail/${
+                    editing ? updateResult?.data?.id : addResult.data.id
                   }`
                 )
               },

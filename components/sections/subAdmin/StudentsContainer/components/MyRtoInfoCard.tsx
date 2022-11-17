@@ -1,7 +1,10 @@
 import Image from 'next/image'
 import Link from 'next/link'
 // components
-import { InitialAvatar, InitialAvatarContainer } from '@components/InitialAvatar'
+import {
+  InitialAvatar,
+  InitialAvatarContainer,
+} from '@components/InitialAvatar'
 import { Card } from '@components/cards'
 // path
 import { useRouter } from 'next/router'
@@ -15,11 +18,11 @@ type Props = {}
 
 export const MyRtoInfoCard = (props: Props) => {
   const pathname = useRouter()
-  const profileId = pathname.query.profileId;
+  const profileId = pathname.query.profileId
   const { data }: any = useGetSubAdminMyRtoQuery(String(profileId))
-  console.log("useGetSubAdminMyRtoQuery", data);
+  console.log('useGetSubAdminMyRtoQuery', data)
   return (
-    <div className='w-full'>
+    <div className="w-full">
       <Card>
         {/* Card Header */}
         <div className="flex justify-between items-center">
@@ -46,12 +49,8 @@ export const MyRtoInfoCard = (props: Props) => {
           </div>
           <div>
             <div>
-              <p className="font-medium">
-                {data?.rto?.user?.name}
-              </p>
-              <p className="text-slate-400 text-sm">
-                {data?.rto?.user?.email}
-              </p>
+              <p className="font-medium">{data?.rto?.user?.name}</p>
+              <p className="text-slate-400 text-sm">{data?.rto?.user?.email}</p>
             </div>
             <div className="flex gap-x-6 mt-1">
               <div className="flex items-center gap-x-2">
@@ -68,11 +67,9 @@ export const MyRtoInfoCard = (props: Props) => {
               </div>
             </div>
 
-            {data?.rto?.subadmin.map((coordinator:any) => (
-              <div className="mt-4">
-                <p className="text-[11px] text-gray-400">
-                  Coordinators
-                </p>
+            {data?.rto?.subadmin.map((coordinator: any) => (
+              <div key={coordinator.id} className="mt-4">
+                <p className="text-[11px] text-gray-400">Coordinators</p>
                 <div className="flex justify-between gap-x-4">
                   <div>
                     <p className="font-medium text-sm">

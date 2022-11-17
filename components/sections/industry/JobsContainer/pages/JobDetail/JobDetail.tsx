@@ -27,7 +27,7 @@ import { EmptyData } from 'components'
 
 const Colors = getThemeColors()
 
-export const JobDetail = () => {
+export const JobDetailContainer = () => {
   //  param
   const router = useRouter()
   const jobId = router.query.jobId
@@ -88,7 +88,7 @@ export const JobDetail = () => {
   ]
 
   // confirm Delete
-  const deleteJob = async (id) => {
+  const deleteJob = async (id: any) => {
     setRemoveJob({
       isRemove: false,
       id: '',
@@ -99,7 +99,10 @@ export const JobDetail = () => {
   return (
     <div>
       <div className="flex justify-between items-center mb-2">
-        <BackButton link={'jobs'} text={'Back To Jobs'} />
+        <BackButton
+          link={'/portals/industry/jobs/advertised-jobs'}
+          text={'Back To Jobs'}
+        />
         {/* {data && <ActionDropDown dropDown={TableActionOption} />} */}
       </div>
 
@@ -120,7 +123,7 @@ export const JobDetail = () => {
       </Card>
 
       {/* Popup for delete job */}
-      {removeJob.isRemove && (
+      {/* {removeJob.isRemove && (
         <DeleteActionPopup
           title={'Delete Job'}
           description={
@@ -136,10 +139,10 @@ export const JobDetail = () => {
             deleteJob(removeJob.id)
           }}
         />
-      )}
+      )} */}
 
       {/* showing Popup when job delete is in progress */}
-      {jobRemoveData.isLoading && (
+      {/* {jobRemoveData.isLoading && (
         <div className="fixed top-1/2 left-1/2 w-465 -translate-x-1/2 -translate-y-1/2">
           <Popup
             title={'Deleting Job'}
@@ -149,7 +152,7 @@ export const JobDetail = () => {
             shadow={4}
           />
         </div>
-      )}
+      )} */}
     </div>
   )
 }

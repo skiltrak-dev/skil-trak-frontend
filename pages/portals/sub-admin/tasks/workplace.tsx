@@ -23,7 +23,7 @@ const Workplace: NextPageWithLayout = (props: Props) => {
          ) : subAdminWorkplace.data && subAdminWorkplace.data.length > 0 ? (
             <div className="flex flex-col gap-y-2">
                {subAdminWorkplace?.data?.map((workplace: any) => (
-                  <WorkplaceRequest workplace={workplace} />
+                  <WorkplaceRequest key={workplace.id} workplace={workplace} />
                ))}
             </div>
          ) : (

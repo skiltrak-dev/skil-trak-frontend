@@ -1,5 +1,5 @@
-import React from "react";
-import { useNavigate } from "react-router-dom";
+import React from 'react'
+import { useRouter } from 'next/router'
 
 // componemts
 import {
@@ -7,10 +7,10 @@ import {
   OtherDocumentLinks,
   PrimaryActionLink,
   Typography,
-} from "components";
+} from 'components'
 
 export const RightSidebarData = () => {
-  const navigate = useNavigate();
+  const router = useRouter()
   return (
     <div className="flex flex-col items-start gap-y-4">
       <img
@@ -18,57 +18,57 @@ export const RightSidebarData = () => {
         src="https://picsum.photos/800/800"
         alt="Sidebar"
       />
-      <Button onClick={() => navigate("/apply-for-rpl")}>Apply For RPL</Button>
+      <Button onClick={() => navigate('/apply-for-rpl')}>Apply For RPL</Button>
 
       <div className="flex flex-col gap-y-2 mt-2">
-        <Typography varient={"text"} color={"gray"}>
+        <Typography varient={'text'} color={'gray'}>
           Related Links
         </Typography>
 
         <PrimaryActionLink
-          link={"general-information/unit-requirements"}
-          border={"1"}
-          bgColor={"white"}
-          bgHoverColor={"secondary"}
-          borderColor={"secondary"}
+          link={'general-information/unit-requirements'}
+          border={'1'}
+          bgColor={'white'}
+          bgHoverColor={'secondary'}
+          borderColor={'secondary'}
           shadow={1}
-          title={"Unit Requirement"}
-          desc={"Some helping text"}
-          img={"./images/dashboardbtn5.png"}
+          title={'Unit Requirement'}
+          desc={'Some helping text'}
+          img={'./images/dashboardbtn5.png'}
         />
 
         <PrimaryActionLink
-          border={"1"}
-          link={"general-information/placement-workflow"}
-          bgColor={"white"}
-          bgHoverColor={"secondary"}
-          borderColor={"secondary"}
+          border={'1'}
+          link={'general-information/placement-workflow'}
+          bgColor={'white'}
+          bgHoverColor={'secondary'}
+          borderColor={'secondary'}
           shadow={1}
-          title={"Placement Workflow"}
-          desc={"Some helping text"}
-          img={"./images/dashboardbtn6.png"}
+          title={'Placement Workflow'}
+          desc={'Some helping text'}
+          img={'./images/dashboardbtn6.png'}
         />
         <PrimaryActionLink
-          border={"1"}
-          link={"general-information/mou"}
-          bgColor={"white"}
-          bgHoverColor={"secondary"}
-          borderColor={"secondary"}
+          border={'1'}
+          link={'general-information/mou'}
+          bgColor={'white'}
+          bgHoverColor={'secondary'}
+          borderColor={'secondary'}
           shadow={1}
-          title={"MoU"}
-          desc={"Memorandum Of Understanding"}
-          img={"./images/dashboardbtn8.png"}
+          title={'MoU'}
+          desc={'Memorandum Of Understanding'}
+          img={'./images/dashboardbtn8.png'}
         />
       </div>
 
       {/* Other Links */}
       <div className="flex flex-col gap-y-2 mt-2">
-        <Typography varient={"text"} color={"gray"}>
+        <Typography varient={'text'} color={'gray'}>
           Other Links
         </Typography>
 
         <OtherDocumentLinks />
       </div>
     </div>
-  );
-};
+  )
+}

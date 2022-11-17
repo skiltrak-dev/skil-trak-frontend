@@ -18,11 +18,11 @@ import {
 } from './components'
 import { PinnedNotes } from '../components'
 type StudentsProfileOverviewProps = {
-  data: any
+  studentDetail: any
 }
 
 export const StudentsProfileOverview = ({
-  data,
+  studentDetail,
 }: StudentsProfileOverviewProps) => {
   // const {data} = useGetSubAdminMyRtoQuery(studentId)
   // console.log("useGetSubAdminMyRtoQuery", data);
@@ -33,11 +33,11 @@ export const StudentsProfileOverview = ({
       <PinnedNotes id={studentDetail?.user?.id} />
 
       {/* Progress */}
-      <ProgressStep />
-      
-      <StudentProfileCoursesCard courses={data?.courses}/>
-      <div className='w-full flex justify-between gap-x-6 mt-4'>
-        <div className='w-full flex flex-col gap-y-4'>
+      <ProgressStep status />
+
+      <StudentProfileCoursesCard courses={studentDetail?.courses} />
+      <div className="w-full flex justify-between gap-x-6 mt-4">
+        <div className="w-full flex flex-col gap-y-4">
           <MyRtoInfoCard />
           <WorkplaceInfoCard />
         </div>
