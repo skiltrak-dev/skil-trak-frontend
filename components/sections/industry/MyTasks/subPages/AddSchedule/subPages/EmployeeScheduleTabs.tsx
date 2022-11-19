@@ -1,42 +1,47 @@
-import React from "react";
-import { useLocation, Routes, Route } from "react-router-dom";
+import React from 'react'
 
 // components
-import { GoBackButton, Tabs } from "components";
+import { BackButton, TabProps, TabNavigation } from '@components'
 
-
-import { EmployeeSchedule } from "./EmployeeSchedule";
-import { CreateTask } from "./CreateTask";
+import { EmployeeSchedule } from './EmployeeSchedule'
+import { CreateTask } from './CreateTask'
 
 export const EmployeeScheduleTabs = () => {
-  let { pathname } = useLocation();
+  const tabs: TabProps[] = [
+    {
+      label: 'Employees',
+      href: { pathname: 'schedule', query: { tab: 'employee-schedule' } },
+      element: <EmployeeSchedule />,
+    },
+    {
+      label: 'Create Task',
+      href: {
+        pathname: 'schedule',
+        query: { tab: 'create-task' },
+      },
+      element: <CreateTask />,
+    },
+  ]
 
-  const tabs = [
-    {
-      tab: "Employees",
-      url: "/my-tasks/add-a-schedule/employee-schedule",
-    },
-    {
-      tab: "Create Tasks",
-      url: "/my-tasks/add-a-schedule/create-task",
-    },
-  ];
   return (
     <div>
-      <GoBackButton link={"my-tasks/add-a-schedule"}>
-        Back To Selection
-      </GoBackButton>
+      <BackButton link={'my-tasks/add-a-schedule'} text={'Back To Selection'} />
+
       {/* Links */}
 
       {/* Others */}
       <div className="w-full mt-8">
-        <Tabs tabs={tabs} />
-
-        <Routes>
-          <Route path={"employee-schedule"} element={<EmployeeSchedule />} />
-          <Route path={"create-task"} element={<CreateTask />} />
-        </Routes>
+        <TabNavigation tabs={tabs}>
+          {({ header, element }: any) => {
+            return (
+              <div>
+                <div>{header}</div>
+                <div>{element}</div>
+              </div>
+            )
+          }}
+        </TabNavigation>
       </div>
     </div>
-  );
-};
+  )
+}

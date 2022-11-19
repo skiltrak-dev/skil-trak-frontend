@@ -10,11 +10,7 @@ const MOUDetail: NextPageWithLayout = () => {
   const router = useRouter()
   const { query } = router
 
-  return (
-    <div>
-      <MemorendumOU />
-    </div>
-  )
+  return <div>{/* <MemorendumOU /> */}</div>
 }
 
 MOUDetail.getLayout = (page: ReactElement) => {

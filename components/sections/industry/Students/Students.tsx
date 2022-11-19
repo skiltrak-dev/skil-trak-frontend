@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useRouter } from 'next/router'
 
 // images
-import { Animations } from 'assets'
+import { Animations } from '@animations'
 
 // components
 import {
@@ -11,43 +11,43 @@ import {
   CircularProgresbar,
   DisplayPrimaryActions,
 } from 'components'
-import { AdForRPL } from 'pages/ApplyForRPL'
 
 // hooks
 import { useContextBar } from 'hooks'
+import { AdForRPL } from '../ApplyForRPL'
 
 export const StudentsPrimaryActions = [
   {
-    link: 'student-list',
+    link: 'students/current-students',
     title: 'Current Students',
     description: 'Some helping text',
-    image: null, //"./images/dashboardbtn3.png",
-    animation: Animations.Students.CurrentStudents,
+    // image: null, //"./images/dashboardbtn3.png",
+    animation: Animations.Industry.Students.CurrentStudents,
   },
   {
-    link: 'student-list',
+    link: 'students/future-candidates',
     title: 'Future Candidates',
     description: 'Some helping text',
-    image: null, //"./images/dashboardbtn4.png",
-    animation: Animations.Students.FutureCandidates,
+    // image: null, //"./images/dashboardbtn4.png",
+    animation: Animations.Industry.Students.FutureCandidates,
   },
   {
     link: 'request-a-volunteer',
     title: 'Request a Volunteer',
     description: 'Some helping text',
-    image: null, //"./images/dashboardbtn4.png",
-    animation: Animations.Jobs.BrowseCandidate,
+    // image: null, //"./images/dashboardbtn4.png",
+    animation: Animations.Industry.Jobs.BrowseCandidate,
   },
   {
     link: 'appointments',
     title: 'Appointments',
     description: 'Some helping text',
-    image: null, //"./images/dashboardbtn4.png",
-    animation: Animations.Students.Appointment,
+    // image: null, //"./images/dashboardbtn4.png",
+    animation: Animations.Industry.Students.Appointment,
   },
 ]
 
-export const Students = () => {
+export const IndustryStudents = () => {
   const router = useRouter()
   const { setContent } = useContextBar()
 
@@ -62,20 +62,20 @@ export const Students = () => {
         <div className="w-[59%] ">
           <Typography variant={'title'}>Get Started</Typography>
           {/*  */}
-          <Card px={9} mt={2}>
+          <Card>
             <DisplayPrimaryActions actions={StudentsPrimaryActions} />
           </Card>
         </div>
         <div className="w-[36%]">
           <div className="w-full flex justify-between">
             <Typography variant={'title'}>Total Students</Typography>
-            <Typography variant={'links'} color={'textLink'}>
+            <Typography variant={'small'} color={'text-info'}>
               View All
             </Typography>
           </div>
 
           {/*  */}
-          <Card px={9} mt={2}>
+          <Card>
             <div className="flex flex-col gap-y-2">
               <CircularProgresbar />
             </div>
@@ -88,7 +88,7 @@ export const Students = () => {
         <Typography variant={'title'}>Others</Typography>
 
         {/*  */}
-        <Card mt={2} px={9}>
+        <Card>
           <AdForRPL />
         </Card>
       </div>

@@ -1,33 +1,34 @@
 import React, { useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useRouter } from 'next/router'
 
 // Icons
 import { AiFillEye } from 'react-icons/ai'
 
 // components
 import {
-  GoBackButton,
+  BackButton,
   Card,
   ReactTable,
   Typography,
-  ActionDropDown,
+  Button,
+  // ActionDropDown,
 } from 'components'
 import { StudentsFilter } from './components'
 import { RightSidebarData } from '../../components'
 
 // query
-import { useGetStudentsQuery } from 'redux/query'
+import { useGetStudentsQuery } from '@queries'
 
 // Context
-import { useContextBar } from 'hooks'
+import { useContextBar } from '@hooks'
 
-// functions
-import { getAge } from 'utills'
+// utils
+import { ThemeColors, getAge } from '@utils'
 
-// Colors
-import { Colors } from 'utills/colors/Colors'
-import { Filter } from 'HigherOrderComponents'
-import { Button } from 'components'
+// Filter
+import { Filter } from '@hoc'
+
+const Colors = ThemeColors
 
 export const StudentList = () => {
   const router = useRouter()
@@ -44,15 +45,15 @@ export const StudentList = () => {
   }, [setContent])
   //
 
-  const TableActionOption = (id) => {
+  const TableActionOption = (id: string) => {
     const actions = [
       {
         text: 'View',
         Icon: AiFillEye,
         action: () => {
-          navigate(`/students/${id}`)
+          router.push(`/portals/industry/students/${id}`)
         },
-        color: Colors.secondaryText,
+        color: Colors.secondary,
       },
     ]
     return actions
@@ -103,7 +104,8 @@ export const StudentList = () => {
       accessor: 'Action',
       Cell: ({ row }) => {
         const action = TableActionOption(row.original.id)
-        return <ActionDropDown title={'More'} dropDown={action} />
+        return 'More Action'
+        // return <ActionDropDown title={'More'} dropDown={action} />
       },
     },
   ]
@@ -114,7 +116,7 @@ export const StudentList = () => {
   }
   return (
     <div>
-      <GoBackButton>Back To Students</GoBackButton>
+      <BackButton link={'Back To Students'} />
       <div className="flex justify-between items-center py-4">
         <div>
           <Typography variant={'title'}>All Students</Typography>
@@ -128,23 +130,22 @@ export const StudentList = () => {
         </div>
       </div>
       {/*  filters */}
-      <Filter
-        component={StudentsFilter}
-        setQueryFilters={setQueryFilters}
-        setFilterAction={setFilterActionButton}
-        filterInitialValues={filterInitialValues}
-      />
-      <Card mt={6}>
+      <div className="flex flex-col gap-y-4">
+        <Filter
+          component={StudentsFilter}
+          setQueryFilters={setQueryFilters}
+          setFilterAction={setFilterActionButton}
+          filterInitialValues={filterInitialValues}
+        />
+
         <ReactTable
-          Columns={Columns}
           pagesize
           pagination
+          Columns={Columns}
           action={useGetStudentsQuery}
           queryFilters={queryFilters}
-          defaultTableRows={4}
-          borderBottom={1}
         />
-      </Card>
+      </div>
     </div>
   )
 }

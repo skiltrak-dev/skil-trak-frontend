@@ -14,7 +14,7 @@ import {
 import { AppointmentDetails } from './components'
 
 // functions
-import { Console } from 'utills/functions/ShowConsole'
+// import { Console } from 'utills/functions/ShowConsole'
 
 export const BookAppointment = () => {
   const router = useRouter()
@@ -47,7 +47,7 @@ export const BookAppointment = () => {
     // navigate("/privew-industry");
     setIsAppointmentBooked(true)
     setappointmentDetails(values)
-    Console('values', values)
+    // Console('values', values)
   }
   return isAppointmentBooked ? (
     <AppointmentDetails appointmentDetails={appointmentDetails} />

@@ -7,11 +7,11 @@ import { BsFillCheckCircleFill } from 'react-icons/bs'
 import {
   ActionAlert,
   Button,
-  GoBackButton,
+  BackButton,
   Card,
   DocumentView,
   Typography,
-} from '../../../../components'
+} from '@components'
 import { RightSidebarData } from './components'
 
 // Context
@@ -31,13 +31,6 @@ export const RequestAVolunteerStudent = () => {
     )
   }, [setContent])
 
-  useEffect(() => {
-    isVolunteer &&
-      setTimeout(() => {
-        navigate('/students')
-      }, 2000)
-  }, [isVolunteer, navigate])
-
   const onVolunteer = () => {
     setIsVolunteer(true)
   }
@@ -53,7 +46,7 @@ export const RequestAVolunteerStudent = () => {
     </Card>
   ) : (
     <>
-      <GoBackButton>Back To Dashboard</GoBackButton>
+      <BackButton text={'Back To Dashboard'} />
 
       {/* Data */}
       <DocumentView title={'Request A Volunteer Student'}>
@@ -86,13 +79,7 @@ export const RequestAVolunteerStudent = () => {
             >
               Yes
             </Button>
-            <Button
-              border={'2'}
-              borderColor={'primary'}
-              bgColor={'secondary'}
-              textColor={'text'}
-              onClick={() => navigate('/students')}
-            >
+            <Button onClick={() => router.push('/portals/industry/students')}>
               No
             </Button>
           </div>

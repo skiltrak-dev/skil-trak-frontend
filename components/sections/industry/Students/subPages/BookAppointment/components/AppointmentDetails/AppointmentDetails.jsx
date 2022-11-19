@@ -5,12 +5,7 @@ import { useRouter } from 'next/router'
 import { BsFillCheckCircleFill } from 'react-icons/bs'
 
 // components
-import {
-  ActionAlert,
-  Button,
-  Card,
-  Typography,
-} from '../../../../../../components'
+import { ActionAlert, Button, Card, Typography } from '@components'
 
 export const AppointmentDetails = ({ appointmentDetails }) => {
   const router = useRouter()

@@ -1,33 +1,33 @@
-import React from "react";
-import { useParams } from "react-router-dom";
+import React from 'react'
+import { useRouter } from 'next/router'
 
 // components
-import { Card, GoBackButton } from "components";
+import { Card, BackButton } from 'components'
 
 // query
-import { useGetIndustryStudentProfileQuery } from "redux/query";
-import { Loading } from "components";
-import { EmptyData } from "components";
-import { StudentProfileData } from "./components";
+import { useGetIndustryStudentProfileQuery } from '@queries'
+import { LoadingAnimation, EmptyData } from '@components'
+import { StudentProfileData } from './components'
 
 export const StudentProfile = () => {
-  const { id } = useParams();
-  const { data, isLoading } = useGetIndustryStudentProfileQuery(id);
+  const pathname = useRouter()
+  const { id } = pathname.query
+  const { data, isLoading } = useGetIndustryStudentProfileQuery(id)
 
   return (
     <div>
-      <GoBackButton>Back To Students</GoBackButton>
-      <Card mt={6}>
+      <BackButton text={'Back To Students'} />
+      <Card>
         {!isLoading ? (
           data ? (
             <StudentProfileData data={data} />
           ) : (
-            <EmptyData actionLink={null} />
+            <EmptyData />
           )
         ) : (
-          <Loading />
+          <LoadingAnimation />
         )}
       </Card>
     </div>
-  );
-};
+  )
+}

@@ -1,18 +1,15 @@
-import React from "react";
-import { useLocation } from "react-router-dom";
+import React from 'react'
 
 // components
 import {
   Typography,
-  OtherDocumentLinks,
+  // OtherDocumentLinks,
   DisplayPrimaryActions,
-} from "components";
-import { PrimaryActions as DashboardPrimaryActions } from "../Dashboard";
-import { AdForRPL } from "../../../ApplyForRPL/AdForRPL";
+} from 'components'
+import { PrimaryActions as DashboardPrimaryActions } from '../IndustryDashboardContainer'
+import { AdForRPL } from '../../../ApplyForRPL/AdForRPL'
 
 export const ContextBarContent = () => {
-  const { pathname } = useLocation();
-
   return (
     <>
       <AdForRPL short />
@@ -21,7 +18,7 @@ export const ContextBarContent = () => {
         Related Links
       </Typography>
 
-      <OtherDocumentLinks hideLink={pathname.replace("/", "")} />
+      {/* <OtherDocumentLinks hideLink={pathname.replace("/", "")} /> */}
 
       <Typography variant="muted" color="gray">
         Other Links
@@ -29,5 +26,5 @@ export const ContextBarContent = () => {
 
       <DisplayPrimaryActions actions={DashboardPrimaryActions} />
     </>
-  );
-};
+  )
+}

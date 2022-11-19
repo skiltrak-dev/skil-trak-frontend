@@ -9,7 +9,7 @@ import {
 // Icons
 import { IoMdArrowDropupCircle } from 'react-icons/io'
 // components
-import { Typography } from 'components/Typography'
+import { Typography, EmptyData } from '@components'
 import { Pagination, PageSize } from './components'
 // import { TableCheckbox } from 'components/tableCheckbox'
 import { LoadingAnimation } from '@components/LoadingAnimation'
@@ -267,7 +267,7 @@ export const ReactTable = ({
             </div>
           </div>
         ) : (
-          !isError && '<EmptyData />'
+          !isError && <EmptyData />
         )}
       </div>
     </Card>

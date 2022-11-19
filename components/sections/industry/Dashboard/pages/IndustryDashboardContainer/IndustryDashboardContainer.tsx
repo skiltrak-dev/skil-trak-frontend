@@ -1,33 +1,37 @@
 import { useEffect } from 'react'
 
 // Components
-import { Card, CircularProgresbar, Typography } from 'components'
+import {
+  Card,
+  CircularProgresbar,
+  Typography,
+  DisplayPrimaryActions,
+} from '@components'
 
 // Context
 import { useContextBar } from 'hooks'
 import { ContextBarContent } from './ContextbarContent'
-import { PrimaryActionLink } from 'components'
-import { Animations } from 'assets'
-import { AdForRPL } from '../../../ApplyForRPL/AdForRPL'
+import { Animations } from '@animations'
+import { AdForRPL } from '@components/sections/industry'
 
 export const PrimaryActions = [
   {
-    link: 'required-documents',
+    link: 'industry/required-documents',
     title: 'Documentation Required',
     description: 'Some helping text',
-    image: null, //"./images/dashboardbtn.png",
-    animation: Animations.Dashboard.RequiredDocuments,
+    // image: null, //"./images/dashboardbtn.png",
+    animation: Animations.Industry.Dashboard.RequiredDocuments,
   },
   {
     link: '/under-construction',
     title: 'Request a Volunteer',
     description: 'Some helping text',
-    image: null, //"./images/dashboardbtn.png",
-    animation: Animations.Dashboard.RequestVolunteer,
+    // image: null, //"./images/dashboardbtn.png",
+    animation: Animations.Industry.Dashboard.RequestVolunteer,
   },
 ]
 
-export const Dashboard = () => {
+export const IndustryDashboardContainer = () => {
   const { setContent } = useContextBar()
 
   useEffect(() => {
@@ -47,19 +51,8 @@ export const Dashboard = () => {
       <div className="w-full flex flex-col lg:flex-row justify-between gap-y-3">
         <div className="w-full lg:w-[59%] ">
           <Typography variant={'title'}>Get Started</Typography>
-          <Card mt={2} px={9}>
-            <div className="w-full flex flex-col justify-center items-center gap-y-2">
-              {PrimaryActions.map((action, i) => (
-                <PrimaryActionLink
-                  key={i}
-                  link={action.link}
-                  title={action.title}
-                  description={action.description}
-                  image={action.image}
-                  animation={action.animation}
-                />
-              ))}
-            </div>
+          <Card>
+            <DisplayPrimaryActions actions={PrimaryActions} />
           </Card>
         </div>
         <div className="w-full lg:w-[36%]">
@@ -71,7 +64,7 @@ export const Dashboard = () => {
           </div>
 
           {/*  */}
-          <Card mt={2} px={9}>
+          <Card>
             <div className="w-full flex flex-col gap-y-2">
               <CircularProgresbar />
             </div>
@@ -84,7 +77,7 @@ export const Dashboard = () => {
         <Typography variant={'title'}>Others</Typography>
 
         {/*  */}
-        <Card mt={2} px={9}>
+        <Card>
           <AdForRPL />
         </Card>
       </div>
