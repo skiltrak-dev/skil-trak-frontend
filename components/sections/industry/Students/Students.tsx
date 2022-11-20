@@ -32,14 +32,14 @@ export const StudentsPrimaryActions = [
     animation: Animations.Industry.Students.FutureCandidates,
   },
   {
-    link: 'request-a-volunteer',
+    link: 'students/request-a-volunteer',
     title: 'Request a Volunteer',
     description: 'Some helping text',
     // image: null, //"./images/dashboardbtn4.png",
     animation: Animations.Industry.Jobs.BrowseCandidate,
   },
   {
-    link: 'appointments',
+    link: 'students/appointments',
     title: 'Appointments',
     description: 'Some helping text',
     // image: null, //"./images/dashboardbtn4.png",

@@ -1,40 +1,21 @@
 import React, { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
 import * as yup from 'yup'
-import { Form, Formik } from 'formik'
+import { yupResolver } from '@hookform/resolvers/yup'
+import { FormProvider, useForm } from 'react-hook-form'
 
 // components
-import {
-  Card,
-  Button,
-  Typography,
-  GoBackButton,
-  SelectFieldOption,
-} from 'components'
+import { Card, Button, Typography, BackButton, Select } from 'components'
 import { AppointmentDetails } from './components'
 
 // functions
 // import { Console } from 'utills/functions/ShowConsole'
 
-export const BookAppointment = () => {
+export const IndustryBookAppointment = () => {
   const router = useRouter()
 
   const [isAppointmentBooked, setIsAppointmentBooked] = useState(false)
   const [appointmentDetails, setappointmentDetails] = useState({})
-
-  useEffect(() => {
-    isAppointmentBooked &&
-      setTimeout(() => {
-        navigate('/students/appointments')
-      }, 4000)
-  }, [isAppointmentBooked, navigate])
-
-  const initialValues = {
-    placementCoordinator: {},
-    appointmentType: {},
-    appointmentDate: {},
-    appointmentTime: {},
-  }
 
   const validationSchema = yup.object({
     // businessName: yup.string().required("Some error occured!"),
@@ -42,7 +23,12 @@ export const BookAppointment = () => {
     // businessPhoneNumber: yup.string().required("Some error occured!"),
   })
 
-  const onSubmit = (values) => {
+  const methods = useForm({
+    resolver: yupResolver(validationSchema),
+    mode: 'all',
+  })
+
+  const onSubmit = (values: any) => {
     // <Navigate to="/privew-industry" />;
     // navigate("/privew-industry");
     setIsAppointmentBooked(true)
@@ -53,77 +39,68 @@ export const BookAppointment = () => {
     <AppointmentDetails appointmentDetails={appointmentDetails} />
   ) : (
     <>
-      <GoBackButton link={'students/appointments'}>
-        Back To Appointments
-      </GoBackButton>
+      <BackButton
+        link={'students/appointments'}
+        text={'Back To Appointments'}
+      />
 
-      <Card mt={6}>
+      <Card>
         <Typography variant={'subtitle'}>Book An Appointment</Typography>
 
-        <Formik
-          initialValues={initialValues}
-          validationSchema={validationSchema}
-          onSubmit={onSubmit}
-          enableReinitialize
-        >
-          {({ touched, errors, setFieldValue }) => {
-            return (
-              <Form className="mt-8">
-                <div className="w-full md:w-1/2 mb-4">
-                  <SelectFieldOption
-                    label={'Placement Coordinator'}
-                    fileupload={setFieldValue}
-                    name={'placementCoordinator'}
-                    options={[
-                      { value: 'apple', label: 'Apple' },
-                      { value: 'banana', label: 'Banana' },
-                      { value: 'melon', label: 'Melon' },
-                    ]}
-                  />
-                </div>
+        <FormProvider {...methods}>
+          <form
+            className="mt-2 w-full"
+            onSubmit={methods.handleSubmit(onSubmit)}
+          >
+            <div className="w-full md:w-1/2 mb-4">
+              <Select
+                label={'Placement Coordinator'}
+                name={'placementCoordinator'}
+                options={[
+                  { value: 'apple', label: 'Apple' },
+                  { value: 'banana', label: 'Banana' },
+                  { value: 'melon', label: 'Melon' },
+                ]}
+              />
+            </div>
 
-                <div className="w-full md:w-1/2 mb-4">
-                  <SelectFieldOption
-                    label={'Appointment Type'}
-                    fileupload={setFieldValue}
-                    name={'appointmentType'}
-                    options={[
-                      { value: 'apple', label: 'Apple' },
-                      { value: 'banana', label: 'Banana' },
-                      { value: 'melon', label: 'Melon' },
-                    ]}
-                  />
-                </div>
+            <div className="w-full md:w-1/2 mb-4">
+              <Select
+                label={'Appointment Type'}
+                name={'appointmentType'}
+                options={[
+                  { value: 'apple', label: 'Apple' },
+                  { value: 'banana', label: 'Banana' },
+                  { value: 'melon', label: 'Melon' },
+                ]}
+              />
+            </div>
 
-                <div className="grid grid-cols-2 gap-x-8 mt-4 mb-6">
-                  <SelectFieldOption
-                    label={'Appointment Date'}
-                    fileupload={setFieldValue}
-                    name={'appointmentDate'}
-                    options={[
-                      { value: 'apple', label: 'Apple' },
-                      { value: 'banana', label: 'Banana' },
-                      { value: 'melon', label: 'Melon' },
-                    ]}
-                  />
+            <div className="grid grid-cols-2 gap-x-8 mt-4 mb-6">
+              <Select
+                label={'Appointment Date'}
+                name={'appointmentDate'}
+                options={[
+                  { value: 'apple', label: 'Apple' },
+                  { value: 'banana', label: 'Banana' },
+                  { value: 'melon', label: 'Melon' },
+                ]}
+              />
 
-                  <SelectFieldOption
-                    label={'Appointment Time'}
-                    fileupload={setFieldValue}
-                    name={'appointmentTime'}
-                    options={[
-                      { value: 'apple', label: 'Apple' },
-                      { value: 'banana', label: 'Banana' },
-                      { value: 'melon', label: 'Melon' },
-                    ]}
-                  />
-                </div>
+              <Select
+                label={'Appointment Time'}
+                name={'appointmentTime'}
+                options={[
+                  { value: 'apple', label: 'Apple' },
+                  { value: 'banana', label: 'Banana' },
+                  { value: 'melon', label: 'Melon' },
+                ]}
+              />
+            </div>
 
-                <Button type={'submit'}>Save</Button>
-              </Form>
-            )
-          }}
-        </Formik>
+            <Button submit text={'Save'} />
+          </form>
+        </FormProvider>
       </Card>
     </>
   )

@@ -1,14 +1,16 @@
 import { useEffect, useState } from 'react'
+import { useRouter } from 'next/router'
 
 // components
-import { Card, BackButton, ReactTable } from 'components'
+import { Button, BackButton, ReactTable } from '@components'
 import { RightSidebarData } from '../../components'
 
 // hooks
 import { useContextBar } from 'hooks'
 import { useGetStudentsQuery } from '@queries'
 
-export const Appointments = () => {
+export const IndustryAppointments = () => {
+  const router = useRouter()
   const [queryFilters, setQueryFilters] = useState({})
   const { setContent } = useContextBar()
 
@@ -41,18 +43,27 @@ export const Appointments = () => {
   ]
   return (
     <div>
-      <BackButton text={'Back To Students'} />
-
-      <Card>
-        <ReactTable
-          pagesize
-          pagination
-          Columns={Columns}
-          querySort={'name'}
-          action={useGetStudentsQuery}
-          queryFilters={queryFilters}
+      <div className="flex justify-between items-center mb-3">
+        <BackButton text={'Back To Students'} />
+        <Button
+          text={'Book Appointment'}
+          variant={'info'}
+          onClick={() => {
+            router.push(
+              '/portals/industry/students/appointments/book-appointments'
+            )
+          }}
         />
-      </Card>
+      </div>
+
+      <ReactTable
+        pagesize
+        pagination
+        Columns={Columns}
+        querySort={'name'}
+        action={useGetStudentsQuery}
+        queryFilters={queryFilters}
+      />
     </div>
   )
 }
