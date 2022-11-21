@@ -17,11 +17,11 @@ export const employeeApi = createApi({
   }),
   tagTypes: ['Employee'],
   endpoints: (builder) => ({
-    getEmployee: builder.query({
+    getEmployee: builder.query<any, any>({
       query: (params) => {
         return {
           url: 'industries/employee/list',
-          params: { ...params },
+          params,
         }
       },
       providesTags: ['Employee'],

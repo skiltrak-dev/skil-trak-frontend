@@ -1,9 +1,27 @@
-import React from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useRouter } from 'next/router'
+
+import { Animations } from '@animations'
 
 // componemts
-import { Typography, PrimaryActionLink, OtherDocumentLinks } from 'components'
-import { AdForRPL } from 'pages/ApplyForRPL'
+import { Typography, DisplayPrimaryActions } from 'components'
+import { AdForRPL } from '@components/sections/industry/ApplyForRPL'
+
+const CreateTaskActions = [
+  {
+    link: 'unit-requirements',
+    title: 'Documentation Required',
+    description: 'Some helping text',
+    // image: null, //"./images/dashboardbtn3.png",
+    animation: Animations.Industry.GeneralInfo.UnitRequirements,
+  },
+  {
+    link: 'placement-workflow',
+    title: 'Documentation Required',
+    description: 'Some helping text',
+    // image: null, //"./images/dashboardbtn4.png",
+    animation: Animations.Industry.GeneralInfo.Placement,
+  },
+]
 
 export const RightSidebarData = () => {
   const router = useRouter()
@@ -12,32 +30,18 @@ export const RightSidebarData = () => {
       <AdForRPL short />
 
       <div className="w-full flex flex-col gap-y-2 mt-2">
-        <Typography varient={'text'} color={'gray'}>
+        <Typography variant={'small'} color={'text-gray-500'}>
           Related Links
         </Typography>
-        <OtherDocumentLinks />
+        {/* <OtherDocumentLinks /> */}
       </div>
 
       {/* Other Links */}
       <div className="flex flex-col gap-y-2 mt-2">
-        <Typography varient={'text'} color={'gray'}>
+        <Typography variant={'small'} color={'text-gray-500'}>
           Other Links
         </Typography>
-        <PrimaryActionLink
-          bgColor={'white'}
-          bgHoverColor={'secondary'}
-          title={'Documentation Required'}
-          desc={'Some helping text'}
-          img={'./images/dashboardbtn.png'}
-        />
-
-        <PrimaryActionLink
-          bgColor={'white'}
-          bgHoverColor={'secondary'}
-          title={'Documentation Required'}
-          desc={'Some helping text'}
-          img={'./images/dashboardbtn2.png'}
-        />
+        <DisplayPrimaryActions actions={CreateTaskActions} />
       </div>
     </div>
   )

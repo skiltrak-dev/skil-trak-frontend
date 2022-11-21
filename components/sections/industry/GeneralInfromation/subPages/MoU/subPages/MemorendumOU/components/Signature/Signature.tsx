@@ -1,5 +1,9 @@
-import React, { useEffect } from 'react'
-import SignatureCanvas from 'react-signature-canvas'
+import React, { useEffect, createRef } from 'react'
+import dynamic from 'next/dynamic'
+// import SignatureCanvas from 'react-signature-canvas'
+const SignatureCanvas = dynamic(() => import('react-signature-canvas'), {
+  ssr: false,
+})
 
 // components
 import { Typography, Button } from '@components'

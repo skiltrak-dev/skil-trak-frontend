@@ -4,7 +4,7 @@ import { useRouter } from 'next/router'
 import { IndustryLayout } from '@layouts'
 import { NextPageWithLayout } from '@types'
 
-import { MoUContainer } from '@components/sections'
+import { MoUContainer } from '@components/sections/'
 
 const MOU: NextPageWithLayout = () => {
   const router = useRouter()

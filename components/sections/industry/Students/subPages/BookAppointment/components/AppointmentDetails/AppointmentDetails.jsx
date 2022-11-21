@@ -5,17 +5,13 @@ import { useRouter } from 'next/router'
 import { BsFillCheckCircleFill } from 'react-icons/bs'
 
 // components
-import {
-  ActionAlert,
-  Button,
-  Card,
-  Typography,
-} from '../../../../../../components'
+import { ActionAlert, Button, Card, Typography } from '@components'
 
 export const AppointmentDetails = ({ appointmentDetails }) => {
+  
   const router = useRouter()
   return (
-    <div>
+    <div className="flex flex-col gap-y-3">
       <Card>
         <ActionAlert
           Icon={BsFillCheckCircleFill}
@@ -78,7 +74,7 @@ export const AppointmentDetails = ({ appointmentDetails }) => {
         <Button
           bgColor={'secondary'}
           textColor={'black'}
-          onClick={() => navigate('/students/appointments')}
+          onClick={() => router.push('/portals/industry/students/appointments')}
         >
           Back To Appointments
         </Button>

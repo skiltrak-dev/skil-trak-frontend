@@ -6,12 +6,17 @@ import { NextPageWithLayout } from '@types'
 
 import { CurrentStudnts } from '@components/sections'
 import { TabNavigation, TabProps } from '@components/TabNavigation'
+import { IndustryDashboardContainer } from '@components/sections/industry/Dashboard'
 
 const IndustryDashboard: NextPageWithLayout = () => {
   const router = useRouter()
   const { query } = router
 
-  return <div>IndustryDashboard</div>
+  return (
+    <div>
+      <IndustryDashboardContainer />
+    </div>
+  )
 }
 
 IndustryDashboard.getLayout = (page: ReactElement) => {

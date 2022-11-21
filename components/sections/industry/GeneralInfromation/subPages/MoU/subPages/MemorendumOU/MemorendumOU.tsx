@@ -178,12 +178,12 @@ export const MemorendumOU = () => {
               <div className="mt-6">
                 {editMou ? (
                   <>
-                    <MouEditor
+                    {/* <MouEditor
                       content={content}
                       saveContent={saveContent}
                       setEditMou={setEditMou}
                       setSaveContentButton={setSaveContentButton}
-                    />
+                    /> */}
                   </>
                 ) : (
                   <>
@@ -230,12 +230,11 @@ export const MemorendumOU = () => {
                       </Typography>
                     </div>
                   ) : (
-                    <></>
-                    // <Signature
-                    //   sigPad={sigPad}
-                    //   setSigPad={setSigPad}
-                    //   industryName={IndustryName?.name}
-                    // />
+                    <Signature
+                      sigPad={sigPad}
+                      setSigPad={setSigPad}
+                      industryName={IndustryName?.name}
+                    />
                   )}
                 </div>
 

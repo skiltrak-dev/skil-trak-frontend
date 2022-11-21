@@ -10,7 +10,7 @@ import {
   CircularProgresbar,
   DisplayPrimaryActions,
   Typography,
-} from 'components'
+} from '@components'
 import { RightSidebarData } from './components'
 
 // Context

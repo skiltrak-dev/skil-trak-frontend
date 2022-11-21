@@ -2,13 +2,13 @@ import React, { useEffect, useState, Fragment } from 'react'
 import { useRouter } from 'next/router'
 
 // components
-import { Button, GoBackButton, Card, Typography } from 'components'
+import { Button, BackButton, Card, Typography } from '@components'
 import { RightSidebarData } from './components'
 
 // Context
 import { useContextBar } from 'hooks'
 
-export const AddSchedule = () => {
+export const AddScheduleContainer = () => {
   const { setContent } = useContextBar()
   const [selectedSchedule, setSelectedSchedule] = useState('')
   const router = useRouter()
@@ -34,9 +34,9 @@ export const AddSchedule = () => {
   ]
   return (
     <div>
-      <GoBackButton link={'/'}>Back To Dashboard</GoBackButton>
+      <BackButton link={'/'} text={'Back To Dashboard'} />
 
-      <Card mt={6}>
+      <Card>
         <Typography variant={'subtitle'}>Continue with</Typography>
 
         <div className="flex  gap-x-16 px-6 py-11">
@@ -62,11 +62,12 @@ export const AddSchedule = () => {
 
         {/* Action */}
         <Button
+          onClick={() =>
+            router.push(
+              '/portals/industry/tasks/add-a-schedule/schedule?tab=employee-schedule'
+            )
+          }
           disabled={selectedSchedule !== 'Employee Schedule'}
-          border={'2'}
-          borderColor={'primary'}
-          bgColor={'primary'}
-          onClick={() => navigate('/my-tasks/add-a-schedule/employee-schedule')}
         >
           Continue
         </Button>

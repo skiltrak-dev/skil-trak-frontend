@@ -7,11 +7,11 @@ import { BsFillCheckCircleFill } from 'react-icons/bs'
 import {
   ActionAlert,
   Button,
-  GoBackButton,
+  BackButton,
   Card,
   DocumentView,
   Typography,
-} from '../../../../components'
+} from '@components'
 import { RightSidebarData } from './components'
 
 // Context
@@ -31,13 +31,6 @@ export const RequestAVolunteerStudent = () => {
     )
   }, [setContent])
 
-  useEffect(() => {
-    isVolunteer &&
-      setTimeout(() => {
-        navigate('/students')
-      }, 2000)
-  }, [isVolunteer, navigate])
-
   const onVolunteer = () => {
     setIsVolunteer(true)
   }
@@ -45,15 +38,13 @@ export const RequestAVolunteerStudent = () => {
   return isVolunteer ? (
     <Card>
       <ActionAlert
-        Icon={BsFillCheckCircleFill}
         title={'Successfully requested a volunteer student'}
         description={'You will be redirected to jobs in a moment.'}
-        iconsColor={'success'}
       />
     </Card>
   ) : (
     <>
-      <GoBackButton>Back To Dashboard</GoBackButton>
+      <BackButton text={'Back To Dashboard'} />
 
       {/* Data */}
       <DocumentView title={'Request A Volunteer Student'}>
@@ -78,21 +69,8 @@ export const RequestAVolunteerStudent = () => {
           </Typography>
 
           <div className="w-full mt-6 flex gap-x-2">
-            <Button
-              border={'2'}
-              borderColor={'primary'}
-              bgColor={'primary'}
-              onClick={onVolunteer}
-            >
-              Yes
-            </Button>
-            <Button
-              border={'2'}
-              borderColor={'primary'}
-              bgColor={'secondary'}
-              textColor={'text'}
-              onClick={() => navigate('/students')}
-            >
+            <Button onClick={onVolunteer}>Yes</Button>
+            <Button onClick={() => router.push('/portals/industry/students')}>
               No
             </Button>
           </div>

@@ -1,246 +1,182 @@
 import React, { useContext, useEffect } from 'react'
-import { Formik, Form, FieldArray } from 'formik'
+import {
+  FormProvider,
+  useForm,
+  useFieldArray,
+  Controller,
+} from 'react-hook-form'
+import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
-
-// view
-import { EmployeeDataContext } from '../../../../ScheduleView'
 
 // components
 import {
-    Button,
-    Checkbox,
-    InputField,
-    Typography,
-    ShowErrorNotifications,
+  Button,
+  Checkbox,
+  TextInput,
+  Typography,
+  //   ShowErrorNotifications,
 } from 'components'
 
 // query
-import { useAddEmployeeMutation } from 'redux/query'
+import { useAddEmployeeMutation, useUpdateEmployeeMutation } from '@queries'
 
 //hooks
 import { useNotification } from 'hooks'
 
-// redux
-import { useUpdateEmployeeMutation } from 'redux/query'
-
-// utills
-import { trimString } from 'utills'
+// utils
+import { trimString } from '@utils'
 
 // import { EmployeeData } from "context";
 
-export const EmployeeDetailForm = ({ onVolunteer }) => {
-    const [updateEmployee, updateEmployeeResult] = useUpdateEmployeeMutation()
-    const [addEmployee, addEmployeeResult] = useAddEmployeeMutation()
+export const EmployeeDetailForm = ({ onVolunteer }: any) => {
+  const [updateEmployee, updateEmployeeResult] = useUpdateEmployeeMutation()
+  const [addEmployee, addEmployeeResult] = useAddEmployeeMutation()
 
-    const { notification } = useNotification()
-    const { employeeData, setEmployeeData } = useContext(EmployeeDataContext)
+  const { notification } = useNotification()
 
-    useEffect(() => {
-        if (addEmployeeResult.isSuccess) {
-            notification.success({
-                title: 'You have added an Employee',
-                description: 'Some description for notification',
-            })
-        }
-    }, [addEmployeeResult.isSuccess])
-
-    useEffect(() => {
-        if (updateEmployeeResult.isSuccess) {
-            notification.info({
-                title: 'You have updated an Employee',
-                description: 'Some description for notification',
-            })
-            setEmployeeData(null)
-        }
-    }, [updateEmployeeResult.isSuccess, setEmployeeData])
-
-    const initialValues = {
-        employee: [
-            {
-                firstName: '',
-                lastName: '',
-                mobileNo: '',
-                email: '',
-            },
-        ],
-        isInvite: false,
+  useEffect(() => {
+    if (addEmployeeResult.isSuccess) {
+      notification.success({
+        title: 'You have added an Employee',
+        description: 'Some description for notification',
+      })
     }
+  }, [addEmployeeResult.isSuccess])
 
-    const validationSchema = yup.object({
-        employee: yup.array().of(
-            yup.object().shape({
-                firstName: yup.string().required('firstName is required'),
-                lastName: yup.string().required('lastName is required'),
-                mobileNo: yup.string().required('mobileNo is required'),
-            })
-        ),
+  useEffect(() => {
+    if (updateEmployeeResult.isSuccess) {
+      notification.info({
+        title: 'You have updated an Employee',
+        description: 'Some description for notification',
+      })
+      // setEmployeeData(null)
+    }
+  }, [updateEmployeeResult.isSuccess])
+
+  const initialValues = {
+    employee: [
+      {
+        firstName: '',
+        lastName: '',
+        mobileNo: '',
+        email: '',
+      },
+    ],
+    isInvite: false,
+  }
+
+  const validationSchema = yup.object({
+    employee: yup.array().of(
+      yup.object().shape({
+        firstName: yup.string().required('firstName is required'),
+        lastName: yup.string().required('lastName is required'),
+        mobileNo: yup.string().required('mobileNo is required'),
+      })
+    ),
+  })
+
+  const methods = useForm({
+    resolver: yupResolver(validationSchema),
+    mode: 'all',
+  })
+
+  const { fields, append, remove } = useFieldArray({
+    rules: { minLength: 1 },
+    control: methods.control,
+    name: 'employee',
+  })
+
+  const onSubmit = async (values: any) => {
+    const employee = values.employee.map((data: any) => {
+      return trimString(data)
     })
-
-    const onSubmit = async (values, { resetForm }) => {
-        const employee = values.employee.map((data) => {
-            return trimString(data)
-        })
-        onVolunteer(values)
-        await addEmployee({ employee, isInvite: values.isInvite })
-        resetForm()
-    }
-    const onUpdate = async (values) => {
-        const trimValues = trimString(values.employee[0])
-        await updateEmployee({ body: trimValues, id: values.id })
-    }
-    return (
-        <>
-            <ShowErrorNotifications
+    onVolunteer(values)
+    await addEmployee({ employee, isInvite: values.isInvite })
+  }
+  const onUpdate = async (values: any) => {
+    const trimValues = trimString(values.employee[0])
+    await updateEmployee({ body: trimValues, id: values.id })
+  }
+  return (
+    <>
+      {/* <ShowErrorNotifications
                 result={
                     employeeData?.isEditing
                         ? updateEmployeeResult
                         : addEmployeeResult
                 }
-            />
-            <Formik
-                initialValues={employeeData || initialValues}
-                validationSchema={validationSchema}
-                onSubmit={onSubmit}
-                validateOnMount
-                enableReinitialize
+            /> */}
+      <FormProvider {...methods}>
+        <form className="mt-2 w-full" onSubmit={methods.handleSubmit(onSubmit)}>
+          <div className="border border-secondary-dark mt-6">
+            <div className="grid grid-cols-4 gap-x-6 p-2">
+              <Typography variant={'label'}> First Name* </Typography>
+              <Typography variant={'label'}> Last Name* </Typography>
+              <Typography variant={'label'}>Mobile Number*</Typography>
+              <Typography variant={'label'}> Email </Typography>
+            </div>
+            {fields.map((item, index) => (
+              <div className="flex items-start gap-x-6 px-2 py-1" key={index}>
+                <TextInput
+                  placeholder="Enter your Email"
+                  name={`employee.${index}.firstName`}
+                />
+                <TextInput
+                  placeholder="Enter your Email"
+                  name={`employee.${index}.lastName`}
+                />
+                <TextInput
+                  placeholder="Enter your Email"
+                  name={`employee.${index}.mobileNo`}
+                />
+                <TextInput
+                  placeholder="Enter your Email"
+                  name={`employee.${index}.email`}
+                />
+              </div>
+            ))}
+            {/* {!employeeData && ( */}
+            <div className="flex flex-col">
+              <Button
+                onClick={() =>
+                  append({
+                    firstName: '',
+                    lastName: '',
+                    phone: '',
+                    email: '',
+                  })
+                }
+                variant={'secondary'}
+                disabled={false}
+              >
+                + Add Another Entry
+              </Button>
+            </div>
+            {/* )} */}
+          </div>
+
+          <div className="my-6">
+            <Checkbox name={'isInvite'} label={'Send an invite'} />
+          </div>
+          {/* {employeeData?.isEditing ? (
+            <Button
+              variant={'secondary'}
+              onClick={() => onUpdate(values)}
+              loading={updateEmployeeResult.isLoading}
             >
-                {(props) => {
-                    const { isValid, values } = props
-                    return (
-                        <Form>
-                            <FieldArray name="employee">
-                                {(props) => {
-                                    const {
-                                        push,
-                                        form: {
-                                            values: { employee },
-                                            touched,
-                                            errors,
-                                        },
-                                    } = props
-                                    return (
-                                        <div className="border border-secondary-dark mt-6">
-                                            <div className="grid grid-cols-4 gap-x-6 p-2">
-                                                <Typography variant={'label'}>
-                                                    {' '}
-                                                    First Name*{' '}
-                                                </Typography>
-                                                <Typography variant={'label'}>
-                                                    {' '}
-                                                    Last Name*{' '}
-                                                </Typography>
-                                                <Typography variant={'label'}>
-                                                    Mobile Number*
-                                                </Typography>
-                                                <Typography variant={'label'}>
-                                                    {' '}
-                                                    Email{' '}
-                                                </Typography>
-                                            </div>
-                                            {employee.map(
-                                                (employeeDetail, index) => {
-                                                    return (
-                                                        <div
-                                                            className="flex items-start gap-x-6 px-2 py-1"
-                                                            key={index}
-                                                        >
-                                                            <InputField
-                                                                name={`employee[${index}].firstName`}
-                                                                placeholder={
-                                                                    'Some Text Here...'
-                                                                }
-                                                                touched={
-                                                                    props.form
-                                                                        .touched
-                                                                }
-                                                                errors={
-                                                                    props.form
-                                                                        .errors
-                                                                }
-                                                            />
-                                                            <InputField
-                                                                name={`employee[${index}].lastName`}
-                                                                placeholder={
-                                                                    'Some Text Here...'
-                                                                }
-                                                                touched={
-                                                                    touched
-                                                                }
-                                                                errors={errors}
-                                                            />
-                                                            <InputField
-                                                                name={`employee[${index}].mobileNo`}
-                                                                placeholder={
-                                                                    'Some Text Here...'
-                                                                }
-                                                                touched={
-                                                                    touched
-                                                                }
-                                                                errors={errors}
-                                                            />
-                                                            <InputField
-                                                                name={`employee[${index}].email`}
-                                                                type={'email'}
-                                                                placeholder={
-                                                                    'Some Text Here...'
-                                                                }
-                                                                touched={
-                                                                    touched
-                                                                }
-                                                                errors={errors}
-                                                            />
-                                                        </div>
-                                                    )
-                                                }
-                                            )}
-                                            {!employeeData && (
-                                                <div className="flex flex-col">
-                                                    <Button
-                                                        onClick={() =>
-                                                            push({
-                                                                firstName: '',
-                                                                lastName: '',
-                                                                mobileNo: '',
-                                                                email: '',
-                                                            })
-                                                        }
-                                                        variant={'secondary'}
-                                                        disabled={!isValid}
-                                                    >
-                                                        + Add Another Entry
-                                                    </Button>
-                                                </div>
-                                            )}
-                                        </div>
-                                    )
-                                }}
-                            </FieldArray>
-                            <div className="my-6">
-                                <Checkbox
-                                    name={'isInvite'}
-                                    label={'Send an invite'}
-                                />
-                            </div>
-                            {employeeData?.isEditing ? (
-                                <Button
-                                    variant={'secondary'}
-                                    onClick={() => onUpdate(values)}
-                                    loading={updateEmployeeResult.isLoading}
-                                >
-                                    Update
-                                </Button>
-                            ) : (
-                                <Button
-                                    submit
-                                    loading={addEmployeeResult.isLoading}
-                                    disabled={
-                                        addEmployeeResult.isLoading || !isValid
-                                    }
-                                >
-                                    Confirm
-                                </Button>
-                            )}
-                            {/* <Button
+              Update
+            </Button>
+          ) : ( */}
+          <Button
+            submit
+            loading={addEmployeeResult.isLoading}
+            disabled={addEmployeeResult.isLoading}
+            text={'Confirm'}
+            //   disabled={addEmployeeResult.isLoading || !isValid}
+          />
+
+          {/* )} */}
+          {/* <Button
               type={"submit"}
               border={"2"}
               borderColor={"primary"}
@@ -249,10 +185,8 @@ export const EmployeeDetailForm = ({ onVolunteer }) => {
             >
               Confirm
             </Button> */}
-                        </Form>
-                    )
-                }}
-            </Formik>
-        </>
-    )
+        </form>
+      </FormProvider>
+    </>
+  )
 }
