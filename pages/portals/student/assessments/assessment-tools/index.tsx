@@ -1,11 +1,12 @@
 import { ReactElement, useEffect } from 'react'
-
+// Layouts
 import { StudentLayout } from '@layouts'
 import { NextPageWithLayout } from '@types'
-import { AssessmentsTools, Button, SidebarCalendar } from '@components'
-import { Typography } from '@components'
-import { FaEdit } from 'react-icons/fa'
+// Hooks
 import { useContextBar } from '@hooks'
+// Components
+import { Button, SidebarCalendar, Typography } from '@components'
+import { StudentAssessmentTools } from '@components/sections/student/AssessmentsContainer'
 
 type Props = {}
 
@@ -19,18 +20,20 @@ const AssessmentTools: NextPageWithLayout = (props: Props) => {
             </>
         )
     }, [setContent])
-    const actions = () => {
+    const actions = (id:any) => {
         return (
             <div className="flex gap-x-2 ">
-                <Typography variant="tableCell" color="text-blue-600">
-                    Download
-                </Typography>
+                <a href={`${process.env.NEXT_PUBLIC_END_POINT}/rtos/course/content/${id}`} target="blank" rel="noreferrer">
+                    <Typography variant="tableCell" color="text-blue-600">
+                        Download
+                    </Typography>
+                </a>
             </div>
         )
     }
     return (
         <>
-            <AssessmentsTools role={'Student'} actions={actions} />
+            <StudentAssessmentTools role={'Student'} actions={actions} />
         </>
     )
 }

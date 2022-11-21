@@ -22,7 +22,7 @@ export const studentCoursesApi = createApi({
         getStudentCourses: builder.query<any[], void>({
             query: (params: any) => {
                 return {
-                    url: 'courses/list',
+                    url: 'courses/view',
                     params,
                 }
             },

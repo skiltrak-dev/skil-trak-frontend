@@ -18,7 +18,7 @@ const Appointments: NextPageWithLayout = (props: Props) => {
                     text={'Book Appointment'}
                     variant={'info'}
                     onClick={() => {
-                        router.push('/student/workplace/book-appointment')
+                        router.push('/portals/student/workplace/book-appointment')
                     }}
                 />
             </div>

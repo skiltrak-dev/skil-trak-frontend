@@ -18,15 +18,13 @@ type AssessmentsToolsProps = {
 }
 
 export const AssessmentsTools = ({ role, actions }: AssessmentsToolsProps) => {
-    const [selectedCourseId, setSelectedCourseId] = useState(1)
-
+    const [selectedCourseId, setSelectedCourseId] = useState<any|null>(null)
     const router = useRouter()
     const { data, isLoading, isError } = useGetAssessmentToolQuery('archived')
     const { data: assessmentToolDetail, isLoading: isLoadingDetail } =
         useGetAssessmentToolDetailQuery(selectedCourseId)
     console.log('Details', assessmentToolDetail)
-
-    // console.log('first', data)
+  
 
     return (
         <>

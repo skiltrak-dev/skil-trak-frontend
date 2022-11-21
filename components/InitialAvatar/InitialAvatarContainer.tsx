@@ -1,9 +1,9 @@
 export const InitialAvatarContainer = ({
-  children,
-  show = 3,
+    children,
+    show = 3,
 }: {
-  children: any
-  show: number
+    children: any
+    show: number
 }) => {
     return (
         <div className="relative flex items-center">
@@ -25,8 +25,8 @@ export const InitialAvatarContainer = ({
                                 return (
                                     <span
                                         className={`whitespace-nowrap p-1 ${idx !== children.length - 1
-                                                ? 'border-b border-slate-700'
-                                                : ''
+                                            ? 'border-b border-slate-700'
+                                            : ''
                                             }`}
                                     >
                                         {child.props.name}
@@ -36,10 +36,8 @@ export const InitialAvatarContainer = ({
                         })}
                     </div>
                 </div>
-            )}
 
+            )}
         </div>
-      )}
-    </div>
-  )
+    )
 }
