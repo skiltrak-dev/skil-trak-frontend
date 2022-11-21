@@ -7,3 +7,6 @@ export * from './response.type'
 
 export * from './rto.type'
 export * from './user.type'
+export * from './student.type'
+export * from './subscriber.type'
+export * from './sub-admin.type'

@@ -1,0 +1,18 @@
+import { BaseQueryFn } from '@reduxjs/toolkit/dist/query/baseQueryTypes'
+import { EndpointBuilder } from '@reduxjs/toolkit/dist/query/endpointDefinitions'
+import { PaginatedResponse, SubAdmin } from '@types'
+
+const PREFIX = 'admin'
+export const subAdminEndpoints = (
+   builder: EndpointBuilder<BaseQueryFn, string, string>
+) => ({
+   subAdmins: builder.query<PaginatedResponse<SubAdmin>, any>({
+      query: (params) => {
+         return {
+            url: `${PREFIX}/subadmin/list`,
+            params,
+         }
+      },
+      providesTags: ['SubAdmins'],
+   }),
+})
