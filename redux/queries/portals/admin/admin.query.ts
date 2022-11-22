@@ -1,134 +1,185 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 import { AuthUtils } from '@utils'
 import { courseEndpoints } from './course'
+import { industryEndpoints } from './industry'
 
 import { rtoEndpoints } from './rto'
 import { sectorEndpoints } from './sector'
 import { studentEndpoints } from './student'
 import { subAdminEndpoints } from './sub-admin'
 import { subscriberEndpoints } from './subscribers'
+import { notesEndpoints } from './notes'
 
 export const adminApi = createApi({
-   reducerPath: 'adminApi',
-   baseQuery: fetchBaseQuery({
-      baseUrl: `${process.env.NEXT_PUBLIC_HOST}/`,
-      prepareHeaders: (headers, { getState }) => {
-         const token = AuthUtils.getToken()
-         if (token) {
-            headers.set('authorization', `Bearer ${token}`)
-         }
-         return headers
-      },
-   }),
-   tagTypes: ['RTOS', 'Students', 'Subscribers', 'Sectors', 'SubAdmins'],
+  reducerPath: 'adminApi',
+  baseQuery: fetchBaseQuery({
+    baseUrl: `${process.env.NEXT_PUBLIC_HOST}/`,
+    prepareHeaders: (headers, { getState }) => {
+      const token = AuthUtils.getToken()
+      if (token) {
+        headers.set('authorization', `Bearer ${token}`)
+      }
+      return headers
+    },
+  }),
+  tagTypes: [
+    'RTOS',
+    'Students',
+    'Subscribers',
+    'Sectors',
+    'SubAdmins',
+    'Industries',
+    'Notes',
+  ],
 
-   // ---------- RTO ENDPOINTS ---------- //
-   endpoints: (build) => ({
-      ...rtoEndpoints(build),
-      ...studentEndpoints(build),
-      ...subscriberEndpoints(build),
-      ...sectorEndpoints(build),
-      ...courseEndpoints(build),
-      ...subAdminEndpoints(build),
-   }),
+  // ---------- RTO ENDPOINTS ---------- //
+  endpoints: (build) => ({
+    ...rtoEndpoints(build),
+    ...studentEndpoints(build),
+    ...subscriberEndpoints(build),
+    ...sectorEndpoints(build),
+    ...courseEndpoints(build),
+    ...subAdminEndpoints(build),
+    ...industryEndpoints(build),
+    ...notesEndpoints(build),
+  }),
 })
 
 const {
-   // ------ RTO ------ //
-   useRtoCountQuery,
-   useRtosQuery,
-   useRtoDetailQuery,
-   useRtoStatusChangeMutation,
-   useRtoRemoveMutation,
+  // ------ RTO ------ //
+  useRtoCountQuery,
+  useRtosQuery,
+  useRtoDetailQuery,
+  useRtoStatusChangeMutation,
+  useRtoRemoveMutation,
 
-   useRtoSectorsQuery,
-   useRtoAssignCoursesMutation,
-   useRtoUnassignCourseMutation,
+  useRtoSectorsQuery,
+  useRtoAssignCoursesMutation,
+  useRtoUnassignCourseMutation,
 
-   useRtoSubAdminsQuery,
-   useRtoAssignSubAdminsMutation,
-   useRtoUnassignSubAdminsMutation,
-   useRtoProfileDetailQuery,
+  useRtoSubAdminsQuery,
+  useRtoAssignSubAdminsMutation,
+  useRtoUnassignSubAdminsMutation,
+  useRtoProfileDetailQuery,
 
-   // ------ STUDENT ------ //
-   useStudentCountQuery,
-   useStudentsQuery,
-   useStudentStatusChangeMutation,
-   useStudentRemoveMutation,
+  // ------ STUDENT ------ //
+  useStudentCountQuery,
+  useStudentsQuery,
+  useStudentProfileQuery,
+  useStudentStatusChangeMutation,
+  useStudentRemoveMutation,
 
-   useStudentSectorsQuery,
-   useStudentAssignCoursesMutation,
-   useStudentUnassignCoursesMutation,
+  useStudentSectorsQuery,
+  useStudentAssignCoursesMutation,
+  useStudentUnassignCoursesMutation,
 
-   // ------ SECTOR ------ //
-   useSectorsQuery,
-   useSectorDetailQuery,
-   useSectorAddMutation,
-   useSectorUpdateMutation,
-   useSectorRemoveMutation,
+  // ------ INDUSTRY ------ //
+  useIndustryCountQuery,
+  useIndustriesQuery,
+  useIndustryStatusChangeMutation,
+  useIndustryRemoveMutation,
+  useIndustryDetailQuery,
 
-   // ------ COURSES ------ //
-   useCoursesQuery,
-   useCourseDetailQuery,
-   useCourseAddMutation,
-   useCourseUpdateMutation,
-   useCourseRemoveMutation,
+  // ------ SECTOR ------ //
+  useSectorsQuery,
+  useSectorDetailQuery,
+  useSectorAddMutation,
+  useSectorUpdateMutation,
+  useSectorRemoveMutation,
 
-   // ------ SUBSCRIBERS ------ //
-   useListSubscribersQuery,
-   useResubscribeMutation,
-   useUnsubscribeMutation,
+  // ------ COURSES ------ //
+  useCoursesQuery,
+  useCourseDetailQuery,
+  useCourseAddMutation,
+  useCourseUpdateMutation,
+  useCourseRemoveMutation,
 
-   // ------ SUB ADMINS ------ //
-   useSubAdminsQuery,
+  // ------ SUBSCRIBERS ------ //
+  useListSubscribersQuery,
+  useResubscribeMutation,
+  useUnsubscribeMutation,
+
+  // ------ SUB ADMINS ------ //
+  useSubAdminsQuery,
+
+  // ------ NOTES ------ //
+  useNotesQuery,
+  useNotesPinnedQuery,
+  useNoteCreateMutation,
+  useNoteUpdateMutation,
+  useNoteRemoveMutation,
+  useNoteStatusChangeMutation,
 } = adminApi
 
 export const AdminApi = {
-   Rtos: {
-      useCountQuery: useRtoCountQuery,
-      useListQuery: useRtosQuery,
-      useDetailQuery: useRtoDetailQuery,
-      useChangeStatusMutation: useRtoStatusChangeMutation,
-      useRemove: useRtoRemoveMutation,
+  Rtos: {
+    useCountQuery: useRtoCountQuery,
+    useListQuery: useRtosQuery,
+    useDetailQuery: useRtoDetailQuery,
+    useChangeStatusMutation: useRtoStatusChangeMutation,
+    useRemove: useRtoRemoveMutation,
 
-      useSectors: useRtoSectorsQuery,
-      useAssignCourses: useRtoAssignCoursesMutation,
-      useUnassignCourses: useRtoUnassignCourseMutation,
+    useSectors: useRtoSectorsQuery,
+    useAssignCourses: useRtoAssignCoursesMutation,
+    useUnassignCourses: useRtoUnassignCourseMutation,
 
-      useSubAdmins: useRtoSubAdminsQuery,
-      useAssignSubAdmin: useRtoAssignSubAdminsMutation,
-      useUnAssignSubAdmin: useRtoUnassignSubAdminsMutation,
-   },
-   Students: {
-      useCountQuery: useStudentCountQuery,
-      useListQuery: useStudentsQuery,
-      useChangeStatusMutation: useStudentStatusChangeMutation,
-      useRemove: useStudentRemoveMutation,
+    useSubAdmins: useRtoSubAdminsQuery,
+    useAssignSubAdmin: useRtoAssignSubAdminsMutation,
+    useUnAssignSubAdmin: useRtoUnassignSubAdminsMutation,
+  },
 
-      useSectors: useStudentSectorsQuery,
-      useAssignCourses: useStudentAssignCoursesMutation,
-      useUnassignCourses: useStudentUnassignCoursesMutation,
-   },
-   Subscribers: {
-      useListQuery: useListSubscribersQuery,
-      useResubscribeMutation,
-      useUnsubscribeMutation,
-   },
-   Sectors: {
-      useListQuery: useSectorsQuery,
-      useDetailQuery: useSectorDetailQuery,
-      useAddMutation: useSectorAddMutation,
-      useUpdateMutation: useSectorUpdateMutation,
-      useRemoveMutation: useSectorRemoveMutation,
-   },
-   Courses: {
-      useListQuery: useCoursesQuery,
-      useDetailQuery: useCourseDetailQuery,
-      useAddMutation: useCourseAddMutation,
-      useUpdateMutation: useCourseUpdateMutation,
-      useRemoveMutation: useCourseRemoveMutation,
-   },
-   SubAdmins: {
-      useListQuery: useSubAdminsQuery,
-   },
+  Students: {
+    useCountQuery: useStudentCountQuery,
+    useListQuery: useStudentsQuery,
+    useProfile: useStudentProfileQuery,
+    useChangeStatusMutation: useStudentStatusChangeMutation,
+    useRemove: useStudentRemoveMutation,
+
+    useSectors: useStudentSectorsQuery,
+    useAssignCourses: useStudentAssignCoursesMutation,
+    useUnassignCourses: useStudentUnassignCoursesMutation,
+  },
+
+  SubAdmins: {
+    useListQuery: useSubAdminsQuery,
+  },
+
+  Industries: {
+    useListQuery: useIndustriesQuery,
+    useCount: useIndustryCountQuery,
+    useStatusChange: useIndustryStatusChangeMutation,
+    useDetail: useIndustryDetailQuery,
+    useRemove: useIndustryRemoveMutation,
+  },
+
+  Subscribers: {
+    useListQuery: useListSubscribersQuery,
+    useResubscribeMutation,
+    useUnsubscribeMutation,
+  },
+
+  Sectors: {
+    useListQuery: useSectorsQuery,
+    useDetailQuery: useSectorDetailQuery,
+    useAddMutation: useSectorAddMutation,
+    useUpdateMutation: useSectorUpdateMutation,
+    useRemoveMutation: useSectorRemoveMutation,
+  },
+
+  Courses: {
+    useListQuery: useCoursesQuery,
+    useDetailQuery: useCourseDetailQuery,
+    useAddMutation: useCourseAddMutation,
+    useUpdateMutation: useCourseUpdateMutation,
+    useRemoveMutation: useCourseRemoveMutation,
+  },
+
+  Notes: {
+    useList: useNotesQuery,
+    usePinned: useNotesPinnedQuery,
+    useCreate: useNoteCreateMutation,
+    useUpdate: useNoteUpdateMutation,
+    useRemove: useNoteRemoveMutation,
+    useStatusChange: useNoteStatusChangeMutation,
+  },
 }

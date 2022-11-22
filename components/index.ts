@@ -61,3 +61,5 @@ export * from './cards'
 export * from './ActionAnimations'
 export * from './DescriptiveInfo'
 export * from './Note'
+
+export * from './ContentEditor'

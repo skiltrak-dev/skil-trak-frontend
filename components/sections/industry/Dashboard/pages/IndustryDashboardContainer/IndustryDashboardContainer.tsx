@@ -19,14 +19,12 @@ export const PrimaryActions = [
     link: 'industry/required-documents',
     title: 'Documentation Required',
     description: 'Some helping text',
-    // image: null, //"./images/dashboardbtn.png",
     animation: Animations.Industry.Dashboard.RequiredDocuments,
   },
   {
     link: '/under-construction',
     title: 'Request a Volunteer',
     description: 'Some helping text',
-    // image: null, //"./images/dashboardbtn.png",
     animation: Animations.Industry.Dashboard.RequestVolunteer,
   },
 ]
@@ -46,10 +44,10 @@ export const IndustryDashboardContainer = () => {
   // }, [AuthUtils.isAuthenticated]);
 
   return (
-    <div className="flex flex-col gap-y-8">
+    <div className="flex flex-col gap-y-6">
       {/* Links */}
       <div className="w-full flex flex-col lg:flex-row justify-between gap-y-3">
-        <div className="w-full lg:w-[59%] ">
+        <div className="w-full flex-shrink-0">
           <Typography variant={'title'}>Get Started</Typography>
           <Card>
             <DisplayPrimaryActions actions={PrimaryActions} />

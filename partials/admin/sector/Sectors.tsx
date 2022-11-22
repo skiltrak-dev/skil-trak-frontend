@@ -8,7 +8,7 @@ import {
    RtoFilters,
    Table,
    TableAction,
-   TableActionOption,
+   TableActionOption
 } from '@components'
 import { PageHeading } from '@components/headings'
 import { ColumnDef } from '@tanstack/react-table'
@@ -16,11 +16,9 @@ import { FaEdit, FaEye, FaFileExport, FaTrash } from 'react-icons/fa'
 
 import { useContextBar } from '@hooks'
 import { AdminApi } from '@queries'
-import { Rto, Sector } from '@types'
+import { Sector } from '@types'
 import { useRouter } from 'next/router'
 import { ReactElement, useEffect, useState } from 'react'
-import { ViewSectors } from './contextBar'
-import { useChangeStatus } from './hooks'
 import { DeleteModal } from './modals'
 
 export const Sectors = () => {

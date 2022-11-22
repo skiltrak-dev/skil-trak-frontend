@@ -11,7 +11,7 @@ interface TabBadge {
 }
 
 interface Href {
-  pathname: string
+  pathname?: string
   query: any
 }
 
