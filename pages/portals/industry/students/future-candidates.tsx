@@ -1,4 +1,4 @@
-import { IndustryStudents, StudentList } from '@components/sections'
+import { FutureCandidatesContainer } from '@components/sections'
 import { IndustryLayout } from '@layouts'
 import { NextPageWithLayout } from '@types'
 import { useRouter } from 'next/router'
@@ -10,7 +10,7 @@ const FutureCandidates: NextPageWithLayout = () => {
 
   return (
     <div>
-      <StudentList />
+      <FutureCandidatesContainer />
     </div>
   )
 }

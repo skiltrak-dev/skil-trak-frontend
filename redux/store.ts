@@ -5,6 +5,7 @@ import { setupListeners } from '@reduxjs/toolkit/query'
 import {
   authApi,
   studentJobsApi,
+  industryStudentsApi,
   industryCourseApi,
   jobsApi,
   studentCoursesApi,
@@ -22,6 +23,7 @@ import {
   industryWorkplaceApi,
   assessmentEvidenceApi,
   folderApi,
+  rtpMOUApi,
   adminApi,
   mouApi,
   employeeApi,
@@ -32,6 +34,8 @@ export const store = configureStore({
   reducer: {
     // Add the generated reducer as a specific top-level slice
     [authApi.reducerPath]: authApi.reducer,
+    [rtpMOUApi.reducerPath]: rtpMOUApi.reducer,
+    [industryStudentsApi.reducerPath]: industryStudentsApi.reducer,
     [folderApi.reducerPath]: folderApi.reducer,
     [industryCourseApi.reducerPath]: industryCourseApi.reducer,
     [employeeTaskApi.reducerPath]: employeeTaskApi.reducer,
@@ -61,6 +65,8 @@ export const store = configureStore({
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat([
       authApi.middleware,
+      rtpMOUApi.middleware,
+      industryStudentsApi.middleware,
       folderApi.middleware,
       industryCourseApi.middleware,
       employeeTaskApi.middleware,

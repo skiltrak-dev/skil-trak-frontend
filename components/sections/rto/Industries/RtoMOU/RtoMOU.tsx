@@ -1,63 +1,29 @@
-import React, { createContext, useEffect, useState } from 'react'
+import React from 'react'
 import { useRouter } from 'next/router'
+import { ReactTable, Button, ActionDropDown, Typography } from '@components'
 
-// components
 import {
-  Card,
-  Button,
-  ReactTable,
-  Typography,
-  BackButton,
-  ActionDropDown,
-} from 'components'
-import { RightSidebarData, RTOFilter } from './components'
-
-// Context
-import { useContextBar } from '@hooks'
-
-// colors
-import { getThemeColors } from '@theme'
-const Colors = getThemeColors()
-
-// redux query
-import {
-  useGetIndustryMOUQuery,
-  useCancelIndustryMOUMutation,
-  useRejectIndustryMOUMutation,
+  useGetRtoMOUListQuery,
+  useRejectMOUByRTOMutation,
+  useCancelMOUByRTOMutation,
 } from '@queries'
 
-// filter
-import { Filter } from '@hoc'
+// utils
+import { userStatus, ThemeColors } from '@utils'
 
-// functions
-import { userStatus } from '@utils'
+const Colors = ThemeColors
 
-export const SelectRtoData = createContext(null)
-
-export const MoUContainer = () => {
+export const RtoMOUContainer = () => {
   const router = useRouter()
-  const [queryFilters, setQueryFilters] = useState({})
-  const [filterActionButton, setFilterActionButton] = useState(null)
 
-  // Redux Query
-  const [cancelMou, cancelMouData] = useCancelIndustryMOUMutation()
-  const [rejectMou, rejectMouData] = useRejectIndustryMOUMutation()
-
-  const { setContent } = useContextBar()
-  // useEffect(() => {
-  //   setContent(
-  //     <>
-  //       <RightSidebarData />
-  //     </>
-  //   )
-  // }, [setContent])
-  //
+  const [cancelMouByRto, cancelMouByRtoResult] = useCancelMOUByRTOMutation()
+  const [rejectMouByRto, rejectMouByRtoResult] = useRejectMOUByRTOMutation()
   const Columns = [
     {
       Header: 'Name',
       accessor: 'user',
       sort: true,
-      Cell: ({ row }) => {
+      Cell: ({ row }: any) => {
         const {
           user: { name, email, image },
         } = row.original
@@ -96,17 +62,17 @@ export const MoUContainer = () => {
         const { mous } = row.original
         const mou = mous[0] || {}
         const status = () => {
-          if (
-            mou.status === userStatus.PENDING &&
-            mou.initiatedBy === 'industry'
-          ) {
+          if (mou.status === userStatus.PENDING && mou.initiatedBy === 'rto') {
             return (
               <span className="font-semibold text-info whitespace-pre">
                 Initiated
               </span>
             )
           }
-          if (mou.status === userStatus.PENDING && mou.initiatedBy === 'rto') {
+          if (
+            mou.status === userStatus.PENDING &&
+            mou.initiatedBy === 'industry'
+          ) {
             return (
               <span className="font-semibold text-primary whitespace-pre">
                 Requested
@@ -151,18 +117,15 @@ export const MoUContainer = () => {
     {
       Header: 'Action',
       accessor: 'Action',
-      Cell: ({ row }) => {
+      Cell: ({ row }: any) => {
         const { mous, id } = row.original
         const mou = mous[0] || {}
         const actions = () => {
-          if (
-            mou.status === userStatus.PENDING &&
-            mou.initiatedBy === 'industry'
-          ) {
+          if (mou.status === userStatus.PENDING && mou.initiatedBy === 'rto') {
             return (
               <ActionDropDown
                 title={'More'}
-                loading={cancelMouData.isLoading}
+                loading={cancelMouByRtoResult.isLoading}
                 dropDown={[
                   {
                     text: 'View',
@@ -177,7 +140,7 @@ export const MoUContainer = () => {
                   {
                     text: 'Cancel',
                     action: async () => {
-                      await cancelMou(mou.id)
+                      await cancelMouByRto(mou.id)
                     },
                     Icon: '',
                     color: Colors.error,
@@ -186,18 +149,19 @@ export const MoUContainer = () => {
               />
             )
           }
-          if (mou.status === userStatus.PENDING && mou.initiatedBy === 'rto') {
+          if (
+            mou.status === userStatus.PENDING &&
+            mou.initiatedBy === 'industry'
+          ) {
             return (
               <ActionDropDown
                 title={'More'}
-                loading={rejectMouData.isLoading}
+                loading={rejectMouByRtoResult.isLoading}
                 dropDown={[
                   {
                     text: 'Sign',
                     action: () => {
-                      router.push(
-                        `/portals/industry/general-information/mou/${mou.id}`
-                      )
+                      router.push(`/portals/rto/industries/mous/${mou.id}`)
                     },
                     Icon: '',
                     color: Colors.error,
@@ -205,7 +169,7 @@ export const MoUContainer = () => {
                   {
                     text: 'Reject',
                     action: async () => {
-                      await rejectMou(mou.id)
+                      await rejectMouByRto(mou.id)
                     },
                     color: Colors.error,
                   },
@@ -222,7 +186,7 @@ export const MoUContainer = () => {
                     text: 'View',
                     action: () => {
                       router.push(
-                        `/portals/industry/general-information/mou/${mou.id}`
+                        `/portals/industry/general-information/memorendum-ou/${mou.id}`
                       )
                     },
                     Icon: '',
@@ -243,7 +207,7 @@ export const MoUContainer = () => {
                   {
                     text: 'Cancel',
                     action: async () => {
-                      await cancelMou(mou.id)
+                      await cancelMouByRto(mou.id)
                     },
                     color: Colors.error,
                   },
@@ -260,9 +224,7 @@ export const MoUContainer = () => {
           // action Return
           return (
             <Button
-              onClick={() =>
-                router.push(`/portals/industry/general-information/mou/${id}`)
-              }
+              onClick={() => router.push(`/portals/rto/industries/mous/${id}`)}
               variant={'secondary'}
               text={'Sign'}
             />
@@ -274,57 +236,15 @@ export const MoUContainer = () => {
       },
     },
   ]
-
-  const filterInitialValues = {
-    name: '',
-    email: '',
-    rtoCode: '',
-    status: '',
-  }
   return (
     <div>
-      <BackButton text={'Back To MoU Instructions'} />
-
-      {/* Title */}
-      <div className="flex justify-between items-center py-4">
-        <div>
-          <Typography variant={'title'}>All MOU</Typography>
-          <Typography variant={'muted'} color={'gray'}>
-            You can find all RTOs here as well as requests
-          </Typography>
-        </div>
-        <div className="flex items-center gap-x-2">
-          {filterActionButton}
-          <Button variant={'dark'} text={'Archived'} />
-        </div>
-      </div>
-
-      {/* Filter */}
-      <Filter
-        component={RTOFilter}
-        setQueryFilters={setQueryFilters}
-        setFilterAction={setFilterActionButton}
-        filterInitialValues={filterInitialValues}
-      />
-
-      {/* Data */}
       <ReactTable
-        pagesize
-        pagination
+        action={useGetRtoMOUListQuery}
         Columns={Columns}
-        querySort={'name'}
-        action={useGetIndustryMOUQuery}
-        queryFilters={queryFilters}
+        querySort={'title'}
+        pagination
+        pagesize
       />
-
-      {/* <div className="mt-4">
-          <Button
-            disabled={!Object.keys(selectedRow).length}
-            onClick={() => router.push("/general-information/memorendum-ou")}
-          >
-            Continue
-          </Button>
-        </div> */}
     </div>
   )
 }

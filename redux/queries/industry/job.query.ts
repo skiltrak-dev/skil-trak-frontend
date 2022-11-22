@@ -4,7 +4,7 @@ import { AuthUtils } from '@utils'
 export const jobsApi = createApi({
   reducerPath: 'jobsApi',
   baseQuery: fetchBaseQuery({
-    baseUrl: process.env.NEXT_PUBLIC_END_POINT,
+    baseUrl: `${process.env.NEXT_PUBLIC_END_POINT}/industries/`,
     prepareHeaders: (headers, { getState }) => {
       const token = AuthUtils.getToken()
 
@@ -37,19 +37,19 @@ export const jobsApi = createApi({
     getIndustryJobs: builder.query({
       query: (params) => {
         return {
-          url: 'industries/job/list',
+          url: 'job/list',
           params,
         }
       },
       providesTags: ['Job'],
     }),
     getJobDetail: builder.query({
-      query: (id) => `industries/job/view/${id}`,
+      query: (id) => `job/view/${id}`,
       providesTags: ['Job'],
     }),
     addJob: builder.mutation({
       query: (body) => ({
-        url: `industries/job/add`,
+        url: `job/add`,
         method: 'POST',
         body: body,
       }),
@@ -57,7 +57,7 @@ export const jobsApi = createApi({
     }),
     updateJob: builder.mutation({
       query: (body) => ({
-        url: `industries/job/update/${body.id}`,
+        url: `job/update/${body.id}`,
         method: 'PATCH',
         body: body,
       }),
@@ -65,10 +65,18 @@ export const jobsApi = createApi({
     }),
     removeJob: builder.mutation({
       query: (id) => ({
-        url: `industries/job/remove/${id}`,
+        url: `job/remove/${id}`,
         method: 'DELETE',
       }),
       invalidatesTags: ['Job'],
+    }),
+    getBrowseCandidates: builder.query<any, void>({
+      query: () => {
+        return {
+          url: 'browse-candidate/list',
+        }
+      },
+      providesTags: ['Job'],
     }),
   }),
 })
@@ -81,4 +89,5 @@ export const {
   useGetJobDetailQuery,
   useGetIndustryJobsQuery,
   useJobChangeStatusMutation,
+  useGetBrowseCandidatesQuery,
 } = jobsApi

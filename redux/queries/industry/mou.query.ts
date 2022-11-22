@@ -26,7 +26,7 @@ export const mouApi = createApi({
       },
       providesTags: ['MOU'],
     }),
-    getIndustryMOUDetail: builder.query({
+    getIndustryMOUDetail: builder.query<any, string>({
       query: (id) => {
         return {
           url: `industries/mou/view/${id}`,
@@ -50,10 +50,10 @@ export const mouApi = createApi({
       invalidatesTags: ['MOU'],
     }),
     acceptSignRequest: builder.mutation({
-      query: (body) => ({
-        url: `industries/mou/sign/${body.id}`,
+      query: ({ industrySignature, id }) => ({
+        url: `industries/mou/sign/${id}`,
         method: 'PATCH',
-        body: { IndustrySignature: body.IndustrySignature },
+        body: { industrySignature },
       }),
       invalidatesTags: ['MOU'],
     }),

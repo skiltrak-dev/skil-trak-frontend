@@ -1,1 +1,1 @@
-export * from './MemorendumOU';
+export * from './MemorendumOU'

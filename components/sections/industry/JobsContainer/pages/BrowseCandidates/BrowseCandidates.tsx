@@ -1,140 +1,151 @@
-import React, { useEffect } from "react";
-import * as yup from "yup";
-import { Formik, Form } from "formik";
+import { useEffect, useState } from 'react'
+import * as yup from 'yup'
+import { yupResolver } from '@hookform/resolvers/yup'
+import { FormProvider, useForm } from 'react-hook-form'
 
 // components
 import {
-	Card,
-	Button,
-	Typography,
-	GoBackButton,
-	SelectFieldOption,
-} from "components";
-import { RightSidebarData } from "./components";
+  Card,
+  Button,
+  EmptyData,
+  LoadingAnimation,
+  Typography,
+  BackButton,
+  Select,
+} from '@components'
+import { RightSidebarData } from './components'
 
 // hooks
-import { useContextBar } from "hooks";
+import { useContextBar } from '@hooks'
 
-// utills
-import { Console } from "@utils";
+// query
+import { useGetBrowseCandidatesQuery } from '@queries'
+import { FutureCandidateCard } from '@components/sections/industry/components/FutureCandidateCard/FutureCandidateCard'
 
-export const BrowseCandidates = () => {
-	const { setContent } = useContextBar();
+export const BrowseCandidatesContainer = () => {
+  const { setContent } = useContextBar()
+  const [browseCandidateData, setBrowseCandidateData] = useState<any | null>(
+    null
+  )
 
-	useEffect(() => {
-		setContent(
-			<>
-				<RightSidebarData />
-			</>
-		);
-	}, [setContent]);
+  console.log('browseCandidateData', browseCandidateData)
 
-	const initialValues = {
-		sector: {},
-		course: {},
-		city: {},
-	};
+  const browseCandidates = useGetBrowseCandidatesQuery()
 
-	const validationSchema = yup.object({
-		// businessName: yup.string().required("Some error occured!"),
-		// abn: yup.string().required("Some error occured!"),
-		// businessPhoneNumber: yup.string().required("Some error occured!"),
-	});
+  useEffect(() => {
+    setContent(
+      <>
+        <RightSidebarData />
+      </>
+    )
+  }, [setContent])
 
-	const onSubmit = (values) => {
-		Console("values", values);
-	};
-	return (
-		<div>
-			<GoBackButton link={"jobs"}>Back To Jobs</GoBackButton>
+  const validationSchema = yup.object({
+    // businessName: yup.string().required("Some error occured!"),
+    // abn: yup.string().required("Some error occured!"),
+    // businessPhoneNumber: yup.string().required("Some error occured!"),
+  })
 
-			{/*  */}
-			<Card mt={6}>
-				<Typography variant={"subtitle"}>
-					Candidate Matching Criteria
-				</Typography>
+  const methods = useForm({
+    resolver: yupResolver(validationSchema),
+    mode: 'all',
+  })
 
-				{/*  */}
-				<Formik
-					initialValues={initialValues}
-					validationSchema={validationSchema}
-					onSubmit={onSubmit}
-					enableReinitialize
-				>
-					{({ touched, errors, setFieldValue }) => {
-						return (
-							<Form>
-								<div className="grid grid-cols-2 gap-x-8 gap-y-2 my-4">
-									<SelectFieldOption
-										label={"Sector"}
-										fileupload={setFieldValue}
-										name={"placementCoordinator"}
-										options={[
-											{ value: "apple", label: "Apple" },
-											{
-												value: "banana",
-												label: "Banana",
-											},
-											{ value: "melon", label: "Melon" },
-										]}
-									/>
+  const onSubmit = (values: any) => {
+    setBrowseCandidateData(values)
+    console.log('values', values)
+  }
+  return (
+    <div className="flex flex-col gap-y-4">
+      <BackButton link={'jobs'} text={'Back To Jobs'} />
 
-									<SelectFieldOption
-										label={"Course"}
-										fileupload={setFieldValue}
-										name={"appointmentType"}
-										options={[
-											{ value: "apple", label: "Apple" },
-											{
-												value: "banana",
-												label: "Banana",
-											},
-											{ value: "melon", label: "Melon" },
-										]}
-									/>
+      {/*  */}
+      <Card>
+        <Typography variant={'subtitle'}>
+          Candidate Matching Criteria
+        </Typography>
 
-									<SelectFieldOption
-										label={"City"}
-										fileupload={setFieldValue}
-										name={"appointmentDate"}
-										options={[
-											{ value: "apple", label: "Apple" },
-											{
-												value: "banana",
-												label: "Banana",
-											},
-											{ value: "melon", label: "Melon" },
-										]}
-									/>
-								</div>
+        {/*  */}
+        <FormProvider {...methods}>
+          <form
+            className="mt-2 w-full"
+            onSubmit={methods.handleSubmit(onSubmit)}
+          >
+            <div className="grid grid-cols-3 gap-x-4 my-4">
+              <Select
+                label={'Sector'}
+                name={'placementCoordinator'}
+                options={[
+                  { value: 'apple', label: 'Apple' },
+                  {
+                    value: 'banana',
+                    label: 'Banana',
+                  },
+                  { value: 'melon', label: 'Melon' },
+                ]}
+                onlyValue
+              />
 
-								<Button
-									border={"2"}
-									borderColor={"primary"}
-									bgColor={"primary"}
-									type={"submit"}
-								>
-									Apply Criteria
-								</Button>
-							</Form>
-						);
-					}}
-				</Formik>
-			</Card>
+              <Select
+                label={'Course'}
+                name={'appointmentType'}
+                options={[
+                  { value: 'apple', label: 'Apple' },
+                  {
+                    value: 'banana',
+                    label: 'Banana',
+                  },
+                  { value: 'melon', label: 'Melon' },
+                ]}
+                onlyValue
+              />
 
-			{/*  */}
-			<Card mt={6}>
-				<Typography variant={"subtitle"}>
-					Suitable Candidates
-				</Typography>
-				<Typography variant={"muted"} color={"gray"}>
-					These candidates are being shown based on your company
-					preferences
-				</Typography>
+              <Select
+                label={'City'}
+                name={'appointmentDate'}
+                options={[
+                  { value: 'apple', label: 'Apple' },
+                  {
+                    value: 'banana',
+                    label: 'Banana',
+                  },
+                  { value: 'melon', label: 'Melon' },
+                ]}
+                onlyValue
+              />
+            </div>
 
-				{/*  */}
-				<div className="mt-4">Candidates</div>
-			</Card>
-		</div>
-	);
-};
+            <Button submit text={'Apply Criteria'} />
+          </form>
+        </FormProvider>
+      </Card>
+
+      {/*  */}
+      <Card>
+        {/*  */}
+        {browseCandidates.isError && 'Error'}
+
+        <div className="mt-4">
+          {browseCandidates.isLoading ? (
+            <LoadingAnimation />
+          ) : browseCandidates.data?.data?.length > 0 ? (
+            <>
+              <Typography variant={'subtitle'}>
+                {browseCandidates?.data?.data?.length} Candidates Found
+              </Typography>
+              <Typography variant={'muted'} color={'gray'}>
+                These candidates are being shown based on your company
+                preferences
+              </Typography>
+              {browseCandidates?.data?.data?.map((browseCandidate) => (
+                <FutureCandidateCard data={browseCandidate} />
+              ))}
+            </>
+          ) : (
+            !browseCandidates.isError && <EmptyData />
+          )}
+        </div>
+      </Card>
+    </div>
+  )
+}

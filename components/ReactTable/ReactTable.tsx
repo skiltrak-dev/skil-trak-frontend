@@ -190,7 +190,7 @@ export const ReactTable = ({
             )}
             <div className="w-full relative">
               {isFetching && (
-                <div className="bg-[#ffffff90] z-20 absolute top-0 left-0 w-full h-full flex justify-center items-center">
+                <div className="bg-[#ffffff90] z-50 absolute top-0 left-0 w-full h-full flex justify-center items-center">
                   <LoadingAnimation />
                 </div>
               )}
