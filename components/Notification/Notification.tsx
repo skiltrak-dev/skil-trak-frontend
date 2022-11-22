@@ -100,7 +100,7 @@ export const Notification = ({
 		<div
 			className={`${
 				!dismissing ? "slide-in" : "slide-out"
-			} bg-white w-[350px] h-24 shadow-lg hover:shadow-xl rounded-2xl overflow-hidden flex relative`}
+			} bg-white w-[350px] h-24 shadow-lg hover:shadow-xl rounded-2xl overflow-hidden flex relative z-50`}
 			style={{ zIndex: 99999 }}
 			onMouseEnter={() => setHovered(true)}
 			onMouseLeave={() => setHovered(false)}

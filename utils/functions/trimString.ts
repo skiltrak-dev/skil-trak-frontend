@@ -1,11 +1,11 @@
-export const trimString = (data) => {
+export const trimString = (data: any) => {
   // data must be in object
-  const values = {}
+  const values: any = {}
   Object.keys(data).map((key) => {
     if (typeof data[key] === 'string') {
-      values[key] = data[key].replace(/\s\s+/g, ' ').trim()
+      (values as any)[key] = data[key].replace(/\s\s+/g, ' ').trim()
     } else {
-      values[key] = data[key]
+      (values as any)[key] = data[key]
     }
     return null
   })

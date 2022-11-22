@@ -3,15 +3,17 @@ import { useRouter } from 'next/router'
 
 import { IndustryLayout } from '@layouts'
 import { NextPageWithLayout } from '@types'
-
-import { CurrentStudnts } from '@components/sections'
-import { TabNavigation, TabProps } from '@components/TabNavigation'
+import { MyTasksContainer } from '@components/sections/industry/MyTasks'
 
 const Tasks: NextPageWithLayout = () => {
   const router = useRouter()
   const { query } = router
 
-  return <div>Tasks</div>
+  return (
+    <div>
+      <MyTasksContainer />
+    </div>
+  )
 }
 
 Tasks.getLayout = (page: ReactElement) => {

@@ -1,88 +1,66 @@
-import React from "react";
-import { Form, Formik } from "formik";
-
 // components
-import { InputField, SelectFieldOption } from "components";
+import { TextInput, Select } from '@components'
+export const RTOFilter = ({ onFilterChange, filter }: any) => {
+  const StatusOptions = [{ label: 'Pending', value: 'pending' }]
 
-export const RTOFilter = ({ onFilterChange, filter }) => {
-  const initialValues = {
-    name: "",
-    rtoCode: "",
-    email: "",
-    status: "",
-  };
+  const selectOptions = [
+    {
+      label: 'Initiated',
+      value: 'initiated',
+    },
+    {
+      label: 'Requested',
+      value: 'requested',
+    },
+    {
+      label: 'Signed',
+      value: 'signed',
+    },
+    {
+      label: 'Cancelled',
+      value: 'cancelled',
+    },
+    {
+      label: 'Not Initiated',
+      value: 'not-nitiated',
+    },
+  ]
 
   return (
-    <Formik initialValues={initialValues}>
-      {(props) => {
-        const { touched, errors } = props;
-        return (
-          <Form>
-            <div className="flex items-start gap-x-5 py-2">
-              <InputField
-                label={"Name"}
-                name={"name"}
-                placeholder={"Search By RTO Name"}
-                touched={touched}
-                errors={errors}
-                onChange={(e) => {
-                  onFilterChange({ ...filter, name: e.target.value });
-                }}
-              />
-              <InputField
-                label={"Email"}
-                name={"email"}
-                type={"email"}
-                placeholder={"Search By RTO Email"}
-                touched={touched}
-                errors={errors}
-                onChange={(e) => {
-                  onFilterChange({ ...filter, email: e.target.value });
-                }}
-              />
-              <InputField
-                label={"Code"}
-                name={"rtoCode"}
-                placeholder={"Search By RTO Code"}
-                touched={touched}
-                errors={errors}
-                onChange={(e) => {
-                  onFilterChange({ ...filter, rtoCode: e.target.value });
-                }}
-              />
-              <SelectFieldOption
-                label={"Status"}
-                name={"status"}
-                onChange={(e) => {
-                  onFilterChange({ ...filter, status: e.value });
-                }}
-                options={[
-                  {
-                    label: "Initiated",
-                    value: "initiated",
-                  },
-                  {
-                    label: "Requested",
-                    value: "requested",
-                  },
-                  {
-                    label: "Signed",
-                    value: "signed",
-                  },
-                  {
-                    label: "Cancelled",
-                    value: "cancelled",
-                  },
-                  {
-                    label: "Not Initiated",
-                    value: "not-nitiated",
-                  },
-                ]}
-              />
-            </div>
-          </Form>
-        );
-      }}
-    </Formik>
-  );
-};
+    <div className="flex items-start gap-x-5 py-2">
+      <TextInput
+        label={'Name'}
+        name={'name'}
+        placeholder={'Search By RTO Name'}
+        onChange={(e) => {
+          onFilterChange({ ...filter, name: e.target.value })
+        }}
+      />
+      <TextInput
+        label={'Email'}
+        name={'email'}
+        type={'email'}
+        placeholder={'Search By RTO Email'}
+        onChange={(e) => {
+          onFilterChange({ ...filter, email: e.target.value })
+        }}
+      />
+      <TextInput
+        label={'Code'}
+        name={'rtoCode'}
+        placeholder={'Search By RTO Code'}
+        onChange={(e) => {
+          onFilterChange({ ...filter, rtoCode: e.target.value })
+        }}
+      />
+      <Select
+        label={'Status'}
+        name={'status'}
+        onChange={(e) => {
+          onFilterChange({ ...filter, status: e.value })
+        }}
+        options={selectOptions}
+      />
+    </div>
+  )
+}

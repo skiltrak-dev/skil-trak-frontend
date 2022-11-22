@@ -1,7 +1,7 @@
 import React from "react";
 
 // componemts
-import { OtherDocumentLinks } from "components";
+import { OtherDocumentLinks } from "@components";
 
 export const RightSidebarData = () => {
   return (

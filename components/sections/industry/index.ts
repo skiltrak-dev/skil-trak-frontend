@@ -1,1 +1,6 @@
+export * from './Dashboard'
 export * from './CurrentStudents'
+export * from './GeneralInfromation'
+export * from './MyTasks'
+export * from './ApplyForRPL'
+export * from './Students'

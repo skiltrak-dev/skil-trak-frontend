@@ -124,7 +124,6 @@ export const AppointmentCard = (props: Props) => {
                   title={item.title}
                   color={item.color}
                   bgColor={item.bgColor}
-                  key={index}
                 />
               )
             })}
@@ -132,7 +131,11 @@ export const AppointmentCard = (props: Props) => {
           <div className="flex flex-col gap-y-2">
             {recentActivityDescription.map((item, index) => {
               return (
-                <Typography variant={'muted'} color={'text-gray-500'}>
+                <Typography
+                  key={index}
+                  variant={'muted'}
+                  color={'text-gray-500'}
+                >
                   {item.text}
                 </Typography>
               )

@@ -5,6 +5,7 @@ import { setupListeners } from '@reduxjs/toolkit/query'
 import {
   authApi,
   studentJobsApi,
+  industryCourseApi,
   jobsApi,
   studentCoursesApi,
   workplaceRequestApi,
@@ -20,17 +21,26 @@ import {
   subAdminStudentsApi,
   industryWorkplaceApi,
   assessmentEvidenceApi,
+  folderApi,
   adminApi,
   studentAssessmentApi,
   rtoIndustriesApi,
   studentFindAbnApi,
   studentProfileApi,
+
+  mouApi,
+  employeeApi,
+  employeeTaskApi,
 } from '@queries'
 
 export const store = configureStore({
   reducer: {
     // Add the generated reducer as a specific top-level slice
     [authApi.reducerPath]: authApi.reducer,
+    [folderApi.reducerPath]: folderApi.reducer,
+    [industryCourseApi.reducerPath]: industryCourseApi.reducer,
+    [employeeTaskApi.reducerPath]: employeeTaskApi.reducer,
+    [employeeApi.reducerPath]: employeeApi.reducer,
     [jobsApi.reducerPath]: jobsApi.reducer,
     [notesApi.reducerPath]: notesApi.reducer,
     [adminApi.reducerPath]: adminApi.reducer,
@@ -53,12 +63,17 @@ export const store = configureStore({
     [rtoIndustriesApi.reducerPath]: rtoIndustriesApi.reducer,
     [studentFindAbnApi.reducerPath]: studentFindAbnApi.reducer,
     [studentProfileApi.reducerPath]: studentProfileApi.reducer,
+    [mouApi.reducerPath]: mouApi.reducer,
   },
   // Adding the api middleware enables caching, invalidation, polling,
   // and other useful features of `rtk-query`.
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat([
       authApi.middleware,
+      folderApi.middleware,
+      industryCourseApi.middleware,
+      employeeTaskApi.middleware,
+      employeeApi.middleware,
       adminApi.middleware,
       jobsApi.middleware,
       notesApi.middleware,
@@ -76,6 +91,7 @@ export const store = configureStore({
       rtoIndustriesApi.middleware,
       studentFindAbnApi.middleware,
       studentProfileApi.middleware,
+      mouApi.middleware,
     ]),
 })
 

@@ -1,6 +1,0 @@
-export * from './rto'
-export * from './student'
-export * from './industry'
-export * from './admin'
-export * from './sub-admin'
-export * from './auth'

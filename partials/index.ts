@@ -1,1 +1,1 @@
-export * from './rto'
+export * from './admin'

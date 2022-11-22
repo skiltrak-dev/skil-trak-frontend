@@ -1,3 +1,4 @@
+import { RequestAVolunteerStudent } from '@components/sections'
 import { IndustryLayout } from '@layouts'
 import { NextPageWithLayout } from '@types'
 import { useRouter } from 'next/router'
@@ -7,7 +8,11 @@ const RequestAVolunteer: NextPageWithLayout = () => {
   const router = useRouter()
   const { query } = router
 
-  return <div>RequestAVolunteer</div>
+  return (
+    <div>
+      <RequestAVolunteerStudent />
+    </div>
+  )
 }
 
 RequestAVolunteer.getLayout = (page: ReactElement) => {

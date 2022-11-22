@@ -17,7 +17,7 @@ export const mouApi = createApi({
   }),
   tagTypes: ['MOU'],
   endpoints: (builder) => ({
-    getMOU: builder.query({
+    getIndustryMOU: builder.query({
       query: ({ skip, limit, sort, search }) => {
         return {
           url: 'industries/mou/list',
@@ -26,7 +26,7 @@ export const mouApi = createApi({
       },
       providesTags: ['MOU'],
     }),
-    getMOUDetail: builder.query({
+    getIndustryMOUDetail: builder.query({
       query: (id) => {
         return {
           url: `industries/mou/view/${id}`,
@@ -42,7 +42,7 @@ export const mouApi = createApi({
       }),
       invalidatesTags: ['MOU'],
     }),
-    cancelMOU: builder.mutation({
+    cancelIndustryMOU: builder.mutation({
       query: (id) => ({
         url: `industries/mou/cancel/${id}`,
         method: 'PATCH',
@@ -57,7 +57,7 @@ export const mouApi = createApi({
       }),
       invalidatesTags: ['MOU'],
     }),
-    rejectMOU: builder.mutation({
+    rejectIndustryMOU: builder.mutation({
       query: (id) => ({
         url: `industries/mou/reject/${id}`,
         method: 'PATCH',
@@ -71,11 +71,11 @@ export const mouApi = createApi({
   }),
 })
 export const {
-  useGetMOUQuery,
-  useGetMOUDetailQuery,
+  useGetIndustryMOUQuery,
+  useGetIndustryMOUDetailQuery,
   useGetDefaultMouContentQuery,
   useMouMutation,
-  useCancelMOUMutation,
-  useRejectMOUMutation,
+  useCancelIndustryMOUMutation,
+  useRejectIndustryMOUMutation,
   useAcceptSignRequestMutation,
 } = mouApi

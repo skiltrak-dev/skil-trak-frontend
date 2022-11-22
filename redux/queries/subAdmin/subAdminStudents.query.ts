@@ -16,50 +16,38 @@ export const subAdminStudentsApi = createApi({
     },
   }),
   tagTypes: ['SubAdminStudents'],
+
   endpoints: (builder) => ({
     getSubAdminStudents: builder.query<any[], void>({
       query: () => {
         return {
-          url: 'students/list-all',
+          url: 'subadmin/students/list-all',
         }
       },
       providesTags: ['SubAdminStudents'],
     }),
-    tagTypes: ['SubAdminStudents'],
-    endpoints: (builder) => ({
 
-        getSubAdminStudents: builder.query<any[], void>({
-            query: () => {
-                return {
-                    url: 'subadmin/students/list-all',
-                }
-            },
-            providesTags: ['SubAdminStudents'],
-        }),
-        getSubAdminMyRto: builder.query<any[], string>({
-            query: (id) => {
-                return {
-                    url: `subadmin/student/view/${id}`,
-                    params: {id}
-
-                }
-            },
-            providesTags: ['SubAdminStudents'],
-        }),
-
-        updateSubAdminCourseDuration: builder.mutation<any, any | null>({
-            query: ({id,body}:any) => {
-                return {
-                    url: `subadmin/student/course/timing/${id}`,
-                    method: 'POST',
-                    body
-                }
-            },
-            invalidatesTags: ['SubAdminStudents'],
-        }),
-       
+    updateSubAdminCourseDuration: builder.mutation<any, any | null>({
+      query: ({ id, body }: any) => {
+        return {
+          url: `subadmin/student/course/timing/${id}`,
+          method: 'POST',
+          body,
+        }
+      },
+      invalidatesTags: ['SubAdminStudents'],
     }),
+
     getSubAdminMyRto: builder.query<any[], string>({
+      query: (id) => {
+        return {
+          url: `student/view/${id}`,
+          params: { id },
+        }
+      },
+      providesTags: ['SubAdminStudents'],
+    }),
+    getSubAdminStudentDetail: builder.query<any, string>({
       query: (id) => {
         return {
           url: `student/view/${id}`,
@@ -83,9 +71,8 @@ export const subAdminStudentsApi = createApi({
 })
 
 export const {
-    useGetSubAdminStudentsQuery,
-    useGetSubAdminMyRtoQuery,
-    useUpdateSubAdminCourseDurationMutation,
-    
+  useGetSubAdminStudentsQuery,
+  useGetSubAdminMyRtoQuery,
+  useGetSubAdminStudentDetailQuery,
+  useUpdateSubAdminCourseDurationMutation,
 } = subAdminStudentsApi
-

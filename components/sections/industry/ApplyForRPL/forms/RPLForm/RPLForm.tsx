@@ -31,7 +31,7 @@ export const RPLForm = () => {
   const [isRPLApplied] = useState(false)
   const [iseRPLSaved, setIseRPLSaved] = useState(false)
 
-  const navigate = useNavigate()
+  const router = useRouter()
   const { setContent } = useContextBar()
 
   useEffect(() => {

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { useNavigate, useParams } from 'react-router-dom'
+import { useRouter } from 'next/router'
 // import { SelectRtoData } from "../../MoU";
 
 // Icons
@@ -11,8 +11,8 @@ import {
   ActionAlert,
   Button,
   Typography,
-  GoBackButton,
-  TechnicalError,
+  BackButton,
+  // TechnicalError,
 } from 'components'
 import { MouEditor, Signature } from './components'
 
@@ -20,28 +20,27 @@ import { MouEditor, Signature } from './components'
 import {
   useMouMutation,
   useGetDefaultMouContentQuery,
-  useGetMOUDetailQuery,
+  useGetIndustryMOUDetailQuery,
   useAcceptSignRequestMutation,
-} from 'redux/query'
-import { AuthUtils } from '@utils'
-import { Loading } from 'components'
+} from '@queries'
+import { AuthUtils, getUserCredentials } from '@utils'
+import { LoadingAnimation } from '@components'
 
 // context
 // import { useNotification } from "hooks";
 
 export const MemorendumOU = () => {
   // const contextData = useContext(SelectRtoData);
-  const navigate = useNavigate()
-  const [editMou, setEditMou] = useState(false)
-  const [content, setContent] = useState(null)
-  const [saveContentButton, setSaveContentButton] = useState(null)
+  const router = useRouter()
+  const id = router.query.mouId
+  const [editMou, setEditMou] = useState<boolean | null>(false)
+  const [content, setContent] = useState<any | null>(null)
+  const [saveContentButton, setSaveContentButton] = useState<any | null>(null)
 
   // const { notification } = useNotification();
 
-  const { id } = useParams()
-
   // redux query
-  const getMou = useGetMOUDetailQuery(id)
+  const getMou = useGetIndustryMOUDetailQuery(id)
   const [createMou, createMouResult] = useMouMutation()
   const [acceptMou, acceptMouData] = useAcceptSignRequestMutation()
   const defaultMou = useGetDefaultMouContentQuery(null, {
@@ -67,24 +66,24 @@ export const MemorendumOU = () => {
   useEffect(() => {
     if (createMouResult.isSuccess || acceptMouData.isSuccess) {
       setTimeout(() => {
-        navigate('/general-information/mou')
+        router.push('/general-information/mou')
       }, 1500)
     }
-  }, [createMouResult.isSuccess, acceptMouData.isSuccess, navigate])
+  }, [createMouResult.isSuccess, acceptMouData.isSuccess, router])
 
   useEffect(() => {
     if (getMou?.data?.status === 'cencelled') {
-      navigate('/general-information/mou')
+      router.push('/general-information/mou')
     }
-  }, [getMou, navigate])
+  }, [getMou, router])
 
-  const saveContent = (content) => {
+  const saveContent = (content: any) => {
     setContent(content)
   }
 
   const onSubmit = async () => {
-    var dataURL = sigPad.toDataURL('image/svg+xml')
-    if (!sigPad.isEmpty()) {
+    var dataURL = sigPad?.toDataURL('image/svg+xml')
+    if (!sigPad?.isEmpty()) {
       if (getMou.data) {
         await acceptMou({
           IndustrySignature: dataURL,
@@ -106,7 +105,7 @@ export const MemorendumOU = () => {
     }
   }
 
-  const IndustryName = AuthUtils.getUserCredentials().username
+  const IndustryName = getUserCredentials()
 
   let replacedContent = content?.replace(/\\n/g, '<br/>')
   if (getMou.data) {
@@ -119,19 +118,18 @@ export const MemorendumOU = () => {
 
   return (
     <>
-      <GoBackButton>Back To MoU's</GoBackButton>
+      <BackButton text={"Back To MoU's"} />
 
       {createMouResult.isSuccess || acceptMouData.isSuccess ? (
         <Card>
           <ActionAlert
             title={`Successfully partnered up with ${getMou?.data?.rto?.user?.name}`}
             description={'You will be redirected to MOU in a moment.'}
-            redirect
           />
         </Card>
       ) : (
-        <Card mt={6}>
-          {isError && <TechnicalError />}
+        <Card>
+          {isError && 'Error'}
           {!loading ? (
             <div className={`${isError ? 'hidden' : ''}`}>
               <div className="flex justify-between items-center ">
@@ -180,25 +178,25 @@ export const MemorendumOU = () => {
               <div className="mt-6">
                 {editMou ? (
                   <>
-                    <MouEditor
+                    {/* <MouEditor
                       content={content}
                       saveContent={saveContent}
                       setEditMou={setEditMou}
                       setSaveContentButton={setSaveContentButton}
-                    />
+                    /> */}
                   </>
                 ) : (
                   <>
                     <div className="flex justify-end w-full"></div>
 
-                    {/* {getMou.isSuccess && ( */}
-                    <div
-                      className="my-4"
-                      dangerouslySetInnerHTML={{
-                        __html: replacedContent,
-                      }}
-                    />
-                    {/* )} */}
+                    {getMou.isSuccess && (
+                      <div
+                        className="my-4"
+                        dangerouslySetInnerHTML={{
+                          __html: replacedContent,
+                        }}
+                      />
+                    )}
                   </>
                 )}
 
@@ -227,13 +225,15 @@ export const MemorendumOU = () => {
                           alt=""
                         />
                       </div>
-                      <Typography variant={'label'}>{IndustryName}</Typography>
+                      <Typography variant={'label'}>
+                        {IndustryName?.name}
+                      </Typography>
                     </div>
                   ) : (
                     <Signature
                       sigPad={sigPad}
                       setSigPad={setSigPad}
-                      industryName={IndustryName}
+                      industryName={IndustryName?.name}
                     />
                   )}
                 </div>
@@ -255,7 +255,7 @@ export const MemorendumOU = () => {
               </div>
             </div>
           ) : (
-            <Loading />
+            <LoadingAnimation />
           )}
         </Card>
       )}
