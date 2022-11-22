@@ -85,10 +85,7 @@ const HaveWorkplace: NextPageWithLayout = (props: Props) => {
 
         {active === 2 &&
           (result?.data === null ? (
-            <IndustryForm
-              setActive={setActive}
-              personalInfoData={personalInfoData}
-            />
+            <IndustryForm onSubmit={setPersonalInfoData} />
           ) : (
             <YourIndustry
               setActive={setActive}
@@ -99,8 +96,7 @@ const HaveWorkplace: NextPageWithLayout = (props: Props) => {
 
         {active === 3 && (
           <IndustryForm
-            setActive={setActive}
-            personalInfoData={setPersonalInfoData}
+            onSubmit={setPersonalInfoData}
           />
         )}
 

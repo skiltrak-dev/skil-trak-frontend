@@ -24,6 +24,7 @@ import {
   studentAssessmentApi,
   rtoIndustriesApi,
   studentFindAbnApi,
+  studentProfileApi,
 } from '@queries'
 
 export const store = configureStore({
@@ -51,6 +52,7 @@ export const store = configureStore({
     [studentAssessmentApi.reducerPath]: studentAssessmentApi.reducer,
     [rtoIndustriesApi.reducerPath]: rtoIndustriesApi.reducer,
     [studentFindAbnApi.reducerPath]: studentFindAbnApi.reducer,
+    [studentProfileApi.reducerPath]: studentProfileApi.reducer,
   },
   // Adding the api middleware enables caching, invalidation, polling,
   // and other useful features of `rtk-query`.
@@ -73,6 +75,7 @@ export const store = configureStore({
       studentAssessmentApi.middleware,
       rtoIndustriesApi.middleware,
       studentFindAbnApi.middleware,
+      studentProfileApi.middleware,
     ]),
 })
 
