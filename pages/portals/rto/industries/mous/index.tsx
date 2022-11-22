@@ -1,18 +1,29 @@
-import { ReactElement } from 'react'
+import { ReactElement, useEffect } from 'react'
 // Layouts
 import { RtoLayout } from '@layouts'
 //Types
 import { NextPageWithLayout } from '@types'
 // components
-import { Button, HelpQuestionSet, ReactTable, Typography } from '@components'
+import { Button, HelpQuestionSet, ReactTable, RtoContextBarData, SidebarCalendar, Typography } from '@components'
 // Link
 import Link from 'next/link'
-import { useGetWorkplacesQuery } from '@queries'
+import { useGetIndustriesListQuery } from '@queries'
 import Image from 'next/image'
+import { useContextBar } from '@hooks'    
 
 type Props = {}
 
 const RtoMoUs: NextPageWithLayout = (props: Props) => {
+    const { setContent } = useContextBar()
+    useEffect(() => {
+        setContent(
+            <>
+                <Button variant={'dark'} text={'My Schedule'} />
+                <SidebarCalendar />
+                <RtoContextBarData />
+            </>
+        )
+    }, [setContent])
     const RelatedQuestions = [
         {
             text: `I have a workplace. What next?`,
@@ -57,7 +68,6 @@ const RtoMoUs: NextPageWithLayout = (props: Props) => {
             sort: true,
             Cell: ({ row }: any) => {
                 const { businessName, imageUrl } = row.original
-                console.log('row.original', row.original)
 
                 return (
                     <Link
@@ -117,7 +127,7 @@ const RtoMoUs: NextPageWithLayout = (props: Props) => {
         {
             Header: 'Contact Person',
             accessor: 'contactPerson',
-            Cell: ({ row }:any) => {
+            Cell: ({ row }: any) => {
                 const { contactPerson } = row.original
                 return (
                     <div className="flex items-center justify-center">
@@ -130,7 +140,7 @@ const RtoMoUs: NextPageWithLayout = (props: Props) => {
         {
             Header: 'Action',
             accessor: 'Action',
-            Cell: ({  }) => {
+            Cell: ({ }) => {
                 return (
                     <>
                         <div className="flex justify-center">
@@ -144,7 +154,7 @@ const RtoMoUs: NextPageWithLayout = (props: Props) => {
     return (
         <>
             <ReactTable
-                action={useGetWorkplacesQuery}
+                action={useGetIndustriesListQuery}
                 Columns={Columns}
                 querySort={'title'}
                 pagination

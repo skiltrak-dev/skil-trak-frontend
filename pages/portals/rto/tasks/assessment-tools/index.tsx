@@ -17,7 +17,6 @@ const RtoAssessmentTools: NextPageWithLayout = (props: Props) => {
  const [archiveAssessmentTool, archiveAssessmentToolResult] = useUpdateAssessmentToolArchiveMutation()
 
     const actions = (id: any) => {
-        console.log(id)
         return (
             <div className="flex gap-x-2 ">
                 <a href={`${process.env.NEXT_PUBLIC_END_POINT}/rtos/course/content/${id}`} target="blank" rel="noreferrer">

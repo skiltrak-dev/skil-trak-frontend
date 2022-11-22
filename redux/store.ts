@@ -23,6 +23,11 @@ import {
   assessmentEvidenceApi,
   folderApi,
   adminApi,
+  studentAssessmentApi,
+  rtoIndustriesApi,
+  studentFindAbnApi,
+  studentProfileApi,
+
   mouApi,
   employeeApi,
   employeeTaskApi,
@@ -54,6 +59,10 @@ export const store = configureStore({
     [studentAssessmentEvidenceApi.reducerPath]:
       studentAssessmentEvidenceApi.reducer,
     [subAdminStudentsApi.reducerPath]: subAdminStudentsApi.reducer,
+    [studentAssessmentApi.reducerPath]: studentAssessmentApi.reducer,
+    [rtoIndustriesApi.reducerPath]: rtoIndustriesApi.reducer,
+    [studentFindAbnApi.reducerPath]: studentFindAbnApi.reducer,
+    [studentProfileApi.reducerPath]: studentProfileApi.reducer,
     [mouApi.reducerPath]: mouApi.reducer,
   },
   // Adding the api middleware enables caching, invalidation, polling,
@@ -78,6 +87,10 @@ export const store = configureStore({
       studentAppointmentsApi.middleware,
       studentAssessmentEvidenceApi.middleware,
       subAdminIndustriesApi.middleware,
+      studentAssessmentApi.middleware,
+      rtoIndustriesApi.middleware,
+      studentFindAbnApi.middleware,
+      studentProfileApi.middleware,
       mouApi.middleware,
     ]),
 })
