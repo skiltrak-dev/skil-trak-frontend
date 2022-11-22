@@ -10,7 +10,7 @@ const AdminDashboard: NextPageWithLayout = () => {
    const contextBar = useContextBar()
 
    useEffect(() => {
-      contextBar.hide()
+      // contextBar.hide()
    }, [])
 
    return (

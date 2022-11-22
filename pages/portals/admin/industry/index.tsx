@@ -5,15 +5,15 @@ import Link from 'next/link'
 import { AdminLayout, StudentLayout } from '@layouts'
 import { NextPageWithLayout } from '@types'
 import {
-   Badge,
-   Card,
-   DocumentCard,
-   HelpQuestionSet,
-   InitialAvatar,
-   LottieAnimation,
-   TabNavigation,
-   TabProps,
-   UserProfile,
+  Badge,
+  Card,
+  DocumentCard,
+  HelpQuestionSet,
+  InitialAvatar,
+  LottieAnimation,
+  TabNavigation,
+  TabProps,
+  UserProfile,
 } from '@components'
 import { FaBook, FaMapMarker, FaMapMarkerAlt, FaSchool } from 'react-icons/fa'
 import { Animations } from '@animations'
@@ -22,92 +22,99 @@ import { IoBriefcase } from 'react-icons/io5'
 import { useContextBar, useNavbar } from '@hooks'
 import { InitialAvatarContainer } from '@components/InitialAvatar/InitialAvatarContainer'
 import {
-   ApprovedStudent,
-   PendingStudent,
-   RejectedStudent,
-   BlockedStudent,
-   ArchivedStudent,
+  ApprovedStudent,
+  PendingStudent,
+  RejectedStudent,
+  BlockedStudent,
+  ArchivedStudent,
 } from '@partials'
 import { AdminApi } from '@queries'
+import {
+  ApprovedIndustry,
+  ArchivedIndustry,
+  BlockedIndustry,
+  PendingIndustry,
+  RejectedIndustry,
+} from '@partials/admin/industry'
 
 const RtoList: NextPageWithLayout = () => {
-   const navBar = useNavbar()
-   const contextBar = useContextBar()
+  const navBar = useNavbar()
+  const contextBar = useContextBar()
 
-   const { isLoading, data } = AdminApi.Students.useCountQuery()
+  const { isLoading, data } = AdminApi.Industries.useCount()
 
-   useEffect(() => {
-      navBar.setTitle('Industries')
-      contextBar.hide()
-      // contextBar.setContent(<UserProfile />)
-   }, [])
+  useEffect(() => {
+    navBar.setTitle('Industries')
+    contextBar.hide()
+    // contextBar.setContent(<UserProfile />)
+  }, [])
 
-   const tabs: TabProps[] = [
-      {
-         label: 'Pending',
-         href: { pathname: 'industry', query: { tab: 'pending' } },
-         badge: {
-            text: data?.pending,
-            loading: isLoading,
-         },
-         element: <PendingStudent />,
+  const tabs: TabProps[] = [
+    {
+      label: 'Pending',
+      href: { pathname: 'industry', query: { tab: 'pending' } },
+      badge: {
+        text: data?.pending,
+        loading: isLoading,
       },
-      {
-         label: 'Approved',
-         href: { pathname: 'industry', query: { tab: 'approved' } },
-         badge: {
-            text: data?.approved,
-            loading: isLoading,
-         },
-         element: <ApprovedStudent />,
+      element: <PendingIndustry />,
+    },
+    {
+      label: 'Approved',
+      href: { pathname: 'industry', query: { tab: 'approved' } },
+      badge: {
+        text: data?.approved,
+        loading: isLoading,
       },
-      {
-         label: 'Rejected',
-         href: { pathname: 'industry', query: { tab: 'rejected' } },
-         badge: {
-            text: data?.rejected,
-            loading: isLoading,
-         },
-         element: <RejectedStudent />,
+      element: <ApprovedIndustry />,
+    },
+    {
+      label: 'Rejected',
+      href: { pathname: 'industry', query: { tab: 'rejected' } },
+      badge: {
+        text: data?.rejected,
+        loading: isLoading,
       },
-      {
-         label: 'Blocked',
-         href: { pathname: 'industry', query: { tab: 'blocked' } },
-         badge: {
-            text: data?.blocked,
-            loading: isLoading,
-         },
-         element: <BlockedStudent />,
+      element: <RejectedIndustry />,
+    },
+    {
+      label: 'Blocked',
+      href: { pathname: 'industry', query: { tab: 'blocked' } },
+      badge: {
+        text: data?.blocked,
+        loading: isLoading,
       },
-      {
-         label: 'Archived',
-         href: { pathname: 'industry', query: { tab: 'archived' } },
-         badge: {
-            text: data?.archived,
-            loading: isLoading,
-         },
-         element: <ArchivedStudent />,
+      element: <BlockedIndustry />,
+    },
+    {
+      label: 'Archived',
+      href: { pathname: 'industry', query: { tab: 'archived' } },
+      badge: {
+        text: data?.archived,
+        loading: isLoading,
       },
-   ]
+      element: <ArchivedIndustry />,
+    },
+  ]
 
-   return (
-      <div>
-         <TabNavigation tabs={tabs}>
-            {({ header, element }: any) => {
-               return (
-                  <div>
-                     <div>{header}</div>
-                     <div className="p-4">{element}</div>
-                  </div>
-               )
-            }}
-         </TabNavigation>
-      </div>
-   )
+  return (
+    <div>
+      <TabNavigation tabs={tabs}>
+        {({ header, element }: any) => {
+          return (
+            <div>
+              <div>{header}</div>
+              <div className="p-4">{element}</div>
+            </div>
+          )
+        }}
+      </TabNavigation>
+    </div>
+  )
 }
 
 RtoList.getLayout = (page: ReactElement) => {
-   return <AdminLayout>{page}</AdminLayout>
+  return <AdminLayout>{page}</AdminLayout>
 }
 
 export default RtoList

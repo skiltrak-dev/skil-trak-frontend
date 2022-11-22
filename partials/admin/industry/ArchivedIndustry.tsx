@@ -14,7 +14,7 @@ import { PageHeading } from '@components/headings'
 import { ColumnDef } from '@tanstack/react-table'
 import { FaEdit, FaEye, FaFileExport, FaFilter, FaTrash } from 'react-icons/fa'
 
-import { AdminApi } from '@queries/portals'
+import { AdminApi } from '@queries'
 import {
   MdBlock,
   MdEmail,
@@ -24,15 +24,17 @@ import {
 } from 'react-icons/md'
 import { useState } from 'react'
 import { CgUnblock } from 'react-icons/cg'
-import { RtoCellInfo } from './components'
+import { IndustryCell, SectorCell } from './components'
+import { Industry } from '@types'
+import { RtoCellInfo } from '../rto/components'
 
-export const ArchivedRto = () => {
+export const ArchivedIndustry = () => {
   const [filterAction, setFilterAction] = useState(null)
   const [itemPerPage, setItemPerPage] = useState(5)
   const [page, setPage] = useState(1)
   const [filter, setFilter] = useState({})
 
-  const { isLoading, data } = AdminApi.rto.useRtosListQuery({
+  const { isLoading, data } = AdminApi.Industries.useListQuery({
     search: `status:archived,${JSON.stringify(filter)
       .replaceAll('{', '')
       .replaceAll('}', '')
@@ -67,41 +69,50 @@ export const ArchivedRto = () => {
     },
   ]
 
-  const columns: ColumnDef<any>[] = [
+  const columns: ColumnDef<Industry>[] = [
     {
       accessorKey: 'user.name',
       cell: (info) => {
-        return <RtoCellInfo rto={info.row.original} />
+        return <IndustryCell industry={info.row.original} />
       },
-      header: () => <span>Name</span>,
+      header: () => <span>Industry</span>,
     },
     {
-      accessorKey: 'rtoCode',
-      header: () => <span>Code</span>,
+      accessorKey: 'abn',
+      header: () => <span>ABN</span>,
       cell: (info) => info.getValue(),
     },
     {
-      accessorKey: 'students',
-      header: () => <span>Students</span>,
-      cell: (info) => info.getValue(),
+      accessorKey: 'contactPerson',
+      header: () => <span>Contact Person</span>,
+      cell: (info) => {
+        return (
+          <div>
+            <p>{info.row.original.contactPerson}</p>
+            <p className="text-xs text-gray-500">
+              {info.row.original.contactPersonNumber}
+            </p>
+          </div>
+        )
+      },
     },
-    {
-      accessorKey: 'sectors',
-      header: () => <span>Sectors</span>,
-      cell: (info) => info.getValue(),
-    },
+
     {
       accessorKey: 'suburb',
       header: () => <span>Address</span>,
       cell: (info) => info.getValue(),
     },
+
     {
       accessorKey: 'action',
       header: () => <span>Action</span>,
       cell: (info) => {
         return (
           <div className="flex gap-x-1 items-center">
-            <TableAction options={tableActionOptions} />
+            <TableAction
+              options={tableActionOptions}
+              rowItem={info.row.original}
+            />
           </div>
         )
       },
@@ -112,7 +123,6 @@ export const ArchivedRto = () => {
     id: 'id',
     individual: (id: number) => (
       <div className="flex gap-x-2">
-        <ActionButton>Sub Admins</ActionButton>
         <ActionButton Icon={MdUnarchive} variant="warning">
           Unarchive
         </ActionButton>
@@ -135,7 +145,10 @@ export const ArchivedRto = () => {
 
   return (
     <div className="flex flex-col gap-y-4 mb-32">
-      <PageHeading title={'Archived RTOs'} subtitle={'List of Archived RTOs'}>
+      <PageHeading
+        title={'Archived Industries'}
+        subtitle={'List of Archived Industries'}
+      >
         {data && data?.data.length ? (
           <>
             {filterAction}
@@ -180,8 +193,8 @@ export const ArchivedRto = () => {
           </Table>
         ) : (
           <EmptyData
-            title={'No Archived RTO!'}
-            description={'You have not archived any RTO request yet'}
+            title={'No Archived Industry!'}
+            description={'You have not archived any Industry request yet'}
             height={'50vh'}
           />
         )}

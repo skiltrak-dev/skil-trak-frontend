@@ -4,7 +4,7 @@ import { MdEmail, MdPhoneIphone } from 'react-icons/md'
 
 export const StudentCellInfo = ({ student }: { student: Student }) => {
    return (
-      <Link href={`rto/${student.id}`}>
+      <Link href={`student/${student.id}`}>
          <a className="flex items-center gap-x-2">
             <div className="shadow-inner-image rounded-full">
                <img
