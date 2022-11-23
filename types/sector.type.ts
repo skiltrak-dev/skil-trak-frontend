@@ -1,17 +1,18 @@
+import { BaseResponse } from './base.type'
 
-export interface CourseType {
-    code: string;
-    title: string;
-    description: string;
-    hours: number;
-    requirementFile: string;
-    sector: SectorType;
-    // folders: Folder[];
+export interface Course extends BaseResponse {
+   id: number
+   code: string
+   title: string
+   description: string
+   hours: number
+   requirementFile: string
+   sector: Sector
 }
 
-export interface SectorType {
-    code: string
-    name: string
-    courses: CourseType[];
-    // industry?: Industry;
+export interface Sector extends BaseResponse {
+   id: number
+   code: string
+   name: string
+   courses: Course[]
 }

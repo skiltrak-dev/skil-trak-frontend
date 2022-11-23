@@ -5,5 +5,6 @@ export * from './option.type'
 export * from './layout.type'
 export * from './response.type'
 
-export * from './rto.type'
 export * from './user.type'
+export * from './subscriber.type'
+export * from './note.type'

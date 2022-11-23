@@ -1,24 +1,20 @@
-import { ReactElement, useEffect } from 'react'
-import { useRouter } from 'next/router'
+import { ReactElement } from 'react'
 
 import { IndustryLayout } from '@layouts'
 import { NextPageWithLayout } from '@types'
 
-import { IndustryMemorendumOU } from '@components/sections'
+import { IndustryMOUDetail } from '@components/sections'
 
-const MOUDetail: NextPageWithLayout = () => {
-  const router = useRouter()
-  const { query } = router
-
+const MOUDetails: NextPageWithLayout = () => {
   return (
     <div>
-      <IndustryMemorendumOU />
+      <IndustryMOUDetail />
     </div>
   )
 }
 
-MOUDetail.getLayout = (page: ReactElement) => {
+MOUDetails.getLayout = (page: ReactElement) => {
   return <IndustryLayout>{page}</IndustryLayout>
 }
 
-export default MOUDetail
+export default MOUDetails

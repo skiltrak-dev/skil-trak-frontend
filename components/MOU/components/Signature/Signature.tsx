@@ -12,7 +12,8 @@ import { isBrowser } from '@utils'
 
 export const Signature = forwardRef(({ industryName }: any, ref: any) => {
   const onClear = () => {
-    ref.current.clear()
+    console.log('reffff Cl', ref)
+    ref?.current?.clear()
   }
   return (
     <div className="my-5 w-full max-w-[50%] ml-auto">

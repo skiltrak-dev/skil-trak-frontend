@@ -3,19 +3,11 @@ import { ReactElement } from 'react'
 import { RtoLayout } from '@layouts'
 //Types
 import { NextPageWithLayout } from '@types'
-// components
-import { Button, HelpQuestionSet, ReactTable, Typography } from '@components'
-// Link
-import Link from 'next/link'
-import Image from 'next/image'
 
-// query
-import { useGetRtoMOUListQuery } from '@queries'
+// components
 import { RTOMOUDetail } from '@components/sections'
 
-type Props = {}
-
-const MouDetail: NextPageWithLayout = (props: Props) => {
+const MouDetail: NextPageWithLayout = () => {
   return (
     <>
       <RTOMOUDetail />

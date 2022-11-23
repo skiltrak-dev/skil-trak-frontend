@@ -12,6 +12,7 @@ import {
   Typography,
   BackButton,
   Select,
+  TechnicalError,
 } from '@components'
 import { RightSidebarData } from './components'
 
@@ -123,7 +124,7 @@ export const BrowseCandidatesContainer = () => {
       {/*  */}
       <Card>
         {/*  */}
-        {browseCandidates.isError && 'Error'}
+        {browseCandidates.isError && <TechnicalError />}
 
         <div className="mt-4">
           {browseCandidates.isLoading ? (

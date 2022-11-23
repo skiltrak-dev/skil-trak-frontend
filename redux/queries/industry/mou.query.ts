@@ -28,13 +28,14 @@ export const mouApi = createApi({
     }),
     getIndustryMOUDetail: builder.query<any, string>({
       query: (id) => {
+        console.log('Query ', id)
         return {
           url: `industries/mou/view/${id}`,
         }
       },
       providesTags: ['MOU'],
     }),
-    mou: builder.mutation({
+    createMouByIndustry: builder.mutation({
       query: (body) => ({
         url: `industries/mou/create`,
         method: 'POST',
@@ -49,7 +50,7 @@ export const mouApi = createApi({
       }),
       invalidatesTags: ['MOU'],
     }),
-    acceptSignRequest: builder.mutation({
+    acceptMouByIndustry: builder.mutation({
       query: ({ industrySignature, id }) => ({
         url: `industries/mou/sign/${id}`,
         method: 'PATCH',
@@ -74,8 +75,8 @@ export const {
   useGetIndustryMOUQuery,
   useGetIndustryMOUDetailQuery,
   useGetDefaultMouContentQuery,
-  useMouMutation,
+  useCreateMouByIndustryMutation,
   useCancelIndustryMOUMutation,
   useRejectIndustryMOUMutation,
-  useAcceptSignRequestMutation,
+  useAcceptMouByIndustryMutation,
 } = mouApi

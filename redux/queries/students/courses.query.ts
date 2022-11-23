@@ -14,12 +14,21 @@ export const studentCoursesApi = createApi({
         headers.set('authorization', `Bearer ${token}`)
       }
 
-      return headers
-    },
-  }),
-  tagTypes: ['StudentCourses'],
-  endpoints: (builder) => ({
-    getStudentCourses: builder.query<any, void>({
+            return headers
+        },
+    }),
+    tagTypes: ['StudentCourses'],
+    endpoints: (builder) => ({
+        getStudentCourses: builder.query<any[], void>({
+            query: (params: any) => {
+                return {
+                    url: 'courses/view',
+                    params,
+                }
+            },
+            providesTags: ['StudentCourses'],
+        }),
+    getStudentCoursesLs: builder.query<any, void>({
       query: (params: any) => {
         return {
           url: 'courses/list',

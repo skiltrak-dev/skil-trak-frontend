@@ -1,44 +1,39 @@
 // Icons
 import { IoMdArrowDroprightCircle } from 'react-icons/io'
 
-// components
-import { SearchBox } from '@components'
-
 // Context
 import { useContextBar } from '@hooks'
+import classNames from 'classnames'
+import { Typography } from '@components'
+import { FaTimes } from 'react-icons/fa'
 
 export const ContextBar = () => {
-    const contextBar = useContextBar()
+  const contextBar = useContextBar()
 
-    return (
-        <div className="relative z-20">
-            <div
-                className={`top-[10px] absolute z-20 transition-all duration-300 cursor-pointer ${
-                    contextBar.isVisible
-                        ? 'rotate-0 -left-[15px]'
-                        : 'rotate-180 -left-12'
-                } opacity-25 hover:opacity-75`}
-                onClick={() =>
-                    contextBar.isVisible ? contextBar.hide() : contextBar.show()
-                }
-            >
-                <IoMdArrowDroprightCircle className="text-3xl" />
-            </div>
-            <div
-                className={`transition-all duration-300 w-[350px] z-0 h-screen border-l border-secondary-dark p-4 top-0 right-0 bg-white remove-scrollbar overflow-y-scroll ${
-                    contextBar.isVisible
-                        ? `translate-x-0 ${
-                              contextBar.fixed ? 'fixed' : 'relative'
-                          }`
-                        : 'translate-x-full absolute'
-                }`}
-            >
-                <div className="relative">
-                    <div className="flex flex-col gap-y-4">
-                        {contextBar.content}
-                    </div>
-                </div>
-            </div>
+  const classes = classNames({
+    fixed: contextBar.fixed,
+    'top-0 right-0 z-30': true,
+    'transition-all duration-300': true,
+    // 'w-[350px] h-screen border-l border-gray-300 p-4': true,
+    'h-screen border-l border-gray-300': true,
+    'bg-white remove-scrollbar overflow-y-scroll overflow-x-hidden': true,
+    // 'translate-x-0': contextBar.isVisible,
+    'w-[350px] p-4': contextBar.isVisible,
+    // 'translate-x-full': !contextBar.isVisible,
+    'w-[0px] p-0': !contextBar.isVisible,
+  })
+
+  return !contextBar.off ? (
+    <div className={classes}>
+      <div className="flex flex-col gap-y-4">
+        <div className="flex justify-between items-center">
+          <Typography variant="subtitle">{contextBar.title}</Typography>
+          <button className="text-lg" onClick={() => contextBar.hide()}>
+            <FaTimes />
+          </button>
         </div>
-    )
+        {contextBar.content}
+      </div>
+    </div>
+  ) : null
 }

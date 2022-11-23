@@ -62,15 +62,15 @@ export const RTOMOUDetail = () => {
   return (
     <div>
       <MOUDetailContainer
-        isSigned={getMou?.data?.rtoSignature}
+        ref={ref}
+        content={content}
+        onSubmit={onSubmit}
+        getMouResult={getMou}
+        setContent={setContent}
+        defaultMou={defaultMou}
         createMouResult={createMouResult}
         acceptMouResult={acceptMouResult}
-        defaultMou={defaultMou}
-        getMouResult={getMou}
-        content={content}
-        setContent={setContent}
-        ref={ref}
-        onSubmit={onSubmit}
+        isSigned={getMou?.data?.rtoSignature}
       />
     </div>
   )

@@ -8,8 +8,10 @@ import {
     MdGroups,
     MdVerified,
 } from 'react-icons/md'
-
+import { useGetStudentProfileDetailQuery } from '@queries'
+import moment from 'moment'
 export const UserProfile = () => {
+    const { data, isSuccess, isLoading } = useGetStudentProfileDetailQuery()
     return (
         <div>
             <div className="flex flex-col items-center">
@@ -24,10 +26,10 @@ export const UserProfile = () => {
                 </div>
 
                 <div className="flex flex-col items-center">
-                    <p className="text-lg font-semibold">Name of User</p>
+                    <p className="text-lg font-semibold">{data?.user?.name}</p>
                     <div className="flex items-center gap-x-2">
                         <p className="text-sm text-gray-400">
-                            dummymail@domain.com
+                            {data?.user?.email}
                         </p>
                         <span className="text-blue-500">
                             <MdVerified />
@@ -43,7 +45,7 @@ export const UserProfile = () => {
                         <span className="text-gray-300">
                             <FaAddressCard />
                         </span>
-                        <p className="text-sm font-medium">16029</p>
+                        <p className="text-sm font-medium">{data?.studentId}</p>
                     </div>
                     <div className="text-gray-400 text-[11px] -mt-0.5 text-center">
                         Student ID
@@ -82,7 +84,7 @@ export const UserProfile = () => {
                         <span className="text-gray-300">
                             <FaBirthdayCake />
                         </span>
-                        <p className="text-sm font-medium">11 April, 1985</p>
+                        <p className="text-sm font-medium">{moment(data?.dob).format('LL')}</p>
                     </div>
                     <div className="text-gray-400 text-[11px] -mt-0.5 text-center">
                         Date Of Birth
@@ -110,7 +112,7 @@ export const UserProfile = () => {
                             <IoLocation />
                         </span>
                         <p className="text-sm font-medium">
-                            221B Baker Street, Sydney, Australia
+                            {data?.addressLine1}, {data?.addressLine2}, {data?.state}, {data?.suburb}
                         </p>
                     </div>
                     <div className="text-gray-400 text-[11px] -mt-0.5 text-center">

@@ -2,70 +2,76 @@ import { useState } from 'react'
 import { FaChevronDown } from 'react-icons/fa'
 
 export interface TableActionOption {
-  text: string
-  onClick: Function
-  Icon?: any
-  color?: string
+   text: string
+   onClick: Function
+   Icon?: any
+   color?: string
 }
 
 interface TableActionProps {
-  text?: string
-  options?: TableActionOption[]
+   text?: string
+   options: TableActionOption[]
+   rowItem: any
 }
-export const TableAction = ({ text, options }: TableActionProps) => {
-  const [isOverButton, setIsOverButton] = useState(false)
-  const [isOverList, setIsOverList] = useState(false)
+export const TableAction = ({ text, options, rowItem }: TableActionProps) => {
+   const [isOverButton, setIsOverButton] = useState(false)
+   const [isOverList, setIsOverList] = useState(false)
 
-  return (
-    <div
-      className="relative w-fit"
-      onMouseEnter={() => {
-        setIsOverButton(true)
-      }}
-      onMouseLeave={() => {
-        setIsOverButton(false)
-      }}
-    >
-      <button className="text-xs rounded px-4 py-2 uppercase font-medium bg-white hover:bg-gray-100 text-gray-800 flex gap-x-2 items-center">
-        {text || 'More'}
-        <FaChevronDown />
-      </button>
+   return (
+      <div
+         className="relative w-fit"
+         onMouseEnter={() => {
+            setIsOverButton(true)
+         }}
+         onMouseLeave={() => {
+            setIsOverButton(false)
+         }}
+      >
+         <button className="text-xs rounded px-4 py-2 uppercase font-medium bg-white hover:bg-gray-100 text-gray-800 flex gap-x-2 items-center">
+            {text || 'More'}
+            <FaChevronDown />
+         </button>
 
-      {options && (
-        <ul
-          className={`bg-white rounded-xl shadow-xl w-32 ${
-            isOverButton || isOverList ? 'block' : 'hidden'
-          } absolute z-10`}
-          onMouseEnter={() => {
-            setIsOverList(true)
-          }}
-          onMouseLeave={() => {
-            setIsOverList(false)
-          }}
-        >
-          {options.map((option, idx) => (
-            <li
-              key={idx}
-              className={`${
-                option.color ? option.color : 'text-gray-700 hover:bg-gray-100'
-              } text-xs cursor-pointer px-4 py-2 font-medium border-b ${
-                idx === 0 ? 'rounded-t-xl' : ''
-              } ${
-                idx === options.length - 1 ? 'rounded-b-xl' : ''
-              } flex items-center gap-x-1`}
+         {options && (
+            <ul
+               className={`bg-white rounded-xl shadow-xl w-32 ${
+                  isOverButton || isOverList ? 'block' : 'hidden'
+               } absolute z-10`}
+               onMouseEnter={() => {
+                  setIsOverList(true)
+               }}
+               onMouseLeave={() => {
+                  setIsOverList(false)
+               }}
             >
-              {option.Icon && (
-                <span
-                  className={`${option.color ? option.color : 'text-gray-400'}`}
-                >
-                  <option.Icon />
-                </span>
-              )}
-              <span>{option.text}</span>
-            </li>
-          ))}
-        </ul>
-      )}
-    </div>
-  )
+               {options.map((option, idx) => (
+                  <li
+                     className={`${
+                        option.color
+                           ? option.color
+                           : 'text-gray-700 hover:bg-gray-100'
+                     } text-xs cursor-pointer px-4 py-2 font-medium border-b ${
+                        idx === 0 ? 'rounded-t-xl' : ''
+                     } ${
+                        idx === options.length - 1 ? 'rounded-b-xl' : ''
+                     } flex items-center gap-x-1`}
+                     onClick={() => option.onClick(rowItem)}
+                     key={idx}
+                  >
+                     {option.Icon && (
+                        <span
+                           className={`${
+                              option.color ? option.color : 'text-gray-400'
+                           }`}
+                        >
+                           <option.Icon />
+                        </span>
+                     )}
+                     <span>{option.text}</span>
+                  </li>
+               ))}
+            </ul>
+         )}
+      </div>
+   )
 }

@@ -9,7 +9,7 @@ import {
 } from '@queries'
 
 // utils
-import { userStatus, ThemeColors } from '@utils'
+import {  ThemeColors, userStatus } from '@utils'
 
 const Colors = ThemeColors
 
