@@ -22,10 +22,11 @@ import { SectorCell, StudentCellInfo } from './components'
 import { Student } from '@types'
 import { DeleteModal, UnblockModal } from './modals'
 import { RtoCellInfo } from '../rto/components'
+import { useRouter } from 'next/router'
 
 export const BlockedStudent = () => {
+   const router = useRouter()
    const [modal, setModal] = useState<ReactElement | null>(null)
-
    const [filterAction, setFilterAction] = useState(null)
    const [itemPerPage, setItemPerPage] = useState(5)
    const [page, setPage] = useState(1)
@@ -55,30 +56,32 @@ export const BlockedStudent = () => {
       )
    }
 
-   const tableActionOptions: TableActionOption[] = [
-      {
-         text: 'View',
-         onClick: () => {},
-         Icon: FaEye,
-      },
-      {
-         text: 'Edit',
-         onClick: () => {},
-         Icon: FaEdit,
-      },
-      {
-         text: 'Unblock',
-         onClick: (student: Student) => onUnblockClicked(student),
-         Icon: CgUnblock,
-         color: 'text-orange-500 hover:bg-orange-100 hover:border-orange-200',
-      },
-      {
-         text: 'Delete',
-         onClick: (student: Student) => onDeleteClicked(student),
-         Icon: FaTrash,
-         color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
-      },
-   ]
+   const tableActionOptions = (row: TableActionOption) => {
+      return [
+         {
+            text: 'View',
+            onClick: () => { },
+            Icon: FaEye,
+         },
+         {
+            text: 'Edit',
+            onClick: () => { router.push(`/portals/admin/student/edit-student/${row?.id}`) },
+            Icon: FaEdit,
+         },
+         {
+            text: 'Unblock',
+            onClick: (student: Student) => onUnblockClicked(student),
+            Icon: CgUnblock,
+            color: 'text-orange-500 hover:bg-orange-100 hover:border-orange-200',
+         },
+         {
+            text: 'Delete',
+            onClick: (student: Student) => onDeleteClicked(student),
+            Icon: FaTrash,
+            color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
+         },
+      ]
+   }
 
    const columns: ColumnDef<any>[] = [
       {
@@ -116,11 +119,12 @@ export const BlockedStudent = () => {
       {
          accessorKey: 'action',
          header: () => <span>Action</span>,
-         cell: (info) => {
+         cell: (info: any) => {
+            const options = tableActionOptions(info?.row?.original)
             return (
                <div className="flex gap-x-1 items-center">
                   <TableAction
-                     options={tableActionOptions}
+                     options={options}
                      rowItem={info.row.original}
                   />
                </div>

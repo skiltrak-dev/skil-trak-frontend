@@ -8,30 +8,30 @@ import {
   RtoFilters,
   Table,
   TableAction,
-  TableActionOption
+  TableActionOption,
 } from '@components'
 import { PageHeading } from '@components/headings'
 import { ColumnDef } from '@tanstack/react-table'
-import { FaEdit, FaEye, FaFileExport, FaTrash } from 'react-icons/fa'
+import { FaEdit, FaEye, FaFileExport } from 'react-icons/fa'
 
+import { RtoCellInfo } from '@partials/admin/rto/components'
 import { AdminApi } from '@queries'
 import { Industry } from '@types'
 import { ReactElement, useState } from 'react'
-import { IndustryCell } from './components'
-import { AcceptModal, DeleteModal } from './modals'
+import { MdBlock } from 'react-icons/md'
+import { SubAdminCell } from './components'
+import { BlockModal } from './modals'
 import { useRouter } from 'next/router'
 
-export const RejectedIndustry = () => {
-  const router = useRouter()
+export const ApprovedSubAdmin = () => {
   const [modal, setModal] = useState<ReactElement | null>(null)
-
+  const router = useRouter()
   const [filterAction, setFilterAction] = useState(null)
   const [itemPerPage, setItemPerPage] = useState(5)
   const [page, setPage] = useState(1)
   const [filter, setFilter] = useState({})
-
-  const { isLoading, data } = AdminApi.Industries.useListQuery({
-    search: `status:rejected,${JSON.stringify(filter)
+  const { isLoading, data } = AdminApi.SubAdmins.useListQuery({
+    search: `status:approved,${JSON.stringify(filter)
       .replaceAll('{', '')
       .replaceAll('}', '')
       .replaceAll('"', '')
@@ -43,14 +43,9 @@ export const RejectedIndustry = () => {
   const onModalCancelClicked = () => {
     setModal(null)
   }
-  const onAcceptClicked = (industry: Industry) => {
+  const onBlockClicked = (subAdmin: Industry) => {
     setModal(
-      <AcceptModal industry={industry} onCancel={() => onModalCancelClicked()} />
-    )
-  }
-  const onDeleteClicked = (industry: Industry) => {
-    setModal(
-      <DeleteModal industry={industry} onCancel={() => onModalCancelClicked()} />
+      <BlockModal subAdmin={subAdmin} onCancel={() => onModalCancelClicked()} />
     )
   }
 
@@ -63,23 +58,13 @@ export const RejectedIndustry = () => {
       },
       {
         text: 'Edit',
-        onClick: () => { router.push(`/portals/admin/industry/edit-industry/${row?.id}`) },
+        onClick: () => { router.push(`/portals/admin/sub-admin/edit-sub-admin/${row?.id}`) },
         Icon: FaEdit,
       },
       {
-        text: 'Accept',
-        onClick: (student: Industry) => {
-          onAcceptClicked(student)
-        },
-        color: 'text-green-500 hover:bg-green-100 hover:border-green-200',
-      },
-
-      {
-        text: 'Delete',
-        onClick: (student: Industry) => {
-          onDeleteClicked(student)
-        },
-        Icon: FaTrash,
+        text: 'Block',
+        onClick: (industry: Industry) => onBlockClicked(industry),
+        Icon: MdBlock,
         color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
       },
     ]
@@ -89,13 +74,13 @@ export const RejectedIndustry = () => {
     {
       accessorKey: 'user.name',
       cell: (info) => {
-        return <IndustryCell industry={info.row.original} />
+        return <SubAdminCell subAdmin={info.row.original} />
       },
-      header: () => <span>Industry</span>,
+      header: () => <span>Name</span>,
     },
     {
-      accessorKey: 'abn',
-      header: () => <span>ABN</span>,
+      accessorKey: 'id',
+      header: () => <span>Coordinator ID</span>,
       cell: (info) => info.getValue(),
     },
     {
@@ -122,7 +107,7 @@ export const RejectedIndustry = () => {
     {
       accessorKey: 'action',
       header: () => <span>Action</span>,
-      cell: (info) => {
+      cell: (info: any) => {
         const options = tableActionOptions(info.row.original)
         return (
           <div className="flex gap-x-1 items-center">
@@ -141,19 +126,15 @@ export const RejectedIndustry = () => {
     individual: (id: number) => (
       <div className="flex gap-x-2">
         <ActionButton Icon={FaEdit}>Edit</ActionButton>
-        <ActionButton variant="success">Accept</ActionButton>
-        <ActionButton Icon={FaTrash} variant="error">
-          Delete
+        <ActionButton Icon={MdBlock} variant="error">
+          Block
         </ActionButton>
       </div>
     ),
     common: (ids: number[]) => (
-      <div className="flex gap-x-2">
-        <ActionButton variant="success">Accept</ActionButton>
-        <ActionButton Icon={FaTrash} variant="error">
-          Delete
-        </ActionButton>
-      </div>
+      <ActionButton Icon={MdBlock} variant="error">
+        Block
+      </ActionButton>
     ),
   }
 
@@ -162,8 +143,8 @@ export const RejectedIndustry = () => {
       {modal && modal}
       <div className="flex flex-col gap-y-4 mb-32">
         <PageHeading
-          title={'Rejected Industries'}
-          subtitle={'List of Rejected Industries'}
+          title={'Approved Sub Admin'}
+          subtitle={'List of Approved Sub Admin'}
         >
           {data && data?.data.length ? (
             <>
@@ -175,7 +156,7 @@ export const RejectedIndustry = () => {
 
         {data && data?.data.length ? (
           <Filter
-            component={RtoFilters}
+            component={Filter}
             initialValues={{ name: '', email: '', rtoCode: '' }}
             setFilterAction={setFilterAction}
             setFilter={setFilter}
@@ -209,8 +190,8 @@ export const RejectedIndustry = () => {
             </Table>
           ) : (
             <EmptyData
-              title={'No Rejected Industry!'}
-              description={'You have not rejected any Industry request yet'}
+              title={'No Approved Industry!'}
+              description={'You have not approved any Industry request yet'}
               height={'50vh'}
             />
           )}

@@ -24,19 +24,19 @@ import {
 } from 'react-icons/md'
 import { useState } from 'react'
 import { CgUnblock } from 'react-icons/cg'
-import { IndustryCell, SectorCell } from './components'
+import { SubAdminCell } from './components'
 import { Industry } from '@types'
 import { RtoCellInfo } from '../rto/components'
 import { useRouter } from 'next/router'
 
-export const ArchivedIndustry = () => {
+export const ArchivedSubAdmin = () => {
   const router = useRouter()
   const [filterAction, setFilterAction] = useState(null)
   const [itemPerPage, setItemPerPage] = useState(5)
   const [page, setPage] = useState(1)
   const [filter, setFilter] = useState({})
 
-  const { isLoading, data } = AdminApi.Industries.useListQuery({
+  const { isLoading, data } = AdminApi.SubAdmins.useListQuery({
     search: `status:archived,${JSON.stringify(filter)
       .replaceAll('{', '')
       .replaceAll('}', '')
@@ -55,7 +55,7 @@ export const ArchivedIndustry = () => {
       },
       {
         text: 'Edit',
-        onClick: () => { router.push(`/portals/admin/industry/edit-industry/${row?.id}`) },
+        onClick: () => { router.push(`/portals/admin/sub-admin/edit-sub-admin/${row?.id}`) },
         Icon: FaEdit,
       },
       {
@@ -77,13 +77,13 @@ export const ArchivedIndustry = () => {
     {
       accessorKey: 'user.name',
       cell: (info) => {
-        return <IndustryCell industry={info.row.original} />
+        return <SubAdminCell subAdmin={info.row.original} />
       },
       header: () => <span>Industry</span>,
     },
     {
-      accessorKey: 'abn',
-      header: () => <span>ABN</span>,
+      accessorKey: 'id',
+      header: () => <span>Coordinator ID</span>,
       cell: (info) => info.getValue(),
     },
     {
@@ -151,8 +151,8 @@ export const ArchivedIndustry = () => {
   return (
     <div className="flex flex-col gap-y-4 mb-32">
       <PageHeading
-        title={'Archived Industries'}
-        subtitle={'List of Archived Industries'}
+        title={'Archived Sub Admin'}
+        subtitle={'List of Archived Sub Admin'}
       >
         {data && data?.data.length ? (
           <>

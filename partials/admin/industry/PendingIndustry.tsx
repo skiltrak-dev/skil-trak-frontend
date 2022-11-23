@@ -1,14 +1,14 @@
 import {
-   ActionButton,
-   Button,
-   Card,
-   EmptyData,
-   Filter,
-   LoadingAnimation,
-   RtoFilters,
-   Table,
-   TableAction,
-   TableActionOption
+  ActionButton,
+  Button,
+  Card,
+  EmptyData,
+  Filter,
+  LoadingAnimation,
+  RtoFilters,
+  Table,
+  TableAction,
+  TableActionOption
 } from '@components'
 import { PageHeading } from '@components/headings'
 import { ColumnDef } from '@tanstack/react-table'
@@ -20,10 +20,11 @@ import { ReactElement, useState } from 'react'
 import { IndustryCell } from './components'
 import { useChangeStatus } from './hooks'
 import { AcceptModal, RejectModal } from './modals'
+import { useRouter } from 'next/router'
 
 export const PendingIndustry = () => {
   const [modal, setModal] = useState<ReactElement | null>(null)
-
+  const router = useRouter()
   const [filterAction, setFilterAction] = useState(null)
   const [itemPerPage, setItemPerPage] = useState(5)
   const [page, setPage] = useState(1)
@@ -61,18 +62,20 @@ export const PendingIndustry = () => {
     )
   }
 
-  const tableActionOptions: TableActionOption[] = [
-    {
-      text: 'View',
-      onClick: () => {},
-      Icon: FaEye,
-    },
-    {
-      text: 'Edit',
-      onClick: () => {},
-      Icon: FaEdit,
-    },
-  ]
+  const tableActionOptions = (row: TableActionOption) => {
+    return [
+      {
+        text: 'View',
+        onClick: () => { },
+        Icon: FaEye,
+      },
+      {
+        text: 'Edit',
+        onClick: () => { router.push(`/portals/admin/industry/edit-industry/${row?.id}`) },
+        Icon: FaEdit,
+      },
+    ]
+  }
 
   const columns: ColumnDef<Industry>[] = [
     {
@@ -111,7 +114,8 @@ export const PendingIndustry = () => {
     {
       accessorKey: 'action',
       header: () => <span>Action</span>,
-      cell: (info) => {
+      cell: (info: any) => {
+        const options = tableActionOptions(info.row.original)
         return (
           <div className="flex gap-x-1 items-center">
             <ActionButton
@@ -132,7 +136,7 @@ export const PendingIndustry = () => {
             </ActionButton>
 
             <TableAction
-              options={tableActionOptions}
+              options={options}
               rowItem={info.row.original}
             />
           </div>
@@ -145,16 +149,16 @@ export const PendingIndustry = () => {
     id: 'id',
     individual: (id: number) => (
       <div className="flex gap-x-2">
-        <ActionButton variant="success" onClick={() => {}}>
+        <ActionButton variant="success" onClick={() => { }}>
           Accept
         </ActionButton>
-        <ActionButton variant="error" onClick={() => {}}>
+        <ActionButton variant="error" onClick={() => { }}>
           Reject
         </ActionButton>
       </div>
     ),
     common: (ids: number[]) => (
-      <ActionButton variant="error" onClick={() => {}}>
+      <ActionButton variant="error" onClick={() => { }}>
         Reject
       </ActionButton>
     ),

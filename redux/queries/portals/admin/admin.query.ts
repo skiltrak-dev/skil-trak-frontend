@@ -13,7 +13,7 @@ import { notesEndpoints } from './notes'
 export const adminApi = createApi({
   reducerPath: 'adminApi',
   baseQuery: fetchBaseQuery({
-    baseUrl: `${process.env.NEXT_PUBLIC_HOST}/`,
+    baseUrl: `${process.env.NEXT_PUBLIC_END_POINT}/`,
     prepareHeaders: (headers, { getState }) => {
       const token = AuthUtils.getToken()
       if (token) {
@@ -68,6 +68,7 @@ const {
   useStudentProfileQuery,
   useStudentStatusChangeMutation,
   useStudentRemoveMutation,
+  useStudentUpdateMutation,
 
   useStudentSectorsQuery,
   useStudentAssignCoursesMutation,
@@ -101,6 +102,7 @@ const {
 
   // ------ SUB ADMINS ------ //
   useSubAdminsQuery,
+  useSubAdminCountQuery,
 
   // ------ NOTES ------ //
   useNotesQuery,
@@ -134,6 +136,7 @@ export const AdminApi = {
     useProfile: useStudentProfileQuery,
     useChangeStatusMutation: useStudentStatusChangeMutation,
     useRemove: useStudentRemoveMutation,
+    useUpdate: useStudentUpdateMutation,
 
     useSectors: useStudentSectorsQuery,
     useAssignCourses: useStudentAssignCoursesMutation,
@@ -142,6 +145,7 @@ export const AdminApi = {
 
   SubAdmins: {
     useListQuery: useSubAdminsQuery,
+    useCountQuery: useSubAdminCountQuery,
   },
 
   Industries: {

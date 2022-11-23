@@ -21,10 +21,11 @@ import { ReactElement, useState } from 'react'
 import { MdBlock } from 'react-icons/md'
 import { IndustryCell, ProgressCell, SectorCell } from './components'
 import { BlockModal } from './modals'
+import { useRouter } from 'next/router'
 
 export const ApprovedIndustry = () => {
   const [modal, setModal] = useState<ReactElement | null>(null)
-
+  const router = useRouter()
   const [filterAction, setFilterAction] = useState(null)
   const [itemPerPage, setItemPerPage] = useState(5)
   const [page, setPage] = useState(1)
@@ -48,24 +49,26 @@ export const ApprovedIndustry = () => {
     )
   }
 
-  const tableActionOptions: TableActionOption[] = [
-    {
-      text: 'View',
-      onClick: () => {},
-      Icon: FaEye,
-    },
-    {
-      text: 'Edit',
-      onClick: () => {},
-      Icon: FaEdit,
-    },
-    {
-      text: 'Block',
-      onClick: (industry: Industry) => onBlockClicked(industry),
-      Icon: MdBlock,
-      color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
-    },
-  ]
+  const tableActionOptions = (row: TableActionOption) => {
+    return [
+      {
+        text: 'View',
+        onClick: () => { },
+        Icon: FaEye,
+      },
+      {
+        text: 'Edit',
+        onClick: () => { router.push(`/portals/admin/industry/edit-industry/${row?.id}`) },
+        Icon: FaEdit,
+      },
+      {
+        text: 'Block',
+        onClick: (industry: Industry) => onBlockClicked(industry),
+        Icon: MdBlock,
+        color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
+      },
+    ]
+  }
 
   const columns: ColumnDef<Industry>[] = [
     {
@@ -104,11 +107,12 @@ export const ApprovedIndustry = () => {
     {
       accessorKey: 'action',
       header: () => <span>Action</span>,
-      cell: (info) => {
+      cell: (info: any) => {
+        const options = tableActionOptions(info.row.original)
         return (
           <div className="flex gap-x-1 items-center">
             <TableAction
-              options={tableActionOptions}
+              options={options}
               rowItem={info.row.original}
             />
           </div>

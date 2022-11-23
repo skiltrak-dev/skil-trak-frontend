@@ -78,4 +78,14 @@ export const studentEndpoints = (
     },
     invalidatesTags: ['Students'],
   }),
+  studentUpdate: builder.mutation({
+    query: ({ id, body }: any) => {
+      return {
+        url: `${PREFIX}students/update/${id}`,
+        method: 'PATCH',
+        body,
+      }
+    },
+    invalidatesTags: ['Students'],
+  }),
 })

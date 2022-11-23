@@ -26,8 +26,10 @@ import {
 import { RtoCellInfo } from '@partials/admin/rto/components'
 import { Student } from '@types'
 import { BlockModal } from './modals'
+import { useRouter } from 'next/router'
 
 export const ApprovedStudent = () => {
+   const router = useRouter()
    const [modal, setModal] = useState<ReactElement | null>(null)
 
    const [filterAction, setFilterAction] = useState(null)
@@ -53,24 +55,26 @@ export const ApprovedStudent = () => {
       )
    }
 
-   const tableActionOptions: TableActionOption[] = [
-      {
-         text: 'View',
-         onClick: () => {},
-         Icon: FaEye,
-      },
-      {
-         text: 'Edit',
-         onClick: () => {},
-         Icon: FaEdit,
-      },
-      {
-         text: 'Block',
-         onClick: (student: Student) => onBlockClicked(student),
-         Icon: MdBlock,
-         color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
-      },
-   ]
+   const tableActionOptions = (row: TableActionOption) => {
+      return [
+         {
+            text: 'View',
+            onClick: () => { },
+            Icon: FaEye,
+         },
+         {
+            text: 'Edit',
+            onClick: () => { router.push(`/portals/admin/student/edit-student/${row?.id}`) },
+            Icon: FaEdit,
+         },
+         {
+            text: 'Block',
+            onClick: (student: Student) => onBlockClicked(student),
+            Icon: MdBlock,
+            color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
+         },
+      ]
+   }
 
    const columns: ColumnDef<any>[] = [
       {
@@ -116,10 +120,11 @@ export const ApprovedStudent = () => {
          accessorKey: 'action',
          header: () => <span>Action</span>,
          cell: (info) => {
+            const options = tableActionOptions(info.row.original)
             return (
                <div className="flex gap-x-1 items-center">
                   <TableAction
-                     options={tableActionOptions}
+                     options={options}
                      rowItem={info.row.original}
                   />
                </div>
