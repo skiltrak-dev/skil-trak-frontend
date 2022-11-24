@@ -17,8 +17,8 @@ export const DeleteModal = ({
    const { notification } = useNotification()
    const [remove, removeResult] = AdminApi.Sectors.useRemoveMutation()
 
-   const onConfirmUClicked = async (rto: Rto) => {
-      await remove(rto.id)
+   const onConfirmClicked = async (sector: Sector) => {
+      await remove(sector.id)
    }
 
    useEffect(() => {
@@ -32,7 +32,7 @@ export const DeleteModal = ({
       if (removeResult.isError) {
          notification.error({
             title: 'Request Failed',
-            description: `Your request for deleting RTO was failed`,
+            description: `Your request for deleting Sector was failed`,
          })
       }
    }, [removeResult])
@@ -43,7 +43,7 @@ export const DeleteModal = ({
          variant="error"
          title="Are you sure!"
          description={`You are about to delete "${sector.name}". Do you wish to continue?`}
-         onConfirm={onConfirmUClicked}
+         onConfirm={onConfirmClicked}
          onCancel={onCancel}
          input
          inputKey={sector.name}

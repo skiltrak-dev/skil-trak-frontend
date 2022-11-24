@@ -1,83 +1,87 @@
-import { ReactElement, useEffect } from 'react'
+import { ReactElement, useEffect, useState } from 'react'
 
-import {
-   BackButton,
-   Card,
-   LoadingAnimation,
-   TabNavigation,
-   TabProps,
-} from '@components'
+import { BackButton, Card, LoadingAnimation } from '@components'
+import { PageHeading } from '@components/headings'
 import { useAlert, useNavbar, useNotification } from '@hooks'
 import { AdminLayout } from '@layouts'
-import { NextPageWithLayout, Sector } from '@types'
-import { SectorForm } from '@partials/admin/sector/form'
-import { PageHeading } from '@components/headings'
+import { CourseForm, SectorForm } from '@partials/admin/sector/form'
 import { AdminApi } from '@queries'
+import { Course, NextPageWithLayout } from '@types'
 import { useRouter } from 'next/router'
 
-const SectorEditPage: NextPageWithLayout = () => {
-   const router = useRouter()
-   const { alert } = useAlert()
-   const { notification } = useNotification()
-   const navBar = useNavbar()
-   const id = Number(router.query?.id || -1)
+const CourseEditPage: NextPageWithLayout = () => {
+  const router = useRouter()
+  const { alert } = useAlert()
+  const { notification } = useNotification()
+  const navBar = useNavbar()
+  const id = Number(router.query?.id || -1)
 
-   const [update, updateResult] = AdminApi.Sectors.useUpdateMutation()
-   const { data, isLoading } = AdminApi.Sectors.useDetailQuery(id, {
-      skip: !id,
-   })
+  const [update, updateResult] = AdminApi.Courses.useUpdateMutation()
+  const { data, isLoading } = AdminApi.Courses.useDetailQuery(id, {
+    skip: !id,
+  })
 
-   useEffect(() => {
-      navBar.setTitle('Sectors')
-   }, [])
+  const [requirementFile, setRequirementFile] = useState<any>(null)
 
-   const onSubmit = async (values: Sector) => {
-      await update(values)
-   }
+  useEffect(() => {
+    navBar.setTitle('Edit Course')
+  }, [])
 
-   useEffect(() => {
-      if (!updateResult.isUninitialized) {
-         if (updateResult.isSuccess) {
-            router.push('/portals/admin/sectors?tab=sectors')
-            alert.info({
-               title: 'Sector Updated',
-               description: `Sector '${data?.name}' has been updated`,
-            })
-         }
+  const onSubmit = async (values: any) => {
+    const body = {
+      id: id,
+      ...values,
+      sector: values.sector.value,
+      ...(requirementFile ? { requirements: requirementFile } : {}),
+    }
+    await update(body)
+  }
 
-         if (updateResult.isError) {
-            notification.error({
-               title: 'Failed to update sector',
-               description: 'New sector add failed',
-            })
-         }
+  useEffect(() => {
+    if (!updateResult.isUninitialized) {
+      if (updateResult.isSuccess) {
+        router.push('/portals/admin/sectors?tab=courses')
+        alert.info({
+          title: 'Course Updated',
+          description: `Course '${data?.title}' has been updated`,
+        })
       }
-   }, [updateResult])
 
-   return (
-      <div className="p-6 flex flex-col gap-y-4">
-         <BackButton text="Sectors" />
-         <PageHeading
-            title="Edit Sector"
-            subtitle={`You are editing a sector`}
-         ></PageHeading>
-         <Card>
-            {data && !isLoading ? (
-               <SectorForm
-                  onSubmit={onSubmit}
-                  edit={true}
-                  initialValues={data}
-               />
-            ) : (
-               <LoadingAnimation />
-            )}
-         </Card>
-      </div>
-   )
+      if (updateResult.isError) {
+        notification.error({
+          title: 'Failed to update course',
+          description: 'New course add failed',
+        })
+      }
+    }
+  }, [updateResult])
+
+  return (
+    <div className="p-6 flex flex-col gap-y-4">
+      <BackButton text="Courses" />
+      <PageHeading
+        title="Edit Course"
+        subtitle={`You are editing a course`}
+      ></PageHeading>
+      <Card>
+        {data && !isLoading ? (
+          <CourseForm
+            onSubmit={onSubmit}
+            edit={true}
+            initialValues={data}
+            requirementFile={requirementFile}
+            setRequirementFile={setRequirementFile}
+          />
+        ) : (
+          <LoadingAnimation />
+        )}
+      </Card>
+    </div>
+  )
 }
 
-SectorEditPage.getLayout = (page: ReactElement) => {
-   return <AdminLayout>{page}</AdminLayout>
+CourseEditPage.getLayout = (page: ReactElement) => {
+  return <AdminLayout>{page}</AdminLayout>
 }
 
-export default SectorEditPage
+export default CourseEditPage

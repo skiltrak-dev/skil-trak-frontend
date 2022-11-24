@@ -86,8 +86,8 @@ export const Note = ({ note }: { note: NoteType }) => {
               {note.author.name}
             </p>
             <p className="text-[11px] font-medium text-[#BFBF80]">
-              {format(new Date(note.updatedAt), 'EEE dd, LLL, yyyy')} at{' '}
-              {format(new Date(note.updatedAt), 'hh:mm aa')}
+              {format(new Date(note.updatedAt!!), 'EEE dd, LLL, yyyy')} at{' '}
+              {format(new Date(note.updatedAt!!), 'hh:mm aa')}
             </p>
           </div>
 

@@ -122,7 +122,7 @@ export const CourseForm = ({
               // disabled={!(isValid && dirty)}
               // loading={loginResult.isLoading}
             >
-              {edit ? 'Update Sector' : 'Add Sector'}
+              {edit ? 'Update Course' : 'Add Course'}
             </Button>
           </div>
         </div>

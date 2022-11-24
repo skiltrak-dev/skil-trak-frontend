@@ -1,3 +1,6 @@
 export * from './RtoFilters'
 export * from './Filter'
 export * from './SubscriberFilters'
+export * from './CourseFilters'
+export * from './SectorFilters'
+export * from './AppointmentTypeFilters'

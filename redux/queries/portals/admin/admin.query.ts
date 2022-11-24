@@ -9,177 +9,222 @@ import { studentEndpoints } from './student'
 import { subAdminEndpoints } from './sub-admin'
 import { subscriberEndpoints } from './subscribers'
 import { notesEndpoints } from './notes'
+import { folderEndpoints } from './folder'
+import { appointmentTypeEndpoints } from './appointment-type'
+import { jobEndpoints } from './job'
 
 export const adminApi = createApi({
-  reducerPath: 'adminApi',
-  baseQuery: fetchBaseQuery({
-    baseUrl: `${process.env.NEXT_PUBLIC_HOST}/`,
-    prepareHeaders: (headers, { getState }) => {
-      const token = AuthUtils.getToken()
-      if (token) {
-        headers.set('authorization', `Bearer ${token}`)
-      }
-      return headers
-    },
-  }),
-  tagTypes: [
-    'RTOS',
-    'Students',
-    'Subscribers',
-    'Sectors',
-    'SubAdmins',
-    'Industries',
-    'Notes',
-  ],
+    reducerPath: 'adminApi',
+    baseQuery: fetchBaseQuery({
+        baseUrl: `${process.env.NEXT_PUBLIC_HOST}/`,
+        prepareHeaders: (headers, { getState }) => {
+            const token = AuthUtils.getToken()
+            if (token) {
+                headers.set('authorization', `Bearer ${token}`)
+            }
+            return headers
+        },
+    }),
+    tagTypes: [
+        'RTOS',
+        'Students',
+        'Subscribers',
+        'Sectors',
+        'SubAdmins',
+        'Industries',
+        'Notes',
+        'Courses',
+        'Folders',
+        'AppointmentTypes',
+        'Jobs',
+    ],
 
-  // ---------- RTO ENDPOINTS ---------- //
-  endpoints: (build) => ({
-    ...rtoEndpoints(build),
-    ...studentEndpoints(build),
-    ...subscriberEndpoints(build),
-    ...sectorEndpoints(build),
-    ...courseEndpoints(build),
-    ...subAdminEndpoints(build),
-    ...industryEndpoints(build),
-    ...notesEndpoints(build),
-  }),
+    // ---------- RTO ENDPOINTS ---------- //
+    endpoints: (build) => ({
+        ...rtoEndpoints(build),
+        ...studentEndpoints(build),
+        ...subscriberEndpoints(build),
+        ...sectorEndpoints(build),
+        ...courseEndpoints(build),
+        ...subAdminEndpoints(build),
+        ...industryEndpoints(build),
+        ...notesEndpoints(build),
+        ...folderEndpoints(build),
+        ...appointmentTypeEndpoints(build),
+        ...jobEndpoints(build),
+    }),
 })
 
 const {
-  // ------ RTO ------ //
-  useRtoCountQuery,
-  useRtosQuery,
-  useRtoDetailQuery,
-  useRtoStatusChangeMutation,
-  useRtoRemoveMutation,
+    // ------ RTO ------ //
+    useRtoCountQuery,
+    useRtosQuery,
+    useRtoDetailQuery,
+    useRtoStatusChangeMutation,
+    useRtoRemoveMutation,
 
-  useRtoSectorsQuery,
-  useRtoAssignCoursesMutation,
-  useRtoUnassignCourseMutation,
+    useRtoSectorsQuery,
+    useRtoAssignCoursesMutation,
+    useRtoUnassignCourseMutation,
 
-  useRtoSubAdminsQuery,
-  useRtoAssignSubAdminsMutation,
-  useRtoUnassignSubAdminsMutation,
-  useRtoProfileDetailQuery,
+    useRtoSubAdminsQuery,
+    useRtoAssignSubAdminsMutation,
+    useRtoUnassignSubAdminsMutation,
+    useRtoProfileDetailQuery,
 
-  // ------ STUDENT ------ //
-  useStudentCountQuery,
-  useStudentsQuery,
-  useStudentProfileQuery,
-  useStudentStatusChangeMutation,
-  useStudentRemoveMutation,
+    // ------ STUDENT ------ //
+    useStudentCountQuery,
+    useStudentsQuery,
+    useStudentProfileQuery,
+    useStudentStatusChangeMutation,
+    useStudentRemoveMutation,
 
-  useStudentSectorsQuery,
-  useStudentAssignCoursesMutation,
-  useStudentUnassignCoursesMutation,
+    useStudentSectorsQuery,
+    useStudentAssignCoursesMutation,
+    useStudentUnassignCoursesMutation,
 
-  // ------ INDUSTRY ------ //
-  useIndustryCountQuery,
-  useIndustriesQuery,
-  useIndustryStatusChangeMutation,
-  useIndustryRemoveMutation,
-  useIndustryDetailQuery,
+    // ------ INDUSTRY ------ //
+    useIndustryCountQuery,
+    useIndustriesQuery,
+    useIndustryStatusChangeMutation,
+    useIndustryRemoveMutation,
+    useIndustryDetailQuery,
 
-  // ------ SECTOR ------ //
-  useSectorsQuery,
-  useSectorDetailQuery,
-  useSectorAddMutation,
-  useSectorUpdateMutation,
-  useSectorRemoveMutation,
+    // ------ SECTOR ------ //
+    useSectorsQuery,
+    useSectorDetailQuery,
+    useSectorAddMutation,
+    useSectorUpdateMutation,
+    useSectorRemoveMutation,
 
-  // ------ COURSES ------ //
-  useCoursesQuery,
-  useCourseDetailQuery,
-  useCourseAddMutation,
-  useCourseUpdateMutation,
-  useCourseRemoveMutation,
+    // ------ COURSES ------ //
+    useCoursesQuery,
+    useCourseDetailQuery,
+    useCourseAddMutation,
+    useCourseUpdateMutation,
+    useCourseRemoveMutation,
 
-  // ------ SUBSCRIBERS ------ //
-  useListSubscribersQuery,
-  useResubscribeMutation,
-  useUnsubscribeMutation,
+    // ------ SUBSCRIBERS ------ //
+    useListSubscribersQuery,
+    useResubscribeMutation,
+    useUnsubscribeMutation,
 
-  // ------ SUB ADMINS ------ //
-  useSubAdminsQuery,
+    // ------ SUB ADMINS ------ //
+    useSubAdminsQuery,
 
-  // ------ NOTES ------ //
-  useNotesQuery,
-  useNotesPinnedQuery,
-  useNoteCreateMutation,
-  useNoteUpdateMutation,
-  useNoteRemoveMutation,
-  useNoteStatusChangeMutation,
+    // ------ NOTES ------ //
+    useNotesQuery,
+    useNotesPinnedQuery,
+    useNoteCreateMutation,
+    useNoteUpdateMutation,
+    useNoteRemoveMutation,
+    useNoteStatusChangeMutation,
+
+    // ------ FOLDERS ------ //
+    useFolderAddMutation,
+    useFolderUpdateMutation,
+    useFolderRemoveMutation,
+
+    // ------ APPOINTMENT TYPES ------ //
+    useAppointmentTypesQuery,
+    useAppointmentTypeDetailQuery,
+    useAppointmentTypeAddMutation,
+    useAppointmentTypeRemoveMutation,
+    useAppointmentTypeUpdateMutation,
+
+    // ------ JOBS ------ //
+    useJobsQuery,
+    useJobStatusChangeMutation,
 } = adminApi
 
 export const AdminApi = {
-  Rtos: {
-    useCountQuery: useRtoCountQuery,
-    useListQuery: useRtosQuery,
-    useDetailQuery: useRtoDetailQuery,
-    useChangeStatusMutation: useRtoStatusChangeMutation,
-    useRemove: useRtoRemoveMutation,
+    Rtos: {
+        useCountQuery: useRtoCountQuery,
+        useListQuery: useRtosQuery,
+        useDetailQuery: useRtoDetailQuery,
+        useChangeStatusMutation: useRtoStatusChangeMutation,
+        useRemove: useRtoRemoveMutation,
 
-    useSectors: useRtoSectorsQuery,
-    useAssignCourses: useRtoAssignCoursesMutation,
-    useUnassignCourses: useRtoUnassignCourseMutation,
+        useSectors: useRtoSectorsQuery,
+        useAssignCourses: useRtoAssignCoursesMutation,
+        useUnassignCourses: useRtoUnassignCourseMutation,
 
-    useSubAdmins: useRtoSubAdminsQuery,
-    useAssignSubAdmin: useRtoAssignSubAdminsMutation,
-    useUnAssignSubAdmin: useRtoUnassignSubAdminsMutation,
-  },
+        useSubAdmins: useRtoSubAdminsQuery,
+        useAssignSubAdmin: useRtoAssignSubAdminsMutation,
+        useUnAssignSubAdmin: useRtoUnassignSubAdminsMutation,
+    },
 
-  Students: {
-    useCountQuery: useStudentCountQuery,
-    useListQuery: useStudentsQuery,
-    useProfile: useStudentProfileQuery,
-    useChangeStatusMutation: useStudentStatusChangeMutation,
-    useRemove: useStudentRemoveMutation,
+    Students: {
+        useCountQuery: useStudentCountQuery,
+        useListQuery: useStudentsQuery,
+        useProfile: useStudentProfileQuery,
+        useChangeStatusMutation: useStudentStatusChangeMutation,
+        useRemove: useStudentRemoveMutation,
 
-    useSectors: useStudentSectorsQuery,
-    useAssignCourses: useStudentAssignCoursesMutation,
-    useUnassignCourses: useStudentUnassignCoursesMutation,
-  },
+        useSectors: useStudentSectorsQuery,
+        useAssignCourses: useStudentAssignCoursesMutation,
+        useUnassignCourses: useStudentUnassignCoursesMutation,
+    },
 
-  SubAdmins: {
-    useListQuery: useSubAdminsQuery,
-  },
+    SubAdmins: {
+        useListQuery: useSubAdminsQuery,
+    },
 
-  Industries: {
-    useListQuery: useIndustriesQuery,
-    useCount: useIndustryCountQuery,
-    useStatusChange: useIndustryStatusChangeMutation,
-    useDetail: useIndustryDetailQuery,
-    useRemove: useIndustryRemoveMutation,
-  },
+    Industries: {
+        useListQuery: useIndustriesQuery,
+        useCount: useIndustryCountQuery,
+        useStatusChange: useIndustryStatusChangeMutation,
+        useDetail: useIndustryDetailQuery,
+        useRemove: useIndustryRemoveMutation,
+    },
 
-  Subscribers: {
-    useListQuery: useListSubscribersQuery,
-    useResubscribeMutation,
-    useUnsubscribeMutation,
-  },
+    Subscribers: {
+        useListQuery: useListSubscribersQuery,
+        useResubscribeMutation,
+        useUnsubscribeMutation,
+    },
 
-  Sectors: {
-    useListQuery: useSectorsQuery,
-    useDetailQuery: useSectorDetailQuery,
-    useAddMutation: useSectorAddMutation,
-    useUpdateMutation: useSectorUpdateMutation,
-    useRemoveMutation: useSectorRemoveMutation,
-  },
+    Sectors: {
+        useListQuery: useSectorsQuery,
+        useDetailQuery: useSectorDetailQuery,
+        useAddMutation: useSectorAddMutation,
+        useUpdateMutation: useSectorUpdateMutation,
+        useRemoveMutation: useSectorRemoveMutation,
+    },
 
-  Courses: {
-    useListQuery: useCoursesQuery,
-    useDetailQuery: useCourseDetailQuery,
-    useAddMutation: useCourseAddMutation,
-    useUpdateMutation: useCourseUpdateMutation,
-    useRemoveMutation: useCourseRemoveMutation,
-  },
+    Courses: {
+        useListQuery: useCoursesQuery,
+        useDetailQuery: useCourseDetailQuery,
+        useAddMutation: useCourseAddMutation,
+        useUpdateMutation: useCourseUpdateMutation,
+        useRemoveMutation: useCourseRemoveMutation,
+    },
 
-  Notes: {
-    useList: useNotesQuery,
-    usePinned: useNotesPinnedQuery,
-    useCreate: useNoteCreateMutation,
-    useUpdate: useNoteUpdateMutation,
-    useRemove: useNoteRemoveMutation,
-    useStatusChange: useNoteStatusChangeMutation,
-  },
+    Notes: {
+        useList: useNotesQuery,
+        usePinned: useNotesPinnedQuery,
+        useCreate: useNoteCreateMutation,
+        useUpdate: useNoteUpdateMutation,
+        useRemove: useNoteRemoveMutation,
+        useStatusChange: useNoteStatusChangeMutation,
+    },
+
+    Folders: {
+        useCreate: useFolderAddMutation,
+        useUpdate: useFolderUpdateMutation,
+        useRemove: useFolderRemoveMutation,
+    },
+
+    AppointmentTypes: {
+        useList: useAppointmentTypesQuery,
+        useDetail: useAppointmentTypeDetailQuery,
+        useCreate: useAppointmentTypeAddMutation,
+        useUpdate: useAppointmentTypeUpdateMutation,
+        useRemove: useAppointmentTypeRemoveMutation,
+    },
+
+    Jobs: {
+        useList: useJobsQuery,
+        useStatusChange: useJobStatusChangeMutation,
+    },
 }
