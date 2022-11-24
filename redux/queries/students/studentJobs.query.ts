@@ -64,13 +64,6 @@ export const studentJobsApi = createApi({
         //   }),
         //   invalidatesTags: ["Job"],
         // }),
-        // removeJob: builder.mutation({
-        //   query: (id) => ({
-        //     url: `industries/job/remove/${id}`,
-        //     method: "DELETE",
-        //   }),
-        //   invalidatesTags: ["Job"],
-        // }),
     }),
 })
 
@@ -81,5 +74,4 @@ export const {
     //   useGetJobsQuery,
     //   useJobChangeStatusMutation,
     //   useUpdateJobMutation,
-    //   useRemoveJobMutation,
 } = studentJobsApi

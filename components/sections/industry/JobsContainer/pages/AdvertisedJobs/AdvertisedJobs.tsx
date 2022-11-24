@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { ReactElement, useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
 import Link from 'next/link'
 
@@ -8,14 +8,15 @@ import { AiFillDelete } from 'react-icons/ai'
 
 // components
 import {
-  Popup,
-  Button,
-  EmptyData,
-  ReactTable,
-  Typography,
-  BackButton,
-  //   ActionDropDown,
-  //   ConfirmActionView,
+    Popup,
+    Button,
+    EmptyData,
+    ReactTable,
+    Typography,
+    BackButton,
+    TableAction,
+    //   ActionDropDown,
+    //   ConfirmActionView,
 } from '@components'
 import { JobsFilter } from './components'
 
@@ -30,192 +31,184 @@ import { getThemeColors } from '@theme'
 
 // HOC
 import { Filter } from '@hoc'
+import { DeleteModal } from '../../modals'
 
 const Colors = getThemeColors()
 
 export const AdvertisedJobs = () => {
-  const [queryFilters, setQueryFilters] = useState({})
-  const [filterActionButton, setFilterActionButton] = useState(null)
+    const router = useRouter()
 
-  //
-  const router = useRouter()
+    const [queryFilters, setQueryFilters] = useState({})
+    const [filterActionButton, setFilterActionButton] = useState(null)
+    const [modal, setModal] = useState<ReactElement | null>(null)
 
-  // for Delete Popup
-  const [removeJob, setRemoveJob] = useState({
-    show: false,
-    id: '',
-    title: '',
-  })
+    const onModalCancelClicked = () => {
+        setModal(null)
+    }
 
-  // query
-  const [deleteJob, deleteJobResult] = useRemoveJobMutation()
-
-  // Right Sidebar
-  // useEffect(() => {
-  // 	hideContextbar();
-  // 	setContent(<ContextbarContent />);
-  // }, [setContent]);
-
-  const TableActionOption = (row: any) => {
-    const actions = [
-      {
-        text: 'View',
-        Icon: MdEdit,
-        action: () => {
-          router.push(`/jobs/job-detail/${row.id}`)
-        },
-        color: Colors.link,
-      },
-      {
-        text: 'Edit',
-        Icon: MdEdit,
-        action: () => {
-          router.push(`/jobs/advertise-new-job/${row.id}`)
-        },
-        color: Colors.link,
-      },
-      {
-        text: 'Delete',
-        Icon: AiFillDelete,
-        action: () => {
-          setRemoveJob({
-            show: true,
-            id: row.id,
-            title: row.title,
-          })
-        },
-        color: Colors.error,
-      },
-    ]
-    return actions
-  }
-
-  const Columns = [
-    {
-      Header: 'Job Title',
-      accessor: 'title',
-      sort: true,
-      Cell: ({ row }) => {
-        const { title, industry } = row.original
-        return (
-          <Link
-            href={`/jobs/job-detail/${row.original.id}`}
-            className="flex items-center gap-x-2 relative"
-          >
-            <a>
-              <div className="absolute top-1">{/* <SimpleCheckbox /> */}</div>
-
-              <div>
-                <Typography color={'black'}> {title} </Typography>
-                <Typography variant={'muted'} color={'gray'}>
-                  {industry?.user?.name}
-                </Typography>
-              </div>
-            </a>
-          </Link>
+    const onDeleteClicked = (job: any) => {
+        setModal(
+            <DeleteModal job={job} onCancel={() => onModalCancelClicked()} />
         )
-      },
-    },
-    {
-      Header: 'Type',
-      accessor: 'employmentType',
-      Cell: ({ row }) => {
-        const { employmentType } = row.original
-        switch (employmentType) {
-          case 'fullTime':
-            return 'Full Time'
+    }
 
-          case 'partTime':
-            return 'Part Time'
+    // Right Sidebar
+    // useEffect(() => {
+    // 	hideContextbar();
+    // 	setContent(<ContextbarContent />);
+    // }, [setContent]);
 
-          default:
-            return 'Temporary'
-        }
-      },
-      disableFilters: true,
-    },
-    {
-      Header: 'Phone',
-      accessor: 'phone',
-    },
-    {
-      Header: 'Status',
-      accessor: 'isActive',
-      disableFilters: true,
-      Cell: ({ row }) => {
-        const { isActive } = row.original
-        return isActive ? 'Approved' : 'Pending'
-      },
-    },
-    {
-      Header: 'Action',
-      accessor: 'Action',
-      Cell: ({ row }) => {
-        const action = TableActionOption(row.original)
-        return 'Saad'
-        // return <ActionDropDown title={'More'} dropDown={action} />
-      },
-    },
-  ]
+    const TableActionOption = [
+        {
+            text: 'View',
+            Icon: MdEdit,
+            onClick: (job: any) => {
+                router.push(`/portals/industry/jobs/job-detail/${job.id}`)
+            },
+        },
+        {
+            text: 'Edit',
+            Icon: MdEdit,
+            onClick: (job: any) => {
+                router.push(`/jobs/advertise-new-job/${job.id}`)
+            },
+        },
+        {
+            text: 'Delete',
+            Icon: AiFillDelete,
+            onClick: (job: any) => {
+                console.log('Jobbbbbbbbbbbbb', job.title)
+                onDeleteClicked(job)
+            },
+        },
+    ]
 
-  const ABC = [
-    {
-      Header: 'Action',
-      accessor: 'Action',
-      Cell: ({ row }) => {
-        // const action = TableActionOption(row.original)
-        return 'Saad'
-        // return <ActionDropDown title={'More'} dropDown={action} />
-      },
-    },
-  ]
+    const Columns = [
+        {
+            Header: 'Job Title',
+            accessor: 'title',
+            sort: true,
+            Cell: ({ row }) => {
+                const { title, industry } = row.original
+                return (
+                    <Link
+                        href={`/jobs/job-detail/${row.original.id}`}
+                        className="flex items-center gap-x-2 relative"
+                    >
+                        <a>
+                            <div className="absolute top-1">
+                                {/* <SimpleCheckbox /> */}
+                            </div>
 
-  const filterInitialValues = {
-    title: '',
-    type: '',
-    status: '',
-  }
-  return (
-    <div>
-      <div className="flex justify-between items-center pb-4">
-        <BackButton link={'jobs'} text={'Back To Jobs'} />
-        <div className="flex items-center gap-x-2">
-          {filterActionButton && filterActionButton}
-          <Button
-            variant={'dark'}
-            onClick={() =>
-              router.push('/portals/industry/jobs/advertise-new-job')
-            }
-          >
-            Advertise New Job
-          </Button>
-        </div>
-      </div>
+                            <div>
+                                <Typography color={'black'}>
+                                    {' '}
+                                    {title}{' '}
+                                </Typography>
+                                <Typography variant={'muted'} color={'gray'}>
+                                    {industry?.user?.name}
+                                </Typography>
+                            </div>
+                        </a>
+                    </Link>
+                )
+            },
+        },
+        {
+            Header: 'Type',
+            accessor: 'employmentType',
+            Cell: ({ row }) => {
+                const { employmentType } = row.original
+                switch (employmentType) {
+                    case 'fullTime':
+                        return 'Full Time'
 
-      <Filter
-        component={JobsFilter}
-        setQueryFilters={setQueryFilters}
-        setFilterAction={setFilterActionButton}
-        filterInitialValues={filterInitialValues}
-      />
+                    case 'partTime':
+                        return 'Part Time'
 
-      {/* Showing Alert on Any Action */}
+                    default:
+                        return 'Temporary'
+                }
+            },
+            disableFilters: true,
+        },
+        {
+            Header: 'Phone',
+            accessor: 'phone',
+        },
+        {
+            Header: 'Status',
+            accessor: 'isActive',
+            disableFilters: true,
+            Cell: ({ row }) => {
+                const { isActive } = row.original
+                return isActive ? 'Approved' : 'Pending'
+            },
+        },
+        {
+            Header: 'Action',
+            accessor: 'Action',
+            Cell: ({ row }) => {
+                return (
+                    <TableAction
+                        title={'More'}
+                        options={TableActionOption}
+                        rowItem={row.original}
+                    />
+                )
+            },
+        },
+    ]
 
-      {/* Jobs List */}
+    const filterInitialValues = {
+        title: '',
+        type: '',
+        status: '',
+    }
+    return (
+        <div>
+            {modal}
+            <div className="flex justify-between items-center pb-4">
+                <BackButton link={'jobs'} text={'Back To Jobs'} />
+                <div className="flex items-center gap-x-2">
+                    {filterActionButton && filterActionButton}
+                    <Button
+                        variant={'dark'}
+                        onClick={() =>
+                            router.push(
+                                '/portals/industry/jobs/advertise-new-job'
+                            )
+                        }
+                    >
+                        Advertise New Job
+                    </Button>
+                </div>
+            </div>
 
-      <div className="flex justify-between items-center">
-        <p className="text-sm font-bold">Your Jobs</p>
-      </div>
-      <ReactTable
-        pagesize
-        pagination
-        Columns={Columns}
-        querySort={'title'}
-        action={useGetIndustryJobsQuery}
-      />
+            <Filter
+                component={JobsFilter}
+                setQueryFilters={setQueryFilters}
+                setFilterAction={setFilterActionButton}
+                filterInitialValues={filterInitialValues}
+            />
 
-      {/* Delete */}
-      {/* <ConfirmActionView
+            {/* Showing Alert on Any Action */}
+
+            {/* Jobs List */}
+
+            <div className="flex justify-between items-center">
+                <p className="text-sm font-bold">Your Jobs</p>
+            </div>
+            <ReactTable
+                pagesize
+                pagination
+                Columns={Columns}
+                querySort={'title'}
+                action={useGetIndustryJobsQuery}
+            />
+
+            {/* Delete */}
+            {/* <ConfirmActionView
         actionData={removeJob}
         setActionData={setRemoveJob}
         action={async () => {
@@ -227,6 +220,6 @@ export const AdvertisedJobs = () => {
         actionText={'Delete'}
         variant={'error'}
       /> */}
-    </div>
-  )
+        </div>
+    )
 }

@@ -45,5 +45,4 @@ export const {
   //   useGetJobsQuery,
   //   useJobChangeStatusMutation,
   //   useUpdateJobMutation,
-  //   useRemoveJobMutation,
 } = studentCoursesApi

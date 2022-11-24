@@ -11,7 +11,7 @@ import { MdContactPhone } from 'react-icons/md'
 import { FaLocationArrow } from 'react-icons/fa'
 import { FaPhoneAlt } from 'react-icons/fa'
 import { RiTimeFill } from 'react-icons/ri'
-import { Typography } from '@components/Typography'
+import { Typography, EmptyData } from '@components'
 import { useRouter } from 'next/router'
 
 import { useGetStudentJobDetailQuery } from '@queries'
@@ -187,7 +187,7 @@ export const JobDetail = (props: Props) => {
                     </div>
                 </div>
             ) : (
-                !isError && 'Empty Data'
+                !isError && <EmptyData />
             )}
         </>
     )

@@ -1,1 +1,1 @@
-import * from './FutureCandidateCard'
+export * from './FutureCandidateCard'
