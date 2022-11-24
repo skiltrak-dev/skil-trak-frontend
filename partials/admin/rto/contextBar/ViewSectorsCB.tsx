@@ -26,8 +26,6 @@ export const ViewSectorsCB = ({ rto }: { rto: Rto }) => {
    const rtoCourses = AdminApi.Rtos.useSectors(rto.id)
    const sectorsWithCourses = getSectors(rtoCourses.data)
 
-   console.log(":::RTO COURSES", rtoCourses.data)
-
    const [assignCourses, assignCoursesResult] = AdminApi.Rtos.useAssignCourses()
    const onSubmit = async (values: any) => {
       const { courses } = values

@@ -24,6 +24,7 @@ export type InputType =
   | 'date'
   | 'time'
   | 'url'
+  | 'color'
 
 export type TextInputProps = InputProps & {
   type?: InputType

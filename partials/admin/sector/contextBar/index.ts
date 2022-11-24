@@ -1,1 +1,1 @@
-export * from './ViewSectors'
+export * from './CourseView'
