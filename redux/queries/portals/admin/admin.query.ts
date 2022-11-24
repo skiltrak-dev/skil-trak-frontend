@@ -12,11 +12,11 @@ import { notesEndpoints } from './notes'
 import { folderEndpoints } from './folder'
 import { appointmentTypeEndpoints } from './appointment-type'
 import { jobEndpoints } from './job'
-
+import { workplaceEndpoints } from './workplace'
 export const adminApi = createApi({
     reducerPath: 'adminApi',
     baseQuery: fetchBaseQuery({
-        baseUrl: `${process.env.NEXT_PUBLIC_HOST}/`,
+        baseUrl: `${process.env.NEXT_PUBLIC_END_POINT}/`,
         prepareHeaders: (headers, { getState }) => {
             const token = AuthUtils.getToken()
             if (token) {
@@ -52,6 +52,7 @@ export const adminApi = createApi({
         ...folderEndpoints(build),
         ...appointmentTypeEndpoints(build),
         ...jobEndpoints(build),
+        ...workplaceEndpoints(build),
     }),
 })
 
@@ -82,10 +83,10 @@ const {
     useStudentSectorsQuery,
     useStudentAssignCoursesMutation,
     useStudentUnassignCoursesMutation,
-    
+
     useStudentsRequiredDocsDetailQuery,
-  useStudentCourseDetailQuery,
-  useStudentUpcomingAppointmentsQuery,
+    useStudentCourseDetailQuery,
+    useStudentUpcomingAppointmentsQuery,
 
     // ------ INDUSTRY ------ //
     useIndustryCountQuery,
@@ -116,6 +117,11 @@ const {
     // ------ SUB ADMINS ------ //
     useSubAdminsQuery,
     useSubAdminCountQuery,
+
+    //------ WORKPLACE -----//
+    useUnAssignedSubAdminsQuery,
+    useAssignedWorkplaceMutation,
+    useUnAssignedWorkplaceListQuery,
 
     // ------ NOTES ------ //
     useNotesQuery,
@@ -173,6 +179,12 @@ export const AdminApi = {
 
     SubAdmins: {
         useListQuery: useSubAdminsQuery,
+        useCountQuery: useSubAdminCountQuery,
+    },
+    Workplace: {
+        useListQuery: useUnAssignedSubAdminsQuery,
+        useWorkplaceListQuery: useUnAssignedWorkplaceListQuery,
+        useWorkplaceMutation: useAssignedWorkplaceMutation,
     },
 
     Industries: {
@@ -232,5 +244,4 @@ export const AdminApi = {
         useList: useJobsQuery,
         useStatusChange: useJobStatusChangeMutation,
     },
-
 }
