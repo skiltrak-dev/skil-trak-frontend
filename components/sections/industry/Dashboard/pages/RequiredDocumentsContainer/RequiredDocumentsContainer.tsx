@@ -5,6 +5,7 @@ import {
   Typography,
   EmptyData,
   LoadingAnimation,
+  TechnicalError,
 } from '@components'
 import { CourseDocuments } from './components'
 
@@ -20,7 +21,7 @@ export const RequiredDocumentsContainer = () => {
     <div className="h-full">
       <BackButton text={'Back To Previous'} />
 
-      {isError && 'TechnicalError'}
+      {isError && <TechnicalError />}
 
       {isLoading ? (
         <div className="h-full flex items-center justify-center">

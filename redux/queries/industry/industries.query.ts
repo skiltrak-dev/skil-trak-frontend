@@ -4,7 +4,7 @@ import { AuthUtils } from '@utils'
 export const industriesApi = createApi({
   reducerPath: 'industriesApi',
   baseQuery: fetchBaseQuery({
-    baseUrl: process.env.NEXT_PUBLIC_END_POINT,
+    baseUrl: `${process.env.NEXT_PUBLIC_END_POINT}/industries/`,
     prepareHeaders: (headers, { getState }) => {
       const token = AuthUtils.getToken()
 

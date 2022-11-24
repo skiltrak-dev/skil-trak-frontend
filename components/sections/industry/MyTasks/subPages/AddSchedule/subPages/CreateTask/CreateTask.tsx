@@ -9,7 +9,7 @@ import {
   Typography,
   LoadingAnimation,
   // Pagination,
-  // TechnicalError,
+  TechnicalError,
   EmptyData,
 } from 'components'
 import { RightSidebarData, RightSidebarForm, Schedule } from './components'
@@ -86,7 +86,7 @@ export const CreateTask = () => {
   return (
     <DndProvider backend={HTML5Backend}>
       <Card>
-        {EmployeeData.isError && 'TechnicalError'}
+        {EmployeeData.isError && <TechnicalError />}
         {EmployeeData.isLoading ? (
           <LoadingAnimation />
         ) : EmployeeData.data && EmployeeData.data.data.length > 0 ? (

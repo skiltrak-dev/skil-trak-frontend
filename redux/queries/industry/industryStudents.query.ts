@@ -4,7 +4,7 @@ import { AuthUtils } from '@utils'
 export const industryStudentsApi = createApi({
   reducerPath: 'industryStudentsApi',
   baseQuery: fetchBaseQuery({
-    baseUrl: process.env.NEXT_PUBLIC_END_POINT,
+    baseUrl: `${process.env.NEXT_PUBLIC_END_POINT}/industries/`,
     prepareHeaders: (headers) => {
       // const token = (getState()).usersSlice.token;
       const token = AuthUtils.getToken()
@@ -21,14 +21,18 @@ export const industryStudentsApi = createApi({
     getIndustryStudents: builder.query({
       query: (params) => {
         return {
-          url: 'industries/student/list',
+          url: 'student/list',
           params,
         }
       },
       providesTags: ['Students'],
     }),
     getIndustryStudentProfile: builder.query({
-      query: (id) => `industries/student/view/${id}`,
+      query: (id) => `student/view/${id}`,
+      providesTags: ['Students'],
+    }),
+    getFutureCandidates: builder.query<any, void>({
+      query: (id) => `future-candidate/list`,
       providesTags: ['Students'],
     }),
   }),
@@ -36,5 +40,6 @@ export const industryStudentsApi = createApi({
 
 export const {
   useGetIndustryStudentsQuery,
+  useGetFutureCandidatesQuery,
   useGetIndustryStudentProfileQuery,
 } = industryStudentsApi

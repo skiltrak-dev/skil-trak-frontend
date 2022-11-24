@@ -8,32 +8,37 @@ import { WorkplaceRequest } from '@components/sections/subAdmin'
 import { useGetSubAdminWorkplacesQuery } from '@queries'
 
 // components
-import { Button, LoadingAnimation } from '@components'
+import {
+  Button,
+  LoadingAnimation,
+  TechnicalError,
+  EmptyData,
+} from '@components'
 
 type Props = {}
 
 const Workplace: NextPageWithLayout = (props: Props) => {
-   const subAdminWorkplace = useGetSubAdminWorkplacesQuery()
+  const subAdminWorkplace = useGetSubAdminWorkplacesQuery()
 
-   return (
-      <>
-         {subAdminWorkplace.isError && 'Error'}
-         {subAdminWorkplace.isLoading && subAdminWorkplace.isFetching ? (
-            <LoadingAnimation />
-         ) : subAdminWorkplace.data && subAdminWorkplace.data.length > 0 ? (
-            <div className="flex flex-col gap-y-2">
-               {subAdminWorkplace?.data?.map((workplace: any) => (
-                  <WorkplaceRequest key={workplace.id} workplace={workplace} />
-               ))}
-            </div>
-         ) : (
-            !subAdminWorkplace.isError && 'Empty'
-         )}
-      </>
-   )
+  return (
+    <>
+      {subAdminWorkplace.isError && <TechnicalError />}
+      {subAdminWorkplace.isLoading && subAdminWorkplace.isFetching ? (
+        <LoadingAnimation />
+      ) : subAdminWorkplace.data && subAdminWorkplace.data.length > 0 ? (
+        <div className="flex flex-col gap-y-2">
+          {subAdminWorkplace?.data?.map((workplace: any) => (
+            <WorkplaceRequest key={workplace.id} workplace={workplace} />
+          ))}
+        </div>
+      ) : (
+        !subAdminWorkplace.isError && <EmptyData />
+      )}
+    </>
+  )
 }
 Workplace.getLayout = (page: ReactElement) => {
-   return <SubAdminLayout title="Workplace">{page}</SubAdminLayout>
+  return <SubAdminLayout title="Workplace">{page}</SubAdminLayout>
 }
 
 export default Workplace

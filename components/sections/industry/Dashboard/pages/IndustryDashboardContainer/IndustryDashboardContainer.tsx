@@ -47,7 +47,7 @@ export const IndustryDashboardContainer = () => {
     <div className="flex flex-col gap-y-6">
       {/* Links */}
       <div className="w-full flex flex-col lg:flex-row justify-between gap-y-3">
-        <div className="w-full flex-shrink-0">
+        <div className="w-full flex-shrink-0 lg:w-[62%]">
           <Typography variant={'title'}>Get Started</Typography>
           <Card>
             <DisplayPrimaryActions actions={PrimaryActions} />

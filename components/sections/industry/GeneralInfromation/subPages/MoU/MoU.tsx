@@ -8,7 +8,7 @@ import {
   ReactTable,
   Typography,
   BackButton,
-  // ActionDropDown,
+  ActionDropDown,
 } from 'components'
 import { RightSidebarData, RTOFilter } from './components'
 
@@ -155,98 +155,108 @@ export const MoUContainer = () => {
         const { mous, id } = row.original
         const mou = mous[0] || {}
         const actions = () => {
-          // if (
-          //   mou.status === userStatus.PENDING &&
-          //   mou.initiatedBy === 'industry'
-          // ) {
-          //   return (
-          //     <ActionDropDown
-          //       title={'More'}
-          //       loading={cancelMouData.isLoading}
-          //       dropDown={[
-          //         {
-          //           text: 'Cancel',
-          //           action: async () => {
-          //             await cancelMou(mou.id)
-          //           },
-          //           Icon: '',
-          //           color: Colors.error,
-          //         },
-          //       ]}
-          //     />
-          //   )
-          // }
-          // if (mou.status === userStatus.PENDING && mou.initiatedBy === 'rto') {
-          //   return (
-          //     <ActionDropDown
-          //       title={'More'}
-          //       loading={rejectMouData.isLoading}
-          //       dropDown={[
-          //         {
-          //           text: 'Sign',
-          //           action: () => {
-          //             router.push(
-          //               `/portals/industry/general-information/memorendum-ou/${mou.id}`
-          //             )
-          //           },
-          //           Icon: '',
-          //           color: Colors.error,
-          //         },
-          //         {
-          //           text: 'Reject',
-          //           action: async () => {
-          //             await rejectMou(mou.id)
-          //           },
-          //           color: Colors.error,
-          //         },
-          //       ]}
-          //     />
-          //   )
-          // }
-          // if (mou.status === 'signed') {
-          //   return (
-          //     <ActionDropDown
-          //       title={'More'}
-          //       dropDown={[
-          //         {
-          //           text: 'View',
-          //           action: () => {
-          //             router.push(
-          //               `/portals/industry/general-information/memorendum-ou/${mou.id}`
-          //             )
-          //           },
-          //           Icon: '',
-          //           color: Colors.info,
-          //         },
-          //         {
-          //           text: (
-          //             <a
-          //               href={`${process.env.NEXT_PUBLIC_END_POINT}industries/mou/download/${mou.id}`}
-          //               target="_blank"
-          //               rel="noreferrer"
-          //             >
-          //               Download
-          //             </a>
-          //           ),
-          //           color: Colors.info,
-          //         },
-          //         {
-          //           text: 'Cancel',
-          //           action: async () => {
-          //             await cancelMou(mou.id)
-          //           },
-          //           color: Colors.error,
-          //         },
-          //       ]}
-          //     />
-          //   )
-          // }
-          // if (mou.status === 'cancelled') {
-          //   return <span className="text-error">Cancelled</span>
-          // }
-          // if (mou.status === userStatus.REJECTED) {
-          //   return <span className="text-error">Rejected</span>
-          // }
+          if (
+            mou.status === userStatus.PENDING &&
+            mou.initiatedBy === 'industry'
+          ) {
+            return (
+              <ActionDropDown
+                title={'More'}
+                loading={cancelMouData.isLoading}
+                dropDown={[
+                  {
+                    text: 'View',
+                    action: () => {
+                      router.push(
+                        `/portals/industry/general-information/mou/${mou.id}`
+                      )
+                    },
+                    Icon: '',
+                    color: Colors.info,
+                  },
+                  {
+                    text: 'Cancel',
+                    action: async () => {
+                      await cancelMou(mou.id)
+                    },
+                    Icon: '',
+                    color: Colors.error,
+                  },
+                ]}
+              />
+            )
+          }
+          if (mou.status === userStatus.PENDING && mou.initiatedBy === 'rto') {
+            return (
+              <ActionDropDown
+                title={'More'}
+                loading={rejectMouData.isLoading}
+                dropDown={[
+                  {
+                    text: 'Sign',
+                    action: () => {
+                      router.push(
+                        `/portals/industry/general-information/mou/${mou.id}`
+                      )
+                    },
+                    Icon: '',
+                    color: Colors.error,
+                  },
+                  {
+                    text: 'Reject',
+                    action: async () => {
+                      await rejectMou(mou.id)
+                    },
+                    color: Colors.error,
+                  },
+                ]}
+              />
+            )
+          }
+          if (mou.status === 'signed') {
+            return (
+              <ActionDropDown
+                title={'More'}
+                dropDown={[
+                  {
+                    text: 'View',
+                    action: () => {
+                      router.push(
+                        `/portals/industry/general-information/mou/${mou.id}`
+                      )
+                    },
+                    Icon: '',
+                    color: Colors.info,
+                  },
+                  {
+                    text: (
+                      <a
+                        href={`${process.env.NEXT_PUBLIC_END_POINT}industries/mou/download/${mou.id}`}
+                        target="_blank"
+                        rel="noreferrer"
+                      >
+                        Download
+                      </a>
+                    ),
+                    color: Colors.info,
+                  },
+                  {
+                    text: 'Cancel',
+                    action: async () => {
+                      await cancelMou(mou.id)
+                    },
+                    color: Colors.error,
+                  },
+                ]}
+              />
+            )
+          }
+          if (mou.status === 'cancelled') {
+            return <span className="text-error">Cancelled</span>
+          }
+          if (mou.status === userStatus.REJECTED) {
+            return <span className="text-error">Rejected</span>
+          }
           // action Return
           return (
             <Button

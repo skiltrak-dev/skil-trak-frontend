@@ -12,6 +12,7 @@ export * from './Modal'
 export * from './Notification'
 export * from './SpecialLink'
 export * from './CircularProgress'
+export * from './ActionDropDown'
 
 // export * from './Pagination'
 export * from './PopUp'
