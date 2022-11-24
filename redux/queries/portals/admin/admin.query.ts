@@ -72,9 +72,11 @@ const {
   useStudentSectorsQuery,
   useStudentAssignCoursesMutation,
   useStudentUnassignCoursesMutation,
+
   useStudentsRequiredDocsDetailQuery,
   useStudentCourseDetailQuery,
   useStudentUpcomingAppointmentsQuery,
+
 
   // ------ INDUSTRY ------ //
   useIndustryCountQuery,
@@ -141,6 +143,7 @@ export const AdminApi = {
     useSectors: useStudentSectorsQuery,
     useAssignCourses: useStudentAssignCoursesMutation,
     useUnassignCourses: useStudentUnassignCoursesMutation,
+
     studentsRequiredDocsDetail: useStudentsRequiredDocsDetailQuery,
     studentCourseDetail: useStudentCourseDetailQuery,
     studentUpcomingAppointments: useStudentUpcomingAppointmentsQuery,

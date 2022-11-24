@@ -7,6 +7,7 @@ import { NextPageWithLayout } from '@types'
 import { Button, HelpQuestionSet, ReactTable, RtoContextBarData, SidebarCalendar, Typography } from '@components'
 // Link
 import Link from 'next/link'
+
 import Image from 'next/image'
 import { useContextBar } from '@hooks'    
 
@@ -14,9 +15,13 @@ import { useContextBar } from '@hooks'
 import { useGetRtoMOUListQuery } from '@queries'
 import { RtoMOUContainer } from '@components/sections'
 
+import { useGetIndustriesListQuery } from '@queries'
+
+
 type Props = {}
 
 const RtoMoUs: NextPageWithLayout = (props: Props) => {
+
   const RelatedQuestions = [
     {
       text: `I have a workplace. What next?`,

@@ -26,8 +26,11 @@ import {
   rtpMOUApi,
   adminApi,
   studentAssessmentApi,
+
+  rtoIndustriesApi,
   studentFindAbnApi,
   studentProfileApi,
+
   mouApi,
   employeeApi,
   employeeTaskApi,
@@ -62,6 +65,8 @@ export const store = configureStore({
       studentAssessmentEvidenceApi.reducer,
     [subAdminStudentsApi.reducerPath]: subAdminStudentsApi.reducer,
     [studentAssessmentApi.reducerPath]: studentAssessmentApi.reducer,
+
+    [rtoIndustriesApi.reducerPath]: rtoIndustriesApi.reducer,
     [studentFindAbnApi.reducerPath]: studentFindAbnApi.reducer,
     [studentProfileApi.reducerPath]: studentProfileApi.reducer,
     [mouApi.reducerPath]: mouApi.reducer,
@@ -91,6 +96,8 @@ export const store = configureStore({
       studentAssessmentEvidenceApi.middleware,
       subAdminIndustriesApi.middleware,
       studentAssessmentApi.middleware,
+
+      rtoIndustriesApi.middleware,
       studentFindAbnApi.middleware,
       studentProfileApi.middleware,
       mouApi.middleware,

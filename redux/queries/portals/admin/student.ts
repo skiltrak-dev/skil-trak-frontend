@@ -78,6 +78,7 @@ export const studentEndpoints = (
     },
     invalidatesTags: ['Students'],
   }),
+
   studentsRequiredDocsDetail: builder.query<
     any,
     { id: number; docType: string }

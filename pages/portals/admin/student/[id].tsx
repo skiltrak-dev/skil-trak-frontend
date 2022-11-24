@@ -11,6 +11,7 @@ import {
   Card,
   TechnicalError,
 } from '@components'
+
 import {
   Sectors,
   Workplaces,
@@ -18,11 +19,13 @@ import {
   CourseFolders,
   RequiredDocs,
 } from '@partials/admin/student/pages'
+
 import { useContextBar, useNavbar } from '@hooks'
 import { AdminLayout } from '@layouts'
 import { NextPageWithLayout } from '@types'
 import { useRouter } from 'next/router'
 import { ReactElement, useEffect, useState } from 'react'
+
 import {
   AiFillCodeSandboxCircle,
   AiOutlineBarcode,
@@ -32,11 +35,14 @@ import {
 import { BsPatchCheckFill } from 'react-icons/bs'
 import { FaArchive, FaBan, FaPhoneAlt, FaUniversity } from 'react-icons/fa'
 
+
 import { AdminApi } from '@queries'
 import { IoLogIn } from 'react-icons/io5'
 import { MdPlace } from 'react-icons/md'
 import Image from 'next/image'
 import { GoPrimitiveDot } from 'react-icons/go'
+import { RequiredDocs } from '@partials/admin/student/pages'
+
 
 const Detail: NextPageWithLayout = () => {
   const router = useRouter()
@@ -82,10 +88,12 @@ const Detail: NextPageWithLayout = () => {
     }
   }, [placementProgressBar])
 
+
   useEffect(() => {
     navBar.setTitle('Student Detail')
     contextBar.hide()
   }, [])
+
 
   console.log('appliedIndustry', appliedIndustry)
 
@@ -301,6 +309,7 @@ const Detail: NextPageWithLayout = () => {
                     </Typography>
                   )}
                 </Card>
+
               </div>
             </div>
           </div>
@@ -320,6 +329,7 @@ const Detail: NextPageWithLayout = () => {
         </div>
       )}
     </>
+
   )
 }
 

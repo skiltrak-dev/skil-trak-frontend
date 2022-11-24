@@ -6,6 +6,7 @@ import { BsExclamation, BsCheck } from 'react-icons/bs'
 import { Typography } from 'components'
 import { Folder } from './Folder'
 
+
 export const CourseFolders = ({ course, docType }: any) => {
   const even = 2 % 2 === 0
   const Icon = even ? BsExclamation : BsCheck
@@ -17,6 +18,7 @@ export const CourseFolders = ({ course, docType }: any) => {
       >
         <Icon className="absolute top-1 right-1 z-10 text-white text-2xl" />
       </DocsStyle> */}
+
       <Typography variant={'muted'} color={'gray'} capitalize>
         {course?.sector?.name}
       </Typography>

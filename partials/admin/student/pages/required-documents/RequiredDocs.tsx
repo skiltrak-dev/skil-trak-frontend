@@ -93,6 +93,7 @@ export const RequiredDocs = ({ courses, assessmentEvidence }: any) => {
                 course={assessmentEvidenceFolder}
                 docType={'assessmentEvidence'}
               />
+
             ))}
           </div>
         </div>
