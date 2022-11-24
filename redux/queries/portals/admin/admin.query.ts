@@ -82,6 +82,10 @@ const {
     useStudentSectorsQuery,
     useStudentAssignCoursesMutation,
     useStudentUnassignCoursesMutation,
+    
+    useStudentsRequiredDocsDetailQuery,
+  useStudentCourseDetailQuery,
+  useStudentUpcomingAppointmentsQuery,
 
     // ------ INDUSTRY ------ //
     useIndustryCountQuery,
@@ -111,6 +115,7 @@ const {
 
     // ------ SUB ADMINS ------ //
     useSubAdminsQuery,
+    useSubAdminCountQuery,
 
     // ------ NOTES ------ //
     useNotesQuery,
@@ -227,4 +232,5 @@ export const AdminApi = {
         useList: useJobsQuery,
         useStatusChange: useJobStatusChangeMutation,
     },
+
 }

@@ -19,15 +19,15 @@ export const Schedule = ({
   console.log('updateTaskResult', updateTaskResult)
 
   const moveCardHandler = async (
-    outerIndex,
-    dragIndex,
-    hoverIndex,
-    innerIndex
+    outerIndex: number,
+    dragIndex: number,
+    hoverIndex: number,
+    innerIndex: number
   ) => {
     const dragData = EmployeeData[outerIndex].tasks[dragIndex]
 
     // console.log("dragData", dragData, dropData);
-    setEmployeesData((preVal) => {
+    setEmployeesData((preVal: any) => {
       const dragData = preVal[outerIndex].tasks[dragIndex]
       const dropData = preVal[outerIndex].tasks[hoverIndex]
       const data = update(preVal, {

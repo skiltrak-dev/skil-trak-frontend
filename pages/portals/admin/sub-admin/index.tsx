@@ -29,13 +29,15 @@ import {
    ArchivedStudent,
 } from '@partials'
 import { AdminApi } from '@queries'
+import { ApprovedSubAdmin, ArchivedSubAdmin, BlockedSubAdmin, PendingSubAdmin, RejectedSubAdmin } from '@partials/admin/sub-admin'
 
-const RtoList: NextPageWithLayout = () => {
+const SubAdminList: NextPageWithLayout = () => {
    const navBar = useNavbar()
    const contextBar = useContextBar()
 
-   const { isLoading, data } = AdminApi.Students.useCountQuery()
-
+   const { isLoading, data } = AdminApi.SubAdmins.useCountQuery()
+   console.log("count sub admins",data);
+   
    useEffect(() => {
       navBar.setTitle('Sub-Admins')
       contextBar.hide()
@@ -50,7 +52,7 @@ const RtoList: NextPageWithLayout = () => {
             text: data?.pending,
             loading: isLoading,
          },
-         element: <PendingStudent />,
+         element: <PendingSubAdmin />,
       },
       {
          label: 'Approved',
@@ -59,7 +61,7 @@ const RtoList: NextPageWithLayout = () => {
             text: data?.approved,
             loading: isLoading,
          },
-         element: <ApprovedStudent />,
+         element: <ApprovedSubAdmin />,
       },
       {
          label: 'Rejected',
@@ -68,7 +70,7 @@ const RtoList: NextPageWithLayout = () => {
             text: data?.rejected,
             loading: isLoading,
          },
-         element: <RejectedStudent />,
+         element: <RejectedSubAdmin />,
       },
       {
          label: 'Blocked',
@@ -77,7 +79,7 @@ const RtoList: NextPageWithLayout = () => {
             text: data?.blocked,
             loading: isLoading,
          },
-         element: <BlockedStudent />,
+         element: <BlockedSubAdmin />,
       },
       {
          label: 'Archived',
@@ -86,7 +88,7 @@ const RtoList: NextPageWithLayout = () => {
             text: data?.archived,
             loading: isLoading,
          },
-         element: <ArchivedStudent />,
+         element: <ArchivedSubAdmin />,
       },
    ]
 
@@ -106,8 +108,8 @@ const RtoList: NextPageWithLayout = () => {
    )
 }
 
-RtoList.getLayout = (page: ReactElement) => {
+SubAdminList.getLayout = (page: ReactElement) => {
    return <AdminLayout>{page}</AdminLayout>
 }
 
-export default RtoList
+export default SubAdminList

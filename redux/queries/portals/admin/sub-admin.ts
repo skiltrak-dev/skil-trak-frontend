@@ -1,6 +1,6 @@
 import { BaseQueryFn } from '@reduxjs/toolkit/dist/query/baseQueryTypes'
 import { EndpointBuilder } from '@reduxjs/toolkit/dist/query/endpointDefinitions'
-import { PaginatedResponse, SubAdmin } from '@types'
+import { PaginatedResponse, SubAdmin, UserCount } from '@types'
 
 const PREFIX = 'admin'
 export const subAdminEndpoints = (
@@ -15,4 +15,8 @@ export const subAdminEndpoints = (
       },
       providesTags: ['SubAdmins'],
    }),
+   subAdminCount: builder.query<UserCount, void>({
+      query: () => `${PREFIX}/subadmin/list/count`,
+      providesTags: ['SubAdmins'],
+    }),
 })

@@ -1,14 +1,14 @@
 import {
-   ActionButton,
-   Button,
-   Card,
-   EmptyData,
-   Filter,
-   LoadingAnimation,
-   RtoFilters,
-   Table,
-   TableAction,
-   TableActionOption
+  ActionButton,
+  Button,
+  Card,
+  EmptyData,
+  Filter,
+  LoadingAnimation,
+  RtoFilters,
+  Table,
+  TableAction,
+  TableActionOption
 } from '@components'
 import { PageHeading } from '@components/headings'
 import { ColumnDef } from '@tanstack/react-table'
@@ -19,8 +19,10 @@ import { Industry } from '@types'
 import { ReactElement, useState } from 'react'
 import { IndustryCell } from './components'
 import { AcceptModal, DeleteModal } from './modals'
+import { useRouter } from 'next/router'
 
 export const RejectedIndustry = () => {
+  const router = useRouter()
   const [modal, setModal] = useState<ReactElement | null>(null)
 
   const [filterAction, setFilterAction] = useState(null)
@@ -52,34 +54,36 @@ export const RejectedIndustry = () => {
     )
   }
 
-  const tableActionOptions: TableActionOption[] = [
-    {
-      text: 'View',
-      onClick: () => {},
-      Icon: FaEye,
-    },
-    {
-      text: 'Edit',
-      onClick: () => {},
-      Icon: FaEdit,
-    },
-    {
-      text: 'Accept',
-      onClick: (student: Industry) => {
-        onAcceptClicked(student)
+  const tableActionOptions = (row: TableActionOption) => {
+    return [
+      {
+        text: 'View',
+        onClick: () => { },
+        Icon: FaEye,
       },
-      color: 'text-green-500 hover:bg-green-100 hover:border-green-200',
-    },
+      {
+        text: 'Edit',
+        onClick: () => { router.push(`/portals/admin/industry/edit-industry/${row?.id}`) },
+        Icon: FaEdit,
+      },
+      {
+        text: 'Accept',
+        onClick: (student: Industry) => {
+          onAcceptClicked(student)
+        },
+        color: 'text-green-500 hover:bg-green-100 hover:border-green-200',
+      },
 
-    {
-      text: 'Delete',
-      onClick: (student: Industry) => {
-        onDeleteClicked(student)
+      {
+        text: 'Delete',
+        onClick: (student: Industry) => {
+          onDeleteClicked(student)
+        },
+        Icon: FaTrash,
+        color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
       },
-      Icon: FaTrash,
-      color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
-    },
-  ]
+    ]
+  }
 
   const columns: ColumnDef<Industry>[] = [
     {
@@ -119,10 +123,11 @@ export const RejectedIndustry = () => {
       accessorKey: 'action',
       header: () => <span>Action</span>,
       cell: (info) => {
+        const options = tableActionOptions(info.row.original)
         return (
           <div className="flex gap-x-1 items-center">
             <TableAction
-              options={tableActionOptions}
+              options={options}
               rowItem={info.row.original}
             />
           </div>

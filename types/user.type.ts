@@ -60,6 +60,8 @@ export interface Student extends BaseResponse {
   rto: Rto
   location: string
   courses: Course[]
+  assessmentEvidence: any[]
+  workplace: any
 }
 
 export interface SubAdmin {

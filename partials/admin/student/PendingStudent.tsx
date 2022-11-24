@@ -23,8 +23,10 @@ import { SectorCell, StudentCellInfo } from './components'
 import { RtoCellInfo } from '@partials/admin/rto/components'
 import { AcceptModal, RejectModal } from './modals'
 import { useChangeStatus } from './hooks'
+import { useRouter } from 'next/router'
 
 export const PendingStudent = () => {
+   const router = useRouter()
    const contextBar = useContextBar()
    const [modal, setModal] = useState<ReactElement | null>(null)
 
@@ -57,18 +59,20 @@ export const PendingStudent = () => {
       )
    }
 
-   const tableActionOptions: TableActionOption[] = [
-      {
-         text: 'View',
-         onClick: () => {},
-         Icon: FaEye,
-      },
-      {
-         text: 'Edit',
-         onClick: () => {},
-         Icon: FaEdit,
-      },
-   ]
+   const tableActionOptions = (row: TableActionOption) => {
+      return [
+         {
+            text: 'View',
+            onClick: () => { },
+            Icon: FaEye,
+         },
+         {
+            text: 'Edit',
+            onClick: () => { router.push(`/portals/admin/student/edit-student/${row?.id}`) },
+            Icon: FaEdit,
+         },
+      ]
+   }
 
    const columns: ColumnDef<any>[] = [
       {
@@ -106,7 +110,8 @@ export const PendingStudent = () => {
       {
          accessorKey: 'action',
          header: () => <span>Action</span>,
-         cell: (info) => {
+         cell: (info: any) => {
+            const options = tableActionOptions(info?.row?.original)
             return (
                <div className="flex gap-x-1 items-center">
                   <ActionButton
@@ -127,7 +132,7 @@ export const PendingStudent = () => {
                   </ActionButton>
 
                   <TableAction
-                     options={tableActionOptions}
+                     options={options}
                      rowItem={info.row.original}
                   />
                </div>
@@ -140,16 +145,16 @@ export const PendingStudent = () => {
       id: 'id',
       individual: (id: number) => (
          <div className="flex gap-x-2">
-            <ActionButton variant="success" onClick={() => {}}>
+            <ActionButton variant="success" onClick={() => { }}>
                Accept
             </ActionButton>
-            <ActionButton variant="error" onClick={() => {}}>
+            <ActionButton variant="error" onClick={() => { }}>
                Reject
             </ActionButton>
          </div>
       ),
       common: (ids: number[]) => (
-         <ActionButton variant="error" onClick={() => {}}>
+         <ActionButton variant="error" onClick={() => { }}>
             Reject
          </ActionButton>
       ),

@@ -1,14 +1,14 @@
 import {
-   ActionButton,
-   Button,
-   Card,
-   EmptyData,
-   Filter,
-   LoadingAnimation,
-   RtoFilters,
-   Table,
-   TableAction,
-   TableActionOption
+  ActionButton,
+  Button,
+  Card,
+  EmptyData,
+  Filter,
+  LoadingAnimation,
+  RtoFilters,
+  Table,
+  TableAction,
+  TableActionOption
 } from '@components'
 import { PageHeading } from '@components/headings'
 import { ColumnDef } from '@tanstack/react-table'
@@ -20,8 +20,10 @@ import { ReactElement, useState } from 'react'
 import { CgUnblock } from 'react-icons/cg'
 import { IndustryCell } from './components'
 import { DeleteModal, UnblockModal } from './modals'
+import { useRouter } from 'next/router'
 
 export const BlockedIndustry = () => {
+  const router = useRouter()
   const [modal, setModal] = useState<ReactElement | null>(null)
 
   const [filterAction, setFilterAction] = useState(null)
@@ -59,30 +61,32 @@ export const BlockedIndustry = () => {
     )
   }
 
-  const tableActionOptions: TableActionOption[] = [
-    {
-      text: 'View',
-      onClick: () => {},
-      Icon: FaEye,
-    },
-    {
-      text: 'Edit',
-      onClick: () => {},
-      Icon: FaEdit,
-    },
-    {
-      text: 'Unblock',
-      onClick: (industry: Industry) => onUnblockClicked(industry),
-      Icon: CgUnblock,
-      color: 'text-orange-500 hover:bg-orange-100 hover:border-orange-200',
-    },
-    {
-      text: 'Delete',
-      onClick: (industry: Industry) => onDeleteClicked(industry),
-      Icon: FaTrash,
-      color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
-    },
-  ]
+  const tableActionOptions = (row: TableActionOption) => {
+    return [
+      {
+        text: 'View',
+        onClick: () => { },
+        Icon: FaEye,
+      },
+      {
+        text: 'Edit',
+        onClick: () => { router.push(`/portals/admin/industry/edit-industry/${row?.id}`) },
+        Icon: FaEdit,
+      },
+      {
+        text: 'Unblock',
+        onClick: (industry: Industry) => onUnblockClicked(industry),
+        Icon: CgUnblock,
+        color: 'text-orange-500 hover:bg-orange-100 hover:border-orange-200',
+      },
+      {
+        text: 'Delete',
+        onClick: (industry: Industry) => onDeleteClicked(industry),
+        Icon: FaTrash,
+        color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
+      },
+    ]
+  }
 
   const columns: ColumnDef<Industry>[] = [
     {
@@ -121,11 +125,12 @@ export const BlockedIndustry = () => {
     {
       accessorKey: 'action',
       header: () => <span>Action</span>,
-      cell: (info) => {
+      cell: (info: any) => {
+        const options = tableActionOptions(info.row.original)
         return (
           <div className="flex gap-x-1 items-center">
             <TableAction
-              options={tableActionOptions}
+              options={options}
               rowItem={info.row.original}
             />
           </div>

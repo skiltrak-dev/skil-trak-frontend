@@ -4,10 +4,11 @@ import { useRouter } from 'next/router'
 // componemts
 import {
   Button,
-  OtherDocumentLinks,
-  PrimaryActionLink,
+  // OtherDocumentLinks,
+  DisplayPrimaryActions,
   Typography,
 } from 'components'
+import { JobsPrimaryActions } from '@components/sections/industry/JobsContainer/Jobs'
 
 export const RightSidebarData = () => {
   const router = useRouter()
@@ -27,48 +28,16 @@ export const RightSidebarData = () => {
           Related Links
         </Typography>
 
-        <PrimaryActionLink
-          link={'general-information/unit-requirements'}
-          border={'1'}
-          bgColor={'white'}
-          bgHoverColor={'secondary'}
-          borderColor={'secondary'}
-          shadow={1}
-          title={'Unit Requirement'}
-          desc={'Some helping text'}
-          img={'./images/dashboardbtn5.png'}
-        />
-        <PrimaryActionLink
-          border={'1'}
-          link={'general-information/industry-consultation'}
-          bgColor={'white'}
-          bgHoverColor={'secondary'}
-          borderColor={'secondary'}
-          shadow={1}
-          title={'Industry Consultation'}
-          desc={'Some helping text'}
-          img={'./images/dashboardbtn7.png'}
-        />
-        <PrimaryActionLink
-          border={'1'}
-          link={'general-information/mou'}
-          bgColor={'white'}
-          bgHoverColor={'secondary'}
-          borderColor={'secondary'}
-          shadow={1}
-          title={'MoU'}
-          desc={'Memorandum Of Understanding'}
-          img={'./images/dashboardbtn8.png'}
-        />
+        <DisplayPrimaryActions actions={JobsPrimaryActions} />
       </div>
 
       {/* Other Links */}
       <div className="w-full flex flex-col gap-y-2 mt-2">
-        <Typography varient={'text'} color={'gray'}>
+        {/* <Typography varient={'text'} color={'gray'}>
           Other Links
-        </Typography>
+        </Typography> */}
 
-        <OtherDocumentLinks />
+        {/* <OtherDocumentLinks /> */}
       </div>
     </div>
   )
