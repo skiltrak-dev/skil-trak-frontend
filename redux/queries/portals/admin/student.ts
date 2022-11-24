@@ -78,4 +78,26 @@ export const studentEndpoints = (
     },
     invalidatesTags: ['Students'],
   }),
+
+  studentsRequiredDocsDetail: builder.query<
+    any,
+    { id: number; docType: string }
+  >({
+    query: ({ id, docType }) => ({
+      url: `${PREFIX}student/required-docs/response/${id}`,
+      params: { key: docType },
+    }),
+    providesTags: ['Students'],
+  }),
+  studentCourseDetail: builder.query<any, { id: number; studentId: number }>({
+    query: ({ id, studentId }) =>
+      `${PREFIX}student/course/docs/${studentId}/${id}`,
+
+    providesTags: ['Students'],
+  }),
+  studentUpcomingAppointments: builder.query<any, number>({
+    query: (id) => `${PREFIX}appointments/view/${id}`,
+
+    providesTags: ['Students'],
+  }),
 })

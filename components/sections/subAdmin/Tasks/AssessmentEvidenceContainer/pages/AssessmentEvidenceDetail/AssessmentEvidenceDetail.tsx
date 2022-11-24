@@ -1,7 +1,7 @@
 import { useRouter } from 'next/router'
 
 //components
-import { LoadingAnimation } from '@components'
+import { LoadingAnimation, TechnicalError } from '@components'
 // queries
 import { useGetAssessmentEvidenceDetailQuery } from '@queries'
 
@@ -21,7 +21,7 @@ export const AssesmentEvidenceDetail = ({ courseId }: Props) => {
 
   return (
     <>
-      {getAssessmentDetails?.isError && 'Error'}
+      {getAssessmentDetails?.isError && <TechnicalError />}
       {getAssessmentDetails?.isLoading ? (
         <LoadingAnimation />
       ) : getAssessmentDetails?.data && getAssessmentDetails?.data?.length ? (

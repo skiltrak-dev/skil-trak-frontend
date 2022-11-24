@@ -1,15 +1,21 @@
 import { useEffect, useState } from 'react'
 import dynamic from 'next/dynamic'
 import { EditorProps } from 'react-draft-wysiwyg'
+import draftToHtml from 'draftjs-to-html'
+import htmlToDraft from 'html-to-draftjs'
+import { EditorState, ContentState, convertToRaw } from 'draft-js'
+const Editor = dynamic<EditorProps>(
+  () => import('react-draft-wysiwyg').then((mod) => mod.Editor),
+  {
+    ssr: false,
+  }
+)
 
 // import { Editor } from 'react-draft-wysiwyg'
-// import draftToHtml from 'draftjs-to-html'
-// import htmlToDraft from 'html-to-draftjs'
-import { EditorState, ContentState, convertToRaw } from 'draft-js'
-const htmlToDraft = dynamic(
-  () => import('draftjs-to-html').then((mod) => mod.htmlToDraft),
-  { ssr: false }
-)
+// const htmlToDraft = dynamic(
+//   () => import('draftjs-to-html').then((mod) => mod.htmlToDraft),
+//   { ssr: false }
+// )
 
 // const draftToHtml = dynamic(
 //   () => import('draftjs-to-html').then((mod) => mod.draftToHtml),
@@ -17,12 +23,6 @@ const htmlToDraft = dynamic(
 //     ssr: false,
 //   }
 // )
-const Editor = dynamic<EditorProps>(
-  () => import('react-draft-wysiwyg').then((mod) => mod.Editor),
-  {
-    ssr: false,
-  }
-)
 // const { EditorState, ContentState, convertToRaw } = dynamic(
 //   () => import('draft-js'),
 //   { ssr: false }

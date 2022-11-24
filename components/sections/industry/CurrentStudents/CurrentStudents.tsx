@@ -1,14 +1,18 @@
-import { Button } from '@components/buttons'
-import { Card } from '@components/cards'
-import { Typography } from '@components/Typography'
 import moment from 'moment'
 import React from 'react'
 import { RiBook2Fill } from 'react-icons/ri'
 import {
-    CurrentStudentCard,
-    Notes,
-    StudentAvailability,
-    StudentDetail,
+  Button,
+  TechnicalError,
+  EmptyData,
+  Card,
+  Typography,
+} from '@components'
+import {
+  CurrentStudentCard,
+  Notes,
+  StudentAvailability,
+  StudentDetail,
 } from './components'
 
 // query
@@ -16,24 +20,24 @@ import { useGetIndustryWorkplaceQuery } from '@queries'
 import { LoadingAnimation } from '@components/LoadingAnimation'
 
 export const CurrentStudnts = () => {
-    // query
-    const industryWorkplace = useGetIndustryWorkplaceQuery()
+  // query
+  const industryWorkplace = useGetIndustryWorkplaceQuery()
 
-    console.log('industryWorkplace', industryWorkplace)
-    return (
-        <>
-            {industryWorkplace.isError && 'Error'}
-            {industryWorkplace.isLoading && industryWorkplace.isFetching ? (
-                <LoadingAnimation />
-            ) : industryWorkplace.data && industryWorkplace.data.length > 0 ? (
-                <div className="flex flex-col gap-y-2">
-                    {industryWorkplace?.data?.map((workplace: any) => (
-                        <CurrentStudentCard workplace={workplace} />
-                    ))}
-                </div>
-            ) : (
-                !industryWorkplace.isError && 'Empty'
-            )}
-        </>
-    )
+  console.log('industryWorkplace', industryWorkplace)
+  return (
+    <>
+      {industryWorkplace.isError && <TechnicalError />}
+      {industryWorkplace.isLoading && industryWorkplace.isFetching ? (
+        <LoadingAnimation />
+      ) : industryWorkplace.data && industryWorkplace.data.length > 0 ? (
+        <div className="flex flex-col gap-y-2">
+          {industryWorkplace?.data?.map((workplace: any) => (
+            <CurrentStudentCard workplace={workplace} />
+          ))}
+        </div>
+      ) : (
+        !industryWorkplace.isError && <EmptyData />
+      )}
+    </>
+  )
 }

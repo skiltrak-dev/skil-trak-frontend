@@ -13,7 +13,7 @@ import { Typography, EmptyData } from '@components'
 import { Pagination, PageSize } from './components'
 // import { TableCheckbox } from 'components/tableCheckbox'
 import { LoadingAnimation } from '@components/LoadingAnimation'
-import { Card } from '@components/cards'
+import { Card, TechnicalError } from '@components'
 
 interface Props {
   action: Function
@@ -152,7 +152,7 @@ export const ReactTable = ({
   return (
     <Card noPadding>
       <div className="py-4">
-        {isError && '<TechnicalError />'}
+        {isError && <TechnicalError />}
         {isLoading ? (
           <div className="z-20 w-full h-full flex justify-center items-center">
             <LoadingAnimation />
@@ -190,7 +190,7 @@ export const ReactTable = ({
             )}
             <div className="w-full relative">
               {isFetching && (
-                <div className="bg-[#ffffff90] z-20 absolute top-0 left-0 w-full h-full flex justify-center items-center">
+                <div className="bg-[#ffffff90] z-50 absolute top-0 left-0 w-full h-full flex justify-center items-center">
                   <LoadingAnimation />
                 </div>
               )}

@@ -19,28 +19,28 @@ import { AdForRPL } from '../ApplyForRPL'
 
 export const GeneralInfoPrimaryActions = [
   {
-    link: 'unit-requirements',
+    link: 'general-information/unit-requirements',
     title: 'Unit Requirements',
     description: 'Some helping text',
     // image: null, //"./images/dashboardbtn3.png",
     animation: Animations.Industry.GeneralInfo.UnitRequirements,
   },
   {
-    link: 'placement-workflow',
+    link: 'general-information/placement-workflow',
     title: 'Placement Workflow',
     description: 'Some helping text',
     // image: null, //"./images/dashboardbtn4.png",
     animation: Animations.Industry.GeneralInfo.Placement,
   },
   {
-    link: 'industry-consultation',
+    link: 'general-information/industry-consultation',
     title: 'Industry Consultation',
     description: 'Some helping text',
     // image: null, //"./images/dashboardbtn4.png",
     animation: Animations.Industry.GeneralInfo.IndustryConsultation,
   },
   {
-    link: 'mou',
+    link: 'general-information/mou',
     title: 'MoU',
     description: 'Some helping text',
     // image: null, //"./images/dashboardbtn4.png",

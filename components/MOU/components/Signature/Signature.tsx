@@ -1,27 +1,26 @@
-import React, { useEffect, createRef } from 'react'
+import React, { useEffect, createRef, forwardRef } from 'react'
 import dynamic from 'next/dynamic'
-// import SignatureCanvas from 'react-signature-canvas'
-const SignatureCanvas = dynamic(() => import('react-signature-canvas'), {
-  ssr: false,
-})
+import SignatureCanvas from 'react-signature-canvas'
+// const SignatureCanvas = dynamic(() => import('react-signature-canvas'), {
+//   ssr: false,
+// })
 
 // components
 import { Typography, Button } from '@components'
 
 import { isBrowser } from '@utils'
 
-export const Signature = ({ sigPad, setSigPad, industryName }: any) => {
+export const Signature = forwardRef(({ industryName }: any, ref: any) => {
   const onClear = () => {
-    sigPad.clear()
+    console.log('reffff Cl', ref)
+    ref?.current?.clear()
   }
   return (
     <div className="my-5 w-full max-w-[50%] ml-auto">
       <div className="cursor-pointer h-40 border border-gray flex justify-center items-center ">
         <SignatureCanvas
           penColor="black"
-          ref={(ref) => {
-            setSigPad(ref)
-          }}
+          ref={ref}
           canvasProps={{
             className: 'w-full h-full',
             id: 'sigCanvas',
@@ -38,4 +37,4 @@ export const Signature = ({ sigPad, setSigPad, industryName }: any) => {
       </div>
     </div>
   )
-}
+})
