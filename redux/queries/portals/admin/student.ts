@@ -79,6 +79,17 @@ export const studentEndpoints = (
     invalidatesTags: ['Students'],
   }),
 
+  studentUpdate: builder.mutation({
+    query: ({ id, body }: any) => {
+      return {
+        url: `${PREFIX}students/update/${id}`,
+        method: 'PATCH',
+        body,
+      }
+    },
+    invalidatesTags: ['Students'],
+}),
+
   studentsRequiredDocsDetail: builder.query<
     any,
     { id: number; docType: string }
@@ -99,5 +110,6 @@ export const studentEndpoints = (
     query: (id) => `${PREFIX}appointments/view/${id}`,
 
     providesTags: ['Students'],
+
   }),
 })

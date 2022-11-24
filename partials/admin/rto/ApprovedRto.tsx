@@ -23,8 +23,12 @@ import { Rto } from '@types'
 import { BlockModal } from './modals'
 import { useContextBar } from '@hooks'
 import { ViewSubAdminsCB } from './contextBar'
+import { useRouter } from 'next/router'
 
 export const ApprovedRto = () => {
+   const router = useRouter()
+
+
    const [modal, setModal] = useState<ReactElement | null>(null)
 
    const [filterAction, setFilterAction] = useState(null)
@@ -41,6 +45,8 @@ export const ApprovedRto = () => {
       limit: itemPerPage,
    })
 
+   console.log("::: RTO DATA", data)
+
    const onModalCancelClicked = () => {
       setModal(null)
    }
@@ -55,31 +61,33 @@ export const ApprovedRto = () => {
       contextBar.show()
    }
 
-   const tableActionOptions: TableActionOption[] = [
-      {
-         text: 'View',
-         onClick: () => {},
-         Icon: FaEye,
-      },
-      {
-         text: 'Edit',
-         onClick: () => {},
-         Icon: FaEdit,
-      },
-      {
-         text: 'Sub Admins',
-         onClick: (item: any) => {
-            onViewSubAdminsClicked(item)
+   const tableActionOptions = (row: TableActionOption) => {
+      return [
+         {
+            text: 'View',
+            onClick: () => { },
+            Icon: FaEye,
          },
-         Icon: FaEdit,
-      },
-      {
-         text: 'Block',
-         onClick: (rto: Rto) => onBlockClicked(rto),
-         Icon: MdBlock,
-         color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
-      },
-   ]
+         {
+            text: 'Edit',
+            onClick: () => { router.push(`/portals/admin/rto/edit/${row?.id}`) },
+            Icon: FaEdit,
+         },
+         {
+            text: 'Sub Admins',
+            onClick: (item: any) => {
+               onViewSubAdminsClicked(item)
+            },
+            Icon: FaEdit,
+         },
+         {
+            text: 'Block',
+            onClick: (rto: Rto) => onBlockClicked(rto),
+            Icon: MdBlock,
+            color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
+         },
+      ]
+   }
 
    const columns: ColumnDef<Rto>[] = [
       {
@@ -97,7 +105,7 @@ export const ApprovedRto = () => {
       {
          accessorKey: 'students',
          header: () => <span>Students</span>,
-         cell: (info) => info.getValue(),
+         cell: (info) => info?.row?.original?.students.length,
       },
       {
          accessorKey: 'sectors',
@@ -114,12 +122,13 @@ export const ApprovedRto = () => {
       {
          accessorKey: 'action',
          header: () => <span>Action</span>,
-         cell: (info) => {
+         cell: ({ row }: any) => {
+            const options = tableActionOptions(row.original)
             return (
                <div className="flex gap-x-1 items-center">
                   <TableAction
-                     options={tableActionOptions}
-                     rowItem={info.row.original}
+                     options={options}
+                     rowItem={row.original}
                   />
                </div>
             )

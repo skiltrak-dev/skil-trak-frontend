@@ -17,11 +17,12 @@ import { FaEdit, FaEye, FaFileExport, FaTrash } from 'react-icons/fa'
 import { AdminApi } from '@queries'
 import { Industry } from '@types'
 import { ReactElement, useState } from 'react'
-import { IndustryCell } from './components'
-import { AcceptModal, DeleteModal } from './modals'
+import { CgUnblock } from 'react-icons/cg'
+import { SubAdminCell } from './components'
+import { DeleteModal, UnblockModal } from './modals'
 import { useRouter } from 'next/router'
 
-export const RejectedIndustry = () => {
+export const BlockedSubAdmin = () => {
   const router = useRouter()
   const [modal, setModal] = useState<ReactElement | null>(null)
 
@@ -30,8 +31,8 @@ export const RejectedIndustry = () => {
   const [page, setPage] = useState(1)
   const [filter, setFilter] = useState({})
 
-  const { isLoading, data } = AdminApi.Industries.useListQuery({
-    search: `status:rejected,${JSON.stringify(filter)
+  const { isLoading, data } = AdminApi.SubAdmins.useListQuery({
+    search: `status:blocked,${JSON.stringify(filter)
       .replaceAll('{', '')
       .replaceAll('}', '')
       .replaceAll('"', '')
@@ -43,14 +44,20 @@ export const RejectedIndustry = () => {
   const onModalCancelClicked = () => {
     setModal(null)
   }
-  const onAcceptClicked = (industry: Industry) => {
+  const onUnblockClicked = (subAdmin: Industry) => {
     setModal(
-      <AcceptModal industry={industry} onCancel={() => onModalCancelClicked()} />
+      <UnblockModal
+        subAdmin={subAdmin}
+        onCancel={() => onModalCancelClicked()}
+      />
     )
   }
-  const onDeleteClicked = (industry: Industry) => {
+  const onDeleteClicked = (subAdmin: Industry) => {
     setModal(
-      <DeleteModal industry={industry} onCancel={() => onModalCancelClicked()} />
+      <DeleteModal
+        subAdmin={subAdmin}
+        onCancel={() => onModalCancelClicked()}
+      />
     )
   }
 
@@ -63,22 +70,18 @@ export const RejectedIndustry = () => {
       },
       {
         text: 'Edit',
-        onClick: () => { router.push(`/portals/admin/industry/edit-industry/${row?.id}`) },
+        onClick: () => { router.push(`/portals/admin/sub-admin/edit-sub-admin/${row?.id}`) },
         Icon: FaEdit,
       },
       {
-        text: 'Accept',
-        onClick: (student: Industry) => {
-          onAcceptClicked(student)
-        },
-        color: 'text-green-500 hover:bg-green-100 hover:border-green-200',
+        text: 'Unblock',
+        onClick: (industry: Industry) => onUnblockClicked(industry),
+        Icon: CgUnblock,
+        color: 'text-orange-500 hover:bg-orange-100 hover:border-orange-200',
       },
-
       {
         text: 'Delete',
-        onClick: (student: Industry) => {
-          onDeleteClicked(student)
-        },
+        onClick: (industry: Industry) => onDeleteClicked(industry),
         Icon: FaTrash,
         color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
       },
@@ -89,7 +92,7 @@ export const RejectedIndustry = () => {
     {
       accessorKey: 'user.name',
       cell: (info) => {
-        return <IndustryCell industry={info.row.original} />
+        return <SubAdminCell subAdmin={info.row.original} />
       },
       header: () => <span>Industry</span>,
     },
@@ -122,7 +125,7 @@ export const RejectedIndustry = () => {
     {
       accessorKey: 'action',
       header: () => <span>Action</span>,
-      cell: (info) => {
+      cell: (info: any) => {
         const options = tableActionOptions(info.row.original)
         return (
           <div className="flex gap-x-1 items-center">
@@ -140,8 +143,10 @@ export const RejectedIndustry = () => {
     id: 'id',
     individual: (id: number) => (
       <div className="flex gap-x-2">
-        <ActionButton Icon={FaEdit}>Edit</ActionButton>
-        <ActionButton variant="success">Accept</ActionButton>
+        <ActionButton>Sub Admins</ActionButton>
+        <ActionButton Icon={CgUnblock} variant="warning">
+          Unblock
+        </ActionButton>
         <ActionButton Icon={FaTrash} variant="error">
           Delete
         </ActionButton>
@@ -149,7 +154,9 @@ export const RejectedIndustry = () => {
     ),
     common: (ids: number[]) => (
       <div className="flex gap-x-2">
-        <ActionButton variant="success">Accept</ActionButton>
+        <ActionButton Icon={CgUnblock} variant="warning">
+          Unblock
+        </ActionButton>
         <ActionButton Icon={FaTrash} variant="error">
           Delete
         </ActionButton>
@@ -162,8 +169,8 @@ export const RejectedIndustry = () => {
       {modal && modal}
       <div className="flex flex-col gap-y-4 mb-32">
         <PageHeading
-          title={'Rejected Industries'}
-          subtitle={'List of Rejected Industries'}
+          title={'Blocked Sub Admin'}
+          subtitle={'List of Blocked Sub Admin'}
         >
           {data && data?.data.length ? (
             <>
@@ -209,8 +216,8 @@ export const RejectedIndustry = () => {
             </Table>
           ) : (
             <EmptyData
-              title={'No Rejected Industry!'}
-              description={'You have not rejected any Industry request yet'}
+              title={'No Blocked Industry!'}
+              description={'You have not blocked any Industry request yet'}
               height={'50vh'}
             />
           )}

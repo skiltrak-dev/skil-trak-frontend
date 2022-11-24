@@ -68,6 +68,7 @@ const {
   useStudentProfileQuery,
   useStudentStatusChangeMutation,
   useStudentRemoveMutation,
+  useStudentUpdateMutation,
 
   useStudentSectorsQuery,
   useStudentAssignCoursesMutation,
@@ -106,6 +107,7 @@ const {
 
   // ------ SUB ADMINS ------ //
   useSubAdminsQuery,
+  useSubAdminCountQuery,
 
   // ------ NOTES ------ //
   useNotesQuery,
@@ -139,6 +141,7 @@ export const AdminApi = {
     useProfile: useStudentProfileQuery,
     useChangeStatusMutation: useStudentStatusChangeMutation,
     useRemove: useStudentRemoveMutation,
+    useUpdate: useStudentUpdateMutation,
 
     useSectors: useStudentSectorsQuery,
     useAssignCourses: useStudentAssignCoursesMutation,
@@ -151,6 +154,7 @@ export const AdminApi = {
 
   SubAdmins: {
     useListQuery: useSubAdminsQuery,
+    useCountQuery: useSubAdminCountQuery,
   },
 
   Industries: {

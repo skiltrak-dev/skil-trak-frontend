@@ -12,26 +12,25 @@ import {
 } from '@components'
 import { PageHeading } from '@components/headings'
 import { ColumnDef } from '@tanstack/react-table'
-import { FaEdit, FaEye, FaFileExport, FaTrash } from 'react-icons/fa'
+import { FaEdit, FaEye, FaFileExport } from 'react-icons/fa'
 
 import { AdminApi } from '@queries'
 import { Industry } from '@types'
 import { ReactElement, useState } from 'react'
-import { IndustryCell } from './components'
-import { AcceptModal, DeleteModal } from './modals'
+import { SubAdminCell } from './components'
+import { useChangeStatus } from './hooks'
+import { AcceptModal, RejectModal } from './modals'
 import { useRouter } from 'next/router'
 
-export const RejectedIndustry = () => {
-  const router = useRouter()
+export const PendingSubAdmin = () => {
   const [modal, setModal] = useState<ReactElement | null>(null)
-
+  const router = useRouter()
   const [filterAction, setFilterAction] = useState(null)
   const [itemPerPage, setItemPerPage] = useState(5)
   const [page, setPage] = useState(1)
   const [filter, setFilter] = useState({})
-
-  const { isLoading, data } = AdminApi.Industries.useListQuery({
-    search: `status:rejected,${JSON.stringify(filter)
+  const { isLoading, data } = AdminApi.SubAdmins.useListQuery({
+    search: `status:pending,${JSON.stringify(filter)
       .replaceAll('{', '')
       .replaceAll('}', '')
       .replaceAll('"', '')
@@ -40,17 +39,26 @@ export const RejectedIndustry = () => {
     limit: itemPerPage,
   })
 
+  // console.log("::: Sub Admin DATA", data)
+
+  const { changeStatusResult } = useChangeStatus()
   const onModalCancelClicked = () => {
     setModal(null)
   }
-  const onAcceptClicked = (industry: Industry) => {
+  const onAcceptClicked = (subAdmin: Industry) => {
     setModal(
-      <AcceptModal industry={industry} onCancel={() => onModalCancelClicked()} />
+      <AcceptModal
+        subAdmin={subAdmin}
+        onCancel={() => onModalCancelClicked()}
+      />
     )
   }
-  const onDeleteClicked = (industry: Industry) => {
+  const onRejectClicked = (subAdmin: Industry) => {
     setModal(
-      <DeleteModal industry={industry} onCancel={() => onModalCancelClicked()} />
+      <RejectModal
+        subAdmin={subAdmin}
+        onCancel={() => onModalCancelClicked()}
+      />
     )
   }
 
@@ -63,24 +71,22 @@ export const RejectedIndustry = () => {
       },
       {
         text: 'Edit',
-        onClick: () => { router.push(`/portals/admin/industry/edit-industry/${row?.id}`) },
+        onClick: () => { router.push(`/portals/admin/sub-admin/edit-sub-admin/${row?.id}`) },
         Icon: FaEdit,
       },
+    ]
+  }
+  const tableStatusOptions = (row: TableActionOption) => {
+    return [
       {
-        text: 'Accept',
-        onClick: (student: Industry) => {
-          onAcceptClicked(student)
-        },
-        color: 'text-green-500 hover:bg-green-100 hover:border-green-200',
+        text: 'Approved',
+        onClick: () => { },
+        // Icon: FaEye,
       },
-
       {
-        text: 'Delete',
-        onClick: (student: Industry) => {
-          onDeleteClicked(student)
-        },
-        Icon: FaTrash,
-        color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
+        text: 'Reject',
+        onClick: () => { router.push(`/portals/admin/sub-admin/edit-sub-admin/${row?.id}`) },
+        // Icon: FaEdit,
       },
     ]
   }
@@ -89,13 +95,13 @@ export const RejectedIndustry = () => {
     {
       accessorKey: 'user.name',
       cell: (info) => {
-        return <IndustryCell industry={info.row.original} />
+        return <SubAdminCell subAdmin={info.row.original} />
       },
-      header: () => <span>Industry</span>,
+      header: () => <span>Sub Admin</span>,
     },
     {
-      accessorKey: 'abn',
-      header: () => <span>ABN</span>,
+      accessorKey: 'id',
+      header: () => <span>Coordinator ID</span>,
       cell: (info) => info.getValue(),
     },
     {
@@ -122,15 +128,13 @@ export const RejectedIndustry = () => {
     {
       accessorKey: 'action',
       header: () => <span>Action</span>,
-      cell: (info) => {
+      cell: (info: any) => {
         const options = tableActionOptions(info.row.original)
         return (
-          <div className="flex gap-x-1 items-center">
-            <TableAction
-              options={options}
-              rowItem={info.row.original}
-            />
-          </div>
+          <TableAction
+            options={options}
+            rowItem={info.row.original}
+          />
         )
       },
     },
@@ -140,20 +144,18 @@ export const RejectedIndustry = () => {
     id: 'id',
     individual: (id: number) => (
       <div className="flex gap-x-2">
-        <ActionButton Icon={FaEdit}>Edit</ActionButton>
-        <ActionButton variant="success">Accept</ActionButton>
-        <ActionButton Icon={FaTrash} variant="error">
-          Delete
+        <ActionButton variant="success" onClick={() => { }}>
+          Accept
+        </ActionButton>
+        <ActionButton variant="error" onClick={() => { }}>
+          Reject
         </ActionButton>
       </div>
     ),
     common: (ids: number[]) => (
-      <div className="flex gap-x-2">
-        <ActionButton variant="success">Accept</ActionButton>
-        <ActionButton Icon={FaTrash} variant="error">
-          Delete
-        </ActionButton>
-      </div>
+      <ActionButton variant="error" onClick={() => { }}>
+        Reject
+      </ActionButton>
     ),
   }
 
@@ -162,8 +164,8 @@ export const RejectedIndustry = () => {
       {modal && modal}
       <div className="flex flex-col gap-y-4 mb-32">
         <PageHeading
-          title={'Rejected Industries'}
-          subtitle={'List of Rejected Industries'}
+          title={'Pending Sub Admin'}
+          subtitle={'List of Pending Sub Admin'}
         >
           {data && data?.data.length ? (
             <>
@@ -209,8 +211,8 @@ export const RejectedIndustry = () => {
             </Table>
           ) : (
             <EmptyData
-              title={'No Rejected Industry!'}
-              description={'You have not rejected any Industry request yet'}
+              title={'No Pending Industry!'}
+              description={'You have no pending Industry'}
               height={'50vh'}
             />
           )}

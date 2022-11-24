@@ -17,11 +17,11 @@ import { FaEdit, FaEye, FaFileExport, FaTrash } from 'react-icons/fa'
 import { AdminApi } from '@queries'
 import { Industry } from '@types'
 import { ReactElement, useState } from 'react'
-import { IndustryCell } from './components'
+import { SubAdminCell } from './components'
 import { AcceptModal, DeleteModal } from './modals'
 import { useRouter } from 'next/router'
 
-export const RejectedIndustry = () => {
+export const RejectedSubAdmin = () => {
   const router = useRouter()
   const [modal, setModal] = useState<ReactElement | null>(null)
 
@@ -30,7 +30,7 @@ export const RejectedIndustry = () => {
   const [page, setPage] = useState(1)
   const [filter, setFilter] = useState({})
 
-  const { isLoading, data } = AdminApi.Industries.useListQuery({
+  const { isLoading, data } = AdminApi.SubAdmins.useListQuery({
     search: `status:rejected,${JSON.stringify(filter)
       .replaceAll('{', '')
       .replaceAll('}', '')
@@ -43,14 +43,14 @@ export const RejectedIndustry = () => {
   const onModalCancelClicked = () => {
     setModal(null)
   }
-  const onAcceptClicked = (industry: Industry) => {
+  const onAcceptClicked = (subAdmin: Industry) => {
     setModal(
-      <AcceptModal industry={industry} onCancel={() => onModalCancelClicked()} />
+      <AcceptModal subAdmin={subAdmin} onCancel={() => onModalCancelClicked()} />
     )
   }
-  const onDeleteClicked = (industry: Industry) => {
+  const onDeleteClicked = (subAdmin: Industry) => {
     setModal(
-      <DeleteModal industry={industry} onCancel={() => onModalCancelClicked()} />
+      <DeleteModal subAdmin={subAdmin} onCancel={() => onModalCancelClicked()} />
     )
   }
 
@@ -89,13 +89,13 @@ export const RejectedIndustry = () => {
     {
       accessorKey: 'user.name',
       cell: (info) => {
-        return <IndustryCell industry={info.row.original} />
+        return <SubAdminCell subAdmin={info.row.original} />
       },
-      header: () => <span>Industry</span>,
+      header: () => <span>Name</span>,
     },
     {
-      accessorKey: 'abn',
-      header: () => <span>ABN</span>,
+      accessorKey: 'id',
+      header: () => <span>Coordinator ID</span>,
       cell: (info) => info.getValue(),
     },
     {
@@ -122,8 +122,8 @@ export const RejectedIndustry = () => {
     {
       accessorKey: 'action',
       header: () => <span>Action</span>,
-      cell: (info) => {
-        const options = tableActionOptions(info.row.original)
+      cell: (info: any) => {
+        const options = tableActionOptions(info?.row?.original)
         return (
           <div className="flex gap-x-1 items-center">
             <TableAction
@@ -162,8 +162,8 @@ export const RejectedIndustry = () => {
       {modal && modal}
       <div className="flex flex-col gap-y-4 mb-32">
         <PageHeading
-          title={'Rejected Industries'}
-          subtitle={'List of Rejected Industries'}
+          title={'Rejected Sub Admin'}
+          subtitle={'List of Rejected Sub Admin'}
         >
           {data && data?.data.length ? (
             <>
@@ -209,8 +209,8 @@ export const RejectedIndustry = () => {
             </Table>
           ) : (
             <EmptyData
-              title={'No Rejected Industry!'}
-              description={'You have not rejected any Industry request yet'}
+              title={'No Rejected Sub Admin!'}
+              description={'You have not rejected any Sub Admin request yet'}
               height={'50vh'}
             />
           )}
