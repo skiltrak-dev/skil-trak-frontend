@@ -25,6 +25,7 @@ import { AdminApi } from '@queries'
 import { IoLogIn } from 'react-icons/io5'
 import { MdPlace } from 'react-icons/md'
 import Image from 'next/image'
+import { DetailTabs } from '@partials/admin/sub-admin'
 
 const RtoDetail: NextPageWithLayout = () => {
     const router = useRouter()
@@ -39,12 +40,12 @@ const RtoDetail: NextPageWithLayout = () => {
     )
 
     useEffect(() => {
-        navBar.setTitle('RTO Detail')
+        navBar.setTitle('Sub Admin Detail')
         contextBar.hide()
     }, [])
 
     return (
-        <div className="p-6 flex flex-col gap-y-4">
+        <div className="p-6 flex flex-col gap-y-4 pb-32">
             {/* Action Bar */}
             <div className="flex items-center justify-between">
                 <BackButton text="RTOs" />
@@ -212,6 +213,7 @@ const RtoDetail: NextPageWithLayout = () => {
                     </div>
                 </div>
             </div>
+            <DetailTabs id={router.query.id} subAdmin={data?.user} />
         </div>
     )
 }

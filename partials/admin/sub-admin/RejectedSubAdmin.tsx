@@ -122,7 +122,7 @@ export const RejectedSubAdmin = () => {
         },
 
         {
-            accessorKey: 'suburb',
+            accessorKey: 'address',
             header: () => <span>Address</span>,
             cell: (info) => info.getValue(),
         },
@@ -131,11 +131,10 @@ export const RejectedSubAdmin = () => {
             accessorKey: 'action',
             header: () => <span>Action</span>,
             cell: (info: any) => {
-                const options = tableActionOptions(info?.row?.original)
                 return (
                     <div className="flex gap-x-1 items-center">
                         <TableAction
-                            options={options}
+                            options={tableActionOptions}
                             rowItem={info.row.original}
                         />
                     </div>

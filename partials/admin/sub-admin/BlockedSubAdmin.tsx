@@ -117,7 +117,7 @@ export const BlockedSubAdmin = () => {
         },
 
         {
-            accessorKey: 'suburb',
+            accessorKey: 'address',
             header: () => <span>Address</span>,
             cell: (info) => info.getValue(),
         },

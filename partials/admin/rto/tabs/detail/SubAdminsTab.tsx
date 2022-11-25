@@ -12,20 +12,19 @@ import {
 } from '@components'
 import { PageHeading } from '@components/headings'
 import { ColumnDef } from '@tanstack/react-table'
-import { FaEdit, FaEye, FaFileExport, FaFilter } from 'react-icons/fa'
+import { FaEdit, FaEye, FaFileExport } from 'react-icons/fa'
 
 import { AdminApi } from '@queries'
 import { MdBlock, MdEmail, MdPhoneIphone } from 'react-icons/md'
 import { ReactElement, useState } from 'react'
-import { RtoCellInfo, SectorCell } from './components'
-import { useChangeStatus } from './hooks'
-import { Rto } from '@types'
-import { BlockModal } from './modals'
-import { useContextBar } from '@hooks'
-import { ViewSubAdminsCB } from './contextBar'
-import { useRouter } from 'next/router'
 
-export const ApprovedRto = () => {
+import { Rto, SubAdmin } from '@types'
+import { useContextBar } from '@hooks'
+import { useRouter } from 'next/router'
+import { SubAdminCell } from '@partials/admin/sub-admin'
+import { DeleteModal } from '../../modals'
+
+export const SubAdminsTab = () => {
     const router = useRouter()
 
     const [modal, setModal] = useState<ReactElement | null>(null)
@@ -47,18 +46,13 @@ export const ApprovedRto = () => {
     const onModalCancelClicked = () => {
         setModal(null)
     }
-    const onBlockClicked = (rto: Rto) => {
+    const onDeleteClicked = (rto: Rto) => {
         setModal(
-            <BlockModal rto={rto} onCancel={() => onModalCancelClicked()} />
+            <DeleteModal rto={rto} onCancel={() => onModalCancelClicked()} />
         )
     }
 
     const contextBar = useContextBar()
-    const onViewSubAdminsClicked = (rto: Rto) => {
-        contextBar.setTitle('Sub Admins')
-        contextBar.setContent(<ViewSubAdminsCB rto={rto} />)
-        contextBar.show()
-    }
 
     const tableActionOptions: TableActionOption[] = [
         {
@@ -69,54 +63,42 @@ export const ApprovedRto = () => {
         {
             text: 'Edit',
             onClick: (rto: Rto) => {
-                router.push(`/portals/admin/rto/edit/${rto.id}`)
+                // router.push(`/portals/admin/rto/edit/${rto.id}`)
             },
             Icon: FaEdit,
         },
         {
-            text: 'Sub Admins',
-            onClick: (item: any) => {
-                onViewSubAdminsClicked(item)
-            },
-            Icon: FaEdit,
-        },
-        {
-            text: 'Block',
-            onClick: (rto: Rto) => onBlockClicked(rto),
+            text: 'Delete',
+            onClick: (subAdmin: SubAdmin) => onDeleteClicked(subAdmin),
             Icon: MdBlock,
             color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
         },
     ]
 
-    const columns: ColumnDef<Rto>[] = [
+    const columns: ColumnDef<SubAdmin>[] = [
         {
             accessorKey: 'user.name',
             cell: (info) => {
-                return <RtoCellInfo rto={info.row.original} />
+                return <SubAdminCell rto={info.row.original} />
             },
             header: () => <span>Name</span>,
         },
         {
-            accessorKey: 'rtoCode',
-            header: () => <span>Code</span>,
+            accessorKey: 'email',
+            header: () => <span>Email</span>,
             cell: (info) => info.getValue(),
         },
         {
-            accessorKey: 'students',
+            accessorKey: 'phone',
             header: () => <span>Students</span>,
-            cell: (info) => info?.row?.original?.students.length,
+            cell: (info) => info?.row?.original?.phone,
         },
         {
-            accessorKey: 'sectors',
-            header: () => <span>Sectors</span>,
+            accessorKey: 'assignedBy',
+            header: () => <span>Assigned By</span>,
             cell: (info) => {
-                return <SectorCell rto={info.row.original} />
+                return 'Assigned By'
             },
-        },
-        {
-            accessorKey: 'suburb',
-            header: () => <span>Address</span>,
-            cell: (info) => info.getValue(),
         },
         {
             accessorKey: 'action',
@@ -143,7 +125,7 @@ export const ApprovedRto = () => {
                 <ActionButton
                     Icon={MdBlock}
                     variant="error"
-                    onClick={() => onBlockClicked(item)}
+                    onClick={() => onDeleteClicked(item)}
                 >
                     Block
                 </ActionButton>
@@ -160,22 +142,6 @@ export const ApprovedRto = () => {
         <>
             {modal && modal}
             <div className="flex flex-col gap-y-4 mb-32">
-                <PageHeading
-                    title={'Approved RTOs'}
-                    subtitle={'List of Approved RTOs'}
-                >
-                    {data && data?.data.length ? (
-                        <>
-                            {filterAction}
-                            <Button
-                                text="Export"
-                                variant="action"
-                                Icon={FaFileExport}
-                            />
-                        </>
-                    ) : null}
-                </PageHeading>
-
                 {data && data?.data.length ? (
                     <Filter
                         component={RtoFilters}

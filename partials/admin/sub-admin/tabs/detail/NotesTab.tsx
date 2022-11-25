@@ -1,3 +1,75 @@
-export const NotesTab = () => {
-  return <div>Notes Here</div>
+import {
+    EmptyData,
+    LoadingAnimation,
+    Note,
+    NoteForm,
+    TechnicalError,
+} from '@components'
+import { useContextBar } from '@hooks'
+import { AdminApi } from '@queries'
+
+import { useEffect, useState } from 'react'
+
+import { Note as NoteType } from '@types'
+
+export const NotesTab = ({ id, subAdmin }: { subAdmin: any }) => {
+    const contextBar = useContextBar()
+    const [approvedUser, setApprovedUser] = useState<boolean | null>(null)
+
+    useEffect(() => {
+        if (subAdmin) {
+            setApprovedUser(subAdmin?.status === 'approved')
+        }
+    }, [subAdmin])
+
+    console.log('approvedUser', approvedUser)
+
+    const notes = AdminApi.Notes.useList(subAdmin?.id, {
+        skip: !subAdmin?.id,
+    })
+
+    return (
+        <div
+            className={`flex gap-x-2.5 w-full ${
+                contextBar.isVisible ? 'flex-col' : 'flex-row'
+            }`}
+        >
+            <div
+                className={`${
+                    contextBar.isVisible
+                        ? 'w-full'
+                        : !approvedUser
+                        ? 'w-full'
+                        : 'w-[71%]'
+                } bg-gray-50 rounded-lg p-2`}
+            >
+                {notes.isError && <TechnicalError />}
+                <div className={`flex flex-col gap-y-2.5 h-full `}>
+                    {notes?.isLoading ? (
+                        <div className="flex justify-center items-center h-full">
+                            <LoadingAnimation />
+                        </div>
+                    ) : notes?.data && notes?.data.length ? (
+                        notes.data.map((note: NoteType) => (
+                            <Note key={note.id} note={note} />
+                        ))
+                    ) : (
+                        !notes.isError && (
+                            <EmptyData
+                                title="No Notes Attached"
+                                description="No any notes has been attached to this user"
+                            />
+                        )
+                    )}
+                </div>
+            </div>
+            {approvedUser && (
+                <div
+                    className={`${contextBar.isVisible ? 'w-full' : 'w-[29%]'}`}
+                >
+                    <NoteForm id={subAdmin?.id} />
+                </div>
+            )}
+        </div>
+    )
 }

@@ -10,6 +10,7 @@ import {
     TableAction,
     TableActionOption,
 } from '@components'
+import { SubAdminCell } from './components'
 import { PageHeading } from '@components/headings'
 import { AdminApi } from '@queries'
 import { ColumnDef } from '@tanstack/react-table'
@@ -94,7 +95,7 @@ export const ArchivedSubAdmin = () => {
         },
 
         {
-            accessorKey: 'suburb',
+            accessorKey: 'address',
             header: () => <span>Address</span>,
             cell: (info) => info.getValue(),
         },

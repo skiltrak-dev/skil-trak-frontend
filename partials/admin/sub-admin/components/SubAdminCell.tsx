@@ -7,7 +7,7 @@ export const SubAdminCell = ({ subAdmin }: { subAdmin: SubAdmin }) => {
     // console.log("subAdmin Cell ____________", subAdmin);
 
     return (
-        <Link href={`subAdmin/${subAdmin?.id}`}>
+        <Link href={`sub-admin/${subAdmin?.id}`}>
             <a className="flex items-center gap-x-2">
                 <div className="shadow-inner-image rounded-full relative">
                     <img
@@ -17,11 +17,6 @@ export const SubAdminCell = ({ subAdmin }: { subAdmin: SubAdmin }) => {
                         }
                         className="w-10 h-10 rounded-full"
                     />
-                    {subAdmin?.studentCapacity && (
-                        <div className="absolute -bottom-1 -right-1 w-5 h-5 flex items-center justify-center bg-green-500 rounded-full text-white">
-                            <FaHandshake size={14} />
-                        </div>
-                    )}
                 </div>
                 <div>
                     <p className="font-semibold">{subAdmin?.user?.name}</p>
