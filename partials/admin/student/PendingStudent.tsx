@@ -59,22 +59,20 @@ export const PendingStudent = () => {
         )
     }
 
-    const tableActionOptions = (row: TableActionOption) => {
-        return [
-            {
-                text: 'View',
-                onClick: () => {},
-                Icon: FaEye,
+    const tableActionOptions: TableActionOption[] = [
+        {
+            text: 'View',
+            onClick: () => {},
+            Icon: FaEye,
+        },
+        {
+            text: 'Edit',
+            onClick: (row: any) => {
+                router.push(`/portals/admin/student/edit-student/${row.id}`)
             },
-            {
-                text: 'Edit',
-                onClick: (row: any) => {
-                    router.push(`/portals/admin/student/edit-student/${row.id}`)
-                },
-                Icon: FaEdit,
-            },
-        ]
-    }
+            Icon: FaEdit,
+        },
+    ]
 
     const columns: ColumnDef<any>[] = [
         {
@@ -113,7 +111,6 @@ export const PendingStudent = () => {
             accessorKey: 'action',
             header: () => <span>Action</span>,
             cell: (info: any) => {
-                const options = tableActionOptions(info?.row?.original)
                 return (
                     <div className="flex gap-x-1 items-center">
                         <ActionButton
@@ -134,7 +131,7 @@ export const PendingStudent = () => {
                         </ActionButton>
 
                         <TableAction
-                            options={options}
+                            options={tableActionOptions}
                             rowItem={info.row.original}
                         />
                     </div>

@@ -61,44 +61,39 @@ export const BlockedSubAdmin = () => {
         )
     }
 
-    const tableActionOptions = (row: TableActionOption) => {
-        return [
-            {
-                text: 'View',
-                onClick: () => {},
-                Icon: FaEye,
+    const tableActionOptions: TableActionOption[] = [
+        {
+            text: 'View',
+            onClick: () => {},
+            Icon: FaEye,
+        },
+        {
+            text: 'Edit',
+            onClick: (row: any) => {
+                router.push(`/portals/admin/sub-admin/edit-sub-admin/${row.id}`)
             },
-            {
-                text: 'Edit',
-                onClick: (row: any) => {
-                    router.push(
-                        `/portals/admin/sub-admin/edit-sub-admin/${row.id}`
-                    )
-                },
-                Icon: FaEdit,
-            },
-            {
-                text: 'Unblock',
-                onClick: (industry: Industry) => onUnblockClicked(industry),
-                Icon: CgUnblock,
-                color: 'text-orange-500 hover:bg-orange-100 hover:border-orange-200',
-            },
-            {
-                text: 'Delete',
-                onClick: (industry: Industry) => onDeleteClicked(industry),
-                Icon: FaTrash,
-                color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
-            },
-        ]
-    }
+            Icon: FaEdit,
+        },
+        {
+            text: 'Unblock',
+            onClick: (industry: Industry) => onUnblockClicked(industry),
+            Icon: CgUnblock,
+            color: 'text-orange-500 hover:bg-orange-100 hover:border-orange-200',
+        },
+        {
+            text: 'Delete',
+            onClick: (industry: Industry) => onDeleteClicked(industry),
+            Icon: FaTrash,
+            color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
+        },
+    ]
 
     const columns: ColumnDef<SubAdmin>[] = [
         {
             accessorKey: 'user.name',
-            cell: (info) => info.getValue(),
-            // {
-            //   return <SubAdminCell subAdmin={info.row.original} />
-            // },
+            cell: (info) => {
+                return <SubAdminCell subAdmin={info.row.original} />
+            },
             header: () => <span>Industry</span>,
         },
         {
@@ -131,11 +126,10 @@ export const BlockedSubAdmin = () => {
             accessorKey: 'action',
             header: () => <span>Action</span>,
             cell: (info: any) => {
-                const options = tableActionOptions(info.row.original)
                 return (
                     <div className="flex gap-x-1 items-center">
                         <TableAction
-                            options={options}
+                            options={tableActionOptions}
                             rowItem={info.row.original}
                         />
                     </div>

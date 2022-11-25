@@ -118,6 +118,7 @@ const {
     // ------ SUB ADMINS ------ //
     useSubAdminsQuery,
     useSubAdminCountQuery,
+    useCreateSubAdminMutation,
 
     //------ WORKPLACE -----//
     useUnAssignedSubAdminsQuery,
@@ -183,6 +184,7 @@ export const AdminApi = {
     SubAdmins: {
         useListQuery: useSubAdminsQuery,
         useCountQuery: useSubAdminCountQuery,
+        createSubAmin: useCreateSubAdminMutation,
     },
     Workplace: {
         useListQuery: useUnAssignedSubAdminsQuery,

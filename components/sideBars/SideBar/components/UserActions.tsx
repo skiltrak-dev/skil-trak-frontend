@@ -34,7 +34,7 @@ export const UserActions = () => {
             text: 'Log Out',
             onClick: () => {
                 AuthUtils.logout()
-                router.push('/login')
+                router.push('/auth/login')
             },
             Icon: IoLogOut,
             color: true,
