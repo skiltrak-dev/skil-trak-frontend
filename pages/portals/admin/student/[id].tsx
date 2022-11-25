@@ -95,7 +95,7 @@ const Detail: NextPageWithLayout = () => {
   }, [])
 
 
-  console.log('appliedIndustry', appliedIndustry)
+  // console.log('appliedIndustry', appliedIndustry)
 
   return (
     <>

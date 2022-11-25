@@ -23,7 +23,7 @@ export const JobDetail = (props: Props) => {
     const pathname = useRouter()
     const jobId = pathname.query.jobId
 
-    console.log('jobId', typeof jobId)
+    // console.log('jobId', typeof jobId)
     const { data, isLoading, isFetching, isError } =
         useGetStudentJobDetailQuery(String(jobId), {
             skip: !jobId,

@@ -10,6 +10,7 @@ import { RiBook2Fill } from 'react-icons/ri'
 import { AdminApi, useAssignToSubAdminMutation } from '@queries'
 import { useEffect, useState } from 'react'
 import { Notes } from '@components/sections'
+import moment from 'moment'
 type Props = {
   workplace: any
 }
@@ -20,7 +21,7 @@ export const AdminWorkplaceRequest = ({ workplace }: Props) => {
 
   const { isLoading, data } = AdminApi.Workplace.useListQuery({ createdBy: "admin" })
   const [assignSubAdmin] = AdminApi.Workplace.useWorkplaceMutation()
-  console.log('ccccccccc', workplace)
+  // console.log('ccccccccc______', workplace)
   useEffect(() => {
     setAppliedIndustry(workplace.industries?.find((i: any) => i.applied))
   }, [workplace])
@@ -35,9 +36,9 @@ export const AdminWorkplaceRequest = ({ workplace }: Props) => {
   }, [data?.data])
 
   const onAssignSubAdmin = (e: any) => {
-    assignSubAdmin({ subadmin: e.value, workplace: workplace.id })
-    console.log("cccc", e.value, workplace.id)
-    console.log("Selected Admin")
+    assignSubAdmin({ subadmin: e?.value, workplace: workplace?.id })
+    // console.log("cccc", e.value, workplace.id)
+    // console.log("Selected Admin")
   }
 
   return (
@@ -95,10 +96,10 @@ export const AdminWorkplaceRequest = ({ workplace }: Props) => {
               <RiBook2Fill className="text-gray-400 text-2xl" />
               <div>
                 <Typography color={'black'} variant={'xs'}>
-                  course title
+                  {workplace?.courses[0]?.title}
                 </Typography>
                 <Typography variant={'muted'}>
-                  course code - workplace course description
+                  {workplace?.courses[0]?.code} - {workplace?.courses[0]?.description}
                 </Typography>
               </div>
             </div>
@@ -129,12 +130,12 @@ export const AdminWorkplaceRequest = ({ workplace }: Props) => {
             <div>
               <Typography variant={'xs'}>Recieved On:</Typography>
               <Typography variant={'small'}>
-                {/* <span className="font-semibold">
-                {moment(
-                  20-30-200
-                  'YYYY-MM-DD hh:mm:ss Z'
-                ).format('Do MMM, YYYY')}
-              </span> */}
+                <span className="font-semibold">
+                  {moment(
+                    workplace?.createdAt,
+                    'YYYY-MM-DD hh:mm:ss Z'
+                  ).format('Do MMM, YYYY')}
+                </span>
                 Date
               </Typography>
             </div>

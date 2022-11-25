@@ -129,7 +129,7 @@ export const ScheduleCard = ({
 
   const loading = deleteTaskResult.isLoading || changePriorityResult.isLoading
 
-  console.log('employeeTaskLoading', employeeTaskLoading)
+  // console.log('employeeTaskLoading', employeeTaskLoading)
   return (
     <div
       className={`rounded-lg w-[75px] h-10 p-1 cursor-pointer ${

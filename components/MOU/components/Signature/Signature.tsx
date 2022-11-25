@@ -12,7 +12,7 @@ import { isBrowser } from '@utils'
 
 export const Signature = forwardRef(({ industryName }: any, ref: any) => {
   const onClear = () => {
-    console.log('reffff Cl', ref)
+    // console.log('reffff Cl', ref)
     ref?.current?.clear()
   }
   return (

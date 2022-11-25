@@ -37,6 +37,7 @@ export const adminApi = createApi({
         'Folders',
         'AppointmentTypes',
         'Jobs',
+        'Workplaces',
     ],
 
     // ---------- RTO ENDPOINTS ---------- //

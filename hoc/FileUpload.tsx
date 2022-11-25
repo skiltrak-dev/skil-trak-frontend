@@ -94,9 +94,9 @@ export const FileUpload = ({
 
     useEffect(() => {
         if (formContext && values) {
-            console.log('::: VALUES TO SET', values)
+            // console.log('::: VALUES TO SET', values)
             formContext.setValue(name, values)
-            console.log('::: SETTING VALUE', formContext.getValues())
+            // console.log('::: SETTING VALUE', formContext.getValues())
         }
     }, [values])
 
@@ -220,7 +220,7 @@ export const FileUpload = ({
                     // )}
                     {...(formContext ? formContext.register(name) : { name })}
                     onChange={(e: any) => {
-                        console.log(':::: IN ON CHANGE', e.target.files)
+                        // console.log(':::: IN ON CHANGE', e.target.files)
                         setValues(e.target.files)
                         handleChange(e, false)
                         // onChange && onChange(e);

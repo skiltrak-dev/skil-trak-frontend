@@ -41,7 +41,7 @@ export const DocumentForm = ({
   })
 
   const onSubmit = async (values: any) => {
-    console.log('values', values)
+    // console.log('values', values)
     setIsDocxSubmitting(true)
 
     await addFolder({

@@ -45,7 +45,7 @@ export const ApprovedRto = () => {
       limit: itemPerPage,
    })
 
-   console.log("::: RTO DATA", data)
+   // console.log("::: RTO DATA", data)
 
    const onModalCancelClicked = () => {
       setModal(null)

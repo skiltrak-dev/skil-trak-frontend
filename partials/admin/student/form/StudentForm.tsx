@@ -18,7 +18,7 @@ export const StudentForm = ({ onSubmit }: { onSubmit: any }) => {
   const router = useRouter()
 
   const { notification } = useNotification()
-  const [updateForm] = AdminApi.Students.useUpdate()
+  // const [updateForm] = AdminApi.Students.useUpdate()
   const sectorResponse = AuthApi.useGetSectorsQuery({})
   const [checkEmailExists, emailCheckResult] = AuthApi.useCheckEmailMutation()
 
@@ -67,7 +67,7 @@ export const StudentForm = ({ onSubmit }: { onSubmit: any }) => {
     setCourseOptions(newCourseOptions)
     setCourseLoading(false)
   }
-  console.log("student data on form page", onSubmit);
+  // console.log("student data on form page", onSubmit);
 
   const initialValues = {
     // Profile Information
@@ -176,9 +176,9 @@ export const StudentForm = ({ onSubmit }: { onSubmit: any }) => {
     }
   }, [emailCheckResult])
 
-  const updateStudentInfo = (values:any) => {
-    updateForm(values)
-  }
+  // const updateStudentInfo = (values:any) => {
+  //   updateForm(values)
+  // }
 
   const formMethods = useForm({
     mode: 'all',
@@ -191,7 +191,7 @@ export const StudentForm = ({ onSubmit }: { onSubmit: any }) => {
     <FormProvider {...formMethods}>
       <form
         className="flex flex-col gap-y-8"
-        onSubmit={formMethods.handleSubmit(updateStudentInfo)}
+        onSubmit={formMethods.handleSubmit(onSubmit)}
       >
 
 

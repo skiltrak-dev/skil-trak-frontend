@@ -34,7 +34,7 @@ export const TimeSlots = ({
         setSlotsTime([])
     }, [daysAvailability])
 
-    console.log('MMMMM', moment('22:45', 'hh:mm:ss').format('h:mm a'))
+    // console.log('MMMMM', moment('22:45', 'hh:mm:ss').format('h:mm a'))
 
     const timeSlots = useCallback(() => {
         const days = [

@@ -29,7 +29,7 @@ export const BrowseCandidatesContainer = () => {
     null
   )
 
-  console.log('browseCandidateData', browseCandidateData)
+  // console.log('browseCandidateData', browseCandidateData)
 
   const browseCandidates = useGetBrowseCandidatesQuery()
 
@@ -54,7 +54,7 @@ export const BrowseCandidatesContainer = () => {
 
   const onSubmit = (values: any) => {
     setBrowseCandidateData(values)
-    console.log('values', values)
+    // console.log('values', values)
   }
   return (
     <div className="flex flex-col gap-y-4">

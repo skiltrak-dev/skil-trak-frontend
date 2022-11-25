@@ -20,7 +20,7 @@ export const MyRtoInfoCard = (props: Props) => {
   const pathname = useRouter()
   const profileId = pathname.query.profileId
   const { data }: any = useGetSubAdminMyRtoQuery(String(profileId))
-  console.log('useGetSubAdminMyRtoQuery', data)
+  // console.log('useGetSubAdminMyRtoQuery', data)
   return (
     <div className="w-full">
       <Card>

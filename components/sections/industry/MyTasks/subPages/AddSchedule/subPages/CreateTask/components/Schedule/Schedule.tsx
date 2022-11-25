@@ -16,7 +16,7 @@ export const Schedule = ({
   // update Tasks
   const [updateTask, updateTaskResult] = useUpdateEmployeeTaskOnDragMutation()
 
-  console.log('updateTaskResult', updateTaskResult)
+  // console.log('updateTaskResult', updateTaskResult)
 
   const moveCardHandler = async (
     outerIndex: number,

@@ -40,7 +40,7 @@ export const CourseDetails = ({ courseId }: any) => {
     }
   }, [data])
 
-  console.log('folders', folders)
+  // console.log('folders', folders)
 
   //   dummy
   const courses = [

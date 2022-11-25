@@ -7,7 +7,7 @@ import _debounce from 'lodash/debounce'
 import * as yup from 'yup'
 
 import { useNotification } from '@hooks'
-import { AuthApi } from '@queries'
+import { AuthApi, useUpdateStudentSignUpMutation } from '@queries'
 import { isEmailValid, onlyAlphabets, SignUpUtils } from '@utils'
 
 import { Button, Checkbox, Select, TextInput, Typography } from '@components'
@@ -16,7 +16,7 @@ import { yupResolver } from '@hookform/resolvers/yup'
 
 export const StudentSignUpForm = ({ onSubmit }: { onSubmit: any }) => {
     const router = useRouter()
-
+    // const [signUpStudent] = useUpdateStudentSignUpMutation()
     const { notification } = useNotification()
 
     const sectorResponse = AuthApi.useGetSectorsQuery({})
@@ -29,6 +29,7 @@ export const StudentSignUpForm = ({ onSubmit }: { onSubmit: any }) => {
     const [storedData, setStoredData] = useState<any>(null)
 
     const [lastEnteredEmail, setLastEnteredEmail] = useState('')
+    // console.log("signup------", onSubmit);
 
     const onEmailChange = (e: any) => {
         _debounce(() => {
@@ -188,8 +189,14 @@ export const StudentSignUpForm = ({ onSubmit }: { onSubmit: any }) => {
 
     const formMethods = useForm({
         mode: 'all',
-        resolver: yupResolver(validationSchema),
+        // resolver: yupResolver(validationSchema),
+
     })
+    // const submitForm = (values: any) => {
+    //     signUpStudent(values)
+    //     // setActive((active: number) => active + 1)
+
+    // }
 
     return (
         <FormProvider {...formMethods}>
@@ -352,8 +359,8 @@ export const StudentSignUpForm = ({ onSubmit }: { onSubmit: any }) => {
                                 label={'Sector'}
                                 {...(storedData
                                     ? {
-                                          defaultValue: storedData.sectors,
-                                      }
+                                        defaultValue: storedData.sectors,
+                                    }
                                     : {})}
                                 name={'sectors'}
                                 options={sectorOptions}

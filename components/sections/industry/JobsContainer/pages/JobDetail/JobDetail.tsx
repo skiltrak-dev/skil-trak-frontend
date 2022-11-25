@@ -35,7 +35,7 @@ export const JobDetailContainer = () => {
   const { data, isLoading } = useGetJobDetailQuery(jobId)
   const [jobRemove, jobRemoveData] = useRemoveJobMutation()
 
-  console.log('jobRemoveData', jobRemoveData)
+  // console.log('jobRemoveData', jobRemoveData)
 
   // contexts
   // const { setjobData } = useContext(JobDataContext);

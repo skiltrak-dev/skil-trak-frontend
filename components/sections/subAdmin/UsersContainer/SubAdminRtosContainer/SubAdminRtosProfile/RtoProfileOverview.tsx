@@ -25,7 +25,7 @@ export const RtoProfileOverview = ({ userId, rtoId }: Props) => {
   // recent appointments
   const { data: rtoRecentAppointment } =
     useGetSubAdminRtoAppointmentsQuery(rtoId)
-  console.log('rto______RecentAppointment', rtoRecentAppointment)
+  // console.log('rto______RecentAppointment', rtoRecentAppointment)
 
   const FigureCardData = [
     {

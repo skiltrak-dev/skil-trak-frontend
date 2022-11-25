@@ -36,7 +36,7 @@ export const RightSidebarForm = ({
   // Employee
   const EmployeeData = useGetEmployeeQuery()
 
-  console.log('EmployeeDataEmployeeData', EmployeeData)
+  // console.log('EmployeeDataEmployeeData', EmployeeData)
 
   // Add Task
   const [addEmployee, addEmployeeData] = useAddEmployeeTaskMutation()
@@ -53,7 +53,7 @@ export const RightSidebarForm = ({
       (days) => !selectedEmployeeTasks.includes(days.value)
     )
     setFilteredDays(filteredData)
-    console.log('filteredDatafilteredData', filteredData)
+    // console.log('filteredDatafilteredData', filteredData)
     // const getAssignedCourses = sectors.map((sector) =>
     //     sector.courses.map((course) => course)
     // )

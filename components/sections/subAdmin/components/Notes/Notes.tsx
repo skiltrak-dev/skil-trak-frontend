@@ -11,7 +11,7 @@ import { useGetNotesQuery } from '@queries'
 import { useContextBar } from 'hooks'
 
 export const Notes = ({ id }: any) => {
-  console.log('iddddd', id)
+  // console.log('iddddd', id)
   const [notesList, setNotesList] = useState([])
   const [editValues, setEditValues] = useState(null)
   // const [approvedUser, setApprovedUser] = useState(

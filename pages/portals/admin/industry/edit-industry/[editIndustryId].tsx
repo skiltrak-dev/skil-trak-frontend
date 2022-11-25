@@ -42,7 +42,7 @@ const EditRto: NextPageWithLayout = () => {
   const industry = AdminApi.Industries.useDetail(editIndustryId, {
     skip: !editIndustryId,
   })
-  console.log("rto", editIndustryId, industry);
+  // console.log("rto", editIndustryId, industry);
 
   useEffect(() => {
     navBar.setTitle('Edit Industry')

@@ -31,7 +31,7 @@ export const IndustrySelection = ({
         useCancelWorkplaceRequestMutation()
     const [applyForWorkplace, applyForWorkplaceResult] =
         useApplyForWorkplaceMutation()
-    console.log('Industry Responsed', appliedIndustry)
+    // console.log('Industry Responsed', appliedIndustry)
 
     useEffect(() => {
         if (workplaceIndustries) {
@@ -50,7 +50,7 @@ export const IndustrySelection = ({
         applyForWorkplaceResult.isSuccess,
     ])
 
-    console.log('selectedCourses', selectedCourses)
+    // console.log('selectedCourses', selectedCourses)
 
     useEffect(() => {
         if (cancelRequestResult.isSuccess) {

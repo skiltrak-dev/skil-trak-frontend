@@ -72,7 +72,7 @@ export const AssessmentFolderDetails = ({ folder, fileUpload }: Props) => {
                                 {fileUpload ? (
                                     <FileUpload
                                         onChange={(docs: any) => {
-                                            console.log('Saad', docs)
+                                            // console.log('Saad', docs)
                                             const formData = new FormData()
                                             docs.forEach((doc: any) => {
                                                 formData.append(
