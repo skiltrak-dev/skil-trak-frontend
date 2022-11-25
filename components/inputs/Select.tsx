@@ -201,7 +201,7 @@ export const Select = ({
   }
 
   return (
-    <div className="w-full">
+    <div className="">
       {label && (
         <div className="flex justify-between items-center">
           <div>

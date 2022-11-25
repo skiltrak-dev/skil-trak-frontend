@@ -70,7 +70,7 @@ const routes: Route[] = [
     },
     {
         text: 'Workplace Request',
-        path: 'workplaces/*',
+        path: getRoutePath('/workplaces'),
         Icon: MdHomeWork,
     },
     {

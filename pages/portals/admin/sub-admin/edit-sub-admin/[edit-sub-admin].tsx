@@ -39,7 +39,7 @@ const EditRto: NextPageWithLayout = () => {
   const navBar = useNavbar()
   const contextBar = useContextBar()
 
-  const subAdmin = AdminApi.Industries.useDetail(editSubAdminId, {
+  const subAdmin = AdminApi.SubAdmins.useListQuery(editSubAdminId, {
     skip: !editSubAdminId,
   })
   console.log("rto", editSubAdminId, subAdmin);
