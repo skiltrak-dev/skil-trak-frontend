@@ -1,4 +1,4 @@
-import { useRef, HTMLInputElement } from 'react'
+import { useRef } from 'react'
 import { useDrag, useDrop } from 'react-dnd'
 
 // components

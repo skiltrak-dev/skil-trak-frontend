@@ -9,7 +9,7 @@ import { IoNotifications } from 'react-icons/io5'
 // components
 import {
   Card,
-  Loading,
+  LoadingAnimation,
   EmptyData,
   Pagination,
   Typography,
@@ -23,7 +23,7 @@ import { useContextBar, useNotification } from 'hooks'
 import {
   useGetNotificationsQuery,
   useReadNotificationMutation,
-} from 'redux/query'
+} from '@queries'
 
 // utills
 import { elipiciseText } from '@utils'
@@ -32,7 +32,7 @@ export const Notifications = () => {
   const router = useRouter()
 
   // hooks
-  const { notificationList, setNotificationList } = useNotification()
+  const { notification } = useNotification()
 
   const [notifications, setNotifications] = useState([])
   const [resultsPerPage] = useState(5)
@@ -61,17 +61,17 @@ export const Notifications = () => {
     }
   }, [data])
 
-  useEffect(() => {
-    if (notificationList) {
-      setNotifications((n) => [notificationList, ...n])
-      setNotificationList(null)
-    }
-  }, [notificationList, setNotificationList])
+  // useEffect(() => {
+  //   if (notificationList) {
+  //     setNotifications((n) => [notificationList, ...n])
+  //     setNotificationList(null)
+  //   }
+  // }, [notificationList, setNotificationList])
 
-  const readNotifications = async (notification) => {
-    await readNotification(notification.id)
-    navigate(notification.link)
-  }
+  // const readNotifications = async (notification) => {
+  //   await readNotification(notification.id)
+  //   navigate(notification.link)
+  // }
 
   return (
     <Card>
@@ -82,29 +82,29 @@ export const Notifications = () => {
             {data?.data?.length > 0 || notifications.length > 0 ? (
               <>
                 <div className="flex justify-end mb-4">
-                  <Pagination
+                  {/* <Pagination
                     pageCount={data?.pagination?.totalPage}
                     setCurrentPage={setCurrentPage}
                     currentPage={currentPage}
-                  />
+                  /> */}
                 </div>
                 {notifications?.map((notification, i) => (
                   <div
-                    key={notification.id}
-                    onClick={() => readNotifications(notification)}
-                    className={`${
-                      !notification.isRead ? 'bg-gray-50' : ''
-                    } w-full flex items-center gap-x-4 rounded-md border-b border-secondary px-2 py-1.5 cursor-pointer hover:bg-secondary transition-all`}
+                    key={i}
+                    // onClick={() => readNotifications(notification)}
+                    // className={`${
+                    //   !notification.isRead ? 'bg-gray-50' : ''
+                    // } w-full flex items-center gap-x-4 rounded-md border-b border-secondary px-2 py-1.5 cursor-pointer hover:bg-secondary transition-all`}
                   >
                     <div className="w-12 h-11 relative">
-                      <img
+                      {/* <img
                         src={
                           notification.avatar ||
                           `https://picsum.photos/80/${80 + i}`
                         }
                         alt="Notify"
                         className="w-full h-full rounded-full"
-                      />
+                      /> */}
                       <div className="p-0.5 rounded-full bg-gray-800 absolute bottom-0 right-0">
                         <IoNotifications className="text-white text-xs" />
                       </div>
@@ -112,27 +112,27 @@ export const Notifications = () => {
                     <div className="flex justify-between items-center w-full">
                       <div>
                         <Typography variant={'subtitle'}>
-                          {notification.title}
+                          {/* {notification.title} */}
                         </Typography>
                         <Typography
                           variant={'muted'}
-                          color={notification.isRead ? 'grayLight' : 'black'}
+                          // color={notification.isRead ? 'grayLight' : 'black'}
                         >
-                          <span
+                          {/* <span
                             className={`${
                               !notification.isRead ? 'font-bold' : ''
                             }`}
                           >
                             {elipiciseText(notification.description, 70)}
-                          </span>
+                          </span> */}
                         </Typography>
                         <Typography variant={'muted'} color={'grayLight'}>
-                          {moment(notification.createdAt, 'YYYYMMDD').fromNow()}
+                          {/* {moment(notification.createdAt, 'YYYYMMDD').fromNow()} */}
                         </Typography>
                       </div>
-                      {!notification.isRead && (
+                      {/* {!notification.isRead && (
                         <GoPrimitiveDot className="text-xl" />
-                      )}
+                      )} */}
                     </div>
                   </div>
                 ))}
@@ -143,7 +143,7 @@ export const Notifications = () => {
           </div>
         </>
       ) : (
-        <Loading />
+        <LoadingAnimation />
       )}
     </Card>
   )

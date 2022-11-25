@@ -32,7 +32,7 @@ export const RTOFilter = ({ onFilterChange, filter }: any) => {
         label={'Name'}
         name={'name'}
         placeholder={'Search By RTO Name'}
-        onChange={(e) => {
+        onChange={(e:any) => {
           onFilterChange({ ...filter, name: e.target.value })
         }}
       />
@@ -41,7 +41,7 @@ export const RTOFilter = ({ onFilterChange, filter }: any) => {
         name={'email'}
         type={'email'}
         placeholder={'Search By RTO Email'}
-        onChange={(e) => {
+        onChange={(e:any) => {
           onFilterChange({ ...filter, email: e.target.value })
         }}
       />
@@ -49,14 +49,14 @@ export const RTOFilter = ({ onFilterChange, filter }: any) => {
         label={'Code'}
         name={'rtoCode'}
         placeholder={'Search By RTO Code'}
-        onChange={(e) => {
+        onChange={(e:any) => {
           onFilterChange({ ...filter, rtoCode: e.target.value })
         }}
       />
       <Select
         label={'Status'}
         name={'status'}
-        onChange={(e) => {
+        onChange={(e:any) => {
           onFilterChange({ ...filter, status: e.value })
         }}
         options={selectOptions}

@@ -25,7 +25,7 @@ import {
 import { useState } from 'react'
 import { CgUnblock } from 'react-icons/cg'
 import { SubAdminCell } from './components'
-import { Industry } from '@types'
+import { Industry, SubAdmin } from '@types'
 import { RtoCellInfo } from '../rto/components'
 import { useRouter } from 'next/router'
 
@@ -55,7 +55,7 @@ export const ArchivedSubAdmin = () => {
       },
       {
         text: 'Edit',
-        onClick: () => { router.push(`/portals/admin/sub-admin/edit-sub-admin/${row?.id}`) },
+        onClick: (row:any) => { router.push(`/portals/admin/sub-admin/edit-sub-admin/${row?.id}`) },
         Icon: FaEdit,
       },
       {
@@ -73,12 +73,13 @@ export const ArchivedSubAdmin = () => {
     ]
   }
 
-  const columns: ColumnDef<Industry>[] = [
+  const columns: ColumnDef<SubAdmin>[] = [
     {
       accessorKey: 'user.name',
-      cell: (info) => {
-        return <SubAdminCell subAdmin={info.row.original} />
-      },
+      cell: (info) => info.getValue(),
+      // {
+      //   return <SubAdminCell subAdmin={info.row.original} />
+      // },
       header: () => <span>Industry</span>,
     },
     {
@@ -92,10 +93,10 @@ export const ArchivedSubAdmin = () => {
       cell: (info) => {
         return (
           <div>
-            <p>{info.row.original.contactPerson}</p>
+            {/* <p>{info.row.original.contactPerson}</p>
             <p className="text-xs text-gray-500">
               {info.row.original.contactPersonNumber}
-            </p>
+            </p> */}
           </div>
         )
       },

@@ -64,7 +64,7 @@ export const ApprovedStudent = () => {
          },
          {
             text: 'Edit',
-            onClick: () => { router.push(`/portals/admin/student/edit-student/${row?.id}`) },
+            onClick: (row:any) => { router.push(`/portals/admin/student/edit-student/${row?.id}`) },
             Icon: FaEdit,
          },
          {

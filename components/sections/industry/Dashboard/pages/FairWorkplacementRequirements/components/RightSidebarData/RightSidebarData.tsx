@@ -4,8 +4,6 @@ import { useRouter } from 'next/router'
 // componemts
 import {
   Button,
-  OtherDocumentLinks,
-  PrimaryActionLink,
   Typography,
 } from 'components'
 
@@ -19,41 +17,38 @@ export const RightSidebarData = () => {
         alt="Sidebar"
       />
       <Button
-        border={'2'}
-        borderColor={'primary'}
-        bgColor={'primary'}
-        onClick={() => navigate('/apply-for-rpl')}
+        onClick={()=>{}}
       >
         Apply For RPL
       </Button>
 
       <div className="flex flex-col gap-y-2 mt-2">
-        <Typography varient={'text'} color={'gray'}>
+        <Typography variant={'title'} color={'gray'}>
           Related Links
         </Typography>
-        <OtherDocumentLinks />
+        {/* <OtherDocumentLinks /> */}
       </div>
 
       {/* Other Links */}
       <div className="flex flex-col gap-y-2 mt-2">
-        <Typography varient={'text'} color={'gray'}>
+        <Typography variant={'title'} color={'gray'}>
           Other Links
         </Typography>
-        <PrimaryActionLink
+        {/* <PrimaryActionLink
           bgColor={'white'}
           bgHoverColor={'secondary'}
           title={'Documentation Required'}
           desc={'Some helping text'}
           img={'./images/dashboardbtn.png'}
-        />
+        /> */}
 
-        <PrimaryActionLink
+        {/* <PrimaryActionLink
           bgColor={'white'}
           bgHoverColor={'secondary'}
           title={'Documentation Required'}
           desc={'Some helping text'}
           img={'./images/dashboardbtn2.png'}
-        />
+        /> */}
       </div>
     </div>
   )

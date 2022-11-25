@@ -2,7 +2,7 @@ import React from 'react'
 import { useRouter } from 'next/router'
 
 // componemts
-import { Button, OtherDocumentLinks } from 'components'
+import { Button } from 'components'
 
 export const RightSidebarData = () => {
   const router = useRouter()
@@ -16,7 +16,7 @@ export const RightSidebarData = () => {
           Advertise New Job
         </Button>
       </div>
-      <OtherDocumentLinks />
+      {/* <OtherDocumentLinks /> */}
     </>
   )
 }

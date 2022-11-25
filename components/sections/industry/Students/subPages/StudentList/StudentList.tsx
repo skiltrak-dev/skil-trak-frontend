@@ -63,7 +63,7 @@ export const StudentList = () => {
     {
       Header: 'Student Name',
       accessor: 'name',
-      Cell: ({ row }) => {
+      Cell: ({ row }:any) => {
         const { name, email, image } = row.original.user
         return (
           <div className="flex items-center relative">
@@ -87,7 +87,7 @@ export const StudentList = () => {
     {
       Header: 'Age',
       accessor: 'age',
-      Cell: ({ row }) => {
+      Cell: ({ row }:any) => {
         return getAge(row.original.dob)
       },
     },
@@ -102,7 +102,7 @@ export const StudentList = () => {
     {
       Header: 'Action',
       accessor: 'Action',
-      Cell: ({ row }) => {
+      Cell: ({ row }:any) => {
         const action = TableActionOption(row.original.id)
         return 'More Action'
         // return <ActionDropDown title={'More'} dropDown={action} />

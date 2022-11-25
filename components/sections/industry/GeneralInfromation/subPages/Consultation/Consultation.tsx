@@ -61,7 +61,7 @@ export const Consultation = () => {
     mode: 'all',
   })
 
-  const onSubmit = (values) => {
+  const onSubmit = (values:any) => {
     // <Navigate to="/privew-industry" />;
     setIsConsulted(true)
   }
@@ -113,7 +113,6 @@ export const Consultation = () => {
                 label={'Hours/Session'}
                 name={'hours'}
                 placeholder={'Some Text Here...'}
-                inputDescription={'Allocated Hours Per Session (Min 2 Hours)'}
               />
               <div className="flex flex-col mt-1">
                 <Typography variant={'label'}>Chargeable Fee/Hour</Typography>
@@ -121,7 +120,7 @@ export const Consultation = () => {
               </div>
             </div>
 
-            <Typography variant={'smallText'} color={'gray'}>
+            <Typography variant={'muted'} color={'gray'}>
               Company Bank Details
             </Typography>
 
@@ -146,7 +145,7 @@ export const Consultation = () => {
               />
             </div>
 
-            <Button bgColor={'primary'} type={'submit'}>
+            <Button submit>
               Save
             </Button>
           </form>

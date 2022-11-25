@@ -3,7 +3,7 @@ import React from 'react'
 // components
 import { Typography } from 'components'
 
-export const JobDetailData = ({ data }) => {
+export const JobDetailData = ({ data }:any) => {
     const employmentType = () => {
         switch (data?.employmentType) {
             case 'fullTime':

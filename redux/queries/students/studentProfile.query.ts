@@ -18,7 +18,7 @@ export const studentProfileApi = createApi({
   }),
   tagTypes: ['StudentProfile'],
   endpoints: (builder) => ({
-    getStudentProfileDetail: builder.query<any[], void>({
+    getStudentProfileDetail: builder.query<any, void>({
       query: () => 'profile',
       providesTags: ['StudentProfile'],
     }),

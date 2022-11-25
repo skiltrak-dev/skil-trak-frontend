@@ -73,10 +73,10 @@ export const RPLForm = () => {
         formData.append('identity', values.cnic)
         formData.append('resume', values.resume)
         formData.append('jobDescription', values.jobDescription)
-        values.financialEvidence.forEach((element) => {
+        values.financialEvidence.forEach((element:any) => {
             formData.append('financialEvidence', element)
         })
-        values.academicDocuments.forEach((element) => {
+        values.academicDocuments.forEach((element:any) => {
             formData.append('academicDocuments', element)
         })
 
@@ -150,11 +150,11 @@ export const RPLForm = () => {
 
                                 <div className="flex justify-between items-end gap-x-6">
                                     <div className="mt-1.5 w-1/4">
-                                        <UploadRPLDocs
+                                        {/* <UploadRPLDocs
                                             name={'resume'}
                                             fileupload={setFieldValue}
                                             acceptFiles={'application/pdf'}
-                                        />
+                                        /> */}
                                     </div>
                                     <div className="w-3/4">
                                         <TextArea
@@ -176,11 +176,11 @@ export const RPLForm = () => {
                                 </Typography>
 
                                 <div className="mt-1.5 max-w-220">
-                                    <UploadRPLDocs
+                                    {/* <UploadRPLDocs
                                         name={'financialEvidence[0]'}
                                         fileupload={setFieldValue}
                                         acceptFiles={'application/pdf'}
-                                    />
+                                    /> */}
                                 </div>
                             </div>
 
@@ -195,21 +195,21 @@ export const RPLForm = () => {
                                 </Typography>
 
                                 <div className="mt-1.5 flex gap-x-3 w-full md:w-5/6">
-                                    <UploadRPLDocs
+                                    {/* <UploadRPLDocs
                                         name={'academicDocuments[0]'}
                                         fileupload={setFieldValue}
                                         acceptFiles={'application/pdf'}
-                                    />
-                                    <UploadRPLDocs
+                                    /> */}
+                                    {/* <UploadRPLDocs
                                         name={'academicDocuments[1]'}
                                         fileupload={setFieldValue}
                                         acceptFiles={'application/pdf'}
-                                    />
-                                    <UploadRPLDocs
+                                    /> */}
+                                    {/* <UploadRPLDocs
                                         name={'academicDocuments[2]'}
                                         fileupload={setFieldValue}
                                         acceptFiles={'application/pdf'}
-                                    />
+                                    /> */}
                                 </div>
                             </div>
 

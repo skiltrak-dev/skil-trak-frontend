@@ -70,7 +70,7 @@ export const Schedule = ({
       </div>
       {/*  */}
 
-      {EmployeeData?.map((employee, outerIndex) => {
+      {EmployeeData?.map((employee:any, outerIndex:any) => {
         return (
           <div key={outerIndex} className="grid grid-cols-7 items-center px-2">
             <div className="col-span-2 flex items-center gap-x-2 py-3">
@@ -82,7 +82,7 @@ export const Schedule = ({
                 <Typography variant={'small'}>{employee.status}</Typography>
               </div>
             </div>
-            {employee?.tasks?.map((task, innerIndex) => (
+            {employee?.tasks?.map((task:any, innerIndex:any) => (
               <ScheduleCard
                 key={innerIndex}
                 employee={employee}

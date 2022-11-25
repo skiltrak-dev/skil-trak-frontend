@@ -1,4 +1,3 @@
 export * from './components'
-export * from './AssessmentFolderDetails'
-// export * from './AssessmentFolderDetails';
 export * from './AssessmentsEvidence'
+export * from './AssessmentFolderDetailX'

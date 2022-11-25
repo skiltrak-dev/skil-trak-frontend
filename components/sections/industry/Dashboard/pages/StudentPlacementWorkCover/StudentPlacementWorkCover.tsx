@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 
-import { DocumentView, GoBackButton, Typography } from "components";
+import { DocumentView, BackButton, Typography } from "components";
 
 import { useContextBar } from "hooks";
 
@@ -13,7 +13,7 @@ export const StudentPlacementWorkCover = () => {
 	}, [setContent]);
 	return (
 		<div>
-			<GoBackButton>Back To Dashboard</GoBackButton>
+			<BackButton text="Dashboard"/>
 
 			{/* Data */}
 			<DocumentView

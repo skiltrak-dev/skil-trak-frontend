@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import Link from 'next/link'
-import { Router } from 'next/router'
+import { useRouter } from 'next/router'
 // components
 import { Button, Card, LoadingAnimation, Typography } from '@components'
 import { AssessmentCourse, DownloadableFile } from '..'
@@ -16,6 +16,7 @@ export const StudentAssessmentTools = ({
   role,
   actions,
 }: Props) => {
+  const router = useRouter()
   const [selectedCourseId, setSelectedCourseId] = useState<any | null>(null)
   const { data: coursesData, isLoading, isError } = useGetStudentCoursesQuery()
   const getAssessmentTools = useGetStudentAssessmentToolQuery(selectedCourseId, {
@@ -64,7 +65,7 @@ export const StudentAssessmentTools = ({
                     variant="dark"
                     text="VIEW ARCHIVED"
                     onClick={() => {
-                      Router.push(
+                      router.push(
                         `/portals/sub-admin/users/rtos/profile/7?tab=archived-assessments`
                       )
                     }}
@@ -92,7 +93,7 @@ export const StudentAssessmentTools = ({
                 getAssessmentTools?.data?.map((assessment: any) => (
                   <DownloadableFile
                     key={assessment.id}
-                    actions={() => actions(assessment?.id)}
+                    actions={() => actions?actions(assessment?.id):()=>{}}
                     role={role}
                     name={assessment?.title}
                     archivedView={false}

@@ -1,4 +1,5 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
+import { Course, PaginatedResponse } from '@types'
 import { AuthUtils } from '@utils'
 import { StudentJobsType, StudentJobType } from 'redux/queryTypes'
 
@@ -19,7 +20,7 @@ export const studentCoursesApi = createApi({
     }),
     tagTypes: ['StudentCourses'],
     endpoints: (builder) => ({
-        getStudentCourses: builder.query<any[], void>({
+        getStudentCourses: builder.query<any, void>({
             query: (params: any) => {
                 return {
                     url: 'courses/view',

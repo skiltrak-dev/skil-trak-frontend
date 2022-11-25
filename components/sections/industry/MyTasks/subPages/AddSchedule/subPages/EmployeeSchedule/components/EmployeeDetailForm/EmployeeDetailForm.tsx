@@ -155,7 +155,7 @@ export const EmployeeDetailForm = ({ onVolunteer, employeeDetail }: any) => {
                                     append({
                                         firstName: '',
                                         lastName: '',
-                                        phone: '',
+                                        mobileNo: '',
                                         email: '',
                                     })
                                 }

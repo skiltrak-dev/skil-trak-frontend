@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 
 // components
-import { GoBackButton, DocumentView, Typography } from "components";
+import { BackButton, DocumentView, Typography } from "components";
 
 // Context
 import { useContextBar } from "hooks";
@@ -14,7 +14,7 @@ export const FairWorkplacementRequirements = () => {
   }, [setContent]);
   return (
     <div>
-      <GoBackButton>Back To Dashboard</GoBackButton>
+      <BackButton text="Dashboard"/>
 
       {/* Data */}
       <DocumentView

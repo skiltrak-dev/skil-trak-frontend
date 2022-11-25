@@ -139,7 +139,7 @@ const Subscribers: NextPageWithLayout = () => {
          cell: (info) => {
             return (
                <div className="flex gap-x-1 items-center">
-                  <TableAction options={getTableOptions(info.row.original)} />
+                  <TableAction rowItem={info.row.original} options={getTableOptions(info.row.original)} />
                </div>
             )
          },

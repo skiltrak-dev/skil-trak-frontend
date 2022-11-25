@@ -3,7 +3,6 @@ import { ReactElement } from 'react'
 import { StudentLayout } from '@layouts'
 import { NextPageWithLayout } from '@types'
 import {
-    AssessmentFolderDetails,
     AssessmentsEvidence,
 } from '@components/sections/student/AssessmentsContainer/AssessmentsEvidence'
 

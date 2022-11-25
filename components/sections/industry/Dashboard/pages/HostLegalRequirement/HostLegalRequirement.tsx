@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 
-import { GoBackButton, DocumentView, Typography } from "components";
+import { BackButton, DocumentView, Typography } from "components";
 
 // Context
 import { useContextBar } from "hooks";
@@ -13,7 +13,7 @@ export const HostLegalRequirement = () => {
 	}, [setContent]);
 	return (
 		<div>
-			<GoBackButton>Back To Dashboard</GoBackButton>
+			<BackButton text="Back To Dashboard"/>
 
 			{/* Data */}
 			<DocumentView

@@ -27,7 +27,7 @@ const Loading = () => {
     return <LoadingAnimation size={32} />
 }
 
-export const AssessmentFolderDetails = ({ folder, fileUpload }: Props) => {
+export const AssessmentFolderDetailX = ({ folder, fileUpload }: Props) => {
     // query
     // fetch files
     const { data, isLoading, isSuccess, isError, isFetching } =

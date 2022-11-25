@@ -24,7 +24,7 @@ export const RightSidebarData = () => {
       </Button>
 
       <div className="flex flex-col gap-y-2 mt-2">
-        <Typography varient={'text'} color={'gray'}>
+        <Typography variant={'title'} color={'gray'}>
           Related Links
         </Typography>
 

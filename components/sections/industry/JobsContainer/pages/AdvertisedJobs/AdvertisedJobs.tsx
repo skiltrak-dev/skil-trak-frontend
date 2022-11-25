@@ -88,7 +88,7 @@ export const AdvertisedJobs = () => {
             Header: 'Job Title',
             accessor: 'title',
             sort: true,
-            Cell: ({ row }) => {
+            Cell: ({ row }:any) => {
                 const { title, industry } = row.original
                 return (
                     <Link
@@ -117,7 +117,7 @@ export const AdvertisedJobs = () => {
         {
             Header: 'Type',
             accessor: 'employmentType',
-            Cell: ({ row }) => {
+            Cell: ({ row }:any) => {
                 const { employmentType } = row.original
                 switch (employmentType) {
                     case 'fullTime':
@@ -140,7 +140,7 @@ export const AdvertisedJobs = () => {
             Header: 'Status',
             accessor: 'isActive',
             disableFilters: true,
-            Cell: ({ row }) => {
+            Cell: ({ row }:any) => {
                 const { isActive } = row.original
                 return isActive ? 'Approved' : 'Pending'
             },
@@ -148,10 +148,10 @@ export const AdvertisedJobs = () => {
         {
             Header: 'Action',
             accessor: 'Action',
-            Cell: ({ row }) => {
+            Cell: ({ row }:any) => {
                 return (
                     <TableAction
-                        title={'More'}
+                        text={'More'}
                         options={TableActionOption}
                         rowItem={row.original}
                     />

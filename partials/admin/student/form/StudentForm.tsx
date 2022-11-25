@@ -18,7 +18,8 @@ export const StudentForm = ({ onSubmit }: { onSubmit: any }) => {
   const router = useRouter()
 
   const { notification } = useNotification()
-  const [updateForm] = AdminApi.Students.useUpdate()
+  // const [updateForm] = AdminApi.Students.useUpdate()
+  const [updateForm] = AdminApi.Students.useRemove()
   const sectorResponse = AuthApi.useGetSectorsQuery({})
   const [checkEmailExists, emailCheckResult] = AuthApi.useCheckEmailMutation()
 

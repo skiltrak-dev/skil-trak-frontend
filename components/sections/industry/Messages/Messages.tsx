@@ -2,38 +2,38 @@ import React, { useEffect, useState } from 'react'
 
 // Components
 import {
-    Loading,
+    // Loading,
     EmptyData,
-    EmailCard,
-    ComposeEmail,
+    // EmailCard,
+    // ComposeEmail,
     TechnicalError,
-    PrimaryActionLink,
+    // PrimaryActionLink,
 } from 'components'
 
 // hooks
-import { useMessage } from 'hooks'
+// import { useMessage } from 'hooks'
 import { useContextBar } from 'hooks'
 
 // functions
 import { AuthUtils } from '@utils'
 
 // query
-import {
-    useGetIndustryMessagesQuery,
-    useSendMessageMutation,
-} from 'redux/query'
+// import {
+//     useGetIndustryMessagesQuery,
+//     useSendMessageMutation,
+// } from 'redux/query'
 
 export const Messages = () => {
     const { setContent, hide, isVisible } = useContextBar()
-    const { message, setMessage } = useMessage()
+    // const { message, setMessage } = useMessage()
     const [messagesList, setMessagesList] = useState([])
     // query
-    const messages = useGetIndustryMessagesQuery()
+    // const messages = useGetIndustryMessagesQuery()
 
     useEffect(() => {
         setContent(
             <>
-                <PrimaryActionLink
+                {/* <PrimaryActionLink
                     border={'1'}
                     bgColor={'white'}
                     bgHoverColor={'secondary'}
@@ -42,28 +42,28 @@ export const Messages = () => {
                     title={'Documentation Required'}
                     desc={'Some helping text'}
                     img={'./images/dashboardbtn.png'}
-                />
+                /> */}
             </>
         )
         hide()
     }, [setContent])
 
-    useEffect(() => {
-        messages.refetch()
-    }, [messages.refetch])
+    // useEffect(() => {
+    //     messages.refetch()
+    // }, [messages.refetch])
 
-    useEffect(() => {
-        if (messages.isSuccess) {
-            setMessagesList(messages.data)
-        }
-    }, [messages.data, messages.isSuccess])
+    // useEffect(() => {
+    //     if (messages.isSuccess) {
+    //         setMessagesList(messages.data)
+    //     }
+    // }, [messages.data, messages.isSuccess])
 
-    useEffect(() => {
-        if (message) {
-            setMessagesList((m) => [...m, message])
-        }
-        setMessage(null)
-    }, [message, setMessage])
+    // useEffect(() => {
+    //     if (message) {
+    //         setMessagesList((m) => [...m, message])
+    //     }
+    //     setMessage(null)
+    // }, [message, setMessage])
 
     return (
         <>
@@ -77,10 +77,10 @@ export const Messages = () => {
                         isVisible ? 'w-full' : 'w-[71%]'
                     } bg-gray-50 rounded-lg p-2`}
                 >
-                    {messages.isError && !messagesList.length && (
+                    {/* {messages.isError && !messagesList.length && (
                         <TechnicalError />
-                    )}
-                    <div className={`flex flex-col gap-y-2.5 h-full `}>
+                    )} */}
+                    {/* <div className={`flex flex-col gap-y-2.5 h-full `}>
                         {messages?.isLoading && !messagesList.length > 0 ? (
                             <div className="flex justify-center items-center h-full">
                                 <Loading />
@@ -101,10 +101,10 @@ export const Messages = () => {
                         ) : (
                             !messages.isError && <EmptyData actionLink={null} />
                         )}
-                    </div>
+                    </div> */}
                 </div>
                 <div className={`${isVisible ? 'w-full' : 'w-[29%]'}`}>
-                    <ComposeEmail action={useSendMessageMutation} />
+                    {/* <ComposeEmail action={useSendMessageMutation} /> */}
                 </div>
             </div>
         </>

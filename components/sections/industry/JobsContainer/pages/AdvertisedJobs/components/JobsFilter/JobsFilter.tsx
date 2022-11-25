@@ -17,14 +17,14 @@ export const JobsFilter = ({ onFilterChange, filter }: any) => {
         label={'Title'}
         name={'title'}
         placeholder={'Search By Job Title'}
-        onChange={(e) => {
+        onChange={(e:any) => {
           onFilterChange({ ...filter, title: e.target.value })
         }}
       />
       <Select
         label={'Type'}
         name={'type'}
-        onChange={(e) => {
+        onChange={(e:any) => {
           onFilterChange({ ...filter, type: e.value })
         }}
         options={JobTypeOptions}

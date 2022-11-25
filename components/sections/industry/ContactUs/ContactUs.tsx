@@ -3,13 +3,10 @@ import { Formik, Form } from "formik";
 import * as yup from "yup";
 
 // Components
-import { Button, InputField } from "components";
+import { Button, TextInput } from "components";
 
 // Contexts
 import { useContextBar } from "hooks";
-
-// functions
-import { Console } from "utills/functions/ShowConsole";
 
 export const ContactUs = () => {
   const { setContent } = useContextBar();
@@ -26,8 +23,7 @@ export const ContactUs = () => {
     input2: yup.string().required("Some error occured!"),
   });
 
-  const onSubmit = (values) => {
-    Console("values", values);
+  const onSubmit = (values:any) => {
   };
   useEffect(() => {
     setContent(
@@ -41,31 +37,20 @@ export const ContactUs = () => {
             return (
               <Form className="pr-4">
                 <div className="flex flex-col gap-y-5">
-                  <InputField
+                  <TextInput
                     label={"Label"}
                     name={"input"}
                     placeholder={"Some Text Here..."}
-                    touched={touched}
-                    errors={errors}
                   />
-                  <InputField
+                  <TextInput
                     label={"Label"}
                     name={"input1"}
                     placeholder={"Some Text Here..."}
-                    isNotified
-                    notificationText={
-                      "Some kind info that should explain why this input is necessary or required."
-                    }
-                    touched={touched}
-                    errors={errors}
                   />
-                  <InputField
+                  <TextInput
                     label={"Label"}
                     name={"input2"}
                     placeholder={"Some Text Here..."}
-                    errorIcons
-                    touched={touched}
-                    errors={errors}
                   />
                 </div>
                 <br />

@@ -79,13 +79,6 @@ export const ApprovedRto = () => {
             Icon: FaEdit,
         },
         {
-            text: 'Sub Admins',
-            onClick: (item: Rto) => {
-                onViewSubAdminsClicked(item)
-            },
-            Icon: FaEdit,
-        },
-        {
             text: 'Block',
             onClick: (rto: Rto) => onBlockClicked(rto),
             Icon: MdBlock,

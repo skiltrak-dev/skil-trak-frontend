@@ -176,6 +176,8 @@ export const AdminApi = {
         useSectors: useStudentSectorsQuery,
         useAssignCourses: useStudentAssignCoursesMutation,
         useUnassignCourses: useStudentUnassignCoursesMutation,
+        studentsRequiredDocsDetail: useStudentsRequiredDocsDetailQuery,
+        studentCourseDetail: useStudentCourseDetailQuery,
     },
 
     SubAdmins: {

@@ -8,12 +8,7 @@ export const ContextbarContent = () => {
     <>
       <div className="">
         <Button
-          bgColor={'text'}
-          shadow={'sm'}
-          rounded={'2lg'}
-          border={'2'}
-          borderColor={'primary'}
-          onClick={() => navigate('advertise-new-job')}
+          onClick={() => {}}
         >
           Advertise New Job
         </Button>

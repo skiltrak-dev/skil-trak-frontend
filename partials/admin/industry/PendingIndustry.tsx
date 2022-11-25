@@ -71,7 +71,7 @@ export const PendingIndustry = () => {
       },
       {
         text: 'Edit',
-        onClick: () => { router.push(`/portals/admin/industry/edit-industry/${row?.id}`) },
+        onClick: (row:any) => { router.push(`/portals/admin/industry/edit-industry/${row.id}`) },
         Icon: FaEdit,
       },
     ]

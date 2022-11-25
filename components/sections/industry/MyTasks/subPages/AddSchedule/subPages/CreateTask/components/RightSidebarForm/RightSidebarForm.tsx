@@ -34,9 +34,8 @@ export const RightSidebarForm = ({
 }: any) => {
   const [filteredDays, setFilteredDays] = useState(DaysOptions)
   // Employee
-  const EmployeeData = useGetEmployeeQuery()
+  // const EmployeeData = useGetEmployeeQuery()
 
-  console.log('EmployeeDataEmployeeData', EmployeeData)
 
   // Add Task
   const [addEmployee, addEmployeeData] = useAddEmployeeTaskMutation()
@@ -45,22 +44,17 @@ export const RightSidebarForm = ({
     addEmployeeData.isSuccess && setIsSchedule(false)
   }, [addEmployeeData.isSuccess, setIsSchedule])
 
-  const onSelectEmployee = (employee: any) => {
-    const selectedEmployeeTasks = EmployeeData?.data?.data
-      ?.find((selected: any) => selected.id === employee)
-      .tasks?.map((task: any) => task.day)
-    const filteredData = DaysOptions.filter(
-      (days) => !selectedEmployeeTasks.includes(days.value)
-    )
-    setFilteredDays(filteredData)
-    console.log('filteredDatafilteredData', filteredData)
-    // const getAssignedCourses = sectors.map((sector) =>
-    //     sector.courses.map((course) => course)
-    // )
-    // const flatAssignedCourses = getAssignedCourses.flat()
-    // const getCourseName = flatAssignedCourses.map((c) => c.name)
-    // return courseOptions.filter((c) => !getCourseName.includes(c.label))
-  }
+  // const onSelectEmployee = (employee: any) => {
+  //   const selectedEmployeeTasks = EmployeeData?.data?.data
+  //     ?.find((selected: any) => selected.id === employee)
+  //     .tasks?.map((task: any) => task.day)
+  //   const filteredData = DaysOptions.filter(
+  //     (days) => !selectedEmployeeTasks.includes(days.value)
+  //   )
+  //   setFilteredDays(filteredData)
+  //   console.log('filteredDatafilteredData', filteredData)
+    
+  // }
 
   const validationSchema = yup.object({})
 
@@ -104,7 +98,7 @@ export const RightSidebarForm = ({
           </Typography>
 
           <div className="mb-6">
-            <Select
+            {/* <Select
               label={'Select Employee'}
               name={'selectEmployee'}
               options={
@@ -119,7 +113,7 @@ export const RightSidebarForm = ({
               }
               onlyValue
               onChange={onSelectEmployee}
-            />
+            /> */}
           </div>
 
           <Typography variant={'small'} color={'gray'}>
@@ -200,9 +194,9 @@ export const RightSidebarForm = ({
             >
               Publish
             </Button>
-            <Button variant={'secondary'} onClick={() => DraftTask(values)}>
+            {/* <Button variant={'secondary'} onClick={() => DraftTask(values)}>
               Draft
-            </Button>
+            </Button> */}
           </div>
         </form>
       </FormProvider>

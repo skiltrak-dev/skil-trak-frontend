@@ -6,11 +6,11 @@ import { FaCalendarAlt } from 'react-icons/fa'
 import { IoLocationSharp } from 'react-icons/io5'
 
 // query
-import { AdminApi } from '@queries'
+import { AdminApi, useGetStudentUpcomingAppointmentsQuery } from '@queries'
 
 export const Appointments = ({ userId }: any) => {
   const { data, isLoading, isFetching } =
-    AdminApi.Students.studentUpcomingAppointments(userId, {
+    useGetStudentUpcomingAppointmentsQuery(userId, {
       skip: !userId,
     })
   return isLoading || isFetching ? (

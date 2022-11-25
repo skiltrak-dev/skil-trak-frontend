@@ -59,7 +59,7 @@ export const FutureCandidatesContainer = () => {
     {
       Header: 'Student Name',
       accessor: 'name',
-      Cell: ({ row }) => {
+      Cell: ({ row }:any) => {
         const { name, email, image } = row.original.user
         return (
           <div className="flex items-center relative">

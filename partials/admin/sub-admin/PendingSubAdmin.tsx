@@ -15,7 +15,7 @@ import { ColumnDef } from '@tanstack/react-table'
 import { FaEdit, FaEye, FaFileExport } from 'react-icons/fa'
 
 import { AdminApi } from '@queries'
-import { Industry } from '@types'
+import { Industry, SubAdmin } from '@types'
 import { ReactElement, useState } from 'react'
 import { SubAdminCell } from './components'
 import { useChangeStatus } from './hooks'
@@ -71,7 +71,7 @@ export const PendingSubAdmin = () => {
       },
       {
         text: 'Edit',
-        onClick: () => { router.push(`/portals/admin/sub-admin/edit-sub-admin/${row?.id}`) },
+        onClick: (row:any) => { router.push(`/portals/admin/sub-admin/edit-sub-admin/${row?.id}`) },
         Icon: FaEdit,
       },
     ]
@@ -85,18 +85,19 @@ export const PendingSubAdmin = () => {
       },
       {
         text: 'Reject',
-        onClick: () => { router.push(`/portals/admin/sub-admin/edit-sub-admin/${row?.id}`) },
+        onClick: (row:any) => { router.push(`/portals/admin/sub-admin/edit-sub-admin/${row.id}`) },
         // Icon: FaEdit,
       },
     ]
   }
 
-  const columns: ColumnDef<Industry>[] = [
+  const columns: ColumnDef<SubAdmin>[] = [
     {
       accessorKey: 'user.name',
-      cell: (info) => {
-        return <SubAdminCell subAdmin={info.row.original} />
-      },
+      cell: (info) => info.getValue(),
+      // {
+      //   return <SubAdminCell subAdmin={info.row.original} />
+      // },
       header: () => <span>Sub Admin</span>,
     },
     {
@@ -110,10 +111,10 @@ export const PendingSubAdmin = () => {
       cell: (info) => {
         return (
           <div>
-            <p>{info.row.original.contactPerson}</p>
+            {/* <p>{info.row.original.contactPerson}</p>
             <p className="text-xs text-gray-500">
               {info.row.original.contactPersonNumber}
-            </p>
+            </p> */}
           </div>
         )
       },

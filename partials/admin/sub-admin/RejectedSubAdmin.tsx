@@ -15,7 +15,7 @@ import { ColumnDef } from '@tanstack/react-table'
 import { FaEdit, FaEye, FaFileExport, FaTrash } from 'react-icons/fa'
 
 import { AdminApi } from '@queries'
-import { Industry } from '@types'
+import { Industry, SubAdmin } from '@types'
 import { ReactElement, useState } from 'react'
 import { SubAdminCell } from './components'
 import { AcceptModal, DeleteModal } from './modals'
@@ -63,7 +63,7 @@ export const RejectedSubAdmin = () => {
       },
       {
         text: 'Edit',
-        onClick: () => { router.push(`/portals/admin/industry/edit-industry/${row?.id}`) },
+        onClick: (row:any) => { router.push(`/portals/admin/industry/edit-industry/${row.id}`) },
         Icon: FaEdit,
       },
       {
@@ -85,12 +85,13 @@ export const RejectedSubAdmin = () => {
     ]
   }
 
-  const columns: ColumnDef<Industry>[] = [
+  const columns: ColumnDef<SubAdmin>[] = [
     {
       accessorKey: 'user.name',
-      cell: (info) => {
-        return <SubAdminCell subAdmin={info.row.original} />
-      },
+      cell: (info) => info.getValue(),
+      // {
+      //   return <SubAdminCell subAdmin={info.row.original} />
+      // },
       header: () => <span>Name</span>,
     },
     {
@@ -104,10 +105,10 @@ export const RejectedSubAdmin = () => {
       cell: (info) => {
         return (
           <div>
-            <p>{info.row.original.contactPerson}</p>
+            {/* <p>{info.row.original.contactPerson}</p>
             <p className="text-xs text-gray-500">
               {info.row.original.contactPersonNumber}
-            </p>
+            </p> */}
           </div>
         )
       },

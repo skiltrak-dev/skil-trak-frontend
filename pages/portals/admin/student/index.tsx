@@ -1,34 +1,17 @@
 import { ReactElement, useEffect } from 'react'
-import Image from 'next/image'
-import Link from 'next/link'
 
-import { AdminLayout, StudentLayout } from '@layouts'
-import { NextPageWithLayout } from '@types'
 import {
-   Badge,
-   Card,
-   DocumentCard,
-   HelpQuestionSet,
-   InitialAvatar,
-   LottieAnimation,
    TabNavigation,
-   TabProps,
-   UserProfile,
+   TabProps
 } from '@components'
-import { FaBook, FaMapMarker, FaMapMarkerAlt, FaSchool } from 'react-icons/fa'
-import { Animations } from '@animations'
-import { MdPermContactCalendar, MdPhone, MdVerified } from 'react-icons/md'
-import { IoBriefcase } from 'react-icons/io5'
 import { useContextBar, useNavbar } from '@hooks'
-import { InitialAvatarContainer } from '@components/InitialAvatar/InitialAvatarContainer'
+import { AdminLayout } from '@layouts'
 import {
-   ApprovedStudent,
-   PendingStudent,
-   RejectedStudent,
-   BlockedStudent,
-   ArchivedStudent,
-} from '@partials'
+   ApprovedStudent, ArchivedStudent, BlockedStudent, PendingStudent,
+   RejectedStudent
+} from '@partials/admin/student'
 import { AdminApi } from '@queries'
+import { NextPageWithLayout } from '@types'
 
 const RtoList: NextPageWithLayout = () => {
    const navBar = useNavbar()

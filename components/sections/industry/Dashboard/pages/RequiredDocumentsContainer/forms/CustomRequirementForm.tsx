@@ -78,7 +78,7 @@ export const CustomRequirementForm = ({ courseId, onCancel }: any) => {
         <Popup
           title={'Adding Custom Requirement'}
           subtitle={'Please wait for a moment'}
-          variant={PopupTypes.INFO}
+          variant={'info'}
         />
       ) : (
         <div>

@@ -4,8 +4,8 @@ import { useRouter } from 'next/router'
 // componemts
 import {
   Button,
-  OtherDocumentLinks,
-  PrimaryActionLink,
+  // OtherDocumentLinks,
+  // PrimaryActionLink,
   Typography,
 } from 'components'
 
@@ -18,42 +18,42 @@ export const RightSidebarData = () => {
         src="https://picsum.photos/800/800"
         alt="Sidebar"
       />
-      <Button
+      {/* <Button
         border={'2'}
         borderColor={'primary'}
         bgColor={'primary'}
         onClick={() => navigate('/apply-for-rpl')}
       >
         Apply For RPL
-      </Button>
+      </Button> */}
 
-      <div className="flex flex-col gap-y-2 mt-2">
+      {/* <div className="flex flex-col gap-y-2 mt-2">
         <Typography varient={'text'} color={'gray'}>
           Related Links
         </Typography>
         <OtherDocumentLinks />
-      </div>
+      </div> */}
 
       {/* Other Links */}
       <div className="flex flex-col gap-y-2 mt-2">
-        <Typography varient={'text'} color={'gray'}>
+        <Typography variant={'title'} color={'gray'}>
           Other Links
         </Typography>
-        <PrimaryActionLink
+        {/* <PrimaryActionLink
           bgColor={'white'}
           bgHoverColor={'secondary'}
           title={'Documentation Required'}
           desc={'Some helping text'}
           img={'./images/dashboardbtn.png'}
-        />
+        /> */}
 
-        <PrimaryActionLink
+        {/* <PrimaryActionLink
           bgColor={'white'}
           bgHoverColor={'secondary'}
           title={'Documentation Required'}
           desc={'Some helping text'}
           img={'./images/dashboardbtn2.png'}
-        />
+        /> */}
       </div>
     </div>
   )

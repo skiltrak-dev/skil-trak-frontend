@@ -35,7 +35,7 @@ const EditRto: NextPageWithLayout = () => {
   const [formData, setFormData] = useState<any>('');
 
   const router = useRouter()
-  const editIndustryId = router.query.editIndustryId
+  const editIndustryId = Number(router.query.editIndustryId || -1)
   const navBar = useNavbar()
   const contextBar = useContextBar()
 

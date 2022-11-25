@@ -1,11 +1,11 @@
 import {
-  ActionButton,
-  BackButton,
-  Button,
-  DescriptiveInfo,
-  InitialAvatar,
-  InitialAvatarContainer,
-  Typography,
+    ActionButton,
+    BackButton,
+    Button,
+    DescriptiveInfo,
+    InitialAvatar,
+    InitialAvatarContainer,
+    Typography,
 } from '@components'
 import { useContextBar, useNavbar } from '@hooks'
 import { AdminLayout } from '@layouts'
@@ -13,10 +13,10 @@ import { NextPageWithLayout } from '@types'
 import { useRouter } from 'next/router'
 import { ReactElement, useEffect } from 'react'
 import {
-  AiFillCodeSandboxCircle,
-  AiOutlineBarcode,
-  AiOutlineLogin,
-  AiTwotonePhone,
+    AiFillCodeSandboxCircle,
+    AiOutlineBarcode,
+    AiOutlineLogin,
+    AiTwotonePhone,
 } from 'react-icons/ai'
 import { BsPatchCheckFill } from 'react-icons/bs'
 import { FaArchive, FaBan, FaPhoneAlt } from 'react-icons/fa'
@@ -31,30 +31,32 @@ import { RtoForm } from '@partials/admin/rto/form'
 import { useState } from 'react'
 
 const EditRto: NextPageWithLayout = () => {
-  const [formData, setFormData] = useState<any>('');
+    const [formData, setFormData] = useState<any>('')
 
-  const router = useRouter()
-  const editRtoId = router.query.editRtoId as string
-  const navBar = useNavbar()
-  const contextBar = useContextBar()
+    const router = useRouter()
+    const editRtoId = Number(router.query.editRtoId) || -1
+    const navBar = useNavbar()
+    const contextBar = useContextBar()
 
-  const rto = AdminApi.Rtos.useDetailQuery(editRtoId, {
-    skip: !editRtoId,
-  })
-  console.log("rto", editRtoId, rto);
+    const rto = AdminApi.Rtos.useDetailQuery(editRtoId, {
+        skip: !editRtoId,
+    })
+    console.log('rto', editRtoId, rto)
 
-  useEffect(() => {
-    navBar.setTitle('Edit Rto')
-    contextBar.hide()
-  }, [])
+    useEffect(() => {
+        navBar.setTitle('Edit Rto')
+        contextBar.hide()
+    }, [])
 
-  return (
-    <div className='flex justify-center'><RtoForm onSubmit={rto} /></div>
-  )
+    return (
+        <div className="flex justify-center">
+            <RtoForm onSubmit={rto} />
+        </div>
+    )
 }
 
 EditRto.getLayout = (page: ReactElement) => {
-  return <AdminLayout>{page}</AdminLayout>
+    return <AdminLayout>{page}</AdminLayout>
 }
 
 export default EditRto

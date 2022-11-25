@@ -63,7 +63,7 @@ export const RejectedIndustry = () => {
       },
       {
         text: 'Edit',
-        onClick: () => { router.push(`/portals/admin/industry/edit-industry/${row?.id}`) },
+        onClick: (row:any) => { router.push(`/portals/admin/industry/edit-industry/${row.id}`) },
         Icon: FaEdit,
       },
       {
@@ -123,7 +123,7 @@ export const RejectedIndustry = () => {
       accessorKey: 'action',
       header: () => <span>Action</span>,
       cell: (info) => {
-        const options = tableActionOptions(info.row.original)
+        const options = tableActionOptions(info.row.original as any)
         return (
           <div className="flex gap-x-1 items-center">
             <TableAction

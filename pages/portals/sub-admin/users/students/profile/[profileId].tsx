@@ -29,6 +29,7 @@ import {
 import { FaEdit } from 'react-icons/fa'
 // queries
 import {
+  useGetSubAdminStudentDetailQuery,
   useUpdateAssessmentToolArchiveMutation,
 } from '@queries'
 import { AssessmentsEvidence } from '@components/sections/student/AssessmentsContainer'

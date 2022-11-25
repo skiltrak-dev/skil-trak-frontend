@@ -31,7 +31,7 @@ const RtoDetail: NextPageWithLayout = () => {
     const navBar = useNavbar()
     const contextBar = useContextBar()
 
-    const { data, isLoading } = AdminApi.Rtos.useRtoDetailQuery(
+    const { data, isLoading } = AdminApi.Rtos.useDetailQuery(
         Number(router.query.id),
         {
             skip: !router.query?.id,

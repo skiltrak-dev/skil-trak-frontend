@@ -19,7 +19,7 @@ export const RightSidebarData = () => {
         src="https://picsum.photos/800/800"
         alt="Sidebar"
       />
-      <Button onClick={() => navigate('/apply-for-rpl')}>Apply For RPL</Button>
+      <Button onClick={() => {}}>Apply For RPL</Button>
 
       <div className="flex flex-col gap-y-2 mt-2">
         <Typography variant={'small'} color={'text-gray-700'}>
@@ -29,14 +29,6 @@ export const RightSidebarData = () => {
         <DisplayPrimaryActions actions={GeneralInfoPrimaryActions} />
       </div>
 
-      {/* Other Links */}
-      <div className="w-full flex flex-col gap-y-2 mt-2">
-        <Typography varient={'text'} color={'gray'}>
-          Other Links
-        </Typography>
-
-        {/* <OtherDocumentLinks /> */}
-      </div>
     </div>
   )
 }

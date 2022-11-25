@@ -57,7 +57,7 @@ export const MoUContainer = () => {
             Header: 'Name',
             accessor: 'user',
             sort: true,
-            Cell: ({ row }) => {
+            Cell: ({ row }:any) => {
                 const {
                     user: { name, email, image },
                 } = row.original
@@ -97,7 +97,7 @@ export const MoUContainer = () => {
         {
             Header: 'Status',
             accessor: 'user.status',
-            Cell: ({ row }) => {
+            Cell: ({ row }:any) => {
                 const { mous } = row.original
                 const mou = mous[0] || {}
                 const status = () => {

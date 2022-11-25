@@ -6,7 +6,7 @@ import { Typography } from "components";
 // functions
 import { getAge } from "@utils";
 
-export const StudentProfileData = ({ data }) => {
+export const StudentProfileData = ({ data }:any) => {
 	return (
 		<>
 			<div className="border-b border-secondary-dark pb-1">

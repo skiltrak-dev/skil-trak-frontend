@@ -107,7 +107,7 @@ export const ScheduleCardAction = ({
 
         <MenuItem>
           <div
-            style={{ color: Colors.error, width: '100%' }}
+            style={{ width: '100%' }}
             className="text-xs"
             onClick={
               () => deleteJob(items.id)

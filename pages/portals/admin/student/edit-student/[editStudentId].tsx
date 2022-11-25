@@ -35,7 +35,7 @@ const EditStudent: NextPageWithLayout = () => {
   const [formData, setFormData] = useState<any>('');
 
   const router = useRouter()
-  const editStudentId = router.query.editStudentId as string
+  const editStudentId = Number(router.query.editStudentId)
   const navBar = useNavbar()
   const contextBar = useContextBar()
 

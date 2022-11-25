@@ -18,10 +18,10 @@ export const studentAssessmentApi = createApi({
   }),
   tagTypes: ['StudentAssessmentEvidence'],
   endpoints: (builder) => ({
-    getStudentCourses: builder.query({
-      query: () => `courses/view`,
-      providesTags: ['StudentAssessmentEvidence'],
-    }),
+    // getStudentCourses: builder.query({
+    //   query: () => `courses/view`,
+    //   providesTags: ['StudentAssessmentEvidence'],
+    // }),
 
     getStudentAssessmentTool: builder.query<any, string | null>({
       query: (id: string | null) => `assessment-tool/view/${id}`,
@@ -32,7 +32,7 @@ export const studentAssessmentApi = createApi({
 
 export const {
   useGetStudentAssessmentToolQuery,
-  useGetStudentCoursesQuery,
+  // useGetStudentCoursesQuery,
   // useGetCoordinatorsForStudentQuery,
   // useGetStudentPastAppointmentsQuery,
   // useGetStudentUpcomingAppointmentsQuery,

@@ -19,10 +19,10 @@ export const RightSidebarData = () => {
         src="https://picsum.photos/800/800"
         alt="Sidebar"
       />
-      <Button onClick={() => navigate('/apply-for-rpl')}>Apply For RPL</Button>
+      <Button onClick={() => {}}>Apply For RPL</Button>
 
       <div className="flex flex-col gap-y-2 mt-2">
-        <Typography varient={'text'} color={'gray'}>
+        <Typography variant={'title'} color={'gray'}>
           Related Links
         </Typography>
 

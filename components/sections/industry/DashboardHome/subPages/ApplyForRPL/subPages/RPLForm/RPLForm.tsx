@@ -18,47 +18,47 @@ import {
   Typography,
   LoadingAnimation,
 } from 'components'
-import { RightSidebarData } from '../../components'
-import { UploadRPLDocs } from './components'
+// import { RightSidebarData } from '../../components'
+// import { UploadRPLDocs } from './components'
 
 // Context
-import { RightSidebarContext, useNotification } from 'context'
+// import { RightSidebarContext, useNotification } from 'context'
 
 // redux
-import { useAddRplMutation } from 'redux/query'
+// import { useAddRplMutation } from 'redux/query'
 
 export const RPLForm = () => {
   //add rpl
-  const [addRpl, { data, isSuccess, isLoading, isError, error }] =
-    useAddRplMutation()
+  // const [addRpl, { data, isSuccess, isLoading, isError, error }] =
+  //   useAddRplMutation()
 
   // context for notification
-  const { notification } = useNotification()
+  // const { notification } = useNotification()
 
   const [iseRPLSaved, setIseRPLSaved] = useState(false)
 
   const router = useRouter()
-  const { setRightSideBarChildren } = useContext(RightSidebarContext)
+  // const { setRightSideBarChildren } = useContext(RightSidebarContext)
 
-  useEffect(() => {
-    setRightSideBarChildren(
-      <>
-        <RightSidebarData />
-      </>
-    )
-  }, [setRightSideBarChildren])
+  // useEffect(() => {
+  //   setRightSideBarChildren(
+  //     <>
+  //       <RightSidebarData />
+  //     </>
+  //   )
+  // }, [setRightSideBarChildren])
 
-  useEffect(() => {
-    if (isSuccess) {
-      setTimeout(() => {
-        router.push('/apply-for-rpl')
-      }, 2000)
-      notification.success({
-        title: 'RPL Successfully Applied',
-        description: 'Some description for notification',
-      })
-    }
-  }, [isSuccess])
+  // useEffect(() => {
+  //   if (isSuccess) {
+  //     setTimeout(() => {
+  //       router.push('/apply-for-rpl')
+  //     }, 2000)
+  //     notification.success({
+  //       title: 'RPL Successfully Applied',
+  //       description: 'Some description for notification',
+  //     })
+  //   }
+  // }, [isSuccess])
 
   // useEffect(() => {
   //   if (isError) {
@@ -102,7 +102,7 @@ export const RPLForm = () => {
       formData.append('academicDocuments', element)
     })
 
-    await addRpl(formData)
+    // await addRpl(formData)
     // setIsRPLApplied(true);
     // <Navigate to="/privew-industry" />;
     // navigate("/portal-selection/create-account/review-your-information");
@@ -112,29 +112,30 @@ export const RPLForm = () => {
       {iseRPLSaved && (
         <div className="w-full fixed top-1/2 left-1/3 -translate-y-1/2 z-50">
           <div className="max-w-465">
-            <Popup
+            {/* <Popup
               title={'Saving RPL'}
               subtitle={'Please wait for a moment'}
               titleColor={'info'}
               descColor={'gray'}
               shadow
-            />
+            /> */}
           </div>
         </div>
       )}
-      {isSuccess && (
+      {/* {isSuccess && (
         <Card>
-          {/* <Action
+          <Action
             Icon={BsFillCheckCircleFill}
             title={'Successfully Applied For RPL'}
             description={
               'This prompt should be shown, when some long or multiprocess has been completed, and now user need to return to home or some other page.'
             }
             iconsColor={'success'}
-          /> */}
+          />
         </Card>
-      )}
-      <div className={`${isSuccess ? 'hidden' : ''}`}>
+      )} */}
+      {/* <div className={`${isSuccess ? 'hidden' : ''}`}> */}
+      <div className={``}>
         <BackButton link={'apply-for-rpl'} text={'Back To RPL Instructions'} />
 
         <Card>
@@ -151,11 +152,11 @@ export const RPLForm = () => {
 
               {/* File Upload */}
               <div className="mt-1.5 max-w-220">
-                <UploadRPLDocs
+                {/* <UploadRPLDocs
                   name={'cnic'}
                   fileupload={setFieldValue}
                   acceptFiles={'image/png'}
-                />
+                /> */}
               </div>
 
               {/*  */}
@@ -169,11 +170,11 @@ export const RPLForm = () => {
                 {/* File Upload */}
                 <div className="flex justify-between items-end gap-x-6">
                   <div className="mt-1.5 w-1/4">
-                    <UploadRPLDocs
+                    {/* <UploadRPLDocs
                       name={'resume'}
                       fileupload={setFieldValue}
                       acceptFiles={'application/pdf'}
-                    />
+                    /> */}
                   </div>
                   <div className="w-3/4">
                     <TextArea
@@ -197,11 +198,11 @@ export const RPLForm = () => {
 
                 {/* File Upload */}
                 <div className="mt-1.5 max-w-220">
-                  <UploadRPLDocs
+                  {/* <UploadRPLDocs
                     name={`financialEvidence[0]`}
                     fileupload={setFieldValue}
                     acceptFiles={'application/pdf'}
-                  />
+                  /> */}
                 </div>
               </div>
 
@@ -215,27 +216,27 @@ export const RPLForm = () => {
 
                 {/* File Upload */}
                 <div className="mt-1.5 flex gap-x-3 w-full md:w-5/6">
-                  <UploadRPLDocs
+                  {/* <UploadRPLDocs
                     name={`academicDocuments[0]`}
                     fileupload={setFieldValue}
                     acceptFiles={
                       'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
                     }
-                  />
-                  <UploadRPLDocs
+                  /> */}
+                  {/* <UploadRPLDocs
                     name={`academicDocuments[1]`}
                     fileupload={setFieldValue}
                     acceptFiles={
                       'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
                     }
-                  />
-                  <UploadRPLDocs
+                  /> */}
+                  {/* <UploadRPLDocs
                     name={`academicDocuments[2]`}
                     fileupload={setFieldValue}
                     acceptFiles={
                       'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
                     }
-                  />
+                  /> */}
                 </div>
               </div>
 
@@ -248,9 +249,9 @@ export const RPLForm = () => {
                 >
                   Save
                 </Button>
-                <Button submit loading={isLoading} disabled={isLoading}>
+                {/* <Button submit loading={isLoading} disabled={isLoading}>
                   Continue
-                </Button>
+                </Button> */}
               </div>
             </form>
           </FormProvider>

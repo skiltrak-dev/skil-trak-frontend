@@ -18,7 +18,7 @@ type Props = {}
 const Workplace: NextPageWithLayout = (props: Props) => {
 
   // const subAdminWorkplace = useGetSubAdminWorkplacesQuery()
-  const subAdminWorkplace = AdminApi.Workplace.useWorkplaceListQuery()
+  const subAdminWorkplace = AdminApi.Workplace.useWorkplaceListQuery({})
   console.log("Workplaces", subAdminWorkplace);
 
   return (

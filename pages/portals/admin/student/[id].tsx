@@ -41,7 +41,6 @@ import { IoLogIn } from 'react-icons/io5'
 import { MdPlace } from 'react-icons/md'
 import Image from 'next/image'
 import { GoPrimitiveDot } from 'react-icons/go'
-import { RequiredDocs } from '@partials/admin/student/pages'
 
 
 const Detail: NextPageWithLayout = () => {

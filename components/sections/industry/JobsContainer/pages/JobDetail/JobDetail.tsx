@@ -72,14 +72,12 @@ export const JobDetailContainer = () => {
             onClick: () => {
                 router.push(`/jobs/advertise-new-job/${jobId}`)
             },
-            color: Colors.secondary,
         },
         {
             text: 'Delete',
             style: 'error',
             Icon: AiFillDelete,
             onClick: (job: any) => onDeleteClicked(job),
-            color: Colors.error,
         },
     ]
 
@@ -92,7 +90,11 @@ export const JobDetailContainer = () => {
                     text={'Back To Jobs'}
                 />
                 {data && (
-                    <TableAction options={TableActionOption} rowItem={data} />
+                    <TableAction
+                        text="..."
+                        options={TableActionOption}
+                        rowItem={data}
+                    />
                 )}
             </div>
 
