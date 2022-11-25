@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import dynamic from 'next/dynamic'
 import { EditorProps } from 'react-draft-wysiwyg'
 import draftToHtml from 'draftjs-to-html'
-import htmlToDraft from 'html-to-draftjs'
+// import htmlToDraft from 'html-to-draftjs'
 import { EditorState, ContentState, convertToRaw } from 'draft-js'
 const Editor = dynamic<EditorProps>(
   () => import('react-draft-wysiwyg').then((mod) => mod.Editor),
@@ -10,6 +10,9 @@ const Editor = dynamic<EditorProps>(
     ssr: false,
   }
 )
+
+const htmlToDraft =
+  typeof window === 'object' && require('html-to-draftjs').default
 
 // import { Editor } from 'react-draft-wysiwyg'
 // const htmlToDraft = dynamic(
