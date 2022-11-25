@@ -60,7 +60,7 @@ const Login: NextPage = () => {
             case 'student':
                 router.push('/portals/student')
                 break
-            case 'sub-admin':
+            case 'subadmin':
                 router.push('/portals/sub-admin')
                 break
         }
@@ -73,7 +73,7 @@ const Login: NextPage = () => {
                 setRequested(true)
                 break
             case 'approved':
-                router.push(`/portals/${role}`)
+                nextDestination(role)
                 break
             case 'rejected':
                 setRejected(true)

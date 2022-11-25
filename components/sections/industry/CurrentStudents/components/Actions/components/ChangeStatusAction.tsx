@@ -61,6 +61,7 @@ export const ChangeStatusAction = ({ industry }: any) => {
                 <div className="absolute z-20 mt-2 bg-white py-2 shadow-lg rounded w-full">
                     {changeStatusAction.map(({ text, onClick }) => (
                         <p
+                            key={text}
                             className="text-xs text-gray-600 font-medium py-1 border-b border-gray-200 cursor-pointer px-2 hover:bg-gray-200"
                             onClick={() => {
                                 onClick()

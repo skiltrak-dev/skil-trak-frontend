@@ -39,6 +39,18 @@ const PrimaryLinks = [
         link: 'tasks/assessment-evidence',
         animation: Animations.Student.Appointments.AssessmentEvidence,
     },
+    {
+        title: 'Set Scheduled',
+        description: 'Some helping text',
+        link: 'tasks/set-schedule',
+        animation: Animations.Student.Appointments.AssessmentEvidence,
+    },
+    {
+        title: 'Set Unavailability',
+        description: 'Some helping text',
+        link: 'tasks/set-unavailability',
+        animation: Animations.Student.Appointments.AssessmentEvidence,
+    },
 ]
 
 const RelatedQuestions = [

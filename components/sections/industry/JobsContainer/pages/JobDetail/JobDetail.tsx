@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState, ReactElement } from 'react'
 import { useRouter } from 'next/router'
 
 // Icons
@@ -7,13 +7,15 @@ import { AiFillDelete } from 'react-icons/ai'
 
 // components
 import {
-  Card,
-  Popup,
-  LoadingAnimation,
-  BackButton,
-  //   ActionDropDown,
-  //   DeleteActionPopup,
-} from 'components'
+    Card,
+    Popup,
+    LoadingAnimation,
+    BackButton,
+    TableAction,
+    //   ActionDropDown,
+    //   DeleteActionPopup,
+} from '@components'
+import { DeleteModal } from '../../modals'
 import { JobDetailData } from './components'
 
 // Context
@@ -23,136 +25,92 @@ import { JobDetailData } from './components'
 // redux
 import { useGetJobDetailQuery, useRemoveJobMutation } from '@queries'
 import { getThemeColors } from '@theme'
-import { EmptyData } from 'components'
+import { EmptyData } from '@components'
 
 const Colors = getThemeColors()
 
 export const JobDetailContainer = () => {
-  //  param
-  const router = useRouter()
-  const jobId = router.query.jobId
+    //  param
+    const router = useRouter()
+    const jobId = router.query.jobId
 
-  const { data, isLoading } = useGetJobDetailQuery(jobId)
-  const [jobRemove, jobRemoveData] = useRemoveJobMutation()
+    const [modal, setModal] = useState<ReactElement | null>(null)
 
-  console.log('jobRemoveData', jobRemoveData)
+    const { data, isLoading, isError } = useGetJobDetailQuery(jobId)
 
-  // contexts
-  // const { setjobData } = useContext(JobDataContext);
-  // const { showAlerts, setShowAlerts } = useContext(AlertsContext);
-  // const { notification } = useNotification();
-
-  const [removeJob, setRemoveJob] = useState<any | null>({
-    isRemove: false,
-    id: '',
-  })
-
-  // For redirecting to jobs list page after successfully deleted
-  useEffect(() => {
-    if (jobRemoveData.isSuccess) {
-      router.push('/jobs/advertised-jobs')
+    const onModalCancelClicked = () => {
+        setModal(null)
     }
-  }, [jobRemoveData.isSuccess])
 
-  // const statusStyle = (status) => {
-  //   return status === "Active"
-  //     ? "success"
-  //     : status === userStatus.PENDING
-  //     ? "info"
-  //     : status === "Expired"
-  //     ? "error"
-  //     : "primary";
-  // };
+    const onDeleteClicked = (job: any) => {
+        setModal(
+            <DeleteModal job={job} onCancel={() => onModalCancelClicked()} />
+        )
+    }
 
-  const TableActionOption = [
-    {
-      text: 'Edit',
-      Icon: MdEdit,
-      action: () => {
-        router.push(`/jobs/advertise-new-job/${jobId}`)
-      },
-      color: Colors.secondary,
-    },
-    {
-      text: 'Delete',
-      style: 'error',
-      Icon: AiFillDelete,
-      action: () => {
-        setRemoveJob({
-          isRemove: true,
-          id: jobId,
-        })
-      },
-      color: Colors.error,
-    },
-  ]
+    // contexts
+    // const { setjobData } = useContext(JobDataContext);
+    // const { showAlerts, setShowAlerts } = useContext(AlertsContext);
+    // const { notification } = useNotification();
 
-  // confirm Delete
-  const deleteJob = async (id: any) => {
-    setRemoveJob({
-      isRemove: false,
-      id: '',
-    })
-    await jobRemove(id)
-  }
+    // For redirecting to jobs list page after successfully deleted
 
-  return (
-    <div>
-      <div className="flex justify-between items-center mb-2">
-        <BackButton
-          link={'/portals/industry/jobs/advertised-jobs'}
-          text={'Back To Jobs'}
-        />
-        {/* {data && <ActionDropDown dropDown={TableActionOption} />} */}
-      </div>
+    // const statusStyle = (status) => {
+    //   return status === "Active"
+    //     ? "success"
+    //     : status === userStatus.PENDING
+    //     ? "info"
+    //     : status === "Expired"
+    //     ? "error"
+    //     : "primary";
+    // };
 
-      {/* Alert */}
-      {/* {showAlerts && showAlerts} */}
+    const TableActionOption = [
+        {
+            text: 'Edit',
+            Icon: MdEdit,
+            onClick: () => {
+                router.push(`/jobs/advertise-new-job/${jobId}`)
+            },
+            color: Colors.secondary,
+        },
+        {
+            text: 'Delete',
+            style: 'error',
+            Icon: AiFillDelete,
+            onClick: (job: any) => onDeleteClicked(job),
+            color: Colors.error,
+        },
+    ]
 
-      {/*  */}
-      <Card>
-        {!isLoading ? (
-          data ? (
-            <JobDetailData data={data} />
-          ) : (
-            'Empty'
-          )
-        ) : (
-          <LoadingAnimation />
-        )}
-      </Card>
+    return (
+        <div>
+            {modal}
+            <div className="flex justify-between items-center mb-2">
+                <BackButton
+                    link={'/portals/industry/jobs/advertised-jobs'}
+                    text={'Back To Jobs'}
+                />
+                {data && (
+                    <TableAction options={TableActionOption} rowItem={data} />
+                )}
+            </div>
 
-      {/* Popup for delete job */}
-      {/* {removeJob.isRemove && (
-        <DeleteActionPopup
-          title={'Delete Job'}
-          description={
-            'Your job advertisement ‘New Job Advertisement’ will be deleted permanently. Do you want to continue'
-          }
-          onCancel={() =>
-            setRemoveJob({
-              isRemove: false,
-              id: '',
-            })
-          }
-          onConfirm={() => {
-            deleteJob(removeJob.id)
-          }}
-        />
-      )} */}
+            {/* Alert */}
+            {/* {showAlerts && showAlerts} */}
 
-      {/* showing Popup when job delete is in progress */}
-      {/* {jobRemoveData.isLoading && (
-        <div className="fixed top-1/2 left-1/2 w-465 -translate-x-1/2 -translate-y-1/2">
-          <Popup
-            title={'Deleting Job'}
-            subtitle={'Please wait for a moment'}
-            titleColor={'error'}
-            descColor={'gray'}
-            shadow={4}
-          />
+            {/*  */}
+            <Card>
+                {!isLoading ? (
+                    data ? (
+                        <JobDetailData data={data} />
+                    ) : (
+                        !isError && <EmptyData />
+                    )
+                ) : (
+                    <LoadingAnimation />
+                )}
+            </Card>
         </div>
-      )} */}
-    </div>
-  )
+    )
 }

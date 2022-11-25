@@ -2,10 +2,16 @@ import React, { useState } from 'react'
 import { useRouter } from 'next/router'
 
 // components
-import { Typography, Card, Button, LoadingAnimation } from '@components'
 import {
-  AssessmentCourse,
-  DownloadableFile,
+    Typography,
+    Card,
+    Button,
+    LoadingAnimation,
+    EmptyData,
+} from '@components'
+import {
+    AssessmentCourse,
+    DownloadableFile,
 } from '@components/AssessmentsTools'
 
 // query
@@ -13,105 +19,116 @@ import { useGetRTOAssessmentToolsQuery } from '@queries'
 import Link from 'next/link'
 
 export const AssessmentTools = ({ id, courses, actions }: any) => {
-  const router = useRouter()
+    const router = useRouter()
 
-  const [selectedCourseId, setSelectedCourseId] = useState<any | null>(null)
-  const getAssessmentTools = useGetRTOAssessmentToolsQuery(selectedCourseId, {
-    skip: !selectedCourseId,
-  })
-  return courses && courses?.length > 0 ? (
-    <div>
-      <div className="mb-2">
-        <Typography variant="muted" color="text-gray-400">
-          *You can access all your assessment tools by clicking on download
-          button for your placement unit you are currently enrolled in.
-        </Typography>
-      </div>
-      <Card noPadding>
-        <div className="flex">
-          <div className="w-[25%] border-r">
-            <div className={`p-3.5`}>
-              <Typography variant="label" color="text-black">
-                Select a Course
-              </Typography>
+    const [selectedCourseId, setSelectedCourseId] = useState<any | null>(null)
+    const getAssessmentTools = useGetRTOAssessmentToolsQuery(selectedCourseId, {
+        skip: !selectedCourseId,
+    })
+    return courses && courses?.length > 0 ? (
+        <div>
+            <div className="mb-2">
+                <Typography variant="muted" color="text-gray-400">
+                    *You can access all your assessment tools by clicking on
+                    download button for your placement unit you are currently
+                    enrolled in.
+                </Typography>
             </div>
-            {courses?.map((course: any, index: any) => (
-              <>
-                <AssessmentCourse
-                  code={course?.code}
-                  name={course?.title}
-                  id={course?.id}
-                  onClick={() => setSelectedCourseId(course?.id)}
-                  selectedCourseId={selectedCourseId}
-                />
-              </>
-            ))}
-          </div>
-          <div className="w-[75%]">
-            <div className="flex justify-end gap-x-2.5 p-4">
-              <Button variant="primary" text="ADD ASSESSMENT" />
-              <Button
-                variant="dark"
-                text="VIEW ARCHIVED"
-                onClick={() => {
-                  router.push(
-                    `/portals/sub-admin/users/rtos/profile/7?tab=archived-assessments`
-                  )
-                }}
-              />
-            </div>
+            <Card noPadding>
+                <div className="flex">
+                    <div className="w-[25%] border-r">
+                        <div className={`p-3.5`}>
+                            <Typography variant="label" color="text-black">
+                                Select a Course
+                            </Typography>
+                        </div>
+                        {courses?.map((course: any, index: any) => (
+                            <>
+                                <AssessmentCourse
+                                    code={course?.code}
+                                    name={course?.title}
+                                    id={course?.id}
+                                    onClick={() =>
+                                        setSelectedCourseId(course?.id)
+                                    }
+                                    selectedCourseId={selectedCourseId}
+                                />
+                            </>
+                        ))}
+                    </div>
+                    <div className="w-[75%]">
+                        <div className="flex justify-end gap-x-2.5 p-4">
+                            <Button variant="primary" text="ADD ASSESSMENT" />
+                            <Button
+                                variant="dark"
+                                text="VIEW ARCHIVED"
+                                onClick={() => {
+                                    router.push(
+                                        `/portals/sub-admin/users/rtos/profile/7?tab=archived-assessments`
+                                    )
+                                }}
+                            />
+                        </div>
 
-            {getAssessmentTools?.data && (
-              <div className={`border-b border-t p-4`}>
-                <div className="flex justify-between">
-                  <Typography variant="label" color="text-black">
-                    Description
-                  </Typography>
-                  <Typography variant="label" color="text-black">
-                    Action
-                  </Typography>
+                        {getAssessmentTools?.data && (
+                            <div className={`border-b border-t p-4`}>
+                                <div className="flex justify-between">
+                                    <Typography
+                                        variant="label"
+                                        color="text-black"
+                                    >
+                                        Description
+                                    </Typography>
+                                    <Typography
+                                        variant="label"
+                                        color="text-black"
+                                    >
+                                        Action
+                                    </Typography>
+                                </div>
+                            </div>
+                        )}
+                        <div className="p-2 min-h-[260px]">
+                            {getAssessmentTools?.isLoading ? (
+                                <LoadingAnimation />
+                            ) : getAssessmentTools?.data &&
+                              getAssessmentTools?.data?.length > 0 ? (
+                                getAssessmentTools?.data?.map((tools) => (
+                                    <DownloadableFile
+                                        key={tools.id}
+                                        actions={() => actions(tools?.id)}
+                                        role={'RTO'}
+                                        name={tools?.title}
+                                        archivedView={false}
+                                    />
+                                ))
+                            ) : !getAssessmentTools?.data ? (
+                                <div className="flex justify-center items-center h-full">
+                                    <Typography>
+                                        No Course is Selected
+                                    </Typography>
+                                </div>
+                            ) : (
+                                <EmptyData />
+                            )}
+                        </div>
+                    </div>
                 </div>
-              </div>
-            )}
-            <div className="p-2 min-h-[260px]">
-              {getAssessmentTools?.isLoading ? (
-                <LoadingAnimation />
-              ) : getAssessmentTools?.data &&
-                getAssessmentTools?.data?.length > 0 ? (
-                getAssessmentTools?.data?.map((tools) => (
-                  <DownloadableFile
-                    key={tools.id}
-                    actions={() => actions(tools?.id)}
-                    role={'RTO'}
-                    name={tools?.title}
-                    archivedView={false}
-                  />
-                ))
-              ) : !getAssessmentTools?.data ? (
-                <div className="flex justify-center items-center h-full">
-                  <Typography>No Course is Selected</Typography>
-                </div>
-              ) : (
-                <Typography>Empty</Typography>
-              )}
+            </Card>
+            <div className="mt-6">
+                <Typography variant="label" color="text-black">
+                    What you want to do here?
+                </Typography>
             </div>
-          </div>
+            <div>
+                <Typography variant="label" color="text-blue-500">
+                    <Link href="#">
+                        I want to access my assessment tool for enrolled course
+                    </Link>
+                </Typography>
+            </div>
         </div>
-      </Card>
-      <div className="mt-6">
-        <Typography variant="label" color="text-black">
-          What you want to do here?
-        </Typography>
-      </div>
-      <div>
-        <Typography variant="label" color="text-blue-500">
-          <Link href="#">
-            I want to access my assessment tool for enrolled course
-          </Link>
-        </Typography>
-      </div>
-    </div>
-  ) : (
-    <Typography>Empty</Typography>
-  )
+    ) : (
+        <EmptyData />
+    )
 }

@@ -1,7 +1,7 @@
 import { JobCard } from './components/JobCard'
 
 // components
-import { LoadingAnimation } from '@components/LoadingAnimation'
+import { LoadingAnimation, EmptyData } from '@components'
 
 // query
 import { useGetStudentJobsQuery, useSaveJobMutation } from '@queries'
@@ -38,7 +38,7 @@ export const JobContainer = (props: Props) => {
                     />
                 ))
             ) : (
-                !isError && 'Empty'
+                !isError && <EmptyData />
             )}
         </div>
     )
