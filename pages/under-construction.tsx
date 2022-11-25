@@ -29,10 +29,10 @@ const UnderConstruction: NextPage = () => {
 
 				<Button
 					onClick={() => {
-						router.back();
+						router.push('/auth/login');
 					}}
 				>
-					Go Back
+					Login
 				</Button>
 			</div>
 		</div>
