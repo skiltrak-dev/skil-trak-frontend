@@ -1,22 +1,21 @@
 import { ReactElement, useEffect } from 'react'
 
-import {
-   TabNavigation,
-   TabProps
-} from '@components'
+import { TabNavigation, TabProps, Button } from '@components'
 import { useContextBar, useNavbar } from '@hooks'
 import { AdminLayout } from '@layouts'
 import {
-   ApprovedSubAdmin,
-   ArchivedSubAdmin,
-   BlockedSubAdmin,
-   PendingSubAdmin,
-   RejectedSubAdmin
+    ApprovedSubAdmin,
+    ArchivedSubAdmin,
+    BlockedSubAdmin,
+    PendingSubAdmin,
+    RejectedSubAdmin,
 } from '@partials/admin/sub-admin'
 import { AdminApi } from '@queries'
 import { NextPageWithLayout } from '@types'
+import { useRouter } from 'next/router'
 
 const SubAdminList: NextPageWithLayout = () => {
+    const router = useRouter()
     const navBar = useNavbar()
     const contextBar = useContextBar()
 
@@ -82,7 +81,18 @@ const SubAdminList: NextPageWithLayout = () => {
                 {({ header, element }: any) => {
                     return (
                         <div>
-                            <div>{header}</div>
+                            <div className="flex items-end justify-between">
+                                <div>{header}</div>
+                                <div className="px-6">  
+                                <Button
+                                    text={'Add Sub Admin'}
+                                    variant={'primary'}
+                                    onClick={()=>{
+                                        router.push('/portals/admin/sub-admin/form')
+                                    }}
+                                />
+                                </div>
+                            </div>
                             <div className="p-4">{element}</div>
                         </div>
                     )

@@ -13,6 +13,7 @@ export * from './Notification'
 export * from './SpecialLink'
 export * from './CircularProgress'
 export * from './ActionDropDown'
+export * from './Mail'
 
 // export * from './Pagination'
 export * from './PopUp'

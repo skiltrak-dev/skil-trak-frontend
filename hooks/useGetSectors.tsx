@@ -5,7 +5,7 @@ export const useGetSectors = (data: any) => {
   useEffect(() => {
     if (data.data && data.isSuccess) {
       let newSectors: any[] = []
-      data.data.map((sector: any) => {
+      data.data?.map((sector: any) => {
         const findIndex = newSectors.findIndex(
           (data) => data.name === sector?.sector?.name
         )
