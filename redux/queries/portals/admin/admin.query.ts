@@ -13,6 +13,7 @@ import { folderEndpoints } from './folder'
 import { appointmentTypeEndpoints } from './appointment-type'
 import { jobEndpoints } from './job'
 import { workplaceEndpoints } from './workplace'
+
 export const adminApi = createApi({
     reducerPath: 'adminApi',
     baseQuery: fetchBaseQuery({
