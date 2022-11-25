@@ -14,6 +14,7 @@ import { appointmentTypeEndpoints } from './appointment-type'
 import { jobEndpoints } from './job'
 import { workplaceEndpoints } from './workplace'
 import { messagesEndpoints } from './messages'
+import { AdminStats } from '@types'
 
 export const adminApi = createApi({
     reducerPath: 'adminApi',
@@ -40,10 +41,16 @@ export const adminApi = createApi({
         'AppointmentTypes',
         'Jobs',
         'Messages',
+        'Statistics',
     ],
 
     // ---------- RTO ENDPOINTS ---------- //
     endpoints: (build) => ({
+        statistics: build.query<AdminStats, void>({
+            query: () => `admin/count`,
+            providesTags: ['Statistics'],
+        }),
+
         ...rtoEndpoints(build),
         ...studentEndpoints(build),
         ...subscriberEndpoints(build),
@@ -61,6 +68,9 @@ export const adminApi = createApi({
 })
 
 const {
+    // ------ ADMIN ------ //
+    useStatisticsQuery,
+
     // ------ RTO ------ //
     useRtoCountQuery,
     useRtosQuery,
@@ -157,6 +167,9 @@ const {
 } = adminApi
 
 export const AdminApi = {
+    Admin: {
+        useCount: useStatisticsQuery,
+    },
     Rtos: {
         useCountQuery: useRtoCountQuery,
         useListQuery: useRtosQuery,

@@ -47,14 +47,16 @@ export const UserActions = () => {
                 className="flex justify-between items-center gap-x-2 cursor-pointer"
                 onClick={() => setShowOptions(!showOptions)}
             >
-                <Image
-                    src="https://picsum.photos/80"
-                    alt="User Name Here"
-                    width={48}
-                    height={48}
-                    className="rounded-md"
-                    layout="fixed"
-                />
+                <div>
+                    <Image
+                        src={credentials.avatar || 'https://picsum.photos/80'}
+                        alt="User Name Here"
+                        width={32}
+                        height={36}
+                        className="rounded-md"
+                        layout="fixed"
+                    />
+                </div>
                 <div>
                     <p className="text-sm font-medium">
                         {credentials.name ? (
