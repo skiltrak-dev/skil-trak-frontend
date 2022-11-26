@@ -68,13 +68,15 @@ export const ApprovedRto = () => {
         },
         {
             text: 'Edit',
-            onClick: (rto:Rto) => { router.push(`/portals/admin/rto/edit/${rto.id}`) },
+            onClick: (rto: Rto) => {
+                router.push(`/portals/admin/rto/edit/${rto.id}`)
+            },
             Icon: FaEdit,
-         },
-         {
+        },
+        {
             text: 'Sub Admins',
             onClick: (item: any) => {
-               onViewSubAdminsClicked(item)
+                onViewSubAdminsClicked(item)
             },
             Icon: FaEdit,
         },

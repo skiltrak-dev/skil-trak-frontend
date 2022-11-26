@@ -13,6 +13,7 @@ import { folderEndpoints } from './folder'
 import { appointmentTypeEndpoints } from './appointment-type'
 import { jobEndpoints } from './job'
 import { workplaceEndpoints } from './workplace'
+import { messagesEndpoints } from './messages'
 import { AdminStats } from '@types'
 
 export const adminApi = createApi({
@@ -39,6 +40,7 @@ export const adminApi = createApi({
         'Folders',
         'AppointmentTypes',
         'Jobs',
+        'Messages',
         'Statistics',
         'Workplaces',
     ],
@@ -62,6 +64,7 @@ export const adminApi = createApi({
         ...appointmentTypeEndpoints(build),
         ...jobEndpoints(build),
         ...workplaceEndpoints(build),
+        ...messagesEndpoints(build),
     }),
 })
 
@@ -129,6 +132,7 @@ const {
     // ------ SUB ADMINS ------ //
     useSubAdminsQuery,
     useSubAdminCountQuery,
+    useCreateSubAdminMutation,
 
     //------ WORKPLACE -----//
     useUnAssignedSubAdminsQuery,
@@ -142,6 +146,9 @@ const {
     useNoteUpdateMutation,
     useNoteRemoveMutation,
     useNoteStatusChangeMutation,
+
+    // -------Messages-------//
+    useGetAdminMessagesQuery,
 
     // ------ FOLDERS ------ //
     useFolderAddMutation,
@@ -197,6 +204,7 @@ export const AdminApi = {
     SubAdmins: {
         useListQuery: useSubAdminsQuery,
         useCountQuery: useSubAdminCountQuery,
+        createSubAmin: useCreateSubAdminMutation,
     },
     Workplace: {
         useListQuery: useUnAssignedSubAdminsQuery,
@@ -241,6 +249,10 @@ export const AdminApi = {
         useUpdate: useNoteUpdateMutation,
         useRemove: useNoteRemoveMutation,
         useStatusChange: useNoteStatusChangeMutation,
+    },
+
+    Messages: {
+        useList: useGetAdminMessagesQuery,
     },
 
     Folders: {

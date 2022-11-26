@@ -1,6 +1,6 @@
 import {
-    ActionButton,
     Button,
+    ActionButton,
     Card,
     EmptyData,
     Filter,
@@ -12,28 +12,29 @@ import {
 } from '@components'
 import { PageHeading } from '@components/headings'
 import { ColumnDef } from '@tanstack/react-table'
-import { FaEdit, FaEye, FaFileExport, FaFilter, FaTrash } from 'react-icons/fa'
+import { FaEdit, FaEye, FaFileExport } from 'react-icons/fa'
 
 import { AdminApi } from '@queries'
 import { MdBlock, MdEmail, MdPhoneIphone } from 'react-icons/md'
 import { ReactElement, useState } from 'react'
-import { CgUnblock } from 'react-icons/cg'
-import { SectorCell, StudentCellInfo } from './components'
-import { Student } from '@types'
-import { DeleteModal, UnblockModal } from './modals'
-import { RtoCellInfo } from '../rto/components'
-import { useRouter } from 'next/router'
 
-export const BlockedStudent = () => {
+import { Rto, SubAdmin } from '@types'
+import { useContextBar } from '@hooks'
+import { useRouter } from 'next/router'
+import { SubAdminCell } from '@partials/admin/sub-admin'
+import { DeleteModal } from '../../modals'
+
+export const SubAdminsTab = () => {
     const router = useRouter()
+
     const [modal, setModal] = useState<ReactElement | null>(null)
+
     const [filterAction, setFilterAction] = useState(null)
     const [itemPerPage, setItemPerPage] = useState(5)
     const [page, setPage] = useState(1)
     const [filter, setFilter] = useState({})
-
-    const { isLoading, data } = AdminApi.Students.useListQuery({
-        search: `status:blocked,${JSON.stringify(filter)
+    const { isLoading, data } = AdminApi.Rtos.useListQuery({
+        search: `status:approved,${JSON.stringify(filter)
             .replaceAll('{', '')
             .replaceAll('}', '')
             .replaceAll('"', '')
@@ -45,22 +46,13 @@ export const BlockedStudent = () => {
     const onModalCancelClicked = () => {
         setModal(null)
     }
-    const onUnblockClicked = (student: Student) => {
+    const onDeleteClicked = (rto: Rto) => {
         setModal(
-            <UnblockModal
-                item={student}
-                onCancel={() => onModalCancelClicked()}
-            />
+            <DeleteModal rto={rto} onCancel={() => onModalCancelClicked()} />
         )
     }
-    const onDeleteClicked = (student: Student) => {
-        setModal(
-            <DeleteModal
-                item={student}
-                onCancel={() => onModalCancelClicked()}
-            />
-        )
-    }
+
+    const contextBar = useContextBar()
 
     const tableActionOptions: TableActionOption[] = [
         {
@@ -70,67 +62,53 @@ export const BlockedStudent = () => {
         },
         {
             text: 'Edit',
-            onClick: (row: any) => {
-                router.push(`/portals/admin/student/edit-student/${row?.id}`)
+            onClick: (rto: Rto) => {
+                // router.push(`/portals/admin/rto/edit/${rto.id}`)
             },
             Icon: FaEdit,
         },
         {
-            text: 'Unblock',
-            onClick: (student: Student) => onUnblockClicked(student),
-            Icon: CgUnblock,
-            color: 'text-orange-500 hover:bg-orange-100 hover:border-orange-200',
-        },
-        {
             text: 'Delete',
-            onClick: (student: Student) => onDeleteClicked(student),
-            Icon: FaTrash,
+            onClick: (subAdmin: SubAdmin) => onDeleteClicked(subAdmin),
+            Icon: MdBlock,
             color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
         },
     ]
 
-    const columns: ColumnDef<any>[] = [
+    const columns: ColumnDef<SubAdmin>[] = [
         {
             accessorKey: 'user.name',
             cell: (info) => {
-                return <StudentCellInfo student={info.row.original} />
+                return <SubAdminCell rto={info.row.original} />
             },
-            header: () => <span>Student</span>,
+            header: () => <span>Name</span>,
+        },
+        {
+            accessorKey: 'email',
+            header: () => <span>Email</span>,
+            cell: (info) => info.getValue(),
         },
         {
             accessorKey: 'phone',
-            header: () => <span>Phone</span>,
-            cell: (info) => info.getValue(),
-        },
-
-        {
-            accessorKey: 'suburb',
-            header: () => <span>Address</span>,
-            cell: (info) => info.getValue(),
+            header: () => <span>Students</span>,
+            cell: (info) => info?.row?.original?.phone,
         },
         {
-            accessorKey: 'rto',
-            header: () => <span>RTO</span>,
+            accessorKey: 'assignedBy',
+            header: () => <span>Assigned By</span>,
             cell: (info) => {
-                return <RtoCellInfo rto={info.row.original.rto} short />
-            },
-        },
-        {
-            accessorKey: 'sectors',
-            header: () => <span>Sectors</span>,
-            cell: (info) => {
-                return <SectorCell student={info.row.original} />
+                return 'Assigned By'
             },
         },
         {
             accessorKey: 'action',
             header: () => <span>Action</span>,
-            cell: (info: any) => {
+            cell: ({ row }: any) => {
                 return (
                     <div className="flex gap-x-1 items-center">
                         <TableAction
                             options={tableActionOptions}
-                            rowItem={info.row.original}
+                            rowItem={row.original}
                         />
                     </div>
                 )
@@ -140,26 +118,23 @@ export const BlockedStudent = () => {
 
     const quickActionsElements = {
         id: 'id',
-        individual: (id: number) => (
+        individual: (item: Rto) => (
             <div className="flex gap-x-2">
+                <ActionButton Icon={FaEdit}>Edit</ActionButton>
                 <ActionButton>Sub Admins</ActionButton>
-                <ActionButton Icon={CgUnblock} variant="warning">
-                    Unblock
-                </ActionButton>
-                <ActionButton Icon={FaTrash} variant="error">
-                    Delete
+                <ActionButton
+                    Icon={MdBlock}
+                    variant="error"
+                    onClick={() => onDeleteClicked(item)}
+                >
+                    Block
                 </ActionButton>
             </div>
         ),
-        common: (ids: number[]) => (
-            <div className="flex gap-x-2">
-                <ActionButton Icon={CgUnblock} variant="warning">
-                    Unblock
-                </ActionButton>
-                <ActionButton Icon={FaTrash} variant="error">
-                    Delete
-                </ActionButton>
-            </div>
+        common: (items: Rto[]) => (
+            <ActionButton Icon={MdBlock} variant="error">
+                Block
+            </ActionButton>
         ),
     }
 
@@ -167,22 +142,6 @@ export const BlockedStudent = () => {
         <>
             {modal && modal}
             <div className="flex flex-col gap-y-4 mb-32">
-                <PageHeading
-                    title={'Blocked Students'}
-                    subtitle={'List of Blocked Students'}
-                >
-                    {data && data?.data.length ? (
-                        <>
-                            {filterAction}
-                            <Button
-                                text="Export"
-                                variant="action"
-                                Icon={FaFileExport}
-                            />
-                        </>
-                    ) : null}
-                </PageHeading>
-
                 {data && data?.data.length ? (
                     <Filter
                         component={RtoFilters}
@@ -196,7 +155,7 @@ export const BlockedStudent = () => {
                     {isLoading ? (
                         <LoadingAnimation height="h-[60vh]" />
                     ) : data && data?.data.length ? (
-                        <Table
+                        <Table<Rto>
                             columns={columns}
                             data={data.data}
                             quickActions={quickActionsElements}
@@ -230,9 +189,9 @@ export const BlockedStudent = () => {
                         </Table>
                     ) : (
                         <EmptyData
-                            title={'No Blocked RTO!'}
+                            title={'No Approved RTO!'}
                             description={
-                                'You have not blocked any RTO request yet'
+                                'You have not approved any RTO request yet'
                             }
                             height={'50vh'}
                         />

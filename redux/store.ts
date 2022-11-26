@@ -29,6 +29,7 @@ import {
     folderApi,
     rtpMOUApi,
     adminApi,
+    messageApi,
     studentAssessmentApi,
     rtoIndustriesApi,
     studentFindAbnApi,
@@ -42,6 +43,7 @@ export const store = configureStore({
     reducer: {
         // Add the generated reducer as a specific top-level slice
         [authApi.reducerPath]: authApi.reducer,
+        [messageApi.reducerPath]: messageApi.reducer,
         [subAdminSettingApi.reducerPath]: subAdminSettingApi.reducer,
         [setUnAvailabilityApi.reducerPath]: setUnAvailabilityApi.reducer,
         [setScheduleApi.reducerPath]: setScheduleApi.reducer,
@@ -82,6 +84,7 @@ export const store = configureStore({
     middleware: (getDefaultMiddleware) =>
         getDefaultMiddleware().concat([
             authApi.middleware,
+            messageApi.middleware,
             subAdminSettingApi.middleware,
             setUnAvailabilityApi.middleware,
             setScheduleApi.middleware,

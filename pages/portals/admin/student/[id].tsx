@@ -94,8 +94,6 @@ const Detail: NextPageWithLayout = () => {
   }, [])
 
 
-  // console.log('appliedIndustry', appliedIndustry)
-
   return (
     <>
       {isError && <TechnicalError />}
