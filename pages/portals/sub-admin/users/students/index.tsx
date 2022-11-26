@@ -19,7 +19,7 @@ type Props = {}
 
 const Students: NextPageWithLayout = (props: Props) => {
   const { data, isLoading } = useGetSubAdminStudentsQuery()
-  console.log("students___________table", data);
+  // console.log("students___________table", data);
   
   const { setContent } = useContextBar()
   useEffect(() => {
@@ -43,7 +43,7 @@ const Students: NextPageWithLayout = (props: Props) => {
           industries,
           user: { name, email, image },
         } = row.original
-        console.log('isCompleted', industries)
+        // console.log('isCompleted', industries)
 
         return (
           <div className="flex items-center relative">

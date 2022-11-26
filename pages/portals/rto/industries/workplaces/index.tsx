@@ -59,7 +59,7 @@ const RtoWorkplaces: NextPageWithLayout = (props: Props) => {
             sort: true,
             Cell: ({ row }: any) => {
                 const { businessName, imageUrl } = row.original
-                console.log('row.original', row.original)
+                // console.log('row.original', row.original)
 
                 return (
                     <Link

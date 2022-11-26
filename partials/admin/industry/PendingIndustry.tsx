@@ -39,7 +39,7 @@ export const PendingIndustry = () => {
     limit: itemPerPage,
   })
 
-  console.log("::: INDUSTRY DATA", data)
+  // console.log("::: INDUSTRY DATA", data)
 
   const { changeStatusResult } = useChangeStatus()
   const onModalCancelClicked = () => {

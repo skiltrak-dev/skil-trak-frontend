@@ -13,7 +13,7 @@ export const AppliedIndustry = ({
   appliedIndustry,
   setIndustrySelection,
 }: Props) => {
-  console.log("Workplace___________Request", appliedIndustry);
+  // console.log("Workplace___________Request", appliedIndustry);
 
   const daysLeft = () => {
     let date = new Date(appliedIndustry?.appliedDate)

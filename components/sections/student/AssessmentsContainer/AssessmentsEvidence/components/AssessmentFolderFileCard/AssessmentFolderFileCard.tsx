@@ -17,9 +17,9 @@ export const AssessmentFolderFileCard = ({
     fileUrl,
     filename,
 }: AssessmentFolderFileCardProps) => {
-    console.log('type', type)
+    // console.log('type', type)
     const file = fileUrl.split('\\').join('/')
-    console.log('myString', file)
+    // console.log('myString', file)
     return (
         <div className="">
             {/* <Image

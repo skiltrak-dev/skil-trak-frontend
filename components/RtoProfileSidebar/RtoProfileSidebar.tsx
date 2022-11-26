@@ -21,7 +21,7 @@ export const RtoProfileSidebar = (props: Props) => {
   const pathname = useRouter()
   const profileId = pathname.query.profileId;
   const { data }: any = useGetSubAdminRTODetailQuery(String(profileId))
-  console.log("Rto__________Profile", data);
+  // console.log("Rto__________Profile", data);
 
   return (
     <div>

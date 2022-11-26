@@ -42,41 +42,7 @@ export const CourseDetails = ({ courseId }: any) => {
         }
     }, [data])
 
-    console.log('folders', folders)
-
-    //   dummy
-    const courses = [
-        {
-            text: 'Placement Workbook',
-            titalDocx: '5',
-            uploadedDocx: '5',
-            uploaded: true,
-        },
-        {
-            text: 'Placement Agreement',
-            titalDocx: '1',
-            uploadedDocx: '0',
-            uploaded: false,
-        },
-        {
-            text: 'CV',
-            titalDocx: '1',
-            uploadedDocx: '0',
-            uploaded: false,
-        },
-        {
-            text: 'Police Check',
-            titalDocx: '1',
-            uploadedDocx: '0',
-            uploaded: true,
-        },
-        {
-            text: 'First Aid',
-            titalDocx: '1',
-            uploadedDocx: '0',
-            uploaded: false,
-        },
-    ]
+    
     return (
         <>
             <Typography>

@@ -40,6 +40,7 @@ export const adminApi = createApi({
         'AppointmentTypes',
         'Jobs',
         'Statistics',
+        'Workplaces',
     ],
 
     // ---------- RTO ENDPOINTS ---------- //

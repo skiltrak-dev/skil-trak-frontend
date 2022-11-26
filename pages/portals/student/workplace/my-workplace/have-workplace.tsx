@@ -30,7 +30,7 @@ const HaveWorkplace: NextPageWithLayout = (props: Props) => {
   // query
   // const workplace = useGetWorkplaceIndustriesQuery()
   const [findAbn, result] = useUpdateFindAbnMutation()
-  console.log('response', result)
+  // console.log('response', result)
 
   // useEffect(() => {
   //     if (workplace.isSuccess && workplace.data.length > 0) {

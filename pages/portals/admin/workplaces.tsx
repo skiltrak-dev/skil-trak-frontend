@@ -1,4 +1,4 @@
-import { ReactElement } from 'react'
+import { ReactElement, useEffect } from 'react'
 
 import { AdminLayout } from '@layouts'
 import { NextPageWithLayout } from '@types'
@@ -12,14 +12,19 @@ import { Button, EmptyData, LoadingAnimation, TechnicalError } from '@components
 import MyWorkPlaces from '../student/workplace/my-workplace'
 import { AdminWorkplaceRequest } from '@partials/admin/workplace/components/AdminWorkplaceRequest'
 import { useRouter } from 'next/router'
+import { useNavbar } from '@hooks'
 
 type Props = {}
 
 const Workplace: NextPageWithLayout = (props: Props) => {
+  const navBar = useNavbar()
 
-  // const subAdminWorkplace = useGetSubAdminWorkplacesQuery()
-  const subAdminWorkplace = AdminApi.Workplace.useWorkplaceListQuery({})
-  console.log("Workplaces", subAdminWorkplace);
+  useEffect(() => {
+    navBar.setTitle('Workplace Request')
+  }, [])
+
+  const subAdminWorkplace = AdminApi.Workplace.useWorkplaceListQuery()
+
 
   return (
     <>
@@ -39,7 +44,7 @@ const Workplace: NextPageWithLayout = (props: Props) => {
   )
 }
 Workplace.getLayout = (page: ReactElement) => {
-  return <AdminLayout title="Workplace">{page}</AdminLayout>
+  return <AdminLayout>{page}</AdminLayout>
 }
 
 export default Workplace

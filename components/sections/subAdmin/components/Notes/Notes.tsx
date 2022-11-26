@@ -11,12 +11,9 @@ import { useGetNotesQuery } from '@queries'
 import { useContextBar } from 'hooks'
 
 export const Notes = ({ id }: any) => {
-    console.log('iddddd', id)
-    const [notesList, setNotesList] = useState([])
-    const [editValues, setEditValues] = useState(null)
-    // const [approvedUser, setApprovedUser] = useState(
-    //     data?.user?.status === 'approved'
-    // )
+
+  const [notesList, setNotesList] = useState([])
+  const [editValues, setEditValues] = useState(null)
 
     // hooks
     const { isVisible } = useContextBar()

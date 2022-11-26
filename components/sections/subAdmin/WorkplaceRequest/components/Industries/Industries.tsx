@@ -11,7 +11,7 @@ export const Industries = ({
 }: any) => {
   // const ii = industries.map((i) => i.industryResponse)
   // const industryResponse = ii.includes('rejected') || ii.includes('noResponse')
-  console.log('industries', industries)
+  // console.log('industries', industries)
 
   return (
     <div>

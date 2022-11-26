@@ -24,7 +24,7 @@ const RtoStudents: NextPageWithLayout = (props: Props) => {
                     zipCode,
                     user: { name, email, image },
                 } = row.original
-                console.log('row', row.original)
+                // console.log('row', row.original)
 
                 return (
                     <div className="flex items-center relative">
