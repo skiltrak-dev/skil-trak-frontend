@@ -1,16 +1,11 @@
 import { Footer } from 'components/Footer'
+import Image from 'next/image'
 import Link from 'next/link'
 import { SideBarItem } from '../SideBarItem'
-import Image from 'next/image'
 
-import { Advertisement, UserActions } from './components'
 import { PortalTypeBadge } from '@components/Badge'
 import { useRouter } from 'next/router'
-
-const PortalTypes = {
-    Admin: 'text-blue-500 border-blue-300',
-    Industry: 'text-green-500 border-green-300',
-}
+import { UserActions } from './components'
 
 export const SideBar = ({ routes, portalType }: any) => {
     const router = useRouter()
@@ -22,7 +17,7 @@ export const SideBar = ({ routes, portalType }: any) => {
         if (!currentPath && !trimmedPath) {
             return true
         }
-        
+
         if (currentPath) {
             return trimmedPath.includes(currentPath)
         }

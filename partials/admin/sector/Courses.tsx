@@ -1,15 +1,15 @@
 import {
-  ActionButton,
-  Button,
-  Card,
-  CourseFilters,
-  EmptyData,
-  Filter,
-  LoadingAnimation,
-  RtoFilters,
-  Table,
-  TableAction,
-  TableActionOption,
+    ActionButton,
+    Button,
+    Card,
+    CourseFilters,
+    EmptyData,
+    Filter,
+    LoadingAnimation,
+    RtoFilters,
+    Table,
+    TableAction,
+    TableActionOption,
 } from '@components'
 import { PageHeading } from '@components/headings'
 import { ColumnDef } from '@tanstack/react-table'
@@ -24,239 +24,260 @@ import { CourseView } from './contextBar'
 import { DeleteCourseModal, RequirementModal } from './modals'
 
 export const Courses = () => {
-  const router = useRouter()
-  const contextBar = useContextBar()
-  const [modal, setModal] = useState<ReactElement | null>(null)
+    const router = useRouter()
+    const contextBar = useContextBar()
+    const [modal, setModal] = useState<ReactElement | null>(null)
 
-  const [filterAction, setFilterAction] = useState(null)
-  const [itemPerPage, setItemPerPage] = useState(5)
-  const [page, setPage] = useState(1)
-  const [filter, setFilter] = useState({})
+    const [filterAction, setFilterAction] = useState(null)
+    const [itemPerPage, setItemPerPage] = useState(5)
+    const [page, setPage] = useState(1)
+    const [filter, setFilter] = useState({})
 
-  const { isLoading, data } = AdminApi.Courses.useListQuery({
-    search: `${JSON.stringify(filter)
-      .replaceAll('{', '')
-      .replaceAll('}', '')
-      .replaceAll('"', '')
-      .trim()}`,
-    skip: itemPerPage * page - itemPerPage,
-    limit: itemPerPage,
-  })
+    const { isLoading, data } = AdminApi.Courses.useListQuery({
+        search: `${JSON.stringify(filter)
+            .replaceAll('{', '')
+            .replaceAll('}', '')
+            .replaceAll('"', '')
+            .trim()}`,
+        skip: itemPerPage * page - itemPerPage,
+        limit: itemPerPage,
+    })
 
-  const onModalCancelClicked = () => {
-    setModal(null)
-  }
-  const onCourseClick = (course: Course) => {
-    contextBar.setTitle('Course Detail')
-    contextBar.setContent(<CourseView course={course} />)
-    contextBar.show()
-  }
-  const onViewRequirementClick = (course: Course) => {
-    setModal(
-      <RequirementModal course={course} onCancel={onModalCancelClicked} />
-    )
-  }
-
-  const onDeleteClicked = (course: Course) => {
-    setModal(
-      <DeleteCourseModal
-        course={course}
-        onCancel={() => onModalCancelClicked()}
-      />
-    )
-  }
-
-  useEffect(() => {
-    contextBar.hide()
-  }, [])
-
-  const tableActionOptions: TableActionOption[] = [
-    {
-      text: 'View',
-      onClick: (course: Course) => onCourseClick(course),
-      Icon: FaEye,
-    },
-    {
-      text: 'Edit',
-      onClick: (item: any) => {
-        router.push(`/portals/admin/sectors/courses/form/${item.id}`)
-      },
-      Icon: FaEdit,
-    },
-    {
-      text: 'Delete',
-      onClick: (course: Course) => onDeleteClicked(course),
-      Icon: FaTrash,
-      color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
-    },
-  ]
-
-  const columns: ColumnDef<Course>[] = [
-    {
-      accessorKey: 'title',
-      cell: (info) => {
-        return (
-          <div
-            className="relative group cursor-pointer"
-            onClick={() => onCourseClick(info.row.original)}
-          >
-            <div>
-              <p className="text-xs font-medium text-gray-500">
-                {info.row.original.code}
-              </p>
-              <p className="font-semibold">{info.row.original.title}</p>
-            </div>
-
-            <div className="hidden group-hover:block px-4 py-2 bg-white rounded-xl shadow-xl absolute top-10 left-0 z-10">
-              <p className="text-xs font-semibold mb-1 text-gray-500">
-                Course Description
-              </p>
-              <p className="text-sm text-gray-700">
-                {info.row.original.description}
-              </p>
-            </div>
-          </div>
+    const onModalCancelClicked = () => {
+        setModal(null)
+    }
+    const onCourseClick = (course: Course) => {
+        contextBar.setTitle('Course Detail')
+        contextBar.setContent(<CourseView course={course} />)
+        contextBar.show()
+    }
+    const onViewRequirementClick = (course: Course) => {
+        setModal(
+            <RequirementModal course={course} onCancel={onModalCancelClicked} />
         )
-      },
-      header: () => <span>Name</span>,
-    },
-    {
-      accessorKey: 'hours',
-      header: () => <span>Hours</span>,
-      cell: (info) => info.getValue(),
-    },
+    }
 
-    {
-      accessorKey: 'sector',
-      header: () => <span>Sector</span>,
-      cell: (info) => {
-        return (
-          <div>
-            <p className="text-xs font-medium text-gray-500">
-              {info.row.original.sector.code}
-            </p>
-            <p className="font-semibold">{info.row.original.sector.name}</p>
-          </div>
-        )
-      },
-    },
-    {
-      accessorKey: 'requirement',
-      header: () => <span>Requirement</span>,
-      cell: (info) => {
-        return (
-          <ActionButton
-            variant="link"
-            simple
-            onClick={() => onViewRequirementClick(info.row.original)}
-          >
-            View File
-          </ActionButton>
-        )
-      },
-    },
-    {
-      accessorKey: 'action',
-      header: () => <span>Action</span>,
-      cell: (info) => {
-        return (
-          <div className="flex gap-x-1 items-center">
-            <TableAction
-              options={tableActionOptions}
-              rowItem={info.row.original}
+    const onDeleteClicked = (course: Course) => {
+        setModal(
+            <DeleteCourseModal
+                course={course}
+                onCancel={() => onModalCancelClicked()}
             />
-          </div>
         )
-      },
-    },
-  ]
+    }
 
-  const quickActionsElements = {
-    id: 'id',
-    individual: (item: Course) => (
-      <div className="flex gap-x-2">
-        <ActionButton Icon={FaEdit}>Edit</ActionButton>
-        <ActionButton
-          Icon={FaTrash}
-          variant="error"
-          onClick={() => onDeleteClicked(item)}
-        >
-          Delete
-        </ActionButton>
-      </div>
-    ),
-    common: (items: Course[]) => (
-      <div className="flex gap-x-2">
-        <ActionButton variant="success">Accept</ActionButton>
-        <ActionButton Icon={FaTrash} variant="error">
-          Delete
-        </ActionButton>
-      </div>
-    ),
-  }
+    useEffect(() => {
+        contextBar.hide()
+    }, [])
 
-  return (
-    <>
-      {modal && modal}
-      <div className="flex flex-col gap-y-4 mb-32">
-        <PageHeading title={'Courses'} subtitle={'List of all courses'}>
-          <Button
-            text="Add Course"
-            onClick={() => {
-              router.push('sectors/courses/form')
-            }}
-          />
-          {/* {data && data?.data.length ? ( */}
-            <>
-              {filterAction}
-              <Button text="Export" variant="action" Icon={FaFileExport} />
-            </>
-          {/* ) : null} */}
-        </PageHeading>
+    const tableActionOptions: TableActionOption[] = [
+        {
+            text: 'View',
+            onClick: (course: Course) => onCourseClick(course),
+            Icon: FaEye,
+        },
+        {
+            text: 'Edit',
+            onClick: (item: any) => {
+                router.push(`/portals/admin/sectors/courses/form/${item.id}`)
+            },
+            Icon: FaEdit,
+        },
+        {
+            text: 'Delete',
+            onClick: (course: Course) => onDeleteClicked(course),
+            Icon: FaTrash,
+            color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
+        },
+    ]
 
-        {data && data?.data.length ? (
-          <Filter
-            component={CourseFilters}
-            initialValues={{ name: '', email: '', rtoCode: '' }}
-            setFilterAction={setFilterAction}
-            setFilter={setFilter}
-          />
-        ) : null}
-
-        <Card noPadding>
-          {isLoading ? (
-            <LoadingAnimation height="h-[60vh]" />
-          ) : data && data?.data.length ? (
-            <Table
-              columns={columns}
-              data={data.data}
-              quickActions={quickActionsElements}
-              enableRowSelection
-            >
-              {({ table, pagination, pageSize, quickActions }: any) => {
+    const columns: ColumnDef<Course>[] = [
+        {
+            accessorKey: 'title',
+            cell: (info) => {
                 return (
-                  <div>
-                    <div className="p-6 mb-2 flex justify-between">
-                      {pageSize(itemPerPage, setItemPerPage)}
-                      <div className="flex gap-x-2">
-                        {quickActions}
-                        {pagination(data?.pagination, setPage)}
-                      </div>
+                    <div
+                        className="relative group cursor-pointer"
+                        onClick={() => onCourseClick(info.row.original)}
+                    >
+                        <div>
+                            <p className="text-xs font-medium text-gray-500">
+                                {info.row.original.code}
+                            </p>
+                            <p className="font-semibold">
+                                {info.row.original.title}
+                            </p>
+                        </div>
+
+                        <div className="hidden group-hover:block px-4 py-2 bg-white rounded-xl shadow-xl absolute top-10 left-0 z-10">
+                            <p className="text-xs font-semibold mb-1 text-gray-500">
+                                Course Description
+                            </p>
+                            <p className="text-sm text-gray-700">
+                                {info.row.original.description}
+                            </p>
+                        </div>
                     </div>
-                    <div className="px-6">{table}</div>
-                  </div>
                 )
-              }}
-            </Table>
-          ) : (
-            <EmptyData
-              title={'No Courses!'}
-              description={'You have not added any course yet'}
-              height={'50vh'}
-            />
-          )}
-        </Card>
-      </div>
-    </>
-  )
+            },
+            header: () => <span>Name</span>,
+        },
+        {
+            accessorKey: 'hours',
+            header: () => <span>Hours</span>,
+            cell: (info) => info.getValue(),
+        },
+
+        {
+            accessorKey: 'sector',
+            header: () => <span>Sector</span>,
+            cell: (info) => {
+                return (
+                    <div>
+                        <p className="text-xs font-medium text-gray-500">
+                            {info.row.original.sector.code}
+                        </p>
+                        <p className="font-semibold">
+                            {info.row.original.sector.name}
+                        </p>
+                    </div>
+                )
+            },
+        },
+        {
+            accessorKey: 'requirement',
+            header: () => <span>Requirement</span>,
+            cell: (info) => {
+                return (
+                    <ActionButton
+                        variant="link"
+                        simple
+                        onClick={() =>
+                            onViewRequirementClick(info.row.original)
+                        }
+                    >
+                        View File
+                    </ActionButton>
+                )
+            },
+        },
+        {
+            accessorKey: 'action',
+            header: () => <span>Action</span>,
+            cell: (info) => {
+                return (
+                    <div className="flex gap-x-1 items-center">
+                        <TableAction
+                            options={tableActionOptions}
+                            rowItem={info.row.original}
+                        />
+                    </div>
+                )
+            },
+        },
+    ]
+
+    const quickActionsElements = {
+        id: 'id',
+        individual: (item: Course) => (
+            <div className="flex gap-x-2">
+                <ActionButton Icon={FaEdit}>Edit</ActionButton>
+                <ActionButton
+                    Icon={FaTrash}
+                    variant="error"
+                    onClick={() => onDeleteClicked(item)}
+                >
+                    Delete
+                </ActionButton>
+            </div>
+        ),
+        common: (items: Course[]) => (
+            <div className="flex gap-x-2">
+                <ActionButton variant="success">Accept</ActionButton>
+                <ActionButton Icon={FaTrash} variant="error">
+                    Delete
+                </ActionButton>
+            </div>
+        ),
+    }
+
+    return (
+        <>
+            {modal && modal}
+            <div className="flex flex-col gap-y-4 mb-32">
+                <PageHeading title={'Courses'} subtitle={'List of all courses'}>
+                    <Button
+                        text="Add Course"
+                        onClick={() => {
+                            router.push('sectors/courses/form')
+                        }}
+                    />
+                    {/* {data && data?.data.length ? ( */}
+                    <>
+                        {filterAction}
+                        <Button
+                            text="Export"
+                            variant="action"
+                            Icon={FaFileExport}
+                        />
+                    </>
+                    {/* ) : null} */}
+                </PageHeading>
+
+                {data && data?.data.length ? (
+                    <Filter
+                        component={CourseFilters}
+                        initialValues={{ name: '', email: '', rtoCode: '' }}
+                        setFilterAction={setFilterAction}
+                        setFilter={setFilter}
+                    />
+                ) : null}
+
+                {isLoading ? (
+                    <LoadingAnimation height="h-[60vh]" />
+                ) : data && data?.data.length ? (
+                    <Card noPadding>
+                        <Table
+                            columns={columns}
+                            data={data.data}
+                            quickActions={quickActionsElements}
+                            enableRowSelection
+                        >
+                            {({
+                                table,
+                                pagination,
+                                pageSize,
+                                quickActions,
+                            }: any) => {
+                                return (
+                                    <div>
+                                        <div className="p-6 mb-2 flex justify-between">
+                                            {pageSize(
+                                                itemPerPage,
+                                                setItemPerPage
+                                            )}
+                                            <div className="flex gap-x-2">
+                                                {quickActions}
+                                                {pagination(
+                                                    data?.pagination,
+                                                    setPage
+                                                )}
+                                            </div>
+                                        </div>
+                                        <div className="px-6">{table}</div>
+                                    </div>
+                                )
+                            }}
+                        </Table>
+                    </Card>
+                ) : (
+                    <EmptyData
+                        title={'No Courses!'}
+                        description={'You have not added any course yet'}
+                        height={'50vh'}
+                    />
+                )}
+            </div>
+        </>
+    )
 }
