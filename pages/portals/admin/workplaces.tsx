@@ -2,17 +2,14 @@ import { ReactElement, useEffect } from 'react'
 
 import { AdminLayout } from '@layouts'
 import { NextPageWithLayout } from '@types'
-import { WorkplaceRequest } from '@components/sections/subAdmin'
 
 // query
-import { AdminApi, useGetSubAdminWorkplacesQuery } from '@queries'
+import { AdminApi } from '@queries'
 
 // components
-import { Button, EmptyData, LoadingAnimation, TechnicalError } from '@components'
-import MyWorkPlaces from '../student/workplace/my-workplace'
-import { AdminWorkplaceRequest } from '@partials/admin/workplace/components/AdminWorkplaceRequest'
-import { useRouter } from 'next/router'
+import { EmptyData, LoadingAnimation, TechnicalError } from '@components'
 import { useNavbar } from '@hooks'
+import { AdminWorkplaceRequest } from '@partials/admin/workplace/components/AdminWorkplaceRequest'
 
 type Props = {}
 
@@ -23,7 +20,7 @@ const Workplace: NextPageWithLayout = (props: Props) => {
     navBar.setTitle('Workplace Request')
   }, [])
 
-  const subAdminWorkplace = AdminApi.Workplace.useWorkplaceListQuery()
+  const subAdminWorkplace = AdminApi.Workplace.useWorkplaceListQuery({})
 
 
   return (
