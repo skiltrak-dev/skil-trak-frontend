@@ -1,6 +1,7 @@
 import { ActionModal } from '@components'
 import { useAlert, useNotification } from '@hooks'
 import { AdminApi, useRemoveJobMutation } from '@queries'
+import { useRouter } from 'next/router'
 
 import { useEffect } from 'react'
 import { FaTrash } from 'react-icons/fa'
@@ -12,6 +13,7 @@ export const DeleteModal = ({
     job: any
     onCancel: Function
 }) => {
+    const router = useRouter()
     const { alert } = useAlert()
     const { notification } = useNotification()
     const [remove, removeResult] = useRemoveJobMutation()
@@ -27,7 +29,9 @@ export const DeleteModal = ({
                 title: `RTO Deleted`,
                 description: `RTO "${job.title}" has been deleted.`,
             })
+            console.log('Leeran')
             onCancel()
+            // router.push('/portals/industry/jobs/advertised-jobs')
         }
         if (removeResult.isError) {
             notification.error({

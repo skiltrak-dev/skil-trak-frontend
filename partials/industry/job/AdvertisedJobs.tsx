@@ -1,6 +1,7 @@
 import React, { ReactElement, useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
 import Link from 'next/link'
+import { ColumnDef } from '@tanstack/react-table'
 
 // Icons
 import { MdEdit } from 'react-icons/md'
@@ -15,8 +16,11 @@ import {
     Typography,
     BackButton,
     TableAction,
-    //   ActionDropDown,
-    //   ConfirmActionView,
+    Filter,
+    TechnicalError,
+    Table,
+    Card,
+    LoadingAnimation,
 } from '@components'
 import { JobsFilter } from './components'
 
@@ -30,17 +34,31 @@ import { useGetIndustryJobsQuery, useRemoveJobMutation } from '@queries'
 import { getThemeColors } from '@theme'
 
 // HOC
-import { Filter } from '@hoc'
-import { DeleteModal } from '../../modals'
+import { DeleteModal } from './modals'
+import { Rto } from '@types'
 
 const Colors = getThemeColors()
 
-export const AdvertisedJobs = () => {
+export const AdvertisedJobsContainer = () => {
     const router = useRouter()
 
-    const [queryFilters, setQueryFilters] = useState({})
+    const [itemPerPage, setItemPerPage] = useState(5)
+    const [page, setPage] = useState(1)
+    const [filter, setFilter] = useState({})
     const [filterActionButton, setFilterActionButton] = useState(null)
     const [modal, setModal] = useState<ReactElement | null>(null)
+
+    // query
+    const { data, isLoading, isError } = useGetIndustryJobsQuery({
+        search: `${JSON.stringify(filter)
+            .replaceAll('{', '')
+            .replaceAll('}', '')
+            .replaceAll('"', '')
+            .trim()}`,
+        sort: '-title',
+        skip: itemPerPage * page - itemPerPage,
+        limit: itemPerPage,
+    })
 
     const onModalCancelClicked = () => {
         setModal(null)
@@ -52,43 +70,33 @@ export const AdvertisedJobs = () => {
         )
     }
 
-    // Right Sidebar
-    // useEffect(() => {
-    // 	hideContextbar();
-    // 	setContent(<ContextbarContent />);
-    // }, [setContent]);
-
     const TableActionOption = [
         {
             text: 'View',
             Icon: MdEdit,
             onClick: (job: any) => {
-                router.push(`/portals/industry/jobs/job-detail/${job.id}`)
+                router.push(`/portals/industry/jobs/${job.id}`)
             },
         },
         {
             text: 'Edit',
             Icon: MdEdit,
             onClick: (job: any) => {
-                router.push(`/jobs/advertise-new-job/${job.id}`)
+                router.push(`/portals/industry/jobs/form/${job.id}`)
             },
         },
         {
             text: 'Delete',
             Icon: AiFillDelete,
-            onClick: (job: any) => {
-                console.log('Jobbbbbbbbbbbbb', job.title)
-                onDeleteClicked(job)
-            },
+            onClick: (job: any) => onDeleteClicked(job),
         },
     ]
 
-    const Columns = [
+    const Columns: ColumnDef<Rto>[] = [
         {
-            Header: 'Job Title',
-            accessor: 'title',
-            sort: true,
-            Cell: ({ row }:any) => {
+            header: () => 'Job Title',
+            accessorKey: 'title',
+            cell: ({ row }: any) => {
                 const { title, industry } = row.original
                 return (
                     <Link
@@ -115,9 +123,9 @@ export const AdvertisedJobs = () => {
             },
         },
         {
-            Header: 'Type',
-            accessor: 'employmentType',
-            Cell: ({ row }:any) => {
+            header: () => 'Type',
+            accessorKey: 'employmentType',
+            cell: ({ row }: any) => {
                 const { employmentType } = row.original
                 switch (employmentType) {
                     case 'fullTime':
@@ -130,25 +138,23 @@ export const AdvertisedJobs = () => {
                         return 'Temporary'
                 }
             },
-            disableFilters: true,
         },
         {
-            Header: 'Phone',
-            accessor: 'phone',
+            header: () => 'Phone',
+            accessorKey: 'phone',
         },
         {
-            Header: 'Status',
-            accessor: 'isActive',
-            disableFilters: true,
-            Cell: ({ row }:any) => {
+            header: () => 'Status',
+            accessorKey: 'isActive',
+            cell: ({ row }: any) => {
                 const { isActive } = row.original
                 return isActive ? 'Approved' : 'Pending'
             },
         },
         {
-            Header: 'Action',
-            accessor: 'Action',
-            Cell: ({ row }:any) => {
+            header: () => 'Action',
+            accessorKey: 'Action',
+            cell: ({ row }: any) => {
                 return (
                     <TableAction
                         text={'More'}
@@ -175,9 +181,7 @@ export const AdvertisedJobs = () => {
                     <Button
                         variant={'dark'}
                         onClick={() =>
-                            router.push(
-                                '/portals/industry/jobs/advertise-new-job'
-                            )
+                            router.push('/portals/industry/jobs/form')
                         }
                     >
                         Advertise New Job
@@ -187,9 +191,9 @@ export const AdvertisedJobs = () => {
 
             <Filter
                 component={JobsFilter}
-                setQueryFilters={setQueryFilters}
+                setFilter={setFilter}
                 setFilterAction={setFilterActionButton}
-                filterInitialValues={filterInitialValues}
+                initialValues={filterInitialValues}
             />
 
             {/* Showing Alert on Any Action */}
@@ -199,27 +203,50 @@ export const AdvertisedJobs = () => {
             <div className="flex justify-between items-center">
                 <p className="text-sm font-bold">Your Jobs</p>
             </div>
-            <ReactTable
-                pagesize
-                pagination
-                Columns={Columns}
-                querySort={'title'}
-                action={useGetIndustryJobsQuery}
-            />
-
-            {/* Delete */}
-            {/* <ConfirmActionView
-        actionData={removeJob}
-        setActionData={setRemoveJob}
-        action={async () => {
-          await deleteJob(removeJob.id)
-        }}
-        actionResult={deleteJobResult}
-        type={'Job'}
-        description={`You are about to Delete ${removeJob.title} Job. Are you sure you want to delete this Job.`}
-        actionText={'Delete'}
-        variant={'error'}
-      /> */}
+            <Card noPadding>
+                {isError && <TechnicalError />}
+                {isLoading ? (
+                    <LoadingAnimation height="h-[60vh]" />
+                ) : data && data?.data.length ? (
+                    <Table
+                        columns={Columns}
+                        data={data.data}
+                        // quickActions={quickActionsElements}
+                        enableRowSelection
+                    >
+                        {({
+                            table,
+                            pagination,
+                            pageSize,
+                            quickActions,
+                        }: any) => {
+                            return (
+                                <div>
+                                    <div className="p-6 mb-2 flex justify-between">
+                                        {pageSize(itemPerPage, setItemPerPage)}
+                                        <div className="flex gap-x-2">
+                                            {quickActions}
+                                            {pagination(
+                                                data?.pagination,
+                                                setPage
+                                            )}
+                                        </div>
+                                    </div>
+                                    <div className="px-6">{table}</div>
+                                </div>
+                            )
+                        }}
+                    </Table>
+                ) : (
+                    !isError && (
+                        <EmptyData
+                            title={'No Advertsed Job!'}
+                            description={'You have not advertsed any Job yet'}
+                            height={'50vh'}
+                        />
+                    )
+                )}
+            </Card>
         </div>
     )
 }

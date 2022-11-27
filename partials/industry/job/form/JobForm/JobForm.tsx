@@ -3,13 +3,13 @@ import * as yup from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { FormProvider, useForm } from 'react-hook-form'
 
-import { Button } from 'components'
 import {
     TextInput,
     Select,
     Typography,
     TextArea,
     LoadingAnimation,
+    Button,
 } from '@components'
 
 const jobType = [
@@ -27,45 +27,21 @@ const jobType = [
     },
 ]
 
-export const JobForm = ({ editValues, onSubmit, submitting, editing }: any) => {
+export const JobForm = ({ initialValues, onSubmit, edit }: any) => {
     const [defaultValue, setDefaultValue] = useState<any | null | undefined>(
         null
     )
 
     useEffect(() => {
-        if (editValues.data && editValues.isSuccess) {
+        if (initialValues) {
             setDefaultValue(
                 jobType?.find(
-                    (type) => type.value === editValues.data.employmentType
+                    (type) => type.value === initialValues.employmentType
                 )
             )
         }
-    }, [editValues])
+    }, [initialValues])
 
-    const initialValues = {
-        // Job Info
-        title: '',
-        employmentType: '',
-        vacancies: '',
-        salaryFrom: '',
-        salaryTo: '',
-
-        // Contact Info
-        phone: '',
-        email: '',
-        website: '',
-
-        // Address Info
-        addressLine1: '',
-        description: '',
-        addressLine2: '',
-        zipCode: '',
-        suburb: '',
-        state: '',
-
-        // Employer Info
-        contactPerson: '',
-    }
     const validationSchema = yup.object({
         // Job Validation
         title: yup.string().required('Must provide a meaningful job title'),
@@ -100,10 +76,11 @@ export const JobForm = ({ editValues, onSubmit, submitting, editing }: any) => {
 
     const methods = useForm({
         resolver: yupResolver(validationSchema),
+        defaultValues: initialValues,
         mode: 'all',
     })
 
-    return !editValues.isLoading ? (
+    return (
         <FormProvider {...methods}>
             <form
                 className="mt-2 w-full"
@@ -259,14 +236,10 @@ export const JobForm = ({ editValues, onSubmit, submitting, editing }: any) => {
 
                 <Button
                     submit
-                    loading={submitting}
-                    disabled={submitting}
-                    text={`${editing ? 'Update' : 'Save'} Job`}
-                    variant={editing ? 'secondary' : 'primary'}
+                    text={`${edit ? 'Update' : 'Save'} Job`}
+                    variant={edit ? 'secondary' : 'primary'}
                 />
             </form>
         </FormProvider>
-    ) : (
-        <LoadingAnimation />
     )
 }

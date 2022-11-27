@@ -2,8 +2,8 @@ import { IndustryLayout } from '@layouts'
 import { NextPageWithLayout } from '@types'
 import { useRouter } from 'next/router'
 import { ReactElement } from 'react'
+import { JobsContainer } from '@partials/industry'
 
-import { JobsContainer } from '@components/sections/industry/JobsContainer/Jobs'
 
 const Jobs: NextPageWithLayout = () => {
   const router = useRouter()

@@ -15,7 +15,7 @@ import {
     //   ActionDropDown,
     //   DeleteActionPopup,
 } from '@components'
-import { DeleteModal } from '../../modals'
+import { DeleteModal } from './modals'
 import { JobDetailData } from './components'
 
 // Context
@@ -32,11 +32,13 @@ const Colors = getThemeColors()
 export const JobDetailContainer = () => {
     //  param
     const router = useRouter()
-    const jobId = router.query.jobId
+    const { id } = router.query
 
     const [modal, setModal] = useState<ReactElement | null>(null)
 
-    const { data, isLoading, isError } = useGetJobDetailQuery(jobId)
+    const { data, isLoading, isError } = useGetJobDetailQuery(id, {
+        skip: !id,
+    })
 
     const onModalCancelClicked = () => {
         setModal(null)
@@ -70,7 +72,7 @@ export const JobDetailContainer = () => {
             text: 'Edit',
             Icon: MdEdit,
             onClick: () => {
-                router.push(`/jobs/advertise-new-job/${jobId}`)
+                router.push(`/portals/industry/jobs/form/${id}`)
             },
         },
         {
@@ -90,11 +92,7 @@ export const JobDetailContainer = () => {
                     text={'Back To Jobs'}
                 />
                 {data && (
-                    <TableAction
-                        text="..."
-                        options={TableActionOption}
-                        rowItem={data}
-                    />
+                    <TableAction options={TableActionOption} rowItem={data} />
                 )}
             </div>
 
