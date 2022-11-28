@@ -32,28 +32,6 @@ import { useState } from 'react'
 import { SubAdminForm } from '@partials/admin/sub-admin/form'
 
 const EditRto: NextPageWithLayout = () => {
-<<<<<<< Updated upstream
-  const [formData, setFormData] = useState<any>('');
-
-  const router = useRouter()
-  const editSubAdminId = router.query.editSubAdminId
-  const navBar = useNavbar()
-  const contextBar = useContextBar()
-
-  const subAdmin = AdminApi.SubAdmins.useListQuery(editSubAdminId, {
-    skip: !editSubAdminId,
-  })
-  // console.log("rto", editSubAdminId, subAdmin);
-
-  useEffect(() => {
-    navBar.setTitle('Edit SubAdmin')
-    contextBar.hide()
-  }, [])
-
-  return (
-    <div className='flex justify-center'><SubAdminForm subAdmin={subAdmin} onSubmit={setFormData} /></div>
-  )
-=======
     const [formData, setFormData] = useState<any>('')
 
     const router = useRouter()
@@ -64,7 +42,7 @@ const EditRto: NextPageWithLayout = () => {
     const subAdmin = AdminApi.SubAdmins.useListQuery(editSubAdminId, {
         skip: !editSubAdminId,
     })
-    console.log('rto', editSubAdminId, subAdmin)
+    // console.log("rto", editSubAdminId, subAdmin);
 
     useEffect(() => {
         navBar.setTitle('Edit SubAdmin')
@@ -76,7 +54,6 @@ const EditRto: NextPageWithLayout = () => {
             <SubAdminForm subAdmin={subAdmin} onSubmit={setFormData} />
         </div>
     )
->>>>>>> Stashed changes
 }
 
 EditRto.getLayout = (page: ReactElement) => {

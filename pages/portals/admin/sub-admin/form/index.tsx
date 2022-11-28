@@ -60,7 +60,7 @@ const EditRto: NextPageWithLayout = () => {
             />
             <div className="w-3/4">
                 <Card>
-                    <SubAdminForm subAdmin={subAdmin} onSubmit={setFormData} />
+                    <SubAdminForm subAdmin={subAdmin} />
                 </Card>
             </div>
         </div>

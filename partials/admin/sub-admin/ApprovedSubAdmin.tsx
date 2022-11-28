@@ -43,7 +43,7 @@ export const ApprovedSubAdmin = () => {
     const onModalCancelClicked = () => {
         setModal(null)
     }
-    const onBlockClicked = (subAdmin: Industry) => {
+    const onBlockClicked = (subAdmin: SubAdmin) => {
         setModal(
             <BlockModal
                 subAdmin={subAdmin}
@@ -67,7 +67,7 @@ export const ApprovedSubAdmin = () => {
         },
         {
             text: 'Block',
-            onClick: (industry: Industry) => onBlockClicked(industry),
+            onClick: (subAdmin: SubAdmin) => onBlockClicked(subAdmin),
             Icon: MdBlock,
             color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
         },
@@ -207,9 +207,9 @@ export const ApprovedSubAdmin = () => {
                         </Table>
                     ) : (
                         <EmptyData
-                            title={'No Approved Industry!'}
+                            title={'No Approved Sub Admin!'}
                             description={
-                                'You have not approved any Industry request yet'
+                                'You have not approved any Sub Admin request yet'
                             }
                             height={'50vh'}
                         />

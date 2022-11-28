@@ -8,7 +8,7 @@ import { FormProvider, useForm } from 'react-hook-form'
 import * as yup from 'yup'
 import { useState, useEffect } from 'react'
 
-export const SubAdminForm = ({ subAdmin, onSubmit }: any) => {
+export const SubAdminForm = ({ subAdmin }: any) => {
     const router = useRouter()
     const [isSuccess, setIsSuccess] = useState<boolean>(false)
     const [createSubAmin, createSubAminResult] =

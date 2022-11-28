@@ -28,7 +28,7 @@ const Login: NextPage = () => {
 
     const [login, loginResult] = AuthApi.useLogin()
 
-    const [checkStatus, checkStatusResult] = AuthApi.useStatusCheck()
+    // const [checkStatus, checkStatusResult] = AuthApi.useStatusCheck()
 
     const [requested, setRequested] = useState(false)
     const [rejected, setRejected] = useState(false)
@@ -81,11 +81,11 @@ const Login: NextPage = () => {
         }
     }
 
-    useEffect(() => {
-        if (AuthUtils.isAuthenticated()) {
-            checkStatus({})
-        }
-    }, [])
+    // useEffect(() => {
+    //     if (AuthUtils.isAuthenticated()) {
+    //         checkStatus({})
+    //     }
+    // }, [])
 
     useEffect(() => {
         if (loginResult.isSuccess) {
@@ -96,11 +96,11 @@ const Login: NextPage = () => {
         }
     }, [loginResult.isSuccess])
 
-    useEffect(() => {
-        if (checkStatusResult.isSuccess) {
-            onLogin(checkStatusResult.data.status)
-        }
-    }, [checkStatusResult])
+    // useEffect(() => {
+    //     if (checkStatusResult.isSuccess) {
+    //         onLogin(checkStatusResult.data.status)
+    //     }
+    // }, [checkStatusResult])
 
     const onSubmit = async (values: LoginCredentials) => {
         await login(values)

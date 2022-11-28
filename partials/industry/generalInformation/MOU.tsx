@@ -1,4 +1,4 @@
-import React, { createContext, useEffect, useState } from 'react'
+import React, { createContext, useEffect, ReactElement, useState } from 'react'
 import { useRouter } from 'next/router'
 
 // components
@@ -12,7 +12,7 @@ import {
     Filter,
     LoadingAnimation,
     TechnicalError,
-    EmpptyData,
+    EmptyData,
     Table,
 } from '@components'
 import { MOUCell, MOUFilter } from './components'

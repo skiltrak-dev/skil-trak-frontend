@@ -12,7 +12,7 @@ import { useEffect, useState } from 'react'
 
 import { Note as NoteType } from '@types'
 
-export const NotesTab = ({ id, subAdmin }: { subAdmin: any }) => {
+export const NotesTab = ({ subAdmin }: { subAdmin: any }) => {
     const contextBar = useContextBar()
     const [approvedUser, setApprovedUser] = useState<boolean | null>(null)
 

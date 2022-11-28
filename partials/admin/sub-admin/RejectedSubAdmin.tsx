@@ -43,7 +43,7 @@ export const RejectedSubAdmin = () => {
     const onModalCancelClicked = () => {
         setModal(null)
     }
-    const onAcceptClicked = (subAdmin: Industry) => {
+    const onAcceptClicked = (subAdmin: SubAdmin) => {
         setModal(
             <AcceptModal
                 subAdmin={subAdmin}
@@ -51,7 +51,7 @@ export const RejectedSubAdmin = () => {
             />
         )
     }
-    const onDeleteClicked = (subAdmin: Industry) => {
+    const onDeleteClicked = (subAdmin: SubAdmin) => {
         setModal(
             <DeleteModal
                 subAdmin={subAdmin}
@@ -77,16 +77,16 @@ export const RejectedSubAdmin = () => {
         },
         {
             text: 'Accept',
-            onClick: (student: Industry) => {
-                onAcceptClicked(student)
+            onClick: (subAdmin: SubAdmin) => {
+                onAcceptClicked(subAdmin)
             },
             color: 'text-green-500 hover:bg-green-100 hover:border-green-200',
         },
 
         {
             text: 'Delete',
-            onClick: (student: Industry) => {
-                onDeleteClicked(student)
+            onClick: (subAdmin: SubAdmin) => {
+                onDeleteClicked(subAdmin)
             },
             Icon: FaTrash,
             color: 'text-red-500 hover:bg-red-100 hover:border-red-200',

@@ -68,6 +68,7 @@ export interface Student extends BaseResponse {
 export interface SubAdmin {
     id: number
     user: User
+    phone: string
     appointmentEligibility: boolean
 }
 

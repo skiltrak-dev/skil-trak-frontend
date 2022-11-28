@@ -45,7 +45,7 @@ export const PendingSubAdmin = () => {
     const onModalCancelClicked = () => {
         setModal(null)
     }
-    const onAcceptClicked = (subAdmin: Industry) => {
+    const onAcceptClicked = (subAdmin: SubAdmin) => {
         setModal(
             <AcceptModal
                 subAdmin={subAdmin}
@@ -53,7 +53,7 @@ export const PendingSubAdmin = () => {
             />
         )
     }
-    const onRejectClicked = (subAdmin: Industry) => {
+    const onRejectClicked = (subAdmin: SubAdmin) => {
         setModal(
             <RejectModal
                 subAdmin={subAdmin}

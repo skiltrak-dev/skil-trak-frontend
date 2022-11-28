@@ -1,4 +1,4 @@
-import { ReactElement, useEffect } from 'react'
+import { ReactElement, useEffect, useState } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 
@@ -24,68 +24,68 @@ import { AuthUtils } from '@utils'
 import { AuthApi } from '@queries'
 import { CheckStatus } from '@partials/auth'
 
-const WorkplaceQuestions = [
+const UserQuestions = [
     {
-        text: `I have a workplace. What next?`,
+        text: `Where can I find my students?`,
         link: '#',
     },
     {
-        text: `I don't have a workplace. What should I do?`,
+        text: `How can I add students?`,
         link: '#',
     },
     {
-        text: `I want to book an appointment`,
+        text: `How can I add my coordinators and assessor?`,
         link: '#',
     },
     {
-        text: `I want to look for a job`,
-        link: '#',
-    },
-    {
-        text: `I don't have a workplace. What should I do?`,
+        text: `How can I add an admin?b`,
         link: '#',
     },
 ]
 
-const AssessmentQuestions = [
+const TaskQuestions = [
     {
-        text: `I have a workplace. What next?`,
+        text: `Where can I find students agreement and other documents?`,
         link: '#',
     },
     {
-        text: `I don't have a workplace. What should I do?`,
+        text: `I want to book an appointment?`,
         link: '#',
     },
     {
-        text: `I want to book an appointment`,
+        text: `How can I upload assessment tools?`,
         link: '#',
     },
 ]
 
-const NotificationQuestions = [
+const ProfileQuestions = [
     {
-        text: `I have a workplace. What next?`,
-        link: '#',
-    },
-    {
-        text: `I don't have a workplace. What should I do?`,
+        text: `How can I edit my account?`,
         link: '#',
     },
 ]
 
 const RTODashboard: NextPageWithLayout = () => {
     const contextBar = useContextBar()
+    const [credentials, setCredentials] = useState<any>(null)
 
     useEffect(() => {
         contextBar.setContent(<UserProfile />)
         contextBar.show(false)
     }, [])
 
-    
+    useEffect(() => {
+        if (!credentials) {
+            if (AuthUtils.isAuthenticated()) {
+                setCredentials(AuthUtils.getUserCredentials())
+            }
+        }
+    }, [credentials])
+
     return (
         <div className="flex flex-col gap-y-6 pb-8">
             {/* Status Check */}
-            <CheckStatus/>
+            <CheckStatus />
             {/* Question Section */}
             <section className="bg-[#D6F4FF] w-full p-4 rounded-2xl relative overflow-hidden">
                 <div className="absolute right-0 -bottom-3">
@@ -104,7 +104,7 @@ const RTODashboard: NextPageWithLayout = () => {
                     <h3 className="text-2xl text-orange-500">
                         Welcome Back,{' '}
                         <span className="font-semibold text-black">
-                            Name Of User
+                            {credentials?.name || 'User'}
                         </span>
                     </h3>
                     <h4 className="font-semibold text-gray-400">
@@ -115,23 +115,23 @@ const RTODashboard: NextPageWithLayout = () => {
                 <div className="mt-2 flex gap-x-6">
                     <div>
                         <HelpQuestionSet
-                            title="Workplace"
-                            questions={WorkplaceQuestions}
+                            title="Users"
+                            questions={UserQuestions}
                             smallHeading
                         />
                     </div>
 
                     <div>
                         <HelpQuestionSet
-                            title="Assessments"
-                            questions={AssessmentQuestions}
+                            title="Task"
+                            questions={TaskQuestions}
                             smallHeading
                         />
 
                         <div className="mt-2">
                             <HelpQuestionSet
-                                title="Notifications"
-                                questions={NotificationQuestions}
+                                title="Profile"
+                                questions={ProfileQuestions}
                                 smallHeading
                             />
                         </div>
@@ -139,38 +139,6 @@ const RTODashboard: NextPageWithLayout = () => {
                 </div>
             </section>
 
-            <section className="flex gap-x-4">
-                <DocumentCard
-                    title="Workflow"
-                    description="One liner about workflow"
-                    idx={1}
-                />
-                <DocumentCard
-                    title="Course Requirements"
-                    description="One liner about Course Requirements"
-                    idx={2}
-                />
-                <DocumentCard
-                    title="Induction Process"
-                    description="One liner about Induction Process"
-                    idx={3}
-                />
-                <DocumentCard
-                    title="Placement Info"
-                    description="One liner about Placement Info"
-                    idx={4}
-                />
-                <DocumentCard
-                    title="Legal"
-                    description="One liner about Legal"
-                    idx={5}
-                />
-                <DocumentCard
-                    title="Checklist"
-                    description="One liner about Checklist"
-                    idx={6}
-                />
-            </section>
 
             {/* Sector Card */}
             <Card>

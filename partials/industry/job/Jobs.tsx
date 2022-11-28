@@ -6,13 +6,11 @@ import {
     DisplayPrimaryActions,
     CircularProgresbar,
 } from '@components'
-import { RightSidebarData } from './components'
 
 import { useContextBar } from 'hooks'
 
 import { Animations } from '@animations'
 import { AdForRPL } from '@components/sections'
-
 
 export const JobsPrimaryActions = [
     {

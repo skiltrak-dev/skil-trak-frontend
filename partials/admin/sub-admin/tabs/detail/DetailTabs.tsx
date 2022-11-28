@@ -13,7 +13,7 @@ export const DetailTabs = ({
         {
             label: 'Notes',
             href: { query: { tab: 'notes', id } },
-            element: <NotesTab id={id} subAdmin={subAdmin} />,
+            element: <NotesTab subAdmin={subAdmin} />,
         },
         {
             label: 'Mails',

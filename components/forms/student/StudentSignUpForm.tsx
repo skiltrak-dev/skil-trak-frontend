@@ -19,8 +19,8 @@ export const StudentSignUpForm = ({ onSubmit }: { onSubmit: any }) => {
     // const [signUpStudent] = useUpdateStudentSignUpMutation()
     const { notification } = useNotification()
 
-    const sectorResponse = AuthApi.useGetSectorsQuery({})
-    const [checkEmailExists, emailCheckResult] = AuthApi.useCheckEmailMutation()
+    const sectorResponse = AuthApi.useSectors({})
+    const [checkEmailExists, emailCheckResult] = AuthApi.useEmailCheck()
 
     const [sectorOptions, setSectorOptions] = useState([])
     const [courseOptions, setCourseOptions] = useState([])
@@ -190,7 +190,6 @@ export const StudentSignUpForm = ({ onSubmit }: { onSubmit: any }) => {
     const formMethods = useForm({
         mode: 'all',
         // resolver: yupResolver(validationSchema),
-
     })
     // const submitForm = (values: any) => {
     //     signUpStudent(values)
@@ -359,8 +358,8 @@ export const StudentSignUpForm = ({ onSubmit }: { onSubmit: any }) => {
                                 label={'Sector'}
                                 {...(storedData
                                     ? {
-                                        defaultValue: storedData.sectors,
-                                    }
+                                          defaultValue: storedData.sectors,
+                                      }
                                     : {})}
                                 name={'sectors'}
                                 options={sectorOptions}
