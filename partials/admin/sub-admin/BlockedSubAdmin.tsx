@@ -15,7 +15,7 @@ import { ColumnDef } from '@tanstack/react-table'
 import { FaEdit, FaEye, FaFileExport, FaTrash } from 'react-icons/fa'
 
 import { AdminApi } from '@queries'
-import { Industry, SubAdmin } from '@types'
+import { SubAdmin } from '@types'
 import { ReactElement, useState } from 'react'
 import { CgUnblock } from 'react-icons/cg'
 import { SubAdminCell } from './components'
@@ -44,7 +44,7 @@ export const BlockedSubAdmin = () => {
     const onModalCancelClicked = () => {
         setModal(null)
     }
-    const onUnblockClicked = (subAdmin: Industry) => {
+    const onUnblockClicked = (subAdmin: SubAdmin) => {
         setModal(
             <UnblockModal
                 subAdmin={subAdmin}
@@ -52,7 +52,7 @@ export const BlockedSubAdmin = () => {
             />
         )
     }
-    const onDeleteClicked = (subAdmin: Industry) => {
+    const onDeleteClicked = (subAdmin: SubAdmin) => {
         setModal(
             <DeleteModal
                 subAdmin={subAdmin}
@@ -76,13 +76,13 @@ export const BlockedSubAdmin = () => {
         },
         {
             text: 'Unblock',
-            onClick: (industry: Industry) => onUnblockClicked(industry),
+            onClick: (subAdmin: SubAdmin) => onUnblockClicked(subAdmin),
             Icon: CgUnblock,
             color: 'text-orange-500 hover:bg-orange-100 hover:border-orange-200',
         },
         {
             text: 'Delete',
-            onClick: (industry: Industry) => onDeleteClicked(industry),
+            onClick: (subAdmin: SubAdmin) => onDeleteClicked(subAdmin),
             Icon: FaTrash,
             color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
         },
@@ -94,7 +94,7 @@ export const BlockedSubAdmin = () => {
             cell: (info) => {
                 return <SubAdminCell subAdmin={info.row.original} />
             },
-            header: () => <span>Industry</span>,
+            header: () => <span>Sub Admin</span>,
         },
         {
             accessorKey: 'abn',
@@ -230,9 +230,9 @@ export const BlockedSubAdmin = () => {
                         </Table>
                     ) : (
                         <EmptyData
-                            title={'No Blocked Industry!'}
+                            title={'No Blocked subAdmin!'}
                             description={
-                                'You have not blocked any Industry request yet'
+                                'You have not blocked any sub Admin request yet'
                             }
                             height={'50vh'}
                         />

@@ -2,7 +2,6 @@ import { IndustryLayout } from '@layouts'
 import { NextPageWithLayout } from '@types'
 import { useRouter } from 'next/router'
 import { ReactElement } from 'react'
-import { AdvertiseNewJobContainer } from '@components/sections/industry/JobsContainer'
 import { useContext, useEffect, useState } from 'react'
 
 // components
@@ -96,9 +95,7 @@ const EditJob: NextPageWithLayout = () => {
                         secondaryAction={{
                             text: 'View Job Detail',
                             onClick: () => {
-                                router.push(
-                                    `/portals/industry/jobs/job-detail/${id}`
-                                )
+                                router.push(`/portals/industry/jobs/${id}`)
                             },
                         }}
                     />

@@ -4,9 +4,11 @@ import React from 'react'
 import { useContextBar } from 'hooks'
 
 // components
+import { EmptyData } from '@components'
+import { SectorCard } from '@partials/admin/components'
+
+// hooks
 import { useGetSectors } from '@hooks'
-import { EmptyData } from 'components'
-import { SectorCard } from '../../components'
 
 export const SectorsTab = ({ rto }: any) => {
     const { isVisible } = useContextBar()

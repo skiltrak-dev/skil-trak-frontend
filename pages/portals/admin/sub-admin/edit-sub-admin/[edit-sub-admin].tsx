@@ -1,11 +1,11 @@
 import {
-  ActionButton,
-  BackButton,
-  Button,
-  DescriptiveInfo,
-  InitialAvatar,
-  InitialAvatarContainer,
-  Typography,
+    ActionButton,
+    BackButton,
+    Button,
+    DescriptiveInfo,
+    InitialAvatar,
+    InitialAvatarContainer,
+    Typography,
 } from '@components'
 import { useContextBar, useNavbar } from '@hooks'
 import { AdminLayout } from '@layouts'
@@ -13,10 +13,10 @@ import { NextPageWithLayout } from '@types'
 import { useRouter } from 'next/router'
 import { ReactElement, useEffect } from 'react'
 import {
-  AiFillCodeSandboxCircle,
-  AiOutlineBarcode,
-  AiOutlineLogin,
-  AiTwotonePhone,
+    AiFillCodeSandboxCircle,
+    AiOutlineBarcode,
+    AiOutlineLogin,
+    AiTwotonePhone,
 } from 'react-icons/ai'
 import { BsPatchCheckFill } from 'react-icons/bs'
 import { FaArchive, FaBan, FaPhoneAlt } from 'react-icons/fa'
@@ -32,6 +32,7 @@ import { useState } from 'react'
 import { SubAdminForm } from '@partials/admin/sub-admin/form'
 
 const EditRto: NextPageWithLayout = () => {
+<<<<<<< Updated upstream
   const [formData, setFormData] = useState<any>('');
 
   const router = useRouter()
@@ -52,10 +53,34 @@ const EditRto: NextPageWithLayout = () => {
   return (
     <div className='flex justify-center'><SubAdminForm subAdmin={subAdmin} onSubmit={setFormData} /></div>
   )
+=======
+    const [formData, setFormData] = useState<any>('')
+
+    const router = useRouter()
+    const editSubAdminId = router.query.editSubAdminId
+    const navBar = useNavbar()
+    const contextBar = useContextBar()
+
+    const subAdmin = AdminApi.SubAdmins.useListQuery(editSubAdminId, {
+        skip: !editSubAdminId,
+    })
+    console.log('rto', editSubAdminId, subAdmin)
+
+    useEffect(() => {
+        navBar.setTitle('Edit SubAdmin')
+        contextBar.hide()
+    }, [])
+
+    return (
+        <div className="flex justify-center">
+            <SubAdminForm subAdmin={subAdmin} onSubmit={setFormData} />
+        </div>
+    )
+>>>>>>> Stashed changes
 }
 
 EditRto.getLayout = (page: ReactElement) => {
-  return <AdminLayout>{page}</AdminLayout>
+    return <AdminLayout>{page}</AdminLayout>
 }
 
 export default EditRto

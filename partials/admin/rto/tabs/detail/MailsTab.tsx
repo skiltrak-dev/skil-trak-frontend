@@ -26,8 +26,6 @@ export const MailsTab = ({ rto }: any) => {
         rto?.status === 'approved'
     )
 
-    console.log('mmmmmm', rto)
-
     useEffect(() => {
         if (rto) {
             setApprovedUser(rto?.status === 'approved')

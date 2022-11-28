@@ -32,12 +32,9 @@ const Detail: NextPageWithLayout = () => {
     const navBar = useNavbar()
     const contextBar = useContextBar()
 
-    const { data, isLoading } = AdminApi.Industries.useDetail(
-        Number(router.query.id),
-        {
-            skip: !router.query?.id,
-        }
-    )
+    const industry = AdminApi.Industries.useDetail(Number(router.query.id), {
+        skip: !router.query?.id,
+    })
 
     useEffect(() => {
         navBar.setTitle('Industry Detail')
@@ -67,25 +64,25 @@ const Detail: NextPageWithLayout = () => {
                         <div className="w-full flex items-center gap-x-2 px-4 py-2">
                             <img
                                 className="w-24 h-24 border rounded-lg p-1"
-                                src={data?.user.avatar}
+                                src={industry?.data?.user.avatar}
                                 alt="Industry Logo"
                             />
                             <div>
                                 <Typography variant={'title'}>
-                                    {data?.user?.name}
+                                    {industry?.data?.user?.name}
                                 </Typography>
                                 <div className="flex items-center gap-x-2">
                                     <Typography
                                         variant={'label'}
                                         color={'text-gray-500'}
                                     >
-                                        {data?.user?.email}
+                                        {industry?.data?.user?.email}
                                     </Typography>
                                     <BsPatchCheckFill className="text-link" />
                                 </div>
                                 <div className="text-sm flex gap-x-2 items-center mt-2 text-gray-500">
                                     <MdPlace className="text-gray-400" />
-                                    {data?.addressLine1}
+                                    {industry?.data?.addressLine1}
                                 </div>
                             </div>
                         </div>
@@ -94,7 +91,11 @@ const Detail: NextPageWithLayout = () => {
                             <div className="w-full flex justify-center">
                                 <DescriptiveInfo
                                     title={'ABN'}
-                                    description={data ? data?.abn : 'NA'}
+                                    description={
+                                        industry?.data
+                                            ? industry?.data?.abn
+                                            : 'NA'
+                                    }
                                     Icon={AiOutlineBarcode}
                                 />
                             </div>
@@ -102,7 +103,9 @@ const Detail: NextPageWithLayout = () => {
                                 <DescriptiveInfo
                                     title={'Phone'}
                                     description={
-                                        data ? data?.phoneNumber : 'NA'
+                                        industry?.data
+                                            ? industry?.data?.phoneNumber
+                                            : 'NA'
                                     }
                                     Icon={AiTwotonePhone}
                                 />
@@ -131,21 +134,21 @@ const Detail: NextPageWithLayout = () => {
                             <div className="w-full flex items-start gap-x-2">
                                 <InitialAvatar
                                     name={
-                                        data?.contactPerson
-                                            ? data.contactPerson
+                                        industry?.data?.contactPerson
+                                            ? industry?.data.contactPerson
                                             : 'Not Provided'
                                     }
                                     first
                                 />
                                 <div>
                                     <p className="text-sm text-gray-700">
-                                        {data?.contactPerson
-                                            ? data.contactPerson
+                                        {industry?.data?.contactPerson
+                                            ? industry?.data.contactPerson
                                             : 'Not Provided'}
                                     </p>
                                     <p className="text-xs font-medium text-gray-500">
-                                        {data?.contactPersonNumber
-                                            ? data.contactPersonNumber
+                                        {industry?.data?.contactPersonNumber
+                                            ? industry?.data.contactPersonNumber
                                             : '-'}
                                     </p>
                                 </div>
@@ -226,7 +229,7 @@ const Detail: NextPageWithLayout = () => {
                 </div>
             </div>
 
-            <DetailTabs id={router.query.id} industry={data?.user} />
+            <DetailTabs id={router.query.id} industry={industry} />
         </div>
     )
 }

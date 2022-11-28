@@ -16,13 +16,13 @@ export const NotesTab = ({ industry }: { industry: any }) => {
     const [approvedUser, setApprovedUser] = useState<boolean | null>(null)
 
     useEffect(() => {
-        if (industry) {
-            setApprovedUser(industry?.status === 'approved')
+        if (industry?.data) {
+            setApprovedUser(industry?.data?.user.status === 'approved')
         }
     }, [industry])
 
-    const notes = AdminApi.Notes.useList(industry?.id, {
-        skip: !industry?.id,
+    const notes = AdminApi.Notes.useList(industry?.data?.user?.id, {
+        skip: !industry?.data,
     })
 
     console.log('industry', industry)
@@ -66,7 +66,7 @@ export const NotesTab = ({ industry }: { industry: any }) => {
                 <div
                     className={`${contextBar.isVisible ? 'w-full' : 'w-[29%]'}`}
                 >
-                    <NoteForm id={industry?.id} />
+                    <NoteForm id={industry?.data?.user?.id} />
                 </div>
             )}
         </div>

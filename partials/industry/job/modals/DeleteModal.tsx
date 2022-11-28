@@ -29,7 +29,6 @@ export const DeleteModal = ({
                 title: `RTO Deleted`,
                 description: `RTO "${job.title}" has been deleted.`,
             })
-            console.log('Leeran')
             onCancel()
             // router.push('/portals/industry/jobs/advertised-jobs')
         }
