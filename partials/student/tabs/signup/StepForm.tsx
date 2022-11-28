@@ -6,14 +6,13 @@ import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import { StepAccountInfo } from './StepAccountInfo'
 import { StepNotificationMethod } from './StepNotificationMethod'
-import { StepPackageSelection } from './StepPackageSelection'
 import { StepReviewInfo } from './StepReviewInfo'
 import { StepCreate } from './StepCreate'
 
 export const StepForm = () => {
     const router = useRouter()
     const { query } = router
-    console.log("router", query);
+console.log("router", query);
 
     const FormSteps: IndicatorStep[] = [
         {
@@ -27,12 +26,6 @@ export const StepForm = () => {
             visited: false,
             query: 'notification-method',
             element: <StepNotificationMethod />,
-        },
-        {
-            label: 'Package Selection',
-            visited: false,
-            query: 'package-selection',
-            element: <StepPackageSelection />,
         },
         {
             label: 'Review Info',

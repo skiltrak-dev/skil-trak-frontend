@@ -8,14 +8,14 @@ import { UserRoles } from '@constants'
 import {
     Typography,
     BackButton,
-    PortalDetail,
     AuthBreadCrumb,
     StepIndicator,
     IndicatorStep,
 } from '@components'
 
-import { SignUpForm } from '@components/forms'
+import { RtoSignUpForm } from '@components/forms'
 import { useState } from 'react'
+import { StepForm } from '@partials/industry/tabs'
 
 const FormSteps: IndicatorStep[] = [
     {
@@ -23,11 +23,7 @@ const FormSteps: IndicatorStep[] = [
         visited: true,
     },
     {
-        label: 'Notification Type',
-        visited: false,
-    },
-    {
-        label: 'Partner',
+        label: 'Notification Method',
         visited: false,
     },
     {
@@ -52,8 +48,8 @@ const IndustrySignUp: NextPage = () => {
             role: UserRoles.INDUSTRY,
             location: '34.1506,73.2013',
         })
-        router.push('/auth/signup/industry/notification-method')
-        setCurrentStep(FormSteps[1])
+
+        router.push('/auth/signup/notification-method')
     }
 
     return (
@@ -62,7 +58,9 @@ const IndustrySignUp: NextPage = () => {
                 <BackButton />
 
                 <div>
-                    <Typography variant={'h3'}>Create Your Industry</Typography>
+                    <Typography variant={'h3'}>
+                        Create Your RTO Account
+                    </Typography>
                     <AuthBreadCrumb
                         breadcrumbs={[
                             {
@@ -71,40 +69,14 @@ const IndustrySignUp: NextPage = () => {
                             },
                             {
                                 link: '#',
-                                text: 'Account Information',
+                                text: 'Industry Account',
                                 active: true,
                             },
                         ]}
                     />
                 </div>
 
-                <StepIndicator
-                    steps={FormSteps}
-                    currentStep={currentStep}
-                    horizontal
-                />
-
-                {/* <div>
-					<div className="flex flex-col lg:flex-row items-center lg:items-start gap-y-6">
-						<div className="w-full lg:w-[56%] pb-10 lg:pr-10 border-b lg:border-b-transparent lg:border-r border-secondary-dark">
-							<SignUpForm onSubmit={onSubmit} />
-						</div>
-						<div className="w-full lg:w-[44%] ml-8 flex justify-center sticky top-2/4 -translate-y-2/4">
-							<PortalDetail
-								text={"Industry"}
-								videoUrl={
-									"https://www.youtube.com/watch?v=dNuo_OwO6dI"
-								}
-							/>
-						</div>
-					</div>
-				</div> */}
-
-                <div>
-                    <div className="w-full pb-10">
-                        <SignUpForm onSubmit={onSubmit} />
-                    </div>
-                </div>
+                <StepForm />
             </div>
         </AuthLayout>
     )
