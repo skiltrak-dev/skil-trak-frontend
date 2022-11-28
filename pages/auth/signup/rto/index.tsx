@@ -15,6 +15,7 @@ import {
 
 import { RtoSignUpForm } from '@components/forms'
 import { useState } from 'react'
+import { StepForm } from '@partials/rto/tabs'
 
 const FormSteps: IndicatorStep[] = [
     {
@@ -72,20 +73,14 @@ const RtoSignUp: NextPage = () => {
                             },
                             {
                                 link: '#',
-                                text: 'Account Information',
+                                text: 'RTO Account',
                                 active: true,
                             },
                         ]}
                     />
                 </div>
 
-                <StepIndicator steps={FormSteps} currentStep={currentStep} horizontal />
-
-                <div>
-                    <div className="w-full mt-4 pb-10">
-                        <RtoSignUpForm onSubmit={onSubmit} />
-                    </div>
-                </div>
+                <StepForm />
             </div>
         </AuthLayout>
     )

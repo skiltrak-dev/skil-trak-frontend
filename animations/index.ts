@@ -100,6 +100,11 @@ export const Animations = {
         SignUp: {
             Waiting: waiting,
             Rejected: rejected,
+            CommunicationMethod: {
+                Communication: communication,
+                ViaEmail: viaEmail,
+                ViaSMS: viaSms,
+            },
         },
 
         Login: {
@@ -151,7 +156,7 @@ export const Animations = {
         },
         Consultation: {
             Consultation: consultation,
-        }
+        },
     },
 
     Student: {

@@ -14,23 +14,18 @@ export const ProfileOptionsDropDown = ({ expanded }: { expanded: boolean }) => {
             } `}
         >
             <ul>
-                <li>
-                    <a
-                        href=""
-                        className="flex items-center gap-x-4 px-4 py-2 border-b"
-                    >
-                        <FaRegAddressCard />
-                        <p className="text-sm">Profile</p>
-                    </a>
+                <li className="flex items-center gap-x-4 px-4 py-2 border-b hover:bg-gray-100 cursor-pointer">
+                    <span className="text-gray-400"><FaRegAddressCard /></span>
+                    <p className="text-sm text-gray-600 font-medium">Profile</p>
                 </li>
                 <li
                     onClick={() => {
-                        AuthUtils.logout()
-                        router.push('/auth/login')
+                        AuthUtils.logout(router)
                     }}
+                    className="flex items-center gap-x-4 px-4 py-2 hover:bg-red-100 cursor-pointer group"
                 >
-                    <MdLogout />
-                    <p className="text-sm font-medium">Log Out</p>
+                    <span className="text-red-300 group-hover:text-red-500"><MdLogout /></span>
+                    <p className="text-sm text-red-400 group-hover:text-red-500 font-medium">Log Out</p>
                 </li>
             </ul>
         </div>

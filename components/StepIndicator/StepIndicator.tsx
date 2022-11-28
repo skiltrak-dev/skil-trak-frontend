@@ -5,9 +5,12 @@ export interface IndicatorStep {
     label: string
     visited?: boolean
     last?: boolean
+    query?: string
+    element?: any
 }
 
 interface StepIndicatorProps {
+    children?: any
     currentStep: IndicatorStep
     steps: IndicatorStep[]
     fluid?: boolean
@@ -16,6 +19,7 @@ interface StepIndicatorProps {
     horizontal?: boolean
 }
 export const StepIndicator = ({
+    children,
     steps,
     fluid,
     center,
@@ -33,7 +37,26 @@ export const StepIndicator = ({
         'justify-center': center,
     })
 
-    return (
+    return children ? (
+        children({
+            steps: (
+                <div className={stepIndicatorClasses}>
+                    {steps.map((step, index: number) => (
+                        <Step
+                            key={step.label}
+                            label={step.label}
+                            visited={stepIndex >= index}
+                            last={step.last}
+                            fluid={fluid}
+                            vertical={vertical}
+                            horizontal={horizontal}
+                        />
+                    ))}
+                </div>
+            ),
+            element: currentStep.element,
+        })
+    ) : (
         <div className={stepIndicatorClasses}>
             {steps.map((step, index: number) => (
                 <Step
