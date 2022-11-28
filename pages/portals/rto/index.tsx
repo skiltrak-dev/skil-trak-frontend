@@ -2,10 +2,10 @@ import { ReactElement, useEffect } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 
-
 import { NextPageWithLayout } from '@types'
 import { RtoLayout } from '@layouts'
 import {
+    Alert,
     Badge,
     Card,
     DocumentCard,
@@ -20,7 +20,9 @@ import { MdPermContactCalendar, MdPhone, MdVerified } from 'react-icons/md'
 import { IoBriefcase } from 'react-icons/io5'
 import { useContextBar } from '@hooks'
 import { InitialAvatarContainer } from '@components/InitialAvatar/InitialAvatarContainer'
-
+import { AuthUtils } from '@utils'
+import { AuthApi } from '@queries'
+import { CheckStatus } from '@partials/auth'
 
 const WorkplaceQuestions = [
     {
@@ -76,10 +78,14 @@ const RTODashboard: NextPageWithLayout = () => {
 
     useEffect(() => {
         contextBar.setContent(<UserProfile />)
+        contextBar.show(false)
     }, [])
 
+    
     return (
         <div className="flex flex-col gap-y-6 pb-8">
+            {/* Status Check */}
+            <CheckStatus/>
             {/* Question Section */}
             <section className="bg-[#D6F4FF] w-full p-4 rounded-2xl relative overflow-hidden">
                 <div className="absolute right-0 -bottom-3">
@@ -408,7 +414,7 @@ const RTODashboard: NextPageWithLayout = () => {
 }
 
 RTODashboard.getLayout = (page: ReactElement) => {
-    return <RtoLayout title='Dashboard'>{page}</RtoLayout>
+    return <RtoLayout title="Dashboard">{page}</RtoLayout>
 }
 
 export default RTODashboard

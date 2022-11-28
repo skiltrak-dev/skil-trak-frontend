@@ -24,7 +24,7 @@ export const SideBarItem = ({
         'flex justify-start items-center cursor-pointer': true,
 
         // Text
-        'text-xs font-semibold text-gray-600': true,
+        'text-xs font-semibold': true,
 
         // Padding & Margins
         'px-4 py-3 gap-x-2 w-full group': true,
@@ -40,14 +40,15 @@ export const SideBarItem = ({
         'transition-all duration-300 rounded-lg border-transparent': true,
 
         // Background
-        'bg-orange-500 text-white': active,
-        'bg-transparent': !active,
+        'bg-orange-200 text-orange-600': active,
+        'bg-transparent text-gray-600': !active,
     })
 
     const iconClasses = classNames({
         'text-gray-400': true,
         // Hover
         'group-hover:text-orange-300': !color,
+        'text-orange-400': active,
         'group-hover:text-red-300': color,
         // Transition
         'transition-all duration-300': true,

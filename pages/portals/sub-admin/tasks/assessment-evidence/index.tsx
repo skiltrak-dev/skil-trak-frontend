@@ -27,7 +27,7 @@ const AssessmentEvidence: NextPageWithLayout = (props: Props) => {
                     user: { name, email, image },
                 } = row.original
                 const course = courses[0]
-                console.log('row', row.original)
+                // console.log('row', row.original)
 
                 return (
                     <div className="flex items-center relative">

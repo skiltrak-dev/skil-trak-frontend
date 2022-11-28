@@ -19,8 +19,14 @@ const SubAdminList: NextPageWithLayout = () => {
     const navBar = useNavbar()
     const contextBar = useContextBar()
 
-    const { isLoading, data } = AdminApi.SubAdmins.useCountQuery()
-    console.log('count sub admins', data)
+   const { isLoading, data } = AdminApi.SubAdmins.useCountQuery()
+   // console.log("count sub admins",data);
+   
+   useEffect(() => {
+      navBar.setTitle('Sub-Admins')
+      contextBar.hide()
+      // contextBar.setContent(<UserProfile />)
+   }, [])
 
     useEffect(() => {
         navBar.setTitle('Sub-Admins')

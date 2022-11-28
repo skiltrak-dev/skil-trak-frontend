@@ -14,7 +14,7 @@ const PortalTypeOptions = [
     },
     {
         text: 'RTO',
-        link: '/auth/signup/rto',
+        link: '/auth/signup/rto?step=account-info',
         Icon: '/images/portal-icons/ic_portal_rto.svg',
         videoUrl: 'https://www.youtube.com/watch?v=gqTXp7KA458',
     },
@@ -68,10 +68,10 @@ const SignUp: NextPage = () => {
                         </div>
                     </div>
                     <div>
-                        <PortalDetail
+                        {/* <PortalDetail
                             text={selectedPortal.text}
                             videoUrl={selectedPortal.videoUrl}
-                        />
+                        /> */}
                     </div>
                 </div>
             </div>

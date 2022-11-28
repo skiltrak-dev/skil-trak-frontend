@@ -56,7 +56,7 @@ export const PersonalInfo = ({
         }
     }, [data, isSuccess])
 
-    console.log('courses', courses)
+    // console.log('courses', courses)
 
     const initialValues = {
         course: '',

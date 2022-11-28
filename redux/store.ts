@@ -11,6 +11,7 @@ import {
     industryCourseApi,
     jobsApi,
     setScheduleApi,
+    studentSignUpApi,
     studentCoursesApi,
     workplaceRequestApi,
     subAdminWorkplaceApi,
@@ -69,6 +70,7 @@ export const store = configureStore({
         [subAdminWorkplaceApi.reducerPath]: subAdminWorkplaceApi.reducer,
         [studentAssessmentEvidenceApi.reducerPath]:
             studentAssessmentEvidenceApi.reducer,
+        [studentSignUpApi.reducerPath]: studentSignUpApi.reducer,
         [subAdminStudentsApi.reducerPath]: subAdminStudentsApi.reducer,
         [studentAssessmentApi.reducerPath]: studentAssessmentApi.reducer,
 
@@ -106,6 +108,7 @@ export const store = configureStore({
             studentAssessmentEvidenceApi.middleware,
             subAdminIndustriesApi.middleware,
             studentAssessmentApi.middleware,
+            subAdminRtosApi.middleware,
 
             rtoIndustriesApi.middleware,
             studentFindAbnApi.middleware,

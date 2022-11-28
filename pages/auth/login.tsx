@@ -26,9 +26,9 @@ import { FormProvider } from 'react-hook-form'
 const Login: NextPage = () => {
     const router = useRouter()
 
-    const [login, loginResult] = AuthApi.useLoginMutation()
+    const [login, loginResult] = AuthApi.useLogin()
 
-    const [checkStatus, checkStatusResult] = AuthApi.useCheckStatusMutation()
+    const [checkStatus, checkStatusResult] = AuthApi.useStatusCheck()
 
     const [requested, setRequested] = useState(false)
     const [rejected, setRejected] = useState(false)

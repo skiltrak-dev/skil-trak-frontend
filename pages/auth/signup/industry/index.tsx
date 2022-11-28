@@ -44,7 +44,7 @@ const FormSteps: IndicatorStep[] = [
 const IndustrySignUp: NextPage = () => {
     const router = useRouter()
 
-    const [currentStep, setCurrentStep] = useState<IndicatorStep>(FormSteps[1])
+    const [currentStep, setCurrentStep] = useState<IndicatorStep>(FormSteps[0])
 
     const onSubmit = (values: any) => {
         SignUpUtils.setValuesToStorage({
@@ -52,8 +52,8 @@ const IndustrySignUp: NextPage = () => {
             role: UserRoles.INDUSTRY,
             location: '34.1506,73.2013',
         })
-
-        router.push('/auth/signup/notification-method')
+        router.push('/auth/signup/industry/notification-method')
+        setCurrentStep(FormSteps[1])
     }
 
     return (

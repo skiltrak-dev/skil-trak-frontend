@@ -1,5 +1,4 @@
 import type { NextPage } from 'next'
-import { useRouter } from 'next/router'
 
 import { SignUpUtils } from '@utils'
 import { AuthLayout } from '@layouts'
@@ -15,6 +14,7 @@ import {
 
 import { StudentSignUpForm } from '@components/forms'
 import { useState } from 'react'
+import { useRouter } from 'next/router'
 
 const FormSteps: IndicatorStep[] = [
     {
@@ -38,17 +38,17 @@ const FormSteps: IndicatorStep[] = [
 
 const StudentSignUp: NextPage = () => {
     const router = useRouter()
-
+    const [active, setActive] = useState(false)
     const [currentStep, setCurrentStep] = useState<IndicatorStep>(FormSteps[0])
 
     const onSubmit = (values: any) => {
         SignUpUtils.setValuesToStorage({
             ...values,
-            role: UserRoles.INDUSTRY,
+            role: UserRoles.STUDENT,
             location: '34.1506,73.2013',
         })
-
-        router.push('/auth/signup/notification-method')
+        console.log("values", values)
+        router.push('/auth/signup/student/notification-type')
     }
 
     return (

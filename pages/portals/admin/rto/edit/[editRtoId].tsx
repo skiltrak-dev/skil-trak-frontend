@@ -38,10 +38,9 @@ const EditRto: NextPageWithLayout = () => {
     const navBar = useNavbar()
     const contextBar = useContextBar()
 
-    const rto = AdminApi.Rtos.useDetailQuery(editRtoId, {
-        skip: !editRtoId,
-    })
-    console.log('rto', editRtoId, rto)
+  const rto = AdminApi.Rtos.useDetailQuery(editRtoId, {
+    skip: !editRtoId,
+  })
 
     useEffect(() => {
         navBar.setTitle('Edit Rto')

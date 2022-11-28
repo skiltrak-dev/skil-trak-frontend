@@ -1,16 +1,26 @@
-import { ReactElement, useEffect } from 'react'
+import { ReactElement, useEffect, useState } from 'react'
 
 import { useContextBar } from '@hooks'
 import { AdminLayout } from '@layouts'
 import { NextPageWithLayout } from '@types'
 import { format } from 'date-fns'
 import { FigureCard } from '@components/sections'
+import { AuthUtils } from '@utils'
+import { AdminApi } from '@queries'
 
 const AdminDashboard: NextPageWithLayout = () => {
-    const contextBar = useContextBar()
+    const [name, setName] = useState('')
+    const credentials = AuthUtils.getUserCredentials()
+    const stats = AdminApi.Admin.useCount()
 
     useEffect(() => {
-        // contextBar.hide()
+        if (name === '') {
+            if (credentials) {
+                setName(credentials?.name || 'Admin')
+            } else {
+                setName('Admin')
+            }
+        }
     }, [])
 
     return (
@@ -25,8 +35,11 @@ const AdminDashboard: NextPageWithLayout = () => {
                     />
                 </div>
                 <div className="bg-blue-100 px-8 py-6 rounded-2xl">
-                    <p className="text-xl font-bold text-blue-500 mb-6">
-                        Welcome Back Admin!
+                    <p className="text-xl text-blue-500 mb-6">
+                        <>
+                            <span>Welcome Back</span>{' '}
+                            <span className="font-bold">{name}!</span>
+                        </>
                     </p>
                     <div className="text-blue-900">
                         <p>
@@ -50,40 +63,47 @@ const AdminDashboard: NextPageWithLayout = () => {
                 <div className="flex gap-x-4">
                     <FigureCard
                         imageUrl="/images/icons/rto.png"
-                        count={10}
+                        count={stats.data?.users.rto || 0}
                         title={'RTOs'}
+                        loading={stats.isLoading}
                     />
                     <FigureCard
                         imageUrl="/images/icons/students.png"
-                        count={1357}
+                        count={stats.data?.users.student || 0}
                         title={'Students'}
+                        loading={stats.isLoading}
                     />
                     <FigureCard
                         imageUrl="/images/icons/industry.png"
-                        count={1060}
+                        count={stats.data?.users.industry || 0}
                         title={'Industries'}
+                        loading={stats.isLoading}
                     />
                     <FigureCard
                         imageUrl="/images/icons/job.png"
-                        count={1060}
+                        count={stats.data?.jobs || 0}
                         title={'Jobs'}
+                        loading={stats.isLoading}
                     />
                 </div>
                 <div className="flex gap-x-4">
                     <FigureCard
                         imageUrl="/images/icons/sub-admin.png"
-                        count={50}
+                        count={stats.data?.users.subadmin || 0}
                         title={'Sub-admins'}
+                        loading={stats.isLoading}
                     />
                     <FigureCard
                         imageUrl="/images/icons/workplace.png"
-                        count={200}
+                        count={stats.data?.workplaceRequests || 0}
                         title={'Workplace Requests'}
+                        loading={stats.isLoading}
                     />
                     <FigureCard
                         imageUrl="/images/icons/industry.png"
-                        count={70}
+                        count={0}
                         title={'Joining Requests'}
+                        loading={stats.isLoading}
                     />
                 </div>
             </div>

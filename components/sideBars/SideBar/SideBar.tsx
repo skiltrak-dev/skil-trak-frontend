@@ -1,17 +1,28 @@
 import { Footer } from 'components/Footer'
+import Image from 'next/image'
 import Link from 'next/link'
 import { SideBarItem } from '../SideBarItem'
-import Image from 'next/image'
 
-import { Advertisement, UserActions } from './components'
 import { PortalTypeBadge } from '@components/Badge'
-
-const PortalTypes = {
-    Admin: 'text-blue-500 border-blue-300',
-    Industry: 'text-green-500 border-green-300',
-}
+import { useRouter } from 'next/router'
+import { UserActions } from './components'
 
 export const SideBar = ({ routes, portalType }: any) => {
+    const router = useRouter()
+    const currentPath = router.pathname.replace('/portals/admin', '')
+
+    const isActiveRoute = (path: string) => {
+        const trimmedPath = path.replace('/portals/admin', '')
+
+        if (!currentPath && !trimmedPath) {
+            return true
+        }
+
+        if (currentPath) {
+            return trimmedPath.includes(currentPath)
+        }
+    }
+
     return (
         <div className="w-56 flex-shrink-0 h-screen pb-24 bg-white border-r border-secondary-dark px-2 py-2 relative overflow-y-scroll remove-scrollbar">
             <Link href="/">
@@ -59,6 +70,7 @@ export const SideBar = ({ routes, portalType }: any) => {
                                         key={route.text}
                                         Icon={route.Icon}
                                         link={route.path.replace('*', '')}
+                                        active={isActiveRoute(route.path)}
                                     >
                                         {route.text}
                                     </SideBarItem>
@@ -68,7 +80,7 @@ export const SideBar = ({ routes, portalType }: any) => {
                     </div>
                 </div>
 
-                <Advertisement />
+                {/* <Advertisement /> */}
 
                 {/* After Ad Routes */}
                 <div className="overflow-hidden">
@@ -76,32 +88,33 @@ export const SideBar = ({ routes, portalType }: any) => {
                         className={`my-1 flex flex-col items-start transition-all overflow-hidden`}
                     >
                         {routes.map((route: any) => {
-							if (
-								!route.placement ||
-								route.placement === "before"
-							)
-								return null;
-							if (route.type === "title" && route.text)
-								return (
-									<p className="text-sm font-semibold text-gray">
-										{route.text}
-									</p>
-								);
-							else if (route.type === "divider")
-								return (
-									<div className="w-full h-[0.1px] bg-gray-300 my-2"></div>
-								);
-							else
-								return (
-									<SideBarItem
-										key={route.text}
-										Icon={route.Icon}
-										link={route.path}
-									>
-										{route.text}
-									</SideBarItem>
-								);
-						})}
+                            if (
+                                !route.placement ||
+                                route.placement === 'before'
+                            )
+                                return null
+                            if (route.type === 'title' && route.text)
+                                return (
+                                    <p className="text-sm font-semibold text-gray">
+                                        {route.text}
+                                    </p>
+                                )
+                            else if (route.type === 'divider')
+                                return (
+                                    <div className="w-full h-[0.1px] bg-gray-300 my-2"></div>
+                                )
+                            else
+                                return (
+                                    <SideBarItem
+                                        key={route.text}
+                                        Icon={route.Icon}
+                                        link={route.path}
+                                        active={isActiveRoute(route.path)}
+                                    >
+                                        {route.text}
+                                    </SideBarItem>
+                                )
+                        })}
                     </div>
                 </div>
             </div>

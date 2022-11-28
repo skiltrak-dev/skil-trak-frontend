@@ -26,7 +26,7 @@ export const TabsView = (props: Props) => {
             url: '/portals/rto/users/students/archived',
         },
     ]
-    console.log('TabsView')
+    // console.log('TabsView')
 
     return (
         <div>

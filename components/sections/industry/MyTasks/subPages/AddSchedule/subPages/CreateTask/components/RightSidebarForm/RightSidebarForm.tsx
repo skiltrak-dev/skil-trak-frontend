@@ -44,17 +44,7 @@ export const RightSidebarForm = ({
     addEmployeeData.isSuccess && setIsSchedule(false)
   }, [addEmployeeData.isSuccess, setIsSchedule])
 
-  // const onSelectEmployee = (employee: any) => {
-  //   const selectedEmployeeTasks = EmployeeData?.data?.data
-  //     ?.find((selected: any) => selected.id === employee)
-  //     .tasks?.map((task: any) => task.day)
-  //   const filteredData = DaysOptions.filter(
-  //     (days) => !selectedEmployeeTasks.includes(days.value)
-  //   )
-  //   setFilteredDays(filteredData)
-  //   console.log('filteredDatafilteredData', filteredData)
-    
-  // }
+  
 
   const validationSchema = yup.object({})
 
