@@ -7,23 +7,23 @@ export const InitialAvatarContainer = ({
 }) => {
     return (
         <div className="relative flex items-center">
-            {children.length
-                ? children.map((child: any, idx: number) => {
+            {children?.length > 0
+                ? children?.map((child: any, idx: number) => {
                       if (idx < show) {
                           return child
                       }
                   })
                 : children}
 
-            {children.length > show && (
+            {children?.length > show && (
                 <div className="text-blue-500 text-xs font-semibold ml-2 relative cursor-pointer group">
                     <span className="whitespace-nowrap">
                         {' '}
-                        +{children.length - show} More
+                        +{children?.length - show} More
                     </span>
 
                     <div className="group-hover:flex hidden absolute -top-14 shadow-lg rounded bg-slate-800 text-slate-100 font-normal flex-col">
-                        {children.map((child: any, idx: number) => {
+                        {children?.map((child: any, idx: number) => {
                             if (idx >= show) {
                                 return (
                                     <span

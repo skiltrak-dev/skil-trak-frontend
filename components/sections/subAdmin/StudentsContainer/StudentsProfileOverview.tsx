@@ -1,7 +1,7 @@
 import { Card } from '@components/cards'
 import {
-  InitialAvatar,
-  InitialAvatarContainer,
+    InitialAvatar,
+    InitialAvatarContainer,
 } from '@components/InitialAvatar'
 import { Typography } from '@components/Typography'
 import Image from 'next/image'
@@ -11,40 +11,42 @@ import { FaSchool } from 'react-icons/fa'
 import { MdPermContactCalendar, MdPhone } from 'react-icons/md'
 import { NotesCard, StudentProfileCoursesCard } from '../components'
 import {
-  MyRtoInfoCard,
-  ProgressStep,
-  StudentRecentAppointmentCard,
-  WorkplaceInfoCard,
+    MyRtoInfoCard,
+    ProgressStep,
+    StudentRecentAppointmentCard,
+    WorkplaceInfoCard,
 } from './components'
 import { PinnedNotes } from '../components'
 type StudentsProfileOverviewProps = {
-  studentDetail: any
+    studentDetail: any
 }
 
 export const StudentsProfileOverview = ({
-  studentDetail,
+    studentDetail,
 }: StudentsProfileOverviewProps) => {
-  // const {data} = useGetSubAdminMyRtoQuery(studentId)
-  // console.log("useGetSubAdminMyRtoQuery", data);
+    // const {data} = useGetSubAdminMyRtoQuery(studentId)
+    // console.log("useGetSubAdminMyRtoQuery", data);
 
-  return (
-    <div className="mt-6">
-      {/* pinned Notes */}
-      <PinnedNotes id={studentDetail?.user?.id} />
+    return (
+        <div className="mt-6">
+            {/* pinned Notes */}
+            <PinnedNotes id={studentDetail?.user?.id} />
 
-      {/* Progress */}
-      <ProgressStep status />
+            {/* Progress */}
+            <div className="mt-3">
+                <ProgressStep status />
+            </div>
 
-      <StudentProfileCoursesCard courses={studentDetail?.courses} />
-      <div className="w-full flex justify-between gap-x-6 mt-4">
-        <div className="w-full flex flex-col gap-y-4">
-          <MyRtoInfoCard />
-          <WorkplaceInfoCard />
+            <StudentProfileCoursesCard courses={studentDetail?.courses} />
+            <div className="w-full flex justify-between gap-x-6 mt-4">
+                <div className="w-full flex flex-col gap-y-4">
+                    <MyRtoInfoCard myRto={studentDetail} />
+                    <WorkplaceInfoCard />
+                </div>
+                <StudentRecentAppointmentCard />
+            </div>
         </div>
-        <StudentRecentAppointmentCard />
-      </div>
-    </div>
-  )
+    )
 }
 
 // <Link href="#">

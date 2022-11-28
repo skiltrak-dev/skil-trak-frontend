@@ -9,39 +9,35 @@ import {
     TechnicalError,
 } from '@components'
 
-// utils
-import { AuthUtils } from '@utils'
-
+// query
 // query
 import { AdminApi, useSendMessageMutation } from '@queries'
 
 // hooks
-import { useContextBar } from '@hooks'
+import { useContextBar } from 'hooks'
 // import { useMessage } from 'hooks'
 
-export const MailsTab = ({ student }: any) => {
+export const MailsTab = ({ industry }: any) => {
     const { isVisible } = useContextBar()
     const [messagesList, setMessagesList] = useState([])
-    const [approvedUser, setApprovedUser] = useState<boolean>(
-        student?.status === 'approved'
+    const [approvedUser, setApprovedUser] = useState(
+        industry?.user?.status === 'approved'
     )
 
-    useEffect(() => {
-        if (student) {
-            setApprovedUser(student?.status === 'approved')
-        }
-    }, [student])
-
     // query
-    const messages = AdminApi.Messages.useList(student?.id, {
-        skip: !student?.id,
+    const messages = AdminApi.Messages.useList(industry?.user?.id, {
+        skip: !industry?.user?.id,
     })
 
-    console.log('messages', messages)
+    useEffect(() => {
+        setApprovedUser(industry?.user?.status === 'approved')
+    }, [industry])
+
+    console.log('approvedUser', industry)
 
     // useEffect(() => {
-    //     messages?.refetch()
-    // }, [])
+    //     messages.refetch()
+    // }, [messages.refetch])
 
     return (
         <div
@@ -75,7 +71,15 @@ export const MailsTab = ({ student }: any) => {
                                 )
                         )
                     ) : (
-                        !messages.isError && <EmptyData actionLink={null} />
+                        !messages.isError && (
+                            <EmptyData
+                                actionLink={null}
+                                title={'No Emails were found'}
+                                description={
+                                    'It may be due to you have not sent any Message                                '
+                                }
+                            />
+                        )
                     )}
                 </div>
             </div>
@@ -83,7 +87,7 @@ export const MailsTab = ({ student }: any) => {
                 <div className={`${isVisible ? 'w-full' : 'w-[29%]'}`}>
                     <MailForm
                         action={useSendMessageMutation}
-                        receiverId={Number(student?.id)}
+                        receiverId={Number(industry?.id)}
                         sender={'admin'}
                     />
                 </div>

@@ -171,10 +171,8 @@ export const SetUnavailabilityContainer = () => {
                 ) : (
                     !isError && (
                         <EmptyData
-                            title={'No Approved RTO!'}
-                            description={
-                                'You have not approved any RTO request yet'
-                            }
+                            title={'No Un Availability!'}
+                            description={'You have not Un Availability yet'}
                             height={'50vh'}
                         />
                     )

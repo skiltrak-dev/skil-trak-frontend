@@ -9,30 +9,32 @@ import { NextPageWithLayout } from '@types'
 
 //components
 import {
-  IndustryProfile,
+    IndustryProfile,
     RtoProfileSidebar,
     LoadingAnimation,
     ReactTable,
     TabNavigation,
     TabProps,
     Typography,
+    TechnicalError,
+    EmptyData,
 } from '@components'
+import { Notes } from '@components/sections/subAdmin'
 
+import { FigureCard, SubAdminProfileTabsView } from '@components/sections'
 import {
-  AppointmentProfile,
-  FigureCard,
-  RtoProfileOverview,
-  SubAdminProfileTabsView,
-} from '@components/sections'
-import { AllNotes } from '@components/sections'
+    RtoProfileOverview,
+    AppointmentProfile,
+} from '@components/sections/subAdmin/UsersContainer'
 // icons
 import { FaEdit } from 'react-icons/fa'
 // queries
 import {
-  useGetSubAdminRTODetailQuery,
-  useUpdateAssessmentToolArchiveMutation,
+    useGetSubAdminRTODetailQuery,
+    useUpdateAssessmentToolArchiveMutation,
 } from '@queries'
 import { AssessmentTools } from '@components/sections/subAdmin/UsersContainer/SubAdminRtosContainer/SubAdminRtosProfile/AssessmentTools'
+import { MailsTab } from '@components/sections/subAdmin/UsersContainer/SubAdminRtosContainer/SubAdminRtosProfile/components/MailsTab'
 
 type Props = {}
 
@@ -46,15 +48,15 @@ const RtoProfile: NextPageWithLayout = (props: Props) => {
         )
     }, [setContent])
     const pathname = useRouter()
-    const profileId = pathname.query.profileId
+    const { id } = pathname.query
 
     // query
-    const rtoDetail:any = useGetSubAdminRTODetailQuery(String(profileId), {
-        skip: !profileId,
+    const rtoDetail = useGetSubAdminRTODetailQuery(String(id), {
+        skip: !id,
     })
 
     const [archiveAssessmentTool, archiveAssessmentToolResult] =
-    useUpdateAssessmentToolArchiveMutation()
+        useUpdateAssessmentToolArchiveMutation()
     const actions = (id: any) => {
         // console.log(id)
         return (
@@ -92,11 +94,11 @@ const RtoProfile: NextPageWithLayout = (props: Props) => {
     const tabs: TabProps[] = [
         {
             label: 'Overview',
-            href: { pathname: String(profileId), query: { tab: 'overview' } },
+            href: { pathname: String(id), query: { tab: 'overview' } },
             badge: { text: '05', color: 'text-blue-500' },
             element: (
                 <RtoProfileOverview
-                    rtoId={profileId}
+                    rtoId={id}
                     userId={rtoDetail?.data?.user?.id}
                 />
             ),
@@ -104,13 +106,13 @@ const RtoProfile: NextPageWithLayout = (props: Props) => {
         {
             label: 'Assessments',
             href: {
-                pathname: String(profileId),
+                pathname: String(id),
                 query: { tab: 'assessments' },
             },
             badge: { text: '99+', color: 'text-error-500' },
             element: (
                 <AssessmentTools
-                    id={profileId}
+                    id={id}
                     courses={rtoDetail?.data?.courses}
                     role={'RTO'}
                     actions={actions}
@@ -120,46 +122,47 @@ const RtoProfile: NextPageWithLayout = (props: Props) => {
         {
             label: 'Appointments',
             href: {
-                pathname: String(profileId),
+                pathname: String(id),
                 query: { tab: 'appointments' },
             },
             element: <AppointmentProfile />,
         },
         {
             label: 'Mails',
-            href: { pathname: String(profileId), query: { tab: 'mails' } },
-            element: <div>Mails</div>,
+            href: { pathname: String(id), query: { tab: 'mails' } },
+            element: <MailsTab rto={rtoDetail?.data} />,
         },
         {
             label: 'Notes',
-            href: { pathname: String(profileId), query: { tab: 'notes' } },
-            element: <AllNotes id={rtoDetail?.data?.user?.id} />,
+            href: { pathname: String(id), query: { tab: 'notes' } },
+            element: <Notes id={rtoDetail?.data?.user?.id} />,
         },
     ]
 
-  return (
-    <>
-      {rtoDetail?.isLoading ? (
-        <LoadingAnimation />
-      ) : rtoDetail?.data ? (
-        <TabNavigation tabs={tabs}>
-          {({ header, element }: any) => {
-            return (
-              <div>
-                <div>{header}</div>
-                <div>{element}</div>
-              </div>
-            )
-          }}
-        </TabNavigation>
-      ) : (
-        'No RTO Were Found'
-      )}
-    </>
-  )
+    return (
+        <>
+            {rtoDetail.isError && <TechnicalError />}
+            {rtoDetail?.isLoading ? (
+                <LoadingAnimation />
+            ) : rtoDetail?.data ? (
+                <TabNavigation tabs={tabs}>
+                    {({ header, element }: any) => {
+                        return (
+                            <div>
+                                <div>{header}</div>
+                                <div>{element}</div>
+                            </div>
+                        )
+                    }}
+                </TabNavigation>
+            ) : (
+                !rtoDetail.isError && <EmptyData />
+            )}
+        </>
+    )
 }
 RtoProfile.getLayout = (page: ReactElement) => {
-  return <SubAdminLayout title="RTO Profile">{page}</SubAdminLayout>
+    return <SubAdminLayout title="RTO Profile">{page}</SubAdminLayout>
 }
 
 export default RtoProfile

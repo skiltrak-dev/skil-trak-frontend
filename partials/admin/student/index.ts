@@ -3,5 +3,6 @@ export * from './ApprovedStudent'
 export * from './RejectedStudent'
 export * from './BlockedStudent'
 export * from './ArchivedStudent'
-
+export * from './tabs'
 export * from './contextBar'
+export * from './pages'
