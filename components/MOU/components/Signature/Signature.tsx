@@ -32,3 +32,4 @@ export const Signature = forwardRef(({ industryName }: any, ref: any) => {
     </div>
   )
 })
+Signature.displayName = 'Signature'

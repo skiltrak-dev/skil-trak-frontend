@@ -6,9 +6,9 @@ import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import { StepAccountInfo } from './StepAccountInfo'
 import { StepNotificationMethod } from './StepNotificationMethod'
-import { StepPackageSelection } from './StepPackageSelection'
 import { StepReviewInfo } from './StepReviewInfo'
 import { StepCreate } from './StepCreate'
+import { StepOnBoarding } from './StepOnBoarding'
 
 export const StepForm = () => {
     const router = useRouter()
@@ -29,10 +29,10 @@ export const StepForm = () => {
             element: <StepNotificationMethod />,
         },
         {
-            label: 'Package Selection',
+            label: 'On Boarding',
             visited: false,
-            query: 'package-selection',
-            element: <StepPackageSelection />,
+            query: 'on-boarding',
+            element: <StepOnBoarding />
         },
         {
             label: 'Review Info',

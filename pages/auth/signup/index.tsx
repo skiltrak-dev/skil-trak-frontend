@@ -8,7 +8,7 @@ import { AuthLayout } from '@layouts'
 const PortalTypeOptions = [
     {
         text: 'Student',
-        link: '/auth/signup/student',
+        link: '/auth/signup/student?step=account-info',
         Icon: '/images/portal-icons/ic_portal_student.svg',
         videoUrl: 'https://www.youtube.com/watch?v=OSaVf1WjzJY',
     },
@@ -20,7 +20,7 @@ const PortalTypeOptions = [
     },
     {
         text: 'Industry',
-        link: '/auth/signup/industry',
+        link: '/auth/signup/industry?step=account-info',
         Icon: '/images/portal-icons/ic_portal_industry.svg',
         videoUrl: 'https://www.youtube.com/watch?v=ofU6wV2yclQ',
     },

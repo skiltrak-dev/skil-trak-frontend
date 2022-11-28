@@ -2,7 +2,6 @@ import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 
-import { Form, Formik } from 'formik'
 import _debounce from 'lodash/debounce'
 import * as yup from 'yup'
 
@@ -11,15 +10,15 @@ import { AuthApi } from '@queries'
 import { isEmailValid, onlyAlphabets, SignUpUtils } from '@utils'
 
 import { Button, Checkbox, Select, TextInput, Typography } from '@components'
-import { FormProvider, useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
+import { FormProvider, useForm } from 'react-hook-form'
 
-export const SignUpForm = ({ onSubmit }: { onSubmit: any }) => {
+export const IndustrySignUpForm = ({ onSubmit }: { onSubmit: any }) => {
    const router = useRouter()
 
    const { notification } = useNotification()
 
-   const sectorResponse = AuthApi.useRegisterIndustry({})
+   const sectorResponse = AuthApi.useSectors({})
    const [checkEmailExists, emailCheckResult] = AuthApi.useEmailCheck()
 
    const [sectorOptions, setSectorOptions] = useState([])
@@ -44,7 +43,7 @@ export const SignUpForm = ({ onSubmit }: { onSubmit: any }) => {
    const onSectorChanged = (sectors: any) => {
       setCourseLoading(true)
       const filteredCourses = sectors.map((selectedSector: any) => {
-         const sectorExisting = sectorResponse?.data.find(
+         const sectorExisting = sectorResponse?.data?.find(
             (sector: any) => sector.id === selectedSector.value
          )
          if (sectorExisting && sectorExisting?.courses?.length) {
@@ -121,7 +120,6 @@ export const SignUpForm = ({ onSubmit }: { onSubmit: any }) => {
          .required('Must confirm entered password'),
 
       // Business Information
-      businessName: yup.string().required('Must provide business name'),
       abn: yup.string().required('Must provide ABN'),
       phoneNumber: yup.string().required('Must provide phone number'),
 
@@ -155,8 +153,8 @@ export const SignUpForm = ({ onSubmit }: { onSubmit: any }) => {
          }))
          setSectorOptions(options)
       }
-   }, [sectorResponse.data])
-
+   }, [sectorResponse?.data])
+  
    useEffect(() => {
       if (SignUpUtils.getEditingMode()) {
          const values = SignUpUtils.getValuesFromStorage()
@@ -164,6 +162,7 @@ export const SignUpForm = ({ onSubmit }: { onSubmit: any }) => {
          setCourseOptions(values.courses)
       }
    }, [])
+
 
    // useEffect For Email
    useEffect(() => {
@@ -185,63 +184,60 @@ export const SignUpForm = ({ onSubmit }: { onSubmit: any }) => {
       resolver: yupResolver(validationSchema),
    })
 
+
    return (
       <FormProvider {...formMethods}>
          <form
-            className="flex flex-col gap-y-8"
+            className="flex flex-col gap-y-4"
             onSubmit={formMethods.handleSubmit(onSubmit)}
          >
-            {/* Profile Information */}
+            {/* Personal Information */}
             <div className="flex gap-x-16 border-t py-4">
                <div className="w-2/6">
                   <Typography variant={'subtitle'} color={'text-gray-500'}>
-                     Profile Information
+                     Industry Information
                   </Typography>
                   <p className="text-gray-400 text-sm leading-6">
-                     Lorem, ipsum dolor sit amet consectetur adipisicing elit.
-                     Impedit, dolorum voluptate dolores.
+                     Your information is required to make things clear and
+                     transparent
                   </p>
                </div>
 
-               <div className="w-4/6 grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-2 mt-2">
-                  <TextInput
-                     label={'Email'}
-                     name={'email'}
-                     type={'email'}
-                     placeholder={'Your Email...'}
-                     validationIcons
-                     required
-                     onBlur={onEmailChange}
-                     loading={emailCheckResult.isLoading}
-                  />
-
+               <div className="w-4/6">
                   <TextInput
                      label={'Name'}
                      name={'name'}
-                     placeholder={'Your Name...'}
-                     validationIcons
-                     required
-                  />
-                  <TextInput
-                     label={'Password'}
-                     name={'password'}
-                     type={'password'}
-                     placeholder={'Password...'}
+                     placeholder={'Industry Name...'}
                      validationIcons
                      required
                   />
 
-                  <TextInput
-                     label={'Confirm Password'}
-                     name={'confirmPassword'}
-                     type={'password'}
-                     placeholder={'Confirm Password...'}
-                     validationIcons
-                     required
-                  />
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-8">
+                     <TextInput
+                        label={'ABN'}
+                        name={'abn'}
+                        placeholder={'ABN...'}
+                        validationIcons
+                        required
+                     />
+
+                     <TextInput
+                        label={'Website'}
+                        name={'website'}
+                        placeholder={'Website Url...'}
+                        validationIcons
+                     />
+
+                     <TextInput
+                        label={'Phone Number'}
+                        name={'phoneNumber'}
+                        placeholder={'Your phone number...'}
+                        validationIcons
+                        required
+                     />
+                  </div>
                </div>
             </div>
-
             {/* Business Information */}
             <div className="flex gap-x-16 border-t py-4">
                <div className="w-2/6">
@@ -249,37 +245,36 @@ export const SignUpForm = ({ onSubmit }: { onSubmit: any }) => {
                      Business Information
                   </Typography>
                   <p className="text-gray-400 text-sm leading-6">
-                     Lorem, ipsum dolor sit amet consectetur adipisicing elit.
-                     Impedit, dolorum voluptate dolores.
+                     Your information is required to make things clear and
+                     transparent
                   </p>
                </div>
+
                <div className="w-4/6">
-                  <div className="">
+                  <TextInput
+                     label={'Business Name'}
+                     name={'businessName'}
+                     placeholder={'Industry Name...'}
+                     validationIcons
+                     required
+                  />
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-8">
+
                      <TextInput
-                        label={'Business Name'}
-                        name={'businessName'}
-                        placeholder={'Your Business Name...'}
+                        label={'Contact Person Number'}
+                        name={'contactPersonNumber'}
+                        placeholder={'Contact Person Number ...'}
                         validationIcons
                         required
                      />
-                  </div>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-2 mt-2">
                      <TextInput
-                        label={'ABN'}
-                        name={'abn'}
-                        placeholder={'Your ABN...'}
+                        label={'Contact Person Name'}
+                        name={'contactPersonName'}
+                        placeholder={'Contact Person Name...'}
                         validationIcons
                         required
                      />
 
-                     <TextInput
-                        label={'Phone Number'}
-                        name={'phoneNumber'}
-                        type={'tel'}
-                        placeholder={'Your Phone Number...'}
-                        validationIcons
-                        required
-                     />
                   </div>
                </div>
             </div>
@@ -291,12 +286,11 @@ export const SignUpForm = ({ onSubmit }: { onSubmit: any }) => {
                      Sector Information
                   </Typography>
                   <p className="text-gray-400 text-sm leading-6">
-                     Lorem, ipsum dolor sit amet consectetur adipisicing elit.
-                     Impedit, dolorum voluptate dolores.
+                     Select your eligible sectors, and related courses.
                   </p>
                </div>
 
-               <div className="w-4/6 grid grid-cols-1 gap-y-2">
+               <div className="w-4/6 grid grid-cols-1 gap-y-4">
                   <div>
                      <Select
                         label={'Sector'}
@@ -333,43 +327,46 @@ export const SignUpForm = ({ onSubmit }: { onSubmit: any }) => {
                </div>
             </div>
 
-            {/* Contact Person Information */}
+            {/* Profile Information */}
             <div className="flex gap-x-16 border-t py-4">
                <div className="w-2/6">
                   <Typography variant={'subtitle'} color={'text-gray-500'}>
-                     Contact Person Information
+                     Profile Information
                   </Typography>
                   <p className="text-gray-400 text-sm leading-6">
-                     Lorem, ipsum dolor sit amet consectetur adipisicing elit.
-                     Impedit, dolorum voluptate dolores.
+                     This will be your information used as account login.
                   </p>
                </div>
 
                <div className="w-4/6">
-                  <div className="mt-2">
-                     <TextInput
-                        label={'Name'}
-                        name={'contactPersonName'}
-                        placeholder={'Contact Person Name...'}
-                        validationIcons
-                     />
-                  </div>
+                  <TextInput
+                     label={'Email'}
+                     name={'email'}
+                     type={'email'}
+                     placeholder={'Your Email...'}
+                     validationIcons
+                     required
+                     onBlur={onEmailChange}
+                     loading={emailCheckResult.isLoading}
+                  />
 
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-2 mt-2">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-8">
                      <TextInput
-                        label={'Phone Number'}
-                        name={'contactPersonNumber'}
-                        placeholder={'Phone Number...'}
-                        type={'tel'}
+                        label={'Password'}
+                        name={'password'}
+                        type={'password'}
+                        placeholder={'Password...'}
                         validationIcons
+                        required
                      />
 
                      <TextInput
-                        label={'Email'}
-                        name={'contactPersonEmail'}
-                        type={'email'}
-                        placeholder={'Email...'}
+                        label={'Confirm Password'}
+                        name={'confirmPassword'}
+                        type={'password'}
+                        placeholder={'Confirm Password...'}
                         validationIcons
+                        required
                      />
                   </div>
                </div>
@@ -382,13 +379,12 @@ export const SignUpForm = ({ onSubmit }: { onSubmit: any }) => {
                      Address Information
                   </Typography>
                   <p className="text-gray-400 text-sm leading-6">
-                     Lorem, ipsum dolor sit amet consectetur adipisicing elit.
-                     Impedit, dolorum voluptate dolores.
+                     This will help us to find out about your nearby sites
                   </p>
                </div>
 
                <div className="w-4/6">
-                  <div className="grid grid-cols-1 gap-x-8 gap-y-6 mt-2">
+                  <div className="grid grid-cols-1 gap-x-8">
                      <TextInput
                         label={'Address Line 1'}
                         name={'addressLine1'}
@@ -404,7 +400,7 @@ export const SignUpForm = ({ onSubmit }: { onSubmit: any }) => {
                      />
                   </div>
 
-                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-x-8 gap-y-2 mt-2 mb-6">
+                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-x-8">
                      <TextInput
                         label={'State'}
                         name={'state'}
@@ -429,33 +425,35 @@ export const SignUpForm = ({ onSubmit }: { onSubmit: any }) => {
                </div>
             </div>
 
-            <div className="mb-6">
-               <Checkbox
-                  name={'agreedWithPrivacyPolicy'}
-                  label={
-                     <>
-                        I agree with{' '}
-                        <Link href="/terms-and-conditions">
-                           <a className="text-link">Terms</a>
-                        </Link>{' '}
-                        {'&'}{' '}
-                        <Link href="/privacy-policy">
-                           <a className="text-link">Privacy Policy</a>
-                        </Link>
-                     </>
-                  }
-               />
-            </div>
-
-            <div className="flex gap-x-4">
-               <Button text={'Continue'} submit />
-               {SignUpUtils.getEditingMode() && (
-                  <Button
-                     onClick={onBackToReview}
-                     text={'Back To Review'}
-                     variant={'secondary'}
+            <div className="w-4/6 ml-auto pl-12">
+               <div className="mb-6">
+                  <Checkbox
+                     name={'agreedWithPrivacyPolicy'}
+                     label={
+                        <>
+                           I agree with{' '}
+                           <Link href="/terms-and-conditions">
+                              <a className="text-link">Terms</a>
+                           </Link>{' '}
+                           {'&'}{' '}
+                           <Link href="/privacy-policy">
+                              <a className="text-link">Privacy Policy</a>
+                           </Link>
+                        </>
+                     }
                   />
-               )}
+               </div>
+
+               <div className="flex gap-x-4">
+                  <Button text={'Continue'} submit />
+                  {SignUpUtils.getEditingMode() && (
+                     <Button
+                        onClick={onBackToReview}
+                        text={'Back To Review'}
+                        variant={'secondary'}
+                     />
+                  )}
+               </div>
             </div>
          </form>
       </FormProvider>
