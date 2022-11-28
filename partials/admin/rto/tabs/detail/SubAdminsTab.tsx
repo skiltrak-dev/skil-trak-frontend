@@ -22,7 +22,7 @@ import { Rto, SubAdmin } from '@types'
 import { useContextBar } from '@hooks'
 import { useRouter } from 'next/router'
 import { SubAdminCell } from '@partials/admin/sub-admin'
-import { DeleteModal } from '../../modals'
+import { DeleteModal } from '@partials/admin/sub-admin/modals'
 
 export const SubAdminsTab = () => {
     const router = useRouter()
@@ -33,7 +33,7 @@ export const SubAdminsTab = () => {
     const [itemPerPage, setItemPerPage] = useState(5)
     const [page, setPage] = useState(1)
     const [filter, setFilter] = useState({})
-    const { isLoading, data } = AdminApi.Rtos.useListQuery({
+    const { isLoading, data } = AdminApi.SubAdmins.useListQuery({
         search: `status:approved,${JSON.stringify(filter)
             .replaceAll('{', '')
             .replaceAll('}', '')
@@ -46,9 +46,12 @@ export const SubAdminsTab = () => {
     const onModalCancelClicked = () => {
         setModal(null)
     }
-    const onDeleteClicked = (rto: Rto) => {
+    const onDeleteClicked = (subAdmin: SubAdmin) => {
         setModal(
-            <DeleteModal rto={rto} onCancel={() => onModalCancelClicked()} />
+            <DeleteModal
+                subAdmin={subAdmin}
+                onCancel={() => onModalCancelClicked()}
+            />
         )
     }
 
@@ -62,7 +65,7 @@ export const SubAdminsTab = () => {
         },
         {
             text: 'Edit',
-            onClick: (rto: Rto) => {
+            onClick: (rto: SubAdmin) => {
                 // router.push(`/portals/admin/rto/edit/${rto.id}`)
             },
             Icon: FaEdit,
@@ -79,7 +82,7 @@ export const SubAdminsTab = () => {
         {
             accessorKey: 'user.name',
             cell: (info) => {
-                return <SubAdminCell rto={info.row.original} />
+                return <SubAdminCell subAdmin={info.row.original} />
             },
             header: () => <span>Name</span>,
         },
@@ -90,8 +93,8 @@ export const SubAdminsTab = () => {
         },
         {
             accessorKey: 'phone',
-            header: () => <span>Students</span>,
-            cell: (info) => info?.row?.original?.phone,
+            header: () => <span>Phone</span>,
+            cell: (info) => info.getValue(),
         },
         {
             accessorKey: 'assignedBy',
@@ -118,7 +121,7 @@ export const SubAdminsTab = () => {
 
     const quickActionsElements = {
         id: 'id',
-        individual: (item: Rto) => (
+        individual: (item: SubAdmin) => (
             <div className="flex gap-x-2">
                 <ActionButton Icon={FaEdit}>Edit</ActionButton>
                 <ActionButton>Sub Admins</ActionButton>
@@ -131,7 +134,7 @@ export const SubAdminsTab = () => {
                 </ActionButton>
             </div>
         ),
-        common: (items: Rto[]) => (
+        common: (items: SubAdmin[]) => (
             <ActionButton Icon={MdBlock} variant="error">
                 Block
             </ActionButton>
@@ -155,7 +158,7 @@ export const SubAdminsTab = () => {
                     {isLoading ? (
                         <LoadingAnimation height="h-[60vh]" />
                     ) : data && data?.data.length ? (
-                        <Table<Rto>
+                        <Table<SubAdmin>
                             columns={columns}
                             data={data.data}
                             quickActions={quickActionsElements}

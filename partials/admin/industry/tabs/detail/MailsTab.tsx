@@ -1,41 +1,43 @@
 import React, { useState, useEffect } from 'react'
-import { useParams } from 'react-router-dom'
 
 // components
 import {
-    Loading,
-    EmailCard,
+    LoadingAnimation,
+    Mail,
     EmptyData,
-    ComposeEmail,
+    MailForm,
     TechnicalError,
-} from 'components'
-
-// utills
-import { AuthUtils } from '@utils'
+} from '@components'
 
 // query
-import { useGetAdminMessagesQuery } from 'redux/query'
-import { useSendMessageMutation } from 'redux/query'
+// query
+import { AdminApi, useSendMessageMutation } from '@queries'
 
 // hooks
 import { useContextBar } from 'hooks'
 // import { useMessage } from 'hooks'
 
-export const MailsTab = ({ data }: any) => {
+export const MailsTab = ({ industry }: any) => {
     const { isVisible } = useContextBar()
     const [messagesList, setMessagesList] = useState([])
     const [approvedUser, setApprovedUser] = useState(
-        data?.user?.status === 'approved'
+        industry?.user?.status === 'approved'
     )
 
     // query
-    const messages = useGetAdminMessagesQuery(data?.user?.id, {
-        skip: !data?.user?.id,
+    const messages = AdminApi.Messages.useList(industry?.user?.id, {
+        skip: !industry?.user?.id,
     })
 
     useEffect(() => {
-        messages.refetch()
-    }, [messages.refetch])
+        setApprovedUser(industry?.user?.status === 'approved')
+    }, [industry])
+
+    console.log('approvedUser', industry)
+
+    // useEffect(() => {
+    //     messages.refetch()
+    // }, [messages.refetch])
 
     return (
         <div
@@ -52,14 +54,13 @@ export const MailsTab = ({ data }: any) => {
                 <div className={`flex flex-col gap-y-2.5 h-full `}>
                     {messages?.isLoading ? (
                         <div className="flex justify-center items-center h-full">
-                            <Loading />
+                            <LoadingAnimation />
                         </div>
-                    ) : messages?.data?.length > 0 ||
-                      messagesList.length > 0 ? (
-                        messagesList?.map(
+                    ) : messages?.data?.length > 0 ? (
+                        messages?.data?.map(
                             (message: any, i: number) =>
                                 message && (
-                                    <EmailCard
+                                    <Mail
                                         key={i}
                                         sender={
                                             message?.sender?.role === 'admin'
@@ -76,9 +77,9 @@ export const MailsTab = ({ data }: any) => {
             </div>
             {approvedUser && (
                 <div className={`${isVisible ? 'w-full' : 'w-[29%]'}`}>
-                    <ComposeEmail
+                    <MailForm
                         action={useSendMessageMutation}
-                        receiverId={Number(data?.user?.id)}
+                        receiverId={Number(industry?.id)}
                         sender={'admin'}
                     />
                 </div>

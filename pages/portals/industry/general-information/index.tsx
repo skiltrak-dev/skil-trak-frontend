@@ -2,19 +2,18 @@ import { ReactElement, useEffect } from 'react'
 
 import { IndustryLayout } from '@layouts'
 import { NextPageWithLayout } from '@types'
-
-import { GeneralInfromationContainer } from '@components/sections/industry/GeneralInfromation'
+import { GeneralInformationContainer } from '@partials/industry'
 
 const GeneralInformation: NextPageWithLayout = () => {
-  return (
-    <div>
-      <GeneralInfromationContainer />
-    </div>
-  )
+    return (
+        <div>
+            <GeneralInformationContainer />
+        </div>
+    )
 }
 
 GeneralInformation.getLayout = (page: ReactElement) => {
-  return <IndustryLayout>{page}</IndustryLayout>
+    return <IndustryLayout>{page}</IndustryLayout>
 }
 
 export default GeneralInformation

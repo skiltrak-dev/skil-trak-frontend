@@ -3,22 +3,21 @@ import { useRouter } from 'next/router'
 
 import { IndustryLayout } from '@layouts'
 import { NextPageWithLayout } from '@types'
-
-import { AddScheduleContainer } from '@components/sections'
+import { AddScheduleContainer } from '@partials/industry'
 
 const AddSchedule: NextPageWithLayout = () => {
-  const router = useRouter()
-  const { query } = router
+    const router = useRouter()
+    const { query } = router
 
-  return (
-    <div>
-      <AddScheduleContainer />
-    </div>
-  )
+    return (
+        <div>
+            <AddScheduleContainer />
+        </div>
+    )
 }
 
 AddSchedule.getLayout = (page: ReactElement) => {
-  return <IndustryLayout>{page}</IndustryLayout>
+    return <IndustryLayout>{page}</IndustryLayout>
 }
 
 export default AddSchedule

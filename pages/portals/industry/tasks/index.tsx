@@ -3,21 +3,22 @@ import { useRouter } from 'next/router'
 
 import { IndustryLayout } from '@layouts'
 import { NextPageWithLayout } from '@types'
-import { MyTasksContainer } from '@components/sections/industry/MyTasks'
+
+import { TasksContainer } from '@partials/industry'
 
 const Tasks: NextPageWithLayout = () => {
-  const router = useRouter()
-  const { query } = router
+    const router = useRouter()
+    const { query } = router
 
-  return (
-    <div>
-      <MyTasksContainer />
-    </div>
-  )
+    return (
+        <div>
+            <TasksContainer />
+        </div>
+    )
 }
 
 Tasks.getLayout = (page: ReactElement) => {
-  return <IndustryLayout>{page}</IndustryLayout>
+    return <IndustryLayout>{page}</IndustryLayout>
 }
 
 export default Tasks

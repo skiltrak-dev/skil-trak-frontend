@@ -1,18 +1,18 @@
-import { AdvertisedJobs } from '@components/sections/industry/JobsContainer'
 import { IndustryLayout } from '@layouts'
+import { AdvertisedJobsContainer } from '@partials/industry'
 import { NextPageWithLayout } from '@types'
 import { ReactElement } from 'react'
 
-const AdvertisesJobs: NextPageWithLayout = () => {
-  return (
-    <div>
-      <AdvertisedJobs />
-    </div>
-  )
+const AdvertisedJobs: NextPageWithLayout = () => {
+    return (
+        <div>
+            <AdvertisedJobsContainer />
+        </div>
+    )
 }
 
-AdvertisesJobs.getLayout = (page: ReactElement) => {
-  return <IndustryLayout>{page}</IndustryLayout>
+AdvertisedJobs.getLayout = (page: ReactElement) => {
+    return <IndustryLayout>{page}</IndustryLayout>
 }
 
-export default AdvertisesJobs
+export default AdvertisedJobs

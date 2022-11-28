@@ -48,7 +48,7 @@ export const PersonalInfo = ({
 
     useEffect(() => {
         if (isSuccess) {
-            const options = data?.data?.map((course: any) => ({
+            const options = data?.map((course: any) => ({
                 label: course.title,
                 value: course.id,
             }))
