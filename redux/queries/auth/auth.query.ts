@@ -7,7 +7,7 @@ export const authApi = createApi({
     baseQuery: fetchBaseQuery({
         baseUrl: `${process.env.NEXT_PUBLIC_END_POINT}/`,
     }),
-    tagTypes: ['Sectors', 'Packages'],
+    tagTypes: ['Sectors', 'Packages', 'Rtos'],
     endpoints: (builder) => ({
         login: builder.mutation({
             query: (body: LoginCredentials) => ({
@@ -17,41 +17,44 @@ export const authApi = createApi({
             }),
         }),
 
-        registerIndustry: builder.mutation({
+        registerIndustry: builder.mutation<any, any>({
             query: (body) => ({
-                url: `${PREFIX}register/industry`,
+                url: `/industries`,
                 method: 'POST',
                 body,
             }),
         }),
 
-        registerRto: builder.mutation({
+        registerRto: builder.mutation<any, any>({
             query: (body) => ({
-                url: `rtos`,
+                url: `${PREFIX}rtos`,
                 method: 'POST',
                 body,
             }),
         }),
 
-        registerStudent: builder.mutation({
+        registerStudent: builder.mutation<any, any>({
             query: (body) => ({
-                url: `${PREFIX}register/student`,
+                url: `/students`,
                 method: 'POST',
                 body,
             }),
         }),
 
-        getSectors: builder.query({
+        getSectors: builder.query<any, any>({
             query: () => `${PREFIX}sectors`,
             providesTags: ['Sectors'],
         }),
-
+        getRtos: builder.query<any, any>({
+            query: () => `${PREFIX}rtos`,
+            providesTags: ['Rtos'],
+        }),
         rtoPackages: builder.query<Packages[], void>({
             query: () => `${PREFIX}rto-packages`,
             providesTags: ['Packages'],
         }),
 
-        checkEmail: builder.mutation({
+        checkEmail: builder.mutation<any, any>({
             query: (body) => ({
                 url: `${PREFIX}email-exists`,
                 method: 'POST',
@@ -77,6 +80,7 @@ const {
     useRegisterRtoMutation,
     useRegisterStudentMutation,
     useRtoPackagesQuery,
+    useGetRtosQuery,
 } = authApi
 
 export const AuthApi = {
@@ -91,4 +95,5 @@ export const AuthApi = {
     useRegisterIndustry: useRegisterIndustryMutation,
     useRegisterRto: useRegisterRtoMutation,
     useRegisterStudent: useRegisterStudentMutation,
+    useRtos: useGetRtosQuery,
 }
