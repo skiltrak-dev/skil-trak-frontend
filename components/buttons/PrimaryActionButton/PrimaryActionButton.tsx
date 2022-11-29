@@ -27,7 +27,7 @@ export const PrimaryActionButton = ({
             >
                 <div className="flex-grow">
                     <p className="text-sm font-semibold">{title}</p>
-                    <p className="text-gray-400 text-xs">{description}</p>
+                    <p className="text-gray-400 text-xs whitespace-nowrap">{description}</p>
                 </div>
                 {image ? (
                     <img className="h-16" src={image} alt="Info" />

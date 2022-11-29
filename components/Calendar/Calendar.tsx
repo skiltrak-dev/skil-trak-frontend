@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import Calendar from 'react-calendar'
 import { Paginate } from '@components/Paginate/Paginate'
-// import { Calendar } from 'react-calendars'
-import 'react-calendar/dist/Calendar.css'
+// import 'react-calendar/dist/Calendar.css'
 
 import { CalendarStyles } from './style'
 
@@ -16,9 +15,7 @@ export const SidebarCalendar = ({ enbledDays, setSelectedDate }: any) => {
     }, [date])
 
     return (
-        <>
-            {/* <CalendarStyles> */}
-
+        <CalendarStyles>
             <Calendar
                 {...(enbledDays
                     ? {
@@ -33,12 +30,6 @@ export const SidebarCalendar = ({ enbledDays, setSelectedDate }: any) => {
                 onChange={setDate}
                 value={date}
             />
-            {/* <Calendar
-                onSelect={(a) => {
-                    console.log('aaaa', a)
-                }}
-            /> */}
-            {/* </CalendarStyles> */}
-        </>
+        </CalendarStyles>
     )
 }

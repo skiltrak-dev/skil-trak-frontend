@@ -11,11 +11,11 @@ export const RtoLayout = ({ title, children }: RtoLayoutProps) => {
     return (
         <UserLayout>
             <div className="px-16">
-                <div className="mb-6">
+                <div className="mb-4">
                     <RtoNavbar />
                 </div>
                 {title && (
-                    <div className="mb-6">
+                    <div className="mb-4">
                         <PageTitle title={title} />
                     </div>
                 )}

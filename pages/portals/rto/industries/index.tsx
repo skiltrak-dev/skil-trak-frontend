@@ -15,23 +15,24 @@ import {
     SidebarCalendar,
 } from '@components'
 import { useContextBar } from '@hooks'
+import { CommonCB } from '@partials/rto/contextBar'
 
 const PrimaryLinks = [
     {
         title: 'Workplaces',
-        description: 'Some helping text',
+        description: 'View Workplaces Of Your Students',
         link: 'industries/workplaces',
         animation: Animations.Student.Workplace.MyWorkplace,
     },
     {
         title: 'MoUs',
-        description: 'MoUs',
+        description: 'Sign MoUs With Industries',
         link: 'industries/mous',
         animation: Animations.Student.Appointments.Esign,
     },
     {
         title: 'Consultations',
-        description: 'Consultations',
+        description: 'Your Consultations With Industries',
         link: 'industries/consultations',
         animation: Animations.Industry.Consultation.Consultation,
     },
@@ -76,26 +77,22 @@ const OtherQuestions = [
 ]
 
 const RtoIndustries: NextPageWithLayout = () => {
-    const { setContent } = useContextBar()
+    const contextBar = useContextBar()
     useEffect(() => {
-        setContent(
-            <>
-                <Button variant={'dark'} text={'My Schedule'} />
-                <SidebarCalendar />
-                <RtoContextBarData />
-            </>
-        )
-    }, [setContent])
+        contextBar.setContent(<CommonCB />)
+        contextBar.show(false)
+    }, [])
+
     return (
         <div className="flex flex-col">
             <div className="flex gap-x-6">
                 {/* Primary Actions */}
-                <div className="bg-white p-4 rounded-2xl shadow-xl flex-shrink-0">
+                <div className="w-2/5 bg-white p-4 rounded-2xl shadow-xl flex-shrink-0">
                     <DisplayPrimaryActions actions={PrimaryLinks} />
                 </div>
 
                 {/* Special Cards */}
-                <div className="w-full flex flex-col justify-center space-y-2">
+                <div className="w-3/5 flex flex-col justify-center space-y-2">
                     <PlacementProgressCard
                         requestStatus="Not Requested"
                         description="Place a request to start"

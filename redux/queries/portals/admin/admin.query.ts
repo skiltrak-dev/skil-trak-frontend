@@ -75,6 +75,7 @@ const {
     // ------ RTO ------ //
     useRtoCountQuery,
     useRtosQuery,
+    useRtosApprovedQuery,
     useRtoDetailQuery,
     useRtoStatusChangeMutation,
     useRtoRemoveMutation,
@@ -134,6 +135,14 @@ const {
     useSubAdminCountQuery,
     useCreateSubAdminMutation,
 
+    useSubAdminCoursesQuery,
+    useSubAdminAssignCoursesMutation,
+    useSubAdminUnAssignCoursesMutation,
+
+    useSubAdminRtosQuery,
+    useSubAdminAssignRtoMutation,
+    useSubAdminUnassignRtoMutation,
+
     //------ WORKPLACE -----//
     useUnAssignedSubAdminsQuery,
     useAssignedWorkplaceMutation,
@@ -174,6 +183,7 @@ export const AdminApi = {
     Rtos: {
         useCountQuery: useRtoCountQuery,
         useListQuery: useRtosQuery,
+        useApprovedList: useRtosApprovedQuery,
         useDetailQuery: useRtoDetailQuery,
         useChangeStatusMutation: useRtoStatusChangeMutation,
         useRemove: useRtoRemoveMutation,
@@ -205,6 +215,14 @@ export const AdminApi = {
         useListQuery: useSubAdminsQuery,
         useCountQuery: useSubAdminCountQuery,
         createSubAmin: useCreateSubAdminMutation,
+
+        useCourses: useSubAdminCoursesQuery,
+        useAssignCourses: useSubAdminAssignCoursesMutation,
+        useUnassignCourse: useSubAdminUnAssignCoursesMutation,
+
+        useRtos: useSubAdminRtosQuery,
+        useAssignRto: useSubAdminAssignRtoMutation,
+        useUnassignRto: useSubAdminUnassignRtoMutation,
     },
     Workplace: {
         useListQuery: useUnAssignedSubAdminsQuery,

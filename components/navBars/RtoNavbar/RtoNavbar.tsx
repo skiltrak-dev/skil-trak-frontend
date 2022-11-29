@@ -35,7 +35,7 @@ export const RtoNavbar = () => {
                     <a
                         className={`${
                             router.pathname == '/portals/rto/users'
-                                ? 'bg-green-100 text-accent-700'
+                                ? 'bg-blue-100 text-blue-700'
                                 : 'text-slate-700'
                         } ${defaultClasses} hover:bg-blue-100 hover:text-blue-700`}
                     >

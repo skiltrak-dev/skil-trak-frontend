@@ -1,1 +1,5 @@
+export * from './RtoCell'
+export * from './SectorCell'
+export * from './AssignedCourse'
+export * from './AssignedRto'
 export * from './SubAdminCell'

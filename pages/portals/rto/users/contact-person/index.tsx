@@ -1,0 +1,187 @@
+import { ReactElement, useState } from 'react'
+
+import {
+    Card,
+    EmptyData,
+    HelpQuestionSet,
+    LoadingAnimation, Table,
+    TableAction,
+    TableActionOption
+} from '@components'
+import { RtoLayout } from '@layouts'
+import { AdminApi, RtoApi } from '@queries'
+import { ColumnDef } from '@tanstack/react-table'
+import { NextPageWithLayout } from '@types'
+import { useRouter } from 'next/router'
+import { FaEdit, FaTrash } from 'react-icons/fa'
+
+type Props = {}
+
+const RtoContactPersons: NextPageWithLayout = (props: Props) => {
+    const router = useRouter()
+    const [filterAction, setFilterAction] = useState(null)
+    const [itemPerPage, setItemPerPage] = useState(5)
+    const [page, setPage] = useState(1)
+    const [filter, setFilter] = useState({})
+
+    const { isLoading, data } = RtoApi.Rto.useContactPersons({
+        search: `${JSON.stringify(filter)
+            .replaceAll('{', '')
+            .replaceAll('}', '')
+            .replaceAll('"', '')
+            .trim()}`,
+        skip: itemPerPage * page - itemPerPage,
+        limit: itemPerPage,
+    })
+
+    const RelatedQuestions = [
+        {
+            text: `I have a workplace. What next?`,
+            link: '#',
+        },
+        {
+            text: `I don't have a workplace. What should I do?`,
+            link: '#',
+        },
+        {
+            text: `I want to book an appointment`,
+            link: '#',
+        },
+        {
+            text: `I want to look for a job`,
+            link: '#',
+        },
+    ]
+
+    const OtherQuestions = [
+        {
+            text: `I have a workplace. What next?`,
+            link: '#',
+        },
+        {
+            text: `I don't have a workplace. What should I do?`,
+            link: '#',
+        },
+        {
+            text: `I want to book an appointment`,
+            link: '#',
+        },
+        {
+            text: `I want to look for a job`,
+            link: '#',
+        },
+    ]
+
+    const tableActionOptions: TableActionOption[] = [
+        {
+            text: 'Edit',
+            onClick: (row: any) => {
+                router.push(`#`)
+            },
+            Icon: FaEdit,
+        },
+        {
+            text: 'Delete',
+            onClick: () => {},
+            Icon: FaTrash,
+            color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
+        },
+    ]
+
+    const columns: ColumnDef<any>[] = [
+        {
+            accessorKey: 'name',
+            cell: (info) => info.getValue(),
+            header: () => <span>Name</span>,
+        },
+        {
+            accessorKey: 'email',
+            header: () => <span>Email</span>,
+            cell: (info) => info.getValue(),
+        },
+
+        {
+            accessorKey: 'phone',
+            header: () => <span>Phone Number</span>,
+            cell: (info) => info.getValue(),
+        },
+        {
+            accessorKey: 'action',
+            header: () => <span>Action</span>,
+            cell: (info: any) => {
+                return (
+                    <div className="flex gap-x-1 items-center">
+                        <TableAction
+                            options={tableActionOptions}
+                            rowItem={info.row.original}
+                        />
+                    </div>
+                )
+            },
+        },
+    ]
+
+    return (
+        <>
+            <Card noPadding>
+                {isLoading ? (
+                    <LoadingAnimation height="h-[60vh]" />
+                ) : data && data?.data.length ? (
+                    <Table
+                        columns={columns}
+                        data={data.data}
+                    >
+                        {({
+                            table,
+                            pagination,
+                            pageSize,
+                            quickActions,
+                        }: any) => {
+                            return (
+                                <div>
+                                    <div className="p-6 mb-2 flex justify-between">
+                                        {pageSize(itemPerPage, setItemPerPage)}
+                                        <div className="flex gap-x-2">
+                                            {quickActions}
+                                            {pagination(
+                                                data?.pagination,
+                                                setPage
+                                            )}
+                                        </div>
+                                    </div>
+                                    <div className="px-6">{table}</div>
+                                </div>
+                            )
+                        }}
+                    </Table>
+                ) : (
+                    <EmptyData
+                        title={'No Contact Persons!'}
+                        description={'You have no contact persons yet'}
+                        height={'50vh'}
+                    />
+                )}
+            </Card>
+
+            <div className="mt-6 flex justify-between">
+                {/* Related Questions */}
+                <HelpQuestionSet
+                    title={'What you want to do here?'}
+                    questions={RelatedQuestions}
+                />
+
+                {/* Other Questions */}
+                <HelpQuestionSet
+                    title={'What else you want to do?'}
+                    questions={OtherQuestions}
+                />
+            </div>
+        </>
+    )
+}
+
+RtoContactPersons.getLayout = (page: ReactElement) => {
+    return <RtoLayout title="Contact Persons">{page}</RtoLayout>
+}
+
+export default RtoContactPersons

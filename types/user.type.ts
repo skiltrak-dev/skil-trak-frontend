@@ -65,14 +65,15 @@ export interface Student extends BaseResponse {
     workplace: any
 }
 
-export interface SubAdmin {
+export interface SubAdmin extends BaseResponse {
     id: number
     user: User
     phone: string
     appointmentEligibility: boolean
+    courses: Course[]
 }
 
-export interface Industry {
+export interface Industry extends BaseResponse {
     id: number
     abn: string
     businessName: string
@@ -89,4 +90,11 @@ export interface Industry {
     zipCode: string
     user: User
     location: string
+}
+
+export interface ContactPerson extends BaseResponse {
+    id: number
+    name: string
+    email: string
+    phone: string
 }

@@ -50,7 +50,7 @@ export const TableAction = ({ text, options, rowItem }: TableActionProps) => {
                                 option.color
                                     ? option.color
                                     : 'text-gray-700 hover:bg-gray-100'
-                            } text-xs cursor-pointer px-4 py-2 font-medium border-b ${
+                            } text-xs cursor-pointer px-4 py-2 font-medium border-b whitespace-nowrap ${
                                 idx === 0 ? 'rounded-t-xl' : ''
                             } ${
                                 idx === options.length - 1 ? 'rounded-b-xl' : ''

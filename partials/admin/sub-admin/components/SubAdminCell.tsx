@@ -4,8 +4,6 @@ import { FaHandshake } from 'react-icons/fa'
 import { MdEmail, MdPhoneIphone } from 'react-icons/md'
 
 export const SubAdminCell = ({ subAdmin }: { subAdmin: SubAdmin }) => {
-    // console.log("subAdmin Cell ____________", subAdmin);
-
     return (
         <Link href={`sub-admin/${subAdmin?.id}`}>
             <a className="flex items-center gap-x-2">

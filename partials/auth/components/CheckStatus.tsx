@@ -17,27 +17,36 @@ export const CheckStatus = () => {
         }
     }, [])
 
-    // useEffect(() => {}, [checkStatusResult])
+    const getStatus = () => {
+        const status = checkStatusResult.data?.status
 
-    return (
-        <div>
-            {checkStatusResult.data?.status === 'pending' && (
-                <Alert
-                    title="Your Account is Under Review"
-                    description="Your request is waiting for approval. Meanwhile, your functionalities will be limited "
-                    variant="warning"
-                    autoDismiss={false}
-                />
-            )}
+        if (status) {
+            switch (status) {
+                case 'pending':
+                    return (
+                        <Alert
+                            title="Your Account is Under Review"
+                            description="Your request is waiting for approval. Meanwhile, your functionalities will be limited "
+                            variant="warning"
+                            autoDismiss={false}
+                        />
+                    )
+                case 'rejected':
+                    return (
+                        <Alert
+                            title="Your Account is Rejected"
+                            description="Your request is waiting for approval. Meanwhile, your functionalities will be limited "
+                            variant="error"
+                            autoDismiss={false}
+                        />
+                    )
+                default:
+                    return null
+            }
+        }
 
-            {checkStatusResult.data?.status === 'rejected' && (
-                <Alert
-                    title="Your Account is Rejected"
-                    description="Your request is waiting for approval. Meanwhile, your functionalities will be limited "
-                    variant="error"
-                    autoDismiss={false}
-                />
-            )}
-        </div>
-    )
+        return null
+    }
+
+    return getStatus()
 }

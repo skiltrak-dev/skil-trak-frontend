@@ -34,7 +34,7 @@ export const ImportantDocument = ({
                         layout="responsive"
                         width={90}
                         height={80}
-                        className="w-full h-full"
+                        className="w-full h-full rounded-lg"
                     />
                 </div>
                 <div>

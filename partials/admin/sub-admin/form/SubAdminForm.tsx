@@ -44,7 +44,7 @@ export const SubAdminForm = ({ subAdmin }: any) => {
     })
 
     const onSubmit = (values: any) => {
-        createSubAmin({ ...values, role: UserRoles.SUBADMIN })
+        createSubAmin({ ...values, role: UserRoles.SUBADMIN, status: 'approved' })
     }
 
     return (
@@ -57,7 +57,7 @@ export const SubAdminForm = ({ subAdmin }: any) => {
                     primaryAction={{
                         text: 'Back To List',
                         onClick: () => {
-                            router.push(`/portals/admin/sub-admin?tab=pending`)
+                            router.push(`/portals/admin/sub-admin?tab=active`)
                         },
                     }}
                     secondaryAction={{

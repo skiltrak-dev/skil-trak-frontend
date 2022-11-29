@@ -58,7 +58,7 @@ const routes: Route[] = [
     },
     {
         text: 'Sub-Admin',
-        path: getRoutePath('/sub-admin?tab=pending'),
+        path: getRoutePath('/sub-admin?tab=active'),
         Icon: RiShieldUserFill,
     },
     {

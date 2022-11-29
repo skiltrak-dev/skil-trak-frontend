@@ -23,19 +23,19 @@ import { useContextBar } from '@hooks'
 const PrimaryLinks = [
     {
         title: 'Assessment Tools',
-        description: 'Some helping text',
+        description: 'View & Manage Your Assessment Tools',
         link: 'tasks/assessment-tools',
         animation: Animations.Student.Appointments.AssessmentEvidence,
     },
     {
         title: 'Appointments',
-        description: 'Appointments',
+        description: 'View & Manage Your Appointments',
         link: 'tasks/appointments',
         animation: Animations.Student.Appointments.AssessmentTool,
     },
     {
         title: 'E-Signs',
-        description: 'E-signs',
+        description: 'View & Sign Your Digital Documents',
         link: 'tasks/e-signs',
         animation: Animations.Student.Appointments.Esign,
     },
@@ -94,12 +94,12 @@ const RtoTasks: NextPageWithLayout = () => {
         <div className="flex flex-col">
             <div className="flex gap-x-6">
                 {/* Primary Actions */}
-                <div className="bg-white p-4 rounded-2xl shadow-xl flex-shrink-0">
+                <div className="w-2/5 bg-white p-4 rounded-2xl shadow-xl flex-shrink-0">
                     <DisplayPrimaryActions actions={PrimaryLinks} />
                 </div>
 
                 {/* Special Cards */}
-                <div className="w-full flex flex-col justify-center space-y-2">
+                <div className="w-3/5 flex flex-col justify-center space-y-2">
                     <PlacementProgressCard
                         requestStatus="Not Requested"
                         description="Place a request to start"

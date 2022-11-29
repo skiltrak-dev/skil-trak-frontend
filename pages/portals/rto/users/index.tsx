@@ -16,23 +16,25 @@ import {
     SidebarCalendar,
 } from '@components'
 import { useContextBar } from '@hooks'
+import { CommonCB } from '@partials/rto/contextBar'
+import { FigureCard } from '@components/sections'
 
 const PrimaryLinks = [
     {
         title: 'Students',
-        description: 'Some helping text',
+        description: 'View & Manage Your Students',
         link: 'users/students',
         animation: Animations.Student.Workplace.Student,
     },
     {
         title: 'Admins',
-        description: 'admins',
-        link: 'users/admins',
+        description: 'View & Manage Your Admins',
+        link: 'users/contact-person',
         animation: Animations.Student.Appointments.AssessmentTool,
     },
     {
         title: 'Coordinators',
-        description: 'Coordinators',
+        description: 'View & Manage Your Coordinators',
         link: 'users/coordinators',
         animation: Animations.Student.Workplace.Jobs,
     },
@@ -77,30 +79,39 @@ const OtherQuestions = [
 ]
 
 const RtoUsers: NextPageWithLayout = () => {
-    const { setContent } = useContextBar()
+    const contextBar = useContextBar()
+
     useEffect(() => {
-        setContent(
-            <>
-                <Button variant={'dark'} text={'My Schedule'} />
-                <SidebarCalendar />
-                <RtoContextBarData />
-            </>
-        )
-    }, [setContent])
+        contextBar.setContent(<CommonCB />)
+        contextBar.show(false)
+    }, [])
+
     return (
         <div className="flex flex-col">
             <div className="flex gap-x-6">
                 {/* Primary Actions */}
-                <div className="bg-white p-4 rounded-2xl shadow-xl flex-shrink-0">
+                <div className="bg-white p-4 rounded-2xl shadow-xl flex-shrink-0 w-2/5">
                     <DisplayPrimaryActions actions={PrimaryLinks} />
                 </div>
 
                 {/* Special Cards */}
-                <div className="w-full flex flex-col justify-center space-y-2">
-                    <PlacementProgressCard
-                        requestStatus="Not Requested"
-                        description="Place a request to start"
-                    />
+                <div className="w-3/5 flex flex-col justify-center space-y-2">
+                    {/* Figure Cards */}
+                    <div className="flex flex-col gap-y-4">
+                        <div className="flex gap-x-4">
+                            <FigureCard
+                                imageUrl="/images/icons/students.png"
+                                count={0}
+                                title={'Current Students'}
+                            />
+                            <FigureCard
+                                imageUrl="/images/icons/pending-student.png"
+                                count={0}
+                                title={'Pending Students'}
+                            />
+                        </div>
+                    </div>
+                    
                     <RecentAppointmentCard
                         title="Work Place Visit"
                         caseOfficer="John Smith Khan"

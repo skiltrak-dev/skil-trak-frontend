@@ -4,11 +4,8 @@ import { TabNavigation, TabProps, Button } from '@components'
 import { useContextBar, useNavbar } from '@hooks'
 import { AdminLayout } from '@layouts'
 import {
-    ApprovedSubAdmin,
     ArchivedSubAdmin,
-    BlockedSubAdmin,
-    PendingSubAdmin,
-    RejectedSubAdmin,
+    ActiveSubAdmin
 } from '@partials/admin/sub-admin'
 import { AdminApi } from '@queries'
 import { NextPageWithLayout } from '@types'
@@ -35,40 +32,13 @@ const SubAdminList: NextPageWithLayout = () => {
 
     const tabs: TabProps[] = [
         {
-            label: 'Pending',
-            href: { pathname: 'sub-admin', query: { tab: 'pending' } },
-            badge: {
-                text: data?.pending,
-                loading: isLoading,
-            },
-            element: <PendingSubAdmin />,
-        },
-        {
-            label: 'Approved',
-            href: { pathname: 'sub-admin', query: { tab: 'approved' } },
+            label: 'Active',
+            href: { pathname: 'sub-admin', query: { tab: 'active' } },
             badge: {
                 text: data?.approved,
                 loading: isLoading,
             },
-            element: <ApprovedSubAdmin />,
-        },
-        {
-            label: 'Rejected',
-            href: { pathname: 'sub-admin', query: { tab: 'rejected' } },
-            badge: {
-                text: data?.rejected,
-                loading: isLoading,
-            },
-            element: <RejectedSubAdmin />,
-        },
-        {
-            label: 'Blocked',
-            href: { pathname: 'sub-admin', query: { tab: 'blocked' } },
-            badge: {
-                text: data?.blocked,
-                loading: isLoading,
-            },
-            element: <BlockedSubAdmin />,
+            element: <ActiveSubAdmin />,
         },
         {
             label: 'Archived',
@@ -88,7 +58,7 @@ const SubAdminList: NextPageWithLayout = () => {
                     return (
                         <div>
                             <div className="flex items-end justify-between">
-                                <div>{header}</div>
+                                <div className='flex-grow'>{header}</div>
                                 <div className="px-6">  
                                 <Button
                                     text={'Add Sub Admin'}
