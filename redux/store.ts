@@ -89,6 +89,7 @@ export const store = configureStore({
             setUnAvailabilityApi.middleware,
             setScheduleApi.middleware,
             rtpMOUApi.middleware,
+            subAdminStudentsApi.middleware,
             industryStudentsApi.middleware,
             folderApi.middleware,
             industryCourseApi.middleware,

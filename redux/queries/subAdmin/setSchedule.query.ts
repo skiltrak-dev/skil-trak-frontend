@@ -28,7 +28,14 @@ export const setScheduleApi = createApi({
             },
             invalidatesTags: ['SetSchedule'],
         }),
+        setScheduledList: builder.query<any, void>({
+            query: () => ({
+                url: `availabilities/list`,
+            }),
+            providesTags: ['SetSchedule'],
+        }),
     }),
 })
 
-export const { useSetScheduleMutation } = setScheduleApi
+export const { useSetScheduleMutation, useSetScheduledListQuery } =
+    setScheduleApi

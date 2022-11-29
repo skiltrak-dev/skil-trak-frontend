@@ -26,11 +26,6 @@ export const DetailTabs = ({
             href: { query: { tab: 'notes', id } },
             element: <NotesTab industry={industry} />,
         },
-        {
-            label: 'Assessments',
-            href: { query: { tab: 'assessments', id } },
-            element: <MailsTab />,
-        },
     ]
 
     return (

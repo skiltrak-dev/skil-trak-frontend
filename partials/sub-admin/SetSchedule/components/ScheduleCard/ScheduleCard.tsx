@@ -1,27 +1,35 @@
-import React, { useState, ChangeEvent } from 'react'
+import React, { useState, ChangeEvent, useEffect } from 'react'
 
 // components
 import { Typography, TextInput, Switch } from '@components'
 
 export const ScheduleCard = ({
-    day,
+    availability,
     setScheduleTime,
 }: {
-    day: string
+    availability: any
     setScheduleTime: any
 }) => {
-    const [isAvailable, setIsAvailable] = useState(false)
+    const [isAvailable, setIsAvailable] = useState<boolean>(false)
+
+    useEffect(() => {
+        setIsAvailable(availability?.isActive)
+    }, [availability])
 
     const onChange = (e: any) => {
         setScheduleTime((scheduleTime: any) => {
             const { name, value } = e.target
-            const find = scheduleTime?.find((f: any) => f.name === day)
-            const filter = scheduleTime?.filter((f: any) => f.name !== day)
+            const find = scheduleTime?.find(
+                (f: any) => f.name === availability.name
+            )
+            const filter = scheduleTime?.filter(
+                (f: any) => f.name !== availability.name
+            )
             return [
                 ...filter,
                 {
                     ...find,
-                    name: day,
+                    name: availability.name,
                     [name]: value + ':00',
                 },
             ]
@@ -30,15 +38,25 @@ export const ScheduleCard = ({
     return (
         <div className="bg-gray-100 rounded-lg px-6 grid grid-cols-3 items-center">
             <Typography variant={'label'} capitalize>
-                {day}
+                {availability.name}
             </Typography>
             <div className="flex">
                 <Switch
-                    name={day}
+                    name={availability?.name}
                     label={'Available'}
                     onChange={(e: ChangeEvent<HTMLInputElement>) => {
                         setIsAvailable(e.target.checked)
+                        setScheduleTime((preVal: any) =>
+                            !e.target.checked
+                                ? preVal?.filter(
+                                      (f: any) => f.name !== availability.name
+                                  )
+                                : preVal
+                        )
                     }}
+                    {...(availability?.isActive
+                        ? { defaultChecked: availability?.isActive }
+                        : {})}
                 />
             </div>
             <div className="flex items-end gap-x-2.5">
@@ -50,6 +68,9 @@ export const ScheduleCard = ({
                     onChange={(e: any) => {
                         onChange(e)
                     }}
+                    {...(availability?.openingTime
+                        ? { value: availability?.openingTime }
+                        : {})}
                 />
                 <TextInput
                     label={'Closing'}
@@ -59,6 +80,9 @@ export const ScheduleCard = ({
                     onChange={(e: any) => {
                         onChange(e)
                     }}
+                    // {...(availability?.closingTime
+                    //     ? { value: availability?.closingTime }
+                    //     : {})}
                 />
             </div>
         </div>

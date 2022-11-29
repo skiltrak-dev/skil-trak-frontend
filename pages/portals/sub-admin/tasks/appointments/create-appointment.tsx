@@ -2,7 +2,7 @@ import { useRouter } from 'next/router'
 
 import { ReactElement } from 'react'
 
-import { StudentLayout } from '@layouts'
+import { StudentLayout, SubAdminLayout } from '@layouts'
 import { NextPageWithLayout } from '@types'
 import { CreateAppointments } from '@components/sections'
 
@@ -17,7 +17,7 @@ const CreateAppointment: NextPageWithLayout = (props: Props) => {
     )
 }
 CreateAppointment.getLayout = (page: ReactElement) => {
-    return <StudentLayout title="Create Appointment">{page}</StudentLayout>
+    return <SubAdminLayout title="Create Appointment">{page}</SubAdminLayout>
 }
 
 export default CreateAppointment
