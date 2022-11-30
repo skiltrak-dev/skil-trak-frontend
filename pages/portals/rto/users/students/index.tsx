@@ -6,14 +6,47 @@ import { NextPageWithLayout } from '@types'
 
 import { TabsView } from '@components/sections/rto'
 //components
-import { ReactTable, Typography } from '@components'
-import { useGetStudentsQuery } from '@queries'
+import { ReactTable, Typography, TabProps, TabNavigation } from '@components'
 import { FaEnvelope, FaPhoneSquareAlt } from 'react-icons/fa'
 import Image from 'next/image'
+import {
+    ApprovedStudent,
+    PendingStudent,
+    RejectedStudent,
+    BlockedStudent,
+    ArchivedStudent,
+} from '@partials/rto/student'
 
 type Props = {}
 
 const RtoStudents: NextPageWithLayout = (props: Props) => {
+    const tabs: TabProps[] = [
+        {
+            label: 'Pending',
+            href: { pathname: 'students', query: { tab: 'pending' } },
+            element: <PendingStudent />,
+        },
+        {
+            label: 'Approved',
+            href: { pathname: 'students', query: { tab: 'approved' } },
+            element: <ApprovedStudent />,
+        },
+        {
+            label: 'Rejected',
+            href: { pathname: 'students', query: { tab: 'rejected' } },
+            element: <RejectedStudent />,
+        },
+        {
+            label: 'Blocked',
+            href: { pathname: 'students', query: { tab: 'blocked' } },
+            element: <BlockedStudent />,
+        },
+        {
+            label: 'Archived',
+            href: { pathname: 'students', query: { tab: 'archived' } },
+            element: <ArchivedStudent />,
+        },
+    ]
     const Columns = [
         {
             Header: 'Name',
@@ -155,14 +188,18 @@ const RtoStudents: NextPageWithLayout = (props: Props) => {
 
     return (
         <>
-            <TabsView />
-            <ReactTable
-                action={useGetStudentsQuery}
-                Columns={Columns}
-                querySort={'title'}
-                pagination
-                pagesize
-            />
+            <div>
+                <TabNavigation tabs={tabs}>
+                    {({ header, element }: any) => {
+                        return (
+                            <div>
+                                <div>{header}</div>
+                                <div className="p-4">{element}</div>
+                            </div>
+                        )
+                    }}
+                </TabNavigation>
+            </div>
         </>
     )
 }

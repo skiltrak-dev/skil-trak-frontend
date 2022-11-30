@@ -15,7 +15,9 @@ type Props = {}
 export const WorkplaceInfoCard = (props: Props) => {
     const pathname = useRouter()
     const profileId = pathname.query.profileId
-    const { data }: any = useGetSubAdminMyRtoQuery(String(profileId))
+    const { data } = useGetSubAdminMyRtoQuery(String(profileId), {
+        skip: !profileId,
+    })
     const filteredData = data?.workplace.filter((item: any) => {
         return item.approvalStatus === 'approved' && item.isCancelled === false
     })

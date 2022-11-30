@@ -18,10 +18,21 @@ export const subAdminStudentsApi = createApi({
     tagTypes: ['SubAdminStudents'],
 
     endpoints: (builder) => ({
-        getSubAdminStudents: builder.query<any[], void>({
-            query: () => {
+        getSubAdminStudents: builder.query<any, any>({
+            query: (params) => {
                 return {
                     url: 'students/list-all',
+                    params,
+                }
+            },
+            providesTags: ['SubAdminStudents'],
+        }),
+
+        getSubAdminMyStudents: builder.query<any, any>({
+            query: (params) => {
+                return {
+                    url: 'my-students/list',
+                    params,
                 }
             },
             providesTags: ['SubAdminStudents'],
@@ -38,7 +49,7 @@ export const subAdminStudentsApi = createApi({
             invalidatesTags: ['SubAdminStudents'],
         }),
 
-        getSubAdminMyRto: builder.query<any[], string>({
+        getSubAdminMyRto: builder.query<any, string>({
             query: (id) => {
                 return {
                     url: `student/view/${id}`,
@@ -75,4 +86,5 @@ export const {
     useGetSubAdminMyRtoQuery,
     useGetSubAdminStudentDetailQuery,
     useUpdateSubAdminCourseDurationMutation,
+    useGetSubAdminMyStudentsQuery,
 } = subAdminStudentsApi

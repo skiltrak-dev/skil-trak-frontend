@@ -4,7 +4,7 @@ export const AppointmentFor = [
         icon: '/images/subAdmins/RTO.png',
     },
     {
-        text: 'Students',
+        text: 'Student',
         icon: '/images/subAdmins/Students.png',
     },
     {
@@ -17,7 +17,7 @@ export const AppointmentWithData = [
     {
         text: 'Self',
         icon: '/images/subAdmins/Self.png',
-        type: ['RTO', 'Students', 'Industry'],
+        type: ['RTO', 'Student', 'Industry'],
     },
     {
         text: 'RTO',
@@ -27,7 +27,7 @@ export const AppointmentWithData = [
     {
         text: 'Industry',
         icon: '/images/subAdmins/Industry_.png',
-        type: ['RTO', 'Students'],
+        type: ['RTO', 'Student'],
     },
     {
         text: 'Students',

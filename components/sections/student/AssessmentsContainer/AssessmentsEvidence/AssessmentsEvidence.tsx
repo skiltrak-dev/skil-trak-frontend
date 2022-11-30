@@ -27,6 +27,8 @@ export const AssessmentsEvidence = (props: Props) => {
         }
     )
 
+    console.log('assessmentsFolders', assessmentsFolders)
+
     return (
         <div>
             <div className="mb-3">
@@ -42,7 +44,7 @@ export const AssessmentsEvidence = (props: Props) => {
                                     code={course.code}
                                     title={course.title}
                                     isActive={course.isActive}
-                                    coordinator={course.subadmin[0].user.name}
+                                    coordinator={course.subadmin[0]?.user.name}
                                     selectedCourseId={selectedCourseId}
                                     onClick={() => {
                                         setSelectedCourseId(course.id)

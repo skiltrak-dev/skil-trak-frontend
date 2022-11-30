@@ -9,6 +9,7 @@ import {
     setUnAvailabilityApi,
     industryStudentsApi,
     industryCourseApi,
+    subAdminCreateAppointmentApi,
     jobsApi,
     setScheduleApi,
     studentSignUpApi,
@@ -37,14 +38,15 @@ import {
     mouApi,
     employeeApi,
     employeeTaskApi,
-
-    rtoApi
+    rtoApi,
 } from '@queries'
 
 export const store = configureStore({
     reducer: {
         // Add the generated reducer as a specific top-level slice
         [authApi.reducerPath]: authApi.reducer,
+        [subAdminCreateAppointmentApi.reducerPath]:
+            subAdminCreateAppointmentApi.reducer,
         [messageApi.reducerPath]: messageApi.reducer,
         [subAdminSettingApi.reducerPath]: subAdminSettingApi.reducer,
         [setUnAvailabilityApi.reducerPath]: setUnAvailabilityApi.reducer,
@@ -81,16 +83,19 @@ export const store = configureStore({
         [studentProfileApi.reducerPath]: studentProfileApi.reducer,
         [mouApi.reducerPath]: mouApi.reducer,
 
-        [rtoApi.reducerPath]: rtoApi.reducer
+        [rtoApi.reducerPath]: rtoApi.reducer,
     },
     // Adding the api middleware enables caching, invalidation, polling,
     // and other useful features of `rtk-query`.
     middleware: (getDefaultMiddleware) =>
         getDefaultMiddleware().concat([
             authApi.middleware,
+            subAdminCreateAppointmentApi.middleware,
             messageApi.middleware,
+            rtoWorkplacesApi.middleware,
             subAdminSettingApi.middleware,
             setUnAvailabilityApi.middleware,
+            rtoAssessmentToolsApi.middleware,
             setScheduleApi.middleware,
             rtpMOUApi.middleware,
             subAdminStudentsApi.middleware,
@@ -120,7 +125,7 @@ export const store = configureStore({
             studentProfileApi.middleware,
             mouApi.middleware,
 
-            rtoApi.middleware
+            rtoApi.middleware,
         ]),
 })
 

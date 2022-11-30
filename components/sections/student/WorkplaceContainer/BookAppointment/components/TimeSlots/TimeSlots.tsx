@@ -9,8 +9,8 @@ import moment from 'moment'
 import { useGetCoordinatorsAvailabilityQuery } from '@queries'
 
 type Props = {
-    daysAvailability: any
-    timeAvailability: any
+    // daysAvailability: any
+    // timeAvailability: any
     setSelectedDate: Function
     selectedDate: Date | null
     setSelectedTime: Function
@@ -18,9 +18,40 @@ type Props = {
     coordinatorAvailability: any
 }
 
+const days = [
+    {
+        day: 'sunday',
+        id: 0,
+    },
+    {
+        day: 'monday',
+        id: 1,
+    },
+    {
+        day: 'tuesday',
+        id: 2,
+    },
+    {
+        day: 'wednesday',
+        id: 3,
+    },
+    {
+        day: 'thursday',
+        id: 4,
+    },
+    {
+        day: 'friday',
+        id: 5,
+    },
+    {
+        day: 'saturday',
+        id: 6,
+    },
+]
+
 export const TimeSlots = ({
-    daysAvailability,
-    timeAvailability,
+    // daysAvailability,
+    // timeAvailability,
     setSelectedDate,
     selectedDate,
     selectedTime,
@@ -29,23 +60,37 @@ export const TimeSlots = ({
 }: Props) => {
     const [currentItems, setCurrentItems] = useState(Array())
     const [slotsTime, setSlotsTime] = useState(Array())
+    const [timeAvailability, setTimeAvailability] = useState(Array())
+    const [daysAvailability, setDaysAvailability] = useState(Array())
 
     useEffect(() => {
         setSlotsTime([])
-    }, [daysAvailability])
+    }, [coordinatorAvailability])
+
+    useEffect(() => {
+        const availability =
+            coordinatorAvailability?.availabilities[0]?.availability
+        const available = availability?.map((a: any) => a.name)
+
+        const daysId = days
+            .filter((f) => available?.includes(f.day))
+            .map((d) => d.id)
+        setDaysAvailability(daysId)
+        setTimeAvailability(availability)
+    }, [coordinatorAvailability])
 
     // console.log('MMMMM', moment('22:45', 'hh:mm:ss').format('h:mm a'))
 
     const timeSlots = useCallback(() => {
-        const days = [
-            'sunday',
-            'monday',
-            'tuesday',
-            'wednesday',
-            'thursday',
-            'friday',
-            'saturday',
-        ]
+        // const days = [
+        //     'sunday',
+        //     'monday',
+        //     'tuesday',
+        //     'wednesday',
+        //     'thursday',
+        //     'friday',
+        //     'saturday',
+        // ]
         const getIndexData = (text: string, index: number) => {
             return Number(text.split(':')[index])
         }
@@ -64,18 +109,17 @@ export const TimeSlots = ({
             (b: any) => b.date === selectedDay
         )
 
-        const bookedSlotsTime = bookedSlot?.map(
-            (t: any) =>
-                `${getFormattedHours(getIndexData(t.time, 0))}:${getIndexData(
-                    t.time,
-                    1
-                )} ${getMeridiem(getIndexData(t.time, 0))}`
+        const bookedSlotsTime = bookedSlot?.map((t: any) =>
+            moment(t.time, 'hh:mm:ss').format('h:mm a')
         )
 
-        const findDay = selectedDate && days[selectedDate?.getDay()]
+        console.log('bookedSlotsTime', bookedSlotsTime)
+
+        const findDay = selectedDate && days[selectedDate?.getDay()].day
         const selectedDayAvailability = timeAvailability?.find(
-            (t: any) => t.day === findDay
+            (t: any) => t.name === findDay
         )
+        console.log('selectedDate', selectedDayAvailability)
         const opening = selectedDayAvailability
             ? selectedDayAvailability.openingTime
             : '00:00'
@@ -126,8 +170,6 @@ export const TimeSlots = ({
 
     return (
         <div className="mt-5">
-            {/* {currentItems.map((d) => d)} */}
-
             <Typography variant="small" color="text-gray-400">
                 Select Time Slot
             </Typography>
