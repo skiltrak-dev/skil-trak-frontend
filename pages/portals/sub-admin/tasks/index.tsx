@@ -39,18 +39,6 @@ const PrimaryLinks = [
         link: 'tasks/assessment-evidence',
         animation: Animations.Student.Appointments.AssessmentEvidence,
     },
-    {
-        title: 'Set Scheduled',
-        description: 'Some helping text',
-        link: 'tasks/set-schedule',
-        animation: Animations.Student.Appointments.AssessmentEvidence,
-    },
-    {
-        title: 'Set Unavailability',
-        description: 'Some helping text',
-        link: 'tasks/set-unavailability',
-        animation: Animations.Student.Appointments.AssessmentEvidence,
-    },
 ]
 
 const RelatedQuestions = [
@@ -144,7 +132,9 @@ const SubAdminTasks: NextPageWithLayout = () => {
 }
 
 SubAdminTasks.getLayout = (page: ReactElement) => {
-    return <SubAdminLayout title="Tasks">{page}</SubAdminLayout>
+    return (
+        <SubAdminLayout pageTitle={{ title: 'Tasks' }}>{page}</SubAdminLayout>
+    )
 }
 
 export default SubAdminTasks

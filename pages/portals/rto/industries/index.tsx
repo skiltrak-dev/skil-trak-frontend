@@ -10,12 +10,14 @@ import {
     HelpQuestionSet,
     PendingSignatureCard,
     PlacementProgressCard,
+    QuestionCard,
     RecentAppointmentCard,
     RtoContextBarData,
     SidebarCalendar,
 } from '@components'
 import { useContextBar } from '@hooks'
 import { CommonCB } from '@partials/rto/contextBar'
+import { FigureCard } from '@components/sections'
 
 const PrimaryLinks = [
     {
@@ -30,48 +32,24 @@ const PrimaryLinks = [
         link: 'industries/mous',
         animation: Animations.Student.Appointments.Esign,
     },
-    {
-        title: 'Consultations',
-        description: 'Your Consultations With Industries',
-        link: 'industries/consultations',
-        animation: Animations.Industry.Consultation.Consultation,
-    },
+    // {
+    //     title: 'Consultations',
+    //     description: 'Your Consultations With Industries',
+    //     link: 'industries/consultations',
+    //     animation: Animations.Industry.Consultation.Consultation,
+    // },
 ]
 
-const RelatedQuestions = [
+const WorkplaceQuestions = [
     {
-        text: `I have a workplace. What next?`,
-        link: '#',
-    },
-    {
-        text: `I don't have a workplace. What should I do?`,
-        link: '#',
-    },
-    {
-        text: `I want to book an appointment`,
-        link: '#',
-    },
-    {
-        text: `I want to look for a job`,
+        text: `Where can I view Student's workplaces?`,
         link: '#',
     },
 ]
 
-const OtherQuestions = [
+const MoUQuestions = [
     {
-        text: `I have a workplace. What next?`,
-        link: '#',
-    },
-    {
-        text: `I don't have a workplace. What should I do?`,
-        link: '#',
-    },
-    {
-        text: `I want to book an appointment`,
-        link: '#',
-    },
-    {
-        text: `I want to look for a job`,
+        text: `Where can I view MoUs`,
         link: '#',
     },
 ]
@@ -93,33 +71,56 @@ const RtoIndustries: NextPageWithLayout = () => {
 
                 {/* Special Cards */}
                 <div className="w-3/5 flex flex-col justify-center space-y-2">
-                    <PlacementProgressCard
-                        requestStatus="Not Requested"
-                        description="Place a request to start"
-                    />
-                    <RecentAppointmentCard
-                        title="Work Place Visit"
-                        caseOfficer="John Smith Khan"
-                        time="09:00 am - 11:00 am"
-                        date="Monday, 17 Oct,2022"
-                        address="221B Baker Street, Melbourne, VIC 3000"
-                    />
+                    <div className="flex flex-col gap-y-4">
+                        <div className="flex gap-x-4">
+                            <FigureCard
+                                imageUrl="/images/icons/students.png"
+                                count={0}
+                                title={'Current Students'}
+                            />
+                            <FigureCard
+                                imageUrl="/images/icons/pending-student.png"
+                                count={0}
+                                title={'Pending Students'}
+                            />
+                        </div>
+                    </div>
+
+                    <QuestionCard>
+                        <>
+                            <div className="flex flex-col gap-y-2">
+                                <HelpQuestionSet
+                                    title={'Workplaces'}
+                                    questions={WorkplaceQuestions}
+                                />
+
+                                {/* <HelpQuestionSet
+                                    title={'Memorandum Of Understanding'}
+                                    questions={Mou}
+                                /> */}
+                            </div>
+
+                            <HelpQuestionSet
+                                title={'Memorandum Of Understanding'}
+                                questions={MoUQuestions}
+                            />
+                        </>
+                    </QuestionCard>
                 </div>
             </div>
 
-            <div className="mt-6 flex justify-between">
-                {/* Related Questions */}
+            {/* <div className="mt-6 flex justify-between">
+
                 <HelpQuestionSet
                     title={'What you want to do here?'}
                     questions={RelatedQuestions}
                 />
 
-                {/* Other Questions */}
                 <HelpQuestionSet
                     title={'What else you want to do?'}
                     questions={OtherQuestions}
                 />
-            </div>
+            </div> */}
         </div>
     )
 }

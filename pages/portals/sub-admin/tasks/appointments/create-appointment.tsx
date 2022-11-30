@@ -17,7 +17,16 @@ const CreateAppointment: NextPageWithLayout = (props: Props) => {
     )
 }
 CreateAppointment.getLayout = (page: ReactElement) => {
-    return <SubAdminLayout title="Create Appointment">{page}</SubAdminLayout>
+    return (
+        <SubAdminLayout
+            pageTitle={{
+                title: 'Create Appointment',
+                backTitle: 'Appointments',
+            }}
+        >
+            {page}
+        </SubAdminLayout>
+    )
 }
 
 export default CreateAppointment

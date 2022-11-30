@@ -1,8 +1,9 @@
+import { BackButton } from '@components/buttons'
 import { NavbarBreadCrumbs } from '@components/navBars/AdminNavbar/components'
 import { Typography } from '@components/Typography'
 import { useRouter } from 'next/router'
 
-interface PageTitleProps {
+export interface PageTitleProps {
     title: string
     navigateBack?: boolean
     backTitle?: string
@@ -26,6 +27,9 @@ export const PageTitle = ({
         <div>
             {/* Title */}
             <div>
+                {navigateBack || backTitle ? (
+                    <BackButton text={backTitle} />
+                ) : null}
                 <Typography variant={'h4'} capitalize>
                     {title || 'Dashboard'}
                 </Typography>
