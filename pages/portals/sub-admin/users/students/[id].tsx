@@ -21,13 +21,15 @@ import {
 } from '@components'
 import {
     AppointmentProfile,
-    AssesmentEvidenceDetail,
     FigureCard,
     Notes,
     RtoProfileOverview,
     SubAdminProfileTabsView,
 } from '@components/sections'
-import { MailsTab, StudentsProfileOverview } from '@components/sections/subAdmin/StudentsContainer'
+import {
+    MailsTab,
+    StudentsProfileOverview,
+} from '@components/sections/subAdmin/StudentsContainer'
 // icons
 import { FaEdit } from 'react-icons/fa'
 // queries
@@ -39,6 +41,7 @@ import { AssessmentsEvidence } from '@components/sections/student/AssessmentsCon
 
 // hooks
 import { useContextBar } from '@hooks'
+import { AssesmentEvidenceDetail } from '@components/sections/subAdmin/Tasks'
 
 type Props = {}
 
@@ -110,7 +113,10 @@ const StudentsProfile: NextPageWithLayout = (props: Props) => {
                 pathname: String(id),
                 query: { tab: 'assessments' },
             },
-            badge: { text: '99', color: 'text-error-500' },
+            badge: {
+                text: data?.assessmentEvidence?.length,
+                color: 'text-error-500',
+            },
             element: (
                 <AssesmentEvidenceDetail courseId={data?.courses[0]?.id} />
             ),

@@ -1,4 +1,6 @@
-import { ReactElement, useEffect } from 'react'
+import { useRouter } from 'next/router'
+import { ReactElement, useEffect, useState } from 'react'
+
 // Link
 import Link from 'next/link'
 // image
@@ -12,28 +14,37 @@ import { FaEdit, FaEye, FaFileExport, FaFilter } from 'react-icons/fa'
 
 //components
 import {
+    Card,
+    Table,
     Button,
-    ReactTable,
-    RtoContextBarData,
-    SidebarCalendar,
+    EmptyData,
     Typography,
-    TableActionOption,
     TableAction,
+    TechnicalError,
+    SidebarCalendar,
+    LoadingAnimation,
+    TableActionOption,
+    RtoContextBarData,
 } from '@components'
 // queries
 import { useGetSubAdminRtosQuery } from '@queries'
 // icons
 import { FaEnvelope, FaPhoneSquareAlt } from 'react-icons/fa'
 import { useContextBar } from '@hooks'
-import { useRouter } from 'next/router'
 
 import { Rto } from '@types'
 
-type Props = {}
-
-const RTOs: NextPageWithLayout = (props: Props) => {
+const RTOs: NextPageWithLayout = () => {
     const { setContent } = useContextBar()
     const router = useRouter()
+    const [filterAction, setFilterAction] = useState(null)
+    const [itemPerPage, setItemPerPage] = useState(5)
+    const [page, setPage] = useState(1)
+    const [filter, setFilter] = useState({})
+    const { isLoading, data, isError } = useGetSubAdminRtosQuery({
+        skip: itemPerPage * page - itemPerPage,
+        limit: itemPerPage,
+    })
     useEffect(() => {
         setContent(
             <>
@@ -43,7 +54,6 @@ const RTOs: NextPageWithLayout = (props: Props) => {
             </>
         )
     }, [setContent])
-    const { data, error, isLoading } = useGetSubAdminRtosQuery()
 
     const tableActionOptions: TableActionOption[] = [
         {
@@ -57,10 +67,10 @@ const RTOs: NextPageWithLayout = (props: Props) => {
 
     const Columns = [
         {
-            Header: 'Name',
-            accessor: 'user',
+            header: () => 'Name',
+            accessorKey: 'user',
             sort: true,
-            Cell: ({ row }: any) => {
+            cell: ({ row }: any) => {
                 const {
                     phone,
                     user: { name, email, image },
@@ -111,9 +121,9 @@ const RTOs: NextPageWithLayout = (props: Props) => {
             },
         },
         {
-            Header: 'Package',
-            accessor: 'package',
-            Cell: ({ row }: any) => {
+            header: () => 'Package',
+            accessorKey: 'package',
+            cell: ({ row }: any) => {
                 // const {package}:any = row.original
                 return (
                     <div className="flex justify-center">
@@ -125,9 +135,9 @@ const RTOs: NextPageWithLayout = (props: Props) => {
             },
         },
         {
-            Header: 'Code',
-            accessor: 'code',
-            Cell: ({ row }: any) => {
+            header: () => 'Code',
+            accessorKey: 'code',
+            cell: ({ row }: any) => {
                 const { rtoCode } = row.original
                 return (
                     <div className="flex justify-center">
@@ -139,9 +149,9 @@ const RTOs: NextPageWithLayout = (props: Props) => {
             },
         },
         {
-            Header: 'Students',
-            accessor: 'students',
-            Cell: ({ row }: any) => {
+            header: () => 'Students',
+            accessorKey: 'students',
+            cell: ({ row }: any) => {
                 const { students } = row.original
                 return (
                     <div className="flex justify-center">
@@ -153,9 +163,9 @@ const RTOs: NextPageWithLayout = (props: Props) => {
             },
         },
         {
-            Header: 'Courses',
-            accessor: 'courses',
-            Cell: ({ row }: any) => {
+            header: () => 'Courses',
+            accessorKey: 'courses',
+            cell: ({ row }: any) => {
                 return (
                     <div className="flex justify-center">
                         <Typography variant={'muted'} color="text-blue-400">
@@ -166,9 +176,9 @@ const RTOs: NextPageWithLayout = (props: Props) => {
             },
         },
         {
-            Header: 'Address',
-            accessor: 'address',
-            Cell: ({ row }: any) => {
+            header: () => 'Address',
+            accessorKey: 'address',
+            cell: ({ row }: any) => {
                 const { address, city, state, zipCode } = row.original
                 return (
                     <div>
@@ -179,9 +189,9 @@ const RTOs: NextPageWithLayout = (props: Props) => {
             },
         },
         {
-            Header: 'Action',
-            accessor: 'Action',
-            Cell: ({ row }: any) => {
+            header: () => 'Action',
+            accessorKey: 'Action',
+            cell: ({ row }: any) => {
                 return (
                     <TableAction options={tableActionOptions} rowItem={row} />
                 )
@@ -192,13 +202,52 @@ const RTOs: NextPageWithLayout = (props: Props) => {
 
     return (
         <>
-            <ReactTable
-                action={useGetSubAdminRtosQuery}
-                Columns={Columns}
-                querySort={'title'}
-                pagination
-                pagesize
-            />
+            <Card noPadding>
+                {isError && <TechnicalError />}
+                {isLoading ? (
+                    <LoadingAnimation height="h-[60vh]" />
+                ) : data && data?.data.length ? (
+                    <Table
+                        columns={Columns}
+                        data={data.data}
+                        // quickActions={quickActionsElements}
+                        enableRowSelection
+                    >
+                        {({
+                            table,
+                            pagination,
+                            pageSize,
+                            quickActions,
+                        }: any) => {
+                            return (
+                                <div>
+                                    <div className="p-6 mb-2 flex justify-between">
+                                        {pageSize(itemPerPage, setItemPerPage)}
+                                        <div className="flex gap-x-2">
+                                            {quickActions}
+                                            {pagination(
+                                                data?.pagination,
+                                                setPage
+                                            )}
+                                        </div>
+                                    </div>
+                                    <div className="px-6">{table}</div>
+                                </div>
+                            )
+                        }}
+                    </Table>
+                ) : (
+                    !isError && (
+                        <EmptyData
+                            title={'No Approved Industry!'}
+                            description={
+                                'You have not approved any Industry request yet'
+                            }
+                            height={'50vh'}
+                        />
+                    )
+                )}
+            </Card>
         </>
     )
 }

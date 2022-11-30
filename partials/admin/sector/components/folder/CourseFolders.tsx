@@ -7,97 +7,136 @@ import { CourseFolderForm } from '../../form'
 import { CourseFolder } from './CourseFolder'
 
 export const CourseFolders = ({
-  course,
-  category,
+    course,
+    category,
+    folders,
 }: {
-  course?: Course
-  category: 'IndustryCheck' | 'AssessmentEvidence'
+    course?: Course | undefined | null
+    folders: any
+    category: 'IndustryCheck' | 'AssessmentEvidence'
 }) => {
-  const { notification } = useNotification()
-  const [create, setCreate] = useState(false)
-  const [addFolder, addFolderResult] = AdminApi.Folders.useCreate()
-  const folders: Folder[] | undefined = course?.folders?.filter(
-    (f) => f.category === category
-  )
+    const { notification } = useNotification()
+    const [create, setCreate] = useState(false)
+    const [addFolder, addFolderResult] = AdminApi.Folders.useCreate()
+    const [addIndustryCheck, addIndustryCheckResult] =
+        AdminApi.Folders.useIndustryChecklistAdd()
+    const [addAssessmentEvidence, addAssessmentEvidenceResult] =
+        AdminApi.Folders.useAssessMentEvidence()
 
-  const getFoldersTitle = () => {
-    switch (category) {
-      case 'IndustryCheck':
-        return 'Industry Check'
-      case 'AssessmentEvidence':
-        return 'Assessment Evidence'
+    // const folders: Folder[] | undefined = course?.folders?.filter(
+    //     (f) => f.category === category
+    // )
+
+    const getFoldersTitle = () => {
+        switch (category) {
+            case 'IndustryCheck':
+                return 'Industry Check'
+            case 'AssessmentEvidence':
+                return 'Assessment Evidence'
+        }
     }
-  }
 
-  const onSubmit = async (values: any) => {
-    await addFolder({
-      ...values,
-      type: values.type.value,
-      course: course?.id,
-    })
-  }
+    useEffect(() => {
+        if (addFolderResult.isSuccess) {
+            notification.success({
+                title: 'Folder Added',
+                description: 'A new folder added to course',
+            })
 
-  const onFormCancel = () => setCreate(false)
+            onFormCancel()
+        } else if (addFolderResult.isError) {
+            notification.error({
+                title: 'Folder Add Failed',
+                description: 'An error occurred while adding new folder',
+            })
+        }
+    }, [addFolderResult])
 
-  useEffect(() => {
-    if (addFolderResult.isSuccess) {
-      notification.success({
-        title: 'Folder Added',
-        description: 'A new folder added to course',
-      })
+    useEffect(() => {
+        if (addAssessmentEvidenceResult.isSuccess) {
+            notification.success({
+                title: 'Folder Added',
+                description: 'A new folder added to course',
+            })
 
-      onFormCancel()
-    } else if (addFolderResult.isError) {
-      notification.error({
-        title: 'Folder Add Failed',
-        description: 'An error occurred while adding new folder',
-      })
+            onFormCancel()
+        } else if (addAssessmentEvidenceResult.isError) {
+            notification.error({
+                title: 'Folder Add Failed',
+                description: 'An error occurred while adding new folder',
+            })
+        }
+    }, [addAssessmentEvidenceResult])
+
+    const onSubmit = async (values: any) => {
+        console.log('values', values)
+        category === 'IndustryCheck'
+            ? await addFolder({
+                  ...values,
+                  type: values.type.value,
+                  course: course?.id,
+              })
+            : addAssessmentEvidence({
+                  ...values,
+                  type: values.type.value,
+                  course: course?.id,
+              })
     }
-  }, [addFolderResult])
 
-  return (
-    <div className="pt-2">
-      <div className="flex justify-between items-center">
-        <p className="text-xs">
-          <span className="text-gray-600 font-semibold">
-            {folders?.length || 0}
-          </span>{' '}
-          -{' '}
-          <span className="text-gray-500 font-medium">
-            {getFoldersTitle()} Folders
-          </span>
-        </p>
+    const onFormCancel = () => setCreate(false)
 
-        <ActionButton variant="info" simple onClick={() => setCreate(true)}>
-          + Add Folder
-        </ActionButton>
-      </div>
+    return (
+        <div className="pt-2">
+            <div className="flex justify-between items-center">
+                <p className="text-xs">
+                    <span className="text-gray-600 font-semibold">
+                        {folders?.length || 0}
+                    </span>{' '}
+                    -{' '}
+                    <span className="text-gray-500 font-medium">
+                        {getFoldersTitle()} Folders
+                    </span>
+                </p>
 
-      {create && (
-        <CourseFolderForm
-          onSubmit={onSubmit}
-          onCancel={onFormCancel}
-          initialValues={{
-            name: '',
-            capacity: 0,
-            type: 'docs',
-            category,
-            description: '',
-            isRequired: false,
-          }}
-        />
-      )}
+                <ActionButton
+                    variant="info"
+                    simple
+                    onClick={() => setCreate(true)}
+                >
+                    + Add Folder
+                </ActionButton>
+            </div>
 
-      <>
-        {!create &&
-          (folders && folders.length ? (
-            folders.map((f) => (
-              <CourseFolder folder={f} key={f.id} course={course!!} />
-            ))
-          ) : (
-            <NoData text="No Folder Here" />
-          ))}
-      </>
-    </div>
-  )
+            {create && (
+                <CourseFolderForm
+                    onSubmit={onSubmit}
+                    onCancel={onFormCancel}
+                    initialValues={{
+                        name: '',
+                        capacity: 0,
+                        type: 'docs',
+                        category,
+                        description: '',
+                        isRequired: false,
+                    }}
+                />
+            )}
+
+            <>
+                {!create &&
+                    (folders && folders.length ? (
+                        folders?.map((f: any) => (
+                            <CourseFolder
+                                folder={f}
+                                key={f.id}
+                                course={course!!}
+                                category={category}
+                            />
+                        ))
+                    ) : (
+                        <NoData text="No Folder Here" />
+                    ))}
+            </>
+        </div>
+    )
 }

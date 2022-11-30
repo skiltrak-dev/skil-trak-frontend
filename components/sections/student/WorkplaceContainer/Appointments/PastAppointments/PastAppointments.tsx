@@ -1,6 +1,6 @@
 import React from 'react'
 import { PastAppointmentCard } from '@components/sections/student/components/Card/PastAppointmentCard'
-import { Typography } from '@components/Typography'
+import { Typography, EmptyData } from '@components'
 import { Switch } from '@components/inputs'
 
 // query
@@ -11,38 +11,7 @@ type Props = {}
 
 export const PastAppointments = (props: Props) => {
     const pastAppointments = useGetStudentPastAppointmentsQuery()
-    const pastAppointmentsData = [
-        {
-            date: 'Wednesday, October 19',
-            time: '09:30 am - 10:00 am',
-            totalMinutes: '~ 60 Min',
-            address: '221b Baker St, VIC 3000',
-            name: 'Saad Shah',
-            imageUrl: '/images/card-images/video-image.png',
-            post: 'Video Conference',
-            status: 'Completed',
-        },
-        {
-            date: 'Wednesday, October 19',
-            time: '09:30 am - 10:00 am',
-            totalMinutes: '~ 60 Min',
-            address: '221b Baker St, VIC 3000',
-            name: 'Salman Khan',
-            imageUrl: '/images/card-images/phone-image.png',
-            post: 'Phone Consultation',
-            status: 'Completed',
-        },
-        {
-            date: 'Wednesday, October 19',
-            time: '09:30 am - 10:00 am',
-            totalMinutes: '~ 60 Min',
-            address: '221b Baker St, VIC 3000',
-            name: 'Qandeel Khan',
-            imageUrl: '/images/card-images/box-image.png',
-            post: 'Workplace Visit',
-            status: 'Cancelled',
-        },
-    ]
+
     return (
         <div className="mt-6">
             <div className="pb-1 flex items-center justify-between">
@@ -54,7 +23,7 @@ export const PastAppointments = (props: Props) => {
             <div>
                 {pastAppointments.isLoading ? (
                     <LoadingAnimation />
-                ) : (
+                ) : pastAppointments?.data && pastAppointments?.data?.length ? (
                     pastAppointments?.data?.map(
                         (pastAppointment: any, index: number) => {
                             return (
@@ -74,7 +43,12 @@ export const PastAppointments = (props: Props) => {
                             )
                         }
                     )
-                )?pastAppointments.data.length===0?<div className='text-xl text-red-500'>No Past Appointments...!</div>:null:null}
+                ) : (
+                    <EmptyData
+                        title={'No Past appointments'}
+                        description={'No Past appointments'}
+                    />
+                )}
             </div>
         </div>
     )

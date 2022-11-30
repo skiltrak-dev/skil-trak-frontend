@@ -52,7 +52,7 @@ const BookAppointment: NextPageWithLayout = (props: Props) => {
                 title: 'Appointment Created Successfully',
                 description: 'Appointment Created Successfully',
             })
-            router.push('/student/workplace/appointments')
+            router.push('/portals/student/workplace/appointments')
         }
     }, [createAppointmentResult.isSuccess])
 
@@ -96,8 +96,8 @@ const BookAppointment: NextPageWithLayout = (props: Props) => {
                         setSelectedCoordinator={setSelectedCoordinator}
                     />
                     <TimeSlots
-                        daysAvailability={daysAvailability}
-                        timeAvailability={timeAvailability}
+                        // daysAvailability={daysAvailability}
+                        // timeAvailability={timeAvailability}
                         setSelectedDate={setSelectedDate}
                         selectedDate={selectedDate}
                         setSelectedTime={setSelectedTime}

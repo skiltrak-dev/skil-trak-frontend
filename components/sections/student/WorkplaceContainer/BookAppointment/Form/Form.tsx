@@ -21,36 +21,7 @@ type Props = {
     setSelectedCoordinator: Function
 }
 
-const days = [
-    {
-        day: 'sunday',
-        id: 0,
-    },
-    {
-        day: 'monday',
-        id: 1,
-    },
-    {
-        day: 'tuesday',
-        id: 2,
-    },
-    {
-        day: 'wednesday',
-        id: 3,
-    },
-    {
-        day: 'thursday',
-        id: 4,
-    },
-    {
-        day: 'friday',
-        id: 5,
-    },
-    {
-        day: 'saturday',
-        id: 6,
-    },
-]
+
 
 export const Form = ({
     setDaysAvailability,
@@ -63,9 +34,9 @@ export const Form = ({
     // const [appointmentTypeId, setAppointmentTypeId] = useState<number | null>(
     //     null
     // )
-    const [coordinatorsOptions, setCoordinatorsOptions] = useState<
-        any[] | null
-    >([])
+    const [coordinatorsOptions, setCoordinatorsOptions] = useState<any | null>(
+        []
+    )
     const [coursesOptions, setCoursesOptions] = useState<any[]>([])
 
     const coordinators = useGetCoordinatorsForStudentQuery(
@@ -89,8 +60,8 @@ export const Form = ({
     }, [coordinators])
 
     useEffect(() => {
-        if (studentCourses?.data?.data && studentCourses.isSuccess) {
-            const options = studentCourses?.data?.data?.map((course: any) => ({
+        if (studentCourses?.data && studentCourses.isSuccess) {
+            const options = studentCourses?.data?.map((course: any) => ({
                 label: course.title,
                 value: course.id,
             }))
@@ -98,19 +69,7 @@ export const Form = ({
         }
     }, [studentCourses?.data?.data, studentCourses.isSuccess])
 
-    useEffect(() => {
-        if (selectedCoordinator) {
-            const coordinator = coordinators?.data?.find(
-                (c: any) => c.id === selectedCoordinator.value
-            )
-            const availability = coordinator.availability.map((a: any) => a.day)
-            const daysId = days
-                .filter((f) => availability.includes(f.day))
-                .map((d) => d.id)
-            setDaysAvailability(daysId)
-            setTimeAvailability(coordinator.availability)
-        }
-    }, [selectedCoordinator])
+   
 
     return (
         <div>

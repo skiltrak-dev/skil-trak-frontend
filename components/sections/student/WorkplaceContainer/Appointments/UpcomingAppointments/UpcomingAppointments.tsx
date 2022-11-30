@@ -1,6 +1,7 @@
 import React from 'react'
 import { UpcomingAppointmentCard } from '@components/sections'
-import { Typography } from '@components/Typography'
+
+import { Typography, EmptyData } from '@components'
 
 // query
 import { useGetStudentUpcomingAppointmentsQuery } from '@queries'
@@ -40,7 +41,8 @@ export const UpcomingAppointments = (props: Props) => {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 {studentAppointments.isLoading ? (
                     <LoadingAnimation />
-                ) : (
+                ) : studentAppointments?.data &&
+                  studentAppointments?.data?.length ? (
                     studentAppointments?.data?.map(
                         (upcomingAppointment: any, index: number) => {
                             return (
@@ -61,7 +63,12 @@ export const UpcomingAppointments = (props: Props) => {
                             )
                         }
                     )
-                )?(studentAppointments.data.length === 0 && (<div className='text-xl text-red-500'>No Upcoming Appointment...! </div>) ):null}
+                ) : (
+                    <EmptyData
+                        title={'No Recent Appointments'}
+                        description={'No Recent Appointments'}
+                    />
+                )}
             </div>
         </>
     )

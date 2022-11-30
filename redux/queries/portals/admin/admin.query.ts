@@ -163,6 +163,9 @@ const {
     useFolderAddMutation,
     useFolderUpdateMutation,
     useFolderRemoveMutation,
+    useIndustryChecklistAddMutation,
+    useAssessmentEvidenceAddMutation,
+    useRemoveAssessmentMutation,
 
     // ------ APPOINTMENT TYPES ------ //
     useAppointmentTypesQuery,
@@ -277,6 +280,9 @@ export const AdminApi = {
         useCreate: useFolderAddMutation,
         useUpdate: useFolderUpdateMutation,
         useRemove: useFolderRemoveMutation,
+        useRemoveAssessment: useRemoveAssessmentMutation,
+        useIndustryChecklistAdd: useIndustryChecklistAddMutation,
+        useAssessMentEvidence: useAssessmentEvidenceAddMutation,
     },
 
     AppointmentTypes: {
