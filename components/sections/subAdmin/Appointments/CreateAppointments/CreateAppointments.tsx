@@ -5,6 +5,13 @@ import { Arrow, CreateAppointmentCard, SearchUser } from './components'
 import { TimeSlots } from '@components/sections/student'
 import { Card, Typography, Button, TextInput } from '@components'
 import { AppointmentFor, AppointmentWithData } from './appointmentData'
+import { AppointmentType } from '@partials/appointmentType'
+
+// query
+import {
+    useUserAvailabilitiesQuery,
+    useSubAdminCreateAppointmentMutation,
+} from '@queries'
 
 export const CreateAppointments = () => {
     const [selectedPerson, setSelectedPerson] = useState<any | null>({
@@ -20,6 +27,26 @@ export const CreateAppointments = () => {
         selectedAppointmentForUser: '',
         selectedAppointmentWithUser: '',
     })
+    const [selectedDate, setSelectedDate] = useState<Date | null>(null)
+    const [selectedTime, setSelectedTime] = useState<any | null>(null)
+    const [note, setNote] = useState<any | null>(null)
+
+    const userAvailabilities = useUserAvailabilitiesQuery(
+        {
+            forUser: selectedUser.selectedAppointmentForUser,
+            byUser: selectedUser.selectedAppointmentWithUser,
+        },
+        {
+            skip:
+                !selectedUser.selectedAppointmentForUser ||
+                !selectedUser.selectedAppointmentWithUser,
+        }
+    )
+    const [appointmentTypeId, setAppointmentTypeId] = useState<string | null>(
+        null
+    )
+    const [createAppointment, createAppointmentResult] =
+        useSubAdminCreateAppointmentMutation()
 
     useEffect(() => {
         setAppointmentWith(
@@ -29,6 +56,16 @@ export const CreateAppointments = () => {
         )
         setSelectedPerson({ ...selectedPerson, selectedAppointmentWith: null })
     }, [selectedPerson.selectedAppointmentFor])
+
+    const onSubmit = () => {
+        createAppointment({
+            date: selectedDate,
+            note,
+            appointmentFor: selectedUser.selectedAppointmentForUser,
+            appointmentBy: selectedUser.selectedAppointmentWithUser,
+            type: appointmentTypeId,
+        })
+    }
 
     return (
         <>
@@ -127,11 +164,14 @@ export const CreateAppointments = () => {
                     )}
 
                 <Card>
-                    <Typography variant={'label'}>
+                    {/* <Typography variant={'label'}>
                         What kind of appointment you want to book?
-                    </Typography>
+                    </Typography> */}
                     <div className="flex justify-between items-center gap-x-3 w-5/12">
-                        {['Industry Consultation', 'Placement Strategy'].map(
+                        <AppointmentType
+                            setAppointmentTypeId={setAppointmentTypeId}
+                        />
+                        {/* {['Industry Consultation', 'Placement Strategy'].map(
                             (text) => (
                                 <CreateAppointmentCard
                                     key={text}
@@ -142,7 +182,7 @@ export const CreateAppointments = () => {
                                     }}
                                 />
                             )
-                        )}
+                        )} */}
                     </div>
 
                     {/*  */}
@@ -150,21 +190,38 @@ export const CreateAppointments = () => {
                         <Typography variant={'small'} color={'text-gray-500'}>
                             Select Time Slot
                         </Typography>
-                        {/* <TimeSlots
-                                setSelectedDate={() => {}}
-                                selectedDate={new Date()}
-                                setSelectedTime={() => {}}
-                                selectedTime={''}
-                                coordinatorAvailability={''}
-                            /> */}
+                        <TimeSlots
+                            setSelectedDate={setSelectedDate}
+                            selectedDate={selectedDate}
+                            setSelectedTime={setSelectedTime}
+                            selectedTime={selectedTime}
+                            appointmentAvailability={
+                                userAvailabilities?.data?.availabilities
+                            }
+                            bookedAppointment={userAvailabilities?.data?.booked}
+                        />
                     </div>
                     <TextInput
                         name="notes"
                         label={'Notes'}
                         placeholder={'Notes'}
+                        onChange={(e: any) => {
+                            setNote(e.target.value)
+                        }}
                     />
                     <div className="mt-4">
-                        <Button text={'Book Appointment'} variant={'info'} />
+                        <Button
+                            text={'Book Appointment'}
+                            variant={'info'}
+                            onClick={onSubmit}
+                            disabled={
+                                !selectedDate ||
+                                !selectedPerson.selectedAppointmentFor ||
+                                !selectedPerson.selectedAppointmentWith ||
+                                !selectedUser.selectedAppointmentForUser ||
+                                !selectedUser.selectedAppointmentWithUser
+                            }
+                        />
                     </div>
                 </Card>
             </div>

@@ -14,7 +14,7 @@ import { PageHeading } from '@components/headings'
 import { ColumnDef } from '@tanstack/react-table'
 import { FaEdit, FaEye, FaFileExport, FaFilter, FaTrash } from 'react-icons/fa'
 
-import { AdminApi } from '@queries'
+import { useGetRtoStudentsQuery } from '@queries'
 import {
     MdBlock,
     MdEmail,
@@ -35,7 +35,7 @@ export const ArchivedStudent = () => {
     const [page, setPage] = useState(1)
     const [filter, setFilter] = useState({})
 
-    const { isLoading, data } = AdminApi.Students.useListQuery({
+    const { isLoading, data } = useGetRtoStudentsQuery({
         search: `status:archived,${JSON.stringify(filter)
             .replaceAll('{', '')
             .replaceAll('}', '')

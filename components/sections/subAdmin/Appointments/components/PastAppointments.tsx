@@ -1,15 +1,22 @@
 import React from 'react'
-import { Typography, EmptyData, PastAppointmentCard } from '@components'
+import {
+    Typography,
+    EmptyData,
+    PastAppointmentCard,
+    TechnicalError,
+} from '@components'
 import { Switch } from '@components/inputs'
 
 // query
-import { useGetStudentPastAppointmentsQuery } from '@queries'
+import { useGetSubAdminAppointmentsQuery } from '@queries'
 import { LoadingAnimation } from '@components/LoadingAnimation'
 
 type Props = {}
 
 export const PastAppointments = (props: Props) => {
-    const pastAppointments = useGetStudentPastAppointmentsQuery()
+    const subAdminPastAppointments = useGetSubAdminAppointmentsQuery({
+        status: 'past',
+    })
 
     return (
         <div className="mt-6">
@@ -20,10 +27,12 @@ export const PastAppointments = (props: Props) => {
                 <Switch name="Cancelled Appointments" />
             </div>
             <div>
-                {pastAppointments.isLoading ? (
+                {subAdminPastAppointments.isError && <TechnicalError />}
+                {subAdminPastAppointments.isLoading ? (
                     <LoadingAnimation />
-                ) : pastAppointments?.data && pastAppointments?.data?.length ? (
-                    pastAppointments?.data?.map(
+                ) : subAdminPastAppointments?.data &&
+                  subAdminPastAppointments?.data?.length ? (
+                    subAdminPastAppointments?.data?.map(
                         (pastAppointment: any, index: number) => {
                             return (
                                 <PastAppointmentCard
@@ -43,10 +52,12 @@ export const PastAppointments = (props: Props) => {
                         }
                     )
                 ) : (
-                    <EmptyData
-                        title={'No Past appointments'}
-                        description={'No Past appointments'}
-                    />
+                    !subAdminPastAppointments.isError && (
+                        <EmptyData
+                            title={'No Past appointments'}
+                            description={'No Past appointments'}
+                        />
+                    )
                 )}
             </div>
         </div>

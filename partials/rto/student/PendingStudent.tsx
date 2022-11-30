@@ -14,7 +14,7 @@ import { PageHeading } from '@components/headings'
 import { ColumnDef } from '@tanstack/react-table'
 import { FaEdit, FaEye, FaFileExport, FaFilter } from 'react-icons/fa'
 
-import { AdminApi } from '@queries'
+import { useGetRtoStudentsQuery } from '@queries'
 import { MdEmail, MdPhoneIphone } from 'react-icons/md'
 import { ReactElement, useEffect, useState } from 'react'
 import { useContextBar } from '@hooks'
@@ -34,7 +34,7 @@ export const PendingStudent = () => {
     const [itemPerPage, setItemPerPage] = useState(5)
     const [page, setPage] = useState(1)
     const [filter, setFilter] = useState({})
-    const { isLoading, data } = AdminApi.Students.useListQuery({
+    const { isLoading, data } = useGetRtoStudentsQuery({
         search: `status:pending,${JSON.stringify(filter)
             .replaceAll('{', '')
             .replaceAll('}', '')

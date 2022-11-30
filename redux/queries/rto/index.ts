@@ -1,7 +1,7 @@
-
+export * from './rtoMou.query'
 export * from './rtoStudents.query'
 export * from './rtoWorkplaces.query'
+export * from './rtoIndustries.query'
+export * from './rtoAppointments.query'
+export * from './rtoCoordinators.query'
 export * from './rtoAssessmentTools.query'
-export * from './rtoMou.query'
-export * from './rtoIndustries.query';
-

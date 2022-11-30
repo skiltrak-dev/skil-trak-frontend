@@ -5,11 +5,13 @@ import { setupListeners } from '@reduxjs/toolkit/query'
 import {
     authApi,
     studentJobsApi,
+    rtoCoordinatorsApi,
     subAdminSettingApi,
     setUnAvailabilityApi,
     industryStudentsApi,
+    rtoAppointmentsApi,
     industryCourseApi,
-    subAdminCreateAppointmentApi,
+    subAdminAppointmentApi,
     jobsApi,
     setScheduleApi,
     studentSignUpApi,
@@ -38,6 +40,7 @@ import {
     mouApi,
     employeeApi,
     employeeTaskApi,
+    industryAppointmentApi,
     rtoApi,
 } from '@queries'
 
@@ -45,8 +48,10 @@ export const store = configureStore({
     reducer: {
         // Add the generated reducer as a specific top-level slice
         [authApi.reducerPath]: authApi.reducer,
-        [subAdminCreateAppointmentApi.reducerPath]:
-            subAdminCreateAppointmentApi.reducer,
+        [rtoCoordinatorsApi.reducerPath]: rtoCoordinatorsApi.reducer,
+        [rtoAppointmentsApi.reducerPath]: rtoAppointmentsApi.reducer,
+        [industryAppointmentApi.reducerPath]: industryAppointmentApi.reducer,
+        [subAdminAppointmentApi.reducerPath]: subAdminAppointmentApi.reducer,
         [messageApi.reducerPath]: messageApi.reducer,
         [subAdminSettingApi.reducerPath]: subAdminSettingApi.reducer,
         [setUnAvailabilityApi.reducerPath]: setUnAvailabilityApi.reducer,
@@ -90,8 +95,11 @@ export const store = configureStore({
     middleware: (getDefaultMiddleware) =>
         getDefaultMiddleware().concat([
             authApi.middleware,
-            subAdminCreateAppointmentApi.middleware,
+            rtoCoordinatorsApi.middleware,
+            industryAppointmentApi.middleware,
+            subAdminAppointmentApi.middleware,
             messageApi.middleware,
+            rtoAppointmentsApi.middleware,
             rtoWorkplacesApi.middleware,
             subAdminSettingApi.middleware,
             setUnAvailabilityApi.middleware,

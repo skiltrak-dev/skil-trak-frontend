@@ -20,8 +20,10 @@ html {
 
 /* Hide scrollbar for IE, Edge and Firefox */
 .remove-scrollbar {
-   -ms-overflow-style: none; /* IE and Edge */
-   scrollbar-width: none; /* Firefox */
+   -ms-overflow-style: none;
+   /* IE and Edge */
+   scrollbar-width: none;
+   /* Firefox */
 }
 
 /* ------------------*/
@@ -149,15 +151,15 @@ input[type='radio']:checked::before {
    transition: 0.4s;
 }
 
-.switch input:checked + .slider {
+.switch input:checked+.slider {
    background-color: var(--theme-primary-default);
 }
 
-.switch input:focus + .slider {
+.switch input:focus+.slider {
    box-shadow: 0px 0px 2px var(--theme-primary-light);
 }
 
-.switch input:checked + .slider:before {
+.switch input:checked+.slider:before {
    border-top-left-radius: 0px;
    border-bottom-left-radius: 0px;
    border-top-right-radius: 4px;
@@ -239,6 +241,14 @@ tr[aria-hidden] td {
 .react-calendar-day {
    padding: 3px 10px;
    border-radius: 100%;
+}
+
+.react-calendar__tile:disabled {
+   color: #b3ced4;
+}
+
+.react-calendar__tile:disabled:hover {
+   background: none;
 }
 
 .is-selected {

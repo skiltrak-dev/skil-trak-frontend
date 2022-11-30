@@ -2,18 +2,32 @@ import { IndustryLayout } from '@layouts'
 import { NextPageWithLayout } from '@types'
 import { ReactElement } from 'react'
 
-import { IndustryAppointments } from '@components/sections'
+import { Typography, Button } from '@components'
+import { useRouter } from 'next/router'
+import { UpcomingAppointments, PastAppointments } from '@partials/industry'
 
 const Appointments: NextPageWithLayout = () => {
-  return (
-    <div>
-      <IndustryAppointments />
-    </div>
-  )
+    const router = useRouter()
+    return (
+        <div>
+            <div className="flex items-center justify-between">
+                <Typography>Rto Appointments</Typography>
+                <Button
+                    text={'Create Appointment'}
+                    variant={'info'}
+                    onClick={() => {
+                        router.push('/portals/industry/students/appointments/')
+                    }}
+                />
+            </div>
+            <UpcomingAppointments />
+            <PastAppointments />
+        </div>
+    )
 }
 
 Appointments.getLayout = (page: ReactElement) => {
-  return <IndustryLayout>{page}</IndustryLayout>
+    return <IndustryLayout>{page}</IndustryLayout>
 }
 
 export default Appointments
