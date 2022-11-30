@@ -17,6 +17,7 @@ export const FigureCard = ({
     title,
     loading,
 }: FigureCardProps) => {
+    console.log('::: IMAGE URL', imageUrl)
     return (
         <>
             <Card>
@@ -34,8 +35,8 @@ export const FigureCard = ({
 
                     <div className="flex flex-col items-end">
                         {loading ? (
-                            <div className='h-[36px]'>
-                              <PuffLoader size={28}/>
+                            <div className="h-[36px]">
+                                <PuffLoader size={28} />
                             </div>
                         ) : (
                             <p className="text-3xl font-bold">

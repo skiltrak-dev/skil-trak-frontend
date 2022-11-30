@@ -19,9 +19,8 @@ export const SignUpForm = ({ onSubmit }: { onSubmit: any }) => {
 
     const { notification } = useNotification()
 
-
-   const sectorResponse = AuthApi.useRegisterIndustry({})
-   const [checkEmailExists, emailCheckResult] = AuthApi.useEmailCheck()
+    const sectorResponse = AuthApi.useRegisterIndustry({})
+    const [checkEmailExists, emailCheckResult] = AuthApi.useEmailCheck()
 
     const [sectorOptions, setSectorOptions] = useState([])
     const [courseOptions, setCourseOptions] = useState([])
@@ -42,18 +41,16 @@ export const SignUpForm = ({ onSubmit }: { onSubmit: any }) => {
         }, 300)()
     }
 
-
-   const onSectorChanged = (sectors: any) => {
-      setCourseLoading(true)
-      const filteredCourses = sectors.map((selectedSector: any) => {
-         const sectorExisting = sectorResponse?.data.find(
-            (sector: any) => sector.id === selectedSector.value
-         )
-         if (sectorExisting && sectorExisting?.courses?.length) {
-            return sectorExisting.courses
-         }
-      })
-
+    const onSectorChanged = (sectors: any) => {
+        setCourseLoading(true)
+        const filteredCourses = sectors.map((selectedSector: any) => {
+            const sectorExisting = sectorResponse?.data.find(
+                (sector: any) => sector.id === selectedSector.value
+            )
+            if (sectorExisting && sectorExisting?.courses?.length) {
+                return sectorExisting.courses
+            }
+        })
 
         const newCourseOptions: any = []
         filteredCourses.map((courseList: any) => {
@@ -299,37 +296,174 @@ export const SignUpForm = ({ onSubmit }: { onSubmit: any }) => {
                     </div>
                 </div>
 
-               <div className="w-4/6 grid grid-cols-1 gap-y-2">
-                  <div>
-                     <Select
-                        label={'Sector'}
-                        {...(storedData
-                           ? {
-                              defaultValue: storedData.sectors,
-                           }
-                           : {})}
-                        name={'sectors'}
-                        options={sectorOptions}
-                        placeholder={'Select Sectors...'}
-                        multi
-                        loading={sectorResponse.isLoading}
-                        onChange={onSectorChanged}
-                        validationIcons
-                     />
-                  </div>
-                  <div>
-                     <Select
-                        label={'Courses'}
-                        name={'courses'}
-                        defaultValue={courseOptions}
-                        options={courseOptions}
-                        multi
-                        loading={courseLoading}
-                        disabled={
-                           storedData
-                              ? storedData?.courses?.length === 0
-                              : courseOptions?.length === 0
+                {/* Sector Information */}
+                <div className="flex gap-x-16 border-t py-4">
+                    <div className="w-2/6">
+                        <Typography
+                            variant={'subtitle'}
+                            color={'text-gray-500'}
+                        >
+                            Sector Information
+                        </Typography>
+                        <p className="text-gray-400 text-sm leading-6">
+                            Lorem, ipsum dolor sit amet consectetur adipisicing
+                            elit. Impedit, dolorum voluptate dolores.
+                        </p>
+                    </div>
 
+                    <div className="w-4/6 grid grid-cols-1 gap-y-2">
+                        <div>
+                            <Select
+                                label={'Sector'}
+                                {...(storedData
+                                    ? {
+                                          defaultValue: storedData.sectors,
+                                      }
+                                    : {})}
+                                name={'sectors'}
+                                options={sectorOptions}
+                                placeholder={'Select Sectors...'}
+                                multi
+                                loading={sectorResponse.isLoading}
+                                onChange={onSectorChanged}
+                                validationIcons
+                            />
+                        </div>
+                        <div>
+                            <Select
+                                label={'Courses'}
+                                name={'courses'}
+                                defaultValue={courseOptions}
+                                options={courseOptions}
+                                multi
+                                loading={courseLoading}
+                                disabled={
+                                    storedData
+                                        ? storedData?.courses?.length === 0
+                                        : courseOptions?.length === 0
+                                }
+                                validationIcons
+                            />
+                        </div>
+                    </div>
+                </div>
+
+                {/* Contact Person Information */}
+                <div className="flex gap-x-16 border-t py-4">
+                    <div className="w-2/6">
+                        <Typography
+                            variant={'subtitle'}
+                            color={'text-gray-500'}
+                        >
+                            Contact Person Information
+                        </Typography>
+                        <p className="text-gray-400 text-sm leading-6">
+                            Lorem, ipsum dolor sit amet consectetur adipisicing
+                            elit. Impedit, dolorum voluptate dolores.
+                        </p>
+                    </div>
+
+                    <div className="w-4/6">
+                        <div className="mt-2">
+                            <TextInput
+                                label={'Name'}
+                                name={'contactPersonName'}
+                                placeholder={'Contact Person Name...'}
+                                validationIcons
+                            />
+                        </div>
+
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-2 mt-2">
+                            <TextInput
+                                label={'Phone Number'}
+                                name={'contactPersonNumber'}
+                                placeholder={'Phone Number...'}
+                                type={'tel'}
+                                validationIcons
+                            />
+
+                            <TextInput
+                                label={'Email'}
+                                name={'contactPersonEmail'}
+                                type={'email'}
+                                placeholder={'Email...'}
+                                validationIcons
+                            />
+                        </div>
+                    </div>
+                </div>
+
+                {/* Address Information */}
+                <div className="flex gap-x-16 border-t py-4">
+                    <div className="w-2/6">
+                        <Typography
+                            variant={'subtitle'}
+                            color={'text-gray-500'}
+                        >
+                            Address Information
+                        </Typography>
+                        <p className="text-gray-400 text-sm leading-6">
+                            Lorem, ipsum dolor sit amet consectetur adipisicing
+                            elit. Impedit, dolorum voluptate dolores.
+                        </p>
+                    </div>
+
+                    <div className="w-4/6">
+                        <div className="grid grid-cols-1 gap-x-8 gap-y-6 mt-2">
+                            <TextInput
+                                label={'Address Line 1'}
+                                name={'addressLine1'}
+                                placeholder={'Your Address Line 1...'}
+                                validationIcons
+                            />
+
+                            <TextInput
+                                label={'Address Line 2'}
+                                name={'addressLine2'}
+                                placeholder={'Your Address Line 2...'}
+                                validationIcons
+                            />
+                        </div>
+
+                        <div className="grid grid-cols-1 sm:grid-cols-3 gap-x-8 gap-y-2 mt-2 mb-6">
+                            <TextInput
+                                label={'State'}
+                                name={'state'}
+                                placeholder={'State...'}
+                                validationIcons
+                            />
+
+                            <TextInput
+                                label={'Suburb'}
+                                name={'suburb'}
+                                placeholder={'Suburb...'}
+                                validationIcons
+                            />
+
+                            <TextInput
+                                label={'Zip Code'}
+                                name={'zipCode'}
+                                placeholder={'Zip Code...'}
+                                validationIcons
+                            />
+                        </div>
+                    </div>
+                </div>
+
+                <div className="mb-6">
+                    <Checkbox
+                        name={'agreedWithPrivacyPolicy'}
+                        label={
+                            <>
+                                I agree with{' '}
+                                <Link href="/terms-and-conditions">
+                                    <a className="text-link">Terms</a>
+                                </Link>{' '}
+                                {'&'}{' '}
+                                <Link href="/privacy-policy">
+                                    <a className="text-link">Privacy Policy</a>
+                                </Link>
+                            </>
                         }
                     />
                 </div>

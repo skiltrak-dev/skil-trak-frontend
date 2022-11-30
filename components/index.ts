@@ -65,3 +65,4 @@ export * from './DescriptiveInfo'
 export * from './Note'
 
 export * from './ContentEditor'
+export * from './ImportantDocument'

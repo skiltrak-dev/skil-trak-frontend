@@ -1,45 +1,26 @@
 import { ReactElement, useEffect } from 'react'
-// Layouts
+
 import { RtoLayout } from '@layouts'
-// Types
 import { NextPageWithLayout } from '@types'
-// Animations
 import { Animations } from '@animations'
-// Components
-import {
-    AssessmentResultCard,
-    Button,
-    DisplayPrimaryActions,
-    HelpQuestionSet,
-    PendingSignatureCard,
-    PlacementProgressCard,
-    RecentAppointmentCard,
-    RtoContextBarData,
-    SidebarCalendar,
-} from '@components'
-// Hooks
+import { DisplayPrimaryActions, HelpQuestionSet } from '@components'
+import { RecentEmailCard } from '@components/specialCards/RecentEmails'
 import { useContextBar } from '@hooks'
 import { CommonCB } from '@partials/rto/contextBar'
 
 const PrimaryLinks = [
     {
-        title: 'Assessment Tools',
-        description: 'View & Manage Your Assessment Tools',
-        link: 'tasks/assessment-tools',
-        animation: Animations.Student.Appointments.AssessmentEvidence,
+        title: 'E-mails',
+        description: 'Track Progress or File a request',
+        link: '#',
+        animation: Animations.Student.Notifications.Emails,
     },
     {
-        title: 'Appointments',
-        description: 'View & Manage Your Appointments',
-        link: 'tasks/appointments',
-        animation: Animations.Student.Appointments.AssessmentTool,
+        title: 'Discussions',
+        description: 'View or Book Appointments',
+        link: '#',
+        animation: Animations.Student.Notifications.Discussion,
     },
-    // {
-    //     title: 'E-Signs',
-    //     description: 'View & Sign Your Digital Documents',
-    //     link: 'tasks/e-signs',
-    //     animation: Animations.Student.Appointments.Esign,
-    // },
 ]
 
 const RelatedQuestions = [
@@ -80,7 +61,28 @@ const OtherQuestions = [
     },
 ]
 
-const RtoTasks: NextPageWithLayout = () => {
+const DummyEmails = [
+    {
+        subject: 'Attention Needed',
+        sender: 'Skiltrak Coordinator',
+        body: 'You need to upgrade your account as it is being blocked and we dont want you get blocked just due to non-payment but it will be good to go if you dont want to pay',
+        dated: 'Fri 14, Oct 11:00am',
+    },
+    {
+        subject: 'Placement Started',
+        sender: 'Skiltrak Admin',
+        body: 'You need to upgrade your account as it is being blocked',
+        dated: 'Fri 14, Oct 11:00am',
+    },
+    {
+        subject: 'Placement Ended',
+        sender: 'John Smith',
+        body: 'You need to upgrade your account as it is being blocked',
+        dated: 'Fri 14, Oct 11:00am',
+    },
+]
+
+const Notifications: NextPageWithLayout = () => {
     const contextBar = useContextBar()
 
     useEffect(() => {
@@ -92,19 +94,13 @@ const RtoTasks: NextPageWithLayout = () => {
         <div className="flex flex-col">
             <div className="flex gap-x-6">
                 {/* Primary Actions */}
-                <div className="w-2/5 bg-white p-4 rounded-2xl shadow-xl flex-shrink-0">
+                <div className="bg-white p-4 rounded-2xl shadow-xl flex-shrink-0">
                     <DisplayPrimaryActions actions={PrimaryLinks} />
                 </div>
 
                 {/* Special Cards */}
-                <div className="w-3/5 flex flex-col justify-center space-y-2">
-                    <RecentAppointmentCard
-                        title="Work Place Visit"
-                        caseOfficer="John Smith Khan"
-                        time="09:00 am - 11:00 am"
-                        date="Monday, 17 Oct,2022"
-                        address="221B Baker Street, Melbourne, VIC 3000"
-                    />
+                <div className="w-full flex flex-col space-y-2">
+                    <RecentEmailCard emails={DummyEmails} />
                 </div>
             </div>
 
@@ -125,8 +121,8 @@ const RtoTasks: NextPageWithLayout = () => {
     )
 }
 
-RtoTasks.getLayout = (page: ReactElement) => {
-    return <RtoLayout title="Tasks">{page}</RtoLayout>
+Notifications.getLayout = (page: ReactElement) => {
+    return <RtoLayout title="Notifications">{page}</RtoLayout>
 }
 
-export default RtoTasks
+export default Notifications

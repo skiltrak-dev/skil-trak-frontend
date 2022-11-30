@@ -8,7 +8,7 @@ import {
     Button,
     DisplayPrimaryActions,
     HelpQuestionSet,
-    ImportantDocument,
+    ImportantDocumentCard,
     PendingSignatureCard,
     PlacementProgressCard,
     RecentAppointmentCard,

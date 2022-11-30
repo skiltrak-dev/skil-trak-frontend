@@ -1,22 +1,29 @@
-import { PageTitle } from '@components'
+import { PageTitle, PageTitleProps } from '@components'
 import { SubAdminNavbar } from '@components'
 import { ReactNode } from 'react'
 import { UserLayout } from './UserLayout'
 
 interface SubAdminLayoutProps {
-    title?: string
+    pageTitle?: PageTitleProps
     children: ReactNode
 }
-export const SubAdminLayout = ({ title, children }: SubAdminLayoutProps) => {
+export const SubAdminLayout = ({
+    pageTitle,
+    children,
+}: SubAdminLayoutProps) => {
     return (
         <UserLayout>
             <div className="px-16">
                 <div className="mb-6">
                     <SubAdminNavbar />
                 </div>
-                {title && (
+                {pageTitle && pageTitle.title && (
                     <div className="mb-6">
-                        <PageTitle title={title} />
+                        <PageTitle
+                            title={pageTitle.title}
+                            navigateBack={pageTitle?.navigateBack}
+                            backTitle={pageTitle?.backTitle}
+                        />
                     </div>
                 )}
                 <div>{children}</div>
