@@ -2,18 +2,26 @@ import { Button } from '@components/buttons'
 import { Card } from '@components/cards'
 import { ProgressStep } from '@components/sections/subAdmin'
 import { Typography } from '@components/Typography'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 
 type Props = {
   appliedIndustry: any
   setIndustrySelection: any
+  status: any
 }
 
 export const AppliedIndustry = ({
   appliedIndustry,
   setIndustrySelection,
+  status,
 }: Props) => {
-  // console.log("Workplace___________Request", appliedIndustry);
+  console.log("Workplace___________Request", status);
+  // map over workplaceIndustries
+ 
+  console.log("industryCheckListStatus", status);
+
+
+
 
   const daysLeft = () => {
     let date = new Date(appliedIndustry?.appliedDate)
@@ -24,14 +32,14 @@ export const AppliedIndustry = ({
       (date.getTime() + time - todayDate.getTime()) / dayTimestamp
     )
   }
-  
+
   return (
     <div>
       <Typography variant={'label'}>
         You Have Applied For This Industry
       </Typography>
       <Card>
-        <ProgressStep status={appliedIndustry?.industryCheck} />
+        <ProgressStep status={status} />
         <div className="py-2 px-4 rounded-lg flex justify-between items-center">
           <div className="flex items-center gap-x-2">
             <img

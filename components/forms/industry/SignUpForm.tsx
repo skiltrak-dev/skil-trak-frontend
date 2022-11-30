@@ -1,350 +1,358 @@
-import Link from 'next/link'
-import { useRouter } from 'next/router'
-import { useEffect, useState } from 'react'
+// import Link from 'next/link'
+// import { useRouter } from 'next/router'
+// import { useEffect, useState } from 'react'
 
-import { Form, Formik } from 'formik'
-import _debounce from 'lodash/debounce'
-import * as yup from 'yup'
+// import { Form, Formik } from 'formik'
+// import _debounce from 'lodash/debounce'
+// import * as yup from 'yup'
 
-import { useNotification } from '@hooks'
-import { AuthApi } from '@queries'
-import { isEmailValid, onlyAlphabets, SignUpUtils } from '@utils'
+// import { useNotification } from '@hooks'
+// import { AuthApi } from '@queries'
+// import { isEmailValid, onlyAlphabets, SignUpUtils } from '@utils'
 
-import { Button, Checkbox, Select, TextInput, Typography } from '@components'
-import { FormProvider, useForm } from 'react-hook-form'
-import { yupResolver } from '@hookform/resolvers/yup'
+// import { Button, Checkbox, Select, TextInput, Typography } from '@components'
+// import { FormProvider, useForm } from 'react-hook-form'
+// import { yupResolver } from '@hookform/resolvers/yup'
 
-export const SignUpForm = ({ onSubmit }: { onSubmit: any }) => {
-    const router = useRouter()
+// const SignUpForm = ({ onSubmit }: { onSubmit: any }) => {
+//     const router = useRouter()
 
-    const { notification } = useNotification()
-
-
-   const sectorResponse = AuthApi.useRegisterIndustry({})
-   const [checkEmailExists, emailCheckResult] = AuthApi.useEmailCheck()
-
-    const [sectorOptions, setSectorOptions] = useState([])
-    const [courseOptions, setCourseOptions] = useState([])
-    const [courseLoading, setCourseLoading] = useState(false)
-
-    const [storedData, setStoredData] = useState<any>(null)
-
-    const [lastEnteredEmail, setLastEnteredEmail] = useState('')
-
-    const onEmailChange = (e: any) => {
-        _debounce(() => {
-            // Regex for email, only valid mail should be sent
-            const email = e.target.value
-            if (isEmailValid(email)) {
-                checkEmailExists({ email })
-                setLastEnteredEmail(email)
-            }
-        }, 300)()
-    }
+//     const { notification } = useNotification()
 
 
-   const onSectorChanged = (sectors: any) => {
-      setCourseLoading(true)
-      const filteredCourses = sectors.map((selectedSector: any) => {
-         const sectorExisting = sectorResponse?.data.find(
-            (sector: any) => sector.id === selectedSector.value
-         )
-         if (sectorExisting && sectorExisting?.courses?.length) {
-            return sectorExisting.courses
-         }
-      })
+//    const sectorResponse = AuthApi.useRegisterIndustry({})
+//    const [checkEmailExists, emailCheckResult] = AuthApi.useEmailCheck()
+
+//     const [sectorOptions, setSectorOptions] = useState([])
+//     const [courseOptions, setCourseOptions] = useState([])
+//     const [courseLoading, setCourseLoading] = useState(false)
+
+//     const [storedData, setStoredData] = useState<any>(null)
+
+//     const [lastEnteredEmail, setLastEnteredEmail] = useState('')
+
+//     const onEmailChange = (e: any) => {
+//         _debounce(() => {
+//             // Regex for email, only valid mail should be sent
+//             const email = e.target.value
+//             if (isEmailValid(email)) {
+//                 checkEmailExists({ email })
+//                 setLastEnteredEmail(email)
+//             }
+//         }, 300)()
+//     }
 
 
-        const newCourseOptions: any = []
-        filteredCourses.map((courseList: any) => {
-            if (courseList && courseList.length) {
-                return courseList.map((course: any) =>
-                    newCourseOptions.push({
-                        label: course.title,
-                        value: course.id,
-                    })
-                )
-            }
-        })
+//    const onSectorChanged = (sectors: any) => {
+//       setCourseLoading(true)
+//       const filteredCourses = sectors.map((selectedSector: any) => {
+//          const sectorExisting = sectorResponse?.data.find(
+//             (sector: any) => sector.id === selectedSector.value
+//          )
+//          if (sectorExisting && sectorExisting?.courses?.length) {
+//             return sectorExisting.courses
+//          }
+//       })
 
-        setCourseOptions(newCourseOptions)
-        setCourseLoading(false)
-    }
 
-    const initialValues = {
-        // Profile Information
-        name: '',
-        email: '',
-        password: '',
-        confirmPassword: '',
+//         const newCourseOptions: any = []
+//         filteredCourses.map((courseList: any) => {
+//             if (courseList && courseList.length) {
+//                 return courseList.map((course: any) =>
+//                     newCourseOptions.push({
+//                         label: course.title,
+//                         value: course.id,
+//                     })
+//                 )
+//             }
+//         })
 
-        // Business Information
-        businessName: '',
-        abn: '',
-        phoneNumber: '',
-        // studentCapacity: 0,
+//         setCourseOptions(newCourseOptions)
+//         setCourseLoading(false)
+//     }
 
-        // Sector Information
-        sectors: [],
-        courses: [],
+//     const initialValues = {
+//         // Profile Information
+//         name: '',
+//         email: '',
+//         password: '',
+//         confirmPassword: '',
 
-        // Address Information
-        addressLine1: '',
-        addressLine2: '',
-        state: '',
-        suburb: '',
-        zipCode: '',
+//         // Business Information
+//         businessName: '',
+//         abn: '',
+//         phoneNumber: '',
+//         // studentCapacity: 0,
 
-        // Contact Person
-        contactPersonName: '',
-        contactPersonEmail: '',
-        contactPersonNumber: '',
+//         // Sector Information
+//         sectors: [],
+//         courses: [],
 
-        agreedWithPrivacyPolicy: false,
-    }
+//         // Address Information
+//         addressLine1: '',
+//         addressLine2: '',
+//         state: '',
+//         suburb: '',
+//         zipCode: '',
 
-    const validationSchema = yup.object({
-        // Profile Information
-        name: yup
-            .string()
-            .matches(onlyAlphabets(), 'Please enter valid name')
-            .required('Must provide your name'),
+//         // Contact Person
+//         contactPersonName: '',
+//         contactPersonEmail: '',
+//         contactPersonNumber: '',
 
-        email: yup
-            .string()
-            .email('Invalid Email')
-            .required('Must provide email'),
-        password: yup
-            .string()
-            // .matches(
-            // 	strongPassword(),
-            // 	"Must Contain 8 Characters, One Uppercase, One Lowercase, One Number and One Special Case Character"
-            // )
-            .required('Must provide password'),
-        confirmPassword: yup
-            .string()
-            .oneOf([yup.ref('password'), null], 'Passwords must match')
-            .required('Must confirm entered password'),
+//         agreedWithPrivacyPolicy: false,
+//     }
 
-        // Business Information
-        businessName: yup.string().required('Must provide business name'),
-        abn: yup.string().required('Must provide ABN'),
-        phoneNumber: yup.string().required('Must provide phone number'),
+//     const validationSchema = yup.object({
+//         // Profile Information
+//         name: yup
+//             .string()
+//             .matches(onlyAlphabets(), 'Please enter valid name')
+//             .required('Must provide your name'),
 
-        // Sector Information
-        sectors: yup.array().min(1, 'Must select at least 1 sector'),
-        courses: yup.array().min(1, 'Must select at least 1 course'),
+//         email: yup
+//             .string()
+//             .email('Invalid Email')
+//             .required('Must provide email'),
+//         password: yup
+//             .string()
+//             // .matches(
+//             // 	strongPassword(),
+//             // 	"Must Contain 8 Characters, One Uppercase, One Lowercase, One Number and One Special Case Character"
+//             // )
+//             .required('Must provide password'),
+//         confirmPassword: yup
+//             .string()
+//             .oneOf([yup.ref('password'), null], 'Passwords must match')
+//             .required('Must confirm entered password'),
 
-        // Contact Person Information
-        contactPersonName: yup
-            .string()
-            .matches(onlyAlphabets(), 'Must be a valid name'),
-        contactPersonEmail: yup.string().email('Must be a valid email'),
-        contactPersonNumber: yup.string(),
+//         // Business Information
+//         businessName: yup.string().required('Must provide business name'),
+//         abn: yup.string().required('Must provide ABN'),
+//         phoneNumber: yup.string().required('Must provide phone number'),
 
-        // Address Information
-        addressLine1: yup.string().required('Must provide address'),
-        state: yup.string().required('Must provide name of state'),
-        suburb: yup.string().required('Must provide suburb name'),
-        zipCode: yup.string().required('Must provide zip code for your state'),
+//         // Sector Information
+//         sectors: yup.array().min(1, 'Must select at least 1 sector'),
+//         courses: yup.array().min(1, 'Must select at least 1 course'),
 
-        agreedWithPrivacyPolicy: yup
-            .boolean()
-            .oneOf(
-                [true],
-                'Please check if you agree with our terms & policies'
-            ),
-    })
+//         // Contact Person Information
+//         contactPersonName: yup
+//             .string()
+//             .matches(onlyAlphabets(), 'Must be a valid name'),
+//         contactPersonEmail: yup.string().email('Must be a valid email'),
+//         contactPersonNumber: yup.string(),
 
-    useEffect(() => {
-        if (sectorResponse.data?.length) {
-            const options = sectorResponse.data?.map((sector: any) => ({
-                label: sector.name,
-                value: sector.id,
-            }))
-            setSectorOptions(options)
-        }
-    }, [sectorResponse.data])
+//         // Address Information
+//         addressLine1: yup.string().required('Must provide address'),
+//         state: yup.string().required('Must provide name of state'),
+//         suburb: yup.string().required('Must provide suburb name'),
+//         zipCode: yup.string().required('Must provide zip code for your state'),
 
-    useEffect(() => {
-        if (SignUpUtils.getEditingMode()) {
-            const values = SignUpUtils.getValuesFromStorage()
-            setStoredData(values)
-            setCourseOptions(values.courses)
-        }
-    }, [])
+//         agreedWithPrivacyPolicy: yup
+//             .boolean()
+//             .oneOf(
+//                 [true],
+//                 'Please check if you agree with our terms & policies'
+//             ),
+//     })
 
-    // useEffect For Email
-    useEffect(() => {
-        if (emailCheckResult.isError) {
-            notification.error({
-                title: 'Email Exist',
-                description: `'${lastEnteredEmail}' is already being used.`,
-            })
-        }
-    }, [emailCheckResult])
+//     useEffect(() => {
+//         if (sectorResponse.data?.length) {
+//             const options = sectorResponse.data?.map((sector: any) => ({
+//                 label: sector.name,
+//                 value: sector.id,
+//             }))
+//             setSectorOptions(options)
+//         }
+//     }, [sectorResponse.data])
 
-    const onBackToReview = () => {
-        SignUpUtils.setEditingMode(false)
-        router.push('/auth/signup/review-signup-info')
-    }
+//     useEffect(() => {
+//         if (SignUpUtils.getEditingMode()) {
+//             const values = SignUpUtils.getValuesFromStorage()
+//             setStoredData(values)
+//             setCourseOptions(values.courses)
+//         }
+//     }, [])
 
-    const formMethods = useForm({
-        mode: 'all',
-        resolver: yupResolver(validationSchema),
-    })
+//     // useEffect For Email
+//     useEffect(() => {
+//         if (emailCheckResult.isError) {
+//             notification.error({
+//                 title: 'Email Exist',
+//                 description: `'${lastEnteredEmail}' is already being used.`,
+//             })
+//         }
+//     }, [emailCheckResult])
 
-    return (
-        <FormProvider {...formMethods}>
-            <form
-                className="flex flex-col gap-y-8"
-                onSubmit={formMethods.handleSubmit(onSubmit)}
-            >
-                {/* Profile Information */}
-                <div className="flex gap-x-16 border-t py-4">
-                    <div className="w-2/6">
-                        <Typography
-                            variant={'subtitle'}
-                            color={'text-gray-500'}
-                        >
-                            Profile Information
-                        </Typography>
-                        <p className="text-gray-400 text-sm leading-6">
-                            Lorem, ipsum dolor sit amet consectetur adipisicing
-                            elit. Impedit, dolorum voluptate dolores.
-                        </p>
-                    </div>
+//     const onBackToReview = () => {
+//         SignUpUtils.setEditingMode(false)
+//         router.push('/auth/signup/review-signup-info')
+//     }
 
-                    <div className="w-4/6 grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-2 mt-2">
-                        <TextInput
-                            label={'Email'}
-                            name={'email'}
-                            type={'email'}
-                            placeholder={'Your Email...'}
-                            validationIcons
-                            required
-                            onBlur={onEmailChange}
-                            loading={emailCheckResult.isLoading}
-                        />
+//     const formMethods = useForm({
+//         mode: 'all',
+//         resolver: yupResolver(validationSchema),
+//     })
 
-                        <TextInput
-                            label={'Name'}
-                            name={'name'}
-                            placeholder={'Your Name...'}
-                            validationIcons
-                            required
-                        />
-                        <TextInput
-                            label={'Password'}
-                            name={'password'}
-                            type={'password'}
-                            placeholder={'Password...'}
-                            validationIcons
-                            required
-                        />
+//     return (
+//         <FormProvider {...formMethods}>
+//             <form
+//                 className="flex flex-col gap-y-8"
+//                 onSubmit={formMethods.handleSubmit(onSubmit)}
+//             >
+//                 {/* Profile Information */}
+//                 <div className="flex gap-x-16 border-t py-4">
+//                     <div className="w-2/6">
+//                         <Typography
+//                             variant={'subtitle'}
+//                             color={'text-gray-500'}
+//                         >
+//                             Profile Information
+//                         </Typography>
+//                         <p className="text-gray-400 text-sm leading-6">
+//                             Lorem, ipsum dolor sit amet consectetur adipisicing
+//                             elit. Impedit, dolorum voluptate dolores.
+//                         </p>
+//                     </div>
 
-                        <TextInput
-                            label={'Confirm Password'}
-                            name={'confirmPassword'}
-                            type={'password'}
-                            placeholder={'Confirm Password...'}
-                            validationIcons
-                            required
-                        />
-                    </div>
-                </div>
+//                     <div className="w-4/6 grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-2 mt-2">
+//                         <TextInput
+//                             label={'Email'}
+//                             name={'email'}
+//                             type={'email'}
+//                             placeholder={'Your Email...'}
+//                             validationIcons
+//                             required
+//                             onBlur={onEmailChange}
+//                             loading={emailCheckResult.isLoading}
+//                         />
 
-                {/* Business Information */}
-                <div className="flex gap-x-16 border-t py-4">
-                    <div className="w-2/6">
-                        <Typography
-                            variant={'subtitle'}
-                            color={'text-gray-500'}
-                        >
-                            Business Information
-                        </Typography>
-                        <p className="text-gray-400 text-sm leading-6">
-                            Lorem, ipsum dolor sit amet consectetur adipisicing
-                            elit. Impedit, dolorum voluptate dolores.
-                        </p>
-                    </div>
-                    <div className="w-4/6">
-                        <div className="">
-                            <TextInput
-                                label={'Business Name'}
-                                name={'businessName'}
-                                placeholder={'Your Business Name...'}
-                                validationIcons
-                                required
-                            />
-                        </div>
-                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-2 mt-2">
-                            <TextInput
-                                label={'ABN'}
-                                name={'abn'}
-                                placeholder={'Your ABN...'}
-                                validationIcons
-                                required
-                            />
+//                         <TextInput
+//                             label={'Name'}
+//                             name={'name'}
+//                             placeholder={'Your Name...'}
+//                             validationIcons
+//                             required
+//                         />
+//                         <TextInput
+//                             label={'Password'}
+//                             name={'password'}
+//                             type={'password'}
+//                             placeholder={'Password...'}
+//                             validationIcons
+//                             required
+//                         />
 
-                            <TextInput
-                                label={'Phone Number'}
-                                name={'phoneNumber'}
-                                type={'tel'}
-                                placeholder={'Your Phone Number...'}
-                                validationIcons
-                                required
-                            />
-                        </div>
-                    </div>
-                </div>
+//                         <TextInput
+//                             label={'Confirm Password'}
+//                             name={'confirmPassword'}
+//                             type={'password'}
+//                             placeholder={'Confirm Password...'}
+//                             validationIcons
+//                             required
+//                         />
+//                     </div>
+//                 </div>
 
-               <div className="w-4/6 grid grid-cols-1 gap-y-2">
-                  <div>
-                     <Select
-                        label={'Sector'}
-                        {...(storedData
-                           ? {
-                              defaultValue: storedData.sectors,
-                           }
-                           : {})}
-                        name={'sectors'}
-                        options={sectorOptions}
-                        placeholder={'Select Sectors...'}
-                        multi
-                        loading={sectorResponse.isLoading}
-                        onChange={onSectorChanged}
-                        validationIcons
-                     />
-                  </div>
-                  <div>
-                     <Select
-                        label={'Courses'}
-                        name={'courses'}
-                        defaultValue={courseOptions}
-                        options={courseOptions}
-                        multi
-                        loading={courseLoading}
-                        disabled={
-                           storedData
-                              ? storedData?.courses?.length === 0
-                              : courseOptions?.length === 0
+//                 {/* Business Information */}
+//                 <div className="flex gap-x-16 border-t py-4">
+//                     <div className="w-2/6">
+//                         <Typography
+//                             variant={'subtitle'}
+//                             color={'text-gray-500'}
+//                         >
+//                             Business Information
+//                         </Typography>
+//                         <p className="text-gray-400 text-sm leading-6">
+//                             Lorem, ipsum dolor sit amet consectetur adipisicing
+//                             elit. Impedit, dolorum voluptate dolores.
+//                         </p>
+//                     </div>
+//                     <div className="w-4/6">
+//                         <div className="">
+//                             <TextInput
+//                                 label={'Business Name'}
+//                                 name={'businessName'}
+//                                 placeholder={'Your Business Name...'}
+//                                 validationIcons
+//                                 required
+//                             />
+//                         </div>
+//                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-2 mt-2">
+//                             <TextInput
+//                                 label={'ABN'}
+//                                 name={'abn'}
+//                                 placeholder={'Your ABN...'}
+//                                 validationIcons
+//                                 required
+//                             />
 
-                        }
-                    />
-                </div>
+//                             <TextInput
+//                                 label={'Phone Number'}
+//                                 name={'phoneNumber'}
+//                                 type={'tel'}
+//                                 placeholder={'Your Phone Number...'}
+//                                 validationIcons
+//                                 required
+//                             />
+//                         </div>
+//                     </div>
+//                 </div>
 
-                <div className="flex gap-x-4">
-                    <Button text={'Continue'} submit />
-                    {SignUpUtils.getEditingMode() && (
-                        <Button
-                            onClick={onBackToReview}
-                            text={'Back To Review'}
-                            variant={'secondary'}
-                        />
-                    )}
-                </div>
-            </form>
-        </FormProvider>
-    )
-}
+//                <div className="w-4/6 grid grid-cols-1 gap-y-2">
+//                   <div>
+//                      <Select
+//                         label={'Sector'}
+//                         {...(storedData
+//                            ? {
+//                               defaultValue: storedData.sectors,
+//                            }
+//                            : {})}
+//                         name={'sectors'}
+//                         options={sectorOptions}
+//                         placeholder={'Select Sectors...'}
+//                         multi
+//                         loading={sectorResponse.isLoading}
+//                         onChange={onSectorChanged}
+//                         validationIcons
+//                      />
+//                   </div>
+//                   <div>
+//                      <Select
+//                         label={'Courses'}
+//                         name={'courses'}
+//                         defaultValue={courseOptions}
+//                         options={courseOptions}
+//                         multi
+//                         loading={courseLoading}
+//                         disabled={
+//                            storedData
+//                               ? storedData?.courses?.length === 0
+//                               : courseOptions?.length === 0
+
+//                         }
+//                     />
+//                 </div>
+//                 </div>
+
+//                 <div className="flex gap-x-4">
+//                     <Button text={'Continue'} submit />
+//                     {SignUpUtils.getEditingMode() && (
+//                         <Button
+//                             onClick={onBackToReview}
+//                             text={'Back To Review'}
+//                             variant={'secondary'}
+//                         />
+//                     )}
+//                 </div>
+//             </form>
+//         </FormProvider>
+//     )
+// }
+import React from "react";
+
+type Props = {};
+
+export const SignUpForm = (props: Props) => {
+  return <div>SignUpForm</div>;
+};

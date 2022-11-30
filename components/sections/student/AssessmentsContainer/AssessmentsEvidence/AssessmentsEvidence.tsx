@@ -42,7 +42,7 @@ export const AssessmentsEvidence = (props: Props) => {
                                     code={course.code}
                                     title={course.title}
                                     isActive={course.isActive}
-                                    coordinator={course.subadmin[0].user.name}
+                                    coordinator={course?.subadmin[0]?.user.name}
                                     selectedCourseId={selectedCourseId}
                                     onClick={() => {
                                         setSelectedCourseId(course.id)
@@ -111,6 +111,21 @@ export const AssessmentsEvidence = (props: Props) => {
                                             />
                                         )
                                     )}
+                                    <div className="flex items-center gap-x-2 mt-2">
+                                        <div>
+                                            <Button text="SUBMIT" submit />
+                                        </div>
+                                        <div className="flex items-center gap-x-2">
+                                            <Checkbox
+                                                name="notifyCoordinator"
+                                                label="Notify Coordinator"
+                                            />
+                                            <Checkbox
+                                                name="notifyCoordinator"
+                                                label="Notify Coordinator"
+                                            />
+                                        </div>
+                                    </div>
                                 </>
                             )
                         )}
@@ -123,21 +138,7 @@ export const AssessmentsEvidence = (props: Props) => {
                     />
                 </div>
             </div>
-            <div className="flex items-center gap-x-2 mt-2">
-                <div>
-                    <Button text="SUBMIT" submit />
-                </div>
-                <div className="flex items-center gap-x-2">
-                    <Checkbox
-                        name="notifyCoordinator"
-                        label="Notify Coordinator"
-                    />
-                    <Checkbox
-                        name="notifyCoordinator"
-                        label="Notify Coordinator"
-                    />
-                </div>
-            </div>
+
             <div className="my-2">
                 <Typography variant="muted" color="text-neutral-500">
                     *You will be able to submit assessment request after you

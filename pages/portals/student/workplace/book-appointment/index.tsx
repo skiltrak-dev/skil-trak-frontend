@@ -30,7 +30,8 @@ const BookAppointment: NextPageWithLayout = (props: Props) => {
     } | null>(null)
     const [selectedDate, setSelectedDate] = useState<Date | null>(null)
     const [selectedTime, setSelectedTime] = useState<any | null>(null)
-
+    console.log("selectedCoordinator", timeAvailability);
+    
     // query
     // query
     const coordinatorAvailability = useGetCoordinatorsAvailabilityQuery(

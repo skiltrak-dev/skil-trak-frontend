@@ -15,11 +15,10 @@ export const StudentNavbar = () => {
             <li>
                 <Link href="/portals/student">
                     <a
-                        className={`${
-                            router.pathname == '/student'
+                        className={`${router.pathname == '/student'
                                 ? 'bg-indigo-100 text-indigo-700'
                                 : 'text-slate-700'
-                        } ${defaultClasses} hover:bg-indigo-100 hover:text-indigo-700`}
+                            } ${defaultClasses} hover:bg-indigo-100 hover:text-indigo-700`}
                     >
                         <span>
                             <MdSpaceDashboard />
@@ -32,11 +31,10 @@ export const StudentNavbar = () => {
             <li>
                 <Link href="/portals/student/workplace">
                     <a
-                        className={`${
-                            router.pathname == '/portals/student/workplace'
+                        className={`${router.pathname == '/portals/student/workplace'
                                 ? 'bg-green-100 text-green-700'
                                 : 'text-slate-700'
-                        } ${defaultClasses} hover:bg-green-100 hover:text-green-700`}
+                            } ${defaultClasses} hover:bg-green-100 hover:text-green-700`}
                     >
                         <span>
                             <FaBriefcase />
@@ -49,11 +47,10 @@ export const StudentNavbar = () => {
             <li>
                 <Link href="/portals/student/assessments">
                     <a
-                        className={`${
-                            router.pathname == '/portals/student/assessments'
+                        className={`${router.pathname == '/portals/student/assessments'
                                 ? 'bg-orange-100 text-orange-700'
                                 : 'text-slate-700'
-                        } ${defaultClasses} hover:bg-orange-100 hover:text-orange-700`}
+                            } ${defaultClasses} hover:bg-orange-100 hover:text-orange-700`}
                     >
                         <span>
                             <MdAssessment />
@@ -65,7 +62,7 @@ export const StudentNavbar = () => {
                 </Link>
             </li>
 
-            <li>
+            {/* <li>
                 <Link href="/portals/student/notifications">
                     <a
                         className={`${
@@ -82,7 +79,7 @@ export const StudentNavbar = () => {
                         </span>
                     </a>
                 </Link>
-            </li>
+            </li> */}
         </ul>
     )
 }

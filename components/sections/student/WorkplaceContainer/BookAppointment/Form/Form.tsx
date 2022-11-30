@@ -75,6 +75,8 @@ export const Form = ({
         { skip: !type }
     )
     const studentCourses = useGetStudentCoursesQuery()
+    console.log("coordinators", coordinators.data);
+    
 
     useEffect(() => {
         setSelectedCoordinator(null)
@@ -89,14 +91,14 @@ export const Form = ({
     }, [coordinators])
 
     useEffect(() => {
-        if (studentCourses?.data?.data && studentCourses.isSuccess) {
-            const options = studentCourses?.data?.data?.map((course: any) => ({
+        if (studentCourses?.data && studentCourses.isSuccess) {
+            const options = studentCourses?.data?.map((course: any) => ({
                 label: course.title,
                 value: course.id,
             }))
             setCoursesOptions(options)
         }
-    }, [studentCourses?.data?.data, studentCourses.isSuccess])
+    }, [studentCourses?.data])
 
     useEffect(() => {
         if (selectedCoordinator) {

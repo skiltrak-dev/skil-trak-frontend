@@ -1,6 +1,6 @@
 import Image from 'next/image'
 import Link from 'next/link'
-
+import moment from 'moment'
 import { BsCalendarFill } from 'react-icons/bs'
 import { MdLocationPin, MdOutlineAccessTimeFilled } from 'react-icons/md'
 
@@ -10,6 +10,8 @@ interface RecentAppointmentCardProps {
     time: string
     date: string
     address: String
+    isSuccess: boolean
+    isError: boolean
 }
 export const RecentAppointmentCard = ({
     title,
@@ -17,6 +19,8 @@ export const RecentAppointmentCard = ({
     time,
     date,
     address,
+    isSuccess,
+    isError
 }: RecentAppointmentCardProps) => {
     return (
         <div className="bg-gradient-to-r from-[#3883F3] to-[#5D1BE0] rounded-2xl p-4">
@@ -34,11 +38,11 @@ export const RecentAppointmentCard = ({
                     </Link>
                 </div>
             </div>
-            <div className="flex justify-between items-center">
+            {isSuccess ? isSuccess && (<div className="flex justify-between items-center">
                 <div>
                     <div className="mb-4">
                         <h2 className="text-blue-900 font-semibold text-lg">
-                            {title}
+                            {title || " "}
                         </h2>
                         <p className="text-blue-300 font-medium">
                             {caseOfficer}
@@ -47,7 +51,7 @@ export const RecentAppointmentCard = ({
                     <div>
                         <div className="flex items-center gap-x-2 mb-2 text-blue-200">
                             <MdOutlineAccessTimeFilled />
-                            <p className="font-bold text-sm">{time}</p>
+                            <p className="font-bold text-sm">{moment(time, 'hh:mm:ss').format('h:mm a')}</p>
                         </div>
                         <div className="flex items-center gap-x-2 mb-2 text-blue-200">
                             <div className="relative">
@@ -57,7 +61,7 @@ export const RecentAppointmentCard = ({
                                 <BsCalendarFill />
                             </div>
                             <p className="text-blue-200 font-bold text-sm">
-                                {date}
+                                {moment(date).format('ll')}
                             </p>
                         </div>
                         <div className="flex items-center gap-x-2 mb-2 text-blue-200">
@@ -73,7 +77,7 @@ export const RecentAppointmentCard = ({
                         height={100}
                     />
                 </div>
-            </div>
+            </div>) : isError && (<p>Technical Error</p>)}
         </div>
     )
 }
