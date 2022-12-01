@@ -32,9 +32,9 @@ export const VerifyStudentDocs = ({
     { skip: !id || !selectedCourses }
   )
 
-  useEffect(() => {
-    requiredDocs.refetch()
-  }, [id, selectedCourses])
+  // useEffect(() => {
+  //   requiredDocs.refetch()
+  // }, [id, selectedCourses])
 
   // useEffect(() => {
   //     if (uploadDocsResult.isSuccess) {

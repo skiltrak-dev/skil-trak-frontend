@@ -171,6 +171,8 @@ export const TimeSlots = ({
         const slots = timeSlots()
         setSlotsTime(slots)
     }, [timeSlots])
+    
+console.log("daysAvailability", daysAvailability);
 
     return (
         <div className="mt-5">

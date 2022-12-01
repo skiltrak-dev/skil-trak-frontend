@@ -12,6 +12,7 @@ import { StudentLayout } from '@layouts'
 import { NextPageWithLayout } from '@types'
 import { PlacementProgressCard } from '@components/specialCards/PlacementProgress'
 import { useContextBar } from 'hooks'
+import { useGetPlacementProgressQuery, useGetStudentPastAppointmentsQuery } from '@queries'
 
 const PrimaryLinks = [
     {
@@ -73,6 +74,10 @@ const OtherQuestions = [
 ]
 
 const StudentWorkplace: NextPageWithLayout = () => {
+    const { data, isLoading, isError, isSuccess } = useGetPlacementProgressQuery();
+    const { data: recentAppointments, isLoading: appointmentLoading, isSuccess: isSuccessAppointments, isError: isErrorAppointments } = useGetStudentPastAppointmentsQuery()
+    const recentAppointment = recentAppointments && recentAppointments[recentAppointments?.length - 1]
+    // console.log("loading", recentAppointment)
     const { setContent } = useContextBar()
     useEffect(() => {
         setContent(
@@ -93,15 +98,20 @@ const StudentWorkplace: NextPageWithLayout = () => {
                 {/* Special Cards */}
                 <div className="w-full flex flex-col space-y-2">
                     <PlacementProgressCard
-                        requestStatus="Not Requested"
+                        requestStatus={data?.currentStatus}
                         description="Place a request to start"
+                        isError={isError}
+                        isLoading={isLoading}
+                        isSuccess={isSuccess}
                     />
                     <RecentAppointmentCard
-                        title="Work Place Visit"
-                        caseOfficer="John Smith Khan"
-                        time="09:00 am - 11:00 am"
-                        date="Monday, 17 Oct,2022"
-                        address="221B Baker Street, Melbourne, VIC 3000"
+                        title={recentAppointment?.type.title}
+                        caseOfficer={recentAppointment?.name}
+                        time={recentAppointment?.time}
+                        date={recentAppointment?.date}
+                        address={recentAppointment?.address}
+                        isSuccess={isSuccessAppointments}
+                        isError={isErrorAppointments}
                     />
                 </div>
             </div>

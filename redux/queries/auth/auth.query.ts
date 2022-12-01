@@ -27,7 +27,7 @@ export const authApi = createApi({
 
         registerRto: builder.mutation<any, any>({
             query: (body) => ({
-                url: `${PREFIX}rtos`,
+                url: `/rtos`,
                 method: 'POST',
                 body,
             }),
