@@ -27,11 +27,12 @@ export const IndustrySelection = ({
     const [industrySelection, setIndustrySelection] = useState(null)
     const [appliedIndustry, setAppliedIndustry] = useState<any | null>(null)
 
+    console.log("workplaceIndustries::::", workplaceIndustries)
+
     const [cancelRequest, cancelRequestResult] =
         useCancelWorkplaceRequestMutation()
     const [applyForWorkplace, applyForWorkplaceResult] =
         useApplyForWorkplaceMutation()
-    // console.log('Industry Responsed', appliedIndustry)
 
     useEffect(() => {
         if (workplaceIndustries) {
@@ -65,6 +66,7 @@ export const IndustrySelection = ({
                     <AppliedIndustry
                         setIndustrySelection={setIndustrySelection}
                         appliedIndustry={appliedIndustry}
+                        status={workplaceIndustries[0].currentStatus}
                     />
                 </>
             )}
@@ -137,7 +139,7 @@ export const IndustrySelection = ({
                                             loading={
                                                 applyForWorkplaceResult.isLoading &&
                                                 applyForWorkplaceResult.originalArgs ===
-                                                    industry?.industry?.id
+                                                industry?.industry?.id
                                             }
                                         />
                                     </div>

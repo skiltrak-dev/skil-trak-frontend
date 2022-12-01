@@ -17,7 +17,7 @@ import {
 } from '@components/sections/student/WorkplaceContainer/MyWorkPlace'
 
 // query
-import { useUpdateFindAbnMutation } from '@queries'
+import { useUpdateFindAbnMutation, useAddWorkplaceMutation } from '@queries'
 import { FindWorkplace } from '@components/sections/student/WorkplaceContainer/MyWorkPlace/components/FindWorkplace'
 import { IndustryForm } from '@components/sections/student/WorkplaceContainer/MyWorkPlace/IndustryForm'
 
@@ -30,7 +30,9 @@ const HaveWorkplace: NextPageWithLayout = (props: Props) => {
   // query
   // const workplace = useGetWorkplaceIndustriesQuery()
   const [findAbn, result] = useUpdateFindAbnMutation()
-  // console.log('response', result)
+  const [addWorkplace]= useAddWorkplaceMutation()
+
+  console.log('response', result)
 
   // useEffect(() => {
   //     if (workplace.isSuccess && workplace.data.length > 0) {
@@ -84,8 +86,8 @@ const HaveWorkplace: NextPageWithLayout = (props: Props) => {
         )}
 
         {active === 2 &&
-          (result?.data === null ? (
-            <IndustryForm onSubmit={setPersonalInfoData} />
+          (!result?.data ? (
+            <IndustryForm addWorkplace={addWorkplace} />
           ) : (
             <YourIndustry
               setActive={setActive}
@@ -96,7 +98,7 @@ const HaveWorkplace: NextPageWithLayout = (props: Props) => {
 
         {active === 3 && (
           <IndustryForm
-            onSubmit={setPersonalInfoData}
+          addWorkplace={setPersonalInfoData}
           />
         )}
 

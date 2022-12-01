@@ -1,8 +1,8 @@
+import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-import { useEffect, useState } from 'react'
 
-import { Form, Formik } from 'formik'
+import { FormProvider, useForm } from 'react-hook-form'
 import _debounce from 'lodash/debounce'
 import * as yup from 'yup'
 
@@ -10,11 +10,10 @@ import { useNotification } from '@hooks'
 import { AuthApi } from '@queries'
 import { isEmailValid, onlyAlphabets, SignUpUtils } from '@utils'
 
-import { Button, Checkbox, Select, TextInput, Typography } from '@components'
-import { FormProvider, useForm } from 'react-hook-form'
+import { Button, Checkbox, Select, TextInput, Typography, Card } from '@components'
 import { yupResolver } from '@hookform/resolvers/yup'
 
-export const IndustryForm = ({ onSubmit }: { onSubmit: any }) => {
+export const IndustryForm = ({ addWorkplace }: { addWorkplace: any }) => {
     const router = useRouter()
 
     const { notification } = useNotification()
@@ -43,11 +42,15 @@ export const IndustryForm = ({ onSubmit }: { onSubmit: any }) => {
 
     const onSectorChanged = (sectors: any) => {
         setCourseLoading(true)
+
+        // console.log("onsectorchanged", sectors);
         const filteredCourses = sectors.map((selectedSector: any) => {
-            const sectorExisting = sectorResponse.data.find(
+            const sectorExisting = sectorResponse?.data?.find(
                 (sector: any) => sector.id === selectedSector.value
             )
             if (sectorExisting && sectorExisting?.courses?.length) {
+                // console.log();
+
                 return sectorExisting.courses
             }
         })
@@ -66,6 +69,7 @@ export const IndustryForm = ({ onSubmit }: { onSubmit: any }) => {
 
         setCourseOptions(newCourseOptions)
         setCourseLoading(false)
+        // console.log("newCourse", newCourseOptions);
     }
 
     const initialValues = {
@@ -107,10 +111,7 @@ export const IndustryForm = ({ onSubmit }: { onSubmit: any }) => {
             .matches(onlyAlphabets(), 'Please enter valid name')
             .required('Must provide your name'),
 
-        email: yup
-            .string()
-            .email('Invalid Email')
-            .required('Must provide email'),
+        email: yup.string().email('Invalid Email').required('Must provide email'),
         password: yup
             .string()
             // .matches(
@@ -124,7 +125,6 @@ export const IndustryForm = ({ onSubmit }: { onSubmit: any }) => {
             .required('Must confirm entered password'),
 
         // Business Information
-        businessName: yup.string().required('Must provide business name'),
         abn: yup.string().required('Must provide ABN'),
         phoneNumber: yup.string().required('Must provide phone number'),
 
@@ -147,10 +147,7 @@ export const IndustryForm = ({ onSubmit }: { onSubmit: any }) => {
 
         agreedWithPrivacyPolicy: yup
             .boolean()
-            .oneOf(
-                [true],
-                'Please check if you agree with our terms & policies'
-            ),
+            .oneOf([true], 'Please check if you agree with our terms & policies'),
     })
 
     useEffect(() => {
@@ -161,7 +158,7 @@ export const IndustryForm = ({ onSubmit }: { onSubmit: any }) => {
             }))
             setSectorOptions(options)
         }
-    }, [sectorResponse.data])
+    }, [sectorResponse?.data])
 
     useEffect(() => {
         if (SignUpUtils.getEditingMode()) {
@@ -170,6 +167,7 @@ export const IndustryForm = ({ onSubmit }: { onSubmit: any }) => {
             setCourseOptions(values.courses)
         }
     }, [])
+
 
     // useEffect For Email
     useEffect(() => {
@@ -190,216 +188,237 @@ export const IndustryForm = ({ onSubmit }: { onSubmit: any }) => {
         mode: 'all',
         resolver: yupResolver(validationSchema),
     })
+    const onFormSubmit = (values: any) => {
+        addWorkplace({
+            ...values, sectors: values.sectors.map((val: any) => val.value),
+            courses: values.courses.map((id: any) => id.value), role: 'industry'
+        })
+        
+        // console.log("map-------", values.courses.map((id: any) => id.value));
 
+    }
     return (
-        <FormProvider {...formMethods}>
-            <form
-                className="flex flex-col gap-y-8"
-                onSubmit={formMethods.handleSubmit(onSubmit)}
-            >
-                <div className="w-4/6 grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-2 mt-2">
-                    <TextInput
-                        label={'Email'}
-                        name={'email'}
-                        type={'email'}
-                        placeholder={'Your Email...'}
-                        validationIcons
-                        required
-                        onBlur={onEmailChange}
-                        loading={emailCheckResult.isLoading}
-                    />
+        <Card>
+            <div className=''>
+                <FormProvider {...formMethods}>
+                    <form
+                        className="flex flex-col gap-y-4"
+                        onSubmit={formMethods.handleSubmit(onFormSubmit)}
+                    >
+                        {/* Personal Information */}
+                        <div className="w-4/6">
+                            <TextInput
+                                label={'Name'}
+                                name={'name'}
+                                placeholder={'Industry Name...'}
+                                validationIcons
+                                required
+                            />
 
-                    <TextInput
-                        label={'Name'}
-                        name={'name'}
-                        placeholder={'Your Name...'}
-                        validationIcons
-                        required
-                    />
-                    <TextInput
-                        label={'Password'}
-                        name={'password'}
-                        type={'password'}
-                        placeholder={'Password...'}
-                        validationIcons
-                        required
-                    />
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-8">
+                                <TextInput
+                                    label={'ABN'}
+                                    name={'abn'}
+                                    placeholder={'ABN...'}
+                                    validationIcons
+                                    required
+                                />
 
-                    <TextInput
-                        label={'Confirm Password'}
-                        name={'confirmPassword'}
-                        type={'password'}
-                        placeholder={'Confirm Password...'}
-                        validationIcons
-                        required
-                    />
-                </div>
+                                <TextInput
+                                    label={'Website'}
+                                    name={'website'}
+                                    placeholder={'Website Url...'}
+                                    validationIcons
+                                />
 
-                <div className="w-4/6">
-                    <div className="">
-                        <TextInput
-                            label={'Business Name'}
-                            name={'businessName'}
-                            placeholder={'Your Business Name...'}
-                            validationIcons
-                            required
-                        />
-                    </div>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-2 mt-2">
-                        <TextInput
-                            label={'ABN'}
-                            name={'abn'}
-                            placeholder={'Your ABN...'}
-                            validationIcons
-                            required
-                        />
+                                <TextInput
+                                    label={'Phone Number'}
+                                    name={'phoneNumber'}
+                                    placeholder={'Your phone number...'}
+                                    validationIcons
+                                    required
+                                />
+                            </div>
+                        </div>
+                        {/* Business Information */}
+                        <div className="w-4/6">
+                            <TextInput
+                                label={'Business Name'}
+                                name={'businessName'}
+                                placeholder={'Industry Name...'}
+                                validationIcons
+                                required
+                            />
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-8">
 
-                        <TextInput
-                            label={'Phone Number'}
-                            name={'phoneNumber'}
-                            type={'tel'}
-                            placeholder={'Your Phone Number...'}
-                            validationIcons
-                            required
-                        />
-                    </div>
-                </div>
+                                <TextInput
+                                    label={'Contact Person Number'}
+                                    name={'contactPersonNumber'}
+                                    placeholder={'Contact Person Number ...'}
+                                    validationIcons
+                                    required
+                                />
+                                <TextInput
+                                    label={'Contact Person Name'}
+                                    name={'contactPersonName'}
+                                    placeholder={'Contact Person Name...'}
+                                    validationIcons
+                                    required
+                                />
 
-                <div className="w-4/6 grid grid-cols-1 gap-y-2">
-                    <div>
-                        <Select
-                            label={'Sector'}
-                            {...(storedData
-                                ? {
-                                      defaultValue: storedData.sectors,
-                                  }
-                                : {})}
-                            name={'sectors'}
-                            options={sectorOptions}
-                            placeholder={'Select Sectors...'}
-                            multi
-                            loading={sectorResponse.isLoading}
-                            onChange={onSectorChanged}
-                            validationIcons
-                        />
-                    </div>
-                    <div>
-                        <Select
-                            label={'Courses'}
-                            name={'courses'}
-                            defaultValue={courseOptions}
-                            options={courseOptions}
-                            multi
-                            loading={courseLoading}
-                            disabled={
-                                storedData
-                                    ? storedData?.courses?.length === 0
-                                    : courseOptions?.length === 0
-                            }
-                            validationIcons
-                        />
-                    </div>
-                </div>
+                            </div>
+                        </div>
 
-                <div className="w-4/6">
-                    <div className="mt-2">
-                        <TextInput
-                            label={'Name'}
-                            name={'contactPersonName'}
-                            placeholder={'Contact Person Name...'}
-                            validationIcons
-                        />
-                    </div>
+                        {/* Sector Information */}
 
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-2 mt-2">
-                        <TextInput
-                            label={'Phone Number'}
-                            name={'contactPersonNumber'}
-                            placeholder={'Phone Number...'}
-                            type={'tel'}
-                            validationIcons
-                        />
+                        <div className="w-4/6 grid grid-cols-1 gap-y-4">
+                            <div>
+                                <Select
+                                    label={'Sector'}
+                                    {...(storedData
+                                        ? {
+                                            defaultValue: storedData.sectors,
+                                        }
+                                        : {})}
+                                    name={'sectors'}
+                                    options={sectorOptions}
+                                    placeholder={'Select Sectors...'}
+                                    multi
+                                    loading={sectorResponse.isLoading}
+                                    onChange={onSectorChanged}
+                                    validationIcons
+                                />
+                            </div>
+                            <div>
+                                <Select
+                                    label={'Courses'}
+                                    name={'courses'}
+                                    defaultValue={courseOptions}
+                                    options={courseOptions}
+                                    multi
+                                    loading={courseLoading}
+                                    disabled={
+                                        storedData
+                                            ? storedData?.courses?.length === 0
+                                            : courseOptions?.length === 0
+                                    }
+                                    validationIcons
+                                />
+                            </div>
+                        </div>
 
-                        <TextInput
-                            label={'Email'}
-                            name={'contactPersonEmail'}
-                            type={'email'}
-                            placeholder={'Email...'}
-                            validationIcons
-                        />
-                    </div>
-                </div>
+                        {/* Profile Information */}
 
-                <div className="w-4/6">
-                    <div className="grid grid-cols-1 gap-x-8 gap-y-6 mt-2">
-                        <TextInput
-                            label={'Address Line 1'}
-                            name={'addressLine1'}
-                            placeholder={'Your Address Line 1...'}
-                            validationIcons
-                        />
+                        <div className="w-4/6">
+                            <TextInput
+                                label={'Email'}
+                                name={'email'}
+                                type={'email'}
+                                placeholder={'Your Email...'}
+                                validationIcons
+                                required
+                                onBlur={onEmailChange}
+                                loading={emailCheckResult.isLoading}
+                            />
 
-                        <TextInput
-                            label={'Address Line 2'}
-                            name={'addressLine2'}
-                            placeholder={'Your Address Line 2...'}
-                            validationIcons
-                        />
-                    </div>
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-8">
+                                <TextInput
+                                    label={'Password'}
+                                    name={'password'}
+                                    type={'password'}
+                                    placeholder={'Password...'}
+                                    validationIcons
+                                    required
+                                />
 
-                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-x-8 gap-y-2 mt-2 mb-6">
-                        <TextInput
-                            label={'State'}
-                            name={'state'}
-                            placeholder={'State...'}
-                            validationIcons
-                        />
+                                <TextInput
+                                    label={'Confirm Password'}
+                                    name={'confirmPassword'}
+                                    type={'password'}
+                                    placeholder={'Confirm Password...'}
+                                    validationIcons
+                                    required
+                                />
+                            </div>
+                        </div>
 
-                        <TextInput
-                            label={'Suburb'}
-                            name={'suburb'}
-                            placeholder={'Suburb...'}
-                            validationIcons
-                        />
+                        {/* Address Information */}
 
-                        <TextInput
-                            label={'Zip Code'}
-                            name={'zipCode'}
-                            placeholder={'Zip Code...'}
-                            validationIcons
-                        />
-                    </div>
-                </div>
+                        <div className="w-4/6">
+                            <div className="grid grid-cols-1 gap-x-8">
+                                <TextInput
+                                    label={'Address Line 1'}
+                                    name={'addressLine1'}
+                                    placeholder={'Your Address Line 1...'}
+                                    validationIcons
+                                />
 
-                <div className="mb-6">
-                    <Checkbox
-                        name={'agreedWithPrivacyPolicy'}
-                        label={
-                            <>
-                                I agree with{' '}
-                                <Link href="/terms-and-conditions">
-                                    <a className="text-link">Terms</a>
-                                </Link>{' '}
-                                {'&'}{' '}
-                                <Link href="/privacy-policy">
-                                    <a className="text-link">Privacy Policy</a>
-                                </Link>
-                            </>
-                        }
-                    />
-                </div>
+                                <TextInput
+                                    label={'Address Line 2'}
+                                    name={'addressLine2'}
+                                    placeholder={'Your Address Line 2...'}
+                                    validationIcons
+                                />
+                            </div>
 
-                <div className="flex gap-x-4">
-                    <Button text={'Continue'} submit />
-                    {SignUpUtils.getEditingMode() && (
-                        <Button
-                            onClick={onBackToReview}
-                            text={'Back To Review'}
-                            variant={'secondary'}
-                        />
-                    )}
-                </div>
-            </form>
-        </FormProvider>
+                            <div className="grid grid-cols-1 sm:grid-cols-3 gap-x-8">
+                                <TextInput
+                                    label={'State'}
+                                    name={'state'}
+                                    placeholder={'State...'}
+                                    validationIcons
+                                />
+
+                                <TextInput
+                                    label={'Suburb'}
+                                    name={'suburb'}
+                                    placeholder={'Suburb...'}
+                                    validationIcons
+                                />
+
+                                <TextInput
+                                    label={'Zip Code'}
+                                    name={'zipCode'}
+                                    placeholder={'Zip Code...'}
+                                    validationIcons
+                                />
+                            </div>
+                        </div>
+
+
+                        <div className="w-4/6 ml-auto pl-12">
+                            <div className="mb-6">
+                                <Checkbox
+                                    name={'agreedWithPrivacyPolicy'}
+                                    label={
+                                        <>
+                                            I agree with{' '}
+                                            <Link href="/terms-and-conditions">
+                                                <a className="text-link">Terms</a>
+                                            </Link>{' '}
+                                            {'&'}{' '}
+                                            <Link href="/privacy-policy">
+                                                <a className="text-link">Privacy Policy</a>
+                                            </Link>
+                                        </>
+                                    }
+                                />
+                            </div>
+
+                            <div className="flex gap-x-4">
+                                <Button text={'Continue'} submit />
+                                {SignUpUtils.getEditingMode() && (
+                                    <Button
+                                        onClick={onBackToReview}
+                                        text={'Back To Review'}
+                                        variant={'secondary'}
+                                    />
+                                )}
+                            </div>
+                        </div>
+                    </form>
+                </FormProvider>
+            </div>
+        </Card>
     )
 }

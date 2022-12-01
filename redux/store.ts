@@ -127,8 +127,10 @@ export const store = configureStore({
             subAdminIndustriesApi.middleware,
             studentAssessmentApi.middleware,
             subAdminRtosApi.middleware,
+            subAdminStudentsApi.middleware,
 
             rtoIndustriesApi.middleware,
+            rtoAssessmentToolsApi.middleware,
             studentFindAbnApi.middleware,
             studentProfileApi.middleware,
             mouApi.middleware,

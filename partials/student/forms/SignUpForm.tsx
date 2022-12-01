@@ -240,22 +240,6 @@ console.log("rtoResponse", rtoResponse);
 
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-8">
                      <TextInput
-                        label={'ABN'}
-                        name={'abn'}
-                        placeholder={'ABN...'}
-                        validationIcons
-                        required
-                     />
-
-                     <TextInput
-                        label={'Code'}
-                        name={'code'}
-                        placeholder={'Code...'}
-                        validationIcons
-                        required
-                     />
-
-                     <TextInput
                         label={'Phone Number'}
                         name={'phone'}
                         placeholder={'Your phone number...'}
