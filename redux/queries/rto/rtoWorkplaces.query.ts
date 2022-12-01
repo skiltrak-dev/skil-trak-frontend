@@ -4,7 +4,7 @@ import { AuthUtils } from '@utils'
 export const rtoWorkplacesApi = createApi({
     reducerPath: 'rtoWorkplacesApi',
     baseQuery: fetchBaseQuery({
-        baseUrl: `${process.env.NEXT_PUBLIC_END_POINT}/`,
+        baseUrl: `${process.env.NEXT_PUBLIC_END_POINT}/rtos/`,
         prepareHeaders: (headers, { getState }) => {
             const token = AuthUtils.getToken()
 
@@ -16,22 +16,23 @@ export const rtoWorkplacesApi = createApi({
             return headers
         },
     }),
-    tagTypes: ['StudentAppointments'],
+    tagTypes: ['RTOWorkplace'],
     endpoints: (builder) => ({
-
-        getWorkplaces: builder.query({
+        getRTOWorkplaces: builder.query<any, any>({
             query: (params) => {
                 return {
-                    url: 'rtos/industries/list',
+                    url: 'work-place/list',
                     params,
                 }
             },
-            providesTags: ['StudentAppointments'],
+            providesTags: ['RTOWorkplace'],
         }),
-       
+        getRTOWorkplaceDetail: builder.query<any, number>({
+            query: (id) => `work-place/view/${id}`,
+            providesTags: ['RTOWorkplace'],
+        }),
     }),
 })
 
-export const {
-    useGetWorkplacesQuery,
-} = rtoWorkplacesApi
+export const { useGetRTOWorkplacesQuery, useGetRTOWorkplaceDetailQuery } =
+    rtoWorkplacesApi

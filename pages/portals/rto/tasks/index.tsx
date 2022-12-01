@@ -84,7 +84,6 @@ const RtoTasks: NextPageWithLayout = () => {
     useEffect(() => {
         setContent(
             <>
-                <Button variant={'dark'} text={'My Schedule'} />
                 <SidebarCalendar />
                 <RtoContextBarData />
             </>

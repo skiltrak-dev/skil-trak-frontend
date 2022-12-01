@@ -26,6 +26,7 @@ export type InputType =
     | 'time'
     | 'url'
     | 'color'
+    | 'file'
 
 export type TextInputProps = InputProps & {
     type?: InputType

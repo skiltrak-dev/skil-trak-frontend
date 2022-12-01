@@ -23,7 +23,7 @@ const PrimaryLinks = [
     {
         title: 'Students',
         description: 'View & Manage Your Students',
-        link: 'users/students',
+        link: 'users/students?tab=pending',
         animation: Animations.Student.Workplace.Student,
     },
     {
@@ -111,7 +111,7 @@ const RtoUsers: NextPageWithLayout = () => {
                             />
                         </div>
                     </div>
-                    
+
                     <RecentAppointmentCard
                         title="Work Place Visit"
                         caseOfficer="John Smith Khan"

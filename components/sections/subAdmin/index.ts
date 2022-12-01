@@ -1,5 +1,4 @@
 export * from './components'
 export * from './UsersContainer'
 export * from './WorkplaceRequest'
-export * from './Appointments'
 export * from './Tasks'

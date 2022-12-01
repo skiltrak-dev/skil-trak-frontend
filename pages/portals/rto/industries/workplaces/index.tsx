@@ -1,20 +1,41 @@
-import { ReactElement } from 'react'
+import { ReactElement, useState } from 'react'
 // Layouts
 import { RtoLayout } from '@layouts'
 import { NextPageWithLayout } from '@types'
 //components
-import { Checkbox, HelpQuestionSet, ReactTable, Typography } from '@components'
+import {
+    Card,
+    HelpQuestionSet,
+    ReactTable,
+    TableAction,
+    Table,
+    EmptyData,
+    TechnicalError,
+    LoadingAnimation,
+} from '@components'
 // Links
 import Link from 'next/link'
 // Queries
-import { useGetWorkplacesQuery } from '@queries'
+import { useGetRTOWorkplacesQuery } from '@queries'
 // Next Image
 import Image from 'next/image'
 import { AnyObject } from 'yup/lib/object'
+import { ColumnDef } from '@tanstack/react-table'
+import { IndustryCell } from '@partials/admin/industry/components'
+import { useRouter } from 'next/router'
+import { MdEmail, MdPhoneIphone } from 'react-icons/md'
+import { StudentCellInfo } from '@partials/rto/student/components'
 
 type Props = {}
 
 const RtoWorkplaces: NextPageWithLayout = (props: Props) => {
+    const router = useRouter()
+    const [itemPerPage, setItemPerPage] = useState(5)
+    const [page, setPage] = useState(1)
+    const { isLoading, data, isError } = useGetRTOWorkplacesQuery({
+        skip: itemPerPage * page - itemPerPage,
+        limit: itemPerPage,
+    })
     const RelatedQuestions = [
         {
             text: `I have a workplace. What next?`,
@@ -52,36 +73,51 @@ const RtoWorkplaces: NextPageWithLayout = (props: Props) => {
             link: '#',
         },
     ]
-    const Columns = [
+    const columns: ColumnDef<any>[] = [
         {
-            Header: 'Name',
-            accessor: 'name',
-            sort: true,
-            Cell: ({ row }: any) => {
-                const { businessName, imageUrl } = row.original
+            header: () => 'Name',
+            accessorKey: 'name',
+            cell: ({ row }: any) => {
+                const {
+                    industry: {
+                        phoneNumber,
+                        user: { name, email, avatar },
+                    },
+                } = row.original
                 // console.log('row.original', row.original)
 
                 return (
                     <Link
-                        href={`/jobs/job-detail/${row.original.id}`}
-                        className="flex items-center justify-center gap-x-2 relative "
+                        href={`/portals/rto/industries/workplaces/${row.original.id}`}
                     >
-                        <a className="flex items-center gap-x-4">
-                            <div className="">
+                        <a className="flex items-center gap-x-2">
+                            <div className="shadow-inner-image rounded-full relative">
+                                <img
+                                    src={
+                                        avatar ||
+                                        `https://picsum.photos/64/${
+                                            64 + row.original.id
+                                        }`
+                                    }
+                                    className="w-10 h-10 rounded-full"
+                                />
                             </div>
-                            <div className="flex items-center justify-center gap-x-2">
-                                <div className='flex items-center gap-x-2 '>
-                                    <Image
-                                        className="rounded-full w-7 h-7"
-                                        src={'https://images.unsplash.com/photo-1664575602276-acd073f104c1?ixlib=rb-4.0.3&ixid=MnwxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80'}
-                                        alt={businessName}
-                                        width={50}
-                                        height={50}
-                                    />
+                            <div>
+                                <p className="font-semibold">{name}</p>
+                                <div className="font-medium text-xs text-gray-500">
+                                    <p className="flex items-center gap-x-1">
+                                        <span>
+                                            <MdEmail />
+                                        </span>
+                                        {email}
+                                    </p>
+                                    <p className="flex items-center gap-x-1">
+                                        <span>
+                                            <MdPhoneIphone />
+                                        </span>
+                                        {phoneNumber}
+                                    </p>
                                 </div>
-                                <Typography variant='subtitle' color={'black'}>
-                                    {businessName}
-                                </Typography>
                             </div>
                         </a>
                     </Link>
@@ -89,69 +125,97 @@ const RtoWorkplaces: NextPageWithLayout = (props: Props) => {
             },
         },
         {
-            Header: 'Email',
-            accessor: 'email',
-            Cell: ({ row }: any) => {
-                const {
-                    user: { email },
-                } = row.original
-                return (
-                    <div className="flex items-center justify-center">
-                        <Typography color={'black'} variant={'muted'}>
-                            {email}
-                        </Typography>
-                    </div>
-                )
+            header: () => 'Abn',
+            accessorKey: 'industry.abn',
+        },
+        {
+            header: () => 'Student',
+            accessorKey: 'workplaceRequest.student.user.name',
+            cell: ({ row }: any) => (
+                <StudentCellInfo
+                    student={row.original?.workplaceRequest?.student}
+                />
+            ),
+        },
+        {
+            header: () => 'Address',
+            accessorKey: 'industry.abn',
+            cell: ({ row }) => {
+                const { addressLine1, addressLine2 } = row.original.industry
+                return `${addressLine1} ${addressLine2}`
             },
         },
         {
-            Header: 'Phone',
-            accessor: 'phoneNumber',
-            Cell: ({ row }: any) => {
-                const { phoneNumber } = row.original
+            header: () => 'Action',
+            accessorKey: 'Action',
+            cell: ({ row }: any) => {
                 return (
-                    <div className="flex items-center justify-center">
-                        <Typography color={'black'}>{phoneNumber}</Typography>
-                    </div>
-                )
-            },
-        },
-        {
-            Header: 'Contact Person',
-            accessor: 'contactPerson',
-            Cell: ({ row }:any) => {
-                const { contactPerson } = row.original
-                return (
-                    <div className="flex items-center justify-center">
-                        <Typography color={'black'}>{contactPerson}</Typography>
-                    </div>
-                )
-            },
-        },
-
-        {
-            Header: 'Action',
-            accessor: 'Action',
-            Cell: ({  }) => {
-                return (
-                    <div className="flex items-center justify-center">
-                        <Typography variant={'muted'} color="text-blue-400">
-                            view
-                        </Typography>
-                    </div>
+                    <TableAction
+                        rowItem={row.original}
+                        options={[
+                            {
+                                text: 'View',
+                                onClick: () => {
+                                    router.push(
+                                        `/portals/rto/industries/workplaces/${row.original.id}`
+                                    )
+                                },
+                                Icon: '',
+                            },
+                        ]}
+                    />
                 )
             },
         },
     ]
     return (
         <>
-            <ReactTable
-                action={useGetWorkplacesQuery}
-                Columns={Columns}
-                querySort={'title'}
-                pagination
-                pagesize
-            />
+            <Card noPadding>
+                {isError && <TechnicalError />}
+                {isLoading ? (
+                    <LoadingAnimation height="h-[60vh]" />
+                ) : data && data?.data?.length ? (
+                    <Table<any>
+                        columns={columns}
+                        data={data.data}
+                        // quickActions={quickActionsElements}
+                        enableRowSelection
+                    >
+                        {({
+                            table,
+                            pagination,
+                            pageSize,
+                            quickActions,
+                        }: any) => {
+                            return (
+                                <div>
+                                    <div className="p-6 mb-2 flex justify-between">
+                                        {pageSize(itemPerPage, setItemPerPage)}
+                                        <div className="flex gap-x-2">
+                                            {quickActions}
+                                            {pagination(
+                                                data?.pagination,
+                                                setPage
+                                            )}
+                                        </div>
+                                    </div>
+                                    <div className="px-6">{table}</div>
+                                </div>
+                            )
+                        }}
+                    </Table>
+                ) : (
+                    !isError && (
+                        <EmptyData
+                            title={'No Approved RTO!'}
+                            description={
+                                'You have not approved any RTO request yet'
+                            }
+                            height={'50vh'}
+                        />
+                    )
+                )}
+            </Card>
             <div className="mt-6 flex justify-between">
                 {/* Related Questions */}
                 <HelpQuestionSet

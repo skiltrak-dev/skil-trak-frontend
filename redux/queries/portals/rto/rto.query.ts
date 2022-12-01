@@ -1,5 +1,6 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 import { AuthUtils } from '@utils'
+import { contactPersonEndpoints } from './contactPerson'
 
 import { AdminStats, ContactPerson, PaginatedResponse, Rto } from '@types'
 
@@ -23,29 +24,25 @@ export const rtoApi = createApi({
             query: () => `rtos/profile/view`,
             providesTags: ['RTO'],
         }),
-
-        contactPersons: build.query<PaginatedResponse<ContactPerson>, any>({
-            query: (params: any) => {
-                return {
-                    url: `rtos/contact-persons`,
-                    params,
-                }
-            },
-            providesTags: ['ContactPersons'],
-        }),
+        ...contactPersonEndpoints(build),
     }),
 })
 
 const {
     // ------ SELF ------ //
     useProfileQuery,
-
     useContactPersonsQuery,
+    useAddContactPersonMutation,
+    useRemoveContactPersonMutation,
+    useUpdateContactPersonMutation,
 } = rtoApi
 
 export const RtoApi = {
     Rto: {
         useProfile: useProfileQuery,
         useContactPersons: useContactPersonsQuery,
+        useAddContactPerson: useAddContactPersonMutation,
+        useRemoveContactPerson: useRemoveContactPersonMutation,
+        useUpdateContactPerson: useUpdateContactPersonMutation,
     },
 }

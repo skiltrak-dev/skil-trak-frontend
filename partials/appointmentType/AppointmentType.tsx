@@ -5,6 +5,7 @@ import { AppointmentTypeCard } from './AppointmentTypeCard'
 // query
 import { useGetAppointmentsTypesQuery } from '@queries'
 import { LoadingAnimation } from '@components/LoadingAnimation'
+import { NoData } from '@components'
 
 type Props = {
     setAppointmentTypeId: Function
@@ -20,9 +21,17 @@ export const AppointmentType = ({ setAppointmentTypeId }: Props) => {
                 What kind of appointment you want to book?
             </Typography>
             <div className="flex gap-x-4 items-center mt-1">
+                {appointmentTypes.isError && (
+                    <NoData
+                        text={
+                            'There is some network issue, please refresh your browser'
+                        }
+                    />
+                )}
                 {appointmentTypes.isLoading ? (
-                    <LoadingAnimation />
-                ) : (
+                    <LoadingAnimation size={75} />
+                ) : appointmentTypes?.data &&
+                  appointmentTypes?.data?.length > 0 ? (
                     appointmentTypes?.data?.map(
                         (appointmentType: any, index: number) => (
                             <AppointmentTypeCard
@@ -37,6 +46,10 @@ export const AppointmentType = ({ setAppointmentTypeId }: Props) => {
                                 }}
                             />
                         )
+                    )
+                ) : (
+                    !appointmentTypes.isError && (
+                        <NoData text={'No Appointment Type Found'} />
                     )
                 )}
             </div>

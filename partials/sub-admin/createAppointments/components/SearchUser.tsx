@@ -10,7 +10,7 @@ import {
     Button,
     NoData,
 } from '@components'
-import { SearchedUserCard } from '../SearchedUserCard'
+import { SearchedUserCard } from './SearchedUserCard'
 
 // query
 import { useSearchUserQuery } from '@queries'

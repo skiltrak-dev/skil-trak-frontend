@@ -6,10 +6,7 @@ import { StudentLayout, SubAdminLayout } from '@layouts'
 import { NextPageWithLayout } from '@types'
 
 import { Typography, Button } from '@components'
-import {
-    PastAppointments,
-    UpcomingAppointments,
-} from '@components/sections/subAdmin'
+import { UpcomingAppointments, PastAppointments } from '@partials/sub-admin'
 
 type Props = {}
 

@@ -9,6 +9,7 @@ import {
     Table,
     TableAction,
     TableActionOption,
+    TechnicalError,
 } from '@components'
 import { PageHeading } from '@components/headings'
 import { ColumnDef } from '@tanstack/react-table'
@@ -25,7 +26,7 @@ import {
 } from './components'
 import { RtoCellInfo } from '@partials/admin/rto/components'
 import { Student } from '@types'
-import { BlockModal } from './modals'
+import { BlockModal, ArchiveModal } from './modals'
 import { useRouter } from 'next/router'
 import { useGetRtoStudentsQuery } from '@queries'
 
@@ -37,7 +38,7 @@ export const ApprovedStudent = () => {
     const [itemPerPage, setItemPerPage] = useState(5)
     const [page, setPage] = useState(1)
     const [filter, setFilter] = useState({})
-    const { isLoading, data } = useGetRtoStudentsQuery({
+    const { isLoading, data, isError } = useGetRtoStudentsQuery({
         search: `status:approved,${JSON.stringify(filter)
             .replaceAll('{', '')
             .replaceAll('}', '')
@@ -59,18 +60,28 @@ export const ApprovedStudent = () => {
         )
     }
 
+    const onArchiveClicked = (student: Student) => {
+        setModal(
+            <ArchiveModal
+                item={student}
+                onCancel={() => onModalCancelClicked()}
+            />
+        )
+    }
+
     const tableActionOptions: TableActionOption[] = [
         {
             text: 'View',
-            onClick: () => {},
+            onClick: (student: Student) => {
+                router.push(`/portals/rto/users/students/${student.id}`)
+            },
             Icon: FaEye,
         },
         {
-            text: 'Edit',
-            onClick: (row: any) => {
-                router.push(`/portals/admin/student/edit-student/${row?.id}`)
-            },
-            Icon: FaEdit,
+            text: 'Archive',
+            onClick: (student: Student) => onArchiveClicked(student),
+            Icon: MdBlock,
+            color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
         },
         {
             text: 'Block',
@@ -98,20 +109,6 @@ export const ApprovedStudent = () => {
             accessorKey: 'suburb',
             header: () => <span>Address</span>,
             cell: (info) => info.getValue(),
-        },
-        {
-            accessorKey: 'rto',
-            header: () => <span>RTO</span>,
-            cell: (info) => {
-                return <RtoCellInfo rto={info.row.original.rto} short />
-            },
-        },
-        {
-            accessorKey: 'sectors',
-            header: () => <span>Sectors</span>,
-            cell: (info) => {
-                return <SectorCell student={info.row.original} />
-            },
         },
         {
             accessorKey: 'progress',
@@ -184,6 +181,7 @@ export const ApprovedStudent = () => {
                 ) : null}
 
                 <Card noPadding>
+                    {isError && <TechnicalError />}
                     {isLoading ? (
                         <LoadingAnimation height="h-[60vh]" />
                     ) : data && data?.data.length ? (
@@ -220,13 +218,15 @@ export const ApprovedStudent = () => {
                             }}
                         </Table>
                     ) : (
-                        <EmptyData
-                            title={'No Approved Student!'}
-                            description={
-                                'You have not approved any Student request yet'
-                            }
-                            height={'50vh'}
-                        />
+                        !isError && (
+                            <EmptyData
+                                title={'No Approved Student!'}
+                                description={
+                                    'You have not approved any Student request yet'
+                                }
+                                height={'50vh'}
+                            />
+                        )
                     )}
                 </Card>
             </div>

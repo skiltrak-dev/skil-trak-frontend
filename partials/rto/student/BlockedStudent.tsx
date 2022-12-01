@@ -9,6 +9,7 @@ import {
     Table,
     TableAction,
     TableActionOption,
+    TechnicalError,
 } from '@components'
 import { PageHeading } from '@components/headings'
 import { ColumnDef } from '@tanstack/react-table'
@@ -31,7 +32,7 @@ export const BlockedStudent = () => {
     const [page, setPage] = useState(1)
     const [filter, setFilter] = useState({})
 
-    const { isLoading, data } = useGetRtoStudentsQuery({
+    const { isLoading, data, isError } = useGetRtoStudentsQuery({
         search: `status:blocked,${JSON.stringify(filter)
             .replaceAll('{', '')
             .replaceAll('}', '')
@@ -68,13 +69,6 @@ export const BlockedStudent = () => {
             Icon: FaEye,
         },
         {
-            text: 'Edit',
-            onClick: (row: any) => {
-                router.push(`/portals/admin/student/edit-student/${row?.id}`)
-            },
-            Icon: FaEdit,
-        },
-        {
             text: 'Unblock',
             onClick: (student: Student) => onUnblockClicked(student),
             Icon: CgUnblock,
@@ -106,20 +100,6 @@ export const BlockedStudent = () => {
             accessorKey: 'suburb',
             header: () => <span>Address</span>,
             cell: (info) => info.getValue(),
-        },
-        // {
-        //     accessorKey: 'rto',
-        //     header: () => <span>RTO</span>,
-        //     cell: (info) => {
-        //         return <RtoCellInfo rto={info.row.original.rto} short />
-        //     },
-        // },
-        {
-            accessorKey: 'sectors',
-            header: () => <span>Sectors</span>,
-            cell: (info) => {
-                return <SectorCell student={info.row.original} />
-            },
         },
         {
             accessorKey: 'action',
@@ -192,6 +172,7 @@ export const BlockedStudent = () => {
                 ) : null}
 
                 <Card noPadding>
+                    {isError && <TechnicalError />}
                     {isLoading ? (
                         <LoadingAnimation height="h-[60vh]" />
                     ) : data && data?.data.length ? (
@@ -228,13 +209,15 @@ export const BlockedStudent = () => {
                             }}
                         </Table>
                     ) : (
-                        <EmptyData
-                            title={'No Blocked RTO!'}
-                            description={
-                                'You have not blocked any RTO request yet'
-                            }
-                            height={'50vh'}
-                        />
+                        !isError && (
+                            <EmptyData
+                                title={'No Blocked RTO!'}
+                                description={
+                                    'You have not blocked any RTO request yet'
+                                }
+                                height={'50vh'}
+                            />
+                        )
                     )}
                 </Card>
             </div>
