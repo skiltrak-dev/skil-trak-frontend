@@ -3,33 +3,14 @@ import React from 'react'
 import { Typography, EmptyData, UpcomingAppointmentCard } from '@components'
 
 // query
-import { useGetStudentUpcomingAppointmentsQuery } from '@queries'
+import { useGetRTOAppointmentsQuery } from '@queries'
 import { LoadingAnimation } from '@components/LoadingAnimation'
 
 type Props = {}
 
 export const UpcomingAppointments = (props: Props) => {
-    const studentAppointments = useGetStudentUpcomingAppointmentsQuery()
-    const UpcomingAppointmentsData = [
-        {
-            date: 'Wednesday, October 19',
-            time: '09:30 am - 10:00 am',
-            totalMinutes: '~ 60 Min',
-            address: '221b Baker St, VIC 3000',
-            name: 'Saad Shah',
-            imageUrl: '/images/card-images/video-icon.png',
-            post: 'Video Conference',
-        },
-        {
-            date: 'Wednesday, October 19',
-            time: '09:30 am - 10:00 am',
-            totalMinutes: '~ 60 Min',
-            address: '221b Baker St, VIC 3000',
-            name: 'Salman Khan',
-            imageUrl: '/images/card-images/phone-icon.png',
-            post: 'Phone Consultation',
-        },
-    ]
+    const rtoAppointments = useGetRTOAppointmentsQuery({ status: 'future' })
+
     return (
         <>
             <div className="pb-1">
@@ -37,16 +18,11 @@ export const UpcomingAppointments = (props: Props) => {
                     Your Upcoming Appointments
                 </Typography>
             </div>
-            <div
-                className={`grid ${
-                    studentAppointments?.data?.length ? 'grid-cols-1' : ''
-                } md:grid-cols-2 gap-4`}
-            >
-                {studentAppointments.isLoading ? (
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {rtoAppointments.isLoading ? (
                     <LoadingAnimation />
-                ) : studentAppointments?.data &&
-                  studentAppointments?.data?.length ? (
-                    studentAppointments?.data?.map(
+                ) : rtoAppointments?.data && rtoAppointments?.data?.length ? (
+                    rtoAppointments?.data?.map(
                         (upcomingAppointment: any, index: number) => {
                             return (
                                 <UpcomingAppointmentCard

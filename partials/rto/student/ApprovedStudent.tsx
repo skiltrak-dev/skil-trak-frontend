@@ -27,6 +27,7 @@ import { RtoCellInfo } from '@partials/admin/rto/components'
 import { Student } from '@types'
 import { BlockModal } from './modals'
 import { useRouter } from 'next/router'
+import { useGetRtoStudentsQuery } from '@queries'
 
 export const ApprovedStudent = () => {
     const router = useRouter()
@@ -36,7 +37,7 @@ export const ApprovedStudent = () => {
     const [itemPerPage, setItemPerPage] = useState(5)
     const [page, setPage] = useState(1)
     const [filter, setFilter] = useState({})
-    const { isLoading, data } = AdminApi.Students.useListQuery({
+    const { isLoading, data } = useGetRtoStudentsQuery({
         search: `status:approved,${JSON.stringify(filter)
             .replaceAll('{', '')
             .replaceAll('}', '')

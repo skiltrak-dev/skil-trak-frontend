@@ -15,7 +15,8 @@ type Props = {
     selectedDate: Date | null
     setSelectedTime: Function
     selectedTime: any
-    coordinatorAvailability: any
+    appointmentAvailability: any
+    bookedAppointment: any
 }
 
 const days = [
@@ -56,7 +57,8 @@ export const TimeSlots = ({
     selectedDate,
     selectedTime,
     setSelectedTime,
-    coordinatorAvailability,
+    appointmentAvailability,
+    bookedAppointment,
 }: Props) => {
     const [currentItems, setCurrentItems] = useState(Array())
     const [slotsTime, setSlotsTime] = useState(Array())
@@ -65,21 +67,23 @@ export const TimeSlots = ({
 
     useEffect(() => {
         setSlotsTime([])
-    }, [coordinatorAvailability])
+    }, [appointmentAvailability])
 
     useEffect(() => {
-        const availability =
-            coordinatorAvailability?.availabilities[0]?.availability
-        const available = availability?.map((a: any) => a.name)
+        // const availability =
+        //     coordinatorAvailability?.availabilities[0]?.availability
+        const available = appointmentAvailability?.map((a: any) => a.name)
 
         const daysId = days
             .filter((f) => available?.includes(f.day))
             .map((d) => d.id)
         setDaysAvailability(daysId)
-        setTimeAvailability(availability)
-    }, [coordinatorAvailability])
+        setTimeAvailability(appointmentAvailability)
+    }, [appointmentAvailability])
 
     // console.log('MMMMM', moment('22:45', 'hh:mm:ss').format('h:mm a'))
+
+    // console.log('timeAvailability', timeAvailability)
 
     const timeSlots = useCallback(() => {
         // const days = [
@@ -105,7 +109,7 @@ export const TimeSlots = ({
         const selectedDay = moment(selectedDate, 'YYYY-MM-DD').format(
             'YYYY-MM-DD'
         )
-        const bookedSlot = coordinatorAvailability?.booked?.filter?.(
+        const bookedSlot = bookedAppointment?.filter?.(
             (b: any) => b.date === selectedDay
         )
 
@@ -119,7 +123,7 @@ export const TimeSlots = ({
         const selectedDayAvailability = timeAvailability?.find(
             (t: any) => t.name === findDay
         )
-        console.log('selectedDate', selectedDayAvailability)
+        console.log('selectedDayAvailability', selectedDayAvailability)
         const opening = selectedDayAvailability
             ? selectedDayAvailability.openingTime
             : '00:00'

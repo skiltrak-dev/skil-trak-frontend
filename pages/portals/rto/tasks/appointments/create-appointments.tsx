@@ -1,22 +1,3 @@
-// import { IndustryLayout } from '@layouts'
-// import { NextPageWithLayout } from '@types'
-// import { ReactElement } from 'react'
-
-// import { IndustryBookAppointment } from '@components/sections'
-
-// const BookAppointment: NextPageWithLayout = () => {
-//   return (
-//     <div>
-//       <IndustryBookAppointment />
-//     </div>
-//   )
-// }
-
-// .getLayout = (page: ReactElement) => {
-//   return <IndustryLayout>{page}</IndustryLayout>
-// }
-
-// export default BookAppointment
 import { ReactElement, useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
 import moment from 'moment'
@@ -34,14 +15,15 @@ import { useNotification } from '@hooks'
 
 // query
 import {
-    useCreateIndustryAppointmentMutation,
-    useGetCoordinatorsAvailabilityQuery,
+    useGetStudentCoursesQuery,
+    useCreateRTOAppointmentMutation,
     useGetCoordinatorsForStudentQuery,
+    useGetCoordinatorsAvailabilityQuery,
 } from '@queries'
 
 type Props = {}
 
-const BookAppointment: NextPageWithLayout = (props: Props) => {
+const CreateAppointments: NextPageWithLayout = (props: Props) => {
     const router = useRouter()
 
     const [type, setType] = useState<number | null>(null)
@@ -49,11 +31,11 @@ const BookAppointment: NextPageWithLayout = (props: Props) => {
         label: string
         value: number
     } | null>(null)
-    const [coordinatorsOptions, setCoordinatorsOptions] = useState<any | null>(
-        []
-    )
     const [selectedDate, setSelectedDate] = useState<Date | null>(null)
     const [selectedTime, setSelectedTime] = useState<any | null>(null)
+    // const [appointmentTypeId, setAppointmentTypeId] = useState<string | null>(
+    //     null
+    // )
 
     // query
     const coordinatorAvailability = useGetCoordinatorsAvailabilityQuery(
@@ -63,12 +45,16 @@ const BookAppointment: NextPageWithLayout = (props: Props) => {
         },
         { skip: !type || !selectedCoordinator }
     )
-
     const [createAppointment, createAppointmentResult] =
-        useCreateIndustryAppointmentMutation()
+        useCreateRTOAppointmentMutation()
 
     // hooks
     const { notification } = useNotification()
+
+    const [coordinatorsOptions, setCoordinatorsOptions] = useState<any | null>(
+        []
+    )
+    const [coursesOptions, setCoursesOptions] = useState<any[]>([])
 
     const coordinators = useGetCoordinatorsForStudentQuery(
         {
@@ -76,6 +62,7 @@ const BookAppointment: NextPageWithLayout = (props: Props) => {
         },
         { skip: !type }
     )
+    const studentCourses = useGetStudentCoursesQuery()
 
     useEffect(() => {
         setSelectedCoordinator(null)
@@ -89,12 +76,22 @@ const BookAppointment: NextPageWithLayout = (props: Props) => {
     }, [coordinators])
 
     useEffect(() => {
+        if (studentCourses?.data && studentCourses.isSuccess) {
+            const options = studentCourses?.data?.map((course: any) => ({
+                label: course.title,
+                value: course.id,
+            }))
+            setCoursesOptions(options)
+        }
+    }, [studentCourses?.data?.data, studentCourses.isSuccess])
+
+    useEffect(() => {
         if (createAppointmentResult.isSuccess) {
             notification.success({
                 title: 'Appointment Created Successfully',
                 description: 'Appointment Created Successfully',
             })
-            router.push('/portals/industry/students/appointments/')
+            router.push('/portals/rto/tasks/appointments/')
         }
     }, [createAppointmentResult.isSuccess])
 
@@ -102,15 +99,16 @@ const BookAppointment: NextPageWithLayout = (props: Props) => {
         mode: 'all',
     })
     const onSubmit = (values: any) => {
-        console.log('Leerann')
         const time = moment(selectedTime, ['h:mm A']).format('HH:mm')
+        let dated = selectedDate
+        dated?.setDate(dated.getDate() + 1)
         createAppointment({
             ...values,
             coordinator: values.coordinator.value,
             type,
-            date: selectedDate,
+            date: dated,
             time,
-            // appointmentFor: 4,
+            appointmentFor: 4,
         })
     }
 
@@ -119,20 +117,31 @@ const BookAppointment: NextPageWithLayout = (props: Props) => {
             <FormProvider {...formMethods}>
                 <form onSubmit={formMethods.handleSubmit(onSubmit)}>
                     <AppointmentType setAppointmentTypeId={setType} />
-                    <Select
-                        name="coordinator"
-                        label="WBT Coordinator"
-                        placeholder="Select Your Choice"
-                        options={coordinatorsOptions}
-                        loading={coordinators.isLoading}
-                        disabled={
-                            !coordinatorsOptions || coordinators.isLoading
-                        }
-                        onChange={(e: any) => {
-                            setSelectedCoordinator(e)
-                        }}
-                        value={selectedCoordinator}
-                    />
+                    <div className="grid grid-cols-3 items-center gap-x-5 mb-5">
+                        <Select
+                            name="coordinator"
+                            label="WBT Coordinator"
+                            placeholder="Select Your Choice"
+                            options={coordinatorsOptions}
+                            loading={coordinators.isLoading}
+                            disabled={
+                                !coordinatorsOptions || coordinators.isLoading
+                            }
+                            onChange={(e: any) => {
+                                setSelectedCoordinator(e)
+                            }}
+                            value={selectedCoordinator}
+                        />
+                        <Select
+                            name="course"
+                            label="Course(s)"
+                            placeholder="Select Your Choice"
+                            options={coursesOptions}
+                            loading={studentCourses.isLoading}
+                            disabled={studentCourses.isLoading}
+                            onlyValue
+                        />
+                    </div>
                     <TimeSlots
                         setSelectedDate={setSelectedDate}
                         selectedDate={selectedDate}
@@ -166,8 +175,8 @@ const BookAppointment: NextPageWithLayout = (props: Props) => {
         </>
     )
 }
-BookAppointment.getLayout = (page: ReactElement) => {
+CreateAppointments.getLayout = (page: ReactElement) => {
     return <RtoLayout title="Create Appointments">{page}</RtoLayout>
 }
 
-export default BookAppointment
+export default CreateAppointments

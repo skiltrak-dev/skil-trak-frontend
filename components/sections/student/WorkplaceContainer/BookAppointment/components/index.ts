@@ -1,2 +1,1 @@
-export * from './AppointmentType';
-export * from './TimeSlots';
+export * from './TimeSlots'

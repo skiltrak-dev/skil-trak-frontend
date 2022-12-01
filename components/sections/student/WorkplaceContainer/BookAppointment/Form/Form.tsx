@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { Select, TextArea, TextInput } from '@components/inputs'
 import { Typography } from '@components/Typography'
 
-import { AppointmentType } from '../components'
+import { AppointmentType } from '@partials/appointmentType'
 import Image from 'next/image'
 
 // query
@@ -13,19 +13,13 @@ import {
 import { Button } from '@components/buttons'
 
 type Props = {
-    setDaysAvailability: Function
-    setTimeAvailability: Function
     setType: Function
     type: number | null
     selectedCoordinator: { label: string; value: number } | null
     setSelectedCoordinator: Function
 }
 
-
-
 export const Form = ({
-    setDaysAvailability,
-    setTimeAvailability,
     setType,
     type,
     selectedCoordinator,
@@ -49,7 +43,6 @@ export const Form = ({
 
     useEffect(() => {
         setSelectedCoordinator(null)
-        setDaysAvailability(null)
         if (coordinators.data && coordinators.isSuccess) {
             const options = coordinators?.data?.map((coordinator: any) => ({
                 label: coordinator.name,
@@ -68,8 +61,6 @@ export const Form = ({
             setCoursesOptions(options)
         }
     }, [studentCourses?.data?.data, studentCourses.isSuccess])
-
-   
 
     return (
         <div>

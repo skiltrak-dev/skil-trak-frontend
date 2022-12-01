@@ -1,5 +1,6 @@
 import { ReactElement, useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
+import moment from 'moment'
 
 import { StudentLayout } from '@layouts'
 import { NextPageWithLayout } from '@types'
@@ -21,8 +22,6 @@ type Props = {}
 const BookAppointment: NextPageWithLayout = (props: Props) => {
     const router = useRouter()
 
-    const [daysAvailability, setDaysAvailability] = useState<any[] | null>(null)
-    const [timeAvailability, setTimeAvailability] = useState<any[] | null>(null)
     const [type, setType] = useState<number | null>(null)
     const [selectedCoordinator, setSelectedCoordinator] = useState<{
         label: string
@@ -60,19 +59,7 @@ const BookAppointment: NextPageWithLayout = (props: Props) => {
         mode: 'all',
     })
     const onSubmit = (values: any) => {
-        const meridiem = selectedTime ? selectedTime?.split(' ')[1] : ''
-        const getTime = selectedTime?.split(' ')[0]
-        const getHour = Number(getTime.split(':')[0])
-        const getMins = getTime.split(':')[1]
-        const time =
-            meridiem === 'am'
-                ? `${getTime}:00`
-                : meridiem === 'pm'
-                ? getHour === 12
-                    ? `${getTime}:00`
-                    : `${getHour + 12}:${getMins}:00`
-                : ''
-
+        const time = moment(selectedTime, ['h:mm A']).format('HH:mm')
         createAppointment({
             ...values,
             coordinator: values.coordinator.value,
@@ -88,21 +75,21 @@ const BookAppointment: NextPageWithLayout = (props: Props) => {
             <FormProvider {...formMethods}>
                 <form onSubmit={formMethods.handleSubmit(onSubmit)}>
                     <Form
-                        setDaysAvailability={setDaysAvailability}
-                        setTimeAvailability={setTimeAvailability}
                         setType={setType}
                         type={type}
                         selectedCoordinator={selectedCoordinator}
                         setSelectedCoordinator={setSelectedCoordinator}
                     />
                     <TimeSlots
-                        // daysAvailability={daysAvailability}
-                        // timeAvailability={timeAvailability}
                         setSelectedDate={setSelectedDate}
                         selectedDate={selectedDate}
                         setSelectedTime={setSelectedTime}
                         selectedTime={selectedTime}
-                        coordinatorAvailability={coordinatorAvailability.data}
+                        appointmentAvailability={
+                            coordinatorAvailability.data?.availabilities[0]
+                                ?.availability
+                        }
+                        bookedAppointment={coordinatorAvailability.data?.booked}
                     />
 
                     <div className="mt-5">

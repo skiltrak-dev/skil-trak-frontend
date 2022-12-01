@@ -4,7 +4,7 @@ import { AuthUtils } from '@utils'
 export const rtoStudentsApi = createApi({
     reducerPath: 'rtoStudentsApi',
     baseQuery: fetchBaseQuery({
-        baseUrl: `${process.env.NEXT_PUBLIC_END_POINT}/`,
+        baseUrl: `${process.env.NEXT_PUBLIC_END_POINT}/rtos/`,
         prepareHeaders: (headers, { getState }) => {
             const token = AuthUtils.getToken()
 
@@ -18,20 +18,16 @@ export const rtoStudentsApi = createApi({
     }),
     tagTypes: ['StudentAppointments'],
     endpoints: (builder) => ({
-
-        getStudents: builder.query({
+        getRtoStudents: builder.query<any, any>({
             query: (params) => {
                 return {
-                    url: 'rtos/students/list',
+                    url: 'students/list',
                     params,
                 }
             },
             providesTags: ['StudentAppointments'],
         }),
-       
     }),
 })
 
-export const {
-    useGetStudentsQuery,
-} = rtoStudentsApi
+export const { useGetRtoStudentsQuery } = rtoStudentsApi

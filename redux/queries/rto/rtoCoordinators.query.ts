@@ -1,10 +1,10 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 import { AuthUtils } from '@utils'
 
-export const subAdminCreateAppointmentApi = createApi({
-    reducerPath: 'subAdminCreateAppointmentApi',
+export const rtoCoordinatorsApi = createApi({
+    reducerPath: 'rtoCoordinatorsApi',
     baseQuery: fetchBaseQuery({
-        baseUrl: `${process.env.NEXT_PUBLIC_END_POINT}/`,
+        baseUrl: `${process.env.NEXT_PUBLIC_END_POINT}/rtos/`,
         prepareHeaders: (headers, { getState }) => {
             const token = AuthUtils.getToken()
 
@@ -12,21 +12,22 @@ export const subAdminCreateAppointmentApi = createApi({
             if (token) {
                 headers.set('authorization', `Bearer ${token}`)
             }
+
             return headers
         },
     }),
-    tagTypes: ['Appointment'],
+    tagTypes: ['StudentAppointments'],
     endpoints: (builder) => ({
-        searchUser: builder.query<any, any | null>({
-            query: (params: any) => {
+        getRtoCoordinators: builder.query<any, any>({
+            query: (params) => {
                 return {
-                    url: `appointments/user/search`,
+                    url: 'coordinator/list',
                     params,
                 }
             },
-            providesTags: ['Appointment'],
+            providesTags: ['StudentAppointments'],
         }),
     }),
 })
 
-export const { useSearchUserQuery } = subAdminCreateAppointmentApi
+export const { useGetRtoCoordinatorsQuery } = rtoCoordinatorsApi

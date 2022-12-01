@@ -5,10 +5,18 @@ import { ReactElement, useEffect } from 'react'
 import { StudentLayout, SubAdminLayout } from '@layouts'
 import { NextPageWithLayout } from '@types'
 
+
 import { Typography, Button, BigCalendar, Card, PageTitle } from '@components'
+
+import {
+    PastAppointments,
+    UpcomingAppointments,
+} from '@components/sections/subAdmin'
+
 
 import { useContextBar } from '@hooks'
 import { CommonCB } from '@partials/rto/contextBar'
+
 
 type Props = {}
 
@@ -62,6 +70,9 @@ const Appointments: NextPageWithLayout = (props: Props) => {
                     <BigCalendar />
                 </Card>
             </div>
+            
+             <UpcomingAppointments />
+            <PastAppointments />
         </div>
     )
 }
