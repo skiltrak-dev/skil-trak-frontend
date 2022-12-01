@@ -8,7 +8,7 @@ import {
     Button,
     DisplayPrimaryActions,
     HelpQuestionSet,
-    ImportantDocument,
+    ImportantDocumentCard,
     PendingSignatureCard,
     PlacementProgressCard,
     RecentAppointmentCard,
@@ -80,36 +80,37 @@ const FigureCardData = [
     {
         count: 38,
         title: 'RTOs',
-        imagUrl: '/images/figure-card/school.png',
+        imageUrl: '/images/icons/rto.png',
     },
     {
         count: 97,
         title: 'Students',
-        imagUrl: '/images/figure-card/school.png',
+        imageUrl: '/images/icons/students.png',
     },
     {
         count: 98,
         title: 'Industries',
-        imagUrl: '/images/figure-card/school.png',
+        imageUrl: '/images/icons/industry.png',
     },
     {
         count: 98,
         title: 'Pending Students',
-        imageUrl: '/images/figure-card/school.png',
+        imageUrl: '/images/icons/pending-student.png',
     },
 ]
 
 const SubAdminUsers: NextPageWithLayout = () => {
-    const { setContent } = useContextBar()
+    const contextBar = useContextBar()
     useEffect(() => {
-        setContent(
+        contextBar.setContent(
             <>
                 <Button variant={'dark'} text={'My Schedule'} />
                 <SidebarCalendar />
                 <RtoContextBarData />
             </>
         )
-    }, [setContent])
+        contextBar.show(false)
+    }, [])
     return (
         <div className="flex flex-col">
             <div className="flex gap-x-6">
@@ -122,14 +123,26 @@ const SubAdminUsers: NextPageWithLayout = () => {
 
                 <div className="flex gap-y-2 flex-col w-full">
                     <div className="flex gap-x-2">
-                        {FigureCardData.map((data, index) => (
-                            <FigureCard
-                                key={index}
-                                imageUrl={data.imageUrl}
-                                count={data.count}
-                                title={data.title}
-                            />
-                        ))}
+                        <FigureCard
+                            imageUrl={FigureCardData[0].imageUrl}
+                            count={FigureCardData[0].count}
+                            title={FigureCardData[0].title}
+                        />
+                        <FigureCard
+                            imageUrl={FigureCardData[1].imageUrl}
+                            count={FigureCardData[1].count}
+                            title={FigureCardData[1].title}
+                        />
+                        <FigureCard
+                            imageUrl={FigureCardData[2].imageUrl}
+                            count={FigureCardData[2].count}
+                            title={FigureCardData[2].title}
+                        />
+                        <FigureCard
+                            imageUrl={FigureCardData[3].imageUrl}
+                            count={FigureCardData[3].count}
+                            title={FigureCardData[3].title}
+                        />
                     </div>
 
                     <AppointmentCard />
@@ -154,7 +167,9 @@ const SubAdminUsers: NextPageWithLayout = () => {
 }
 
 SubAdminUsers.getLayout = (page: ReactElement) => {
-    return <SubAdminLayout title="Users">{page}</SubAdminLayout>
+    return (
+        <SubAdminLayout pageTitle={{ title: 'Users' }}>{page}</SubAdminLayout>
+    )
 }
 
 export default SubAdminUsers

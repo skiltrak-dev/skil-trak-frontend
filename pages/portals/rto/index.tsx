@@ -25,7 +25,7 @@ import { AuthApi } from '@queries'
 import { CheckStatus } from '@partials/auth'
 import { ViewProfileCB } from '@partials/rto/contextBar'
 import { FigureCard } from '@components/sections'
-import { ImportantDocuments } from '@partials/common'
+import { ImportantDocuments } from '@partials/rto/components'
 
 const UserQuestions = [
     {
