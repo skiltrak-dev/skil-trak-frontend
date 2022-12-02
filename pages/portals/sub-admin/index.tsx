@@ -27,7 +27,7 @@ import { Animations } from '@animations'
 // hooks
 import { useContextBar } from '@hooks'
 import { ViewProfileCB } from '@partials/sub-admin/contextBar'
-import { FigureCard } from '@components/sections'
+import { FigureCard } from '@components/sections/subAdmin/'
 import { AuthUtils } from '@utils'
 
 import { SubAdminApi } from '@queries'
@@ -234,9 +234,9 @@ const SubAdminDashboard: NextPageWithLayout = () => {
                     {isLoading ? (
                         <ContextBarLoading />
                     ) : data?.courses.length ? (
-                        Object.keys(sectorsWithCourses).map((sector) => {
+                        Object.keys(sectorsWithCourses).map((sector:any) => {
                             return (
-                                <div className="mt-4">
+                                <div className="mt-4" key={sector?.id}>
                                     <div>
                                         {/* <p className="text-xs font-medium text-gray-400">
                                             Sector
@@ -247,8 +247,11 @@ const SubAdminDashboard: NextPageWithLayout = () => {
                                     </div>
 
                                     {(sectorsWithCourses as any)[sector].map(
-                                        (c: Course) => (
-                                            <div className="flex flex-col gap-y-4 ml-4">
+                                        (c: Course, i: number) => (
+                                            <div
+                                                className="flex flex-col gap-y-4 ml-4"
+                                                key={i}
+                                            >
                                                 <div className="border-l-4 border-green-600 px-2">
                                                     <div>
                                                         <p className="text-xs font-medium text-gray-400">

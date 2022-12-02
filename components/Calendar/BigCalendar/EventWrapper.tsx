@@ -25,7 +25,6 @@ export const EventWrapper = <T extends object>(event: any) => {
       'text-green-700': event.event.priority === 'low',
   })
 
-    console.log(':::: EVENT', event)
     return (
         <div
             style={{

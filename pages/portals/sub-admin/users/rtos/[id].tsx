@@ -21,7 +21,8 @@ import {
 } from '@components'
 import { Notes } from '@components/sections/subAdmin'
 
-import { FigureCard, SubAdminProfileTabsView } from '@components/sections'
+import { FigureCard } from '@components/sections/subAdmin'
+import {  SubAdminProfileTabsView } from '@components/sections/subAdmin'
 import {
     RtoProfileOverview,
     AppointmentProfile,
@@ -162,7 +163,7 @@ const RtoProfile: NextPageWithLayout = (props: Props) => {
     )
 }
 RtoProfile.getLayout = (page: ReactElement) => {
-    return <SubAdminLayout title="RTO Profile">{page}</SubAdminLayout>
+    return <SubAdminLayout pageTitle={{title:"RTO Profile"}}>{page}</SubAdminLayout>
 }
 
 export default RtoProfile

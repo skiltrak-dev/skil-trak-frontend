@@ -27,7 +27,7 @@ import { AddAssessmentToolCB } from './contextBar'
 
 export const AssessmentsToolsContainer = () => {
     const router = useRouter()
-    const [selectedCourseId, setSelectedCourseId] = useState<string | null>(
+    const [selectedCourseId, setSelectedCourseId] = useState<number | null>(
         null
     )
 

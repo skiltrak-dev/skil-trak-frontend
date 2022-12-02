@@ -23,7 +23,6 @@ export const IndustrySelection = ({
     // selectedCourses: number[]
     workplaceIndustries: any
 }) => {
-    console.log('workplaceIndustries', workplaceIndustries)
     const [industries, setIndustries] = useState<any[] | null>([])
     const [selectedCourses, setSelectedCourses] = useState<any[] | null>(null)
     const [industrySelection, setIndustrySelection] = useState(null)

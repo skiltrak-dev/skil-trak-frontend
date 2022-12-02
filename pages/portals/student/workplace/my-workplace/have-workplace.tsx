@@ -155,7 +155,7 @@ const HaveWorkplace: NextPageWithLayout = (props: Props) => {
                                     Your request has been received, Our team
                                     after confirming the provided information
                                     will approved your request and Will Contact
-                                    you soon'
+                                    you soon
                                 </Typography>
                             </Card>
                         )))}

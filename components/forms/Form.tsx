@@ -15,7 +15,7 @@ export const Form = () => {
 		mode: "all",
 	});
 	const onSubmit = (data: any) => {
-		// console.log("submitting...", data);
+
 	};
 
 	return (
@@ -161,7 +161,7 @@ export const Form = () => {
 							},
 						]}
 						onChange={(e: any) => {
-							console.log(":::: CHANGED", e);
+
 						}}
 					/>
 					<button type="submit">Submit</button>

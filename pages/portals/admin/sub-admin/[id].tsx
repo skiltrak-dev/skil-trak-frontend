@@ -29,7 +29,7 @@ import { IoLogIn } from 'react-icons/io5'
 import { MdPlace } from 'react-icons/md'
 import Image from 'next/image'
 import { DetailTabs } from '@partials/admin/sub-admin'
-import { FigureCard } from '@components/sections'
+import { FigureCard } from '@components/sections/subAdmin'
 
 const RtoDetail: NextPageWithLayout = () => {
     const router = useRouter()

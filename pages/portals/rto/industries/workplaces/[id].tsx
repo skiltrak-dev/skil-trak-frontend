@@ -163,7 +163,15 @@ const Detail: NextPageWithLayout = () => {
 }
 
 Detail.getLayout = (page: ReactElement) => {
-    return <RtoLayout title="Workplace">{page}</RtoLayout>
+    return (
+        <RtoLayout
+            pageTitle={{
+                title: 'Workplace',
+            }}
+        >
+            {page}
+        </RtoLayout>
+    )
 }
 
 export default Detail

@@ -126,7 +126,15 @@ const RtoIndustries: NextPageWithLayout = () => {
 }
 
 RtoIndustries.getLayout = (page: ReactElement) => {
-    return <RtoLayout title="Industries">{page}</RtoLayout>
+    return (
+        <RtoLayout
+            pageTitle={{
+                title: 'Industries',
+            }}
+        >
+            {page}
+        </RtoLayout>
+    )
 }
 
 export default RtoIndustries

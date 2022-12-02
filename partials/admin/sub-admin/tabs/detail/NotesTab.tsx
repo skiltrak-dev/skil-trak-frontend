@@ -22,8 +22,6 @@ export const NotesTab = ({ subAdmin }: { subAdmin: any }) => {
         }
     }, [subAdmin])
 
-    console.log('approvedUser', approvedUser)
-
     const notes = AdminApi.Notes.useList(subAdmin?.id, {
         skip: !subAdmin?.id,
     })

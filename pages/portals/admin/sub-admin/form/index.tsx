@@ -44,7 +44,6 @@ const EditRto: NextPageWithLayout = () => {
     const subAdmin = AdminApi.SubAdmins.useListQuery(editSubAdminId, {
         skip: !editSubAdminId,
     })
-    console.log('rto', editSubAdminId, subAdmin)
 
     useEffect(() => {
         navBar.setTitle('Edit SubAdmin')

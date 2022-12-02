@@ -18,7 +18,7 @@ import { SubAdminApi, useGetStudentProfileDetailQuery } from '@queries'
 import moment from 'moment'
 export const ViewProfileCB = () => {
     const { data, isSuccess, isLoading } = SubAdminApi.SubAdmin.useProfile()
-    console.log("::: DATA", data)
+
     return (
         <div>
             <div className="flex flex-col items-center">

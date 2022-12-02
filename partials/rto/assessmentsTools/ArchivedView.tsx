@@ -25,7 +25,7 @@ type ArchivedViewProps = {
 }
 
 export const ArchivedViewContainer = ({ role }: ArchivedViewProps) => {
-    const [selectedCourseId, setSelectedCourseId] = useState<string | null>(
+    const [selectedCourseId, setSelectedCourseId] = useState<number | null>(
         null
     )
     const rtoCourses = useGetRTOCoursesQuery()

@@ -69,7 +69,6 @@ export const CourseFolders = ({
     }, [addAssessmentEvidenceResult])
 
     const onSubmit = async (values: any) => {
-        console.log('values', values)
         category === 'IndustryCheck'
             ? await addFolder({
                   ...values,

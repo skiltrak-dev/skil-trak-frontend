@@ -28,7 +28,6 @@ export const mouApi = createApi({
     }),
     getIndustryMOUDetail: builder.query<any, string>({
       query: (id) => {
-        // console.log('Query ', id)
         return {
           url: `industries/mou/view/${id}`,
         }

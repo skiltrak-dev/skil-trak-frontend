@@ -25,7 +25,7 @@ export const contactPersonEndpoints = (
         },
         invalidatesTags: ['ContactPersons'],
     }),
-    updateContactPerson: builder.mutation<any, number>({
+    updateContactPerson: builder.mutation<any, any>({
         query: (body) => {
             return {
                 url: `${PREFIX}/contact-person/update/${body.id}`,

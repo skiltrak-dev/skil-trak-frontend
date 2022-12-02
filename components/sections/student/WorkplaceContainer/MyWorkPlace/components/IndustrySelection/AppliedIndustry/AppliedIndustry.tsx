@@ -15,7 +15,6 @@ export const AppliedIndustry = ({
   setIndustrySelection,
   status,
 }: Props) => {
-  console.log("Workplace___________Request", status);
   // map over workplaceIndustries
 
 

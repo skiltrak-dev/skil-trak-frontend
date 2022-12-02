@@ -63,8 +63,7 @@ const CreateAppointments: NextPageWithLayout = (props: Props) => {
         { skip: !type }
     )
     const rtoCourses = RtoApi.Rto.useProfile()
-    console.log("coordinators",coordinators);
-    
+
     useEffect(() => {
         setSelectedCoordinator(null)
         if (coordinators.data && coordinators.isSuccess) {
@@ -177,7 +176,15 @@ const CreateAppointments: NextPageWithLayout = (props: Props) => {
     )
 }
 CreateAppointments.getLayout = (page: ReactElement) => {
-    return <RtoLayout title="Create Appointments">{page}</RtoLayout>
+    return (
+        <RtoLayout
+            pageTitle={{
+                title: 'Create Appointments',
+            }}
+        >
+            {page}
+        </RtoLayout>
+    )
 }
 
 export default CreateAppointments

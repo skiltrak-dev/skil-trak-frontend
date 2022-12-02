@@ -1,4 +1,3 @@
-export * from './Setting'
 export * from './SetSchedule'
 export * from './appointments'
 export * from './SetUnavailability'

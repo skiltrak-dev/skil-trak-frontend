@@ -1,1 +1,1 @@
-export * from './CreateAppointmens'
+export * from './CreateAppointments'

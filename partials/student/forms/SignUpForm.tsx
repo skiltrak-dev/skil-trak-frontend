@@ -20,7 +20,6 @@ export const StudentSignUpForm = ({ onSubmit }: { onSubmit: any }) => {
 
    const sectorResponse = AuthApi.useSectors({})
    const rtoResponse = AuthApi.useRtos({})
-console.log("rtoResponse", rtoResponse);
 
    const [checkEmailExists, emailCheckResult] = AuthApi.useEmailCheck()
 

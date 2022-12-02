@@ -41,10 +41,7 @@ export const MailForm = ({ action, receiverId, sender }: any) => {
     }, [actionDataResult.isSuccess])
 
     const onSubmit = (values: any) => {
-        // setResetFormData(resetForm)
-        console.log('values', values)
         const userCredentials = AuthUtils.getUserCredentials()
-        console.log('userCredentials', userCredentials)
         const date = new Date()
         const parent = -1
         // const parent = replyMessage?.id

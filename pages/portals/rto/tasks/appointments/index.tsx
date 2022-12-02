@@ -39,7 +39,15 @@ const RtoAppointments: NextPageWithLayout = (props: Props) => {
     )
 }
 RtoAppointments.getLayout = (page: ReactElement) => {
-    return <RtoLayout title="Appointments">{page}</RtoLayout>
+    return (
+        <RtoLayout
+            pageTitle={{
+                title: 'Appointments',
+            }}
+        >
+            {page}
+        </RtoLayout>
+    )
 }
 
 export default RtoAppointments

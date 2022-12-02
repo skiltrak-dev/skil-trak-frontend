@@ -16,7 +16,7 @@ import { AdminApi } from '@queries'
 export const AssessmentTools = ({ rto }: any) => {
     const [courses, setCourses] = useState<any | null>(null)
 
-    const [selectedCourseId, setSelectedCourseId] = useState<string | null>(
+    const [selectedCourseId, setSelectedCourseId] = useState<number | null>(
         null
     )
 

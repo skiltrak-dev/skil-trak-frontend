@@ -93,11 +93,10 @@ export const AssessmentTools = ({ id, courses, actions }: any) => {
                                 <LoadingAnimation />
                             ) : getAssessmentTools?.data &&
                               getAssessmentTools?.data?.length > 0 ? (
-                                getAssessmentTools?.data?.map((tools:any) => (
+                                getAssessmentTools?.data?.map((tools: any) => (
                                     <DownloadableFile
                                         key={tools.id}
                                         actions={() => actions(tools?.id)}
-                                        role={'RTO'}
                                         name={tools?.title}
                                         archivedView={false}
                                     />

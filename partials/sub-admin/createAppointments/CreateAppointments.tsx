@@ -77,7 +77,6 @@ export const CreateAppointments = () => {
     }, [selectedPerson.selectedAppointmentFor])
 
     useEffect(() => {
-        console.log('kkk', userAvailabilities?.data?.availabilities?.length)
         if (userAvailabilities?.data?.availabilities?.length === 0) {
             notification.error({
                 title: 'No Availabilities were found',

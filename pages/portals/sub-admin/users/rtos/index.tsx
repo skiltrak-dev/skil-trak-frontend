@@ -252,7 +252,7 @@ const RTOs: NextPageWithLayout = () => {
     )
 }
 RTOs.getLayout = (page: ReactElement) => {
-    return <SubAdminLayout title="RTOs">{page}</SubAdminLayout>
+    return <SubAdminLayout pageTitle={{title:"RTOs"}}>{page}</SubAdminLayout>
 }
 
 export default RTOs

@@ -197,9 +197,9 @@ const StudentDashboard: NextPageWithLayout = () => {
                     {isLoading ? (
                         <ContextBarLoading />
                     ) : data?.courses.length ? (
-                        Object.keys(sectorsWithCourses).map((sector) => {
+                        Object.keys(sectorsWithCourses).map((sector, i) => {
                             return (
-                                <div className="">
+                                <div className="" key={i}>
                                     <div>
                                         <p className="text-xs font-medium text-gray-400">
                                             Sector
@@ -211,7 +211,10 @@ const StudentDashboard: NextPageWithLayout = () => {
 
                                     {(sectorsWithCourses as any)[sector].map(
                                         (c: Course) => (
-                                            <div className="flex flex-col gap-y-4 ml-4">
+                                            <div
+                                                className="flex flex-col gap-y-4 ml-4"
+                                                key={c.id}
+                                            >
                                                 <div className="border-l-4 border-green-600 px-2">
                                                     <div>
                                                         <p className="text-xs font-medium text-gray-400">
@@ -343,6 +346,9 @@ const StudentDashboard: NextPageWithLayout = () => {
                                                             idx: number
                                                         ) => (
                                                             <InitialAvatar
+                                                                key={
+                                                                    subAdmin.id
+                                                                }
                                                                 name={
                                                                     subAdmin
                                                                         .user
@@ -361,8 +367,8 @@ const StudentDashboard: NextPageWithLayout = () => {
                             </div>
                         </div>
                     ) : (
-                        <div className='mt-6'>
-                            <NoData text="No RTO Assigned"/>
+                        <div className="mt-6">
+                            <NoData text="No RTO Assigned" />
                         </div>
                     )}
                 </Card>

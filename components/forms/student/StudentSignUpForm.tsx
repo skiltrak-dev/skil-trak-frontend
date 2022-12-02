@@ -29,7 +29,7 @@ export const StudentSignUpForm = ({ onSubmit }: { onSubmit: any }) => {
     const [storedData, setStoredData] = useState<any>(null)
 
     const [lastEnteredEmail, setLastEnteredEmail] = useState('')
-    // console.log("signup------", onSubmit);
+
 
     const onEmailChange = (e: any) => {
         _debounce(() => {

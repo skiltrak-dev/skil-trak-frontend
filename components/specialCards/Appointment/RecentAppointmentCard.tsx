@@ -13,7 +13,6 @@ export const RecentAppointmentCard = ({
     appointment,
 }: RecentAppointmentCardProps) => {
     const recentAppointment = appointment?.[0]
-    console.log(appointment)
 
     return (
         <div className="bg-gradient-to-r from-[#3883F3] to-[#5D1BE0] rounded-2xl p-4">

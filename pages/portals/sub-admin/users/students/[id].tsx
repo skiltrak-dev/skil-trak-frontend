@@ -1,47 +1,32 @@
 import { useRouter } from 'next/router'
 import { ReactElement, useEffect } from 'react'
-import Link from 'next/link'
 //Layouts
 import { SubAdminLayout } from '@layouts'
 import { NextPageWithLayout } from '@types'
 
-import { TabsView } from '@components/sections/rto'
 //components
 import {
-    AssessmentsTools,
-    ReactTable,
-    TabNavigation,
-    TabProps,
-    Typography,
-    IndustryProfile,
-    TechnicalError,
-    LoadingAnimation,
-    EmptyData,
-    SubAdminStudentProfile,
+    EmptyData, LoadingAnimation, SubAdminStudentProfile, TabNavigation,
+    TabProps, TechnicalError, Typography
 } from '@components'
-import {
-    AppointmentProfile,
-    FigureCard,
-    Notes,
-    RtoProfileOverview,
-    SubAdminProfileTabsView,
-} from '@components/sections'
+
+
 import {
     MailsTab,
-    StudentsProfileOverview,
+    StudentsProfileOverview
 } from '@components/sections/subAdmin/StudentsContainer'
 // icons
 import { FaEdit } from 'react-icons/fa'
 // queries
 import {
     useGetSubAdminStudentDetailQuery,
-    useUpdateAssessmentToolArchiveMutation,
+    useUpdateAssessmentToolArchiveMutation
 } from '@queries'
-import { AssessmentsEvidence } from '@components/sections/student/AssessmentsContainer'
 
 // hooks
-import { useContextBar } from '@hooks'
 import { AssesmentEvidenceDetail } from '@components/sections/subAdmin/Tasks'
+import { useContextBar } from '@hooks'
+import { Notes } from '@components/sections/subAdmin'
 
 type Props = {}
 
@@ -156,7 +141,7 @@ const StudentsProfile: NextPageWithLayout = (props: Props) => {
     )
 }
 StudentsProfile.getLayout = (page: ReactElement) => {
-    return <SubAdminLayout title="Student Profile">{page}</SubAdminLayout>
+    return <SubAdminLayout pageTitle={{title:"Student Profile"}}>{page}</SubAdminLayout>
 }
 
 export default StudentsProfile

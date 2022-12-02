@@ -78,7 +78,8 @@ export const CourseView = ({ course }: { course: Course }) => {
                                     course={courseDetail.data}
                                     category="IndustryCheck"
                                     folders={courseDetail.data?.folders.filter(
-                                        (f) => f.category === 'IndustryCheck'
+                                        (f: any) =>
+                                            f.category === 'IndustryCheck'
                                     )}
                                 />
                             )}

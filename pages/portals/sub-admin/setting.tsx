@@ -53,6 +53,7 @@ const Setting: NextPageWithLayout = () => {
         <div className="flex flex-col gap-y-2">
             {settingDetail.map((setting, i) => (
                 <SettingCard
+                    key={i}
                     setting={setting}
                     loading={getSettingData.isLoading}
                 />
@@ -62,11 +63,17 @@ const Setting: NextPageWithLayout = () => {
 }
 
 Setting.getLayout = (page: ReactElement) => {
-    return <SubAdminLayout pageTitle={{
-        title: 'Setting',
-        navigateBack: true,
-        backTitle: 'Back',
-    }}>{page}</SubAdminLayout>
+    return (
+        <SubAdminLayout
+            pageTitle={{
+                title: 'Setting',
+                navigateBack: true,
+                backTitle: 'Back',
+            }}
+        >
+            {page}
+        </SubAdminLayout>
+    )
 }
 
 export default Setting
