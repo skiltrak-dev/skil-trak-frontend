@@ -55,17 +55,7 @@ const Workplace: NextPageWithLayout = (props: Props) => {
     )
 }
 Workplace.getLayout = (page: ReactElement) => {
-    return (
-        <SubAdminLayout
-            pageTitle={{
-                title: 'Workplace',
-                navigateBack: false,
-                backTitle: 'tasks',
-            }}
-        >
-            {page}
-        </SubAdminLayout>
-    )
+  return <SubAdminLayout pageTitle={{ title: "Workplace" }}>{page}</SubAdminLayout>
 }
 
 export default Workplace

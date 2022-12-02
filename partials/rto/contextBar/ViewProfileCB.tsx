@@ -201,7 +201,7 @@ export const ViewProfileCB = () => {
                             {rto?.subadmin.map((coordinator: any) => (
                                 <>
                                     <InitialAvatar
-                                        name={coordinator.user.name}
+                                        name={coordinator?.user?.name}
                                         first
                                     />
                                 </>

@@ -2,5 +2,7 @@
     "editor.tabSize": 2,
     "editor.tabCompletion": "on",
     "files.autoSave": "afterDelay",
-    "prettier.useTabs": true
+    "prettier.useTabs": true,
+    "prettier.tabWidth": 4,
+    "editor.formatOnSave": true
 }

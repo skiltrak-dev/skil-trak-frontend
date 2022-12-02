@@ -4,7 +4,7 @@ import moment from 'moment'
 
 import { StudentLayout } from '@layouts'
 import { NextPageWithLayout } from '@types'
-import { AppointmentType, Form, TimeSlots } from '@components/sections'
+import { Form, TimeSlots } from '@components/sections'
 import { Button, TextArea } from '@components'
 import { useForm, FormProvider } from 'react-hook-form'
 
@@ -29,7 +29,7 @@ const BookAppointment: NextPageWithLayout = (props: Props) => {
     } | null>(null)
     const [selectedDate, setSelectedDate] = useState<Date | null>(null)
     const [selectedTime, setSelectedTime] = useState<any | null>(null)
-
+    
     // query
     // query
     const coordinatorAvailability = useGetCoordinatorsAvailabilityQuery(

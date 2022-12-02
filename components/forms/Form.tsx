@@ -15,7 +15,7 @@ export const Form = () => {
 		mode: "all",
 	});
 	const onSubmit = (data: any) => {
-		console.log("submitting...", data);
+		// console.log("submitting...", data);
 	};
 
 	return (
@@ -26,10 +26,10 @@ export const Form = () => {
 						name="firstName"
 						label="First Name"
 						onChange={(e: any) => {
-							console.log(
-								":::: Text Input Changed",
-								e.target.value
-							);
+							// console.log(
+							// 	":::: Text Input Changed",
+							// 	e.target.value
+							// );
 						}}
 						helpText={"Some help would be nice"}
 						placeholder={"Your good name here"}
@@ -45,10 +45,10 @@ export const Form = () => {
 						name="description"
 						label="Description"
 						onChange={(e: any) => {
-							console.log(
-								":::: Text Area Changed",
-								e.target.value
-							);
+							// console.log(
+							// 	":::: Text Area Changed",
+							// 	e.target.value
+							// );
 						}}
 						helpText={"Some help would be nice"}
 						placeholder={"Your good text here"}
@@ -63,11 +63,11 @@ export const Form = () => {
 					<Switch
 						name="testSwitch"
 						onChange={(e: any) => {
-							console.log(
-								":::: SWITCH CHANGED",
-								e.target.checked,
-								e.target.value
-							);
+							// console.log(
+							// 	":::: SWITCH CHANGED",
+							// 	e.target.checked,
+							// 	e.target.value
+							// );
 						}}
 						defaultChecked
 					/>
@@ -75,11 +75,11 @@ export const Form = () => {
 					<Checkbox
 						name="testCheckbox"
 						onChange={(e: any) => {
-							console.log(
-								":::: Checkbox CHANGED",
-								e.target.checked,
-								e.target.value
-							);
+							// console.log(
+							// 	":::: Checkbox CHANGED",
+							// 	e.target.checked,
+							// 	e.target.value
+							// );
 						}}
 						label={"Some weird name here"}
 						value="I got some value"
@@ -89,11 +89,11 @@ export const Form = () => {
 					<RadioButton
 						name="testRadio"
 						onChange={(e: any) => {
-							console.log(
-								":::: Checkbox CHANGED",
-								e.target.checked,
-								e.target.value
-							);
+							// console.log(
+							// // 	":::: Checkbox CHANGED",
+							// // 	e.target.checked,
+							// // 	e.target.value
+							// // );
 						}}
 						label={"The great label"}
 						value="All i wana say that they dont really care about us"
@@ -102,11 +102,11 @@ export const Form = () => {
 					<RadioButton
 						name="testRadio"
 						onChange={(e: any) => {
-							console.log(
-								":::: Checkbox CHANGED",
-								e.target.checked,
-								e.target.value
-							);
+							// console.log(
+							// 	":::: Checkbox CHANGED",
+							// 	e.target.checked,
+							// 	e.target.value
+							// );
 						}}
 						label={"Stupid things"}
 						value="Stupid things"
@@ -130,11 +130,11 @@ export const Form = () => {
 							},
 						]}
 						onChange={(e: any) => {
-							console.log(
-								"::: GRATO",
-								e.target.checked,
-								e.target.value
-							);
+							// console.log(
+							// 	"::: GRATO",
+							// 	e.target.checked,
+							// 	e.target.value
+							// );
 						}}
 					/>
 

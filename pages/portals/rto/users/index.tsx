@@ -6,7 +6,7 @@ import {
     HelpQuestionSet,
     QuestionCard,
 } from '@components'
-import { FigureCard } from '@components/sections'
+import { FigureCard } from '@components/sections/subAdmin'
 import { useContextBar } from '@hooks'
 import { RtoLayout } from '@layouts'
 import { CommonCB } from '@partials/rto/contextBar'
