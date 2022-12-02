@@ -3,7 +3,8 @@ import { ReactElement, useEffect } from 'react'
 import { Animations } from '@animations'
 import {
     DisplayPrimaryActions,
-    HelpQuestionSet, QuestionCard
+    HelpQuestionSet,
+    QuestionCard,
 } from '@components'
 import { FigureCard } from '@components/sections'
 import { useContextBar } from '@hooks'
@@ -15,7 +16,7 @@ const PrimaryLinks = [
     {
         title: 'Students',
         description: 'View & Manage Your Students',
-        link: 'users/students?tab=pending',
+        link: 'users/students?tab=approved',
         animation: Animations.Student.Workplace.Student,
     },
     {
@@ -124,7 +125,6 @@ const RtoUsers: NextPageWithLayout = () => {
                             />
                         </>
                     </QuestionCard>
-                  
                 </div>
             </div>
 
@@ -144,7 +144,7 @@ const RtoUsers: NextPageWithLayout = () => {
 }
 
 RtoUsers.getLayout = (page: ReactElement) => {
-    return <RtoLayout title="Users">{page}</RtoLayout>
+    return <RtoLayout pageTitle={{ title: 'Users' }}>{page}</RtoLayout>
 }
 
 export default RtoUsers

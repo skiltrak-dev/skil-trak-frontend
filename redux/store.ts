@@ -43,6 +43,7 @@ import {
     employeeTaskApi,
     industryAppointmentApi,
     rtoApi,
+    subAdminApi
 } from '@queries'
 
 export const store = configureStore({
@@ -91,6 +92,7 @@ export const store = configureStore({
         [mouApi.reducerPath]: mouApi.reducer,
 
         [rtoApi.reducerPath]: rtoApi.reducer,
+        [subAdminApi.reducerPath]: subAdminApi.reducer,
     },
     // Adding the api middleware enables caching, invalidation, polling,
     // and other useful features of `rtk-query`.
@@ -139,6 +141,7 @@ export const store = configureStore({
             mouApi.middleware,
 
             rtoApi.middleware,
+            subAdminApi.middleware,
         ]),
 })
 

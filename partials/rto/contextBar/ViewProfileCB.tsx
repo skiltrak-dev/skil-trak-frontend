@@ -69,7 +69,7 @@ export const ViewProfileCB = () => {
                             rto?.user.avatar
                                 ? 'w-[100px] h-[100px]'
                                 : 'w-24 h-24'
-                        }absolute top-0 left-0 bg-transparent rounded-full shadow-inner-image`}
+                        } absolute top-0 left-0 bg-transparent rounded-full shadow-inner-image`}
                     ></div>
                 </div>
 

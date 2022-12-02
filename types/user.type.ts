@@ -71,6 +71,8 @@ export interface SubAdmin extends BaseResponse {
     phone: string
     appointmentEligibility: boolean
     courses: Course[]
+    coordinatorId: string
+    address: string
 }
 
 export interface Industry extends BaseResponse {

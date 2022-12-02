@@ -25,7 +25,7 @@ export const AuthNavbar = ({ type }: AuthHeaderProps) => {
     }
 
     const onSignUp = () => {
-        router.push('/auth/login')
+        router.push('/auth/signup')
     }
 
     return (

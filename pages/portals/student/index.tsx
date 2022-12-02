@@ -1,9 +1,9 @@
-import { ReactElement, useEffect } from 'react'
+import { ReactElement, useEffect, useState } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 // layout
 import { StudentLayout } from '@layouts'
-import { NextPageWithLayout } from '@types'
+import { Course, NextPageWithLayout, SubAdmin } from '@types'
 // components
 import {
     Badge,
@@ -14,15 +14,27 @@ import {
     LottieAnimation,
     UserProfile,
     InitialAvatarContainer,
+    ContextBarLoading,
+    NoData,
 } from '@components'
 import { Animations } from '@animations'
 // icons
-import { FaBook, FaMapMarker, FaMapMarkerAlt, FaSchool } from 'react-icons/fa'
+import {
+    FaBook,
+    FaBriefcase,
+    FaMapMarker,
+    FaMapMarkerAlt,
+    FaSchool,
+} from 'react-icons/fa'
 import { MdPermContactCalendar, MdPhone, MdVerified } from 'react-icons/md'
 import { IoBriefcase } from 'react-icons/io5'
 // hooks
 import { useContextBar } from '@hooks'
+import { AuthUtils } from '@utils'
+import { ImportantDocuments } from '@partials/student/components'
+import { ViewProfileCB } from '@partials/student/contextBar'
 // import { InitialAvatarContainer } from '@components/InitialAvatar/InitialAvatarContainer'
+import { useGetStudentProfileDetailQuery } from '@queries'
 
 const WorkplaceQuestions = [
     {
@@ -73,11 +85,42 @@ const NotificationQuestions = [
     },
 ]
 
+const getSectors = (courses: any) => {
+    if (!courses) return {}
+    const sectors = {}
+    courses.forEach((c: any) => {
+        if ((sectors as any)[c.sector.name]) {
+            ;(sectors as any)[c.sector.name].push(c)
+        } else {
+            ;(sectors as any)[c.sector.name] = []
+            ;(sectors as any)[c.sector.name].push(c)
+        }
+    })
+    return sectors
+}
+
 const StudentDashboard: NextPageWithLayout = () => {
+    const { data, isSuccess, isLoading } = useGetStudentProfileDetailQuery()
+    const sectorsWithCourses = getSectors(data?.courses)
+
+    const [name, setName] = useState('')
+    const credentials = AuthUtils.getUserCredentials()
+
     const contextBar = useContextBar()
 
     useEffect(() => {
-        contextBar.setContent(<UserProfile />)
+        contextBar.setContent(<ViewProfileCB />)
+        contextBar.show(false)
+    }, [])
+
+    useEffect(() => {
+        if (name === '') {
+            if (credentials) {
+                setName(credentials?.name || 'Student')
+            } else {
+                setName('Student')
+            }
+        }
     }, [])
 
     return (
@@ -85,11 +128,6 @@ const StudentDashboard: NextPageWithLayout = () => {
             {/* Question Section */}
             <section className="bg-[#D6F4FF] w-full p-4 rounded-2xl relative overflow-hidden">
                 <div className="absolute right-0 -bottom-3">
-                    {/* <Image
-                        src={'/images/students/help.png'}
-                        width={180}
-                        height={145}
-                    /> */}
                     <LottieAnimation
                         animation={Animations.Common.Help}
                         width={200}
@@ -99,9 +137,7 @@ const StudentDashboard: NextPageWithLayout = () => {
                 <div>
                     <h3 className="text-2xl text-orange-500">
                         Welcome Back,{' '}
-                        <span className="font-semibold text-black">
-                            Name Of User
-                        </span>
+                        <span className="font-semibold text-black">{name}</span>
                     </h3>
                     <h4 className="font-semibold text-gray-400">
                         What you want to do here?
@@ -135,39 +171,6 @@ const StudentDashboard: NextPageWithLayout = () => {
                 </div>
             </section>
 
-            <section className="flex gap-x-4">
-                <DocumentCard
-                    title="Workflow"
-                    description="One liner about workflow"
-                    idx={1}
-                />
-                <DocumentCard
-                    title="Course Requirements"
-                    description="One liner about Course Requirements"
-                    idx={2}
-                />
-                <DocumentCard
-                    title="Induction Process"
-                    description="One liner about Induction Process"
-                    idx={3}
-                />
-                <DocumentCard
-                    title="Placement Info"
-                    description="One liner about Placement Info"
-                    idx={4}
-                />
-                <DocumentCard
-                    title="Legal"
-                    description="One liner about Legal"
-                    idx={5}
-                />
-                <DocumentCard
-                    title="Checklist"
-                    description="One liner about Checklist"
-                    idx={6}
-                />
-            </section>
-
             {/* Sector Card */}
             <Card>
                 {/* Card Header */}
@@ -183,55 +186,53 @@ const StudentDashboard: NextPageWithLayout = () => {
                     </div>
 
                     {/* Action */}
-                    <Link href="#">
+                    {/* <Link href="#">
                         <a className="inline-block uppercase text-xs font-medium bg-indigo-100 text-indigo-600 px-4 py-2 rounded">
                             See Details
                         </a>
-                    </Link>
+                    </Link> */}
                 </div>
 
-                {/* Card Body */}
                 <div className="flex items-center gap-x-6 mt-4">
-                    {/* Sector */}
-                    <div className="">
-                        <div>
-                            <p className="text-xs font-medium text-gray-400">
-                                Sector
-                            </p>
-                            <p className="text-sm font-semibold">
-                                Commercial Cookery &amp; Hospitality
-                            </p>
-                        </div>
+                    {isLoading ? (
+                        <ContextBarLoading />
+                    ) : data?.courses.length ? (
+                        Object.keys(sectorsWithCourses).map((sector) => {
+                            return (
+                                <div className="">
+                                    <div>
+                                        <p className="text-xs font-medium text-gray-400">
+                                            Sector
+                                        </p>
+                                        <p className="text-sm font-semibold">
+                                            {sector}
+                                        </p>
+                                    </div>
 
-                        {/* Courses */}
-                        <div className="flex flex-col gap-y-4 ml-4">
-                            <div className="border-l-4 border-green-600 px-2">
-                                <div>
-                                    <p className="text-xs font-medium text-gray-400">
-                                        SITHCCC020
-                                    </p>
-                                    <p className="text-sm">
-                                        Work Effectively As A Cook
-                                    </p>
+                                    {(sectorsWithCourses as any)[sector].map(
+                                        (c: Course) => (
+                                            <div className="flex flex-col gap-y-4 ml-4">
+                                                <div className="border-l-4 border-green-600 px-2">
+                                                    <div>
+                                                        <p className="text-xs font-medium text-gray-400">
+                                                            {c.code}
+                                                        </p>
+                                                        <p className="text-sm">
+                                                            {c.title}
+                                                        </p>
+                                                    </div>
+
+                                                    {/* <Badge text="Active" /> */}
+                                                </div>
+                                            </div>
+                                        )
+                                    )}
                                 </div>
-
-                                <Badge text="Active" />
-                            </div>
-
-                            <div className="border-l-4 border-gray-300 px-2">
-                                <div>
-                                    <p className="text-xs font-medium text-gray-400">
-                                        SITHKOP005
-                                    </p>
-                                    <p className="text-sm">
-                                        Coordinate Cooking Operation
-                                    </p>
-                                </div>
-
-                                <Badge text="Not Started" variant="muted" />
-                            </div>
-                        </div>
-                    </div>
+                            )
+                        })
+                    ) : (
+                        <NoData text={'No Courses Assigned'} />
+                    )}
                 </div>
             </Card>
 
@@ -249,72 +250,121 @@ const StudentDashboard: NextPageWithLayout = () => {
                         </div>
 
                         {/* Action */}
-                        <Link href="#">
+                        {/* <Link href="#">
                             <a className="inline-block uppercase text-xs font-medium bg-orange-100 text-orange-600 px-4 py-2 rounded">
                                 See Details
                             </a>
-                        </Link>
+                        </Link> */}
                     </div>
 
                     {/* Card Body */}
-                    <div className="flex items-center gap-x-6 py-4">
-                        <div className="flex-shrink-0">
-                            <Image src="" height={100} width={100} />
-                        </div>
-                        <div>
-                            <div>
-                                <p className="font-medium">
-                                    Guide Star Training &amp; Professional
-                                    Services
-                                </p>
-                                <p className="text-slate-400 text-sm">
-                                    tauseef@jti.edu.au
-                                </p>
-                            </div>
-                            <div className="flex gap-x-6 mt-1">
-                                <div className="flex items-center gap-x-2">
-                                    <span className="text-gray-400">
-                                        <MdPermContactCalendar size={14} />
-                                    </span>
-                                    <span className="text-xs">John Smith</span>
-                                </div>
-                                <div className="flex items-center gap-x-2">
-                                    <span className="text-gray-400">
-                                        <MdPhone size={14} />
-                                    </span>
-                                    <span className="text-xs">
-                                        039 6534 100
-                                    </span>
-                                </div>
-                            </div>
-
-                            <div className="mt-4">
-                                <p className="text-[11px] text-gray-400">
-                                    Coordinators
-                                </p>
-                                <div className="flex justify-between gap-x-2">
-                                    <div>
-                                        <p className="font-medium text-sm">
-                                            Yaseen Khan
-                                        </p>
-                                        <p className="text-xs font-medium text-slate-400">
-                                            yaseen@skiltrak.com.au
-                                        </p>
+                    {data?.rto ? (
+                        <div className="flex items-center gap-x-6 py-4">
+                            <div className="flex-shrink-0">
+                                {data?.rto?.user.avatar ? (
+                                    <Image
+                                        src={data?.rto?.user.avatar}
+                                        width={100}
+                                        height={100}
+                                        className="rounded-full shadow-inner-image"
+                                    />
+                                ) : (
+                                    <div className="h-24 w-24 flex items-center justify-center bg-gray-100 rounded-full">
+                                        <span className="text-4xl text-gray-300">
+                                            <FaSchool />
+                                        </span>
                                     </div>
+                                )}
+                            </div>
+                            <div>
+                                <div>
+                                    <p className="font-medium">
+                                        {data?.rto.user.name}
+                                    </p>
+                                    <p className="text-slate-400 text-sm">
+                                        {data?.rto.user.email}
+                                    </p>
+                                </div>
+                                <div className="flex gap-x-6 mt-1">
+                                    <div className="flex items-center gap-x-2">
+                                        <span className="text-gray-400">
+                                            <MdPermContactCalendar size={14} />
+                                        </span>
+                                        <span className="text-xs">
+                                            Not Provided
+                                        </span>
+                                    </div>
+                                    <div className="flex items-center gap-x-2">
+                                        <span className="text-gray-400">
+                                            <MdPhone size={14} />
+                                        </span>
+                                        <span className="text-xs">
+                                            {data?.rto.phone}
+                                        </span>
+                                    </div>
+                                </div>
 
-                                    <InitialAvatarContainer show={2}>
-                                        <InitialAvatar
-                                            name="John Smith"
-                                            first
-                                        />
-                                        <InitialAvatar name="Yaseen Khan" />
-                                        <InitialAvatar name="Julie Clarke" />
-                                        <InitialAvatar name="Salman" />
-                                    </InitialAvatarContainer>
+                                <div className="mt-4">
+                                    <p className="text-[11px] text-gray-400">
+                                        Coordinators
+                                    </p>
+                                    <div className="flex justify-between gap-x-2">
+                                        {data?.rto.subadmin.length && (
+                                            <div>
+                                                <p className="font-medium text-sm">
+                                                    {
+                                                        data?.rto.subadmin[0]
+                                                            .user.name
+                                                    }
+                                                </p>
+                                                <p className="text-xs font-medium text-slate-400">
+                                                    {
+                                                        data?.rto.subadmin[0]
+                                                            .user.email
+                                                    }
+                                                </p>
+                                            </div>
+                                        )}
+
+                                        {data?.rto.subadmin.slice(
+                                            1,
+                                            data?.rto.subadmin.length
+                                        ).length > 0 && (
+                                            <InitialAvatarContainer show={2}>
+                                                {data?.rto.subadmin
+                                                    .slice(
+                                                        1,
+                                                        data?.rto.subadmin
+                                                            .length
+                                                    )
+                                                    .map(
+                                                        (
+                                                            subAdmin: SubAdmin,
+                                                            idx: number
+                                                        ) => (
+                                                            <InitialAvatar
+                                                                name={
+                                                                    subAdmin
+                                                                        .user
+                                                                        .name
+                                                                }
+                                                                first={
+                                                                    idx === 0
+                                                                }
+                                                            />
+                                                        )
+                                                    )}
+                                            </InitialAvatarContainer>
+                                        )}
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    ) : (
+                        <div className='mt-6'>
+                            <NoData text="No RTO Assigned"/>
+                        </div>
+                    )}
                 </Card>
 
                 {/* Workplace Card */}
@@ -332,80 +382,102 @@ const StudentDashboard: NextPageWithLayout = () => {
                         </div>
 
                         {/* Action */}
-                        <Link href="#">
+                        {/* <Link href="#">
                             <a className="inline-block uppercase text-xs font-medium bg-green-100 text-green-600 px-4 py-2 rounded">
                                 See Details
                             </a>
-                        </Link>
+                        </Link> */}
                     </div>
 
                     {/* Card Body */}
-                    <div className="mt-4">
-                        <div className="flex items-center gap-x-6 mb-4">
-                            <div className="flex-shrink-0">
-                                <Image src="" height={100} width={100} />
-                            </div>
-                            <div>
+                    {data?.workplace.length ? (
+                        <div className="mt-4">
+                            <div className="flex items-center gap-x-6 mb-4">
+                                <div className="flex-shrink-0">
+                                    {data?.rto?.user.avatar ? (
+                                        <Image
+                                            src={data?.rto?.user.avatar}
+                                            width={100}
+                                            height={100}
+                                            className="rounded-full shadow-inner-image"
+                                        />
+                                    ) : (
+                                        <div className="h-24 w-24 flex items-center justify-center bg-gray-100 rounded-full">
+                                            <span className="text-4xl text-gray-300">
+                                                <FaBriefcase />
+                                            </span>
+                                        </div>
+                                    )}
+                                </div>
                                 <div>
-                                    <p className="font-medium">
-                                        Tandoori Fusions Restaurants
-                                    </p>
-                                    <p className="text-slate-400 text-sm">
-                                        info@tandoori.edu.au
-                                    </p>
-                                </div>
-
-                                <div className="flex gap-x-3 mt-1 border-t pt-2">
-                                    <div className="flex items-center gap-x-1">
-                                        <span className="text-gray-400">
-                                            <MdPermContactCalendar size={14} />
-                                        </span>
-                                        <span className="text-xs">
-                                            John Smith
-                                        </span>
+                                    <div>
+                                        <p className="font-medium">
+                                            Tandoori Fusions Restaurants
+                                        </p>
+                                        <p className="text-slate-400 text-sm">
+                                            info@tandoori.edu.au
+                                        </p>
                                     </div>
-                                    <div className="flex items-center gap-x-1">
-                                        <span className="text-gray-400">
-                                            <MdPhone size={14} />
-                                        </span>
-                                        <span className="text-xs">
-                                            039 6534 100
-                                        </span>
-                                    </div>
-                                </div>
 
-                                <div className="mt-2">
-                                    <p className="text-[11px] text-gray-400">
-                                        Contact Person
-                                    </p>
-                                    <div className="flex justify-between gap-x-4">
-                                        <div>
-                                            <p className="font-medium text-sm">
-                                                Taylor Smith
-                                            </p>
-                                            <p className="text-xs font-medium text-slate-400">
-                                                smith@tandoori.com.au
-                                            </p>
+                                    <div className="flex gap-x-3 mt-1 border-t pt-2">
+                                        <div className="flex items-center gap-x-1">
+                                            <span className="text-gray-400">
+                                                <MdPermContactCalendar
+                                                    size={14}
+                                                />
+                                            </span>
+                                            <span className="text-xs">
+                                                John Smith
+                                            </span>
+                                        </div>
+                                        <div className="flex items-center gap-x-1">
+                                            <span className="text-gray-400">
+                                                <MdPhone size={14} />
+                                            </span>
+                                            <span className="text-xs">
+                                                039 6534 100
+                                            </span>
+                                        </div>
+                                    </div>
+
+                                    <div className="mt-2">
+                                        <p className="text-[11px] text-gray-400">
+                                            Contact Person
+                                        </p>
+                                        <div className="flex justify-between gap-x-4">
+                                            <div>
+                                                <p className="font-medium text-sm">
+                                                    Taylor Smith
+                                                </p>
+                                                <p className="text-xs font-medium text-slate-400">
+                                                    smith@tandoori.com.au
+                                                </p>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
 
-                        <div className="flex gap-x-3 mt-1 border-t pt-2">
-                            <div className="flex items-center gap-x-1">
-                                <span className="text-gray-400">
-                                    <FaMapMarkerAlt size={14} />
-                                </span>
-                                <span className="text-xs">
-                                    221B Baker Street, Sydney, Australia
-                                </span>
+                            <div className="flex gap-x-3 mt-1 border-t pt-2">
+                                <div className="flex items-center gap-x-1">
+                                    <span className="text-gray-400">
+                                        <FaMapMarkerAlt size={14} />
+                                    </span>
+                                    <span className="text-xs">
+                                        221B Baker Street, Sydney, Australia
+                                    </span>
+                                </div>
                             </div>
                         </div>
-                    </div>
+                    ) : (
+                        <div className="mt-6">
+                            <NoData text="No Workplace" />
+                        </div>
+                    )}
                 </Card>
             </div>
-            
+
+            <ImportantDocuments />
         </div>
     )
 }
