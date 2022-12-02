@@ -19,7 +19,7 @@ export const authApi = createApi({
 
         registerIndustry: builder.mutation<any, any>({
             query: (body) => ({
-                url: `/industries`,
+                url: `industries`,
                 method: 'POST',
                 body,
             }),
@@ -27,7 +27,7 @@ export const authApi = createApi({
 
         registerRto: builder.mutation<any, any>({
             query: (body) => ({
-                url: `/rtos`,
+                url: `rtos`,
                 method: 'POST',
                 body,
             }),
@@ -35,7 +35,7 @@ export const authApi = createApi({
 
         registerStudent: builder.mutation<any, any>({
             query: (body) => ({
-                url: `/students`,
+                url: `students`,
                 method: 'POST',
                 body,
             }),

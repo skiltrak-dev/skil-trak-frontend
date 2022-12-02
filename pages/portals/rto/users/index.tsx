@@ -15,7 +15,7 @@ const PrimaryLinks = [
     {
         title: 'Students',
         description: 'View & Manage Your Students',
-        link: 'users/students',
+        link: 'users/students?tab=pending',
         animation: Animations.Student.Workplace.Student,
     },
     {
@@ -102,6 +102,7 @@ const RtoUsers: NextPageWithLayout = () => {
                             />
                         </div>
                     </div>
+
 
                     <QuestionCard>
                         <>

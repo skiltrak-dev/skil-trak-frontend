@@ -1,47 +1,18 @@
-import { useEffect, useState } from 'react'
-import {
-    EmptyData,
-    LoadingAnimation,
-    Note,
-    NoteForm,
-    TechnicalError,
-} from '@components'
+import { useState } from 'react'
+import { EmptyData, LoadingAnimation, Note, TechnicalError } from '@components'
 import { useContextBar } from '@hooks'
 import { AdminApi } from '@queries'
 
 import { Note as NoteType } from '@types'
 
 export const NotesTab = ({ student }: { student: any }) => {
-    const contextBar = useContextBar()
-    const [approvedUser, setApprovedUser] = useState<boolean | null>(null)
-
-    useEffect(() => {
-        if (student) {
-            setApprovedUser(student?.user.status === 'approved')
-        }
-    }, [student])
-
     const notes = AdminApi.Notes.useList(student?.user?.id, {
         skip: !student,
     })
 
-    console.log('student', student)
-
     return (
-        <div
-            className={`flex gap-x-2.5 w-full ${
-                contextBar.isVisible ? 'flex-col' : 'flex-row'
-            }`}
-        >
-            <div
-                className={`${
-                    contextBar.isVisible
-                        ? 'w-full'
-                        : !approvedUser
-                        ? 'w-full'
-                        : 'w-[71%]'
-                } bg-gray-50 rounded-lg p-2`}
-            >
+        <div className={`flex gap-x-2.5 w-full `}>
+            <div className={`w-full bg-gray-50 rounded-lg p-2`}>
                 {notes.isError && <TechnicalError />}
                 <div className={`flex flex-col gap-y-2.5 h-full `}>
                     {notes?.isLoading ? (
@@ -62,13 +33,6 @@ export const NotesTab = ({ student }: { student: any }) => {
                     )}
                 </div>
             </div>
-            {approvedUser && (
-                <div
-                    className={`${contextBar.isVisible ? 'w-full' : 'w-[29%]'}`}
-                >
-                    <NoteForm id={student?.user?.id} />
-                </div>
-            )}
         </div>
     )
 }

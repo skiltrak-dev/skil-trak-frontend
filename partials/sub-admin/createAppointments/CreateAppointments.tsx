@@ -1,10 +1,15 @@
 import { useEffect, useState, useCallback } from 'react'
 
 // components
-import { Arrow, CreateAppointmentCard, SearchUser } from './components'
 import { TimeSlots } from '@components/sections/student'
 import { Card, Typography, Button, TextInput } from '@components'
-import { AppointmentFor, AppointmentWithData } from './appointmentData'
+import {
+    AppointmentFor,
+    AppointmentWithData,
+    Arrow,
+    CreateAppointmentCard,
+    SearchUser,
+} from './components'
 import { AppointmentType } from '@partials/appointmentType'
 
 // query
@@ -164,25 +169,10 @@ export const CreateAppointments = () => {
                     )}
 
                 <Card>
-                    {/* <Typography variant={'label'}>
-                        What kind of appointment you want to book?
-                    </Typography> */}
                     <div className="flex justify-between items-center gap-x-3 w-5/12">
                         <AppointmentType
                             setAppointmentTypeId={setAppointmentTypeId}
                         />
-                        {/* {['Industry Consultation', 'Placement Strategy'].map(
-                            (text) => (
-                                <CreateAppointmentCard
-                                    key={text}
-                                    text={text}
-                                    selected={selectedAppointmentType}
-                                    onClick={() => {
-                                        setSelectedAppointmentType(text)
-                                    }}
-                                />
-                            )
-                        )} */}
                     </div>
 
                     {/*  */}

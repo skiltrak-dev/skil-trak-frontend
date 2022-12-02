@@ -9,6 +9,7 @@ import {
     Table,
     TableAction,
     TableActionOption,
+    TechnicalError,
 } from '@components'
 import { PageHeading } from '@components/headings'
 import { ColumnDef } from '@tanstack/react-table'
@@ -34,7 +35,7 @@ export const PendingStudent = () => {
     const [itemPerPage, setItemPerPage] = useState(5)
     const [page, setPage] = useState(1)
     const [filter, setFilter] = useState({})
-    const { isLoading, data } = useGetRtoStudentsQuery({
+    const { isLoading, data, isError } = useGetRtoStudentsQuery({
         search: `status:pending,${JSON.stringify(filter)
             .replaceAll('{', '')
             .replaceAll('}', '')
@@ -62,15 +63,20 @@ export const PendingStudent = () => {
     const tableActionOptions: TableActionOption[] = [
         {
             text: 'View',
-            onClick: () => {},
+            onClick: (student: any) => {
+                router.push(`/portals/rto/users/students/${student.id}`)
+            },
             Icon: FaEye,
         },
         {
-            text: 'Edit',
-            onClick: (row: any) => {
-                router.push(`/portals/admin/student/edit-student/${row.id}`)
-            },
-            Icon: FaEdit,
+            text: 'Approve',
+            onClick: (student: any) => onAcceptClicked(student),
+            Icon: FaEye,
+        },
+        {
+            text: 'Reject',
+            onClick: (student: any) => onRejectClicked(student),
+            Icon: FaEye,
         },
     ]
 
@@ -94,42 +100,11 @@ export const PendingStudent = () => {
             cell: (info) => info.getValue(),
         },
         {
-            accessorKey: 'rto',
-            header: () => <span>RTO</span>,
-            cell: (info) => {
-                return <RtoCellInfo rto={info.row.original.rto} short />
-            },
-        },
-        {
-            accessorKey: 'sectors',
-            header: () => <span>Sectors</span>,
-            cell: (info) => {
-                return <SectorCell student={info.row.original} />
-            },
-        },
-        {
             accessorKey: 'action',
             header: () => <span>Action</span>,
             cell: (info: any) => {
                 return (
                     <div className="flex gap-x-1 items-center">
-                        <ActionButton
-                            variant="success"
-                            onClick={() => onAcceptClicked(info.row.original)}
-                            loading={changeStatusResult.isLoading}
-                            disabled={changeStatusResult.isLoading}
-                        >
-                            Accept
-                        </ActionButton>
-                        <ActionButton
-                            variant="error"
-                            onClick={() => onRejectClicked(info.row.original)}
-                            loading={changeStatusResult.isLoading}
-                            disabled={changeStatusResult.isLoading}
-                        >
-                            Reject
-                        </ActionButton>
-
                         <TableAction
                             options={tableActionOptions}
                             rowItem={info.row.original}
@@ -189,6 +164,7 @@ export const PendingStudent = () => {
                 ) : null}
 
                 <Card noPadding>
+                    {isError && <TechnicalError />}
                     {isLoading ? (
                         <LoadingAnimation height="h-[60vh]" />
                     ) : data && data?.data.length ? (

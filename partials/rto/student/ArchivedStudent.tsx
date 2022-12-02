@@ -9,10 +9,12 @@ import {
     Table,
     TableAction,
     TableActionOption,
+    TechnicalError,
 } from '@components'
 import { PageHeading } from '@components/headings'
 import { ColumnDef } from '@tanstack/react-table'
 import { FaEdit, FaEye, FaFileExport, FaFilter, FaTrash } from 'react-icons/fa'
+import { Student } from '@types'
 
 import { useGetRtoStudentsQuery } from '@queries'
 import {
@@ -22,20 +24,21 @@ import {
     MdRestore,
     MdUnarchive,
 } from 'react-icons/md'
-import { useState } from 'react'
+import { useState, ReactElement } from 'react'
 import { CgUnblock } from 'react-icons/cg'
 import { SectorCell, StudentCellInfo } from './components'
-import { Student } from '@types'
 import { useRouter } from 'next/router'
+import { DeleteModal, AcceptModal } from './modals'
 
 export const ArchivedStudent = () => {
     const router = useRouter()
+    const [modal, setModal] = useState<ReactElement | null>(null)
     const [filterAction, setFilterAction] = useState(null)
     const [itemPerPage, setItemPerPage] = useState(5)
     const [page, setPage] = useState(1)
     const [filter, setFilter] = useState({})
 
-    const { isLoading, data } = useGetRtoStudentsQuery({
+    const { isLoading, data, isError } = useGetRtoStudentsQuery({
         search: `status:archived,${JSON.stringify(filter)
             .replaceAll('{', '')
             .replaceAll('}', '')
@@ -45,28 +48,42 @@ export const ArchivedStudent = () => {
         limit: itemPerPage,
     })
 
+    const onModalCancelClicked = () => {
+        setModal(null)
+    }
+
+    const onDeleteClicked = (student: Student) => {
+        setModal(
+            <DeleteModal
+                item={student}
+                onCancel={() => onModalCancelClicked()}
+            />
+        )
+    }
+
+    const onUnArchiveClicked = (item: Student) => {
+        setModal(
+            <AcceptModal item={item} onCancel={() => onModalCancelClicked()} />
+        )
+    }
+
     const tableActionOptions: TableActionOption[] = [
         {
             text: 'View',
-            onClick: () => {},
+            onClick: (student: Student) => {
+                router.push(`/portals/rto/users/students/${student.id}`)
+            },
             Icon: FaEye,
         },
         {
-            text: 'Edit',
-            onClick: (row: any) => {
-                router.push(`/portals/admin/student/edit-student/${row?.id}`)
-            },
-            Icon: FaEdit,
-        },
-        {
             text: 'Unarchive',
-            onClick: () => {},
+            onClick: (student: Student) => onUnArchiveClicked(student),
             Icon: MdUnarchive,
             color: 'text-orange-500 hover:bg-orange-100 hover:border-orange-200',
         },
         {
             text: 'Delete',
-            onClick: () => {},
+            onClick: (student: Student) => onDeleteClicked(student),
             Icon: FaTrash,
             color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
         },
@@ -90,20 +107,6 @@ export const ArchivedStudent = () => {
             accessorKey: 'suburb',
             header: () => <span>Address</span>,
             cell: (info) => info.getValue(),
-        },
-        // {
-        //     accessorKey: 'rto',
-        //     header: () => <span>RTO</span>,
-        //     cell: (info) => {
-        //         return <RtoCellInfo rto={info.row.original.rto} short />
-        //     },
-        // },
-        {
-            accessorKey: 'sectors',
-            header: () => <span>Sectors</span>,
-            cell: (info) => {
-                return <SectorCell student={info.row.original} />
-            },
         },
         {
             accessorKey: 'action',
@@ -148,6 +151,7 @@ export const ArchivedStudent = () => {
 
     return (
         <div className="flex flex-col gap-y-4 mb-32">
+            {modal && modal}
             <PageHeading
                 title={'Archived Students'}
                 subtitle={'List of Archived Students'}
@@ -174,6 +178,7 @@ export const ArchivedStudent = () => {
             ) : null}
 
             <Card noPadding>
+                {isError && <TechnicalError />}
                 {isLoading ? (
                     <LoadingAnimation height="h-[60vh]" />
                 ) : data && data?.data.length ? (
@@ -207,13 +212,15 @@ export const ArchivedStudent = () => {
                         }}
                     </Table>
                 ) : (
-                    <EmptyData
-                        title={'No Archived RTO!'}
-                        description={
-                            'You have not archived any RTO request yet'
-                        }
-                        height={'50vh'}
-                    />
+                    !isError && (
+                        <EmptyData
+                            title={'No Archived RTO!'}
+                            description={
+                                'You have not archived any RTO request yet'
+                            }
+                            height={'50vh'}
+                        />
+                    )
                 )}
             </Card>
         </div>

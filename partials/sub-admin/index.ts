@@ -1,3 +1,5 @@
-export * from './SetSchedule'
-export * from './SetUnavailability'
 export * from './Setting'
+export * from './SetSchedule'
+export * from './appointments'
+export * from './SetUnavailability'
+export * from './createAppointments'

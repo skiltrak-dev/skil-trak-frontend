@@ -16,7 +16,7 @@ export const rtoCoordinatorsApi = createApi({
             return headers
         },
     }),
-    tagTypes: ['StudentAppointments'],
+    tagTypes: ['RTOCoordinator'],
     endpoints: (builder) => ({
         getRtoCoordinators: builder.query<any, any>({
             query: (params) => {
@@ -25,9 +25,18 @@ export const rtoCoordinatorsApi = createApi({
                     params,
                 }
             },
-            providesTags: ['StudentAppointments'],
+            providesTags: ['RTOCoordinator'],
+        }),
+        getRtoCoordinatorsDetail: builder.query<any, number>({
+            query: (id) => {
+                return {
+                    url: `coordinator/profile/${id}`,
+                }
+            },
+            providesTags: ['RTOCoordinator'],
         }),
     }),
 })
 
-export const { useGetRtoCoordinatorsQuery } = rtoCoordinatorsApi
+export const { useGetRtoCoordinatorsQuery, useGetRtoCoordinatorsDetailQuery } =
+    rtoCoordinatorsApi

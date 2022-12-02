@@ -1,12 +1,14 @@
 import { ReactElement, useState } from 'react'
 
 import {
+    Button,
     Card,
     EmptyData,
     HelpQuestionSet,
-    LoadingAnimation, Table,
+    LoadingAnimation,
+    Table,
     TableAction,
-    TableActionOption
+    TableActionOption,
 } from '@components'
 import { RtoLayout } from '@layouts'
 import { AdminApi, RtoApi } from '@queries'
@@ -14,12 +16,17 @@ import { ColumnDef } from '@tanstack/react-table'
 import { NextPageWithLayout } from '@types'
 import { useRouter } from 'next/router'
 import { FaEdit, FaTrash } from 'react-icons/fa'
+import { useContextBar } from '@hooks'
+import { AddAdminCB, DeleteModal } from '@partials/rto'
 
 type Props = {}
 
 const RtoContactPersons: NextPageWithLayout = (props: Props) => {
     const router = useRouter()
-    const [filterAction, setFilterAction] = useState(null)
+
+    const [modal, setModal] = useState<ReactElement | null>(null)
+
+    const contextBar = useContextBar()
     const [itemPerPage, setItemPerPage] = useState(5)
     const [page, setPage] = useState(1)
     const [filter, setFilter] = useState({})
@@ -72,17 +79,47 @@ const RtoContactPersons: NextPageWithLayout = (props: Props) => {
         },
     ]
 
+    const onModalCancelClicked = () => {
+        setModal(null)
+    }
+    const onDeleteClicked = (contactPerson: any) => {
+        setModal(
+            <DeleteModal
+                contactPerson={contactPerson}
+                onCancel={() => onModalCancelClicked()}
+            />
+        )
+    }
+
+    const onAddAdmin = ({
+        contactPerson,
+        edit,
+    }: {
+        contactPerson?: any
+        edit: boolean
+    }) => {
+        contextBar.setTitle('Add Admin')
+        contextBar.setContent(
+            <AddAdminCB
+                {...(contactPerson ? { initialValues: contactPerson } : {})}
+                {...(edit ? { edit: edit } : {})}
+            />
+        )
+        contextBar.show()
+    }
+
     const tableActionOptions: TableActionOption[] = [
         {
             text: 'Edit',
-            onClick: (row: any) => {
-                router.push(`#`)
+            onClick: (contactPerson: any) => {
+                onAddAdmin({ contactPerson, edit: true })
             },
             Icon: FaEdit,
         },
         {
             text: 'Delete',
-            onClick: () => {},
+            onClick: async (contactPerson: any) =>
+                onDeleteClicked(contactPerson),
             Icon: FaTrash,
             color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
         },
@@ -123,14 +160,20 @@ const RtoContactPersons: NextPageWithLayout = (props: Props) => {
 
     return (
         <>
+            {modal && modal}
+            <div className="flex justify-end mb-2">
+                <Button
+                    text={'Add Admins'}
+                    onClick={() => {
+                        onAddAdmin({ contactPerson: null, edit: false })
+                    }}
+                />
+            </div>
             <Card noPadding>
                 {isLoading ? (
                     <LoadingAnimation height="h-[60vh]" />
                 ) : data && data?.data.length ? (
-                    <Table
-                        columns={columns}
-                        data={data.data}
-                    >
+                    <Table columns={columns} data={data.data}>
                         {({
                             table,
                             pagination,

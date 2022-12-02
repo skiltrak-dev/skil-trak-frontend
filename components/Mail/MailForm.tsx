@@ -43,6 +43,7 @@ export const MailForm = ({ action, receiverId, sender }: any) => {
 
     const onSubmit = (values: any) => {
         // setResetFormData(resetForm)
+        console.log('values', values)
         const userCredentials = AuthUtils.getUserCredentials()
         console.log('userCredentials', userCredentials)
         const date = new Date()

@@ -2,11 +2,11 @@ import React, { useState, useEffect } from 'react'
 
 // components
 import {
-    LoadingAnimation,
     Mail,
-    EmptyData,
     MailForm,
+    EmptyData,
     TechnicalError,
+    LoadingAnimation,
 } from '@components'
 
 // utils

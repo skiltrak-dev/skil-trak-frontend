@@ -105,7 +105,8 @@ export const FileUpload = ({
         setDragging(false)
 
         // Getting file Data
-        const fileData: FileList = isDragging ? event : event.target.files
+        const fileData: any = isDragging ? event : event.target.files
+        onChange && onChange(fileData[0])
 
         // for multiple files upload
         if (multiple) {

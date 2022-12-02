@@ -27,7 +27,42 @@ export const rtoStudentsApi = createApi({
             },
             providesTags: ['StudentAppointments'],
         }),
+        getRtoStudentProfile: builder.query<any, any>({
+            query: (id) => {
+                return {
+                    url: `student/profile/${id}`,
+                }
+            },
+            providesTags: ['StudentAppointments'],
+        }),
+        removeRTOStudent: builder.mutation<any, any | null>({
+            query: (id) => {
+                return {
+                    url: `student/remove/${id}`,
+                    method: 'DELETE',
+                }
+            },
+            invalidatesTags: ['StudentAppointments'],
+        }),
+        changeRTOStudentsStatus: builder.mutation<
+            any,
+            { id: number; status: string }
+        >({
+            query: ({ id, status }) => {
+                return {
+                    url: `student-status/update/${id}`,
+                    method: 'PATCH',
+                    body: { status },
+                }
+            },
+            invalidatesTags: ['StudentAppointments'],
+        }),
     }),
 })
 
-export const { useGetRtoStudentsQuery } = rtoStudentsApi
+export const {
+    useGetRtoStudentsQuery,
+    useGetRtoStudentProfileQuery,
+    useRemoveRTOStudentMutation,
+    useChangeRTOStudentsStatusMutation,
+} = rtoStudentsApi

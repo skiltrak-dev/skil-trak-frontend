@@ -4,7 +4,7 @@ import { AuthUtils } from '@utils'
 export const rtoAssessmentToolsApi = createApi({
     reducerPath: 'rtoAssessmentToolsApi',
     baseQuery: fetchBaseQuery({
-        baseUrl: `${process.env.NEXT_PUBLIC_END_POINT}/`,
+        baseUrl: `${process.env.NEXT_PUBLIC_END_POINT}/rtos/`,
         prepareHeaders: (headers, { getState }) => {
             const token = AuthUtils.getToken()
 
@@ -18,12 +18,33 @@ export const rtoAssessmentToolsApi = createApi({
     }),
     tagTypes: ['RtoAssessmentToolsList'],
     endpoints: (builder) => ({
-
+        getAssessmentToolByCourse: builder.query<
+            any,
+            { id: number; status: string }
+        >({
+            query: ({ id, status }) => {
+                return {
+                    url: `course-assessment-tool/list/${id}`,
+                    params: { status },
+                }
+            },
+            providesTags: ['RtoAssessmentToolsList'],
+        }),
+        createRtoAssessmentTools: builder.mutation<any, any>({
+            query: (body) => {
+                return {
+                    url: `course-assessment-tool/create`,
+                    method: 'POST',
+                    body,
+                }
+            },
+            invalidatesTags: ['RtoAssessmentToolsList'],
+        }),
         getAssessmentTool: builder.query<any, string>({
-            query: (status:string) => {
+            query: (status: string) => {
                 return {
                     url: 'rtos/assessmenttool/list',
-                    params: {status}  
+                    params: { status },
                 }
             },
             providesTags: ['RtoAssessmentToolsList'],
@@ -46,20 +67,31 @@ export const rtoAssessmentToolsApi = createApi({
         // }),
 
         updateAssessmentToolArchive: builder.mutation<any, any | null>({
-            query: (id:any) => {
+            query: (id: any) => {
                 return {
-                    url: `rtos/assessmenttool/archived/${id}`,
+                    url: `assessment-tool/archived/${id}`,
                     method: 'PATCH',
                 }
             },
             invalidatesTags: ['RtoAssessmentToolsList'],
         }),
-
+        removeRTOAssessmentTools: builder.mutation<any, any | null>({
+            query: (id: any) => {
+                return {
+                    url: `assessment-tool/remove/${id}`,
+                    method: 'DELETE',
+                }
+            },
+            invalidatesTags: ['RtoAssessmentToolsList'],
+        }),
     }),
 })
 
 export const {
     useGetAssessmentToolQuery,
     useGetAssessmentToolDetailQuery,
-    useUpdateAssessmentToolArchiveMutation
+    useGetAssessmentToolByCourseQuery,
+    useCreateRtoAssessmentToolsMutation,
+    useUpdateAssessmentToolArchiveMutation,
+    useRemoveRTOAssessmentToolsMutation,
 } = rtoAssessmentToolsApi

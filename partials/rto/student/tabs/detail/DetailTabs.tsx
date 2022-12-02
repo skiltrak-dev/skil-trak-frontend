@@ -17,17 +17,16 @@ export const DetailTabs = ({
             href: { query: { tab: 'overview', id } },
             element: <OverViewTab student={student} />,
         },
-        {
-            label: 'Required Documents',
-            href: { query: { tab: 'required-documents', id } },
-            element: (
-                <RequiredDocs
-                    courses={student?.courses}
-                    assessmentEvidence={student?.assessmentEvidence}
-                />
-            ),
-        },
-
+        // {
+        //     label: 'Required Documents',
+        //     href: { query: { tab: 'required-documents', id } },
+        //     element: (
+        //         <RequiredDocs
+        //             courses={student?.courses}
+        //             assessmentEvidence={student?.assessmentEvidence}
+        //         />
+        //     ),
+        // },
         {
             label: 'Notes',
             href: { query: { tab: 'notes', id } },

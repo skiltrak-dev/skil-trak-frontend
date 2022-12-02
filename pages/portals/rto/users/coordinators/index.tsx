@@ -1,4 +1,5 @@
 import { ReactElement, useState } from 'react'
+import { useRouter } from 'next/router'
 // Layouts
 import { RtoLayout } from '@layouts'
 import { NextPageWithLayout } from '@types'
@@ -6,7 +7,7 @@ import { ColumnDef } from '@tanstack/react-table'
 //components
 import {
     HelpQuestionSet,
-    ReactTable,
+    TableAction,
     Typography,
     EmptyData,
     Table,
@@ -19,16 +20,12 @@ import { useGetRtoCoordinatorsQuery } from '@queries'
 // Link
 import Link from 'next/link'
 // React icons
-import { FaEdit } from 'react-icons/fa'
-import { MdDelete } from 'react-icons/md'
 import { toNamespacedPath } from 'path'
 
 type Props = {}
 
 const RtoCoordinators: NextPageWithLayout = (props: Props) => {
-    const [modal, setModal] = useState<ReactElement | null>(null)
-
-    const [filterAction, setFilterAction] = useState(null)
+    const router = useRouter()
     const [itemPerPage, setItemPerPage] = useState(5)
     const [page, setPage] = useState(1)
     const [filter, setFilter] = useState({})
@@ -83,7 +80,7 @@ const RtoCoordinators: NextPageWithLayout = (props: Props) => {
                 } = row.original
                 return (
                     <Link
-                        href={`/jobs/job-detail/${row.original.id}`}
+                        href={`/portals/rto/users/coordinators/${row.original.id}`}
                         className="flex items-center gap-x-2 relative"
                     >
                         <a>
@@ -109,18 +106,30 @@ const RtoCoordinators: NextPageWithLayout = (props: Props) => {
             header: () => 'Phone',
             accessorKey: 'phone',
         },
+        {
+            header: () => 'Address',
+            accessorKey: 'address',
+        },
 
         {
             header: () => 'Action',
             accessorKey: 'Action',
-            cell: ({}) => {
+            cell: ({ row }: any) => {
                 return (
-                    <>
-                        <div className="flex justify-center items-center gap-x-2">
-                            <FaEdit className="text-[#686DE0] cursor-pointer" />
-                            <MdDelete className="text-red-400 cursor-pointer" />
-                        </div>
-                    </>
+                    <TableAction
+                        rowItem={row}
+                        options={[
+                            {
+                                text: 'View',
+                                onClick: () => {
+                                    router.push(
+                                        `/portals/rto/users/coordinators/${row.original.id}`
+                                    )
+                                },
+                                Icon: '',
+                            },
+                        ]}
+                    />
                 )
             },
         },

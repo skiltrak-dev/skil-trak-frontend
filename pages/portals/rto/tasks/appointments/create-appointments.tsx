@@ -54,7 +54,7 @@ const CreateAppointments: NextPageWithLayout = (props: Props) => {
     const [coordinatorsOptions, setCoordinatorsOptions] = useState<any | null>(
         []
     )
-    const [coursesOptions, setCoursesOptions] = useState<any[]>([])
+    const [coursesOptions, setCoursesOptions] = useState<any>([])
 
     const coordinators = useGetCoordinatorsForStudentQuery(
         {
