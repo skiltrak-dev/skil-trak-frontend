@@ -3,13 +3,15 @@ import { Typography, EmptyData, PastAppointmentCard } from '@components'
 import { Switch } from '@components/inputs'
 
 // query
-import { useGetStudentPastAppointmentsQuery } from '@queries'
+import { useGetStudentAppointmentsQuery } from '@queries'
 import { LoadingAnimation } from '@components/LoadingAnimation'
 
 type Props = {}
 
 export const PastAppointments = (props: Props) => {
-    const pastAppointments = useGetStudentPastAppointmentsQuery()
+    const pastAppointments = useGetStudentAppointmentsQuery({
+        status: 'past',
+    })
 
     return (
         <div className="mt-6">

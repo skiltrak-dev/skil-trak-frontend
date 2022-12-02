@@ -51,93 +51,107 @@ export const SearchUser = ({
     return (
         <div>
             <Card>
-                {!industryNotFound ? (
-                    <div>
-                        <Typography variant={'small'} color={'text-gray-500'}>
-                            Appointment {type} {selectedAppointment}
-                        </Typography>
+                <div>
+                    <Typography variant={'small'} color={'text-gray-500'}>
+                        Appointment {type} {selectedAppointment}
+                    </Typography>
 
-                        <div>
-                            <div className="grid grid-cols-3 gap-x-5 my-5">
-                                <TextInput
-                                    label={`Search ${selectedAppointment} BY Name/Email`}
-                                    name={'name'}
-                                    placeholder={'Search BY Name/Email...'}
-                                    validationIcons
-                                    onChange={(e: any) => {
-                                        setSearchValue(searchValue)
-                                        onFilterChange(e.target.value)
-                                    }}
-                                    value={searchValue}
-                                />
-                            </div>
-
-                            {/*  */}
-                            <div className="flex flex-col gap-y-2">
-                                {searchAppointment.isLoading ? (
-                                    <LoadingAnimation />
-                                ) : searchAppointment?.data &&
-                                  searchAppointment?.data?.length ? (
-                                    searchAppointment?.data?.map((s: any) => (
-                                        <SearchedUserCard
-                                            key={s.id}
-                                            data={s}
-                                            onClick={() => {
-                                                onClick(s)
-                                            }}
-                                            selected={selectedUser}
-                                        />
-                                    ))
-                                ) : (
-                                    searchAppointment.isSuccess && (
-                                        <NoData
-                                            text={`No ${selectedAppointment} Found`}
-                                        />
-                                    )
-                                )}
-                            </div>
-                        </div>
-                    </div>
-                ) : (
                     <div>
-                        <div className="mt-5">
-                            <Typography
-                                variant={'small'}
-                                color={'text-gray-500'}
-                            >
-                                Book Appointment For
-                            </Typography>
-                            <div className="grid grid-cols-3 gap-x-5 mb-2">
-                                <TextInput
-                                    label={'Name'}
-                                    name={'name'}
-                                    placeholder={'Name...'}
-                                    validationIcons
-                                />
-                                <TextInput
-                                    label={'Email'}
-                                    name={'email'}
-                                    placeholder={'Email...'}
-                                    validationIcons
-                                />
-                                <TextInput
-                                    label={'Phone'}
-                                    name={'phone'}
-                                    placeholder={'Phone...'}
-                                    validationIcons
-                                />
-                            </div>
+                        <div className="grid grid-cols-3 gap-x-5 my-5">
                             <TextInput
-                                label={'Address'}
-                                name={'address'}
-                                placeholder={'Address...'}
+                                label={`Search ${selectedAppointment} BY Name/Email`}
+                                name={'name'}
+                                placeholder={'Search BY Name/Email...'}
                                 validationIcons
+                                onChange={(e: any) => {
+                                    setSearchValue(searchValue)
+                                    onFilterChange(e.target.value)
+                                }}
+                                value={searchValue}
                             />
                         </div>
+
+                        {/*  */}
+                        {searchAppointment.isError && (
+                            <NoData
+                                text={`There is some network issue, please refresh your browser`}
+                            />
+                        )}
+                        <div className="flex flex-col gap-y-2">
+                            {searchAppointment.isLoading ? (
+                                <LoadingAnimation />
+                            ) : searchAppointment?.data &&
+                              searchAppointment?.data?.length ? (
+                                searchAppointment?.data?.map((s: any) => (
+                                    <SearchedUserCard
+                                        key={s.id}
+                                        data={s}
+                                        onClick={() => {
+                                            onClick(s)
+                                        }}
+                                        selected={selectedUser}
+                                    />
+                                ))
+                            ) : (
+                                !searchAppointment.isError &&
+                                searchAppointment.isSuccess && (
+                                    <NoData
+                                        text={`No ${selectedAppointment} Found`}
+                                    />
+                                )
+                            )}
+                            {!searchAppointment.isSuccess &&
+                                !searchAppointment.isError &&
+                                !searchAppointment.isLoading && (
+                                    <NoData
+                                        text={`Search ${selectedAppointment}`}
+                                    />
+                                )}
+                        </div>
                     </div>
-                )}
+                </div>
+                {selectedAppointment === 'Student' &&
+                    searchAppointment.isSuccess && (
+                        <div>
+                            <div className="mt-5">
+                                <Typography
+                                    variant={'small'}
+                                    color={'text-gray-500'}
+                                >
+                                    Student Workplace
+                                </Typography>
+                                <div className="grid grid-cols-3 gap-x-5 mb-2">
+                                    <TextInput
+                                        label={'Name'}
+                                        name={'name'}
+                                        placeholder={'Name...'}
+                                        validationIcons
+                                    />
+                                    <TextInput
+                                        label={'Email'}
+                                        name={'email'}
+                                        placeholder={'Email...'}
+                                        validationIcons
+                                    />
+                                    <TextInput
+                                        label={'Phone'}
+                                        name={'phone'}
+                                        placeholder={'Phone...'}
+                                        validationIcons
+                                    />
+                                </div>
+                                <TextInput
+                                    label={'Address'}
+                                    name={'address'}
+                                    placeholder={'Address...'}
+                                    validationIcons
+                                />
+                            </div>
+                        </div>
+                    )}
+
                 {/*  */}
-                {selectedAppointment === 'Industry' &&
+                {/* {selectedAppointment === 'Industry' &&
                     searchAppointment.isSuccess &&
                     !searchAppointment.data.length && (
                         <Button
@@ -150,7 +164,7 @@ export const SearchUser = ({
                                 setIndustryNotFound(!industryNotFound)
                             }}
                         />
-                    )}
+                    )} */}
             </Card>
         </div>
     )

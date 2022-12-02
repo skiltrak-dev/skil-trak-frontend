@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import moment from 'moment'
+import { ApplyForWorkplaceIndustry } from './ApplyForWorkplaceIndustry'
 
 // components
 import { Typography, Card } from 'components'
@@ -22,17 +23,14 @@ export const IndustrySelection = ({
     // selectedCourses: number[]
     workplaceIndustries: any
 }) => {
+    console.log('workplaceIndustries', workplaceIndustries)
     const [industries, setIndustries] = useState<any[] | null>([])
     const [selectedCourses, setSelectedCourses] = useState<any[] | null>(null)
     const [industrySelection, setIndustrySelection] = useState(null)
     const [appliedIndustry, setAppliedIndustry] = useState<any | null>(null)
 
-    console.log("workplaceIndustries::::", workplaceIndustries)
-
     const [cancelRequest, cancelRequestResult] =
         useCancelWorkplaceRequestMutation()
-    const [applyForWorkplace, applyForWorkplaceResult] =
-        useApplyForWorkplaceMutation()
 
     useEffect(() => {
         if (workplaceIndustries) {
@@ -48,7 +46,7 @@ export const IndustrySelection = ({
     }, [
         workplaceIndustries,
         industrySelection,
-        applyForWorkplaceResult.isSuccess,
+        // applyForWorkplaceResult.isSuccess,
     ])
 
     // console.log('selectedCourses', selectedCourses)
@@ -58,6 +56,8 @@ export const IndustrySelection = ({
             setActive(1)
         }
     }, [cancelRequestResult.isSuccess])
+
+    console.log('industries', industries)
 
     return !industrySelection ? (
         <div>
@@ -87,62 +87,11 @@ export const IndustrySelection = ({
                                 industry?.industryResponse !== 'noResponse'
                             )
                                 return (
-                                    <div
-                                        key={i}
-                                        className="bg-secondary-dark py-2 px-4 rounded-lg flex justify-between items-center"
-                                    >
-                                        <div className="flex items-center gap-x-2">
-                                            <img
-                                                src={`https://picsum.photos/100/10${i}`}
-                                                alt=""
-                                            />
-                                            <div>
-                                                <Typography
-                                                    variant={'muted'}
-                                                    color={'gray'}
-                                                >
-                                                    5km away
-                                                </Typography>
-                                                <Typography variant={'label'}>
-                                                    {
-                                                        industry?.industry
-                                                            ?.businessName
-                                                    }
-                                                </Typography>
-                                                <Typography
-                                                    variant={'muted'}
-                                                    color={'gray'}
-                                                >
-                                                    {
-                                                        industry?.industry
-                                                            ?.addressLine1
-                                                    }
-                                                    ,{' '}
-                                                    {
-                                                        industry?.industry
-                                                            ?.addressLine2
-                                                    }
-                                                </Typography>
-                                            </div>
-                                        </div>
-                                        <Button
-                                            variant={'secondary'}
-                                            text={'Apply Here'}
-                                            disabled={industries
-                                                ?.map((i: any) => i.applied)
-                                                .includes(true)}
-                                            onClick={async () => {
-                                                await applyForWorkplace(
-                                                    industry?.id
-                                                )
-                                            }}
-                                            loading={
-                                                applyForWorkplaceResult.isLoading &&
-                                                applyForWorkplaceResult.originalArgs ===
-                                                industry?.industry?.id
-                                            }
-                                        />
-                                    </div>
+                                    <ApplyForWorkplaceIndustry
+                                        key={industry.id}
+                                        industry={industry}
+                                        industries={industries}
+                                    />
                                 )
                         })
                     ) : (

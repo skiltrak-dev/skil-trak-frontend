@@ -109,7 +109,6 @@ export const PersonalInfo = ({
                                 options={courses}
                                 loading={isLoading}
                                 disabled={isLoading}
-                                multi
                                 onlyValue
                             />
                         </div>

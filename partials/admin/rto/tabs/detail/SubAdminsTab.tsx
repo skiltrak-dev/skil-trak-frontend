@@ -24,7 +24,8 @@ import { useRouter } from 'next/router'
 import { SubAdminCell } from '@partials/admin/sub-admin'
 import { DeleteModal } from '@partials/admin/sub-admin/modals'
 
-export const SubAdminsTab = () => {
+export const SubAdminsTab = ({ rto }: any) => {
+    console.log('rrr', rto)
     const router = useRouter()
 
     const [modal, setModal] = useState<ReactElement | null>(null)
@@ -33,12 +34,8 @@ export const SubAdminsTab = () => {
     const [itemPerPage, setItemPerPage] = useState(5)
     const [page, setPage] = useState(1)
     const [filter, setFilter] = useState({})
-    const { isLoading, data } = AdminApi.SubAdmins.useListQuery({
-        search: `status:approved,${JSON.stringify(filter)
-            .replaceAll('{', '')
-            .replaceAll('}', '')
-            .replaceAll('"', '')
-            .trim()}`,
+    const { isLoading, data } = AdminApi.Rtos.useRtoProfileSubAdmins({
+        id: rto?.data?.user?.id,
         skip: itemPerPage * page - itemPerPage,
         limit: itemPerPage,
     })

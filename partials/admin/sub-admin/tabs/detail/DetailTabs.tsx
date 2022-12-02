@@ -18,7 +18,7 @@ export const DetailTabs = ({
         {
             label: 'Mails',
             href: { query: { tab: 'mails', id } },
-            element: <MailsTab />,
+            element: <MailsTab subAdmin={subAdmin} />,
         },
     ]
 

@@ -1,0 +1,42 @@
+export const requestType = [
+    {
+        primaryText: 'Request Sent',
+        secondaryText: 'No Case Officer',
+        color: 'text-primary-dark',
+    },
+    {
+        primaryText: 'Assigned',
+        secondaryText: 'Case Officer',
+        color: 'text-primary',
+    },
+    {
+        primaryText: 'Interview',
+        secondaryText: 'with Case Officer',
+        color: 'text-primary-light',
+    },
+    {
+        primaryText: 'Waiting',
+        secondaryText: 'for Workplace Response',
+        color: 'text-info-light',
+    },
+    {
+        primaryText: 'Meeting',
+        secondaryText: 'with Workplace Supervisor (Orientation)',
+        color: 'text-info-dark',
+    },
+    {
+        primaryText: 'Agreement & Eligibility ',
+        secondaryText: 'Checklist Pending',
+        color: 'text-info',
+    },
+    {
+        primaryText: 'Agreement & Eligibility ',
+        secondaryText: 'Checklist Signed',
+        color: 'text-success',
+    },
+    {
+        primaryText: 'Placement Started',
+        secondaryText: '',
+        color: 'text-success-dark',
+    },
+]

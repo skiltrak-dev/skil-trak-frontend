@@ -24,7 +24,7 @@ const PrimaryLinks = [
     {
         title: 'Student Workplace',
         description: 'Student Workplace',
-        link: 'tasks/workplace',
+        link: 'tasks/workplace?tab=all',
         animation: Animations.Student.Appointments.AssessmentTool,
     },
     {

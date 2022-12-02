@@ -2,7 +2,6 @@ import { ReactElement } from 'react'
 
 import { SubAdminLayout } from '@layouts'
 import { NextPageWithLayout } from '@types'
-import { SetUnavailabilityContainer } from '@partials'
 
 // query
 import { useGetSubAdminWorkplacesQuery } from '@queries'
@@ -14,6 +13,7 @@ import {
     TechnicalError,
     EmptyData,
 } from '@components'
+import { SetUnavailabilityContainer } from '@partials/sub-admin'
 
 type Props = {}
 
@@ -25,7 +25,17 @@ const SetUnavailability: NextPageWithLayout = (props: Props) => {
     )
 }
 SetUnavailability.getLayout = (page: ReactElement) => {
-    return <SubAdminLayout title="Set Un Availability">{page}</SubAdminLayout>
+    return (
+        <SubAdminLayout
+            pageTitle={{
+                title: 'Set Unavailability',
+                navigateBack: true,
+                backTitle: 'tasks',
+            }}
+        >
+            {page}
+        </SubAdminLayout>
+    )
 }
 
 export default SetUnavailability

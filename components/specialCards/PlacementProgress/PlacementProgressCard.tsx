@@ -25,13 +25,13 @@ export const PlacementProgressCard = ({
                 <div>
                     {isLoading
                         ? isLoading && (
-                            <LoadingAnimation width={'w-1'} height={'h-1'} />
-                        )
+                              <LoadingAnimation width={'w-1'} height={'h-1'} />
+                          )
                         : isSuccess && (
-                            <h1 className="text-white font-semibold text-lg leading-7">
-                                {requestStatus}
-                            </h1>
-                        )}
+                              <h1 className="text-white font-semibold text-lg leading-7">
+                                  {requestStatus}
+                              </h1>
+                          )}
                 </div>
                 <p className="text-[#480B70] font-medium text-sm leading-5">
                     {description}

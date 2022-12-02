@@ -29,8 +29,7 @@ const BookAppointment: NextPageWithLayout = (props: Props) => {
     } | null>(null)
     const [selectedDate, setSelectedDate] = useState<Date | null>(null)
     const [selectedTime, setSelectedTime] = useState<any | null>(null)
-    console.log("selectedCoordinator", timeAvailability);
-    
+
     // query
     // query
     const coordinatorAvailability = useGetCoordinatorsAvailabilityQuery(
@@ -61,11 +60,13 @@ const BookAppointment: NextPageWithLayout = (props: Props) => {
     })
     const onSubmit = (values: any) => {
         const time = moment(selectedTime, ['h:mm A']).format('HH:mm')
+        let date = selectedDate
+        date?.setDate(date.getDate() + 1)
         createAppointment({
             ...values,
             coordinator: values.coordinator.value,
             type,
-            date: selectedDate,
+            date,
             time,
             appointmentFor: 4,
         })

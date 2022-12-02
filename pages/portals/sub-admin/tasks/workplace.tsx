@@ -2,43 +2,70 @@ import { ReactElement } from 'react'
 
 import { SubAdminLayout } from '@layouts'
 import { NextPageWithLayout } from '@types'
-import { WorkplaceRequest } from '@components/sections/subAdmin'
+import { AllWorkplaces } from '@components/sections'
+import { TabNavigation, TabProps } from '@components'
 
 // query
 import { useGetSubAdminWorkplacesQuery } from '@queries'
 
 // components
 import {
-  Button,
-  LoadingAnimation,
-  TechnicalError,
-  EmptyData,
+    Button,
+    LoadingAnimation,
+    TechnicalError,
+    EmptyData,
 } from '@components'
 
 type Props = {}
 
 const Workplace: NextPageWithLayout = (props: Props) => {
-  const subAdminWorkplace = useGetSubAdminWorkplacesQuery()
+    const tabs: TabProps[] = [
+        {
+            label: 'All',
+            href: { pathname: 'workplace', query: { tab: 'all' } },
+            element: <AllWorkplaces />,
+        },
+        {
+            label: 'Added By Students',
+            href: { pathname: 'workplace', query: { tab: 'student-added' } },
+            element: <AllWorkplaces />,
+        },
+        {
+            label: 'My Workplaces',
+            href: { pathname: 'workplace', query: { tab: 'my-workplaces' } },
+            element: <AllWorkplaces />,
+        },
+    ]
 
-  return (
-    <>
-      {subAdminWorkplace.isError && <TechnicalError />}
-      {subAdminWorkplace.isLoading && subAdminWorkplace.isFetching ? (
-        <LoadingAnimation />
-      ) : subAdminWorkplace.data && subAdminWorkplace.data.length > 0 ? (
-        <div className="flex flex-col gap-y-2">
-          {subAdminWorkplace?.data?.map((workplace: any) => (
-            <WorkplaceRequest key={workplace.id} workplace={workplace} />
-          ))}
-        </div>
-      ) : (
-        !subAdminWorkplace.isError && <EmptyData />
-      )}
-    </>
-  )
+    return (
+        <>
+            <div>
+                <TabNavigation tabs={tabs}>
+                    {({ header, element }: any) => {
+                        return (
+                            <div>
+                                <div>{header}</div>
+                                <div className="mt-3">{element}</div>
+                            </div>
+                        )
+                    }}
+                </TabNavigation>
+            </div>
+        </>
+    )
 }
 Workplace.getLayout = (page: ReactElement) => {
-  return <SubAdminLayout title="Workplace">{page}</SubAdminLayout>
+    return (
+        <SubAdminLayout
+            pageTitle={{
+                title: 'Workplace',
+                navigateBack: false,
+                backTitle: 'tasks',
+            }}
+        >
+            {page}
+        </SubAdminLayout>
+    )
 }
 
 export default Workplace

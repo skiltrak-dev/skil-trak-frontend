@@ -9,4 +9,12 @@ export const messagesEndpoints = (
         query: (id) => `${PREFIX}/mail/list/${id}`,
         providesTags: ['Message'],
     }),
+    sendAdminMessage: builder.mutation({
+        query: (body) => ({
+            url: `messaging/email`,
+            method: 'POST',
+            body: body,
+        }),
+        invalidatesTags: ['Message'],
+    }),
 })
