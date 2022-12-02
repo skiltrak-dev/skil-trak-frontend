@@ -9,7 +9,6 @@ import React from 'react'
 import { RiBook2Fill } from 'react-icons/ri'
 import { AdminApi, useAssignToSubAdminMutation } from '@queries'
 import { useEffect, useState } from 'react'
-import { Notes } from '@components/sections'
 import moment from 'moment'
 type Props = {
   workplace: any
@@ -44,7 +43,7 @@ export const AdminWorkplaceRequest = ({ workplace }: Props) => {
   return (
     <div>
       <Card>
-        <div className="flex justify-between items-center pb-2.5 border-b border-dashed">
+        <div className="flex justify-between gap-x-4 items-center pb-2.5 border-b border-dashed">
           {/* <AssignToMe
           workplace={workplace}
           appliedIndustry={appliedIndustry}

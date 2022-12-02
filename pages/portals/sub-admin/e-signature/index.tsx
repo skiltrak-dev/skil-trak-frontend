@@ -97,17 +97,8 @@ const SubAdminESignature: NextPageWithLayout = () => {
 
                 {/* Special Cards */}
                 <div className="w-full flex flex-col justify-center space-y-2">
-                    <PlacementProgressCard
-                        requestStatus="Not Requested"
-                        description="Place a request to start"
-                    />
-                    <RecentAppointmentCard
-                        title="Work Place Visit"
-                        caseOfficer="John Smith Khan"
-                        time="09:00 am - 11:00 am"
-                        date="Monday, 17 Oct,2022"
-                        address="221B Baker Street, Melbourne, VIC 3000"
-                    />
+                    <PlacementProgressCard placementProgress={'Query'} />
+                    <RecentAppointmentCard appointment={'Query'} />
                 </div>
             </div>
 
@@ -129,7 +120,17 @@ const SubAdminESignature: NextPageWithLayout = () => {
 }
 
 SubAdminESignature.getLayout = (page: ReactElement) => {
-    return <SubAdminLayout title="E-Signature">{page}</SubAdminLayout>
+    return (
+        <SubAdminLayout
+            pageTitle={{
+                title: 'E-Signature',
+                backTitle: 'Go back',
+                navigateBack: true,
+            }}
+        >
+            {page}
+        </SubAdminLayout>
+    )
 }
 
 export default SubAdminESignature

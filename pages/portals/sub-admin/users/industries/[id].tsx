@@ -16,16 +16,13 @@ import {
     TechnicalError,
 } from '@components'
 import { IndustryProfile } from '@components/IndustryProfile'
-import { MailsTab } from '@components/sections/subAdmin/UsersContainer'
-import {
-    AppointmentProfile,
-    IndustryProfileOverview,
-    Notes,
-} from '@components/sections'
+import { AppointmentProfile, IndustryProfileOverview, MailsTab } from '@components/sections/subAdmin/UsersContainer'
+
 // icons
 // import { FaEdit } from 'react-icons/fa'
 // queries
 import { useGetSubAdminIndustriesProfileQuery } from '@queries'
+import { Notes } from '@components/sections/subAdmin'
 
 type Props = {}
 
@@ -108,7 +105,7 @@ const IndustriesProfile: NextPageWithLayout = (props: Props) => {
     )
 }
 IndustriesProfile.getLayout = (page: ReactElement) => {
-    return <SubAdminLayout title="Industries Profile">{page}</SubAdminLayout>
+    return <SubAdminLayout pageTitle={{ title: "Industries Profile" }}>{page}</SubAdminLayout>
 }
 
 export default IndustriesProfile

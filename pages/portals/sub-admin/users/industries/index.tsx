@@ -83,7 +83,7 @@ const Industries: NextPageWithLayout = (props: Props) => {
     )
 }
 Industries.getLayout = (page: ReactElement) => {
-    return <SubAdminLayout title="Industries">{page}</SubAdminLayout>
+    return <SubAdminLayout pageTitle={{title:"Industries"}}>{page}</SubAdminLayout>
 }
 
 export default Industries

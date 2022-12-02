@@ -121,7 +121,7 @@ const AssessmentEvidence: NextPageWithLayout = (props: Props) => {
         {
             Header: 'Action',
             accessor: 'Action',
-            Cell: ({}) => {
+            Cell: ({ }) => {
                 return (
                     <div className="flex justify-center">
                         <Typography variant="muted" color="text-blue-400">
@@ -146,7 +146,11 @@ const AssessmentEvidence: NextPageWithLayout = (props: Props) => {
     )
 }
 AssessmentEvidence.getLayout = (page: ReactElement) => {
-    return <SubAdminLayout title="AssessmentEvidence">{page}</SubAdminLayout>
+    return <SubAdminLayout pageTitle={{
+        title: 'AssessmentEvidence',
+        navigateBack: true,
+        backTitle: 'Back',
+    }}>{page}</SubAdminLayout>
 }
 
 export default AssessmentEvidence

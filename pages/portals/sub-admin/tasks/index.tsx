@@ -100,16 +100,11 @@ const SubAdminTasks: NextPageWithLayout = () => {
 
                 {/* Special Cards */}
                 <div className="w-full flex flex-col justify-center space-y-2">
-                    <PlacementProgressCard
-                        requestStatus="Not Requested"
-                        description="Place a request to start"
-                    />
+                    {/* <PlacementProgressCard
+                        placementProgress={'Query'}
+                    /> */}
                     <RecentAppointmentCard
-                        title="Work Place Visit"
-                        caseOfficer="John Smith Khan"
-                        time="09:00 am - 11:00 am"
-                        date="Monday, 17 Oct,2022"
-                        address="221B Baker Street, Melbourne, VIC 3000"
+                        appointment={'Query'}
                     />
                 </div>
             </div>

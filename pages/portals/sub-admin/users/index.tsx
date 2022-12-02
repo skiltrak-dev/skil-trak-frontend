@@ -16,7 +16,8 @@ import {
     SidebarCalendar,
 } from '@components'
 import { useContextBar } from '@hooks'
-import { AppointmentCard, FigureCard } from '@components/sections'
+import { AppointmentCard } from '@components/sections/subAdmin/components/Cards/AppointmentCard'
+import { FigureCard } from '@components/sections/subAdmin'
 
 const PrimaryLinks = [
     {

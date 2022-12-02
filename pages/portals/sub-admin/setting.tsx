@@ -12,7 +12,11 @@ const Setting: NextPageWithLayout = () => {
 }
 
 Setting.getLayout = (page: ReactElement) => {
-    return <SubAdminLayout title="Setting">{page}</SubAdminLayout>
+    return <SubAdminLayout pageTitle={{
+        title: 'Setting',
+        navigateBack: true,
+        backTitle: 'Back',
+    }}>{page}</SubAdminLayout>
 }
 
 export default Setting

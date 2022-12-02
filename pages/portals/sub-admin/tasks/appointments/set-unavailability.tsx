@@ -25,7 +25,11 @@ const SetUnavailability: NextPageWithLayout = (props: Props) => {
     )
 }
 SetUnavailability.getLayout = (page: ReactElement) => {
-    return <SubAdminLayout title="Set Un Availability">{page}</SubAdminLayout>
+    return <SubAdminLayout pageTitle={{
+        title: 'Set Unavailability',
+        backTitle: 'Back',
+        navigateBack: true,
+    }}>{page}</SubAdminLayout>
 }
 
 export default SetUnavailability

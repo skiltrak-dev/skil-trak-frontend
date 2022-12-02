@@ -1,6 +1,6 @@
 import { Button } from '@components/buttons'
 import { Card } from '@components/cards'
-import { ProgressStep } from '@components/sections/subAdmin'
+import { ProgressStep } from '@components/sections/subAdmin/StudentsContainer'
 import { Typography } from '@components/Typography'
 import React, { useEffect, useState } from 'react'
 
@@ -18,9 +18,8 @@ export const AppliedIndustry = ({
   console.log("Workplace___________Request", status);
   // map over workplaceIndustries
 
-  console.log("industryCheckListStatus", status);
-
-
+  
+  
 
 
   const daysLeft = () => {
@@ -59,13 +58,13 @@ export const AppliedIndustry = ({
               </Typography>
             </div>
           </div>
-          
+
           <div>
             <Typography variant={'xs'} right>
               <span className="font-bold">{daysLeft()}</span> days
               left
             </Typography>
-      {/* <Card>
+            {/* <Card>
         <ProgressStep status={appliedIndustry?.industryCheck} />
         <div className="py-2 px-4 rounded-lg flex justify-between items-center">
           <div className="flex items-center gap-x-2">
