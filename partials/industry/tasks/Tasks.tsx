@@ -17,6 +17,12 @@ import { AdForRPL } from '@components/sections'
 
 export const TaskPrimaryActions = [
     {
+        link: 'industry/required-documents',
+        title: 'Documentation Required',
+        description: 'Some helping text',
+        animation: Animations.Industry.Dashboard.RequiredDocuments,
+    },
+    {
         link: 'tasks/add-a-schedule',
         title: 'Add Schedule',
         description: 'Some helping text',

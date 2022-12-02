@@ -98,14 +98,14 @@ const RtoContactPersons: NextPageWithLayout = (props: Props) => {
         contactPerson?: any
         edit: boolean
     }) => {
-        contextBar.setTitle('Add Admin')
+        contextBar.setTitle('Add Contact Person')
         contextBar.setContent(
             <AddAdminCB
                 {...(contactPerson ? { initialValues: contactPerson } : {})}
                 {...(edit ? { edit: edit } : {})}
             />
         )
-        contextBar.show()
+        contextBar.show(false)
     }
 
     const tableActionOptions: TableActionOption[] = [
@@ -163,7 +163,7 @@ const RtoContactPersons: NextPageWithLayout = (props: Props) => {
             {modal && modal}
             <div className="flex justify-end mb-2">
                 <Button
-                    text={'Add Admins'}
+                    text={'+ Add Contact Person'}
                     onClick={() => {
                         onAddAdmin({ contactPerson: null, edit: false })
                     }}
@@ -224,7 +224,11 @@ const RtoContactPersons: NextPageWithLayout = (props: Props) => {
 }
 
 RtoContactPersons.getLayout = (page: ReactElement) => {
-    return <RtoLayout title="Contact Persons">{page}</RtoLayout>
+    return (
+        <RtoLayout pageTitle={{ title: 'Contact Persons', backTitle: 'Users' }}>
+            {page}
+        </RtoLayout>
+    )
 }
 
 export default RtoContactPersons

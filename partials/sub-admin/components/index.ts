@@ -1,2 +1,2 @@
-export * from './OnBoardingLink'
 export * from './ImportantDocuments'
+export * from './SettingCard'

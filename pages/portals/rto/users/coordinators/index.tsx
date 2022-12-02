@@ -14,6 +14,8 @@ import {
     TechnicalError,
     Card,
     LoadingAnimation,
+    PageTitle,
+    Button,
 } from '@components'
 // queries
 import { useGetRtoCoordinatorsQuery } from '@queries'
@@ -33,6 +35,8 @@ const RtoCoordinators: NextPageWithLayout = (props: Props) => {
         skip: itemPerPage * page - itemPerPage,
         limit: itemPerPage,
     })
+
+    console.log("::: DATA", data)
     const RelatedQuestions = [
         {
             text: `I have a workplace. What next?`,
@@ -135,7 +139,15 @@ const RtoCoordinators: NextPageWithLayout = (props: Props) => {
         },
     ]
     return (
-        <>
+        <div>
+            <div className='flex justify-between items-end mb-6'>
+                <PageTitle title="Coordinators" backTitle="Users" />
+                <div>
+                    <Button text="+ Add Coordinator" onClick={()=>{
+                        router.push('coordinators/create')
+                    }}/>
+                </div>
+            </div>
             <Card noPadding>
                 {isError && <TechnicalError />}
                 {isLoading ? (
@@ -195,11 +207,11 @@ const RtoCoordinators: NextPageWithLayout = (props: Props) => {
                     questions={OtherQuestions}
                 />
             </div>
-        </>
+        </div>
     )
 }
 RtoCoordinators.getLayout = (page: ReactElement) => {
-    return <RtoLayout title="Coordinators">{page}</RtoLayout>
+    return <RtoLayout>{page}</RtoLayout>
 }
 
 export default RtoCoordinators

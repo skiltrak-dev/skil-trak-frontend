@@ -78,22 +78,22 @@ const OtherQuestions = [
 ]
 const FigureCardData = [
     {
-        count: 38,
+        count: 0,
         title: 'RTOs',
         imageUrl: '/images/icons/rto.png',
     },
     {
-        count: 97,
+        count: 0,
         title: 'Students',
         imageUrl: '/images/icons/students.png',
     },
     {
-        count: 98,
+        count: 0,
         title: 'Industries',
         imageUrl: '/images/icons/industry.png',
     },
     {
-        count: 98,
+        count: 0,
         title: 'Pending Students',
         imageUrl: '/images/icons/pending-student.png',
     },
@@ -137,11 +137,6 @@ const SubAdminUsers: NextPageWithLayout = () => {
                             imageUrl={FigureCardData[2].imageUrl}
                             count={FigureCardData[2].count}
                             title={FigureCardData[2].title}
-                        />
-                        <FigureCard
-                            imageUrl={FigureCardData[3].imageUrl}
-                            count={FigureCardData[3].count}
-                            title={FigureCardData[3].title}
                         />
                     </div>
 

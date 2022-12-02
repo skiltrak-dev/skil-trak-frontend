@@ -52,7 +52,7 @@ const CourseRequirements: NextPageWithLayout = () => {
         <LoadingAnimation />
     ) : (
         <div className="flex items-start gap-x-2 min-h-[450px] mb-32">
-            <div className="bg-gray-100 py-2 px-2 rounded-xl shadow-xl w-1/5 sticky top-4">
+            <div className="bg-gray-100 py-2 px-2 rounded-xl shadow-xl w-2/5 sticky top-4">
                 <div className="text-sm font-medium text-gray-500">
                     Select a course
                 </div>
@@ -97,7 +97,7 @@ const CourseRequirements: NextPageWithLayout = () => {
                 )}
             </div>
 
-            <div className="w-4/5 bg-white rounded-xl shadow-xl">
+            <div className="w-3/5 bg-white rounded-xl shadow-xl">
                 <div className="bg-slate-100 rounded-t-xl p-2 text-sm">
                     {selectedCourse ? (
                         <span>
@@ -123,7 +123,11 @@ const CourseRequirements: NextPageWithLayout = () => {
 }
 
 CourseRequirements.getLayout = (page: ReactElement) => {
-    return <RtoLayout title="Course Requirements">{page}</RtoLayout>
+    return (
+        <RtoLayout pageTitle={{ title: 'Course Requirements' }}>
+            {page}
+        </RtoLayout>
+    )
 }
 
 export default CourseRequirements

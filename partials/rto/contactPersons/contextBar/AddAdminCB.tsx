@@ -19,15 +19,15 @@ export const AddAdminCB = ({ initialValues, edit }: any) => {
     useEffect(() => {
         if (createResult.isSuccess) {
             notification.success({
-                title: 'Admin Added Successfully',
-                description: 'Admin Added Successfully',
+                title: 'Contact Person Added',
+                description: 'Contact Person Added Successfully',
             })
             hide()
         }
         if (createResult.isError) {
             notification.error({
-                title: 'Admin Added Failed',
-                description: 'Admin Added Failed',
+                title: 'Contact Person Failed',
+                description: 'Contact Person Failed To Add',
             })
         }
     }, [createResult])
@@ -72,7 +72,7 @@ export const AddAdminCB = ({ initialValues, edit }: any) => {
     return (
         <div>
             <Typography variant={'small'} color={'text-gray-500'}>
-                Add Admin:
+                Add Contact Person:
             </Typography>
 
             <FormProvider {...methods}>
@@ -111,7 +111,7 @@ export const AddAdminCB = ({ initialValues, edit }: any) => {
                             loading={isLoading}
                             variant={edit ? 'secondary' : 'primary'}
                         >
-                            {edit ? 'Update Admin' : 'Add Admin'}
+                            {edit ? 'Update' : 'Add'}
                         </Button>
                     </div>
                 </form>

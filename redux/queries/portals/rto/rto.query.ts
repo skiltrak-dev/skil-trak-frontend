@@ -1,8 +1,10 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 import { AuthUtils } from '@utils'
-import { contactPersonEndpoints } from './contactPerson'
 
 import { AdminStats, ContactPerson, PaginatedResponse, Rto } from '@types'
+import { studentEndpoints } from './student'
+import { contactPersonEndpoints } from './contactPerson'
+import { coordinatorEndpoints } from './coordinator'
 
 export const rtoApi = createApi({
     reducerPath: 'rto',
@@ -16,7 +18,7 @@ export const rtoApi = createApi({
             return headers
         },
     }),
-    tagTypes: ['RTO', 'ContactPersons'],
+    tagTypes: ['RTO', 'ContactPersons', 'Rto-Students', 'Rto-Coordinators'],
 
     // ---------- RTO ENDPOINTS ---------- //
     endpoints: (build) => ({
@@ -25,16 +27,26 @@ export const rtoApi = createApi({
             providesTags: ['RTO'],
         }),
         ...contactPersonEndpoints(build),
+        ...studentEndpoints(build),
+        ...coordinatorEndpoints(build),
     }),
 })
 
 const {
     // ------ SELF ------ //
     useProfileQuery,
+
+    // ------ Contact Persons ------ //
     useContactPersonsQuery,
     useAddContactPersonMutation,
     useRemoveContactPersonMutation,
     useUpdateContactPersonMutation,
+
+    // ------ STUDENT ------ //
+    useStudentsImportMutation,
+
+    // ------ COORDINATOR ------ //
+    useCoordinatorCreateMutation,
 } = rtoApi
 
 export const RtoApi = {
@@ -44,5 +56,11 @@ export const RtoApi = {
         useAddContactPerson: useAddContactPersonMutation,
         useRemoveContactPerson: useRemoveContactPersonMutation,
         useUpdateContactPerson: useUpdateContactPersonMutation,
+    },
+    Students: {
+        useImportStudents: useStudentsImportMutation,
+    },
+    Coordinator: {
+        useCreate: useCoordinatorCreateMutation,
     },
 }

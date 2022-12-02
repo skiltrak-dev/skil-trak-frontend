@@ -8,7 +8,7 @@ import { FormProvider, useForm } from 'react-hook-form'
 import * as yup from 'yup'
 import { useState, useEffect } from 'react'
 
-export const SubAdminForm = ({ subAdmin }: any) => {
+export const SubAdminForm = ({ onSubmit }: any) => {
     const router = useRouter()
     const [isSuccess, setIsSuccess] = useState<boolean>(false)
     const [createSubAmin, createSubAminResult] =
@@ -43,8 +43,15 @@ export const SubAdminForm = ({ subAdmin }: any) => {
         resolver: yupResolver(validationSchema),
     })
 
-    const onSubmit = (values: any) => {
-        createSubAmin({ ...values, role: UserRoles.SUBADMIN, status: 'approved' })
+    const onSubmitForm = (values: any) => {
+        if (onSubmit) {
+            onSubmit(values)
+        } else
+            createSubAmin({
+                ...values,
+                role: UserRoles.SUBADMIN,
+                status: 'approved',
+            })
     }
 
     return (
@@ -70,7 +77,7 @@ export const SubAdminForm = ({ subAdmin }: any) => {
             )}
             {!isSuccess && (
                 <FormProvider {...formMethods}>
-                    <form onSubmit={formMethods.handleSubmit(onSubmit)}>
+                    <form onSubmit={formMethods.handleSubmit(onSubmitForm)}>
                         <div className="w-full grid grid-cols-1 sm:grid-cols-2 gap-x-8">
                             <TextInput
                                 label={'Full Name'}
@@ -120,7 +127,7 @@ export const SubAdminForm = ({ subAdmin }: any) => {
                         </div>
                         <Button
                             submit
-                            text={'Continue'}
+                            text={'Create'}
                             variant={'primary'}
                             loading={createSubAminResult.isLoading}
                             disabled={createSubAminResult.isLoading}
