@@ -24,7 +24,6 @@ export const Schedule = ({
     ) => {
         const dragData = EmployeeData[outerIndex].tasks[dragIndex]
 
-        // console.log("dragData", dragData, dropData);
         setEmployeesData((preVal: any) => {
             const dragData = preVal[outerIndex].tasks[dragIndex]
             const dropData = preVal[outerIndex].tasks[hoverIndex]

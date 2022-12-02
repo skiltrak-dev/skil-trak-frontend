@@ -36,15 +36,12 @@ export const PersonalInfo = ({
     //     }
     //     return days
     // }
-    // console.log(moment.weekdaysShort())
-    // console.log(getCurrentWeek())
 
     // const date = [...Array(7)].map((_, i) => ({
     //     date: getCurrentWeek()[i],
     //     day: moment.weekdaysShort()[i],
     // }))
 
-    // console.log('date', date)
 
     useEffect(() => {
         if (isSuccess) {
@@ -55,8 +52,6 @@ export const PersonalInfo = ({
             setCourses(options)
         }
     }, [data, isSuccess])
-
-    // console.log('courses', courses)
 
     const initialValues = {
         course: '',

@@ -62,7 +62,6 @@ export const ArchivedViewContainer = ({ role }: ArchivedViewProps) => {
                 </div>
                 {/* <div
                     onClick={() => {
-                        console.log('Edit')
                     }}
                 >
                     <FaEdit className="text-[#686DE0] cursor-pointer" />

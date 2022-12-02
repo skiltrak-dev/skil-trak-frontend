@@ -30,8 +30,6 @@ export const MailsTab = () => {
     //     setApprovedUser(industry?.user?.status === 'approved')
     // }, [industry])
 
-    // console.log('approvedUser', industry)
-
     // useEffect(() => {
     //     messages.refetch()
     // }, [messages.refetch])

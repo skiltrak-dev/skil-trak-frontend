@@ -27,8 +27,6 @@ export const AssessmentsEvidence = (props: Props) => {
         }
     )
 
-    console.log('assessmentsFolders', assessmentsFolders)
-
     return (
         <div>
             <div className="mb-3">

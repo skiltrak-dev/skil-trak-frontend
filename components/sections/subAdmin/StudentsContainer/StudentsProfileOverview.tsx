@@ -25,7 +25,6 @@ export const StudentsProfileOverview = ({
     studentDetail,
 }: StudentsProfileOverviewProps) => {
     // const {data} = useGetSubAdminMyRtoQuery(studentId)
-    // console.log("useGetSubAdminMyRtoQuery", data);
 
     return (
         <div className="mt-6">

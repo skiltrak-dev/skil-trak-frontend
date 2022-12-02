@@ -81,9 +81,6 @@ export const TimeSlots = ({
         setTimeAvailability(appointmentAvailability)
     }, [appointmentAvailability])
 
-    // console.log('MMMMM', moment('22:45', 'hh:mm:ss').format('h:mm a'))
-
-    // console.log('timeAvailability', timeAvailability)
 
     const timeSlots = useCallback(() => {
         // const days = [

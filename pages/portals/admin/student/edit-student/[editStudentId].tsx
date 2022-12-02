@@ -42,7 +42,6 @@ const EditStudent: NextPageWithLayout = () => {
   const student = AdminApi.Students.useProfile(editStudentId, {
     skip: !editStudentId,
   })
-  // console.log("Student data", editStudentId, student);
 
   useEffect(() => {
     navBar.setTitle('Edit Student')

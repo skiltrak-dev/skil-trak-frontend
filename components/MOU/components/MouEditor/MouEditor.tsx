@@ -14,23 +14,6 @@ const Editor = dynamic<EditorProps>(
 const htmlToDraft =
   typeof window === 'object' && require('html-to-draftjs').default
 
-// import { Editor } from 'react-draft-wysiwyg'
-// const htmlToDraft = dynamic(
-//   () => import('draftjs-to-html').then((mod) => mod.htmlToDraft),
-//   { ssr: false }
-// )
-
-// const draftToHtml = dynamic(
-//   () => import('draftjs-to-html').then((mod) => mod.draftToHtml),
-//   {
-//     ssr: false,
-//   }
-// )
-// const { EditorState, ContentState, convertToRaw } = dynamic(
-//   () => import('draft-js'),
-//   { ssr: false }
-// )
-
 // styles
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css'
 import { Button } from 'components'
@@ -86,8 +69,6 @@ export const MouEditor = ({
     setNewContentState(editorState)
     setIsContentChange(true)
   }
-
-  // console.log('editorStateeditorState', editorState)
 
   return (
     <>

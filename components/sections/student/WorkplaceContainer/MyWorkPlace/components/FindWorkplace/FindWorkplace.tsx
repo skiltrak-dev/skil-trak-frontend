@@ -24,7 +24,6 @@ type FindWorkplaceProps = {
 }
 export const FindWorkplace = ({ onSubmit, result }: FindWorkplaceProps) => {
     // const [updateFindAbn, result] = useUpdateFindAbnMutation()
-    // console.log("Find AbN", result)
 
     const validationSchema = yup.object({
         abn: yup.string().required('Must provide ABN'),

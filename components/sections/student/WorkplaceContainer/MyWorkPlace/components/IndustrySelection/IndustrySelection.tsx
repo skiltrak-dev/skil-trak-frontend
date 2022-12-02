@@ -48,15 +48,11 @@ export const IndustrySelection = ({
         // applyForWorkplaceResult.isSuccess,
     ])
 
-    // console.log('selectedCourses', selectedCourses)
-
     useEffect(() => {
         if (cancelRequestResult.isSuccess) {
             setActive(1)
         }
     }, [cancelRequestResult.isSuccess])
-
-    console.log('industries', industries)
 
     return !industrySelection ? (
         <div>

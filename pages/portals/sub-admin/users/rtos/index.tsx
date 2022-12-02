@@ -75,7 +75,6 @@ const RTOs: NextPageWithLayout = () => {
                     phone,
                     user: { name, email, image },
                 } = row.original
-                // console.log('row', row.original)
 
                 return (
                     <div className="flex items-center relative">
@@ -198,7 +197,6 @@ const RTOs: NextPageWithLayout = () => {
             },
         },
     ]
-    // console.log("useGetSubAdminRtosQuery", useGetSubAdminRtosQuery());
 
     return (
         <>

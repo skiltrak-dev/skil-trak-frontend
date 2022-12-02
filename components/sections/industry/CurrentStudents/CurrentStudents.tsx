@@ -23,7 +23,6 @@ export const CurrentStudnts = () => {
     // query
     const industryWorkplace = useGetIndustryWorkplaceQuery(null)
 
-    console.log('industryWorkplace', industryWorkplace)
     return (
         <>
             {industryWorkplace.isError && <TechnicalError />}

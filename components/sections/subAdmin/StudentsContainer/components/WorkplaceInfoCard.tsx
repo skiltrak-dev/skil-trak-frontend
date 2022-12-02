@@ -21,7 +21,6 @@ export const WorkplaceInfoCard = (props: Props) => {
     const filteredData = data?.workplace.filter((item: any) => {
         return item.approvalStatus === 'approved' && item.isCancelled === false
     })
-    // console.log("My workplace", filteredData);
 
     return (
         <div>

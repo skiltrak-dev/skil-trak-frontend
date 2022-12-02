@@ -98,20 +98,10 @@ export const FileUpload = ({
         // Getting file Data
         const fileData: File = event[0] || event.target.files[0]
 
-        // console.log(":::: EVENT Before", event.target.files);
-
-        // if (formContext && event.target) {
-        // 	formContext.setValue(name, values);
-        // 	console.log("::: SETTING VALUE", formContext.getValues());
-        // }
-        // console.log(":::: EVENT After", event.target.files);
-
         const reader: any = new FileReader()
         if (reader) {
             reader.onload = () => {
                 if (reader.readyState === 2) {
-                    // Sending file data to field
-                    // file &&
                     onChange &&
                         onChange({
                             name: fileData.name,
@@ -119,7 +109,6 @@ export const FileUpload = ({
                             // extension: getFileExtension(file),
                             data: reader.result.toString(),
                         } as FileData)
-                    // fileUpload(name, reader.result.toString());
                 }
             }
         }
@@ -296,16 +285,6 @@ export const FileUpload = ({
                     id={`file_id_${name}`}
                     // name={name}
                     className="hidden"
-                    // {...getMethodsForInput(
-                    // 	name,
-                    // 	formContext,
-                    // 	rules,
-                    // 	(e: any) => {
-                    // 		onChange && onChange(e);
-                    // 		handleChange(e, false);
-                    // 	},
-                    // 	onBlur
-                    // )}
                     {...(formContext ? formContext.register(name) : { name })}
                     onChange={(e: any) => {
                         setValues(e.target.files)
@@ -316,35 +295,7 @@ export const FileUpload = ({
                         ? { accept: getMimeTypes(acceptTypes) }
                         : {})}
                 />
-                {/* <Controller
-					control={formContext.control}
-					name={name}
-					render={({
-						// field: { onChange, onBlur, value, name, ref },
-						field,
-						fieldState: {isTouched, isDirty, error },
-						formState,
-					}) => (
-						<input
-							ref={field.ref}
-							type="file"
-							id={`file_id_${name}`}
-							name={field.name}
-							className="hidden"
-							onChange={(e: any) => {
-								handleChange(e, false);
-								field.onChange(e);
-							}}
-							onBlur={(e: any) => {
-								field.onBlur();
-								onBlur && onBlur();
-							}}
-							{...(acceptTypes
-								? { accept: getMimeTypes(acceptTypes) }
-								: {})}
-						/>
-					)}
-				/> */}
+                
             </FileDrop>
 
             <HelpText text={helpText} />

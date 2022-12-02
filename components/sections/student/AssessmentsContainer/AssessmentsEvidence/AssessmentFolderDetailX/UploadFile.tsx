@@ -18,7 +18,6 @@ export const UploadFile = ({
     handleRemove,
     invalidSelection,
 }: any) => {
-    // console.log(name, Array.isArray(file), file)
 
     return (
         <Button variant={'info'} Icon={MdCloudUpload}>

@@ -207,7 +207,6 @@ export const StudentSignUpForm = ({ onSubmit }: { onSubmit: any }) => {
       resolver: yupResolver(validationSchema),
    })
 
-   // console.log(":::: FORM ERRORS", formMethods.state)
 
 
    return (

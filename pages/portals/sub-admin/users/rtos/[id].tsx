@@ -59,7 +59,6 @@ const RtoProfile: NextPageWithLayout = (props: Props) => {
     const [archiveAssessmentTool, archiveAssessmentToolResult] =
         useUpdateAssessmentToolArchiveMutation()
     const actions = (id: any) => {
-        // console.log(id)
         return (
             <div className="flex gap-x-2 ">
                 <a
@@ -84,7 +83,7 @@ const RtoProfile: NextPageWithLayout = (props: Props) => {
                 </div>
                 <div
                     onClick={() => {
-                        // console.log('Edit')
+
                     }}
                 >
                     <FaEdit className="text-[#686DE0] cursor-pointer" />

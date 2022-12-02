@@ -64,7 +64,6 @@ export const ProgressStep = ({ status }: Props) => {
   const currentStatus = progressStep.findIndex(
     (item: any) => item.statusEnum === status
   )
-  console.log('currentStatus', currentStatus)
 
   return (
     <>

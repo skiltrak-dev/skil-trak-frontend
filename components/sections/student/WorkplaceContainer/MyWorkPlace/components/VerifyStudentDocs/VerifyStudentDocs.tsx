@@ -58,8 +58,6 @@ export const VerifyStudentDocs = ({
     setProgressPercent(getUploadedDocPercent())
   }, [requiredDocs])
 
-  // console.log('totalll', totalll)
-
   return (
     <Card>
       <Typography variant={'muted'} color={'gray'}>

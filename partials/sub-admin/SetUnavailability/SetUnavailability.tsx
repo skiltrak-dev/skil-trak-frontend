@@ -60,7 +60,6 @@ export const SetUnavailabilityContainer = () => {
         // {
         //     text: 'Edit',
         //     onClick: (unavailability: any) => {
-        //         console.log('unavailability', unavailability)
         //         router.push(`/portals/admin/rto/edit/${unavailability?.id}`)
         //     },
         //     Icon: FaEdit,

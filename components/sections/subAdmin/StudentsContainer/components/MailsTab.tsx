@@ -33,8 +33,6 @@ export const MailsTab = ({ student }: any) => {
         setApprovedUser(student?.user?.status === 'approved')
     }, [student])
 
-    console.log('approvedUser', student)
-
     // useEffect(() => {
     //     messages.refetch()
     // }, [messages.refetch])

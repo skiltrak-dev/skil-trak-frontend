@@ -26,7 +26,6 @@ export const SubAdminProfileTabsView = (props: Props) => {
       url: '/sub-admin/users/rtos/profile/notes',
     },
   ]
-  // console.log('TabsView')
 
   return (
     <div>

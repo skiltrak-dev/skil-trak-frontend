@@ -51,7 +51,6 @@ const Students: NextPageWithLayout = (props: Props) => {
         },
     ]
 
-    // console.log("useGetSubAdminStudentsQuery", useGetSubAdminStudentsQuery());
 
     return (
         <>

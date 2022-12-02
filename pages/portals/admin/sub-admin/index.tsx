@@ -3,10 +3,7 @@ import { ReactElement, useEffect } from 'react'
 import { TabNavigation, TabProps, Button } from '@components'
 import { useContextBar, useNavbar } from '@hooks'
 import { AdminLayout } from '@layouts'
-import {
-    ArchivedSubAdmin,
-    ActiveSubAdmin
-} from '@partials/admin/sub-admin'
+import { ArchivedSubAdmin, ActiveSubAdmin } from '@partials/admin/sub-admin'
 import { AdminApi } from '@queries'
 import { NextPageWithLayout } from '@types'
 import { useRouter } from 'next/router'
@@ -16,14 +13,13 @@ const SubAdminList: NextPageWithLayout = () => {
     const navBar = useNavbar()
     const contextBar = useContextBar()
 
-   const { isLoading, data } = AdminApi.SubAdmins.useCountQuery()
-   // console.log("count sub admins",data);
-   
-   useEffect(() => {
-      navBar.setTitle('Sub-Admins')
-      contextBar.hide()
-      // contextBar.setContent(<UserProfile />)
-   }, [])
+    const { isLoading, data } = AdminApi.SubAdmins.useCountQuery()
+
+    useEffect(() => {
+        navBar.setTitle('Sub-Admins')
+        contextBar.hide()
+        // contextBar.setContent(<UserProfile />)
+    }, [])
 
     useEffect(() => {
         navBar.setTitle('Sub-Admins')
@@ -58,15 +54,17 @@ const SubAdminList: NextPageWithLayout = () => {
                     return (
                         <div>
                             <div className="flex items-end justify-between">
-                                <div className='flex-grow'>{header}</div>
-                                <div className="px-6">  
-                                <Button
-                                    text={'Add Sub Admin'}
-                                    variant={'primary'}
-                                    onClick={()=>{
-                                        router.push('/portals/admin/sub-admin/form')
-                                    }}
-                                />
+                                <div className="flex-grow">{header}</div>
+                                <div className="px-6">
+                                    <Button
+                                        text={'Add Sub Admin'}
+                                        variant={'primary'}
+                                        onClick={() => {
+                                            router.push(
+                                                '/portals/admin/sub-admin/form'
+                                            )
+                                        }}
+                                    />
                                 </div>
                             </div>
                             <div className="p-4">{element}</div>

@@ -17,17 +17,10 @@ export const AssessmentFolderFileCard = ({
     fileUrl,
     filename,
 }: AssessmentFolderFileCardProps) => {
-    // console.log('type', type)
     const file = fileUrl.split('\\').join('/')
-    // console.log('myString', file)
+
     return (
         <div className="">
-            {/* <Image
-                src={fileUrl || '/images/assessment-file-images/img-1.png'}
-                width={100}
-                height={100}
-            />
-             {fileUrl && file.type && ( */}
             {fileUrl && (
                 <div className="relative w-full h-full">
                     {/* Video Preview */}
@@ -42,12 +35,6 @@ export const AssessmentFolderFileCard = ({
                     {/* PDF Preview */}
                     {type === 'docs' && (
                         <div className="flex justify-center items-center w-full h-full">
-                            {/* {FileFormat.isPdf('file') ? (
-                                <div className="w-full h-full">
-                                    <PdfViewer file={fileUrl} />
-                                </div>
-                            ) : (
-                                )} */}
                             <IoMdDocument className="text-5xl text-gray" />
                         </div>
                     )}

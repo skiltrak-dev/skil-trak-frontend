@@ -29,7 +29,6 @@ export const StudentAssessmentTools = ({ role, actions }: Props) => {
             skip: !selectedCourseId,
         }
     )
-    // console.log("Student_______AssessmentTools", getAssessmentTools);
 
     return (
         <div>

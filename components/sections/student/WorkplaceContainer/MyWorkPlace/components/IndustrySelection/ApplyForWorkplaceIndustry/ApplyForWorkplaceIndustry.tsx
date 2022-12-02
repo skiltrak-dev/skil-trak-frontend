@@ -5,7 +5,6 @@ import { Typography, Button } from '@components'
 import { useApplyForWorkplaceMutation } from '@queries'
 
 export const ApplyForWorkplaceIndustry = ({ industry, industries }: any) => {
-    console.log('industry', industry)
     const [applyForWorkplace, applyForWorkplaceResult] =
         useApplyForWorkplaceMutation()
     return (
