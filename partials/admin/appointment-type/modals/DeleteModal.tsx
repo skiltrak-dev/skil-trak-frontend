@@ -48,6 +48,7 @@ export const DeleteModal = ({
             input
             inputKey={appointmentType.title}
             actionObject={appointmentType}
+            loading={removeResult.isLoading}
         />
     )
 }

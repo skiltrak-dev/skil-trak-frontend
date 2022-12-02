@@ -27,7 +27,6 @@ export const MailForm = ({ action, receiverId, sender }: any) => {
     const validationSchema = yup.object({
         subject: yup.string().required('Must provide subject'),
         message: yup.string().required('Must provide message'),
-        templates: yup.object().required('Must provide tamplate'),
     })
 
     const methods = useForm({

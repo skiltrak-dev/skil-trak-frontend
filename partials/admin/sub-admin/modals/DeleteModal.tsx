@@ -48,6 +48,7 @@ export const DeleteModal = ({
             input
             inputKey={subAdmin.user.email}
             actionObject={subAdmin}
+            loading={removeResult.isLoading}
         />
     )
 }

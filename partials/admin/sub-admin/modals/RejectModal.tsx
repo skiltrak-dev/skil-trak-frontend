@@ -47,6 +47,7 @@ export const RejectModal = ({
             input
             inputKey={subAdmin.user.email}
             actionObject={subAdmin}
+            loading={changeStatusResult.isLoading}
         />
     )
 }
