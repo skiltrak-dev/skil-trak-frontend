@@ -1,23 +1,15 @@
 import { ReactElement, useEffect } from 'react'
 
-import { RtoLayout } from '@layouts'
-import { NextPageWithLayout } from '@types'
 import { Animations } from '@animations'
 import {
-    AssessmentResultCard,
-    Button,
     DisplayPrimaryActions,
-    HelpQuestionSet,
-    ImportantDocument,
-    PendingSignatureCard,
-    PlacementProgressCard,
-    RecentAppointmentCard,
-    RtoContextBarData,
-    SidebarCalendar,
+    HelpQuestionSet, QuestionCard
 } from '@components'
-import { useContextBar } from '@hooks'
-import { CommonCB } from '@partials/rto/contextBar'
 import { FigureCard } from '@components/sections'
+import { useContextBar } from '@hooks'
+import { RtoLayout } from '@layouts'
+import { CommonCB } from '@partials/rto/contextBar'
+import { NextPageWithLayout } from '@types'
 
 const PrimaryLinks = [
     {
@@ -27,8 +19,8 @@ const PrimaryLinks = [
         animation: Animations.Student.Workplace.Student,
     },
     {
-        title: 'Admins',
-        description: 'View & Manage Your Admins',
+        title: 'Contact Person',
+        description: 'View & Manage Your Contact Persons',
         link: 'users/contact-person',
         animation: Animations.Student.Appointments.AssessmentTool,
     },
@@ -40,40 +32,39 @@ const PrimaryLinks = [
     },
 ]
 
-const RelatedQuestions = [
+const StudentQuestions = [
     {
-        text: `I have a workplace. What next?`,
+        text: `Where can I add a Student?`,
         link: '#',
     },
     {
-        text: `I don't have a workplace. What should I do?`,
+        text: `Where can I view my Students?`,
+        link: '#',
+    },
+]
+
+const ContactPersonQuestions = [
+    {
+        text: `Where can I add a Contact Person?`,
         link: '#',
     },
     {
-        text: `I want to book an appointment`,
-        link: '#',
-    },
-    {
-        text: `I want to look for a job`,
+        text: `Where can I view my Contact Persons?`,
         link: '#',
     },
 ]
 
 const OtherQuestions = [
     {
-        text: `I have a workplace. What next?`,
+        text: `Where can I view my Coordinators?`,
         link: '#',
     },
     {
-        text: `I don't have a workplace. What should I do?`,
+        text: `Where can I add my own Coordinator?`,
         link: '#',
     },
     {
-        text: `I want to book an appointment`,
-        link: '#',
-    },
-    {
-        text: `I want to look for a job`,
+        text: `How can I unassign a coordinator?`,
         link: '#',
     },
 ]
@@ -95,7 +86,7 @@ const RtoUsers: NextPageWithLayout = () => {
                 </div>
 
                 {/* Special Cards */}
-                <div className="w-3/5 flex flex-col justify-center space-y-2">
+                <div className="w-3/5 flex flex-col justify-between space-y-2">
                     {/* Figure Cards */}
                     <div className="flex flex-col gap-y-4">
                         <div className="flex gap-x-4">
@@ -112,29 +103,42 @@ const RtoUsers: NextPageWithLayout = () => {
                         </div>
                     </div>
 
-                    <RecentAppointmentCard
-                        title="Work Place Visit"
-                        caseOfficer="John Smith Khan"
-                        time="09:00 am - 11:00 am"
-                        date="Monday, 17 Oct,2022"
-                        address="221B Baker Street, Melbourne, VIC 3000"
-                    />
+
+                    <QuestionCard>
+                        <>
+                            <div className="flex flex-col gap-y-2">
+                                <HelpQuestionSet
+                                    title={'Students'}
+                                    questions={StudentQuestions}
+                                />
+
+                                <HelpQuestionSet
+                                    title={'Contact Persons'}
+                                    questions={ContactPersonQuestions}
+                                />
+                            </div>
+
+                            <HelpQuestionSet
+                                title={'Coordinators'}
+                                questions={OtherQuestions}
+                            />
+                        </>
+                    </QuestionCard>
+                  
                 </div>
             </div>
 
-            <div className="mt-6 flex justify-between">
-                {/* Related Questions */}
+            {/* <div className="mt-6 flex justify-between">
                 <HelpQuestionSet
                     title={'What you want to do here?'}
                     questions={RelatedQuestions}
                 />
 
-                {/* Other Questions */}
                 <HelpQuestionSet
                     title={'What else you want to do?'}
                     questions={OtherQuestions}
                 />
-            </div>
+            </div> */}
         </div>
     )
 }

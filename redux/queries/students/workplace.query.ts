@@ -29,6 +29,10 @@ export const workplaceRequestApi = createApi({
       query: () => 'workindustry/list',
       providesTags: ['Workplace'],
     }),
+    getPlacementProgress: builder.query<any, void>({
+      query: () => 'work-place-request/view',
+      providesTags: ['Workplace'],
+  }),
     getCourseDocuments: builder.query({
       query: ({ id, courses }: any) => {
         return {
@@ -70,6 +74,7 @@ export const workplaceRequestApi = createApi({
 export const {
   useGetCourseDocumentsQuery,
   useGetWorkplaceIndustriesQuery,
+  useGetPlacementProgressQuery,
   useWorkPlaceRequestMutation,
   useUploadDocumentsMutation,
   useCancelWorkplaceRequestMutation,

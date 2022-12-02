@@ -9,7 +9,7 @@ type ImportantDocumentProps = {
     imageUrl: string
 }
 
-export const ImportantDocument = ({
+export const ImportantDocumentCard = ({
     title,
     description,
     imageUrl,

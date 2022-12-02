@@ -1,10 +1,10 @@
+import { useEffect } from 'react'
 import { Popup } from '@components'
 import { UserRoles } from '@constants'
 import { AuthApi } from '@queries'
 import { OptionType, RtoFormData } from '@types'
 import { AuthUtils, SignUpUtils } from '@utils'
 import { useRouter } from 'next/router'
-import { useEffect } from 'react'
 
 export const StepCreate = () => {
     const router = useRouter()

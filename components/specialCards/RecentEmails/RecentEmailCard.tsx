@@ -41,20 +41,20 @@ export const RecentEmailCard = ({ emails }: RecentEmailCardProps) => {
                                 >
                                     <div className="flex justify-between">
                                         <div className="flex items-center space-x-2">
-                                            <p className="font-semibold text-cyan-700">
+                                            <p className="font-semibold text-cyan-700 text-sm">
                                                 {email.subject}
                                             </p>
-                                            <p className="font-medium text-sm text-cyan-100">
+                                            <p className="font-medium text-xs text-cyan-100">
                                                 {email.sender}
                                             </p>
                                         </div>
 
-                                        <p className="text-xs text-cyan-800">
+                                        <p className="text-[9px] text-cyan-800">
                                             {email.dated}
                                         </p>
                                     </div>
 
-                                    <p className="text-sm text-cyan-600">
+                                    <p className="text-xs text-cyan-600">
                                         {email.body.slice(0, 60)} ...
                                     </p>
                                 </div>

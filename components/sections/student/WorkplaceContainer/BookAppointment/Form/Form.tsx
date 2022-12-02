@@ -40,6 +40,8 @@ export const Form = ({
         { skip: !type }
     )
     const studentCourses = useGetStudentCoursesQuery()
+    console.log("coordinators", coordinators.data);
+    
 
     useEffect(() => {
         setSelectedCoordinator(null)
@@ -60,7 +62,7 @@ export const Form = ({
             }))
             setCoursesOptions(options)
         }
-    }, [studentCourses?.data?.data, studentCourses.isSuccess])
+    }, [studentCourses?.data])
 
     return (
         <div>

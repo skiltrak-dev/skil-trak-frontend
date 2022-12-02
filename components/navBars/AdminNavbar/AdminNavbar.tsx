@@ -62,8 +62,8 @@ export const AdminNavbar = () => {
                     <div className="relative">
                         <BadgeButton
                             icon={MdMessage}
-                            count={4}
-                            max={5}
+                            count={0}
+                            max={9}
                             onClick={() =>
                                 setMessagesExpanded(!messagesExpanded)
                             }
@@ -82,8 +82,8 @@ export const AdminNavbar = () => {
                     <div className="relative">
                         <BadgeButton
                             icon={IoMdNotifications}
-                            count={6}
-                            max={5}
+                            count={0}
+                            max={9}
                             onClick={() =>
                                 setNotificationsExpanded(!notificationsExpanded)
                             }

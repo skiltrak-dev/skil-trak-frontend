@@ -1,6 +1,6 @@
 import { ReactElement, useEffect } from 'react'
 import Image from 'next/image'
-import Link from 'next/link' 
+import Link from 'next/link'
 import { NextPageWithLayout } from '@types'
 
 // layouts
@@ -24,7 +24,6 @@ import { IoBriefcase } from 'react-icons/io5'
 import { Animations } from '@animations'
 // hooks
 import { useContextBar } from '@hooks'
-
 
 const WorkplaceQuestions = [
     {
@@ -80,6 +79,7 @@ const SubAdminDashboard: NextPageWithLayout = () => {
 
     useEffect(() => {
         contextBar.setContent(<UserProfile />)
+        contextBar.show(false)
     }, [])
 
     return (
@@ -412,7 +412,11 @@ const SubAdminDashboard: NextPageWithLayout = () => {
 }
 
 SubAdminDashboard.getLayout = (page: ReactElement) => {
-    return <SubAdminLayout title='Dashboard'>{page}</SubAdminLayout>
+    return (
+        <SubAdminLayout pageTitle={{ title: 'Dashboard' }}>
+            {page}
+        </SubAdminLayout>
+    )
 }
 
 export default SubAdminDashboard
