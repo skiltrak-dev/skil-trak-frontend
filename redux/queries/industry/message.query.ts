@@ -17,7 +17,7 @@ export const messageApi = createApi({
     }),
     tagTypes: ['Message'],
     endpoints: (builder) => ({
-        getIndustryMessages: builder.query({
+        getIndustryMessages: builder.query<any, void>({
             query: (params) => 'industries/mail/list',
             providesTags: ['Message'],
         }),

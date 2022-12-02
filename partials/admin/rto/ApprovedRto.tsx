@@ -186,6 +186,7 @@ export const ApprovedRto = () => {
                 ) : null}
 
                 <Card noPadding>
+                    
                     {isLoading ? (
                         <LoadingAnimation height="h-[60vh]" />
                     ) : data && data?.data.length ? (

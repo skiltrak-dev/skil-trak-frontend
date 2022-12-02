@@ -29,6 +29,8 @@ export const BrowseCandidatesContainer = () => {
     )
 
     const browseCandidates = useGetBrowseCandidatesQuery()
+    console.log('browseCandidates', browseCandidates);
+    
 
     useEffect(() => {
         setContent(

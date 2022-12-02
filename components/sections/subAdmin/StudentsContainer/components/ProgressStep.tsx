@@ -14,36 +14,43 @@ export const ProgressStep = ({
       id: 1,
       title: 'Industry Checks',
       imageUrl: 'https://picsum.photos/200/300',
+      statusEnum: "industryCheck",
     },
     {
       id: 2,
       title: 'Case Officer Assigned',
       imageUrl: 'https://picsum.photos/200/300',
+      statusEnum: "caseOfficerAssigned"
     },
     {
       id: 3,
       title: 'Interview With Case Officer',
       imageUrl: 'https://picsum.photos/200/300',
+      statusEnum: 'interview'
     },
     {
       id: 4,
       title: 'Awaiting Workplace Response',
       imageUrl: 'https://picsum.photos/200/300',
+      statusEnum: 'awaitingWorkplaceResponse'
     },
     {
       id: 5,
       title: 'Appointment Booked',
       imageUrl: 'https://picsum.photos/200/300',
+      statusEnum: "appointmentBooked"
     },
     {
       id: 6,
       title: 'Awaiting Agreement Sign',
       imageUrl: 'https://picsum.photos/200/300',
+      statusEnum: 'awaitingAgreementSigned'
     },
     {
       id: 7,
       title: 'Placement Started',
       imageUrl: 'https://picsum.photos/200/300',
+      statusEnum: 'placementStarted'
     },
   ]
   return (
@@ -54,7 +61,7 @@ export const ProgressStep = ({
             <>
               <div className='flex gap-x-4 items-center'>
                 <div className="flex flex-col items-center">
-                  <div className={`w-fit ${status === 'applied'? 'bg-sky-100':'bg-white'}  overflow-hidden border-2 border-gray-400 border-dashed rounded-full`}>
+                  <div className={`w-fit ${status === item.statusEnum ? 'bg-sky-100' : 'bg-white'}  overflow-hidden border-2 border-gray-400 border-dashed rounded-full`}>
                     <div className="relative top-1.5 w-12 h-12">
                       <Image
                         className="rounded-full"

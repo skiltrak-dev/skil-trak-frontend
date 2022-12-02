@@ -15,10 +15,10 @@ import { useNotification } from '@hooks'
 
 // query
 import {
-    useGetStudentCoursesQuery,
     useCreateRTOAppointmentMutation,
     useGetCoordinatorsForStudentQuery,
     useGetCoordinatorsAvailabilityQuery,
+    RtoApi,
 } from '@queries'
 
 type Props = {}
@@ -62,8 +62,9 @@ const CreateAppointments: NextPageWithLayout = (props: Props) => {
         },
         { skip: !type }
     )
-    const studentCourses = useGetStudentCoursesQuery()
-
+    const rtoCourses = RtoApi.Rto.useProfile()
+    console.log("coordinators",coordinators);
+    
     useEffect(() => {
         setSelectedCoordinator(null)
         if (coordinators.data && coordinators.isSuccess) {
@@ -76,14 +77,14 @@ const CreateAppointments: NextPageWithLayout = (props: Props) => {
     }, [coordinators])
 
     useEffect(() => {
-        if (studentCourses?.data && studentCourses.isSuccess) {
-            const options = studentCourses?.data?.map((course: any) => ({
+        if (rtoCourses?.data && rtoCourses.isSuccess) {
+            const options = rtoCourses?.data?.courses?.map((course: any) => ({
                 label: course.title,
                 value: course.id,
             }))
             setCoursesOptions(options)
         }
-    }, [studentCourses?.data?.data, studentCourses.isSuccess])
+    }, [rtoCourses?.data?.courses, rtoCourses.isSuccess])
 
     useEffect(() => {
         if (createAppointmentResult.isSuccess) {
@@ -137,8 +138,8 @@ const CreateAppointments: NextPageWithLayout = (props: Props) => {
                             label="Course(s)"
                             placeholder="Select Your Choice"
                             options={coursesOptions}
-                            loading={studentCourses.isLoading}
-                            disabled={studentCourses.isLoading}
+                            loading={rtoCourses.isLoading}
+                            disabled={rtoCourses.isLoading}
                             onlyValue
                         />
                     </div>

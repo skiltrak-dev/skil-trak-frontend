@@ -45,8 +45,7 @@ export const AssessmentsEvidence = (props: Props) => {
                                     title={course.title}
                                     isActive={course.isActive}
                                     coordinator={course?.subadmin[0]?.user.name}
-                                    selectedCourseId={selectedCourseId}
-                                    onClick={() => {
+                                    selectedCourseId={selectedCourseId}                                    onClick={() => {
                                         setSelectedCourseId(course.id)
                                     }}
                                 />

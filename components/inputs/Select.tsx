@@ -159,7 +159,7 @@ export const Select = ({
                 ? event.map((e) => e.value)
                 : event
             : onlyValue
-            ? event.value
+            ? event?.value
             : event
     }
 

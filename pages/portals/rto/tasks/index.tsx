@@ -20,6 +20,7 @@ import {
 // Hooks
 import { useContextBar } from '@hooks'
 import { CommonCB } from '@partials/rto/contextBar'
+import { useGetRTOAppointmentsQuery } from '@queries'
 
 const PrimaryLinks = [
     {
@@ -82,7 +83,9 @@ const OtherQuestions = [
 
 const RtoTasks: NextPageWithLayout = () => {
     const contextBar = useContextBar()
-
+    const { data, isSuccess, isError } = useGetRTOAppointmentsQuery({ status: 'future' })
+    const rtoRecentAppointment = data[data?.length - 1]
+    console.log("rtoRecentAppointments", rtoRecentAppointment)
     useEffect(() => {
         contextBar.setContent(<CommonCB />)
         contextBar.show(false)
@@ -99,11 +102,7 @@ const RtoTasks: NextPageWithLayout = () => {
                 {/* Special Cards */}
                 <div className="w-3/5 flex flex-col justify-center space-y-2">
                     <RecentAppointmentCard
-                        title="Work Place Visit"
-                        caseOfficer="John Smith Khan"
-                        time="09:00 am - 11:00 am"
-                        date="Monday, 17 Oct,2022"
-                        address="221B Baker Street, Melbourne, VIC 3000"
+                        appointment={data}
                     />
                 </div>
             </div>

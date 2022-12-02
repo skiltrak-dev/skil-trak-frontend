@@ -189,10 +189,10 @@ export const ViewProfileCB = () => {
                 <div className="flex justify-between gap-x-2">
                     <div>
                         <p className="font-medium text-sm">
-                            {rto?.subadmin[0].user.name}
+                            {rto?.subadmin[0]?.user.name}
                         </p>
                         <p className="text-xs font-medium text-slate-400">
-                            {rto?.subadmin[0].user.email}
+                            {rto?.subadmin[0]?.user.email}
                         </p>
                     </div>
 
@@ -201,7 +201,7 @@ export const ViewProfileCB = () => {
                             {rto?.subadmin.map((coordinator: any) => (
                                 <>
                                     <InitialAvatar
-                                        name={coordinator.user.name}
+                                        name={coordinator?.user?.name}
                                         first
                                     />
                                 </>
