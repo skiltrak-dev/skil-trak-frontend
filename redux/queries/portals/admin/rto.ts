@@ -36,6 +36,13 @@ export const rtoEndpoints = (
         providesTags: ['RTOS'],
     }),
 
+    rtoAssessmentTools: builder.query<Rto, { rto: number; course: number }>({
+        query: ({ rto, course }) => ({
+            url: `${PREFIX}/assessment-tool/${course}/${rto}`,
+        }),
+        providesTags: ['RTOS'],
+    }),
+
     rtoRemove: builder.mutation({
         query: (id: any) => ({
             // url: `${PREFIX}/rto/remove/${id}`,
@@ -64,7 +71,7 @@ export const rtoEndpoints = (
     }),
 
     rtoSectors: builder.query<Course[], number>({
-        query: (id) => `admin/rtos/course/${id}`,
+        query: (id) => `${PREFIX}/rtos/course/${id}`,
         providesTags: ['RTOS'],
     }),
 
@@ -81,7 +88,7 @@ export const rtoEndpoints = (
 
     rtoUnassignCourse: builder.mutation({
         query: (body: any) => ({
-            url: `admin/rtos/course/delete/${body.courseId}`,
+            url: `${PREFIX}/rtos/course/delete/${body.courseId}`,
             params: { rto: body.rtoId },
             method: 'DELETE',
         }),
@@ -89,14 +96,22 @@ export const rtoEndpoints = (
     }),
 
     rtoSubAdmins: builder.query<Rto, number>({
-        query: (id) => `admin/rto/subadmin/${id}`,
+        query: (id) => `${PREFIX}/rto/subadmin/${id}`,
+        providesTags: ['RTOS'],
+    }),
+
+    rtoProfileSubAdmins: builder.query<Rto, any>({
+        query: (params) => ({
+            url: `${PREFIX}/rto/subadmin/list/${params.id}`,
+            params,
+        }),
         providesTags: ['RTOS'],
     }),
 
     rtoAssignSubAdmins: builder.mutation({
         query: (body: any) => {
             return {
-                url: `admin/rtos/subadmin/assign`,
+                url: `${PREFIX}/rtos/subadmin/assign`,
                 method: 'POST',
                 body,
             }
@@ -106,7 +121,7 @@ export const rtoEndpoints = (
 
     rtoUnassignSubAdmins: builder.mutation({
         query: (body: any) => ({
-            url: `admin/rto/subadmin/remove/${body.rtoId}`,
+            url: `${PREFIX}/rto/subadmin/remove/${body.rtoId}`,
             params: { subadmin: body.subAdmin },
             method: 'DELETE',
         }),

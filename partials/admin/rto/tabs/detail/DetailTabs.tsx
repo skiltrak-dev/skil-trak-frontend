@@ -1,8 +1,9 @@
-import { TabNavigation, TabProps } from '@components'
 import { MailsTab } from './MailsTab'
 import { NotesTab } from './NotesTab'
 import { SectorsTab } from './SectorsTab'
 import { SubAdminsTab } from './SubAdminsTab'
+import { AssessmentTools } from './AssessmentTools'
+import { TabNavigation, TabProps } from '@components'
 
 export const DetailTabs = ({
     id,
@@ -11,6 +12,7 @@ export const DetailTabs = ({
     id: number | string | string[] | undefined
     rto: any
 }) => {
+    console.log('outer', rto)
     const tabs: TabProps[] = [
         {
             label: 'Sectors',
@@ -25,12 +27,12 @@ export const DetailTabs = ({
         {
             label: 'Assessments',
             href: { query: { tab: 'assessments', id } },
-            element: 'Assessments',
+            element: <AssessmentTools rto={rto} />,
         },
         {
             label: 'Sub Admins',
             href: { query: { tab: 'sub-admin', id } },
-            element: <SubAdminsTab />,
+            element: <SubAdminsTab rto={rto} />,
         },
         {
             label: 'Mails',

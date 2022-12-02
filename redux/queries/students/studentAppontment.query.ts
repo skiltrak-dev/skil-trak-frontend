@@ -66,15 +66,23 @@ export const studentAppointmentsApi = createApi({
             }),
             invalidatesTags: ['StudentAppointments'],
         }),
+        getStudentAppointments: builder.query<any, any>({
+            query: (params) => ({
+                url: 'my-appointments/view',
+                params,
+            }),
+            providesTags: ['StudentAppointments'],
+        }),
     }),
 })
 
 export const {
     useGetJobsQuery,
-    useGetCoordinatorsAvailabilityQuery,
+    useGetStudentAppointmentsQuery,
     useCreateAppointmentMutation,
     useGetAppointmentsTypesQuery,
     useGetCoordinatorsForStudentQuery,
     useGetStudentPastAppointmentsQuery,
+    useGetCoordinatorsAvailabilityQuery,
     useGetStudentUpcomingAppointmentsQuery,
 } = studentAppointmentsApi

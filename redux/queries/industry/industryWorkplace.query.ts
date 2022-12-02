@@ -19,8 +19,11 @@ export const industryWorkplaceApi = createApi({
     }),
     tagTypes: ['IndustryWorkplace'],
     endpoints: (builder) => ({
-        getIndustryWorkplace: builder.query<any, void>({
-            query: () => 'workplace-request/list',
+        getIndustryWorkplace: builder.query<any, any>({
+            query: (params) => ({
+                url: 'workplace-request/list',
+                params,
+            }),
             providesTags: ['IndustryWorkplace'],
         }),
         workplaceActions: builder.mutation({

@@ -10,10 +10,25 @@ import { useNotification } from '@hooks'
 import { AuthApi } from '@queries'
 import { isEmailValid, onlyAlphabets, SignUpUtils } from '@utils'
 
-import { Button, Checkbox, Select, TextInput, Typography, Card } from '@components'
+import {
+    Button,
+    Checkbox,
+    Select,
+    TextInput,
+    Typography,
+    Card,
+} from '@components'
 import { yupResolver } from '@hookform/resolvers/yup'
 
-export const IndustryForm = ({ addWorkplace }: { addWorkplace: any }) => {
+export const IndustryForm = ({
+    addWorkplace,
+    setWorkplaceData,
+    result,
+}: {
+    addWorkplace: any
+    setWorkplaceData: any
+    result: any
+}) => {
     const router = useRouter()
 
     const { notification } = useNotification()
@@ -111,7 +126,10 @@ export const IndustryForm = ({ addWorkplace }: { addWorkplace: any }) => {
             .matches(onlyAlphabets(), 'Please enter valid name')
             .required('Must provide your name'),
 
-        email: yup.string().email('Invalid Email').required('Must provide email'),
+        email: yup
+            .string()
+            .email('Invalid Email')
+            .required('Must provide email'),
         password: yup
             .string()
             // .matches(
@@ -147,7 +165,10 @@ export const IndustryForm = ({ addWorkplace }: { addWorkplace: any }) => {
 
         agreedWithPrivacyPolicy: yup
             .boolean()
-            .oneOf([true], 'Please check if you agree with our terms & policies'),
+            .oneOf(
+                [true],
+                'Please check if you agree with our terms & policies'
+            ),
     })
 
     useEffect(() => {
@@ -167,7 +188,6 @@ export const IndustryForm = ({ addWorkplace }: { addWorkplace: any }) => {
             setCourseOptions(values.courses)
         }
     }, [])
-
 
     // useEffect For Email
     useEffect(() => {
@@ -190,16 +210,17 @@ export const IndustryForm = ({ addWorkplace }: { addWorkplace: any }) => {
     })
     const onFormSubmit = (values: any) => {
         addWorkplace({
-            ...values, sectors: values.sectors.map((val: any) => val.value),
-            courses: values.courses.map((id: any) => id.value), role: 'industry'
+            ...values,
+            sectors: values.sectors.map((val: any) => val.value),
+            courses: values.courses.map((id: any) => id.value),
+            role: 'industry',
         })
-        
-        // console.log("map-------", values.courses.map((id: any) => id.value));
 
+        // console.log("map-------", values.courses.map((id: any) => id.value));
     }
     return (
         <Card>
-            <div className=''>
+            <div className="">
                 <FormProvider {...formMethods}>
                     <form
                         className="flex flex-col gap-y-4"
@@ -250,7 +271,6 @@ export const IndustryForm = ({ addWorkplace }: { addWorkplace: any }) => {
                                 required
                             />
                             <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-8">
-
                                 <TextInput
                                     label={'Contact Person Number'}
                                     name={'contactPersonNumber'}
@@ -265,7 +285,6 @@ export const IndustryForm = ({ addWorkplace }: { addWorkplace: any }) => {
                                     validationIcons
                                     required
                                 />
-
                             </div>
                         </div>
 
@@ -277,8 +296,8 @@ export const IndustryForm = ({ addWorkplace }: { addWorkplace: any }) => {
                                     label={'Sector'}
                                     {...(storedData
                                         ? {
-                                            defaultValue: storedData.sectors,
-                                        }
+                                              defaultValue: storedData.sectors,
+                                          }
                                         : {})}
                                     name={'sectors'}
                                     options={sectorOptions}
@@ -385,7 +404,6 @@ export const IndustryForm = ({ addWorkplace }: { addWorkplace: any }) => {
                             </div>
                         </div>
 
-
                         <div className="w-4/6 ml-auto pl-12">
                             <div className="mb-6">
                                 <Checkbox
@@ -394,11 +412,15 @@ export const IndustryForm = ({ addWorkplace }: { addWorkplace: any }) => {
                                         <>
                                             I agree with{' '}
                                             <Link href="/terms-and-conditions">
-                                                <a className="text-link">Terms</a>
+                                                <a className="text-link">
+                                                    Terms
+                                                </a>
                                             </Link>{' '}
                                             {'&'}{' '}
                                             <Link href="/privacy-policy">
-                                                <a className="text-link">Privacy Policy</a>
+                                                <a className="text-link">
+                                                    Privacy Policy
+                                                </a>
                                             </Link>
                                         </>
                                     }
@@ -406,7 +428,12 @@ export const IndustryForm = ({ addWorkplace }: { addWorkplace: any }) => {
                             </div>
 
                             <div className="flex gap-x-4">
-                                <Button text={'Continue'} submit />
+                                <Button
+                                    text={'Continue'}
+                                    submit
+                                    loading={result.isLoading}
+                                    disabled={result.isLoading}
+                                />
                                 {SignUpUtils.getEditingMode() && (
                                     <Button
                                         onClick={onBackToReview}

@@ -9,14 +9,11 @@ import { NextPageWithLayout } from '@types'
 
 import { Typography, Button, BigCalendar, Card, PageTitle } from '@components'
 
-import {
-    PastAppointments,
-    UpcomingAppointments,
-} from '@components/sections/subAdmin'
 
 
 import { useContextBar } from '@hooks'
 import { CommonCB } from '@partials/rto/contextBar'
+import { PastAppointments, UpcomingAppointments } from '@partials/sub-admin'
 
 
 type Props = {}

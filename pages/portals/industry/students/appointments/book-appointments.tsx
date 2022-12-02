@@ -1,22 +1,3 @@
-// import { IndustryLayout } from '@layouts'
-// import { NextPageWithLayout } from '@types'
-// import { ReactElement } from 'react'
-
-// import { IndustryBookAppointment } from '@components/sections'
-
-// const BookAppointment: NextPageWithLayout = () => {
-//   return (
-//     <div>
-//       <IndustryBookAppointment />
-//     </div>
-//   )
-// }
-
-// .getLayout = (page: ReactElement) => {
-//   return <IndustryLayout>{page}</IndustryLayout>
-// }
-
-// export default BookAppointment
 import { ReactElement, useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
 import moment from 'moment'
@@ -102,14 +83,15 @@ const BookAppointment: NextPageWithLayout = (props: Props) => {
         mode: 'all',
     })
     const onSubmit = (values: any) => {
-        console.log('Leerann')
         const time = moment(selectedTime, ['h:mm A']).format('HH:mm')
+        let date = selectedDate
+        date?.setDate(date.getDate() + 1)
         createAppointment({
             ...values,
-            coordinator: values.coordinator.value,
             type,
-            date: selectedDate,
+            date,
             time,
+            coordinator: values.coordinator.value,
             // appointmentFor: 4,
         })
     }

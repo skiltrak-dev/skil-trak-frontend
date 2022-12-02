@@ -26,6 +26,15 @@ export const subAdminEndpoints = (
         providesTags: ['SubAdmins'],
     }),
 
+    subAdminProfile: builder.query<SubAdmin, number>({
+        query: (id) => {
+            return {
+                url: `${PREFIX}/subadmin/profile/${id}`,
+            }
+        },
+        providesTags: ['SubAdmins'],
+    }),
+
     subAdminCount: builder.query<UserCount, void>({
         query: () => `${PREFIX}/subadmin/list/count`,
         providesTags: ['SubAdmins'],
@@ -37,7 +46,7 @@ export const subAdminEndpoints = (
     }),
 
     subAdminAssignCourses: builder.mutation({
-        query: (body:any) => ({
+        query: (body: any) => ({
             url: `${PREFIX}/subadmin/assign-course`,
             method: 'POST',
             body,

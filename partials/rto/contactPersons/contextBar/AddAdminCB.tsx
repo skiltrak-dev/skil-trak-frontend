@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from 'react'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { FormProvider, useForm } from 'react-hook-form'
 import * as Yup from 'yup'
+import { ShowErrorNotifications } from '@components'
 
 // components
 import { Typography, Button, TextInput } from '@components'
@@ -32,21 +33,21 @@ export const AddAdminCB = ({ initialValues, edit }: any) => {
         }
     }, [createResult])
 
-    useEffect(() => {
-        if (updateResult.isSuccess) {
-            notification.info({
-                title: 'Admin Updated Successfully',
-                description: 'Admin Updated Successfully',
-            })
-            hide()
-        }
-        if (updateResult.isError) {
-            notification.error({
-                title: 'Admin Updated Failed',
-                description: 'Admin Updated Failed',
-            })
-        }
-    }, [updateResult])
+    // useEffect(() => {
+    //     if (updateResult.isSuccess) {
+    //         notification.info({
+    //             title: 'Admin Updated Successfully',
+    //             description: 'Admin Updated Successfully',
+    //         })
+    //         hide()
+    //     }
+    //     if (updateResult.isError) {
+    //         notification.error({
+    //             title: 'Admin Updated Failed',
+    //             description: 'Admin Updated Failed',
+    //         })
+    //     }
+    // }, [updateResult])
 
     const validationSchema = Yup.object({
         name: Yup.string().required('Name is required!'),
@@ -69,8 +70,12 @@ export const AddAdminCB = ({ initialValues, edit }: any) => {
     }
 
     const isLoading = createResult.isLoading || updateResult.isLoading
+    const isError = createResult.isError || updateResult.isError
     return (
         <div>
+            <ShowErrorNotifications
+                result={edit ? updateResult : createResult}
+            />
             <Typography variant={'small'} color={'text-gray-500'}>
                 Add Admin:
             </Typography>

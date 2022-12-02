@@ -1,3 +1,4 @@
+import { useEffect } from 'react'
 import * as yup from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { FormProvider, useForm } from 'react-hook-form'
@@ -23,23 +24,21 @@ export const MailForm = ({ action, receiverId, sender }: any) => {
     // query
     const [actionData, actionDataResult] = action()
 
-    // const [resetFormData, setResetFormData] = useState(null)
-
-    // useEffect(() => {
-    //   if(actionDataResult.isSuccess){
-    //     resetFormData()
-    //   }
-    // }, [actionDataResult.isSuccess])
-
     const validationSchema = yup.object({
         subject: yup.string().required('Must provide subject'),
         message: yup.string().required('Must provide message'),
         templates: yup.object().required('Must provide tamplate'),
     })
 
-    // const formReset = (resetForm) => {
-    //   return actionDataResult ? resetForm : null;
-    // };
+    const methods = useForm({
+        resolver: yupResolver(validationSchema),
+        mode: 'all',
+    })
+    useEffect(() => {
+        if (actionDataResult.isSuccess) {
+            methods.reset()
+        }
+    }, [actionDataResult.isSuccess])
 
     const onSubmit = (values: any) => {
         // setResetFormData(resetForm)
@@ -67,11 +66,6 @@ export const MailForm = ({ action, receiverId, sender }: any) => {
             value: 'tamplate',
         },
     ]
-
-    const methods = useForm({
-        resolver: yupResolver(validationSchema),
-        mode: 'all',
-    })
 
     return (
         <>

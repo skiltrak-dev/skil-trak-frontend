@@ -3,13 +3,15 @@ import React from 'react'
 import { Typography, EmptyData, UpcomingAppointmentCard } from '@components'
 
 // query
-import { useGetStudentUpcomingAppointmentsQuery } from '@queries'
+import { useGetStudentAppointmentsQuery } from '@queries'
 import { LoadingAnimation } from '@components/LoadingAnimation'
 
 type Props = {}
 
 export const UpcomingAppointments = (props: Props) => {
-    const studentAppointments = useGetStudentUpcomingAppointmentsQuery()
+    const studentAppointments = useGetStudentAppointmentsQuery({
+        status: 'future',
+    })
     const UpcomingAppointmentsData = [
         {
             date: 'Wednesday, October 19',

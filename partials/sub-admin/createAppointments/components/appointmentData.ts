@@ -30,7 +30,7 @@ export const AppointmentWithData = [
         type: ['RTO', 'Student'],
     },
     {
-        text: 'Students',
+        text: 'Student',
         icon: '/images/subAdmins/Students.png',
         type: ['Industry'],
     },

@@ -11,6 +11,8 @@ import {
     SearchUser,
 } from './components'
 import { AppointmentType } from '@partials/appointmentType'
+import { getUserCredentials } from '@utils'
+import { useNotification } from '@hooks'
 
 // query
 import {
@@ -35,6 +37,18 @@ export const CreateAppointments = () => {
     const [selectedDate, setSelectedDate] = useState<Date | null>(null)
     const [selectedTime, setSelectedTime] = useState<any | null>(null)
     const [note, setNote] = useState<any | null>(null)
+
+    const { notification } = useNotification()
+
+    useEffect(() => {
+        if (selectedPerson.selectedAppointmentWith === 'Self') {
+            const user = getUserCredentials()
+            setSelectedUser({
+                ...selectedUser,
+                selectedAppointmentWithUser: user.id,
+            })
+        }
+    }, [selectedPerson.selectedAppointmentWith])
 
     const userAvailabilities = useUserAvailabilitiesQuery(
         {
@@ -62,13 +76,25 @@ export const CreateAppointments = () => {
         setSelectedPerson({ ...selectedPerson, selectedAppointmentWith: null })
     }, [selectedPerson.selectedAppointmentFor])
 
+    useEffect(() => {
+        console.log('kkk', userAvailabilities?.data?.availabilities?.length)
+        if (userAvailabilities?.data?.availabilities?.length === 0) {
+            notification.error({
+                title: 'No Availabilities were found',
+                description: 'No Availabilities were found',
+            })
+        }
+    }, [userAvailabilities])
+
     const onSubmit = () => {
+        let date = selectedDate
+        date?.setDate(date.getDate() + 1)
         createAppointment({
-            date: selectedDate,
+            date,
             note,
+            type: appointmentTypeId,
             appointmentFor: selectedUser.selectedAppointmentForUser,
             appointmentBy: selectedUser.selectedAppointmentWithUser,
-            type: appointmentTypeId,
         })
     }
 
@@ -209,7 +235,8 @@ export const CreateAppointments = () => {
                                 !selectedPerson.selectedAppointmentFor ||
                                 !selectedPerson.selectedAppointmentWith ||
                                 !selectedUser.selectedAppointmentForUser ||
-                                !selectedUser.selectedAppointmentWithUser
+                                !selectedUser.selectedAppointmentWithUser ||
+                                !appointmentTypeId
                             }
                         />
                     </div>

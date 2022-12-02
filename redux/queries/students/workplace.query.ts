@@ -2,81 +2,89 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 import { AuthUtils } from '@utils'
 
 export const workplaceRequestApi = createApi({
-  reducerPath: 'workplaceRequestApi',
-  baseQuery: fetchBaseQuery({
-    baseUrl: `${process.env.NEXT_PUBLIC_END_POINT}/students/`,
-    prepareHeaders: (headers, { getState }) => {
-      const token = AuthUtils.getToken()
+    reducerPath: 'workplaceRequestApi',
+    baseQuery: fetchBaseQuery({
+        baseUrl: `${process.env.NEXT_PUBLIC_END_POINT}/students/`,
+        prepareHeaders: (headers, { getState }) => {
+            const token = AuthUtils.getToken()
 
-      // // If we have a token set in state, let's assume that we should be passing it.
-      if (token) {
-        headers.set('authorization', `Bearer ${token}`)
-      }
-      return headers
-    },
-  }),
-  tagTypes: ['Workplace'],
-  endpoints: (builder) => ({
-    workPlaceRequest: builder.mutation({
-      query: (body) => ({
-        url: `workplace-requests`,
-        method: 'POST',
-        body,
-      }),
-      invalidatesTags: ['Workplace'],
+            // // If we have a token set in state, let's assume that we should be passing it.
+            if (token) {
+                headers.set('authorization', `Bearer ${token}`)
+            }
+            return headers
+        },
     }),
-    getWorkplaceIndustries: builder.query<any[], void>({
-      query: () => 'workindustry/list',
-      providesTags: ['Workplace'],
+    tagTypes: ['Workplace'],
+    endpoints: (builder) => ({
+        workPlaceRequest: builder.mutation({
+            query: (body) => ({
+                url: `workplace-requests`,
+                method: 'POST',
+                body,
+            }),
+            invalidatesTags: ['Workplace'],
+        }),
+        getWorkplaceIndustries: builder.query<any[], void>({
+            query: () => 'workindustry/list',
+            providesTags: ['Workplace'],
+        }),
+        getPlacementProgress: builder.query<any, void>({
+            query: () => 'work-place-request/view',
+            providesTags: ['Workplace'],
+        }),
+        getCourseDocuments: builder.query({
+            query: ({ id, courses }: any) => {
+                return {
+                    url: `requireddocs/${id}`,
+                    params: { course: courses[0] },
+                }
+            },
+            providesTags: ['Workplace'],
+        }),
+        uploadDocuments: builder.mutation({
+            query: ({ id, body }) => {
+                return {
+                    url: `workplace/response`,
+                    method: 'POST',
+                    params: { docs: id },
+                    // params: { docs: id.join(',') },
+                    body,
+                }
+            },
+            invalidatesTags: ['Workplace'],
+        }),
+        cancelWorkplaceRequest: builder.mutation({
+            query: () => ({
+                url: `workplace/cancel`,
+                method: 'PATCH',
+            }),
+            invalidatesTags: ['Workplace'],
+        }),
+        applyForWorkplace: builder.mutation({
+            query: (id) => ({
+                url: `workplace/apply/${id}`,
+                method: 'PATCH',
+            }),
+            invalidatesTags: ['Workplace'],
+        }),
+        applyWorkplaceWithAbnIndustry: builder.mutation({
+            query: (id) => ({
+                url: `add/work-place/existing-industry/${id}`,
+                method: 'POST',
+            }),
+            invalidatesTags: ['Workplace'],
+        }),
     }),
-    getPlacementProgress: builder.query<any, void>({
-      query: () => 'work-place-request/view',
-      providesTags: ['Workplace'],
-  }),
-    getCourseDocuments: builder.query({
-      query: ({ id, courses }: any) => {
-        return {
-          url: `requireddocs/${id}`,
-          params: { course: courses[0] },
-        }
-      },
-      providesTags: ['Workplace'],
-    }),
-    uploadDocuments: builder.mutation({
-      query: ({ id, body }) => {
-        return {
-          url: `workplace/response`,
-          method: 'POST',
-          params: { docs: id },
-          // params: { docs: id.join(',') },
-          body,
-        }
-      },
-      invalidatesTags: ['Workplace'],
-    }),
-    cancelWorkplaceRequest: builder.mutation({
-      query: () => ({
-        url: `workplace/cancel`,
-        method: 'PATCH',
-      }),
-      invalidatesTags: ['Workplace'],
-    }),
-    applyForWorkplace: builder.mutation({
-      query: (id) => ({
-        url: `workplace/apply/${id}`,
-        method: 'PATCH',
-      }),
-      invalidatesTags: ['Workplace'],
-    }),
-  }),
 })
 
 export const {
-  useGetCourseDocumentsQuery,
-  useGetWorkplaceIndustriesQuery,
-  useGetPlacementProgressQuery,
-  useWorkPlaceRequestMutation,
-  useUploadDocumentsMutation,
-  useCancelWorkplaceRequestMutation,
-  useApplyForWorkplaceMutation,
+    useGetCourseDocumentsQuery,
+    useGetWorkplaceIndustriesQuery,
+    useGetPlacementProgressQuery,
+    useWorkPlaceRequestMutation,
+    useUploadDocumentsMutation,
+    useCancelWorkplaceRequestMutation,
+    useApplyForWorkplaceMutation,
+    useApplyWorkplaceWithAbnIndustryMutation,
 } = workplaceRequestApi

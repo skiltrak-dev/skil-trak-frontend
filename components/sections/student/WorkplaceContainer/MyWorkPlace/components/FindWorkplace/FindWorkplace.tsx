@@ -2,7 +2,13 @@ import React, { useEffect, useState } from 'react'
 import * as yup from 'yup'
 import { Formik, Form } from 'formik'
 import { Button } from 'components/buttons/Button'
-import { Select, TextInput, RadioButton, RadioGroup } from '@components'
+import {
+    Select,
+    TextInput,
+    RadioButton,
+    RadioGroup,
+    ShowErrorNotifications,
+} from '@components'
 import { FormProvider, useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import moment from 'moment'
@@ -13,71 +19,46 @@ import { Card, Typography } from 'components'
 import { useUpdateFindAbnMutation } from '@queries'
 import { SignUpUtils } from '@utils'
 type FindWorkplaceProps = {
-  setActive: any
-  setPersonalInfoData: any
-  findAbn: any
+    onSubmit: any
+    result: any
 }
-export const FindWorkplace = ({
-  setActive,
-  setPersonalInfoData,
-  findAbn,
-}: FindWorkplaceProps) => {
-  // const [updateFindAbn, result] = useUpdateFindAbnMutation()
-  // console.log("Find AbN", result)
+export const FindWorkplace = ({ onSubmit, result }: FindWorkplaceProps) => {
+    // const [updateFindAbn, result] = useUpdateFindAbnMutation()
+    // console.log("Find AbN", result)
 
+    const validationSchema = yup.object({
+        abn: yup.string().required('Must provide ABN'),
+    })
 
-  const initialValues = {
-    course: '',
-    currentQualification: '',
-    currentWork: '',
-    haveTransport: '',
-    haveDrivingLicense: '',
-    preferableLocation: '',
-  }
+    const formMethods = useForm({
+        mode: 'all',
+        resolver: yupResolver(validationSchema),
+    })
 
-  const validationSchema = yup.object({
-    // course: yup.string().required('Must provide course'),
-    // currentQualification: yup
-    //     .string()
-    //     .required('Must provide currentQualification'),
-    // currentWork: yup.string().required('Must provide currentWork'),
-    // haveTransport: yup.string().required('Must provide haveTransport'),
-    // haveDrivingLicense: yup
-    //     .string()
-    //     .required('Must provide haveDrivingLicense'),
-    // preferableLocation: yup
-    //     .string()
-    //     .required('Must provide preferableLocation'),
-  })
-
-  const formMethods = useForm({
-    mode: 'all',
-    resolver: yupResolver(validationSchema),
-  })
-
-  const onSubmit = (values: any) => {
-    findAbn(values)
-    setActive((active: number) => active + 1)
-
-  }
-
-  return (
-    <div>
-      <Typography variant={'label'} capitalize>
-        Please provide following information
-      </Typography>
-      <Card>
-        <FormProvider {...formMethods}>
-          <form onSubmit={formMethods.handleSubmit(onSubmit)}>
-            <TextInput
-              name="abn"
-              label="ABN"
-              placeholder="ABN Code"
-            />
-            <Button text={'Find'} submit />
-          </form>
-        </FormProvider>
-      </Card>
-    </div>
-  )
+    return (
+        <div>
+            <ShowErrorNotifications result={result} />
+            <Typography variant={'label'} capitalize>
+                Please provide following information
+            </Typography>
+            <Card>
+                <FormProvider {...formMethods}>
+                    <form onSubmit={formMethods.handleSubmit(onSubmit)}>
+                        <TextInput
+                            name="abn"
+                            label="ABN"
+                            placeholder="ABN Code"
+                            validationIcons
+                        />
+                        <Button
+                            submit
+                            text={'Find'}
+                            loading={result.isLoading}
+                            disabled={result.isLoading}
+                        />
+                    </form>
+                </FormProvider>
+            </Card>
+        </div>
+    )
 }

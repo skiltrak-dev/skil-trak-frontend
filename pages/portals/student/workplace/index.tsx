@@ -12,7 +12,10 @@ import { StudentLayout } from '@layouts'
 import { NextPageWithLayout } from '@types'
 import { PlacementProgressCard } from '@components/specialCards/PlacementProgress'
 import { useContextBar } from 'hooks'
-import { useGetPlacementProgressQuery, useGetStudentPastAppointmentsQuery } from '@queries'
+import {
+    useGetPlacementProgressQuery,
+    useGetStudentPastAppointmentsQuery,
+} from '@queries'
 
 const PrimaryLinks = [
     {
@@ -74,9 +77,16 @@ const OtherQuestions = [
 ]
 
 const StudentWorkplace: NextPageWithLayout = () => {
-    const { data, isLoading, isError, isSuccess } = useGetPlacementProgressQuery();
-    const { data: recentAppointments, isLoading: appointmentLoading, isSuccess: isSuccessAppointments, isError: isErrorAppointments } = useGetStudentPastAppointmentsQuery()
-    const recentAppointment = recentAppointments && recentAppointments[recentAppointments?.length - 1]
+    const { data, isLoading, isError, isSuccess } =
+        useGetPlacementProgressQuery()
+    const {
+        data: recentAppointments,
+        isLoading: appointmentLoading,
+        isSuccess: isSuccessAppointments,
+        isError: isErrorAppointments,
+    } = useGetStudentPastAppointmentsQuery()
+    const recentAppointment =
+        recentAppointments && recentAppointments[recentAppointments?.length - 1]
     // console.log("loading", recentAppointment)
     const { setContent } = useContextBar()
     useEffect(() => {

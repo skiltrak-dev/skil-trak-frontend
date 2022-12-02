@@ -165,20 +165,6 @@ export const AssessmentsToolsContainer = () => {
                                     text={'No Assessment tools were found'}
                                 />
                             )}
-                            {/* {getAssessmentTools?.isLoading ? (
-                                <LoadingAnimation />
-                            ) : (
-                              getAssessmentTools?.data ? getAssessmentTools?.data?.map(() => (
-<DownloadableFile
-                                    actions={() =>
-                                        actions(assessmentToolDetail?.course.id)
-                                    }
-                                    key={assessmentToolDetail?.id}
-                                    name={assessmentToolDetail?.course?.title}
-                                    archivedView={false}
-                                />
-                              )) : "E"
-                            )} */}
                         </div>
                     </div>
                 </div>

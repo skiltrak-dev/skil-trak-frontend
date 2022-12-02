@@ -2,7 +2,6 @@ import { ReactElement } from 'react'
 
 import { SubAdminLayout } from '@layouts'
 import { NextPageWithLayout } from '@types'
-import { SetScheduleContainer } from '@partials'
 
 // components
 import {
@@ -11,6 +10,7 @@ import {
     TechnicalError,
     EmptyData,
 } from '@components'
+import { SetScheduleContainer } from '@partials/sub-admin'
 
 type Props = {}
 
@@ -22,7 +22,7 @@ const SetSchedule: NextPageWithLayout = (props: Props) => {
     )
 }
 SetSchedule.getLayout = (page: ReactElement) => {
-    return <SubAdminLayout title="Set Scheduled">{page}</SubAdminLayout>
+    return <SubAdminLayout pageTitle="Set Scheduled">{page}</SubAdminLayout>
 }
 
 export default SetSchedule

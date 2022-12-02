@@ -162,6 +162,7 @@ export const TimeSlots = ({
                 }
             }
         }
+        console.log(bookedSlotsTime)
         return slots
             .slice(startHourIndex)
             .filter((t) => !bookedSlotsTime.includes(t.time))
@@ -171,15 +172,15 @@ export const TimeSlots = ({
         const slots = timeSlots()
         setSlotsTime(slots)
     }, [timeSlots])
-    
-console.log("daysAvailability", daysAvailability);
+
+    console.log('daysAvailability', daysAvailability)
 
     return (
         <div className="mt-5">
             <Typography variant="small" color="text-gray-400">
                 Select Time Slot
             </Typography>
-            <div className="flex gap-x-8 mt-1">
+            <div className="flex justify-between gap-x-8 mt-1">
                 <div className="w-2/6">
                     <SidebarCalendar
                         enbledDays={daysAvailability || []}

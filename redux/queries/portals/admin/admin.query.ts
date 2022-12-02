@@ -87,7 +87,10 @@ const {
     useRtoSubAdminsQuery,
     useRtoAssignSubAdminsMutation,
     useRtoUnassignSubAdminsMutation,
+    useRtoProfileSubAdminsQuery,
     useRtoProfileDetailQuery,
+
+    useRtoAssessmentToolsQuery,
 
     // ------ STUDENT ------ //
     useStudentCountQuery,
@@ -133,6 +136,7 @@ const {
     // ------ SUB ADMINS ------ //
     useSubAdminsQuery,
     useSubAdminCountQuery,
+    useSubAdminProfileQuery,
     useCreateSubAdminMutation,
 
     useSubAdminCoursesQuery,
@@ -158,6 +162,7 @@ const {
 
     // -------Messages-------//
     useGetAdminMessagesQuery,
+    useSendAdminMessageMutation,
 
     // ------ FOLDERS ------ //
     useFolderAddMutation,
@@ -198,6 +203,9 @@ export const AdminApi = {
         useSubAdmins: useRtoSubAdminsQuery,
         useAssignSubAdmin: useRtoAssignSubAdminsMutation,
         useUnAssignSubAdmin: useRtoUnassignSubAdminsMutation,
+        useRtoProfileSubAdmins: useRtoProfileSubAdminsQuery,
+
+        useRtoAssessmentTools: useRtoAssessmentToolsQuery,
     },
 
     Students: {
@@ -218,6 +226,7 @@ export const AdminApi = {
         useListQuery: useSubAdminsQuery,
         useCountQuery: useSubAdminCountQuery,
         createSubAmin: useCreateSubAdminMutation,
+        useRtoProfile: useSubAdminProfileQuery,
 
         useCourses: useSubAdminCoursesQuery,
         useAssignCourses: useSubAdminAssignCoursesMutation,
@@ -274,6 +283,7 @@ export const AdminApi = {
 
     Messages: {
         useList: useGetAdminMessagesQuery,
+        useSendMessage: useSendAdminMessageMutation,
     },
 
     Folders: {
