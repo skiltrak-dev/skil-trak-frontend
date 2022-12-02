@@ -1,7 +1,8 @@
 import classNames from 'classnames'
 import { EventWrapperProps } from 'react-big-calendar'
 
-export const EventWrapper = <T extends object>(event: EventWrapperProps<T>) => {
+// export const EventWrapper = <T extends object>(event: EventWrapperProps<T>) => {
+export const EventWrapper = <T extends object>(event: any) => {
     const classes = classNames({
         'flex flex-col flex-wrap items-start overflow-hidden absolute max-h-full min-h-[20px] rounded-md border-l-2 px-1 py-1':
             true,

@@ -19,7 +19,7 @@ type ArchivedViewProps = {
 }
 
 export const ArchivedView = ({ role, actions }: ArchivedViewProps) => {
-  const [selectedCourseId, setSelectedCourseId] = useState(1)
+  const [selectedCourseId, setSelectedCourseId] = useState<number | null>(null)
   const router = useRouter()
   const { data: assessmentToolDetail, isLoading: isLoadingDetail } =
     useGetAssessmentToolDetailQuery(selectedCourseId)

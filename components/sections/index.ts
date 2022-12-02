@@ -4,5 +4,5 @@
 
 export * from './rto'
 export * from './student'
-export * from './subAdmin'
+// export * from './subAdmin'
 export * from './industry'

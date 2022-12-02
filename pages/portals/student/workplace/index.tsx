@@ -79,15 +79,8 @@ const OtherQuestions = [
 const StudentWorkplace: NextPageWithLayout = () => {
     const { data, isLoading, isError, isSuccess } =
         useGetPlacementProgressQuery()
-    const {
-        data: recentAppointments,
-        isLoading: appointmentLoading,
-        isSuccess: isSuccessAppointments,
-        isError: isErrorAppointments,
-    } = useGetStudentPastAppointmentsQuery()
-    const recentAppointment =
-        recentAppointments && recentAppointments[recentAppointments?.length - 1]
-    // console.log("loading", recentAppointment)
+    const { data: recentAppointments } = useGetStudentPastAppointmentsQuery()
+    
     const { setContent } = useContextBar()
     useEffect(() => {
         setContent(
@@ -108,21 +101,9 @@ const StudentWorkplace: NextPageWithLayout = () => {
                 {/* Special Cards */}
                 <div className="w-full flex flex-col space-y-2">
                     <PlacementProgressCard
-                        requestStatus={data?.currentStatus}
-                        description="Place a request to start"
-                        isError={isError}
-                        isLoading={isLoading}
-                        isSuccess={isSuccess}
+                        placementProgress={data}
                     />
-                    <RecentAppointmentCard
-                        title={recentAppointment?.type.title}
-                        caseOfficer={recentAppointment?.name}
-                        time={recentAppointment?.time}
-                        date={recentAppointment?.date}
-                        address={recentAppointment?.address}
-                        isSuccess={isSuccessAppointments}
-                        isError={isErrorAppointments}
-                    />
+                    <RecentAppointmentCard appointment={recentAppointments} />
                 </div>
             </div>
 

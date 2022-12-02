@@ -8,7 +8,8 @@ import { AdForRPL } from '@components/sections/industry/ApplyForRPL'
 
 const CreateTaskActions = [
     {
-        link: 'unit-requirements',
+        // link: 'unit-requirements',
+        link: '#',
         title: 'Documentation Required',
         description: 'Some helping text',
         // image: null, //"./images/dashboardbtn3.png",

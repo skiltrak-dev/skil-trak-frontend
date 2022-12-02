@@ -5,7 +5,7 @@ type AssessmentCourseProps = {
     name: string
     id: number
     onClick: Function
-    selectedCourseId: any
+    selectedCourseId: number | null 
 }
 
 export const AssessmentCourse = ({

@@ -65,8 +65,8 @@ export const AddTaskForm = ({ setIsSchedule, publishTask, DraftTask }: any) => {
             tasks: [
                 {
                     ...values,
-                    day: values.day.value,
-                    priority: values.priority.value,
+                    day: values?.day?.value,
+                    priority: values?.priority?.value,
                 },
             ],
         })
@@ -100,15 +100,15 @@ export const AddTaskForm = ({ setIsSchedule, publishTask, DraftTask }: any) => {
                             options={
                                 EmployeeData.isSuccess
                                     ? EmployeeData?.data?.data?.map(
-                                          ({
-                                              id,
-                                              firstName,
-                                              lastName,
-                                          }: any) => ({
-                                              value: id,
-                                              label: `${firstName} ${lastName}`,
-                                          })
-                                      )
+                                        ({
+                                            id,
+                                            firstName,
+                                            lastName,
+                                        }: any) => ({
+                                            value: id,
+                                            label: `${firstName} ${lastName}`,
+                                        })
+                                    )
                                     : []
                             }
                             onlyValue

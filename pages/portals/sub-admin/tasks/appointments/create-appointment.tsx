@@ -4,7 +4,7 @@ import { ReactElement } from 'react'
 
 import { StudentLayout, SubAdminLayout } from '@layouts'
 import { NextPageWithLayout } from '@types'
-import { CreateAppointments } from '@partials/sub-admin'
+import { CreateAppointments } from '@components/sections/subAdmin/Appointments/CreateAppointments'
 
 type Props = {}
 

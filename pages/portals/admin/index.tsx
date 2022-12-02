@@ -4,9 +4,9 @@ import { useContextBar } from '@hooks'
 import { AdminLayout } from '@layouts'
 import { NextPageWithLayout } from '@types'
 import { format } from 'date-fns'
-import { FigureCard } from '@components/sections'
 import { AuthUtils } from '@utils'
 import { AdminApi } from '@queries'
+import { FigureCard } from '@components/sections/subAdmin'
 
 const AdminDashboard: NextPageWithLayout = () => {
     const [name, setName] = useState('')

@@ -20,9 +20,9 @@ export const Notes = ({ id }: any) => {
     // query
     const notes = useGetNotesQuery({ id }, { skip: !id })
 
-    useEffect(() => {
-        notes.refetch()
-    }, [notes.refetch])
+    // useEffect(() => {
+    //     notes.refetch()
+    // }, [notes.refetch])
 
     return (
         <div

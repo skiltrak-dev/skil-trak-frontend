@@ -17,7 +17,7 @@ import {
 } from '@components'
 import { useContextBar } from '@hooks'
 import { CommonCB } from '@partials/rto/contextBar'
-import { FigureCard } from '@components/sections'
+import { FigureCard } from '@components/sections/subAdmin'
 
 const PrimaryLinks = [
     {
