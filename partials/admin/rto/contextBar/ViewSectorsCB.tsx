@@ -3,7 +3,7 @@ import { useNotification } from '@hooks'
 import { AdminApi } from '@queries'
 
 import { Course, Rto } from '@types'
-import { useEffect } from 'react'
+import { Fragment, useEffect } from 'react'
 import { AssignedCourse } from '../components'
 import { AssignSectorForm } from '../form'
 
@@ -101,11 +101,8 @@ export const ViewSectorsCB = ({ rto }: { rto: Rto }) => {
                 ) : rtoCourses.data?.length ? (
                     Object.keys(sectorsWithCourses).map((sector) => {
                         return (
-                            <>
-                                <span
-                                    key={sector}
-                                    className="text-xs font-medium text-slate-400 border-t pt-2"
-                                >
+                            <Fragment key={sector}>
+                                <span className="text-xs font-medium text-slate-400 border-t pt-2">
                                     {sector}
                                 </span>
 
@@ -118,7 +115,7 @@ export const ViewSectorsCB = ({ rto }: { rto: Rto }) => {
                                         />
                                     )
                                 )}
-                            </>
+                            </Fragment>
                         )
                     })
                 ) : (
