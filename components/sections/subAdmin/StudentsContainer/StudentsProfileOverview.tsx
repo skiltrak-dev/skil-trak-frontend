@@ -18,33 +18,37 @@ import {
 } from './components'
 import { PinnedNotes } from '../components'
 type StudentsProfileOverviewProps = {
-    studentDetail: any
+    subAdminStudentDetail: any
 }
 
 export const StudentsProfileOverview = ({
-    studentDetail,
+    subAdminStudentDetail,
 }: StudentsProfileOverviewProps) => {
     // const {data} = useGetSubAdminMyRtoQuery(studentId)
-    // console.log("useGetSubAdminMyRtoQuery", data);
+    console.log('sub Admin Detail Query url(student/view/${id})', subAdminStudentDetail)
 
     return (
-        <div className="mt-6">
-            {/* pinned Notes */}
-            <PinnedNotes id={studentDetail?.user?.id} />
-
-            {/* Progress */}
-            <div className="mt-3">
-                <ProgressStep status />
-            </div>
-
-            <StudentProfileCoursesCard courses={studentDetail?.courses} />
+        <div className="w-full mt-6">
             <div className="w-full flex justify-between gap-x-6 mt-4">
                 <div className="w-full flex flex-col gap-y-4">
-                    <MyRtoInfoCard myRto={studentDetail} />
-                    <WorkplaceInfoCard />
+                    <MyRtoInfoCard myRto={subAdminStudentDetail} />
+                    <StudentRecentAppointmentCard />
                 </div>
-                <StudentRecentAppointmentCard />
+                <WorkplaceInfoCard myWorkplace={subAdminStudentDetail} />
             </div>
+            <div className='my-4'>
+                <StudentProfileCoursesCard
+                    courses={subAdminStudentDetail?.courses}
+                />
+            </div>
+            {/* Progress */}
+            {subAdminStudentDetail?.workplace?.length > 0 && (
+                <div className="my-4">
+                    <ProgressStep status />
+                </div>
+            )}
+            {/* pinned Notes */}
+            <PinnedNotes id={subAdminStudentDetail?.user?.id} />
         </div>
     )
 }

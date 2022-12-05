@@ -202,7 +202,7 @@ export const SubAdminStudentProfile = ({ data }: Props) => {
       </div>
 
       {/* Sector & Courses */}
-      <div className="mt-4">
+      {/* <div className="mt-4">
         <Typography variant={'small'} color={'text-gray-500'}>
           Sector & Courses
         </Typography>
@@ -278,56 +278,10 @@ export const SubAdminStudentProfile = ({ data }: Props) => {
               </div>
             ))}
 
-            {/* <div>
-              <div className='flex items-center gap-x-2'>
-                <Typography
-                  variant={'small'}
-                  color={'text-gray-500'}
-                >
-                  SITHKOP005
-                </Typography>
-                <div className='rounded border px-2 border-green-400'>
-                  <Typography variant={'small'} color={'text-green-500'}>
-                    ACTIVE
-                  </Typography>
-                </div>
-                <div className='rounded text-center border px-2 bg-red-500'>
-                  <Typography variant={'small'} color={'text-white'}>
-                    NOT COMPETENT
-                  </Typography>
-                </div>
-              </div>
-              <Typography
-                variant={'small'}
-                color={'text-gray-800'}
-              >
-                Coordinate Cooking Operations
-              </Typography>
-            </div>
-            <div >
-              <div className="flex items-center gap-x-2">
-                <Typography
-                  variant={'small'}
-                  color={'text-gray-500'}
-                >
-                  SITHIND004
-                </Typography>
-                <div className='rounded border px-2 border-gray-400'>
-                  <Typography variant={'small'} color={'text-gray-500'}>
-                    NOT ACTIVE
-                  </Typography>
-                </div>
-              </div>
-              <Typography
-                variant={'small'}
-                color={'text-gray-800'}
-              >
-                Work Effectively In Hospitality Service
-              </Typography>
-            </div> */}
+           
           </div>
         </div>
-      </div>
+      </div> */}
     </div>
   )
 }

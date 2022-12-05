@@ -69,11 +69,11 @@ export const ProgressStep = ({ status }: Props) => {
   return (
     <>
       <div className="flex flex-col">
-        <div className="mb-3 flex justify-between gap-x-3">
+        <div className="mb-3 flex justify-between">
           {progressStep.map((item, index) => (
             <div
               key={item.id}
-              className="flex gap-x-4 items-center"
+              className="flex gap-x-3 items-center"
             >
               <div className="flex flex-col items-center">
                 <div
@@ -103,9 +103,9 @@ export const ProgressStep = ({ status }: Props) => {
             </div>
           ))}
         </div>
-        <div className="flex justify-between gap-x-2 items-center">
+        <div className="flex justify-between gap-x-3 items-center">
           {progressStep.map((item, index) => (
-            <div key={item.id} className="">
+            <div key={item.id}>
               <Typography variant="label" color="text-gray-700">
                 {item?.title}
               </Typography>

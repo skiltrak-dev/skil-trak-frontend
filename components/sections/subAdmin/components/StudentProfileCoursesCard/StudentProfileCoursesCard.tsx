@@ -5,6 +5,7 @@ import { FaBook } from 'react-icons/fa'
 import { Course } from './Course'
 
 export const StudentProfileCoursesCard = ({ courses }: any) => {
+
   return (
     <Card>
       <div className="flex items-center gap-x-2">
@@ -12,26 +13,30 @@ export const StudentProfileCoursesCard = ({ courses }: any) => {
           <FaBook className="text-xl text-red-500" />
         </div>
         <Typography variant={'label'}>
-          <span className="font-semibold">My Sector {'&'} Courses</span>
+          <span className="font-semibold">
+            My Sector {'&'} Courses
+          </span>
         </Typography>
       </div>
 
       {/*  */}
-      <div className="mt-2">
-        <Typography variant={'small'} color={'text-gray-500'}>
-          Sector
-        </Typography>
-        <Typography variant={'label'} color={'text-gray-700'}>
-          Commercial Cookery {'&'} Hospitality
-        </Typography>
-      </div>
+      {courses?.map((course: any) => (
+        <div key={course?.id}>
+          <div className="mt-2">
+            <Typography variant={'small'} color={'text-gray-500'}>
+              Sector
+            </Typography>
+            <Typography variant={'label'} color={'text-gray-700'}>
+              {course?.sector?.name}
+            </Typography>
+          </div>
 
-      {/*  */}
-      <div className="mt-2 flex flex-col gap-y-1">
-        {courses?.map((course: any) => (
-          <Course key={course.id} course={course} />
-        ))}
-      </div>
+          {/*  */}
+          <div className="mt-2 flex flex-col gap-y-1">
+            <Course key={course.id} course={course} />
+          </div>
+        </div>
+      ))}
     </Card>
   )
 }

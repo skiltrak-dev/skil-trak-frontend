@@ -8,7 +8,7 @@ import { NextPageWithLayout } from '@types'
 import { TabsView } from '@components/sections/rto'
 //components
 import {
-    AssessmentsTools,
+    // AssessmentsTools,
     ReactTable,
     TabNavigation,
     TabProps,
@@ -19,13 +19,7 @@ import {
     EmptyData,
     SubAdminStudentProfile,
 } from '@components'
-import {
-    AppointmentProfile,
-    FigureCard,
-    Notes,
-    RtoProfileOverview,
-    SubAdminProfileTabsView,
-} from '@components/sections'
+
 import {
     MailsTab,
     StudentsProfileOverview,
@@ -37,11 +31,13 @@ import {
     useGetSubAdminStudentDetailQuery,
     useUpdateAssessmentToolArchiveMutation,
 } from '@queries'
+
 import { AssessmentsEvidence } from '@components/sections/student/AssessmentsContainer'
 
 // hooks
 import { useContextBar } from '@hooks'
 import { AssesmentEvidenceDetail } from '@components/sections/subAdmin/Tasks'
+import { Notes } from '@components/sections/subAdmin'
 
 type Props = {}
 
@@ -56,6 +52,7 @@ const StudentsProfile: NextPageWithLayout = (props: Props) => {
             skip: !id,
         }
     )
+    
     useEffect(() => {
         setContent(
             <>
@@ -105,7 +102,7 @@ const StudentsProfile: NextPageWithLayout = (props: Props) => {
             label: 'Overview',
             href: { pathname: String(id), query: { tab: 'overview' } },
             badge: { text: '05', color: 'text-blue-500' },
-            element: <StudentsProfileOverview studentDetail={data} />,
+            element: <StudentsProfileOverview subAdminStudentDetail={data} />,
         },
         {
             label: 'Assessments',
@@ -156,7 +153,7 @@ const StudentsProfile: NextPageWithLayout = (props: Props) => {
     )
 }
 StudentsProfile.getLayout = (page: ReactElement) => {
-    return <SubAdminLayout title="Student Profile">{page}</SubAdminLayout>
+    return <SubAdminLayout pageTitle={{title:"Student Profile"}}>{page}</SubAdminLayout>
 }
 
 export default StudentsProfile

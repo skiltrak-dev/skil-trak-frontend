@@ -17,7 +17,7 @@ export const subAdminApi = createApi({
     }),
     tagTypes: ['SubAdmin'],
 
-    // ---------- RTO ENDPOINTS ---------- //
+    // ---------- Sub Admin ENDPOINTS ---------- //
     endpoints: (build) => ({
         profile: build.query<SubAdmin, void>({
             query: () => `subadmin/me/profile`,

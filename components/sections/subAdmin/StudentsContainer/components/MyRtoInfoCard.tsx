@@ -16,7 +16,7 @@ export const MyRtoInfoCard = ({ myRto }: any) => {
     const pathname = useRouter()
     const { id } = pathname.query
     return (
-        <div className="w-full">
+        <div className="">
             <Card>
                 {/* Card Header */}
                 <div className="flex justify-between items-center">
@@ -59,13 +59,13 @@ export const MyRtoInfoCard = ({ myRto }: any) => {
                                 <span className="text-gray-400">
                                     <MdPermContactCalendar size={14} />
                                 </span>
-                                <span className="text-xs">John Smith</span>
+                                <span className="text-xs">{myRto?.emergencyPerson}</span>
                             </div>
                             <div className="flex items-center gap-x-2">
                                 <span className="text-gray-400">
                                     <MdPhone size={14} />
                                 </span>
-                                <span className="text-xs">039 6534 100</span>
+                                <span className="text-xs">{myRto?.emergencyPersonPhone}</span>
                             </div>
                         </div>
 
@@ -86,12 +86,12 @@ export const MyRtoInfoCard = ({ myRto }: any) => {
 
                                     <InitialAvatarContainer show={2}>
                                         <InitialAvatar
-                                            name="John Smith"
+                                            name={coordinator?.user?.name}
                                             first
                                         />
-                                        <InitialAvatar name="Yaseen Khan" />
+                                        {/* <InitialAvatar name="Yaseen Khan" />
                                         <InitialAvatar name="Julie Clarke" />
-                                        <InitialAvatar name="Salman" />
+                                        <InitialAvatar name="Salman" /> */}
                                     </InitialAvatarContainer>
                                 </div>
                             </div>
