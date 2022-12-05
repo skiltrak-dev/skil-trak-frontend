@@ -104,7 +104,6 @@ export const FileUpload = ({
 
         // Getting file Data
         const fileData: any = isDragging ? event : event.target.files
-        onChange && onChange(fileData[0])
 
         // for multiple files upload
         if (multiple) {
@@ -117,6 +116,8 @@ export const FileUpload = ({
                 ? fileData && onChange && onChange(multipleFiles)
                 : alert('Limit Exceed')
             setFileList(multipleFiles)
+        } else {
+            onChange && onChange(fileData[0])
         }
 
         // if (formContext && event.target) {
@@ -127,7 +128,7 @@ export const FileUpload = ({
         if (reader) {
             reader.onload = () => {
                 if (reader.readyState === 2) {
-                    fileData && onChange && onChange(fileData)
+                    // fileData && onChange && onChange(fileData)
                     // Sending file data to field
                     // onChange({
                     //     name: fileData.name,

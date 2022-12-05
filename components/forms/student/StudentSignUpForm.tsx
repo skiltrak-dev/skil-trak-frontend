@@ -30,7 +30,6 @@ export const StudentSignUpForm = ({ onSubmit }: { onSubmit: any }) => {
 
     const [lastEnteredEmail, setLastEnteredEmail] = useState('')
 
-
     const onEmailChange = (e: any) => {
         _debounce(() => {
             // Regex for email, only valid mail should be sent

@@ -26,7 +26,7 @@ export const ViewSectorsCB = ({ subAdmin }: { subAdmin: SubAdmin }) => {
     const courses = AdminApi.SubAdmins.useCourses(subAdmin.id)
     const sectorsWithCourses = getSectors(courses.data)
     //  const courses = subAdmin.courses
-   //  const sectorsWithCourses = getSectors(courses)
+    //  const sectorsWithCourses = getSectors(courses)
 
     const [assignCourses, assignCoursesResult] =
         AdminApi.SubAdmins.useAssignCourses()
@@ -88,7 +88,10 @@ export const ViewSectorsCB = ({ subAdmin }: { subAdmin: SubAdmin }) => {
                 <Typography variant={'label'}>{subAdmin.user.name}</Typography>
             </div>
 
-            <AssignSectorForm onSubmit={onSubmit} />
+            <AssignSectorForm
+                onSubmit={onSubmit}
+                result={assignCoursesResult}
+            />
 
             <div className={'flex flex-col gap-y-2'}>
                 <Typography variant={'muted'} color={'text-gray-400'}>

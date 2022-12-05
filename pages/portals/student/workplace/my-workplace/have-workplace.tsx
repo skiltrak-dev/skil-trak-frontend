@@ -31,13 +31,10 @@ const HaveWorkplace: NextPageWithLayout = (props: Props) => {
     const [workplaceData, setWorkplaceData] = useState<any | null>(null)
     const { notification } = useNotification()
 
-    console.log('leearnn', workplaceData, active)
-
     // query
     const workplace = useGetWorkplaceIndustriesQuery()
     const [findAbn, result] = useUpdateFindAbnMutation()
     const [addWorkplace, addWorkplaceResult] = useAddWorkplaceMutation()
-    console.log('workplace', workplace)
 
     useEffect(() => {
         if (addWorkplaceResult.isSuccess && addWorkplaceResult.data) {

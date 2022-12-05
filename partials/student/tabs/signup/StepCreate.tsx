@@ -1,5 +1,6 @@
-import { Popup } from '@components'
+import { Popup, ShowErrorNotifications } from '@components'
 import { UserRoles } from '@constants'
+import { useNotification } from '@hooks'
 import { AuthApi } from '@queries'
 import { OptionType, RtoFormData } from '@types'
 import { AuthUtils, SignUpUtils } from '@utils'
@@ -11,6 +12,7 @@ export const StepCreate = () => {
     const formData: RtoFormData = SignUpUtils.getValuesFromStorage()
     const [register, registerResult] = AuthApi.useRegisterStudent()
     const [login, loginResult] = AuthApi.useLogin()
+    const { notification } = useNotification()
 
     useEffect(() => {
         const createAccount = async () => {
@@ -41,6 +43,10 @@ export const StepCreate = () => {
 
             loginUser()
         }
+        if (registerResult.isError) {
+            SignUpUtils.setEditingMode(true)
+            router.push({ query: { step: 'account-info' } })
+        }
     }, [registerResult])
 
     useEffect(() => {
@@ -55,6 +61,7 @@ export const StepCreate = () => {
 
     return (
         <div>
+            <ShowErrorNotifications result={registerResult} />
             <Popup
                 variant="info"
                 title={'Creating Account...'}

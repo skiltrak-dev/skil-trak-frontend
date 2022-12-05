@@ -34,13 +34,20 @@ export const IndustrySelection = ({
     useEffect(() => {
         if (workplaceIndustries) {
             const allIndustries = workplaceIndustries[0]?.industries
-            setIndustries(allIndustries)
-            setAppliedIndustry(allIndustries?.find((i: any) => i.applied))
-            setSelectedCourses(
-                allIndustries
-                    ?.find((i: any) => i.industry.id === industrySelection)
-                    ?.industry.courses.map((c: any) => c.id)
+            setIndustries(
+                allIndustries?.filter(
+                    (industry: any) =>
+                        !industry?.applied &&
+                        industry?.industryResponse !== 'noResponse'
+                )
             )
+            setAppliedIndustry(allIndustries?.find((i: any) => i.applied))
+            // setSelectedCourses(
+            //     allIndustries
+            //         ?.find((i: any) => i.industry.id === industrySelection)
+            //         ?.industry.courses.map((c: any) => c.id)
+            // )
+            setSelectedCourses(workplaceIndustries[0]?.courses[0]?.id)
         }
     }, [
         workplaceIndustries,
@@ -54,42 +61,63 @@ export const IndustrySelection = ({
         }
     }, [cancelRequestResult.isSuccess])
 
+    const workplaceCancelRequest = () => {
+        return (
+            <div className="mt-3">
+                <Button
+                    variant={'secondary'}
+                    onClick={async () => {
+                        await cancelRequest(null)
+                    }}
+                    loading={cancelRequestResult.isLoading}
+                    disabled={cancelRequestResult.isLoading}
+                >
+                    <span className="text-red-400">Cancel Request</span>
+                </Button>
+            </div>
+        )
+    }
+
     return !industrySelection ? (
-        <div>
+        <div className="flex flex-col gap-y-3">
             {appliedIndustry && (
                 <>
                     <AppliedIndustry
-                        setIndustrySelection={setIndustrySelection}
+                        workplaceCancelRequest={workplaceCancelRequest}
                         appliedIndustry={appliedIndustry}
-                        status={workplaceIndustries[0].currentStatus}
+                        setIndustrySelection={setIndustrySelection}
+                        status={workplaceIndustries[0]?.currentStatus}
                     />
                 </>
             )}
 
             {/*  */}
 
-            <Typography variant={'label'}>Select Industry</Typography>
-            <Card>
-                <div className="my-4 flex flex-col gap-y-2">
-                    <Typography variant={'muted'} color={'secondaryText'}>
-                        These are most suitable industries we have according to
-                        your given criteria.
-                    </Typography>
-                    {industries && industries.length > 0 ? (
-                        industries?.map((industry: any, i: number) => {
-                            if (
-                                !industry?.applied &&
-                                industry?.industryResponse !== 'noResponse'
+            {industries && industries.length > 0 ? (
+                <Card>
+                    <Typography variant={'label'}>Select Industry</Typography>
+                    <div className="my-4 flex flex-col gap-y-2">
+                        <Typography variant={'muted'} color={'secondaryText'}>
+                            These are most suitable industries we have according
+                            to your given criteria.
+                        </Typography>
+                        {industries?.map((industry: any, i: number) => {
+                            return (
+                                <ApplyForWorkplaceIndustry
+                                    key={industry.id}
+                                    industry={industry}
+                                    industries={industries}
+                                    appliedIndustry={appliedIndustry}
+                                />
                             )
-                                return (
-                                    <ApplyForWorkplaceIndustry
-                                        key={industry.id}
-                                        industry={industry}
-                                        industries={industries}
-                                    />
-                                )
-                        })
-                    ) : (
+                        })}
+                    </div>
+
+                    {!appliedIndustry && workplaceCancelRequest()}
+                </Card>
+            ) : (
+                !appliedIndustry && (
+                    <Card>
                         <div className="px-5 py-12 border border-dashed">
                             <Typography
                                 variant={'body'}
@@ -105,19 +133,12 @@ export const IndustrySelection = ({
                                 to help you out.
                             </Typography>
                         </div>
-                    )}
-                </div>
 
-                <Button
-                    variant={'secondary'}
-                    text={'Cancel Request'}
-                    onClick={async () => {
-                        await cancelRequest(null)
-                    }}
-                    loading={cancelRequestResult.isLoading}
-                    disabled={cancelRequestResult.isLoading}
-                />
-            </Card>
+                        {workplaceCancelRequest()}
+                    </Card>
+                )
+            )}
+
             {industries?.map(
                 (industry: any, i: number) =>
                     industry?.industryResponse === 'noResponse' && (
