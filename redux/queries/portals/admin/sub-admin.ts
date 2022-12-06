@@ -79,7 +79,8 @@ export const subAdminEndpoints = (
 
     subAdminUnassignRto: builder.mutation({
         query: (body: any) => ({
-            url: `rto/subadmin/remove/${body.id}`,
+            url: `${PREFIX}/rto/subadmin/remove/${body.id}`,
+            params: { subadmin: body.subAdmin },
             method: 'DELETE',
             body,
         }),
