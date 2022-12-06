@@ -9,51 +9,57 @@ import { MdPermContactCalendar, MdPhone } from 'react-icons/md'
 
 //queries
 import { useGetSubAdminMyRtoQuery } from '@queries'
+import { NoData } from '@components/ActionAnimations'
 
-type Props = {}
+type Props = {
+    myWorkplace: any
+}
 
-export const WorkplaceInfoCard = (props: Props) => {
+export const WorkplaceInfoCard = ({
+    myWorkplace,
+}: Props) => {
     const pathname = useRouter()
     const profileId = pathname.query.profileId
     const { data } = useGetSubAdminMyRtoQuery(String(profileId), {
         skip: !profileId,
     })
-    const filteredData = data?.workplace.filter((item: any) => {
+    const filteredData = myWorkplace?.workplace.filter((item: any) => {
         return item.approvalStatus === 'approved' && item.isCancelled === false
     })
 
-    return (
-        <div>
-            {filteredData?.map((data: any) => (
-                <Card key={data.id}>
-                    {/* Card Header */}
-                    <div className="flex justify-between items-center">
-                        {/* Icon Title */}
-                        <div className="flex items-center gap-x-2">
-                            <div className="w-8 h-8 bg-green-100 text-green-600 rounded-full flex justify-center items-center">
-                                <IoBriefcase size={16} />
-                            </div>
-                            <p className="text-sm font-semibold">
-                                My Workplace
-                            </p>
-                        </div>
 
-                        {/* Action */}
-                        <div className="flex justify-between gap-x-4">
-                            <Link href="#">
-                                <a className="inline-block uppercase text-xs font-medium bg-green-100 text-green-600 px-4 py-2 rounded">
-                                    See Details
-                                </a>
-                            </Link>
-                            <Link href="#">
-                                <a className="inline-block uppercase text-xs font-medium bg-gray-100 text-gray-500 px-4 py-2 rounded">
-                                    VIEW SECOND
-                                </a>
-                            </Link>
+    return (
+        <div className='w-full'>
+            <Card>
+                {/* Card Header */}
+                <div className="flex justify-between items-center mb-4">
+                    {/* Icon Title */}
+                    <div className="flex items-center gap-x-2">
+                        <div className="w-8 h-8 bg-green-100 text-green-600 rounded-full flex justify-center items-center">
+                            <IoBriefcase size={16} />
                         </div>
+                        <p className="text-sm font-semibold">
+                            My Workplace
+                        </p>
                     </div>
 
-                    {/* Card Body */}
+                    {/* Action */}
+                    <div className="flex justify-between gap-x-4">
+                        <Link href="#">
+                            <a className="inline-block uppercase text-xs font-medium bg-green-100 text-green-600 px-4 py-2 rounded">
+                                See Details
+                            </a>
+                        </Link>
+                        <Link href="#">
+                            <a className="inline-block uppercase text-xs font-medium bg-gray-100 text-gray-500 px-4 py-2 rounded">
+                                VIEW SECOND
+                            </a>
+                        </Link>
+                    </div>
+                </div>
+
+                {/* Card Body */}
+                {filteredData?.length > 0 ? (filteredData?.map((data: any) => (
                     <div className="mt-4">
                         <div className="flex items-center gap-x-6 mb-4">
                             <div className="flex-shrink-0">
@@ -133,18 +139,18 @@ export const WorkplaceInfoCard = (props: Props) => {
                                 <span className="text-gray-400">
                                     <MdPermContactCalendar size={14} />
                                 </span>
-                                <span className="text-xs">John Smith</span>
+                                <span className="text-xs">{data?.user?.name || "Name here"} </span>
                             </div>
                             <div className="flex items-center gap-x-1">
                                 <span className="text-gray-400">
                                     <MdPhone size={14} />
                                 </span>
-                                <span className="text-xs">039 6534 100</span>
+                                <span className="text-xs">{data?.phone || "phone number"}</span>
                             </div>
                         </div>
                     </div>
-                </Card>
-            ))}
+                ))) : (<div><NoData text='No Workplace' /></div>)}
+            </Card>
         </div>
     )
 }

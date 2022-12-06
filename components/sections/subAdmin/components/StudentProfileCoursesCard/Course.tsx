@@ -20,6 +20,7 @@ export const Course = ({ course }: any) => {
       startTime: '',
       endTime: '',
    })
+   // console.log("single course ", course);
 
    const badge = (text: string, outline?: boolean) => {
       return (
@@ -38,13 +39,13 @@ export const Course = ({ course }: any) => {
          <div className="border-l-4 border-red-500 px-1">
             <div className="flex gap-x-2">
                <Typography variant={'small'} color={'text-gray-500'}>
-                  SITHCCC020
+                  {course?.code}
                </Typography>
                {badge('COMPLETED', true)}
                {badge('COMPETENT')}
             </div>
             <Typography variant={'label'}>
-               Work effectively as a cook
+               {course?.title}
             </Typography>
          </div>
          <div>

@@ -6,10 +6,17 @@ import { NextPageWithLayout } from '@types'
 
 //components
 import {
-    EmptyData, LoadingAnimation, SubAdminStudentProfile, TabNavigation,
-    TabProps, TechnicalError, Typography
+    // AssessmentsTools,
+    ReactTable,
+    TabNavigation,
+    TabProps,
+    Typography,
+    IndustryProfile,
+    TechnicalError,
+    LoadingAnimation,
+    EmptyData,
+    SubAdminStudentProfile,
 } from '@components'
-
 
 import {
     MailsTab,
@@ -23,9 +30,16 @@ import {
     useUpdateAssessmentToolArchiveMutation
 } from '@queries'
 
+
+import { AssessmentsEvidence } from '@components/sections/student/AssessmentsContainer'
+
+
+
 // hooks
 import { AssesmentEvidenceDetail } from '@components/sections/subAdmin/Tasks'
+
 import { useContextBar } from '@hooks'
+
 import { Notes } from '@components/sections/subAdmin'
 
 type Props = {}
@@ -41,6 +55,7 @@ const StudentsProfile: NextPageWithLayout = (props: Props) => {
             skip: !id,
         }
     )
+    
     useEffect(() => {
         setContent(
             <>
@@ -88,7 +103,7 @@ const StudentsProfile: NextPageWithLayout = (props: Props) => {
             label: 'Overview',
             href: { pathname: String(id), query: { tab: 'overview' } },
             badge: { text: '05', color: 'text-blue-500' },
-            element: <StudentsProfileOverview studentDetail={data} />,
+            element: <StudentsProfileOverview subAdminStudentDetail={data} />,
         },
         {
             label: 'Assessments',

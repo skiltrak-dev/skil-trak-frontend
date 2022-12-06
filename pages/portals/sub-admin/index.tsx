@@ -27,7 +27,10 @@ import { Animations } from '@animations'
 // hooks
 import { useContextBar } from '@hooks'
 import { ViewProfileCB } from '@partials/sub-admin/contextBar'
-import { FigureCard } from '@components/sections/subAdmin/'
+
+import { FigureCard } from '@components/sections/subAdmin/components/Cards/FigureCard'
+
+
 import { AuthUtils } from '@utils'
 
 import { SubAdminApi } from '@queries'
@@ -87,10 +90,10 @@ const getSectors = (courses: any) => {
     const sectors = {}
     courses.forEach((c: any) => {
         if ((sectors as any)[c.sector.name]) {
-            ;(sectors as any)[c.sector.name].push(c)
+            ; (sectors as any)[c.sector.name].push(c)
         } else {
-            ;(sectors as any)[c.sector.name] = []
-            ;(sectors as any)[c.sector.name].push(c)
+            ; (sectors as any)[c.sector.name] = []
+                ; (sectors as any)[c.sector.name].push(c)
         }
     })
     return sectors
@@ -102,6 +105,10 @@ const SubAdminDashboard: NextPageWithLayout = () => {
 
     const { data, isSuccess, isLoading } = SubAdminApi.SubAdmin.useProfile()
     const sectorsWithCourses = getSectors(data?.courses)
+    const numberOfRtos = data?.rtos?.length
+    const numberOfIndustries = data?.workplaceRequest[0]?.industries?.length
+    console.log(numberOfRtos);
+
 
     useEffect(() => {
         contextBar.setContent(<ViewProfileCB />)
@@ -185,7 +192,7 @@ const SubAdminDashboard: NextPageWithLayout = () => {
                     />
                     <FigureCard
                         imageUrl="/images/icons/rto.png"
-                        count={0}
+                        count={numberOfRtos}
                         title={'RTOs'}
                     />
                 </div>

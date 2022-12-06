@@ -69,7 +69,7 @@ export const IndustrySignUpForm = ({ onSubmit }: { onSubmit: any }) => {
 
    const initialValues = {
       // Profile Information
-      name: '',
+      // name: '',
       email: '',
       password: '',
       confirmPassword: '',
@@ -101,10 +101,10 @@ export const IndustrySignUpForm = ({ onSubmit }: { onSubmit: any }) => {
 
    const validationSchema = yup.object({
       // Profile Information
-      name: yup
-         .string()
-         .matches(onlyAlphabets(), 'Please enter valid name')
-         .required('Must provide your name'),
+      // name: yup
+      //    .string()
+      //    .matches(onlyAlphabets(), 'Please enter valid name')
+      //    .required('Must provide your name'),
 
       email: yup.string().email('Invalid Email').required('Must provide email'),
       password: yup
@@ -154,7 +154,7 @@ export const IndustrySignUpForm = ({ onSubmit }: { onSubmit: any }) => {
          setSectorOptions(options)
       }
    }, [sectorResponse?.data])
-  
+
    useEffect(() => {
       if (SignUpUtils.getEditingMode()) {
          const values = SignUpUtils.getValuesFromStorage()
@@ -204,13 +204,13 @@ export const IndustrySignUpForm = ({ onSubmit }: { onSubmit: any }) => {
                </div>
 
                <div className="w-4/6">
-                  <TextInput
+                  {/* <TextInput
                      label={'Name'}
                      name={'name'}
                      placeholder={'Industry Name...'}
                      validationIcons
                      required
-                  />
+                  /> */}
 
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-8">
                      <TextInput
@@ -222,7 +222,7 @@ export const IndustrySignUpForm = ({ onSubmit }: { onSubmit: any }) => {
                      />
 
                      <TextInput
-                        label={'Website'}
+                        label={'Website (Optional)'}
                         name={'website'}
                         placeholder={'Website Url...'}
                         validationIcons

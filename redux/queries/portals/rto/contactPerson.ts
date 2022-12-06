@@ -18,7 +18,7 @@ export const contactPersonEndpoints = (
     addContactPerson: builder.mutation<any, any>({
         query: (body) => {
             return {
-                url: `${PREFIX}/contact-person/add`,
+                url: `${PREFIX}/contactperson/add`,
                 method: 'POST',
                 body,
             }
