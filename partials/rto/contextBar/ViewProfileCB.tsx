@@ -33,8 +33,9 @@ const getSectors = (courses: any) => {
 
 export const ViewProfileCB = () => {
     const { data: rto, isLoading } = RtoApi.Rto.useProfile()
-
+    
     const sectorsWithCourses = getSectors(rto?.courses)
+  
 
     return isLoading ? (
         <LoadingAnimation />

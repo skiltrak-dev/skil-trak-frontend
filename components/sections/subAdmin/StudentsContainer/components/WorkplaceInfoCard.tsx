@@ -60,7 +60,7 @@ export const WorkplaceInfoCard = ({
 
                 {/* Card Body */}
                 {filteredData?.length > 0 ? (filteredData?.map((data: any) => (
-                    <div className="mt-4">
+                    <div key={data?.id} className="mt-4">
                         <div className="flex items-center gap-x-6 mb-4">
                             <div className="flex-shrink-0">
                                 <Image src="/#" height={100} width={100} />

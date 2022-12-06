@@ -21,7 +21,7 @@ import { IoBriefcase } from 'react-icons/io5'
 import { useContextBar } from '@hooks'
 import { InitialAvatarContainer } from '@components/InitialAvatar/InitialAvatarContainer'
 import { AuthUtils } from '@utils'
-import { AuthApi } from '@queries'
+import { AuthApi, RtoApi } from '@queries'
 import { CheckStatus } from '@partials/auth'
 import { ViewProfileCB } from '@partials/rto/contextBar'
 import { ImportantDocuments } from '@partials/rto/components'
@@ -71,7 +71,9 @@ const ProfileQuestions = [
 const RTODashboard: NextPageWithLayout = () => {
     const contextBar = useContextBar()
     const [credentials, setCredentials] = useState<any>(null)
-
+    const { data: rto, isLoading } = RtoApi.Rto.useProfile()
+    // console.log("rto profile", rto);
+    
     useEffect(() => {
         contextBar.setContent(<ViewProfileCB />)
         contextBar.show(false)

@@ -13,24 +13,24 @@ import { CommonCB } from '@partials/rto/contextBar'
 import { NextPageWithLayout } from '@types'
 
 const PrimaryLinks = [
-    {
-        title: 'Students',
-        description: 'View & Manage Your Students',
-        link: 'users/students?tab=approved',
-        animation: Animations.Student.Workplace.Student,
-    },
+    // {
+    //     title: 'Students',
+    //     description: 'View & Manage Your Students',
+    //     link: 'users/students?tab=approved',
+    //     animation: Animations.Student.Workplace.Student,
+    // },
     {
         title: 'Contact Person',
         description: 'View & Manage Your Contact Persons',
-        link: 'users/contact-person',
+        link: 'admins/contact-person',
         animation: Animations.Student.Appointments.AssessmentTool,
     },
-    {
-        title: 'Coordinators',
-        description: 'View & Manage Your Coordinators',
-        link: 'users/coordinators',
-        animation: Animations.Student.Workplace.Jobs,
-    },
+    // {
+    //     title: 'Coordinators',
+    //     description: 'View & Manage Your Coordinators',
+    //     link: 'users/coordinators',
+    //     animation: Animations.Student.Workplace.Jobs,
+    // },
 ]
 
 const StudentQuestions = [
@@ -80,7 +80,7 @@ const RtoUsers: NextPageWithLayout = () => {
 
     return (
         <div className="flex flex-col">
-            <div className="flex gap-x-6">
+            <div className="flex justify-start gap-x-6">
                 {/* Primary Actions */}
                 <div className="bg-white p-4 rounded-2xl shadow-xl flex-shrink-0 w-2/5">
                     <DisplayPrimaryActions actions={PrimaryLinks} />

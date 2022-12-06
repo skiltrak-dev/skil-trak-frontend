@@ -9,7 +9,7 @@ export const contactPersonEndpoints = (
     contactPersons: builder.query<PaginatedResponse<ContactPerson>, any>({
         query: (params: any) => {
             return {
-                url: `${PREFIX}/contact-persons/list`,
+                url: `${PREFIX}/contact-persons`,
                 params,
             }
         },
