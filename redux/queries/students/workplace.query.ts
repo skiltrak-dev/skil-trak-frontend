@@ -43,12 +43,11 @@ export const workplaceRequestApi = createApi({
             providesTags: ['Workplace'],
         }),
         uploadDocuments: builder.mutation({
-            query: ({ id, body }) => {
+            query: ({ id, body, workplaceId }) => {
                 return {
                     url: `workplace/response`,
                     method: 'POST',
-                    params: { docs: id },
-                    // params: { docs: id.join(',') },
+                    params: { docs: [id], wpId: workplaceId },
                     body,
                 }
             },

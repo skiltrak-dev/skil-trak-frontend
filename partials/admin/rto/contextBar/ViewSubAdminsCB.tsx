@@ -89,6 +89,7 @@ export const ViewSubAdminsCB = ({ rto }: { rto: Rto }) => {
                             <AssignedSubAdmin
                                 subAdmin={subAdmin}
                                 onRemove={onSubAdminClicked}
+                                result={unassignSubAdminResult}
                             />
                         ))
                     ) : (

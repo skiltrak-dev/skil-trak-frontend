@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 
 // Icons
 import { FaCloudUploadAlt } from 'react-icons/fa'
@@ -8,40 +8,67 @@ import { TfiReload } from 'react-icons/tfi'
 
 // components
 import { Typography } from 'components'
+import { useNotification } from '@hooks'
 
 export const DocumentCard = ({
-    file,
     name,
-    dragging,
-    fileList,
-    fileObject,
-    handleRemove,
-    invalidSelection,
+    capacity,
+    onChange,
+    uploadedDocs,
 }: any) => {
+    const [fileList, setFileList] = useState<any | null>(null)
+    const [invalidSelection, setInvalidSelection] = useState<any | null>(null)
 
+    console.log('fileList', fileList)
+
+    // hook
+    const { notification } = useNotification()
+
+    const handleChange = (event: any) => {
+        // Getting file Data
+        const fileData: FileList = event.target.files
+        // console.log('fileData', fileData)
+
+        // for multiple files upload
+        let multipleFiles: any = []
+
+        for (let key in fileData) {
+            if (typeof fileData[key] === 'object') {
+                multipleFiles.push(fileData[key])
+                // setFileList((preVal: any) => [...preVal, fileData[key]])
+            }
+        }
+        if (capacity && fileData.length <= capacity) {
+            setFileList(multipleFiles)
+            fileData && onChange && onChange(multipleFiles)
+        } else {
+            alert('capacity')
+        }
+    }
+
+    const isNotUploadedDocs = uploadedDocs < capacity
     return (
         <div className="bg-secondary rounded-lg p-2 flex justify-between items-center">
             <div className="flex items-center gap-x-2">
-                {file && !invalidSelection ? (
+                {fileList && !invalidSelection ? (
                     <AiFillCheckCircle className="text-success" />
                 ) : invalidSelection ? (
                     <HiExclamationTriangle className="text-error" />
                 ) : (
                     <AiFillExclamationCircle className="text-info" />
                 )}
-
                 <Typography variant={'label'}>{name}</Typography>
-                {(file || invalidSelection) && (
+                {(fileList || invalidSelection) && (
                     <Typography variant={'label'}>-</Typography>
                 )}
-                {file && (
+                {fileList && (
                     <>
                         <Typography variant={'xs'} color={'text-gray-400'}>
                             {fileList
                                 ? fileList?.map(
                                       (f: any) => `${f.name.substring(0, 10)}, `
                                   )
-                                : file.name}
+                                : null}
                             {/* {Object.values(file).map((f) => f.name)} */}
                         </Typography>
                     </>
@@ -51,26 +78,54 @@ export const DocumentCard = ({
                         Invalid File Format is selected
                     </Typography>
                 )}
+                <Typography variant={'small'} color={'text-gray-500'}>
+                    ({uploadedDocs}/{capacity})
+                </Typography>
             </div>
             <div className="flex items-center gap-x-2">
-                {file ? (
+                {fileList ? (
                     <TfiReload className="text-primary" />
                 ) : (
-                    <FaCloudUploadAlt className="text-link" />
+                    <FaCloudUploadAlt
+                        className={`${
+                            isNotUploadedDocs ? 'text-link' : 'text-gray-300'
+                        }`}
+                    />
                 )}
 
                 <Typography
                     variant={'muted'}
-                    color={file ? 'text-primary' : 'text-link'}
+                    color={
+                        fileList
+                            ? 'text-primary'
+                            : isNotUploadedDocs
+                            ? 'text-link'
+                            : 'text-gray-300'
+                    }
                 >
                     <label
-                        htmlFor={`file_id_${name}`}
-                        className="cursor-pointer"
+                        {...(isNotUploadedDocs
+                            ? { htmlFor: `file_id_${name}` }
+                            : {})}
+                        className={`${
+                            isNotUploadedDocs ? 'cursor-pointer' : ''
+                        }`}
                     >
-                        {file ? 'Change' : 'Upload'}
+                        {fileList ? 'Change' : 'Upload'}
                     </label>
                 </Typography>
             </div>
+            <input
+                type="file"
+                id={`file_id_${name}`}
+                name={name}
+                className="hidden"
+                onChange={(e: any) => {
+                    handleChange(e)
+                }}
+                accept={'pdf/*'}
+                multiple
+            />
         </div>
     )
 }

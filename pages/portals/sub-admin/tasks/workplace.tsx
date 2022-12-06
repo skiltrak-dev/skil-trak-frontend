@@ -14,26 +14,30 @@ import {
     TechnicalError,
     EmptyData,
 } from '@components'
-import { AllWorkplaces } from '@components/sections/subAdmin'
+import {
+    MyWorkplaces,
+    AllWorkplaces,
+    StudentAddedWorkplaces,
+} from '@components/sections/subAdmin'
 
 type Props = {}
 
 const Workplace: NextPageWithLayout = (props: Props) => {
     const tabs: TabProps[] = [
         {
-            label: 'All',
+            label: 'All Requests',
             href: { pathname: 'workplace', query: { tab: 'all' } },
             element: <AllWorkplaces />,
         },
         {
-            label: 'Added By Students',
+            label: 'Workplace Provided Requests',
             href: { pathname: 'workplace', query: { tab: 'student-added' } },
-            element: <AllWorkplaces />,
+            element: <StudentAddedWorkplaces />,
         },
         {
-            label: 'My Workplaces',
+            label: 'My Requests',
             href: { pathname: 'workplace', query: { tab: 'my-workplaces' } },
-            element: <AllWorkplaces />,
+            element: <MyWorkplaces />,
         },
     ]
 

@@ -105,6 +105,7 @@ export const SubAdminForm = ({ onSubmit }: any) => {
                             <TextInput
                                 label={'Password'}
                                 name={'password'}
+                                type={'password'}
                                 placeholder={'Password...'}
                                 validationIcons
                                 required

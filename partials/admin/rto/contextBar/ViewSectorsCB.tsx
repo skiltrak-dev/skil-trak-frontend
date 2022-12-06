@@ -111,6 +111,7 @@ export const ViewSectorsCB = ({ rto }: { rto: Rto }) => {
                                         <AssignedCourse
                                             key={c.id}
                                             course={c}
+                                            result={unassignCourseResult}
                                             onRemove={onCourseRemove}
                                         />
                                     )
