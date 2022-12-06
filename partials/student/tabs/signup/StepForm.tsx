@@ -12,7 +12,6 @@ import { StepCreate } from './StepCreate'
 export const StepForm = () => {
     const router = useRouter()
     const { query } = router
-console.log("router", query);
 
     const FormSteps: IndicatorStep[] = [
         {

@@ -9,14 +9,9 @@ import {
     LoadingAnimation,
     Typography,
     StepIndicator,
-    ShowErrorNotifications,
 } from '@components'
-import {
-    Availability,
-    IndustrySelection,
-    PersonalInfo,
-    YourIndustry,
-} from '@components/sections/student/WorkplaceContainer/MyWorkPlace'
+import { ShowErrorNotifications } from '@components/ShowErrorNotifications'
+import { YourIndustry } from '@components/sections/student/WorkplaceContainer/MyWorkPlace'
 
 // query
 import {
@@ -49,7 +44,11 @@ const HaveWorkplace: NextPageWithLayout = (props: Props) => {
     }, [addWorkplaceResult])
 
     useEffect(() => {
-        if (workplace.isSuccess && workplace?.data) {
+        if (
+            workplace.isSuccess &&
+            workplace?.data &&
+            workplace?.data?.length > 0
+        ) {
             setWorkplaceData(workplace?.data[0])
             setActive(3)
         }
@@ -145,8 +144,9 @@ const HaveWorkplace: NextPageWithLayout = (props: Props) => {
 
                 {active === 3 &&
                     (workplaceData?.studentProvidedWorkplace ||
-                        (workplaceData?.byExistingAbn && (
-                            <Card>
+                        workplaceData?.byExistingAbn) && (
+                        <Card>
+                            <div className="px-5 py-16 border-2 border-dashed border-gray-600 flex justify-center">
                                 <Typography
                                     variant={'label'}
                                     center
@@ -155,10 +155,11 @@ const HaveWorkplace: NextPageWithLayout = (props: Props) => {
                                     Your request has been received, Our team
                                     after confirming the provided information
                                     will approved your request and Will Contact
-                                    you soon'
+                                    you soon
                                 </Typography>
-                            </Card>
-                        )))}
+                            </div>
+                        </Card>
+                    )}
 
                 {active === 4 && (
                     <Card>

@@ -21,7 +21,15 @@ const RtoAssessmentTools: NextPageWithLayout = (props: Props) => {
     )
 }
 RtoAssessmentTools.getLayout = (page: ReactElement) => {
-    return <RtoLayout title="Assessment Tools">{page}</RtoLayout>
+    return (
+        <RtoLayout
+            pageTitle={{
+                title: 'Assessment Tools',
+            }}
+        >
+            {page}
+        </RtoLayout>
+    )
 }
 
 export default RtoAssessmentTools

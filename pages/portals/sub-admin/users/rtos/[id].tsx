@@ -21,7 +21,8 @@ import {
 } from '@components'
 import { Notes } from '@components/sections/subAdmin'
 
-import { FigureCard, SubAdminProfileTabsView } from '@components/sections'
+import { FigureCard } from '@components/sections/subAdmin'
+import {  SubAdminProfileTabsView } from '@components/sections/subAdmin'
 import {
     RtoProfileOverview,
     AppointmentProfile,
@@ -58,7 +59,6 @@ const RtoProfile: NextPageWithLayout = (props: Props) => {
     const [archiveAssessmentTool, archiveAssessmentToolResult] =
         useUpdateAssessmentToolArchiveMutation()
     const actions = (id: any) => {
-        // console.log(id)
         return (
             <div className="flex gap-x-2 ">
                 <a
@@ -83,7 +83,7 @@ const RtoProfile: NextPageWithLayout = (props: Props) => {
                 </div>
                 <div
                     onClick={() => {
-                        // console.log('Edit')
+
                     }}
                 >
                     <FaEdit className="text-[#686DE0] cursor-pointer" />
@@ -162,7 +162,7 @@ const RtoProfile: NextPageWithLayout = (props: Props) => {
     )
 }
 RtoProfile.getLayout = (page: ReactElement) => {
-    return <SubAdminLayout title="RTO Profile">{page}</SubAdminLayout>
+    return <SubAdminLayout pageTitle={{title:"RTO Profile"}}>{page}</SubAdminLayout>
 }
 
 export default RtoProfile

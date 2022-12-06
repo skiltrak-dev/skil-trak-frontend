@@ -8,14 +8,22 @@ import { NextPageWithLayout } from '@types'
 import { RTOMOUDetail } from '@components/sections'
 
 const MouDetail: NextPageWithLayout = () => {
-  return (
-    <>
-      <RTOMOUDetail />
-    </>
-  )
+    return (
+        <>
+            <RTOMOUDetail />
+        </>
+    )
 }
 MouDetail.getLayout = (page: ReactElement) => {
-  return <RtoLayout title="MoUs">{page}</RtoLayout>
+    return (
+        <RtoLayout
+            pageTitle={{
+                title: 'MoUs',
+            }}
+        >
+            {page}
+        </RtoLayout>
+    )
 }
 
 export default MouDetail

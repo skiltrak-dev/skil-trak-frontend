@@ -18,12 +18,20 @@ type Props = {}
 const ViewArchived: NextPageWithLayout = (props: Props) => {
     return (
         <>
-            <ArchivedViewContainer role={"RTO"} />
+            <ArchivedViewContainer role={'RTO'} />
         </>
     )
 }
 ViewArchived.getLayout = (page: ReactElement) => {
-    return <RtoLayout title="Assessment Tools">{page}</RtoLayout>
+    return (
+        <RtoLayout
+            pageTitle={{
+                title: 'Assessment Tools',
+            }}
+        >
+            {page}
+        </RtoLayout>
+    )
 }
 
 export default ViewArchived

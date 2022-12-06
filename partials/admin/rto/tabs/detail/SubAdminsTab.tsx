@@ -25,7 +25,6 @@ import { SubAdminCell } from '@partials/admin/sub-admin'
 import { DeleteModal } from '@partials/admin/sub-admin/modals'
 
 export const SubAdminsTab = ({ rto }: any) => {
-    console.log('rrr', rto)
     const router = useRouter()
 
     const [modal, setModal] = useState<ReactElement | null>(null)

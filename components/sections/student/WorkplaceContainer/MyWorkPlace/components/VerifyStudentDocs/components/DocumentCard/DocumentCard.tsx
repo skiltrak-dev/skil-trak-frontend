@@ -18,7 +18,6 @@ export const DocumentCard = ({
     handleRemove,
     invalidSelection,
 }: any) => {
-    // console.log(name, Array.isArray(file), file)
 
     return (
         <div className="bg-secondary rounded-lg p-2 flex justify-between items-center">

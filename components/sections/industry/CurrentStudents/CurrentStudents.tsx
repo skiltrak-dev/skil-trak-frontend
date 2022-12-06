@@ -21,9 +21,8 @@ import { LoadingAnimation } from '@components/LoadingAnimation'
 
 export const CurrentStudnts = () => {
     // query
-    const industryWorkplace = useGetIndustryWorkplaceQuery()
+    const industryWorkplace = useGetIndustryWorkplaceQuery(null)
 
-    console.log('industryWorkplace', industryWorkplace)
     return (
         <>
             {industryWorkplace.isError && <TechnicalError />}

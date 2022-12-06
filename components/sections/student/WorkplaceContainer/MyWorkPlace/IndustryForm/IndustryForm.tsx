@@ -58,14 +58,11 @@ export const IndustryForm = ({
     const onSectorChanged = (sectors: any) => {
         setCourseLoading(true)
 
-        // console.log("onsectorchanged", sectors);
         const filteredCourses = sectors.map((selectedSector: any) => {
             const sectorExisting = sectorResponse?.data?.find(
                 (sector: any) => sector.id === selectedSector.value
             )
             if (sectorExisting && sectorExisting?.courses?.length) {
-                // console.log();
-
                 return sectorExisting.courses
             }
         })
@@ -84,7 +81,6 @@ export const IndustryForm = ({
 
         setCourseOptions(newCourseOptions)
         setCourseLoading(false)
-        // console.log("newCourse", newCourseOptions);
     }
 
     const initialValues = {
@@ -216,7 +212,6 @@ export const IndustryForm = ({
             role: 'industry',
         })
 
-        // console.log("map-------", values.courses.map((id: any) => id.value));
     }
     return (
         <Card>

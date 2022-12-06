@@ -68,7 +68,6 @@ export const RtoForm = ({ onSubmit }: { onSubmit: any }) => {
         setCourseOptions(newCourseOptions)
         setCourseLoading(false)
     }
-    // console.log("Rto single", onSubmit);
 
     const initialValues = {
         // Profile Information

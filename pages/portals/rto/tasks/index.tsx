@@ -7,15 +7,9 @@ import { NextPageWithLayout } from '@types'
 import { Animations } from '@animations'
 // Components
 import {
-    AssessmentResultCard,
-    Button,
     DisplayPrimaryActions,
     HelpQuestionSet,
-    PendingSignatureCard,
-    PlacementProgressCard,
     RecentAppointmentCard,
-    RtoContextBarData,
-    SidebarCalendar,
 } from '@components'
 // Hooks
 import { useContextBar } from '@hooks'
@@ -83,9 +77,10 @@ const OtherQuestions = [
 
 const RtoTasks: NextPageWithLayout = () => {
     const contextBar = useContextBar()
-    const { data, isSuccess, isError } = useGetRTOAppointmentsQuery({ status: 'future' })
-    const rtoRecentAppointment = data[data?.length - 1]
-    console.log("rtoRecentAppointments", rtoRecentAppointment)
+    const { data, isSuccess, isError } = useGetRTOAppointmentsQuery({
+        status: 'future',
+    })
+
     useEffect(() => {
         contextBar.setContent(<CommonCB />)
         contextBar.show(false)
@@ -101,9 +96,7 @@ const RtoTasks: NextPageWithLayout = () => {
 
                 {/* Special Cards */}
                 <div className="w-3/5 flex flex-col justify-center space-y-2">
-                    <RecentAppointmentCard
-                        appointment={data}
-                    />
+                    <RecentAppointmentCard appointment={data} />
                 </div>
             </div>
 
@@ -125,7 +118,15 @@ const RtoTasks: NextPageWithLayout = () => {
 }
 
 RtoTasks.getLayout = (page: ReactElement) => {
-    return <RtoLayout title="Tasks">{page}</RtoLayout>
+    return (
+        <RtoLayout
+            pageTitle={{
+                title: 'Tasks',
+            }}
+        >
+            {page}
+        </RtoLayout>
+    )
 }
 
 export default RtoTasks

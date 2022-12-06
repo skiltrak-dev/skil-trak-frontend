@@ -34,10 +34,10 @@ export const workplaceRequestApi = createApi({
             providesTags: ['Workplace'],
         }),
         getCourseDocuments: builder.query({
-            query: ({ id, courses }: any) => {
+            query: ({ id, course }: any) => {
                 return {
                     url: `requireddocs/${id}`,
-                    params: { course: courses[0] },
+                    params: { course },
                 }
             },
             providesTags: ['Workplace'],

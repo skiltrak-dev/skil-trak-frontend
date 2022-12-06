@@ -17,7 +17,6 @@ export const FigureCard = ({
     title,
     loading,
 }: FigureCardProps) => {
-    console.log('::: IMAGE URL', imageUrl)
     return (
         <>
             <Card>

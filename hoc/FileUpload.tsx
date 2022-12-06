@@ -94,9 +94,7 @@ export const FileUpload = ({
 
     useEffect(() => {
         if (formContext && values) {
-            // console.log('::: VALUES TO SET', values)
             formContext.setValue(name, values)
-            // console.log('::: SETTING VALUE', formContext.getValues())
         }
     }, [values])
 
@@ -106,7 +104,6 @@ export const FileUpload = ({
 
         // Getting file Data
         const fileData: any = isDragging ? event : event.target.files
-        onChange && onChange(fileData[0])
 
         // for multiple files upload
         if (multiple) {
@@ -119,21 +116,19 @@ export const FileUpload = ({
                 ? fileData && onChange && onChange(multipleFiles)
                 : alert('Limit Exceed')
             setFileList(multipleFiles)
+        } else {
+            onChange && onChange(fileData[0])
         }
-
-        // console.log(":::: EVENT Before", event.target.files);
 
         // if (formContext && event.target) {
         // 	formContext.setValue(name, values);
-        // 	console.log("::: SETTING VALUE", formContext.getValues());
         // }
-        // console.log(":::: EVENT After", event.target.files);
 
         const reader: any = new FileReader()
         if (reader) {
             reader.onload = () => {
                 if (reader.readyState === 2) {
-                    fileData && onChange && onChange(fileData)
+                    // fileData && onChange && onChange(fileData)
                     // Sending file data to field
                     // onChange({
                     //     name: fileData.name,
@@ -221,7 +216,6 @@ export const FileUpload = ({
                     // )}
                     {...(formContext ? formContext.register(name) : { name })}
                     onChange={(e: any) => {
-                        // console.log(':::: IN ON CHANGE', e.target.files)
                         setValues(e.target.files)
                         handleChange(e, false)
                         // onChange && onChange(e);

@@ -25,7 +25,7 @@ type ArchivedViewProps = {
 }
 
 export const ArchivedViewContainer = ({ role }: ArchivedViewProps) => {
-    const [selectedCourseId, setSelectedCourseId] = useState<string | null>(
+    const [selectedCourseId, setSelectedCourseId] = useState<number | null>(
         null
     )
     const rtoCourses = useGetRTOCoursesQuery()
@@ -62,7 +62,6 @@ export const ArchivedViewContainer = ({ role }: ArchivedViewProps) => {
                 </div>
                 {/* <div
                     onClick={() => {
-                        console.log('Edit')
                     }}
                 >
                     <FaEdit className="text-[#686DE0] cursor-pointer" />

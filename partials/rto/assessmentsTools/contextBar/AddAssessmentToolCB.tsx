@@ -75,9 +75,7 @@ export const AddAssessmentToolCB = () => {
                         />
                         <FileUpload
                             onChange={(docs: any) => {
-                                console.log(docs)
                                 setFileData(docs)
-                                // console.log('Saad', docs)
                                 // const formData = new FormData()
                                 // docs.forEach((doc: any) => {
                                 //     formData.append('assessmentEvidence', doc)

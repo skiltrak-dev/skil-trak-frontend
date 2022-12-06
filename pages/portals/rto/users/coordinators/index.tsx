@@ -36,7 +36,6 @@ const RtoCoordinators: NextPageWithLayout = (props: Props) => {
         limit: itemPerPage,
     })
 
-    console.log("::: DATA", data)
     const RelatedQuestions = [
         {
             text: `I have a workplace. What next?`,

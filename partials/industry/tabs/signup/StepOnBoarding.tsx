@@ -60,7 +60,6 @@ export const StepOnBoarding = () => {
   //         router.push({ query: { step: 'notification-method' } })
   //     }
   // }, [])
-  console.log('signUpValues', signUpValues);
 
 
   const onSubmit = () => {

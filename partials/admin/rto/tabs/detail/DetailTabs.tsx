@@ -12,7 +12,6 @@ export const DetailTabs = ({
     id: number | string | string[] | undefined
     rto: any
 }) => {
-    console.log('outer', rto)
     const tabs: TabProps[] = [
         {
             label: 'Sectors',

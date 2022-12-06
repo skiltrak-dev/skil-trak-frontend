@@ -25,7 +25,6 @@ export const SetUnavailabilityFormCB = () => {
     })
 
     const onSubmit = (values: any) => {
-        console.log('values', values)
         addUnavailability(values)
     }
 

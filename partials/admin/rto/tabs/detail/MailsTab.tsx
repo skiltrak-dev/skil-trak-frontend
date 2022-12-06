@@ -37,8 +37,6 @@ export const MailsTab = ({ rto }: any) => {
         skip: !rto?.id,
     })
 
-    console.log('messages', messages)
-
     // useEffect(() => {
     //     messages?.refetch()
     // }, [])

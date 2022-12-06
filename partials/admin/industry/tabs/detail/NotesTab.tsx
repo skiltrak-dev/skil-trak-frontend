@@ -25,8 +25,6 @@ export const NotesTab = ({ industry }: { industry: any }) => {
         skip: !industry?.data,
     })
 
-    console.log('industry', industry)
-
     return (
         <div
             className={`flex gap-x-2.5 w-full ${

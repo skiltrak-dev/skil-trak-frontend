@@ -71,7 +71,6 @@ export const CreateNote = ({
         // setTesting(resetForm);
         // setResetFormData(resetForm)
         // const userCredentials = AuthUtils.getUserCredentials();
-        // console.log("userCredentials", userCredentials);
         // const date = new Date();
         // const parent = replyMessage?.id;
         // setMessage({

@@ -9,7 +9,15 @@ const RtoESigns: NextPageWithLayout = (props: Props) => {
     return <>Rto ESigns</>
 }
 RtoESigns.getLayout = (page: ReactElement) => {
-    return <RtoLayout title="E-Signs">{page}</RtoLayout>
+    return (
+        <RtoLayout
+            pageTitle={{
+                title: 'E-Signs',
+            }}
+        >
+            {page}
+        </RtoLayout>
+    )
 }
 
 export default RtoESigns

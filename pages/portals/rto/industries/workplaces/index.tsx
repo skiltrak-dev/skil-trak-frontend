@@ -84,7 +84,6 @@ const RtoWorkplaces: NextPageWithLayout = (props: Props) => {
                         user: { name, email, avatar },
                     },
                 } = row.original
-                // console.log('row.original', row.original)
 
                 return (
                     <Link
@@ -233,7 +232,15 @@ const RtoWorkplaces: NextPageWithLayout = (props: Props) => {
     )
 }
 RtoWorkplaces.getLayout = (page: ReactElement) => {
-    return <RtoLayout title="Workplaces">{page}</RtoLayout>
+    return (
+        <RtoLayout
+            pageTitle={{
+                title: 'Workplaces',
+            }}
+        >
+            {page}
+        </RtoLayout>
+    )
 }
 
 export default RtoWorkplaces

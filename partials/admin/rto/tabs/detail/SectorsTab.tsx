@@ -16,7 +16,6 @@ export const SectorsTab = ({ rto }: any) => {
         data: rto?.data?.courses,
         isSuccess: rto?.isSuccess,
     })
-    console.log('sectors', sectors)
     return sectors && sectors.length > 0 ? (
         <div
             className={`grid ${

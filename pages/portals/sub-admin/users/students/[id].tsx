@@ -1,11 +1,9 @@
 import { useRouter } from 'next/router'
 import { ReactElement, useEffect } from 'react'
-import Link from 'next/link'
 //Layouts
 import { SubAdminLayout } from '@layouts'
 import { NextPageWithLayout } from '@types'
 
-import { TabsView } from '@components/sections/rto'
 //components
 import {
     // AssessmentsTools,
@@ -22,21 +20,26 @@ import {
 
 import {
     MailsTab,
-    StudentsProfileOverview,
+    StudentsProfileOverview
 } from '@components/sections/subAdmin/StudentsContainer'
 // icons
 import { FaEdit } from 'react-icons/fa'
 // queries
 import {
     useGetSubAdminStudentDetailQuery,
-    useUpdateAssessmentToolArchiveMutation,
+    useUpdateAssessmentToolArchiveMutation
 } from '@queries'
+
 
 import { AssessmentsEvidence } from '@components/sections/student/AssessmentsContainer'
 
+
+
 // hooks
-import { useContextBar } from '@hooks'
 import { AssesmentEvidenceDetail } from '@components/sections/subAdmin/Tasks'
+
+import { useContextBar } from '@hooks'
+
 import { Notes } from '@components/sections/subAdmin'
 
 type Props = {}
@@ -64,7 +67,6 @@ const StudentsProfile: NextPageWithLayout = (props: Props) => {
     const [archiveAssessmentTool, archiveAssessmentToolResult] =
         useUpdateAssessmentToolArchiveMutation()
     const actions = (id: any) => {
-        // console.log(id)
         return (
             <div className="flex gap-x-2 ">
                 <a
@@ -89,7 +91,6 @@ const StudentsProfile: NextPageWithLayout = (props: Props) => {
                 </div>
                 <div
                     onClick={() => {
-                        // console.log('Edit')
                     }}
                 >
                     <FaEdit className="text-[#686DE0] cursor-pointer" />

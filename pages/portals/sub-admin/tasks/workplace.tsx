@@ -2,7 +2,6 @@ import { ReactElement } from 'react'
 
 import { SubAdminLayout } from '@layouts'
 import { NextPageWithLayout } from '@types'
-import { AllWorkplaces } from '@components/sections'
 import { TabNavigation, TabProps } from '@components'
 
 // query
@@ -15,6 +14,7 @@ import {
     TechnicalError,
     EmptyData,
 } from '@components'
+import { AllWorkplaces } from '@components/sections/subAdmin'
 
 type Props = {}
 
@@ -55,7 +55,11 @@ const Workplace: NextPageWithLayout = (props: Props) => {
     )
 }
 Workplace.getLayout = (page: ReactElement) => {
-  return <SubAdminLayout pageTitle={{ title: "Workplace" }}>{page}</SubAdminLayout>
+    return (
+        <SubAdminLayout pageTitle={{ title: 'Workplace' }}>
+            {page}
+        </SubAdminLayout>
+    )
 }
 
 export default Workplace

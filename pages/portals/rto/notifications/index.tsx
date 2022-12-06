@@ -122,7 +122,15 @@ const Notifications: NextPageWithLayout = () => {
 }
 
 Notifications.getLayout = (page: ReactElement) => {
-    return <RtoLayout title="Notifications">{page}</RtoLayout>
+    return (
+        <RtoLayout
+            pageTitle={{
+                title: 'Notifications',
+            }}
+        >
+            {page}
+        </RtoLayout>
+    )
 }
 
 export default Notifications

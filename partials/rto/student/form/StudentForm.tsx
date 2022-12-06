@@ -67,7 +67,6 @@ export const StudentForm = ({ onSubmit }: { onSubmit: any }) => {
         setCourseOptions(newCourseOptions)
         setCourseLoading(false)
     }
-    // console.log("student data on form page", onSubmit);
 
     const initialValues = {
         // Profile Information

@@ -36,7 +36,7 @@ export const rtoEndpoints = (
         providesTags: ['RTOS'],
     }),
 
-    rtoAssessmentTools: builder.query<Rto, { rto: number; course: number }>({
+    rtoAssessmentTools: builder.query<any, { rto: number; course: number }>({
         query: ({ rto, course }) => ({
             url: `${PREFIX}/assessment-tool/${course}/${rto}`,
         }),
@@ -100,7 +100,7 @@ export const rtoEndpoints = (
         providesTags: ['RTOS'],
     }),
 
-    rtoProfileSubAdmins: builder.query<Rto, any>({
+    rtoProfileSubAdmins: builder.query<any, any>({
         query: (params) => ({
             url: `${PREFIX}/rto/subadmin/list/${params.id}`,
             params,

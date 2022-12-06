@@ -62,7 +62,6 @@ export const AllStudents = () => {
                     industries,
                     user: { name, email, image },
                 } = row.original
-                // console.log('isCompleted', industries)
 
                 return (
                     <div className="flex items-center relative">

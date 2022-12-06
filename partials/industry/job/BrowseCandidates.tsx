@@ -29,7 +29,6 @@ export const BrowseCandidatesContainer = () => {
     )
 
     const browseCandidates = useGetBrowseCandidatesQuery()
-    console.log('browseCandidates', browseCandidates);
     
 
     useEffect(() => {
@@ -42,7 +41,6 @@ export const BrowseCandidatesContainer = () => {
 
     const onSubmit = (values: any) => {
         setBrowseCandidateData(values)
-        console.log('values', values)
     }
 
     return (

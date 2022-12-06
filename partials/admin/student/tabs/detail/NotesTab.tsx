@@ -25,8 +25,6 @@ export const NotesTab = ({ student }: { student: any }) => {
         skip: !student,
     })
 
-    console.log('student', student)
-
     return (
         <div
             className={`flex gap-x-2.5 w-full ${

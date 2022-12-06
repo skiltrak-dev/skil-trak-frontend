@@ -2,7 +2,7 @@ import { Button, Select, TextArea, TextInput, Typography } from '@components'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { AdminApi } from '@queries'
 import { Course, Sector } from '@types'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
 import * as yup from 'yup'
 
@@ -10,12 +10,14 @@ interface FormProps {
     onSubmit: any
     edit?: boolean
     initialValues?: Course
+    result: any
 }
 
 export const AssignSectorForm = ({
     onSubmit,
     edit,
     initialValues,
+    result,
 }: FormProps) => {
     const sectors = AdminApi.Sectors.useListQuery(
         {},
@@ -48,6 +50,12 @@ export const AssignSectorForm = ({
         defaultValues: initialValues,
         mode: 'all',
     })
+
+    useEffect(() => {
+        if (result.isSuccess) {
+            methods.reset()
+        }
+    }, [result])
 
     return (
         <FormProvider {...methods}>
@@ -87,7 +95,12 @@ export const AssignSectorForm = ({
                     />
 
                     <div className="flex">
-                        <Button text="Save" submit />
+                        <Button
+                            submit
+                            text="Save"
+                            loading={result.isLoading}
+                            disabled={result.isLoading}
+                        />
                     </div>
                 </div>
             </form>

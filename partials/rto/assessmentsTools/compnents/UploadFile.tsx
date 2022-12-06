@@ -19,7 +19,6 @@ export const UploadFile = ({
     handleRemove,
     invalidSelection,
 }: any) => {
-    // console.log(name, Array.isArray(file), file)
 
     return (
         <div>

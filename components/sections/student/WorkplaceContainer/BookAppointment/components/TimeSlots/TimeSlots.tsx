@@ -81,9 +81,6 @@ export const TimeSlots = ({
         setTimeAvailability(appointmentAvailability)
     }, [appointmentAvailability])
 
-    // console.log('MMMMM', moment('22:45', 'hh:mm:ss').format('h:mm a'))
-
-    // console.log('timeAvailability', timeAvailability)
 
     const timeSlots = useCallback(() => {
         // const days = [
@@ -117,13 +114,12 @@ export const TimeSlots = ({
             moment(t.time, 'hh:mm:ss').format('h:mm a')
         )
 
-        console.log('bookedSlotsTime', bookedSlotsTime)
 
         const findDay = selectedDate && days[selectedDate?.getDay()].day
         const selectedDayAvailability = timeAvailability?.find(
             (t: any) => t.name === findDay
         )
-        console.log('selectedDayAvailability', selectedDayAvailability)
+
         const opening = selectedDayAvailability
             ? selectedDayAvailability.openingTime
             : '00:00'
@@ -162,7 +158,6 @@ export const TimeSlots = ({
                 }
             }
         }
-        console.log(bookedSlotsTime)
         return slots
             .slice(startHourIndex)
             .filter((t) => !bookedSlotsTime.includes(t.time))
@@ -173,7 +168,6 @@ export const TimeSlots = ({
         setSlotsTime(slots)
     }, [timeSlots])
 
-    console.log('daysAvailability', daysAvailability)
 
     return (
         <div className="mt-5">

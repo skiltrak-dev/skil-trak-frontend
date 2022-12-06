@@ -41,7 +41,6 @@ export const DocumentForm = ({
   })
 
   const onSubmit = async (values: any) => {
-    // console.log('values', values)
     setIsDocxSubmitting(true)
 
     await addFolder({
@@ -52,7 +51,6 @@ export const DocumentForm = ({
       },
       industry: 1,
     })
-    // getCustomFieldData(values);
   }
   return (
     <div>

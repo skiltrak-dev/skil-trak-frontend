@@ -9,7 +9,17 @@ const RtoConsultations: NextPageWithLayout = (props: Props) => {
     return <>Rto Consultations</>
 }
 RtoConsultations.getLayout = (page: ReactElement) => {
-    return <RtoLayout title="Consultations">{page}</RtoLayout>
+    return (
+        <RtoLayout
+            pageTitle={{
+                title: 'Consultations',
+                navigateBack: false,
+                backTitle: 'Consultations',
+            }}
+        >
+            {page}
+        </RtoLayout>
+    )
 }
 
 export default RtoConsultations

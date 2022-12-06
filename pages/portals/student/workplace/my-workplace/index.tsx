@@ -58,11 +58,11 @@ const MyWorkPlaces: NextPageWithLayout = (props: Props) => {
                         />
                         <div>
                             <p className="font-semibold mt-4 mb-2">
-                                Don't have a Workplace?
+                                Don&apos;t have a Workplace?
                             </p>
                             <p className="text-sm text-gray-500 w-64 mb-2">
-                                I don't have any workplace, already! So I'll
-                                want to request one.
+                                I don&apos;t have any workplace, already! So
+                                I&apos;ll want to request one.
                             </p>
                             <Button
                                 text="Proceed With No Workplace"

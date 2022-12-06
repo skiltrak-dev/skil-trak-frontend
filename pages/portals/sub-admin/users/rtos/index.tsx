@@ -75,7 +75,6 @@ const RTOs: NextPageWithLayout = () => {
                     phone,
                     user: { name, email, image },
                 } = row.original
-                // console.log('row', row.original)
 
                 return (
                     <div className="flex items-center relative">
@@ -198,7 +197,6 @@ const RTOs: NextPageWithLayout = () => {
             },
         },
     ]
-    // console.log("useGetSubAdminRtosQuery", useGetSubAdminRtosQuery());
 
     return (
         <>
@@ -252,7 +250,7 @@ const RTOs: NextPageWithLayout = () => {
     )
 }
 RTOs.getLayout = (page: ReactElement) => {
-    return <SubAdminLayout title="RTOs">{page}</SubAdminLayout>
+    return <SubAdminLayout pageTitle={{title:"RTOs"}}>{page}</SubAdminLayout>
 }
 
 export default RTOs

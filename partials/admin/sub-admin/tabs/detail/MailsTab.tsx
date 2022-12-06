@@ -37,8 +37,6 @@ export const MailsTab = ({ subAdmin }: any) => {
         skip: !subAdmin?.id,
     })
 
-    console.log('messages', messages)
-
     // useEffect(() => {
     //     messages?.refetch()
     // }, [])

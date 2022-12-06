@@ -13,8 +13,6 @@ export const AssignedRto = ({
 }: AssignedCourseProps) => {
    const [showUnassign, setShowUnassign] = useState(false)
 
-   console.log("::: RTO", rto)
-
    const onRemoveClicked = () => {
       setShowUnassign(true)
    }

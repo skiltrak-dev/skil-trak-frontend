@@ -82,8 +82,8 @@ const ImportStudents: NextPageWithLayout = () => {
                             </thead>
 
                             <tbody>
-                                {foundStudents.map((s: any) => (
-                                    <tr>
+                                {foundStudents.map((s: any, i: number) => (
+                                    <tr key={i}>
                                         <td>{s.Student_id}</td>
                                         <td>{s.name}</td>
                                         <td>{s.email}</td>
