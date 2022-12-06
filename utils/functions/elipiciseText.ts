@@ -1,4 +1,4 @@
 export const elipiciseText = (text: string, length: number) => {
-  if (text && text.length > length) return `${text.substring(0, length)} ...`
-  return text
+    if (text && text.length > length) return `${text.substring(0, length)} ...`
+    return text
 }

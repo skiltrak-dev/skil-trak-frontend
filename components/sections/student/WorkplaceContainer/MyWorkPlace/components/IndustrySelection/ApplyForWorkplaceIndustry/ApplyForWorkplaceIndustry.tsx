@@ -4,9 +4,13 @@ import { Typography, Button } from '@components'
 // query
 import { useApplyForWorkplaceMutation } from '@queries'
 
-export const ApplyForWorkplaceIndustry = ({ industry, industries }: any) => {
+export const ApplyForWorkplaceIndustry = ({
+    industry,
+    appliedIndustry,
+}: any) => {
     const [applyForWorkplace, applyForWorkplaceResult] =
         useApplyForWorkplaceMutation()
+
     return (
         <div className="bg-secondary-dark py-2 px-4 rounded-lg flex justify-between items-center">
             <div className="flex items-center gap-x-2">
@@ -31,15 +35,11 @@ export const ApplyForWorkplaceIndustry = ({ industry, industries }: any) => {
             <Button
                 variant={'secondary'}
                 text={'Apply Here'}
-                disabled={industries?.map((i: any) => i.applied).includes(true)}
+                disabled={applyForWorkplaceResult.isLoading || appliedIndustry}
                 onClick={async () => {
                     await applyForWorkplace(industry?.id)
                 }}
-                loading={
-                    applyForWorkplaceResult.isLoading &&
-                    applyForWorkplaceResult.originalArgs ===
-                        industry?.industry?.id
-                }
+                loading={applyForWorkplaceResult.isLoading}
             />
         </div>
     )

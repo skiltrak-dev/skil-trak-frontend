@@ -1,9 +1,14 @@
 import React, { useEffect, useState } from 'react'
+import { FormProvider, useForm } from 'react-hook-form'
 
 // components
-import { Typography, Card } from 'components'
-import { Button, Checkbox } from 'components'
-import { FormProvider, useForm } from 'react-hook-form'
+import {
+    Card,
+    Button,
+    Checkbox,
+    Typography,
+    ShowErrorNotifications,
+} from '@components'
 
 // queries
 import { useWorkPlaceRequestMutation } from '@queries'
@@ -26,7 +31,6 @@ export const Availability = ({
             setActive((active: number) => active + 1)
         }
     }, [workplaceRequestResult.isSuccess])
-
 
     const handleChange = (e: any) => {
         const { name, value, checked } = e.target
@@ -82,6 +86,7 @@ export const Availability = ({
     ]
     return (
         <div>
+            <ShowErrorNotifications result={workplaceRequestResult} />
             <Typography variant={'label'}>Select Your Availability</Typography>
 
             {/*  */}

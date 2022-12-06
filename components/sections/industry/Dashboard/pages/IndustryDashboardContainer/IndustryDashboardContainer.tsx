@@ -70,7 +70,7 @@ const NotificationQuestions = [
 
 export const PrimaryActions = [
     {
-        link: 'industry/required-documents',
+        link: 'required-documents',
         title: 'Documentation Required',
         description: 'Some helping text',
         animation: Animations.Industry.Dashboard.RequiredDocuments,

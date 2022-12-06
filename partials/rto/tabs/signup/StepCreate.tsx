@@ -1,4 +1,4 @@
-import { Popup } from '@components'
+import { Popup, ShowErrorNotifications } from '@components'
 import { UserRoles } from '@constants'
 import { AuthApi } from '@queries'
 import { OptionType, RtoFormData } from '@types'
@@ -55,6 +55,7 @@ export const StepCreate = () => {
 
     return (
         <div>
+            <ShowErrorNotifications result={registerResult} />
             <Popup
                 variant="info"
                 title={'Creating Account...'}

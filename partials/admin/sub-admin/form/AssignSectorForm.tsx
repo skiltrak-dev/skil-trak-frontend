@@ -10,12 +10,14 @@ interface FormProps {
     onSubmit: any
     edit?: boolean
     initialValues?: Course
+    result: any
 }
 
 export const AssignSectorForm = ({
     onSubmit,
     edit,
     initialValues,
+    result,
 }: FormProps) => {
     const sectors = AdminApi.Sectors.useListQuery(
         {},
@@ -87,7 +89,12 @@ export const AssignSectorForm = ({
                     />
 
                     <div className="flex">
-                        <Button text="Save" submit />
+                        <Button
+                            submit
+                            text="Save"
+                            loading={result.isLoading}
+                            disabled={result.isLoading}
+                        />
                     </div>
                 </div>
             </form>

@@ -24,7 +24,7 @@ export const UploadDocs = ({ requiredDoc }: any) => {
         <FileUpload
             onChange={(docs: any) => {
                 const formData = new FormData()
-                docs.forEach((doc: any) => {
+                docs?.forEach((doc: any) => {
                     formData.append(requiredDoc?.folder?.name, doc)
                 })
                 uploadDocs({
