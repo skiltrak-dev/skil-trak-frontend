@@ -18,11 +18,13 @@ export const VerifyStudentDocs = ({
     setActive,
     setIndustrySelection,
     selectedCourses,
+    workplaceId,
 }: {
     id: any
     setActive: Function
     setIndustrySelection: Function
     selectedCourses: number[] | null
+    workplaceId: any
 }) => {
     const [courseDocuments, setCourseDocuments] = useState<any[] | null>([])
     const [progressPercent, setProgressPercent] = useState<any | null>(null)
@@ -79,6 +81,7 @@ export const VerifyStudentDocs = ({
                         <UploadDocs
                             key={requiredDoc.id}
                             requiredDoc={requiredDoc}
+                            workplaceId={workplaceId}
                         />
                     ))
                 )}

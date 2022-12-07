@@ -23,9 +23,9 @@ export const IndustryCard = ({ industry, appliedIndustry }: any) => {
                             {industry?.industry?.businessName}
                         </Typography>
                         <BsDot />
-                        <Typography variant={'xs'} color={'text-gray-400'}>
+                        {/* <Typography variant={'xs'} color={'text-gray-400'}>
                             5km away
-                        </Typography>
+                        </Typography> */}
                     </div>
                     <Typography variant={'muted'} color={'gray'}>
                         {industry?.industry?.addressLine1},{' '}
@@ -51,18 +51,20 @@ export const IndustryCard = ({ industry, appliedIndustry }: any) => {
                     </span>
                 </Typography>
             )}
-            {!industry.applied && industry.industryResponse !== 'noResponse' && (
-                <Typography variant={'xs'} color={'text-red-800'} center>
-                    <span
-                        className="cursor-pointer"
-                        onClick={() => {
-                            applyForWorkplace(industry?.id)
-                        }}
-                    >
-                        APPLY HERE
-                    </span>
-                </Typography>
-            )}
+            {!appliedIndustry &&
+                !industry.applied &&
+                industry.industryResponse !== 'noResponse' && (
+                    <Typography variant={'xs'} color={'text-red-800'} center>
+                        <span
+                            className="cursor-pointer"
+                            onClick={() => {
+                                applyForWorkplace(industry?.id)
+                            }}
+                        >
+                            APPLY HERE
+                        </span>
+                    </Typography>
+                )}
 
             {/* {industry.industryResponse !== 'approved' && industry.applied ? (
             <Typography variant={'xs'} color={'text-red-800'} center>

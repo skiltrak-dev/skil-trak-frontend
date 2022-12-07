@@ -9,12 +9,22 @@ import { requestType } from './requestTypeData'
 
 // query
 import { useSendInterviewNotificationMutation } from '@queries'
+import OutsideClickHandler from 'react-outside-click-handler'
+import { useNotification } from '@hooks'
 
-export const RequestType = ({ data }: { data: any }) => {
+export const RequestType = ({
+    data,
+    workplace,
+}: {
+    data: any
+    workplace: any
+}) => {
     const [visibleRequestType, setVisibleRequestType] = useState(false)
     const [selectedRequestType, setSelectedRequestType] = useState(0)
 
     const [interView, interViewResult] = useSendInterviewNotificationMutation()
+
+    const { notification } = useNotification()
 
     useEffect(() => {
         if (data?.caseOfficerAssigned) {
@@ -36,29 +46,43 @@ export const RequestType = ({ data }: { data: any }) => {
 
     return (
         <div className="relative">
-            <div
-                className="border border-dashed border-gray-400 rounded-lg w-56 px-4 py-1 flex items-center justify-between gap-x-1 cursor-pointer"
-                onClick={() => {
-                    setVisibleRequestType(!visibleRequestType)
+            <OutsideClickHandler
+                onOutsideClick={() => {
+                    setVisibleRequestType(false)
                 }}
             >
-                <div>
-                    <Typography
-                        variant={'label'}
-                        color={requestType[selectedRequestType].color}
-                    >
-                        {requestType[selectedRequestType].primaryText}
-                    </Typography>
-                    <Typography variant={'xs'} color={'text-gray-300'}>
-                        {requestType[selectedRequestType].secondaryText}
-                    </Typography>
+                <div
+                    className={`border border-dashed border-gray-400 rounded-lg w-56 px-4 py-1 flex items-center justify-between gap-x-1 cursor-pointer`}
+                    onClick={() => {
+                        if (workplace?.assignedTo) {
+                            setVisibleRequestType(!visibleRequestType)
+                        } else {
+                            notification.warning({
+                                title: 'Assign the workplace',
+                                description:
+                                    'Assign the workplace before changing status',
+                            })
+                        }
+                    }}
+                >
+                    <div>
+                        <Typography
+                            variant={'label'}
+                            color={requestType[selectedRequestType].color}
+                        >
+                            {requestType[selectedRequestType].primaryText}
+                        </Typography>
+                        <Typography variant={'xs'} color={'text-gray-300'}>
+                            {requestType[selectedRequestType].secondaryText}
+                        </Typography>
+                    </div>
+                    <IoMdArrowDropdown
+                        className={`${
+                            visibleRequestType ? 'rotate-180' : 'rotate-0'
+                        } transition-all`}
+                    />
                 </div>
-                <IoMdArrowDropdown
-                    className={`${
-                        visibleRequestType ? 'rotate-180' : 'rotate-0'
-                    } transition-all`}
-                />
-            </div>
+            </OutsideClickHandler>
             {visibleRequestType && (
                 <div className="shadow absolute z-10 w-full bg-white rounded-md py-2 mt-1">
                     {requestType.map((type, i) => (

@@ -104,8 +104,6 @@ const SubAdminDashboard: NextPageWithLayout = () => {
 
     const { data, isSuccess, isLoading } = SubAdminApi.SubAdmin.useProfile()
     const sectorsWithCourses = getSectors(data?.courses)
-    const numberOfRtos = data?.rtos?.length
-    // const numberOfIndustries = data?.workplaceRequest[0]?.industries?.length
 
     useEffect(() => {
         contextBar.setContent(<ViewProfileCB />)
@@ -189,7 +187,7 @@ const SubAdminDashboard: NextPageWithLayout = () => {
                     />
                     <FigureCard
                         imageUrl="/images/icons/rto.png"
-                        count={numberOfRtos}
+                        count={data?.rtos?.length}
                         title={'RTOs'}
                     />
                 </div>

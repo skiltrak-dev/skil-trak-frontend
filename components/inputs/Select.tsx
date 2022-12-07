@@ -2,10 +2,10 @@ import { default as ReactSelect } from 'react-select'
 
 // components
 import {
-    HelpText,
-    RequiredStar,
     Tooltip,
+    HelpText,
     Typography,
+    RequiredStar,
     ValidationIcon,
 } from '@components'
 

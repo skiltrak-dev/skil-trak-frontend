@@ -41,10 +41,6 @@ export const AdminWorkplaceRequest = ({ workplace }: Props) => {
         <div>
             <Card>
                 <div className="flex justify-between gap-x-4 items-center pb-2.5 border-b border-dashed">
-                    {/* <AssignToMe
-          workplace={workplace}
-          appliedIndustry={appliedIndustry}
-        /> */}
                     <Select
                         label={'Sub Admin'}
                         name={'subAdmin'}
@@ -92,7 +88,7 @@ export const AdminWorkplaceRequest = ({ workplace }: Props) => {
                             <RiBook2Fill className="text-gray-400 text-2xl" />
                             <div>
                                 <Typography color={'black'} variant={'xs'}>
-                                    {workplace?.courses[0]?.sector.name}
+                                    {workplace?.courses[0]?.sector?.name}
                                 </Typography>
                                 <Typography variant={'muted'}>
                                     {workplace?.courses[0]?.code} -{' '}

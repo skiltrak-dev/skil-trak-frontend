@@ -211,7 +211,6 @@ export const IndustryForm = ({
             courses: values.courses.map((id: any) => id.value),
             role: 'industry',
         })
-
     }
     return (
         <Card>
@@ -297,7 +296,6 @@ export const IndustryForm = ({
                                     name={'sectors'}
                                     options={sectorOptions}
                                     placeholder={'Select Sectors...'}
-                                    multi
                                     loading={sectorResponse.isLoading}
                                     onChange={onSectorChanged}
                                     validationIcons
@@ -309,7 +307,6 @@ export const IndustryForm = ({
                                     name={'courses'}
                                     defaultValue={courseOptions}
                                     options={courseOptions}
-                                    multi
                                     loading={courseLoading}
                                     disabled={
                                         storedData

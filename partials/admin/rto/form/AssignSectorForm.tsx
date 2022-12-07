@@ -7,17 +7,17 @@ import { FormProvider, useForm } from 'react-hook-form'
 import * as yup from 'yup'
 
 interface FormProps {
+    result: any
     onSubmit: any
     edit?: boolean
     initialValues?: Course
-    result: any
 }
 
 export const AssignSectorForm = ({
-    onSubmit,
     edit,
-    initialValues,
     result,
+    onSubmit,
+    initialValues,
 }: FormProps) => {
     const sectors = AdminApi.Sectors.useListQuery(
         {},
