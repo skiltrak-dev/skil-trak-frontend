@@ -1,4 +1,4 @@
-import { Button, TextArea, TextInput, ActionAlert } from '@components'
+import { Button, TextArea, TextInput, ActionAlert, ShowErrorNotifications } from '@components'
 import { useRouter } from 'next/router'
 import { UserRoles } from '@constants'
 import { yupResolver } from '@hookform/resolvers/yup'
@@ -13,6 +13,7 @@ export const SubAdminForm = ({ onSubmit }: any) => {
     const [isSuccess, setIsSuccess] = useState<boolean>(false)
     const [createSubAmin, createSubAminResult] =
         AdminApi.SubAdmins.createSubAmin()
+    console.log("createSubAminResult Error", createSubAminResult);
 
     useEffect(() => {
         if (createSubAminResult.isSuccess) {
@@ -56,6 +57,7 @@ export const SubAdminForm = ({ onSubmit }: any) => {
 
     return (
         <>
+            <ShowErrorNotifications result={createSubAminResult} />
             {isSuccess && (
                 <ActionAlert
                     title={'Sub Admin Created Successfully!'}

@@ -5,7 +5,7 @@ export const ShowErrorNotifications = ({ result }: { result: any }) => {
     const { notification } = useNotification()
     const notificationRef = useRef(notification)
     notificationRef.current = notification
-
+    
     useEffect(() => {
         const showErrorNotifications = async () => {
             if (result?.isError) {

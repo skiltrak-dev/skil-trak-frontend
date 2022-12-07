@@ -70,7 +70,7 @@ const RtoStudents: NextPageWithLayout = (props: Props) => {
                 <div className="flex items-end justify-between mb-6">
                     <PageTitle title="Students" backTitle="Users" />
 
-                    <div>
+                    <div className='flex items-center gap-x-3'>
                         <Button
                             onClick={() => {
                                 router.push('students/import-students')
@@ -78,6 +78,9 @@ const RtoStudents: NextPageWithLayout = (props: Props) => {
                         >
                             Import Students
                         </Button>
+                        <Button text="Add Individual Student" onClick={()=>{
+                        router.push('students/add-individual-student')
+                    }}/>
                     </div>
                 </div>
 

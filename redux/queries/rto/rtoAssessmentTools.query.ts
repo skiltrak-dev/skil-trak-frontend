@@ -34,6 +34,7 @@ export const rtoAssessmentToolsApi = createApi({
             query: (body) => {
                 return {
                     url: `course-assessment-tool/create`,
+                    // url: `create/assessmenttool`,
                     method: 'POST',
                     body,
                 }
@@ -43,7 +44,7 @@ export const rtoAssessmentToolsApi = createApi({
         getAssessmentTool: builder.query<any, string>({
             query: (status: string) => {
                 return {
-                    url: 'rtos/assessmenttool/list',
+                    url: 'assessmenttool/list',
                     params: { status },
                 }
             },
@@ -52,7 +53,7 @@ export const rtoAssessmentToolsApi = createApi({
         getAssessmentToolDetail: builder.query<any, number | null>({
             query: (id: number | null) => {
                 return {
-                    url: `rtos/assessmenttool/${id}`,
+                    url: `assessmenttool/${id}`,
                 }
             },
             providesTags: ['RtoAssessmentToolsList'],

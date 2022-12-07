@@ -44,6 +44,7 @@ const {
 
     // ------ STUDENT ------ //
     useStudentsImportMutation,
+    useAddStudentMutation,
 
     // ------ COORDINATOR ------ //
     useCoordinatorCreateMutation,
@@ -59,6 +60,7 @@ export const RtoApi = {
     },
     Students: {
         useImportStudents: useStudentsImportMutation,
+        useAddStudent: useAddStudentMutation,
     },
     Coordinator: {
         useCreate: useCoordinatorCreateMutation,

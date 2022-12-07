@@ -54,17 +54,27 @@ export const WorkplaceInfoCard = ({ myWorkplace }: Props) => {
                 </div>
 
                 {/* Card Body */}
-                {filteredData?.length > 0 ? (
-                    filteredData?.map((data: any) => (
-                        <div className="mt-4" key={data.id}>
-                            <div className="flex items-center gap-x-6 mb-4">
-                                <div className="flex-shrink-0">
-                                    <Image
-                                        src="/#"
-                                        height={100}
-                                        width={100}
-                                        alt="No Alt"
-                                    />
+                {filteredData?.length > 0 ? (filteredData?.map((data: any) => (
+                    <div key={data?.id} className="mt-4">
+                        <div className="flex items-center gap-x-6 mb-4">
+                            <div className="flex-shrink-0">
+                                <Image src="/#" height={100} width={100} />
+                            </div>
+                            <div>
+                                <div>
+                                    <p className="font-medium">
+                                        {
+                                            data?.industries[0]?.industry?.user
+                                                ?.name
+                                        }
+                                    </p>
+                                    <p className="text-slate-400 text-sm">
+                                        {
+                                            data?.industries[0]?.industry?.user
+                                                ?.email
+                                        }
+                                    </p>
+
                                 </div>
                                 <div>
                                     <div>

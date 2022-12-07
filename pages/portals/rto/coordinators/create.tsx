@@ -22,7 +22,7 @@ const AddCoordinator: NextPageWithLayout = () => {
 
     const onSubmit = async (values: any) => {
         await createCoordinator({
-            id: credentials.id,
+            // id: credentials.id,
             ...values,
             role: UserRoles.SUBADMIN,
             status: 'approved',

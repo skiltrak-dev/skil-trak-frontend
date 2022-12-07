@@ -21,6 +21,14 @@ export const studentEndpoints = (
         }),
         invalidatesTags: ['Rto-Students'],
     }),
+    addStudent: builder.mutation<any, any>({
+        query: (body) => ({
+            url: `${PREFIX}student/add`,
+            method: 'POST',
+            body,
+        }),
+        invalidatesTags: ['Rto-Students'],
+    }),
 
     studentsImportedList: builder.query<any, any>({
         query: () => `${PREFIX}students/imported-lists`,
