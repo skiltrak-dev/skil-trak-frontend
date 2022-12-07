@@ -1,30 +1,22 @@
-import { ReactElement, useEffect } from 'react'
-import Link from 'next/link'
+import { ReactElement, useEffect, useState } from 'react'
 //Layouts
 import { RtoLayout } from '@layouts'
 import { NextPageWithLayout } from '@types'
 
-import { TabsView } from '@components/sections/rto'
 //components
 import {
-    ReactTable,
-    Typography,
-    TabProps,
-    TabNavigation,
     Button,
-    PageTitle,
+    PageTitle, TabNavigation, TabProps
 } from '@components'
-import { FaEnvelope, FaPhoneSquareAlt } from 'react-icons/fa'
-import Image from 'next/image'
-import {
-    ApprovedStudent,
-    PendingStudent,
-    RejectedStudent,
-    BlockedStudent,
-    ArchivedStudent,
-} from '@partials/rto/student'
 import { useContextBar } from '@hooks'
+import {
+    ApprovedStudent, ArchivedStudent, BlockedStudent, PendingStudent,
+    RejectedStudent
+} from '@partials/rto/student'
 import { useRouter } from 'next/router'
+import {
+    FaChevronDown, FaFileImport, FaUserGraduate
+} from 'react-icons/fa'
 
 type Props = {}
 
@@ -64,23 +56,78 @@ const RtoStudents: NextPageWithLayout = (props: Props) => {
         },
     ]
 
+    const [showDropDown, setShowDropDown] = useState(false)
+
     return (
         <>
             <div>
                 <div className="flex items-end justify-between mb-6">
                     <PageTitle title="Students" backTitle="Users" />
 
-                    <div className='flex items-center gap-x-3'>
-                        <Button
+                    <div className="flex items-center gap-x-3">
+                        <div
+                            className="relative"
+                            onMouseEnter={() => setShowDropDown(true)}
+                            onMouseLeave={() => setShowDropDown(false)}
+                        >
+                            <Button>
+                                <div className="flex items-center gap-x-2">
+                                    <span>Add Students</span>
+                                    <FaChevronDown />
+                                </div>
+                            </Button>
+
+                            {showDropDown ? (
+                                <ul className="bg-white shadow-xl rounded-xl overflow-hidden absolute">
+                                    <li>
+                                        <button
+                                            onClick={() => {
+                                                router.push(
+                                                    'students/import-students'
+                                                )
+                                            }}
+                                            className="w-full flex items-center gap-x-2 text-sm px-2 py-2 hover:bg-gray-200"
+                                        >
+                                            <span className="text-gray-500">
+                                                <FaFileImport />
+                                            </span>
+                                            <span className="whitespace-nowrap">
+                                                {' '}
+                                                Import Students
+                                            </span>
+                                        </button>
+                                    </li>
+                                    <li>
+                                        <button
+                                            onClick={() => {
+                                                router.push(
+                                                    'students/import-students'
+                                                )
+                                            }}
+                                            className="w-full flex items-center gap-x-2 text-sm px-2 py-2 hover:bg-gray-200"
+                                        >
+                                            <span className="text-gray-500">
+                                                <FaUserGraduate />
+                                            </span>
+                                            <span> Add Individual</span>
+                                        </button>
+                                    </li>
+                                </ul>
+                            ) : null}
+                        </div>
+                        {/* <Button
                             onClick={() => {
                                 router.push('students/import-students')
                             }}
                         >
                             Import Students
                         </Button>
-                        <Button text="Add Individual Student" onClick={()=>{
-                        router.push('students/add-individual-student')
-                    }}/>
+                        <Button
+                            text="Add Individual Student"
+                            onClick={() => {
+                                router.push('students/add-individual-student')
+                            }}
+                        /> */}
                     </div>
                 </div>
 
