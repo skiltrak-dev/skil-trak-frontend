@@ -19,7 +19,6 @@ export const AddIndividualStudentForm = () => {
     const [storedData, setStoredData] = useState<any>(null)
     const [addStudent, addStudentResult] =
         RtoApi.Students.useAddStudent()
-    console.log("addStudentResult Error", addStudentResult);
     // auth api to get sectors
     const sectorResponse = AuthApi.useSectors({})
 

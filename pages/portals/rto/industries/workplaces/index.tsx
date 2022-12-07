@@ -78,7 +78,6 @@ const RtoWorkplaces: NextPageWithLayout = (props: Props) => {
             header: () => 'Name',
             accessorKey: 'name',
             cell: ({ row }: any) => {
-                console.log("rowwxsdsss", row.original)
                 const {
                     industry: {
                         phoneNumber,

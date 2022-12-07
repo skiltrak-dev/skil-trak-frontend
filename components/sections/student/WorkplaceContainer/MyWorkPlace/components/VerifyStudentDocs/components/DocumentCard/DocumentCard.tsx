@@ -19,15 +19,12 @@ export const DocumentCard = ({
     const [fileList, setFileList] = useState<any | null>(null)
     const [invalidSelection, setInvalidSelection] = useState<any | null>(null)
 
-    console.log('fileList', fileList)
-
     // hook
     const { notification } = useNotification()
 
     const handleChange = (event: any) => {
         // Getting file Data
         const fileData: FileList = event.target.files
-        // console.log('fileData', fileData)
 
         // for multiple files upload
         let multipleFiles: any = []
@@ -38,7 +35,6 @@ export const DocumentCard = ({
                 // setFileList((preVal: any) => [...preVal, fileData[key]])
             }
         }
-        console.log('fileData.length', fileData.length)
         if (capacity && fileData.length + uploadedDocs <= capacity) {
             setFileList(multipleFiles)
             fileData && onChange && onChange(multipleFiles)
