@@ -38,7 +38,8 @@ export const DocumentCard = ({
                 // setFileList((preVal: any) => [...preVal, fileData[key]])
             }
         }
-        if (capacity && fileData.length <= capacity) {
+        console.log('fileData.length', fileData.length)
+        if (capacity && fileData.length + uploadedDocs <= capacity) {
             setFileList(multipleFiles)
             fileData && onChange && onChange(multipleFiles)
         } else {
@@ -81,6 +82,14 @@ export const DocumentCard = ({
                 <Typography variant={'small'} color={'text-gray-500'}>
                     ({uploadedDocs}/{capacity})
                 </Typography>
+                {!isNotUploadedDocs && (
+                    <div className="flex items-center">
+                        <Typography variant={'small'}>-</Typography>
+                        <Typography variant={'small'} color={'text-success'}>
+                            Documents Uploaded
+                        </Typography>
+                    </div>
+                )}
             </div>
             <div className="flex items-center gap-x-2">
                 {fileList ? (

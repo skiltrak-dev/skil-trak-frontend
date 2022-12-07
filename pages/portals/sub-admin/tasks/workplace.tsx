@@ -9,16 +9,10 @@ import { useGetSubAdminWorkplacesQuery } from '@queries'
 
 // components
 import {
-    Button,
-    LoadingAnimation,
-    TechnicalError,
-    EmptyData,
-} from '@components'
-import {
     MyWorkplaces,
     AllWorkplaces,
     StudentAddedWorkplaces,
-} from '@components/sections/subAdmin'
+} from '@partials/sub-admin'
 
 type Props = {}
 
@@ -30,14 +24,19 @@ const Workplace: NextPageWithLayout = (props: Props) => {
             element: <AllWorkplaces />,
         },
         {
-            label: 'Workplace Provided Requests',
+            label: 'My Requests',
+            href: { pathname: 'workplace', query: { tab: 'my-workplaces' } },
+            element: <MyWorkplaces />,
+        },
+        {
+            label: 'Student Provided Requests',
             href: { pathname: 'workplace', query: { tab: 'student-added' } },
             element: <StudentAddedWorkplaces />,
         },
         {
-            label: 'My Requests',
-            href: { pathname: 'workplace', query: { tab: 'my-workplaces' } },
-            element: <MyWorkplaces />,
+            label: 'Cancelled Requests',
+            href: { pathname: 'workplace', query: { tab: 'cancelled' } },
+            element: <StudentAddedWorkplaces />,
         },
     ]
 

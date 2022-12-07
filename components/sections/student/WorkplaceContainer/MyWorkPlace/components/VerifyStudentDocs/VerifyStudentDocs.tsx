@@ -7,9 +7,7 @@ import { UploadDocs } from './components'
 // query
 import { LinearProgress } from '@components/LinearProgress'
 import { LoadingAnimation } from '@components/LoadingAnimation'
-import {
-    useGetCourseDocumentsQuery
-} from '@queries'
+import { useGetCourseDocumentsQuery } from '@queries'
 
 export const VerifyStudentDocs = ({
     id,
@@ -26,11 +24,28 @@ export const VerifyStudentDocs = ({
 }) => {
     const [courseDocuments, setCourseDocuments] = useState<any[] | null>([])
     const [progressPercent, setProgressPercent] = useState<any | null>(null)
+    const [requiredDocument, setRequiredDocument] = useState<any | null>(null)
 
     const requiredDocs = useGetCourseDocumentsQuery(
         { id, course: selectedCourses },
         { skip: !id || !selectedCourses }
     )
+
+    useEffect(() => {
+        const getSectors = () => {
+            const docs = {}
+            requiredDocs?.data?.forEach((doc: any) => {
+                if ((docs as any)[doc.requiredDocs.folder.name]) {
+                    ;(docs as any)[doc.requiredDocs.folder.name].push(doc)
+                } else {
+                    ;(docs as any)[doc.requiredDocs.folder.name] = []
+                    ;(docs as any)[doc.requiredDocs.folder.name].push(doc)
+                }
+            })
+            setRequiredDocument(docs)
+        }
+        getSectors()
+    }, [requiredDocs])
 
     // useEffect(() => {
     //   requiredDocs.refetch()
@@ -58,6 +73,8 @@ export const VerifyStudentDocs = ({
         setProgressPercent(getUploadedDocPercent())
     }, [requiredDocs])
 
+    console.log("requiredDocument",requiredDocument)
+
     return (
         <div>
             <p className="mb-2">Upload Documents</p>
@@ -82,22 +99,25 @@ export const VerifyStudentDocs = ({
                 <div className="my-4 flex flex-col gap-y-2">
                     {requiredDocs.isLoading ? (
                         <LoadingAnimation />
-                    ) : requiredDocs?.data?.length ? (
-                        requiredDocs?.data?.map(
+                    ) : requiredDocument?.data?.length ? (
+                        requiredDocument?.data?.map(
                             (requiredDoc: any, i: number) => (
                                 <UploadDocs
                                     key={requiredDoc.id}
                                     requiredDoc={requiredDoc}
+                                    workplaceId={workplaceId}
                                 />
                             )
                         )
                     ) : (
-                        <div className='border border-dashed rounded-md p-5'>
-                            <div className='font-semibold text-orange-300'>No Documents Required</div>
-                            <p className='text-sm text-gray-400'>
-                                This industry don&apos;t require any document from
-                                you. Your coordinator will forward your request
-                                to industry
+                        <div className="border border-dashed rounded-md p-5">
+                            <div className="font-semibold text-orange-300">
+                                No Documents Required
+                            </div>
+                            <p className="text-sm text-gray-400">
+                                This industry don&apos;t require any document
+                                from you. Your coordinator will forward your
+                                request to industry
                             </p>
                         </div>
                     )}

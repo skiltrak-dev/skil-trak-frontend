@@ -3,7 +3,8 @@ import {
     Industries,
     RequestType,
     StudentDetail,
-} from '@components/sections/subAdmin/WorkplaceRequest/components'
+} from '@partials/sub-admin/workplace/components'
+
 import { AdminApi } from '@queries'
 import moment from 'moment'
 import { useEffect, useState } from 'react'
