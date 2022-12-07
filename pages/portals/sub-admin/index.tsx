@@ -30,7 +30,6 @@ import { ViewProfileCB } from '@partials/sub-admin/contextBar'
 
 import { FigureCard } from '@components/sections/subAdmin/components/Cards/FigureCard'
 
-
 import { AuthUtils } from '@utils'
 
 import { SubAdminApi } from '@queries'
@@ -90,10 +89,10 @@ const getSectors = (courses: any) => {
     const sectors = {}
     courses.forEach((c: any) => {
         if ((sectors as any)[c.sector.name]) {
-            ; (sectors as any)[c.sector.name].push(c)
+            ;(sectors as any)[c.sector.name].push(c)
         } else {
-            ; (sectors as any)[c.sector.name] = []
-                ; (sectors as any)[c.sector.name].push(c)
+            ;(sectors as any)[c.sector.name] = []
+            ;(sectors as any)[c.sector.name].push(c)
         }
     })
     return sectors
@@ -105,8 +104,6 @@ const SubAdminDashboard: NextPageWithLayout = () => {
 
     const { data, isSuccess, isLoading } = SubAdminApi.SubAdmin.useProfile()
     const sectorsWithCourses = getSectors(data?.courses)
-    
-
 
     useEffect(() => {
         contextBar.setContent(<ViewProfileCB />)
@@ -190,7 +187,7 @@ const SubAdminDashboard: NextPageWithLayout = () => {
                     />
                     <FigureCard
                         imageUrl="/images/icons/rto.png"
-                        count={2}
+                        count={data?.rtos?.length}
                         title={'RTOs'}
                     />
                 </div>
@@ -239,7 +236,7 @@ const SubAdminDashboard: NextPageWithLayout = () => {
                     {isLoading ? (
                         <ContextBarLoading />
                     ) : data?.courses.length ? (
-                        Object.keys(sectorsWithCourses).map((sector:any) => {
+                        Object.keys(sectorsWithCourses).map((sector: any) => {
                             return (
                                 <div className="mt-4" key={sector?.id}>
                                     <div>

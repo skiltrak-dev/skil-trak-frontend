@@ -162,6 +162,7 @@ export const IndustrySelection = ({
             setIndustrySelection={setIndustrySelection}
             id={industrySelection}
             selectedCourses={selectedCourses}
+            workplaceId={workplaceIndustries[0]?.id}
         />
     )
 }

@@ -15,9 +15,7 @@ type Props = {
     myWorkplace: any
 }
 
-export const WorkplaceInfoCard = ({
-    myWorkplace,
-}: Props) => {
+export const WorkplaceInfoCard = ({ myWorkplace }: Props) => {
     const pathname = useRouter()
     const profileId = pathname.query.profileId
     const { data } = useGetSubAdminMyRtoQuery(String(profileId), {
@@ -27,9 +25,8 @@ export const WorkplaceInfoCard = ({
         return item.approvalStatus === 'approved' && item.isCancelled === false
     })
 
-
     return (
-        <div className='w-full'>
+        <div className="w-full">
             <Card>
                 {/* Card Header */}
                 <div className="flex justify-between items-center mb-4">
@@ -38,9 +35,7 @@ export const WorkplaceInfoCard = ({
                         <div className="w-8 h-8 bg-green-100 text-green-600 rounded-full flex justify-center items-center">
                             <IoBriefcase size={16} />
                         </div>
-                        <p className="text-sm font-semibold">
-                            My Workplace
-                        </p>
+                        <p className="text-sm font-semibold">My Workplace</p>
                     </div>
 
                     {/* Action */}
@@ -79,77 +74,102 @@ export const WorkplaceInfoCard = ({
                                                 ?.email
                                         }
                                     </p>
-                                </div>
-                                <div className="flex gap-x-3 mt-1 border-t pt-2">
-                                    <div className="flex items-center gap-x-1">
-                                        <span className="text-gray-400">
-                                            <FaMapMarkerAlt size={14} />
-                                        </span>
-                                        <span className="text-xs">
-                                            {
-                                                data?.industries[0]?.industry
-                                                    ?.addressLine1
-                                            }
-                                            ,{' '}
-                                            {
-                                                data?.industries[0]?.industry
-                                                    ?.addressLine2
-                                            }
-                                            ,{' '}
-                                            {
-                                                data?.industries[0]?.industry
-                                                    ?.state
-                                            }
-                                            ,{' '}
-                                            {
-                                                data?.industries[0]?.industry
-                                                    ?.suburb
-                                            }{' '}
-                                        </span>
-                                    </div>
-                                </div>
 
-                                <div className="mt-2">
-                                    <p className="text-[11px] text-gray-400">
-                                        Contact Person
-                                    </p>
-                                    <div className="flex justify-between gap-x-4">
-                                        <div>
-                                            <p className="font-medium text-sm">
+                                </div>
+                                <div>
+                                    <div>
+                                        <p className="font-medium">
+                                            {
+                                                data?.industries[0]?.industry
+                                                    ?.user?.name
+                                            }
+                                        </p>
+                                        <p className="text-slate-400 text-sm">
+                                            {
+                                                data?.industries[0]?.industry
+                                                    ?.user?.email
+                                            }
+                                        </p>
+                                    </div>
+                                    <div className="flex gap-x-3 mt-1 border-t pt-2">
+                                        <div className="flex items-center gap-x-1">
+                                            <span className="text-gray-400">
+                                                <FaMapMarkerAlt size={14} />
+                                            </span>
+                                            <span className="text-xs">
                                                 {
                                                     data?.industries[0]
-                                                        ?.industry
-                                                        ?.contactPerson
+                                                        ?.industry?.addressLine1
                                                 }
-                                            </p>
-                                            <p className="text-xs font-medium text-slate-400">
+                                                ,{' '}
                                                 {
                                                     data?.industries[0]
-                                                        ?.industry
-                                                        ?.contactPersonNumber
+                                                        ?.industry?.addressLine2
                                                 }
-                                            </p>
+                                                ,{' '}
+                                                {
+                                                    data?.industries[0]
+                                                        ?.industry?.state
+                                                }
+                                                ,{' '}
+                                                {
+                                                    data?.industries[0]
+                                                        ?.industry?.suburb
+                                                }{' '}
+                                            </span>
+                                        </div>
+                                    </div>
+
+                                    <div className="mt-2">
+                                        <p className="text-[11px] text-gray-400">
+                                            Contact Person
+                                        </p>
+                                        <div className="flex justify-between gap-x-4">
+                                            <div>
+                                                <p className="font-medium text-sm">
+                                                    {
+                                                        data?.industries[0]
+                                                            ?.industry
+                                                            ?.contactPerson
+                                                    }
+                                                </p>
+                                                <p className="text-xs font-medium text-slate-400">
+                                                    {
+                                                        data?.industries[0]
+                                                            ?.industry
+                                                            ?.contactPersonNumber
+                                                    }
+                                                </p>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <div className="flex justify-between mt-1 border-t pt-2">
-                            <div className="flex items-center gap-x-1">
-                                <span className="text-gray-400">
-                                    <MdPermContactCalendar size={14} />
-                                </span>
-                                <span className="text-xs">{data?.user?.name || "Name here"} </span>
+                            <div className="flex justify-between mt-1 border-t pt-2">
+                                <div className="flex items-center gap-x-1">
+                                    <span className="text-gray-400">
+                                        <MdPermContactCalendar size={14} />
+                                    </span>
+                                    <span className="text-xs">
+                                        {data?.user?.name || 'Name here'}{' '}
+                                    </span>
+                                </div>
+                                <div className="flex items-center gap-x-1">
+                                    <span className="text-gray-400">
+                                        <MdPhone size={14} />
+                                    </span>
+                                    <span className="text-xs">
+                                        {data?.phone || 'phone number'}
+                                    </span>
+                                </div>
                             </div>
-                            <div className="flex items-center gap-x-1">
-                                <span className="text-gray-400">
-                                    <MdPhone size={14} />
-                                </span>
-                                <span className="text-xs">{data?.phone || "phone number"}</span>
-                            </div>
                         </div>
+                    ))
+                ) : (
+                    <div>
+                        <NoData text="No Workplace" />
                     </div>
-                ))) : (<div><NoData text='No Workplace' /></div>)}
+                )}
             </Card>
         </div>
     )

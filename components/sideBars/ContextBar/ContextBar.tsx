@@ -19,7 +19,8 @@ export const ContextBar = () => {
         'h-screen border-l border-gray-300': true,
         'bg-white remove-scrollbar overflow-y-scroll overflow-x-hidden': true,
         // 'translate-x-0': contextBar.isVisible,
-        'w-[450px] p-4': contextBar.isVisible,
+        // 'w-[450px] p-4': contextBar.isVisible,
+        'w-[350px] p-4': contextBar.isVisible,
         // 'translate-x-full': !contextBar.isVisible,
         'w-[0px] p-0': !contextBar.isVisible,
     })

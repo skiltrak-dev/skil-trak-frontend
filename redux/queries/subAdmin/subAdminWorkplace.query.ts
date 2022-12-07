@@ -19,8 +19,16 @@ export const subAdminWorkplaceApi = createApi({
     }),
     tagTypes: ['SubAdminWorkplace'],
     endpoints: (builder) => ({
-        getSubAdminWorkplaces: builder.query<any[], void>({
+        getSubAdminWorkplaces: builder.query<any, void>({
             query: () => 'workplace-request/list',
+            providesTags: ['SubAdminWorkplace'],
+        }),
+        getAddedByStudentsWorkplaces: builder.query<any, void>({
+            query: () => 'workplace-request/list/abn',
+            providesTags: ['SubAdminWorkplace'],
+        }),
+        getMyStudentsWorkplaces: builder.query<any, void>({
+            query: () => 'my-workplace-request/list',
             providesTags: ['SubAdminWorkplace'],
         }),
         assignToSubAdmin: builder.mutation({
@@ -87,6 +95,18 @@ export const subAdminWorkplaceApi = createApi({
             }),
             invalidatesTags: ['SubAdminWorkplace'],
         }),
+        addWorkplaceNote: builder.mutation({
+            query: (body) => ({
+                url: `workplace-request/note/add`,
+                method: 'POST',
+                body,
+            }),
+            invalidatesTags: ['SubAdminWorkplace'],
+        }),
+        getWorkplaceFolders: builder.query<any, number>({
+            query: (id) => `workplace-request/docs/${id}`,
+            providesTags: ['SubAdminWorkplace'],
+        }),
     }),
 })
 
@@ -97,10 +117,14 @@ export const {
     useAssignToSubAdminMutation,
     useCompletePlacementMutation,
     useTerminatePlacementMutation,
+    useGetMyStudentsWorkplacesQuery,
     useCancelPlacementMutation,
     useGetSubAdminWorkplacesQuery,
     useSendInterviewNotificationMutation,
     useForwardWorkplaceToIndustryMutation,
+    useAddWorkplaceNoteMutation,
+    useGetWorkplaceFoldersQuery,
+    useGetAddedByStudentsWorkplacesQuery,
     // useGetCoordinatorsAvailabilityQuery,
     // useGetAppointmentsTypesQuery,
     // useGetCoordinatorsForStudentQuery,

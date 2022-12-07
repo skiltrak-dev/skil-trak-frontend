@@ -3,6 +3,8 @@ import { ReactElement, useEffect } from 'react'
 import { AdminLayout } from '@layouts'
 import { NextPageWithLayout } from '@types'
 
+import { Card } from '@components'
+
 // query
 import { AdminApi } from '@queries'
 
@@ -14,34 +16,36 @@ import { AdminWorkplaceRequest } from '@partials/admin/workplace/components/Admi
 type Props = {}
 
 const Workplace: NextPageWithLayout = (props: Props) => {
-  const navBar = useNavbar()
+    const navBar = useNavbar()
 
-  useEffect(() => {
-    navBar.setTitle('Workplace Request')
-  }, [])
+    useEffect(() => {
+        navBar.setTitle('Workplace Request')
+    }, [])
 
-  const subAdminWorkplace = AdminApi.Workplace.useWorkplaceListQuery({})
+    const subAdminWorkplace = AdminApi.Workplace.useWorkplaceListQuery({})
 
-
-  return (
-    <>
-      {subAdminWorkplace.isError && <TechnicalError />}
-      {subAdminWorkplace.isLoading && subAdminWorkplace.isFetching ? (
-        <LoadingAnimation />
-      ) : subAdminWorkplace.data && subAdminWorkplace.data.length > 0 ? (
-        <div className="flex flex-col gap-y-2">
-          {subAdminWorkplace?.data?.map((workplace: any) => (
-            <AdminWorkplaceRequest key={workplace?.id} workplace={workplace} />
-          ))}
+    return (
+        <div className="p-4">
+            {subAdminWorkplace.isError && <TechnicalError />}
+            {subAdminWorkplace.isLoading && subAdminWorkplace.isFetching ? (
+                <LoadingAnimation />
+            ) : subAdminWorkplace.data && subAdminWorkplace.data.length > 0 ? (
+                <div className="flex flex-col gap-y-2">
+                    {subAdminWorkplace?.data?.map((workplace: any) => (
+                        <AdminWorkplaceRequest
+                            key={workplace?.id}
+                            workplace={workplace}
+                        />
+                    ))}
+                </div>
+            ) : (
+                !subAdminWorkplace.isError && <EmptyData />
+            )}
         </div>
-      ) : (
-        !subAdminWorkplace.isError && <EmptyData />
-      )}
-    </>
-  )
+    )
 }
 Workplace.getLayout = (page: ReactElement) => {
-  return <AdminLayout>{page}</AdminLayout>
+    return <AdminLayout>{page}</AdminLayout>
 }
 
 export default Workplace

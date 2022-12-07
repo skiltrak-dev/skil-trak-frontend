@@ -127,10 +127,7 @@ const Login: NextPage = () => {
                             </p>
                         )}
 
-                        <LoginForm
-                            onSubmit={onSubmit}
-                            loginResult={loginResult}
-                        />
+                        <LoginForm onSubmit={onSubmit} result={loginResult} />
 
                         <div className="mt-16">
                             <Typography variant="muted">

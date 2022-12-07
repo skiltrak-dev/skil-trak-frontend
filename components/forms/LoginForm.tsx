@@ -6,10 +6,10 @@ import * as Yup from 'yup'
 
 export const LoginForm = ({
     onSubmit,
-    loginResult,
+    result,
 }: {
     onSubmit: any
-    loginResult: any
+    result: any
 }) => {
     const validationSchema = Yup.object({
         email: Yup.string()
@@ -57,7 +57,8 @@ export const LoginForm = ({
                     <Button
                         submit
                         // disabled={!(isValid && dirty)}
-                        loading={loginResult.isLoading}
+                        loading={result.isLoading}
+                        disabled={result.isLoading}
                     >
                         Login
                     </Button>

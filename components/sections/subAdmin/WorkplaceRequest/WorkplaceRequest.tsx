@@ -12,18 +12,26 @@ import {
     Notes,
     RequestType,
     StudentDetail,
+    WorkplaceFolders,
 } from './components'
+
+// utils
+import { elipiciseText } from '@utils'
 
 // query
 import { useAssignToSubAdminMutation } from '@queries'
 import { useEffect, useState } from 'react'
+import { useContextBar } from '@hooks'
 
 export const WorkplaceRequest = ({ workplace }: any) => {
-    const [appliedIndustry, setAppliedIndustry] = useState<any | null>(null)    
+    const [appliedIndustry, setAppliedIndustry] = useState<any | null>(null)
+    const [course, setCourse] = useState<any | null>(null)
     useEffect(() => {
         setAppliedIndustry(workplace.industries?.find((i: any) => i.applied))
+        setCourse(workplace?.courses ? workplace?.courses[0] : {})
     }, [workplace])
 
+    const { setContent, show } = useContextBar()
 
     return (
         <Card>
@@ -69,17 +77,17 @@ export const WorkplaceRequest = ({ workplace }: any) => {
                         <RiBook2Fill className="text-gray-400 text-2xl" />
                         <div>
                             <Typography color={'black'} variant={'xs'}>
-                               {workplace?.courses[0]?.title}
+                                {course?.sector?.name}
                             </Typography>
                             <Typography variant={'muted'}>
-                                {workplace?.courses[0]?.code} - {workplace?.courses[0]?.description}
+                                {course?.code} - {course?.title}
                             </Typography>
                         </div>
                     </div>
                 </div>
 
                 {/* Request Type Selection */}
-                <RequestType data={appliedIndustry} />
+                <RequestType data={appliedIndustry} workplace={workplace} />
             </div>
 
             {/* Student Small Details */}
@@ -87,29 +95,7 @@ export const WorkplaceRequest = ({ workplace }: any) => {
                 <StudentDetail data={workplace?.student} />
 
                 {/*  */}
-                <div className="flex items-center gap-x-5">
-                    <div className="flex flex-col items-end gap-y-1">
-                        <Typography variant={'small'}>
-                            <span className="bg-primary-light text-primary rounded-md p-1">
-                                Documents Pending
-                            </span>
-                        </Typography>
-                        <Typography variant={'small'} color={'text-info'}>
-                            <span className="font-semibold">View Folders</span>
-                        </Typography>
-                    </div>
-                    <div>
-                        <Typography variant={'xs'}>Recieved On:</Typography>
-                        <Typography variant={'small'}>
-                            <span className="font-semibold">
-                                {moment(
-                                    workplace?.createdAt,
-                                    'YYYY-MM-DD hh:mm:ss Z'
-                                ).format('Do MMM, YYYY')}
-                            </span>
-                        </Typography>
-                    </div>
-                </div>
+                <WorkplaceFolders workplace={workplace} />
             </div>
 
             {/* Industries and notes */}
@@ -122,7 +108,7 @@ export const WorkplaceRequest = ({ workplace }: any) => {
                 />
 
                 {/* Notes */}
-                <Notes />
+                <Notes workplace={workplace} />
             </div>
         </Card>
     )
