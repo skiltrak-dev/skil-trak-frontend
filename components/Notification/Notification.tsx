@@ -69,8 +69,6 @@ export const Notification = ({
     const [hovered, setHovered] = useState(false)
 
     const Icon = icon || (theme as any)[variant].icon.element
-    console.log("Notification title:::::");
-
     useEffect(() => {
         if (autoDismiss && !hovered) {
             const timer = setTimeout(() => {

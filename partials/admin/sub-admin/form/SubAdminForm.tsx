@@ -13,7 +13,6 @@ export const SubAdminForm = ({ onSubmit }: any) => {
     const [isSuccess, setIsSuccess] = useState<boolean>(false)
     const [createSubAmin, createSubAminResult] =
         AdminApi.SubAdmins.createSubAmin()
-    console.log("createSubAminResult Error", createSubAminResult);
 
     useEffect(() => {
         if (createSubAminResult.isSuccess) {

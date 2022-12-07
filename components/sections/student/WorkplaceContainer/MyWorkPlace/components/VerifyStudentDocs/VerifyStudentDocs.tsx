@@ -73,7 +73,6 @@ export const VerifyStudentDocs = ({
         setProgressPercent(getUploadedDocPercent())
     }, [requiredDocs])
 
-    console.log("requiredDocument",requiredDocument)
 
     return (
         <div>

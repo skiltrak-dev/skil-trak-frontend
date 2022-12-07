@@ -23,7 +23,6 @@ export const RequestType = ({
     data: any
     workplace: any
 }) => {
-    // console.log('data', data.id)
     const [visibleRequestType, setVisibleRequestType] = useState(false)
     const [selectedRequestType, setSelectedRequestType] = useState(0)
 
@@ -126,8 +125,6 @@ export const RequestType = ({
     }, [data])
 
     const isLoading = interViewResult.isLoading
-
-    console.log('findStatusIndex', findStatusIndex)
 
     return (
         <div className="relative">
