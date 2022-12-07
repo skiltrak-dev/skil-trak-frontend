@@ -26,7 +26,7 @@ export const ViewFoldersCB = ({ folders }: any) => {
 
                             {(folders as any)[folder].map(
                                 (f: any, i: number) => (
-                                    <div className="flex gap-x-0.5">
+                                    <div className="flex gap-x-0.5" key={i}>
                                         <Typography
                                             variant={'small'}
                                             color={'text-gray-500'}

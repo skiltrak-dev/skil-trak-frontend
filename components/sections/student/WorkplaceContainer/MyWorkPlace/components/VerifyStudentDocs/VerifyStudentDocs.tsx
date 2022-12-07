@@ -64,7 +64,7 @@ export const VerifyStudentDocs = ({
             <Card>
                 <ShowErrorNotifications result={requiredDocs} />
                 <p className="text-xs">
-                    <span className="font-semibold">‘Industry’</span>{' '}
+                    <span className="font-semibold">Industry</span>{' '}
                     <span className="text-gray-500">
                         wants these document from you. We will help you to
                         deliver these documents to them.
@@ -95,7 +95,7 @@ export const VerifyStudentDocs = ({
                         <div className='border border-dashed rounded-md p-5'>
                             <div className='font-semibold text-orange-300'>No Documents Required</div>
                             <p className='text-sm text-gray-400'>
-                                This industry don't require any document from
+                                This industry don&apos;t require any document from
                                 you. Your coordinator will forward your request
                                 to industry
                             </p>
