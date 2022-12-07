@@ -23,7 +23,7 @@ const SetSchedule: NextPageWithLayout = (props: Props) => {
 }
 SetSchedule.getLayout = (page: ReactElement) => {
     return <SubAdminLayout pageTitle={{
-        title: 'Set Scheduled',
+        title: 'Set Schedule',
         navigateBack: true,
         backTitle: 'Back',
     }}>{page}</SubAdminLayout>

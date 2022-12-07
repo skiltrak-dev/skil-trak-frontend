@@ -6,34 +6,55 @@ import { Typography, TextInput, Switch } from '@components'
 export const ScheduleCard = ({
     availability,
     setScheduleTime,
+    onScheduleChange,
 }: {
     availability: any
     setScheduleTime: any
+    onScheduleChange: Function
 }) => {
-    const [isAvailable, setIsAvailable] = useState<boolean>(false)
+    const [isAvailable, setIsAvailable] = useState<boolean>(
+        availability?.isActive
+    )
+    const [openingTime, setOpeningTime] = useState<any>(
+        availability?.openingTime
+    )
+    const [closingTime, setClosingTime] = useState<any>(
+        availability?.closingTime
+    )
+
+    // useEffect(() => {
+    //     setIsAvailable(availability?.isActive)
+    //     setOpeningTime(availability?.openingTime)
+    //     setClosingTime(availability?.closingTime)
+    // }, [availability])
 
     useEffect(() => {
-        setIsAvailable(availability?.isActive)
-    }, [availability])
+        onScheduleChange({
+            name: availability.name,
+            openingTime,
+            closingTime,
+            isActive: isAvailable,
+        })
+    }, [isAvailable, openingTime, closingTime])
 
     const onChange = (e: any) => {
-        setScheduleTime((scheduleTime: any) => {
-            const { name, value } = e.target
-            const find = scheduleTime?.find(
-                (f: any) => f.name === availability.name
-            )
-            const filter = scheduleTime?.filter(
-                (f: any) => f.name !== availability.name
-            )
-            return [
-                ...filter,
-                {
-                    ...find,
-                    name: availability.name,
-                    [name]: value + ':00',
-                },
-            ]
-        })
+        // setScheduleTime((scheduleTime: any) => {
+        //     const { name, value } = e.target
+        //     const find = scheduleTime?.find(
+        //         (f: any) => f.name === availability.name
+        //     )
+        //     const filter = scheduleTime?.filter(
+        //         (f: any) => f.name !== availability.name
+        //     )
+        //     return [
+        //         ...filter,
+        //         {
+        //             ...find,
+        //             name: availability.name,
+        //             [name]: value + ':00',
+        //         },
+        //     ]
+        // })
     }
     return (
         <div className="bg-gray-100 rounded-lg px-6 grid grid-cols-3 items-center">
@@ -46,17 +67,19 @@ export const ScheduleCard = ({
                     label={'Available'}
                     onChange={(e: ChangeEvent<HTMLInputElement>) => {
                         setIsAvailable(e.target.checked)
-                        setScheduleTime((preVal: any) =>
-                            !e.target.checked
-                                ? preVal?.filter(
-                                      (f: any) => f.name !== availability.name
-                                  )
-                                : preVal
-                        )
+                        onChange({})
+                        // setScheduleTime((preVal: any) =>
+                        //     !e.target.checked
+                        //         ? preVal?.filter(
+                        //               (f: any) => f.name !== availability.name
+                        //           )
+                        //         : preVal
+                        // )
                     }}
-                    {...(availability?.isActive
-                        ? { defaultChecked: availability?.isActive }
-                        : {})}
+                    // {...(availability?.isActive
+                    //     ? { defaultChecked: availability?.isActive }
+                    //     : {})}
+                    defaultChecked={isAvailable}
                 />
             </div>
             <div className="flex items-end gap-x-2.5">
@@ -66,11 +89,13 @@ export const ScheduleCard = ({
                     name={'openingTime'}
                     disabled={!isAvailable}
                     onChange={(e: any) => {
+                        setOpeningTime(e.target.value)
                         onChange(e)
                     }}
-                    {...(availability?.openingTime
-                        ? { value: availability?.openingTime }
-                        : {})}
+                    // {...(availability?.openingTime
+                    //     ? { value: availability?.openingTime }
+                    //     : {})}
+                    value={openingTime}
                 />
                 <TextInput
                     label={'Closing'}
@@ -78,11 +103,13 @@ export const ScheduleCard = ({
                     name={'closingTime'}
                     disabled={!isAvailable}
                     onChange={(e: any) => {
+                        setClosingTime(e.target.value)
                         onChange(e)
                     }}
                     // {...(availability?.closingTime
                     //     ? { value: availability?.closingTime }
                     //     : {})}
+                    value={closingTime}
                 />
             </div>
         </div>
