@@ -48,7 +48,9 @@ export const Notes = () => {
                 </div>
                 <div className="flex items-start">
                     <TextInput name={'note'} placeholder={'Leave Quick Note'} />
-                    <Button text={'Leave Note'} />
+                    <div className="flex-shrink-0">
+                        <Button text={'Leave Note'} />
+                    </div>
                 </div>
             </div>
         </div>

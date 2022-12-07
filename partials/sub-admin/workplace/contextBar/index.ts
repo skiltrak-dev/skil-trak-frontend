@@ -1,3 +1,3 @@
 export * from './AllNotesCB'
-export * from '../components/components/AddIndustryCB/AddIndustryCB'
+export * from './AddIndustryCB'
 export * from './ViewFoldersCB'

@@ -54,11 +54,14 @@ export const Industries = ({
                 {appliedIndustry && <IndustryCard industry={appliedIndustry} />}
 
                 {/* Book Appointment Button */}
-                <Actions
-                    appliedIndustry={appliedIndustry}
-                    workplaceId={workplaceId}
-                    workplace
-                />
+                {!appliedIndustry?.cancelled &&
+                    appliedIndustry?.industryResponse !== 'rejected' && (
+                        <Actions
+                            appliedIndustry={appliedIndustry}
+                            workplaceId={workplaceId}
+                            workplace
+                        />
+                    )}
 
                 {appliedIndustry?.industryResponse !== 'approved' ? (
                     industries && industries.length > 0 ? (

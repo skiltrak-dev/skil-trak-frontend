@@ -9,19 +9,24 @@ import {
     useAgrementSignMutation,
     useStartPlacementMutation,
     useIndustryResponseMutation,
+    useUpdateWorkplaceStatusMutation,
     useForwardWorkplaceToIndustryMutation,
 } from '@queries'
 import { Button } from '@components/buttons'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useNotification } from '@hooks'
+import { userStatus } from '@utils'
 
 export const Actions = ({ appliedIndustry, workplaceId }: any) => {
+    const [actionStatus, setActionStatus] = useState<any | string>('')
     const [forwardToIndustry, forwardToIndustryResult] =
         useForwardWorkplaceToIndustryMutation()
     const [industryResponse, industryResponseResult] =
         useIndustryResponseMutation()
     const [agrementSign, agrementSignResult] = useAgrementSignMutation()
     const [startPlacement, startPlacementResult] = useStartPlacementMutation()
+    const [updateStatus, updateStatusResult] =
+        useUpdateWorkplaceStatusMutation()
 
     // hooks
     const { notification } = useNotification()
@@ -33,11 +38,30 @@ export const Actions = ({ appliedIndustry, workplaceId }: any) => {
                 description: 'Request Forwarded to industry Successfully',
             })
         }
-    }, [forwardToIndustryResult])
+        if (updateStatusResult.isSuccess) {
+            notification.success({
+                title: `Workplace ${actionStatus}`,
+                description: `Workplace ${actionStatus} Successfully`,
+            })
+        }
+        if (startPlacementResult.isSuccess) {
+            notification.success({
+                title: `Placement Started`,
+                description: `WPlacement Started Successfully`,
+            })
+        }
+    }, [forwardToIndustryResult, updateStatusResult, startPlacementResult])
+
+    const result =
+        forwardToIndustryResult ||
+        updateStatusResult ||
+        startPlacementResult ||
+        agrementSignResult ||
+        industryResponseResult
 
     return (
         <div className="mt-1.5 mb-2.5">
-            <ShowErrorNotifications result={forwardToIndustryResult} />
+            <ShowErrorNotifications result={result} />
             {appliedIndustry?.industryResponse === 'approved' ? (
                 <>
                     {!appliedIndustry.placementStarted && (
@@ -84,7 +108,9 @@ export const Actions = ({ appliedIndustry, workplaceId }: any) => {
                                     color={'text-gray-500'}
                                 >
                                     <span className="whitespace-pre">
-                                        5 Days ago
+                                        {moment(
+                                            appliedIndustry?.industryResponseDate
+                                        ).fromNow()}
                                     </span>
                                 </Typography>
                             </div>
@@ -157,29 +183,45 @@ export const Actions = ({ appliedIndustry, workplaceId }: any) => {
                     {appliedIndustry?.awaitingWorkplaceResponse && (
                         <div className="flex items-center gap-x-2">
                             <Button
-                                text={'Approve'}
-                                variant={'dark'}
+                                variant={'secondary'}
                                 onClick={() => {
-                                    industryResponse({
-                                        industryId: appliedIndustry?.id,
-                                        status: 'noResponse',
+                                    setActionStatus(userStatus.APPROVED)
+                                    updateStatus({
+                                        id: Number(appliedIndustry?.id),
+                                        response: userStatus.APPROVED,
                                     })
                                 }}
-                                loading={industryResponseResult?.isLoading}
-                                disabled={industryResponseResult?.isLoading}
-                            />
+                                loading={
+                                    updateStatusResult?.isLoading &&
+                                    actionStatus === userStatus.APPROVED
+                                }
+                                disabled={
+                                    updateStatusResult?.isLoading &&
+                                    actionStatus === userStatus.APPROVED
+                                }
+                            >
+                                <span className="text-success">Approve</span>
+                            </Button>
                             <Button
-                                text={'Reject'}
-                                variant={'dark'}
+                                variant={'secondary'}
                                 onClick={() => {
-                                    industryResponse({
-                                        industryId: appliedIndustry?.id,
-                                        status: 'noResponse',
+                                    setActionStatus(userStatus.REJECTED)
+                                    updateStatus({
+                                        id: Number(appliedIndustry?.id),
+                                        response: userStatus.REJECTED,
                                     })
                                 }}
-                                loading={industryResponseResult?.isLoading}
-                                disabled={industryResponseResult?.isLoading}
-                            />
+                                loading={
+                                    updateStatusResult?.isLoading &&
+                                    actionStatus === userStatus.REJECTED
+                                }
+                                disabled={
+                                    updateStatusResult?.isLoading &&
+                                    actionStatus === userStatus.REJECTED
+                                }
+                            >
+                                <span className="text-error">Reject</span>
+                            </Button>
                             <Button
                                 text={'NOT RESPONDED'}
                                 variant={'dark'}

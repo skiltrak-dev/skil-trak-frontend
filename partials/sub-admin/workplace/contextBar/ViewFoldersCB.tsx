@@ -14,7 +14,7 @@ export const ViewFoldersCB = ({ folders }: any) => {
             <div>
                 <div>
                     <div>
-                        <Typography>j</Typography>
+                        {/* <Typography>j</Typography> */}
                     </div>
                 </div>
                 {Object.keys(folders).map((folder) => {

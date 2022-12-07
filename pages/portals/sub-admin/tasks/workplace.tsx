@@ -11,6 +11,7 @@ import { useGetSubAdminWorkplacesQuery } from '@queries'
 import {
     MyWorkplaces,
     AllWorkplaces,
+    CancelledWorkplaces,
     StudentAddedWorkplaces,
 } from '@partials/sub-admin'
 
@@ -36,7 +37,7 @@ const Workplace: NextPageWithLayout = (props: Props) => {
         {
             label: 'Cancelled Requests',
             href: { pathname: 'workplace', query: { tab: 'cancelled' } },
-            element: <StudentAddedWorkplaces />,
+            element: <CancelledWorkplaces />,
         },
     ]
 

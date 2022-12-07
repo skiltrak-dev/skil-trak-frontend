@@ -7,8 +7,10 @@ import { Button, Typography } from '@components'
 import { useWorkplaceActionsMutation, useSignAgreementMutation } from '@queries'
 import { useState } from 'react'
 import { ChangeStatusAction } from './components'
+import { userStatus } from '@utils'
 
 export const Actions = ({ workplace, industry }: any) => {
+    const [actionStatus, setActionStatus] = useState<string | null>('')
     //  query
     const [workplaceActions, workplaceActionsResult] =
         useWorkplaceActionsMutation()
@@ -76,17 +78,41 @@ export const Actions = ({ workplace, industry }: any) => {
                     <Button
                         variant={'secondary'}
                         onClick={() => {
+                            setActionStatus(userStatus.APPROVED)
                             workplaceActions({
                                 id: industry.id,
-                                status: 'approved',
+                                status: userStatus.APPROVED,
                             })
                         }}
-                        loading={workplaceActionsResult?.isLoading}
-                        disabled={workplaceActionsResult?.isLoading}
+                        loading={
+                            workplaceActionsResult?.isLoading &&
+                            actionStatus === userStatus.APPROVED
+                        }
+                        disabled={
+                            workplaceActionsResult?.isLoading &&
+                            actionStatus === userStatus.APPROVED
+                        }
                     >
                         <span className="text-success">Approve</span>
                     </Button>
-                    <Button variant={'secondary'}>
+                    <Button
+                        variant={'secondary'}
+                        onClick={() => {
+                            setActionStatus(userStatus.REJECTED)
+                            workplaceActions({
+                                id: industry.id,
+                                status: userStatus.REJECTED,
+                            })
+                        }}
+                        loading={
+                            workplaceActionsResult?.isLoading &&
+                            actionStatus === userStatus.REJECTED
+                        }
+                        disabled={
+                            workplaceActionsResult?.isLoading &&
+                            actionStatus === userStatus.REJECTED
+                        }
+                    >
                         <span className="text-error">Reject</span>
                     </Button>
                 </>

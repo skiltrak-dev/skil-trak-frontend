@@ -1,33 +1,44 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 
 // components
-import { Button } from '@components'
+import { Button, ShowErrorNotifications } from '@components'
 
 // query
 import {
-    useCancelPlacementMutation,
     useTerminatePlacementMutation,
     useCompletePlacementMutation,
 } from '@queries'
+import { useNotification } from '@hooks'
 
 export const AfterPlacementActions = ({ appliedIndustry }: any) => {
-    const [cancelPlacement, cancelPlacementResult] =
-        useCancelPlacementMutation()
     const [terminatePlacement, terminatePlacementResult] =
         useTerminatePlacementMutation()
     const [completePlacement, completePlacementResult] =
         useCompletePlacementMutation()
+
+    // hooks
+    const { notification } = useNotification()
+
+    useEffect(() => {
+        if (completePlacementResult.isSuccess) {
+            notification.success({
+                title: 'Workplace Placement Completed',
+                description: 'Workplace Placement Completed Successfully',
+            })
+        }
+        if (terminatePlacementResult.isSuccess) {
+            notification.success({
+                title: `Workplace Placement Terminated`,
+                description: `Workplace Placement Terminated Successfully`,
+            })
+        }
+    }, [terminatePlacementResult, completePlacementResult])
+
     return (
         <div className="flex items-center gap-x-2">
-            <Button
-                text={'CANCEL'}
-                variant={'secondary'}
-                onClick={() => {
-                    cancelPlacement(appliedIndustry?.id)
-                }}
-                loading={cancelPlacementResult.isLoading}
-                disabled={cancelPlacementResult.isLoading}
-            />
+            <ShowErrorNotifications result={terminatePlacementResult} />
+            <ShowErrorNotifications result={completePlacementResult} />
+
             <Button
                 text={'TERMINATE'}
                 variant={'error'}
