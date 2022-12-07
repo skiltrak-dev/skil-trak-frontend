@@ -64,23 +64,6 @@ export const ViewSubAdminsCB = ({ rto }: { rto: Rto }) => {
 
     return (
         <div className="flex flex-col gap-y-6">
-            <div>
-                {subAdmins.isLoading ? (
-                    <ContextBarLoading />
-                ) : subAdmins.data?.subadmin.length ? (
-                    subAdmins.data.subadmin.map((subAdmin: SubAdmin) => (
-                        <AssignedSubAdmin
-                            key={subAdmin.id}
-                            subAdmin={subAdmin}
-                            onRemove={onSubAdminClicked}
-                            result={unassignSubAdminResult}
-                        />
-                    ))
-                ) : (
-                    <NoData text={'No Sub Admins Assigned'} />
-                )}
-            </div>
-
             <AssignSubAdminForm
                 onSubmit={onSubmit}
                 result={assignSubAdminResult}

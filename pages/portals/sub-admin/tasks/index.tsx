@@ -22,7 +22,7 @@ import { useContextBar } from '@hooks'
 
 const PrimaryLinks = [
     {
-        title: 'Student Workplace',
+        title: 'Workplace Requests',
         description: 'Student Workplace',
         link: 'tasks/workplace?tab=all',
         animation: Animations.Student.Appointments.AssessmentTool,
@@ -103,9 +103,7 @@ const SubAdminTasks: NextPageWithLayout = () => {
                     {/* <PlacementProgressCard
                         placementProgress={'Query'}
                     /> */}
-                    <RecentAppointmentCard
-                        appointment={'Query'}
-                    />
+                    <RecentAppointmentCard appointment={'Query'} />
                 </div>
             </div>
 

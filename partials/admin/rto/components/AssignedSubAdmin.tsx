@@ -26,6 +26,11 @@ export const AssignedSubAdmin = ({
         onRemove(subAdmin)
     }
 
+    console.log(
+        'result',
+        result.isLoading && result.originalArgs.subAdmin === subAdmin.id
+    )
+
     return (
         <div className="border-t py-2">
             {!showUnassign ? (
@@ -66,6 +71,10 @@ export const AssignedSubAdmin = ({
                             onClick={onUnassignClick}
                             loading={result.isLoading}
                             disabled={result.isLoading}
+                            // disabled={
+                            //     result.isLoading &&
+                            //     result.originalArgs.subAdmin === subAdmin.id
+                            // }
                         >
                             Unassign
                         </ActionButton>
