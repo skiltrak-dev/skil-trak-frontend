@@ -65,10 +65,19 @@ export const ViewSubAdminsCB = ({ rto }: { rto: Rto }) => {
     return (
         <div className="flex flex-col gap-y-6">
             <div>
-                <Typography variant={'muted'} color={'text-gray-400'}>
-                    Assign Sub Admins To:
-                </Typography>
-                <Typography variant={'label'}>{rto.user.name}</Typography>
+               {subAdmins.isLoading ? (
+                  <ContextBarLoading />
+               ) : subAdmins.data?.subadmin.length ? (
+                  subAdmins.data.subadmin.map((subAdmin: SubAdmin) => (
+                     <AssignedSubAdmin
+                        key={subAdmin.id}
+                        subAdmin={subAdmin}
+                        onRemove={onSubAdminClicked}
+                     />
+                  ))
+               ) : (
+                  <NoData text={'No Sub Admins Assigned'} />
+               )}
             </div>
 
             <AssignSubAdminForm
