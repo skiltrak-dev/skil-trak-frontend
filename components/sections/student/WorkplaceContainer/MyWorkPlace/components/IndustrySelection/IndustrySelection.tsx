@@ -3,7 +3,7 @@ import moment from 'moment'
 import { ApplyForWorkplaceIndustry } from './ApplyForWorkplaceIndustry'
 
 // components
-import { Typography, Card } from 'components'
+import { Typography, Card, ActionButton } from 'components'
 import { Button } from 'components'
 import { VerifyStudentDocs } from '../VerifyStudentDocs'
 
@@ -61,19 +61,20 @@ export const IndustrySelection = ({
         }
     }, [cancelRequestResult.isSuccess])
 
-    const workplaceCancelRequest = () => {
+    const workplaceCancelRequest = (simple: boolean = false) => {
         return (
             <div className="mt-3">
-                <Button
-                    variant={'secondary'}
+                <ActionButton
+                    variant={'error'}
                     onClick={async () => {
                         await cancelRequest(null)
                     }}
                     loading={cancelRequestResult.isLoading}
                     disabled={cancelRequestResult.isLoading}
+                    simple={simple}
                 >
-                    <span className="text-red-400">Cancel Request</span>
-                </Button>
+                    Cancel Request
+                </ActionButton>
             </div>
         )
     }
@@ -87,6 +88,7 @@ export const IndustrySelection = ({
                         appliedIndustry={appliedIndustry}
                         setIndustrySelection={setIndustrySelection}
                         status={workplaceIndustries[0]?.currentStatus}
+                        workplaceRequest={workplaceIndustries[0]}
                     />
                 </>
             )}
@@ -97,7 +99,7 @@ export const IndustrySelection = ({
                 <Card>
                     <Typography variant={'label'}>Select Industry</Typography>
                     <div className="my-4 flex flex-col gap-y-2">
-                        <Typography variant={'muted'} color={'secondaryText'}>
+                        <Typography variant={'muted'} color={'text-gray-400'}>
                             These are most suitable industries we have according
                             to your given criteria.
                         </Typography>
@@ -108,6 +110,7 @@ export const IndustrySelection = ({
                                     industry={industry}
                                     industries={industries}
                                     appliedIndustry={appliedIndustry}
+                                    index={i}
                                 />
                             )
                         })}
@@ -118,7 +121,7 @@ export const IndustrySelection = ({
             ) : (
                 !appliedIndustry && (
                     <Card>
-                        <div className="px-5 py-12 border border-dashed">
+                        <div className="px-5 py-12 border border-dashed rounded-lg">
                             <Typography
                                 variant={'body'}
                                 color={'text-gray-400'}

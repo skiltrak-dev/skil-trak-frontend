@@ -6,7 +6,7 @@ import { NextPageWithLayout } from '@types'
 // query
 import { useGetWorkplaceIndustriesQuery } from '@queries'
 import Link from 'next/link'
-import { Card, Button } from '@components'
+import { Card, Button, LoadingAnimation } from '@components'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
 
@@ -15,7 +15,33 @@ type Props = {}
 const MyWorkPlaces: NextPageWithLayout = (props: Props) => {
     const router = useRouter()
 
-    return (
+    const workplace = useGetWorkplaceIndustriesQuery()
+
+    useEffect(() => {
+        if (workplace.isSuccess && workplace.data?.length) {
+            const currentRequest = workplace.data[0]
+            if (
+                currentRequest.studentProvidedWorkplace ||
+                currentRequest.byExistingAbn
+            ) {
+                router.push(
+                    '/portals/student/workplace/my-workplace/have-workplace'
+                )
+            } else {
+                router.push(
+                    '/portals/student/workplace/my-workplace/dont-have-workplace'
+                )
+            }
+        }
+    }, [workplace])
+
+    return workplace.isLoading ||
+        (workplace.isSuccess && workplace.data?.length) ? (
+        <div className="flex items-center flex-col">
+            <LoadingAnimation />
+            <p>Checking for existing workplace request...</p>
+        </div>
+    ) : (
         <div className="flex flex-col gap-y-2 w-full">
             <Card>
                 <p className="text-sm">

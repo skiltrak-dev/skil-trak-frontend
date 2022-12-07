@@ -25,7 +25,7 @@ export const workplaceRequestApi = createApi({
             }),
             invalidatesTags: ['Workplace'],
         }),
-        getWorkplaceIndustries: builder.query<any[], void>({
+        getWorkplaceIndustries: builder.query<any, void>({
             query: () => 'workindustry/list',
             providesTags: ['Workplace'],
         }),

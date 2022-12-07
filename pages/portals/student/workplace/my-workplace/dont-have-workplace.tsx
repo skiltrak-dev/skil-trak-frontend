@@ -1,19 +1,16 @@
 import { ReactElement, useEffect, useState } from 'react'
 
-import { StudentLayout } from '@layouts'
-import { NextPageWithLayout } from '@types'
 import {
-    ActionAlert,
-    ActionAlertType,
-    Card,
     LoadingAnimation,
-    StepIndicator,
+    StepIndicator
 } from '@components'
 import {
     Availability,
     IndustrySelection,
-    PersonalInfo,
+    PersonalInfo
 } from '@components/sections/student/WorkplaceContainer/MyWorkPlace'
+import { StudentLayout } from '@layouts'
+import { NextPageWithLayout } from '@types'
 
 // query
 import { useGetWorkplaceIndustriesQuery } from '@queries'
@@ -29,7 +26,9 @@ const DontHaveWorkplace: NextPageWithLayout = (props: Props) => {
 
     useEffect(() => {
         if (workplace.isSuccess && workplace.data.length > 0) {
-            setActive(3)
+            if (workplace.data[0].currentStatus === 'placementStarted')
+                setActive(4)
+            else setActive(3)
         }
     }, [workplace.data, workplace.isSuccess])
 
@@ -50,7 +49,7 @@ const DontHaveWorkplace: NextPageWithLayout = (props: Props) => {
             last: false,
         },
         {
-            label: 'Wait For Approval',
+            label: 'Placement Progress',
             visited: false,
             last: true,
         },
@@ -86,14 +85,14 @@ const DontHaveWorkplace: NextPageWithLayout = (props: Props) => {
                     />
                 )}
 
-                {active === 3 && (
+                {(active === 3 || active === 4) && (
                     <IndustrySelection
                         setActive={setActive}
                         workplaceIndustries={workplace?.data}
                     />
                 )}
 
-                {active === 4 && (
+                {/* {active === 4 && (
                     <Card>
                         <ActionAlert
                             title={'Your Request Has Been Place Successfully!'}
@@ -109,7 +108,7 @@ const DontHaveWorkplace: NextPageWithLayout = (props: Props) => {
                             }}
                         />
                     </Card>
-                )}
+                )} */}
             </div>
         </div>
     )

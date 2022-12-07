@@ -1,17 +1,15 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 
 // compornents
-import { DocumentCard, UploadDocs } from './components'
-import { Typography, Button, Card, ShowErrorNotifications } from '@components'
-import { FileUpload } from 'hoc'
+import { Button, Card, ShowErrorNotifications } from '@components'
+import { UploadDocs } from './components'
 
 // query
-import {
-    useGetCourseDocumentsQuery,
-    useUploadDocumentsMutation,
-} from '@queries'
-import { LoadingAnimation } from '@components/LoadingAnimation'
 import { LinearProgress } from '@components/LinearProgress'
+import { LoadingAnimation } from '@components/LoadingAnimation'
+import {
+    useGetCourseDocumentsQuery
+} from '@queries'
 
 export const VerifyStudentDocs = ({
     id,
@@ -61,39 +59,58 @@ export const VerifyStudentDocs = ({
     }, [requiredDocs])
 
     return (
-        <Card>
-            <ShowErrorNotifications result={requiredDocs} />
-            <Typography variant={'muted'} color={'gray'}>
-                <span className="text-secondary-text font-bold">
-                    ‘Claro Aged Care & Disability Services’
-                </span>
-                wants these document from you. We will help you to deliver these
-                documents to them.
-            </Typography>
+        <div>
+            <p className="mb-2">Upload Documents</p>
+            <Card>
+                <ShowErrorNotifications result={requiredDocs} />
+                <p className="text-xs">
+                    <span className="font-semibold">‘Industry’</span>{' '}
+                    <span className="text-gray-500">
+                        wants these document from you. We will help you to
+                        deliver these documents to them.
+                    </span>
+                </p>
 
-            <LinearProgress percent={progressPercent} />
+                <div className="my-3">
+                    <LinearProgress
+                        percent={progressPercent}
+                        strokeWidth={0.4}
+                        strokeColor={'#22c55e'}
+                    />
+                </div>
 
-            <div className="my-4 flex flex-col gap-y-2">
-                {requiredDocs.isLoading ? (
-                    <LoadingAnimation />
-                ) : (
-                    requiredDocs?.data?.map((requiredDoc: any, i: number) => (
-                        <UploadDocs
-                            key={requiredDoc.id}
-                            requiredDoc={requiredDoc}
-                            workplaceId={workplaceId}
-                        />
-                    ))
-                )}
-            </div>
+                <div className="my-4 flex flex-col gap-y-2">
+                    {requiredDocs.isLoading ? (
+                        <LoadingAnimation />
+                    ) : requiredDocs?.data?.length ? (
+                        requiredDocs?.data?.map(
+                            (requiredDoc: any, i: number) => (
+                                <UploadDocs
+                                    key={requiredDoc.id}
+                                    requiredDoc={requiredDoc}
+                                />
+                            )
+                        )
+                    ) : (
+                        <div className='border border-dashed rounded-md p-5'>
+                            <div className='font-semibold text-orange-300'>No Documents Required</div>
+                            <p className='text-sm text-gray-400'>
+                                This industry don't require any document from
+                                you. Your coordinator will forward your request
+                                to industry
+                            </p>
+                        </div>
+                    )}
+                </div>
 
-            <Button
-                variant={'secondary'}
-                text={'Back To Industries'}
-                onClick={() => {
-                    setIndustrySelection(null)
-                }}
-            />
-        </Card>
+                <Button
+                    variant={'secondary'}
+                    text={'Back To Industries'}
+                    onClick={() => {
+                        setIndustrySelection(null)
+                    }}
+                />
+            </Card>
+        </div>
     )
 }

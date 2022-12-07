@@ -6,12 +6,20 @@ import React, { useEffect, useState } from 'react'
 
 // query
 import { useCancelWorkplaceRequestMutation } from '@queries'
+import { StepIndustryChecks } from './StepIndustryChecks'
+import { InitialAvatar } from '@components/InitialAvatar'
+import { StepInterview } from './StepInterview'
+import { StepAwaitingResponse } from './StepAwaitingResponse'
+import { StepAppointmentBooked } from './StepAppointmentBooked'
+import { StepSignAgreement } from './StepSignAgreement'
+import { StepPlacementStarted } from './StepPlacementStarted'
 
 type Props = {
     status: any
     appliedIndustry: any
     setIndustrySelection: any
     workplaceCancelRequest: any
+    workplaceRequest: any
 }
 
 export const AppliedIndustry = ({
@@ -19,63 +27,109 @@ export const AppliedIndustry = ({
     appliedIndustry,
     setIndustrySelection,
     workplaceCancelRequest,
+    workplaceRequest,
 }: Props) => {
-    const daysLeft = () => {
-        let date = new Date(appliedIndustry?.appliedDate)
-        const todayDate = new Date()
-        const dayTimestamp = 24 * 60 * 60 * 1000
-        const time = dayTimestamp * 28 // millisecond for 28 days
-        return Math.ceil(
-            (date.getTime() + time - todayDate.getTime()) / dayTimestamp
-        )
-    }
+    const getNextStep = () => {
+        switch (status) {
+            case 'interview':
+                return <StepInterview />
 
+            case 'awaitingWorkplaceResponse':
+                return <StepAwaitingResponse />
+
+            case 'appointmentBooked':
+                return <StepAppointmentBooked />
+
+            case 'awaitingAgreementSigned':
+                return <StepSignAgreement />
+
+            case 'placementStarted':
+                return <StepPlacementStarted />
+
+            default:
+                return (
+                    <StepIndustryChecks
+                        appliedIndustry={appliedIndustry}
+                        setIndustrySelection={setIndustrySelection}
+                    />
+                )
+        }
+    }
     return (
         <div>
             <Typography variant={'label'}>
-                You Have Applied For This Industry
+                You have applied for this industry
             </Typography>
-            <Card>
-                <ProgressStep status={status} />
-                <div className="py-2 px-4 rounded-lg flex justify-between items-center">
-                    <div className="flex items-center gap-x-2">
-                        <img
-                            className="w-16 h-16"
-                            src={`https://picsum.photos/100/10${appliedIndustry?.id}`}
-                            alt=""
-                        />
-                        <div>
-                            {/* <Typography variant={'muted'} color={'gray'}>
-                                5km away
-                            </Typography> */}
-                            <Typography>
-                                <span className="font-bold">
-                                    {appliedIndustry?.industry?.businessName}
-                                </span>
-                            </Typography>
-                            <Typography variant={'muted'} color={'gray'}>
-                                {appliedIndustry?.industry?.addressLine1},{' '}
-                                {appliedIndustry?.industry?.addressLine2}
-                            </Typography>
-                        </div>
-                    </div>
-                    <div>
-                        <Typography variant={'xs'} right>
-                            <span className="font-bold">{daysLeft()}</span> days
-                            left
-                        </Typography>
-                        <Button
-                            variant={'primary'}
-                            text={'Upload Documents'}
-                            onClick={() => {
-                                setIndustrySelection(
-                                    appliedIndustry?.industry?.id
-                                )
-                            }}
-                        />
-                    </div>
+            <Card noPadding>
+                <div className="border-b pt-4 w-full overflow-hidden overflow-x-scroll remove-scrollbar">
+                    <ProgressStep status={status} />
                 </div>
-                {workplaceCancelRequest()}
+
+                <div className="py-2 px-4">
+                    <div className="py-2 px-4 rounded-lg flex justify-between items-start">
+                        <div>
+                            <div className="flex items-center gap-x-2">
+                                <img
+                                    className="w-16 h-16 rounded-md"
+                                    src={`https://picsum.photos/100/10${appliedIndustry?.id}`}
+                                    alt=""
+                                />
+                                <div>
+                                    {/* <Typography variant={'muted'} color={'gray'}>
+                5km away
+            </Typography> */}
+                                    <p className="font-semibold">
+                                        {
+                                            appliedIndustry?.industry
+                                                ?.businessName
+                                        }
+                                    </p>
+                                    <p className="text-sm text-gray-500">
+                                        {
+                                            appliedIndustry?.industry
+                                                ?.addressLine1
+                                        }
+                                        ,{' '}
+                                        {
+                                            appliedIndustry?.industry
+                                                ?.addressLine2
+                                        }
+                                    </p>
+                                </div>
+                            </div>
+
+                            <div className="px-20">
+                                <p className="text-xs text-gray-400">
+                                    Case Officer:
+                                </p>
+                                {workplaceRequest?.assignedTo ? (
+                                    <div className="flex items-center gap-x-2">
+                                        <InitialAvatar
+                                            name={
+                                                workplaceRequest?.assignedTo
+                                                    .user.name
+                                            }
+                                        />
+                                        <span className="text-sm">
+                                            {
+                                                workplaceRequest?.assignedTo
+                                                    .user.name
+                                            }
+                                        </span>
+                                    </div>
+                                ) : (
+                                    <p className="text-sm font-medium text-orange-300">
+                                        Not Assigned Yet
+                                    </p>
+                                )}
+                            </div>
+                        </div>
+
+                        <div>{getNextStep()}</div>
+                    </div>
+
+                    {workplaceCancelRequest(true)}
+                </div>
             </Card>
         </div>
     )

@@ -7,111 +7,111 @@ type Props = {
 }
 
 export const ProgressStep = ({ status }: Props) => {
-  const [industryCheckListStatus, setIndustryCheckListStatus] = useState<any>(
-    []
-  )
+    const [industryCheckListStatus, setIndustryCheckListStatus] = useState<any>(
+        []
+    )
 
-  const progressStep = [
-    {
-      id: 1,
-      title: 'Industry Checks',
-      imageUrl: 'https://picsum.photos/200/300',
-      statusEnum: 'industryCheck',
-    },
-    {
-      id: 2,
-      title: 'Case Officer Assigned',
-      imageUrl: 'https://picsum.photos/200/300',
-      statusEnum: 'caseOfficerAssigned',
-    },
-    {
-      id: 3,
-      title: 'Interview With Case Officer',
-      imageUrl: 'https://picsum.photos/200/300',
-      statusEnum: 'interview',
-    },
-    {
-      id: 4,
-      title: 'Awaiting Workplace Response',
-      imageUrl: 'https://picsum.photos/200/300',
-      statusEnum: 'awaitingWorkplaceResponse',
-    },
-    {
-      id: 5,
-      title: 'Appointment Booked',
-      imageUrl: 'https://picsum.photos/200/300',
-      statusEnum: 'appointmentBooked',
-    },
-    {
-      id: 6,
-      title: 'Awaiting Agreement Sign',
-      imageUrl: 'https://picsum.photos/200/300',
-      statusEnum: 'awaitingAgreementSigned',
-    },
-    {
-      id: 7,
-      title: 'Placement Started',
-      imageUrl: 'https://picsum.photos/200/300',
-      statusEnum: 'placementStarted',
-    },
-  ]
-  useEffect(() => {
-    if (status) {
-      setIndustryCheckListStatus((prev: any) => [...prev, status])
-    }
-  }, [status])
+    // src={`/images/icons/placement-progress/checklist.png`}
+    const progressStep = [
+        {
+            id: 1,
+            title: 'Industry Checks',
+            imageUrl: `/images/icons/placement-progress/checklist.png`,
+            statusEnum: 'industryCheck',
+        },
+        {
+            id: 2,
+            title: 'Case Officer Assigned',
+            imageUrl: `/images/icons/placement-progress/digital-nomad.png`,
+            statusEnum: 'caseOfficerAssigned',
+        },
+        {
+            id: 3,
+            title: 'Interview With Case Officer',
+            imageUrl: `/images/icons/placement-progress/interview.png`,
+            statusEnum: 'interview',
+        },
+        {
+            id: 4,
+            title: 'Awaiting Workplace Response',
+            imageUrl: `/images/icons/placement-progress/fast.png`,
+            statusEnum: 'awaitingWorkplaceResponse',
+        },
+        {
+            id: 5,
+            title: 'Appointment Booked',
+            imageUrl: `/images/icons/placement-progress/appointment.png`,
+            statusEnum: 'appointmentBooked',
+        },
+        {
+            id: 6,
+            title: 'Awaiting Agreement Sign',
+            imageUrl: `/images/icons/placement-progress/contract.png`,
+            statusEnum: 'awaitingAgreementSigned',
+        },
+        {
+            id: 7,
+            title: 'Placement Started',
+            imageUrl: `/images/icons/placement-progress/goal.png`,
+            statusEnum: 'placementStarted',
+        },
+    ]
 
-  const currentStatus = progressStep.findIndex(
-    (item: any) => item.statusEnum === status
-  )
+    useEffect(() => {
+        if (status) {
+            setIndustryCheckListStatus((prev: any) => [...prev, status])
+        }
+    }, [status])
 
-  return (
-    <>
-      <div className="flex flex-col">
-        <div className="mb-3 flex justify-between">
-          {progressStep.map((item, index) => (
-            <div
-              key={item.id}
-              className="flex gap-x-3 items-center"
-            >
-              <div className="flex flex-col items-center">
-                <div
-                  className={`w-fit ${status === item.statusEnum
-                      ? 'bg-sky-100'
-                      : 'bg-white'
-                    }  overflow-hidden border-2 border-gray-400 border-dashed rounded-full`}
-                >
-                  <div className="relative top-1.5 w-12 h-12">
-                    <Image
-                      className="rounded-full"
-                      src="https://picsum.photos/200/300"
-                      width={45}
-                      height={45}
-                      layout="fixed"
-                    />
-                  </div>
+    const currentStatus = progressStep.findIndex(
+        (item: any) => item.statusEnum === status
+    )
+
+    return (
+        <>
+            <div className="flex flex-col">
+                <div className="mb-3 flex justify-between items-start">
+                    {progressStep.map((item, index) => (
+                        <React.Fragment key={item.id}>
+                            <div className="flex flex-col items-center gap-y-1">
+                                <div
+                                    className={`w-12 h-12 bg-sky-50 overflow-hidden border-[1px]  rounded-full ${
+                                        index <= currentStatus
+                                            ? 'border-green-500'
+                                            : 'border-gray-400 border-dashed'
+                                    }`}
+                                >
+                                    <Image
+                                        className={`rounded-full ${
+                                            index > currentStatus
+                                                ? 'grayscale'
+                                                : ''
+                                        }`}
+                                        src={item.imageUrl}
+                                        width={48}
+                                        height={48}
+                                        layout="fixed"
+                                        alt={item.title}
+                                    />
+                                </div>
+
+                                <p className="text-[11px] text-center text-gray-400 w-[120px]">
+                                    {item?.title}
+                                </p>
+                            </div>
+                            {index !== progressStep.length - 1 && (
+                                <div
+                                    className={`${
+                                        index <= currentStatus
+                                            ? 'border-orange-400'
+                                            : 'border-gray-500'
+                                    } w-full h-[1px] border border-dashed flex-shrink mt-4`}
+                                ></div>
+                            )}
+                        </React.Fragment>
+                    ))}
                 </div>
-              </div>
-              {index !== progressStep.length - 1 && (
-                <div className="flex items-center gap-x-3">
-                  <span className="text-gray-400">-</span>
-                  <span className="text-gray-400">-</span>
-                  <span className="text-gray-400">-</span>
-                </div>
-              )}
             </div>
-          ))}
-        </div>
-        <div className="flex justify-between gap-x-3 items-center">
-          {progressStep.map((item, index) => (
-            <div key={item.id}>
-              <Typography variant="label" color="text-gray-700">
-                {item?.title}
-              </Typography>
-            </div>
-          ))}
-        </div>
-      </div>
-    </>
-  )
+        </>
+    )
 }
