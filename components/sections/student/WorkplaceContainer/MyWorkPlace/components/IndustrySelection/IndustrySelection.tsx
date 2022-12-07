@@ -3,8 +3,7 @@ import moment from 'moment'
 import { ApplyForWorkplaceIndustry } from './ApplyForWorkplaceIndustry'
 
 // components
-import { Typography, Card, ActionButton } from 'components'
-import { Button } from 'components'
+import { Typography, Card, LoadingAnimation, ActionButton } from '@components'
 import { VerifyStudentDocs } from '../VerifyStudentDocs'
 
 import {
@@ -17,23 +16,27 @@ import { IndustryNotResponded } from './IndustryNotResponded'
 export const IndustrySelection = ({
     setActive,
     // selectedCourses,
-    workplaceIndustries,
+    workplace,
 }: {
     setActive: Function
     // selectedCourses: number[]
-    workplaceIndustries: any
+    workplace: any
 }) => {
     const [industries, setIndustries] = useState<any[] | null>([])
     const [selectedCourses, setSelectedCourses] = useState<any[] | null>(null)
     const [industrySelection, setIndustrySelection] = useState(null)
     const [appliedIndustry, setAppliedIndustry] = useState<any | null>(null)
+    const [workplaceIndustries, setWorkplaceIndustries] = useState<any | null>(
+        null
+    )
 
     const [cancelRequest, cancelRequestResult] =
         useCancelWorkplaceRequestMutation()
 
     useEffect(() => {
-        if (workplaceIndustries) {
-            const allIndustries = workplaceIndustries[0]?.industries
+        if (workplace) {
+            const allIndustries = workplace?.data[0]?.industries
+            setWorkplaceIndustries(workplace?.data[0])
             setIndustries(
                 allIndustries?.filter(
                     (industry: any) =>
@@ -47,10 +50,10 @@ export const IndustrySelection = ({
             //         ?.find((i: any) => i.industry.id === industrySelection)
             //         ?.industry.courses.map((c: any) => c.id)
             // )
-            setSelectedCourses(workplaceIndustries[0]?.courses[0]?.id)
+            setSelectedCourses(workplace?.data[0]?.courses[0]?.id)
         }
     }, [
-        workplaceIndustries,
+        workplace,
         industrySelection,
         // applyForWorkplaceResult.isSuccess,
     ])
@@ -79,7 +82,9 @@ export const IndustrySelection = ({
         )
     }
 
-    return !industrySelection ? (
+    return workplace?.isLoading ? (
+        <LoadingAnimation />
+    ) : !industrySelection ? (
         <div className="flex flex-col gap-y-3">
             {appliedIndustry && (
                 <>
@@ -87,8 +92,8 @@ export const IndustrySelection = ({
                         workplaceCancelRequest={workplaceCancelRequest}
                         appliedIndustry={appliedIndustry}
                         setIndustrySelection={setIndustrySelection}
-                        status={workplaceIndustries[0]?.currentStatus}
-                        workplaceRequest={workplaceIndustries[0]}
+                        status={workplaceIndustries?.currentStatus}
+                        workplaceRequest={workplaceIndustries}
                     />
                 </>
             )}
@@ -165,7 +170,7 @@ export const IndustrySelection = ({
             setIndustrySelection={setIndustrySelection}
             id={industrySelection}
             selectedCourses={selectedCourses}
-            workplaceId={workplaceIndustries[0]?.id}
+            workplaceId={workplaceIndustries?.id}
         />
     )
 }

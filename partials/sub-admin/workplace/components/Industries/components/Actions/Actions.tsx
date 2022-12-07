@@ -52,16 +52,14 @@ export const Actions = ({ appliedIndustry, workplaceId }: any) => {
         }
     }, [forwardToIndustryResult, updateStatusResult, startPlacementResult])
 
-    const result =
-        forwardToIndustryResult ||
-        updateStatusResult ||
-        startPlacementResult ||
-        agrementSignResult ||
-        industryResponseResult
-
     return (
         <div className="mt-1.5 mb-2.5">
-            <ShowErrorNotifications result={result} />
+            <ShowErrorNotifications result={forwardToIndustryResult} />
+            <ShowErrorNotifications result={updateStatusResult} />
+            <ShowErrorNotifications result={startPlacementResult} />
+            <ShowErrorNotifications result={agrementSignResult} />
+            <ShowErrorNotifications result={industryResponseResult} />
+
             {appliedIndustry?.industryResponse === 'approved' ? (
                 <>
                     {!appliedIndustry.placementStarted && (

@@ -24,7 +24,7 @@ export const VerifyStudentDocs = ({
 }) => {
     const [courseDocuments, setCourseDocuments] = useState<any[] | null>([])
     const [progressPercent, setProgressPercent] = useState<any | null>(null)
-    const [requiredDocument, setRequiredDocument] = useState<any | null>(null)
+    const [folders, setFolders] = useState<any | null>([])
 
     const requiredDocs = useGetCourseDocumentsQuery(
         { id, course: selectedCourses },
@@ -34,15 +34,21 @@ export const VerifyStudentDocs = ({
     useEffect(() => {
         const getSectors = () => {
             const docs = {}
-            requiredDocs?.data?.forEach((doc: any) => {
-                if ((docs as any)[doc.requiredDocs.folder.name]) {
-                    ;(docs as any)[doc.requiredDocs.folder.name].push(doc)
+            requiredDocs?.data?.uploaded?.forEach((doc: any) => {
+                if ((docs as any)[doc?.name]) {
+                    ;(docs as any)[doc?.name].push(doc)
                 } else {
-                    ;(docs as any)[doc.requiredDocs.folder.name] = []
-                    ;(docs as any)[doc.requiredDocs.folder.name].push(doc)
+                    ;(docs as any)[doc?.name] = []
+                    ;(docs as any)[doc?.name].push(doc)
                 }
             })
-            setRequiredDocument(docs)
+            const requiredDocuments = requiredDocs?.data?.document?.map(
+                (doc: any) => ({
+                    ...doc,
+                    uploaded: (docs as any)[doc?.folder?.name],
+                })
+            )
+            setFolders(requiredDocuments)
         }
         getSectors()
     }, [requiredDocs])
@@ -58,12 +64,13 @@ export const VerifyStudentDocs = ({
     // }, [uploadDocsResult.isSuccess])
 
     const getUploadedDocPercent = () => {
-        const totalDocs = requiredDocs?.data?.reduce(
+        const totalDocs = folders?.reduce(
             (acum: any, curr: any) => acum + curr?.folder?.capacity,
             0
         )
-        const uploadedDocs = requiredDocs?.data?.reduce(
-            (acum: any, curr: any) => acum + curr?.ResponseCount,
+        const uploadedDocs = folders?.reduce(
+            (acum: any, curr: any) =>
+                acum + curr?.uploaded ? Number(curr?.uploaded?.length) : 0,
             0
         )
         return (uploadedDocs * 100) / totalDocs
@@ -71,8 +78,7 @@ export const VerifyStudentDocs = ({
 
     useEffect(() => {
         setProgressPercent(getUploadedDocPercent())
-    }, [requiredDocs])
-
+    }, [requiredDocs, folders])
 
     return (
         <div>
@@ -98,16 +104,14 @@ export const VerifyStudentDocs = ({
                 <div className="my-4 flex flex-col gap-y-2">
                     {requiredDocs.isLoading ? (
                         <LoadingAnimation />
-                    ) : requiredDocument?.data?.length ? (
-                        requiredDocument?.data?.map(
-                            (requiredDoc: any, i: number) => (
-                                <UploadDocs
-                                    key={requiredDoc.id}
-                                    requiredDoc={requiredDoc}
-                                    workplaceId={workplaceId}
-                                />
-                            )
-                        )
+                    ) : folders?.length ? (
+                        folders?.map((folder: any, i: number) => (
+                            <UploadDocs
+                                key={folder.id}
+                                requiredDoc={folder}
+                                workplaceId={workplaceId}
+                            />
+                        ))
                     ) : (
                         <div className="border border-dashed rounded-md p-5">
                             <div className="font-semibold text-orange-300">

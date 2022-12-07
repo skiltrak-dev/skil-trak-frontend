@@ -17,6 +17,7 @@ export const StepCreate = () => {
             if (formData) {
                 const values = {
                     ...formData,
+                    name: 'testing',
                     courses: formData.courses?.map((c: OptionType) => c.value),
                     sectors: formData.sectors?.map((s: OptionType) => s.value),
                     // package: formData.package.id,
