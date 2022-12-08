@@ -1,21 +1,12 @@
+import { SubAdminApi } from '@queries'
 import Image from 'next/image'
 import {
-    FaAddressCard,
-    FaBirthdayCake,
-    FaUserCircle,
-    FaUserGraduate,
+    FaAddressCard
 } from 'react-icons/fa'
 import { IoLocation } from 'react-icons/io5'
 import {
-    MdPhone,
-    MdBatchPrediction,
-    MdGroup,
-    MdGroups,
-    MdVerified,
-    MdAdminPanelSettings,
+    MdAdminPanelSettings, MdPhone, MdVerified
 } from 'react-icons/md'
-import { SubAdminApi, useGetStudentProfileDetailQuery } from '@queries'
-import moment from 'moment'
 export const ViewProfileCB = () => {
     const { data, isSuccess, isLoading } = SubAdminApi.SubAdmin.useProfile()
 

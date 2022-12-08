@@ -11,14 +11,14 @@ export const ImportantDocument = ({
 }) => {
     return (
         <Link href={href ? href : '#'}>
-            <a>
+            <a className='w-full'>
                 <div className="rounded-md bg-gray-700 cursor-pointer transition-all duration-300 shadow scale-100 hover:shadow-xl hover:scale-105">
                     <Image
-                        width={150}
-                        height={80}
+                        width={200}
+                        height={150}
                         src={imageUrl}
                         alt={title}
-                        className="rounded-t"
+                        className="rounded-t w-full"
                     />
                     <p className="text-xs font-semibold drop-shadow text-white px-2 py-1">
                         {title}

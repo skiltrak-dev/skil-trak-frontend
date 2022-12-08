@@ -5,7 +5,7 @@ import { Paginate } from '@components/Paginate/Paginate'
 
 import { CalendarStyles } from './style'
 
-export const SidebarCalendar = ({ enbledDays, setSelectedDate }: any) => {
+export const SidebarCalendar = ({ enabledDays, setSelectedDate }: any) => {
     const [date, setDate] = useState(new Date())
 
     useEffect(() => {
@@ -17,11 +17,11 @@ export const SidebarCalendar = ({ enbledDays, setSelectedDate }: any) => {
     return (
         <CalendarStyles>
             <Calendar
-                {...(enbledDays
+                {...(enabledDays
                     ? {
                           tileDisabled: ({ date }) => {
                               return (
-                                  !enbledDays?.includes(date.getDay()) ||
+                                  !enabledDays?.includes(date.getDay()) ||
                                   date < new Date()
                               )
                           },

@@ -30,13 +30,13 @@ const PrimaryLinks = [
         title: 'Students',
         description: 'Manage Allocated Students',
         link: 'users/students?tab=all',
-        animation: Animations.Student.Appointments.AssessmentTool,
+        animation: Animations.Industry.Students.CurrentStudents, 
     },
     {
         title: 'Industries',
         description: 'Manage Allocated Industries',
         link: 'users/industries?tab=all',
-        animation: Animations.Student.Workplace.Jobs,
+        animation: Animations.Student.Appointments.AssessmentTool,
     },
 ]
 
@@ -145,19 +145,19 @@ const SubAdminUsers: NextPageWithLayout = () => {
                 </div>
             </div>
 
-            <div className="mt-6 flex justify-between">
-                {/* Related Questions */}
+            {/* <div className="mt-6 flex justify-between">
+
                 <HelpQuestionSet
                     title={'What you want to do here?'}
                     questions={RelatedQuestions}
                 />
 
-                {/* Other Questions */}
+
                 <HelpQuestionSet
                     title={'What else you want to do?'}
                     questions={OtherQuestions}
                 />
-            </div>
+            </div> */}
         </div>
     )
 }

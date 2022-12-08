@@ -177,7 +177,7 @@ export const TimeSlots = ({
             <div className="flex justify-between gap-x-8 mt-1">
                 <div className="w-2/6">
                     <SidebarCalendar
-                        enbledDays={daysAvailability || []}
+                        enabledDays={daysAvailability || []}
                         setSelectedDate={setSelectedDate}
                     />
                 </div>

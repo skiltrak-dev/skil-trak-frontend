@@ -40,7 +40,7 @@ const Students: NextPageWithLayout = (props: Props) => {
 
     const tabs: TabProps[] = [
         {
-            label: 'All',
+            label: 'All Students',
             href: { pathname: 'students', query: { tab: 'all' } },
             element: <AllStudents />,
         },
@@ -50,7 +50,6 @@ const Students: NextPageWithLayout = (props: Props) => {
             element: <MyStudents />,
         },
     ]
-
 
     return (
         <>
@@ -70,7 +69,11 @@ const Students: NextPageWithLayout = (props: Props) => {
     )
 }
 Students.getLayout = (page: ReactElement) => {
-    return <SubAdminLayout pageTitle={{title:"Students"}}>{page}</SubAdminLayout>
+    return (
+        <SubAdminLayout pageTitle={{ title: 'Students', backTitle: 'Users' }}>
+            {page}
+        </SubAdminLayout>
+    )
 }
 
 export default Students

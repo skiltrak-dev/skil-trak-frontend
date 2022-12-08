@@ -1,25 +1,27 @@
-import { useRouter } from 'next/router'
 import Image from 'next/image'
 import Link from 'next/link'
+import { useRouter } from 'next/router'
 
 // Icons
-import { FaEye, FaEnvelope } from 'react-icons/fa'
+import { FaEnvelope, FaEye } from 'react-icons/fa'
 
 // components
 import {
     Card,
+    EmptyData,
+    InitialAvatar,
+    LoadingAnimation,
+    PlacementTableCell,
+    Table,
+    TableAction,
     TableActionOption,
     Typography,
-    TableAction,
-    LoadingAnimation,
-    Table,
-    EmptyData,
 } from '@components'
 
+import { TechnicalError } from '@components/ActionAnimations/TechnicalError'
+import { useGetSubAdminStudentsQuery } from '@queries'
 import { Student } from '@types'
 import { useState } from 'react'
-import { useGetSubAdminStudentsQuery } from '@queries'
-import { TechnicalError } from '@components/ActionAnimations/TechnicalError'
 
 export const AllStudents = () => {
     const router = useRouter()
@@ -32,6 +34,8 @@ export const AllStudents = () => {
         skip: itemPerPage * page - itemPerPage,
         limit: itemPerPage,
     })
+
+    console.log('::: DATA', data)
     const tableActionOptions: TableActionOption[] = [
         {
             text: 'View',
@@ -60,31 +64,36 @@ export const AllStudents = () => {
                     phone,
                     workplace,
                     industries,
-                    user: { name, email, image },
+                    studentId,
+                    user: { name, email, avatar },
                 } = row.original
 
                 return (
                     <div className="flex items-center relative">
                         <div className="flex items-center gap-x-2">
-                            <Image
-                                className="rounded-full w-7 h-7"
-                                src={
-                                    'https://images.unsplash.com/photo-1664575602276-acd073f104c1?ixlib=rb-4.0.3&ixid=MnwxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80' ||
-                                    ' '
-                                }
-                                alt={''}
-                                width={50}
-                                height={50}
-                            />
+                            <div>
+                                {avatar ? (
+                                    <Image
+                                        className="rounded-full w-7 h-7"
+                                        src={avatar}
+                                        alt={''}
+                                        width={50}
+                                        height={50}
+                                    />
+                                ) : (
+                                    <InitialAvatar name={name} />
+                                )}
+                            </div>
+
                             <Link
                                 href={`/portals/sub-admin/users/students/${row.original.id}?tab=overview`}
                             >
                                 <a>
                                     <div className="flex items-center gap-x-2">
-                                        <Typography variant={'muted'}>
-                                            {phone}
-                                        </Typography>
-                                        <div className="flex items-center gap-x-2 ">
+                                        <p className={'text-xs text-gray-500'}>
+                                            {studentId}
+                                        </p>
+                                        {/* <div className="flex items-center gap-x-2 ">
                                             <div
                                                 className={`w-1 h-1 rounded-full ${
                                                     industries === null
@@ -98,19 +107,16 @@ export const AllStudents = () => {
                                             >
                                                 Completed
                                             </Typography>
-                                        </div>
+                                        </div> */}
                                     </div>
-                                    <Typography color={'black'}>
+                                    <p className="text-gray-800 font-medium">
                                         {name}
-                                    </Typography>
-                                    <div className="flex items-center gap-x-2">
-                                        <FaEnvelope />
-                                        <Typography
-                                            variant={'muted'}
-                                            color={'gray'}
-                                        >
-                                            {email}
-                                        </Typography>
+                                    </p>
+                                    <div className="flex items-center gap-x-2 text-sm">
+                                        <span className="text-gray-400">
+                                            <FaEnvelope />
+                                        </span>
+                                        <p className="text-gray-500">{email}</p>
                                     </div>
                                 </a>
                             </Link>
@@ -119,36 +125,12 @@ export const AllStudents = () => {
                 )
             },
         },
-        // {
-        //     header:() => 'Type',
-        //     accessorKey: 'employmentType',
-        //     cell: ({ row }) => {
-        //         const { employmentType } = row.original
-        //         switch (employmentType) {
-        //             case 'fullTime':
-        //                 return 'Full Time'
-
-        //             case 'partTime':
-        //                 return 'Part Time'
-
-        //             default:
-        //                 return 'Temporary'
-        //         }
-        //     },
-        //     disableFilters: true,
-        // },
         {
             header: () => 'Phone #',
             accessorKey: 'phone',
             cell: ({ row }: any) => {
                 const { phone } = row.original
-                return (
-                    <div className="flex justify-center">
-                        <Typography variant={'muted'} color={'gray'}>
-                            {phone}
-                        </Typography>
-                    </div>
-                )
+                return <p className="text-sm">{phone}</p>
             },
         },
 
@@ -156,12 +138,11 @@ export const AllStudents = () => {
             header: () => 'Address',
             accessorKey: 'address',
             cell: ({ row }: any) => {
-                const { address, city, state, zipCode } = row.original
+                const { state, suburb } = row.original
                 return (
-                    <div className="flex justify-center">
-                        <Typography color={'black'}>{address}</Typography>
-                        <Typography color={'black'}>{state}</Typography>
-                    </div>
+                    <p className="text-sm">
+                        {suburb}, {state}
+                    </p>
                 )
             },
         },
@@ -172,10 +153,9 @@ export const AllStudents = () => {
                 const { rto } = row.original
 
                 return (
-                    <div className="flex justify-center">
-                        <Typography variant="body" color={'black'}>
-                            {rto.user.name}
-                        </Typography>
+                    <div className="flex gap-x-2 items-center">
+                        <InitialAvatar name={rto.user.name} small />
+                        {rto.user.name}
                     </div>
                 )
             },
@@ -183,12 +163,10 @@ export const AllStudents = () => {
         {
             header: () => 'Progress',
             accessorKey: 'progress',
-            cell: ({}) => {
+            cell: ({ row }: any) => {
                 return (
                     <div className="flex justify-center">
-                        <Typography variant="muted" color="text-blue-400">
-                            Request
-                        </Typography>
+                        <PlacementTableCell request={row.original.workplace}/>
                     </div>
                 )
             },

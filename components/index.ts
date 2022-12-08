@@ -68,3 +68,5 @@ export * from './Note'
 
 export * from './ContentEditor'
 export * from './ImportantDocument'
+
+export * from './PlacementProgress'

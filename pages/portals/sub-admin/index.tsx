@@ -1,27 +1,16 @@
-import { ReactElement, useEffect, useState } from 'react'
-import Image from 'next/image'
-import Link from 'next/link'
 import { Course, NextPageWithLayout } from '@types'
+import { ReactElement, useEffect, useState } from 'react'
 
 // layouts
 import { SubAdminLayout } from '@layouts'
 // components
 import {
-    Badge,
     Card,
-    ContextBarLoading,
-    DocumentCard,
-    HelpQuestionSet,
-    InitialAvatar,
-    LottieAnimation,
-    NoData,
-    UserProfile,
+    ContextBarLoading, HelpQuestionSet, LottieAnimation,
+    NoData
 } from '@components'
-import { InitialAvatarContainer } from '@components/InitialAvatar/InitialAvatarContainer'
 // icons
-import { MdPermContactCalendar, MdPhone, MdVerified } from 'react-icons/md'
-import { FaBook, FaMapMarker, FaMapMarkerAlt, FaSchool } from 'react-icons/fa'
-import { IoBriefcase } from 'react-icons/io5'
+import { FaSchool } from 'react-icons/fa'
 // animations
 import { Animations } from '@animations'
 // hooks
@@ -32,54 +21,54 @@ import { FigureCard } from '@components/sections/subAdmin/components/Cards/Figur
 
 import { AuthUtils } from '@utils'
 
-import { SubAdminApi } from '@queries'
 import { ImportantDocuments } from '@partials/sub-admin/components'
+import { SubAdminApi } from '@queries'
 
 const WorkplaceQuestions = [
     {
-        text: `I have a workplace. What next?`,
+        text: `Where can I find my students?`,
+        link: 'sub-admin/users/students?tab=my-students',
+    },
+    {
+        text: `How to add student workplace?`,
         link: '#',
     },
     {
-        text: `I don't have a workplace. What should I do?`,
+        text: `Looking for workplace for a student!`,
         link: '#',
     },
     {
-        text: `I want to book an appointment`,
+        text: `Where can I see student placement status?`,
         link: '#',
     },
     {
-        text: `I want to look for a job`,
-        link: '#',
-    },
-    {
-        text: `I don't have a workplace. What should I do?`,
+        text: `How to add note on student profile?`,
         link: '#',
     },
 ]
 
 const AssessmentQuestions = [
     {
-        text: `I have a workplace. What next?`,
+        text: `Where can I find student placement document?`,
         link: '#',
     },
     {
-        text: `I don't have a workplace. What should I do?`,
+        text: `How can I upload student assessment?`,
         link: '#',
     },
     {
-        text: `I want to book an appointment`,
+        text: `Where can I add or view assessment requirements?`,
         link: '#',
     },
 ]
 
 const NotificationQuestions = [
     {
-        text: `I have a workplace. What next?`,
+        text: `How to send an email to student from portal?`,
         link: '#',
     },
     {
-        text: `I don't have a workplace. What should I do?`,
+        text: `Where can I see student communication?`,
         link: '#',
     },
 ]
@@ -120,6 +109,49 @@ const SubAdminDashboard: NextPageWithLayout = () => {
 
     return (
         <div className="flex flex-col gap-y-6 pb-8">
+            <div className="flex flex-col gap-y-4">
+                <div className="flex gap-x-4">
+                    <FigureCard
+                        imageUrl="/images/icons/rto.png"
+                        count={data?.rtos?.length}
+                        title={'RTOs'}
+                        link={'sub-admin/users/rtos'}
+                    />
+                    <FigureCard
+                        imageUrl="/images/icons/students.png"
+                        count={0}
+                        title={'Students'}
+                        link={'sub-admin/users/students?tab=all'}
+                    />
+                    <FigureCard
+                        imageUrl="/images/icons/industry.png"
+                        count={0}
+                        title={'Industries'}
+                        link={'sub-admin/users/industries?tab=all'}
+                    />
+                </div>
+                <div className="flex gap-x-4">
+                    <FigureCard
+                        imageUrl="/images/icons/workplace.png"
+                        count={0}
+                        title={'Workplace Requests'}
+                        link={'sub-admin/tasks/workplace?tab=all'}
+                    />
+                    <FigureCard
+                        imageUrl="/images/icons/pending-student.png"
+                        count={0}
+                        title={'Assessment Submissions'}
+                        link={'sub-admin/tasks/appointments'}
+                    />
+                    <FigureCard
+                        imageUrl="/images/icons/appointments.png"
+                        count={0}
+                        title={'Appointments'}
+                        link={'sub-admin/tasks/appointments'}
+                    />
+                </div>
+            </div>
+
             {/* Question Section */}
             <section className="bg-[#D6F4FF] w-full p-4 rounded-2xl relative overflow-hidden">
                 <div className="absolute right-0 -bottom-3">
@@ -149,7 +181,7 @@ const SubAdminDashboard: NextPageWithLayout = () => {
                 <div className="mt-2 flex gap-x-6">
                     <div>
                         <HelpQuestionSet
-                            title="Workplace"
+                            title="Students"
                             questions={WorkplaceQuestions}
                             smallHeading
                         />
@@ -173,42 +205,7 @@ const SubAdminDashboard: NextPageWithLayout = () => {
                 </div>
             </section>
 
-            <div className="flex flex-col gap-y-4">
-                <div className="flex gap-x-4">
-                    <FigureCard
-                        imageUrl="/images/icons/students.png"
-                        count={0}
-                        title={'Students'}
-                    />
-                    <FigureCard
-                        imageUrl="/images/icons/industry.png"
-                        count={0}
-                        title={'Industries'}
-                    />
-                    <FigureCard
-                        imageUrl="/images/icons/rto.png"
-                        count={data?.rtos?.length}
-                        title={'RTOs'}
-                    />
-                </div>
-                <div className="flex gap-x-4">
-                    <FigureCard
-                        imageUrl="/images/icons/workplace.png"
-                        count={0}
-                        title={'Workplace Requests'}
-                    />
-                    <FigureCard
-                        imageUrl="/images/icons/pending-student.png"
-                        count={0}
-                        title={'Pending Students'}
-                    />
-                    <FigureCard
-                        imageUrl="/images/icons/appointments.png"
-                        count={0}
-                        title={'Appointments'}
-                    />
-                </div>
-            </div>
+            <ImportantDocuments />
 
             {/* Sector Card */}
             <Card>
@@ -279,8 +276,6 @@ const SubAdminDashboard: NextPageWithLayout = () => {
                     )}
                 </div>
             </Card>
-
-            <ImportantDocuments />
         </div>
     )
 }
