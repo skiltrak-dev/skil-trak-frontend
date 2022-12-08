@@ -84,8 +84,8 @@ export const DocumentCard = ({
                     <div className="flex items-center gap-x-1">
                         {requiredDoc?.uploaded
                             ?.slice(0, 4)
-                            ?.map((uploaded: any) => (
-                                <Typography variant={'xs'} color={'text-error'}>
+                            ?.map((uploaded: any, idx:number) => (
+                                <Typography key={idx} variant={'xs'} color={'text-error'}>
                                     {elipiciseText(uploaded?.fileName, 10)},
                                 </Typography>
                             ))}
