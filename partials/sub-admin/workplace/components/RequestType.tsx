@@ -23,9 +23,10 @@ export const RequestType = ({
     data: any
     workplace: any
 }) => {
-    // console.log('data', data.id)
     const [visibleRequestType, setVisibleRequestType] = useState(false)
-    const [selectedRequestType, setSelectedRequestType] = useState(0)
+    const [selectedRequestType, setSelectedRequestType] = useState<
+        number | null
+    >(0)
 
     const [interView, interViewResult] = useSendInterviewNotificationMutation()
 
@@ -94,10 +95,38 @@ export const RequestType = ({
         },
         {
             primaryText: 'Placement Started',
-            secondaryText: '',
+            secondaryText: 'Placement Started',
             color: 'text-success-dark',
             onClick: () => {},
             status: 'placementStarted',
+        },
+        {
+            primaryText: 'Completed',
+            secondaryText: 'Completed',
+            color: 'text-error',
+            onClick: () => {},
+            status: 'completed',
+        },
+        {
+            primaryText: 'Cancelled',
+            secondaryText: 'Cancelled',
+            color: 'text-error',
+            onClick: () => {},
+            status: 'cancelled',
+        },
+        {
+            primaryText: 'Rejected',
+            secondaryText: 'Rejected',
+            color: 'text-error',
+            onClick: () => {},
+            status: 'rejected',
+        },
+        {
+            primaryText: 'Terminated',
+            secondaryText: 'Terminated',
+            color: 'text-error',
+            onClick: () => {},
+            status: 'terminated',
         },
     ]
 
@@ -106,7 +135,11 @@ export const RequestType = ({
     )
 
     useEffect(() => {
-        setSelectedRequestType(findStatusIndex)
+        if (data?.industryResponse === 'rejected') {
+            setSelectedRequestType(requestTypeActions.length - 1)
+        } else {
+            setSelectedRequestType(findStatusIndex)
+        }
 
         // if (data?.caseOfficerAssigned) {
         //     setSelectedRequestType(1)
@@ -126,8 +159,6 @@ export const RequestType = ({
     }, [data])
 
     const isLoading = interViewResult.isLoading
-
-    console.log('findStatusIndex', findStatusIndex)
 
     return (
         <div className="relative">
@@ -161,16 +192,20 @@ export const RequestType = ({
                         <Typography
                             variant={'label'}
                             color={
-                                requestTypeActions[selectedRequestType].color
+                                requestTypeActions[selectedRequestType as any]
+                                    ?.color
                             }
                         >
                             {
-                                requestTypeActions[selectedRequestType]
-                                    .primaryText
+                                requestTypeActions[selectedRequestType as any]
+                                    ?.primaryText
                             }
                         </Typography>
                         <Typography variant={'xs'} color={'text-gray-300'}>
-                            {requestType[selectedRequestType].secondaryText}
+                            {
+                                requestTypeActions[selectedRequestType as any]
+                                    ?.secondaryText
+                            }
                         </Typography>
                     </div>
                     <IoMdArrowDropdown

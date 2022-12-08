@@ -4,13 +4,16 @@ import moment from 'moment'
 import { RiBook2Fill } from 'react-icons/ri'
 
 // components
-import { Card, Typography, Button } from '@components'
+import { Card, Typography, Button, ActionButton } from '@components'
 
 // utils
-import { elipiciseText } from '@utils'
+import { elipiciseText, userStatus } from '@utils'
 
 // query
-import { useAssignToSubAdminMutation } from '@queries'
+import {
+    useAssignToSubAdminMutation,
+    useCancelWorkplaceStatusMutation,
+} from '@queries'
 import { useEffect, useState } from 'react'
 import { useContextBar } from '@hooks'
 import { AssignToMe } from './AssignToMe'
@@ -23,6 +26,11 @@ import { Notes } from './Notes'
 export const WorkplaceRequest = ({ workplace }: any) => {
     const [appliedIndustry, setAppliedIndustry] = useState<any | null>(null)
     const [course, setCourse] = useState<any | null>(null)
+
+    // query
+    const [cancelWorkplace, cancelWorkplaceResult] =
+        useCancelWorkplaceStatusMutation()
+
     useEffect(() => {
         setAppliedIndustry(workplace.industries?.find((i: any) => i.applied))
         setCourse(workplace?.courses ? workplace?.courses[0] : {})
@@ -98,12 +106,33 @@ export const WorkplaceRequest = ({ workplace }: any) => {
             {/* Industries and notes */}
             <div className="grid grid-cols-2 gap-x-3 mt-4">
                 {/* Industries */}
-                <Industries
-                    appliedIndustry={appliedIndustry}
-                    industries={workplace?.industries}
-                    workplaceId={workplace?.id}
-                    workplace={workplace}
-                />
+                <div>
+                    <Industries
+                        appliedIndustry={appliedIndustry}
+                        industries={workplace?.industries}
+                        workplaceId={workplace?.id}
+                        workplace={workplace}
+                    />
+                    {!appliedIndustry?.cancelled &&
+                        appliedIndustry?.industryResponse !== 'rejected' &&
+                        !appliedIndustry?.isCompleted &&
+                        !appliedIndustry?.terminated && (
+                            <div className="mt-3">
+                                <ActionButton
+                                    variant={'error'}
+                                    onClick={async () => {
+                                        await cancelWorkplace(
+                                            Number(appliedIndustry?.id)
+                                        )
+                                    }}
+                                    loading={cancelWorkplaceResult.isLoading}
+                                    disabled={cancelWorkplaceResult.isLoading}
+                                >
+                                    Cancel Request
+                                </ActionButton>
+                            </div>
+                        )}
+                </div>
 
                 {/* Notes */}
                 <Notes workplace={workplace} />

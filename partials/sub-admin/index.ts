@@ -1,5 +1,5 @@
+export * from './workplace'
 export * from './SetSchedule'
 export * from './appointments'
 export * from './SetUnavailability'
 export * from './createAppointments'
-export * from './workplace'

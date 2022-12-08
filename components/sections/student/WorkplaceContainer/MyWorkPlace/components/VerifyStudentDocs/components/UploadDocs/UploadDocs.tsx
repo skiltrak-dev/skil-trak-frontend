@@ -2,9 +2,6 @@ import React from 'react'
 
 import { LoadingAnimation, ShowErrorNotifications } from '@components'
 
-// hoc
-import { FileUpload } from '@hoc'
-
 // query
 import { useUploadDocumentsMutation } from '@queries'
 import { DocumentCard } from '../DocumentCard'
@@ -45,9 +42,14 @@ export const UploadDocs = ({ requiredDoc, workplaceId }: any) => {
                     onChange={(e: any) => {
                         onChange(e)
                     }}
+                    requiredDoc={requiredDoc}
                     name={requiredDoc?.folder?.name}
                     capacity={requiredDoc?.folder?.capacity}
-                    uploadedDocs={requiredDoc?.ResponseCount}
+                    uploadedDocs={
+                        requiredDoc?.uploaded
+                            ? requiredDoc?.uploaded?.length
+                            : 0
+                    }
                 />
             )}
 

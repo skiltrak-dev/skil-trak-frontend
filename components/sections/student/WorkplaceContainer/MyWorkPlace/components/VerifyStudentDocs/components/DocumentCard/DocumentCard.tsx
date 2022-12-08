@@ -9,17 +9,17 @@ import { TfiReload } from 'react-icons/tfi'
 // components
 import { Typography } from 'components'
 import { useNotification } from '@hooks'
+import { elipiciseText } from '@utils'
 
 export const DocumentCard = ({
     name,
     capacity,
     onChange,
     uploadedDocs,
+    requiredDoc,
 }: any) => {
     const [fileList, setFileList] = useState<any | null>(null)
     const [invalidSelection, setInvalidSelection] = useState<any | null>(null)
-
-    console.log('fileList', fileList)
 
     // hook
     const { notification } = useNotification()
@@ -27,7 +27,6 @@ export const DocumentCard = ({
     const handleChange = (event: any) => {
         // Getting file Data
         const fileData: FileList = event.target.files
-        // console.log('fileData', fileData)
 
         // for multiple files upload
         let multipleFiles: any = []
@@ -38,12 +37,14 @@ export const DocumentCard = ({
                 // setFileList((preVal: any) => [...preVal, fileData[key]])
             }
         }
-        console.log('fileData.length', fileData.length)
         if (capacity && fileData.length + uploadedDocs <= capacity) {
             setFileList(multipleFiles)
             fileData && onChange && onChange(multipleFiles)
         } else {
-            alert('capacity')
+            notification.error({
+                title: 'More Than Capacity Selected',
+                description: 'You selected more documents from capacity',
+            })
         }
     }
 
@@ -78,6 +79,22 @@ export const DocumentCard = ({
                     <Typography variant={'xs'} color={'text-error'}>
                         Invalid File Format is selected
                     </Typography>
+                )}
+                {requiredDoc?.uploaded && (
+                    <div className="flex items-center gap-x-1">
+                        {requiredDoc?.uploaded
+                            ?.slice(0, 4)
+                            ?.map((uploaded: any) => (
+                                <Typography variant={'xs'} color={'text-error'}>
+                                    {elipiciseText(uploaded?.fileName, 10)},
+                                </Typography>
+                            ))}
+                        {requiredDoc?.uploaded?.length > 4 && (
+                            <Typography variant={'xs'} color={'text-error'}>
+                                ....
+                            </Typography>
+                        )}
+                    </div>
                 )}
                 <Typography variant={'small'} color={'text-gray-500'}>
                     ({uploadedDocs}/{capacity})
@@ -116,6 +133,7 @@ export const DocumentCard = ({
                         {...(isNotUploadedDocs
                             ? { htmlFor: `file_id_${name}` }
                             : {})}
+                        // htmlFor={`file_id_${name}`}
                         className={`${
                             isNotUploadedDocs ? 'cursor-pointer' : ''
                         }`}

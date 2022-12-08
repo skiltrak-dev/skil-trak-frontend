@@ -1,13 +1,10 @@
 import { ReactElement, useEffect, useState } from 'react'
 
-import {
-    LoadingAnimation,
-    StepIndicator
-} from '@components'
+import { LoadingAnimation, StepIndicator } from '@components'
 import {
     Availability,
     IndustrySelection,
-    PersonalInfo
+    PersonalInfo,
 } from '@components/sections/student/WorkplaceContainer/MyWorkPlace'
 import { StudentLayout } from '@layouts'
 import { NextPageWithLayout } from '@types'
@@ -88,7 +85,7 @@ const DontHaveWorkplace: NextPageWithLayout = (props: Props) => {
                 {(active === 3 || active === 4) && (
                     <IndustrySelection
                         setActive={setActive}
-                        workplaceIndustries={workplace?.data}
+                        workplace={workplace}
                     />
                 )}
 

@@ -74,13 +74,6 @@ export const subAdminWorkplaceApi = createApi({
             }),
             invalidatesTags: ['SubAdminWorkplace'],
         }),
-        cancelPlacement: builder.mutation({
-            query: (id) => ({
-                url: `cancel-workplace-request/${id}`,
-                method: 'PATCH',
-            }),
-            invalidatesTags: ['SubAdminWorkplace'],
-        }),
         terminatePlacement: builder.mutation({
             query: (id) => ({
                 url: `terminate-workplace-request/${id}`,
@@ -107,6 +100,28 @@ export const subAdminWorkplaceApi = createApi({
             query: (id) => `workplace-request/docs/${id}`,
             providesTags: ['SubAdminWorkplace'],
         }),
+        getCancelledWorkplaces: builder.query<any, void>({
+            query: () => 'cancelled-workplace-request/list',
+            providesTags: ['SubAdminWorkplace'],
+        }),
+        cancelWorkplaceStatus: builder.mutation<any, number>({
+            query: (id) => ({
+                url: `student/workplace/update/${id}`,
+                method: 'PATCH',
+            }),
+            invalidatesTags: ['SubAdminWorkplace'],
+        }),
+        updateWorkplaceStatus: builder.mutation<
+            any,
+            { id: number; response: string }
+        >({
+            query: ({ id, response }) => ({
+                url: `workplace-request/industry-response/${id}`,
+                params: { response },
+                method: 'PATCH',
+            }),
+            invalidatesTags: ['SubAdminWorkplace'],
+        }),
     }),
 })
 
@@ -118,12 +133,14 @@ export const {
     useCompletePlacementMutation,
     useTerminatePlacementMutation,
     useGetMyStudentsWorkplacesQuery,
-    useCancelPlacementMutation,
     useGetSubAdminWorkplacesQuery,
+    useGetCancelledWorkplacesQuery,
     useSendInterviewNotificationMutation,
     useForwardWorkplaceToIndustryMutation,
     useAddWorkplaceNoteMutation,
     useGetWorkplaceFoldersQuery,
+    useUpdateWorkplaceStatusMutation,
+    useCancelWorkplaceStatusMutation,
     useGetAddedByStudentsWorkplacesQuery,
     // useGetCoordinatorsAvailabilityQuery,
     // useGetAppointmentsTypesQuery,

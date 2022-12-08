@@ -72,7 +72,6 @@ const RTODashboard: NextPageWithLayout = () => {
     const contextBar = useContextBar()
     const [credentials, setCredentials] = useState<any>(null)
     const { data: rto, isLoading } = RtoApi.Rto.useProfile()
-    // console.log("rto profile", rto);
     
     useEffect(() => {
         contextBar.setContent(<ViewProfileCB />)

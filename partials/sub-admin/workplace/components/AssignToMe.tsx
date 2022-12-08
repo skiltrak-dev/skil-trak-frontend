@@ -46,7 +46,10 @@ export const AssignToMe = ({ workplace, appliedIndustry }: any) => {
                         })
                     }}
                     loading={assignToMeResult?.isLoading}
-                    disabled={assignToMeResult?.isLoading}
+                    disabled={
+                        assignToMeResult?.isLoading ||
+                        workplace?.currentStatus === 'cancelled'
+                    }
                 />
             )}
         </div>

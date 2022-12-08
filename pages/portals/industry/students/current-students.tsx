@@ -67,7 +67,8 @@ const CurrentStudents: NextPageWithLayout = () => {
     ]
     return (
         <div>
-            <TabNavigation tabs={tabs}>
+            <PendingStudents />
+            {/* <TabNavigation tabs={tabs}>
                 {({ header, element }: any) => {
                     return (
                         <div>
@@ -76,7 +77,7 @@ const CurrentStudents: NextPageWithLayout = () => {
                         </div>
                     )
                 }}
-            </TabNavigation>
+            </TabNavigation> */}
         </div>
     )
 }
