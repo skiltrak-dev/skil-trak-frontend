@@ -63,6 +63,8 @@ export interface Student extends BaseResponse {
     courses: Course[]
     assessmentEvidence: any[]
     workplace: any
+
+    gender: string
 }
 
 export interface SubAdmin extends BaseResponse {

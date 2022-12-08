@@ -3,6 +3,7 @@
 import { Animations } from '@animations'
 import Link from 'next/link'
 import Lottie from 'react-lottie'
+import Image from 'next/image'
 
 interface EmptyDataProps {
     title?: string
@@ -10,6 +11,7 @@ interface EmptyDataProps {
     actionLink?: any
     actionText?: string
     height?: string
+    imageUrl?: string
 }
 export const EmptyData = ({
     title,
@@ -17,6 +19,7 @@ export const EmptyData = ({
     actionLink,
     actionText,
     height,
+    imageUrl,
 }: EmptyDataProps) => {
     const animationOptions = {
         loop: true,
@@ -35,14 +38,23 @@ export const EmptyData = ({
 					<Icon className="text-6xl" />
 				</div> */}
                 <div>
-                    <Lottie
-                        options={animationOptions}
-                        height={250}
-                        width={250}
-                    />
+                    {imageUrl ? (
+                        <Image
+                            src={imageUrl}
+                            width={80}
+                            height={80}
+                            alt={'No Data'}
+                        />
+                    ) : (
+                        <Lottie
+                            options={animationOptions}
+                            height={250}
+                            width={250}
+                        />
+                    )}
                 </div>
 
-                <p className="text-gray-500 text-lg font-bold">
+                <p className="text-gray-500 text-md font-bold mt-4">
                     {title || 'It seems your data is empty'}
                 </p>
                 <p className="text-gray-400">

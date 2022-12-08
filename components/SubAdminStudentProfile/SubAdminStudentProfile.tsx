@@ -2,8 +2,8 @@ import Image from 'next/image'
 // moment
 import moment from 'moment'
 import {
-  InitialAvatar,
-  InitialAvatarContainer,
+    InitialAvatar,
+    InitialAvatarContainer,
 } from '@components/InitialAvatar'
 import { Typography } from '@components/Typography'
 import { useRouter } from 'next/router'
@@ -13,196 +13,189 @@ import { BiRename } from 'react-icons/bi'
 import { IoLocation } from 'react-icons/io5'
 import { GiBackwardTime } from 'react-icons/gi'
 import {
-  FaAddressCard,
-  FaBirthdayCake,
-  FaPhoneAlt,
-  FaUserCircle,
+    FaAddressCard,
+    FaBirthdayCake,
+    FaPhoneAlt,
+    FaUserCircle,
+    FaUserGraduate,
 } from 'react-icons/fa'
 import { MdBatchPrediction, MdBlock, MdPhone, MdVerified } from 'react-icons/md'
 // queries
 
-type Props = {
-  data: any
+import { useGetSubAdminStudentDetailQuery } from '@queries'
+import { Student } from '@types'
+import { StudentAvatar } from '@components/avatars'
+
+const getGender = (gender: string | undefined) => {
+    if (!gender) return 'N/A'
+
+    if (gender.toLocaleLowerCase() === 'm') return 'Male'
+    if (gender.toLocaleLowerCase() === 'f') return 'Female'
 }
+export const SubAdminStudentProfile = ({ student }: { student: Student }) => {
+    return (
+        <div>
+            <div className="flex justify-end gap-x-2">
+                <div className="bg-blue-100 rounded-full p-1">
+                    <AiFillEdit className="text-blue-400  cursor-pointer " />
+                </div>
+                <div className="bg-red-100 rounded-full p-1">
+                    <MdBlock className="text-red-400  cursor-pointer bg-red-100 rounded-full" />
+                </div>
+            </div>
+            <div className="flex flex-col items-center">
+                <StudentAvatar
+                    name={student?.user.name}
+                    imageUrl={student.user.avatar}
+                    gender={student.gender}
+                />
 
-export const SubAdminStudentProfile = ({ data }: Props) => {
-  const checkStatus = (status: any) => {
-    switch (status) {
-      case 'notCompetent':
-        return 'Not Competent'
-      case 'competent':
-        return 'Competent'
-    }
-  }
-  const studentProfileData = [
-    {
-      courseCode: 'SITHCCC020',
-      courseName: 'Work Effectively As Cook',
-      status: 'Completed',
-      assessment: 'Competent',
-    },
-    {
-      courseCode: 'SITHCCC020',
-      courseName: 'Coordinate Cooking Operations',
-      status: 'Active',
-      assessment: 'Not Competent',
-    },
-    {
-      courseCode: 'SITHCCC020',
-      courseName: 'Work Effectively In Hospitality Service',
-      status: 'Not Active',
-      assessment: 'Not Competent',
-    },
-  ]
-  return (
-    <div>
-      <div className="flex justify-end gap-x-2">
-        <div className="bg-blue-100 rounded-full p-1">
-          <AiFillEdit className="text-blue-400  cursor-pointer " />
-        </div>
-        <div className="bg-red-100 rounded-full p-1">
-          <MdBlock className="text-red-400  cursor-pointer bg-red-100 rounded-full" />
-        </div>
-      </div>
-      <div className="flex flex-col items-center">
-        <div className="relative">
-          <Image
-            src="https://images.unsplash.com/photo-1615915468538-0fbd857888ca?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8N3x8ZG9zYSUyMGh1dCUyMGxvZ298ZW58MHx8MHx8&auto=format&fit=crop&w=500&q=60"
-            width={100}
-            height={100}
-            className="rounded-full shadow-inner-image"
-          />
-          <div className="absolute top-0 w-[100px] h-[100px] bg-transparent rounded-full shadow-inner-image"></div>
-        </div>
+                <div className="flex flex-col items-center">
+                    <p className="text-lg font-semibold">
+                        {student.user?.name}
+                    </p>
+                    <div className="flex items-center gap-x-2">
+                        <p className="text-sm text-gray-400">
+                            {student?.user?.email}
+                        </p>
+                        <span className="text-blue-500">
+                            <MdVerified />
+                        </span>
+                    </div>
+                </div>
+            </div>
 
-        <div className="flex flex-col items-center">
-          <p className="text-lg font-semibold">{data?.user?.name}</p>
-          <div className="flex items-center gap-x-2">
-            <p className="text-sm text-gray-400">{data?.user?.email}</p>
-            <span className="text-blue-500">
-              <MdVerified />
-            </span>
-          </div>
-        </div>
-      </div>
+            {/* Info Row 1 */}
+            <div className="flex justify-between divide-x border-b mt-4">
+                <div className="p-2">
+                    <div className="flex items-center space-x-2">
+                        <span className="text-gray-300">
+                            <FaAddressCard size={12} />
+                        </span>
+                        <p className="text-xs font-medium">
+                            {student?.studentId}
+                        </p>
+                    </div>
+                    <div className="text-gray-400 text-[11px] -mt-0.5 text-right">
+                        Student ID
+                    </div>
+                </div>
 
-      {/* Info Row 1 */}
-      <div className="flex justify-between divide-x border-b mt-4">
-        <div className="p-2">
-          <div className="flex items-center space-x-2">
-            <span className="text-gray-300">
-              <FaAddressCard />
-            </span>
-            <p className="text-sm font-medium">{data?.studentId}</p>
-          </div>
-          <div className="text-gray-400 text-[11px] -mt-0.5 text-center">
-            Student ID
-          </div>
-        </div>
+                <div className="p-2">
+                    <div className="flex items-center space-x-2">
+                        <span className="text-gray-300">
+                            <MdBatchPrediction size={12} />
+                        </span>
+                        <p className="text-xs font-medium">N/A</p>
+                    </div>
+                    <div className="text-gray-400 text-[11px] -mt-0.5 text-right">
+                        Batch
+                    </div>
+                </div>
 
-        <div className="p-2">
-          <div className="flex items-center space-x-2">
-            <span className="text-gray-300">
-              <MdBatchPrediction />
-            </span>
-            <p className="text-sm font-medium">April 22</p>
-          </div>
-          <div className="text-gray-400 text-[11px] -mt-0.5 text-center">
-            Batch
-          </div>
-        </div>
+                <div className="p-2">
+                    <div className="flex items-center space-x-2">
+                        <span className="text-gray-300">
+                            <MdPhone size={12} />
+                        </span>
+                        <p className="text-xs font-medium">{student?.phone}</p>
+                    </div>
+                    <div className="text-gray-400 text-[11px] -mt-0.5 text-right">
+                        Phone Number
+                    </div>
+                </div>
+            </div>
+            {/* Info Row 2 */}
+            <div className="flex justify-around divide-x border-b">
+                <div className="p-2">
+                    <div className="flex items-center space-x-2">
+                        <span className="text-gray-300">
+                            <FaBirthdayCake size={12} />
+                        </span>
+                        <p className="text-xs font-medium">
+                            {moment(student?.dob).format('DD MMM, YYYY')}
+                        </p>
+                    </div>
+                    <div className="text-gray-400 text-[11px] -mt-0.5 text-right">
+                        Date Of Birth
+                    </div>
+                </div>
 
-        <div className="p-2">
-          <div className="flex items-center space-x-2">
-            <span className="text-gray-300">
-              <MdPhone />
-            </span>
-            <p className="text-sm font-medium">{data?.phone}</p>
-          </div>
-          <div className="text-gray-400 text-[11px] -mt-0.5 text-center">
-            Phone Number
-          </div>
-        </div>
-      </div>
-      {/* Info Row 2 */}
-      <div className="flex justify-around divide-x border-b">
-        <div className="p-2">
-          <div className="flex items-center space-x-2">
-            <span className="text-gray-300">
-              <FaBirthdayCake />
-            </span>
-            <p className="text-sm font-medium">
-              {moment(data?.dob).format('LL')}
-            </p>
-          </div>
-          <div className="text-gray-400 text-[11px] -mt-0.5 text-center">
-            Date Of Birth
-          </div>
-        </div>
+                <div className="p-2">
+                    <div className="flex items-center space-x-2">
+                        <span className="text-gray-300">
+                            <FaUserCircle size={12} />
+                        </span>
+                        <p className="text-xs font-medium">
+                            {getGender(student.gender)}
+                        </p>
+                    </div>
+                    <div className="text-gray-400 text-[11px] -mt-0.5 text-right">
+                        Gender
+                    </div>
+                </div>
+            </div>
 
-        <div className="p-2">
-          <div className="flex items-center space-x-2">
-            <span className="text-gray-300">
-              <FaUserCircle />
-            </span>
-            <p className="text-sm font-medium">Male</p>
-          </div>
-          <div className="text-gray-400 text-[11px] -mt-0.5 text-center">
-            Gender
-          </div>
-        </div>
-      </div>
+            {/* Info Row 3 */}
+            <div className="flex justify-around">
+                <div className="p-2">
+                    <div className="flex items-center space-x-2">
+                        <span className="text-gray-300">
+                            <IoLocation size={12} />
+                        </span>
+                        {/* <div className="text-gray-400 text-[11px] -mt-0.5 text-right">
+                            Address
+                        </div> */}
+                        <div>
+                            <p className="text-xs font-medium">
+                                {student?.addressLine1}, {student?.addressLine2}
+                                , {student?.state}, {student?.suburb}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {/* contact person row 4 */}
+            <div className="mt-4">
+                <Typography variant={'small'} color={'text-gray-500'}>
+                    Emergency Contact Person
+                </Typography>
+                <div className="flex justify-around divide-x border-t border-b">
+                    <div className="p-2">
+                        <div className="flex items-center gap-x-2">
+                            <BiRename className="text-gray-400" size={12} />
+                            <Typography
+                                variant={'muted'}
+                                color={'text-gray-400'}
+                            >
+                                Name
+                            </Typography>
+                        </div>
+                        <Typography variant={'small'} color={'text-black'}>
+                            {student?.emergencyPerson}
+                        </Typography>
+                    </div>
+                    <div className="p-2">
+                        <div className="flex items-center gap-x-2">
+                            <MdPhone className="text-gray-400" size={12} />
+                            <Typography
+                                variant={'muted'}
+                                color={'text-gray-400'}
+                            >
+                                Phone
+                            </Typography>
+                        </div>
+                        <div className="py-1">
+                            <Typography variant={'small'} color={'text-black'}>
+                                {student?.emergencyPersonPhone}
+                            </Typography>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
-      {/* Info Row 3 */}
-      <div className="flex justify-around">
-        <div className="p-2">
-          <div className="flex items-center space-x-2">
-            <span className="text-gray-300">
-              <IoLocation />
-            </span>
-            <p className="text-sm font-medium">
-              {data?.addressLine1}, {data?.addressLine2}, {data?.state},{' '}
-              {data?.suburb}
-            </p>
-          </div>
-          <div className="text-gray-400 text-[11px] -mt-0.5 text-center">
-            Address
-          </div>
-        </div>
-      </div>
-      {/* contact person row 4 */}
-      <Typography variant={'small'} color={'text-gray-500'}>
-        Emergency Contact Person
-      </Typography>
-      <div className="flex justify-around divide-x border-t border-b">
-        <div className="p-2">
-          <div className="flex items-center gap-x-2">
-            <BiRename className="text-gray-400" />
-            <Typography variant={'small'} color={'text-gray-400'}>
-              Name
-            </Typography>
-          </div>
-          <Typography variant={'small'} color={'text-black'}>
-            {data?.emergencyPerson}
-          </Typography>
-        </div>
-        <div className="p-2">
-          <div className="flex items-center gap-x-2">
-            <FaPhoneAlt className="text-gray-400" />
-            <Typography variant={'small'} color={'text-gray-400'}>
-              Phone
-            </Typography>
-          </div>
-          <div className="py-1">
-            <Typography variant={'small'} color={'text-black'}>
-              {data?.emergencyPersonPhone}
-            </Typography>
-          </div>
-        </div>
-      </div>
-
-      {/* Sector & Courses */}
-      {/* <div className="mt-4">
+            {/* Sector & Courses */}
+            {/* <div className="mt-4">
         <Typography variant={'small'} color={'text-gray-500'}>
           Sector & Courses
         </Typography>
@@ -282,6 +275,6 @@ export const SubAdminStudentProfile = ({ data }: Props) => {
           </div>
         </div>
       </div> */}
-    </div>
-  )
+        </div>
+    )
 }

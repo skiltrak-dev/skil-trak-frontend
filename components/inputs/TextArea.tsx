@@ -1,83 +1,86 @@
 import {
-	HelpText,
-	LoadingSpinner,
-	RequiredStar,
-	Tooltip,
-	Typography,
-	ValidationIcon
-} from "@components";
-import { getMethodsForInput } from "@utils";
-import { useFormContext } from "react-hook-form";
-import { InputErrorMessage } from "./components/InputErrorMessage";
-import { InputProps } from "./InputPropType";
-import { getTextInputClasses } from "./inputStyleClasses";
-
+    HelpText,
+    LoadingSpinner,
+    RequiredStar,
+    Tooltip,
+    Typography,
+    ValidationIcon,
+} from '@components'
+import { getMethodsForInput } from '@utils'
+import { useFormContext } from 'react-hook-form'
+import { InputErrorMessage } from './components/InputErrorMessage'
+import { InputProps } from './InputPropType'
+import { getTextInputClasses } from './inputStyleClasses'
 
 export type TextAreaProps = InputProps & {
-	placeholder?: string;
-};
+    placeholder?: string
+    rows?: number
+}
 
 export const TextArea = ({
-	id,
-	label,
-	name,
+    id,
+    label,
+    name,
 
-	placeholder,
+    placeholder,
 
-	helpText,
-	tooltip,
+    helpText,
+    tooltip,
 
-	value,
-	rules,
-	onChange,
-	onBlur,
+    value,
+    rules,
+    onChange,
+    onBlur,
 
-	loading = false,
-	required = false,
-	disabled = false,
-	validationIcons = false,
+    loading = false,
+    required = false,
+    disabled = false,
+    validationIcons = false,
+
+    rows,
 }: TextAreaProps) => {
-	const formContext = useFormContext();
+    const formContext = useFormContext()
 
-	const inputFieldClasses = getTextInputClasses(
-		formContext && formContext.getFieldState(name).error !== undefined,
-		disabled
-	);
+    const inputFieldClasses = getTextInputClasses(
+        formContext && formContext.getFieldState(name).error !== undefined,
+        disabled
+    )
 
-	return (
-		<div className="w-full">
-			{label && (
-				<div className="flex justify-between items-center">
-					<div>
-						<Typography variant={"label"}>{label}</Typography>
-						{required && <RequiredStar />}
-					</div>
-					{tooltip && <Tooltip text={tooltip} />}
-				</div>
-			)}
+    return (
+        <div className="w-full">
+            {label && (
+                <div className="flex justify-between items-center">
+                    <div>
+                        <Typography variant={'label'}>{label}</Typography>
+                        {required && <RequiredStar />}
+                    </div>
+                    {tooltip && <Tooltip text={tooltip} />}
+                </div>
+            )}
 
-			<div className="w-full flex items-center relative">
-				<textarea
-					className={inputFieldClasses}
-					{...(id ? { id } : {})}
-					placeholder={placeholder || ""}
-					disabled={disabled}
-					{...getMethodsForInput(
-						name,
-						formContext,
-						rules,
-						onChange,
-						onBlur
-					)}
-					{...(value ? { value } : {})}
-				></textarea>
+            <div className="w-full flex items-center relative">
+                <textarea
+                    className={inputFieldClasses}
+                    {...(id ? { id } : {})}
+                    placeholder={placeholder || ''}
+                    disabled={disabled}
+                    {...getMethodsForInput(
+                        name,
+                        formContext,
+                        rules,
+                        onChange,
+                        onBlur
+                    )}
+                    {...(value ? { value } : {})}
+                    {...(rows ? { rows } : {})}
+                ></textarea>
 
-				{!loading && validationIcons && <ValidationIcon name={name} />}
-				<LoadingSpinner loading={loading} />
-			</div>
+                {!loading && validationIcons && <ValidationIcon name={name} />}
+                <LoadingSpinner loading={loading} />
+            </div>
 
-			<HelpText text={helpText} />
-			<InputErrorMessage name={name} />
-		</div>
-	);
-};
+            <HelpText text={helpText} />
+            <InputErrorMessage name={name} />
+        </div>
+    )
+}

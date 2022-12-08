@@ -70,3 +70,4 @@ export * from './ContentEditor'
 export * from './ImportantDocument'
 
 export * from './PlacementProgress'
+export * from './avatars'

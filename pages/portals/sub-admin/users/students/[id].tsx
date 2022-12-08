@@ -20,20 +20,17 @@ import {
 
 import {
     MailsTab,
-    StudentsProfileOverview
+    StudentsProfileOverview,
 } from '@components/sections/subAdmin/StudentsContainer'
 // icons
 import { FaEdit } from 'react-icons/fa'
 // queries
 import {
     useGetSubAdminStudentDetailQuery,
-    useUpdateAssessmentToolArchiveMutation
+    useUpdateAssessmentToolArchiveMutation,
 } from '@queries'
 
-
 import { AssessmentsEvidence } from '@components/sections/student/AssessmentsContainer'
-
-
 
 // hooks
 import { AssesmentEvidenceDetail } from '@components/sections/subAdmin/Tasks'
@@ -45,24 +42,23 @@ import { Notes } from '@components/sections/subAdmin'
 type Props = {}
 
 const StudentsProfile: NextPageWithLayout = (props: Props) => {
-    const { setContent } = useContextBar()
-    const pathname = useRouter()
-    const { id } = pathname.query
+    const contextBar = useContextBar()
+    const router = useRouter()
+    const { id } = router.query
 
-    const { data, isLoading, isError } = useGetSubAdminStudentDetailQuery(
-        String(id),
-        {
+    const { data, isLoading, isError, isSuccess } =
+        useGetSubAdminStudentDetailQuery(String(id), {
             skip: !id,
-        }
-    )
-    
+        })
+
+        console.log("::: DATA", data)
+
     useEffect(() => {
-        setContent(
-            <>
-                <SubAdminStudentProfile data={data} />
-            </>
-        )
-    }, [setContent, data])
+        if (isSuccess) {
+            contextBar.setContent(<SubAdminStudentProfile student={data} />)
+            contextBar.show(false)
+        }
+    }, [data])
 
     const [archiveAssessmentTool, archiveAssessmentToolResult] =
         useUpdateAssessmentToolArchiveMutation()
@@ -89,10 +85,7 @@ const StudentsProfile: NextPageWithLayout = (props: Props) => {
                         Archive
                     </Typography>
                 </div>
-                <div
-                    onClick={() => {
-                    }}
-                >
+                <div onClick={() => {}}>
                     <FaEdit className="text-[#686DE0] cursor-pointer" />
                 </div>
             </div>
@@ -102,7 +95,6 @@ const StudentsProfile: NextPageWithLayout = (props: Props) => {
         {
             label: 'Overview',
             href: { pathname: String(id), query: { tab: 'overview' } },
-            badge: { text: '05', color: 'text-blue-500' },
             element: <StudentsProfileOverview subAdminStudentDetail={data} />,
         },
         {
@@ -110,10 +102,6 @@ const StudentsProfile: NextPageWithLayout = (props: Props) => {
             href: {
                 pathname: String(id),
                 query: { tab: 'assessments' },
-            },
-            badge: {
-                text: data?.assessmentEvidence?.length,
-                color: 'text-error-500',
             },
             element: (
                 <AssesmentEvidenceDetail courseId={data?.courses[0]?.id} />
@@ -154,7 +142,13 @@ const StudentsProfile: NextPageWithLayout = (props: Props) => {
     )
 }
 StudentsProfile.getLayout = (page: ReactElement) => {
-    return <SubAdminLayout pageTitle={{title:"Student Profile"}}>{page}</SubAdminLayout>
+    return (
+        <SubAdminLayout
+            pageTitle={{ title: 'Student Profile', backTitle: 'Students' }}
+        >
+            {page}
+        </SubAdminLayout>
+    )
 }
 
 export default StudentsProfile

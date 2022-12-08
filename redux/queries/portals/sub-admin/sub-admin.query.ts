@@ -2,6 +2,7 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 import { AuthUtils } from '@utils'
 
 import { SubAdmin } from '@types'
+import { notesEndpoints } from './notes'
 
 export const subAdminApi = createApi({
     reducerPath: 'subAdminApi',
@@ -15,7 +16,7 @@ export const subAdminApi = createApi({
             return headers
         },
     }),
-    tagTypes: ['SubAdmin'],
+    tagTypes: ['SubAdmin', 'Notes'],
 
     // ---------- Sub Admin ENDPOINTS ---------- //
     endpoints: (build) => ({
@@ -23,16 +24,30 @@ export const subAdminApi = createApi({
             query: () => `subadmin/me/profile`,
             providesTags: ['SubAdmin'],
         }),
+
+        ...notesEndpoints(build),
     }),
 })
 
 const {
     // ------ SELF ------ //
     useProfileQuery,
+
+    // ------ NOTES ------ //
+    useNotesQuery,
+    useNoteAddMutation,
+    useNoteDeleteMutation,
+    useNoteStatusChangeMutation,
 } = subAdminApi
 
 export const SubAdminApi = {
     SubAdmin: {
         useProfile: useProfileQuery,
+    },
+    Notes: {
+        useList: useNotesQuery,
+        useCreate: useNoteAddMutation,
+        useDelete: useNoteDeleteMutation,
+        useStatusChange: useNoteStatusChangeMutation,
     },
 }

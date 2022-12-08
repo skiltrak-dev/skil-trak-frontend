@@ -44,9 +44,10 @@ export const CreateNote = ({
             setEditing(false)
             setEditValues(null)
             notification.success({
-                title: 'Note Added Successfully',
-                description: 'Note Added Successfully',
+                title: 'Note Attached',
+                description: 'Note attached successfully',
             })
+            methods.reset()
         }
     }, [createNoteResult.isSuccess])
 
@@ -90,10 +91,10 @@ export const CreateNote = ({
         // setReplyMessage(null);
     }
 
-    const tamplates = [
+    const templates = [
         {
-            label: 'Tamplate',
-            value: 'tamplate',
+            label: 'Template',
+            value: 'template',
         },
     ]
 
@@ -107,7 +108,7 @@ export const CreateNote = ({
             {/* <ShowErrorNotifications
                 result={editing ? updateNoteResult : createNoteResult}
             /> */}
-            <div className={`sticky ${isVisible ? 'bottom-0' : ' top-0'}`}>
+            <div className={`sticky top-4`}>
                 <Card>
                     <FormProvider {...methods}>
                         <form
@@ -118,19 +119,28 @@ export const CreateNote = ({
                                 <TextInput
                                     label={'Title'}
                                     name={'title'}
-                                    type={'email'}
-                                    placeholder={'Reciever Email...'}
+                                    placeholder={'Note Title...'}
                                     validationIcons
                                 />
 
-                                <TextArea label={'Message'} name={'body'} />
-
-                                <Select
-                                    name={'tamplates'}
-                                    options={tamplates}
+                                <TextArea
+                                    label={'Message'}
+                                    name={'body'}
+                                    placeholder={'Note Message ...'}
+                                    rows={5}
                                 />
 
-                                <Checkbox name={'isPinned'} label={'Pinned'} />
+                                <Select
+                                    name={'templates'}
+                                    options={templates}
+                                />
+
+                                <div className="mt-2 mb-4">
+                                    <Checkbox
+                                        name={'isPinned'}
+                                        label={'Pinned'}
+                                    />
+                                </div>
 
                                 <Button
                                     submit
