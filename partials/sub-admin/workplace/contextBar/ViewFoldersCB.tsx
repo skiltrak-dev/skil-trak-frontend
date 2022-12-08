@@ -1,6 +1,9 @@
 import { useContextBar } from '@hooks'
 import { useEffect, Fragment } from 'react'
-import { Typography } from '@components'
+import { Typography, ActionButton } from '@components'
+import { elipiciseText } from '@utils'
+import { AiFillEye } from 'react-icons/ai'
+import { FaCloudDownloadAlt } from 'react-icons/fa'
 
 export const ViewFoldersCB = ({ folders }: any) => {
     const { setTitle } = useContextBar()
@@ -13,32 +16,45 @@ export const ViewFoldersCB = ({ folders }: any) => {
         <>
             <div>
                 <div>
-                    <div>
-                        {/* <Typography>j</Typography> */}
-                    </div>
+                    <div>{/* <Typography>j</Typography> */}</div>
                 </div>
                 {Object.keys(folders).map((folder) => {
                     return (
                         <Fragment key={folder}>
-                            <span className="text-xs font-medium text-slate-400 border-t pt-2">
-                                {folder}
-                            </span>
+                            <Typography variant={'label'}>
+                                <span className="font-semibold">{folder}</span>
+                            </Typography>
 
                             {(folders as any)[folder].map(
                                 (f: any, i: number) => (
-                                    <div className="flex gap-x-0.5" key={i}>
+                                    <div
+                                        className="flex justify-between items-center gap-x-0.5"
+                                        key={i}
+                                    >
                                         <Typography
                                             variant={'small'}
-                                            color={'text-gray-500'}
+                                            color={'text-slate-500'}
                                         >
-                                            {`${i + 1})`},
+                                            <span className="font-medium">
+                                                {elipiciseText(f?.fileName, 11)}
+                                            </span>
                                         </Typography>
-                                        <Typography
-                                            variant={'small'}
-                                            color={'text-gray-500'}
-                                        >
-                                            <a href={f.file}>{f.file}</a>
-                                        </Typography>{' '}
+                                        <div className="flex items-center gap">
+                                            <ActionButton
+                                                simple
+                                                Icon={AiFillEye}
+                                                variant="success"
+                                            >
+                                                <a href={f?.file}>View</a>
+                                            </ActionButton>
+                                            <ActionButton
+                                                simple
+                                                variant="link"
+                                                Icon={FaCloudDownloadAlt}
+                                            >
+                                                <a href={f?.file}>Download</a>
+                                            </ActionButton>
+                                        </div>
                                     </div>
                                 )
                             )}

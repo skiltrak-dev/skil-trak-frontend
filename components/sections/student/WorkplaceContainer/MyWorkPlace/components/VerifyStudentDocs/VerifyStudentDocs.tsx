@@ -73,7 +73,7 @@ export const VerifyStudentDocs = ({
                 acum + curr?.uploaded ? Number(curr?.uploaded?.length) : 0,
             0
         )
-        return (uploadedDocs * 100) / totalDocs
+        return (uploadedDocs / totalDocs) * 100
     }
 
     useEffect(() => {

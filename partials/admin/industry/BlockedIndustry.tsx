@@ -64,7 +64,11 @@ export const BlockedIndustry = () => {
     const tableActionOptions: TableActionOption[] = [
         {
             text: 'View',
-            onClick: () => {},
+            onClick: (industry: any) => {
+                router.push(
+                    `/portals/admin/industry/${industry.id}?tab=sectors`
+                )
+            },
             Icon: FaEye,
         },
         {

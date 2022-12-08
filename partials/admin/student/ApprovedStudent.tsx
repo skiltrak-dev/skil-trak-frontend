@@ -28,6 +28,61 @@ import { Student } from '@types'
 import { BlockModal } from './modals'
 import { useRouter } from 'next/router'
 
+const requestTypeActions = [
+    {
+        text: 'Not Requested',
+        status: 'notRequested',
+    },
+    {
+        text: 'Request Sent',
+        status: 'applied',
+    },
+    {
+        text: 'Assigned',
+        status: 'caseOfficerAssigned',
+    },
+    {
+        text: 'Interview',
+        status: 'interview',
+    },
+    {
+        text: 'Waiting',
+        status: 'awaitingWorkplaceResponse',
+    },
+    {
+        text: 'Meeting',
+        status: 'appointmentBooked',
+    },
+    {
+        text: 'Agreement & Eligibility ',
+        status: 'awaitingAgreementSigned',
+    },
+    {
+        text: 'Agreement & Eligibility ',
+        status: 'AgreementSigned',
+    },
+    {
+        text: 'Placement Started',
+        status: 'placementStarted',
+    },
+    {
+        text: 'Completed',
+        status: 'completed',
+    },
+    {
+        text: 'Cancelled',
+        status: 'cancelled',
+    },
+    {
+        text: 'Rejected',
+        status: 'rejected',
+    },
+    {
+        text: 'Terminated',
+        status: 'terminated',
+    },
+]
+
 export const ApprovedStudent = () => {
     const router = useRouter()
     const [modal, setModal] = useState<ReactElement | null>(null)
@@ -61,7 +116,11 @@ export const ApprovedStudent = () => {
     const tableActionOptions: TableActionOption[] = [
         {
             text: 'View',
-            onClick: () => {},
+            onClick: (student: any) => {
+                router.push(
+                    `/portals/admin/student/${student?.id}?tab=overview`
+                )
+            },
             Icon: FaEye,
         },
         {
@@ -115,8 +174,13 @@ export const ApprovedStudent = () => {
         {
             accessorKey: 'progress',
             header: () => <span>Progress</span>,
-            cell: (info) => {
-                return <ProgressCell step={9} />
+            cell: ({ row }) => {
+                const workplace = row.original.workplace[0]
+                const step = requestTypeActions.findIndex(
+                    (r) => r.status === workplace?.currentStatus
+                )
+                const steps = step > 0 ? step + 1 : 1
+                return <ProgressCell step={steps} />
             },
         },
         {

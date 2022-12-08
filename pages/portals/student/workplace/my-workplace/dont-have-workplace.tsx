@@ -82,12 +82,18 @@ const DontHaveWorkplace: NextPageWithLayout = (props: Props) => {
                     />
                 )}
 
-                {(active === 3 || active === 4) && (
-                    <IndustrySelection
-                        setActive={setActive}
-                        workplace={workplace}
-                    />
-                )}
+                {
+                    (active === 3 || active === 4) && (
+                        // (workplace.isFetching ? (
+                        //     <LoadingAnimation />
+                        // ) : (
+                        <IndustrySelection
+                            setActive={setActive}
+                            workplace={workplace}
+                        />
+                    )
+                    // )
+                }
 
                 {/* {active === 4 && (
                     <Card>

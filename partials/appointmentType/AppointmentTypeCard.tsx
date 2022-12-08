@@ -49,7 +49,7 @@ export const AppointmentTypeCard = ({
                 } bg-white rounded-lg py-2 px-5`}
             >
                 <div className="flex flex-col gap-y-1 items-center">
-                    <Image
+                    {/* <Image
                         src={
                             selected === title
                                 ? typeData.selectedImageUrl
@@ -58,7 +58,7 @@ export const AppointmentTypeCard = ({
                         width={100}
                         height={100}
                         alt="appointment type"
-                    />
+                    /> */}
                     <div className="">
                         <Typography variant="body" color="text-black">
                             {title}

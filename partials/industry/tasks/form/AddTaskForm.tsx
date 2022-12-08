@@ -18,6 +18,7 @@ import {
 
 // redux
 import { useGetEmployeeQuery, useAddEmployeeTaskMutation } from '@queries'
+import { disableInputDates } from '@utils'
 
 const DaysOptions = [
     { value: 'monday', label: 'Monday' },
@@ -100,15 +101,15 @@ export const AddTaskForm = ({ setIsSchedule, publishTask, DraftTask }: any) => {
                             options={
                                 EmployeeData.isSuccess
                                     ? EmployeeData?.data?.data?.map(
-                                        ({
-                                            id,
-                                            firstName,
-                                            lastName,
-                                        }: any) => ({
-                                            value: id,
-                                            label: `${firstName} ${lastName}`,
-                                        })
-                                    )
+                                          ({
+                                              id,
+                                              firstName,
+                                              lastName,
+                                          }: any) => ({
+                                              value: id,
+                                              label: `${firstName} ${lastName}`,
+                                          })
+                                      )
                                     : []
                             }
                             onlyValue
@@ -125,6 +126,7 @@ export const AddTaskForm = ({ setIsSchedule, publishTask, DraftTask }: any) => {
                             label={'Dated'}
                             name={'dated'}
                             type={'date'}
+                            min={disableInputDates()}
                             placeholder={'Dated...'}
                         />
                         <Select
@@ -143,6 +145,7 @@ export const AddTaskForm = ({ setIsSchedule, publishTask, DraftTask }: any) => {
                             label={'Start Time'}
                             name={'startTime'}
                             type={'date'}
+                            min={disableInputDates()}
                             placeholder={'Start Time...'}
                         />
                         <TextInput
@@ -150,6 +153,7 @@ export const AddTaskForm = ({ setIsSchedule, publishTask, DraftTask }: any) => {
                             name={'endTime'}
                             placeholder={'End Time...'}
                             type={'date'}
+                            min={disableInputDates()}
                         />
                         <Select
                             label={'Priority'}

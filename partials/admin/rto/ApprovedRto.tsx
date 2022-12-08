@@ -63,7 +63,9 @@ export const ApprovedRto = () => {
     const tableActionOptions: TableActionOption[] = [
         {
             text: 'View',
-            onClick: () => {},
+            onClick: (rto: any) => {
+                router.push(`/portals/admin/rto/${rto.id}?tab=sectors`)
+            },
             Icon: FaEye,
         },
         {
@@ -164,29 +166,22 @@ export const ApprovedRto = () => {
                     title={'Approved RTOs'}
                     subtitle={'List of Approved RTOs'}
                 >
-                    {data && data?.data.length ? (
-                        <>
-                            {filterAction}
-                            <Button
-                                text="Export"
-                                variant="action"
-                                Icon={FaFileExport}
-                            />
-                        </>
-                    ) : null}
+                    {filterAction}
+                    <Button
+                        text="Export"
+                        variant="action"
+                        Icon={FaFileExport}
+                    />
                 </PageHeading>
 
-                {data && data?.data.length ? (
-                    <Filter
-                        component={RtoFilters}
-                        initialValues={{ name: '', email: '', rtoCode: '' }}
-                        setFilterAction={setFilterAction}
-                        setFilter={setFilter}
-                    />
-                ) : null}
+                <Filter
+                    component={RtoFilters}
+                    initialValues={{ name: '', email: '', rtoCode: '' }}
+                    setFilterAction={setFilterAction}
+                    setFilter={setFilter}
+                />
 
                 <Card noPadding>
-                    
                     {isLoading ? (
                         <LoadingAnimation height="h-[60vh]" />
                     ) : data && data?.data.length ? (

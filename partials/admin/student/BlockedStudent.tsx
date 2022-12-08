@@ -65,7 +65,11 @@ export const BlockedStudent = () => {
     const tableActionOptions: TableActionOption[] = [
         {
             text: 'View',
-            onClick: () => {},
+            onClick: (student: any) => {
+                router.push(
+                    `/portals/admin/student/${student?.id}?tab=overview`
+                )
+            },
             Icon: FaEye,
         },
         {

@@ -2,20 +2,24 @@ import { AdminApi } from '@queries'
 import { Student, UserStatus } from '@types'
 
 export const useChangeStatus = () => {
-   const [changeStatus, changeStatusResult] =
-      AdminApi.Students.useChangeStatusMutation()
+    const [changeStatus, changeStatusResult] =
+        AdminApi.Students.useChangeStatusMutation()
 
-   const onAccept = async (student: Student) => {
-      await changeStatus({ id: student.id, status: UserStatus.Approved })
-   }
+    const onAccept = async (student: Student) => {
+        await changeStatus({ id: student.id, status: UserStatus.Approved })
+    }
 
-   const onReject = async (student: Student) => {
-      await changeStatus({ id: student.id, status: UserStatus.Rejected })
-   }
+    const onArchive = async (student: Student) => {
+        await changeStatus({ id: student.id, status: UserStatus.Archived })
+    }
 
-   const onBlock = async (student: Student) => {
-      await changeStatus({ id: student.id, status: UserStatus.Blocked })
-   }
+    const onReject = async (student: Student) => {
+        await changeStatus({ id: student.id, status: UserStatus.Rejected })
+    }
 
-   return { onAccept, onReject, onBlock, changeStatusResult }
+    const onBlock = async (student: Student) => {
+        await changeStatus({ id: student.id, status: UserStatus.Blocked })
+    }
+
+    return { onAccept, onReject, onArchive, onBlock, changeStatusResult }
 }

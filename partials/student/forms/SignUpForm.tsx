@@ -7,7 +7,12 @@ import * as yup from 'yup'
 
 import { useNotification } from '@hooks'
 import { AuthApi } from '@queries'
-import { isEmailValid, onlyAlphabets, SignUpUtils } from '@utils'
+import {
+    disableInputDates,
+    isEmailValid,
+    onlyAlphabets,
+    SignUpUtils,
+} from '@utils'
 
 import { Button, Checkbox, Select, TextInput, Typography } from '@components'
 import { yupResolver } from '@hookform/resolvers/yup'
@@ -238,10 +243,11 @@ export const StudentSignUpForm = ({ onSubmit }: { onSubmit: any }) => {
                             <TextInput
                                 label={'Date of Birth'}
                                 name={'dob'}
+                                type="date"
+                                max={disableInputDates()}
                                 placeholder={'Date of Birth...'}
                                 validationIcons
                                 required
-                                type="date"
                             />
                             <TextInput
                                 label={'Emergency Person'}

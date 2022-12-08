@@ -1,3 +1,4 @@
+import { useRouter } from 'next/router'
 import {
     ActionButton,
     Button,
@@ -27,6 +28,7 @@ import { AcceptModal, RejectModal } from './modals'
 export const PendingRto = () => {
     const contextBar = useContextBar()
     const [modal, setModal] = useState<ReactElement | null>(null)
+    const router = useRouter()
 
     const [filterAction, setFilterAction] = useState(null)
     const [itemPerPage, setItemPerPage] = useState(5)
@@ -61,7 +63,9 @@ export const PendingRto = () => {
     const tableActionOptions: TableActionOption[] = [
         {
             text: 'View',
-            onClick: () => {},
+            onClick: (rto: any) => {
+                router.push(`/portals/admin/rto/${rto.id}?tab=sectors`)
+            },
             Icon: FaEye,
         },
         {

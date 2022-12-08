@@ -5,7 +5,7 @@ import { MdEmail, MdPhoneIphone } from 'react-icons/md'
 
 export const IndustryCell = ({ industry }: { industry: Industry }) => {
     return (
-        <Link href={`industry/${industry.id}`}>
+        <Link href={`industry/${industry.id}?tab=sectors`}>
             <a className="flex items-center gap-x-2">
                 <div className="shadow-inner-image rounded-full relative">
                     <img

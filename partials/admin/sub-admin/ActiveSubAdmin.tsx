@@ -8,7 +8,7 @@ import {
     RtoFilters,
     Table,
     TableAction,
-    TableActionOption
+    TableActionOption,
 } from '@components'
 import { PageHeading } from '@components/headings'
 import { ColumnDef } from '@tanstack/react-table'
@@ -42,12 +42,15 @@ export const ActiveSubAdmin = () => {
     const onModalCancelClicked = () => {
         setModal(null)
     }
-   
 
     const tableActionOptions: TableActionOption[] = [
         {
             text: 'View',
-            onClick: () => {},
+            onClick: (subAdmin: any) => {
+                router.push(
+                    `/portals/admin/sub-admin/${subAdmin?.id}?tab=notes`
+                )
+            },
             Icon: FaEye,
         },
         {
@@ -100,14 +103,14 @@ export const ActiveSubAdmin = () => {
             accessorKey: 'id',
             header: () => <span>Sectors</span>,
             cell: (info) => {
-                return <SectorCell subAdmin={info.row.original}/>
+                return <SectorCell subAdmin={info.row.original} />
             },
         },
         {
             accessorKey: 'id',
             header: () => <span>RTOs</span>,
             cell: (info) => {
-                return <RtoCell subAdmin={info.row.original}/>
+                return <RtoCell subAdmin={info.row.original} />
             },
         },
 

@@ -40,10 +40,18 @@ export const AssignToMe = ({ workplace, appliedIndustry }: any) => {
                     variant={'dark'}
                     text={'ASSIGN TO ME'}
                     onClick={() => {
-                        assignToMe({
-                            industryId: appliedIndustry?.id,
-                            id: workplace?.id,
-                        })
+                        if (appliedIndustry) {
+                            assignToMe({
+                                industryId: appliedIndustry?.id,
+                                id: workplace?.id,
+                            })
+                        } else {
+                            notification.error({
+                                title: 'First Apply To Industry',
+                                description:
+                                    'First Apply To Industry Before asigning',
+                            })
+                        }
                     }}
                     loading={assignToMeResult?.isLoading}
                     disabled={

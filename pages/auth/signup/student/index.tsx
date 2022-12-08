@@ -26,7 +26,7 @@ const FormSteps: IndicatorStep[] = [
         label: 'Notification Method',
         visited: false,
     },
-    
+
     {
         label: 'Review Info',
         visited: false,

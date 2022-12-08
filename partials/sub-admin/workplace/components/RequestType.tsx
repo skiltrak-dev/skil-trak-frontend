@@ -223,16 +223,16 @@ export const RequestType = ({
                                 className="pb-2 cursor-pointer hover:bg-gray-100 px-2"
                                 onClick={() => {
                                     setVisibleRequestType(false)
-                                    if (findStatusIndex < i) {
-                                        setSelectedRequestType(i)
-                                        type.onClick()
-                                    } else {
-                                        notification.error({
-                                            title: 'You already performed this action',
-                                            description:
-                                                'You already performed this action',
-                                        })
-                                    }
+                                    // if (findStatusIndex < i) {
+                                    setSelectedRequestType(i)
+                                    type.onClick()
+                                    // } else {
+                                    //     notification.error({
+                                    //         title: 'You already performed this action',
+                                    //         description:
+                                    //             'You already performed this action',
+                                    //     })
+                                    // }
                                 }}
                             >
                                 <Typography
