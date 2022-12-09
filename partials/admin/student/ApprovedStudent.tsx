@@ -27,61 +27,7 @@ import { RtoCellInfo } from '@partials/admin/rto/components'
 import { Student } from '@types'
 import { BlockModal } from './modals'
 import { useRouter } from 'next/router'
-
-const requestTypeActions = [
-    {
-        text: 'Not Requested',
-        status: 'notRequested',
-    },
-    {
-        text: 'Request Sent',
-        status: 'applied',
-    },
-    {
-        text: 'Assigned',
-        status: 'caseOfficerAssigned',
-    },
-    {
-        text: 'Interview',
-        status: 'interview',
-    },
-    {
-        text: 'Waiting',
-        status: 'awaitingWorkplaceResponse',
-    },
-    {
-        text: 'Meeting',
-        status: 'appointmentBooked',
-    },
-    {
-        text: 'Agreement & Eligibility ',
-        status: 'awaitingAgreementSigned',
-    },
-    {
-        text: 'Agreement & Eligibility ',
-        status: 'AgreementSigned',
-    },
-    {
-        text: 'Placement Started',
-        status: 'placementStarted',
-    },
-    {
-        text: 'Completed',
-        status: 'completed',
-    },
-    {
-        text: 'Cancelled',
-        status: 'cancelled',
-    },
-    {
-        text: 'Rejected',
-        status: 'rejected',
-    },
-    {
-        text: 'Terminated',
-        status: 'terminated',
-    },
-]
+import { checkWorkplaceStatus } from '@utils'
 
 export const ApprovedStudent = () => {
     const router = useRouter()
@@ -176,10 +122,7 @@ export const ApprovedStudent = () => {
             header: () => <span>Progress</span>,
             cell: ({ row }) => {
                 const workplace = row.original.workplace[0]
-                const step = requestTypeActions.findIndex(
-                    (r) => r.status === workplace?.currentStatus
-                )
-                const steps = step > 0 ? step + 1 : 1
+                const steps = checkWorkplaceStatus(workplace?.currentStatus)
                 return <ProgressCell step={steps} />
             },
         },

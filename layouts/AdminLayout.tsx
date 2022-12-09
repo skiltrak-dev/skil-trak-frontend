@@ -44,16 +44,16 @@ const routes: Route[] = [
     {
         text: 'RTOs',
         Icon: FaUniversity,
-        path: getRoutePath('/rto?tab=pending'),
+        path: getRoutePath('/rto?tab=approved'),
     },
     {
         text: 'Students',
-        path: getRoutePath('/student?tab=pending'),
+        path: getRoutePath('/student?tab=approved'),
         Icon: FaUserGraduate,
     },
     {
         text: 'Industry',
-        path: getRoutePath('/industry?tab=pending'),
+        path: getRoutePath('/industry?tab=approved'),
         Icon: IoMdBriefcase,
     },
     {

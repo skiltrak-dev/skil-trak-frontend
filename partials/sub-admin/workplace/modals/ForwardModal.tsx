@@ -23,7 +23,6 @@ export const ForwardModal = ({
     onCancel: Function
     workplaceId: string
 }) => {
-    console.log('industry', industry)
     const { alert } = useAlert()
     const { notification } = useNotification()
     const { onAccept, changeStatusResult } = useChangeStatus()

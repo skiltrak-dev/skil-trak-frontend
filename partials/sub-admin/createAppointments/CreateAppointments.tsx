@@ -19,6 +19,7 @@ import {
     useUserAvailabilitiesQuery,
     useSubAdminCreateAppointmentMutation,
 } from '@queries'
+import { useRouter } from 'next/router'
 
 export const CreateAppointments = () => {
     const [selectedPerson, setSelectedPerson] = useState<any | null>({
@@ -37,6 +38,8 @@ export const CreateAppointments = () => {
     const [selectedDate, setSelectedDate] = useState<Date | null>(null)
     const [selectedTime, setSelectedTime] = useState<any | null>(null)
     const [note, setNote] = useState<any | null>(null)
+
+    const router = useRouter()
 
     const { notification } = useNotification()
 
@@ -84,6 +87,16 @@ export const CreateAppointments = () => {
             })
         }
     }, [userAvailabilities])
+
+    useEffect(() => {
+        if (createAppointmentResult.isSuccess) {
+            notification.success({
+                title: 'Appointment Created',
+                description: 'Appointment Created Successfully',
+            })
+            router.push('/portals/sub-admin/tasks/appointments')
+        }
+    }, [createAppointmentResult])
 
     const onSubmit = () => {
         let date = selectedDate
@@ -211,7 +224,7 @@ export const CreateAppointments = () => {
                             setSelectedTime={setSelectedTime}
                             selectedTime={selectedTime}
                             appointmentAvailability={
-                                userAvailabilities?.data?.availabilities
+                                userAvailabilities?.data?.availabilityBy
                             }
                             bookedAppointment={userAvailabilities?.data?.booked}
                         />
@@ -229,14 +242,16 @@ export const CreateAppointments = () => {
                             text={'Book Appointment'}
                             variant={'info'}
                             onClick={onSubmit}
-                            disabled={
-                                !selectedDate ||
-                                !selectedPerson.selectedAppointmentFor ||
-                                !selectedPerson.selectedAppointmentWith ||
-                                !selectedUser.selectedAppointmentForUser ||
-                                !selectedUser.selectedAppointmentWithUser ||
-                                !appointmentTypeId
-                            }
+                            // disabled={
+                            //     !selectedDate ||
+                            //     !selectedPerson.selectedAppointmentFor ||
+                            //     !selectedPerson.selectedAppointmentWith ||
+                            //     !selectedUser.selectedAppointmentForUser ||
+                            //     !selectedUser.selectedAppointmentWithUser ||
+                            //     !appointmentTypeId
+                            // }
+                            loading={createAppointmentResult.isLoading}
+                            disabled={createAppointmentResult.isLoading}
                         />
                     </div>
                 </Card>

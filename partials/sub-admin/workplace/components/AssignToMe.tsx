@@ -49,7 +49,8 @@ export const AssignToMe = ({ workplace, appliedIndustry }: any) => {
                             notification.error({
                                 title: 'First Apply To Industry',
                                 description:
-                                    'First Apply To Industry Before asigning',
+                                    'Student Must apply to industry Before placing Coordinator or Coordinator also apply to industry on behalf of Student',
+                                autoDismiss: false,
                             })
                         }
                     }}

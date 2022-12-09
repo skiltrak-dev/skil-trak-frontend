@@ -96,8 +96,9 @@ export const subAdminWorkplaceApi = createApi({
             }),
             invalidatesTags: ['SubAdminWorkplace'],
         }),
-        getWorkplaceFolders: builder.query<any, number>({
-            query: (id) => `workplace-request/docs/${id}`,
+        getWorkplaceFolders: builder.query<any, any>({
+            query: ({ workplaceId, appliedIndustryId, courseId }) =>
+                `workplace-request/docs/${workplaceId}/${appliedIndustryId}/${courseId}`,
             providesTags: ['SubAdminWorkplace'],
         }),
         getCancelledWorkplaces: builder.query<any, void>({
@@ -132,6 +133,19 @@ export const subAdminWorkplaceApi = createApi({
             }),
             invalidatesTags: ['SubAdminWorkplace'],
         }),
+        showExistingIndustries: builder.query<any, any>({
+            query: (id) => ({
+                url: `course-industries/list/${id}`,
+            }),
+            providesTags: ['SubAdminWorkplace'],
+        }),
+        addExistingIndustries: builder.mutation<any, any>({
+            query: ({ workplaceId, industryId }) => ({
+                url: `industry/select/${workplaceId}/${industryId}`,
+                method: 'POST',
+            }),
+            invalidatesTags: ['SubAdminWorkplace'],
+        }),
         addCustomIndustry: builder.mutation<any, any>({
             query: ({ id, body }) => ({
                 url: `custom-industry/add/${id}`,
@@ -162,9 +176,6 @@ export const {
     useGetAddedByStudentsWorkplacesQuery,
     useSubAdminApplyStudentWorkplaceMutation,
     useAddCustomIndustryMutation,
-    // useGetCoordinatorsAvailabilityQuery,
-    // useGetAppointmentsTypesQuery,
-    // useGetCoordinatorsForStudentQuery,
-    // useGetStudentPastAppointmentsQuery,
-    // useGetStudentUpcomingAppointmentsQuery,
+    useShowExistingIndustriesQuery,
+    useAddExistingIndustriesMutation,
 } = subAdminWorkplaceApi

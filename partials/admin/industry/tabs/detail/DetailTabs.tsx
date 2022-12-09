@@ -17,14 +17,19 @@ export const DetailTabs = ({
             element: <SectorsTab industry={industry} />,
         },
         {
+            label: 'Notes',
+            href: { query: { tab: 'notes', id } },
+            element: <NotesTab industry={industry} />,
+        },
+        {
             label: 'Mails',
             href: { query: { tab: 'mails', id } },
             element: <MailsTab industry={industry?.data} />,
         },
         {
-            label: 'Notes',
-            href: { query: { tab: 'notes', id } },
-            element: <NotesTab industry={industry} />,
+            label: 'All Communications',
+            href: { query: { tab: 'all-communications', id } },
+            element: 'Under Construction',
         },
     ]
 

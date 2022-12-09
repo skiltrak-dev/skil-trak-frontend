@@ -30,8 +30,6 @@ export const IndustrySelection = ({
         null
     )
 
-    console.log('workplace', workplace)
-
     const [cancelRequest, cancelRequestResult] =
         useCancelWorkplaceRequestMutation()
 

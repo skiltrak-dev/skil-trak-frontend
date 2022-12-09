@@ -2,7 +2,7 @@ import { ReactElement, useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
 import moment from 'moment'
 
-import { RtoLayout } from '@layouts'
+import { IndustryLayout } from '@layouts'
 import { NextPageWithLayout } from '@types'
 
 import { Form, TimeSlots } from '@components/sections'
@@ -149,17 +149,7 @@ const BookAppointment: NextPageWithLayout = (props: Props) => {
     )
 }
 BookAppointment.getLayout = (page: ReactElement) => {
-    return (
-        <RtoLayout
-            pageTitle={{
-                title: 'Create Appointments',
-                navigateBack: false,
-                backTitle: 'Appointments',
-            }}
-        >
-            {page}
-        </RtoLayout>
-    )
+    return <IndustryLayout>{page}</IndustryLayout>
 }
 
 export default BookAppointment
