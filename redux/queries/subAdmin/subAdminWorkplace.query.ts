@@ -122,6 +122,24 @@ export const subAdminWorkplaceApi = createApi({
             }),
             invalidatesTags: ['SubAdminWorkplace'],
         }),
+        subAdminApplyStudentWorkplace: builder.mutation<
+            any,
+            { industry: number; id: number }
+        >({
+            query: ({ industry, id }) => ({
+                url: `apply-industry-request/${industry}/${id}`,
+                method: 'PATCH',
+            }),
+            invalidatesTags: ['SubAdminWorkplace'],
+        }),
+        addCustomIndustry: builder.mutation<any, any>({
+            query: ({ id, body }) => ({
+                url: `custom-industry/add/${id}`,
+                method: 'POST',
+                body,
+            }),
+            invalidatesTags: ['SubAdminWorkplace'],
+        }),
     }),
 })
 
@@ -142,6 +160,8 @@ export const {
     useUpdateWorkplaceStatusMutation,
     useCancelWorkplaceStatusMutation,
     useGetAddedByStudentsWorkplacesQuery,
+    useSubAdminApplyStudentWorkplaceMutation,
+    useAddCustomIndustryMutation,
     // useGetCoordinatorsAvailabilityQuery,
     // useGetAppointmentsTypesQuery,
     // useGetCoordinatorsForStudentQuery,

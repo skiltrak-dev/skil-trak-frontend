@@ -31,6 +31,8 @@ export type InputType =
 export type TextInputProps = InputProps & {
     type?: InputType
     placeholder?: string
+    min?: string
+    max?: string
 }
 
 export const TextInput = ({
@@ -53,6 +55,9 @@ export const TextInput = ({
     required = false,
     disabled = false,
     validationIcons = false,
+
+    min,
+    max,
 }: TextInputProps) => {
     const [passwordType, setPasswordType] = useState<string | null>(
         type || null
@@ -87,6 +92,8 @@ export const TextInput = ({
                         placeholder={placeholder || ''}
                         disabled={disabled}
                         name={name}
+                        min={min}
+                        max={max}
                         {...getMethodsForInput(
                             name,
                             formContext,

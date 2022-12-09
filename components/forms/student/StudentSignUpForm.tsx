@@ -237,6 +237,7 @@ export const StudentSignUpForm = ({ onSubmit }: { onSubmit: any }) => {
                             label={'Date Of Birth'}
                             name={'dob'}
                             type={'date'}
+                            max="2022-12-11"
                             validationIcons
                             required
                         />

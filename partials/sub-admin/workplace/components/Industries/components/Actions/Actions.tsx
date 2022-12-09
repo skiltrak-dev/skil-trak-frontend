@@ -1,3 +1,4 @@
+import { useEffect, useState, ReactElement } from 'react'
 import moment from 'moment'
 
 // components
@@ -13,14 +14,14 @@ import {
     useForwardWorkplaceToIndustryMutation,
 } from '@queries'
 import { Button } from '@components/buttons'
-import { useEffect, useState } from 'react'
 import { useNotification } from '@hooks'
 import { userStatus } from '@utils'
+import { ForwardModal } from '@partials/sub-admin/workplace/modals'
 
-export const Actions = ({ appliedIndustry, workplaceId }: any) => {
+export const Actions = ({ appliedIndustry, workplaceId, workplace }: any) => {
     const [actionStatus, setActionStatus] = useState<any | string>('')
-    const [forwardToIndustry, forwardToIndustryResult] =
-        useForwardWorkplaceToIndustryMutation()
+    const [modal, setModal] = useState<ReactElement | null>(null)
+
     const [industryResponse, industryResponseResult] =
         useIndustryResponseMutation()
     const [agrementSign, agrementSignResult] = useAgrementSignMutation()
@@ -32,12 +33,6 @@ export const Actions = ({ appliedIndustry, workplaceId }: any) => {
     const { notification } = useNotification()
 
     useEffect(() => {
-        if (forwardToIndustryResult.isSuccess) {
-            notification.success({
-                title: 'Request Forwarded',
-                description: 'Request Forwarded to industry Successfully',
-            })
-        }
         if (updateStatusResult.isSuccess) {
             notification.success({
                 title: `Workplace ${actionStatus}`,
@@ -50,11 +45,25 @@ export const Actions = ({ appliedIndustry, workplaceId }: any) => {
                 description: `WPlacement Started Successfully`,
             })
         }
-    }, [forwardToIndustryResult, updateStatusResult, startPlacementResult])
+    }, [updateStatusResult, startPlacementResult])
+
+    const onModalCancelClicked = () => {
+        setModal(null)
+    }
+
+    const onForwardClicked = (industry: any) => {
+        setModal(
+            <ForwardModal
+                industry={industry}
+                workplaceId={workplaceId}
+                onCancel={() => onModalCancelClicked()}
+            />
+        )
+    }
 
     return (
         <div className="mt-1.5 mb-2.5">
-            <ShowErrorNotifications result={forwardToIndustryResult} />
+            {modal && modal}
             <ShowErrorNotifications result={updateStatusResult} />
             <ShowErrorNotifications result={startPlacementResult} />
             <ShowErrorNotifications result={agrementSignResult} />
@@ -242,15 +251,8 @@ export const Actions = ({ appliedIndustry, workplaceId }: any) => {
                                     text={'FORWARD TO INDUSTRY'}
                                     variant={'dark'}
                                     onClick={() => {
-                                        forwardToIndustry({
-                                            industryId: appliedIndustry?.id,
-                                            id: workplaceId,
-                                        })
+                                        onForwardClicked(appliedIndustry)
                                     }}
-                                    loading={forwardToIndustryResult?.isLoading}
-                                    disabled={
-                                        forwardToIndustryResult?.isLoading
-                                    }
                                 />
                             </div>
                         )}

@@ -40,7 +40,11 @@ export const ArchivedSubAdmin = () => {
     const tableActionOptions: TableActionOption[] = [
         {
             text: 'View',
-            onClick: () => {},
+            onClick: (subAdmin: any) => {
+                router.push(
+                    `/portals/admin/sub-admin/${subAdmin?.id}?tab=notes`
+                )
+            },
             Icon: FaEye,
         },
         {

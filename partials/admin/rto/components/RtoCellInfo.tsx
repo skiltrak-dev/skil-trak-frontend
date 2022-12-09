@@ -4,7 +4,7 @@ import { MdEmail, MdPhoneIphone } from 'react-icons/md'
 
 export const RtoCellInfo = ({ rto, short }: { rto: Rto; short?: boolean }) => {
     return (
-        <Link href={`rto/${rto?.id}?tab=notes`}>
+        <Link href={`rto/${rto?.id}?tab=sectors`}>
             <a className="flex items-center gap-x-2">
                 <div className="shadow-inner-image rounded-full">
                     <img

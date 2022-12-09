@@ -7,6 +7,7 @@ import * as Yup from 'yup'
 
 // query
 import { useAddUnavailabilityMutation } from '@queries'
+import { disableInputDates } from '@utils'
 
 export const SetUnavailabilityFormCB = () => {
     const [unavailabilityType, setUnavailabilityType] = useState<string | null>(
@@ -42,6 +43,7 @@ export const SetUnavailabilityFormCB = () => {
                     label={'Date'}
                     name={'date'}
                     type={'date'}
+                    min={disableInputDates()}
                     placeholder={'Your Date Here...'}
                     validationIcons
                     required
