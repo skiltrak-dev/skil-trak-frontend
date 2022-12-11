@@ -37,38 +37,43 @@ export const AssessmentsEvidence = (props: Props) => {
 
     useEffect(() => {
         if (assessmentsFolders.isSuccess) {
-            setSelectedFolder(assessmentsFolders?.data[0])
+            setSelectedFolder(selectedFolder || assessmentsFolders?.data[0])
         }
     }, [assessmentsFolders])
+
+    console.log('selectedFolder', selectedFolder)
 
     return (
         <div>
             <div className="mb-3">
                 {assessmentsCourses.isLoading ? (
-                    <LoadingAnimation />
+                    <div className="flex flex-col items-center">
+                        <LoadingAnimation size={50} />
+                        <Typography variant={'subtitle'}>
+                            Course Loading
+                        </Typography>
+                    </div>
                 ) : (
-                    <>
-                        <div className="mb-3 grid grid-cols-3 gap-x-2">
-                            {assessmentsCourses?.data?.map((course: any) => (
-                                <AssessmentCourseCard
-                                    key={course.id}
-                                    id={course.id}
-                                    code={course.code}
-                                    title={course.title}
-                                    isActive={course.isActive}
-                                    coordinator={course?.subadmin[0]?.user.name}
-                                    selectedCourseId={selectedCourseId}
-                                    onClick={() => {
-                                        setSelectedCourseId(course.id)
-                                    }}
-                                />
-                            ))}
-                        </div>
-                    </>
+                    <div className="mb-3 grid grid-cols-3 gap-x-2">
+                        {assessmentsCourses?.data?.map((course: any) => (
+                            <AssessmentCourseCard
+                                key={course.id}
+                                id={course.id}
+                                code={course.code}
+                                title={course.title}
+                                isActive={course.isActive}
+                                coordinator={course?.subadmin[0]?.user.name}
+                                selectedCourseId={selectedCourseId}
+                                onClick={() => {
+                                    setSelectedCourseId(course.id)
+                                }}
+                            />
+                        ))}
+                    </div>
                 )}
             </div>
             <div className="flex">
-                <div className="w-[33%]">
+                <div className="w-1/3 h-full ">
                     <div className="flex items-center gap-x-1 mb-1">
                         <Typography variant="label" color="text-black">
                             Assessment Submission -
@@ -79,7 +84,12 @@ export const AssessmentsEvidence = (props: Props) => {
                     </div>
                     <div className="bg-white border-r min-h-[400px]">
                         {assessmentsFolders.isLoading ? (
-                            <LoadingAnimation />
+                            <div className="flex flex-col items-center pt-12">
+                                <LoadingAnimation size={50} />
+                                <Typography variant={'subtitle'}>
+                                    Assessment Folders Loading
+                                </Typography>
+                            </div>
                         ) : (
                             assessmentsFolders.isSuccess && (
                                 <>
@@ -133,7 +143,8 @@ export const AssessmentsEvidence = (props: Props) => {
                         )}
                     </div>
                 </div>
-                <div className="w-[67%] h-full">
+
+                <div className="w-2/3 h-full relative">
                     <AssessmentFolderDetailX
                         fileUpload
                         folder={selectedFolder}
