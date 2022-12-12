@@ -5,7 +5,7 @@ import { UserRoles } from '@constants'
 import _debounce from 'lodash/debounce'
 import * as yup from 'yup'
 
-import { useNotification } from '@hooks'
+import { useContextBar, useNotification } from '@hooks'
 import { AuthApi, useAddCustomIndustryMutation } from '@queries'
 import { isEmailValid, onlyAlphabets, SignUpUtils } from '@utils'
 

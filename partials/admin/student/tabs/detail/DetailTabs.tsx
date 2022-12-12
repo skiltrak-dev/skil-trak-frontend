@@ -12,11 +12,11 @@ export const DetailTabs = ({
     student: any
 }) => {
     const tabs: TabProps[] = [
-        {
-            label: 'Overview',
-            href: { query: { tab: 'overview', id } },
-            element: <OverViewTab student={student} />,
-        },
+        // {
+        //     label: 'Overview',
+        //     href: { query: { tab: 'overview', id } },
+        //     element: <OverViewTab student={student} />,
+        // },
         {
             label: 'Required Documents',
             href: { query: { tab: 'required-documents', id } },
