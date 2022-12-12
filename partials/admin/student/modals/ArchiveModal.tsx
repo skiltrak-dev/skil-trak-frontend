@@ -1,54 +1,54 @@
 import { ActionModal } from '@components'
 import { useAlert, useNotification } from '@hooks'
 import { AdminApi } from '@queries'
-import { Rto, Subscriber } from '@types'
+import { Student, Subscriber } from '@types'
 import { useEffect } from 'react'
 import { FaBan } from 'react-icons/fa'
-import { HiCheckBadge } from 'react-icons/hi2'
+import { IoWarningOutline } from 'react-icons/io5'
 import { useChangeStatus } from '../hooks'
 
-export const AcceptModal = ({
-    rto,
+export const ArchiveModal = ({
+    item,
     onCancel,
 }: {
-    rto: Rto
+    item: Student
     onCancel: Function
 }) => {
     const { alert } = useAlert()
     const { notification } = useNotification()
-    const { onAccept, changeStatusResult } = useChangeStatus()
+    const { onArchive, changeStatusResult } = useChangeStatus()
 
-    const onConfirmUClicked = async (rto: Rto) => {
-        await onAccept(rto)
+    const onConfirmClicked = async (item: Student) => {
+        await onArchive(item)
     }
 
     useEffect(() => {
         if (changeStatusResult.isSuccess) {
             alert.success({
-                title: `Request Accepted`,
-                description: `RTO "${rto.user.name}" has been accepted.`,
+                title: `Request Archived`,
+                description: `Student "${item.user.name}" has been archived.`,
             })
             onCancel()
         }
         if (changeStatusResult.isError) {
             notification.error({
                 title: 'Request Failed',
-                description: `Your request for accepting RTO was failed`,
+                description: `Your request for archiving Student was failed`,
             })
         }
     }, [changeStatusResult])
 
     return (
         <ActionModal
-            Icon={HiCheckBadge}
-            variant="success"
+            Icon={IoWarningOutline}
+            variant="primary"
             title="Are you sure!"
-            description={`You are about to accept <em>"${rto.user.name}"<em>. Do you wish to continue?`}
-            onConfirm={onConfirmUClicked}
+            description={`You are about to archive <em>"${item.user.name}"<em>. Do you wish to continue?`}
+            onConfirm={onConfirmClicked}
             onCancel={onCancel}
             input
-            inputKey={rto.user.email}
-            actionObject={rto}
+            inputKey={item.user.email}
+            actionObject={item}
             loading={changeStatusResult.isLoading}
         />
     )

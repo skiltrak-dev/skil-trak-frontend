@@ -35,7 +35,6 @@ export const AllStudents = () => {
         limit: itemPerPage,
     })
 
-    console.log('::: DATA', data)
     const tableActionOptions: TableActionOption[] = [
         {
             text: 'View',

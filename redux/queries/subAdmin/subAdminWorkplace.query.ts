@@ -96,8 +96,9 @@ export const subAdminWorkplaceApi = createApi({
             }),
             invalidatesTags: ['SubAdminWorkplace'],
         }),
-        getWorkplaceFolders: builder.query<any, number>({
-            query: (id) => `workplace-request/docs/${id}`,
+        getWorkplaceFolders: builder.query<any, any>({
+            query: ({ workplaceId, appliedIndustryId, courseId }) =>
+                `workplace-request/docs/${workplaceId}/${appliedIndustryId}/${courseId}`,
             providesTags: ['SubAdminWorkplace'],
         }),
         getCancelledWorkplaces: builder.query<any, void>({
@@ -122,6 +123,37 @@ export const subAdminWorkplaceApi = createApi({
             }),
             invalidatesTags: ['SubAdminWorkplace'],
         }),
+        subAdminApplyStudentWorkplace: builder.mutation<
+            any,
+            { industry: number; id: number }
+        >({
+            query: ({ industry, id }) => ({
+                url: `apply-industry-request/${industry}/${id}`,
+                method: 'PATCH',
+            }),
+            invalidatesTags: ['SubAdminWorkplace'],
+        }),
+        showExistingIndustries: builder.query<any, any>({
+            query: (id) => ({
+                url: `course-industries/list/${id}`,
+            }),
+            providesTags: ['SubAdminWorkplace'],
+        }),
+        addExistingIndustries: builder.mutation<any, any>({
+            query: ({ workplaceId, industryId }) => ({
+                url: `industry/select/${workplaceId}/${industryId}`,
+                method: 'POST',
+            }),
+            invalidatesTags: ['SubAdminWorkplace'],
+        }),
+        addCustomIndustry: builder.mutation<any, any>({
+            query: ({ id, body }) => ({
+                url: `custom-industry/add/${id}`,
+                method: 'POST',
+                body,
+            }),
+            invalidatesTags: ['SubAdminWorkplace'],
+        }),
     }),
 })
 
@@ -142,9 +174,8 @@ export const {
     useUpdateWorkplaceStatusMutation,
     useCancelWorkplaceStatusMutation,
     useGetAddedByStudentsWorkplacesQuery,
-    // useGetCoordinatorsAvailabilityQuery,
-    // useGetAppointmentsTypesQuery,
-    // useGetCoordinatorsForStudentQuery,
-    // useGetStudentPastAppointmentsQuery,
-    // useGetStudentUpcomingAppointmentsQuery,
+    useSubAdminApplyStudentWorkplaceMutation,
+    useAddCustomIndustryMutation,
+    useShowExistingIndustriesQuery,
+    useAddExistingIndustriesMutation,
 } = subAdminWorkplaceApi

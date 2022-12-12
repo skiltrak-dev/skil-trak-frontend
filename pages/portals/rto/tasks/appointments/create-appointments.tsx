@@ -39,11 +39,8 @@ const CreateAppointments: NextPageWithLayout = (props: Props) => {
 
     // query
     const coordinatorAvailability = useGetCoordinatorsAvailabilityQuery(
-        {
-            id: type,
-            user: selectedCoordinator?.value,
-        },
-        { skip: !type || !selectedCoordinator }
+        Number(selectedCoordinator?.value),
+        { skip: !selectedCoordinator }
     )
     const [createAppointment, createAppointmentResult] =
         useCreateRTOAppointmentMutation()
@@ -56,12 +53,7 @@ const CreateAppointments: NextPageWithLayout = (props: Props) => {
     )
     const [coursesOptions, setCoursesOptions] = useState<any>([])
 
-    const coordinators = useGetCoordinatorsForStudentQuery(
-        {
-            id: type,
-        },
-        { skip: !type }
-    )
+    const coordinators = useGetCoordinatorsForStudentQuery()
     const rtoCourses = RtoApi.Rto.useProfile()
 
     useEffect(() => {

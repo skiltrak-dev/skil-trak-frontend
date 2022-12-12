@@ -27,6 +27,7 @@ import { RtoCellInfo } from '@partials/admin/rto/components'
 import { Student } from '@types'
 import { BlockModal } from './modals'
 import { useRouter } from 'next/router'
+import { checkWorkplaceStatus } from '@utils'
 
 export const ApprovedStudent = () => {
     const router = useRouter()
@@ -61,7 +62,11 @@ export const ApprovedStudent = () => {
     const tableActionOptions: TableActionOption[] = [
         {
             text: 'View',
-            onClick: () => {},
+            onClick: (student: any) => {
+                router.push(
+                    `/portals/admin/student/${student?.id}?tab=overview`
+                )
+            },
             Icon: FaEye,
         },
         {
@@ -115,8 +120,10 @@ export const ApprovedStudent = () => {
         {
             accessorKey: 'progress',
             header: () => <span>Progress</span>,
-            cell: (info) => {
-                return <ProgressCell step={9} />
+            cell: ({ row }) => {
+                const workplace = row.original.workplace[0]
+                const steps = checkWorkplaceStatus(workplace?.currentStatus)
+                return <ProgressCell step={steps} />
             },
         },
         {

@@ -1,5 +1,1 @@
-export * from './RejectModal'
-export * from './AcceptModal'
-export * from './BlockModal'
-export * from './UnblockModal'
-export * from './DeleteModal'
+export * from './ForwardModal'

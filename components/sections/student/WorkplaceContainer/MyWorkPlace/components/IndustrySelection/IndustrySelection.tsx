@@ -82,9 +82,7 @@ export const IndustrySelection = ({
         )
     }
 
-    return workplace?.isLoading ? (
-        <LoadingAnimation />
-    ) : !industrySelection ? (
+    return !industrySelection ? (
         <div className="flex flex-col gap-y-3">
             {appliedIndustry && (
                 <>
@@ -100,7 +98,9 @@ export const IndustrySelection = ({
 
             {/*  */}
 
-            {industries && industries.length > 0 ? (
+            {workplace?.isFetching ? (
+                <LoadingAnimation />
+            ) : industries && industries.length > 0 ? (
                 <Card>
                     <Typography variant={'label'}>Select Industry</Typography>
                     <div className="my-4 flex flex-col gap-y-2">

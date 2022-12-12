@@ -52,6 +52,7 @@ export const Course = ({ course }: any) => {
                         <TextInput
                             label={'Start Date'}
                             type={'date'}
+                            max="2022-12-11"
                             name={'startDate'}
                             onChange={(e: any) => {
                                 setDuration({

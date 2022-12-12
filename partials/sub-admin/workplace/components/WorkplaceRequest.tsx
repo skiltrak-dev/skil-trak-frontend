@@ -22,6 +22,7 @@ import { StudentDetail } from './StudentDetail'
 import { WorkplaceFolders } from './WorkplaceFolders'
 import { Industries } from './Industries'
 import { Notes } from './Notes'
+import { SmallDetail } from './smallDetail'
 
 export const WorkplaceRequest = ({ workplace }: any) => {
     const [appliedIndustry, setAppliedIndustry] = useState<any | null>(null)
@@ -100,8 +101,20 @@ export const WorkplaceRequest = ({ workplace }: any) => {
                 <StudentDetail data={workplace?.student} />
 
                 {/*  */}
-                <WorkplaceFolders workplace={workplace} />
+                <WorkplaceFolders
+                    workplace={workplace}
+                    courseId={course?.id}
+                    appliedIndustryId={appliedIndustry?.industry?.id}
+                />
             </div>
+
+            {/*  */}
+            <SmallDetail
+                currentWork={workplace?.currentWork}
+                haveTransport={workplace?.haveTransport}
+                haveDrivingLicense={workplace?.haveDrivingLicense}
+                currentQualification={workplace?.currentQualification}
+            />
 
             {/* Industries and notes */}
             <div className="grid grid-cols-2 gap-x-3 mt-4">
@@ -112,6 +125,7 @@ export const WorkplaceRequest = ({ workplace }: any) => {
                         industries={workplace?.industries}
                         workplaceId={workplace?.id}
                         workplace={workplace}
+                        courseId={course?.id}
                     />
                     {!appliedIndustry?.cancelled &&
                         appliedIndustry?.industryResponse !== 'rejected' &&

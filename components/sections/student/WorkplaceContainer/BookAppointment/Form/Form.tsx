@@ -33,20 +33,15 @@ export const Form = ({
     )
     const [coursesOptions, setCoursesOptions] = useState<any[]>([])
 
-    const coordinators = useGetCoordinatorsForStudentQuery(
-        {
-            id: type,
-        },
-        { skip: !type }
-    )
+    const coordinators = useGetCoordinatorsForStudentQuery()
     const studentCourses = useGetStudentCoursesQuery()
 
     useEffect(() => {
         setSelectedCoordinator(null)
         if (coordinators.data && coordinators.isSuccess) {
             const options = coordinators?.data?.map((coordinator: any) => ({
-                label: coordinator.name,
-                value: coordinator.id,
+                label: coordinator?.user?.name,
+                value: coordinator?.user?.id,
             }))
             setCoordinatorsOptions(options)
         }

@@ -35,7 +35,7 @@ export const Filter = ({
                 {expanded ? 'Clear' : 'Filter'}
             </Button>
         )
-    }, [expanded, setFilterAction])
+    }, [expanded, filters, setFilterAction])
 
     const delayedSearch = useCallback(
         debounce((values) => setFilter(values), 700),

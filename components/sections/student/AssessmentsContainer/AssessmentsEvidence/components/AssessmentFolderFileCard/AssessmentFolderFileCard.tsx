@@ -2,7 +2,7 @@ import { FileMimeTypes } from '@components/inputs'
 import { PdfViewer } from '@components/PdfViewer'
 import { Typography } from '@components/Typography'
 import { VideoPreview } from '@components/VideoPreview'
-import { FileFormat } from '@utils'
+import { elipiciseText, FileFormat } from '@utils'
 import Image from 'next/image'
 import { IoMdDocument } from 'react-icons/io'
 
@@ -43,15 +43,12 @@ export const AssessmentFolderFileCard = ({
                         <div
                             className="w-full h-28 bg-center bg-no-repeat bg-cover"
                             style={{
-                                backgroundImage: `url(${
-                                    `${process.env.NEXT_PUBLIC_END_POINT}/${file}` ||
-                                    ''
-                                })`,
+                                backgroundImage: `url(${`${file}` || ''})`,
                             }}
                         ></div>
                     )}
                     <Typography variant="body" center>
-                        {filename?.split('_')[0].substring(0, 10)}
+                        {elipiciseText(filename?.split('_')[0], 11)}
                     </Typography>
                 </div>
             )}

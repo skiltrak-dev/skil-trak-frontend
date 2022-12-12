@@ -2,7 +2,7 @@ import { ReactElement, useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
 import moment from 'moment'
 
-import { RtoLayout } from '@layouts'
+import { IndustryLayout } from '@layouts'
 import { NextPageWithLayout } from '@types'
 
 import { Form, TimeSlots } from '@components/sections'
@@ -38,11 +38,8 @@ const BookAppointment: NextPageWithLayout = (props: Props) => {
 
     // query
     const coordinatorAvailability = useGetCoordinatorsAvailabilityQuery(
-        {
-            id: type,
-            user: selectedCoordinator?.value,
-        },
-        { skip: !type || !selectedCoordinator }
+        Number(selectedCoordinator?.value),
+        { skip: !selectedCoordinator }
     )
 
     const [createAppointment, createAppointmentResult] =
@@ -51,12 +48,7 @@ const BookAppointment: NextPageWithLayout = (props: Props) => {
     // hooks
     const { notification } = useNotification()
 
-    const coordinators = useGetCoordinatorsForStudentQuery(
-        {
-            id: type,
-        },
-        { skip: !type }
-    )
+    const coordinators = useGetCoordinatorsForStudentQuery()
 
     useEffect(() => {
         setSelectedCoordinator(null)
@@ -149,17 +141,7 @@ const BookAppointment: NextPageWithLayout = (props: Props) => {
     )
 }
 BookAppointment.getLayout = (page: ReactElement) => {
-    return (
-        <RtoLayout
-            pageTitle={{
-                title: 'Create Appointments',
-                navigateBack: false,
-                backTitle: 'Appointments',
-            }}
-        >
-            {page}
-        </RtoLayout>
-    )
+    return <IndustryLayout>{page}</IndustryLayout>
 }
 
 export default BookAppointment

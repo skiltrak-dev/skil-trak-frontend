@@ -38,6 +38,11 @@ export const DetailTabs = ({
             href: { query: { tab: 'mails', id } },
             element: <MailsTab rto={rto?.data?.user} />,
         },
+        {
+            label: 'All Communications',
+            href: { query: { tab: 'all-communications', id } },
+            element: 'Under Construction',
+        },
     ]
 
     return (

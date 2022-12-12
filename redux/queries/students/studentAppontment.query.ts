@@ -31,20 +31,15 @@ export const studentAppointmentsApi = createApi({
             query: () => 'futureappointments/list',
             providesTags: ['StudentAppointments'],
         }),
-        getCoordinatorsForStudent: builder.query({
-            query: (params: any) => {
-                return {
-                    url: 'coordinator/list',
-                    params,
-                }
-            },
+        getCoordinatorsForStudent: builder.query<any, void>({
+            query: () => 'coordinator/list',
             providesTags: ['StudentAppointments'],
         }),
-        getCoordinatorsAvailability: builder.query({
-            query: (params: any) => {
+        getCoordinatorsAvailability: builder.query<any, number>({
+            query: (user: any) => {
                 return {
                     url: 'coordinator/availabilities',
-                    params,
+                    params: { user },
                 }
             },
             providesTags: ['StudentAppointments'],
