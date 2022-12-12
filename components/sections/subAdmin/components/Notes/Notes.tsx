@@ -34,6 +34,7 @@ export const Notes = ({ id }: any) => {
                         imageUrl={'/images/icons/common/notes.png'}
                         title="No Notes Attached"
                         description="Attach a note to view notes here"
+                        height='40vh'
                     />
                 )}
             </div>

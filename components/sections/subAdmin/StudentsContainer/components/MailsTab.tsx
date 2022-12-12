@@ -18,7 +18,6 @@ import { useContextBar } from 'hooks'
 // import { useMessage } from 'hooks'
 
 export const MailsTab = ({ student }: any) => {
-    const { isVisible } = useContextBar()
     const [messagesList, setMessagesList] = useState([])
     const [approvedUser, setApprovedUser] = useState(
         student?.user?.status === 'approved'
@@ -38,16 +37,8 @@ export const MailsTab = ({ student }: any) => {
     // }, [messages.refetch])
 
     return (
-        <div
-            className={`flex gap-x-2.5 w-full ${
-                isVisible ? 'flex-col' : 'flex-row'
-            }`}
-        >
-            <div
-                className={`${
-                    isVisible ? 'w-full' : !approvedUser ? 'w-full' : 'w-[71%]'
-                } bg-gray-50 rounded-lg p-2`}
-            >
+        <div className={`flex gap-x-2.5 w-full mt-4 mb-32`}>
+            <div className={`w-full bg-gray-50 rounded-lg p-2`}>
                 {messages.isError && <TechnicalError />}
                 <div className={`flex flex-col gap-y-2.5 h-full `}>
                     {messages?.isLoading ? (
@@ -71,18 +62,19 @@ export const MailsTab = ({ student }: any) => {
                     ) : (
                         !messages.isError && (
                             <EmptyData
-                                actionLink={null}
-                                title={'No Emails were found'}
+                                imageUrl="/images/icons/common/mails.png"
+                                title={'No Mails'}
                                 description={
-                                    'It may be due to you have not sent any Message                                '
+                                    'You have not sent/received any mail yet'
                                 }
+                                height={'40vh'}
                             />
                         )
                     )}
                 </div>
             </div>
             {approvedUser && (
-                <div className={`${isVisible ? 'w-full' : 'w-[29%]'}`}>
+                <div className={`w-2/5`}>
                     <MailForm
                         action={useSendMessageMutation}
                         receiverId={Number(student?.id)}

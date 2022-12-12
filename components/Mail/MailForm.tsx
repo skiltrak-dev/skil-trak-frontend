@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import * as yup from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { FormProvider, useForm } from 'react-hook-form'
@@ -20,8 +20,10 @@ import { AuthUtils, userStatus } from '@utils'
 
 export const MailForm = ({ action, receiverId, sender }: any) => {
     // const { replyMessage, setReplyMessage, setMessage } = useMessage()
-    const { isVisible } = useContextBar()
     // query
+    const [to, setTo] = useState(false)
+    const [cc, setCc] = useState(false)
+
     const [actionData, actionDataResult] = action()
 
     const validationSchema = yup.object({
@@ -56,17 +58,31 @@ export const MailForm = ({ action, receiverId, sender }: any) => {
         // setReplyMessage(null)
     }
 
-    const tamplates = [
+    const templates = [
         {
-            label: 'Tamplate',
-            value: 'tamplate',
+            label: 'Template',
+            value: 'template',
         },
     ]
 
     return (
         <>
-            <div className={`sticky ${isVisible ? 'bottom-0' : ' top-0'}`}>
+            <div className={`sticky top-4`}>
                 <Card>
+                    <div className="flex justify-end items-center gap-x-1">
+                        <button
+                            className="px-2 text-sm text-gray-400 hover:text-gray-600"
+                            onClick={() => setTo(!to)}
+                        >
+                            To
+                        </button>
+                        <button
+                            className="px-2 text-sm text-gray-400 hover:text-gray-600"
+                            onClick={() => setCc(!cc)}
+                        >
+                            CC
+                        </button>
+                    </div>
                     <FormProvider {...methods}>
                         <form
                             className="mt-2 w-full"
@@ -87,25 +103,25 @@ export const MailForm = ({ action, receiverId, sender }: any) => {
                                     />
                                 </div>
                             )} */}
-                            <div
-                                className={`grid gap-x-4 ${
-                                    isVisible ? 'grid-cols-2' : 'grid-cols-1'
-                                }`}
-                            >
-                                <TextInput
-                                    label={'To (optional)'}
-                                    name={'to'}
-                                    type={'email'}
-                                    placeholder={'Reciever Email...'}
-                                    validationIcons
-                                />
-                                <TextInput
-                                    label={'CC (optional)'}
-                                    name={'cc'}
-                                    type={'email'}
-                                    placeholder={'CC Email...'}
-                                    validationIcons
-                                />
+                            <div>
+                                {to ? (
+                                    <TextInput
+                                        label={'To (optional)'}
+                                        name={'to'}
+                                        type={'email'}
+                                        placeholder={'Reciever Email...'}
+                                        validationIcons
+                                    />
+                                ) : null}
+                                {cc ? (
+                                    <TextInput
+                                        label={'CC (optional)'}
+                                        name={'cc'}
+                                        type={'email'}
+                                        placeholder={'CC Email...'}
+                                        validationIcons
+                                    />
+                                ) : null}
                                 <TextInput
                                     label={'Subject'}
                                     name={'subject'}
@@ -114,17 +130,22 @@ export const MailForm = ({ action, receiverId, sender }: any) => {
                                     required
                                 />
 
-                                <TextArea label={'Message'} name={'message'} />
+                                <TextArea
+                                    label={'Message'}
+                                    name={'message'}
+                                    rows={4}
+                                    placeholder={'Your Message ...'}
+                                />
 
-                                <Select
+                                {/* <Select
                                     label={'Templates'}
                                     name={'templates'}
-                                    defaultValue={tamplates}
-                                    options={tamplates}
+                                    defaultValue={templates}
+                                    options={templates}
                                     validationIcons
                                     loading={false}
                                     disabled={false}
-                                />
+                                /> */}
 
                                 <div className="flex justify-between items-center gap-x-4 mt-2">
                                     {/* <UploadFile
@@ -138,8 +159,10 @@ export const MailForm = ({ action, receiverId, sender }: any) => {
                                         loading={actionDataResult?.isLoading}
                                         disabled={actionDataResult?.isLoading}
                                     >
-                                        <span>Send</span>
-                                        <IoMdSend />
+                                        <div className="flex items-center gap-x-2">
+                                            <span>Send</span>
+                                            <IoMdSend />
+                                        </div>
                                     </Button>
                                 </div>
                             </div>

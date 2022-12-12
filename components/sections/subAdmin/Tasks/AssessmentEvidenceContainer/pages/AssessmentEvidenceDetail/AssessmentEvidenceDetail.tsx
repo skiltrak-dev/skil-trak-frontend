@@ -30,7 +30,14 @@ export const AssesmentEvidenceDetail = ({ courseId }: Props) => {
                     data={getAssessmentDetails?.data}
                 />
             ) : (
-                !getAssessmentDetails?.isError && <EmptyData />
+                !getAssessmentDetails?.isError && (
+                    <EmptyData
+                        imageUrl="/images/icons/common/assessments.png"
+                        title="No Assessment Submissions"
+                        description="This student has not submitted any evidence yet"
+                        height='40vh'
+                    />
+                )
             )}
         </>
     )
