@@ -29,15 +29,12 @@ const BookAppointment: NextPageWithLayout = (props: Props) => {
     } | null>(null)
     const [selectedDate, setSelectedDate] = useState<Date | null>(null)
     const [selectedTime, setSelectedTime] = useState<any | null>(null)
-    
+
     // query
     // query
     const coordinatorAvailability = useGetCoordinatorsAvailabilityQuery(
-        {
-            id: type,
-            user: selectedCoordinator?.value,
-        },
-        { skip: !type || !selectedCoordinator }
+        Number(selectedCoordinator?.value),
+        { skip: !selectedCoordinator }
     )
     const [createAppointment, createAppointmentResult] =
         useCreateAppointmentMutation()
@@ -64,11 +61,11 @@ const BookAppointment: NextPageWithLayout = (props: Props) => {
         date?.setDate(date.getDate() + 1)
         createAppointment({
             ...values,
-            coordinator: values.coordinator.value,
             type,
             date,
-            time,
-            appointmentFor: 4,
+            // time,
+            coordinator: values.coordinator.value,
+            appointmentFor: values.coordinator.value,
         })
     }
 
@@ -106,7 +103,7 @@ const BookAppointment: NextPageWithLayout = (props: Props) => {
                         disabled={
                             createAppointmentResult.isLoading ||
                             !selectedDate ||
-                            !selectedTime ||
+                            // !selectedTime ||
                             !type
                         }
                     />

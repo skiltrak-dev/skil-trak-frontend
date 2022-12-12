@@ -58,61 +58,18 @@ export const IndustryForm = ({
     const onSectorChanged = (sectors: any) => {
         setCourseLoading(true)
 
-        const filteredCourses = sectors.map((selectedSector: any) => {
-            const sectorExisting = sectorResponse?.data?.find(
-                (sector: any) => sector.id === selectedSector.value
-            )
-            if (sectorExisting && sectorExisting?.courses?.length) {
-                return sectorExisting.courses
-            }
-        })
-
+        const sectorExisting = sectorResponse?.data?.find(
+            (sector: any) => sector.id === sectors?.value
+        )
         const newCourseOptions: any = []
-        filteredCourses.map((courseList: any) => {
-            if (courseList && courseList.length) {
-                return courseList.map((course: any) =>
-                    newCourseOptions.push({
-                        label: course.title,
-                        value: course.id,
-                    })
-                )
-            }
-        })
-
+        sectorExisting?.courses?.map((course: any) =>
+            newCourseOptions.push({
+                label: course.title,
+                value: course.id,
+            })
+        )
         setCourseOptions(newCourseOptions)
         setCourseLoading(false)
-    }
-
-    const initialValues = {
-        // Profile Information
-        name: '',
-        email: '',
-        password: '',
-        confirmPassword: '',
-
-        // Business Information
-        businessName: '',
-        abn: '',
-        phoneNumber: '',
-        // studentCapacity: 0,
-
-        // Sector Information
-        sectors: [],
-        courses: [],
-
-        // Address Information
-        addressLine1: '',
-        addressLine2: '',
-        state: '',
-        suburb: '',
-        zipCode: '',
-
-        // Contact Person
-        contactPersonName: '',
-        contactPersonEmail: '',
-        contactPersonNumber: '',
-
-        agreedWithPrivacyPolicy: false,
     }
 
     const validationSchema = yup.object({
@@ -143,8 +100,10 @@ export const IndustryForm = ({
         phoneNumber: yup.string().required('Must provide phone number'),
 
         // Sector Information
-        sectors: yup.array().min(1, 'Must select at least 1 sector'),
-        courses: yup.array().min(1, 'Must select at least 1 course'),
+        // sectors: yup.string().required('Must select at sector'),
+        // courses: yup.string().required('Must select at course'),
+        // sectors: yup.array().min(1, 'Must select at least 1 sector'),
+        // courses: yup.array().min(1, 'Must select at least 1 course'),
 
         // Contact Person Information
         contactPersonName: yup
@@ -207,8 +166,7 @@ export const IndustryForm = ({
     const onFormSubmit = (values: any) => {
         addWorkplace({
             ...values,
-            sectors: values.sectors.map((val: any) => val.value),
-            courses: values.courses.map((id: any) => id.value),
+            courses: [values?.courses?.value],
             role: 'industry',
         })
     }
@@ -223,7 +181,7 @@ export const IndustryForm = ({
                         {/* Personal Information */}
                         <div className="w-4/6">
                             <TextInput
-                                label={'Name'}
+                                label={'Business Name'}
                                 name={'name'}
                                 placeholder={'Industry Name...'}
                                 validationIcons
@@ -257,13 +215,6 @@ export const IndustryForm = ({
                         </div>
                         {/* Business Information */}
                         <div className="w-4/6">
-                            <TextInput
-                                label={'Business Name'}
-                                name={'businessName'}
-                                placeholder={'Industry Name...'}
-                                validationIcons
-                                required
-                            />
                             <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-8">
                                 <TextInput
                                     label={'Contact Person Number'}
@@ -363,27 +314,20 @@ export const IndustryForm = ({
                                     placeholder={'Your Address Line 1...'}
                                     validationIcons
                                 />
-
-                                <TextInput
-                                    label={'Address Line 2'}
-                                    name={'addressLine2'}
-                                    placeholder={'Your Address Line 2...'}
-                                    validationIcons
-                                />
                             </div>
 
                             <div className="grid grid-cols-1 sm:grid-cols-3 gap-x-8">
                                 <TextInput
-                                    label={'State'}
-                                    name={'state'}
-                                    placeholder={'State...'}
+                                    label={'Suburb'}
+                                    name={'suburb'}
+                                    placeholder={'Suburb...'}
                                     validationIcons
                                 />
 
                                 <TextInput
-                                    label={'Suburb'}
-                                    name={'suburb'}
-                                    placeholder={'Suburb...'}
+                                    label={'State'}
+                                    name={'state'}
+                                    placeholder={'State...'}
                                     validationIcons
                                 />
 

@@ -1,4 +1,10 @@
-import { Card, Typography, Button, LoadingAnimation } from '@components'
+import {
+    Card,
+    Button,
+    Typography,
+    LoadingAnimation,
+    ShowErrorNotifications,
+} from '@components'
 import { ScheduleCard } from './components'
 import { useEffect, useState } from 'react'
 
@@ -106,6 +112,7 @@ export const SetScheduleContainer = () => {
 
     return (
         <Card>
+            <ShowErrorNotifications result={saveScheduleResult} />
             <Typography variant={'small'}>Select Time {'&'} Days</Typography>
             <div className="my-2 flex flex-col gap-y-2">
                 {availability.isLoading ? (
@@ -138,7 +145,7 @@ export const SetScheduleContainer = () => {
                     loading={saveScheduleResult.isLoading}
                     disabled={saveScheduleResult.isLoading}
                 />
-                {saveScheduleResult.isSuccess ? <div > - Saved</div> : null}
+                {saveScheduleResult.isSuccess ? <div> - Saved</div> : null}
             </div>
         </Card>
     )

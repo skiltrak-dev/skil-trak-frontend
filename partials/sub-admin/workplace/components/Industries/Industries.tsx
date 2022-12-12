@@ -12,6 +12,7 @@ export const Industries = ({
     workplaceId,
     appliedIndustry,
     workplace,
+    courseId,
 }: any) => {
     // const ii = industries.map((i) => i.industryResponse)
     // const industryResponse = ii.includes('rejected') || ii.includes('noResponse')
@@ -48,6 +49,7 @@ export const Industries = ({
                                 setContent(
                                     <AddIndustryCB
                                         workplaceId={workplace?.id}
+                                        courseId={courseId}
                                     />
                                 )
                                 show()
