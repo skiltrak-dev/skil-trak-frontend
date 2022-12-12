@@ -7,7 +7,7 @@ import {
 import { useAlert, useNotification } from '@hooks'
 import { AdminApi } from '@queries'
 import { Industry, Rto, Subscriber } from '@types'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { FaBan } from 'react-icons/fa'
 import { HiCheckBadge } from 'react-icons/hi2'
 import { IoIosWarning } from 'react-icons/io'
@@ -18,16 +18,35 @@ export const ForwardModal = ({
     industry,
     onCancel,
     workplaceId,
+    folders,
 }: {
     industry: any
     onCancel: Function
     workplaceId: string
+    folders: any
 }) => {
+    const [isDocsUploaded, setIsDocsUploaded] = useState<boolean | null>(null)
+    const [missingDocuments, setMissingDocuments] = useState<any | null>(null)
+
+    // hooks
     const { alert } = useAlert()
     const { notification } = useNotification()
     const { onAccept, changeStatusResult } = useChangeStatus()
+
+    // query
     const [forwardToIndustry, forwardToIndustryResult] =
         useForwardWorkplaceToIndustryMutation()
+
+    useEffect(() => {
+        if (folders && folders?.length) {
+            setIsDocsUploaded(folders?.every((f: any) => f.uploaded))
+            setMissingDocuments(
+                folders
+                    ?.filter((f: any) => !f.uploaded)
+                    ?.map((f: any) => f?.folder?.name)
+            )
+        }
+    }, [folders])
 
     const onConfirmUClicked = async () => {
         forwardToIndustry({
@@ -51,16 +70,29 @@ export const ForwardModal = ({
             <ShowErrorNotifications result={forwardToIndustryResult} />
             <div className="bg-[#00000050] w-full h-screen flex items-center justify-center fixed top-0 left-0 z-40">
                 <div className="bg-white rounded-2xl flex flex-col items-center gap-y-6 shadow-xl min-w-[450px] px-16 py-4">
-                    <div className={`text-orange-500`}>
-                        <IoIosWarning size={48} />
+                    <div
+                        className={`${
+                            missingDocuments
+                                ? 'text-orange-500'
+                                : 'text-green-500'
+                        }`}
+                    >
+                        {!missingDocuments ? (
+                            <HiCheckBadge size={48} />
+                        ) : (
+                            <IoIosWarning size={48} />
+                        )}
                     </div>
 
                     <div className="flex flex-col items-center gap-y-2">
                         <p className="text-lg font-semibold text-orange-500">
-                            {'Documents Missing!'}
+                            {isDocsUploaded
+                                ? 'Documents Uploaded'
+                                : 'Documents Missing!'}
                         </p>
                         <p className="text-gray-500 max-w-[400px] text-center">
-                            You are about to forward request with missing to
+                            You are about to forward request{' '}
+                            {!isDocsUploaded ? 'with missing documents' : ''} to
                             following industry.
                         </p>
                     </div>
@@ -91,24 +123,26 @@ export const ForwardModal = ({
                         </div>
                     </div>
 
-                    {/* <div className="flex flex-col gap-y-1">
-                        <Typography
-                            variant={'small'}
-                            color={'text-gray-500'}
-                            left
-                        >
-                            Missing Documents
-                        </Typography>
-                        <div className="flex flex-wrap items-center justify-center gap-x-2">
-                            {['Police Check', 'CV', 'Log Book', 'Images'].map(
-                                (text, i) => (
-                                    <span className="rounded-full bg-gray-200 text-error font-medium px-2 py-0.5 text-center text-xs">
-                                        {text}
-                                    </span>
-                                )
-                            )}
+                    {missingDocuments && missingDocuments?.length > 0 && (
+                        <div className="flex flex-col gap-y-1">
+                            <Typography
+                                variant={'small'}
+                                color={'text-gray-500'}
+                                left
+                            >
+                                Missing Documents
+                            </Typography>
+                            <div className="flex flex-wrap items-center justify-center gap-x-2">
+                                {missingDocuments?.map(
+                                    (text: string, i: number) => (
+                                        <span className="rounded-full bg-gray-200 text-error font-medium px-2 py-0.5 text-center text-xs">
+                                            {text}
+                                        </span>
+                                    )
+                                )}
+                            </div>
                         </div>
-                    </div> */}
+                    )}
 
                     <div className="flex gap-x-4 items-center">
                         <Button
