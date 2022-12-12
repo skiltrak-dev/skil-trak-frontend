@@ -38,11 +38,8 @@ const BookAppointment: NextPageWithLayout = (props: Props) => {
 
     // query
     const coordinatorAvailability = useGetCoordinatorsAvailabilityQuery(
-        {
-            id: type,
-            user: selectedCoordinator?.value,
-        },
-        { skip: !type || !selectedCoordinator }
+        Number(selectedCoordinator?.value),
+        { skip: !selectedCoordinator }
     )
 
     const [createAppointment, createAppointmentResult] =
@@ -51,12 +48,7 @@ const BookAppointment: NextPageWithLayout = (props: Props) => {
     // hooks
     const { notification } = useNotification()
 
-    const coordinators = useGetCoordinatorsForStudentQuery(
-        {
-            id: type,
-        },
-        { skip: !type }
-    )
+    const coordinators = useGetCoordinatorsForStudentQuery()
 
     useEffect(() => {
         setSelectedCoordinator(null)

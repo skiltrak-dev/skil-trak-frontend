@@ -43,10 +43,7 @@ export const AssessmentFolderFileCard = ({
                         <div
                             className="w-full h-28 bg-center bg-no-repeat bg-cover"
                             style={{
-                                backgroundImage: `url(${
-                                    `${process.env.NEXT_PUBLIC_END_POINT}/${file}` ||
-                                    ''
-                                })`,
+                                backgroundImage: `url(${`${file}` || ''})`,
                             }}
                         ></div>
                     )}

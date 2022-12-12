@@ -383,6 +383,17 @@ const Detail: NextPageWithLayout = () => {
                         </div>
                     </div>
 
+                    <div className="grid grid-cols-3 gap-x-3">
+                        <Sectors
+                            data={{
+                                data: data?.courses,
+                                isSuccess: isSuccess,
+                            }}
+                        />
+                        <Workplaces workplaces={data?.workplace} />
+                        <Appointments userId={data?.user?.id} />
+                    </div>
+
                     <DetailTabs id={id} student={data} />
                 </div>
             )}
