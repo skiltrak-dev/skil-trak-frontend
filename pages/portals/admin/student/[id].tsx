@@ -390,7 +390,7 @@ const Detail: NextPageWithLayout = () => {
                                 isSuccess: isSuccess,
                             }}
                         />
-                        <Workplaces workplaces={data?.workplace} />
+                        {/* <Workplaces workplaces={data?.workplace} /> */}
                         <Appointments userId={data?.user?.id} />
                     </div>
 

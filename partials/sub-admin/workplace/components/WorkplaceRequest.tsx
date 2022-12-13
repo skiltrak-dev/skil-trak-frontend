@@ -13,6 +13,7 @@ import { elipiciseText, userStatus } from '@utils'
 import {
     useAssignToSubAdminMutation,
     useCancelWorkplaceStatusMutation,
+    useGetWorkplaceFoldersQuery,
 } from '@queries'
 import { useEffect, useState } from 'react'
 import { useContextBar } from '@hooks'
@@ -27,15 +28,47 @@ import { SmallDetail } from './smallDetail'
 export const WorkplaceRequest = ({ workplace }: any) => {
     const [appliedIndustry, setAppliedIndustry] = useState<any | null>(null)
     const [course, setCourse] = useState<any | null>(null)
+    const [folders, setFolders] = useState<any | null>(null)
 
     // query
     const [cancelWorkplace, cancelWorkplaceResult] =
         useCancelWorkplaceStatusMutation()
+    // query
+    const workplaceFolders = useGetWorkplaceFoldersQuery(
+        {
+            workplaceId: Number(workplace?.id),
+            appliedIndustryId: appliedIndustry?.industry?.id,
+            courseId: course?.id,
+        },
+        { skip: !workplace || !appliedIndustry || !course }
+    )
 
     useEffect(() => {
         setAppliedIndustry(workplace.industries?.find((i: any) => i.applied))
         setCourse(workplace?.courses ? workplace?.courses[0] : {})
     }, [workplace])
+
+    useEffect(() => {
+        const getFolders = () => {
+            const uploadedFolders = {}
+            workplaceFolders?.data?.uploaded?.forEach((folder: any) => {
+                if ((uploadedFolders as any)[folder.name]) {
+                    ;(uploadedFolders as any)[folder.name].push(folder)
+                } else {
+                    ;(uploadedFolders as any)[folder.name] = []
+                    ;(uploadedFolders as any)[folder.name].push(folder)
+                }
+            })
+            const allFolders = workplaceFolders?.data?.folders?.map(
+                (folder: any) => ({
+                    ...folder,
+                    uploaded: (uploadedFolders as any)[folder?.folder?.name],
+                })
+            )
+            setFolders(allFolders)
+        }
+        getFolders()
+    }, [workplaceFolders])
 
     const { setContent, show } = useContextBar()
 
@@ -102,9 +135,10 @@ export const WorkplaceRequest = ({ workplace }: any) => {
 
                 {/*  */}
                 <WorkplaceFolders
-                    workplace={workplace}
-                    courseId={course?.id}
-                    appliedIndustryId={appliedIndustry?.industry?.id}
+                    // workplace={workplace}
+                    // courseId={course?.id}
+                    // appliedIndustryId={appliedIndustry?.industry?.id}
+                    folders={folders}
                 />
             </div>
 
@@ -126,6 +160,7 @@ export const WorkplaceRequest = ({ workplace }: any) => {
                         workplaceId={workplace?.id}
                         workplace={workplace}
                         courseId={course?.id}
+                        folders={folders}
                     />
                     {!appliedIndustry?.cancelled &&
                         appliedIndustry?.industryResponse !== 'rejected' &&
