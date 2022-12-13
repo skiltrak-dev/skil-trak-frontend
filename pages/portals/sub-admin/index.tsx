@@ -6,15 +6,17 @@ import { SubAdminLayout } from '@layouts'
 // components
 import {
     Card,
-    ContextBarLoading, HelpQuestionSet, LottieAnimation,
-    NoData
+    ContextBarLoading,
+    HelpQuestionSet,
+    LottieAnimation,
+    NoData,
 } from '@components'
 // icons
 import { FaSchool } from 'react-icons/fa'
 // animations
 import { Animations } from '@animations'
 // hooks
-import { useContextBar } from '@hooks'
+import { useContextBar, useJoyRide } from '@hooks'
 import { ViewProfileCB } from '@partials/sub-admin/contextBar'
 
 import { FigureCard } from '@components/sections/subAdmin/components/Cards/FigureCard'
@@ -23,29 +25,8 @@ import { AuthUtils } from '@utils'
 
 import { ImportantDocuments } from '@partials/sub-admin/components'
 import { SubAdminApi } from '@queries'
-
-const WorkplaceQuestions = [
-    {
-        text: `Where can I find my students?`,
-        link: 'sub-admin/users/students?tab=my-students',
-    },
-    {
-        text: `How to add student workplace?`,
-        link: '#',
-    },
-    {
-        text: `Looking for workplace for a student!`,
-        link: '#',
-    },
-    {
-        text: `Where can I see student placement status?`,
-        link: '#',
-    },
-    {
-        text: `How to add note on student profile?`,
-        link: '#',
-    },
-]
+import { CallBackProps } from 'react-joyride'
+import { useRouter } from 'next/router'
 
 const AssessmentQuestions = [
     {
@@ -93,6 +74,88 @@ const SubAdminDashboard: NextPageWithLayout = () => {
 
     const { data, isSuccess, isLoading } = SubAdminApi.SubAdmin.useProfile()
     const sectorsWithCourses = getSectors(data?.courses)
+
+    const router = useRouter()
+    // const joyride = useJoyRide()
+    const WorkplaceQuestions = [
+        {
+            text: `Where can I find my students?`,
+            link: 'sub-admin/users/students?tab=my-students',
+            steps: [
+                {
+                    target: '#users',
+                    content: (
+                        <>
+                            <div className="font-semibold">Click here</div>
+                            <div>You can see users of different type here</div>
+                        </>
+                    ),
+                    disableBeacon: true,
+                },
+                {
+                    target: '#students',
+                    content: (
+                        <>
+                            <div>Click Here</div>
+                            <div>You can view all students in here</div>
+                        </>
+                    ),
+                },
+                {
+                    target: '#routeB',
+                    content: (
+                        <>
+                            <div>This is Route B</div>
+                            <div>
+                                Yet another loader simulation and now we reached
+                                the last step in our tour!
+                            </div>
+                        </>
+                    ),
+                },
+            ],
+            joyrideCallback: (joyride: any) => {
+                return (data: CallBackProps) => {
+                    const { action, index, lifecycle, type } = data
+                    if (
+                        type === 'step:after' &&
+                        index === 0 /* or step.target === '#home' */
+                    ) {
+                        joyride.setState((prev: any) => ({
+                            ...prev,
+                            run: false,
+                        }))
+                        router.push('/portals/sub-admin/users')
+                    }
+
+                    else if (action === 'reset' || lifecycle === 'complete') {
+                        joyride.setState({
+                            ...joyride.state,
+                            run: false,
+                            stepIndex: 0,
+                            tourActive: false,
+                        })
+                    }
+                }
+            },
+        },
+        {
+            text: `How to add student workplace?`,
+            link: '#',
+        },
+        {
+            text: `Looking for workplace for a student!`,
+            link: '#',
+        },
+        {
+            text: `Where can I see student placement status?`,
+            link: '#',
+        },
+        {
+            text: `How to add note on student profile?`,
+            link: '#',
+        },
+    ]
 
     useEffect(() => {
         contextBar.setContent(<ViewProfileCB />)

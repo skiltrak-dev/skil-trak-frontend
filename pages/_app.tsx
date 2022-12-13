@@ -5,10 +5,11 @@ import { Provider } from 'react-redux'
 
 import { applyTheme, getCurrentTheme, Theme } from '@theme'
 import {
-  AlertProvider,
-  ContextBarProvider,
-  NavbarProvider,
-  NotificationProvider,
+    AlertProvider,
+    ContextBarProvider,
+    JoyRideProvider,
+    NavbarProvider,
+    NotificationProvider,
 } from '@hooks'
 
 import { store } from '../redux/store'
@@ -21,33 +22,35 @@ import 'swiper/css/navigation'
 import 'swiper/css/pagination'
 
 type AppPropsWithLayout = AppProps & {
-  Component: NextPageWithLayout
+    Component: NextPageWithLayout
 }
 
 const MyApp = ({ Component, pageProps }: AppPropsWithLayout) => {
-  // Apply theme from local storage
-  useEffect(() => {
-    applyTheme((Theme as any)[getCurrentTheme()].theme)
-  }, [])
+    // Apply theme from local storage
+    useEffect(() => {
+        applyTheme((Theme as any)[getCurrentTheme()].theme)
+    }, [])
 
-  const getLayout = Component.getLayout ?? ((page) => page)
+    const getLayout = Component.getLayout ?? ((page) => page)
 
-  return (
-    <Provider store={store}>
-      <AlertProvider>
-        <NotificationProvider>
-          <NavbarProvider>
-            <ContextBarProvider>
-              {/* <Component {...pageProps} /> */}
-              <HeadWrapper>
-                {getLayout(<Component {...pageProps} />)}
-              </HeadWrapper>
-            </ContextBarProvider>
-          </NavbarProvider>
-        </NotificationProvider>
-      </AlertProvider>
-    </Provider>
-  )
+    return (
+        <Provider store={store}>
+            <JoyRideProvider>
+                <AlertProvider>
+                    <NotificationProvider>
+                        <NavbarProvider>
+                            <ContextBarProvider>
+                                {/* <Component {...pageProps} /> */}
+                                <HeadWrapper>
+                                    {getLayout(<Component {...pageProps} />)}
+                                </HeadWrapper>
+                            </ContextBarProvider>
+                        </NavbarProvider>
+                    </NotificationProvider>
+                </AlertProvider>
+            </JoyRideProvider>
+        </Provider>
+    )
 }
 
 export default MyApp

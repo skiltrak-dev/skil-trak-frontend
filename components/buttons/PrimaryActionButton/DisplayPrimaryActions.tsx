@@ -18,6 +18,7 @@ export const DisplayPrimaryActions = ({
 					description={action.description}
 					image={action.image}
 					animation={action.animation}
+					id={action.id}
 				/>
 			))}
 		</div>

@@ -15,7 +15,7 @@ import {
     RtoContextBarData,
     SidebarCalendar,
 } from '@components'
-import { useContextBar } from '@hooks'
+import { useContextBar, useJoyRide } from '@hooks'
 import { AppointmentCard } from '@components/sections/subAdmin/components/Cards/AppointmentCard'
 import { FigureCard } from '@components/sections/subAdmin'
 
@@ -25,18 +25,21 @@ const PrimaryLinks = [
         description: 'Manage Allocated RTOs',
         link: 'users/rtos',
         animation: Animations.Student.Workplace.Student,
+        id: 'rtos',
     },
     {
         title: 'Students',
         description: 'Manage Allocated Students',
         link: 'users/students?tab=all',
-        animation: Animations.Industry.Students.CurrentStudents, 
+        animation: Animations.Industry.Students.CurrentStudents,
+        id: 'students',
     },
     {
         title: 'Industries',
         description: 'Manage Allocated Industries',
         link: 'users/industries?tab=all',
         animation: Animations.Student.Appointments.AssessmentTool,
+        id: 'industries',
     },
 ]
 
@@ -92,6 +95,7 @@ const FigureCardData = [
         count: 0,
         title: 'Industries',
         imageUrl: '/images/icons/industry.png',
+        id: 'industries',
     },
     {
         count: 0,
@@ -112,6 +116,18 @@ const SubAdminUsers: NextPageWithLayout = () => {
         )
         contextBar.show(false)
     }, [])
+
+    // USER JOY RIDE - Start
+    const joyride = useJoyRide()
+    
+    useEffect(() => {
+        if (joyride.state.tourActive) {
+            setTimeout(() => {
+                joyride.setState({ ...joyride.state, run: true, stepIndex: 1 })
+            }, 1200)
+        }
+    }, [])
+    // USER JOY RIDE - END
     return (
         <div className="flex flex-col">
             <div className="flex gap-x-6">
