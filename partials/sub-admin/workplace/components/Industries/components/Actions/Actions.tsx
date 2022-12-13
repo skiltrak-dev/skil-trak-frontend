@@ -18,7 +18,12 @@ import { useNotification } from '@hooks'
 import { userStatus } from '@utils'
 import { ForwardModal } from '@partials/sub-admin/workplace/modals'
 
-export const Actions = ({ appliedIndustry, workplaceId, workplace }: any) => {
+export const Actions = ({
+    appliedIndustry,
+    workplaceId,
+    workplace,
+    folders,
+}: any) => {
     const [actionStatus, setActionStatus] = useState<any | string>('')
     const [modal, setModal] = useState<ReactElement | null>(null)
 
@@ -56,6 +61,7 @@ export const Actions = ({ appliedIndustry, workplaceId, workplace }: any) => {
             <ForwardModal
                 industry={industry}
                 workplaceId={workplaceId}
+                folders={folders}
                 onCancel={() => onModalCancelClicked()}
             />
         )

@@ -33,10 +33,13 @@ export const assessmentEvidenceApi = createApi({
             },
             providesTags: ['AssessmentEvidence'],
         }),
-        getAssessmentResponse: builder.query<any, string>({
-            query: (id) => {
+        getAssessmentResponse: builder.query<
+            any,
+            { selectedFolder: number; student: number }
+        >({
+            query: ({ selectedFolder, student }) => {
                 return {
-                    url: `student/assessment-evidence/response/${id}`,
+                    url: `student/assessment-evidence/response/${selectedFolder}/${student}`,
                 }
             },
             providesTags: ['AssessmentEvidence'],

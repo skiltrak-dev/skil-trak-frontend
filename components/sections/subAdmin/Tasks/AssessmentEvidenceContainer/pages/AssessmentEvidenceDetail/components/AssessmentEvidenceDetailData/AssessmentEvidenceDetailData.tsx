@@ -2,83 +2,95 @@ import { useState } from 'react'
 
 // components
 import {
-  Typography,
-  Button,
-  LoadingAnimation,
-  Select,
-  TextArea,
-  Checkbox,
+    Typography,
+    Button,
+    LoadingAnimation,
+    Select,
+    TextArea,
+    Checkbox,
 } from '@components'
 
 // queries
 import {
-  useGetAssessmentResponseQuery,
-  useSubmitAssessmentEvidenceMutation,
+    useGetAssessmentResponseQuery,
+    useSubmitAssessmentEvidenceMutation,
 } from '@queries'
 import { AssessmentFolderCard } from '@components/sections/student/AssessmentsContainer'
 import { Action } from '../Action'
 import { AssessmentResponse } from '../AssessmentResponse'
+import { useRouter } from 'next/router'
 
 export const AssessmentEvidenceDetailData = ({ data }: any) => {
-  const [selectedFolder, setSelectedFolder] = useState<any | null>(null)
+    const pathname = useRouter()
+    const { studentId } = pathname.query
 
-  const getAssessmentResponse = useGetAssessmentResponseQuery(
-    selectedFolder?.id,
-    { skip: !selectedFolder }
-  )
+    const [selectedFolder, setSelectedFolder] = useState<any | null>(null)
 
-  return (
-    <div>
-      <div className="flex justify-between items-center">
-        <Typography variant={'label'} color={'text-gray-700'}>
-          <span className="font-bold text-black">Assessment Submission</span> -
-          Submission #1
-        </Typography>
-        <Typography variant={'label'} color={'text-gray-500'}>
-          Assessor: <span className="font-semibold text-black">John Doe</span>{' '}
-        </Typography>
-      </div>
+    const getAssessmentResponse = useGetAssessmentResponseQuery(
+        {
+            selectedFolder: Number(selectedFolder?.id),
+            student: Number(studentId),
+        },
+        { skip: !selectedFolder }
+    )
 
-      {/*  */}
-      <div className="grid grid-cols-3">
-        <div className="border border-gray-300">
-          <div className="p-2">
-            <Typography variant={'small'} color={'text-gray-700'}>
-              Selected Folder
-            </Typography>
-            <Typography variant={'label'}>Work Effectively As Cook</Typography>
-          </div>
+    return (
+        <div>
+            <div className="flex justify-between items-center">
+                <Typography variant={'label'} color={'text-gray-700'}>
+                    <span className="font-bold text-black">
+                        Assessment Submission
+                    </span>{' '}
+                    - Submission #1
+                </Typography>
+                <Typography variant={'label'} color={'text-gray-500'}>
+                    Assessor:{' '}
+                    <span className="font-semibold text-black">John Doe</span>{' '}
+                </Typography>
+            </div>
 
-          {data?.map((assessment: any) => (
-            <AssessmentFolderCard
-              key={assessment?.id}
-              id={assessment?.id}
-              name={assessment?.name}
-              // isActive={folder.isActive}
-              selectedFolderId={selectedFolder?.id}
-              negativeComment={assessment.negativeComment}
-              positiveComment={assessment.positiveComment}
-              onClick={() => {
-                setSelectedFolder(assessment)
-              }}
-            />
-          ))}
+            {/*  */}
+            <div className="grid grid-cols-3">
+                <div className="border border-gray-300">
+                    <div className="p-2">
+                        <Typography variant={'small'} color={'text-gray-700'}>
+                            Selected Folder
+                        </Typography>
+                        <Typography variant={'label'}>
+                            Work Effectively As Cook
+                        </Typography>
+                    </div>
+
+                    {data?.map((assessment: any) => (
+                        <AssessmentFolderCard
+                            key={assessment?.id}
+                            id={assessment?.id}
+                            name={assessment?.name}
+                            // isActive={folder.isActive}
+                            selectedFolderId={selectedFolder?.id}
+                            negativeComment={assessment.negativeComment}
+                            positiveComment={assessment.positiveComment}
+                            onClick={() => {
+                                setSelectedFolder(assessment)
+                            }}
+                        />
+                    ))}
+                </div>
+                <div className="col-span-2 border border-gray-300">
+                    {getAssessmentResponse?.isLoading ? (
+                        <LoadingAnimation />
+                    ) : (
+                        getAssessmentResponse?.data && (
+                            <AssessmentResponse
+                                data={getAssessmentResponse?.data}
+                                folder={selectedFolder}
+                            />
+                        )
+                    )}
+                </div>
+            </div>
+
+            <Action />
         </div>
-        <div className="col-span-2 border border-gray-300">
-          {getAssessmentResponse?.isLoading ? (
-            <LoadingAnimation />
-          ) : (
-            getAssessmentResponse?.data && (
-              <AssessmentResponse
-                data={getAssessmentResponse?.data}
-                folder={selectedFolder}
-              />
-            )
-          )}
-        </div>
-      </div>
-
-      <Action />
-    </div>
-  )
+    )
 }

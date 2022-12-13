@@ -11,46 +11,14 @@ export const WorkplaceFolders = ({
     courseId,
     workplace,
     appliedIndustryId,
+    folders,
 }: any) => {
-    const [folders, setFolders] = useState<any | null>(null)
     const [isAllDocumentsUploaded, setIsAllDocumentsUploaded] = useState<
         boolean | null
     >(false)
 
     // hooks
     const { setContent, show } = useContextBar()
-
-    // query
-    const workplaceFolders = useGetWorkplaceFoldersQuery(
-        {
-            workplaceId: Number(workplace?.id),
-            appliedIndustryId,
-            courseId,
-        },
-        { skip: !workplace || !appliedIndustryId || !courseId }
-    )
-
-    useEffect(() => {
-        const getFolders = () => {
-            const uploadedFolders = {}
-            workplaceFolders?.data?.uploaded?.forEach((folder: any) => {
-                if ((uploadedFolders as any)[folder.name]) {
-                    ;(uploadedFolders as any)[folder.name].push(folder)
-                } else {
-                    ;(uploadedFolders as any)[folder.name] = []
-                    ;(uploadedFolders as any)[folder.name].push(folder)
-                }
-            })
-            const allFolders = workplaceFolders?.data?.folders?.map(
-                (folder: any) => ({
-                    ...folder,
-                    uploaded: (uploadedFolders as any)[folder?.folder?.name],
-                })
-            )
-            setFolders(allFolders)
-        }
-        getFolders()
-    }, [workplaceFolders])
 
     useEffect(() => {
         setIsAllDocumentsUploaded(

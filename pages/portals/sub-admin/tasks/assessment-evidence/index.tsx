@@ -24,14 +24,14 @@ const AssessmentEvidence: NextPageWithLayout = (props: Props) => {
                 const {
                     courses,
                     id,
-                    user: { name, email, image },
+                    user: { id: userId, name, email, image },
                 } = row.original
                 const course = courses[0]
 
                 return (
                     <div className="flex items-center relative">
                         <Link
-                            href={`/portals/sub-admin/tasks/assessment-evidence/${id}/${course.id}`}
+                            href={`/portals/sub-admin/tasks/assessment-evidence/${userId}/${course.id}`}
                         >
                             <a>
                                 <div className="flex items-center gap-x-2">
@@ -120,7 +120,7 @@ const AssessmentEvidence: NextPageWithLayout = (props: Props) => {
         {
             Header: 'Action',
             accessor: 'Action',
-            Cell: ({ }) => {
+            Cell: ({}) => {
                 return (
                     <div className="flex justify-center">
                         <Typography variant="muted" color="text-blue-400">
@@ -145,11 +145,17 @@ const AssessmentEvidence: NextPageWithLayout = (props: Props) => {
     )
 }
 AssessmentEvidence.getLayout = (page: ReactElement) => {
-    return <SubAdminLayout pageTitle={{
-        title: 'AssessmentEvidence',
-        navigateBack: true,
-        backTitle: 'Back',
-    }}>{page}</SubAdminLayout>
+    return (
+        <SubAdminLayout
+            pageTitle={{
+                title: 'AssessmentEvidence',
+                navigateBack: true,
+                backTitle: 'Back',
+            }}
+        >
+            {page}
+        </SubAdminLayout>
+    )
 }
 
 export default AssessmentEvidence

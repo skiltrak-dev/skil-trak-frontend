@@ -1,77 +1,29 @@
 // components
-import { Button, Checkbox, Typography, Card, NoData } from '@components'
+import {
+    Button,
+    Checkbox,
+    Typography,
+    Card,
+    NoData,
+    LoadingAnimation,
+} from '@components'
 
-import { AssessmentCourseCard, AssessmentFolderCard } from './components'
+import { AssessmentFolderCard } from './components'
 import { AssessmentFolderDetailX } from './AssessmentFolderDetailX'
 
-// query
-import {
-    useGetAssessmentsCoursesQuery,
-    useGetAssessmentsFoldersQuery,
-} from '@queries'
-import { LoadingAnimation } from '@components/LoadingAnimation'
-import { useEffect, useState } from 'react'
+type Props = {
+    assessmentsFolders: any
+    setSelectedFolder: any
+    selectedFolder: any
+}
 
-type Props = {}
-
-export const AssessmentsEvidence = (props: Props) => {
-    const [selectedCourseId, setSelectedCourseId] = useState(null)
-    const [selectedFolder, setSelectedFolder] = useState<any | null>(null)
-
-    // query
-    const assessmentsCourses: any = useGetAssessmentsCoursesQuery()
-    const assessmentsFolders: any = useGetAssessmentsFoldersQuery(
-        selectedCourseId,
-        {
-            skip: !selectedCourseId,
-        }
-    )
-
-    useEffect(() => {
-        if (assessmentsCourses.isSuccess) {
-            setSelectedCourseId(
-                selectedCourseId || assessmentsCourses?.data[0]?.id
-            )
-        }
-    }, [assessmentsCourses])
-
-    useEffect(() => {
-        if (assessmentsFolders.isSuccess) {
-            setSelectedFolder(selectedFolder || assessmentsFolders?.data[0])
-        }
-    }, [assessmentsFolders])
-
-    console.log('selectedFolder', selectedFolder)
-
+export const AssessmentsEvidence = ({
+    assessmentsFolders,
+    selectedFolder,
+    setSelectedFolder,
+}: Props) => {
     return (
-        <div>
-            <div className="mb-3">
-                {assessmentsCourses.isLoading ? (
-                    <div className="flex flex-col items-center">
-                        <LoadingAnimation size={50} />
-                        <Typography variant={'subtitle'}>
-                            Course Loading
-                        </Typography>
-                    </div>
-                ) : (
-                    <div className="mb-3 grid grid-cols-3 gap-x-2">
-                        {assessmentsCourses?.data?.map((course: any) => (
-                            <AssessmentCourseCard
-                                key={course.id}
-                                id={course.id}
-                                code={course.code}
-                                title={course.title}
-                                isActive={course.isActive}
-                                coordinator={course?.subadmin[0]?.user.name}
-                                selectedCourseId={selectedCourseId}
-                                onClick={() => {
-                                    setSelectedCourseId(course.id)
-                                }}
-                            />
-                        ))}
-                    </div>
-                )}
-            </div>
+        <>
             <div className="flex">
                 <div className="w-1/3 h-full ">
                     <div className="flex items-center gap-x-1 mb-1">
@@ -83,6 +35,9 @@ export const AssessmentsEvidence = (props: Props) => {
                         </Typography>
                     </div>
                     <div className="bg-white border-r min-h-[400px]">
+                        {assessmentsFolders.isError && (
+                            <NoData text={'There is Some Network Issue'} />
+                        )}
                         {assessmentsFolders.isLoading ? (
                             <div className="flex flex-col items-center pt-12">
                                 <LoadingAnimation size={50} />
@@ -151,30 +106,6 @@ export const AssessmentsEvidence = (props: Props) => {
                     />
                 </div>
             </div>
-
-            <div className="flex items-center gap-x-2 mt-10">
-                <div>
-                    <Button text="SUBMIT" submit />
-                </div>
-                <div className="flex items-center gap-x-2">
-                    <Checkbox
-                        name="notifyCoordinator"
-                        label="Notify Coordinator"
-                    />
-                    <Checkbox
-                        name="notifyCoordinator"
-                        label="Notify Coordinator"
-                    />
-                </div>
-            </div>
-
-            <div className="my-2">
-                <Typography variant="muted" color="text-neutral-500">
-                    *You will be able to submit assessment request after you
-                    upload at least one attachment to each folder mentioned
-                    above.
-                </Typography>
-            </div>
-        </div>
+        </>
     )
 }

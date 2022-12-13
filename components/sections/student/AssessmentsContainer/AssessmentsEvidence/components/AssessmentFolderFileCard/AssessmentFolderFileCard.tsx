@@ -22,7 +22,7 @@ export const AssessmentFolderFileCard = ({
     return (
         <div className="">
             {fileUrl && (
-                <div className="relative w-full h-full">
+                <div className="relative w-full h-full flex flex-col gap-y-1.5">
                     {/* Video Preview */}
                     {type === 'video' && (
                         // Preview Video
@@ -34,7 +34,7 @@ export const AssessmentFolderFileCard = ({
                     )}
                     {/* PDF Preview */}
                     {type === 'docs' && (
-                        <div className="flex justify-center items-center w-full h-full">
+                        <div className="flex justify-center items-center w-full">
                             <IoMdDocument className="text-5xl text-gray" />
                         </div>
                     )}
