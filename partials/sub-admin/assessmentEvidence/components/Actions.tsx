@@ -8,7 +8,7 @@ import { Button, Checkbox, Select, TextArea } from '@components'
 // query
 import { useSubmitAssessmentEvidenceMutation } from '@queries'
 
-export const Action = () => {
+export const Actions = () => {
     const pathname = useRouter()
     const studentId = pathname.query.studentId
 

@@ -1,4 +1,4 @@
-import { PageTitle, PageTitleProps } from '@components'
+import { DisplayAlerts, PageTitle, PageTitleProps } from '@components'
 import { SubAdminNavbar } from '@components'
 import { ReactNode } from 'react'
 import { UserLayout } from './UserLayout'
@@ -16,6 +16,7 @@ export const SubAdminLayout = ({
             <div className="px-16">
                 <div className="mb-6">
                     <SubAdminNavbar />
+                    <DisplayAlerts />
                 </div>
                 {pageTitle && pageTitle.title && (
                     <div className="mb-6">

@@ -20,20 +20,15 @@ import {
 
 import {
     MailsTab,
-    StudentsProfileOverview
+    StudentsProfileOverview,
 } from '@components/sections/subAdmin/StudentsContainer'
 // icons
 import { FaEdit } from 'react-icons/fa'
 // queries
 import {
     useGetSubAdminStudentDetailQuery,
-    useUpdateAssessmentToolArchiveMutation
+    useUpdateAssessmentToolArchiveMutation,
 } from '@queries'
-
-
-import { AssessmentsEvidence } from '@components/sections/student/AssessmentsContainer'
-
-
 
 // hooks
 import { AssesmentEvidenceDetail } from '@components/sections/subAdmin/Tasks'
@@ -41,6 +36,7 @@ import { AssesmentEvidenceDetail } from '@components/sections/subAdmin/Tasks'
 import { useContextBar } from '@hooks'
 
 import { Notes } from '@components/sections/subAdmin'
+import { Detail } from '@partials/sub-admin'
 
 type Props = {}
 
@@ -55,7 +51,7 @@ const StudentsProfile: NextPageWithLayout = (props: Props) => {
             skip: !id,
         }
     )
-    
+
     useEffect(() => {
         setContent(
             <>
@@ -89,10 +85,7 @@ const StudentsProfile: NextPageWithLayout = (props: Props) => {
                         Archive
                     </Typography>
                 </div>
-                <div
-                    onClick={() => {
-                    }}
-                >
+                <div onClick={() => {}}>
                     <FaEdit className="text-[#686DE0] cursor-pointer" />
                 </div>
             </div>
@@ -116,8 +109,16 @@ const StudentsProfile: NextPageWithLayout = (props: Props) => {
                 color: 'text-error-500',
             },
             element: (
-                <AssesmentEvidenceDetail courseId={data?.courses[0]?.id} />
+                <div className="my-5">
+                    <Detail
+                        studentId={data?.id}
+                        studentUserId={data?.user?.id}
+                    />
+                </div>
             ),
+            // element: (
+            //     <AssesmentEvidenceDetail courseId={data?.courses[0]?.id} />
+            // ),
         },
         {
             label: 'Mails',
@@ -154,7 +155,11 @@ const StudentsProfile: NextPageWithLayout = (props: Props) => {
     )
 }
 StudentsProfile.getLayout = (page: ReactElement) => {
-    return <SubAdminLayout pageTitle={{title:"Student Profile"}}>{page}</SubAdminLayout>
+    return (
+        <SubAdminLayout pageTitle={{ title: 'Student Profile' }}>
+            {page}
+        </SubAdminLayout>
+    )
 }
 
 export default StudentsProfile

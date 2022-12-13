@@ -9,8 +9,8 @@ import moment from 'moment'
 import { useGetCoordinatorsAvailabilityQuery } from '@queries'
 
 type Props = {
-    // daysAvailability: any
-    // timeAvailability: any
+    subAdmin: any
+    appointmentWith: any
     setSelectedDate: Function
     selectedDate: Date | null
     setSelectedTime: Function
@@ -51,8 +51,8 @@ const days = [
 ]
 
 export const TimeSlots = ({
-    // daysAvailability,
-    // timeAvailability,
+    subAdmin,
+    appointmentWith,
     setSelectedDate,
     selectedDate,
     selectedTime,
@@ -77,10 +77,15 @@ export const TimeSlots = ({
         const daysId = days
             .filter((f) => available?.includes(f.day))
             .map((d) => d.id)
-        setDaysAvailability(daysId)
+        setDaysAvailability(
+            subAdmin
+                ? appointmentWith === 'Self'
+                    ? daysId
+                    : [0, 1, 2, 3, 4, 5, 6]
+                : daysId
+        )
         setTimeAvailability(appointmentAvailability)
-    }, [appointmentAvailability])
-
+    }, [appointmentAvailability, appointmentWith])
 
     const timeSlots = useCallback(() => {
         // const days = [
@@ -113,7 +118,6 @@ export const TimeSlots = ({
         const bookedSlotsTime = bookedSlot?.map((t: any) =>
             moment(t.time, 'hh:mm:ss').format('h:mm a')
         )
-
 
         const findDay = selectedDate && days[selectedDate?.getDay()].day
         const selectedDayAvailability = timeAvailability?.find(
@@ -167,7 +171,6 @@ export const TimeSlots = ({
         const slots = timeSlots()
         setSlotsTime(slots)
     }, [timeSlots])
-
 
     return (
         <div className="mt-5">

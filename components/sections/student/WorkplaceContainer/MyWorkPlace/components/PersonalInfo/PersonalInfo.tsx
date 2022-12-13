@@ -42,7 +42,6 @@ export const PersonalInfo = ({
     //     day: moment.weekdaysShort()[i],
     // }))
 
-
     useEffect(() => {
         if (isSuccess) {
             const options = data?.map((course: any) => ({
@@ -83,7 +82,12 @@ export const PersonalInfo = ({
     })
 
     const onSubmit = (values: any) => {
-        setPersonalInfoData(values)
+        setPersonalInfoData({
+            ...values,
+            haveTransport: values.haveTransport === 'yes' ? true : false,
+            haveDrivingLicense:
+                values.haveDrivingLicense === 'yes' ? true : false,
+        })
         setActive((active: number) => active + 1)
     }
 
@@ -126,8 +130,8 @@ export const PersonalInfo = ({
                                 name="haveTransport"
                                 label="Do you have your own transport?"
                                 options={[
-                                    { value: 'true', label: 'Yes' },
-                                    { value: 'false', label: 'No' },
+                                    { value: 'yes', label: 'Yes' },
+                                    { value: 'no', label: 'No' },
                                 ]}
                             />
                             <RadioGroup
@@ -137,8 +141,8 @@ export const PersonalInfo = ({
                                 name="haveDrivingLicense"
                                 label="Do you have Australian driving license?"
                                 options={[
-                                    { value: 'true', label: 'Yes' },
-                                    { value: 'false', label: 'No' },
+                                    { value: 'yes', label: 'Yes' },
+                                    { value: 'no', label: 'No' },
                                 ]}
                             />
                         </div>

@@ -1,26 +1,65 @@
-import { ReactElement } from 'react'
+import { ReactElement, useState } from 'react'
+import { useRouter } from 'next/router'
 import Link from 'next/link'
 //Layouts
 import { SubAdminLayout } from '@layouts'
-import { NextPageWithLayout } from '@types'
+import { NextPageWithLayout, Student } from '@types'
 
 import { TabsView } from '@components/sections/rto'
 //components
-import { ReactTable, Typography } from '@components'
+import {
+    Card,
+    Table,
+    ReactTable,
+    Typography,
+    EmptyData,
+    TechnicalError,
+    LoadingAnimation,
+    TableActionOption,
+    TableAction,
+} from '@components'
 // queries
 import { useGetAssessmentEvidenceQuery } from '@queries'
-import { FaEnvelope, FaPhoneSquareAlt } from 'react-icons/fa'
+import { FaEnvelope, FaEye, FaPhoneSquareAlt } from 'react-icons/fa'
 import Image from 'next/image'
 
 type Props = {}
 
 const AssessmentEvidence: NextPageWithLayout = (props: Props) => {
-    const Columns = [
+    const router = useRouter()
+
+    const [itemPerPage, setItemPerPage] = useState(5)
+    const [page, setPage] = useState(1)
+
+    const { isLoading, isError, data } = useGetAssessmentEvidenceQuery({
+        skip: itemPerPage * page - itemPerPage,
+        limit: itemPerPage,
+    })
+
+    const tableActionOptions: TableActionOption[] = [
         {
-            Header: 'Name',
-            accessor: 'user',
+            text: 'View',
+            onClick: (student: Student) => {
+                const {
+                    courses,
+                    id,
+                    user: { id: userId },
+                } = student
+                const course = courses[0]
+                router.push(
+                    `/portals/sub-admin/tasks/assessment-evidence/${id}/${userId}/${course.id}`
+                )
+            },
+            Icon: FaEye,
+        },
+    ]
+
+    const columns = [
+        {
+            header: () => 'Name',
+            accessorKey: 'user',
             sort: true,
-            Cell: ({ row }: any) => {
+            cell: ({ row }: any) => {
                 const {
                     courses,
                     id,
@@ -31,7 +70,7 @@ const AssessmentEvidence: NextPageWithLayout = (props: Props) => {
                 return (
                     <div className="flex items-center relative">
                         <Link
-                            href={`/portals/sub-admin/tasks/assessment-evidence/${userId}/${course.id}`}
+                            href={`/portals/sub-admin/tasks/assessment-evidence/${id}/${userId}/${course.id}`}
                         >
                             <a>
                                 <div className="flex items-center gap-x-2">
@@ -70,9 +109,9 @@ const AssessmentEvidence: NextPageWithLayout = (props: Props) => {
             },
         },
         {
-            Header: 'Course',
-            accessor: 'course',
-            Cell: ({ row }: any) => {
+            header: () => 'Course',
+            accessorKey: 'course',
+            cell: ({ row }: any) => {
                 const { courses } = row.original
                 const course = courses[0]
                 return (
@@ -88,9 +127,9 @@ const AssessmentEvidence: NextPageWithLayout = (props: Props) => {
             },
         },
         {
-            Header: 'RTO Name',
-            accessor: 'rto',
-            Cell: ({ row }: any) => {
+            header: () => 'RTO Name',
+            accessorKey: 'rto',
+            cell: ({ row }: any) => {
                 const {
                     rto: {
                         user: { name },
@@ -104,9 +143,9 @@ const AssessmentEvidence: NextPageWithLayout = (props: Props) => {
             },
         },
         {
-            Header: 'Result',
-            accessor: 'studentCapacity',
-            Cell: ({ row }: any) => {
+            header: () => 'Result',
+            accessorKey: 'studentCapacity',
+            cell: ({ row }: any) => {
                 const { studentCapacity } = row.original
                 return (
                     <div className="flex justify-center">
@@ -118,15 +157,11 @@ const AssessmentEvidence: NextPageWithLayout = (props: Props) => {
             },
         },
         {
-            Header: 'Action',
-            accessor: 'Action',
-            Cell: ({}) => {
+            header: () => 'Action',
+            accessorKey: 'Action',
+            cell: ({ row }: any) => {
                 return (
-                    <div className="flex justify-center">
-                        <Typography variant="muted" color="text-blue-400">
-                            More
-                        </Typography>
-                    </div>
+                    <TableAction options={tableActionOptions} rowItem={row} />
                 )
             },
         },
@@ -134,13 +169,57 @@ const AssessmentEvidence: NextPageWithLayout = (props: Props) => {
 
     return (
         <>
-            <ReactTable
+            {/* <ReactTable
                 action={useGetAssessmentEvidenceQuery}
                 Columns={Columns}
                 querySort={'title'}
                 pagination
                 pagesize
-            />
+            /> */}
+            <Card noPadding>
+                {isError && <TechnicalError />}
+                {isLoading ? (
+                    <LoadingAnimation height="h-[60vh]" />
+                ) : data && data?.data.length ? (
+                    <Table
+                        columns={columns}
+                        data={data.data}
+                        // quickActions={quickActionsElements}
+                        enableRowSelection
+                    >
+                        {({
+                            table,
+                            pagination,
+                            pageSize,
+                            quickActions,
+                        }: any) => {
+                            return (
+                                <div>
+                                    <div className="p-6 mb-2 flex justify-between">
+                                        {pageSize(itemPerPage, setItemPerPage)}
+                                        <div className="flex gap-x-2">
+                                            {quickActions}
+                                            {pagination(
+                                                data?.pagination,
+                                                setPage
+                                            )}
+                                        </div>
+                                    </div>
+                                    <div className="px-6">{table}</div>
+                                </div>
+                            )
+                        }}
+                    </Table>
+                ) : (
+                    !isError && (
+                        <EmptyData
+                            title={'No Pending RTO!'}
+                            description={'You have no pending RTO request yet'}
+                            height={'50vh'}
+                        />
+                    )
+                )}
+            </Card>
         </>
     )
 }

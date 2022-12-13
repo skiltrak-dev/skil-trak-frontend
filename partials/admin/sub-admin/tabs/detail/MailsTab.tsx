@@ -13,7 +13,7 @@ import {
 import { AuthUtils } from '@utils'
 
 // query
-import { AdminApi, useSendMessageMutation } from '@queries'
+import { AdminApi, useGetMessagesQuery, useSendMessageMutation } from '@queries'
 
 // hooks
 import { useContextBar } from '@hooks'
@@ -33,7 +33,7 @@ export const MailsTab = ({ subAdmin }: any) => {
     }, [subAdmin])
 
     // query
-    const messages = AdminApi.Messages.useList(subAdmin?.id, {
+    const messages = useGetMessagesQuery(subAdmin?.id, {
         skip: !subAdmin?.id,
     })
 

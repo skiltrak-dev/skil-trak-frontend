@@ -11,7 +11,7 @@ import {
 
 // query
 // query
-import { AdminApi, useSendMessageMutation } from '@queries'
+import { AdminApi, useGetMessagesQuery, useSendMessageMutation } from '@queries'
 
 // hooks
 import { useContextBar } from 'hooks'
@@ -25,7 +25,7 @@ export const MailsTab = ({ student }: any) => {
     )
 
     // query
-    const messages = AdminApi.Messages.useList(student?.user?.id, {
+    const messages = useGetMessagesQuery(student?.user?.id, {
         skip: !student?.user?.id,
     })
 
