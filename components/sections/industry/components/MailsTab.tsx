@@ -11,7 +11,7 @@ import {
 
 // query
 // query
-import { useGetMessagesQuery,null useSendMessageMutation } from '@queries'
+import { useGetIndustryMessagesQuery, useSendMessageMutation } from '@queries'
 
 // hooks
 import { useContextBar } from 'hooks'
@@ -24,7 +24,7 @@ export const MailsTab = () => {
     // )
 
     // query
-    const messages = useGetMessagesQuery(null)
+    const messages = useGetIndustryMessagesQuery()
 
     // useEffect(() => {
     //     setApprovedUser(industry?.user?.status === 'approved')

@@ -13,7 +13,7 @@ import {
 import { AuthUtils } from '@utils'
 
 // query
-import { AdminApi, useGetMessagesQuery, useSendMessageMutation } from '@queries'
+import { AdminApi, useSendMessageMutation } from '@queries'
 
 // hooks
 import { useContextBar } from '@hooks'
@@ -33,7 +33,7 @@ export const MailsTab = ({ subAdmin }: any) => {
     }, [subAdmin])
 
     // query
-    const messages = useGetMessagesQuery(subAdmin?.id, {
+    const messages = AdminApi.Messages.useList(subAdmin?.id, {
         skip: !subAdmin?.id,
     })
 
@@ -80,7 +80,7 @@ export const MailsTab = ({ subAdmin }: any) => {
             {approvedUser && (
                 <div className={`${isVisible ? 'w-full' : 'w-[29%]'}`}>
                     <MailForm
-                        action={AdminApi.Messages.useSendMessage}
+                        action={useSendMessageMutation}
                         receiverId={Number(subAdmin?.id)}
                         sender={'admin'}
                     />

@@ -13,6 +13,7 @@ import { folderEndpoints } from './folder'
 import { appointmentTypeEndpoints } from './appointment-type'
 import { jobEndpoints } from './job'
 import { workplaceEndpoints } from './workplace'
+import { messagesEndpoints } from './messages'
 import { AdminStats } from '@types'
 
 export const adminApi = createApi({
@@ -63,6 +64,7 @@ export const adminApi = createApi({
         ...appointmentTypeEndpoints(build),
         ...jobEndpoints(build),
         ...workplaceEndpoints(build),
+        ...messagesEndpoints(build),
     }),
 })
 
@@ -157,6 +159,10 @@ const {
     useNoteUpdateMutation,
     useNoteRemoveMutation,
     useNoteStatusChangeMutation,
+
+    // -------Messages-------//
+    useGetAdminMessagesQuery,
+    useSendAdminMessageMutation,
 
     // ------ FOLDERS ------ //
     useFolderAddMutation,
@@ -273,6 +279,11 @@ export const AdminApi = {
         useUpdate: useNoteUpdateMutation,
         useRemove: useNoteRemoveMutation,
         useStatusChange: useNoteStatusChangeMutation,
+    },
+
+    Messages: {
+        useList: useGetAdminMessagesQuery,
+        useSendMessage: useSendAdminMessageMutation,
     },
 
     Folders: {

@@ -30,9 +30,6 @@ import {
     useUpdateAssessmentToolArchiveMutation,
 } from '@queries'
 
-// hooks
-import { AssesmentEvidenceDetail } from '@components/sections/subAdmin/Tasks'
-
 import { useContextBar } from '@hooks'
 
 import { Notes } from '@components/sections/subAdmin'
@@ -116,9 +113,6 @@ const StudentsProfile: NextPageWithLayout = (props: Props) => {
                     />
                 </div>
             ),
-            // element: (
-            //     <AssesmentEvidenceDetail courseId={data?.courses[0]?.id} />
-            // ),
         },
         {
             label: 'Mails',

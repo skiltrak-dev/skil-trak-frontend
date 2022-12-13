@@ -9,8 +9,8 @@ import moment from 'moment'
 import { useGetCoordinatorsAvailabilityQuery } from '@queries'
 
 type Props = {
-    subAdmin: any
-    appointmentWith: any
+    subAdmin?: boolean
+    appointmentWith?: string | null
     setSelectedDate: Function
     selectedDate: Date | null
     setSelectedTime: Function

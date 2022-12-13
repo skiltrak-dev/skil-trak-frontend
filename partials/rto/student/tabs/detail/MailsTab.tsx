@@ -13,7 +13,7 @@ import {
 import { AuthUtils } from '@utils'
 
 // query
-import { AdminApi, useGetMessagesQuery, useSendMessageMutation } from '@queries'
+import { AdminApi, useSendMessageMutation } from '@queries'
 
 // hooks
 import { useContextBar } from '@hooks'
@@ -33,7 +33,7 @@ export const MailsTab = ({ student }: any) => {
     }, [student])
 
     // query
-    const messages = useGetMessagesQuery(student?.id, {
+    const messages = AdminApi.Messages.useList(student?.id, {
         skip: !student?.id,
     })
 
