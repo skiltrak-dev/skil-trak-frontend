@@ -18,7 +18,7 @@ import {
     SidebarCalendar,
 } from '@components'
 // Hooks
-import { useContextBar } from '@hooks'
+import { useContextBar, useJoyRide } from '@hooks'
 
 const PrimaryLinks = [
     {
@@ -26,18 +26,21 @@ const PrimaryLinks = [
         description: 'Student Workplace',
         link: 'tasks/workplace?tab=all',
         animation: Animations.Student.Appointments.AssessmentTool,
+        id: 'workplace',
     },
     {
         title: 'Appointments',
         description: 'Appointments',
         link: 'tasks/appointments',
         animation: Animations.Student.Appointments.AssessmentTool,
+        id: 'appointments',
     },
     {
         title: 'Assessment Evidence',
         description: 'Some helping text',
         link: 'tasks/assessment-evidence',
         animation: Animations.Student.Appointments.AssessmentEvidence,
+        id: 'assessment-evidence',
     },
 ]
 
@@ -90,6 +93,18 @@ const SubAdminTasks: NextPageWithLayout = () => {
             </>
         )
     }, [setContent])
+
+    // WORKPLACE JOY RIDE - Start
+    const joyride = useJoyRide()
+
+    useEffect(() => {
+        if (joyride.state.tourActive) {
+            setTimeout(() => {
+                joyride.setState({ ...joyride.state, run: true, stepIndex: 1 })
+            }, 1200)
+        }
+    }, [])
+    // WORKPLACE JOY RIDE - END
     return (
         <div className="flex flex-col">
             <div className="flex gap-x-6">

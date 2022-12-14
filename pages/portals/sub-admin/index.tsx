@@ -141,19 +141,258 @@ const SubAdminDashboard: NextPageWithLayout = () => {
         },
         {
             text: `How to add student workplace?`,
-            link: '#',
+            link: 'sub-admin/tasks',
+            steps: [
+                {
+                    target: '#tasks',
+                    content: (
+                        <>
+                            <div className="font-semibold">Click here</div>
+                            <div>You can handle student workplace here</div>
+                        </>
+                    ),
+                    disableBeacon: true,
+                },
+                {
+                    target: '#workplace',
+                    content: (
+                        <>
+                            <div>Click Here</div>
+                            <div>You can view all workplaces here</div>
+                        </>
+                    ),
+                },
+                {
+                    target: '#routeB',
+                    content: (
+                        <>
+                            <div>This is Route B</div>
+                            <div>
+                                Yet another loader simulation and now we reached
+                                the last step in our tour!
+                            </div>
+                        </>
+                    ),
+                },
+            ],
+            joyrideCallback: (joyride: any) => {
+                return (data: CallBackProps) => {
+                    const { action, index, lifecycle, type } = data
+                    if (
+                        type === 'step:after' &&
+                        index === 0 /* or step.target === '#home' */
+                    ) {
+                        joyride.setState((prev: any) => ({
+                            ...prev,
+                            run: false,
+                        }))
+                        router.push('/portals/sub-admin/tasks')
+                    }
+
+                    else if (action === 'reset' || lifecycle === 'complete') {
+                        joyride.setState({
+                            ...joyride.state,
+                            run: false,
+                            stepIndex: 0,
+                            tourActive: false,
+                        })
+                    }
+                }
+            },
         },
         {
             text: `Looking for workplace for a student!`,
-            link: '#',
+            link: 'sub-admin/tasks',
+            steps: [
+                {
+                    target: '#tasks',
+                    content: (
+                        <>
+                            <div className="font-semibold">Click here</div>
+                            <div>You can view workplaces here</div>
+                        </>
+                    ),
+                    disableBeacon: true,
+                },
+                {
+                    target: '#workplace',
+                    content: (
+                        <>
+                            <div>Click Here</div>
+                            <div>You can view all workplaces here</div>
+                        </>
+                    ),
+                },
+                {
+                    target: '#routeB',
+                    content: (
+                        <>
+                            <div>This is Route B</div>
+                            <div>
+                                Yet another loader simulation and now we reached
+                                the last step in our tour!
+                            </div>
+                        </>
+                    ),
+                },
+            ],
+            joyrideCallback: (joyride: any) => {
+                return (data: CallBackProps) => {
+                    const { action, index, lifecycle, type } = data
+                    if (
+                        type === 'step:after' &&
+                        index === 0 /* or step.target === '#home' */
+                    ) {
+                        joyride.setState((prev: any) => ({
+                            ...prev,
+                            run: false,
+                        }))
+                        router.push('/portals/sub-admin/tasks')
+                    }
+
+                    else if (action === 'reset' || lifecycle === 'complete') {
+                        joyride.setState({
+                            ...joyride.state,
+                            run: false,
+                            stepIndex: 0,
+                            tourActive: false,
+                        })
+                    }
+                }
+            },
         },
         {
             text: `Where can I see student placement status?`,
-            link: '#',
+            link: 'sub-admin/tasks',
+            steps: [
+                {
+                    target: '#tasks',
+                    content: (
+                        <>
+                            <div className="font-semibold">Click here</div>
+                            <div>You can view placement here</div>
+                        </>
+                    ),
+                    disableBeacon: true,
+                },
+                {
+                    target: '#workplace',
+                    content: (
+                        <>
+                            <div>Click Here</div>
+                            <div>You can view placement status here</div>
+                        </>
+                    ),
+                },
+                {
+                    target: '#routeB',
+                    content: (
+                        <>
+                            <div>This is Route B</div>
+                            <div>
+                                Yet another loader simulation and now we reached
+                                the last step in our tour!
+                            </div>
+                        </>
+                    ),
+                },
+            ],
+            joyrideCallback: (joyride: any) => {
+                return (data: CallBackProps) => {
+                    const { action, index, lifecycle, type } = data
+                    if (
+                        type === 'step:after' &&
+                        index === 0 /* or step.target === '#home' */
+                    ) {
+                        joyride.setState((prev: any) => ({
+                            ...prev,
+                            run: false,
+                        }))
+                        router.push('/portals/sub-admin/tasks')
+                    }
+
+                    else if (action === 'reset' || lifecycle === 'complete') {
+                        joyride.setState({
+                            ...joyride.state,
+                            run: false,
+                            stepIndex: 0,
+                            tourActive: false,
+                        })
+                    }
+                }
+            },
         },
         {
             text: `How to add note on student profile?`,
-            link: '#',
+            link: 'sub-admin/users/students?tab=all',
+            steps: [
+                {
+                    target: '#users',
+                    content: (
+                        <>
+                            <div className="font-semibold">Click here</div>
+                            <div>You can see users of different type here</div>
+                        </>
+                    ),
+                    disableBeacon: true,
+                },
+                {
+                    target: '#students',
+                    content: (
+                        <>
+                            <div>Click Here</div>
+                            <div>You can add note on student profile here</div>
+                        </>
+                    ),
+                },
+                {
+                    target: '#add-note-student',
+                    content: (
+                        <>
+                            <div>Click Here</div>
+                            <div>You can add note on student profile here</div>
+                        </>
+                    ),
+                },
+            ],
+            joyrideCallback: (joyride: any) => {
+                return (data: CallBackProps) => {
+                    const { action, index, lifecycle, type } = data
+                    if (
+                        type === 'step:after' &&
+                        index === 0 /* or step.target === '#home' */
+                    ) {
+                        joyride.setState((prev: any) => ({
+                            ...prev,
+                            run: false,
+                        }))
+                        router.push('/portals/sub-admin/users')
+                    }
+                    else if(type === 'step:after' && index === 1){
+                        joyride.setState((prev: any) => ({
+                            ...prev,
+                            run: false,
+                        }))
+                        router.push('/portals/sub-admin/users/students?tab=all')
+                    }
+                    else if(type === 'step:after' && index === 2){
+                        joyride.setState((prev: any) => ({
+                            ...prev,
+                            run: false,
+                        }))
+                        router.push('/portals/sub-admin/users/students/9?tab=notes')
+                    }
+                    else if (action === 'reset' || lifecycle === 'complete') {
+                        joyride.setState({
+                            ...joyride.state,
+                            run: false,
+                            stepIndex: 0,
+                            tourActive: false,
+                        })
+                       
+                    }
+                }
+            },
         },
     ]
 
