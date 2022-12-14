@@ -49,6 +49,7 @@ export const Filter = ({
 
     const onFilterClear = () => {
         setFilters(initialValues)
+        setFilter(initialValues)
     }
 
     const onRemoveFilter = (key: string) => {

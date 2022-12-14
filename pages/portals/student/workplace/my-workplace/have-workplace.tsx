@@ -9,6 +9,7 @@ import {
     LoadingAnimation,
     Typography,
     StepIndicator,
+    ActionButton,
 } from '@components'
 import { ShowErrorNotifications } from '@components/ShowErrorNotifications'
 import { YourIndustry } from '@components/sections/student/WorkplaceContainer/MyWorkPlace'
@@ -22,6 +23,7 @@ import {
 import { FindWorkplace } from '@components/sections/student/WorkplaceContainer/MyWorkPlace/components/FindWorkplace'
 import { IndustryForm } from '@components/sections/student/WorkplaceContainer/MyWorkPlace/IndustryForm'
 import { useNotification } from '@hooks'
+import { AppliedIndustry } from '@components/sections/student/WorkplaceContainer/MyWorkPlace/components/IndustrySelection/AppliedIndustry'
 
 type Props = {}
 
@@ -77,6 +79,24 @@ const HaveWorkplace: NextPageWithLayout = (props: Props) => {
     //         setActive(3)
     //     }
     // }, [workplace.data, workplace.isSuccess])
+
+    const workplaceCancelRequest = (simple: boolean = false) => {
+        return (
+            <div className="mt-3">
+                <ActionButton
+                    variant={'error'}
+                    onClick={async () => {
+                        // await cancelRequest(null)
+                    }}
+                    // loading={cancelRequestResult.isLoading}
+                    // disabled={cancelRequestResult.isLoading}
+                    simple={simple}
+                >
+                    Cancel Request
+                </ActionButton>
+            </div>
+        )
+    }
 
     const StepIndicatorOptions = [
         {
@@ -148,7 +168,31 @@ const HaveWorkplace: NextPageWithLayout = (props: Props) => {
 
                 {active === 3 &&
                     (workplaceData?.studentProvidedWorkplace ||
-                        workplaceData?.byExistingAbn) && (
+                        workplaceData?.byExistingAbn) &&
+                    (workplaceData?.industryStatus === 'approved' ? (
+                        <AppliedIndustry
+                            workplaceCancelRequest={workplaceCancelRequest}
+                            appliedIndustry={workplaceData[0]?.industries[0]}
+                            status={workplaceData?.currentStatus}
+                            workplaceRequest={workplaceData}
+                            studentAdded
+                        />
+                    ) : workplaceData?.industryStatus === 'rejected' ? (
+                        <Card>
+                            <div className="px-5 py-16 border-2 border-dashed border-gray-600 flex justify-center">
+                                <Typography
+                                    variant={'label'}
+                                    center
+                                    color={'text-gray-700'}
+                                >
+                                    Your Workplace Industry has been Rejected,
+                                    You can recreate a workplace after canceling
+                                    the workplace
+                                </Typography>
+                            </div>
+                            {workplaceCancelRequest()}
+                        </Card>
+                    ) : (
                         <Card>
                             <div className="px-5 py-16 border-2 border-dashed border-gray-600 flex justify-center">
                                 <Typography
@@ -162,8 +206,9 @@ const HaveWorkplace: NextPageWithLayout = (props: Props) => {
                                     you soon
                                 </Typography>
                             </div>
+                            {workplaceCancelRequest()}
                         </Card>
-                    )}
+                    ))}
 
                 {active === 4 && (
                     <Card>

@@ -1,61 +1,57 @@
 import {
-    ActionButton,
     Button,
+    ActionButton,
     Card,
     EmptyData,
     Filter,
     LoadingAnimation,
-    RtoFilters,
     Table,
     TableAction,
     TableActionOption,
+    StudentFilters,
 } from '@components'
 import { PageHeading } from '@components/headings'
 import { ColumnDef } from '@tanstack/react-table'
 import { FaEdit, FaEye, FaFileExport, FaFilter } from 'react-icons/fa'
 
 import { AdminApi } from '@queries'
-import { MdEmail, MdPhoneIphone } from 'react-icons/md'
-import { ReactElement, useEffect, useState } from 'react'
-import { useContextBar } from '@hooks'
-import { Rto, Student } from '@types'
-import { SectorCell, StudentCellInfo } from './components'
+import { MdBlock, MdEmail, MdPhoneIphone } from 'react-icons/md'
+import { ReactElement, useState } from 'react'
+import {
+    CourseDot,
+    ProgressCell,
+    SectorCell,
+    StudentCellInfo,
+} from './components'
 import { RtoCellInfo } from '@partials/admin/rto/components'
-import { AcceptModal, RejectModal } from './modals'
-import { useChangeStatus } from './hooks'
+import { Student } from '@types'
+import { BlockModal } from './modals'
 import { useRouter } from 'next/router'
+import { checkWorkplaceStatus } from '@utils'
 
-export const PendingStudent = () => {
+export const FilteredStudents = ({
+    student,
+    setPage,
+    itemPerPage,
+    setItemPerPage,
+}: {
+    student: any
+    setPage: any
+    itemPerPage: any
+    setItemPerPage: any
+}) => {
     const router = useRouter()
-    const contextBar = useContextBar()
     const [modal, setModal] = useState<ReactElement | null>(null)
 
-    const [filterAction, setFilterAction] = useState(null)
-    const [itemPerPage, setItemPerPage] = useState(5)
-    const [page, setPage] = useState(1)
-    const [filter, setFilter] = useState({})
-    const { isLoading, data } = AdminApi.Students.useListQuery({
-        search: `status:pending,${JSON.stringify(filter)
-            .replaceAll('{', '')
-            .replaceAll('}', '')
-            .replaceAll('"', '')
-            .trim()}`,
-        skip: itemPerPage * page - itemPerPage,
-        limit: itemPerPage,
-    })
-
-    const { changeStatusResult } = useChangeStatus()
     const onModalCancelClicked = () => {
         setModal(null)
     }
-    const onAcceptClicked = (item: Student) => {
+    const onBlockClicked = (student: Student) => {
         setModal(
-            <AcceptModal item={item} onCancel={() => onModalCancelClicked()} />
-        )
-    }
-    const onRejectClicked = (item: Student) => {
-        setModal(
-            <RejectModal item={item} onCancel={() => onModalCancelClicked()} />
+            <BlockModal
+                item={student}
+                onCancel={() => onModalCancelClicked()}
+            />
         )
     }
 
@@ -64,7 +60,7 @@ export const PendingStudent = () => {
             text: 'View',
             onClick: (student: any) => {
                 router.push(
-                    `/portals/admin/student/${student?.id}?tab=required-documents`
+                    `/portals/admin/student/${student?.id}?tab=overview`
                 )
             },
             Icon: FaEye,
@@ -72,9 +68,15 @@ export const PendingStudent = () => {
         {
             text: 'Edit',
             onClick: (row: any) => {
-                router.push(`/portals/admin/student/edit-student/${row.id}`)
+                router.push(`/portals/admin/student/edit-student/${row?.id}`)
             },
             Icon: FaEdit,
+        },
+        {
+            text: 'Block',
+            onClick: (student: Student) => onBlockClicked(student),
+            Icon: MdBlock,
+            color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
         },
     ]
 
@@ -112,28 +114,20 @@ export const PendingStudent = () => {
             },
         },
         {
+            accessorKey: 'progress',
+            header: () => <span>Progress</span>,
+            cell: ({ row }) => {
+                const workplace = row.original.workplace[0]
+                const steps = checkWorkplaceStatus(workplace?.currentStatus)
+                return <ProgressCell step={steps} />
+            },
+        },
+        {
             accessorKey: 'action',
             header: () => <span>Action</span>,
-            cell: (info: any) => {
+            cell: (info) => {
                 return (
                     <div className="flex gap-x-1 items-center">
-                        <ActionButton
-                            variant="success"
-                            onClick={() => onAcceptClicked(info.row.original)}
-                            loading={changeStatusResult.isLoading}
-                            disabled={changeStatusResult.isLoading}
-                        >
-                            Accept
-                        </ActionButton>
-                        <ActionButton
-                            variant="error"
-                            onClick={() => onRejectClicked(info.row.original)}
-                            loading={changeStatusResult.isLoading}
-                            disabled={changeStatusResult.isLoading}
-                        >
-                            Reject
-                        </ActionButton>
-
                         <TableAction
                             options={tableActionOptions}
                             rowItem={info.row.original}
@@ -148,17 +142,16 @@ export const PendingStudent = () => {
         id: 'id',
         individual: (id: number) => (
             <div className="flex gap-x-2">
-                <ActionButton variant="success" onClick={() => {}}>
-                    Accept
-                </ActionButton>
-                <ActionButton variant="error" onClick={() => {}}>
-                    Reject
+                <ActionButton Icon={FaEdit}>Edit</ActionButton>
+                <ActionButton>Sub Admins</ActionButton>
+                <ActionButton Icon={MdBlock} variant="error">
+                    Block
                 </ActionButton>
             </div>
         ),
         common: (ids: number[]) => (
-            <ActionButton variant="error" onClick={() => {}}>
-                Reject
+            <ActionButton Icon={MdBlock} variant="error">
+                Block
             </ActionButton>
         ),
     }
@@ -166,19 +159,19 @@ export const PendingStudent = () => {
     return (
         <>
             {modal && modal}
-            <div className="flex flex-col gap-y-4 mb-32">
+            <div className="flex flex-col gap-y-4 p-4">
                 <PageHeading
-                    title={'Pending Students'}
-                    subtitle={'List of Pending Students'}
+                    title={'Filtered Students'}
+                    subtitle={'List of Filtered Students'}
                 />
 
                 <Card noPadding>
-                    {isLoading ? (
+                    {student?.isLoading ? (
                         <LoadingAnimation height="h-[60vh]" />
-                    ) : data && data?.data.length ? (
+                    ) : student?.data && student?.data?.data.length ? (
                         <Table
                             columns={columns}
-                            data={data.data}
+                            data={student?.data.data}
                             quickActions={quickActionsElements}
                             enableRowSelection
                         >
@@ -198,7 +191,7 @@ export const PendingStudent = () => {
                                             <div className="flex gap-x-2">
                                                 {quickActions}
                                                 {pagination(
-                                                    data?.pagination,
+                                                    student?.data?.pagination,
                                                     setPage
                                                 )}
                                             </div>
@@ -210,8 +203,8 @@ export const PendingStudent = () => {
                         </Table>
                     ) : (
                         <EmptyData
-                            title={'No Pending RTO!'}
-                            description={'You have no pending RTO request yet'}
+                            title={'No Students in your Search!'}
+                            description={'No Students in your Search yet'}
                             height={'50vh'}
                         />
                     )}

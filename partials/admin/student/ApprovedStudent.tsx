@@ -163,31 +163,11 @@ export const ApprovedStudent = () => {
     return (
         <>
             {modal && modal}
-            <div className="flex flex-col gap-y-4 mb-32">
+            <div className="flex flex-col gap-y-4">
                 <PageHeading
                     title={'Approved Students'}
                     subtitle={'List of Approved Students'}
-                >
-                    {data && data?.data.length ? (
-                        <>
-                            {filterAction}
-                            <Button
-                                text="Export"
-                                variant="action"
-                                Icon={FaFileExport}
-                            />
-                        </>
-                    ) : null}
-                </PageHeading>
-
-                {data && data?.data.length ? (
-                    <Filter
-                        component={StudentFilters}
-                        initialValues={{ name: '', email: '', rtoCode: '' }}
-                        setFilterAction={setFilterAction}
-                        setFilter={setFilter}
-                    />
-                ) : null}
+                />
 
                 <Card noPadding>
                     {isLoading ? (

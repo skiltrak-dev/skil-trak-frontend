@@ -156,27 +156,7 @@ export const ArchivedStudent = () => {
             <PageHeading
                 title={'Archived Students'}
                 subtitle={'List of Archived Students'}
-            >
-                {data && data?.data.length ? (
-                    <>
-                        {filterAction}
-                        <Button
-                            text="Export"
-                            variant="action"
-                            Icon={FaFileExport}
-                        />
-                    </>
-                ) : null}
-            </PageHeading>
-
-            {data && data?.data.length ? (
-                <Filter
-                    component={RtoFilters}
-                    initialValues={{ name: '', email: '', rtoCode: '' }}
-                    setFilterAction={setFilterAction}
-                    setFilter={setFilter}
-                />
-            ) : null}
+            />
 
             <Card noPadding>
                 {isLoading ? (
