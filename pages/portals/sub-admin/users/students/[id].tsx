@@ -30,14 +30,10 @@ import {
     useUpdateAssessmentToolArchiveMutation,
 } from '@queries'
 
-import { AssessmentsEvidence } from '@components/sections/student/AssessmentsContainer'
-
-// hooks
-import { AssesmentEvidenceDetail } from '@components/sections/subAdmin/Tasks'
-
 import { useContextBar } from '@hooks'
 
 import { Notes } from '@components/sections/subAdmin'
+import { Detail } from '@partials/sub-admin'
 
 type Props = {}
 
@@ -49,9 +45,8 @@ const StudentsProfile: NextPageWithLayout = (props: Props) => {
     const { data, isLoading, isError, isSuccess } =
         useGetSubAdminStudentDetailQuery(String(id), {
             skip: !id,
-        })
-
-        console.log("::: DATA", data)
+        }
+    )
 
     useEffect(() => {
         if (isSuccess) {
@@ -104,7 +99,12 @@ const StudentsProfile: NextPageWithLayout = (props: Props) => {
                 query: { tab: 'assessments' },
             },
             element: (
-                <AssesmentEvidenceDetail courseId={data?.courses[0]?.id} />
+                <div className="my-5">
+                    <Detail
+                        studentId={data?.id}
+                        studentUserId={data?.user?.id}
+                    />
+                </div>
             ),
         },
         {

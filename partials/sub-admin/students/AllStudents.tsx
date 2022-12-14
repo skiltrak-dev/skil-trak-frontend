@@ -1,3 +1,4 @@
+import {  ReactElement } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
@@ -17,14 +18,20 @@ import {
     TableActionOption,
     Typography,
 } from '@components'
+import { StudentCellInfo } from './components'
 
 import { TechnicalError } from '@components/ActionAnimations/TechnicalError'
 import { useGetSubAdminStudentsQuery } from '@queries'
 import { Student } from '@types'
 import { useEffect, useState } from 'react'
 import { useJoyRide } from '@hooks'
+import { MdBlock } from 'react-icons/md'
+import { AssignStudentModal } from './modals'
+
 export const AllStudents = () => {
     const router = useRouter()
+
+    const [modal, setModal] = useState<ReactElement | null>(null)
 
     const [filterAction, setFilterAction] = useState(null)
     const [itemPerPage, setItemPerPage] = useState(5)
@@ -48,6 +55,18 @@ export const AllStudents = () => {
      }, [])
      // STUDENT JOY RIDE - END
 
+    const onModalCancelClicked = () => {
+        setModal(null)
+    }
+    const onAssignStudentClicked = (student: Student) => {
+        setModal(
+            <AssignStudentModal
+                student={student}
+                onCancel={() => onModalCancelClicked()}
+            />
+        )
+    }
+
     const tableActionOptions: TableActionOption[] = [
         {
             text: 'View',
@@ -58,12 +77,12 @@ export const AllStudents = () => {
             },
             Icon: FaEye,
         },
-        // {
-        //     text: 'Delete',
-        //     onClick: (student: Student) => onBlockClicked(student),
-        //     Icon: MdBlock,
-        //     color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
-        // },
+        {
+            text: 'Assign to me',
+            onClick: (student: Student) => onAssignStudentClicked(student),
+            Icon: MdBlock,
+            color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
+        },
     ]
 
     const Columns = [
@@ -72,69 +91,7 @@ export const AllStudents = () => {
             accessorKey: 'user',
             sort: true,
             cell: ({ row }: any) => {
-                const {
-                    phone,
-                    workplace,
-                    industries,
-                    studentId,
-                    user: { name, email, avatar },
-                } = row.original
-
-                return (
-                    <div className="flex items-center relative">
-                        <div className="flex items-center gap-x-2">
-                            <div>
-                                {avatar ? (
-                                    <Image
-                                        className="rounded-full w-7 h-7"
-                                        src={avatar}
-                                        alt={''}
-                                        width={50}
-                                        height={50}
-                                    />
-                                ) : (
-                                    <InitialAvatar name={name} />
-                                )}
-                            </div>
-
-                            <Link
-                                href={`/portals/sub-admin/users/students/${row.original.id}?tab=overview`}
-                            >
-                                <a>
-                                    <div className="flex items-center gap-x-2">
-                                        <p className={'text-xs text-gray-500'}>
-                                            {studentId}
-                                        </p>
-                                        {/* <div className="flex items-center gap-x-2 ">
-                                            <div
-                                                className={`w-1 h-1 rounded-full ${
-                                                    industries === null
-                                                        ? 'bg-red-400'
-                                                        : 'bg-green-400'
-                                                } `}
-                                            ></div>
-                                            <Typography
-                                                variant="muted"
-                                                color="text-green-400"
-                                            >
-                                                Completed
-                                            </Typography>
-                                        </div> */}
-                                    </div>
-                                    <p className="text-gray-800 font-medium">
-                                        {name}
-                                    </p>
-                                    <div className="flex items-center gap-x-2 text-sm">
-                                        <span className="text-gray-400">
-                                            <FaEnvelope />
-                                        </span>
-                                        <p className="text-gray-500">{email}</p>
-                                    </div>
-                                </a>
-                            </Link>
-                        </div>
-                    </div>
-                )
+                return <StudentCellInfo student={row.original} />
             },
         },
         {
@@ -178,7 +135,7 @@ export const AllStudents = () => {
             cell: ({ row }: any) => {
                 return (
                     <div className="flex justify-center">
-                        <PlacementTableCell request={row.original.workplace}/>
+                        <PlacementTableCell request={row.original.workplace} />
                     </div>
                 )
             },
@@ -188,13 +145,17 @@ export const AllStudents = () => {
             accessorKey: 'Action',
             cell: ({ row }: any) => {
                 return (
-                    <TableAction options={tableActionOptions} rowItem={row} />
+                    <TableAction
+                        options={tableActionOptions}
+                        rowItem={row.original}
+                    />
                 )
             },
         },
     ]
     return (
         <div>
+            {modal && modal}
             {isError && <TechnicalError />}
             <Card noPadding>
                 {isLoading ? (

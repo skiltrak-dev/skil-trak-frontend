@@ -80,7 +80,7 @@ export const MailsTab = ({ subAdmin }: any) => {
             {approvedUser && (
                 <div className={`${isVisible ? 'w-full' : 'w-[29%]'}`}>
                     <MailForm
-                        action={AdminApi.Messages.useSendMessage}
+                        action={useSendMessageMutation}
                         receiverId={Number(subAdmin?.id)}
                         sender={'admin'}
                     />

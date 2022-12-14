@@ -21,10 +21,15 @@ import { ReactElement, useState } from 'react'
 import { RtoCell, SectorCell, SubAdminCell } from './components'
 import { useChangeStatus } from './hooks'
 import { AcceptModal, RejectModal } from './modals'
+import { useContextBar } from '@hooks'
+import { ViewRtosCB, ViewSectorsCB } from './contextBar'
 
 export const ActiveSubAdmin = () => {
     const [modal, setModal] = useState<ReactElement | null>(null)
     const router = useRouter()
+
+    const contextBar = useContextBar()
+
     const [filterAction, setFilterAction] = useState(null)
     const [itemPerPage, setItemPerPage] = useState(5)
     const [page, setPage] = useState(1)
@@ -55,11 +60,19 @@ export const ActiveSubAdmin = () => {
         },
         {
             text: 'Assign Courses',
-            onClick: () => {},
+            onClick: (subAdmin: any) => {
+                contextBar.setTitle('Sectors & Courses')
+                contextBar.setContent(<ViewSectorsCB subAdmin={subAdmin} />)
+                contextBar.show()
+            },
         },
         {
             text: 'Assign RTO',
-            onClick: () => {},
+            onClick: (subAdmin: any) => {
+                contextBar.setTitle('Assigned RTOs')
+                contextBar.setContent(<ViewRtosCB subAdmin={subAdmin} />)
+                contextBar.show()
+            },
         },
         {
             text: 'Edit',
@@ -71,25 +84,6 @@ export const ActiveSubAdmin = () => {
             Icon: FaEdit,
         },
     ]
-
-    const tableStatusOptions = (row: TableActionOption) => {
-        return [
-            {
-                text: 'Approved',
-                onClick: () => {},
-                // Icon: FaEye,
-            },
-            {
-                text: 'Reject',
-                onClick: (row: any) => {
-                    router.push(
-                        `/portals/admin/sub-admin/edit-sub-admin/${row.id}`
-                    )
-                },
-                // Icon: FaEdit,
-            },
-        ]
-    }
 
     const columns: ColumnDef<SubAdmin>[] = [
         {

@@ -36,12 +36,14 @@ export const MailsTab = () => {
 
     return (
         <div
-            className={`flex gap-x-2.5 w-full ${isVisible ? 'flex-col' : 'flex-row'
-                }`}
+            className={`flex gap-x-2.5 w-full ${
+                isVisible ? 'flex-col' : 'flex-row'
+            }`}
         >
             <div
-                className={`${isVisible ? 'w-full' : 'w-[71%]'
-                    } bg-gray-50 rounded-lg p-2`}
+                className={`${
+                    isVisible ? 'w-full' : 'w-[71%]'
+                } bg-gray-50 rounded-lg p-2`}
             >
                 {messages.isError && <TechnicalError />}
                 <div className={`flex flex-col gap-y-2.5 h-full `}>

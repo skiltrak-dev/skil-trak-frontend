@@ -1,28 +1,21 @@
-import { ReactElement } from 'react'
 import { useRouter } from 'next/router'
+import { NextPageWithLayout } from '@types'
+import { ReactElement, useEffect, useState } from 'react'
 
 //Layouts
 import { SubAdminLayout } from '@layouts'
-import { NextPageWithLayout } from '@types'
-
-//components
-import { LoadingAnimation } from '@components'
-// queries
-import { useGetAssessmentEvidenceDetailQuery } from '@queries'
-
-// import { AssesmentEvidenceDetail } from '@components/sections'
-import { AssessmentEvidenceDetailData } from '@components/sections/subAdmin/Tasks/AssessmentEvidenceContainer/pages/AssessmentEvidenceDetail/components'
-import { AssesmentEvidenceDetail } from '@components/sections/subAdmin'
+import { Detail } from '@partials/sub-admin'
 
 type Props = {}
 
 const AssessmentEvidenceDetails: NextPageWithLayout = (props: Props) => {
     const pathname = useRouter()
-    const courseId = pathname.query.courseId
+    const { courseId, studentId, studentUser } = pathname.query
 
     return (
         <>
-            <AssesmentEvidenceDetail courseId={courseId} />
+            {/* Assessment Courses */}
+            <Detail studentId={studentId} studentUserId={studentUser} />
         </>
     )
 }

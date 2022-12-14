@@ -68,6 +68,14 @@ export const subAdminStudentsApi = createApi({
             providesTags: ['SubAdminStudents'],
         }),
 
+        assignStudentsToSubAdmin: builder.mutation<any, number>({
+            query: (id) => ({
+                url: `student/assign-subadmin/${id}`,
+                method: 'PATCH',
+            }),
+            invalidatesTags: ['SubAdminStudents'],
+        }),
+
         // updateSubAdminRtoStudentStatus: builder.mutation<any, any | null>({
         //     query: ({id, status}:any) => {
         //         return {
@@ -87,4 +95,5 @@ export const {
     useGetSubAdminStudentDetailQuery,
     useUpdateSubAdminCourseDurationMutation,
     useGetSubAdminMyStudentsQuery,
+    useAssignStudentsToSubAdminMutation,
 } = subAdminStudentsApi

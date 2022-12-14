@@ -17,12 +17,11 @@ export const assessmentEvidenceApi = createApi({
     }),
     tagTypes: ['AssessmentEvidence'],
     endpoints: (builder) => ({
-        getAssessmentEvidence: builder.query<any[], void>({
-            query: () => {
-                return {
-                    url: 'students/assessment-evidence/list-all',
-                }
-            },
+        getAssessmentEvidence: builder.query<any, any>({
+            query: (params) => ({
+                url: 'students/assessment-evidence/list-all',
+                params,
+            }),
             providesTags: ['AssessmentEvidence'],
         }),
         getAssessmentEvidenceDetail: builder.query<any, string>({
@@ -64,10 +63,15 @@ export const assessmentEvidenceApi = createApi({
             },
             invalidatesTags: ['AssessmentEvidence'],
         }),
+        studentCourses: builder.query<any, number>({
+            query: (id) => `student/course/${id}`,
+            providesTags: ['AssessmentEvidence'],
+        }),
     }),
 })
 
 export const {
+    useStudentCoursesQuery,
     useGetAssessmentEvidenceQuery,
     useGetAssessmentResponseQuery,
     useGetAssessmentEvidenceDetailQuery,

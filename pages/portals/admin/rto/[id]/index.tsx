@@ -56,9 +56,13 @@ const RtoDetail: NextPageWithLayout = () => {
                     <div className="flex items-center justify-between">
                         <BackButton text="RTOs" />
                         <div className="flex gap-x-2">
-                            <Button onClick={()=>{
-                                router.push(`${rto?.data?.id}/student-list`)
-                            }}>Import Students</Button>
+                            <Button
+                                onClick={() => {
+                                    router.push(`${rto?.data?.id}/student-list`)
+                                }}
+                            >
+                                Import Students
+                            </Button>
                             <Button variant="dark">Summary Report</Button>
                             <ActionButton Icon={FaArchive}>
                                 Archive
@@ -242,7 +246,7 @@ const RtoDetail: NextPageWithLayout = () => {
                         </div>
                     </div>
 
-                    {/* <PinnedNotes id={router.query?.id} /> */}
+                    <PinnedNotes id={rto?.data?.user?.id} />
                     <DetailTabs id={router.query?.id} rto={rto} />
                 </div>
             ) : (

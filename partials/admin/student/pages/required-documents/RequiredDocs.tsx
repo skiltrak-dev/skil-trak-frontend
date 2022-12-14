@@ -1,5 +1,5 @@
 import { useRouter } from 'next/router'
-import { Card } from '@components'
+import { Card, NoData } from '@components'
 import { Typography } from '@components'
 import React, { useEffect, useState } from 'react'
 import { CourseFolders } from './CourseFolders'
@@ -39,7 +39,9 @@ export const RequiredDocs = ({ courses, assessmentEvidence }: any) => {
     useEffect(() => {
         if (assessmentEvidence) {
             setAssessmentFolders(
-                assessmentEvidence.map((a: any) => a.assessmentFolder)
+                assessmentEvidence
+                    ?.filter((a: any) => a?.assessmentFolder)
+                    ?.map((a: any) => a?.assessmentFolder)
             )
         }
     }, [assessmentEvidence])
@@ -47,15 +49,6 @@ export const RequiredDocs = ({ courses, assessmentEvidence }: any) => {
     useEffect(() => {
         if (assessmentFolders) {
             let newFolders: any = []
-            // assessmentFolders?.forEach((c: any) => {
-            //     if ((newFolders as any)[c?.course?.title]) {
-            //         ;(newFolders as any)[c?.course?.title].push(c)
-            //     } else {
-            //         ;(newFolders as any)[c?.course?.title] = []
-            //         ;(newFolders as any)[c?.course?.title].push(c)
-            //     }
-            // })
-            // setAssessmentEvidenceFolders(newFolders)
             assessmentFolders?.map(({ course, ...folder }: any) => {
                 const findIndex = newFolders.findIndex(
                     (data: any) => data.title === course?.title
@@ -108,14 +101,21 @@ export const RequiredDocs = ({ courses, assessmentEvidence }: any) => {
                         <Typography variant={'subtitle'}>
                             Assessment Evidence
                         </Typography>
-                        {assessmentEvidenceFolders?.map(
-                            (assessmentEvidenceFolder: any) => (
-                                <CourseFolders
-                                    key={assessmentEvidenceFolder.id}
-                                    course={assessmentEvidenceFolder}
-                                    docType={'assessmentEvidence'}
-                                />
+                        {assessmentEvidenceFolders &&
+                        assessmentEvidenceFolders?.length > 0 ? (
+                            assessmentEvidenceFolders?.map(
+                                (assessmentEvidenceFolder: any) => (
+                                    <CourseFolders
+                                        key={assessmentEvidenceFolder.id}
+                                        course={assessmentEvidenceFolder}
+                                        docType={'assessmentEvidence'}
+                                    />
+                                )
                             )
+                        ) : (
+                            <NoData
+                                text={'No Assessment Evidence were found'}
+                            />
                         )}
                     </div>
                 </div>

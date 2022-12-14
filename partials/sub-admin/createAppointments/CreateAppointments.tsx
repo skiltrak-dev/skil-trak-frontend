@@ -226,6 +226,10 @@ export const CreateAppointments = () => {
                             appointmentAvailability={
                                 userAvailabilities?.data?.availabilityBy
                             }
+                            subAdmin
+                            appointmentWith={
+                                selectedPerson?.selectedAppointmentWith
+                            }
                             bookedAppointment={userAvailabilities?.data?.booked}
                         />
                     </div>
