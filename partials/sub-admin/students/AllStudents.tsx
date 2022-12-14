@@ -21,8 +21,8 @@ import {
 import { TechnicalError } from '@components/ActionAnimations/TechnicalError'
 import { useGetSubAdminStudentsQuery } from '@queries'
 import { Student } from '@types'
-import { useState } from 'react'
-
+import { useEffect, useState } from 'react'
+import { useJoyRide } from '@hooks'
 export const AllStudents = () => {
     const router = useRouter()
 
@@ -34,6 +34,19 @@ export const AllStudents = () => {
         skip: itemPerPage * page - itemPerPage,
         limit: itemPerPage,
     })
+     // WORKPLACE JOY RIDE - Start
+     const joyride = useJoyRide()
+
+     useEffect(() => {
+         if (joyride.state.tourActive) {
+
+             setTimeout(() => {
+                 joyride.setState({ ...joyride.state, run: true, stepIndex: 2 })
+             }, 1200)
+             console.log('joyride', joyride)
+         }
+     }, [])
+     // STUDENT JOY RIDE - END
 
     const tableActionOptions: TableActionOption[] = [
         {
@@ -211,7 +224,7 @@ export const AllStudents = () => {
                                             )}
                                         </div>
                                     </div>
-                                    <div className="px-6">{table}</div>
+                                    <div id='add-note-student'  className="px-6">{table}</div>
                                 </div>
                             )
                         }}

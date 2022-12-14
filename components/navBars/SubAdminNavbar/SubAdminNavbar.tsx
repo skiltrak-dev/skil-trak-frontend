@@ -73,6 +73,7 @@ export const SubAdminNavbar = () => {
                                     ? 'bg-orange-100 text-orange-700'
                                     : 'text-slate-700'
                             } ${defaultClasses} hover:bg-orange-100 hover:text-orange-700`}
+                            id="tasks"
                         >
                             <span>
                                 <FaClipboardList />
