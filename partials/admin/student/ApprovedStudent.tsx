@@ -5,10 +5,10 @@ import {
     EmptyData,
     Filter,
     LoadingAnimation,
-    RtoFilters,
     Table,
     TableAction,
     TableActionOption,
+    StudentFilters,
 } from '@components'
 import { PageHeading } from '@components/headings'
 import { ColumnDef } from '@tanstack/react-table'
@@ -182,7 +182,7 @@ export const ApprovedStudent = () => {
 
                 {data && data?.data.length ? (
                     <Filter
-                        component={RtoFilters}
+                        component={StudentFilters}
                         initialValues={{ name: '', email: '', rtoCode: '' }}
                         setFilterAction={setFilterAction}
                         setFilter={setFilter}

@@ -28,6 +28,8 @@ type Props = {}
 const HaveWorkplace: NextPageWithLayout = (props: Props) => {
     const [active, setActive] = useState(1)
     const [personalInfoData, setPersonalInfoData] = useState({})
+    const [industryABN, setIndustryABN] = useState<string | null>(null)
+
     const [workplaceData, setWorkplaceData] = useState<any | null>(null)
     const { notification } = useNotification()
 
@@ -101,6 +103,7 @@ const HaveWorkplace: NextPageWithLayout = (props: Props) => {
 
     const onSubmit = (values: any) => {
         findAbn(values)
+        setIndustryABN(values?.abn)
         // setActive((active: number) => active + 1)
     }
 
@@ -131,6 +134,7 @@ const HaveWorkplace: NextPageWithLayout = (props: Props) => {
                             addWorkplace={addWorkplace}
                             setWorkplaceData={setWorkplaceData}
                             result={addWorkplaceResult}
+                            industryABN={industryABN}
                         />
                     ) : (
                         <YourIndustry
