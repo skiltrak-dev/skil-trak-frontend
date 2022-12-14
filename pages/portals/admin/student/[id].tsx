@@ -42,6 +42,7 @@ import { MdPlace } from 'react-icons/md'
 import Image from 'next/image'
 import { GoPrimitiveDot } from 'react-icons/go'
 import { BlockModal, ArchiveModal } from '@partials/admin/student/modals'
+import { PinnedNotes } from '@partials'
 
 const Detail: NextPageWithLayout = () => {
     const router = useRouter()
@@ -382,6 +383,8 @@ const Detail: NextPageWithLayout = () => {
                             </div>
                         </div>
                     </div>
+
+                    <PinnedNotes id={data?.user?.id} />
 
                     <div className="grid grid-cols-3 gap-x-3">
                         <Sectors

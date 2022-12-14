@@ -31,6 +31,7 @@ import Image from 'next/image'
 import { DetailTabs } from '@partials/admin/sub-admin'
 
 import { FigureCard } from '@components/sections/subAdmin/components/Cards/FigureCard'
+import { PinnedNotes } from '@partials'
 
 
 const RtoDetail: NextPageWithLayout = () => {
@@ -168,6 +169,7 @@ const RtoDetail: NextPageWithLayout = () => {
                             </div>
                         </div>
                     </div>
+                    <PinnedNotes id={data?.user?.id} />
                     <DetailTabs id={router.query.id} subAdmin={data?.user} />
                 </div>
             ) : (

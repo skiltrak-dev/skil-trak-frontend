@@ -26,6 +26,7 @@ import { AdminApi } from '@queries'
 import Image from 'next/image'
 import { MdPlace } from 'react-icons/md'
 import { DetailTabs } from '@partials/admin/industry/tabs'
+import { PinnedNotes } from '@partials'
 
 const Detail: NextPageWithLayout = () => {
     const router = useRouter()
@@ -228,6 +229,8 @@ const Detail: NextPageWithLayout = () => {
                     </div>
                 </div>
             </div>
+
+            <PinnedNotes id={industry?.data?.user?.id} />
 
             <DetailTabs id={router.query.id} industry={industry} />
         </div>

@@ -16,6 +16,7 @@ export * from './ActionDropDown'
 export * from './Mail'
 export * from './Appointment'
 export * from './ShowErrorNotifications'
+export * from './AssessmentEvidence'
 
 // export * from './Pagination'
 export * from './PopUp'
