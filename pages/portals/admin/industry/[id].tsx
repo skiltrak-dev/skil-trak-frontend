@@ -13,7 +13,7 @@ import { useContextBar, useNavbar } from '@hooks'
 import { AdminLayout } from '@layouts'
 import { NextPageWithLayout } from '@types'
 import { useRouter } from 'next/router'
-import { ReactElement, useEffect } from 'react'
+import { ReactElement, useState, useEffect } from 'react'
 import {
     AiOutlineBarcode,
     AiOutlineLogin,
@@ -27,11 +27,15 @@ import Image from 'next/image'
 import { MdPlace } from 'react-icons/md'
 import { DetailTabs } from '@partials/admin/industry/tabs'
 import { PinnedNotes } from '@partials'
+import { Industry } from '@types'
+import { ArchiveModal, BlockModal } from '@partials/admin/industry/modals'
 
 const Detail: NextPageWithLayout = () => {
     const router = useRouter()
     const navBar = useNavbar()
     const contextBar = useContextBar()
+
+    const [modal, setModal] = useState<ReactElement | null>(null)
 
     const industry = AdminApi.Industries.useDetail(Number(router.query.id), {
         skip: !router.query?.id,
@@ -42,15 +46,46 @@ const Detail: NextPageWithLayout = () => {
         contextBar.hide()
     }, [])
 
+    const onModalCancelClicked = () => {
+        setModal(null)
+    }
+    const onArchiveClicked = (industry: Industry | undefined) => {
+        setModal(
+            <ArchiveModal
+                item={industry}
+                onCancel={() => onModalCancelClicked()}
+            />
+        )
+    }
+
+    const onBlockClicked = (industry: Industry | undefined) => {
+        setModal(
+            <BlockModal
+                industry={industry}
+                onCancel={() => onModalCancelClicked()}
+            />
+        )
+    }
+
     return (
         <div className="p-6 flex flex-col gap-y-4">
+            {modal && modal}
             {/* Action Bar */}
             <div className="flex items-center justify-between">
                 <BackButton text="Industries" />
                 <div className="flex gap-x-2">
                     <ActionButton Icon={FaEdit}>Edit</ActionButton>
-                    <ActionButton Icon={FaArchive}>Archive</ActionButton>
-                    <ActionButton Icon={FaBan} variant={'error'}>
+                    <ActionButton
+                        Icon={FaArchive}
+                        onClick={() => onArchiveClicked(industry?.data)}
+                    >
+                        Archive
+                    </ActionButton>
+                    <ActionButton
+                        Icon={FaBan}
+                        variant={'error'}
+                        onClick={() => onBlockClicked(industry?.data)}
+                    >
                         Block
                     </ActionButton>
                 </div>

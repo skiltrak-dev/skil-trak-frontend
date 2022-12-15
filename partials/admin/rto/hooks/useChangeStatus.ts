@@ -2,20 +2,24 @@ import { AdminApi } from '@queries'
 import { Rto, UserStatus } from '@types'
 
 export const useChangeStatus = () => {
-   const [changeStatus, changeStatusResult] =
-      AdminApi.Rtos.useChangeStatusMutation()
+    const [changeStatus, changeStatusResult] =
+        AdminApi.Rtos.useChangeStatusMutation()
 
-   const onAccept = async (rto: Rto) => {
-      await changeStatus({ id: rto.id, status: UserStatus.Approved })
-   }
+    const onArchive = async (rto: Rto) => {
+        await changeStatus({ id: rto.id, status: UserStatus.Archived })
+    }
 
-   const onReject = async (rto: Rto) => {
-      await changeStatus({ id: rto.id, status: UserStatus.Rejected })
-   }
+    const onAccept = async (rto: Rto) => {
+        await changeStatus({ id: rto.id, status: UserStatus.Approved })
+    }
 
-   const onBlock = async (rto: Rto) => {
-      await changeStatus({ id: rto.id, status: UserStatus.Blocked })
-   }
+    const onReject = async (rto: Rto) => {
+        await changeStatus({ id: rto.id, status: UserStatus.Rejected })
+    }
 
-   return { onAccept, onReject, onBlock, changeStatusResult }
+    const onBlock = async (rto: Rto) => {
+        await changeStatus({ id: rto.id, status: UserStatus.Blocked })
+    }
+
+    return { onAccept, onArchive, onReject, onBlock, changeStatusResult }
 }

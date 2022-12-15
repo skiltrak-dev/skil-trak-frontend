@@ -1,3 +1,4 @@
+import { ReactElement, useState, useEffect } from 'react'
 import {
     ActionButton,
     BackButton,
@@ -12,9 +13,8 @@ import {
 } from '@components'
 import { useContextBar, useNavbar } from '@hooks'
 import { AdminLayout } from '@layouts'
-import { NextPageWithLayout } from '@types'
+import { NextPageWithLayout, Rto } from '@types'
 import { useRouter } from 'next/router'
-import { ReactElement, useEffect } from 'react'
 import {
     AiFillCodeSandboxCircle,
     AiOutlineBarcode,
@@ -30,11 +30,14 @@ import { MdPlace } from 'react-icons/md'
 import Image from 'next/image'
 import { DetailTabs } from '@partials/admin/rto/tabs'
 import { PinnedNotes } from '@partials'
+import { ArchiveModal, BlockModal } from '@partials/admin/rto/modals'
 
 const RtoDetail: NextPageWithLayout = () => {
     const router = useRouter()
     const navBar = useNavbar()
     const contextBar = useContextBar()
+
+    const [modal, setModal] = useState<ReactElement | null>(null)
 
     const rto = AdminApi.Rtos.useDetailQuery(Number(router.query.id), {
         skip: !router.query?.id,
@@ -45,8 +48,24 @@ const RtoDetail: NextPageWithLayout = () => {
         contextBar.hide()
     }, [])
 
+    const onModalCancelClicked = () => {
+        setModal(null)
+    }
+    const onArchiveClicked = (rto: Rto | undefined) => {
+        setModal(
+            <ArchiveModal item={rto} onCancel={() => onModalCancelClicked()} />
+        )
+    }
+
+    const onBlockClicked = (rto: Rto | undefined) => {
+        setModal(
+            <BlockModal rto={rto} onCancel={() => onModalCancelClicked()} />
+        )
+    }
+
     return (
         <>
+            {modal && modal}
             {rto.isError && <TechnicalError />}
             {rto?.isLoading ? (
                 <LoadingAnimation />
@@ -64,10 +83,17 @@ const RtoDetail: NextPageWithLayout = () => {
                                 Import Students
                             </Button>
                             <Button variant="dark">Summary Report</Button>
-                            <ActionButton Icon={FaArchive}>
+                            <ActionButton
+                                Icon={FaArchive}
+                                onClick={() => onArchiveClicked(rto?.data)}
+                            >
                                 Archive
                             </ActionButton>
-                            <ActionButton Icon={FaBan} variant={'error'}>
+                            <ActionButton
+                                Icon={FaBan}
+                                variant={'error'}
+                                onClick={() => onBlockClicked(rto?.data)}
+                            >
                                 Block
                             </ActionButton>
                         </div>

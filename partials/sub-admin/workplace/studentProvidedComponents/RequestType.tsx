@@ -9,7 +9,6 @@ import {
     LoadingAnimation,
     ShowErrorNotifications,
 } from '@components'
-import { requestType } from './requestTypeData'
 
 // query
 import { useSendInterviewNotificationMutation } from '@queries'

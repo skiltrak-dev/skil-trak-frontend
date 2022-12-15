@@ -20,9 +20,10 @@ import { useRouter } from 'next/router'
 import { ReactElement, useState } from 'react'
 import { RtoCell, SectorCell, SubAdminCell } from './components'
 import { useChangeStatus } from './hooks'
-import { AcceptModal, RejectModal } from './modals'
+import { AcceptModal, ArchiveModal, RejectModal } from './modals'
 import { useContextBar } from '@hooks'
 import { ViewRtosCB, ViewSectorsCB } from './contextBar'
+import { BsArchiveFill } from 'react-icons/bs'
 
 export const ActiveSubAdmin = () => {
     const [modal, setModal] = useState<ReactElement | null>(null)
@@ -46,6 +47,14 @@ export const ActiveSubAdmin = () => {
 
     const onModalCancelClicked = () => {
         setModal(null)
+    }
+    const onArchivedClicked = (subAdmin: SubAdmin) => {
+        setModal(
+            <ArchiveModal
+                item={subAdmin}
+                onCancel={() => onModalCancelClicked()}
+            />
+        )
     }
 
     const tableActionOptions: TableActionOption[] = [
@@ -82,6 +91,12 @@ export const ActiveSubAdmin = () => {
                 )
             },
             Icon: FaEdit,
+        },
+        {
+            text: 'Archive',
+            onClick: (subAdmin: SubAdmin) => onArchivedClicked(subAdmin),
+            Icon: BsArchiveFill,
+            color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
         },
     ]
 

@@ -1,52 +1,54 @@
 import { ActionModal } from '@components'
 import { useAlert, useNotification } from '@hooks'
+import { AdminApi } from '@queries'
 import { Rto } from '@types'
 import { useEffect } from 'react'
 import { FaBan } from 'react-icons/fa'
+import { IoWarningOutline } from 'react-icons/io5'
 import { useChangeStatus } from '../hooks'
 
-export const BlockModal = ({
-    rto,
+export const ArchiveModal = ({
+    item,
     onCancel,
 }: {
-    rto: Rto | undefined
+    item: Rto | undefined
     onCancel: Function
 }) => {
     const { alert } = useAlert()
     const { notification } = useNotification()
-    const { onBlock, changeStatusResult } = useChangeStatus()
+    const { onArchive, changeStatusResult } = useChangeStatus()
 
-    const onConfirmClicked = async (rto: Rto) => {
-        await onBlock(rto)
+    const onConfirmClicked = async (item: Rto) => {
+        await onArchive(item)
     }
 
     useEffect(() => {
         if (changeStatusResult.isSuccess) {
-            alert.error({
-                title: `RTO Blocked`,
-                description: `RTO "${rto?.user?.name}" has been blocked.`,
+            alert.success({
+                title: `Request Archived`,
+                description: `Rto "${item?.user?.name}" has been archived.`,
             })
             onCancel()
         }
         if (changeStatusResult.isError) {
             notification.error({
                 title: 'Request Failed',
-                description: `Your request for blocking RTO was failed`,
+                description: `Your request for archiving Rto was failed`,
             })
         }
     }, [changeStatusResult])
 
     return (
         <ActionModal
-            Icon={FaBan}
-            variant="error"
+            Icon={IoWarningOutline}
+            variant="primary"
             title="Are you sure!"
-            description={`You are about to block <em>"${rto?.user?.name}"</em>. Do you wish to continue?`}
+            description={`You are about to archive <em>"${item?.user?.name}"<em>. Do you wish to continue?`}
             onConfirm={onConfirmClicked}
             onCancel={onCancel}
             input
-            inputKey={rto?.user?.email}
-            actionObject={rto}
+            inputKey={item?.user?.email}
+            actionObject={item}
             loading={changeStatusResult.isLoading}
         />
     )

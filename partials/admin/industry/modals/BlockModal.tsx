@@ -9,7 +9,7 @@ export const BlockModal = ({
     industry,
     onCancel,
 }: {
-    industry: Industry
+    industry: Industry | undefined
     onCancel: Function
 }) => {
     const { alert } = useAlert()
@@ -24,7 +24,7 @@ export const BlockModal = ({
         if (changeStatusResult.isSuccess) {
             alert.error({
                 title: `Industry Blocked`,
-                description: `Industry "${industry.user.name}" has been blocked.`,
+                description: `Industry "${industry?.user?.name}" has been blocked.`,
             })
             onCancel()
         }
@@ -41,11 +41,11 @@ export const BlockModal = ({
             Icon={FaBan}
             variant="error"
             title="Are you sure!"
-            description={`You are about to block <em>"${industry.user.name}"</em>. Do you wish to continue?`}
+            description={`You are about to block <em>"${industry?.user?.name}"</em>. Do you wish to continue?`}
             onConfirm={onConfirmClicked}
             onCancel={onCancel}
             input
-            inputKey={industry.user.email}
+            inputKey={industry?.user?.email}
             actionObject={industry}
             loading={changeStatusResult.isLoading}
         />
