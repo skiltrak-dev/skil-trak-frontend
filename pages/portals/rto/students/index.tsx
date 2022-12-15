@@ -8,7 +8,7 @@ import {
     Button,
     PageTitle, TabNavigation, TabProps
 } from '@components'
-import { useContextBar } from '@hooks'
+import { useContextBar, useJoyRide } from '@hooks'
 import {
     ApprovedStudent, ArchivedStudent, BlockedStudent, PendingStudent,
     RejectedStudent
@@ -24,6 +24,16 @@ const RtoStudents: NextPageWithLayout = (props: Props) => {
     const router = useRouter()
     const contextBar = useContextBar()
 
+    // ADD STUDENT JOY RIDE - START
+    const joyride = useJoyRide()
+    useEffect(() => {
+        if (joyride.state.tourActive) {
+            setTimeout(() => {
+                joyride.setState({ ...joyride.state, run: true, stepIndex: 1 })
+            }, 1200)
+        }
+    }, [])
+    // ADD STUDENT JOY RIDE - END
     useEffect(() => {
         contextBar.show(false)
     }, [])
@@ -71,7 +81,7 @@ const RtoStudents: NextPageWithLayout = (props: Props) => {
                             onMouseLeave={() => setShowDropDown(false)}
                         >
                             <Button>
-                                <div className="flex items-center gap-x-2">
+                                <div id='add-students' className="flex items-center gap-x-2">
                                     <span>Add Students</span>
                                     <FaChevronDown />
                                 </div>

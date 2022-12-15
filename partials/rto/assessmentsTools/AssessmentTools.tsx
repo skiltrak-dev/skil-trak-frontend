@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
 import Link from 'next/link'
 import { UserStatus } from '@types'
@@ -21,7 +21,7 @@ import {
     useGetAssessmentToolByCourseQuery,
     useUpdateAssessmentToolArchiveMutation,
 } from '@queries'
-import { useContextBar } from '@hooks'
+import { useContextBar, useJoyRide } from '@hooks'
 import { AddAssessmentToolCB } from './contextBar'
 // import {AssessmentCourse} from
 
@@ -49,6 +49,16 @@ export const AssessmentsToolsContainer = () => {
         contextBar.setContent(<AddAssessmentToolCB />)
         contextBar.show()
     }
+    //  ADD ASSESSMENT JOY RIDE - END
+    const joyride = useJoyRide()
+    useEffect(() => {
+        if (joyride.state.tourActive) {
+            setTimeout(() => {
+                joyride.setState({ ...joyride.state, run: true, stepIndex: 2 })
+            }, 1200)
+        }
+    }, [])
+    //  ADD ASSESSMENT JOY RIDE - END
 
     const actions = (assessment: any) => {
         return (
@@ -98,7 +108,7 @@ export const AssessmentsToolsContainer = () => {
                         {rtoCourses?.isLoading ? (
                             <LoadingAnimation size={85} />
                         ) : rtoCourses?.data?.data &&
-                          rtoCourses?.data?.data?.length > 0 ? (
+                            rtoCourses?.data?.data?.length > 0 ? (
                             rtoCourses?.data?.data?.map((course: any) => (
                                 <AssessmentCourse
                                     code={course?.code}
@@ -115,14 +125,16 @@ export const AssessmentsToolsContainer = () => {
                         )}
                     </div>
                     <div className="w-[75%]">
-                        <div className="flex justify-end gap-x-2.5 p-4">
-                            <Button
-                                variant="primary"
-                                text="ADD ASSESSMENT"
-                                onClick={() => {
-                                    onAddAssessment()
-                                }}
-                            />
+                        <div  className="flex justify-end gap-x-2.5 p-4">
+                            <div id='add-assessments'>
+                                <Button
+                                    variant="primary"
+                                    text="ADD ASSESSMENT"
+                                    onClick={() => {
+                                        onAddAssessment()
+                                    }}
+                                />
+                            </div>
                             <Button
                                 variant="dark"
                                 text="VIEW ARCHIVED"
@@ -148,7 +160,7 @@ export const AssessmentsToolsContainer = () => {
                             {getAssessmentTools?.isLoading ? (
                                 <LoadingAnimation size={80} />
                             ) : getAssessmentTools?.data &&
-                              getAssessmentTools?.data?.length > 0 ? (
+                                getAssessmentTools?.data?.length > 0 ? (
                                 getAssessmentTools?.data?.map(
                                     (assessment: any) => (
                                         <DownloadableFile

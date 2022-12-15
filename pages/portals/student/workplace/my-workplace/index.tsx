@@ -9,6 +9,7 @@ import Link from 'next/link'
 import { Card, Button, LoadingAnimation } from '@components'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
+import { useJoyRide } from '@hooks'
 
 type Props = {}
 
@@ -34,6 +35,16 @@ const MyWorkPlaces: NextPageWithLayout = (props: Props) => {
             }
         }
     }, [workplace])
+    // WORKPLACE JOY RIDE - END
+    const joyride = useJoyRide()
+    useEffect(() => {
+        if (joyride.state.tourActive) {
+            setTimeout(() => {
+                joyride.setState({ ...joyride.state, run: true, stepIndex: 2 })
+            }, 1200)
+        }
+    }, [])
+    // WORKPLACE JOY RIDE - END
 
     return workplace.isLoading ||
         (workplace.isSuccess && workplace.data?.length) ? (
@@ -50,7 +61,7 @@ const MyWorkPlaces: NextPageWithLayout = (props: Props) => {
                 </p>
 
                 <div className="flex gap-x-6 mt-4">
-                    <div className="border rounded-md p-4 flex flex-col items-center">
+                    <div id='i-have-workplace' className="border rounded-md p-4 flex flex-col items-center">
                         <Image
                             src="/images/icons/working.png"
                             width={120}
@@ -76,7 +87,7 @@ const MyWorkPlaces: NextPageWithLayout = (props: Props) => {
                         </div>
                     </div>
 
-                    <div className="border rounded-md p-4 flex flex-col items-center">
+                    <div id='i-dont-have-workplace' className="border rounded-md p-4 flex flex-col items-center">
                         <Image
                             src="/images/icons/bad-work.png"
                             width={120}

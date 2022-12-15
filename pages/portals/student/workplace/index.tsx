@@ -11,7 +11,7 @@ import {
 import { StudentLayout } from '@layouts'
 import { NextPageWithLayout } from '@types'
 import { PlacementProgressCard } from '@components/specialCards/PlacementProgress'
-import { useContextBar } from 'hooks'
+import { useContextBar, useJoyRide } from 'hooks'
 import {
     useGetPlacementProgressQuery,
     useGetStudentPastAppointmentsQuery,
@@ -23,18 +23,21 @@ const PrimaryLinks = [
         description: 'Track Progress or File a request',
         link: 'workplace/my-workplace',
         animation: Animations.Student.Workplace.MyWorkplace,
+        id: 'my-workplace',
     },
     {
         title: 'Appointments',
         description: 'View or Book Appointments',
         link: 'workplace/appointments',
         animation: Animations.Student.Workplace.Appointments,
+        id: 'appointments',
     },
     {
         title: 'Jobs',
         description: 'Track Progress Or File a request',
         link: 'workplace/jobs',
         animation: Animations.Student.Workplace.Jobs,
+        id: 'jobs',
     },
 ]
 
@@ -80,7 +83,7 @@ const StudentWorkplace: NextPageWithLayout = () => {
     const { data, isLoading, isError, isSuccess } =
         useGetPlacementProgressQuery()
     const { data: recentAppointments } = useGetStudentPastAppointmentsQuery()
-    
+
     const { setContent } = useContextBar()
     useEffect(() => {
         setContent(
@@ -90,6 +93,17 @@ const StudentWorkplace: NextPageWithLayout = () => {
             </>
         )
     }, [setContent])
+
+    // WORKPLACE JOY RIDE - start
+    const joyride = useJoyRide()
+    useEffect(() => {
+        if (joyride.state.tourActive) {
+            setTimeout(() => {
+                joyride.setState({ ...joyride.state, run: true, stepIndex: 1 })
+            }, 1200)
+        }
+    }, [])
+    // WORKPLACE JOY RIDE - END
     return (
         <div className="flex flex-col">
             <div className="flex gap-x-6">

@@ -12,7 +12,7 @@ import {
     RecentAppointmentCard,
 } from '@components'
 // Hooks
-import { useContextBar } from '@hooks'
+import { useContextBar, useJoyRide } from '@hooks'
 import { CommonCB } from '@partials/rto/contextBar'
 import { useGetRTOAppointmentsQuery } from '@queries'
 
@@ -22,12 +22,14 @@ const PrimaryLinks = [
         description: 'View & Manage Your Assessment Tools',
         link: 'tasks/assessment-tools',
         animation: Animations.Student.Appointments.AssessmentEvidence,
+        id: 'assessment-tools',
     },
     {
         title: 'Appointments',
         description: 'View & Manage Your Appointments',
         link: 'tasks/appointments',
         animation: Animations.Student.Appointments.AssessmentTool,
+        id: 'appointments',
     },
     // {
     //     title: 'E-Signs',
@@ -81,6 +83,16 @@ const RtoTasks: NextPageWithLayout = () => {
         status: 'future',
     })
 
+//  TASKS JOY RIDE - START
+    const joyride = useJoyRide()
+    useEffect(() => {
+        if (joyride.state.tourActive) {
+            setTimeout(() => {
+                joyride.setState({ ...joyride.state, run: true, stepIndex: 1 })
+            }, 1200)
+        }
+    }, [])
+    //  TASKS JOY RIDE - END
     useEffect(() => {
         contextBar.setContent(<CommonCB />)
         contextBar.show(false)

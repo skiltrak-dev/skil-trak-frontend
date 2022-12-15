@@ -38,11 +38,12 @@ export const RtoNavbar = () => {
                             ? 'bg-indigo-100 text-indigo-700'
                             : 'text-slate-700'
                             } ${defaultClasses} hover:bg-indigo-100 hover:text-indigo-700`}
+                        id="students"
                     >
                         <span>
                             <AiOutlineUsergroupAdd />
                         </span>
-                        <span className="text-sm font-semibold">Student</span>
+                        <span className="text-sm font-semibold">Students</span>
                     </a>
                 </Link>
             </li>
@@ -54,6 +55,7 @@ export const RtoNavbar = () => {
                             ? 'bg-blue-100 text-blue-700'
                             : 'text-slate-700'
                             } ${defaultClasses} hover:bg-blue-100 hover:text-blue-700`}
+                        id="admins"
                     >
                         <span>
                             <RiAdminLine />
@@ -70,6 +72,7 @@ export const RtoNavbar = () => {
                             ? 'bg-green-100 text-green-700'
                             : 'text-slate-700'
                             } ${defaultClasses} hover:bg-green-100 hover:text-green-700`}
+                        id="industries"
                     >
                         <span>
                             <MdHomeWork />
@@ -88,6 +91,7 @@ export const RtoNavbar = () => {
                             ? 'bg-orange-100 text-orange-700'
                             : 'text-slate-700'
                             } ${defaultClasses} hover:bg-orange-100 hover:text-orange-700`}
+                        id="tasks"
                     >
                         <span>
                             <FaClipboardList />
@@ -104,6 +108,7 @@ export const RtoNavbar = () => {
                             ? 'bg-blue-100 text-blue-700'
                             : 'text-slate-700'
                             } ${defaultClasses} hover:bg-blue-100 hover:text-blue-700`}
+                        id="notifications"
                     >
                         <span>
                             <MdNotifications />
@@ -121,6 +126,7 @@ export const RtoNavbar = () => {
                             ? 'bg-blue-100 text-blue-700'
                             : 'text-slate-700'
                             } ${defaultClasses} hover:bg-blue-100 hover:text-blue-700`}
+                        id="coordinators"
                     >
                         <span>
                             <RiAdminFill />

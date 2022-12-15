@@ -1,4 +1,4 @@
-import { ReactElement, useState } from 'react'
+import { ReactElement, useEffect, useState } from 'react'
 
 import {
     Button,
@@ -16,7 +16,7 @@ import { ColumnDef } from '@tanstack/react-table'
 import { NextPageWithLayout } from '@types'
 import { useRouter } from 'next/router'
 import { FaEdit, FaTrash } from 'react-icons/fa'
-import { useContextBar } from '@hooks'
+import { useContextBar, useJoyRide } from '@hooks'
 import { AddAdminCB, DeleteModal } from '@partials/rto'
 
 type Props = {}
@@ -40,6 +40,16 @@ const RtoContactPersons: NextPageWithLayout = (props: Props) => {
         skip: itemPerPage * page - itemPerPage,
         limit: itemPerPage,
     })
+    // ADD ADMIN JOY RIDE - START
+    const joyride = useJoyRide()
+    useEffect(() => {
+        if (joyride.state.tourActive) {
+            setTimeout(() => {
+                joyride.setState({ ...joyride.state, run: true, stepIndex: 2 })
+            }, 1200)
+        }
+    }, [])
+    // ADD ADMIN JOY RIDE - END
 
     const RelatedQuestions = [
         {
@@ -161,7 +171,7 @@ const RtoContactPersons: NextPageWithLayout = (props: Props) => {
     return (
         <>
             {modal && modal}
-            <div className="flex justify-end mb-2">
+            <div id='add-admin' className="flex justify-end mb-2">
                 <Button
                     text={'+ Add Contact Person'}
                     onClick={() => {

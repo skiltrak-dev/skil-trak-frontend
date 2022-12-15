@@ -32,6 +32,63 @@ const AssessmentQuestions = [
     {
         text: `Where can I find student placement document?`,
         link: '#',
+        // steps: [
+        //         {
+        //             target: '#users',
+        //             content: (
+        //                 <>
+        //                     <div className="font-semibold">Click here</div>
+        //                     <div>You can see users of different type here</div>
+        //                 </>
+        //             ),
+        //             disableBeacon: true,
+        //         },
+        //         {
+        //             target: '#students',
+        //             content: (
+        //                 <>
+        //                     <div>Click Here</div>
+        //                     <div>You can view all students in here</div>
+        //                 </>
+        //             ),
+        //         },
+        //         {
+        //             target: '#routeB',
+        //             content: (
+        //                 <>
+        //                     <div>This is Route B</div>
+        //                     <div>
+        //                         Yet another loader simulation and now we reached
+        //                         the last step in our tour!
+        //                     </div>
+        //                 </>
+        //             ),
+        //         },
+        //     ],
+        //     joyrideCallback: (joyride: any) => {
+        //         return (data: CallBackProps) => {
+        //             const { action, index, lifecycle, type } = data
+        //             if (
+        //                 type === 'step:after' &&
+        //                 index === 0 /* or step.target === '#home' */
+        //             ) {
+        //                 joyride.setState((prev: any) => ({
+        //                     ...prev,
+        //                     run: false,
+        //                 }))
+        //                 router.push('/portals/sub-admin/users')
+        //             }
+
+        //             else if (action === 'reset' || lifecycle === 'complete') {
+        //                 joyride.setState({
+        //                     ...joyride.state,
+        //                     run: false,
+        //                     stepIndex: 0,
+        //                     tourActive: false,
+        //                 })
+        //             }
+        //         }
+        //     },
     },
     {
         text: `How can I upload student assessment?`,

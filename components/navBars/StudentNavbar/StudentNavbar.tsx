@@ -35,6 +35,7 @@ export const StudentNavbar = () => {
                                 ? 'bg-green-100 text-green-700'
                                 : 'text-slate-700'
                             } ${defaultClasses} hover:bg-green-100 hover:text-green-700`}
+                            id="workplace"
                     >
                         <span>
                             <FaBriefcase />
@@ -51,6 +52,7 @@ export const StudentNavbar = () => {
                                 ? 'bg-orange-100 text-orange-700'
                                 : 'text-slate-700'
                             } ${defaultClasses} hover:bg-orange-100 hover:text-orange-700`}
+                            id="assessments"
                     >
                         <span>
                             <MdAssessment />

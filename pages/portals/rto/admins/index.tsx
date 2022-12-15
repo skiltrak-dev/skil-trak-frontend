@@ -7,7 +7,7 @@ import {
     QuestionCard,
 } from '@components'
 import { FigureCard } from '@components/sections/subAdmin'
-import { useContextBar } from '@hooks'
+import { useContextBar, useJoyRide } from '@hooks'
 import { RtoLayout } from '@layouts'
 import { CommonCB } from '@partials/rto/contextBar'
 import { NextPageWithLayout } from '@types'
@@ -24,6 +24,7 @@ const PrimaryLinks = [
         description: 'View & Manage Your Contact Persons',
         link: 'admins/contact-person',
         animation: Animations.Student.Appointments.AssessmentTool,
+        id: 'contact-person',
     },
     // {
     //     title: 'Coordinators',
@@ -73,6 +74,16 @@ const OtherQuestions = [
 const RtoUsers: NextPageWithLayout = () => {
     const contextBar = useContextBar()
 
+    // CONTACT PERSON JOY RIDE - start
+    const joyride = useJoyRide()
+    useEffect(() => {
+        if (joyride.state.tourActive) {
+            setTimeout(() => {
+                joyride.setState({ ...joyride.state, run: true, stepIndex: 1 })
+            }, 1200)
+        }
+    }, [])
+    // CONTACT PERSON JOY RIDE - END
     useEffect(() => {
         contextBar.setContent(<CommonCB />)
         contextBar.show(false)
