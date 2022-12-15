@@ -1,4 +1,4 @@
-import { ReactElement } from 'react'
+import { ReactElement, useEffect } from 'react'
 
 import { StudentLayout } from '@layouts'
 import { NextPageWithLayout } from '@types'
@@ -9,6 +9,7 @@ import {
     HelpQuestionSet,
     PendingSignatureCard,
 } from '@components'
+import { useJoyRide } from '@hooks'
 
 const PrimaryLinks = [
     {
@@ -16,18 +17,21 @@ const PrimaryLinks = [
         description: 'Submit your evidences',
         link: 'assessments/assessment-evidence',
         animation: Animations.Student.Appointments.AssessmentEvidence,
+        id: 'assessment-evidence',
     },
     {
         title: 'Assessment Tools',
         description: 'View assessment tools for courses',
         link: 'assessments/assessment-tools',
         animation: Animations.Student.Appointments.AssessmentTool,
+        id: 'assessment-tools',
     },
     {
         title: 'E-Sign',
         description: 'Sign your digital documents',
         link: 'assessments/e-sign',
         animation: Animations.Student.Appointments.Esign,
+        id: 'e-sign',
     },
 ]
 
@@ -70,6 +74,16 @@ const OtherQuestions = [
 ]
 
 const StudentAssessments: NextPageWithLayout = () => {
+    // WORKPLACE JOY RIDE - END
+    const joyride = useJoyRide()
+    useEffect(() => {
+        if (joyride.state.tourActive) {
+            setTimeout(() => {
+                joyride.setState({ ...joyride.state, run: true, stepIndex: 1 })
+            }, 1200)
+        }
+    }, [])
+    // WORKPLACE JOY RIDE - END
     return (
         <div className="flex flex-col">
             <div className="flex gap-x-6">
