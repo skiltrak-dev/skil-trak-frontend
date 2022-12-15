@@ -9,6 +9,8 @@ import {
     TableAction,
     TableActionOption,
     StudentFilters,
+    TechnicalError,
+    Typography,
 } from '@components'
 import { PageHeading } from '@components/headings'
 import { ColumnDef } from '@tanstack/react-table'
@@ -28,6 +30,7 @@ import { Student } from '@types'
 import { BlockModal } from './modals'
 import { useRouter } from 'next/router'
 import { checkWorkplaceStatus } from '@utils'
+import { IndustryCell } from '../industry/components'
 
 export const ApprovedStudent = () => {
     const router = useRouter()
@@ -37,15 +40,16 @@ export const ApprovedStudent = () => {
     const [itemPerPage, setItemPerPage] = useState(5)
     const [page, setPage] = useState(1)
     const [filter, setFilter] = useState({})
-    const { isLoading, data } = AdminApi.Students.useListQuery({
-        search: `status:approved,${JSON.stringify(filter)
-            .replaceAll('{', '')
-            .replaceAll('}', '')
-            .replaceAll('"', '')
-            .trim()}`,
-        skip: itemPerPage * page - itemPerPage,
-        limit: itemPerPage,
-    })
+    const { isLoading, isFetching, data, isError } =
+        AdminApi.Students.useListQuery({
+            search: `status:approved,${JSON.stringify(filter)
+                .replaceAll('{', '')
+                .replaceAll('}', '')
+                .replaceAll('"', '')
+                .trim()}`,
+            skip: itemPerPage * page - itemPerPage,
+            limit: itemPerPage,
+        })
 
     const onModalCancelClicked = () => {
         setModal(null)
@@ -93,21 +97,26 @@ export const ApprovedStudent = () => {
             header: () => <span>Student</span>,
         },
         {
-            accessorKey: 'phone',
-            header: () => <span>Phone</span>,
-            cell: (info) => info.getValue(),
-        },
-
-        {
-            accessorKey: 'suburb',
-            header: () => <span>Address</span>,
-            cell: (info) => info.getValue(),
-        },
-        {
             accessorKey: 'rto',
             header: () => <span>RTO</span>,
             cell: (info) => {
                 return <RtoCellInfo rto={info.row.original.rto} short />
+            },
+        },
+        {
+            accessorKey: 'industry',
+            header: () => <span>Industry</span>,
+            cell: (info) => {
+                const industry =
+                    info.row.original?.workplace[0]?.industries.find(
+                        (i: any) => i.applied
+                    )?.industry
+
+                return industry ? (
+                    <IndustryCell industry={industry} />
+                ) : (
+                    <Typography center>N/A</Typography>
+                )
             },
         },
         {
@@ -123,7 +132,11 @@ export const ApprovedStudent = () => {
             cell: ({ row }) => {
                 const workplace = row.original.workplace[0]
                 const steps = checkWorkplaceStatus(workplace?.currentStatus)
-                return <ProgressCell step={steps} />
+                return (
+                    <ProgressCell
+                        step={steps > 9 ? 9 : steps < 1 ? 1 : steps}
+                    />
+                )
             },
         },
         {
@@ -170,6 +183,7 @@ export const ApprovedStudent = () => {
                 />
 
                 <Card noPadding>
+                    {isError && <TechnicalError />}
                     {isLoading ? (
                         <LoadingAnimation height="h-[60vh]" />
                     ) : data && data?.data.length ? (
@@ -206,13 +220,15 @@ export const ApprovedStudent = () => {
                             }}
                         </Table>
                     ) : (
-                        <EmptyData
-                            title={'No Approved Student!'}
-                            description={
-                                'You have not approved any Student request yet'
-                            }
-                            height={'50vh'}
-                        />
+                        !isError && (
+                            <EmptyData
+                                title={'No Approved Student!'}
+                                description={
+                                    'You have not approved any Student request yet'
+                                }
+                                height={'50vh'}
+                            />
+                        )
                     )}
                 </Card>
             </div>

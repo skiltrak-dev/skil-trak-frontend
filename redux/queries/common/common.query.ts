@@ -3,6 +3,8 @@ import { AuthUtils } from '@utils'
 
 import { industriesEndpoints } from './industries'
 import { rtosEndpoints } from './rtos'
+import { coursesEndpoints } from './courses'
+import {notesEndpoints} from './notes'
 import { AdminStats } from '@types'
 
 export const commonApi = createApi({
@@ -23,6 +25,8 @@ export const commonApi = createApi({
     endpoints: (build) => ({
         ...industriesEndpoints(build),
         ...rtosEndpoints(build),
+        ...coursesEndpoints(build),
+        ...notesEndpoints(build),
     }),
 })
 
@@ -31,11 +35,31 @@ const {
     useGetAllIndustriesQuery,
 
     useGetAllRtosQuery,
+
+    useGetAllCoursesQuery,
+
+    // ------ NOTES ------ //
+    useNotesQuery,
+    useNotesPinnedQuery,
+    useNoteCreateMutation,
+    useNoteUpdateMutation,
+    useNoteRemoveMutation,
+    useNoteStatusChangeMutation,
 } = commonApi
 
 export const CommonApi = {
     Filter: {
         useIndustries: useGetAllIndustriesQuery,
         useRtos: useGetAllRtosQuery,
+        useCourses: useGetAllCoursesQuery,
+    },
+
+    Notes: {
+        useList: useNotesQuery,
+        usePinned: useNotesPinnedQuery,
+        useCreate: useNoteCreateMutation,
+        useUpdate: useNoteUpdateMutation,
+        useRemove: useNoteRemoveMutation,
+        useStatusChange: useNoteStatusChangeMutation,
     },
 }

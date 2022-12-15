@@ -71,11 +71,12 @@ export const MailsTab = ({ rto }: any) => {
                     ) : (
                         !messages.isError && (
                             <EmptyData
-                                actionLink={null}
-                                title={'No Emails were found'}
+                                imageUrl="/images/icons/common/mails.png"
+                                title={'No Mails'}
                                 description={
-                                    'It may be due to you have not sent any Message                                '
+                                    'You have not sent/received any mail yet'
                                 }
+                                height={'40vh'}
                             />
                         )
                     )}

@@ -9,6 +9,7 @@ import {
     TableAction,
     TableActionOption,
     StudentFilters,
+    Typography,
 } from '@components'
 import { PageHeading } from '@components/headings'
 import { ColumnDef } from '@tanstack/react-table'
@@ -28,6 +29,7 @@ import { Student } from '@types'
 import { BlockModal } from './modals'
 import { useRouter } from 'next/router'
 import { checkWorkplaceStatus } from '@utils'
+import { IndustryCell } from '../industry/components'
 
 export const FilteredStudents = ({
     student,
@@ -89,21 +91,26 @@ export const FilteredStudents = ({
             header: () => <span>Student</span>,
         },
         {
-            accessorKey: 'phone',
-            header: () => <span>Phone</span>,
-            cell: (info) => info.getValue(),
-        },
-
-        {
-            accessorKey: 'suburb',
-            header: () => <span>Address</span>,
-            cell: (info) => info.getValue(),
-        },
-        {
             accessorKey: 'rto',
             header: () => <span>RTO</span>,
             cell: (info) => {
-                return <RtoCellInfo rto={info.row.original.rto} short />
+                return <RtoCellInfo rto={info.row.original?.rto} short />
+            },
+        },
+        {
+            accessorKey: 'industry',
+            header: () => <span>Industry</span>,
+            cell: (info) => {
+                const industry =
+                    info.row.original?.workplace[0]?.industries.find(
+                        (i: any) => i.applied
+                    )?.industry
+
+                return industry ? (
+                    <IndustryCell industry={industry} />
+                ) : (
+                    <Typography center>N/A</Typography>
+                )
             },
         },
         {
@@ -119,7 +126,7 @@ export const FilteredStudents = ({
             cell: ({ row }) => {
                 const workplace = row.original.workplace[0]
                 const steps = checkWorkplaceStatus(workplace?.currentStatus)
-                return <ProgressCell step={steps} />
+                return <ProgressCell step={1} />
             },
         },
         {
@@ -166,7 +173,7 @@ export const FilteredStudents = ({
                 />
 
                 <Card noPadding>
-                    {student?.isLoading ? (
+                    {student?.isLoading || student?.isFetching ? (
                         <LoadingAnimation height="h-[60vh]" />
                     ) : student?.data && student?.data?.data.length ? (
                         <Table

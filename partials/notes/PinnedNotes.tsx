@@ -1,5 +1,5 @@
 import { Note } from '@components'
-import { AdminApi } from '@queries'
+import { CommonApi } from '@queries'
 import { Navigation, Pagination } from 'swiper'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import { SwiperContainer } from './style'
@@ -9,7 +9,7 @@ export const PinnedNotes = ({
 }: {
     id: number | string | string[] | undefined
 }) => {
-    const pinnedNotes = AdminApi.Notes.usePinned(id, {
+    const pinnedNotes = CommonApi.Notes.usePinned(id, {
         skip: !id,
     })
 

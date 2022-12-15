@@ -7,7 +7,7 @@ import {
     TechnicalError,
 } from '@components'
 import { useContextBar } from '@hooks'
-import { AdminApi } from '@queries'
+import { CommonApi } from '@queries'
 
 import { Note as NoteType } from '@types'
 
@@ -21,7 +21,7 @@ export const NotesTab = ({ industry }: { industry: any }) => {
         }
     }, [industry])
 
-    const notes = AdminApi.Notes.useList(industry?.data?.user?.id, {
+    const notes = CommonApi.Notes.useList(industry?.data?.user?.id, {
         skip: !industry?.data,
     })
 
@@ -53,8 +53,10 @@ export const NotesTab = ({ industry }: { industry: any }) => {
                     ) : (
                         !notes.isError && (
                             <EmptyData
+                                imageUrl={'/images/icons/common/notes.png'}
                                 title="No Notes Attached"
-                                description="No any notes has been attached to this user"
+                                description="Attach a note to view notes here"
+                                height="40vh"
                             />
                         )
                     )}
