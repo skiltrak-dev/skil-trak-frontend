@@ -12,9 +12,9 @@ import {
 } from '@components'
 import { useContextBar, useNavbar } from '@hooks'
 import { AdminLayout } from '@layouts'
-import { NextPageWithLayout } from '@types'
+import { NextPageWithLayout, SubAdmin } from '@types'
 import { useRouter } from 'next/router'
-import { ReactElement, useEffect } from 'react'
+import { ReactElement, useState, useEffect } from 'react'
 import {
     AiFillCodeSandboxCircle,
     AiOutlineBarcode,
@@ -32,12 +32,14 @@ import { DetailTabs } from '@partials/admin/sub-admin'
 
 import { FigureCard } from '@components/sections/subAdmin/components/Cards/FigureCard'
 import { PinnedNotes } from '@partials'
-
+import { ArchiveModal, BlockModal } from '@partials/admin/sub-admin/modals'
 
 const RtoDetail: NextPageWithLayout = () => {
     const router = useRouter()
     const navBar = useNavbar()
     const contextBar = useContextBar()
+
+    const [modal, setModal] = useState<ReactElement | null>(null)
 
     const { data, isLoading, isError } = AdminApi.SubAdmins.useRtoProfile(
         Number(router.query.id),
@@ -51,8 +53,30 @@ const RtoDetail: NextPageWithLayout = () => {
         contextBar.hide()
     }, [])
 
+    const onModalCancelClicked = () => {
+        setModal(null)
+    }
+    const onArchivedClicked = (subAdmin: SubAdmin) => {
+        setModal(
+            <ArchiveModal
+                item={subAdmin}
+                onCancel={() => onModalCancelClicked()}
+            />
+        )
+    }
+
+    const onBlockClicked = (subAdmin: SubAdmin) => {
+        setModal(
+            <BlockModal
+                subAdmin={subAdmin}
+                onCancel={() => onModalCancelClicked()}
+            />
+        )
+    }
+
     return (
         <>
+            {modal && modal}
             {isError && <TechnicalError />}
             {isLoading ? (
                 <LoadingAnimation />
@@ -62,10 +86,17 @@ const RtoDetail: NextPageWithLayout = () => {
                     <div className="flex items-center justify-between">
                         <BackButton text="RTOs" />
                         <div className="flex gap-x-2">
-                            <ActionButton Icon={FaArchive}>
+                            <ActionButton
+                                Icon={FaArchive}
+                                onClick={() => onArchivedClicked(data)}
+                            >
                                 Archive
                             </ActionButton>
-                            <ActionButton Icon={FaBan} variant={'error'}>
+                            <ActionButton
+                                Icon={FaBan}
+                                variant={'error'}
+                                onClick={() => onBlockClicked(data)}
+                            >
                                 Block
                             </ActionButton>
                         </div>

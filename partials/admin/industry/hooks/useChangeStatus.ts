@@ -2,20 +2,24 @@ import { AdminApi } from '@queries'
 import { Industry, UserStatus } from '@types'
 
 export const useChangeStatus = () => {
-  const [changeStatus, changeStatusResult] =
-    AdminApi.Industries.useStatusChange()
+    const [changeStatus, changeStatusResult] =
+        AdminApi.Industries.useStatusChange()
 
-  const onAccept = async (industry: Industry) => {
-    await changeStatus({ id: industry.id, status: UserStatus.Approved })
-  }
+    const onArchive = async (industry: Industry) => {
+        await changeStatus({ id: industry.id, status: UserStatus.Archived })
+    }
 
-  const onReject = async (industry: Industry) => {
-    await changeStatus({ id: industry.id, status: UserStatus.Rejected })
-  }
+    const onAccept = async (industry: Industry) => {
+        await changeStatus({ id: industry.id, status: UserStatus.Approved })
+    }
 
-  const onBlock = async (industry: Industry) => {
-    await changeStatus({ id: industry.id, status: UserStatus.Blocked })
-  }
+    const onReject = async (industry: Industry) => {
+        await changeStatus({ id: industry.id, status: UserStatus.Rejected })
+    }
 
-  return { onAccept, onReject, onBlock, changeStatusResult }
+    const onBlock = async (industry: Industry) => {
+        await changeStatus({ id: industry.id, status: UserStatus.Blocked })
+    }
+
+    return { onArchive, onAccept, onReject, onBlock, changeStatusResult }
 }
