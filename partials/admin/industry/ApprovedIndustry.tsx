@@ -5,7 +5,7 @@ import {
     EmptyData,
     Filter,
     LoadingAnimation,
-    RtoFilters,
+    IndustryFilters,
     Table,
     TableAction,
     TableActionOption,
@@ -166,7 +166,7 @@ export const ApprovedIndustry = () => {
 
                 {data && data?.data.length ? (
                     <Filter
-                        component={RtoFilters}
+                        component={IndustryFilters}
                         initialValues={{ name: '', email: '', rtoCode: '' }}
                         setFilterAction={setFilterAction}
                         setFilter={setFilter}

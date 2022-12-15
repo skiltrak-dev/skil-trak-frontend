@@ -1,59 +1,43 @@
 import {
-    Button,
     ActionButton,
     Card,
     EmptyData,
-    Filter,
     LoadingAnimation,
     Table,
     TableAction,
     TableActionOption,
-    StudentFilters,
 } from '@components'
 import { PageHeading } from '@components/headings'
 import { ColumnDef } from '@tanstack/react-table'
-import { FaEdit, FaEye, FaFileExport, FaFilter } from 'react-icons/fa'
-
-import { AdminApi } from '@queries'
-import { MdBlock, MdEmail, MdPhoneIphone } from 'react-icons/md'
-import { ReactElement, useState } from 'react'
-import {
-    CourseDot,
-    ProgressCell,
-    SectorCell,
-    StudentCellInfo,
-} from './components'
-import { RtoCellInfo } from '@partials/admin/rto/components'
 import { Student } from '@types'
-import { BlockModal } from './modals'
 import { useRouter } from 'next/router'
-import { checkWorkplaceStatus } from '@utils'
+import { ReactElement, useState } from 'react'
+import { FaEdit, FaEye } from 'react-icons/fa'
+import { MdBlock } from 'react-icons/md'
+import { StudentCellInfo } from './components'
+import { AssignStudentModal } from './modals'
 
-export const ApprovedStudent = () => {
+export const FilteredStudents = ({
+    student,
+    setPage,
+    itemPerPage,
+    setItemPerPage,
+}: {
+    student: any
+    setPage: any
+    itemPerPage: any
+    setItemPerPage: any
+}) => {
     const router = useRouter()
     const [modal, setModal] = useState<ReactElement | null>(null)
-
-    const [filterAction, setFilterAction] = useState(null)
-    const [itemPerPage, setItemPerPage] = useState(5)
-    const [page, setPage] = useState(1)
-    const [filter, setFilter] = useState({})
-    const { isLoading, data } = AdminApi.Students.useListQuery({
-        search: `status:approved,${JSON.stringify(filter)
-            .replaceAll('{', '')
-            .replaceAll('}', '')
-            .replaceAll('"', '')
-            .trim()}`,
-        skip: itemPerPage * page - itemPerPage,
-        limit: itemPerPage,
-    })
 
     const onModalCancelClicked = () => {
         setModal(null)
     }
-    const onBlockClicked = (student: Student) => {
+    const onAssignStudentClicked = (student: Student) => {
         setModal(
-            <BlockModal
-                item={student}
+            <AssignStudentModal
+                student={student}
                 onCancel={() => onModalCancelClicked()}
             />
         )
@@ -62,23 +46,16 @@ export const ApprovedStudent = () => {
     const tableActionOptions: TableActionOption[] = [
         {
             text: 'View',
-            onClick: (student: any) => {
+            onClick: (student: Student) => {
                 router.push(
-                    `/portals/admin/student/${student?.id}?tab=overview`
+                    `/portals/sub-admin/users/students/${student.id}?tab=overview`
                 )
             },
             Icon: FaEye,
         },
         {
-            text: 'Edit',
-            onClick: (row: any) => {
-                router.push(`/portals/admin/student/edit-student/${row?.id}`)
-            },
-            Icon: FaEdit,
-        },
-        {
-            text: 'Block',
-            onClick: (student: Student) => onBlockClicked(student),
+            text: 'Assign to me',
+            onClick: (student: Student) => onAssignStudentClicked(student),
             Icon: MdBlock,
             color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
         },
@@ -86,57 +63,67 @@ export const ApprovedStudent = () => {
 
     const columns: ColumnDef<any>[] = [
         {
-            accessorKey: 'user.name',
-            cell: (info) => {
-                return <StudentCellInfo student={info.row.original} />
+            header: () => 'Name',
+            accessorKey: 'user',
+            cell: ({ row }: any) => {
+                return <StudentCellInfo student={row.original} />
             },
-            header: () => <span>Student</span>,
         },
         {
+            header: () => 'Phone #',
             accessorKey: 'phone',
-            header: () => <span>Phone</span>,
-            cell: (info) => info.getValue(),
+            cell: ({ row }: any) => {
+                const { phone } = row.original
+                return <p className="text-sm">{phone}</p>
+            },
         },
 
         {
-            accessorKey: 'suburb',
-            header: () => <span>Address</span>,
-            cell: (info) => info.getValue(),
-        },
-        {
-            accessorKey: 'rto',
-            header: () => <span>RTO</span>,
-            cell: (info) => {
-                return <RtoCellInfo rto={info.row.original.rto} short />
-            },
-        },
-        {
-            accessorKey: 'sectors',
-            header: () => <span>Sectors</span>,
-            cell: (info) => {
-                return <SectorCell student={info.row.original} />
-            },
-        },
-        {
-            accessorKey: 'progress',
-            header: () => <span>Progress</span>,
-            cell: ({ row }) => {
-                const workplace = row.original.workplace[0]
-                const steps = checkWorkplaceStatus(workplace?.currentStatus)
-                return <ProgressCell step={steps} />
-            },
-        },
-        {
-            accessorKey: 'action',
-            header: () => <span>Action</span>,
-            cell: (info) => {
+            header: () => 'Address',
+            accessorKey: 'address',
+            cell: ({ row }: any) => {
+                const { state, suburb } = row.original
                 return (
-                    <div className="flex gap-x-1 items-center">
-                        <TableAction
-                            options={tableActionOptions}
-                            rowItem={info.row.original}
-                        />
+                    <p className="text-sm">
+                        {suburb}, {state}
+                    </p>
+                )
+            },
+        },
+        {
+            header: () => 'RTO Name',
+            accessorKey: 'rto',
+            cell({ row }: any) {
+                const { rto } = row.original
+
+                return (
+                    <div className="flex gap-x-2 items-center">
+                        <InitialAvatar name={rto.user.name} small />
+                        {rto.user.name}
                     </div>
+                )
+            },
+        },
+        {
+            header: () => 'Progress',
+            accessorKey: 'progress',
+            cell: ({ row }: any) => {
+                return (
+                    <div className="flex justify-center">
+                        <PlacementTableCell request={row.original.workplace} />
+                    </div>
+                )
+            },
+        },
+        {
+            header: () => 'Action',
+            accessorKey: 'Action',
+            cell: ({ row }: any) => {
+                return (
+                    <TableAction
+                        options={tableActionOptions}
+                        rowItem={row.original}
+                    />
                 )
             },
         },
@@ -163,19 +150,19 @@ export const ApprovedStudent = () => {
     return (
         <>
             {modal && modal}
-            <div className="flex flex-col gap-y-4">
+            <div className="flex flex-col gap-y-4 p-4">
                 <PageHeading
-                    title={'Approved Students'}
-                    subtitle={'List of Approved Students'}
+                    title={'Filtered Students'}
+                    subtitle={'List of Filtered Students'}
                 />
 
                 <Card noPadding>
-                    {isLoading ? (
+                    {student?.isLoading ? (
                         <LoadingAnimation height="h-[60vh]" />
-                    ) : data && data?.data.length ? (
+                    ) : student?.data && student?.data?.data.length ? (
                         <Table
                             columns={columns}
-                            data={data.data}
+                            data={student?.data.data}
                             quickActions={quickActionsElements}
                             enableRowSelection
                         >
@@ -195,7 +182,7 @@ export const ApprovedStudent = () => {
                                             <div className="flex gap-x-2">
                                                 {quickActions}
                                                 {pagination(
-                                                    data?.pagination,
+                                                    student?.data?.pagination,
                                                     setPage
                                                 )}
                                             </div>
@@ -207,10 +194,8 @@ export const ApprovedStudent = () => {
                         </Table>
                     ) : (
                         <EmptyData
-                            title={'No Approved Student!'}
-                            description={
-                                'You have not approved any Student request yet'
-                            }
+                            title={'No Students in your Search!'}
+                            description={'No Students in your Search yet'}
                             height={'50vh'}
                         />
                     )}

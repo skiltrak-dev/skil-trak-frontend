@@ -154,6 +154,14 @@ export const subAdminWorkplaceApi = createApi({
             }),
             invalidatesTags: ['SubAdminWorkplace'],
         }),
+        changeCustomIndustryStatus: builder.mutation<any, any>({
+            query: ({ id, status }) => ({
+                url: `custom-workplace-request/action/${id}`,
+                method: 'PATCH',
+                params: { status },
+            }),
+            invalidatesTags: ['SubAdminWorkplace'],
+        }),
     }),
 })
 
@@ -178,4 +186,5 @@ export const {
     useAddCustomIndustryMutation,
     useShowExistingIndustriesQuery,
     useAddExistingIndustriesMutation,
+    useChangeCustomIndustryStatusMutation,
 } = subAdminWorkplaceApi

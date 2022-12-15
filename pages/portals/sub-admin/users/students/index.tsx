@@ -1,34 +1,52 @@
-import { ReactElement, useEffect } from 'react'
-import Image from 'next/image'
-import Link from 'next/link'
-import { useRouter } from 'next/router'
-//Layouts
-import { SubAdminLayout } from '@layouts'
+import { ReactElement, useEffect, useState } from 'react'
 import { NextPageWithLayout } from '@types'
 
-import { TabsView } from '@components/sections/rto'
 //components
 import {
     Button,
-    ReactTable,
+    Card,
+    Filter,
+    LoadingAnimation,
     RtoContextBarData,
     SidebarCalendar,
-    Typography,
-    TableActionOption,
-    TableAction,
+    StudentFilters,
     TabNavigation,
     TabProps,
 } from '@components'
+import { AllStudents, FilteredStudents, MyStudents } from '@partials/sub-admin/students'
+
+// query
+import { AdminApi } from '@queries'
 
 // hooks
 import { useContextBar } from '@hooks'
 
-import { AllStudents, MyStudents } from '@partials/sub-admin/students'
+//Layouts
+import { SubAdminLayout } from '@layouts'
 
 type Props = {}
 
 const Students: NextPageWithLayout = (props: Props) => {
     const { setContent } = useContextBar()
+
+    const [filterAction, setFilterAction] = useState(null)
+    const [filter, setFilter] = useState({})
+    const [page, setPage] = useState(1)
+    const [itemPerPage, setItemPerPage] = useState(5)
+
+    const filteredStudents = AdminApi.Students.useListQuery(
+        {
+            search: `status:approved,${JSON.stringify(filter)
+                .replaceAll('{', '')
+                .replaceAll('}', '')
+                .replaceAll('"', '')
+                .trim()}`,
+            skip: itemPerPage * page - itemPerPage,
+            limit: itemPerPage,
+        },
+        { skip: !Object.keys(filter).length }
+    )
+
     useEffect(() => {
         setContent(
             <>
@@ -55,16 +73,40 @@ const Students: NextPageWithLayout = (props: Props) => {
     return (
         <>
             <div>
-                <TabNavigation tabs={tabs}>
-                    {({ header, element }: any) => {
-                        return (
-                            <div>
-                                <div>{header}</div>
-                                <div className="p-4">{element}</div>
-                            </div>
-                        )
-                    }}
-                </TabNavigation>
+                <div className="px-4">
+                    <div className="flex justify-end mb-2">{filterAction}</div>
+                    <Filter
+                        component={StudentFilters}
+                        initialValues={{}}
+                        setFilterAction={setFilterAction}
+                        setFilter={setFilter}
+                    />
+                </div>
+                {filteredStudents.isLoading ? (
+                    <div className="px-4 mt-4">
+                        <Card>
+                            <LoadingAnimation />
+                        </Card>
+                    </div>
+                ) : Object.keys(filter).length && filteredStudents.isSuccess ? (
+                    <FilteredStudents
+                        setPage={setPage}
+                        itemPerPage={itemPerPage}
+                        student={filteredStudents}
+                        setItemPerPage={setItemPerPage}
+                    />
+                ) : (
+                    <TabNavigation tabs={tabs}>
+                        {({ header, element }: any) => {
+                            return (
+                                <div>
+                                    <div>{header}</div>
+                                    <div className="p-4">{element}</div>
+                                </div>
+                            )
+                        }}
+                    </TabNavigation>
+                )}
             </div>
         </>
     )

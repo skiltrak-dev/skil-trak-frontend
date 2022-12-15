@@ -1,5 +1,5 @@
 import { TechnicalError, LoadingAnimation, EmptyData } from '@components'
-import { WorkplaceRequest } from './components'
+import { WorkplaceRequest } from './studentProvidedComponents'
 
 // query
 import { useGetAddedByStudentsWorkplacesQuery } from '@queries'

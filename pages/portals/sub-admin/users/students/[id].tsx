@@ -45,8 +45,7 @@ const StudentsProfile: NextPageWithLayout = (props: Props) => {
     const { data, isLoading, isError, isSuccess } =
         useGetSubAdminStudentDetailQuery(String(id), {
             skip: !id,
-        }
-    )
+        })
 
     useEffect(() => {
         if (isSuccess) {
@@ -114,6 +113,11 @@ const StudentsProfile: NextPageWithLayout = (props: Props) => {
         },
         {
             label: 'Notes',
+            href: { pathname: String(id), query: { tab: 'notes' } },
+            element: <Notes id={data?.user?.id} />,
+        },
+        {
+            label: 'All Communications',
             href: { pathname: String(id), query: { tab: 'notes' } },
             element: <Notes id={data?.user?.id} />,
         },

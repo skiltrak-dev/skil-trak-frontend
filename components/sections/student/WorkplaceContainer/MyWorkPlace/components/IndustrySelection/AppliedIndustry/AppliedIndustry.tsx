@@ -17,9 +17,10 @@ import { StepPlacementStarted } from './StepPlacementStarted'
 type Props = {
     status: any
     appliedIndustry: any
-    setIndustrySelection: any
+    setIndustrySelection?: any
     workplaceCancelRequest: any
     workplaceRequest: any
+    studentAdded?: boolean
 }
 
 export const AppliedIndustry = ({
@@ -28,6 +29,7 @@ export const AppliedIndustry = ({
     setIndustrySelection,
     workplaceCancelRequest,
     workplaceRequest,
+    studentAdded,
 }: Props) => {
     const getNextStep = () => {
         switch (status) {
@@ -47,12 +49,12 @@ export const AppliedIndustry = ({
                 return <StepPlacementStarted />
 
             default:
-                return (
+                return !studentAdded ? (
                     <StepIndustryChecks
                         appliedIndustry={appliedIndustry}
                         setIndustrySelection={setIndustrySelection}
                     />
-                )
+                ) : null
         }
     }
     return (

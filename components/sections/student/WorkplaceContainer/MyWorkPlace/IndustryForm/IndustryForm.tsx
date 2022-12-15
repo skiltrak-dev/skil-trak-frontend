@@ -24,10 +24,12 @@ export const IndustryForm = ({
     addWorkplace,
     setWorkplaceData,
     result,
+    industryABN,
 }: {
     addWorkplace: any
     setWorkplaceData: any
     result: any
+    industryABN: string | null
 }) => {
     const router = useRouter()
 
@@ -161,6 +163,7 @@ export const IndustryForm = ({
 
     const formMethods = useForm({
         mode: 'all',
+        defaultValues: { abn: industryABN },
         resolver: yupResolver(validationSchema),
     })
     const onFormSubmit = (values: any) => {
