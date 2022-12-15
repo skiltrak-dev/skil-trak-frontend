@@ -135,7 +135,7 @@ export const Actions = ({
                             disabled={agrementSignResult.isLoading}
                         />
                     )}
-                    {!appliedIndustry.placementStarted && (
+                    {!appliedIndustry?.placementStarted && (
                         <Button
                             text={'START PLACEMENT'}
                             variant={'primary'}

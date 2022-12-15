@@ -1,10 +1,15 @@
 import { Select, TextInput } from '@components/inputs'
 
+// query
+import { CommonApi } from '@queries'
+
 interface ItemFilterProps {
     onFilterChange: Function
     filter: any
 }
 export const StudentFilters = ({ onFilterChange, filter }: ItemFilterProps) => {
+    const getIndustries = CommonApi.Filter.useIndustries()
+    const getRtos = CommonApi.Filter.useRtos()
     return (
         <div className="grid grid-cols-4 gap-x-3">
             <TextInput
