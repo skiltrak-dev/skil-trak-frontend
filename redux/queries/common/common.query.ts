@@ -2,6 +2,7 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 import { AuthUtils } from '@utils'
 
 import { industriesEndpoints } from './industries'
+import { rtosEndpoints } from './rtos'
 import { AdminStats } from '@types'
 
 export const commonApi = createApi({
@@ -21,16 +22,20 @@ export const commonApi = createApi({
     // ---------- RTO ENDPOINTS ---------- //
     endpoints: (build) => ({
         ...industriesEndpoints(build),
+        ...rtosEndpoints(build),
     }),
 })
 
 const {
     // ------ Industry ------ //
     useGetAllIndustriesQuery,
+
+    useGetAllRtosQuery,
 } = commonApi
 
 export const CommonApi = {
-    Admin: {
+    Filter: {
         useIndustries: useGetAllIndustriesQuery,
+        useRtos: useGetAllRtosQuery,
     },
 }

@@ -1,12 +1,11 @@
 import { BaseQueryFn } from '@reduxjs/toolkit/dist/query/baseQueryTypes'
 import { EndpointBuilder } from '@reduxjs/toolkit/dist/query/endpointDefinitions'
-import { Course, PaginatedResponse } from '@types'
 
-export const industriesEndpoints = (
+export const rtosEndpoints = (
     builder: EndpointBuilder<BaseQueryFn, string, string>
 ) => ({
-    getAllIndustries: builder.query<any, void>({
-        query: () => `filter/industries/list`,
-        providesTags: ['Industry'],
+    getAllRtos: builder.query<any, void>({
+        query: () => `filter/rtos/all`,
+        providesTags: ['RTO'],
     }),
 })
