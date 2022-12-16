@@ -4,7 +4,7 @@ import { AuthUtils } from '@utils'
 import { industriesEndpoints } from './industries'
 import { rtosEndpoints } from './rtos'
 import { coursesEndpoints } from './courses'
-import {notesEndpoints} from './notes'
+import { notesEndpoints } from './notes'
 import { AdminStats } from '@types'
 
 export const commonApi = createApi({
@@ -19,7 +19,7 @@ export const commonApi = createApi({
             return headers
         },
     }),
-    tagTypes: ['RTOS'],
+    tagTypes: ['RTOS', 'Notes'],
 
     // ---------- RTO ENDPOINTS ---------- //
     endpoints: (build) => ({

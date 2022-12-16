@@ -7,24 +7,23 @@ import { Note as NoteType } from '@types'
 
 export const NotesTab = ({ student }: { student: any }) => {
     const contextBar = useContextBar()
-    const [approvedUser, setApprovedUser] = useState<boolean | null>(null)
+    // const [approvedUser, setApprovedUser] = useState<boolean | null>(null)
+    const approvedUser = student?.user.status === 'approved'
+    console.log('::: STUDENT', student)
 
-    useEffect(() => {
-        if (student) {
-            setApprovedUser(student?.status === 'approved')
-        }
-    }, [student])
+    // useEffect(() => {
+    //     if (student) {
+    //         console.log('::: STUDENT', student)
+    //         setApprovedUser(student?.status === 'approved')
+    //     }
+    // }, [student])
 
     const notes = CommonApi.Notes.useList(student?.user?.id, {
         skip: !student?.id,
     })
 
     return (
-        <div
-            className={`flex gap-x-2.5 w-full ${
-                contextBar.isVisible ? 'flex-col' : 'flex-row'
-            }`}
-        >
+        <div className={`flex gap-x-2.5 w-full mt-2 mb-32`}>
             <div
                 className={`${
                     contextBar.isVisible
@@ -55,9 +54,7 @@ export const NotesTab = ({ student }: { student: any }) => {
                 </div>
             </div>
             {approvedUser && (
-                <div
-                    className={`${contextBar.isVisible ? 'w-full' : 'w-[29%]'}`}
-                >
+                <div className={`w-3/5 flex-shrink`}>
                     <NoteForm id={student?.user?.id} />
                 </div>
             )}
