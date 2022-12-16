@@ -1,4 +1,5 @@
 import { Note } from '@components'
+import { NotesCard } from '@components/sections/subAdmin'
 import { CommonApi } from '@queries'
 import { Navigation, Pagination } from 'swiper'
 import { Swiper, SwiperSlide } from 'swiper/react'
@@ -13,7 +14,6 @@ export const PinnedNotes = ({
         skip: !id,
     })
 
-    console.log('pinnedNotes', pinnedNotes)
 
     return (
         <SwiperContainer className="mt-4 relative">
@@ -26,11 +26,11 @@ export const PinnedNotes = ({
                             clickable: true,
                         }}
                         modules={[Navigation]}
-                        className="mySwiper"
+                        className="mySwiper static"
                     >
                         {pinnedNotes.data?.map((note) => (
                             <SwiperSlide key={note.id} className={'relative'}>
-                                <Note note={note} />
+                                <NotesCard note={note} pinnedNote />
                             </SwiperSlide>
                         ))}
                     </Swiper>

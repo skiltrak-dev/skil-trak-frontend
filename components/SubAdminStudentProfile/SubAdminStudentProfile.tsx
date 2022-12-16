@@ -1,30 +1,20 @@
-import Image from 'next/image'
 // moment
-import moment from 'moment'
-import {
-    InitialAvatar,
-    InitialAvatarContainer,
-} from '@components/InitialAvatar'
 import { Typography } from '@components/Typography'
-import { useRouter } from 'next/router'
+import moment from 'moment'
 // icons
 import { AiFillEdit } from 'react-icons/ai'
 import { BiRename } from 'react-icons/bi'
-import { IoLocation } from 'react-icons/io5'
-import { GiBackwardTime } from 'react-icons/gi'
 import {
     FaAddressCard,
-    FaBirthdayCake,
-    FaPhoneAlt,
-    FaUserCircle,
-    FaUserGraduate,
+    FaBirthdayCake, FaUserCircle
 } from 'react-icons/fa'
+import { IoLocation } from 'react-icons/io5'
 import { MdBatchPrediction, MdBlock, MdPhone, MdVerified } from 'react-icons/md'
 // queries
 
-import { useGetSubAdminStudentDetailQuery } from '@queries'
-import { Student } from '@types'
 import { StudentAvatar } from '@components/avatars'
+import { Student } from '@types'
+import { StudentStatus } from './StudentStatus'
 
 const getGender = (gender: string | undefined) => {
     if (!gender) return 'N/A'
@@ -193,6 +183,9 @@ export const SubAdminStudentProfile = ({ student }: { student: Student }) => {
                     </div>
                 </div>
             </div>
+
+            {/* Status Of Student */}
+            <StudentStatus />
 
             {/* Sector & Courses */}
             {/* <div className="mt-4">

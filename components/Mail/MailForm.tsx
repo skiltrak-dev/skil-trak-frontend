@@ -11,7 +11,7 @@ import { MdOutlineCancel } from 'react-icons/md'
 import { Card, TextInput, Select, Button, TextArea } from '@components'
 
 import { useContextBar } from 'hooks'
-import { elipiciseText } from '@utils'
+import { ellipsisText } from '@utils'
 
 // import { useMessage } from 'hooks'
 

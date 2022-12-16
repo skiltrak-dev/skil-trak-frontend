@@ -2,7 +2,7 @@ import { InitialAvatar } from '@components'
 import { Student } from '@types'
 import Image from 'next/image'
 import Link from 'next/link'
-import { FaEnvelope } from 'react-icons/fa'
+import { FaEnvelope, FaPhone } from 'react-icons/fa'
 import { MdEmail, MdPhoneIphone } from 'react-icons/md'
 
 export const StudentCellInfo = ({ student }: { student: Student }) => {
@@ -56,6 +56,14 @@ export const StudentCellInfo = ({ student }: { student: Student }) => {
                             </span>
                             <p className="text-gray-500">
                                 {student?.user?.email}
+                            </p>
+                        </div>
+                        <div className="flex items-center gap-x-2 text-sm">
+                            <span className="text-gray-400">
+                                <FaPhone />
+                            </span>
+                            <p className="text-gray-500">
+                                {student?.phone}
                             </p>
                         </div>
                     </a>

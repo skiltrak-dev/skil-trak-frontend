@@ -7,7 +7,7 @@ import { RiBook2Fill } from 'react-icons/ri'
 import { Card, Typography, Button, ActionButton } from '@components'
 
 // utils
-import { elipiciseText, userStatus } from '@utils'
+import { ellipsisText, userStatus } from '@utils'
 
 // query
 import {

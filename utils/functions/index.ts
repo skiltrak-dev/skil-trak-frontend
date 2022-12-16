@@ -1,5 +1,5 @@
 export * from './trimString'
-export * from './elipiciseText'
+export * from './ellipsisText'
 export * from './getAge'
 export * from './userStatus'
 export * from './filterify'

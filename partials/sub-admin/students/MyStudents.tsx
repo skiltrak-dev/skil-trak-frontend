@@ -25,6 +25,8 @@ import { useGetSubAdminMyStudentsQuery } from '@queries'
 import { TechnicalError } from '@components/ActionAnimations/TechnicalError'
 import { UnAssignStudentModal } from './modals'
 import { MdBlock } from 'react-icons/md'
+import { getActiveIndustry } from '@partials/student/utils'
+import { IndustryCell } from '@partials/admin/industry/components'
 
 export const MyStudents = () => {
     const router = useRouter()
@@ -101,15 +103,33 @@ export const MyStudents = () => {
             },
         },
         {
-            header: () => 'RTO Name',
+            header: () => 'RTO',
             accessorKey: 'rto',
             cell({ row }: any) {
                 const { rto } = row.original
 
                 return (
                     <div className="flex gap-x-2 items-center">
-                        <InitialAvatar name={rto?.user?.name} small />
-                        {rto?.user?.name}
+                        <InitialAvatar name={rto.user.name} small />
+                        {rto.user.name}
+                    </div>
+                )
+            },
+        },
+        {
+            header: () => 'Industry',
+            accessorKey: 'industry',
+            cell({ row }: any) {
+                const { workplace } = row.original
+                const industry = getActiveIndustry(workplace)
+
+                return (
+                    <div className="flex justify-center">
+                        {industry ? (
+                            <IndustryCell industry={industry} />
+                        ) : (
+                            <div>N/A</div>
+                        )}
                     </div>
                 )
             },

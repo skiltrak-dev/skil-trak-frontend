@@ -1,7 +1,7 @@
 import { useContextBar } from '@hooks'
 import { useEffect, Fragment } from 'react'
 import { Typography, ActionButton, NoData } from '@components'
-import { elipiciseText } from '@utils'
+import { ellipsisText } from '@utils'
 import { AiFillEye } from 'react-icons/ai'
 import { FaCloudDownloadAlt } from 'react-icons/fa'
 
@@ -35,7 +35,7 @@ export const ViewFoldersCB = ({ folders }: any) => {
                                                 color={'text-slate-500'}
                                             >
                                                 <span className="font-medium">
-                                                    {elipiciseText(
+                                                    {ellipsisText(
                                                         uploaded?.fileName,
                                                         11
                                                     )}

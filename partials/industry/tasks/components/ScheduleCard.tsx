@@ -6,7 +6,7 @@ import { Typography, LoadingAnimation } from '@components'
 import { ScheduleCardAction } from './ScheduleCardAction'
 
 // utills
-import { elipiciseText } from '@utils'
+import { ellipsisText } from '@utils'
 
 // query
 import {
@@ -158,7 +158,7 @@ export const ScheduleCard = ({
                             {endTime.substring(0, 2) || 'NA'}
                         </Typography>
                         <Typography variant={'small'} color={'black'}>
-                            {elipiciseText(note, 8) || '-'}
+                            {ellipsisText(note, 8) || '-'}
                         </Typography>
                     </div>
                 )

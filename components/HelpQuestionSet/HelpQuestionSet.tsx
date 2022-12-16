@@ -57,15 +57,16 @@ export const HelpQuestionSet = ({
                                         question.joyrideCallback
                                     )
                                 }}
+                                className="cursor-pointer"
                             >
-                                <p className="text-blue-400 cursor-pointer text-sm hover:text-blue-500">
+                                <p className="text-blue-400 text-sm hover:text-blue-500">
                                     {question.text}
                                 </p>
                             </li>
                         ) : (
                             <li key={i}>
                                 <Link href={question.link}>
-                                    <a className="text-blue-400 text-sm hover:text-blue-500">
+                                    <a className="text-blue-400 cursor-pointer text-sm hover:text-blue-500">
                                         {question.text}
                                     </a>
                                 </Link>

@@ -15,7 +15,7 @@ import { AuthUtils } from '@utils'
 import { MdAvTimer } from 'react-icons/md'
 
 // functions
-import { elipiciseText, userStatus } from '@utils'
+import { ellipsisText, userStatus } from '@utils'
 
 export const Mail = ({ message, sender, index }: any) => {
     const [showOptions, setShowOptions] = useState(false)
@@ -72,7 +72,7 @@ export const Mail = ({ message, sender, index }: any) => {
                         <div className={`bg-[#00000009] p-1.5 mb-1`}>
                             <Typography variant={'muted'} color={'grayLight'}>
                                 <span className="italic">
-                                    {elipiciseText(
+                                    {ellipsisText(
                                         message?.parent?.message,
                                         350
                                     )}

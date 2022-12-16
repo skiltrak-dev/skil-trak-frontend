@@ -7,13 +7,18 @@ import {
     Card,
     Filter,
     LoadingAnimation,
+    PageTitle,
     RtoContextBarData,
     SidebarCalendar,
     StudentFilters,
     TabNavigation,
     TabProps,
 } from '@components'
-import { AllStudents, FilteredStudents, MyStudents } from '@partials/sub-admin/students'
+import {
+    AllStudents,
+    FilteredStudents,
+    MyStudents,
+} from '@partials/sub-admin/students'
 
 // query
 import { AdminApi } from '@queries'
@@ -73,8 +78,13 @@ const Students: NextPageWithLayout = (props: Props) => {
     return (
         <>
             <div>
-                <div className="px-4">
-                    <div className="flex justify-end mb-2">{filterAction}</div>
+                <div className="flex justify-between items-end">
+                    <PageTitle title={'Students'} backTitle={'Users'} />
+
+                    <div className="">{filterAction}</div>
+                </div>
+
+                <div className="py-4">
                     <Filter
                         component={StudentFilters}
                         initialValues={{}}
@@ -82,6 +92,7 @@ const Students: NextPageWithLayout = (props: Props) => {
                         setFilter={setFilter}
                     />
                 </div>
+
                 {filteredStudents.isLoading ? (
                     <div className="px-4 mt-4">
                         <Card>
@@ -112,11 +123,7 @@ const Students: NextPageWithLayout = (props: Props) => {
     )
 }
 Students.getLayout = (page: ReactElement) => {
-    return (
-        <SubAdminLayout pageTitle={{ title: 'Students', backTitle: 'Users' }}>
-            {page}
-        </SubAdminLayout>
-    )
+    return <SubAdminLayout>{page}</SubAdminLayout>
 }
 
 export default Students

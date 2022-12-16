@@ -73,3 +73,5 @@ export * from './ImportantDocument'
 
 export * from './PlacementProgress'
 export * from './avatars'
+
+export * from './StudentTimer'

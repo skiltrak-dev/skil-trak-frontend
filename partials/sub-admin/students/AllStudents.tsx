@@ -1,4 +1,4 @@
-import {  ReactElement } from 'react'
+import { ReactElement } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
@@ -27,6 +27,8 @@ import { useEffect, useState } from 'react'
 import { useJoyRide } from '@hooks'
 import { MdBlock } from 'react-icons/md'
 import { AssignStudentModal } from './modals'
+import { IndustryCell } from '@partials/admin/industry/components'
+import { getActiveIndustry } from '@partials/student/utils'
 
 export const AllStudents = () => {
     const router = useRouter()
@@ -41,19 +43,18 @@ export const AllStudents = () => {
         skip: itemPerPage * page - itemPerPage,
         limit: itemPerPage,
     })
-     // WORKPLACE JOY RIDE - Start
-     const joyride = useJoyRide()
+    // WORKPLACE JOY RIDE - Start
+    const joyride = useJoyRide()
 
-     useEffect(() => {
-         if (joyride.state.tourActive) {
-
-             setTimeout(() => {
-                 joyride.setState({ ...joyride.state, run: true, stepIndex: 2 })
-             }, 1200)
-             console.log('joyride', joyride)
-         }
-     }, [])
-     // STUDENT JOY RIDE - END
+    useEffect(() => {
+        if (joyride.state.tourActive) {
+            setTimeout(() => {
+                joyride.setState({ ...joyride.state, run: true, stepIndex: 2 })
+            }, 1200)
+            console.log('joyride', joyride)
+        }
+    }, [])
+    // STUDENT JOY RIDE - END
 
     const onModalCancelClicked = () => {
         setModal(null)
@@ -94,29 +95,21 @@ export const AllStudents = () => {
                 return <StudentCellInfo student={row.original} />
             },
         },
-        {
-            header: () => 'Phone #',
-            accessorKey: 'phone',
-            cell: ({ row }: any) => {
-                const { phone } = row.original
-                return <p className="text-sm">{phone}</p>
-            },
-        },
 
+        // {
+        //     header: () => 'Address',
+        //     accessorKey: 'address',
+        //     cell: ({ row }: any) => {
+        //         const { state, suburb } = row.original
+        //         return (
+        //             <p className="text-sm">
+        //                 {suburb}, {state}
+        //             </p>
+        //         )
+        //     },
+        // },
         {
-            header: () => 'Address',
-            accessorKey: 'address',
-            cell: ({ row }: any) => {
-                const { state, suburb } = row.original
-                return (
-                    <p className="text-sm">
-                        {suburb}, {state}
-                    </p>
-                )
-            },
-        },
-        {
-            header: () => 'RTO Name',
+            header: () => 'RTO',
             accessorKey: 'rto',
             cell({ row }: any) {
                 const { rto } = row.original
@@ -125,6 +118,24 @@ export const AllStudents = () => {
                     <div className="flex gap-x-2 items-center">
                         <InitialAvatar name={rto.user.name} small />
                         {rto.user.name}
+                    </div>
+                )
+            },
+        },
+        {
+            header: () => 'Industry',
+            accessorKey: 'industry',
+            cell({ row }: any) {
+                const { workplace } = row.original
+                const industry = getActiveIndustry(workplace)
+
+                return (
+                    <div className="flex justify-center">
+                        {industry ? (
+                            <IndustryCell industry={industry} />
+                        ) : (
+                            <div>N/A</div>
+                        )}
                     </div>
                 )
             },
@@ -185,7 +196,9 @@ export const AllStudents = () => {
                                             )}
                                         </div>
                                     </div>
-                                    <div id='add-note-student'  className="px-6">{table}</div>
+                                    <div id="add-note-student" className="px-6">
+                                        {table}
+                                    </div>
                                 </div>
                             )
                         }}
