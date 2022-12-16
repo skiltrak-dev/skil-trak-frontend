@@ -58,7 +58,7 @@ export const HelpQuestionSet = ({
                                     )
                                 }}
                             >
-                                <p className="text-blue-400 text-sm hover:text-blue-500">
+                                <p className="text-blue-400 cursor-pointer text-sm hover:text-blue-500">
                                     {question.text}
                                 </p>
                             </li>
