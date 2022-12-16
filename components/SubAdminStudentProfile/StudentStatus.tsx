@@ -1,5 +1,7 @@
+import { ActionButton } from '@components/buttons'
+import { Select } from '@components/inputs'
 import { useState } from 'react'
-import { FaQuestionCircle } from 'react-icons/fa'
+import { FaCheck, FaQuestionCircle, FaTimes } from 'react-icons/fa'
 
 export const StudentStatus = () => {
     const [edit, setEdit] = useState(false)
@@ -17,22 +19,62 @@ export const StudentStatus = () => {
                         </span>
                     </div>
                 </div>
-
-                {!edit ? (
-                    <button className="text-blue-500 text-xs font-medium">
-                        Change
-                    </button>
-                ) : (
-                    <button className="text-red-500 text-xs font-medium">
-                        Cancel
-                    </button>
-                )}
             </div>
 
             <div className="flex justify-between items-center">
-                <div className="text-indigo-500 text-sm font-semibold">
-                    Current Status
-                </div>
+                {edit ? (
+                    <div className="flex  gap-x-2 w-full">
+                        <div className="flex-grow w-full">
+                            <Select
+                                name="status"
+                                options={[
+                                    { label: 'Completed', value: 'completed' },
+                                    {
+                                        label: 'Terminated',
+                                        value: 'terminated',
+                                    },
+                                    { label: 'Cancelled', value: 'cancelled' },
+                                ]}
+                            />
+                        </div>
+
+                        <div className="flex items-center gap-x-1">
+                            <ActionButton
+                                variant="success"
+                                mini
+                                Icon={FaCheck}
+                            ></ActionButton>
+                            <ActionButton
+                                variant="error"
+                                mini
+                                Icon={FaTimes}
+                                onClick={onChangeClicked}
+                            ></ActionButton>
+                        </div>
+                    </div>
+                ) : (
+                    <div className="flex items-center justify-between w-full">
+                        <div className="text-indigo-500 text-sm font-semibold">
+                            Current Status
+                        </div>
+
+                        {!edit ? (
+                            <button
+                                className="text-blue-500 text-xs font-medium"
+                                onClick={() => onChangeClicked()}
+                            >
+                                Change
+                            </button>
+                        ) : (
+                            <button
+                                className="text-red-500 text-xs font-medium"
+                                onClick={() => onChangeClicked()}
+                            >
+                                Cancel
+                            </button>
+                        )}
+                    </div>
+                )}
             </div>
         </div>
     )
