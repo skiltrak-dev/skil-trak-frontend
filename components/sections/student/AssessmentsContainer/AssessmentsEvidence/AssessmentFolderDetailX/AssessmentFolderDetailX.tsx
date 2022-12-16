@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react'
 import { MdCloudUpload } from 'react-icons/md'
 
 // components
-import { LoadingAnimation, Typography, NoData } from '@components'
+import { LoadingAnimation, Typography, NoData, Badge } from '@components'
 import { AssessmentFolderFileCard } from '../components'
 import { UploadFile } from './UploadFile'
 
@@ -87,9 +87,11 @@ export const AssessmentFolderDetailX = ({ folder, fileUpload }: Props) => {
                         />
                     ) : (
                         <div>
-                            <Typography variant="body" color={'text-green-500'}>
-                                Not Approved
-                            </Typography>
+                            {folder.isActive ? (
+                                <Badge text="Approved" variant="success" />
+                            ) : (
+                                <Badge text="Not Approved" variant="error" />
+                            )}
                             <Typography variant="body" color={'text-green-500'}>
                                 Assessed On
                             </Typography>

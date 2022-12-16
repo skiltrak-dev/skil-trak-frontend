@@ -23,7 +23,7 @@ export const CourseCard = ({
         <>
             <div
                 className={`${
-                    id === selectedCourseId ? 'bg-red-100' : 'bg-white'
+                    id === selectedCourseId ? 'bg-blue-100' : 'bg-white'
                 } rounded-lg border p-2 w-full cursor-pointer`}
                 onClick={() => {
                     onClick()

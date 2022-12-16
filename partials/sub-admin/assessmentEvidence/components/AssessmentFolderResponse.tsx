@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 
 // components
-import { Typography, NoData, LoadingAnimation } from '@components'
+import { Typography, NoData, LoadingAnimation, Badge } from '@components'
 import { AssessmentFolderFileCard } from '@components/sections/student/AssessmentsContainer'
 import { TextInput } from '@components/inputs'
 import { Button } from '@components/buttons'
@@ -28,9 +28,11 @@ export const AssessmentResponse = ({ getAssessmentResponse, folder }: any) => {
                         </Typography>
                     </div>
                     <div>
-                        <Typography variant="body" color={'text-green-500'}>
-                            Not Approved
-                        </Typography>
+                        {false ? (
+                            <Badge text="Approved" variant="success" />
+                        ) : (
+                            <Badge text="Not Approved" variant="error" />
+                        )}
                         <Typography variant="body" color={'text-green-500'}>
                             Assessed On
                         </Typography>

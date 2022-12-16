@@ -7,6 +7,7 @@ type AssessmentFolderCardProps = {
     selectedFolderId?: string | null
     id?: string
 }
+import { Badge } from '@components'
 import { Typography } from '@components/Typography'
 import { FaFolder } from 'react-icons/fa'
 export const AssessmentFolderCard = ({
@@ -27,7 +28,7 @@ export const AssessmentFolderCard = ({
         <>
             <div
                 className={`${
-                    selectedFolderId === id ? 'bg-red-100' : 'bg-white'
+                    selectedFolderId === id ? 'bg-blue-100' : 'bg-white'
                 } p-2 border-b border-gray-200 cursor-pointer`}
                 onClick={() => {
                     onClick?.()
@@ -43,19 +44,12 @@ export const AssessmentFolderCard = ({
                         </div>
                     </div>
                     <div>
-                        <div className={`${statusColor} px-2 `}>
-                            <Typography
-                                variant="body"
-                                color={
-                                    isActive
-                                        ? 'text-green-500'
-                                        : !isActive
-                                        ? 'text-red-500'
-                                        : 'text-blue-500'
-                                }
-                            >
-                                {isActive ? 'Approved' : 'Not Approved'}
-                            </Typography>
+                        <div className={` px-2 `}>
+                            {isActive ? (
+                                <Badge text="Approved" variant="success" />
+                            ) : (
+                                <Badge text="Not Approved" variant="error" />
+                            )}
                         </div>
                     </div>
                 </div>
