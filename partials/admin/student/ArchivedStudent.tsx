@@ -9,6 +9,7 @@ import {
     Table,
     TableAction,
     TableActionOption,
+    Typography,
 } from '@components'
 import { PageHeading } from '@components/headings'
 import { ColumnDef } from '@tanstack/react-table'
@@ -28,6 +29,7 @@ import { SectorCell, StudentCellInfo } from './components'
 import { Student } from '@types'
 import { RtoCellInfo } from '../rto/components'
 import { useRouter } from 'next/router'
+import { IndustryCell } from '../industry/components'
 
 export const ArchivedStudent = () => {
     const router = useRouter()
@@ -86,21 +88,26 @@ export const ArchivedStudent = () => {
             header: () => <span>Student</span>,
         },
         {
-            accessorKey: 'phone',
-            header: () => <span>Phone</span>,
-            cell: (info) => info.getValue(),
-        },
-
-        {
-            accessorKey: 'suburb',
-            header: () => <span>Address</span>,
-            cell: (info) => info.getValue(),
-        },
-        {
             accessorKey: 'rto',
             header: () => <span>RTO</span>,
             cell: (info) => {
                 return <RtoCellInfo rto={info.row.original.rto} short />
+            },
+        },
+        {
+            accessorKey: 'industry',
+            header: () => <span>Industry</span>,
+            cell: (info) => {
+                const industry =
+                    info.row.original?.workplace[0]?.industries.find(
+                        (i: any) => i.applied
+                    )?.industry
+
+                return industry ? (
+                    <IndustryCell industry={industry} />
+                ) : (
+                    <Typography center>N/A</Typography>
+                )
             },
         },
         {

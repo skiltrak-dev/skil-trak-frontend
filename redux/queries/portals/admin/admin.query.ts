@@ -99,6 +99,8 @@ const {
     useStudentStatusChangeMutation,
     useStudentRemoveMutation,
 
+    useFilteredStudentsQuery,
+
     useStudentSectorsQuery,
     useStudentAssignCoursesMutation,
     useStudentUnassignCoursesMutation,
@@ -151,14 +153,6 @@ const {
     useUnAssignedSubAdminsQuery,
     useAssignedWorkplaceMutation,
     useUnAssignedWorkplaceListQuery,
-
-    // ------ NOTES ------ //
-    useNotesQuery,
-    useNotesPinnedQuery,
-    useNoteCreateMutation,
-    useNoteUpdateMutation,
-    useNoteRemoveMutation,
-    useNoteStatusChangeMutation,
 
     // -------Messages-------//
     useGetAdminMessagesQuery,
@@ -215,6 +209,8 @@ export const AdminApi = {
         useChangeStatusMutation: useStudentStatusChangeMutation,
         useRemove: useStudentRemoveMutation,
 
+        useFilteredStudents: useFilteredStudentsQuery,
+
         useSectors: useStudentSectorsQuery,
         useAssignCourses: useStudentAssignCoursesMutation,
         useUnassignCourses: useStudentUnassignCoursesMutation,
@@ -270,15 +266,6 @@ export const AdminApi = {
         useAddMutation: useCourseAddMutation,
         useUpdateMutation: useCourseUpdateMutation,
         useRemoveMutation: useCourseRemoveMutation,
-    },
-
-    Notes: {
-        useList: useNotesQuery,
-        usePinned: useNotesPinnedQuery,
-        useCreate: useNoteCreateMutation,
-        useUpdate: useNoteUpdateMutation,
-        useRemove: useNoteRemoveMutation,
-        useStatusChange: useNoteStatusChangeMutation,
     },
 
     Messages: {

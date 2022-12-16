@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { EmptyData, LoadingAnimation, Note, NoteForm } from '@components'
 import { useContextBar } from '@hooks'
-import { AdminApi } from '@queries'
+import { CommonApi } from '@queries'
 
 import { Note as NoteType } from '@types'
 
@@ -15,7 +15,7 @@ export const NotesTab = ({ rto }: { rto: any }) => {
         }
     }, [rto])
 
-    const notes = AdminApi.Notes.useList(rto?.id, {
+    const notes = CommonApi.Notes.useList(rto?.id, {
         skip: !rto?.id,
     })
 
@@ -46,8 +46,10 @@ export const NotesTab = ({ rto }: { rto: any }) => {
                         ))
                     ) : (
                         <EmptyData
+                            imageUrl={'/images/icons/common/notes.png'}
                             title="No Notes Attached"
-                            description="No any notes has been attached to this user"
+                            description="Attach a note to view notes here"
+                            height="40vh"
                         />
                     )}
                 </div>

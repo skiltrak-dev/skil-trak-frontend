@@ -1,18 +1,13 @@
-import { Button } from '@components/buttons'
-import { Card } from '@components/cards'
-import { ProgressStep } from '@components/sections/subAdmin/StudentsContainer'
-import { Typography } from '@components/Typography'
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 
-// query
-import { useCancelWorkplaceRequestMutation } from '@queries'
-import { StepIndustryChecks } from './StepIndustryChecks'
-import { InitialAvatar } from '@components/InitialAvatar'
-import { StepInterview } from './StepInterview'
-import { StepAwaitingResponse } from './StepAwaitingResponse'
+// components
+import { ProgressStep, Card, InitialAvatar, Typography } from '@components'
 import { StepAppointmentBooked } from './StepAppointmentBooked'
-import { StepSignAgreement } from './StepSignAgreement'
+import { StepAwaitingResponse } from './StepAwaitingResponse'
+import { StepIndustryChecks } from './StepIndustryChecks'
+import { StepInterview } from './StepInterview'
 import { StepPlacementStarted } from './StepPlacementStarted'
+import { StepSignAgreement } from './StepSignAgreement'
 
 type Props = {
     status: any

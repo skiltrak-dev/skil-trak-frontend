@@ -73,7 +73,16 @@ export const MailsTab = ({ subAdmin }: any) => {
                                 )
                         )
                     ) : (
-                        !messages.isError && <EmptyData actionLink={null} />
+                        !messages.isError && (
+                            <EmptyData
+                                imageUrl="/images/icons/common/mails.png"
+                                title={'No Mails'}
+                                description={
+                                    'You have not sent/received any mail yet'
+                                }
+                                height={'40vh'}
+                            />
+                        )
                     )}
                 </div>
             </div>

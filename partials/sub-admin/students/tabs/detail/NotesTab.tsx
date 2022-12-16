@@ -1,29 +1,22 @@
-import {
-    EmptyData,
-    LoadingAnimation,
-    Note,
-    NoteForm,
-    TechnicalError,
-} from '@components'
+import { useEffect, useState } from 'react'
+import { EmptyData, LoadingAnimation, Note, NoteForm } from '@components'
 import { useContextBar } from '@hooks'
 import { CommonApi } from '@queries'
 
-import { useEffect, useState } from 'react'
-
 import { Note as NoteType } from '@types'
 
-export const NotesTab = ({ subAdmin }: { subAdmin: any }) => {
+export const NotesTab = ({ student }: { student: any }) => {
     const contextBar = useContextBar()
     const [approvedUser, setApprovedUser] = useState<boolean | null>(null)
 
     useEffect(() => {
-        if (subAdmin) {
-            setApprovedUser(subAdmin?.status === 'approved')
+        if (student) {
+            setApprovedUser(student?.status === 'approved')
         }
-    }, [subAdmin])
+    }, [student])
 
-    const notes = CommonApi.Notes.useList(subAdmin?.id, {
-        skip: !subAdmin?.id,
+    const notes = CommonApi.Notes.useList(student?.user?.id, {
+        skip: !student?.id,
     })
 
     return (
@@ -41,7 +34,7 @@ export const NotesTab = ({ subAdmin }: { subAdmin: any }) => {
                         : 'w-[71%]'
                 } bg-gray-50 rounded-lg p-2`}
             >
-                {notes.isError && <TechnicalError />}
+                {/* {notes.isError && !notes.length > 0 && <TechnicalError />} */}
                 <div className={`flex flex-col gap-y-2.5 h-full `}>
                     {notes?.isLoading ? (
                         <div className="flex justify-center items-center h-full">
@@ -52,14 +45,12 @@ export const NotesTab = ({ subAdmin }: { subAdmin: any }) => {
                             <Note key={note.id} note={note} />
                         ))
                     ) : (
-                        !notes.isError && (
-                            <EmptyData
-                                imageUrl={'/images/icons/common/notes.png'}
-                                title="No Notes Attached"
-                                description="Attach a note to view notes here"
-                                height="40vh"
-                            />
-                        )
+                        <EmptyData
+                            imageUrl={'/images/icons/common/notes.png'}
+                            title="No Notes Attached"
+                            description="Attach a note to view notes here"
+                            height="40vh"
+                        />
                     )}
                 </div>
             </div>
@@ -67,7 +58,7 @@ export const NotesTab = ({ subAdmin }: { subAdmin: any }) => {
                 <div
                     className={`${contextBar.isVisible ? 'w-full' : 'w-[29%]'}`}
                 >
-                    <NoteForm id={subAdmin?.id} />
+                    <NoteForm id={student?.user?.id} />
                 </div>
             )}
         </div>

@@ -12,7 +12,7 @@ import { useRouter } from 'next/router'
 import { FaSchool } from 'react-icons/fa'
 import { MdPermContactCalendar, MdPhone } from 'react-icons/md'
 
-export const MyRtoInfoCard = ({ myRto }: any) => {
+export const MyRto = ({ myRto }: any) => {
     const pathname = useRouter()
     const { id } = pathname.query
     return (
@@ -59,13 +59,17 @@ export const MyRtoInfoCard = ({ myRto }: any) => {
                                 <span className="text-gray-400">
                                     <MdPermContactCalendar size={14} />
                                 </span>
-                                <span className="text-xs">{myRto?.emergencyPerson}</span>
+                                <span className="text-xs">
+                                    {myRto?.emergencyPerson}
+                                </span>
                             </div>
                             <div className="flex items-center gap-x-2">
                                 <span className="text-gray-400">
                                     <MdPhone size={14} />
                                 </span>
-                                <span className="text-xs">{myRto?.emergencyPersonPhone}</span>
+                                <span className="text-xs">
+                                    {myRto?.emergencyPersonPhone}
+                                </span>
                             </div>
                         </div>
 

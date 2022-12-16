@@ -15,7 +15,7 @@ type Props = {
     myWorkplace: any
 }
 
-export const WorkplaceInfoCard = ({ myWorkplace }: Props) => {
+export const MyWorkplace = ({ myWorkplace }: Props) => {
     const pathname = useRouter()
     const profileId = pathname.query.profileId
     const { data } = useGetSubAdminMyRtoQuery(String(profileId), {

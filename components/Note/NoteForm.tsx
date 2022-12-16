@@ -1,7 +1,7 @@
 import { Button, Card, Checkbox, TextArea, TextInput } from '@components'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useContextBar, useNotification } from '@hooks'
-import { AdminApi } from '@queries'
+import { CommonApi } from '@queries'
 import { Note, User } from '@types'
 import { useEffect } from 'react'
 
@@ -22,7 +22,7 @@ export const NoteForm = ({ id, note }: { id: any; note?: Note }) => {
         mode: 'all',
     })
 
-    const [add, addResult] = AdminApi.Notes.useCreate()
+    const [add, addResult] = CommonApi.Notes.useCreate()
     const onSubmit = async (values: any) => {
         await add({
             ...values,

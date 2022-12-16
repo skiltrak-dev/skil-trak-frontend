@@ -5,12 +5,12 @@ import { CreateNote, EmptyData, LoadingAnimation } from '@components'
 import { NotesCard } from '../NotesCard'
 
 // query
-import { SubAdminApi } from '@queries'
+import { CommonApi } from '@queries'
 
 export const Notes = ({ id }: any) => {
     const [editValues, setEditValues] = useState(null)
 
-    const notes = SubAdminApi.Notes.useList({ id })
+    const notes = CommonApi.Notes.useList({ id })
 
     return (
         <div className={`flex gap-x-2.5 w-full mt-2 mb-32`}>
@@ -34,7 +34,7 @@ export const Notes = ({ id }: any) => {
                         imageUrl={'/images/icons/common/notes.png'}
                         title="No Notes Attached"
                         description="Attach a note to view notes here"
-                        height='40vh'
+                        height="40vh"
                     />
                 )}
             </div>

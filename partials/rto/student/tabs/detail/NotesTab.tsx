@@ -1,12 +1,12 @@
 import { useState } from 'react'
 import { EmptyData, LoadingAnimation, Note, TechnicalError } from '@components'
 import { useContextBar } from '@hooks'
-import { AdminApi } from '@queries'
+import { CommonApi } from '@queries'
 
 import { Note as NoteType } from '@types'
 
 export const NotesTab = ({ student }: { student: any }) => {
-    const notes = AdminApi.Notes.useList(student?.user?.id, {
+    const notes = CommonApi.Notes.useList(student?.user?.id, {
         skip: !student,
     })
 
@@ -26,8 +26,10 @@ export const NotesTab = ({ student }: { student: any }) => {
                     ) : (
                         !notes.isError && (
                             <EmptyData
+                                imageUrl={'/images/icons/common/notes.png'}
                                 title="No Notes Attached"
-                                description="No any notes has been attached to this user"
+                                description="Attach a note to view notes here"
+                                height="40vh"
                             />
                         )
                     )}

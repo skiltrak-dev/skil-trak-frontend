@@ -31,9 +31,9 @@ const RtoList: NextPageWithLayout = () => {
     const [itemPerPage, setItemPerPage] = useState(5)
 
     const { isLoading, data } = AdminApi.Students.useCountQuery()
-    const filteredStudents = AdminApi.Students.useListQuery(
+    const filteredStudents = AdminApi.Students.useFilteredStudents(
         {
-            search: `status:approved,${JSON.stringify(filter)
+            search: `${JSON.stringify(filter)
                 .replaceAll('{', '')
                 .replaceAll('}', '')
                 .replaceAll('"', '')
