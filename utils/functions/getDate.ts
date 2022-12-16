@@ -13,3 +13,11 @@ export const getDate = (date?: Date | undefined) => {
 
     return `${year}-${month}-${day}`
 }
+
+export const getCommonDates = (data: any) => {
+    return data?.data
+        ?.map(({ updatedAt }: any) => getDate(updatedAt))
+        ?.filter(
+            (date: any, i: number, array: any) => array.indexOf(date) === i
+        )
+}

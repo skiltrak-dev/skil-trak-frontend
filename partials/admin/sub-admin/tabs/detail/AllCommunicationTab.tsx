@@ -12,7 +12,7 @@ import { useContextBar } from '@hooks'
 import { CommonApi } from '@queries'
 
 import { Note as NoteType } from '@types'
-import { getDate } from '@utils'
+import { getCommonDates, getDate } from '@utils'
 
 export const AllCommunicationTab = ({ subAdmin }: { subAdmin: any }) => {
     const contextBar = useContextBar()
@@ -23,16 +23,6 @@ export const AllCommunicationTab = ({ subAdmin }: { subAdmin: any }) => {
             skip: !subAdmin,
         }
     )
-
-    // getDate(createdAt) => 2022-12-15
-    //
-    const allDates = allCommunications?.data
-        ?.map(function (communication: any) {
-            return getDate(communication?.createdAt)
-        })
-        .filter(function (date: any, i: number, array: any) {
-            return array.indexOf(date) === i
-        })
 
     return (
         <div
@@ -48,9 +38,12 @@ export const AllCommunicationTab = ({ subAdmin }: { subAdmin: any }) => {
                     </div>
                 ) : allCommunications?.data &&
                   allCommunications?.data.length ? (
-                    allDates.map((date: any) => {
+                    getCommonDates(allCommunications)?.map((date: any) => {
                         return (
-                            <div className="relative p-4 pt-6 rounded-md w-full mt-6 mb-2">
+                            <div
+                                key={date}
+                                className="relative p-4 pt-6 rounded-md w-full mt-6 mb-2"
+                            >
                                 <div className="flex items-center sticky top-4 z-20">
                                     {/* <div className='w-2/5 h-[1px] bg-gray-700'/> */}
                                     <div className="bg-gray-700 w-fit shadow-md px-4 py-2 rounded-md text-gray-100">
@@ -61,47 +54,37 @@ export const AllCommunicationTab = ({ subAdmin }: { subAdmin: any }) => {
 
                                 <div className="border-l-4 border-gray-700 ml-8">
                                     {allCommunications.data.map(
-                                        (communication: any, i: number) => {
+                                        (item: any, i: number) => {
                                             if (
-                                                date ==
-                                                communication?.createdAt?.substring(
-                                                    0,
-                                                    10
-                                                )
+                                                date == getDate(item?.updatedAt)
                                             ) {
-                                                if (communication?.title) {
+                                                if (item?.title) {
                                                     return (
                                                         <Timeline
-                                                            createdAt={
-                                                                communication?.createdAt
+                                                            key={item?.id}
+                                                            updatedAt={
+                                                                item?.updatedAt
                                                             }
                                                         >
                                                             <Note
-                                                                key={
-                                                                    communication.id
-                                                                }
-                                                                note={
-                                                                    communication
-                                                                }
+                                                                key={item.id}
+                                                                note={item}
                                                             />
                                                         </Timeline>
                                                     )
                                                 } else {
                                                     return (
-                                                        <div className="mb-2">
+                                                        <div
+                                                            key={item.id}
+                                                            className="mb-2"
+                                                        >
                                                             <Mail
-                                                                key={
-                                                                    communication.id
-                                                                }
                                                                 sender={
-                                                                    communication
-                                                                        ?.sender
+                                                                    item?.sender
                                                                         ?.role ===
                                                                     'admin'
                                                                 }
-                                                                message={
-                                                                    communication
-                                                                }
+                                                                message={item}
                                                                 index={i}
                                                             />
                                                         </div>
