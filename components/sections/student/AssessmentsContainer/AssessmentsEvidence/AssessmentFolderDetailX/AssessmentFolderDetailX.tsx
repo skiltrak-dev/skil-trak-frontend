@@ -51,7 +51,7 @@ export const AssessmentFolderDetailX = ({ folder, fileUpload }: Props) => {
     return (
         <div className="h-full">
             <div className="flex justify-between items-center p-2">
-                <div>
+                <div className='px-4'>
                     <Typography variant="title">{folder?.name}</Typography>
                     <Typography variant="label" color="text-gray-400">
                         Uploaded {data?.files?.length || 0}/{folder?.capacity}

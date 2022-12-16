@@ -17,7 +17,7 @@ export const AssessmentResponse = ({ getAssessmentResponse, folder }: any) => {
     return (
         <div className="h-full bg-white flex flex-col justify-between">
             <div>
-                <div className="w-full bg-slate-50 border border-gray-300 px-1 py-2 flex justify-between items-center">
+                <div className="w-full bg-slate-50 border-b px-2 py-2 flex justify-between items-center">
                     <div>
                         <Typography variant={'title'}>
                             {folder?.name}
