@@ -47,9 +47,9 @@ export const NotesTab = ({ student }: { student: any }) => {
                             <LoadingAnimation />
                         </div>
                     ) : notes?.data && notes?.data.length ? (
-                        notes.data.map((note: NoteType) => (
-                            <Note key={note.id} note={note} />
-                        ))
+                        notes.data.map((note: NoteType) => {
+                            return <Note key={note.id} note={note} />
+                        })
                     ) : (
                         !notes.isError && (
                             <EmptyData

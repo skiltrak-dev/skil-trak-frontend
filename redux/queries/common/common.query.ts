@@ -4,7 +4,8 @@ import { AuthUtils } from '@utils'
 import { industriesEndpoints } from './industries'
 import { rtosEndpoints } from './rtos'
 import { coursesEndpoints } from './courses'
-import {notesEndpoints} from './notes'
+import { notesEndpoints } from './notes'
+import { allCommunicationEndpoints } from './allCommunication'
 import { AdminStats } from '@types'
 
 export const commonApi = createApi({
@@ -19,7 +20,7 @@ export const commonApi = createApi({
             return headers
         },
     }),
-    tagTypes: ['RTOS'],
+    tagTypes: ['RTOS', 'Notes', 'Industry', 'Course', 'AllCommunications'],
 
     // ---------- RTO ENDPOINTS ---------- //
     endpoints: (build) => ({
@@ -27,6 +28,7 @@ export const commonApi = createApi({
         ...rtosEndpoints(build),
         ...coursesEndpoints(build),
         ...notesEndpoints(build),
+        ...allCommunicationEndpoints(build),
     }),
 })
 
@@ -35,6 +37,7 @@ const {
     useGetAllIndustriesQuery,
 
     useGetAllRtosQuery,
+    useGetSubAdminRtosQuery,
 
     useGetAllCoursesQuery,
 
@@ -45,6 +48,9 @@ const {
     useNoteUpdateMutation,
     useNoteRemoveMutation,
     useNoteStatusChangeMutation,
+
+    // --- Communications --- //
+    useCommunicationsQuery,
 } = commonApi
 
 export const CommonApi = {
@@ -52,6 +58,7 @@ export const CommonApi = {
         useIndustries: useGetAllIndustriesQuery,
         useRtos: useGetAllRtosQuery,
         useCourses: useGetAllCoursesQuery,
+        useSubAdminRtos: useGetSubAdminRtosQuery,
     },
 
     Notes: {
@@ -61,5 +68,8 @@ export const CommonApi = {
         useUpdate: useNoteUpdateMutation,
         useRemove: useNoteRemoveMutation,
         useStatusChange: useNoteStatusChangeMutation,
+    },
+    AllCommunication: {
+        useCommunications: useCommunicationsQuery,
     },
 }

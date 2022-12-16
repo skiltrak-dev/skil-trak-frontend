@@ -42,11 +42,7 @@ export const ApprovedStudent = () => {
     const [filter, setFilter] = useState({})
     const { isLoading, isFetching, data, isError } =
         AdminApi.Students.useListQuery({
-            search: `status:approved,${JSON.stringify(filter)
-                .replaceAll('{', '')
-                .replaceAll('}', '')
-                .replaceAll('"', '')
-                .trim()}`,
+            search: `status:approved`,
             skip: itemPerPage * page - itemPerPage,
             limit: itemPerPage,
         })

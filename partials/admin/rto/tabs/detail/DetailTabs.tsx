@@ -4,6 +4,7 @@ import { SectorsTab } from './SectorsTab'
 import { SubAdminsTab } from './SubAdminsTab'
 import { AssessmentTools } from './AssessmentTools'
 import { TabNavigation, TabProps } from '@components'
+import { AllCommunicationTab } from './AllCommunicationTab'
 
 export const DetailTabs = ({
     id,
@@ -41,7 +42,7 @@ export const DetailTabs = ({
         {
             label: 'All Communications',
             href: { query: { tab: 'all-communications', id } },
-            element: 'Under Construction',
+            element: <AllCommunicationTab rto={rto?.data} />,
         },
     ]
 

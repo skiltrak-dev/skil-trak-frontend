@@ -14,13 +14,13 @@ import { CommonApi } from '@queries'
 import { Note as NoteType } from '@types'
 import { getDate } from '@utils'
 
-export const AllCommunicationTab = ({ student }: { student: any }) => {
+export const AllCommunicationTab = ({ industry }: { industry: any }) => {
     const contextBar = useContextBar()
 
     const allCommunications = CommonApi.AllCommunication.useCommunications(
-        student?.user?.id,
+        industry?.user?.id,
         {
-            skip: !student,
+            skip: !industry,
         }
     )
 
@@ -40,6 +40,7 @@ export const AllCommunicationTab = ({ student }: { student: any }) => {
                 contextBar.isVisible ? 'flex-col' : 'flex-row'
             }`}
         >
+            <TextInput name="sss" type={'date'} min={getDate()} />
             {allCommunications.isError && <TechnicalError />}
             <div className={`flex flex-col gap-y-2.5 w-full`}>
                 {allCommunications?.isLoading ? (

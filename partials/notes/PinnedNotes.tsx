@@ -13,7 +13,6 @@ export const PinnedNotes = ({
         skip: !id,
     })
 
-    console.log('pinnedNotes', pinnedNotes)
 
     return (
         <SwiperContainer className="mt-4 relative">

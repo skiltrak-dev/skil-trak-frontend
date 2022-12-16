@@ -7,6 +7,7 @@ import {
     PlacementTableCell,
     Table,
     TableAction,
+    Typography,
     TableActionOption,
 } from '@components'
 import { PageHeading } from '@components/headings'
@@ -16,6 +17,7 @@ import { useRouter } from 'next/router'
 import { ReactElement, useState } from 'react'
 import { FaEdit, FaEye } from 'react-icons/fa'
 import { MdBlock } from 'react-icons/md'
+import { IndustryCellInfo } from '../indestries/components'
 import { StudentCellInfo } from './components'
 import { AssignStudentModal } from './modals'
 
@@ -72,27 +74,6 @@ export const FilteredStudents = ({
             },
         },
         {
-            header: () => 'Phone #',
-            accessorKey: 'phone',
-            cell: ({ row }: any) => {
-                const { phone } = row.original
-                return <p className="text-sm">{phone}</p>
-            },
-        },
-
-        {
-            header: () => 'Address',
-            accessorKey: 'address',
-            cell: ({ row }: any) => {
-                const { state, suburb } = row.original
-                return (
-                    <p className="text-sm">
-                        {suburb}, {state}
-                    </p>
-                )
-            },
-        },
-        {
             header: () => 'RTO Name',
             accessorKey: 'rto',
             cell({ row }: any) {
@@ -103,6 +84,22 @@ export const FilteredStudents = ({
                         <InitialAvatar name={rto?.user?.name} small />
                         {rto.user.name}
                     </div>
+                )
+            },
+        },
+        {
+            accessorKey: 'industry',
+            header: () => <span>Industry</span>,
+            cell: (info: any) => {
+                const industry =
+                    info.row.original?.workplace[0]?.industries.find(
+                        (i: any) => i.applied
+                    )?.industry
+
+                return industry ? (
+                    <IndustryCellInfo industry={industry} />
+                ) : (
+                    <Typography center>N/A</Typography>
                 )
             },
         },

@@ -26,8 +26,6 @@ import classNames from 'classnames'
 export const NotesCard = ({ note, pinnedNote, setEditValues }: any) => {
     const { notification } = useNotification()
 
-    console.log('::: NOTE', note)
-
     const [changeStatus, changeStatusResult] =
         SubAdminApi.Notes.useStatusChange()
     const [deleteNote, deleteNoteResult] = SubAdminApi.Notes.useDelete()

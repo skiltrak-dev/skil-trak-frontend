@@ -1,11 +1,18 @@
-import { ReactElement } from 'react'
+import { ReactElement, useState } from 'react'
 
 import { SubAdminLayout } from '@layouts'
 import { NextPageWithLayout } from '@types'
-import { TabNavigation, TabProps } from '@components'
+import {
+    Card,
+    Filter,
+    LoadingAnimation,
+    TabNavigation,
+    TabProps,
+    WorkplaceFilters,
+} from '@components'
 
 // query
-import { useGetSubAdminWorkplacesQuery } from '@queries'
+import { useGetSubAdminFilteredWorkplacesQuery } from '@queries'
 
 // components
 import {
@@ -13,11 +20,25 @@ import {
     AllWorkplaces,
     CancelledWorkplaces,
     StudentAddedWorkplaces,
+    FilteredWorkplaces,
 } from '@partials/sub-admin'
 
 type Props = {}
 
 const Workplace: NextPageWithLayout = (props: Props) => {
+    const [filterAction, setFilterAction] = useState(null)
+    const [filter, setFilter] = useState({})
+
+    const filteredWorkplaces = useGetSubAdminFilteredWorkplacesQuery(
+        {
+            search: `${JSON.stringify(filter)
+                .replaceAll('{', '')
+                .replaceAll('}', '')
+                .replaceAll('"', '')
+                .trim()}`,
+        },
+        { skip: !Object.keys(filter).length }
+    )
     const tabs: TabProps[] = [
         {
             label: 'All Requests',
@@ -30,7 +51,7 @@ const Workplace: NextPageWithLayout = (props: Props) => {
             element: <MyWorkplaces />,
         },
         {
-            label: 'Student Provided Requests',
+            label: 'Student Provided Workplace',
             href: { pathname: 'workplace', query: { tab: 'student-added' } },
             element: <StudentAddedWorkplaces />,
         },
@@ -39,26 +60,47 @@ const Workplace: NextPageWithLayout = (props: Props) => {
             href: { pathname: 'workplace', query: { tab: 'cancelled' } },
             element: <CancelledWorkplaces />,
         },
-        {
-            label: 'No Industries Available Requests',
-            href: { pathname: 'workplace', query: { tab: 'cancelled' } },
-            element: 'Under Construction',
-        },
+        // {
+        //     label: 'No Industries Available Requests',
+        //     href: { pathname: 'workplace', query: { tab: 'cancelled' } },
+        //     element: 'Under Construction',
+        // },
     ]
 
     return (
         <>
             <div>
-                <TabNavigation tabs={tabs}>
-                    {({ header, element }: any) => {
-                        return (
-                            <div>
-                                <div>{header}</div>
-                                <div className="mt-3">{element}</div>
-                            </div>
-                        )
-                    }}
-                </TabNavigation>
+                <div>
+                    <div className="flex justify-end mb-2">{filterAction}</div>
+                    <Filter
+                        component={WorkplaceFilters}
+                        initialValues={{}}
+                        setFilterAction={setFilterAction}
+                        setFilter={setFilter}
+                    />
+                </div>
+                {filteredWorkplaces.isLoading ||
+                filteredWorkplaces.isFetching ? (
+                    <div className="mt-5">
+                        <Card>
+                            <LoadingAnimation />
+                        </Card>
+                    </div>
+                ) : Object.keys(filter).length &&
+                  filteredWorkplaces.isSuccess ? (
+                    <FilteredWorkplaces workplace={filteredWorkplaces} />
+                ) : (
+                    <TabNavigation tabs={tabs}>
+                        {({ header, element }: any) => {
+                            return (
+                                <div>
+                                    <div>{header}</div>
+                                    <div className="mt-3">{element}</div>
+                                </div>
+                            )
+                        }}
+                    </TabNavigation>
+                )}
             </div>
         </>
     )

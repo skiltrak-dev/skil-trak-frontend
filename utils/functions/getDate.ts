@@ -1,5 +1,8 @@
-export const disableInputDates = () => {
-    var dtToday = new Date()
+export const getDate = (date?: Date | undefined) => {
+    let dtToday = new Date()
+    if (date) {
+        dtToday = new Date(date)
+    }
 
     var month = String(dtToday.getMonth() + 1)
     var day = String(dtToday.getDate())

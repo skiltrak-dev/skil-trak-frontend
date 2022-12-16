@@ -37,11 +37,7 @@ export const PendingStudent = () => {
     const [page, setPage] = useState(1)
     const [filter, setFilter] = useState({})
     const { isLoading, data } = AdminApi.Students.useListQuery({
-        search: `status:pending,${JSON.stringify(filter)
-            .replaceAll('{', '')
-            .replaceAll('}', '')
-            .replaceAll('"', '')
-            .trim()}`,
+        search: `status:pending`,
         skip: itemPerPage * page - itemPerPage,
         limit: itemPerPage,
     })

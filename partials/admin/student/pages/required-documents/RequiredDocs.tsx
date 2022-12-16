@@ -14,8 +14,6 @@ export const RequiredDocs = ({ courses, assessmentEvidence }: any) => {
         any | null
     >([])
 
-    console.log('assessmentFolders', assessmentFolders)
-
     useEffect(() => {
         if (courses && courses.length > 0) {
             courses?.map((c: any) => {
@@ -68,7 +66,6 @@ export const RequiredDocs = ({ courses, assessmentEvidence }: any) => {
                     ]
                 }
             })
-            console.log('newFolders', newFolders)
 
             setAssessmentEvidenceFolders(newFolders)
         }

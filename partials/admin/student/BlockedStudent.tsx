@@ -35,11 +35,7 @@ export const BlockedStudent = () => {
     const [filter, setFilter] = useState({})
 
     const { isLoading, data } = AdminApi.Students.useListQuery({
-        search: `status:blocked,${JSON.stringify(filter)
-            .replaceAll('{', '')
-            .replaceAll('}', '')
-            .replaceAll('"', '')
-            .trim()}`,
+        search: `status:blocked`,
         skip: itemPerPage * page - itemPerPage,
         limit: itemPerPage,
     })

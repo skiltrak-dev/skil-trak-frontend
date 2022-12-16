@@ -35,8 +35,7 @@ export const IndustryCard = ({ industry, appliedIndustry, workplace }: any) => {
                     <div>
                         <div className="flex items-center gap-x-0.5">
                             <Typography variant={'label'}>
-                                {industry?.industry?.businessName ||
-                                    industry?.industry?.user?.name}
+                                {industry?.industry?.user?.name}
                             </Typography>
                             <BsDot />
                             {/* <Typography variant={'xs'} color={'text-gray-400'}>

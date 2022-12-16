@@ -1,4 +1,4 @@
-import {  ReactElement } from 'react'
+import { ReactElement } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
@@ -27,6 +27,7 @@ import { useEffect, useState } from 'react'
 import { useJoyRide } from '@hooks'
 import { MdBlock } from 'react-icons/md'
 import { AssignStudentModal } from './modals'
+import { IndustryCellInfo } from '../indestries/components'
 
 export const AllStudents = () => {
     const router = useRouter()
@@ -41,19 +42,17 @@ export const AllStudents = () => {
         skip: itemPerPage * page - itemPerPage,
         limit: itemPerPage,
     })
-     // WORKPLACE JOY RIDE - Start
-     const joyride = useJoyRide()
+    // WORKPLACE JOY RIDE - Start
+    const joyride = useJoyRide()
 
-     useEffect(() => {
-         if (joyride.state.tourActive) {
-
-             setTimeout(() => {
-                 joyride.setState({ ...joyride.state, run: true, stepIndex: 2 })
-             }, 1200)
-             console.log('joyride', joyride)
-         }
-     }, [])
-     // STUDENT JOY RIDE - END
+    useEffect(() => {
+        if (joyride.state.tourActive) {
+            setTimeout(() => {
+                joyride.setState({ ...joyride.state, run: true, stepIndex: 2 })
+            }, 1200)
+        }
+    }, [])
+    // STUDENT JOY RIDE - END
 
     const onModalCancelClicked = () => {
         setModal(null)
@@ -95,27 +94,6 @@ export const AllStudents = () => {
             },
         },
         {
-            header: () => 'Phone #',
-            accessorKey: 'phone',
-            cell: ({ row }: any) => {
-                const { phone } = row.original
-                return <p className="text-sm">{phone}</p>
-            },
-        },
-
-        {
-            header: () => 'Address',
-            accessorKey: 'address',
-            cell: ({ row }: any) => {
-                const { state, suburb } = row.original
-                return (
-                    <p className="text-sm">
-                        {suburb}, {state}
-                    </p>
-                )
-            },
-        },
-        {
             header: () => 'RTO Name',
             accessorKey: 'rto',
             cell({ row }: any) {
@@ -126,6 +104,22 @@ export const AllStudents = () => {
                         <InitialAvatar name={rto.user.name} small />
                         {rto.user.name}
                     </div>
+                )
+            },
+        },
+        {
+            accessorKey: 'industry',
+            header: () => <span>Industry</span>,
+            cell: (info: any) => {
+                const industry =
+                    info.row.original?.workplace[0]?.industries.find(
+                        (i: any) => i.applied
+                    )?.industry
+
+                return industry ? (
+                    <IndustryCellInfo industry={industry} />
+                ) : (
+                    <Typography center>N/A</Typography>
                 )
             },
         },
@@ -185,7 +179,9 @@ export const AllStudents = () => {
                                             )}
                                         </div>
                                     </div>
-                                    <div id='add-note-student'  className="px-6">{table}</div>
+                                    <div id="add-note-student" className="px-6">
+                                        {table}
+                                    </div>
                                 </div>
                             )
                         }}

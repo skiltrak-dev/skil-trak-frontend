@@ -4,7 +4,6 @@ import { TabNavigation, TabProps } from '@components'
 import { Detail } from '@partials/sub-admin/assessmentEvidence'
 import { OverViewTab } from './OverviewTab'
 import { AllCommunicationTab } from './AllCommunicationTab'
-
 export const DetailTabs = ({
     id,
     student,
@@ -49,7 +48,7 @@ export const DetailTabs = ({
                 pathname: String(id),
                 query: { tab: 'all-communications' },
             },
-            element: <AllCommunicationTab />,
+            element: <AllCommunicationTab student={student} />,
         },
     ]
 

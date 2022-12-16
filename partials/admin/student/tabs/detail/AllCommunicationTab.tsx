@@ -6,13 +6,11 @@ import {
     Mail,
     TechnicalError,
     Timeline,
-    TextInput,
 } from '@components'
 import { useContextBar } from '@hooks'
 import { CommonApi } from '@queries'
 
 import { Note as NoteType } from '@types'
-import { getDate } from '@utils'
 
 export const AllCommunicationTab = ({ student }: { student: any }) => {
     const contextBar = useContextBar()
@@ -28,7 +26,11 @@ export const AllCommunicationTab = ({ student }: { student: any }) => {
     //
     const allDates = allCommunications?.data
         ?.map(function (communication: any) {
-            return getDate(communication?.createdAt)
+            console.log(
+                'communication?.createdAt?.substring(0, 10)',
+                communication?.createdAt?.substring(0, 10)
+            )
+            return communication?.createdAt?.substring(0, 10)
         })
         .filter(function (date: any, i: number, array: any) {
             return array.indexOf(date) === i
