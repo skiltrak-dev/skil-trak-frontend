@@ -99,7 +99,7 @@ export const Detail = ({ studentId, studentUserId }: any) => {
 
                     {/*  */}
                     <div className="grid grid-cols-3 h-[450px]">
-                        <div className="border border-gray-300 h-full overflow-hidden">
+                        <div className="border border-gray-300 border-r-transparent h-full overflow-hidden">
                             <div className="p-2">
                                 <Typography
                                     variant={'small'}

@@ -22,6 +22,7 @@ import { FaTrash } from 'react-icons/fa'
 import { PuffLoader } from 'react-spinners'
 import { BsPinAngleFill, BsPinFill } from 'react-icons/bs'
 import classNames from 'classnames'
+import { ellipsisText } from '@utils'
 
 export const NotesCard = ({ note, pinnedNote, setEditValues }: any) => {
     const { notification } = useNotification()
@@ -64,13 +65,21 @@ export const NotesCard = ({ note, pinnedNote, setEditValues }: any) => {
         changeStatusResult?.isLoading || deleteNoteResult?.isLoading
 
     return (
-        <div className="bg-[#FEF6E6] p-4 rounded-xl shadow-lg relative w-fit">
+        <div
+            className={`bg-[#FEF6E6] p-4 rounded-xl shadow-lg relative ${
+                pinnedNote ? 'w-full' : 'w-fit'
+            }`}
+        >
             {isLoading ? (
                 <LoadingAnimation size={90} />
             ) : (
-                <>
+                <div>
                     <div className="flex justify-between mb-2">
-                        <p className="text-sm font-semibold">{note.title}</p>
+                        <p className="text-sm font-semibold">
+                            {pinnedNote
+                                ? ellipsisText(note.title, 15)
+                                : note.title}
+                        </p>
                         <button
                             className={pinClasses}
                             title={note.isPinned ? 'Un-Pin' : 'Pin'}
@@ -101,7 +110,9 @@ export const NotesCard = ({ note, pinnedNote, setEditValues }: any) => {
                         />
                     </div> */}
 
-                    <div className="text-sm">{note.body}</div>
+                    <div className="text-sm">
+                        {pinnedNote ? ellipsisText(note.body, 160) : note.body}
+                    </div>
 
                     {/*  */}
                     <div className="mt-2 flex justify-between items-center gap-x-4">
@@ -135,7 +146,7 @@ export const NotesCard = ({ note, pinnedNote, setEditValues }: any) => {
                             </div>
                         )}
                     </div>
-                </>
+                </div>
             )}
         </div>
     )

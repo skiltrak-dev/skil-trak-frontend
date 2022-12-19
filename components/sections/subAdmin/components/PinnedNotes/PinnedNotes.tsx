@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useCallback, useRef } from 'react'
 import { FreeMode, Pagination } from 'swiper'
 import { Swiper, SwiperSlide } from 'swiper/react'
 
@@ -17,37 +17,69 @@ import { NotesCard } from '../NotesCard'
 // query
 import { useGetNotesQuery } from '@queries'
 import { LoadingAnimation } from '@components/LoadingAnimation'
+import { FaChevronCircleLeft, FaChevronCircleRight } from 'react-icons/fa'
 
 export const PinnedNotes = ({ id }: any) => {
-  const notes = useGetNotesQuery({ id, pinned: true }, { skip: !id })
-  return notes?.isLoading ? (
-    <LoadingAnimation />
-  ) : notes?.data && notes?.data?.length > 0 ? (
-    <>
-      <div className="mb-3">
-        <Typography variant={'muted'} color={'text-gray-400'}>
-          Pinned Notes
-        </Typography>
-      </div>
-      <PinedNotesStyles className="mt-4 relative">
-        <Swiper
-          slidesPerView={3}
-          spaceBetween={16}
-          freeMode={true}
-          // pagination={{
-          //   clickable: true,
-          // }}
-          // navigation={true}
-          modules={[FreeMode, Pagination]}
-          className="mySwiper static"
-        >
-          {notes?.data?.map((note: any) => (
-            <SwiperSlide key={note.id} className="h-full">
-              <NotesCard note={note} pinnedNote />
-            </SwiperSlide>
-          ))}
-        </Swiper>
-      </PinedNotesStyles>
-    </>
-  ) : null
+    const swiperRef = useRef<any>(null)
+
+    const handlePrev = useCallback(() => {
+        if (!swiperRef.current) return
+        swiperRef.current.swiper.slidePrev()
+    }, [])
+
+    const handleNext = useCallback(() => {
+        if (!swiperRef.current) return
+        swiperRef.current.swiper.slideNext()
+    }, [])
+
+    const notes = useGetNotesQuery({ id, pinned: true }, { skip: !id })
+    return notes?.isLoading ? (
+        <LoadingAnimation />
+    ) : notes?.data && notes?.data?.length > 0 ? (
+        <>
+            <div className="mb-3">
+                <p className='text-xs font-semibold text-gray-500'>
+                    <span className='text-gray-900'>{notes.data && notes.data.length ? notes.data.length : 0}</span>{' '}
+                    Pinned Notes
+                </p>
+            </div>
+            <div className="relative">
+                <PinedNotesStyles className="mt-4 relative">
+                    <Swiper
+                        slidesPerView={3}
+                        spaceBetween={8}
+                        freeMode={true}
+                        // pagination={{
+                        //   clickable: true,
+                        // }}
+                        // navigation={true}
+                        ref={swiperRef}
+                        modules={[FreeMode, Pagination]}
+                        className="mySwiper static"
+                    >
+                        {notes?.data?.map((note: any) => (
+                            <SwiperSlide key={note.id} className="h-full mb-4">
+                                <NotesCard note={note} pinnedNote />
+                            </SwiperSlide>
+                        ))}
+                    </Swiper>
+                </PinedNotesStyles>
+
+                <div className="text-2xl absolute flex justify-between w-full top-2/4 -translate-y-2/4 z-30">
+                    <button
+                        onClick={handlePrev}
+                        className="transition-all duration-300 opacity-25 hover:opacity-75 -translate-x-2"
+                    >
+                        <FaChevronCircleLeft />
+                    </button>
+                    <button
+                        onClick={handleNext}
+                        className="transition-all duration-300 opacity-25 hover:opacity-75 translate-x-2"
+                    >
+                        <FaChevronCircleRight />
+                    </button>
+                </div>
+            </div>
+        </>
+    ) : null
 }

@@ -27,7 +27,11 @@ import { useEffect, useState } from 'react'
 import { useJoyRide } from '@hooks'
 import { MdBlock } from 'react-icons/md'
 import { AssignStudentModal } from './modals'
+
 import { IndustryCellInfo } from '../indestries/components'
+import { IndustryCell } from '@partials/admin/industry/components'
+import { getActiveIndustry } from '@partials/student/utils'
+
 
 export const AllStudents = () => {
     const router = useRouter()
@@ -50,6 +54,7 @@ export const AllStudents = () => {
             setTimeout(() => {
                 joyride.setState({ ...joyride.state, run: true, stepIndex: 2 })
             }, 1200)
+
         }
     }, [])
     // STUDENT JOY RIDE - END
@@ -93,8 +98,9 @@ export const AllStudents = () => {
                 return <StudentCellInfo student={row.original} />
             },
         },
+
         {
-            header: () => 'RTO Name',
+            header: () => 'RTO',
             accessorKey: 'rto',
             cell({ row }: any) {
                 const { rto } = row.original
@@ -108,18 +114,20 @@ export const AllStudents = () => {
             },
         },
         {
+            header: () => 'Industry',
             accessorKey: 'industry',
-            header: () => <span>Industry</span>,
-            cell: (info: any) => {
-                const industry =
-                    info.row.original?.workplace[0]?.industries.find(
-                        (i: any) => i.applied
-                    )?.industry
+            cell({ row }: any) {
+                const { workplace } = row.original
+                const industry = getActiveIndustry(workplace)
 
-                return industry ? (
-                    <IndustryCellInfo industry={industry} />
-                ) : (
-                    <Typography center>N/A</Typography>
+                return (
+                    <div className="flex justify-center">
+                        {industry ? (
+                            <IndustryCell industry={industry} />
+                        ) : (
+                            <div>N/A</div>
+                        )}
+                    </div>
                 )
             },
         },

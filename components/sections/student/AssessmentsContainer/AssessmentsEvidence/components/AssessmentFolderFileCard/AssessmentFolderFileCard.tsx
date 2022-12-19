@@ -2,7 +2,7 @@ import { FileMimeTypes } from '@components/inputs'
 import { PdfViewer } from '@components/PdfViewer'
 import { Typography } from '@components/Typography'
 import { VideoPreview } from '@components/VideoPreview'
-import { elipiciseText, FileFormat } from '@utils'
+import { ellipsisText, FileFormat } from '@utils'
 import Image from 'next/image'
 import { IoMdDocument } from 'react-icons/io'
 
@@ -48,7 +48,7 @@ export const AssessmentFolderFileCard = ({
                         ></div>
                     )}
                     <Typography variant="body" center>
-                        {elipiciseText(filename?.split('_')[0], 11)}
+                        {ellipsisText(filename?.split('_')[0], 11)}
                     </Typography>
                 </div>
             )}

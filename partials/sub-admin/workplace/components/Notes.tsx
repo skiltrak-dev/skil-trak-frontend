@@ -13,7 +13,7 @@ import { useContextBar, useNotification } from '@hooks'
 import { useEffect, useState } from 'react'
 
 import { useAddWorkplaceNoteMutation } from '@queries'
-import { elipiciseText } from '@utils'
+import { ellipsisText } from '@utils'
 import { AllNotesCB } from '../contextBar'
 
 export const Notes = ({ workplace }: { workplace: any }) => {
@@ -86,7 +86,7 @@ export const Notes = ({ workplace }: { workplace: any }) => {
                                     className="bg-secondary py-1 px-2 rounded-lg"
                                 >
                                     <Typography variant={'label'}>
-                                        {elipiciseText(note?.message, 70)}
+                                        {ellipsisText(note?.message, 70)}
                                     </Typography>
                                     <div className="flex items-center gap-x-1">
                                         <Typography

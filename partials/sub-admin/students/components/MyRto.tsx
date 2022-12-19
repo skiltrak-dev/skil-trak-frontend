@@ -11,48 +11,53 @@ import { useRouter } from 'next/router'
 // icons
 import { FaSchool } from 'react-icons/fa'
 import { MdPermContactCalendar, MdPhone } from 'react-icons/md'
+import { RtoAvatar } from '@components/avatars'
 
 export const MyRto = ({ myRto }: any) => {
     const pathname = useRouter()
     const { id } = pathname.query
     return (
-        <div className="">
-            <Card>
-                {/* Card Header */}
-                <div className="flex justify-between items-center">
-                    {/* Icon Title */}
-                    <div className="flex items-center gap-x-2">
-                        <div className="w-8 h-8 bg-orange-100 text-orange-600 rounded-full flex justify-center items-center">
-                            <FaSchool size={16} />
-                        </div>
-                        <p className="text-sm font-semibold">My RTO</p>
+        <Card fullHeight>
+            {/* Card Header */}
+            <div className="flex justify-between items-center">
+                {/* Icon Title */}
+                <div className="flex items-center gap-x-2">
+                    <div className="w-8 h-8 bg-orange-100 text-orange-600 rounded-full flex justify-center items-center">
+                        <FaSchool size={16} />
                     </div>
-
-                    {/* Action */}
-                    <Link href="#">
-                        <a className="inline-block uppercase text-xs font-medium bg-orange-100 text-orange-600 px-4 py-2 rounded">
-                            See Details
-                        </a>
-                    </Link>
+                    <p className="text-sm font-semibold">My RTO</p>
                 </div>
 
-                {/* Card Body */}
-                <div className="flex items-center gap-x-6 py-4">
-                    <div className="flex-shrink-0">
-                        <Image
-                            src="https://picsum.photos/536/354"
-                            height={100}
-                            width={100}
-                        />
-                    </div>
+                {/* Action */}
+                <Link
+                    href={`/portals/sub-admin/users/rtos/${myRto.rto.id}?tab=overview`}
+                >
+                    <a className="inline-block uppercase text-xs font-medium bg-orange-100 text-orange-600 px-4 py-2 rounded">
+                        See Details
+                    </a>
+                </Link>
+            </div>
+
+            {/* Card Body */}
+            <div className="flex items-center gap-x-6 py-4">
+                <div className="flex-shrink-0">
+                    <RtoAvatar imageUrl={myRto?.rto?.user?.avatar} />
+                </div>
+                <div>
                     <div>
-                        <div>
-                            <p className="font-medium">
-                                {myRto?.rto?.user?.name}
-                            </p>
-                            <p className="text-slate-400 text-sm">
-                                {myRto?.rto?.user?.email}
-                            </p>
+                        <p className="font-medium">{myRto?.rto?.user?.name}</p>
+                        <p className="text-slate-400 text-sm">
+                            {myRto?.rto?.user?.email}
+                        </p>
+                    </div>
+                    <div className="flex gap-x-6 mt-1">
+                        <div className="flex items-center gap-x-2">
+                            <span className="text-gray-400">
+                                <MdPermContactCalendar size={14} />
+                            </span>
+                            <span className="text-xs">
+                                {myRto?.emergencyPerson}
+                            </span>
                         </div>
                         <div className="flex gap-x-6 mt-1">
                             <div className="flex items-center gap-x-2">
@@ -72,37 +77,37 @@ export const MyRto = ({ myRto }: any) => {
                                 </span>
                             </div>
                         </div>
+                    </div>
 
-                        {myRto?.rto?.subadmin.map((coordinator: any) => (
-                            <div key={coordinator.id} className="mt-4">
-                                <p className="text-[11px] text-gray-400">
-                                    Coordinators
-                                </p>
-                                <div className="flex justify-between gap-x-4">
-                                    <div>
-                                        <p className="font-medium text-sm">
-                                            {coordinator?.user?.name}
-                                        </p>
-                                        <p className="text-xs font-medium text-slate-400">
-                                            {coordinator?.user?.email}
-                                        </p>
-                                    </div>
+                    {myRto?.rto?.subadmin.map((coordinator: any) => (
+                        <div key={coordinator.id} className="mt-4">
+                            <p className="text-[11px] text-gray-400">
+                                Coordinators
+                            </p>
+                            <div className="flex justify-between gap-x-4">
+                                <div>
+                                    <p className="font-medium text-sm">
+                                        {coordinator?.user?.name}
+                                    </p>
+                                    <p className="text-xs font-medium text-slate-400">
+                                        {coordinator?.user?.email}
+                                    </p>
+                                </div>
 
-                                    <InitialAvatarContainer show={2}>
-                                        <InitialAvatar
-                                            name={coordinator?.user?.name}
-                                            first
-                                        />
-                                        {/* <InitialAvatar name="Yaseen Khan" />
+                                <InitialAvatarContainer show={2}>
+                                    <InitialAvatar
+                                        name={coordinator?.user?.name}
+                                        first
+                                    />
+                                    {/* <InitialAvatar name="Yaseen Khan" />
                                         <InitialAvatar name="Julie Clarke" />
                                         <InitialAvatar name="Salman" /> */}
-                                    </InitialAvatarContainer>
-                                </div>
+                                </InitialAvatarContainer>
                             </div>
-                        ))}
-                    </div>
+                        </div>
+                    ))}
                 </div>
-            </Card>
-        </div>
+            </div>
+        </Card>
     )
 }

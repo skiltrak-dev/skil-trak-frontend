@@ -2,8 +2,10 @@ import { MailsTab } from './MailsTab'
 import { NotesTab } from './NotesTab'
 import { TabNavigation, TabProps } from '@components'
 import { Detail } from '@partials/sub-admin/assessmentEvidence'
-import { OverViewTab } from './OverviewTab'
+
 import { AllCommunicationTab } from './AllCommunicationTab'
+
+import { OverViewTab } from './OverviewTab'
 export const DetailTabs = ({
     id,
     student,

@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react'
 
 // components
-import { Typography, NoData, LoadingAnimation, Select } from '@components'
+import { Typography, NoData, LoadingAnimation, Select, Badge } from '@components'
+
 import { AssessmentFolderFileCard } from '@components/sections/student/AssessmentsContainer'
 import { TextInput } from '@components/inputs'
 import { Button } from '@components/buttons'
@@ -39,7 +40,7 @@ export const AssessmentResponse = ({ getAssessmentResponse, folder }: any) => {
     return (
         <div className="h-full bg-white flex flex-col justify-between">
             <div>
-                <div className="w-full bg-slate-50 border border-gray-300 px-1 py-2 flex justify-between items-center">
+                <div className="w-full bg-slate-50 border-b px-2 py-2 flex justify-between items-center">
                     <div>
                         <Typography variant={'title'}>
                             {folder?.name}
@@ -50,9 +51,11 @@ export const AssessmentResponse = ({ getAssessmentResponse, folder }: any) => {
                         </Typography>
                     </div>
                     <div>
-                        <Typography variant="body" color={'text-green-500'}>
-                            Not Approved
-                        </Typography>
+                        {false ? (
+                            <Badge text="Approved" variant="success" />
+                        ) : (
+                            <Badge text="Not Approved" variant="error" />
+                        )}
                         <Typography variant="body" color={'text-green-500'}>
                             Assessed On
                         </Typography>

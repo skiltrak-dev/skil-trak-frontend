@@ -10,6 +10,9 @@ import {
     LoadingAnimation,
     EmptyData,
     SubAdminStudentProfile,
+    PageTitle,
+    StudentTimer,
+    Button,
 } from '@components'
 
 // queries
@@ -22,9 +25,7 @@ import { useContextBar } from '@hooks'
 
 import { DetailTabs } from '@partials/sub-admin/students'
 
-type Props = {}
-
-const StudentsProfile: NextPageWithLayout = (props: Props) => {
+const StudentsProfile: NextPageWithLayout = () => {
     const contextBar = useContextBar()
     const router = useRouter()
     const { id } = router.query
@@ -45,7 +46,21 @@ const StudentsProfile: NextPageWithLayout = (props: Props) => {
         useUpdateAssessmentToolArchiveMutation()
 
     return (
-        <>
+        <div className='mb-16'>
+            <div className="flex justify-between items-end mb-4">
+                <PageTitle title="Student Profile" backTitle="Students" />
+                <div className='flex flex-col items-end gap-y-2'>
+                    <div className="pl-4">
+                        <StudentTimer date={new Date('12/30/2022')} />
+                    </div>
+                    <div className="flex items-end gap-x-2">
+                        <Button text="Add Workplace" />
+                        <Button text="Book Appointment" variant="info" />
+                        <Button text="More" variant="action" />
+                    </div>
+                </div>
+            </div>
+
             {isError && <TechnicalError />}
             {isLoading ? (
                 <LoadingAnimation />
@@ -54,17 +69,11 @@ const StudentsProfile: NextPageWithLayout = (props: Props) => {
             ) : (
                 !isError && <EmptyData />
             )}
-        </>
+        </div>
     )
 }
 StudentsProfile.getLayout = (page: ReactElement) => {
-    return (
-        <SubAdminLayout
-            pageTitle={{ title: 'Student Profile', backTitle: 'Students' }}
-        >
-            {page}
-        </SubAdminLayout>
-    )
+    return <SubAdminLayout>{page}</SubAdminLayout>
 }
 
 export default StudentsProfile

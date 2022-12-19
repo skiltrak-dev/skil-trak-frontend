@@ -9,7 +9,7 @@ import { TfiReload } from 'react-icons/tfi'
 // components
 import { Typography } from 'components'
 import { useNotification } from '@hooks'
-import { elipiciseText } from '@utils'
+import { ellipsisText } from '@utils'
 
 export const DocumentCard = ({
     name,
@@ -84,9 +84,13 @@ export const DocumentCard = ({
                     <div className="flex items-center gap-x-1">
                         {requiredDoc?.uploaded
                             ?.slice(0, 4)
-                            ?.map((uploaded: any, idx:number) => (
-                                <Typography key={idx} variant={'xs'} color={'text-error'}>
-                                    {elipiciseText(uploaded?.fileName, 10)},
+                            ?.map((uploaded: any, idx: number) => (
+                                <Typography
+                                    key={idx}
+                                    variant={'xs'}
+                                    color={'text-error'}
+                                >
+                                    {ellipsisText(uploaded?.fileName, 10)},
                                 </Typography>
                             ))}
                         {requiredDoc?.uploaded?.length > 4 && (

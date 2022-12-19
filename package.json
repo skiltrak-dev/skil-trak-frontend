@@ -37,6 +37,7 @@
     "react-calendar": "^3.7.0",
     "react-calendars": "^1.0.6",
     "react-circular-progressbar": "^2.1.0",
+    "react-countdown": "^2.3.5",
     "react-countup": "^6.4.0",
     "react-dnd": "^16.0.1",
     "react-dnd-html5-backend": "^16.0.1",

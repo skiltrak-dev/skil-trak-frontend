@@ -7,6 +7,7 @@ import {
     Card,
     Filter,
     LoadingAnimation,
+    PageTitle,
     RtoContextBarData,
     SidebarCalendar,
     StudentFilters,
@@ -79,8 +80,13 @@ const Students: NextPageWithLayout = (props: Props) => {
     return (
         <>
             <div>
-                <div className="px-4">
-                    <div className="flex justify-end mb-2">{filterAction}</div>
+                <div className="flex justify-between items-end">
+                    <PageTitle title={'Students'} backTitle={'Users'} />
+
+                    <div className="">{filterAction}</div>
+                </div>
+
+                <div className="py-4">
                     <Filter
                         component={SubAdminStudentFilters}
                         initialValues={{}}
@@ -88,6 +94,7 @@ const Students: NextPageWithLayout = (props: Props) => {
                         setFilter={setFilter}
                     />
                 </div>
+
                 <div>
                     {filteredStudents.isError && <TechnicalError />}
                     {filteredStudents.isLoading ? (
@@ -118,17 +125,13 @@ const Students: NextPageWithLayout = (props: Props) => {
                             </TabNavigation>
                         )
                     )}
-                </div>
+
             </div>
         </>
     )
 }
 Students.getLayout = (page: ReactElement) => {
-    return (
-        <SubAdminLayout pageTitle={{ title: 'Students', backTitle: 'Users' }}>
-            {page}
-        </SubAdminLayout>
-    )
+    return <SubAdminLayout>{page}</SubAdminLayout>
 }
 
 export default Students

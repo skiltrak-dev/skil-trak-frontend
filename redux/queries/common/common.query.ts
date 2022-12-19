@@ -6,6 +6,7 @@ import { rtosEndpoints } from './rtos'
 import { coursesEndpoints } from './courses'
 import { notesEndpoints } from './notes'
 import { allCommunicationEndpoints } from './allCommunication'
+
 import { AdminStats } from '@types'
 
 export const commonApi = createApi({
@@ -20,6 +21,7 @@ export const commonApi = createApi({
             return headers
         },
     }),
+
     tagTypes: ['RTOS', 'Notes', 'Industry', 'Course', 'AllCommunications'],
 
     // ---------- RTO ENDPOINTS ---------- //

@@ -46,9 +46,7 @@ export const NoteForm = ({ id, note }: { id: any; note?: Note }) => {
     }, [addResult])
 
     return (
-        <div
-            className={`sticky ${contextBar.isVisible ? 'bottom-2' : ' top-2'}`}
-        >
+        <div className={`sticky top-2`}>
             <Card>
                 <FormProvider {...methods}>
                     <form
