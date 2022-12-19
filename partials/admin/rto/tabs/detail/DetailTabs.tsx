@@ -5,6 +5,8 @@ import { SubAdminsTab } from './SubAdminsTab'
 import { AssessmentTools } from './AssessmentTools'
 import { TabNavigation, TabProps } from '@components'
 import { AllCommunicationTab } from './AllCommunicationTab'
+import { useState, useEffect } from 'react'
+import { useRouter } from 'next/router'
 
 export const DetailTabs = ({
     id,
@@ -13,6 +15,14 @@ export const DetailTabs = ({
     id: number | string | string[] | undefined
     rto: any
 }) => {
+    const router = useRouter()
+    const [isArchivedAssessment, setIsArchivedAssessment] =
+        useState<boolean>(false)
+    console.log('router', router.query.tab)
+    useEffect(() => {
+        setIsArchivedAssessment(router.query.tab === 'archived' ? true : false)
+    }, [router])
+
     const tabs: TabProps[] = [
         {
             label: 'Sectors',
@@ -26,7 +36,12 @@ export const DetailTabs = ({
         },
         {
             label: 'Assessments',
-            href: { query: { tab: 'assessments', id } },
+            href: {
+                query: {
+                    tab: isArchivedAssessment ? 'archived' : 'assessments',
+                    id,
+                },
+            },
             element: <AssessmentTools rto={rto} />,
         },
         {
