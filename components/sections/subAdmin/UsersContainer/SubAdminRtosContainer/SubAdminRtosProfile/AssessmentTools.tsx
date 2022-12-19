@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
 
 // components
@@ -25,6 +25,11 @@ export const AssessmentTools = ({ id, courses, actions }: any) => {
     const getAssessmentTools = useGetRTOAssessmentToolsQuery(selectedCourseId, {
         skip: !selectedCourseId,
     })
+
+    useEffect(() => {
+        setSelectedCourseId(selectedCourseId || courses[0]?.id)
+    }, [courses])
+
     return courses && courses?.length > 0 ? (
         <div>
             <div className="mb-2">

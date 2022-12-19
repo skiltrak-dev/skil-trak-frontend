@@ -18,7 +18,7 @@ import {
 
 // redux
 import { useGetEmployeeQuery, useAddEmployeeTaskMutation } from '@queries'
-import { disableInputDates } from '@utils'
+import { getDate } from '@utils'
 
 const DaysOptions = [
     { value: 'monday', label: 'Monday' },
@@ -126,7 +126,7 @@ export const AddTaskForm = ({ setIsSchedule, publishTask, DraftTask }: any) => {
                             label={'Dated'}
                             name={'dated'}
                             type={'date'}
-                            min={disableInputDates()}
+                            min={getDate()}
                             placeholder={'Dated...'}
                         />
                         <Select
@@ -145,7 +145,7 @@ export const AddTaskForm = ({ setIsSchedule, publishTask, DraftTask }: any) => {
                             label={'Start Time'}
                             name={'startTime'}
                             type={'date'}
-                            min={disableInputDates()}
+                            min={getDate()}
                             placeholder={'Start Time...'}
                         />
                         <TextInput
@@ -153,7 +153,7 @@ export const AddTaskForm = ({ setIsSchedule, publishTask, DraftTask }: any) => {
                             name={'endTime'}
                             placeholder={'End Time...'}
                             type={'date'}
-                            min={disableInputDates()}
+                            min={getDate()}
                         />
                         <Select
                             label={'Priority'}

@@ -201,7 +201,7 @@ const RtoDetail: NextPageWithLayout = () => {
                         </div>
                     </div>
                     <PinnedNotes id={data?.user?.id} />
-                    <DetailTabs id={router.query.id} subAdmin={data?.user} />
+                    <DetailTabs id={router.query.id} subAdmin={data} />
                 </div>
             ) : (
                 !isError && <EmptyData />

@@ -1,6 +1,7 @@
 import { TabNavigation, TabProps } from '@components'
 import { MailsTab } from './MailsTab'
 import { NotesTab } from './NotesTab'
+import { AllCommunicationTab } from './AllCommunicationTab'
 
 export const DetailTabs = ({
     id,
@@ -13,12 +14,17 @@ export const DetailTabs = ({
         {
             label: 'Notes',
             href: { query: { tab: 'notes', id } },
-            element: <NotesTab subAdmin={subAdmin} />,
+            element: <NotesTab subAdmin={subAdmin?.user} />,
         },
         {
             label: 'Mails',
             href: { query: { tab: 'mails', id } },
-            element: <MailsTab subAdmin={subAdmin} />,
+            element: <MailsTab subAdmin={subAdmin?.user} />,
+        },
+        {
+            label: 'All Communication',
+            href: { query: { tab: 'all-communications', id } },
+            element: <AllCommunicationTab subAdmin={subAdmin} />,
         },
     ]
 

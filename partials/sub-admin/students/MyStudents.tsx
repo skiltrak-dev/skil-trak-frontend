@@ -25,18 +25,18 @@ import { useGetSubAdminMyStudentsQuery } from '@queries'
 import { TechnicalError } from '@components/ActionAnimations/TechnicalError'
 import { UnAssignStudentModal } from './modals'
 import { MdBlock } from 'react-icons/md'
+
 import { getActiveIndustry } from '@partials/student/utils'
 import { IndustryCell } from '@partials/admin/industry/components'
+
 
 export const MyStudents = () => {
     const router = useRouter()
 
     const [modal, setModal] = useState<ReactElement | null>(null)
 
-    const [filterAction, setFilterAction] = useState(null)
     const [itemPerPage, setItemPerPage] = useState(5)
     const [page, setPage] = useState(1)
-    const [filter, setFilter] = useState({})
     const { isLoading, data, isError } = useGetSubAdminMyStudentsQuery({
         skip: itemPerPage * page - itemPerPage,
         limit: itemPerPage,
@@ -81,27 +81,7 @@ export const MyStudents = () => {
                 return <StudentCellInfo student={row.original} />
             },
         },
-        {
-            header: () => 'Phone #',
-            accessorKey: 'phone',
-            cell: ({ row }: any) => {
-                const { phone } = row.original
-                return <p className="text-sm">{phone}</p>
-            },
-        },
 
-        {
-            header: () => 'Address',
-            accessorKey: 'address',
-            cell: ({ row }: any) => {
-                const { state, suburb } = row.original
-                return (
-                    <p className="text-sm">
-                        {suburb}, {state}
-                    </p>
-                )
-            },
-        },
         {
             header: () => 'RTO',
             accessorKey: 'rto',
@@ -131,6 +111,22 @@ export const MyStudents = () => {
                             <div>N/A</div>
                         )}
                     </div>
+                )
+            },
+        },
+        {
+            accessorKey: 'industry',
+            header: () => <span>Industry</span>,
+            cell: (info: any) => {
+                const industry =
+                    info.row.original?.workplace[0]?.industries.find(
+                        (i: any) => i.applied
+                    )?.industry
+
+                return industry ? (
+                    <IndustryCellInfo industry={industry} />
+                ) : (
+                    <Typography center>N/A</Typography>
                 )
             },
         },

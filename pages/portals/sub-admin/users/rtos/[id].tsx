@@ -22,7 +22,7 @@ import {
 import { Notes } from '@components/sections/subAdmin'
 
 import { FigureCard } from '@components/sections/subAdmin'
-import {  SubAdminProfileTabsView } from '@components/sections/subAdmin'
+import { SubAdminProfileTabsView } from '@components/sections/subAdmin'
 import {
     RtoProfileOverview,
     AppointmentProfile,
@@ -36,6 +36,7 @@ import {
 } from '@queries'
 import { AssessmentTools } from '@components/sections/subAdmin/UsersContainer/SubAdminRtosContainer/SubAdminRtosProfile/AssessmentTools'
 import { MailsTab } from '@components/sections/subAdmin/UsersContainer/SubAdminRtosContainer/SubAdminRtosProfile/components/MailsTab'
+import { AllCommunicationTab } from '@partials/sub-admin/students/tabs/detail/AllCommunicationTab'
 
 type Props = {}
 
@@ -81,11 +82,7 @@ const RtoProfile: NextPageWithLayout = (props: Props) => {
                         Archive
                     </Typography>
                 </div>
-                <div
-                    onClick={() => {
-
-                    }}
-                >
+                <div onClick={() => {}}>
                     <FaEdit className="text-[#686DE0] cursor-pointer" />
                 </div>
             </div>
@@ -137,6 +134,14 @@ const RtoProfile: NextPageWithLayout = (props: Props) => {
             href: { pathname: String(id), query: { tab: 'notes' } },
             element: <Notes id={rtoDetail?.data?.user?.id} />,
         },
+        {
+            label: 'All Communications',
+            href: {
+                pathname: String(id),
+                query: { tab: 'all-communications' },
+            },
+            element: <AllCommunicationTab student={rtoDetail?.data} />,
+        },
     ]
 
     return (
@@ -162,7 +167,11 @@ const RtoProfile: NextPageWithLayout = (props: Props) => {
     )
 }
 RtoProfile.getLayout = (page: ReactElement) => {
-    return <SubAdminLayout pageTitle={{title:"RTO Profile"}}>{page}</SubAdminLayout>
+    return (
+        <SubAdminLayout pageTitle={{ title: 'RTO Profile' }}>
+            {page}
+        </SubAdminLayout>
+    )
 }
 
 export default RtoProfile

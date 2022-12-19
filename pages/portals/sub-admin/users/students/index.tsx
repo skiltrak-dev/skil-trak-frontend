@@ -11,6 +11,8 @@ import {
     RtoContextBarData,
     SidebarCalendar,
     StudentFilters,
+    TechnicalError,
+    SubAdminStudentFilters,
     TabNavigation,
     TabProps,
 } from '@components'
@@ -21,7 +23,7 @@ import {
 } from '@partials/sub-admin/students'
 
 // query
-import { AdminApi } from '@queries'
+import { useSubAdminFilteredStudentsQuery } from '@queries'
 
 // hooks
 import { useContextBar } from '@hooks'
@@ -39,7 +41,7 @@ const Students: NextPageWithLayout = (props: Props) => {
     const [page, setPage] = useState(1)
     const [itemPerPage, setItemPerPage] = useState(5)
 
-    const filteredStudents = AdminApi.Students.useListQuery(
+    const filteredStudents = useSubAdminFilteredStudentsQuery(
         {
             search: `status:approved,${JSON.stringify(filter)
                 .replaceAll('{', '')
@@ -86,38 +88,44 @@ const Students: NextPageWithLayout = (props: Props) => {
 
                 <div className="py-4">
                     <Filter
-                        component={StudentFilters}
+                        component={SubAdminStudentFilters}
                         initialValues={{}}
                         setFilterAction={setFilterAction}
                         setFilter={setFilter}
                     />
                 </div>
 
-                {filteredStudents.isLoading ? (
-                    <div className="px-4 mt-4">
-                        <Card>
-                            <LoadingAnimation />
-                        </Card>
-                    </div>
-                ) : Object.keys(filter).length && filteredStudents.isSuccess ? (
-                    <FilteredStudents
-                        setPage={setPage}
-                        itemPerPage={itemPerPage}
-                        student={filteredStudents}
-                        setItemPerPage={setItemPerPage}
-                    />
-                ) : (
-                    <TabNavigation tabs={tabs}>
-                        {({ header, element }: any) => {
-                            return (
-                                <div>
-                                    <div>{header}</div>
-                                    <div className="p-4">{element}</div>
-                                </div>
-                            )
-                        }}
-                    </TabNavigation>
-                )}
+                <div>
+                    {filteredStudents.isError && <TechnicalError />}
+                    {filteredStudents.isLoading ? (
+                        <div className="px-4 mt-4">
+                            <Card>
+                                <LoadingAnimation />
+                            </Card>
+                        </div>
+                    ) : Object.keys(filter).length &&
+                      filteredStudents.isSuccess ? (
+                        <FilteredStudents
+                            setPage={setPage}
+                            itemPerPage={itemPerPage}
+                            student={filteredStudents}
+                            setItemPerPage={setItemPerPage}
+                        />
+                    ) : (
+                        !filteredStudents.isError && (
+                            <TabNavigation tabs={tabs}>
+                                {({ header, element }: any) => {
+                                    return (
+                                        <div>
+                                            <div>{header}</div>
+                                            <div className="p-4">{element}</div>
+                                        </div>
+                                    )
+                                }}
+                            </TabNavigation>
+                        )
+                    )}
+
             </div>
         </>
     )

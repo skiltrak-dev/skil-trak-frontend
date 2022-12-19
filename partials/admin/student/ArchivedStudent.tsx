@@ -39,11 +39,7 @@ export const ArchivedStudent = () => {
     const [filter, setFilter] = useState({})
 
     const { isLoading, data } = AdminApi.Students.useListQuery({
-        search: `status:archived,${JSON.stringify(filter)
-            .replaceAll('{', '')
-            .replaceAll('}', '')
-            .replaceAll('"', '')
-            .trim()}`,
+        search: `status:archived`,
         skip: itemPerPage * page - itemPerPage,
         limit: itemPerPage,
     })

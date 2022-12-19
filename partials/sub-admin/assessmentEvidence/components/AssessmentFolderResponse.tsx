@@ -1,7 +1,8 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
 // components
-import { Typography, NoData, LoadingAnimation, Badge } from '@components'
+import { Typography, NoData, LoadingAnimation, Select, Badge } from '@components'
+
 import { AssessmentFolderFileCard } from '@components/sections/student/AssessmentsContainer'
 import { TextInput } from '@components/inputs'
 import { Button } from '@components/buttons'
@@ -11,6 +12,28 @@ import { useAddCommentOnAssessmentMutation } from '@queries'
 
 export const AssessmentResponse = ({ getAssessmentResponse, folder }: any) => {
     const [comment, setComment] = useState<any | null>(null)
+    const [commentType, setCommentType] = useState<string | null>(null)
+
+    useEffect(() => {
+        if (getAssessmentResponse?.data) {
+            if (commentType === 'approve') {
+                setComment(
+                    getAssessmentResponse?.data?.assessmentFolder
+                        ?.positiveComment
+                )
+            } else {
+                setComment(
+                    getAssessmentResponse?.data?.assessmentFolder
+                        ?.negativeComment
+                )
+            }
+        }
+    }, [getAssessmentResponse, commentType])
+
+    console.log(
+        'getAssessmentResponse',
+        getAssessmentResponse?.data?.assessmentFolder
+    )
 
     // query
     const [addComment, addCommentResult] = useAddCommentOnAssessmentMutation()
@@ -71,18 +94,35 @@ export const AssessmentResponse = ({ getAssessmentResponse, folder }: any) => {
 
             {getAssessmentResponse?.data && (
                 <div className="flex justify-between gap-x-2 mt-3 mx-3">
-                    <TextInput
-                        name="comment"
-                        placeholder={'Write your comment'}
-                        onChange={(e: any) => {
-                            setComment(e.target.value)
-                        }}
-                    />
-                    <div className="flex items-start gap-x-2 mt-0.5">
+                    <div className="grid grid-cols-3 gap-x-2 w-full">
+                        <div className="w-full">
+                            <Select
+                                name={'type'}
+                                options={[
+                                    { label: 'Approve', value: 'approve' },
+                                    { label: 'Reject', value: 'reject' },
+                                ]}
+                                onChange={(e: any) => {
+                                    setCommentType(e?.value)
+                                }}
+                            />
+                        </div>
+                        <div className="col-span-2">
+                            <TextInput
+                                name="comment"
+                                value={comment}
+                                placeholder={'Write your comment'}
+                                onChange={(e: any) => {
+                                    setComment(e.target.value)
+                                }}
+                            />
+                        </div>
+                    </div>
+                    <div>
                         <Button
                             variant={'success'}
                             outline
-                            text={'Approve'}
+                            text={'Submit'}
                             onClick={() => {
                                 addComment({
                                     id: getAssessmentResponse?.data?.id,
@@ -99,28 +139,6 @@ export const AssessmentResponse = ({ getAssessmentResponse, folder }: any) => {
                                 addCommentResult?.isLoading ||
                                 addCommentResult?.originalArgs?.status ===
                                     'approved'
-                            }
-                        />
-                        <Button
-                            variant={'error'}
-                            outline
-                            text={'Reject'}
-                            onClick={() => {
-                                addComment({
-                                    id: getAssessmentResponse?.data?.id,
-                                    comment,
-                                    status: 'rejected',
-                                })
-                            }}
-                            loading={
-                                addCommentResult?.isLoading &&
-                                addCommentResult?.originalArgs?.status ===
-                                    'rejected'
-                            }
-                            disabled={
-                                addCommentResult?.isLoading ||
-                                addCommentResult?.originalArgs?.status ===
-                                    'rejected'
                             }
                         />
                     </div>

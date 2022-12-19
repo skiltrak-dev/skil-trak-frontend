@@ -26,8 +26,6 @@ export const WorkplaceFolders = ({
         )
     }, [folders])
 
-    console.log('isAllDocumentsUploaded', isAllDocumentsUploaded)
-
     return (
         <div className="flex items-center gap-x-5">
             {!workplace?.byExistingAbn &&

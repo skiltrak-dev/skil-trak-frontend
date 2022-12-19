@@ -35,11 +35,7 @@ export const RejectedStudent = () => {
     const [filter, setFilter] = useState({})
 
     const { isLoading, data } = AdminApi.Students.useListQuery({
-        search: `status:rejected,${JSON.stringify(filter)
-            .replaceAll('{', '')
-            .replaceAll('}', '')
-            .replaceAll('"', '')
-            .trim()}`,
+        search: `status:rejected`,
         skip: itemPerPage * page - itemPerPage,
         limit: itemPerPage,
     })

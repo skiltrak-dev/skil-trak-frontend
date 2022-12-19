@@ -14,13 +14,13 @@ import { CommonApi } from '@queries'
 import { Note as NoteType } from '@types'
 import { getCommonDates, getDate } from '@utils'
 
-export const AllCommunicationTab = ({ student }: { student: any }) => {
+export const AllCommunicationTab = ({ rto }: { rto: any }) => {
     const contextBar = useContextBar()
 
     const allCommunications = CommonApi.AllCommunication.useCommunications(
-        student?.user?.id,
+        rto?.user?.id,
         {
-            skip: !student,
+            skip: !rto,
         }
     )
 

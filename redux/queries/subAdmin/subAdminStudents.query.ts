@@ -1,4 +1,5 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
+import { PaginatedResponse } from '@types'
 import { AuthUtils } from '@utils'
 
 export const subAdminStudentsApi = createApi({
@@ -22,6 +23,16 @@ export const subAdminStudentsApi = createApi({
             query: (params) => {
                 return {
                     url: 'students/list-all',
+                    params,
+                }
+            },
+            providesTags: ['SubAdminStudents'],
+        }),
+
+        subAdminFilteredStudents: builder.query<PaginatedResponse<any>, any>({
+            query: (params: any) => {
+                return {
+                    url: `student-list/filter`,
                     params,
                 }
             },
@@ -91,6 +102,7 @@ export const subAdminStudentsApi = createApi({
 
 export const {
     useGetSubAdminStudentsQuery,
+    useSubAdminFilteredStudentsQuery,
     useGetSubAdminMyRtoQuery,
     useGetSubAdminStudentDetailQuery,
     useUpdateSubAdminCourseDurationMutation,

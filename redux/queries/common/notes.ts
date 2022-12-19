@@ -21,7 +21,7 @@ export const notesEndpoints = (
             url: `${PREFIX}/pin/${id}`,
             method: 'PATCH',
         }),
-        invalidatesTags: ['Notes'],
+        invalidatesTags: ['Notes', 'AllCommunications'],
     }),
 
     noteCreate: builder.mutation({
@@ -30,7 +30,7 @@ export const notesEndpoints = (
             method: 'POST',
             body: body,
         }),
-        invalidatesTags: ['Notes'],
+        invalidatesTags: ['Notes', 'AllCommunications'],
     }),
 
     noteUpdate: builder.mutation({

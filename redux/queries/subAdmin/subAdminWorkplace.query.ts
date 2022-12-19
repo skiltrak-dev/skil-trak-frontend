@@ -23,6 +23,13 @@ export const subAdminWorkplaceApi = createApi({
             query: () => 'workplace-request/list',
             providesTags: ['SubAdminWorkplace'],
         }),
+        getSubAdminFilteredWorkplaces: builder.query<any, any>({
+            query: (params) => ({
+                url: 'workplace-request/filter',
+                params,
+            }),
+            providesTags: ['SubAdminWorkplace'],
+        }),
         getAddedByStudentsWorkplaces: builder.query<any, void>({
             query: () => 'workplace-request/list/abn',
             providesTags: ['SubAdminWorkplace'],
@@ -175,6 +182,7 @@ export const {
     useGetMyStudentsWorkplacesQuery,
     useGetSubAdminWorkplacesQuery,
     useGetCancelledWorkplacesQuery,
+    useGetSubAdminFilteredWorkplacesQuery,
     useSendInterviewNotificationMutation,
     useForwardWorkplaceToIndustryMutation,
     useAddWorkplaceNoteMutation,

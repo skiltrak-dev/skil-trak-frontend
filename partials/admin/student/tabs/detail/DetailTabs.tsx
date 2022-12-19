@@ -3,6 +3,7 @@ import { RequiredDocs } from '../../pages'
 import { MailsTab } from './MailsTab'
 import { NotesTab } from './NotesTab'
 import { OverViewTab } from './OverViewTab'
+import { AllCommunicationTab } from './AllCommunicationTab'
 
 export const DetailTabs = ({
     id,
@@ -36,7 +37,7 @@ export const DetailTabs = ({
         {
             label: 'All Communications',
             href: { query: { tab: 'all-communications', id } },
-            element: 'Under Construction',
+            element: <AllCommunicationTab student={student} />,
         },
     ]
 

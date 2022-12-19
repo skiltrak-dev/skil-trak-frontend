@@ -18,6 +18,7 @@ export * from './Appointment'
 export * from './ShowErrorNotifications'
 export * from './AssessmentEvidence'
 export * from './ProgressStep'
+export * from './Timeline'
 
 // export * from './Pagination'
 export * from './PopUp'
