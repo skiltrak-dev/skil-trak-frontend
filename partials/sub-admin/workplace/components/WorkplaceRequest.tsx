@@ -24,11 +24,14 @@ import { WorkplaceFolders } from './WorkplaceFolders'
 import { Industries } from './Industries'
 import { Notes } from './Notes'
 import { SmallDetail } from './smallDetail'
+import { ViewAgreement } from '../contextBar'
 
 export const WorkplaceRequest = ({ workplace }: any) => {
     const [appliedIndustry, setAppliedIndustry] = useState<any | null>(null)
     const [course, setCourse] = useState<any | null>(null)
     const [folders, setFolders] = useState<any | null>(null)
+
+    const { setContent, show } = useContextBar()
 
     // query
     const [cancelWorkplace, cancelWorkplaceResult] =
@@ -69,8 +72,6 @@ export const WorkplaceRequest = ({ workplace }: any) => {
         }
         getFolders()
     }, [workplaceFolders])
-
-    const { setContent, show } = useContextBar()
 
     return (
         <Card>
@@ -126,7 +127,25 @@ export const WorkplaceRequest = ({ workplace }: any) => {
                 </div>
 
                 {/* Request Type Selection */}
-                <RequestType data={appliedIndustry} workplace={workplace} />
+                <div className="flex items-center gap-x-2">
+                    {appliedIndustry?.AgreementSigned && (
+                        <Button
+                            variant={'info'}
+                            text={'View Agreement'}
+                            onClick={() => {
+                                setContent(
+                                    <ViewAgreement
+                                        agreement={
+                                            workplace?.student?.agreement
+                                        }
+                                    />
+                                )
+                                show()
+                            }}
+                        />
+                    )}
+                    <RequestType data={appliedIndustry} workplace={workplace} />
+                </div>
             </div>
 
             {/* Student Small Details */}
@@ -161,6 +180,7 @@ export const WorkplaceRequest = ({ workplace }: any) => {
                         workplace={workplace}
                         courseId={course?.id}
                         folders={folders}
+                        student={workplace?.student}
                     />
                     {!appliedIndustry?.cancelled &&
                         appliedIndustry?.industryResponse !== 'rejected' &&

@@ -6,6 +6,7 @@ type AssessmentFolderCardProps = {
     onClick?: () => void
     selectedFolderId?: string | null
     id?: string
+    response?: any
 }
 import { Badge } from '@components/Badge'
 import { Typography } from '@components/Typography'
@@ -18,6 +19,7 @@ export const AssessmentFolderCard = ({
     onClick,
     selectedFolderId,
     id,
+    response,
 }: AssessmentFolderCardProps) => {
     const statusColor = isActive
         ? 'bg-green-100'
@@ -55,14 +57,26 @@ export const AssessmentFolderCard = ({
                                         : 'text-blue-500'
                                 }
                             >
-                                {isActive ? (
+                                <Badge
+                                    text={
+                                        response?.status === 'approved'
+                                            ? 'Approved'
+                                            : response?.status === 'pending'
+                                            ? 'Pending'
+                                            : response?.status === 'rejected'
+                                            ? 'Rejected'
+                                            : 'Not Approved'
+                                    }
+                                    variant="success"
+                                />
+                                {/* {isActive ? (
                                     <Badge text="Approved" variant="success" />
                                 ) : (
                                     <Badge
                                         text="Not Approved"
                                         variant="error"
                                     />
-                                )}
+                                )} */}
                             </Typography>
                         </div>
                     </div>
@@ -78,7 +92,7 @@ export const AssessmentFolderCard = ({
                                 : 'text-blue-500'
                         }
                     >
-                        {isActive ? positiveComment : negativeComment}
+                        {response?.comment}
                     </Typography>
                 </div>
             </div>

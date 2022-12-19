@@ -68,9 +68,11 @@ export const subAdminWorkplaceApi = createApi({
             invalidatesTags: ['SubAdminWorkplace'],
         }),
         agrementSign: builder.mutation({
-            query: (id) => ({
-                url: `sign-workplace-request-agreement/${id}`,
-                method: 'PATCH',
+            query: ({ studentId, appliedIndustryId, body }) => ({
+                url: `sign/agreement/${appliedIndustryId}`,
+                method: 'POST',
+                params: { std: studentId },
+                body,
             }),
             invalidatesTags: ['SubAdminWorkplace'],
         }),

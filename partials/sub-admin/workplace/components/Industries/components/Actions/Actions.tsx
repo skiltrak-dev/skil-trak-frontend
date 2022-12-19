@@ -16,20 +16,25 @@ import {
 import { Button } from '@components/buttons'
 import { useNotification } from '@hooks'
 import { userStatus } from '@utils'
-import { ForwardModal } from '@partials/sub-admin/workplace/modals'
+import {
+    ForwardModal,
+    PlacementStartedModal,
+} from '@partials/sub-admin/workplace/modals'
+import { SignAgreement } from './components'
 
 export const Actions = ({
     appliedIndustry,
     workplaceId,
     workplace,
     folders,
+    student,
 }: any) => {
     const [actionStatus, setActionStatus] = useState<any | string>('')
     const [modal, setModal] = useState<ReactElement | null>(null)
 
     const [industryResponse, industryResponseResult] =
         useIndustryResponseMutation()
-    const [agrementSign, agrementSignResult] = useAgrementSignMutation()
+
     const [startPlacement, startPlacementResult] = useStartPlacementMutation()
     const [updateStatus, updateStatusResult] =
         useUpdateWorkplaceStatusMutation()
@@ -56,6 +61,17 @@ export const Actions = ({
         setModal(null)
     }
 
+    const onPlacementStartedClicked = (id: number) => {
+        setModal(
+            <PlacementStartedModal
+                id={id}
+                agreementSigned={appliedIndustry?.AgreementSigned}
+                student={student}
+                onCancel={() => onModalCancelClicked()}
+            />
+        )
+    }
+
     const onForwardClicked = (industry: any) => {
         setModal(
             <ForwardModal
@@ -72,7 +88,6 @@ export const Actions = ({
             {modal && modal}
             <ShowErrorNotifications result={updateStatusResult} />
             <ShowErrorNotifications result={startPlacementResult} />
-            <ShowErrorNotifications result={agrementSignResult} />
             <ShowErrorNotifications result={industryResponseResult} />
 
             {appliedIndustry?.industryResponse === 'approved' ? (
@@ -81,14 +96,11 @@ export const Actions = ({
                         <div className="flex justify-between">
                             <div className="flex items-center flex-wrap gap-2">
                                 {!appliedIndustry?.AgreementSigned && (
-                                    <Button
-                                        text={'SIGN AGREEMENT'}
-                                        variant={'dark'}
-                                        onClick={() => {
-                                            agrementSign(appliedIndustry?.id)
-                                        }}
-                                        loading={agrementSignResult.isLoading}
-                                        disabled={agrementSignResult.isLoading}
+                                    <SignAgreement
+                                        studentId={workplace?.student?.id}
+                                        appliedIndustryId={
+                                            appliedIndustry?.industry?.id
+                                        }
                                     />
                                 )}
                                 {!appliedIndustry.placementStarted && (
@@ -96,7 +108,10 @@ export const Actions = ({
                                         text={'START PLACEMENT'}
                                         variant={'primary'}
                                         onClick={() => {
-                                            startPlacement(appliedIndustry?.id)
+                                            onPlacementStartedClicked(
+                                                Number(appliedIndustry?.id)
+                                            )
+                                            // startPlacement(appliedIndustry?.id)
                                         }}
                                         loading={startPlacementResult.isLoading}
                                         disabled={
@@ -140,6 +155,12 @@ export const Actions = ({
                         </Typography>
                     )}
 
+                    {/* {appliedIndustry?.AgreementSigned &&
+                        appliedIndustry?.placementStarted &&
+                        !appliedIndustry?.isCompleted &&
+                        !appliedIndustry?.cancelled &&
+                        !appliedIndustry?.terminated && (
+                            )} */}
                     {appliedIndustry?.AgreementSigned &&
                         appliedIndustry?.placementStarted &&
                         !appliedIndustry?.isCompleted &&

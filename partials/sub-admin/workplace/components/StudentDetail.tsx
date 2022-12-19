@@ -14,7 +14,7 @@ export const StudentDetail = ({ data }: any) => {
                 />
                 <div>
                     <Typography variant={'small'}>
-                        <span className="font-semibold">{data?.phone}</span>
+                        <span className="font-semibold">{data?.id}</span>
                     </Typography>
                     <Typography variant={'label'}>
                         {data?.user?.name}
