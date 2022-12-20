@@ -74,6 +74,14 @@ export const workplaceRequestApi = createApi({
             }),
             invalidatesTags: ['Workplace'],
         }),
+        uploadAgreement: builder.mutation({
+            query: ({ appliedIndustryId, body }) => ({
+                url: `sign/agreement/${appliedIndustryId}`,
+                method: 'POST',
+                body,
+            }),
+            invalidatesTags: ['Workplace'],
+        }),
     }),
 })
 
@@ -83,6 +91,7 @@ export const {
     useGetPlacementProgressQuery,
     useWorkPlaceRequestMutation,
     useUploadDocumentsMutation,
+    useUploadAgreementMutation,
     useCancelWorkplaceRequestMutation,
     useApplyForWorkplaceMutation,
     useApplyWorkplaceWithAbnIndustryMutation,

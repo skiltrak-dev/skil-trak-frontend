@@ -134,11 +134,8 @@ export const Detail = ({ studentId, studentUserId }: any) => {
                                                 selectedFolderId={
                                                     selectedFolder?.id
                                                 }
-                                                negativeComment={
-                                                    assessment.negativeComment
-                                                }
-                                                positiveComment={
-                                                    assessment.positiveComment
+                                                response={
+                                                    assessment?.studentResponse
                                                 }
                                                 onClick={() => {
                                                     setSelectedFolder(

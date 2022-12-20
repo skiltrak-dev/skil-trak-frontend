@@ -1,8 +1,7 @@
 type AssessmentFolderCardProps = {
     name?: string
     isActive?: boolean
-    negativeComment?: string
-    positiveComment?: string
+    response?: any
     onClick?: () => void
     selectedFolderId?: string | null
     id?: string
@@ -13,8 +12,7 @@ import { FaFolder } from 'react-icons/fa'
 export const AssessmentFolderCard = ({
     name,
     isActive,
-    negativeComment,
-    positiveComment,
+    response,
     onClick,
     selectedFolderId,
     id,
@@ -45,11 +43,22 @@ export const AssessmentFolderCard = ({
                     </div>
                     <div>
                         <div className={` px-2 `}>
-                            {isActive ? (
-                                <Badge text="Approved" variant="success" />
+                            <Badge
+                                text={
+                                    response?.status === 'approved'
+                                        ? 'Approved'
+                                        : response?.status === 'pending'
+                                        ? 'Pending'
+                                        : response?.status === 'rejected'
+                                        ? 'Rejected'
+                                        : 'Not Approved'
+                                }
+                                variant="success"
+                            />
+                            {/* {isActive ? (
                             ) : (
                                 <Badge text="Not Approved" variant="error" />
-                            )}
+                            )} */}
                         </div>
                     </div>
                 </div>
@@ -64,7 +73,7 @@ export const AssessmentFolderCard = ({
                                 : 'text-blue-500'
                         }
                     >
-                        {isActive ? positiveComment : negativeComment}
+                        {response?.comment}
                     </Typography>
                 </div>
             </div>

@@ -24,7 +24,7 @@ export const IndustryCell = ({ industry }: { industry: Industry }) => {
                     ) : null}
                 </div>
                 <div>
-                    <p className="font-semibold">{industry?.user?.name}</p>
+                    <p className="font-semibold">{industry?.businessName}</p>
                     <div className="font-medium text-xs text-gray-500">
                         <p className="flex items-center gap-x-1">
                             <span>

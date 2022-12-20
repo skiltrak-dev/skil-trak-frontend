@@ -14,6 +14,7 @@ export const Industries = ({
     workplace,
     courseId,
     folders,
+    student,
 }: any) => {
     // const ii = industries.map((i) => i.industryResponse)
     // const industryResponse = ii.includes('rejected') || ii.includes('noResponse')
@@ -86,6 +87,7 @@ export const Industries = ({
                             workplaceId={workplaceId}
                             workplace={workplace}
                             folders={folders}
+                            student={student}
                         />
                     )}
 

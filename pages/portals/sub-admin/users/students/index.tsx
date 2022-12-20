@@ -79,53 +79,50 @@ const Students: NextPageWithLayout = (props: Props) => {
 
     return (
         <>
+            <div className="flex justify-between items-end">
+                <PageTitle title={'Students'} backTitle={'Users'} />
+
+                <div className="">{filterAction}</div>
+            </div>
+
+            <div className="py-4">
+                <Filter
+                    component={SubAdminStudentFilters}
+                    initialValues={{}}
+                    setFilterAction={setFilterAction}
+                    setFilter={setFilter}
+                />
+            </div>
+
             <div>
-                <div className="flex justify-between items-end">
-                    <PageTitle title={'Students'} backTitle={'Users'} />
-
-                    <div className="">{filterAction}</div>
-                </div>
-
-                <div className="py-4">
-                    <Filter
-                        component={SubAdminStudentFilters}
-                        initialValues={{}}
-                        setFilterAction={setFilterAction}
-                        setFilter={setFilter}
+                {filteredStudents.isError && <TechnicalError />}
+                {filteredStudents.isLoading ? (
+                    <div className="px-4 mt-4">
+                        <Card>
+                            <LoadingAnimation />
+                        </Card>
+                    </div>
+                ) : Object.keys(filter).length && filteredStudents.isSuccess ? (
+                    <FilteredStudents
+                        setPage={setPage}
+                        itemPerPage={itemPerPage}
+                        student={filteredStudents}
+                        setItemPerPage={setItemPerPage}
                     />
-                </div>
-
-                <div>
-                    {filteredStudents.isError && <TechnicalError />}
-                    {filteredStudents.isLoading ? (
-                        <div className="px-4 mt-4">
-                            <Card>
-                                <LoadingAnimation />
-                            </Card>
-                        </div>
-                    ) : Object.keys(filter).length &&
-                      filteredStudents.isSuccess ? (
-                        <FilteredStudents
-                            setPage={setPage}
-                            itemPerPage={itemPerPage}
-                            student={filteredStudents}
-                            setItemPerPage={setItemPerPage}
-                        />
-                    ) : (
-                        !filteredStudents.isError && (
-                            <TabNavigation tabs={tabs}>
-                                {({ header, element }: any) => {
-                                    return (
-                                        <div>
-                                            <div>{header}</div>
-                                            <div className="p-4">{element}</div>
-                                        </div>
-                                    )
-                                }}
-                            </TabNavigation>
-                        )
-                    )}
-
+                ) : (
+                    !filteredStudents.isError && (
+                        <TabNavigation tabs={tabs}>
+                            {({ header, element }: any) => {
+                                return (
+                                    <div>
+                                        <div>{header}</div>
+                                        <div className="p-4">{element}</div>
+                                    </div>
+                                )
+                            }}
+                        </TabNavigation>
+                    )
+                )}
             </div>
         </>
     )

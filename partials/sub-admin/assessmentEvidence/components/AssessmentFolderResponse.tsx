@@ -1,7 +1,13 @@
 import React, { useEffect, useState } from 'react'
 
 // components
-import { Typography, NoData, LoadingAnimation, Select, Badge } from '@components'
+import {
+    Typography,
+    NoData,
+    LoadingAnimation,
+    Select,
+    Badge,
+} from '@components'
 
 import { AssessmentFolderFileCard } from '@components/sections/student/AssessmentsContainer'
 import { TextInput } from '@components/inputs'
@@ -16,12 +22,15 @@ export const AssessmentResponse = ({ getAssessmentResponse, folder }: any) => {
 
     useEffect(() => {
         if (getAssessmentResponse?.data) {
-            if (commentType === 'approve') {
+            if (getAssessmentResponse?.data?.comment) {
+                setComment(getAssessmentResponse?.data?.comment)
+            }
+            if (commentType === 'approved') {
                 setComment(
                     getAssessmentResponse?.data?.assessmentFolder
                         ?.positiveComment
                 )
-            } else {
+            } else if (commentType === 'rejected') {
                 setComment(
                     getAssessmentResponse?.data?.assessmentFolder
                         ?.negativeComment
@@ -29,11 +38,6 @@ export const AssessmentResponse = ({ getAssessmentResponse, folder }: any) => {
             }
         }
     }, [getAssessmentResponse, commentType])
-
-    console.log(
-        'getAssessmentResponse',
-        getAssessmentResponse?.data?.assessmentFolder
-    )
 
     // query
     const [addComment, addCommentResult] = useAddCommentOnAssessmentMutation()
@@ -99,12 +103,13 @@ export const AssessmentResponse = ({ getAssessmentResponse, folder }: any) => {
                             <Select
                                 name={'type'}
                                 options={[
-                                    { label: 'Approve', value: 'approve' },
-                                    { label: 'Reject', value: 'reject' },
+                                    { label: 'Approve', value: 'approved' },
+                                    { label: 'Reject', value: 'rejected' },
                                 ]}
                                 onChange={(e: any) => {
                                     setCommentType(e?.value)
                                 }}
+                                disabled={getAssessmentResponse?.data?.comment}
                             />
                         </div>
                         <div className="col-span-2">
@@ -127,7 +132,7 @@ export const AssessmentResponse = ({ getAssessmentResponse, folder }: any) => {
                                 addComment({
                                     id: getAssessmentResponse?.data?.id,
                                     comment,
-                                    status: 'approved',
+                                    status: commentType,
                                 })
                             }}
                             loading={
@@ -137,8 +142,7 @@ export const AssessmentResponse = ({ getAssessmentResponse, folder }: any) => {
                             }
                             disabled={
                                 addCommentResult?.isLoading ||
-                                addCommentResult?.originalArgs?.status ===
-                                    'approved'
+                                getAssessmentResponse?.data?.comment
                             }
                         />
                     </div>

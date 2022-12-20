@@ -26,6 +26,7 @@ export const AppliedIndustry = ({
     workplaceRequest,
     studentAdded,
 }: Props) => {
+    console.log('appliedIndustry', appliedIndustry)
     const getNextStep = () => {
         switch (status) {
             case 'interview':
@@ -38,7 +39,11 @@ export const AppliedIndustry = ({
                 return <StepAppointmentBooked />
 
             case 'awaitingAgreementSigned':
-                return <StepSignAgreement />
+                return (
+                    <StepSignAgreement
+                        appliedIndustryId={appliedIndustry?.industry?.id}
+                    />
+                )
 
             case 'placementStarted':
                 return <StepPlacementStarted />
