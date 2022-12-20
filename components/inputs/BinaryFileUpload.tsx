@@ -105,7 +105,6 @@ export const BinaryFileUpload = ({
         if (reader) {
             reader.onload = (loadEvent: any) => {
                 if (reader.readyState === 2) {
-
                     onChange &&
                         fileAsObject &&
                         onChange({

@@ -20,7 +20,6 @@ export const SubAdminLayout = ({
         setMounted(true)
     }, [])
 
-    
     return (
         <UserLayout>
             <>

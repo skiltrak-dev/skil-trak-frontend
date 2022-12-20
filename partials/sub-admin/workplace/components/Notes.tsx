@@ -13,13 +13,17 @@ import { useContextBar, useNotification } from '@hooks'
 import { useEffect, useState } from 'react'
 
 import { useAddWorkplaceNoteMutation } from '@queries'
-import { ellipsisText } from '@utils'
+import { ellipsisText, getUserCredentials } from '@utils'
 import { AllNotesCB } from '../contextBar'
 
 export const Notes = ({ workplace }: { workplace: any }) => {
     const { setContent, show } = useContextBar()
     const [note, setNote] = useState<string | null>('')
     const [notes, setNotes] = useState<any | null>(null)
+
+    const userID = getUserCredentials()?.id
+
+    console.log('userID', userID)
 
     // hooks
     const { notification } = useNotification()
@@ -42,7 +46,9 @@ export const Notes = ({ workplace }: { workplace: any }) => {
 
     useEffect(() => {
         if (workplace?.notes) {
-            setNotes(workplace?.notes)
+            setNotes(
+                workplace?.notes?.filter((n: any) => n?.addedBy?.id === userID)
+            )
         }
     }, [workplace])
 

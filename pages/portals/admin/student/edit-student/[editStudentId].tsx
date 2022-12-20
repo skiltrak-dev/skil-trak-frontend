@@ -1,11 +1,11 @@
 import {
-  ActionButton,
-  BackButton,
-  Button,
-  DescriptiveInfo,
-  InitialAvatar,
-  InitialAvatarContainer,
-  Typography,
+    ActionButton,
+    BackButton,
+    Button,
+    DescriptiveInfo,
+    InitialAvatar,
+    InitialAvatarContainer,
+    Typography,
 } from '@components'
 import { useContextBar, useNavbar } from '@hooks'
 import { AdminLayout } from '@layouts'
@@ -13,10 +13,10 @@ import { NextPageWithLayout } from '@types'
 import { useRouter } from 'next/router'
 import { ReactElement, useEffect } from 'react'
 import {
-  AiFillCodeSandboxCircle,
-  AiOutlineBarcode,
-  AiOutlineLogin,
-  AiTwotonePhone,
+    AiFillCodeSandboxCircle,
+    AiOutlineBarcode,
+    AiOutlineLogin,
+    AiTwotonePhone,
 } from 'react-icons/ai'
 import { BsPatchCheckFill } from 'react-icons/bs'
 import { FaArchive, FaBan, FaPhoneAlt } from 'react-icons/fa'
@@ -32,29 +32,31 @@ import { useState } from 'react'
 import { StudentForm } from '@partials/admin/student/form'
 
 const EditStudent: NextPageWithLayout = () => {
-  const [formData, setFormData] = useState<any>('');
+    const [formData, setFormData] = useState<any>('')
 
-  const router = useRouter()
-  const editStudentId = Number(router.query.editStudentId)
-  const navBar = useNavbar()
-  const contextBar = useContextBar()
+    const router = useRouter()
+    const editStudentId = Number(router.query.editStudentId)
+    const navBar = useNavbar()
+    const contextBar = useContextBar()
 
-  const student = AdminApi.Students.useProfile(editStudentId, {
-    skip: !editStudentId,
-  })
+    const student = AdminApi.Students.useProfile(editStudentId, {
+        skip: !editStudentId,
+    })
 
-  useEffect(() => {
-    navBar.setTitle('Edit Student')
-    contextBar.hide()
-  }, [])
+    useEffect(() => {
+        navBar.setTitle('Edit Student')
+        contextBar.hide()
+    }, [])
 
-  return (
-    <div className='flex justify-center m-4'><StudentForm onSubmit={student} /></div>
-  )
+    return (
+        <div className="flex justify-center m-4">
+            <StudentForm onSubmit={student} />
+        </div>
+    )
 }
 
 EditStudent.getLayout = (page: ReactElement) => {
-  return <AdminLayout>{page}</AdminLayout>
+    return <AdminLayout>{page}</AdminLayout>
 }
 
 export default EditStudent

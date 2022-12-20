@@ -9,16 +9,15 @@ import { TabNavigation, TabProps } from '@components/TabNavigation'
 import { MailsTab } from '@components/sections/industry/components'
 
 const EMails: NextPageWithLayout = () => {
- 
-  return (
-    <div>
-      <MailsTab />
-    </div>
-  )
+    return (
+        <div>
+            <MailsTab />
+        </div>
+    )
 }
 
 EMails.getLayout = (page: ReactElement) => {
-  return <IndustryLayout>{page}</IndustryLayout>
+    return <IndustryLayout>{page}</IndustryLayout>
 }
 
 export default EMails

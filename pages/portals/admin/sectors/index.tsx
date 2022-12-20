@@ -7,43 +7,43 @@ import { Courses, Sectors } from '@partials/admin/sector'
 import { NextPageWithLayout } from '@types'
 
 const SectorList: NextPageWithLayout = () => {
-   const navBar = useNavbar()
+    const navBar = useNavbar()
 
-   useEffect(() => {
-      navBar.setTitle('Sectors')
-   }, [])
+    useEffect(() => {
+        navBar.setTitle('Sectors')
+    }, [])
 
-   const tabs: TabProps[] = [
-      {
-         label: 'Sectors',
-         href: { pathname: 'sectors', query: { tab: 'sectors' } },
-         element: <Sectors />,
-      },
-      {
-         label: 'Courses',
-         href: { pathname: 'sectors', query: { tab: 'courses' } },
-         element: <Courses />,
-      },
-   ]
+    const tabs: TabProps[] = [
+        {
+            label: 'Sectors',
+            href: { pathname: 'sectors', query: { tab: 'sectors' } },
+            element: <Sectors />,
+        },
+        {
+            label: 'Courses',
+            href: { pathname: 'sectors', query: { tab: 'courses' } },
+            element: <Courses />,
+        },
+    ]
 
-   return (
-      <div>
-         <TabNavigation tabs={tabs}>
-            {({ header, element }: any) => {
-               return (
-                  <div>
-                     <div>{header}</div>
-                     <div className="p-4">{element}</div>
-                  </div>
-               )
-            }}
-         </TabNavigation>
-      </div>
-   )
+    return (
+        <div>
+            <TabNavigation tabs={tabs}>
+                {({ header, element }: any) => {
+                    return (
+                        <div>
+                            <div>{header}</div>
+                            <div className="p-4">{element}</div>
+                        </div>
+                    )
+                }}
+            </TabNavigation>
+        </div>
+    )
 }
 
 SectorList.getLayout = (page: ReactElement) => {
-   return <AdminLayout>{page}</AdminLayout>
+    return <AdminLayout>{page}</AdminLayout>
 }
 
 export default SectorList

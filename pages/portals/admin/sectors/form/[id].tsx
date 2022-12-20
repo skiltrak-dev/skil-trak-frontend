@@ -1,11 +1,6 @@
 import { ReactElement, useEffect } from 'react'
 
-import {
-   BackButton,
-   Card,
-   LoadingAnimation,
-   Popup
-} from '@components'
+import { BackButton, Card, LoadingAnimation, Popup } from '@components'
 import { PageHeading } from '@components/headings'
 import { useAlert, useNavbar, useNotification } from '@hooks'
 import { AdminLayout } from '@layouts'

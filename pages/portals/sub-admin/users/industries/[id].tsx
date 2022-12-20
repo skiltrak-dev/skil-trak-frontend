@@ -16,7 +16,11 @@ import {
     TechnicalError,
 } from '@components'
 import { IndustryProfile } from '@components/IndustryProfile'
-import { AppointmentProfile, IndustryProfileOverview, MailsTab } from '@components/sections/subAdmin/UsersContainer'
+import {
+    AppointmentProfile,
+    IndustryProfileOverview,
+    MailsTab,
+} from '@components/sections/subAdmin/UsersContainer'
 
 // icons
 // import { FaEdit } from 'react-icons/fa'
@@ -105,7 +109,11 @@ const IndustriesProfile: NextPageWithLayout = (props: Props) => {
     )
 }
 IndustriesProfile.getLayout = (page: ReactElement) => {
-    return <SubAdminLayout pageTitle={{ title: "Industries Profile" }}>{page}</SubAdminLayout>
+    return (
+        <SubAdminLayout pageTitle={{ title: 'Industries Profile' }}>
+            {page}
+        </SubAdminLayout>
+    )
 }
 
 export default IndustriesProfile

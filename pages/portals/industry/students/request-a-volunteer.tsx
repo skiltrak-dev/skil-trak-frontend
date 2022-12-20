@@ -5,18 +5,18 @@ import { useRouter } from 'next/router'
 import { ReactElement } from 'react'
 
 const RequestAVolunteer: NextPageWithLayout = () => {
-  const router = useRouter()
-  const { query } = router
+    const router = useRouter()
+    const { query } = router
 
-  return (
-    <div>
-      <RequestAVolunteerStudent />
-    </div>
-  )
+    return (
+        <div>
+            <RequestAVolunteerStudent />
+        </div>
+    )
 }
 
 RequestAVolunteer.getLayout = (page: ReactElement) => {
-  return <IndustryLayout>{page}</IndustryLayout>
+    return <IndustryLayout>{page}</IndustryLayout>
 }
 
 export default RequestAVolunteer

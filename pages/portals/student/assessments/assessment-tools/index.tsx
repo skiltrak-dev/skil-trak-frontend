@@ -20,10 +20,14 @@ const AssessmentTools: NextPageWithLayout = (props: Props) => {
             </>
         )
     }, [setContent])
-    const actions = (id:any) => {
+    const actions = (id: any) => {
         return (
             <div className="flex gap-x-2 ">
-                <a href={`${process.env.NEXT_PUBLIC_END_POINT}/rtos/course/content/${id}`} target="blank" rel="noreferrer">
+                <a
+                    href={`${process.env.NEXT_PUBLIC_END_POINT}/rtos/course/content/${id}`}
+                    target="blank"
+                    rel="noreferrer"
+                >
                     <Typography variant="tableCell" color="text-blue-600">
                         Download
                     </Typography>

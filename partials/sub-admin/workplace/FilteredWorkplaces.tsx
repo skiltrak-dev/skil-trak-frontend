@@ -7,7 +7,7 @@ import { WorkplaceRequest as StudentProvidedWorkplace } from './studentProvidedC
 export const FilteredWorkplaces = ({ workplace }: { workplace: any }) => {
     console.log('workplace', workplace)
     return (
-        <div className='mt-5'>
+        <div className="mt-5">
             {workplace.data && workplace.data?.data?.length > 0 ? (
                 <div className="flex flex-col gap-y-4">
                     {workplace?.data?.data?.map((workplace: any) => {

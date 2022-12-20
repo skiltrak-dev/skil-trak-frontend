@@ -1,74 +1,74 @@
-import { HelpText, RequiredStar, Tooltip } from "@components";
-import { getMethodsForInput } from "@utils";
-import { useFormContext } from "react-hook-form";
-import { ClipLoader } from "react-spinners";
-import { InputProps } from "./InputPropType";
+import { HelpText, RequiredStar, Tooltip } from '@components'
+import { getMethodsForInput } from '@utils'
+import { useFormContext } from 'react-hook-form'
+import { ClipLoader } from 'react-spinners'
+import { InputProps } from './InputPropType'
 
 export type RadioButtonProps = InputProps & {
-	defaultChecked?: boolean;
-};
+    defaultChecked?: boolean
+}
 
 export const RadioButton = (
-	{
-		id,
-		name,
-		label,
+    {
+        id,
+        name,
+        label,
 
-		defaultChecked,
+        defaultChecked,
 
-		helpText,
-		tooltip,
+        helpText,
+        tooltip,
 
-		value,
-		rules,
-		onChange,
-		onBlur,
+        value,
+        rules,
+        onChange,
+        onBlur,
 
-		loading,
-		required,
-		disabled,
-	}: RadioButtonProps,
-	ref: any
+        loading,
+        required,
+        disabled,
+    }: RadioButtonProps,
+    ref: any
 ) => {
-	const formContext = useFormContext();
+    const formContext = useFormContext()
 
-	return (
-		<>
-			<label
-				htmlFor={`id_${name}`}
-				className="flex items-center gap-x-2.5 text-sm"
-			>
-				{!loading ? (
-					<input
-						{...(id ? { id } : {})}
-						name={name}
-						type={"radio"}
-						disabled={disabled}
-						{...getMethodsForInput(
-							name,
-							formContext,
-							rules,
-							onChange,
-							onBlur
-						)}
-						{...(value ? { value } : {})}
-						defaultChecked={defaultChecked}
-					/>
-				) : (
-					<div className="w-[22px] h-[22px] flex items-center justify-center">
-						<ClipLoader size={16} />
-					</div>
-				)}
+    return (
+        <>
+            <label
+                htmlFor={`id_${name}`}
+                className="flex items-center gap-x-2.5 text-sm"
+            >
+                {!loading ? (
+                    <input
+                        {...(id ? { id } : {})}
+                        name={name}
+                        type={'radio'}
+                        disabled={disabled}
+                        {...getMethodsForInput(
+                            name,
+                            formContext,
+                            rules,
+                            onChange,
+                            onBlur
+                        )}
+                        {...(value ? { value } : {})}
+                        defaultChecked={defaultChecked}
+                    />
+                ) : (
+                    <div className="w-[22px] h-[22px] flex items-center justify-center">
+                        <ClipLoader size={16} />
+                    </div>
+                )}
 
-				<div className="flex">
-					<p className="text-sm">{label}</p>
-					{required && <RequiredStar />}
-				</div>
+                <div className="flex">
+                    <p className="text-sm">{label}</p>
+                    {required && <RequiredStar />}
+                </div>
 
-				<Tooltip text={tooltip} />
-			</label>
+                <Tooltip text={tooltip} />
+            </label>
 
-			<HelpText text={helpText} />
-		</>
-	);
-};
+            <HelpText text={helpText} />
+        </>
+    )
+}

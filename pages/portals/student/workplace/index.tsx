@@ -114,9 +114,7 @@ const StudentWorkplace: NextPageWithLayout = () => {
 
                 {/* Special Cards */}
                 <div className="w-full flex flex-col space-y-2">
-                    <PlacementProgressCard
-                        placementProgress={data}
-                    />
+                    <PlacementProgressCard placementProgress={data} />
                     <RecentAppointmentCard appointment={recentAppointments} />
                 </div>
             </div>

@@ -38,7 +38,7 @@ export const StepReviewInfo = () => {
                 <div className="w-full pb-10 lg:pr-10">
                     <div className="flex gap-x-6">
                         {/* RTO Information */}
-                        <div className='flex-grow'>
+                        <div className="flex-grow">
                             <div className="border-b border-secondary-dark mt-8">
                                 <Typography
                                     variant={'muted'}
@@ -98,7 +98,7 @@ export const StepReviewInfo = () => {
                         </div>
 
                         {/* Profile Information */}
-                        <div className='flex-grow'>
+                        <div className="flex-grow">
                             <div className="border-b border-secondary-dark mt-8">
                                 <Typography
                                     variant={'muted'}
@@ -120,7 +120,6 @@ export const StepReviewInfo = () => {
                                         {formData.email || ''}
                                     </Typography>
                                 </div>
-
                             </div>
                             <div>
                                 <Typography
@@ -172,7 +171,6 @@ export const StepReviewInfo = () => {
                                         Sector(s)
                                     </Typography>
                                 </div>
-
 
                                 {formData.sectors?.map((sector: OptionType) => (
                                     <div

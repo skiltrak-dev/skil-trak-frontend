@@ -183,9 +183,7 @@ const SubAdminDashboard: NextPageWithLayout = () => {
                             run: false,
                         }))
                         router.push('/portals/sub-admin/users')
-                    }
-
-                    else if (action === 'reset' || lifecycle === 'complete') {
+                    } else if (action === 'reset' || lifecycle === 'complete') {
                         joyride.setState({
                             ...joyride.state,
                             run: false,
@@ -244,9 +242,7 @@ const SubAdminDashboard: NextPageWithLayout = () => {
                             run: false,
                         }))
                         router.push('/portals/sub-admin/tasks')
-                    }
-
-                    else if (action === 'reset' || lifecycle === 'complete') {
+                    } else if (action === 'reset' || lifecycle === 'complete') {
                         joyride.setState({
                             ...joyride.state,
                             run: false,
@@ -305,9 +301,7 @@ const SubAdminDashboard: NextPageWithLayout = () => {
                             run: false,
                         }))
                         router.push('/portals/sub-admin/tasks')
-                    }
-
-                    else if (action === 'reset' || lifecycle === 'complete') {
+                    } else if (action === 'reset' || lifecycle === 'complete') {
                         joyride.setState({
                             ...joyride.state,
                             run: false,
@@ -366,9 +360,7 @@ const SubAdminDashboard: NextPageWithLayout = () => {
                             run: false,
                         }))
                         router.push('/portals/sub-admin/tasks')
-                    }
-
-                    else if (action === 'reset' || lifecycle === 'complete') {
+                    } else if (action === 'reset' || lifecycle === 'complete') {
                         joyride.setState({
                             ...joyride.state,
                             run: false,
@@ -424,29 +416,27 @@ const SubAdminDashboard: NextPageWithLayout = () => {
                             run: false,
                         }))
                         router.push('/portals/sub-admin/users')
-                    }
-                    else if(type === 'step:after' && index === 1){
+                    } else if (type === 'step:after' && index === 1) {
                         joyride.setState((prev: any) => ({
                             ...prev,
                             run: false,
                         }))
                         router.push('/portals/sub-admin/users/students?tab=all')
-                    }
-                    else if(type === 'step:after' && index === 2){
+                    } else if (type === 'step:after' && index === 2) {
                         joyride.setState((prev: any) => ({
                             ...prev,
                             run: false,
                         }))
-                        router.push('/portals/sub-admin/users/students/9?tab=notes')
-                    }
-                    else if (action === 'reset' || lifecycle === 'complete') {
+                        router.push(
+                            '/portals/sub-admin/users/students/9?tab=notes'
+                        )
+                    } else if (action === 'reset' || lifecycle === 'complete') {
                         joyride.setState({
                             ...joyride.state,
                             run: false,
                             stepIndex: 0,
                             tourActive: false,
                         })
-                       
                     }
                 }
             },

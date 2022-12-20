@@ -115,7 +115,6 @@ const RtoUsers: NextPageWithLayout = () => {
                         </div>
                     </div>
 
-
                     <QuestionCard>
                         <>
                             <div className="flex flex-col gap-y-2">

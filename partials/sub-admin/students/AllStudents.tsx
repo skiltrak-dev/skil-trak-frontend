@@ -32,7 +32,6 @@ import { IndustryCellInfo } from '../indestries/components'
 import { IndustryCell } from '@partials/admin/industry/components'
 import { getActiveIndustry } from '@partials/student/utils'
 
-
 export const AllStudents = () => {
     const router = useRouter()
 
@@ -54,7 +53,6 @@ export const AllStudents = () => {
             setTimeout(() => {
                 joyride.setState({ ...joyride.state, run: true, stepIndex: 2 })
             }, 1200)
-
         }
     }, [])
     // STUDENT JOY RIDE - END

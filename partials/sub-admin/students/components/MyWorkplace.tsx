@@ -181,7 +181,7 @@ export const MyWorkplace = ({ myWorkplace }: Props) => {
                             height={48}
                             alt={'No Workplace'}
                         />
-                        <div className='text-center my-4'>
+                        <div className="text-center my-4">
                             <p className="font-semibold text-lg text-gray-500">
                                 No Workplace
                             </p>

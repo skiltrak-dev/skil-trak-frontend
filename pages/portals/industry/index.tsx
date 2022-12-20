@@ -8,22 +8,22 @@ import { IndustryDashboardContainer } from '@components/sections/industry/Dashbo
 import { useContextBar } from '@hooks'
 
 const IndustryDashboard: NextPageWithLayout = () => {
-  const contextBar = useContextBar()
-  const router = useRouter()
+    const contextBar = useContextBar()
+    const router = useRouter()
 
-  useEffect(() => {
-    contextBar.show(false)
-  }, [])
+    useEffect(() => {
+        contextBar.show(false)
+    }, [])
 
-  return (
-    <div>
-      <IndustryDashboardContainer />
-    </div>
-  )
+    return (
+        <div>
+            <IndustryDashboardContainer />
+        </div>
+    )
 }
 
 IndustryDashboard.getLayout = (page: ReactElement) => {
-  return <IndustryLayout>{page}</IndustryLayout>
+    return <IndustryLayout>{page}</IndustryLayout>
 }
 
 export default IndustryDashboard

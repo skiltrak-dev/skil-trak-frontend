@@ -1,5 +1,5 @@
 import { Button } from '@components/buttons'
-import { Card } from '@components/cards'
+import { Card } from '@components'
 import { Typography } from '@components/Typography'
 import React, { useEffect, useState } from 'react'
 import { RiBook2Fill } from 'react-icons/ri'
@@ -34,7 +34,7 @@ export const CurrentStudentCard = ({ workplace }: any) => {
                             </span>
                         </Typography>
                     </div>
-                    <RtoDetail rto={workplace?.courses[0]?.rto[0]} />
+                    {/* <RtoDetail rto={workplace?.courses[0]?.rto[0]} /> */}
                 </div>
 
                 {/*  */}

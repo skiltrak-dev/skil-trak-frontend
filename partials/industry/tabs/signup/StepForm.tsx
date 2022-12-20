@@ -31,7 +31,7 @@ export const StepForm = () => {
             label: 'On Boarding',
             visited: false,
             query: 'on-boarding',
-            element: <StepOnBoarding />
+            element: <StepOnBoarding />,
         },
         {
             label: 'Review Info',

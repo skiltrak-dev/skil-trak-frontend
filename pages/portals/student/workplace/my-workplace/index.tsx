@@ -61,7 +61,10 @@ const MyWorkPlaces: NextPageWithLayout = (props: Props) => {
                 </p>
 
                 <div className="flex gap-x-6 mt-4">
-                    <div id='i-have-workplace' className="border rounded-md p-4 flex flex-col items-center">
+                    <div
+                        id="i-have-workplace"
+                        className="border rounded-md p-4 flex flex-col items-center"
+                    >
                         <Image
                             src="/images/icons/working.png"
                             width={120}
@@ -87,7 +90,10 @@ const MyWorkPlaces: NextPageWithLayout = (props: Props) => {
                         </div>
                     </div>
 
-                    <div id='i-dont-have-workplace' className="border rounded-md p-4 flex flex-col items-center">
+                    <div
+                        id="i-dont-have-workplace"
+                        className="border rounded-md p-4 flex flex-col items-center"
+                    >
                         <Image
                             src="/images/icons/bad-work.png"
                             width={120}

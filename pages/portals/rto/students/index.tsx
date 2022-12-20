@@ -4,19 +4,17 @@ import { RtoLayout } from '@layouts'
 import { NextPageWithLayout } from '@types'
 
 //components
-import {
-    Button,
-    PageTitle, TabNavigation, TabProps
-} from '@components'
+import { Button, PageTitle, TabNavigation, TabProps } from '@components'
 import { useContextBar, useJoyRide } from '@hooks'
 import {
-    ApprovedStudent, ArchivedStudent, BlockedStudent, PendingStudent,
-    RejectedStudent
+    ApprovedStudent,
+    ArchivedStudent,
+    BlockedStudent,
+    PendingStudent,
+    RejectedStudent,
 } from '@partials/rto/student'
 import { useRouter } from 'next/router'
-import {
-    FaChevronDown, FaFileImport, FaUserGraduate
-} from 'react-icons/fa'
+import { FaChevronDown, FaFileImport, FaUserGraduate } from 'react-icons/fa'
 
 type Props = {}
 
@@ -81,7 +79,10 @@ const RtoStudents: NextPageWithLayout = (props: Props) => {
                             onMouseLeave={() => setShowDropDown(false)}
                         >
                             <Button>
-                                <div id='add-students' className="flex items-center gap-x-2">
+                                <div
+                                    id="add-students"
+                                    className="flex items-center gap-x-2"
+                                >
                                     <span>Add Students</span>
                                     <FaChevronDown />
                                 </div>

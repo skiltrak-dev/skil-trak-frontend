@@ -37,16 +37,16 @@ const RtoCoordinators: NextPageWithLayout = (props: Props) => {
         limit: itemPerPage,
     })
 
-     // ADD COORDINATOR JOY RIDE - START
-     const joyride = useJoyRide()
-     useEffect(() => {
-         if (joyride.state.tourActive) {
-             setTimeout(() => {
-                 joyride.setState({ ...joyride.state, run: true, stepIndex: 1 })
-             }, 1200)
-         }
-     }, [])
-     // ADD COORDINATOR JOY RIDE - END
+    // ADD COORDINATOR JOY RIDE - START
+    const joyride = useJoyRide()
+    useEffect(() => {
+        if (joyride.state.tourActive) {
+            setTimeout(() => {
+                joyride.setState({ ...joyride.state, run: true, stepIndex: 1 })
+            }, 1200)
+        }
+    }, [])
+    // ADD COORDINATOR JOY RIDE - END
 
     const RelatedQuestions = [
         {
@@ -151,12 +151,15 @@ const RtoCoordinators: NextPageWithLayout = (props: Props) => {
     ]
     return (
         <div>
-            <div className='flex justify-between items-end mb-6'>
+            <div className="flex justify-between items-end mb-6">
                 <PageTitle title="Coordinators" backTitle="Users" />
-                <div id='add-coordinator'>
-                    <Button text="+ Add Coordinator" onClick={()=>{
-                        router.push('coordinators/create')
-                    }}/>
+                <div id="add-coordinator">
+                    <Button
+                        text="+ Add Coordinator"
+                        onClick={() => {
+                            router.push('coordinators/create')
+                        }}
+                    />
                 </div>
             </div>
             <Card noPadding>

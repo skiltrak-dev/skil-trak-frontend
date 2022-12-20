@@ -22,7 +22,7 @@ export const FigureCard = ({
 }: FigureCardProps) => {
     return (
         <Link href={link}>
-            <a className='w-full '>
+            <a className="w-full ">
                 <Card>
                     <div className="flex justify-between">
                         {imageUrl && (

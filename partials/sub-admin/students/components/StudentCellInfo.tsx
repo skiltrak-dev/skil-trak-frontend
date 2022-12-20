@@ -62,9 +62,7 @@ export const StudentCellInfo = ({ student }: { student: Student }) => {
                             <span className="text-gray-400">
                                 <FaPhone />
                             </span>
-                            <p className="text-gray-500">
-                                {student?.phone}
-                            </p>
+                            <p className="text-gray-500">{student?.phone}</p>
                         </div>
                     </a>
                 </Link>

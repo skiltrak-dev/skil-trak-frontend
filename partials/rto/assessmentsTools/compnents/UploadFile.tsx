@@ -19,7 +19,6 @@ export const UploadFile = ({
     handleRemove,
     invalidSelection,
 }: any) => {
-
     return (
         <div>
             <Typography variant={'small'} color={'text-gray-500'}>

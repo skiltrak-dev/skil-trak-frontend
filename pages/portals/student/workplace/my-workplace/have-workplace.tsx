@@ -79,7 +79,6 @@ const HaveWorkplace: NextPageWithLayout = (props: Props) => {
     //         setActive(3)
     //     }
     // }, [workplace.data, workplace.isSuccess])
-    
 
     const workplaceCancelRequest = (simple: boolean = false) => {
         return (

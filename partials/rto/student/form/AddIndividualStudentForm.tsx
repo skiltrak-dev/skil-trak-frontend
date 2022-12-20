@@ -1,4 +1,11 @@
-import { Button, TextArea, TextInput, ActionAlert, ShowErrorNotifications, Select } from '@components'
+import {
+    Button,
+    TextArea,
+    TextInput,
+    ActionAlert,
+    ShowErrorNotifications,
+    Select,
+} from '@components'
 import { useRouter } from 'next/router'
 import { UserRoles } from '@constants'
 import { yupResolver } from '@hookform/resolvers/yup'
@@ -8,8 +15,6 @@ import { FormProvider, useForm } from 'react-hook-form'
 import * as yup from 'yup'
 import { useState, useEffect } from 'react'
 
-
-
 export const AddIndividualStudentForm = () => {
     const router = useRouter()
     const [isSuccess, setIsSuccess] = useState<boolean>(false)
@@ -17,8 +22,7 @@ export const AddIndividualStudentForm = () => {
     const [courseOptions, setCourseOptions] = useState([])
     const [courseLoading, setCourseLoading] = useState(false)
     const [storedData, setStoredData] = useState<any>(null)
-    const [addStudent, addStudentResult] =
-        RtoApi.Students.useAddStudent()
+    const [addStudent, addStudentResult] = RtoApi.Students.useAddStudent()
     // auth api to get sectors
     const sectorResponse = AuthApi.useSectors({})
 
@@ -118,7 +122,9 @@ export const AddIndividualStudentForm = () => {
             {isSuccess && (
                 <ActionAlert
                     title={'Student Added Successfully!'}
-                    description={'You will be redirected to student list in a moment.'}
+                    description={
+                        'You will be redirected to student list in a moment.'
+                    }
                     variant={'primary'}
                     primaryAction={{
                         text: 'Back To List',
@@ -174,8 +180,8 @@ export const AddIndividualStudentForm = () => {
                                 label={'Sector'}
                                 {...(storedData
                                     ? {
-                                        defaultValue: storedData.sectors,
-                                    }
+                                          defaultValue: storedData.sectors,
+                                      }
                                     : {})}
                                 name={'sectors'}
                                 options={sectorOptions}
@@ -242,8 +248,6 @@ export const AddIndividualStudentForm = () => {
                                 placeholder={'State...'}
                                 validationIcons
                             />
-
-
 
                             <TextInput
                                 label={'Zip Code'}

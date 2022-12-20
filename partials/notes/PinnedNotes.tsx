@@ -14,7 +14,6 @@ export const PinnedNotes = ({
         skip: !id,
     })
 
-
     return (
         <SwiperContainer className="mt-4 relative">
             <div className="swiper-container">

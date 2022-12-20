@@ -38,8 +38,12 @@ export const PinnedNotes = ({ id }: any) => {
     ) : notes?.data && notes?.data?.length > 0 ? (
         <>
             <div className="mb-3">
-                <p className='text-xs font-semibold text-gray-500'>
-                    <span className='text-gray-900'>{notes.data && notes.data.length ? notes.data.length : 0}</span>{' '}
+                <p className="text-xs font-semibold text-gray-500">
+                    <span className="text-gray-900">
+                        {notes.data && notes.data.length
+                            ? notes.data.length
+                            : 0}
+                    </span>{' '}
                     Pinned Notes
                 </p>
             </div>

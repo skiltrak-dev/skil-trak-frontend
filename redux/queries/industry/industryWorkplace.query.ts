@@ -1,6 +1,6 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
-import { AuthUtils } from '@utils'
 import { StudentJobsType, StudentJobType } from 'redux/queryTypes'
+import { AuthUtils } from '@utils'
 
 export const industryWorkplaceApi = createApi({
     reducerPath: 'industryWorkplaceApi',
@@ -26,6 +26,19 @@ export const industryWorkplaceApi = createApi({
             }),
             providesTags: ['IndustryWorkplace'],
         }),
+        getIndustryWorkplaceFolders: builder.query<any, any>({
+            query: ({ workplaceId, appliedIndustryId, courseId }) =>
+                `workplace-request/docs/${workplaceId}/${appliedIndustryId}/${courseId}`,
+            providesTags: ['IndustryWorkplace'],
+        }),
+        addNoteByIndustry: builder.mutation({
+            query: (body) => ({
+                url: `workplace-request/note/add`,
+                method: 'POST',
+                body,
+            }),
+            invalidatesTags: ['IndustryWorkplace'],
+        }),
         workplaceActions: builder.mutation({
             query: ({ id, status }) => ({
                 url: `workplace-request/action/${id}`,
@@ -34,9 +47,32 @@ export const industryWorkplaceApi = createApi({
             }),
             invalidatesTags: ['IndustryWorkplace'],
         }),
+        addFeedback: builder.mutation<any,any>({
+            query: (body) => ({
+                url: `workplace-request/feedback/add`,
+                method: 'POST',
+                body,
+            }),
+            invalidatesTags: ['IndustryWorkplace'],
+        }),
+        addReport: builder.mutation<any,any>({
+            query: (body) => ({
+                url: `workplace-request/report/add`,
+                method: 'POST',
+                body,
+            }),
+            invalidatesTags: ['IndustryWorkplace'],
+        }),
         signAgreement: builder.mutation({
             query: (id) => ({
                 url: `workplace-request/sign-agreement/${id}`,
+                method: 'PATCH',
+            }),
+            invalidatesTags: ['IndustryWorkplace'],
+        }),
+        startPlacementByIndustry: builder.mutation({
+            query: (id) => ({
+                url: `workplace-started/${id}`,
                 method: 'PATCH',
             }),
             invalidatesTags: ['IndustryWorkplace'],
@@ -62,62 +98,20 @@ export const industryWorkplaceApi = createApi({
             }),
             invalidatesTags: ['IndustryWorkplace'],
         }),
-        // getStudentPastAppointments: builder.query({
-        //     query: () => 'pastappointments/list',
-        //     providesTags: ['IndustryWorkplace'],
-        // }),
-        // getStudentUpcomingAppointments: builder.query({
-        //     query: () => 'futureappointments/list',
-        //     providesTags: ['StudentAppointments'],
-        // }),
-        // getCoordinatorsForStudent: builder.query({
-        //     query: (params: any) => {
-        //         return {
-        //             url: 'coordinator/list',
-        //             params,
-        //         }
-        //     },
-        //     providesTags: ['StudentAppointments'],
-        // }),
-        // getCoordinatorsAvailability: builder.query({
-        //     query: (params: any) => {
-        //         return {
-        //             url: 'coordinator/availabilities',
-        //             params,
-        //         }
-        //     },
-        //     providesTags: ['StudentAppointments'],
-        // }),
-        // getJobs: builder.query({
-        //     query: (params) => {
-        //         return {
-        //             url: 'industries/job/list',
-        //             params,
-        //         }
-        //     },
-        //     providesTags: ['StudentAppointments'],
-        // }),
-        // createAppointment: builder.mutation({
-        //     query: (body) => ({
-        //         url: `appointment/create`,
-        //         method: 'POST',
-        //         body,
-        //     }),
-        //     invalidatesTags: ['StudentAppointments'],
-        // }),
+        
     }),
 })
 
 export const {
     useSignAgreementMutation,
     useCompleteWorkplaceMutation,
+    useAddNoteByIndustryMutation,
     useTerminateWorkplaceMutation,
+    useAddFeedbackMutation,
+    useAddReportMutation,
     useCancelWorkplaceMutation,
     useGetIndustryWorkplaceQuery,
     useWorkplaceActionsMutation,
-    // useGetCoordinatorsAvailabilityQuery,
-    // useGetAppointmentsTypesQuery,
-    // useGetCoordinatorsForStudentQuery,
-    // useGetStudentPastAppointmentsQuery,
-    // useGetStudentUpcomingAppointmentsQuery,
+    useGetIndustryWorkplaceFoldersQuery,
+    useStartPlacementByIndustryMutation,
 } = industryWorkplaceApi
