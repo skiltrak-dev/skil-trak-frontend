@@ -9,9 +9,7 @@ export const PackageView = ({ pkg }: { pkg: Packages }) => {
                 {pkg?.name}
             </Typography>
             <div className="flex items-center justify-between">
-                <Typography variant={'subtitle'}>
-                    {pkg?.name}
-                </Typography>
+                <Typography variant={'subtitle'}>{pkg?.name}</Typography>
                 <p className="capitalize text-xs font-medium">
                     {pkg?.billingType}
                 </p>

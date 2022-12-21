@@ -52,7 +52,6 @@ export const StepNotificationMethod = () => {
                 router.push({ query: { step: 'review-info' } })
             }
         }
-
     }
 
     const getSelected = (type: string) => {

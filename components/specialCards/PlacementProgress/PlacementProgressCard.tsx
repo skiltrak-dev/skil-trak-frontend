@@ -28,7 +28,6 @@ export const PlacementProgressCard = ({
                             {placementProgress?.description}
                         </p>
                     </div>
-
                 </>
             ) : (
                 <NoData text={'No data found'} />

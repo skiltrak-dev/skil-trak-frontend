@@ -1,64 +1,73 @@
 // Icons
-import { MdCancel } from "react-icons/md";
+import { MdCancel } from 'react-icons/md'
 
 // components
-import { Typography, Button } from "@components";
-import { MouseEventHandler } from "react";
+import { Typography, Button } from '@components'
+import { MouseEventHandler } from 'react'
 
 interface ModalProps {
-	title: string;
-	subtitle: string;
-	children: any;
-	confirmText?: string;
-	onConfirmClick: Function;
-	cancelText?: string;
-	onCancelClick?: Function;
+    title: string
+    subtitle: string
+    children: any
+    confirmText?: string
+    onConfirmClick: Function
+    cancelText?: string
+    onCancelClick?: Function
+    loading?: boolean
 }
 
 export const Modal = ({
-	title,
-	subtitle,
-	children,
-	confirmText,
-	onConfirmClick,
-	cancelText,
-	onCancelClick,
+    title,
+    subtitle,
+    children,
+    confirmText,
+    onConfirmClick,
+    cancelText,
+    onCancelClick,
+    loading,
 }: ModalProps) => {
-	const onConfirmButtonClick = () => {
-		onConfirmClick && onConfirmClick();
-	};
+    const onConfirmButtonClick = () => {
+        onConfirmClick && onConfirmClick()
+    }
 
-	const onCancelButtonClick = () => {
-		onCancelClick && onCancelClick();
-	};
+    const onCancelButtonClick = () => {
+        onCancelClick && onCancelClick()
+    }
 
-	return (
-		<div className="bg-[#00000050] w-full h-screen flex items-center justify-center fixed top-0 left-0 z-50">
-			<div className="bg-white rounded-2xl flex flex-col justify-between shadow-md min-w-[450px]">
-				<div className="px-4 py-2 border-b border-secondary-dark flex justify-between items-center">
-					<div>
-						<Typography variant={"title"}>{title}</Typography>
-						<Typography variant={"subtitle"} color={"text-muted"}>
-							{subtitle}
-						</Typography>
-					</div>
-					<MdCancel className="transition-all duration-300 text-gray-400 hover:text-black text-3xl cursor-pointer" />
-				</div>
+    return (
+        <div className="bg-[#00000050] w-full h-screen flex items-center justify-center fixed top-0 left-0 z-50">
+            <div className="bg-white rounded-2xl flex flex-col justify-between shadow-md min-w-[450px]">
+                <div className="px-4 py-2 border-b border-secondary-dark flex justify-between items-center">
+                    <div>
+                        <Typography variant={'title'}>{title}</Typography>
+                        <Typography variant={'subtitle'} color={'text-muted'}>
+                            {subtitle}
+                        </Typography>
+                    </div>
+                    <MdCancel
+                        onClick={onCancelButtonClick}
+                        className="transition-all duration-300 text-gray-400 hover:text-black text-3xl cursor-pointer"
+                    />
+                </div>
 
-				<div className="p-4">{children}</div>
+                <div className="p-4">{children}</div>
 
-				<div className="flex justify-end items-end gap-x-4 px-4 py-2">
-					<Button variant={"secondary"} onClick={onCancelButtonClick}>
-						{cancelText || "Cancel"}
-					</Button>
-					<Button onClick={onConfirmButtonClick}>
-						{confirmText || "Confirm"}
-					</Button>
-				</div>
-			</div>
-		</div>
-	);
-};
+                <div className="flex justify-end items-end gap-x-4 px-4 py-2">
+                    <Button variant={'secondary'} onClick={onCancelButtonClick}>
+                        {cancelText || 'Cancel'}
+                    </Button>
+                    <Button
+                        onClick={onConfirmButtonClick}
+                        loading={loading}
+                        disabled={loading}
+                    >
+                        {confirmText || 'Confirm'}
+                    </Button>
+                </div>
+            </div>
+        </div>
+    )
+}
 
 // Modal.propTypes = {
 //     color: PropTypes.oneOf(["transparent", "primary", "secondary"]),

@@ -64,6 +64,7 @@ export const TextArea = ({
                     {...(id ? { id } : {})}
                     placeholder={placeholder || ''}
                     disabled={disabled}
+                    name={name}
                     {...getMethodsForInput(
                         name,
                         formContext,

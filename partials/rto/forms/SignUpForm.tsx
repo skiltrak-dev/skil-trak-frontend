@@ -14,408 +14,428 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import { FormProvider, useForm } from 'react-hook-form'
 
 export const RtoSignUpForm = ({ onSubmit }: { onSubmit: any }) => {
-   const router = useRouter()
+    const router = useRouter()
 
-   const { notification } = useNotification()
+    const { notification } = useNotification()
 
-   const sectorResponse = AuthApi.useSectors({})
-   const [checkEmailExists, emailCheckResult] = AuthApi.useEmailCheck()
+    const sectorResponse = AuthApi.useSectors({})
+    const [checkEmailExists, emailCheckResult] = AuthApi.useEmailCheck()
 
-   const [sectorOptions, setSectorOptions] = useState([])
-   const [courseOptions, setCourseOptions] = useState([])
-   const [courseLoading, setCourseLoading] = useState(false)
+    const [sectorOptions, setSectorOptions] = useState([])
+    const [courseOptions, setCourseOptions] = useState([])
+    const [courseLoading, setCourseLoading] = useState(false)
 
-   const [storedData, setStoredData] = useState<any>(null)
+    const [storedData, setStoredData] = useState<any>(null)
 
-   const [lastEnteredEmail, setLastEnteredEmail] = useState('')
+    const [lastEnteredEmail, setLastEnteredEmail] = useState('')
 
-   const onEmailChange = (e: any) => {
-      _debounce(() => {
-         // Regex for email, only valid mail should be sent
-         const email = e.target.value
-         if (isEmailValid(email)) {
-            checkEmailExists({ email })
-            setLastEnteredEmail(email)
-         }
-      }, 300)()
-   }
+    const onEmailChange = (e: any) => {
+        _debounce(() => {
+            // Regex for email, only valid mail should be sent
+            const email = e.target.value
+            if (isEmailValid(email)) {
+                checkEmailExists({ email })
+                setLastEnteredEmail(email)
+            }
+        }, 300)()
+    }
 
-   const onSectorChanged = (sectors: any) => {
-      setCourseLoading(true)
-      const filteredCourses = sectors.map((selectedSector: any) => {
-         const sectorExisting = sectorResponse.data.find(
-            (sector: any) => sector.id === selectedSector.value
-         )
-         if (sectorExisting && sectorExisting?.courses?.length) {
-            return sectorExisting.courses
-         }
-      })
-
-      const newCourseOptions: any = []
-      filteredCourses.map((courseList: any) => {
-         if (courseList && courseList.length) {
-            return courseList.map((course: any) =>
-               newCourseOptions.push({
-                  label: course.title,
-                  value: course.id,
-               })
+    const onSectorChanged = (sectors: any) => {
+        setCourseLoading(true)
+        const filteredCourses = sectors.map((selectedSector: any) => {
+            const sectorExisting = sectorResponse.data.find(
+                (sector: any) => sector.id === selectedSector.value
             )
-         }
-      })
+            if (sectorExisting && sectorExisting?.courses?.length) {
+                return sectorExisting.courses
+            }
+        })
 
-      setCourseOptions(newCourseOptions)
-      setCourseLoading(false)
-   }
+        const newCourseOptions: any = []
+        filteredCourses.map((courseList: any) => {
+            if (courseList && courseList.length) {
+                return courseList.map((course: any) =>
+                    newCourseOptions.push({
+                        label: course.title,
+                        value: course.id,
+                    })
+                )
+            }
+        })
 
-   const initialValues = {
-      // Profile Information
-      name: '',
-      email: '',
-      password: '',
-      confirmPassword: '',
+        setCourseOptions(newCourseOptions)
+        setCourseLoading(false)
+    }
 
-      // Business Information
-      businessName: '',
-      abn: '',
-      phoneNumber: '',
-      // studentCapacity: 0,
+    const initialValues = {
+        // Profile Information
+        name: '',
+        email: '',
+        password: '',
+        confirmPassword: '',
 
-      // Sector Information
-      sectors: [],
-      courses: [],
+        // Business Information
+        businessName: '',
+        abn: '',
+        phoneNumber: '',
+        // studentCapacity: 0,
 
-      // Address Information
-      addressLine1: '',
-      addressLine2: '',
-      state: '',
-      suburb: '',
-      zipCode: '',
+        // Sector Information
+        sectors: [],
+        courses: [],
 
-      // Contact Person
-      contactPersonName: '',
-      contactPersonEmail: '',
-      contactPersonNumber: '',
+        // Address Information
+        addressLine1: '',
+        addressLine2: '',
+        state: '',
+        suburb: '',
+        zipCode: '',
 
-      agreedWithPrivacyPolicy: false,
-   }
+        // Contact Person
+        contactPersonName: '',
+        contactPersonEmail: '',
+        contactPersonNumber: '',
 
-   const validationSchema = yup.object({
-      // Profile Information
-      name: yup
-         .string()
-         .matches(onlyAlphabets(), 'Please enter valid name')
-         .required('Must provide your name'),
+        agreedWithPrivacyPolicy: false,
+    }
 
-      email: yup.string().email('Invalid Email').required('Must provide email'),
-      password: yup
-         .string()
-         // .matches(
-         // 	strongPassword(),
-         // 	"Must Contain 8 Characters, One Uppercase, One Lowercase, One Number and One Special Case Character"
-         // )
-         .required('Must provide password'),
-      confirmPassword: yup
-         .string()
-         .oneOf([yup.ref('password'), null], 'Passwords must match')
-         .required('Must confirm entered password'),
+    const validationSchema = yup.object({
+        // Profile Information
+        name: yup
+            .string()
+            .matches(onlyAlphabets(), 'Please enter valid name')
+            .required('Must provide your name'),
 
-      // Business Information
-      abn: yup.string().required('Must provide ABN'),
-      phone: yup.string().required('Must provide phone number'),
+        email: yup
+            .string()
+            .email('Invalid Email')
+            .required('Must provide email'),
+        password: yup
+            .string()
+            // .matches(
+            // 	strongPassword(),
+            // 	"Must Contain 8 Characters, One Uppercase, One Lowercase, One Number and One Special Case Character"
+            // )
+            .required('Must provide password'),
+        confirmPassword: yup
+            .string()
+            .oneOf([yup.ref('password'), null], 'Passwords must match')
+            .required('Must confirm entered password'),
 
-      // Sector Information
-      sectors: yup.array().min(1, 'Must select at least 1 sector'),
-      courses: yup.array().min(1, 'Must select at least 1 course'),
+        // Business Information
+        abn: yup.string().required('Must provide ABN'),
+        phone: yup.string().required('Must provide phone number'),
 
-      // Contact Person Information
-      contactPersonName: yup
-         .string()
-         .matches(onlyAlphabets(), 'Must be a valid name'),
-      contactPersonEmail: yup.string().email('Must be a valid email'),
-      contactPersonNumber: yup.string(),
+        // Sector Information
+        sectors: yup.array().min(1, 'Must select at least 1 sector'),
+        courses: yup.array().min(1, 'Must select at least 1 course'),
 
-      // Address Information
-      addressLine1: yup.string().required('Must provide address'),
-      state: yup.string().required('Must provide name of state'),
-      suburb: yup.string().required('Must provide suburb name'),
-      zipCode: yup.string().required('Must provide zip code for your state'),
+        // Contact Person Information
+        contactPersonName: yup
+            .string()
+            .matches(onlyAlphabets(), 'Must be a valid name'),
+        contactPersonEmail: yup.string().email('Must be a valid email'),
+        contactPersonNumber: yup.string(),
 
-      agreedWithPrivacyPolicy: yup
-         .boolean()
-         .oneOf([true], 'Please check if you agree with our terms & policies'),
-   })
+        // Address Information
+        addressLine1: yup.string().required('Must provide address'),
+        state: yup.string().required('Must provide name of state'),
+        suburb: yup.string().required('Must provide suburb name'),
+        zipCode: yup.string().required('Must provide zip code for your state'),
 
-   useEffect(() => {
-      if (sectorResponse.data?.length) {
-         const options = sectorResponse.data?.map((sector: any) => ({
-            label: sector.name,
-            value: sector.id,
-         }))
-         setSectorOptions(options)
-      }
-   }, [sectorResponse.data])
+        agreedWithPrivacyPolicy: yup
+            .boolean()
+            .oneOf(
+                [true],
+                'Please check if you agree with our terms & policies'
+            ),
+    })
 
-   useEffect(() => {
-      if (SignUpUtils.getEditingMode()) {
-         const values = SignUpUtils.getValuesFromStorage()
-         setStoredData(values)
-         setCourseOptions(values.courses)
-      }
-   }, [])
+    useEffect(() => {
+        if (sectorResponse.data?.length) {
+            const options = sectorResponse.data?.map((sector: any) => ({
+                label: sector.name,
+                value: sector.id,
+            }))
+            setSectorOptions(options)
+        }
+    }, [sectorResponse.data])
 
-   // useEffect For Email
-   useEffect(() => {
-      if (emailCheckResult.isError) {
-         notification.error({
-            title: 'Email Exist',
-            description: `'${lastEnteredEmail}' is already being used.`,
-         })
-      }
-   }, [emailCheckResult])
+    useEffect(() => {
+        if (SignUpUtils.getEditingMode()) {
+            const values = SignUpUtils.getValuesFromStorage()
+            setStoredData(values)
+            setCourseOptions(values.courses)
+        }
+    }, [])
 
-   const onBackToReview = () => {
-      SignUpUtils.setEditingMode(false)
-      router.push('/auth/signup/review-signup-info')
-   }
+    // useEffect For Email
+    useEffect(() => {
+        if (emailCheckResult.isError) {
+            notification.error({
+                title: 'Email Exist',
+                description: `'${lastEnteredEmail}' is already being used.`,
+            })
+        }
+    }, [emailCheckResult])
 
-   const formMethods = useForm({
-      mode: 'all',
-      resolver: yupResolver(validationSchema),
-   })
+    const onBackToReview = () => {
+        SignUpUtils.setEditingMode(false)
+        router.push('/auth/signup/review-signup-info')
+    }
 
+    const formMethods = useForm({
+        mode: 'all',
+        resolver: yupResolver(validationSchema),
+    })
 
-   return (
-      <FormProvider {...formMethods}>
-         <form
-            className="flex flex-col gap-y-4"
-            onSubmit={formMethods.handleSubmit(onSubmit)}
-         >
-            {/* Personal Information */}
-            <div className="flex gap-x-16 border-t py-4">
-               <div className="w-2/6">
-                  <Typography variant={'subtitle'} color={'text-gray-500'}>
-                     RTO Information
-                  </Typography>
-                  <p className="text-gray-400 text-sm leading-6">
-                     Your information is required to make things clear and
-                     transparent
-                  </p>
-               </div>
+    return (
+        <FormProvider {...formMethods}>
+            <form
+                className="flex flex-col gap-y-4"
+                onSubmit={formMethods.handleSubmit(onSubmit)}
+            >
+                {/* Personal Information */}
+                <div className="flex gap-x-16 border-t py-4">
+                    <div className="w-2/6">
+                        <Typography
+                            variant={'subtitle'}
+                            color={'text-gray-500'}
+                        >
+                            RTO Information
+                        </Typography>
+                        <p className="text-gray-400 text-sm leading-6">
+                            Your information is required to make things clear
+                            and transparent
+                        </p>
+                    </div>
 
-               <div className="w-4/6">
-                  <TextInput
-                     label={'Name'}
-                     name={'name'}
-                     placeholder={'RTO Name...'}
-                     validationIcons
-                     required
-                  />
+                    <div className="w-4/6">
+                        <TextInput
+                            label={'Name'}
+                            name={'name'}
+                            placeholder={'RTO Name...'}
+                            validationIcons
+                            required
+                        />
 
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-8">
-                     <TextInput
-                        label={'ABN'}
-                        name={'abn'}
-                        placeholder={'ABN...'}
-                        validationIcons
-                        required
-                     />
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-8">
+                            <TextInput
+                                label={'ABN'}
+                                name={'abn'}
+                                placeholder={'ABN...'}
+                                validationIcons
+                                required
+                            />
 
-                     <TextInput
-                        label={'Code'}
-                        name={'rtoCode'}
-                        placeholder={'Code...'}
-                        validationIcons
-                        required
-                     />
+                            <TextInput
+                                label={'Code'}
+                                name={'rtoCode'}
+                                placeholder={'Code...'}
+                                validationIcons
+                                required
+                            />
 
-                     <TextInput
-                        label={'Phone Number'}
-                        name={'phone'}
-                        placeholder={'Your phone number...'}
-                        validationIcons
-                        required
-                     />
-                  </div>
-               </div>
-            </div>
+                            <TextInput
+                                label={'Phone Number'}
+                                name={'phone'}
+                                placeholder={'Your phone number...'}
+                                validationIcons
+                                required
+                            />
+                        </div>
+                    </div>
+                </div>
 
-            {/* Sector Information */}
-            <div className="flex gap-x-16 border-t py-4">
-               <div className="w-2/6">
-                  <Typography variant={'subtitle'} color={'text-gray-500'}>
-                     Sector Information
-                  </Typography>
-                  <p className="text-gray-400 text-sm leading-6">
-                     Select your eligible sectors, and related courses.
-                  </p>
-               </div>
+                {/* Sector Information */}
+                <div className="flex gap-x-16 border-t py-4">
+                    <div className="w-2/6">
+                        <Typography
+                            variant={'subtitle'}
+                            color={'text-gray-500'}
+                        >
+                            Sector Information
+                        </Typography>
+                        <p className="text-gray-400 text-sm leading-6">
+                            Select your eligible sectors, and related courses.
+                        </p>
+                    </div>
 
-               <div className="w-4/6 grid grid-cols-1 gap-y-4">
-                  <div>
-                     <Select
-                        label={'Sector'}
-                        {...(storedData
-                           ? {
-                                defaultValue: storedData.sectors,
-                             }
-                           : {})}
-                        name={'sectors'}
-                        options={sectorOptions}
-                        placeholder={'Select Sectors...'}
-                        multi
-                        loading={sectorResponse.isLoading}
-                        onChange={onSectorChanged}
-                        validationIcons
-                     />
-                  </div>
-                  <div>
-                     <Select
-                        label={'Courses'}
-                        name={'courses'}
-                        defaultValue={courseOptions}
-                        options={courseOptions}
-                        multi
-                        loading={courseLoading}
-                        disabled={
-                           storedData
-                              ? storedData?.courses?.length === 0
-                              : courseOptions?.length === 0
-                        }
-                        validationIcons
-                     />
-                  </div>
-               </div>
-            </div>
+                    <div className="w-4/6 grid grid-cols-1 gap-y-4">
+                        <div>
+                            <Select
+                                label={'Sector'}
+                                {...(storedData
+                                    ? {
+                                          defaultValue: storedData.sectors,
+                                      }
+                                    : {})}
+                                name={'sectors'}
+                                options={sectorOptions}
+                                placeholder={'Select Sectors...'}
+                                multi
+                                loading={sectorResponse.isLoading}
+                                onChange={onSectorChanged}
+                                validationIcons
+                            />
+                        </div>
+                        <div>
+                            <Select
+                                label={'Courses'}
+                                name={'courses'}
+                                defaultValue={courseOptions}
+                                options={courseOptions}
+                                multi
+                                loading={courseLoading}
+                                disabled={
+                                    storedData
+                                        ? storedData?.courses?.length === 0
+                                        : courseOptions?.length === 0
+                                }
+                                validationIcons
+                            />
+                        </div>
+                    </div>
+                </div>
 
-            {/* Profile Information */}
-            <div className="flex gap-x-16 border-t py-4">
-               <div className="w-2/6">
-                  <Typography variant={'subtitle'} color={'text-gray-500'}>
-                     Profile Information
-                  </Typography>
-                  <p className="text-gray-400 text-sm leading-6">
-                     This will be your information used as account login.
-                  </p>
-               </div>
+                {/* Profile Information */}
+                <div className="flex gap-x-16 border-t py-4">
+                    <div className="w-2/6">
+                        <Typography
+                            variant={'subtitle'}
+                            color={'text-gray-500'}
+                        >
+                            Profile Information
+                        </Typography>
+                        <p className="text-gray-400 text-sm leading-6">
+                            This will be your information used as account login.
+                        </p>
+                    </div>
 
-               <div className="w-4/6">
-                  <TextInput
-                     label={'Email'}
-                     name={'email'}
-                     type={'email'}
-                     placeholder={'Your Email...'}
-                     validationIcons
-                     required
-                     onBlur={onEmailChange}
-                     loading={emailCheckResult.isLoading}
-                  />
+                    <div className="w-4/6">
+                        <TextInput
+                            label={'Email'}
+                            name={'email'}
+                            type={'email'}
+                            placeholder={'Your Email...'}
+                            validationIcons
+                            required
+                            onBlur={onEmailChange}
+                            loading={emailCheckResult.isLoading}
+                        />
 
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-8">
-                     <TextInput
-                        label={'Password'}
-                        name={'password'}
-                        type={'password'}
-                        placeholder={'Password...'}
-                        validationIcons
-                        required
-                     />
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-8">
+                            <TextInput
+                                label={'Password'}
+                                name={'password'}
+                                type={'password'}
+                                placeholder={'Password...'}
+                                validationIcons
+                                required
+                            />
 
-                     <TextInput
-                        label={'Confirm Password'}
-                        name={'confirmPassword'}
-                        type={'password'}
-                        placeholder={'Confirm Password...'}
-                        validationIcons
-                        required
-                     />
-                  </div>
-               </div>
-            </div>
+                            <TextInput
+                                label={'Confirm Password'}
+                                name={'confirmPassword'}
+                                type={'password'}
+                                placeholder={'Confirm Password...'}
+                                validationIcons
+                                required
+                            />
+                        </div>
+                    </div>
+                </div>
 
-            {/* Address Information */}
-            <div className="flex gap-x-16 border-t py-4">
-               <div className="w-2/6">
-                  <Typography variant={'subtitle'} color={'text-gray-500'}>
-                     Address Information
-                  </Typography>
-                  <p className="text-gray-400 text-sm leading-6">
-                     This will help us to find out about your nearby sites
-                  </p>
-               </div>
+                {/* Address Information */}
+                <div className="flex gap-x-16 border-t py-4">
+                    <div className="w-2/6">
+                        <Typography
+                            variant={'subtitle'}
+                            color={'text-gray-500'}
+                        >
+                            Address Information
+                        </Typography>
+                        <p className="text-gray-400 text-sm leading-6">
+                            This will help us to find out about your nearby
+                            sites
+                        </p>
+                    </div>
 
-               <div className="w-4/6">
-                  <div className="grid grid-cols-1 gap-x-8">
-                     <TextInput
-                        label={'Address Line 1'}
-                        name={'addressLine1'}
-                        placeholder={'Your Address Line 1...'}
-                        validationIcons
-                     />
+                    <div className="w-4/6">
+                        <div className="grid grid-cols-1 gap-x-8">
+                            <TextInput
+                                label={'Address Line 1'}
+                                name={'addressLine1'}
+                                placeholder={'Your Address Line 1...'}
+                                validationIcons
+                            />
 
-                     <TextInput
-                        label={'Address Line 2'}
-                        name={'addressLine2'}
-                        placeholder={'Your Address Line 2...'}
-                        validationIcons
-                     />
-                  </div>
+                            <TextInput
+                                label={'Address Line 2'}
+                                name={'addressLine2'}
+                                placeholder={'Your Address Line 2...'}
+                                validationIcons
+                            />
+                        </div>
 
-                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-x-8">
-                     <TextInput
-                        label={'State'}
-                        name={'state'}
-                        placeholder={'State...'}
-                        validationIcons
-                     />
+                        <div className="grid grid-cols-1 sm:grid-cols-3 gap-x-8">
+                            <TextInput
+                                label={'State'}
+                                name={'state'}
+                                placeholder={'State...'}
+                                validationIcons
+                            />
 
-                     <TextInput
-                        label={'Suburb'}
-                        name={'suburb'}
-                        placeholder={'Suburb...'}
-                        validationIcons
-                     />
+                            <TextInput
+                                label={'Suburb'}
+                                name={'suburb'}
+                                placeholder={'Suburb...'}
+                                validationIcons
+                            />
 
-                     <TextInput
-                        label={'Zip Code'}
-                        name={'zipCode'}
-                        placeholder={'Zip Code...'}
-                        validationIcons
-                     />
-                  </div>
-               </div>
-            </div>
+                            <TextInput
+                                label={'Zip Code'}
+                                name={'zipCode'}
+                                placeholder={'Zip Code...'}
+                                validationIcons
+                            />
+                        </div>
+                    </div>
+                </div>
 
-            <div className="w-4/6 ml-auto pl-12">
-               <div className="mb-6">
-                  <Checkbox
-                     name={'agreedWithPrivacyPolicy'}
-                     label={
-                        <>
-                           I agree with{' '}
-                           <Link href="/terms-and-conditions">
-                              <a className="text-link">Terms</a>
-                           </Link>{' '}
-                           {'&'}{' '}
-                           <Link href="/privacy-policy">
-                              <a className="text-link">Privacy Policy</a>
-                           </Link>
-                        </>
-                     }
-                  />
-               </div>
+                <div className="w-4/6 ml-auto pl-12">
+                    <div className="mb-6">
+                        <Checkbox
+                            name={'agreedWithPrivacyPolicy'}
+                            label={
+                                <>
+                                    I agree with{' '}
+                                    <Link href="/terms-and-conditions">
+                                        <a className="text-link">Terms</a>
+                                    </Link>{' '}
+                                    {'&'}{' '}
+                                    <Link href="/privacy-policy">
+                                        <a className="text-link">
+                                            Privacy Policy
+                                        </a>
+                                    </Link>
+                                </>
+                            }
+                        />
+                    </div>
 
-               <div className="flex gap-x-4">
-                  <Button text={'Continue'} submit />
-                  {SignUpUtils.getEditingMode() && (
-                     <Button
-                        onClick={onBackToReview}
-                        text={'Back To Review'}
-                        variant={'secondary'}
-                     />
-                  )}
-               </div>
-            </div>
-         </form>
-      </FormProvider>
-   )
+                    <div className="flex gap-x-4">
+                        <Button text={'Continue'} submit />
+                        {SignUpUtils.getEditingMode() && (
+                            <Button
+                                onClick={onBackToReview}
+                                text={'Back To Review'}
+                                variant={'secondary'}
+                            />
+                        )}
+                    </div>
+                </div>
+            </form>
+        </FormProvider>
+    )
 }

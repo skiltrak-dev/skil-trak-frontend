@@ -29,8 +29,6 @@ import { FigureCard } from '@components/sections/subAdmin'
 import { CallBackProps } from 'react-joyride'
 import { useRouter } from 'next/router'
 
-
-
 const RTODashboard: NextPageWithLayout = () => {
     const contextBar = useContextBar()
     const [credentials, setCredentials] = useState<any>(null)
@@ -77,10 +75,7 @@ const RTODashboard: NextPageWithLayout = () => {
                             run: false,
                         }))
                         router.push('/portals/rto/students?tab=approved')
-                    }
-
-
-                    else if (action === 'reset' || lifecycle === 'complete') {
+                    } else if (action === 'reset' || lifecycle === 'complete') {
                         joyride.setState({
                             ...joyride.state,
                             run: false,
@@ -110,9 +105,7 @@ const RTODashboard: NextPageWithLayout = () => {
                     content: (
                         <>
                             <div>Click here</div>
-                            <div>
-                                Add students
-                            </div>
+                            <div>Add students</div>
                         </>
                     ),
                 },
@@ -141,10 +134,7 @@ const RTODashboard: NextPageWithLayout = () => {
                             run: false,
                         }))
                         router.push('/portals/rto/students?tab=approved')
-                    }
-
-
-                    else if (action === 'reset' || lifecycle === 'complete') {
+                    } else if (action === 'reset' || lifecycle === 'complete') {
                         joyride.setState({
                             ...joyride.state,
                             run: false,
@@ -174,9 +164,7 @@ const RTODashboard: NextPageWithLayout = () => {
                     content: (
                         <>
                             <div>Click here</div>
-                            <div>
-                                Add Coordinator
-                            </div>
+                            <div>Add Coordinator</div>
                         </>
                     ),
                 },
@@ -205,10 +193,7 @@ const RTODashboard: NextPageWithLayout = () => {
                             run: false,
                         }))
                         router.push('/portals/rto/coordinators')
-                    }
-
-
-                    else if (action === 'reset' || lifecycle === 'complete') {
+                    } else if (action === 'reset' || lifecycle === 'complete') {
                         joyride.setState({
                             ...joyride.state,
                             run: false,
@@ -238,9 +223,7 @@ const RTODashboard: NextPageWithLayout = () => {
                     content: (
                         <>
                             <div>Click here</div>
-                            <div>
-                                Click on contact person tab to add admin
-                            </div>
+                            <div>Click on contact person tab to add admin</div>
                         </>
                     ),
                 },
@@ -249,9 +232,7 @@ const RTODashboard: NextPageWithLayout = () => {
                     content: (
                         <>
                             <div>Click here</div>
-                            <div>
-                                You can add admin here
-                            </div>
+                            <div>You can add admin here</div>
                         </>
                     ),
                 },
@@ -280,8 +261,7 @@ const RTODashboard: NextPageWithLayout = () => {
                             run: false,
                         }))
                         router.push('/portals/rto/admins')
-                    }
-                    else if (
+                    } else if (
                         type === 'step:after' &&
                         index === 1 /* or step.target === '#home' */
                     ) {
@@ -290,9 +270,7 @@ const RTODashboard: NextPageWithLayout = () => {
                             run: false,
                         }))
                         router.push('/portals/rto/admins/contact-person')
-                    }
-
-                    else if (action === 'reset' || lifecycle === 'complete') {
+                    } else if (action === 'reset' || lifecycle === 'complete') {
                         joyride.setState({
                             ...joyride.state,
                             run: false,
@@ -344,9 +322,7 @@ const RTODashboard: NextPageWithLayout = () => {
                     content: (
                         <>
                             <div>Click here</div>
-                            <div>
-                                You can add assessments here
-                            </div>
+                            <div>You can add assessments here</div>
                         </>
                     ),
                 },
@@ -375,8 +351,7 @@ const RTODashboard: NextPageWithLayout = () => {
                             run: false,
                         }))
                         router.push('/portals/rto/tasks')
-                    }
-                    else if (
+                    } else if (
                         type === 'step:after' &&
                         index === 1 /* or step.target === '#home' */
                     ) {
@@ -385,9 +360,7 @@ const RTODashboard: NextPageWithLayout = () => {
                             run: false,
                         }))
                         router.push('/portals/rto/tasks/assessment-tools')
-                    }
-
-                    else if (action === 'reset' || lifecycle === 'complete') {
+                    } else if (action === 'reset' || lifecycle === 'complete') {
                         joyride.setState({
                             ...joyride.state,
                             run: false,

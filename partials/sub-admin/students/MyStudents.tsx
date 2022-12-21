@@ -30,7 +30,6 @@ import { getActiveIndustry } from '@partials/student/utils'
 import { IndustryCell } from '@partials/admin/industry/components'
 import { IndustryCellInfo } from '../indestries/components'
 
-
 export const MyStudents = () => {
     const router = useRouter()
 

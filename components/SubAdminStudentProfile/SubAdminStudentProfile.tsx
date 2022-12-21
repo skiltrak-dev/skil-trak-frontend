@@ -4,10 +4,7 @@ import moment from 'moment'
 // icons
 import { AiFillEdit } from 'react-icons/ai'
 import { BiRename } from 'react-icons/bi'
-import {
-    FaAddressCard,
-    FaBirthdayCake, FaUserCircle
-} from 'react-icons/fa'
+import { FaAddressCard, FaBirthdayCake, FaUserCircle } from 'react-icons/fa'
 import { IoLocation } from 'react-icons/io5'
 import { MdBatchPrediction, MdBlock, MdPhone, MdVerified } from 'react-icons/md'
 // queries

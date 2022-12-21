@@ -43,12 +43,12 @@ export const AdminNavbar = () => {
     // 	setMessagesExpanded(!messagesExpanded);
     // };
 
-	return (
-		<div className="w-full transition-all  z-30 py-4 px-6 pt-6 bg-[#F9FAFB] flex justify-between items-center">
-			<div>
-				<Typography variant={"h4"} capitalize>
-					{navbar.title || "Dashboard"}
-				</Typography>
+    return (
+        <div className="w-full transition-all  z-30 py-4 px-6 pt-6 bg-[#F9FAFB] flex justify-between items-center">
+            <div>
+                <Typography variant={'h4'} capitalize>
+                    {navbar.title || 'Dashboard'}
+                </Typography>
 
                 <NavbarBreadCrumbs links={links} title={title} />
             </div>
@@ -94,7 +94,6 @@ export const AdminNavbar = () => {
                             expanded={notificationsExpanded}
                         />
                     </div>
-                    
                 </OutsideClickHandler>
             </div>
         </div>

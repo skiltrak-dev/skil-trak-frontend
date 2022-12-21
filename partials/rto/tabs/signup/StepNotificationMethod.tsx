@@ -52,7 +52,6 @@ export const StepNotificationMethod = () => {
                 router.push({ query: { step: 'package-selection' } })
             }
         }
-
     }
 
     const getSelected = (type: string) => {

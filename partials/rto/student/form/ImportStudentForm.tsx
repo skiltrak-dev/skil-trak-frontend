@@ -49,7 +49,7 @@ export const ImportStudentForm = ({
         mode: 'all',
     })
 
-    const onFileChange = (e: any, fileData:any) => {
+    const onFileChange = (e: any, fileData: any) => {
         // const wb = readFile(e.target.result)
         const wb = read(e.target.result, { type: 'binary' })
         const sheets = wb.SheetNames

@@ -3,7 +3,13 @@ import React from 'react'
 import { FaPhoneSquareAlt } from 'react-icons/fa'
 import { MdLocationOn } from 'react-icons/md'
 
-export const StudentDetail = ({ student, industry }: any) => {
+export const StudentDetail = ({
+    student,
+    agreementSigned,
+}: {
+    student: any
+    agreementSigned: boolean
+}) => {
     return (
         <div className="flex items-center gap-x-4">
             <div className="flex items-center gap-x-2">
@@ -17,7 +23,7 @@ export const StudentDetail = ({ student, industry }: any) => {
                         <Typography variant={'small'}>
                             <span className="font-semibold">{student?.id}</span>
                         </Typography>
-                        {!industry?.AgreementSigned && (
+                        {!agreementSigned && (
                             <Typography variant={'xs'} color={'text-primary'}>
                                 . Agreement Pending
                             </Typography>

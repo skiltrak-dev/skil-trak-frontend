@@ -5,19 +5,19 @@ import { HiVideoCamera } from 'react-icons/hi'
 import { MdLocationOn } from 'react-icons/md'
 
 type RecentAppointmentProps = {
-  date: string
-  time: string
-  role: string
-  name: string
-  address: string
+    date: string
+    time: string
+    role: string
+    name: string
+    address: string
 }
 
 export const RecentAppointment = ({
-  date,
-  time,
-  role,
-  name,
-  address,
+    date,
+    time,
+    role,
+    name,
+    address,
 }: RecentAppointmentProps) => {
     return (
         <div>

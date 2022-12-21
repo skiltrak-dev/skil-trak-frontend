@@ -295,7 +295,6 @@ export const FileUpload = ({
                         ? { accept: getMimeTypes(acceptTypes) }
                         : {})}
                 />
-                
             </FileDrop>
 
             <HelpText text={helpText} />

@@ -42,7 +42,6 @@ export const CourseDetails = ({ courseId }: any) => {
         }
     }, [data])
 
-    
     return (
         <>
             <Typography>

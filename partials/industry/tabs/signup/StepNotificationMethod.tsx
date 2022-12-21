@@ -52,7 +52,6 @@ export const StepNotificationMethod = () => {
                 router.push({ query: { step: 'on-boarding' } })
             }
         }
-
     }
 
     const getSelected = (type: string) => {

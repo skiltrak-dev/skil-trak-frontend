@@ -39,9 +39,6 @@ import { useGetStudentProfileDetailQuery } from '@queries'
 import { CallBackProps } from 'react-joyride'
 import { useRouter } from 'next/router'
 
-
-
-
 const NotificationQuestions = [
     {
         text: `I have a workplace. What next?`,
@@ -58,10 +55,10 @@ const getSectors = (courses: any) => {
     const sectors = {}
     courses.forEach((c: any) => {
         if ((sectors as any)[c.sector.name]) {
-            ; (sectors as any)[c.sector.name].push(c)
+            ;(sectors as any)[c.sector.name].push(c)
         } else {
-            ; (sectors as any)[c.sector.name] = []
-                ; (sectors as any)[c.sector.name].push(c)
+            ;(sectors as any)[c.sector.name] = []
+            ;(sectors as any)[c.sector.name].push(c)
         }
     })
     return sectors
@@ -86,7 +83,9 @@ const StudentDashboard: NextPageWithLayout = () => {
                     content: (
                         <>
                             <div className="font-semibold">Click here</div>
-                            <div>You can select your workplace option from here</div>
+                            <div>
+                                You can select your workplace option from here
+                            </div>
                         </>
                     ),
                     disableBeacon: true,
@@ -134,8 +133,7 @@ const StudentDashboard: NextPageWithLayout = () => {
                             run: false,
                         }))
                         router.push('/portals/student/workplace')
-                    }
-                    else if (
+                    } else if (
                         type === 'step:after' &&
                         index === 1 /* or step.target === '#home' */
                     ) {
@@ -144,9 +142,7 @@ const StudentDashboard: NextPageWithLayout = () => {
                             run: false,
                         }))
                         router.push('/portals/student/workplace/my-workplace')
-                    }
-
-                    else if (action === 'reset' || lifecycle === 'complete') {
+                    } else if (action === 'reset' || lifecycle === 'complete') {
                         joyride.setState({
                             ...joyride.state,
                             run: false,
@@ -156,7 +152,6 @@ const StudentDashboard: NextPageWithLayout = () => {
                     }
                 }
             },
-
         },
         {
             text: `I don't have a workplace. What should I do?`,
@@ -167,7 +162,9 @@ const StudentDashboard: NextPageWithLayout = () => {
                     content: (
                         <>
                             <div className="font-semibold">Click here</div>
-                            <div>You can select your workplace option from here</div>
+                            <div>
+                                You can select your workplace option from here
+                            </div>
                         </>
                     ),
                     disableBeacon: true,
@@ -215,8 +212,7 @@ const StudentDashboard: NextPageWithLayout = () => {
                             run: false,
                         }))
                         router.push('/portals/student/workplace')
-                    }
-                    else if (
+                    } else if (
                         type === 'step:after' &&
                         index === 1 /* or step.target === '#home' */
                     ) {
@@ -225,9 +221,7 @@ const StudentDashboard: NextPageWithLayout = () => {
                             run: false,
                         }))
                         router.push('/portals/student/workplace/my-workplace')
-                    }
-
-                    else if (action === 'reset' || lifecycle === 'complete') {
+                    } else if (action === 'reset' || lifecycle === 'complete') {
                         joyride.setState({
                             ...joyride.state,
                             run: false,
@@ -294,8 +288,7 @@ const StudentDashboard: NextPageWithLayout = () => {
                             run: false,
                         }))
                         router.push('/portals/student/workplace')
-                    }
-                    else if (
+                    } else if (
                         type === 'step:after' &&
                         index === 1 /* or step.target === '#home' */
                     ) {
@@ -304,9 +297,7 @@ const StudentDashboard: NextPageWithLayout = () => {
                             run: false,
                         }))
                         router.push('/portals/student/workplace/appointments')
-                    }
-
-                    else if (action === 'reset' || lifecycle === 'complete') {
+                    } else if (action === 'reset' || lifecycle === 'complete') {
                         joyride.setState({
                             ...joyride.state,
                             run: false,
@@ -365,8 +356,7 @@ const StudentDashboard: NextPageWithLayout = () => {
                             run: false,
                         }))
                         router.push('/portals/student/workplace')
-                    }
-                    else if (
+                    } else if (
                         type === 'step:after' &&
                         index === 1 /* or step.target === '#home' */
                     ) {
@@ -375,9 +365,7 @@ const StudentDashboard: NextPageWithLayout = () => {
                             run: false,
                         }))
                         router.push('/portals/student/workplace/jobs')
-                    }
-
-                    else if (action === 'reset' || lifecycle === 'complete') {
+                    } else if (action === 'reset' || lifecycle === 'complete') {
                         joyride.setState({
                             ...joyride.state,
                             run: false,
@@ -387,7 +375,6 @@ const StudentDashboard: NextPageWithLayout = () => {
                     }
                 }
             },
-
         },
     ]
     const AssessmentQuestions = [
@@ -400,7 +387,9 @@ const StudentDashboard: NextPageWithLayout = () => {
                     content: (
                         <>
                             <div className="font-semibold">Click here</div>
-                            <div>You can see assessments evidence tab from here</div>
+                            <div>
+                                You can see assessments evidence tab from here
+                            </div>
                         </>
                     ),
                     disableBeacon: true,
@@ -439,10 +428,7 @@ const StudentDashboard: NextPageWithLayout = () => {
                             run: false,
                         }))
                         router.push('/portals/student/assessments')
-                    }
-                  
-
-                    else if (action === 'reset' || lifecycle === 'complete') {
+                    } else if (action === 'reset' || lifecycle === 'complete') {
                         joyride.setState({
                             ...joyride.state,
                             run: false,
@@ -462,7 +448,9 @@ const StudentDashboard: NextPageWithLayout = () => {
                     content: (
                         <>
                             <div className="font-semibold">Click here</div>
-                            <div>You can see assessment tools tab from here</div>
+                            <div>
+                                You can see assessment tools tab from here
+                            </div>
                         </>
                     ),
                     disableBeacon: true,
@@ -501,10 +489,7 @@ const StudentDashboard: NextPageWithLayout = () => {
                             run: false,
                         }))
                         router.push('/portals/student/assessments')
-                    }
-                  
-
-                    else if (action === 'reset' || lifecycle === 'complete') {
+                    } else if (action === 'reset' || lifecycle === 'complete') {
                         joyride.setState({
                             ...joyride.state,
                             run: false,
@@ -563,10 +548,7 @@ const StudentDashboard: NextPageWithLayout = () => {
                             run: false,
                         }))
                         router.push('/portals/student/assessments')
-                    }
-                  
-
-                    else if (action === 'reset' || lifecycle === 'complete') {
+                    } else if (action === 'reset' || lifecycle === 'complete') {
                         joyride.setState({
                             ...joyride.state,
                             run: false,
@@ -592,9 +574,6 @@ const StudentDashboard: NextPageWithLayout = () => {
             }
         }
     }, [])
-
-
-
 
     return (
         <div className="flex flex-col gap-y-6 pb-8">
@@ -806,35 +785,35 @@ const StudentDashboard: NextPageWithLayout = () => {
                                             1,
                                             data?.rto.subadmin.length
                                         ).length > 0 && (
-                                                <InitialAvatarContainer show={2}>
-                                                    {data?.rto.subadmin
-                                                        .slice(
-                                                            1,
-                                                            data?.rto.subadmin
-                                                                .length
+                                            <InitialAvatarContainer show={2}>
+                                                {data?.rto.subadmin
+                                                    .slice(
+                                                        1,
+                                                        data?.rto.subadmin
+                                                            .length
+                                                    )
+                                                    .map(
+                                                        (
+                                                            subAdmin: SubAdmin,
+                                                            idx: number
+                                                        ) => (
+                                                            <InitialAvatar
+                                                                key={
+                                                                    subAdmin.id
+                                                                }
+                                                                name={
+                                                                    subAdmin
+                                                                        .user
+                                                                        .name
+                                                                }
+                                                                first={
+                                                                    idx === 0
+                                                                }
+                                                            />
                                                         )
-                                                        .map(
-                                                            (
-                                                                subAdmin: SubAdmin,
-                                                                idx: number
-                                                            ) => (
-                                                                <InitialAvatar
-                                                                    key={
-                                                                        subAdmin.id
-                                                                    }
-                                                                    name={
-                                                                        subAdmin
-                                                                            .user
-                                                                            .name
-                                                                    }
-                                                                    first={
-                                                                        idx === 0
-                                                                    }
-                                                                />
-                                                            )
-                                                        )}
-                                                </InitialAvatarContainer>
-                                            )}
+                                                    )}
+                                            </InitialAvatarContainer>
+                                        )}
                                     </div>
                                 </div>
                             </div>

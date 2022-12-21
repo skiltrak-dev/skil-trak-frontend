@@ -98,9 +98,7 @@ export const Actions = ({
                                 {!appliedIndustry?.AgreementSigned && (
                                     <SignAgreement
                                         studentId={workplace?.student?.id}
-                                        appliedIndustryId={
-                                            appliedIndustry?.industry?.id
-                                        }
+                                        appliedIndustryId={appliedIndustry?.id}
                                     />
                                 )}
                                 {!appliedIndustry.placementStarted && (
@@ -161,8 +159,7 @@ export const Actions = ({
                         !appliedIndustry?.cancelled &&
                         !appliedIndustry?.terminated && (
                             )} */}
-                    {appliedIndustry?.AgreementSigned &&
-                        appliedIndustry?.placementStarted &&
+                    {appliedIndustry?.placementStarted &&
                         !appliedIndustry?.isCompleted &&
                         !appliedIndustry?.cancelled &&
                         !appliedIndustry?.terminated && (

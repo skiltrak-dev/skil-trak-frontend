@@ -79,6 +79,11 @@ export const subAdminStudentsApi = createApi({
             providesTags: ['SubAdminStudents'],
         }),
 
+        getSubAdminStudentWorkplace: builder.query<any, number>({
+            query: (id) => `student/workplace-request/${id}`,
+            providesTags: ['SubAdminStudents'],
+        }),
+
         assignStudentsToSubAdmin: builder.mutation<any, number>({
             query: (id) => ({
                 url: `student/assign-subadmin/${id}`,
@@ -103,6 +108,7 @@ export const subAdminStudentsApi = createApi({
 export const {
     useGetSubAdminStudentsQuery,
     useSubAdminFilteredStudentsQuery,
+    useGetSubAdminStudentWorkplaceQuery,
     useGetSubAdminMyRtoQuery,
     useGetSubAdminStudentDetailQuery,
     useUpdateSubAdminCourseDurationMutation,

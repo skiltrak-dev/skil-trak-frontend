@@ -1,14 +1,14 @@
 import {
-  ActionButton,
-  Button,
-  Card,
-  EmptyData,
-  Filter,
-  LoadingAnimation,
-  SectorFilters,
-  Table,
-  TableAction,
-  TableActionOption
+    ActionButton,
+    Button,
+    Card,
+    EmptyData,
+    Filter,
+    LoadingAnimation,
+    SectorFilters,
+    Table,
+    TableAction,
+    TableActionOption,
 } from '@components'
 import { PageHeading } from '@components/headings'
 import { ColumnDef } from '@tanstack/react-table'

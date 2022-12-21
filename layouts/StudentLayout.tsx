@@ -51,14 +51,14 @@ export const StudentLayout = ({ title, children }: StudentLayoutProps) => {
                         run={joyride.state.run}
                         stepIndex={joyride.state.stepIndex}
                         steps={joyride.state.steps}
-                    // styles={{
-                    //     options: {
-                    //         arrowColor: theme.black,
-                    //         backgroundColor: theme.black,
-                    //         primaryColor: theme.colors.purple,
-                    //         textColor: theme.white,
-                    //     },
-                    // }}
+                        // styles={{
+                        //     options: {
+                        //         arrowColor: theme.black,
+                        //         backgroundColor: theme.black,
+                        //         primaryColor: theme.colors.purple,
+                        //         textColor: theme.white,
+                        //     },
+                        // }}
                     />
                 )}
             </>

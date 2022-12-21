@@ -171,7 +171,7 @@ const RtoContactPersons: NextPageWithLayout = (props: Props) => {
     return (
         <>
             {modal && modal}
-            <div id='add-admin' className="flex justify-end mb-2">
+            <div id="add-admin" className="flex justify-end mb-2">
                 <Button
                     text={'+ Add Contact Person'}
                     onClick={() => {
