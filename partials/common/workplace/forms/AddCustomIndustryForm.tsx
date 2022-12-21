@@ -20,7 +20,7 @@ import {
 } from '@components'
 import { yupResolver } from '@hookform/resolvers/yup'
 
-export const IndustryForm = ({
+export const AddCustomIndustryForm = ({
     addWorkplace,
     setWorkplaceData,
     result,

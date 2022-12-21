@@ -105,7 +105,7 @@ export const ProgressStep = ({ status }: Props) => {
                                             ? 'border-orange-400'
                                             : 'border-gray-500'
                                     } w-full h-[1px] border border-dashed flex-shrink mt-4`}
-                                ></div>
+                                />
                             )}
                         </React.Fragment>
                     ))}

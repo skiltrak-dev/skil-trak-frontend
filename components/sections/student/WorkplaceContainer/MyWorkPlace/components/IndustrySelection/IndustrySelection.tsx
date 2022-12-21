@@ -23,6 +23,9 @@ export const IndustrySelection = ({
     workplace: any
 }) => {
     const [industries, setIndustries] = useState<any[] | null>([])
+    const [noRespondedIndustries, setNoRespondedIndustries] = useState<
+        any | null
+    >([])
     const [selectedCourses, setSelectedCourses] = useState<any[] | null>(null)
     const [industrySelection, setIndustrySelection] = useState(null)
     const [appliedIndustry, setAppliedIndustry] = useState<any | null>(null)
@@ -35,8 +38,13 @@ export const IndustrySelection = ({
 
     useEffect(() => {
         if (workplace) {
-            const allIndustries = workplace?.data[0]?.industries
-            setWorkplaceIndustries(workplace?.data[0])
+            const allIndustries = workplace?.data?.industries
+            setWorkplaceIndustries(workplace?.data)
+            setNoRespondedIndustries(
+                allIndustries?.filter(
+                    (i: any) => i?.industryResponse === 'noResponse'
+                )
+            )
             setIndustries(
                 allIndustries?.filter(
                     (industry: any) =>
@@ -50,7 +58,7 @@ export const IndustrySelection = ({
             //         ?.find((i: any) => i.industry.id === industrySelection)
             //         ?.industry.courses.map((c: any) => c.id)
             // )
-            setSelectedCourses(workplace?.data[0]?.courses[0]?.id)
+            setSelectedCourses(workplace?.data?.courses[0]?.id)
         }
     }, [
         workplace,
@@ -147,22 +155,9 @@ export const IndustrySelection = ({
                 )
             )}
 
-            {industries?.map(
-                (industry: any, i: number) =>
-                    industry?.industryResponse === 'noResponse' && (
-                        <div key={industry.id}>
-                            <div className="my-2">
-                                <Typography
-                                    variant={'label'}
-                                    color={'text-black'}
-                                >
-                                    You Applied For This Industry
-                                </Typography>
-                            </div>
-                            <IndustryNotResponded />
-                        </div>
-                    )
-            )}
+            {noRespondedIndustries && noRespondedIndustries?.length > 0 ? (
+                <IndustryNotResponded industries={noRespondedIndustries} />
+            ) : null}
         </div>
     ) : (
         <VerifyStudentDocs

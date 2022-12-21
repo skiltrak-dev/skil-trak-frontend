@@ -18,7 +18,6 @@ export const DetailTabs = ({
     const router = useRouter()
     const [isArchivedAssessment, setIsArchivedAssessment] =
         useState<boolean>(false)
-    console.log('router', router.query.tab)
     useEffect(() => {
         setIsArchivedAssessment(router.query.tab === 'archived' ? true : false)
     }, [router])

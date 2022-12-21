@@ -10,27 +10,18 @@ import {
     ShowErrorNotifications,
 } from '@components'
 
-// queries
-import { useWorkPlaceRequestMutation } from '@queries'
-
 type AvailabilityProps = {
     setActive: any
-    personalInfoData: any
+    onSubmit: any
+    result: any
 }
-export const Availability = ({
+
+export const AvailabilityForm = ({
     setActive,
-    personalInfoData,
+    onSubmit,
+    result,
 }: AvailabilityProps) => {
     const [daysAvailability, setDaysAvailability] = useState(Array())
-    // query
-    const [workplaceRequest, workplaceRequestResult] =
-        useWorkPlaceRequestMutation()
-
-    useEffect(() => {
-        if (workplaceRequestResult.isSuccess) {
-            setActive((active: number) => active + 1)
-        }
-    }, [workplaceRequestResult.isSuccess])
 
     const handleChange = (e: any) => {
         const { name, value, checked } = e.target
@@ -86,7 +77,7 @@ export const Availability = ({
     ]
     return (
         <div>
-            <ShowErrorNotifications result={workplaceRequestResult} />
+            <ShowErrorNotifications result={result} />
             <Typography variant={'label'}>Select Your Availability</Typography>
 
             {/*  */}
@@ -148,14 +139,11 @@ export const Availability = ({
                         Previous
                     </Button>
                     <Button
-                        onClick={async () => {
-                            await workplaceRequest({
-                                ...personalInfoData,
-                                generalAvailabilities: daysAvailability,
-                            })
+                        onClick={() => {
+                          onSubmit(daysAvailability)
                         }}
-                        loading={workplaceRequestResult.isLoading}
-                        disabled={workplaceRequestResult.isLoading}
+                        loading={result.isLoading}
+                        disabled={result.isLoading}
                     >
                         Find Industries
                     </Button>
