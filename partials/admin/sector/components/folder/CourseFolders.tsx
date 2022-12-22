@@ -135,6 +135,7 @@ export const CourseFolders = ({
                                 key={f.id}
                                 course={course!!}
                                 category={category}
+                                result={addAssessmentEvidenceResult}
                             />
                         ))
                     ) : (
