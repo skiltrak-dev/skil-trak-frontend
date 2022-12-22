@@ -2,7 +2,7 @@ import React from 'react'
 import { Typography, Button, ActionButton } from '@components'
 
 // query
-import { useApplyForWorkplaceMutation } from '@queries'
+import { useSubAdminRequestIndustryWorkplaceMutation } from '@queries'
 
 const BACKGROUNDS = [
     'bg-[#F7F1E3]',
@@ -10,13 +10,13 @@ const BACKGROUNDS = [
     'bg-[#F7F1E3]/50',
     'bg-[#F7F1E3]/25',
 ]
-export const ApplyForWorkplaceIndustry = ({
+export const ApplyForWorkplace = ({
     industry,
     appliedIndustry,
     index,
 }: any) => {
     const [applyForWorkplace, applyForWorkplaceResult] =
-        useApplyForWorkplaceMutation()
+        useSubAdminRequestIndustryWorkplaceMutation()
 
     return (
         <div

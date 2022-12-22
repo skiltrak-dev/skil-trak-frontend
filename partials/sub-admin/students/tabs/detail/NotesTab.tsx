@@ -9,11 +9,9 @@ export const NotesTab = ({ student }: { student: any }) => {
     const contextBar = useContextBar()
     // const [approvedUser, setApprovedUser] = useState<boolean | null>(null)
     const approvedUser = student?.user.status === 'approved'
-    console.log('::: STUDENT', student)
 
     // useEffect(() => {
     //     if (student) {
-    //         console.log('::: STUDENT', student)
     //         setApprovedUser(student?.status === 'approved')
     //     }
     // }, [student])

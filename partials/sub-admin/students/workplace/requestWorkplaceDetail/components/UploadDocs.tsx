@@ -3,8 +3,8 @@ import React from 'react'
 import { LoadingAnimation, ShowErrorNotifications } from '@components'
 
 // query
-import { useUploadDocumentsMutation } from '@queries'
-import { DocumentCard } from './DocumentCard'
+import { useUploadRequiredDocsMutation } from '@queries'
+import { RequiredDocsCard } from '@partials/common'
 
 const Loading = () => {
     return (
@@ -14,8 +14,8 @@ const Loading = () => {
     )
 }
 
-export const UploadDocs = ({ requiredDoc, workplaceId }: any) => {
-    const [uploadDocs, uploadDocsResult] = useUploadDocumentsMutation()
+export const UploadDocs = ({ requiredDoc, workplaceId, userId }: any) => {
+    const [uploadDocs, uploadDocsResult] = useUploadRequiredDocsMutation()
 
     const onChange = (docs: any) => {
         const formData = new FormData()
@@ -24,6 +24,7 @@ export const UploadDocs = ({ requiredDoc, workplaceId }: any) => {
         })
         uploadDocs({
             workplaceId,
+            user: userId,
             id: requiredDoc.id,
             body: formData,
         })
@@ -38,7 +39,7 @@ export const UploadDocs = ({ requiredDoc, workplaceId }: any) => {
                     <LoadingAnimation size={28} />
                 </div>
             ) : (
-                <DocumentCard
+                <RequiredDocsCard
                     onChange={(e: any) => {
                         onChange(e)
                     }}

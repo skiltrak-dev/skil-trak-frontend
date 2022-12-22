@@ -7,7 +7,7 @@ import { UploadDocs } from './UploadDocs'
 // query
 import { LinearProgress } from '@components/LinearProgress'
 import { LoadingAnimation } from '@components/LoadingAnimation'
-import { useGetCourseDocumentsQuery } from '@queries'
+import { useGetRequiredDocsQuery } from '@queries'
 
 export const VerifyStudentDocs = ({
     id,
@@ -15,19 +15,20 @@ export const VerifyStudentDocs = ({
     setIndustrySelection,
     selectedCourses,
     workplaceId,
+    userId,
 }: {
     id: any
     setActive: Function
     setIndustrySelection: Function
     selectedCourses: number[] | null
     workplaceId: any
+    userId: number
 }) => {
-    const [courseDocuments, setCourseDocuments] = useState<any[] | null>([])
     const [progressPercent, setProgressPercent] = useState<any | null>(null)
     const [folders, setFolders] = useState<any | null>([])
 
-    const requiredDocs = useGetCourseDocumentsQuery(
-        { id, course: selectedCourses },
+    const requiredDocs = useGetRequiredDocsQuery(
+        { id, course: selectedCourses, user: userId },
         { skip: !id || !selectedCourses }
     )
 
@@ -110,6 +111,7 @@ export const VerifyStudentDocs = ({
                                 key={folder.id}
                                 requiredDoc={folder}
                                 workplaceId={workplaceId}
+                                userId={userId}
                             />
                         ))
                     ) : (

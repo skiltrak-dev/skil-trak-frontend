@@ -15,7 +15,7 @@ export const StudentLayout = ({ title, children }: StudentLayoutProps) => {
     const { alert } = useAlert()
     const userData = getUserCredentials()
     useEffect(() => {
-        if (userData.status === 'pending') {
+        if (userData?.status === 'pending') {
             alert.warning({
                 title: `${userData?.name} is Pending`,
                 description: 'Please wait for admin approval',

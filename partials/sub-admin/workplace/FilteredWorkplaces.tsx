@@ -5,7 +5,6 @@ import { WorkplaceRequest } from './components'
 import { WorkplaceRequest as StudentProvidedWorkplace } from './studentProvidedComponents'
 
 export const FilteredWorkplaces = ({ workplace }: { workplace: any }) => {
-    console.log('workplace', workplace)
     return (
         <div className="mt-5">
             {workplace.data && workplace.data?.data?.length > 0 ? (

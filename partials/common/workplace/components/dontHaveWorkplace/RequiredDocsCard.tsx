@@ -11,7 +11,7 @@ import { Typography } from 'components'
 import { useNotification } from '@hooks'
 import { ellipsisText } from '@utils'
 
-export const DocumentCard = ({
+export const RequiredDocsCard = ({
     name,
     capacity,
     onChange,

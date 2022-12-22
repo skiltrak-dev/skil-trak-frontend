@@ -13,16 +13,10 @@ import { Card, Typography } from 'components'
 import { useGetStudentCoursesQuery, useGetCourseDocumentsQuery } from '@queries'
 import { SignUpUtils } from '@utils'
 type PersonalInfoProps = {
-    setActive: any
-    setPersonalInfoData: any
+    onSubmit: any
+    courses: any
 }
-export const PersonalInfo = ({
-    setActive,
-    setPersonalInfoData,
-}: PersonalInfoProps) => {
-    const { data, isSuccess, isLoading } = useGetStudentCoursesQuery()
-    const [courses, setCourses] = useState<any[]>([])
-
+export const PersonalInfoForm = ({ onSubmit, courses }: PersonalInfoProps) => {
     // function getCurrentWeek() {
     //     var currentDate = moment()
 
@@ -41,17 +35,6 @@ export const PersonalInfo = ({
     //     date: getCurrentWeek()[i],
     //     day: moment.weekdaysShort()[i],
     // }))
-
-    useEffect(() => {
-        if (isSuccess) {
-            const options = data?.map((course: any) => ({
-                label: course.title,
-                value: course.id,
-            }))
-            setCourses(options)
-        }
-    }, [data, isSuccess])
-
 
     const validationSchema = yup.object({
         // course: yup.string().required('Must provide course'),
@@ -73,16 +56,6 @@ export const PersonalInfo = ({
         resolver: yupResolver(validationSchema),
     })
 
-    const onSubmit = (values: any) => {
-        setPersonalInfoData({
-            ...values,
-            haveTransport: values.haveTransport === 'yes' ? true : false,
-            haveDrivingLicense:
-                values.haveDrivingLicense === 'yes' ? true : false,
-        })
-        setActive((active: number) => active + 1)
-    }
-
     return (
         <div>
             <Typography variant={'label'} capitalize>
@@ -98,8 +71,8 @@ export const PersonalInfo = ({
                                 name="courses"
                                 label="Course"
                                 options={courses}
-                                loading={isLoading}
-                                disabled={isLoading}
+                                // loading={isLoading}
+                                // disabled={isLoading}
                                 onlyValue
                             />
                         </div>

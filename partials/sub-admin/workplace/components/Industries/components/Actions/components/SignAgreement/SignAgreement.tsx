@@ -44,7 +44,6 @@ export const SignAgreement = ({
             <ShowErrorNotifications result={agrementSignResult} />
             <FileUpload
                 onChange={(doc: any) => {
-                    console.log('ddddd', doc.type)
                     const formData = new FormData()
                     formData.append(`file`, doc)
                     if (doc.type === 'application/pdf') {

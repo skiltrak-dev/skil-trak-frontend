@@ -22,8 +22,8 @@ const DontHaveWorkplace: NextPageWithLayout = (props: Props) => {
     const workplace = useGetWorkplaceIndustriesQuery()
 
     useEffect(() => {
-        if (workplace.isSuccess && workplace.data.length > 0) {
-            if (workplace.data[0].currentStatus === 'placementStarted')
+        if (workplace.isSuccess && workplace.data) {
+            if (workplace.data?.currentStatus === 'placementStarted')
                 setActive(4)
             else setActive(3)
         }
