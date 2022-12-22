@@ -17,19 +17,26 @@ import {
 // query
 import { useGetRTOAssessmentToolsQuery } from '@queries'
 import Link from 'next/link'
-
-export const AssessmentTools = ({ id, courses, actions }: any) => {
-    const router = useRouter()
-
+import { useContextBar } from '@hooks'
+import { AddAssessmentToolCB } from './contextBar'
+import { UserStatus } from '@types'
+export const AssessmentTools = ({ id, courses, actions, setAssessmentView }: any) => {
+    const contextBar = useContextBar()
     const [selectedCourseId, setSelectedCourseId] = useState<any | null>(null)
-    const getAssessmentTools = useGetRTOAssessmentToolsQuery(selectedCourseId, {
-        skip: !selectedCourseId,
-    })
+    const getAssessmentTools = useGetRTOAssessmentToolsQuery({
+        id: Number(selectedCourseId),
+        status: UserStatus.Approved,
+    },
+        { skip: !selectedCourseId })
 
     useEffect(() => {
         setSelectedCourseId(selectedCourseId || courses[0]?.id)
     }, [courses])
-
+    const onAddAssessment = () => {
+        contextBar.setTitle('Add Assessment')
+        contextBar.setContent(<AddAssessmentToolCB edit={false} />)
+        contextBar.show()
+    }
     return courses && courses?.length > 0 ? (
         <div>
             <div className="mb-2">
@@ -63,14 +70,14 @@ export const AssessmentTools = ({ id, courses, actions }: any) => {
                     </div>
                     <div className="w-[75%]">
                         <div className="flex justify-end gap-x-2.5 p-4">
-                            <Button variant="primary" text="ADD ASSESSMENT" />
+                            <Button variant="primary" text="ADD ASSESSMENT" onClick={() => {
+                                onAddAssessment()
+                            }} />
                             <Button
                                 variant="dark"
                                 text="VIEW ARCHIVED"
                                 onClick={() => {
-                                    router.push(
-                                        `/portals/sub-admin/users/rtos/profile/7?tab=archived-assessments`
-                                    )
+                                    setAssessmentView('archived')
                                 }}
                             />
                         </div>
@@ -97,11 +104,11 @@ export const AssessmentTools = ({ id, courses, actions }: any) => {
                             {getAssessmentTools?.isLoading ? (
                                 <LoadingAnimation />
                             ) : getAssessmentTools?.data &&
-                              getAssessmentTools?.data?.length > 0 ? (
+                                getAssessmentTools?.data?.length > 0 ? (
                                 getAssessmentTools?.data?.map((tools: any) => (
                                     <DownloadableFile
                                         key={tools.id}
-                                        actions={() => actions(tools?.id)}
+                                        actions={() => actions(tools)}
                                         name={tools?.title}
                                         archivedView={false}
                                     />

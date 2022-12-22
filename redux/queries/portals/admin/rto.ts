@@ -69,6 +69,44 @@ export const rtoEndpoints = (
         },
         invalidatesTags: ['RTOS'],
     }),
+    rtoCreateAssessmentTools: builder.mutation<any, any | null>({
+        query: ({ body, id }: any) => {
+            return {
+                url: `${PREFIX}/rto/assessment-tool/create/${id}`,
+                method: 'POST',
+                body,
+            }
+        },
+        invalidatesTags: ['RTOS'],
+    }),
+    rtoUpdateAssessmentTools: builder.mutation<any, any | null>({
+        query: ({ body, assessment }) => {
+            return {
+                url: `${PREFIX}/rto/assessment-tool/update/${assessment}`,
+                method: 'PATCH',
+                body: { title: body },
+            }
+        },
+        invalidatesTags: ['RTOS'],
+    }),
+    rtoRemoveAssessmentTools: builder.mutation<any, any | null>({
+        query: (id: any) => {
+            return {
+                url: `${PREFIX}/rto/assessment-tool/remove/${id}`,
+                method: 'DELETE',
+            }
+        },
+        invalidatesTags: ['RTOS'],
+    }),
+    rtoAssessmentToolArchive: builder.mutation<any, any | null>({
+        query: (id: any) => {
+            return {
+                url: `${PREFIX}/rto/assessment-tool/archived/${id}`,
+                method: 'PATCH',
+            }
+        },
+        invalidatesTags: ['RTOS'],
+    }),
 
     rtoSectors: builder.query<Course[], number>({
         query: (id) => `${PREFIX}/rtos/course/${id}`,

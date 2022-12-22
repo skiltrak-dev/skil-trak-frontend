@@ -14,8 +14,9 @@ import {
 
 import { UserStatus } from '@types'
 
-import { AdminApi } from '@queries'
+import { AdminApi, useRemoveSubAdminRTOAssessmentToolsMutation, useUpdateSubAdminAssessmentToolArchiveMutation } from '@queries'
 import { useRouter } from 'next/router'
+import { MdDelete } from 'react-icons/md'
 
 export const ArchivedAssessmentTool = ({ rto, setAssessmentView }: any) => {
     const router = useRouter()
@@ -24,11 +25,13 @@ export const ArchivedAssessmentTool = ({ rto, setAssessmentView }: any) => {
     const [selectedCourseId, setSelectedCourseId] = useState<number | null>(
         null
     )
+    const [remove, removeResult] = AdminApi.Rtos.useRemoveAssessmentTools()
 
     useEffect(() => {
         setCourses(rto?.data?.courses)
     }, [rto])
-
+    const [archiveAssessmentTool, archiveAssessmentToolResult] =
+        AdminApi.Rtos.useArchiveAssessmentTools()
     const getAssessmentTools = AdminApi.Rtos.useRtoAssessmentTools(
         {
             rto: Number(rto?.data?.id),
@@ -50,7 +53,7 @@ export const ArchivedAssessmentTool = ({ rto, setAssessmentView }: any) => {
                     </Typography>
                 </a>
 
-                {/* <div
+                <div
                     className="cursor-pointer"
                     onClick={() => {
                         archiveAssessmentTool(assessment?.id)
@@ -59,13 +62,14 @@ export const ArchivedAssessmentTool = ({ rto, setAssessmentView }: any) => {
                     <Typography variant="tableCell" color="text-[#7081A0]">
                         Archive
                     </Typography>
-                </div> */}
-                {/* <div
-                  onClick={() => {
-                  }}
-              >
-                  <FaEdit className="text-[#686DE0] cursor-pointer" />
-              </div> */}
+                </div>
+                <div
+                    onClick={() => {
+                        remove(assessment?.id)
+                    }}
+                >
+                    <MdDelete className="text-red-400 cursor-pointer" />
+                </div>
             </div>
         )
     }
@@ -100,7 +104,7 @@ export const ArchivedAssessmentTool = ({ rto, setAssessmentView }: any) => {
                         <ActionButton
                             variant={'success'}
                             rounded
-                            onClick={() => {}}
+                            onClick={() => { }}
                             simple
                         >
                             Add Assessment
@@ -128,7 +132,7 @@ export const ArchivedAssessmentTool = ({ rto, setAssessmentView }: any) => {
                         {getAssessmentTools?.isLoading ? (
                             <LoadingAnimation size={80} />
                         ) : getAssessmentTools?.data &&
-                          getAssessmentTools?.data?.length > 0 ? (
+                            getAssessmentTools?.data?.length > 0 ? (
                             getAssessmentTools?.data?.map((assessment: any) => (
                                 <DownloadableFile
                                     actions={() => actions(assessment)}

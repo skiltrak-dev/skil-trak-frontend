@@ -4,46 +4,57 @@ import { FormProvider, useForm } from 'react-hook-form'
 
 // components
 import { Typography, Button, TextInput, Select } from '@components'
-import { UploadFile } from '../compnents'
 
 // hoc
 import { FileUpload } from '@hoc'
 
 // query
 import {
-  useGetRTOCoursesQuery,
-  useCreateRtoAssessmentToolsMutation,
+  useGetSubAdminRTOCoursesQuery,
+  AdminApi,
 } from '@queries'
-
-export const AddAssessmentToolCB = () => {
+import { useRouter } from 'next/router'
+import { UploadFile } from '@components/inputs/UploadFile'
+type Props = {
+  edit?: boolean
+  assessment?: any
+}
+export const AddAssessmentToolCB = ({ edit, assessment }: Props) => {
   const [coursesOptions, setCoursesOptions] = useState<any | null>([])
   const [fileData, setFileData] = useState<any | null>([])
 
-  const rtoCourses = useGetRTOCoursesQuery()
-  const [create, createResult] = useCreateRtoAssessmentToolsMutation()
-
+  const router = useRouter()
+  const rtoId = router.query.id
+  const rtoCourses = useGetSubAdminRTOCoursesQuery(String(rtoId))
+  const [create, createResult] = AdminApi.Rtos.useCreateAssessmentTools()
+  const [update, updateResult] = AdminApi.Rtos.useUpdateAssessmentTools()
   useEffect(() => {
     if (rtoCourses?.data && rtoCourses.isSuccess) {
-      const options = rtoCourses?.data?.data?.map((course: any) => ({
+      const options = rtoCourses?.data?.map((course: any) => ({
         label: course.title,
         value: course.id,
       }))
       setCoursesOptions(options)
     }
-  }, [rtoCourses?.data?.data, rtoCourses.isSuccess])
+  }, [rtoCourses?.data, rtoCourses.isSuccess])
+
+
+
   const methods = useForm({
     mode: 'all',
+    defaultValues: assessment,
   })
+
 
   const onSubmit = async (values: any) => {
     delete values.file
     const formData = new FormData()
     formData.append('file', fileData)
-
+    console.log('fileData', values)
     Object.keys(values).map((key) => {
       formData.append(key, values[key])
     })
-    await create(formData)
+    await edit ? update({ body: values.title, assessment: assessment?.id }) : create({ body: formData, id: String(rtoId) })
   }
   return (
     <div>
@@ -75,9 +86,7 @@ export const AddAssessmentToolCB = () => {
             />
             <FileUpload
               onChange={(docs: any) => {
-                console.log(docs)
                 setFileData(docs)
-                // console.log('Saad', docs)
                 // const formData = new FormData()
                 // docs.forEach((doc: any) => {
                 //     formData.append('assessmentEvidence', doc)
@@ -94,13 +103,20 @@ export const AddAssessmentToolCB = () => {
           </div>
 
           <div className="mt-4 flex items-center justify-between">
-            <Button
+            {edit ? (<Button
+              submit
+              disabled={createResult.isLoading}
+              loading={createResult.isLoading}
+            >
+              Update Assessment
+            </Button>) : (<Button
               submit
               disabled={createResult.isLoading}
               loading={createResult.isLoading}
             >
               Add Assessment
-            </Button>
+            </Button>)}
+
           </div>
         </form>
       </FormProvider>

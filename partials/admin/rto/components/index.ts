@@ -4,3 +4,4 @@ export * from './AssignedCourse'
 export * from './AssessmentTool'
 export * from './AssignedSubAdmin'
 export * from './ArchivedAssessmentTool'
+
