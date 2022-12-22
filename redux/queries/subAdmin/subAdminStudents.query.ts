@@ -143,6 +143,24 @@ export const subAdminStudentsApi = createApi({
             invalidatesTags: ['SubAdminStudents'],
         }),
 
+        applyWorkplaceOnExistingIndustry: builder.mutation<any, any>({
+            query: ({ studentId, IndustryId }) => ({
+                url: `subadmin/student/workplcae/existing-industry/${IndustryId}`,
+                method: 'POST',
+                params: { student: studentId },
+            }),
+            invalidatesTags: ['SubAdminStudents'],
+        }),
+        addCustomIndustyForWorkplace: builder.mutation<any, any>({
+            query: ({ id, body }) => ({
+                url: `subadmin/student/add/workplace`,
+                method: 'POST',
+                params: { student: id },
+                body,
+            }),
+            invalidatesTags: ['SubAdminStudents'],
+        }),
+
         // updateSubAdminRtoStudentStatus: builder.mutation<any, any | null>({
         //     query: ({id, status}:any) => {
         //         return {
@@ -171,4 +189,6 @@ export const {
     useGetRequiredDocsQuery,
     useUploadRequiredDocsMutation,
     useFindByAbnWorkplaceMutation,
+    useApplyWorkplaceOnExistingIndustryMutation,
+    useAddCustomIndustyForWorkplaceMutation,
 } = subAdminStudentsApi

@@ -118,6 +118,11 @@ export const CourseFolders = ({
                         description: '',
                         isRequired: false,
                     }}
+                    result={
+                        category === 'IndustryCheck'
+                            ? addFolderResult
+                            : addAssessmentEvidenceResult
+                    }
                 />
             )}
 

@@ -18,7 +18,7 @@ import { YourIndustry } from '@components/sections/student/WorkplaceContainer/My
 // query
 import {
     useFindByAbnWorkplaceMutation,
-    useAddWorkplaceMutation,
+    useAddCustomIndustyForWorkplaceMutation,
     useGetWorkplaceIndustriesQuery,
     useGetSubAdminStudentDetailQuery,
     useGetSubAdminStudentWorkplaceQuery,
@@ -28,6 +28,7 @@ import { IndustryForm } from '@components/sections/student/WorkplaceContainer/My
 import { useNotification } from '@hooks'
 import { AppliedIndustry } from '@components/sections/student/WorkplaceContainer/MyWorkPlace/components/IndustrySelection/AppliedIndustry'
 import { AddCustomIndustryForm, FindWorkplaceForm } from '@partials/common'
+import { ExistinIndustryCard } from '@partials/sub-admin/students'
 
 type Props = {}
 
@@ -50,7 +51,8 @@ const ProvideWorkplaceDetail: NextPageWithLayout = (props: Props) => {
         skip: !id,
     })
     const [findAbn, result] = useFindByAbnWorkplaceMutation()
-    const [addWorkplace, addWorkplaceResult] = useAddWorkplaceMutation()
+    const [addWorkplace, addWorkplaceResult] =
+        useAddCustomIndustyForWorkplaceMutation()
 
     useEffect(() => {
         if (addWorkplaceResult.isSuccess && addWorkplaceResult.data) {
@@ -135,6 +137,17 @@ const ProvideWorkplaceDetail: NextPageWithLayout = (props: Props) => {
         // setActive((active: number) => active + 1)
     }
 
+    const onIndustryAdd = (values: any) => {
+        addWorkplace({
+            id: data?.user?.id,
+            body: {
+                ...values,
+                courses: [values?.courses?.value],
+                role: 'industry',
+            },
+        })
+    }
+
     return workplace?.isLoading ? (
         <LoadingAnimation />
     ) : (
@@ -157,28 +170,28 @@ const ProvideWorkplaceDetail: NextPageWithLayout = (props: Props) => {
                 )}
 
                 {active === 2 &&
-                    (!result?.data ? (
-                        <AddCustomIndustryForm
-                            addWorkplace={addWorkplace}
-                            setWorkplaceData={setWorkplaceData}
-                            result={addWorkplaceResult}
-                            industryABN={industryABN}
-                        />
-                    ) : (
-                        <YourIndustry
+                    (result?.data ? (
+                        <ExistinIndustryCard
                             setActive={setActive}
                             personalInfoData={personalInfoData}
                             res={result}
                             industry={result?.data}
                             setWorkplaceData={setWorkplaceData}
+                            student={data?.user?.id}
+                        />
+                    ) : (
+                        <AddCustomIndustryForm
+                            setWorkplaceData={setWorkplaceData}
+                            result={addWorkplaceResult}
+                            industryABN={industryABN}
+                            onSubmit={onIndustryAdd}
+                            setActive={setActive}
                         />
                     ))}
 
                 {active === 3 && (
                     <>
-                        {workplaceData?.studentProvidedWorkplace ||
-                        workplaceData?.byExistingAbn ||
-                        workplaceData?.industryStatus === 'approved' ? (
+                        {workplaceData?.industryStatus === 'approved' ? (
                             <AppliedIndustry
                                 workplaceCancelRequest={workplaceCancelRequest}
                                 appliedIndustry={
