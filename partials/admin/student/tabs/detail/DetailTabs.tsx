@@ -1,9 +1,8 @@
 import { TabNavigation, TabProps } from '@components'
+import { AllCommunicationTab, NotesTab } from '@partials/common'
 import { RequiredDocs } from '../../pages'
 import { MailsTab } from './MailsTab'
-import { NotesTab } from './NotesTab'
 import { OverViewTab } from './OverViewTab'
-import { AllCommunicationTab } from './AllCommunicationTab'
 
 export const DetailTabs = ({
     id,
@@ -27,7 +26,7 @@ export const DetailTabs = ({
         {
             label: 'Notes',
             href: { query: { tab: 'notes', id } },
-            element: <NotesTab student={student} />,
+            element: <NotesTab user={student?.user} />,
         },
         {
             label: 'Mails',
@@ -37,7 +36,7 @@ export const DetailTabs = ({
         {
             label: 'All Communications',
             href: { query: { tab: 'all-communications', id } },
-            element: <AllCommunicationTab student={student} />,
+            element: <AllCommunicationTab user={student?.user} />,
         },
     ]
 

@@ -28,7 +28,7 @@ import {
 // import { FaEdit } from 'react-icons/fa'
 // queries
 import { useGetSubAdminIndustriesProfileQuery } from '@queries'
-import { Notes } from '@components/sections/subAdmin'
+import { AllCommunicationTab, NotesTab } from '@partials/common'
 
 type Props = {}
 
@@ -82,7 +82,12 @@ const IndustriesProfile: NextPageWithLayout = (props: Props) => {
         {
             label: 'Notes',
             href: { pathname: String(id), query: { tab: 'notes' } },
-            element: <Notes id={data?.user?.id} />,
+            element: <NotesTab user={data?.user} />,
+        },
+        {
+            label: 'All Communication',
+            href: { pathname: String(id), query: { tab: 'all-communication' } },
+            element: <AllCommunicationTab user={data?.user} />,
         },
     ]
 

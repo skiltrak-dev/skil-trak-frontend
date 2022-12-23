@@ -7,7 +7,7 @@ export const allCommunicationEndpoints = (
 ) => ({
     communications: builder.query<any, any>({
         query: (id) => `${PREFIX}/all-communication/${id}`,
-        providesTags: ['AllCommunications'],
+        providesTags: ['Notes', 'AllCommunications'],
     }),
 
     allCommunicationCreate: builder.mutation<any, any>({
@@ -16,7 +16,7 @@ export const allCommunicationEndpoints = (
             method: 'POST',
             body: body,
         }),
-        invalidatesTags: ['AllCommunications'],
+        invalidatesTags: ['Notes', 'AllCommunications'],
     }),
 
     allCommunicationUpdate: builder.mutation<any, any>({
@@ -25,7 +25,7 @@ export const allCommunicationEndpoints = (
             method: 'PATCH',
             body: body,
         }),
-        invalidatesTags: ['AllCommunications'],
+        invalidatesTags: ['Notes', 'AllCommunications'],
     }),
 
     allCommunicationRemove: builder.mutation<any, any>({
@@ -33,6 +33,6 @@ export const allCommunicationEndpoints = (
             url: `${PREFIX}/${id}`,
             method: 'DELETE',
         }),
-        invalidatesTags: ['AllCommunications'],
+        invalidatesTags: ['Notes', 'AllCommunications'],
     }),
 })

@@ -1,11 +1,9 @@
 import { MailsTab } from './MailsTab'
-import { NotesTab } from './NotesTab'
 import { TabNavigation, TabProps } from '@components'
 import { Detail } from '@partials/sub-admin/assessmentEvidence'
 
-import { AllCommunicationTab } from './AllCommunicationTab'
-
 import { OverViewTab } from './OverviewTab'
+import { AllCommunicationTab, NotesTab } from '@partials/common'
 export const DetailTabs = ({
     id,
     student,
@@ -42,7 +40,7 @@ export const DetailTabs = ({
         {
             label: 'Notes',
             href: { pathname: String(id), query: { tab: 'notes' } },
-            element: <NotesTab student={student} />,
+            element: <NotesTab user={student?.user} />,
         },
         {
             label: 'All Communications',
@@ -50,7 +48,7 @@ export const DetailTabs = ({
                 pathname: String(id),
                 query: { tab: 'all-communications' },
             },
-            element: <AllCommunicationTab student={student} />,
+            element: <AllCommunicationTab user={student?.user} />,
         },
     ]
 

@@ -21,7 +21,6 @@ import {
     PageTitle,
     Button,
 } from '@components'
-import { Notes } from '@components/sections/subAdmin'
 
 import { FigureCard } from '@components/sections/subAdmin'
 import { SubAdminProfileTabsView } from '@components/sections/subAdmin'
@@ -38,7 +37,7 @@ import {
 } from '@queries'
 import { AssessmentToolsSubAdmin } from '@components/sections/subAdmin/UsersContainer/SubAdminRtosContainer/SubAdminRtosProfile'
 import { MailsTab } from '@components/sections/subAdmin/UsersContainer/SubAdminRtosContainer/SubAdminRtosProfile/components/MailsTab'
-import { AllCommunicationTab } from '@partials/sub-admin/students/tabs/detail/AllCommunicationTab'
+import { AllCommunicationTab, NotesTab } from '@partials/common'
 
 type Props = {}
 
@@ -49,7 +48,7 @@ const RtoProfile: NextPageWithLayout = (props: Props) => {
     const rtoDetail = useGetSubAdminRTODetailQuery(String(id), {
         skip: !id,
     })
-    
+
     useEffect(() => {
         setContent(
             <>
@@ -59,7 +58,6 @@ const RtoProfile: NextPageWithLayout = (props: Props) => {
     }, [setContent])
 
     // query
-
 
     // const [archiveAssessmentTool, archiveAssessmentToolResult] =
     //     useUpdateAssessmentToolArchiveMutation()
@@ -114,9 +112,7 @@ const RtoProfile: NextPageWithLayout = (props: Props) => {
                 query: { tab: 'assessments' },
             },
             badge: { text: '', color: 'text-error-500' },
-            element: (
-                <AssessmentToolsSubAdmin />
-            ),
+            element: <AssessmentToolsSubAdmin />,
         },
         {
             label: 'Appointments',
@@ -134,7 +130,7 @@ const RtoProfile: NextPageWithLayout = (props: Props) => {
         {
             label: 'Notes',
             href: { pathname: String(id), query: { tab: 'notes' } },
-            element: <Notes id={rtoDetail?.data?.user?.id} />,
+            element: <NotesTab user={rtoDetail?.data?.user} />,
         },
         {
             label: 'All Communications',
@@ -142,7 +138,7 @@ const RtoProfile: NextPageWithLayout = (props: Props) => {
                 pathname: String(id),
                 query: { tab: 'all-communications' },
             },
-            element: <AllCommunicationTab student={rtoDetail?.data} />,
+            element: <AllCommunicationTab user={rtoDetail?.data?.user} />,
         },
     ]
 

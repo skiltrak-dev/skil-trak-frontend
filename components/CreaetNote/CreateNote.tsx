@@ -15,7 +15,7 @@ import { useContextBar } from '@hooks'
 import { MdOutlineCancel } from 'react-icons/md'
 
 // query
-import { useCreateNoteMutation } from '@queries'
+import { CommonApi, useCreateNoteMutation } from '@queries'
 import { useNotification } from 'hooks'
 
 export const CreateNote = ({
@@ -28,7 +28,7 @@ export const CreateNote = ({
     const { isVisible } = useContextBar()
     const { notification } = useNotification()
     // query
-    const [createNote, createNoteResult] = useCreateNoteMutation()
+    const [createNote, createNoteResult] = CommonApi.Notes.useCreate()
     // const [updateNote, updateNoteResult] = useUpdateNoteMutation()
 
     const [editing, setEditing] = useState(false)
