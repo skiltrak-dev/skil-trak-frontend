@@ -22,7 +22,7 @@ type FindWorkplaceProps = {
     onSubmit: any
     result: any
 }
-export const FindWorkplace = ({ onSubmit, result }: FindWorkplaceProps) => {
+export const FindWorkplaceForm = ({ onSubmit, result }: FindWorkplaceProps) => {
     // const [updateFindAbn, result] = useUpdateFindAbnMutation()
 
     const validationSchema = yup.object({

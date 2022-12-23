@@ -9,6 +9,7 @@ import { StepInterview } from './StepInterview'
 import { StepPlacementStarted } from './StepPlacementStarted'
 import { StepSignAgreement } from './StepSignAgreement'
 import { AgreementSigned } from './AgreementSigned'
+import { StepCaseOfficerAssigned } from './StepCaseOfficerAssigned'
 
 type Props = {
     status: any
@@ -27,11 +28,13 @@ export const AppliedIndustry = ({
     workplaceRequest,
     studentAdded,
 }: Props) => {
-    console.log('appliedIndustry', appliedIndustry)
     const getNextStep = () => {
         switch (status) {
             case 'interview':
                 return <StepInterview />
+
+            case 'caseOfficerAssigned':
+                return <StepCaseOfficerAssigned />
 
             case 'awaitingWorkplaceResponse':
                 return <StepAwaitingResponse />

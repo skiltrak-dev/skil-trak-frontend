@@ -23,8 +23,6 @@ export const Notes = ({ workplace }: { workplace: any }) => {
 
     const userID = getUserCredentials()?.id
 
-    console.log('userID', userID)
-
     // hooks
     const { notification } = useNotification()
 

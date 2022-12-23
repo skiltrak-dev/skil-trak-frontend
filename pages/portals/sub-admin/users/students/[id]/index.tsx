@@ -106,7 +106,16 @@ const StudentsProfile: NextPageWithLayout = () => {
                             </div>
                         </OutsideClickHandler>
 
-                        <Button text="Book Appointment" variant="info" />
+                        <Button
+                            text="Book Appointment"
+                            variant="info"
+                            onClick={() => {
+                                router.push(
+                                    `/portals/sub-admin/tasks/appointments/create-appointment?student=${data?.user?.id}`
+                                )
+                            }}
+                            disabled={!isSuccess}
+                        />
                         <Button text="More" variant="action" />
                     </div>
                 </div>

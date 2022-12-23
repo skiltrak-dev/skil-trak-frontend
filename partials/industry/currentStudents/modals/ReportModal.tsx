@@ -28,7 +28,6 @@ export const ReportModal = ({ onCancel, workIndustry, student }: any) => {
     }, [addReportResult])
 
     // const onChange = (e: any) => {
-    //     console.log('eee', e.target.name)
     //     const { name, value } = e.target
     //     setValues((val: valuesTypes) => ({
     //         ...val,

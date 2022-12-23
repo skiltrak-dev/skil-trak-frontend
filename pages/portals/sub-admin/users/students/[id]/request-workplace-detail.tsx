@@ -6,9 +6,16 @@ import { StudentLayout, SubAdminLayout } from '@layouts'
 import { NextPageWithLayout } from '@types'
 
 // query
-import { useGetSubAdminStudentWorkplaceQuery } from '@queries'
-import { Availability, IndustrySelection, PersonalInfo } from '@partials/common'
+import {
+    useGetSubAdminStudentWorkplaceQuery,
+    useGetSubAdminStudentDetailQuery,
+} from '@queries'
 import { useRouter } from 'next/router'
+import {
+    Availability,
+    PersonalInfo,
+    IndustrySelection,
+} from '@partials/sub-admin/students'
 
 type Props = {}
 
@@ -19,16 +26,19 @@ const RequestWorkplaceDetail: NextPageWithLayout = (props: Props) => {
     const router = useRouter()
     const { id } = router.query
 
-    console.log('id', id)
 
     // query
+    const { data, isLoading, isError, isSuccess } =
+        useGetSubAdminStudentDetailQuery(String(id), {
+            skip: !id,
+        })
     const workplace = useGetSubAdminStudentWorkplaceQuery(Number(id), {
         skip: !id,
     })
 
     useEffect(() => {
-        if (workplace.isSuccess && workplace?.data?.length > 0) {
-            if (workplace?.data[0].currentStatus === 'placementStarted')
+        if (workplace.isSuccess && workplace?.data) {
+            if (workplace?.data[0]?.currentStatus === 'placementStarted')
                 setActive(4)
             else setActive(3)
         }
@@ -84,6 +94,7 @@ const RequestWorkplaceDetail: NextPageWithLayout = (props: Props) => {
                     <Availability
                         setActive={setActive}
                         personalInfoData={personalInfoData}
+                        userId={data?.user?.id}
                     />
                 )}
 
@@ -91,6 +102,7 @@ const RequestWorkplaceDetail: NextPageWithLayout = (props: Props) => {
                     <IndustrySelection
                         setActive={setActive}
                         workplace={workplace}
+                        userId={data?.user?.id}
                     />
                 )}
             </div>

@@ -5,7 +5,7 @@ import { AuthUtils } from '@utils'
 export const subAdminStudentsApi = createApi({
     reducerPath: 'subAdminStudentsApi',
     baseQuery: fetchBaseQuery({
-        baseUrl: `${process.env.NEXT_PUBLIC_END_POINT}/subadmin`,
+        baseUrl: `${process.env.NEXT_PUBLIC_END_POINT}`,
         prepareHeaders: (headers, { getState }) => {
             const token = AuthUtils.getToken()
 
@@ -22,7 +22,7 @@ export const subAdminStudentsApi = createApi({
         getSubAdminStudents: builder.query<any, any>({
             query: (params) => {
                 return {
-                    url: 'students/list-all',
+                    url: 'subadmin/students/list-all',
                     params,
                 }
             },
@@ -32,7 +32,7 @@ export const subAdminStudentsApi = createApi({
         subAdminFilteredStudents: builder.query<PaginatedResponse<any>, any>({
             query: (params: any) => {
                 return {
-                    url: `student-list/filter`,
+                    url: `subadmin/student-list/filter`,
                     params,
                 }
             },
@@ -42,7 +42,7 @@ export const subAdminStudentsApi = createApi({
         getSubAdminMyStudents: builder.query<any, any>({
             query: (params) => {
                 return {
-                    url: 'my-students/list',
+                    url: 'subadmin/my-students/list',
                     params,
                 }
             },
@@ -52,7 +52,7 @@ export const subAdminStudentsApi = createApi({
         updateSubAdminCourseDuration: builder.mutation<any, any | null>({
             query: ({ id, body }: any) => {
                 return {
-                    url: `student/course/timing/${id}`,
+                    url: `subadmin/student/course/timing/${id}`,
                     method: 'POST',
                     body,
                 }
@@ -63,7 +63,7 @@ export const subAdminStudentsApi = createApi({
         getSubAdminMyRto: builder.query<any, string>({
             query: (id) => {
                 return {
-                    url: `student/view/${id}`,
+                    url: `subadmin/student/view/${id}`,
                     params: { id },
                 }
             },
@@ -72,7 +72,7 @@ export const subAdminStudentsApi = createApi({
         getSubAdminStudentDetail: builder.query<any, string>({
             query: (id) => {
                 return {
-                    url: `student/view/${id}`,
+                    url: `subadmin/student/view/${id}`,
                     params: { id },
                 }
             },
@@ -80,14 +80,83 @@ export const subAdminStudentsApi = createApi({
         }),
 
         getSubAdminStudentWorkplace: builder.query<any, number>({
-            query: (id) => `student/workplace-request/${id}`,
+            query: (id) => `subadmin/student/workplace-request/${id}`,
             providesTags: ['SubAdminStudents'],
         }),
 
         assignStudentsToSubAdmin: builder.mutation<any, number>({
             query: (id) => ({
-                url: `student/assign-subadmin/${id}`,
+                url: `subadmin/student/assign-subadmin/${id}`,
                 method: 'PATCH',
+            }),
+            invalidatesTags: ['SubAdminStudents'],
+        }),
+        subAdminRequestWorkplace: builder.mutation<any, any>({
+            query: (body) => ({
+                url: `students/workplace-requests`,
+                method: 'POST',
+                body,
+            }),
+            invalidatesTags: ['SubAdminStudents'],
+        }),
+
+        subAdminRequestIndustryWorkplace: builder.mutation<any, any>({
+            query: (id) => ({
+                url: `subadmin/student/workplace-request/apply/${id}`,
+                method: 'PATCH',
+            }),
+            invalidatesTags: ['SubAdminStudents'],
+        }),
+
+        subAdminCancelStudentWorkplaceRequest: builder.mutation<any, any>({
+            query: (id) => ({
+                url: `subadmin/student/workplace-request/cancel/${id}`,
+                method: 'PATCH',
+            }),
+            invalidatesTags: ['SubAdminStudents'],
+        }),
+
+        getRequiredDocs: builder.query<any, any>({
+            query: ({ id, course, user }) => ({
+                url: `subadmin/student/required-document/${id}`,
+                params: { course, user },
+            }),
+            providesTags: ['SubAdminStudents'],
+        }),
+
+        uploadRequiredDocs: builder.mutation<any, any>({
+            query: ({ id, workplaceId, user, body }) => ({
+                url: `subadmin/student/workplace/response`,
+                method: 'POST',
+                params: { docs: [id], wpId: workplaceId, user },
+                body,
+            }),
+            invalidatesTags: ['SubAdminStudents'],
+        }),
+
+        findByAbnWorkplace: builder.mutation<any, any>({
+            query: (body) => ({
+                url: `subadmin/student/industry/find-by-abn`,
+                method: 'POST',
+                params: { abn: body },
+            }),
+            invalidatesTags: ['SubAdminStudents'],
+        }),
+
+        applyWorkplaceOnExistingIndustry: builder.mutation<any, any>({
+            query: ({ studentId, IndustryId }) => ({
+                url: `subadmin/student/workplcae/existing-industry/${IndustryId}`,
+                method: 'POST',
+                params: { student: studentId },
+            }),
+            invalidatesTags: ['SubAdminStudents'],
+        }),
+        addCustomIndustyForWorkplace: builder.mutation<any, any>({
+            query: ({ id, body }) => ({
+                url: `subadmin/student/add/workplace`,
+                method: 'POST',
+                params: { student: id },
+                body,
             }),
             invalidatesTags: ['SubAdminStudents'],
         }),
@@ -107,6 +176,7 @@ export const subAdminStudentsApi = createApi({
 
 export const {
     useGetSubAdminStudentsQuery,
+    useSubAdminRequestWorkplaceMutation,
     useSubAdminFilteredStudentsQuery,
     useGetSubAdminStudentWorkplaceQuery,
     useGetSubAdminMyRtoQuery,
@@ -114,4 +184,11 @@ export const {
     useUpdateSubAdminCourseDurationMutation,
     useGetSubAdminMyStudentsQuery,
     useAssignStudentsToSubAdminMutation,
+    useSubAdminRequestIndustryWorkplaceMutation,
+    useSubAdminCancelStudentWorkplaceRequestMutation,
+    useGetRequiredDocsQuery,
+    useUploadRequiredDocsMutation,
+    useFindByAbnWorkplaceMutation,
+    useApplyWorkplaceOnExistingIndustryMutation,
+    useAddCustomIndustyForWorkplaceMutation,
 } = subAdminStudentsApi

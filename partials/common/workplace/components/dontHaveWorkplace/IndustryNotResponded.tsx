@@ -19,7 +19,7 @@ export const IndustryNotResponded = ({ industries }: Props) => {
                 </div>
                 <div className="flex flex-col gap-y-2">
                     {industries?.map((industry: any) => (
-                        <div key={industry?.id} className="py-3 px-4 bg-red-100 rounded-lg flex justify-between items-center">
+                        <div className="py-3 px-4 bg-red-100 rounded-lg flex justify-between items-center">
                             <div className="flex items-center gap-x-2">
                                 <Image
                                     src="https://picsum.photos/200/300"

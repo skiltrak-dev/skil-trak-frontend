@@ -2,13 +2,15 @@ import React from 'react'
 
 // components
 import { ProgressStep, Card, InitialAvatar, Typography } from '@components'
-import { StepAppointmentBooked } from './StepAppointmentBooked'
-import { StepAwaitingResponse } from './StepAwaitingResponse'
 import { StepIndustryChecks } from './StepIndustryChecks'
-import { StepInterview } from './StepInterview'
-import { StepPlacementStarted } from './StepPlacementStarted'
 import { StepSignAgreement } from './StepSignAgreement'
-import { AgreementSigned } from './AgreementSigned'
+import {
+    AgreementSigned,
+    StepAppointmentBooked,
+    StepAwaitingResponse,
+    StepInterview,
+    StepPlacementStarted,
+} from '@partials/common'
 
 type Props = {
     status: any
@@ -27,7 +29,6 @@ export const AppliedIndustry = ({
     workplaceRequest,
     studentAdded,
 }: Props) => {
-    console.log('appliedIndustry', appliedIndustry)
     const getNextStep = () => {
         switch (status) {
             case 'interview':
