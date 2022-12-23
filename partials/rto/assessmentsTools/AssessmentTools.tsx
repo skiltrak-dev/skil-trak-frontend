@@ -22,7 +22,7 @@ import {
     useUpdateAssessmentToolArchiveMutation,
 } from '@queries'
 import { useContextBar, useJoyRide } from '@hooks'
-import { AddAssessmentToolCB } from '../assessmentsTools/contextBar/AddAssessmentToolCB'
+import { AddAssessmentToolCB } from '../../../components/sections/subAdmin/UsersContainer/SubAdminRtosContainer/SubAdminRtosProfile/contextBar'
 // import {AssessmentCourse} from
 
 export const AssessmentsToolsContainer = () => {

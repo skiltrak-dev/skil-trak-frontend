@@ -48,7 +48,6 @@ const RtoProfile: NextPageWithLayout = (props: Props) => {
     const rtoDetail = useGetSubAdminRTODetailQuery(String(id), {
         skip: !id,
     })
-
     useEffect(() => {
         setContent(
             <>
@@ -57,7 +56,9 @@ const RtoProfile: NextPageWithLayout = (props: Props) => {
         )
     }, [setContent])
 
+
     // query
+
 
     // const [archiveAssessmentTool, archiveAssessmentToolResult] =
     //     useUpdateAssessmentToolArchiveMutation()
@@ -112,7 +113,9 @@ const RtoProfile: NextPageWithLayout = (props: Props) => {
                 query: { tab: 'assessments' },
             },
             badge: { text: '', color: 'text-error-500' },
-            element: <AssessmentToolsSubAdmin />,
+            element: (
+                <AssessmentToolsSubAdmin />
+            ),
         },
         {
             label: 'Appointments',

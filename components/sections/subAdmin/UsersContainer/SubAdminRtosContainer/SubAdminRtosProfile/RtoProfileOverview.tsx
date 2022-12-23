@@ -75,7 +75,7 @@ export const RtoProfileOverview = ({ userId, rtoId, rtoDetail }: Props) => {
                 <div className="flex gap-x-2 my-6">
                     {FigureCardData?.map((data: any) => (
                         <FigureCard
-                            key={data.title}
+                            key={data?.id}
                             imageUrl={data?.imageUrl}
                             count={data.count}
                             title={data.title}
