@@ -29,6 +29,7 @@ import {
 // queries
 import { useGetSubAdminIndustriesProfileQuery } from '@queries'
 import { AllCommunicationTab, NotesTab } from '@partials/common'
+import { Students } from '@partials/sub-admin/indestries'
 
 type Props = {}
 
@@ -59,7 +60,7 @@ const IndustriesProfile: NextPageWithLayout = (props: Props) => {
             label: 'Students',
             href: { pathname: String(id), query: { tab: 'students' } },
             badge: { text: '99', color: 'text-error-500' },
-            element: <div>Students</div>,
+            element: <Students />,
         },
         {
             label: 'Appointments',
