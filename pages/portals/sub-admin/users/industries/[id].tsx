@@ -14,6 +14,8 @@ import {
     TabProps,
     EmptyData,
     TechnicalError,
+    PageTitle,
+    Button,
 } from '@components'
 import { IndustryProfile } from '@components/IndustryProfile'
 import {
@@ -35,10 +37,8 @@ const IndustriesProfile: NextPageWithLayout = (props: Props) => {
     const pathname = useRouter()
     const { id } = pathname.query
 
-    const { data, isLoading, isError } = useGetSubAdminIndustriesProfileQuery(
-        String(id),
-        { skip: !id }
-    )
+    const { data, isLoading, isError, isSuccess } =
+        useGetSubAdminIndustriesProfileQuery(String(id), { skip: !id })
 
     useEffect(() => {
         setContent(
@@ -88,6 +88,22 @@ const IndustriesProfile: NextPageWithLayout = (props: Props) => {
 
     return (
         <>
+            <div className="flex justify-between items-end mb-4">
+                <PageTitle title="Industry Profile" backTitle="Industry" />
+                <div className="flex items-center gap-x-2">
+                    <Button
+                        text="Book Appointment"
+                        variant="info"
+                        onClick={() => {
+                            pathname.push(
+                                `/portals/sub-admin/tasks/appointments/create-appointment?industry=${data?.user?.id}`
+                            )
+                        }}
+                        disabled={!isSuccess}
+                    />
+                    <Button text="More" variant="action" />
+                </div>
+            </div>
             {isError && <TechnicalError />}
             {isLoading ? (
                 <LoadingAnimation />
@@ -109,11 +125,7 @@ const IndustriesProfile: NextPageWithLayout = (props: Props) => {
     )
 }
 IndustriesProfile.getLayout = (page: ReactElement) => {
-    return (
-        <SubAdminLayout pageTitle={{ title: 'Industries Profile' }}>
-            {page}
-        </SubAdminLayout>
-    )
+    return <SubAdminLayout>{page}</SubAdminLayout>
 }
 
 export default IndustriesProfile

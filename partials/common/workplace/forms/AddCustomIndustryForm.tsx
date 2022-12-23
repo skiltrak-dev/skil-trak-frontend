@@ -10,26 +10,22 @@ import { useNotification } from '@hooks'
 import { AuthApi } from '@queries'
 import { isEmailValid, onlyAlphabets, SignUpUtils } from '@utils'
 
-import {
-    Button,
-    Checkbox,
-    Select,
-    TextInput,
-    Typography,
-    Card,
-} from '@components'
+import { Button, Checkbox, Select, TextInput, Card } from '@components'
 import { yupResolver } from '@hookform/resolvers/yup'
+import { IoIosArrowRoundBack } from 'react-icons/io'
 
 export const AddCustomIndustryForm = ({
-    addWorkplace,
     setWorkplaceData,
     result,
     industryABN,
+    onSubmit,
+    setActive,
 }: {
-    addWorkplace: any
     setWorkplaceData: any
     result: any
     industryABN: string | null
+    onSubmit: any
+    setActive: any
 }) => {
     const router = useRouter()
 
@@ -166,23 +162,28 @@ export const AddCustomIndustryForm = ({
         defaultValues: { abn: industryABN },
         resolver: yupResolver(validationSchema),
     })
-    const onFormSubmit = (values: any) => {
-        addWorkplace({
-            ...values,
-            courses: [values?.courses?.value],
-            role: 'industry',
-        })
-    }
+
     return (
         <Card>
+            <div
+                className={
+                    'group max-w-max transition-all text-xs flex justify-start items-center py-2.5 text-muted hover:text-muted-dark rounded-lg cursor-pointer'
+                }
+                onClick={() => {
+                    setActive((active: number) => active - 1)
+                }}
+            >
+                <IoIosArrowRoundBack className="transition-all inline-flex text-base group-hover:-translate-x-1" />
+                <span className="ml-2">{'Back To Previous'}</span>
+            </div>
             <div className="">
                 <FormProvider {...formMethods}>
                     <form
                         className="flex flex-col gap-y-4"
-                        onSubmit={formMethods.handleSubmit(onFormSubmit)}
+                        onSubmit={formMethods.handleSubmit(onSubmit)}
                     >
                         {/* Personal Information */}
-                        <div className="w-4/6">
+                        <div>
                             <TextInput
                                 label={'Business Name'}
                                 name={'name'}
@@ -217,7 +218,7 @@ export const AddCustomIndustryForm = ({
                             </div>
                         </div>
                         {/* Business Information */}
-                        <div className="w-4/6">
+                        <div>
                             <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-8">
                                 <TextInput
                                     label={'Contact Person Number'}
@@ -238,43 +239,40 @@ export const AddCustomIndustryForm = ({
 
                         {/* Sector Information */}
 
-                        <div className="w-4/6 grid grid-cols-1 gap-y-4">
-                            <div>
-                                <Select
-                                    label={'Sector'}
-                                    {...(storedData
-                                        ? {
-                                              defaultValue: storedData.sectors,
-                                          }
-                                        : {})}
-                                    name={'sectors'}
-                                    options={sectorOptions}
-                                    placeholder={'Select Sectors...'}
-                                    loading={sectorResponse.isLoading}
-                                    onChange={onSectorChanged}
-                                    validationIcons
-                                />
-                            </div>
-                            <div>
-                                <Select
-                                    label={'Courses'}
-                                    name={'courses'}
-                                    defaultValue={courseOptions}
-                                    options={courseOptions}
-                                    loading={courseLoading}
-                                    disabled={
-                                        storedData
-                                            ? storedData?.courses?.length === 0
-                                            : courseOptions?.length === 0
-                                    }
-                                    validationIcons
-                                />
-                            </div>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-x-3">
+                            <Select
+                                label={'Sector'}
+                                {...(storedData
+                                    ? {
+                                          defaultValue: storedData.sectors,
+                                      }
+                                    : {})}
+                                name={'sectors'}
+                                options={sectorOptions}
+                                placeholder={'Select Sectors...'}
+                                loading={sectorResponse.isLoading}
+                                onChange={onSectorChanged}
+                                validationIcons
+                            />
+
+                            <Select
+                                label={'Courses'}
+                                name={'courses'}
+                                defaultValue={courseOptions}
+                                options={courseOptions}
+                                loading={courseLoading}
+                                disabled={
+                                    storedData
+                                        ? storedData?.courses?.length === 0
+                                        : courseOptions?.length === 0
+                                }
+                                validationIcons
+                            />
                         </div>
 
                         {/* Profile Information */}
 
-                        <div className="w-4/6">
+                        <div>
                             <TextInput
                                 label={'Email'}
                                 name={'email'}
@@ -309,7 +307,7 @@ export const AddCustomIndustryForm = ({
 
                         {/* Address Information */}
 
-                        <div className="w-4/6">
+                        <div>
                             <div className="grid grid-cols-1 gap-x-8">
                                 <TextInput
                                     label={'Address Line 1'}
@@ -343,7 +341,7 @@ export const AddCustomIndustryForm = ({
                             </div>
                         </div>
 
-                        <div className="w-4/6 ml-auto pl-12">
+                        <div className="ml-auto pl-12">
                             <div className="mb-6">
                                 <Checkbox
                                     name={'agreedWithPrivacyPolicy'}

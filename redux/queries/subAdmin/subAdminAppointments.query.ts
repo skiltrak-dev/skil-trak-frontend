@@ -50,11 +50,19 @@ export const subAdminAppointmentApi = createApi({
             }),
             providesTags: ['Appointment'],
         }),
+        searchUserById: builder.query<any, any>({
+            query: (params) => ({
+                url: 'subadmin/user/find',
+                params,
+            }),
+            providesTags: ['Appointment'],
+        }),
     }),
 })
 
 export const {
     useSearchUserQuery,
+    useSearchUserByIdQuery,
     useUserAvailabilitiesQuery,
     useGetSubAdminAppointmentsQuery,
     useSubAdminCreateAppointmentMutation,

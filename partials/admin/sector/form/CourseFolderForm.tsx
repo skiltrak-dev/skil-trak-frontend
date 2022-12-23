@@ -9,6 +9,7 @@ interface CourseFolderFormProps {
     onSubmit: any
     edit?: boolean
     onCancel?: Function
+    result: any
 }
 
 export const CourseFolderForm = ({
@@ -16,6 +17,7 @@ export const CourseFolderForm = ({
     edit,
     initialValues,
     onCancel,
+    result,
 }: CourseFolderFormProps) => {
     const validationSchema = yup.object({
         name: yup.string().required('Name is required'),
@@ -74,7 +76,11 @@ export const CourseFolderForm = ({
                     </div>
 
                     <div className="mt-2 flex gap-x-2">
-                        <Button submit>
+                        <Button
+                            submit
+                            loading={result.isLoading}
+                            disabled={result.isLoading}
+                        >
                             {edit ? 'Update Folder' : 'Add Folder'}
                         </Button>
                         {onCancel && (

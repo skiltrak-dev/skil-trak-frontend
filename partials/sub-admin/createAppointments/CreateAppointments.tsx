@@ -2,12 +2,19 @@ import { useEffect, useState, useCallback } from 'react'
 
 // components
 import { TimeSlots } from '@components/sections/student'
-import { Card, Typography, Button, TextInput } from '@components'
+import {
+    Card,
+    Typography,
+    Button,
+    TextInput,
+    LoadingAnimation,
+} from '@components'
 import {
     AppointmentFor,
     AppointmentWithData,
     Arrow,
     CreateAppointmentCard,
+    SearchedUserCard,
     SearchUser,
 } from './components'
 import { AppointmentType } from '@partials/appointmentType'
@@ -18,14 +25,22 @@ import { useNotification } from '@hooks'
 import {
     useUserAvailabilitiesQuery,
     useSubAdminCreateAppointmentMutation,
+    useGetSubAdminStudentDetailQuery,
+    useSearchUserByIdQuery,
 } from '@queries'
 import { useRouter } from 'next/router'
 
 export const CreateAppointments = () => {
+    const router = useRouter()
+    const query = Object.keys(router.query)?.length > 0
+
     const [selectedPerson, setSelectedPerson] = useState<any | null>({
         selectedAppointmentFor: 'RTO',
         selectedAppointmentWith: '',
     })
+
+    const [user, setUser] = useState<string>('')
+
     const [appointmentWith, setAppointmentWith] = useState<any | null>(null)
 
     const [selectedAppointmentType, setSelectedAppointmentType] = useState<
@@ -39,9 +54,54 @@ export const CreateAppointments = () => {
     const [selectedTime, setSelectedTime] = useState<any | null>(null)
     const [note, setNote] = useState<any | null>(null)
 
-    const router = useRouter()
-
     const { notification } = useNotification()
+
+    const student = useGetSubAdminStudentDetailQuery(
+        String(router?.query?.student),
+        {
+            skip: !router?.query,
+        }
+    )
+
+    useEffect(() => {
+        if (query) {
+            const user = Object.keys(router?.query)[0]
+            setUser(user)
+            const appointmentFor = AppointmentFor?.find(
+                (appointment) => appointment?.text?.toLocaleLowerCase() === user
+            )?.text
+            setSelectedPerson({
+                ...selectedPerson,
+                selectedAppointmentFor: appointmentFor,
+            })
+        }
+    }, [router, query])
+
+    const userData = useSearchUserByIdQuery(
+        {
+            search: (router?.query as any)[user],
+            role: user,
+        },
+        { skip: !user }
+    )
+
+    useEffect(() => {
+        if (userData?.isSuccess && userData?.data) {
+            setSelectedUser((selectedUser: any) => ({
+                ...selectedUser,
+                selectedAppointmentForUser: userData?.data?.id,
+            }))
+        }
+    }, [userData])
+
+    useEffect(() => {
+        if (student?.isSuccess && student?.data) {
+            setSelectedUser({
+                ...selectedUser,
+                selectedAppointmentForUser: student?.data?.user?.id,
+            })
+        }
+    }, [student])
 
     useEffect(() => {
         if (selectedPerson.selectedAppointmentWith === 'Self') {
@@ -76,7 +136,10 @@ export const CreateAppointments = () => {
                 f.type.includes(selectedPerson.selectedAppointmentFor || '')
             )
         )
-        setSelectedPerson({ ...selectedPerson, selectedAppointmentWith: null })
+        setSelectedPerson((person: any) => ({
+            ...person,
+            selectedAppointmentWith: null,
+        }))
     }, [selectedPerson.selectedAppointmentFor])
 
     useEffect(() => {
@@ -171,21 +234,56 @@ export const CreateAppointments = () => {
                     </div>
                 </Card>
 
-                {selectedPerson?.selectedAppointmentFor && (
-                    <SearchUser
-                        selectedAppointment={
-                            selectedPerson?.selectedAppointmentFor
-                        }
-                        onClick={(s: any) => {
-                            setSelectedUser({
-                                ...selectedUser,
-                                selectedAppointmentForUser: s.id,
-                            })
-                        }}
-                        selectedUser={selectedUser.selectedAppointmentForUser}
-                        type={'For'}
-                    />
-                )}
+                {selectedPerson?.selectedAppointmentFor &&
+                    (query && user ? (
+                        <Card>
+                            {userData?.isLoading ? (
+                                <LoadingAnimation size={80} />
+                            ) : (
+                                <>
+                                    <Typography>
+                                        Selected{' '}
+                                        {selectedPerson?.selectedAppointmentFor}
+                                    </Typography>
+                                    <SearchedUserCard
+                                        data={userData?.data}
+                                        onClick={() => {
+                                            setSelectedUser({
+                                                ...selectedUser,
+                                                selectedAppointmentForUser:
+                                                    userData?.data?.id,
+                                            })
+                                        }}
+                                        selected={
+                                            selectedUser?.selectedAppointmentForUser
+                                        }
+                                        selectedPerson={
+                                            selectedPerson?.selectedAppointmentFor
+                                        }
+                                    />
+                                </>
+                            )}
+                        </Card>
+                    ) : (
+                        <SearchUser
+                            selectedAppointment={
+                                selectedPerson?.selectedAppointmentFor
+                            }
+                            onClick={(s: any) => {
+                                setSelectedUser({
+                                    ...selectedUser,
+                                    selectedAppointmentForUser: s.id,
+                                })
+                            }}
+                            selectedUser={
+                                selectedUser.selectedAppointmentForUser
+                            }
+                            type={'For'}
+                            selectedPerson={
+                                selectedPerson?.selectedAppointmentFor
+                            }
+                        />
+                    ))}
 
                 {selectedPerson.selectedAppointmentWith &&
                     selectedPerson.selectedAppointmentWith !== 'Self' && (
@@ -203,6 +301,9 @@ export const CreateAppointments = () => {
                                 selectedUser.selectedAppointmentWithUser
                             }
                             type={'With'}
+                            selectedPerson={
+                                selectedPerson?.selectedAppointmentWith
+                            }
                         />
                     )}
 

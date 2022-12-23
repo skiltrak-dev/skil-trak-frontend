@@ -18,6 +18,8 @@ import {
     Typography,
     TechnicalError,
     EmptyData,
+    PageTitle,
+    Button,
 } from '@components'
 import { Notes } from '@components/sections/subAdmin'
 
@@ -42,6 +44,9 @@ type Props = {}
 
 const RtoProfile: NextPageWithLayout = (props: Props) => {
     const { setContent } = useContextBar()
+    const pathname = useRouter()
+    const { id } = pathname.query
+
     useEffect(() => {
         setContent(
             <>
@@ -49,8 +54,6 @@ const RtoProfile: NextPageWithLayout = (props: Props) => {
             </>
         )
     }, [setContent])
-    const pathname = useRouter()
-    const { id } = pathname.query
 
     // query
     const rtoDetail = useGetSubAdminRTODetailQuery(String(id), {
@@ -146,6 +149,22 @@ const RtoProfile: NextPageWithLayout = (props: Props) => {
 
     return (
         <>
+            <div className="flex justify-between items-end mb-4">
+                <PageTitle title="RTO Profile" backTitle="RTO" />
+                <div className="flex items-center gap-x-2">
+                    <Button
+                        text="Book Appointment"
+                        variant="info"
+                        onClick={() => {
+                            pathname.push(
+                                `/portals/sub-admin/tasks/appointments/create-appointment?rto=${rtoDetail?.data?.user?.id}`
+                            )
+                        }}
+                        disabled={!rtoDetail?.isSuccess}
+                    />
+                    <Button text="More" variant="action" />
+                </div>
+            </div>
             {rtoDetail.isError && <TechnicalError />}
             {rtoDetail?.isLoading ? (
                 <LoadingAnimation />
@@ -167,11 +186,7 @@ const RtoProfile: NextPageWithLayout = (props: Props) => {
     )
 }
 RtoProfile.getLayout = (page: ReactElement) => {
-    return (
-        <SubAdminLayout pageTitle={{ title: 'RTO Profile' }}>
-            {page}
-        </SubAdminLayout>
-    )
+    return <SubAdminLayout>{page}</SubAdminLayout>
 }
 
 export default RtoProfile

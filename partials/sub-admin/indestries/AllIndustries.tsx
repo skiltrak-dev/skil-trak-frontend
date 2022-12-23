@@ -49,58 +49,19 @@ export const AllIndustries = () => {
             header: () => 'Name',
             accessorKey: 'user',
             sort: true,
-            cell: ({ row }: any) => {
-                const {
-                    phoneNumber,
-                    user: { name, email, image },
-                } = row.original
-
-                return <IndustryCellInfo industry={row.original} />
-            },
-        },
-        // {
-        //     header:()=> 'Type',
-        //     accessorKey: 'employmentType',
-        //     cell: ({ row }) => {
-        //         const { employmentType } = row.original
-        //         switch (employmentType) {
-        //             case 'fullTime':
-        //                 return 'Full Time'
-
-        //             case 'partTime':
-        //                 return 'Part Time'
-
-        //             default:
-        //                 return 'Temporary'
-        //         }
-        //     },
-        //     disableFilters: true,
-        // },
-        {
-            header: () => 'Phone',
-            accessorKey: 'phoneNumber',
-            cell: ({ row }: any) => {
-                const { phoneNumber } = row.original
-                return (
-                    <div className="flex justify-center">
-                        <Typography variant={'muted'} color={'gray'}>
-                            {phoneNumber}
-                        </Typography>
-                    </div>
-                )
-            },
+            cell: ({ row }: any) => (
+                <IndustryCellInfo industry={row.original} />
+            ),
         },
         {
             header: () => 'Address',
             accessorKey: 'address',
             cell: ({ row }: any) => {
-                const { addressLine1, addressLine2, city, state, zipCode } =
-                    row.original
+                const { addressLine1, addressLine2 } = row.original
                 return (
-                    <div className="flex justify-center gap-x-2">
-                        <Typography color={'black'}>{addressLine1}</Typography>
-                        <Typography color={'black'}>{addressLine2}</Typography>
-                    </div>
+                    <Typography variant={'label'} color={'black'}>
+                        {addressLine1}, {addressLine2}
+                    </Typography>
                 )
             },
         },
@@ -110,11 +71,9 @@ export const AllIndustries = () => {
             cell: ({ row }: any) => {
                 const { studentCapacity } = row.original
                 return (
-                    <div className="flex justify-center">
-                        <Typography variant={'muted'} color={'gray'}>
-                            {studentCapacity}
-                        </Typography>
-                    </div>
+                    <Typography variant={'muted'} color={'gray'}>
+                        {studentCapacity}
+                    </Typography>
                 )
             },
         },
@@ -124,11 +83,9 @@ export const AllIndustries = () => {
             cell: ({ row }: any) => {
                 const { contactPersonNumber } = row.original
                 return (
-                    <div className="flex justify-center">
-                        <Typography variant={'muted'} color={'gray'}>
-                            {contactPersonNumber}
-                        </Typography>
-                    </div>
+                    <Typography variant={'muted'} color={'gray'}>
+                        {contactPersonNumber}
+                    </Typography>
                 )
             },
         },

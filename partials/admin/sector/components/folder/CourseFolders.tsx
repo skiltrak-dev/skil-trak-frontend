@@ -118,6 +118,11 @@ export const CourseFolders = ({
                         description: '',
                         isRequired: false,
                     }}
+                    result={
+                        category === 'IndustryCheck'
+                            ? addFolderResult
+                            : addAssessmentEvidenceResult
+                    }
                 />
             )}
 
@@ -130,6 +135,7 @@ export const CourseFolders = ({
                                 key={f.id}
                                 course={course!!}
                                 category={category}
+                                result={addAssessmentEvidenceResult}
                             />
                         ))
                     ) : (

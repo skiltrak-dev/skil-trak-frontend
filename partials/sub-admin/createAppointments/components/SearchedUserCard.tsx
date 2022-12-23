@@ -7,7 +7,14 @@ import { BsDot } from 'react-icons/bs'
 import { Typography } from '@components'
 import { Button } from '@components/buttons'
 
-export const SearchedUserCard = ({ data, onClick, selected }: any) => {
+export const SearchedUserCard = ({
+    data,
+    onClick,
+    selected,
+    selectedPerson,
+}: any) => {
+    const person = data[selectedPerson.toLocaleLowerCase()]
+
     return (
         <div className="bg-gray-100 px-6 py-4 rounded-lg flex justify-between items-center">
             <div className="flex items-center relative">
@@ -21,12 +28,12 @@ export const SearchedUserCard = ({ data, onClick, selected }: any) => {
                         <div className="flex items-center gap-x-1">
                             <Typography variant={'xs'}>{data?.id}</Typography>
                             <BsDot className="text-gray-400" />
-                            <Typography
+                            {/* <Typography
                                 variant={'xs'}
                                 color={'text-success-dark'}
                             >
                                 Completed
-                            </Typography>
+                            </Typography> */}
                         </div>
                         <div className="flex items-center gap-x-2">
                             <Typography variant={'label'} color={'gray'}>
@@ -53,7 +60,7 @@ export const SearchedUserCard = ({ data, onClick, selected }: any) => {
                     Phone
                 </Typography>
                 <Typography variant={'label'} color={'text-gray-700'}>
-                    0401748554
+                    {person?.phone || person?.phoneNumber}
                 </Typography>
             </div>
 
@@ -63,19 +70,19 @@ export const SearchedUserCard = ({ data, onClick, selected }: any) => {
                     Address
                 </Typography>
                 <Typography variant={'label'} color={'text-gray-700'}>
-                    Wallan, Vic 3756
+                    {person?.addressLine1}, {person?.addressLine2}
                 </Typography>
             </div>
 
             {/*  */}
-            <div>
+            {/* <div>
                 <Typography variant={'xs'} color={'text-gray-400'}>
                     RTO
                 </Typography>
                 <Typography variant={'label'} color={'text-gray-700'}>
                     Job Training Institute
                 </Typography>
-            </div>
+            </div> */}
 
             {/*  */}
             {/* <div className="bg-primary-light px-5 py-1 flex items-center gap-x-2 rounded">

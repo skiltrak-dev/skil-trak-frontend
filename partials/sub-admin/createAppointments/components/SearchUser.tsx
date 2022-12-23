@@ -20,6 +20,7 @@ export const SearchUser = ({
     selectedUser,
     selectedAppointment,
     type,
+    selectedPerson,
 }: any) => {
     const [search, setSearch] = useState('')
     const [searchValue, setSearchValue] = useState('')
@@ -90,6 +91,7 @@ export const SearchUser = ({
                                             onClick(s)
                                         }}
                                         selected={selectedUser}
+                                        selectedPerson={selectedPerson}
                                     />
                                 ))
                             ) : (

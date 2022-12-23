@@ -9,28 +9,17 @@ import Image from 'next/image'
 import { SubAdminLayout } from '@layouts'
 import { NextPageWithLayout } from '@types'
 
-import { TabsView } from '@components/sections/rto'
-import { FaEdit, FaEye, FaFileExport, FaFilter } from 'react-icons/fa'
+import { FaEye } from 'react-icons/fa'
 
 //components
 import {
-    Card,
-    Table,
-    Button,
-    EmptyData,
-    Typography,
-    TableAction,
-    TechnicalError,
-    SidebarCalendar,
-    LoadingAnimation,
-    TableActionOption,
-    RtoContextBarData,
+    Button, Card, EmptyData, LoadingAnimation, RtoContextBarData, SidebarCalendar, Table, TableAction, TableActionOption, TechnicalError, Typography
 } from '@components'
 // queries
 import { useGetSubAdminRtosQuery } from '@queries'
 // icons
-import { FaEnvelope, FaPhoneSquareAlt } from 'react-icons/fa'
 import { useContextBar } from '@hooks'
+import { FaEnvelope, FaPhoneSquareAlt } from 'react-icons/fa'
 
 import { Rto } from '@types'
 

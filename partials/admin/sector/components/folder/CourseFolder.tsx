@@ -10,10 +10,12 @@ export const CourseFolder = ({
     folder,
     course,
     category,
+    result,
 }: {
     folder: Folder
     course: Course
     category: any
+    result: any
 }) => {
     const { notification } = useNotification()
 
@@ -112,6 +114,7 @@ export const CourseFolder = ({
                     edit
                     initialValues={folder}
                     onCancel={onCancel}
+                    result={result}
                 />
             ) : (
                 <div className="relative">
