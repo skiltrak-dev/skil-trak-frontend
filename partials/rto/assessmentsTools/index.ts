@@ -1,2 +1,2 @@
 export * from './AssessmentTools'
-export * from './ArchivedView'
+export * from './ArchivedViewContainer'

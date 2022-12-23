@@ -34,63 +34,66 @@ import { FaEdit } from 'react-icons/fa'
 // queries
 import {
     useGetSubAdminRTODetailQuery,
-    useUpdateAssessmentToolArchiveMutation,
+    useUpdateSubAdminAssessmentToolArchiveMutation,
 } from '@queries'
-import { AssessmentTools } from '@components/sections/subAdmin/UsersContainer/SubAdminRtosContainer/SubAdminRtosProfile/AssessmentTools'
+import { AssessmentToolsSubAdmin } from '@components/sections/subAdmin/UsersContainer/SubAdminRtosContainer/SubAdminRtosProfile'
 import { MailsTab } from '@components/sections/subAdmin/UsersContainer/SubAdminRtosContainer/SubAdminRtosProfile/components/MailsTab'
 import { AllCommunicationTab } from '@partials/sub-admin/students/tabs/detail/AllCommunicationTab'
 
 type Props = {}
 
 const RtoProfile: NextPageWithLayout = (props: Props) => {
-    const { setContent } = useContextBar()
     const pathname = useRouter()
     const { id } = pathname.query
-
+    const { setContent } = useContextBar()
+    const rtoDetail = useGetSubAdminRTODetailQuery(String(id), {
+        skip: !id,
+    })
+    
     useEffect(() => {
         setContent(
             <>
-                <RtoProfileSidebar />
+                <RtoProfileSidebar data={rtoDetail} />
             </>
         )
     }, [setContent])
 
     // query
-    const rtoDetail = useGetSubAdminRTODetailQuery(String(id), {
-        skip: !id,
-    })
 
-    const [archiveAssessmentTool, archiveAssessmentToolResult] =
-        useUpdateAssessmentToolArchiveMutation()
-    const actions = (id: any) => {
-        return (
-            <div className="flex gap-x-2 ">
-                <a
-                    href={`${process.env.NEXT_PUBLIC_END_POINT}/rtos/course/content/${id}`}
-                    target="blank"
-                    rel="noreferrer"
-                >
-                    <Typography variant="tableCell" color="text-blue-600">
-                        Download
-                    </Typography>
-                </a>
 
-                <div
-                    className="cursor-pointer"
-                    onClick={() => {
-                        archiveAssessmentTool(id)
-                    }}
-                >
-                    <Typography variant="tableCell" color="text-[#7081A0]">
-                        Archive
-                    </Typography>
-                </div>
-                <div onClick={() => {}}>
-                    <FaEdit className="text-[#686DE0] cursor-pointer" />
-                </div>
-            </div>
-        )
-    }
+    // const [archiveAssessmentTool, archiveAssessmentToolResult] =
+    //     useUpdateAssessmentToolArchiveMutation()
+    // const [archiveAssessmentTool, archiveAssessmentToolResult] =
+    //     useUpdateSubAdminAssessmentToolArchiveMutation()
+    // const actions = (id: any) => {
+    //     return (
+    //         <div className="flex gap-x-2 ">
+    //             <a
+    //                 href={`${process.env.NEXT_PUBLIC_END_POINT}/rtos/course/content/${id}`}
+    //                 target="blank"
+    //                 rel="noreferrer"
+    //             >
+    //                 <Typography variant="tableCell" color="text-blue-600">
+    //                     Download
+    //                 </Typography>
+    //             </a>
+
+    //             <div
+    //                 className="cursor-pointer"
+    //                 onClick={() => {
+    //                     archiveAssessmentTool(id)
+    //                 }}
+    //             >
+    //                 <Typography variant="tableCell" color="text-[#7081A0]">
+    //                     Archive
+    //                 </Typography>
+    //             </div>
+    //             <div onClick={() => { }}>
+    //                 <FaEdit className="text-[#686DE0] cursor-pointer" />
+    //             </div>
+    //         </div>
+    //     )
+    // }
     const tabs: TabProps[] = [
         {
             label: 'Overview',
@@ -98,6 +101,7 @@ const RtoProfile: NextPageWithLayout = (props: Props) => {
             badge: { text: '05', color: 'text-blue-500' },
             element: (
                 <RtoProfileOverview
+                    rtoDetail={rtoDetail?.data}
                     rtoId={id}
                     userId={rtoDetail?.data?.user?.id}
                 />
@@ -109,14 +113,9 @@ const RtoProfile: NextPageWithLayout = (props: Props) => {
                 pathname: String(id),
                 query: { tab: 'assessments' },
             },
-            badge: { text: '99+', color: 'text-error-500' },
+            badge: { text: '', color: 'text-error-500' },
             element: (
-                <AssessmentTools
-                    id={id}
-                    courses={rtoDetail?.data?.courses}
-                    role={'RTO'}
-                    actions={actions}
-                />
+                <AssessmentToolsSubAdmin />
             ),
         },
         {

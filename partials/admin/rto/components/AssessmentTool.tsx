@@ -16,11 +16,16 @@ import { UserStatus } from '@types'
 
 import { AdminApi } from '@queries'
 import { useRouter } from 'next/router'
+import { AddAssessmentToolCB } from './AddAssessmentToolCB'
+import { useContextBar } from '@hooks'
+import { FaEdit } from 'react-icons/fa'
 
-export const AssessmentTool = ({ rto, setAssessmentView }: any) => {
+export const AssessmentTool = ({ rto, actions, setAssessmentView }: any) => {
     const router = useRouter()
     const [courses, setCourses] = useState<any | null>(null)
-
+    const contextBar = useContextBar()
+    // const [archiveAssessmentTool, archiveAssessmentToolResult] =
+    //     AdminApi.Rtos.useArchiveAssessmentTools()
     const [selectedCourseId, setSelectedCourseId] = useState<number | null>(
         null
     )
@@ -40,35 +45,13 @@ export const AssessmentTool = ({ rto, setAssessmentView }: any) => {
     useEffect(() => {
         setSelectedCourseId(rto?.data?.courses[0]?.id)
     }, [rto])
-
-    const actions = (assessment: any) => {
-        return (
-            <div className="flex gap-x-2 ">
-                <a href={assessment?.file} target="blank" rel="noreferrer">
-                    <Typography variant="tableCell" color="text-blue-600">
-                        Download
-                    </Typography>
-                </a>
-
-                {/* <div
-                    className="cursor-pointer"
-                    onClick={() => {
-                        archiveAssessmentTool(assessment?.id)
-                    }}
-                >
-                    <Typography variant="tableCell" color="text-[#7081A0]">
-                        Archive
-                    </Typography>
-                </div> */}
-                {/* <div
-                  onClick={() => {
-                  }}
-              >
-                  <FaEdit className="text-[#686DE0] cursor-pointer" />
-              </div> */}
-            </div>
-        )
+    const onAddAssessment = () => {
+        contextBar.setTitle('Add Assessment')
+        contextBar.setContent(<AddAssessmentToolCB edit={false} />)
+        contextBar.show()
     }
+
+
 
     return (
         <Card noPadding>
@@ -100,7 +83,7 @@ export const AssessmentTool = ({ rto, setAssessmentView }: any) => {
                         <ActionButton
                             variant={'success'}
                             rounded
-                            onClick={() => {}}
+                            onClick={() => { onAddAssessment() }}
                             simple
                         >
                             Add Assessment
@@ -128,7 +111,7 @@ export const AssessmentTool = ({ rto, setAssessmentView }: any) => {
                         {getAssessmentTools?.isLoading ? (
                             <LoadingAnimation size={80} />
                         ) : getAssessmentTools?.data &&
-                          getAssessmentTools?.data?.length > 0 ? (
+                            getAssessmentTools?.data?.length > 0 ? (
                             getAssessmentTools?.data?.map((assessment: any) => (
                                 <DownloadableFile
                                     actions={() => actions(assessment)}

@@ -60,9 +60,59 @@ export const subAdminRtosApi = createApi({
             },
             invalidatesTags: ['SubAdminRtos'],
         }),
-        getRTOAssessmentTools: builder.query<any, string>({
-            query: (id) => `rto/assessment-tool/list/${id}`,
+        getRTOAssessmentTools: builder.query<
+            any,
+            { id: number; status: string }
+        >({
+            query: ({ id, status }) => {
+                return {
+                    url: `rto/assessment-tool/list/${id}`,
+                    params: { status },
+                }
+            },
             providesTags: ['SubAdminRtos'],
+        }),
+        getSubAdminRTOCourses: builder.query<any, string>({
+            query: (id) => `rto/courses/${id}`,
+            providesTags: ['SubAdminRtos'],
+        }),
+        createRtoSubAdminAssessmentTools: builder.mutation<any, any | null>({
+            query: ({ body, id }) => {
+                return {
+                    url: `rto/assessment-tool/create/${id}`,
+                    method: 'POST',
+                    body,
+                }
+            },
+            invalidatesTags: ['SubAdminRtos'],
+        }),
+        updateRtoSubAdminAssessmentTools: builder.mutation<any, any | null>({
+            query: ({ body, assessment }) => {
+                return {
+                    url: `rto/assessment-tool/update/${assessment}`,
+                    method: 'PATCH',
+                    body: { title: body },
+                }
+            },
+            invalidatesTags: ['SubAdminRtos'],
+        }),
+        updateSubAdminAssessmentToolArchive: builder.mutation<any, any | null>({
+            query: (id: any) => {
+                return {
+                    url: `rto/assessment-tool/archived/${id}`,
+                    method: 'PATCH',
+                }
+            },
+            invalidatesTags: ['SubAdminRtos'],
+        }),
+        removeSubAdminRTOAssessmentTools: builder.mutation<any, any | null>({
+            query: (id: any) => {
+                return {
+                    url: `rto/assessment-tool/remove/${id}`,
+                    method: 'DELETE',
+                }
+            },
+            invalidatesTags: ['SubAdminRtos'],
         }),
     }),
 })
@@ -73,5 +123,10 @@ export const {
     useGetRTOAssessmentToolsQuery,
     useGetSubAdminRtosStudentsQuery,
     useGetSubAdminRtoAppointmentsQuery,
+    useGetSubAdminRTOCoursesQuery,
     useUpdateSubAdminRtoStudentStatusMutation,
+    useCreateRtoSubAdminAssessmentToolsMutation,
+    useUpdateSubAdminAssessmentToolArchiveMutation,
+    useRemoveSubAdminRTOAssessmentToolsMutation,
+    useUpdateRtoSubAdminAssessmentToolsMutation,
 } = subAdminRtosApi

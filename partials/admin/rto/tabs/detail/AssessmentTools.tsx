@@ -1,29 +1,58 @@
-import { TabNavigation, TabProps } from '@components'
+import { TabNavigation, TabProps, Typography } from '@components'
+import { useContextBar } from '@hooks'
+import { AdminApi, useUpdateSubAdminAssessmentToolArchiveMutation } from '@queries'
 import { useState } from 'react'
 import { AssessmentTool, ArchivedAssessmentTool } from '../../components'
-
+import { FaEdit } from 'react-icons/fa'
+import { AddAssessmentToolCB } from '../../components/AddAssessmentToolCB'
 export const AssessmentTools = ({ rto }: any) => {
     const [assessmentView, setAssessmentView] = useState<string>('assessments')
-    // const tabs: TabProps[] = [
-    //     {
-    //         label: 'Assessments',
-    //         href: { query: { tab: 'assessments', id: rto?.data?.id } },
-    //         element: <AssessmentTool rto={rto} />,
-    //     },
-    //     {
-    //         label: 'Archived',
-    //         href: {
-    //             query: { tab: 'archived', id: rto?.data?.id },
-    //         },
-    //         element: <ArchivedAssessmentTool rto={rto} />,
-    //     },
-    // ]
+    const contextBar = useContextBar()
+    const [archiveAssessmentTool, archiveAssessmentToolResult] =
+        AdminApi.Rtos.useArchiveAssessmentTools()
+    const onAddAssessment = (tool: any) => {
+        contextBar.setTitle('Add Assessment')
+        contextBar.setContent(<AddAssessmentToolCB assessment={tool} edit={true} />)
+        contextBar.show()
+    }
+
+    const actions = (assessment: any) => {
+        return (
+            <div className="flex gap-x-2 ">
+                <a href={assessment?.file} target="blank" rel="noreferrer">
+                    <Typography variant="tableCell" color="text-blue-600">
+                        Download
+                    </Typography>
+                </a>
+
+                <div
+                    className="cursor-pointer"
+                    onClick={() => {
+                        archiveAssessmentTool(assessment?.id)
+                    }}
+                >
+                    <Typography variant="tableCell" color="text-[#7081A0]">
+                        Archive
+                    </Typography>
+                </div>
+                <div
+                    onClick={() => {
+                        onAddAssessment(assessment)
+                    }}
+                >
+                    <FaEdit className="text-[#686DE0] cursor-pointer" />
+                </div>
+            </div>
+        )
+    }
+
     return (
         <>
             {assessmentView === 'assessments' ? (
                 <AssessmentTool
                     rto={rto}
                     setAssessmentView={setAssessmentView}
+                    actions={actions}
                 />
             ) : (
                 <ArchivedAssessmentTool

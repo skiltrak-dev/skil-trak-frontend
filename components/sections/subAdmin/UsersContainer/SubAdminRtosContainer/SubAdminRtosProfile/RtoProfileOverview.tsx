@@ -17,37 +17,39 @@ import { LoadingAnimation } from '@components/LoadingAnimation'
 type Props = {
     rtoId: any
     userId: any
+    rtoDetail: any
 }
 
-export const RtoProfileOverview = ({ userId, rtoId }: Props) => {
+export const RtoProfileOverview = ({ userId, rtoId, rtoDetail }: Props) => {
     // pending students
     const { data, isError, isLoading }: any =
         useGetSubAdminRtosStudentsQuery(rtoId)
     // recent appointments
     const { data: rtoRecentAppointment } =
         useGetSubAdminRtoAppointmentsQuery(rtoId)
+    // console.log("rtoRecentAppointment", rtoRecentAppointment)
 
     const FigureCardData = [
         {
-            count: 38,
+            count: rtoDetail?.subadmin?.length,
             title: 'RTOs',
             imagUrl: '/images/figure-card/school.png',
         },
         {
-            count: 97,
+            count: rtoDetail?.students?.length,
             title: 'Students',
             imagUrl: '/images/figure-card/school.png',
         },
-        {
-            count: 98,
-            title: 'Industries',
-            imagUrl: '/images/figure-card/school.png',
-        },
-        {
-            count: 98,
-            title: 'Pending Students',
-            imageUrl: '/images/figure-card/school.png',
-        },
+        // {
+        //     count: 98,
+        //     title: 'Industries',
+        //     imagUrl: '/images/figure-card/school.png',
+        // },
+        // {
+        //     count: 98,
+        //     title: 'Pending Students',
+        //     imageUrl: '/images/figure-card/school.png',
+        // },
     ]
 
     const recentAppointments = [
@@ -73,7 +75,7 @@ export const RtoProfileOverview = ({ userId, rtoId }: Props) => {
                 <div className="flex gap-x-2 my-6">
                     {FigureCardData?.map((data: any) => (
                         <FigureCard
-                            key={data.id}
+                            // key={data.id}
                             imageUrl={data?.imageUrl}
                             count={data.count}
                             title={data.title}

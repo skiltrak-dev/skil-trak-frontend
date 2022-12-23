@@ -79,6 +79,10 @@ const {
     useRtoDetailQuery,
     useRtoStatusChangeMutation,
     useRtoRemoveMutation,
+    useRtoCreateAssessmentToolsMutation,
+    useRtoUpdateAssessmentToolsMutation,
+    useRtoRemoveAssessmentToolsMutation,
+    useRtoAssessmentToolArchiveMutation,
 
     useRtoSectorsQuery,
     useRtoAssignCoursesMutation,
@@ -189,6 +193,10 @@ export const AdminApi = {
         useDetailQuery: useRtoDetailQuery,
         useChangeStatusMutation: useRtoStatusChangeMutation,
         useRemove: useRtoRemoveMutation,
+        useCreateAssessmentTools: useRtoCreateAssessmentToolsMutation,
+        useUpdateAssessmentTools: useRtoUpdateAssessmentToolsMutation,
+        useRemoveAssessmentTools: useRtoRemoveAssessmentToolsMutation,
+        useArchiveAssessmentTools: useRtoAssessmentToolArchiveMutation,
 
         useSectors: useRtoSectorsQuery,
         useAssignCourses: useRtoAssignCoursesMutation,
