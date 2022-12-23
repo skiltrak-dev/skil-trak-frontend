@@ -109,7 +109,6 @@ const Students: NextPageWithLayout = (props: Props) => {
                         student={filteredStudents}
                         setItemPerPage={setItemPerPage}
                     />
-<<<<<<< HEAD
                 ) : (
                     !filteredStudents.isError && (
                         <TabNavigation tabs={tabs}>
@@ -124,42 +123,6 @@ const Students: NextPageWithLayout = (props: Props) => {
                         </TabNavigation>
                     )
                 )}
-=======
-                </div>
-
-                <div>
-                    {filteredStudents.isError && <TechnicalError />}
-                    {filteredStudents.isLoading ? (
-                        <div className="px-4 mt-4">
-                            <Card>
-                                <LoadingAnimation />
-                            </Card>
-                        </div>
-                    ) : Object.keys(filter).length &&
-                        filteredStudents.isSuccess ? (
-                        <FilteredStudents
-                            setPage={setPage}
-                            itemPerPage={itemPerPage}
-                            student={filteredStudents}
-                            setItemPerPage={setItemPerPage}
-                        />
-                    ) : (
-                        !filteredStudents.isError && (
-                            <TabNavigation tabs={tabs}>
-                                {({ header, element }: any) => {
-                                    return (
-                                        <div>
-                                            <div>{header}</div>
-                                            <div className="p-4">{element}</div>
-                                        </div>
-                                    )
-                                }}
-                            </TabNavigation>
-                        )
-                    )}
-
-                </div>
->>>>>>> sub-admin-rto-profile-assessment-tools
             </div>
         </>
     )
