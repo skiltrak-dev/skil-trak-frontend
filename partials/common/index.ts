@@ -1,2 +1,5 @@
 export * from './components'
 export * from './workplace'
+export * from './NotesTab'
+export * from './MailsTab'
+export * from './AllCommunicationTab'

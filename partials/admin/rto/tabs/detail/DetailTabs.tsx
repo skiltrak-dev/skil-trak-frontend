@@ -1,12 +1,11 @@
 import { MailsTab } from './MailsTab'
-import { NotesTab } from './NotesTab'
 import { SectorsTab } from './SectorsTab'
 import { SubAdminsTab } from './SubAdminsTab'
 import { AssessmentTools } from './AssessmentTools'
 import { TabNavigation, TabProps } from '@components'
-import { AllCommunicationTab } from './AllCommunicationTab'
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/router'
+import { AllCommunicationTab, NotesTab } from '@partials/common'
 
 export const DetailTabs = ({
     id,
@@ -31,7 +30,7 @@ export const DetailTabs = ({
         {
             label: 'Notes',
             href: { query: { tab: 'notes', id } },
-            element: <NotesTab rto={rto?.data?.user} />,
+            element: <NotesTab user={rto?.data?.user} />,
         },
         {
             label: 'Assessments',
@@ -56,7 +55,7 @@ export const DetailTabs = ({
         {
             label: 'All Communications',
             href: { query: { tab: 'all-communications', id } },
-            element: <AllCommunicationTab rto={rto?.data} />,
+            element: <AllCommunicationTab user={rto?.data?.user} />,
         },
     ]
 

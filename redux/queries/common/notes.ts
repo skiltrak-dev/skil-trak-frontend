@@ -8,12 +8,12 @@ export const notesEndpoints = (
 ) => ({
     notesPinned: builder.query<Note[], number | any>({
         query: (id) => `${PREFIX}/pinned/${id}`,
-        providesTags: ['Notes'],
+        providesTags: ['Notes', 'AllCommunications'],
     }),
 
     notes: builder.query<Note[], any>({
         query: (id) => `${PREFIX}/${id}`,
-        providesTags: ['Notes'],
+        providesTags: ['Notes', 'AllCommunications'],
     }),
 
     noteStatusChange: builder.mutation({
@@ -39,7 +39,7 @@ export const notesEndpoints = (
             method: 'PATCH',
             body: body,
         }),
-        invalidatesTags: ['Notes'],
+        invalidatesTags: ['Notes', 'AllCommunications'],
     }),
 
     noteRemove: builder.mutation({
@@ -47,6 +47,6 @@ export const notesEndpoints = (
             url: `${PREFIX}/${id}`,
             method: 'DELETE',
         }),
-        invalidatesTags: ['Notes'],
+        invalidatesTags: ['Notes', 'AllCommunications'],
     }),
 })
