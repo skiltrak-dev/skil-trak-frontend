@@ -1,5 +1,5 @@
 import { ActionButton } from '@components/buttons'
-import { Select } from '@components/inputs'
+import { Select, TextInput } from '@components/inputs'
 import { useState } from 'react'
 import { FaCheck, FaQuestionCircle, FaTimes } from 'react-icons/fa'
 
@@ -19,12 +19,27 @@ export const StudentStatus = () => {
                         </span>
                     </div>
                 </div>
+                {!edit ? (
+                    <button
+                        className="text-blue-500 text-xs font-medium"
+                        onClick={() => onChangeClicked()}
+                    >
+                        Change
+                    </button>
+                ) : (
+                    <button
+                        className="text-blue-500 text-xs font-medium"
+                        onClick={() => onChangeClicked()}
+                    >
+                        Cancel
+                    </button>
+                )}
             </div>
 
             <div className="flex justify-between items-center">
                 {edit ? (
-                    <div className="flex  gap-x-2 w-full">
-                        <div className="flex-grow w-full">
+                    <div className="w-full">
+                        <div className="flex-grow w-full mb-3">
                             <Select
                                 name="status"
                                 options={[
@@ -37,19 +52,22 @@ export const StudentStatus = () => {
                                 ]}
                             />
                         </div>
+                        <TextInput
+                            name={'comment'}
+                            placeholder={'Add Comment'}
+                        />
 
-                        <div className="flex items-center gap-x-1">
-                            <ActionButton
-                                variant="success"
-                                mini
-                                Icon={FaCheck}
-                            ></ActionButton>
+                        <div className="flex justify-end items-center gap-x-1">
+                            <ActionButton variant="success" Icon={FaCheck}>
+                                Save
+                            </ActionButton>
                             <ActionButton
                                 variant="error"
-                                mini
                                 Icon={FaTimes}
                                 onClick={onChangeClicked}
-                            ></ActionButton>
+                            >
+                                Cancel
+                            </ActionButton>
                         </div>
                     </div>
                 ) : (
@@ -57,22 +75,6 @@ export const StudentStatus = () => {
                         <div className="text-indigo-500 text-sm font-semibold">
                             Current Status
                         </div>
-
-                        {!edit ? (
-                            <button
-                                className="text-blue-500 text-xs font-medium"
-                                onClick={() => onChangeClicked()}
-                            >
-                                Change
-                            </button>
-                        ) : (
-                            <button
-                                className="text-red-500 text-xs font-medium"
-                                onClick={() => onChangeClicked()}
-                            >
-                                Cancel
-                            </button>
-                        )}
                     </div>
                 )}
             </div>

@@ -12,6 +12,7 @@ import { useRouter } from 'next/router'
 import { FaSchool } from 'react-icons/fa'
 import { MdPermContactCalendar, MdPhone } from 'react-icons/md'
 import { RtoAvatar } from '@components/avatars'
+import { SubAdmin } from '@types'
 
 export const MyRto = ({ myRto }: any) => {
     const pathname = useRouter()
@@ -79,33 +80,35 @@ export const MyRto = ({ myRto }: any) => {
                         </div>
                     </div>
 
-                    {myRto?.rto?.subadmin.map((coordinator: any) => (
-                        <div key={coordinator.id} className="mt-4">
-                            <p className="text-[11px] text-gray-400">
-                                Coordinators
-                            </p>
-                            <div className="flex justify-between gap-x-4">
-                                <div>
-                                    <p className="font-medium text-sm">
-                                        {coordinator?.user?.name}
-                                    </p>
-                                    <p className="text-xs font-medium text-slate-400">
-                                        {coordinator?.user?.email}
-                                    </p>
-                                </div>
-
-                                <InitialAvatarContainer show={2}>
-                                    <InitialAvatar
-                                        name={coordinator?.user?.name}
-                                        first
-                                    />
-                                    {/* <InitialAvatar name="Yaseen Khan" />
-                                        <InitialAvatar name="Julie Clarke" />
-                                        <InitialAvatar name="Salman" /> */}
-                                </InitialAvatarContainer>
+                    <div className="flex justify-between gap-x-2 mt-3">
+                        {myRto?.rto?.subadmin.length && (
+                            <div>
+                                <p className="text-[11px] text-gray-400">
+                                    Coordinators
+                                </p>
+                                <p className="font-medium text-sm">
+                                    {myRto?.rto?.subadmin[0].user.name}
+                                </p>
+                                <p className="text-xs font-medium text-slate-400">
+                                    {myRto?.rto?.subadmin[0].user.email}
+                                </p>
                             </div>
-                        </div>
-                    ))}
+                        )}
+
+                        {myRto?.rto?.subadmin?.length > 1 && (
+                            <InitialAvatarContainer show={2}>
+                                {myRto?.rto?.subadmin
+                                    ?.slice(1)
+                                    ?.map((subAdmin: SubAdmin, idx: number) => (
+                                        <InitialAvatar
+                                            key={subAdmin.id}
+                                            name={subAdmin.user.name}
+                                            first={idx === 0}
+                                        />
+                                    ))}
+                            </InitialAvatarContainer>
+                        )}
+                    </div>
                 </div>
             </div>
         </Card>

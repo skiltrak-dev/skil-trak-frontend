@@ -95,15 +95,6 @@ export const CreateAppointments = () => {
     }, [userData])
 
     useEffect(() => {
-        if (student?.isSuccess && student?.data) {
-            setSelectedUser({
-                ...selectedUser,
-                selectedAppointmentForUser: student?.data?.user?.id,
-            })
-        }
-    }, [student])
-
-    useEffect(() => {
         if (selectedPerson.selectedAppointmentWith === 'Self') {
             const user = getUserCredentials()
             setSelectedUser({
@@ -242,8 +233,14 @@ export const CreateAppointments = () => {
                             ) : (
                                 <>
                                     <Typography>
-                                        Selected{' '}
-                                        {selectedPerson?.selectedAppointmentFor}
+                                        Appointment For {userData?.data?.name}{' '}
+                                        <span className="text-sm">
+                                            (
+                                            {
+                                                selectedPerson?.selectedAppointmentFor
+                                            }
+                                            )
+                                        </span>
                                     </Typography>
                                     <SearchedUserCard
                                         data={userData?.data}

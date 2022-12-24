@@ -151,9 +151,11 @@ const RtoProfile: NextPageWithLayout = (props: Props) => {
                         text="Book Appointment"
                         variant="info"
                         onClick={() => {
-                            pathname.push(
-                                `/portals/sub-admin/tasks/appointments/create-appointment?rto=${rtoDetail?.data?.user?.id}`
-                            )
+                            pathname.push({
+                                pathname:
+                                    '/portals/sub-admin/tasks/appointments/create-appointment',
+                                query: { student: rtoDetail?.data?.user?.id },
+                            })
                         }}
                         disabled={!rtoDetail?.isSuccess}
                     />
