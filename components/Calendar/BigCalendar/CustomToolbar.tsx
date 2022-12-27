@@ -5,12 +5,23 @@ import { FaChevronLeft, FaChevronRight } from 'react-icons/fa'
 
 export const CustomToolbar = (toolbar: ToolbarProps) => {
     const goToBack = () => {
-        toolbar.date.setMonth(toolbar.date.getMonth() - 1)
         toolbar.onNavigate('PREV')
     }
 
     const goToNext = () => {
-        toolbar.date.setMonth(toolbar.date.getMonth() + 1)
+        // switch (toolbar.view) {
+        //     case 'day':
+        //         toolbar.date.setDate(toolbar.date.getDate() + 1)
+        //         break
+
+        //     case 'week':
+        //         toolbar.date.setDate(toolbar.date.getDate() + 1)
+        //         break
+
+        //     case 'month':
+        //         toolbar.date.setDate(toolbar.date.getMonth() + 1)
+        //         break
+        // }
         toolbar.onNavigate('NEXT')
     }
 

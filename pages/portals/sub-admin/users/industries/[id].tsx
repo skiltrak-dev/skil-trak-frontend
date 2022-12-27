@@ -101,9 +101,11 @@ const IndustriesProfile: NextPageWithLayout = (props: Props) => {
                         text="Book Appointment"
                         variant="info"
                         onClick={() => {
-                            pathname.push(
-                                `/portals/sub-admin/tasks/appointments/create-appointment?industry=${data?.user?.id}`
-                            )
+                            pathname.push({
+                                pathname:
+                                    '/portals/sub-admin/tasks/appointments/create-appointment',
+                                query: { student: data?.user?.id },
+                            })
                         }}
                         disabled={!isSuccess}
                     />

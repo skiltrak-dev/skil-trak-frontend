@@ -3,6 +3,8 @@ import { AuthUtils } from '@utils'
 
 import { SubAdmin } from '@types'
 import { notesEndpoints } from './notes'
+import { workplaceEndpoints } from './workplace'
+import { studentsEndpoints } from './students'
 
 export const subAdminApi = createApi({
     reducerPath: 'subAdminApi',
@@ -16,7 +18,7 @@ export const subAdminApi = createApi({
             return headers
         },
     }),
-    tagTypes: ['SubAdmin', 'Notes'],
+    tagTypes: ['SubAdmin', 'Notes', 'SubAdminWorkplace', 'SubAdminStudents'],
 
     // ---------- Sub Admin ENDPOINTS ---------- //
     endpoints: (build) => ({
@@ -26,10 +28,12 @@ export const subAdminApi = createApi({
         }),
 
         ...notesEndpoints(build),
+        ...workplaceEndpoints(build),
+        ...studentsEndpoints(build),
     }),
 })
 
-const {
+export const {
     // ------ SELF ------ //
     useProfileQuery,
 
@@ -38,6 +42,48 @@ const {
     useNoteAddMutation,
     useNoteDeleteMutation,
     useNoteStatusChangeMutation,
+
+    // ------WORKPLACE------ //
+    useAgrementSignMutation,
+    useStartPlacementMutation,
+    useIndustryResponseMutation,
+    useAssignToSubAdminMutation,
+    useCompletePlacementMutation,
+    useTerminatePlacementMutation,
+    useGetMyStudentsWorkplacesQuery,
+    useGetSubAdminWorkplacesQuery,
+    useGetCancelledWorkplacesQuery,
+    useGetSubAdminFilteredWorkplacesQuery,
+    useSendInterviewNotificationMutation,
+    useForwardWorkplaceToIndustryMutation,
+    useAddWorkplaceNoteMutation,
+    useGetWorkplaceFoldersQuery,
+    useUpdateWorkplaceStatusMutation,
+    useCancelWorkplaceStatusMutation,
+    useGetAddedByStudentsWorkplacesQuery,
+    useSubAdminApplyStudentWorkplaceMutation,
+    useAddCustomIndustryMutation,
+    useShowExistingIndustriesQuery,
+    useAddExistingIndustriesMutation,
+    useChangeCustomIndustryStatusMutation,
+
+    // -----STUDENTS-------//
+    useGetSubAdminStudentsQuery,
+    useSubAdminRequestWorkplaceMutation,
+    useSubAdminFilteredStudentsQuery,
+    useGetSubAdminStudentWorkplaceQuery,
+    useGetSubAdminMyRtoQuery,
+    useGetSubAdminStudentDetailQuery,
+    useUpdateSubAdminCourseDurationMutation,
+    useGetSubAdminMyStudentsQuery,
+    useAssignStudentsToSubAdminMutation,
+    useSubAdminRequestIndustryWorkplaceMutation,
+    useSubAdminCancelStudentWorkplaceRequestMutation,
+    useGetRequiredDocsQuery,
+    useUploadRequiredDocsMutation,
+    useFindByAbnWorkplaceMutation,
+    useApplyWorkplaceOnExistingIndustryMutation,
+    useAddCustomIndustyForWorkplaceMutation,
 } = subAdminApi
 
 export const SubAdminApi = {
@@ -49,5 +95,29 @@ export const SubAdminApi = {
         useCreate: useNoteAddMutation,
         useDelete: useNoteDeleteMutation,
         useStatusChange: useNoteStatusChangeMutation,
+    },
+    Workplace: {
+        AgreementSign: useAgrementSignMutation,
+        useStartPlacementMutation,
+        useIndustryResponseMutation,
+        useAssignToSubAdminMutation,
+        useCompletePlacementMutation,
+        useTerminatePlacementMutation,
+        useGetMyStudentsWorkplacesQuery,
+        useGetSubAdminWorkplacesQuery,
+        useGetCancelledWorkplacesQuery,
+        useGetSubAdminFilteredWorkplacesQuery,
+        useSendInterviewNotificationMutation,
+        useForwardWorkplaceToIndustryMutation,
+        useAddWorkplaceNoteMutation,
+        useGetWorkplaceFoldersQuery,
+        useUpdateWorkplaceStatusMutation,
+        useCancelWorkplaceStatusMutation,
+        useGetAddedByStudentsWorkplacesQuery,
+        useSubAdminApplyStudentWorkplaceMutation,
+        useAddCustomIndustryMutation,
+        useShowExistingIndustriesQuery,
+        useAddExistingIndustriesMutation,
+        useChangeCustomIndustryStatusMutation,
     },
 }

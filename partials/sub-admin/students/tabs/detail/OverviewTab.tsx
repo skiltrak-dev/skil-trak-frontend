@@ -21,7 +21,9 @@ export const OverViewTab = ({ student }: StudentsProfileOverviewProps) => {
             {/* Progress */}
             {student?.workplace?.length > 0 && (
                 <div className="my-4">
-                    <ProgressStep status />
+                    <ProgressStep
+                        status={student?.workplace[0]?.currentStatus}
+                    />
                 </div>
             )}
 

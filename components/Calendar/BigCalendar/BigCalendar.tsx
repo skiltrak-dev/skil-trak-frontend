@@ -10,7 +10,7 @@ import { EventWrapper } from './EventWrapper'
 
 const localizer = momentLocalizer(moment)
 
-interface CalendarEvent {
+export interface CalendarEvent {
     priority: 'high' | 'medium' | 'low'
     title: string
     subTitle?: string
@@ -20,52 +20,54 @@ interface CalendarEvent {
     allDay?: boolean
 }
 
-export const BigCalendar = () => {
-    const events: CalendarEvent[] = [
-        {
-            allDay: false,
-            start: new Date('2022-11-27T01:00:15.221Z'),
-            end: new Date('2022-11-27T02:00:15.221Z'),
-            title: 'Appointment',
-            priority: 'high',
-            subTitle: 'Go For It',
-        },
-        {
-            allDay: false,
-            end: new Date('2022-11-29T05:00:00.000Z'),
-            start: new Date('2022-11-29T07:00:00.000Z'),
-            title: 'test larger',
-            priority: 'low',
-        },
-        {
-            allDay: false,
-            end: new Date('2022-11-29T18:00:00.000Z'),
-            start: new Date('2022-11-29T10:00:00.000Z'),
-            title: 'test larger',
-            priority: 'medium',
-        },
-        {
-            allDay: true,
-            end: new Date('2022-11-29T19:00:00.000Z'),
-            start: new Date('2022-11-28T19:00:00.000Z'),
-            title: 'test all day',
-            priority: 'high',
-        },
-        {
-            allDay: true,
-            end: new Date('2022-11-30T19:00:00.000Z'),
-            start: new Date('2022-11-28T19:00:00.000Z'),
-            title: 'test 2 days',
-            priority: 'high',
-        },
-        {
-            allDay: false,
-            end: new Date('2022-12-02T10:48:15.222Z'),
-            start: new Date('2022-11-29T10:48:15.222Z'),
-            title: 'test multi-day',
-            priority: 'high',
-        },
-    ]
+export const BigCalendar = ({ events }: { events: any }) => {
+    // const events: CalendarEvent[] = [
+    //     {
+    //         allDay: false,
+    //         start: new Date('2022-12-26T02:00:15.221Z'),
+    //         end: new Date('2022-12-27T02:00:15.221Z'),
+    //         title: 'Appointment',
+    //         priority: 'high',
+    //         subTitle: 'Go For It',
+    //     },
+    //     {
+    //         allDay: false,
+    //         end: new Date('2022-11-29T05:00:00.000Z'),
+    //         start: new Date('2022-11-29T07:00:00.000Z'),
+    //         title: 'test larger',
+    //         priority: 'low',
+    //     },
+    //     {
+    //         allDay: false,
+    //         end: new Date('2022-11-29T18:00:00.000Z'),
+    //         start: new Date('2022-11-29T10:00:00.000Z'),
+    //         title: 'test larger',
+    //         priority: 'medium',
+    //     },
+    //     {
+    //         allDay: true,
+    //         end: new Date('2022-11-29T19:00:00.000Z'),
+    //         start: new Date('2022-11-28T19:00:00.000Z'),
+    //         title: 'test all day',
+    //         priority: 'high',
+    //     },
+    //     {
+    //         allDay: true,
+    //         end: new Date('2022-11-30T19:00:00.000Z'),
+    //         start: new Date('2022-11-28T19:00:00.000Z'),
+    //         title: 'test 2 days',
+    //         priority: 'high',
+    //     },
+    //     {
+    //         allDay: false,
+    //         end: new Date('2022-12-02T10:48:15.222Z'),
+    //         start: new Date('2022-11-29T10:48:15.222Z'),
+    //         title: 'test multi-day',
+    //         priority: 'high',
+    //     },
+    // ]
+
+    console.log('events', events)
 
     const today = new Date()
     const min = new Date(
@@ -85,7 +87,7 @@ export const BigCalendar = () => {
         <CalendarStyles>
             <Calendar
                 localizer={localizer}
-                events={events}
+                events={events || []}
                 defaultView="week"
                 startAccessor="start"
                 endAccessor="end"
