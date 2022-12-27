@@ -47,7 +47,7 @@ export const assessmentEvidenceApi = createApi({
         submitAssessmentEvidence: builder.mutation<any, any | null>({
             query: ({ id, body }: any) => ({
                 url: `student/assessment-evidence/result/${id}`,
-                method: 'POST',
+                method: 'PATCH',
                 body,
             }),
             invalidatesTags: ['AssessmentEvidence'],

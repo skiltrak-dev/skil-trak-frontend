@@ -50,7 +50,6 @@ export const AddAssessmentToolCB = ({ edit, assessment }: Props) => {
         delete values.file
         const formData = new FormData()
         formData.append('file', fileData)
-        console.log('fileData', values)
         Object.keys(values).map((key) => {
             formData.append(key, values[key])
         })

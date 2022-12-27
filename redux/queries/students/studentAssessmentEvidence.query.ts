@@ -1,7 +1,5 @@
-import { useSubmitAssessmentEvidenceMutation } from '@queries'
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 import { AuthUtils } from '@utils'
-import { StudentJobsType, StudentJobType } from 'redux/queryTypes'
 
 export const studentAssessmentEvidenceApi = createApi({
     reducerPath: 'studentAssessmentEvidenceApi',

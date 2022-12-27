@@ -58,54 +58,45 @@ export const AssessmentFolderDetailX = ({ folder, fileUpload }: Props) => {
                     </Typography>
                 </div>
                 <div className="ml-auto">
-                    {data?.comment ? (
-                        fileUpload ? (
-                            <FileUpload
-                                onChange={(docs: any) => {
-                                    const formData = new FormData()
-                                    docs.forEach((doc: any) => {
-                                        formData.append(
-                                            `${folder?.name}_${doc.name}`,
-                                            doc
-                                        )
-                                    })
-                                    uploadDocs({
-                                        id: folder?.id,
-                                        body: formData,
-                                    })
-                                }}
-                                name={folder?.name}
-                                component={
-                                    uploadDocsResult.isLoading
-                                        ? Loading
-                                        : UploadFile
-                                }
-                                limit={
-                                    folder?.capacity -
-                                    (data?.files?.length || 0)
-                                }
-                                acceptTypes={getDocType()}
-                                multiple={folder?.capacity > 1}
-                            />
-                        ) : (
-                            <div>
-                                {folder.isActive ? (
-                                    <Badge text="Approved" variant="success" />
-                                ) : (
-                                    <Badge
-                                        text="Not Approved"
-                                        variant="error"
-                                    />
-                                )}
-                                <Typography
-                                    variant="body"
-                                    color={'text-green-500'}
-                                >
-                                    Assessed On
-                                </Typography>
-                            </div>
-                        )
-                    ) : null}
+                    {fileUpload ? (
+                        <FileUpload
+                            onChange={(docs: any) => {
+                                const formData = new FormData()
+                                docs.forEach((doc: any) => {
+                                    formData.append(
+                                        `${folder?.name}_${doc.name}`,
+                                        doc
+                                    )
+                                })
+                                uploadDocs({
+                                    id: folder?.id,
+                                    body: formData,
+                                })
+                            }}
+                            name={folder?.name}
+                            component={
+                                uploadDocsResult.isLoading
+                                    ? Loading
+                                    : UploadFile
+                            }
+                            limit={
+                                folder?.capacity - (data?.files?.length || 0)
+                            }
+                            acceptTypes={getDocType()}
+                            multiple={folder?.capacity > 1}
+                        />
+                    ) : (
+                        <div>
+                            {folder.isActive ? (
+                                <Badge text="Approved" variant="success" />
+                            ) : (
+                                <Badge text="Not Approved" variant="error" />
+                            )}
+                            <Typography variant="body" color={'text-green-500'}>
+                                Assessed On
+                            </Typography>
+                        </div>
+                    )}
                 </div>
             </div>
             <div className="bg-white p-2 flex flex-col justify-between h-full relative min-h-[355px]">

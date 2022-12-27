@@ -19,12 +19,15 @@ import {
     useGetAssessmentsFoldersQuery,
     useSubmitStudentAssessmentMutation,
 } from '@queries'
+import { useNotification } from '@hooks'
 
 type Props = {}
 
 const AssessmentEvidence: NextPageWithLayout = (props: Props) => {
     const [selectedCourse, setSelectedCourse] = useState<any | null>(null)
     const [selectedFolder, setSelectedFolder] = useState<any | null>(null)
+
+    const { notification } = useNotification()
 
     // query
     const assessmentsCourses = useGetAssessmentsCoursesQuery()
@@ -49,10 +52,23 @@ const AssessmentEvidence: NextPageWithLayout = (props: Props) => {
         }
     }, [assessmentsFolders])
 
+    useEffect(() => {
+        if (submitAssessmentResult.isSuccess) {
+            notification.success({
+                title: 'Assessment Submitted Successfully',
+                description: 'Assessment Submitted Successfully',
+            })
+        }
+    }, [submitAssessmentResult])
+
     const onSubmit = () => {
         submitAssessment(selectedCourse?.id)
     }
-    console.log(selectedCourse?.results[0]?.totalSubmission)
+
+    const isFilesUploaded = assessmentsFolders?.data?.every(
+        (f: any) => f?.studentResponse?.files?.length > 0
+    )
+   
     return (
         <>
             <ShowErrorNotifications result={submitAssessmentResult} />
@@ -99,32 +115,37 @@ const AssessmentEvidence: NextPageWithLayout = (props: Props) => {
                                     selectedCourse?.results[0]?.totalSubmission
                                 }
                             />
-                            <div className="flex items-center gap-x-2 mt-10">
-                                <div>
-                                    <Button
-                                        text="SUBMIT"
-                                        onClick={onSubmit}
-                                        loading={
-                                            submitAssessmentResult.isLoading
-                                        }
-                                        disabled={
-                                            submitAssessmentResult.isLoading ||
-                                            selectedCourse?.results[0]
-                                                ?.totalSubmission > 2
-                                        }
-                                    />
-                                </div>
-                                <div className="flex items-center gap-x-2">
-                                    <Checkbox
-                                        name="notifyCoordinator"
-                                        label="Notify Coordinator"
-                                    />
-                                    <Checkbox
-                                        name="notifyCoordinator"
-                                        label="Notify Coordinator"
-                                    />
-                                </div>
-                            </div>
+                            {isFilesUploaded &&
+                                selectedCourse?.results
+                                    ?.map((result: any) => result.result)
+                                    .includes('reOpened') && (
+                                    <div className="flex items-center gap-x-2 mt-10">
+                                        <div>
+                                            <Button
+                                                text="SUBMIT"
+                                                onClick={onSubmit}
+                                                loading={
+                                                    submitAssessmentResult.isLoading
+                                                }
+                                                disabled={
+                                                    submitAssessmentResult.isLoading ||
+                                                    selectedCourse?.results[0]
+                                                        ?.totalSubmission > 2
+                                                }
+                                            />
+                                        </div>
+                                        <div className="flex items-center gap-x-2">
+                                            <Checkbox
+                                                name="notifyCoordinator"
+                                                label="Notify Coordinator"
+                                            />
+                                            <Checkbox
+                                                name="notifyCoordinator"
+                                                label="Notify Coordinator"
+                                            />
+                                        </div>
+                                    </div>
+                                )}
 
                             <div className="my-2">
                                 <Typography

@@ -68,7 +68,7 @@ export const Detail = ({ studentId, studentUserId }: any) => {
                             code={course.code}
                             title={course.title}
                             isActive={course.isActive}
-                            coordinator={'Saad'}
+                            coordinator={getUserCredentials()?.name}
                             selectedCourseId={selectedCourse?.id}
                             onClick={() => {
                                 setSelectedCourse(course)
@@ -161,7 +161,11 @@ export const Detail = ({ studentId, studentUserId }: any) => {
                             />
                         </div>
                     </div>
-                    <Actions />
+                    {selectedCourse?.results
+                        ?.map((result: any) => result.result)
+                        .includes('pending') && (
+                        <Actions result={selectedCourse?.results[0]} />
+                    )}
                 </div>
             )}
         </div>
