@@ -118,14 +118,11 @@ export const RtoProfileOverview = ({ userId, rtoId, rtoDetail }: Props) => {
                         </div>
                         <div className="flex flex-col gap-y-2">
                             {recentAppointments?.map((data: any) => (
-                                <RecentAppointment
-                                    key={data.id}
-                                    date={data.date}
-                                    time={data.time}
-                                    role={data.role}
-                                    name={data.name}
-                                    address={data.address}
-                                />
+                                <div key={data?.id}>
+                                    <RecentAppointment
+                                        rtoRecentAppointment={rtoRecentAppointment}
+                                    />
+                                </div>
                             ))}
                         </div>
                     </div>

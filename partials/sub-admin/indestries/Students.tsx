@@ -21,7 +21,7 @@ import {
 // import { StudentCellInfo } from './components'
 
 import { TechnicalError } from '@components/ActionAnimations/TechnicalError'
-import { useGetSubAdminStudentsQuery } from '@queries'
+// import { useGetSubAdminIndustryStudentsQuery, useGetSubAdminStudentsQuery } from '@queries'
 import { Student } from '@types'
 import { useEffect, useState } from 'react'
 import { useJoyRide } from '@hooks'
@@ -34,19 +34,27 @@ import { getActiveIndustry } from '@partials/student/utils'
 import { AssignStudentModal } from '../students/modals'
 import { StudentCellInfo } from '../students/components'
 
-export const Students = () => {
+type Props = {
+  data: any
+}
+export const Students = ({ data }: Props) => {
   const router = useRouter()
 
   const [modal, setModal] = useState<ReactElement | null>(null)
 
-  const [filterAction, setFilterAction] = useState(null)
+  // const [filterAction, setFilterAction] = useState(null)
   const [itemPerPage, setItemPerPage] = useState(5)
   const [page, setPage] = useState(1)
-  const [filter, setFilter] = useState({})
-  const { isLoading, data, isError } = useGetSubAdminStudentsQuery({
-    skip: itemPerPage * page - itemPerPage,
-    limit: itemPerPage,
-  })
+  // const [filter, setFilter] = useState({})
+  // const { isLoading, data, isError } = useGetSubAdminStudentsQuery({
+  //   skip: itemPerPage * page - itemPerPage,
+  //   limit: itemPerPage,
+  // })
+  // const { id } = router.query
+
+  // const { data, isLoading, isError, isSuccess } =
+  //   useGetSubAdminIndustryStudentsQuery(String(id), { skip: !id })
+  // console.log(data)
   // WORKPLACE JOY RIDE - Start
   const joyride = useJoyRide()
 
@@ -104,11 +112,10 @@ export const Students = () => {
       accessorKey: 'rto',
       cell({ row }: any) {
         const { rto } = row.original
-
         return (
           <div className="flex gap-x-2 items-center">
-            <InitialAvatar name={rto.user.name} small />
-            {rto.user.name}
+            <InitialAvatar name={rto?.user?.name} small />
+            {rto?.user?.name}
           </div>
         )
       },
@@ -158,14 +165,14 @@ export const Students = () => {
   return (
     <div>
       {modal && modal}
-      {isError && <TechnicalError />}
+      {data?.isError && <TechnicalError />}
       <Card noPadding>
-        {isLoading ? (
+        {data?.isLoading ? (
           <LoadingAnimation height="h-[60vh]" />
-        ) : data && data?.data.length ? (
+        ) : data && data?.data?.length ? (
           <Table
             columns={Columns}
-            data={data.data}
+            data={data?.data}
             // quickActions={quickActionsElements}
             enableRowSelection
           >
@@ -195,7 +202,7 @@ export const Students = () => {
             }}
           </Table>
         ) : (
-          !isError && (
+          !data?.isError && (
             <EmptyData
               title={'No Students'}
               description={

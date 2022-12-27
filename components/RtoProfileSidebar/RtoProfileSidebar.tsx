@@ -27,7 +27,7 @@ export const RtoProfileSidebar = ({ data }: any) => {
   // const {data} = useGetSubAdminRTODetailQuery(String(profileId), {
   //   skip: !profileId,
   // })
-  // console.log("rto detail",data)
+  console.log("rto detail",data.data)
   return (
     <div>
       <div className='flex justify-end gap-x-2'>
@@ -58,7 +58,7 @@ export const RtoProfileSidebar = ({ data }: any) => {
             <span className="text-blue-500">
               <MdVerified />
             </span>
-          </div>
+          </div> 
         </div>
       </div>
 
@@ -167,7 +167,7 @@ export const RtoProfileSidebar = ({ data }: any) => {
             {data?.data?.subadmin.map((coordinator: any) => (
               <>
                 <InitialAvatar
-                  name={coordinator.user.name}
+                  name={coordinator?.user?.name}
                   first
                 />
               </>

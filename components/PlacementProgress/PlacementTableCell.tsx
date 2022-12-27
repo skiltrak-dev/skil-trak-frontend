@@ -2,7 +2,7 @@ export const PlacementTableCell = ({ request }: any) => {
     const classes =
         'border border-dashed px-2 py-1 text-xs font-medium rounded-sm bg-white'
     const getStatus = () => {
-        if (request.length) {
+        if (request?.length) {
             const workplaceRequest = request[0]
             switch (workplaceRequest.currentStatus) {
                 case 'applied':

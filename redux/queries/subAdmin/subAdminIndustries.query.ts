@@ -35,6 +35,14 @@ export const subAdminIndustriesApi = createApi({
             },
             providesTags: ['SubAdminIndustries'],
         }),
+        getSubAdminIndustryStudents: builder.query<any, string>({
+            query: (id) => {
+                return {
+                    url: `subadmin/industry/students/list/${id}`,
+                }
+            },
+            providesTags: ['SubAdminIndustries'],
+        }),
 
         // updateSubAdminRtoStudentStatus: builder.mutation<any, any | null>({
         //     query: ({id, status}:any) => {
@@ -51,5 +59,6 @@ export const subAdminIndustriesApi = createApi({
 
 export const {
     useGetSubAdminIndustriesQuery,
+    useGetSubAdminIndustryStudentsQuery,
     useGetSubAdminIndustriesProfileQuery,
 } = subAdminIndustriesApi
