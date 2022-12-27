@@ -25,42 +25,31 @@ export const assessmentEvidenceApi = createApi({
             providesTags: ['AssessmentEvidence'],
         }),
         getAssessmentEvidenceDetail: builder.query<any, string>({
-            query: (id) => {
-                return {
-                    url: `student/assessment-evidence/${id}`,
-                }
-            },
+            query: (id) => `student/assessment-evidence/${id}`,
             providesTags: ['AssessmentEvidence'],
         }),
         getAssessmentResponse: builder.query<
             any,
             { selectedFolder: number; student: number }
         >({
-            query: ({ selectedFolder, student }) => {
-                return {
-                    url: `student/assessment-evidence/response/${selectedFolder}/${student}`,
-                }
-            },
+            query: ({ selectedFolder, student }) =>
+                `student/assessment-evidence/response/${selectedFolder}/${student}`,
             providesTags: ['AssessmentEvidence'],
         }),
         addCommentOnAssessment: builder.mutation<any, any | null>({
-            query: ({ id, comment, status }: any) => {
-                return {
-                    url: `student/assessment-evidence/comment/${id}`,
-                    method: 'PATCH',
-                    body: { status, comment },
-                }
-            },
+            query: ({ id, comment, status }: any) => ({
+                url: `student/assessment-evidence/comment/${id}`,
+                method: 'PATCH',
+                body: { status, comment },
+            }),
             invalidatesTags: ['AssessmentEvidence'],
         }),
         submitAssessmentEvidence: builder.mutation<any, any | null>({
-            query: ({ id, body }: any) => {
-                return {
-                    url: `student/assessment-evidence/result/${id}`,
-                    method: 'POST',
-                    body,
-                }
-            },
+            query: ({ id, body }: any) => ({
+                url: `student/assessment-evidence/result/${id}`,
+                method: 'POST',
+                body,
+            }),
             invalidatesTags: ['AssessmentEvidence'],
         }),
         studentCourses: builder.query<any, number>({
