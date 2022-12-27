@@ -16,6 +16,8 @@ import {
     TechnicalError,
     PageTitle,
     Button,
+    BigCalendar,
+    Card,
 } from '@components'
 import { IndustryProfile } from '@components/IndustryProfile'
 import {
@@ -27,7 +29,7 @@ import {
 // icons
 // import { FaEdit } from 'react-icons/fa'
 // queries
-import { useGetSubAdminIndustriesProfileQuery } from '@queries'
+import { useGetSubAdminIndustriesProfileQuery, useGetSubAdminIndustryStudentsQuery } from '@queries'
 import { AllCommunicationTab, NotesTab } from '@partials/common'
 import { Students } from '@partials/sub-admin/indestries'
 
@@ -40,7 +42,9 @@ const IndustriesProfile: NextPageWithLayout = (props: Props) => {
 
     const { data, isLoading, isError, isSuccess } =
         useGetSubAdminIndustriesProfileQuery(String(id), { skip: !id })
-
+    const studentList =
+        useGetSubAdminIndustryStudentsQuery(String(id), { skip: !id })
+    const studentCount = studentList?.data?.data.length
     useEffect(() => {
         setContent(
             <>
@@ -59,8 +63,8 @@ const IndustriesProfile: NextPageWithLayout = (props: Props) => {
         {
             label: 'Students',
             href: { pathname: String(id), query: { tab: 'students' } },
-            badge: { text: '99', color: 'text-error-500' },
-            element: <Students />,
+            badge: { text: studentCount, color: 'text-error-500' },
+            element: <Students data={studentList.data} />,
         },
         {
             label: 'Appointments',
@@ -73,7 +77,7 @@ const IndustriesProfile: NextPageWithLayout = (props: Props) => {
         {
             label: 'Schedule',
             href: { pathname: String(id), query: { tab: 'schedule' } },
-            element: <div>schedule</div>,
+            element: <Card><BigCalendar /></Card>,
         },
         {
             label: 'Mails',

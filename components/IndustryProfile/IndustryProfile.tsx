@@ -24,6 +24,7 @@ type Props = {
 }
 
 export const IndustryProfile = ({ data }: Props) => {
+    // console.log("industry profile data", data);
     return (
         <div>
             <div className="flex justify-end gap-x-2">
@@ -144,7 +145,7 @@ export const IndustryProfile = ({ data }: Props) => {
                 </div>
             </div>
             {/* placement coordinator row 5 */}
-            <div className="mt-4">
+            {/* <div className="mt-4">
                 <p className="text-[11px] text-gray-400">
                     Placement Coordinators
                 </p>
@@ -167,10 +168,10 @@ export const IndustryProfile = ({ data }: Props) => {
                         <InitialAvatar name="Yaseen Khan" />
                     </InitialAvatarContainer>
                 </div>
-            </div>
+            </div> */}
 
             {/* Eligible sectors */}
-            <div className="mt-4">
+            {/* <div className="mt-4">
                 <Typography variant={'small'} color={'text-gray-500'}>
                     Eligible Sectors
                 </Typography>
@@ -230,7 +231,7 @@ export const IndustryProfile = ({ data }: Props) => {
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> */}
         </div>
     )
 }
