@@ -5,11 +5,19 @@ import { ReactElement, useEffect } from 'react'
 import { StudentLayout, SubAdminLayout } from '@layouts'
 import { NextPageWithLayout } from '@types'
 
-import { Typography, Button, BigCalendar, Card, PageTitle } from '@components'
+import {
+    Typography,
+    Button,
+    BigCalendar,
+    Card,
+    PageTitle,
+    CalendarEvent,
+} from '@components'
 
 import { useContextBar } from '@hooks'
 import { CommonCB } from '@partials/rto/contextBar'
 import { PastAppointments, UpcomingAppointments } from '@partials/sub-admin'
+import { useGetSubAdminAppointmentsQuery } from '@queries'
 
 type Props = {}
 
@@ -21,6 +29,22 @@ const Appointments: NextPageWithLayout = (props: Props) => {
         contextBar.setContent(<CommonCB />)
         contextBar.show(false)
     }, [])
+
+    // query
+    const subAdminAppointments = useGetSubAdminAppointmentsQuery({
+        status: 'future',
+    })
+
+    const events: CalendarEvent[] = subAdminAppointments?.data?.map(
+        (appointment: any) => ({
+            allDay: false,
+            start: new Date(appointment?.date),
+            end: new Date('2023-02-25T02:00:15.221Z'),
+            title: 'Appointment',
+            priority: 'high',
+            subTitle: 'Go For It',
+        })
+    )
 
     return (
         <div>
@@ -60,11 +84,11 @@ const Appointments: NextPageWithLayout = (props: Props) => {
 
             <div className="mb-4">
                 <Card>
-                    <BigCalendar />
+                    <BigCalendar events={events} />
                 </Card>
             </div>
 
-            <UpcomingAppointments />
+            <UpcomingAppointments subAdminAppointments={subAdminAppointments} />
             <PastAppointments />
         </div>
     )

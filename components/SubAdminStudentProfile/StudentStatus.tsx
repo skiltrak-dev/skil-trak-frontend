@@ -1,12 +1,51 @@
 import { ActionButton } from '@components/buttons'
 import { Select, TextInput } from '@components/inputs'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { FaCheck, FaQuestionCircle, FaTimes } from 'react-icons/fa'
 
-export const StudentStatus = () => {
+// query
+import {
+    useCompletePlacementMutation,
+    useTerminatePlacementMutation,
+    useCancelWorkplaceStatusMutation,
+} from '@queries'
+
+export const StudentStatus = ({ industries }: { industries: any }) => {
     const [edit, setEdit] = useState(false)
+    const [status, setStatus] = useState<string>('')
+    const [appliedIndustryId, setAppliedIndustryId] = useState('')
+
+    useEffect(() => {
+        if (industries) {
+            setAppliedIndustryId(industries?.find((i: any) => i.applied)?.id)
+        }
+    }, [industries])
+
+    // query
+    const [terminate, terminateResult] = useTerminatePlacementMutation()
+    const [complete, completeResult] = useCompletePlacementMutation()
+    const [cancel, cancelResult] = useCancelWorkplaceStatusMutation()
 
     const onChangeClicked = () => setEdit(!edit)
+
+    const onStatusChange = () => {
+        switch (status) {
+            case 'completed':
+                complete(appliedIndustryId)
+                break
+            case 'terminated':
+                terminate(appliedIndustryId)
+                break
+            case 'cancelled':
+                cancel(Number(appliedIndustryId))
+                break
+        }
+    }
+
+    const isLoading =
+        terminateResult?.isLoading ||
+        completeResult?.isLoading ||
+        cancelResult?.isLoading
 
     return (
         <div className="mt-4">
@@ -50,6 +89,10 @@ export const StudentStatus = () => {
                                     },
                                     { label: 'Cancelled', value: 'cancelled' },
                                 ]}
+                                onChange={(e: any) => {
+                                    setStatus(e?.value)
+                                }}
+                                disabled={isLoading}
                             />
                         </div>
                         <TextInput
@@ -58,7 +101,13 @@ export const StudentStatus = () => {
                         />
 
                         <div className="flex justify-end items-center gap-x-1">
-                            <ActionButton variant="success" Icon={FaCheck}>
+                            <ActionButton
+                                variant="success"
+                                Icon={FaCheck}
+                                onClick={onStatusChange}
+                                loading={isLoading}
+                                disabled={isLoading}
+                            >
                                 Save
                             </ActionButton>
                             <ActionButton

@@ -56,13 +56,6 @@ export const CreateAppointments = () => {
 
     const { notification } = useNotification()
 
-    const student = useGetSubAdminStudentDetailQuery(
-        String(router?.query?.student),
-        {
-            skip: !router?.query,
-        }
-    )
-
     useEffect(() => {
         if (query) {
             const user = Object.keys(router?.query)[0]
