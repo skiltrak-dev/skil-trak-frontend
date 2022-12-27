@@ -11,11 +11,7 @@ import {
 import { useGetSubAdminAppointmentsQuery } from '@queries'
 import { LoadingAnimation } from '@components/LoadingAnimation'
 
-export const UpcomingAppointments = () => {
-    const subAdminAppointments = useGetSubAdminAppointmentsQuery({
-        status: 'future',
-    })
-
+export const UpcomingAppointments = ({ subAdminAppointments }: any) => {
     return (
         <>
             <div className="pb-1">

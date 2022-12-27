@@ -1,12 +1,51 @@
 import { ActionButton } from '@components/buttons'
-import { Select } from '@components/inputs'
-import { useState } from 'react'
+import { Select, TextInput } from '@components/inputs'
+import { useEffect, useState } from 'react'
 import { FaCheck, FaQuestionCircle, FaTimes } from 'react-icons/fa'
 
-export const StudentStatus = () => {
+// query
+import {
+    useCompletePlacementMutation,
+    useTerminatePlacementMutation,
+    useCancelWorkplaceStatusMutation,
+} from '@queries'
+
+export const StudentStatus = ({ industries }: { industries: any }) => {
     const [edit, setEdit] = useState(false)
+    const [status, setStatus] = useState<string>('')
+    const [appliedIndustryId, setAppliedIndustryId] = useState('')
+
+    useEffect(() => {
+        if (industries) {
+            setAppliedIndustryId(industries?.find((i: any) => i.applied)?.id)
+        }
+    }, [industries])
+
+    // query
+    const [terminate, terminateResult] = useTerminatePlacementMutation()
+    const [complete, completeResult] = useCompletePlacementMutation()
+    const [cancel, cancelResult] = useCancelWorkplaceStatusMutation()
 
     const onChangeClicked = () => setEdit(!edit)
+
+    const onStatusChange = () => {
+        switch (status) {
+            case 'completed':
+                complete(appliedIndustryId)
+                break
+            case 'terminated':
+                terminate(appliedIndustryId)
+                break
+            case 'cancelled':
+                cancel(Number(appliedIndustryId))
+                break
+        }
+    }
+
+    const isLoading =
+        terminateResult?.isLoading ||
+        completeResult?.isLoading ||
+        cancelResult?.isLoading
 
     return (
         <div className="mt-4">
@@ -19,12 +58,27 @@ export const StudentStatus = () => {
                         </span>
                     </div>
                 </div>
+                {!edit ? (
+                    <button
+                        className="text-blue-500 text-xs font-medium"
+                        onClick={() => onChangeClicked()}
+                    >
+                        Change
+                    </button>
+                ) : (
+                    <button
+                        className="text-blue-500 text-xs font-medium"
+                        onClick={() => onChangeClicked()}
+                    >
+                        Cancel
+                    </button>
+                )}
             </div>
 
             <div className="flex justify-between items-center">
                 {edit ? (
-                    <div className="flex  gap-x-2 w-full">
-                        <div className="flex-grow w-full">
+                    <div className="w-full">
+                        <div className="flex-grow w-full mb-3">
                             <Select
                                 name="status"
                                 options={[
@@ -35,21 +89,34 @@ export const StudentStatus = () => {
                                     },
                                     { label: 'Cancelled', value: 'cancelled' },
                                 ]}
+                                onChange={(e: any) => {
+                                    setStatus(e?.value)
+                                }}
+                                disabled={isLoading}
                             />
                         </div>
+                        <TextInput
+                            name={'comment'}
+                            placeholder={'Add Comment'}
+                        />
 
-                        <div className="flex items-center gap-x-1">
+                        <div className="flex justify-end items-center gap-x-1">
                             <ActionButton
                                 variant="success"
-                                mini
                                 Icon={FaCheck}
-                            ></ActionButton>
+                                onClick={onStatusChange}
+                                loading={isLoading}
+                                disabled={isLoading}
+                            >
+                                Save
+                            </ActionButton>
                             <ActionButton
                                 variant="error"
-                                mini
                                 Icon={FaTimes}
                                 onClick={onChangeClicked}
-                            ></ActionButton>
+                            >
+                                Cancel
+                            </ActionButton>
                         </div>
                     </div>
                 ) : (
@@ -57,22 +124,6 @@ export const StudentStatus = () => {
                         <div className="text-indigo-500 text-sm font-semibold">
                             Current Status
                         </div>
-
-                        {!edit ? (
-                            <button
-                                className="text-blue-500 text-xs font-medium"
-                                onClick={() => onChangeClicked()}
-                            >
-                                Change
-                            </button>
-                        ) : (
-                            <button
-                                className="text-red-500 text-xs font-medium"
-                                onClick={() => onChangeClicked()}
-                            >
-                                Cancel
-                            </button>
-                        )}
                     </div>
                 )}
             </div>

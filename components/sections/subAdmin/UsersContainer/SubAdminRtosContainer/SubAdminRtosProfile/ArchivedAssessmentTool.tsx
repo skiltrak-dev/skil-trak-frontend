@@ -30,7 +30,7 @@ export const ArchivedAssessmentTool = ({ role, setAssessmentView }: ArchivedView
   const router = useRouter()
   const rtoId = router.query.id
   const rtoCourses = useGetSubAdminRTOCoursesQuery(String(rtoId))
-  console.log('rtoCourses', rtoCourses)
+
   const getAssessmentTools = useGetRTOAssessmentToolsQuery(
     {
       id: Number(selectedCourseId),

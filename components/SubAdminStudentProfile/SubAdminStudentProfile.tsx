@@ -12,6 +12,8 @@ import { MdBatchPrediction, MdBlock, MdPhone, MdVerified } from 'react-icons/md'
 import { StudentAvatar } from '@components/avatars'
 import { Student } from '@types'
 import { StudentStatus } from './StudentStatus'
+import { useState } from 'react'
+import { EditPassword } from './EditPassword'
 
 const getGender = (gender: string | undefined) => {
     if (!gender) return 'N/A'
@@ -20,14 +22,28 @@ const getGender = (gender: string | undefined) => {
     if (gender.toLocaleLowerCase() === 'f') return 'Female'
 }
 export const SubAdminStudentProfile = ({ student }: { student: Student }) => {
+    const [modal, setModal] = useState<any | null>(null)
+
+    const onEditClicked = () => {
+        setModal(<EditPassword onCancel={() => setModal(null)} />)
+    }
     return (
         <div>
-            <div className="flex justify-end gap-x-2">
-                <div className="bg-blue-100 rounded-full p-1">
-                    <AiFillEdit className="text-blue-400  cursor-pointer " />
+            {modal && modal}
+            <div className="flex justify-between items-center">
+                <div className="flex justify-end gap-x-2">
+                    <div className="bg-blue-100 rounded-full p-1">
+                        <AiFillEdit className="text-blue-400  cursor-pointer " />
+                    </div>
+                    <div className="bg-red-100 rounded-full p-1">
+                        <MdBlock className="text-red-400  cursor-pointer bg-red-100 rounded-full" />
+                    </div>
                 </div>
-                <div className="bg-red-100 rounded-full p-1">
-                    <MdBlock className="text-red-400  cursor-pointer bg-red-100 rounded-full" />
+                <div
+                    className="bg-blue-100 rounded-full p-1"
+                    onClick={onEditClicked}
+                >
+                    <AiFillEdit className="text-blue-400  cursor-pointer " />
                 </div>
             </div>
             <div className="flex flex-col items-center">
@@ -182,7 +198,9 @@ export const SubAdminStudentProfile = ({ student }: { student: Student }) => {
             </div>
 
             {/* Status Of Student */}
-            <StudentStatus />
+            {student?.workplace[0]?.industries[0]?.placementStarted && (
+                <StudentStatus industries={student?.workplace[0]?.industries} />
+            )}
 
             {/* Sector & Courses */}
             {/* <div className="mt-4">

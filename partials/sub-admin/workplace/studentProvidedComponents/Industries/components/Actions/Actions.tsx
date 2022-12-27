@@ -3,7 +3,7 @@ import moment from 'moment'
 
 // components
 import { Typography, ShowErrorNotifications } from '@components'
-import { AfterPlacementActions } from './components'
+import { AfterPlacementActions } from '@partials/sub-admin/workplace/components/Industries/components/Actions/components'
 
 // query
 import {
@@ -17,13 +17,18 @@ import {
 import { Button } from '@components/buttons'
 import { useNotification } from '@hooks'
 import { userStatus } from '@utils'
-import { ForwardModal } from '@partials/sub-admin/workplace/modals'
+import {
+    ForwardModal,
+    PlacementStartedModal,
+} from '@partials/sub-admin/workplace/modals'
+import { SignAgreement } from '@partials/sub-admin/workplace/components/Industries/components/Actions/components'
 
 export const Actions = ({
     appliedIndustry,
     workplaceId,
     workplace,
     folders,
+    student,
 }: any) => {
     const [actionStatus, setActionStatus] = useState<any | string>('')
     const [modal, setModal] = useState<ReactElement | null>(null)
@@ -32,8 +37,7 @@ export const Actions = ({
         useChangeCustomIndustryStatusMutation()
     const [industryResponse, industryResponseResult] =
         useIndustryResponseMutation()
-    const [agrementSign, agrementSignResult] = useAgrementSignMutation()
-    const [startPlacement, startPlacementResult] = useStartPlacementMutation()
+
     const [updateStatus, updateStatusResult] =
         useUpdateWorkplaceStatusMutation()
 
@@ -47,13 +51,7 @@ export const Actions = ({
                 description: `Workplace ${actionStatus} Successfully`,
             })
         }
-        if (startPlacementResult.isSuccess) {
-            notification.success({
-                title: `Placement Started`,
-                description: `WPlacement Started Successfully`,
-            })
-        }
-    }, [updateStatusResult, startPlacementResult])
+    }, [updateStatusResult])
 
     const onModalCancelClicked = () => {
         setModal(null)
@@ -70,12 +68,21 @@ export const Actions = ({
         )
     }
 
+    const onPlacementStartedClicked = (id: number) => {
+        setModal(
+            <PlacementStartedModal
+                id={id}
+                agreementSigned={appliedIndustry?.AgreementSigned}
+                student={student}
+                onCancel={() => onModalCancelClicked()}
+            />
+        )
+    }
+
     return (
         <div className="mt-1.5 mb-2.5">
             {modal && modal}
             <ShowErrorNotifications result={updateStatusResult} />
-            <ShowErrorNotifications result={startPlacementResult} />
-            <ShowErrorNotifications result={agrementSignResult} />
             <ShowErrorNotifications result={industryResponseResult} />
 
             {workplace?.industryStatus === 'pending' ? (
@@ -125,37 +132,25 @@ export const Actions = ({
             {workplace?.industryStatus === 'approved' ? (
                 <div className="flex items-center gap-x-2">
                     {!appliedIndustry?.AgreementSigned && (
-                        <Button
-                            text={'SIGN AGREEMENT'}
-                            variant={'dark'}
-                            onClick={() => {
-                                agrementSign(appliedIndustry?.id)
-                            }}
-                            loading={agrementSignResult.isLoading}
-                            disabled={agrementSignResult.isLoading}
+                        <SignAgreement
+                            studentId={workplace?.student?.id}
+                            appliedIndustryId={appliedIndustry?.id}
                         />
                     )}
                     {!appliedIndustry?.placementStarted && (
-                        <Button
-                            text={'START PLACEMENT'}
-                            variant={'primary'}
-                            onClick={() => {
-                                if (appliedIndustry?.AgreementSigned) {
-                                    startPlacement(appliedIndustry?.id)
-                                } else {
-                                    notification.error({
-                                        title: 'Cant start placement',
-                                        description:
-                                            'You can,t start placement without signed agrement',
-                                    })
-                                }
-                            }}
-                            loading={startPlacementResult.isLoading}
-                            disabled={startPlacementResult.isLoading}
-                        />
+                        <div className="flex-shrink-0">
+                            <Button
+                                text={'START PLACEMENT'}
+                                variant={'primary'}
+                                onClick={() => {
+                                    onPlacementStartedClicked(
+                                        Number(appliedIndustry?.id)
+                                    )
+                                }}
+                            />
+                        </div>
                     )}
-                    {appliedIndustry?.AgreementSigned &&
-                        appliedIndustry?.placementStarted &&
+                    {appliedIndustry?.placementStarted &&
                         !appliedIndustry?.isCompleted &&
                         !appliedIndustry?.cancelled &&
                         !appliedIndustry?.terminated && (
@@ -165,6 +160,42 @@ export const Actions = ({
                         )}
                 </div>
             ) : null}
+            <div className="mt-2">
+                {(appliedIndustry?.isCompleted ||
+                    appliedIndustry?.cancelled ||
+                    appliedIndustry?.terminated) && (
+                    <Typography variant={'small'} color={'text-gray-700'}>
+                        Status of student placement
+                    </Typography>
+                )}
+                {appliedIndustry?.isCompleted && (
+                    <Button
+                        submit
+                        variant={'success'}
+                        text={
+                            'This Placement was COMPLETED by Sub-Admin/Industry'
+                        }
+                    />
+                )}
+
+                {appliedIndustry?.cancelled && (
+                    <Button submit variant={'secondary'}>
+                        <span className="text-red-800">
+                            This Placement was CANCELLED by Sub-Admin/Industry
+                        </span>
+                    </Button>
+                )}
+
+                {appliedIndustry?.terminated && (
+                    <Button
+                        submit
+                        variant={'error'}
+                        text={
+                            'This Placement was TERMINATED by Sub-Admin/Industry'
+                        }
+                    />
+                )}
+            </div>
         </div>
     )
 }

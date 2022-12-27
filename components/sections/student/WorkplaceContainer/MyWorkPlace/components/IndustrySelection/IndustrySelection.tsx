@@ -38,8 +38,8 @@ export const IndustrySelection = ({
 
     useEffect(() => {
         if (workplace) {
-            const allIndustries = workplace?.data?.industries
-            setWorkplaceIndustries(workplace?.data)
+            const allIndustries = workplace?.data[0]?.industries
+            setWorkplaceIndustries(workplace?.data[0])
             setNoRespondedIndustries(
                 allIndustries?.filter(
                     (i: any) => i?.industryResponse === 'noResponse'
@@ -58,7 +58,7 @@ export const IndustrySelection = ({
             //         ?.find((i: any) => i.industry.id === industrySelection)
             //         ?.industry.courses.map((c: any) => c.id)
             // )
-            setSelectedCourses(workplace?.data?.courses[0]?.id)
+            setSelectedCourses(workplace?.data[0]?.courses[0]?.id)
         }
     }, [
         workplace,

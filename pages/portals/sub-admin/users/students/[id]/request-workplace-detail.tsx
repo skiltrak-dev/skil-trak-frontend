@@ -1,6 +1,6 @@
 import { ReactElement, useEffect, useState } from 'react'
 
-import { LoadingAnimation, StepIndicator } from '@components'
+import { LoadingAnimation, PageTitle, StepIndicator } from '@components'
 
 import { StudentLayout, SubAdminLayout } from '@layouts'
 import { NextPageWithLayout } from '@types'
@@ -25,7 +25,6 @@ const RequestWorkplaceDetail: NextPageWithLayout = (props: Props) => {
 
     const router = useRouter()
     const { id } = router.query
-
 
     // query
     const { data, isLoading, isError, isSuccess } =
@@ -67,46 +66,56 @@ const RequestWorkplaceDetail: NextPageWithLayout = (props: Props) => {
         },
     ]
 
-    return workplace.isLoading ? (
-        <LoadingAnimation />
-    ) : (
-        <div className="flex gap-x-5 w-full">
-            {/* <GoBackButton>Workplace Choice</GoBackButton> */}
+    return (
+        <>
+            <PageTitle
+                title="Request Workplace Detial"
+                backTitle="Student Detail"
+            />
+            <div className="mt-10">
+                {workplace.isLoading ? (
+                    <LoadingAnimation />
+                ) : (
+                    <div className="flex gap-x-5 w-full">
+                        {/* <GoBackButton>Workplace Choice</GoBackButton> */}
 
-            {/*  */}
-            <div className="py-4 w-[25%]">
-                <StepIndicator
-                    steps={StepIndicatorOptions}
-                    currentStep={StepIndicatorOptions[active - 1]}
-                    vertical
-                />
+                        {/*  */}
+                        <div className="py-4 w-[25%]">
+                            <StepIndicator
+                                steps={StepIndicatorOptions}
+                                currentStep={StepIndicatorOptions[active - 1]}
+                                vertical
+                            />
+                        </div>
+
+                        <div className="w-[75%]">
+                            {active === 1 && (
+                                <PersonalInfo
+                                    setActive={setActive}
+                                    setPersonalInfoData={setPersonalInfoData}
+                                />
+                            )}
+
+                            {active === 2 && (
+                                <Availability
+                                    setActive={setActive}
+                                    personalInfoData={personalInfoData}
+                                    userId={data?.user?.id}
+                                />
+                            )}
+
+                            {(active === 3 || active === 4) && (
+                                <IndustrySelection
+                                    setActive={setActive}
+                                    workplace={workplace}
+                                    userId={data?.user?.id}
+                                />
+                            )}
+                        </div>
+                    </div>
+                )}
             </div>
-
-            <div className="w-[75%]">
-                {active === 1 && (
-                    <PersonalInfo
-                        setActive={setActive}
-                        setPersonalInfoData={setPersonalInfoData}
-                    />
-                )}
-
-                {active === 2 && (
-                    <Availability
-                        setActive={setActive}
-                        personalInfoData={personalInfoData}
-                        userId={data?.user?.id}
-                    />
-                )}
-
-                {(active === 3 || active === 4) && (
-                    <IndustrySelection
-                        setActive={setActive}
-                        workplace={workplace}
-                        userId={data?.user?.id}
-                    />
-                )}
-            </div>
-        </div>
+        </>
     )
 }
 RequestWorkplaceDetail.getLayout = (page: ReactElement) => {
