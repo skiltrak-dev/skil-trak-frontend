@@ -27,6 +27,13 @@ const PrimaryLinks = [
         id: 'assessment-tools',
     },
     {
+        title: 'Schedule',
+        description: 'Your Schedule',
+        link: 'assessments/schedule',
+        animation: Animations.Student.Appointments.Esign,
+        id: 'e-sign',
+    },
+    {
         title: 'E-Sign',
         description: 'Sign your digital documents',
         link: 'assessments/e-sign',

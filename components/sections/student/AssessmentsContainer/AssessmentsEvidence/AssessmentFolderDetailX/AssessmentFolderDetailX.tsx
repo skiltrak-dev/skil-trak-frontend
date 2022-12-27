@@ -58,45 +58,54 @@ export const AssessmentFolderDetailX = ({ folder, fileUpload }: Props) => {
                     </Typography>
                 </div>
                 <div className="ml-auto">
-                    {fileUpload ? (
-                        <FileUpload
-                            onChange={(docs: any) => {
-                                const formData = new FormData()
-                                docs.forEach((doc: any) => {
-                                    formData.append(
-                                        `${folder?.name}_${doc.name}`,
-                                        doc
-                                    )
-                                })
-                                uploadDocs({
-                                    id: folder?.id,
-                                    body: formData,
-                                })
-                            }}
-                            name={folder?.name}
-                            component={
-                                uploadDocsResult.isLoading
-                                    ? Loading
-                                    : UploadFile
-                            }
-                            limit={
-                                folder?.capacity - (data?.files?.length || 0)
-                            }
-                            acceptTypes={getDocType()}
-                            multiple={folder?.capacity > 1}
-                        />
-                    ) : (
-                        <div>
-                            {folder.isActive ? (
-                                <Badge text="Approved" variant="success" />
-                            ) : (
-                                <Badge text="Not Approved" variant="error" />
-                            )}
-                            <Typography variant="body" color={'text-green-500'}>
-                                Assessed On
-                            </Typography>
-                        </div>
-                    )}
+                    {data?.comment ? (
+                        fileUpload ? (
+                            <FileUpload
+                                onChange={(docs: any) => {
+                                    const formData = new FormData()
+                                    docs.forEach((doc: any) => {
+                                        formData.append(
+                                            `${folder?.name}_${doc.name}`,
+                                            doc
+                                        )
+                                    })
+                                    uploadDocs({
+                                        id: folder?.id,
+                                        body: formData,
+                                    })
+                                }}
+                                name={folder?.name}
+                                component={
+                                    uploadDocsResult.isLoading
+                                        ? Loading
+                                        : UploadFile
+                                }
+                                limit={
+                                    folder?.capacity -
+                                    (data?.files?.length || 0)
+                                }
+                                acceptTypes={getDocType()}
+                                multiple={folder?.capacity > 1}
+                            />
+                        ) : (
+                            <div>
+                                {folder.isActive ? (
+                                    <Badge text="Approved" variant="success" />
+                                ) : (
+                                    <Badge
+                                        text="Not Approved"
+                                        variant="error"
+                                    />
+                                )}
+                                <Typography
+                                    variant="body"
+                                    color={'text-green-500'}
+                                >
+                                    Assessed On
+                                </Typography>
+                            </div>
+                        )
+                    ) : null}
                 </div>
             </div>
             <div className="bg-white p-2 flex flex-col justify-between h-full relative min-h-[355px]">
@@ -124,15 +133,12 @@ export const AssessmentFolderDetailX = ({ folder, fileUpload }: Props) => {
                 <div className="mt-4 border-dashed border border-gray-300 rounded-lg p-2">
                     <Typography variant="muted" color="text-gray-400">
                         Assessed On:{' '}
-                        {moment(
-                            folder?.assessedTime,
-                            'YYYY-MM-DD hh:mm:ss Z'
-                        ).format('Do MMM, YYYY')}
+                        {moment(data?.assessmentFolder?.updatedAt).format(
+                            'Do MMM, YYYY'
+                        )}
                     </Typography>
                     <Typography variant="body" color="text-gray-600">
-                        {folder?.isActive
-                            ? folder?.positiveComment
-                            : folder?.negativeComment}
+                        {data?.comment}
                     </Typography>
                 </div>
             </div>
