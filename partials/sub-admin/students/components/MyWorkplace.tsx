@@ -24,7 +24,6 @@ export const MyWorkplace = ({ myWorkplace }: Props) => {
     const { data } = useGetSubAdminMyRtoQuery(String(profileId), {
         skip: !profileId,
     })
-    console.log('myWorkplace', myWorkplace.workplace)
     const filteredData = myWorkplace?.workplace.filter(
         (item: any) => !item.isCancelled
     )

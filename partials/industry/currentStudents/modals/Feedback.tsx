@@ -30,7 +30,6 @@ export const Feedback = ({ onCancel, workIndustry, student }: any) => {
     }, [addFeedBackResult])
 
     // const onChange = (e: any) => {
-    //     console.log('eee', e.target.name)
     //     const { name, value } = e.target
     //     setValues((val: valuesTypes) => ({
     //         ...val,

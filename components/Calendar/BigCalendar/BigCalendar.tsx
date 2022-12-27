@@ -67,7 +67,6 @@ export const BigCalendar = ({ events }: { events: any }) => {
     //     },
     // ]
 
-    console.log('events', events)
 
     const today = new Date()
     const min = new Date(

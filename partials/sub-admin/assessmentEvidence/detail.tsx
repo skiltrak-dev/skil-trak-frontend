@@ -12,9 +12,10 @@ import {
     useGetAssessmentResponseQuery,
     useGetAssessmentEvidenceDetailQuery,
 } from '@queries'
+import { getUserCredentials } from '@utils'
 
 export const Detail = ({ studentId, studentUserId }: any) => {
-    const [selectedCourseId, setSelectedCourseId] = useState(null)
+    const [selectedCourse, setSelectedCourse] = useState<any | null>(null)
     const [selectedFolder, setSelectedFolder] = useState<any | null>(null)
 
     const pathname = useRouter()
@@ -24,9 +25,9 @@ export const Detail = ({ studentId, studentUserId }: any) => {
         skip: !studentId,
     })
     const getAssessmentDetails = useGetAssessmentEvidenceDetailQuery(
-        String(selectedCourseId),
+        String(selectedCourse?.id),
         {
-            skip: !selectedCourseId,
+            skip: !selectedCourse,
         }
     )
 
@@ -40,7 +41,7 @@ export const Detail = ({ studentId, studentUserId }: any) => {
 
     useEffect(() => {
         if (studentCourses.isSuccess) {
-            setSelectedCourseId(selectedCourseId || studentCourses?.data[0]?.id)
+            setSelectedCourse(selectedCourse || studentCourses?.data[0])
         }
     }, [studentCourses])
 
@@ -67,10 +68,10 @@ export const Detail = ({ studentId, studentUserId }: any) => {
                             code={course.code}
                             title={course.title}
                             isActive={course.isActive}
-                            coordinator={'Saad'}
-                            selectedCourseId={selectedCourseId}
+                            coordinator={getUserCredentials()?.name}
+                            selectedCourseId={selectedCourse?.id}
                             onClick={() => {
-                                setSelectedCourseId(course.id)
+                                setSelectedCourse(course)
                             }}
                         />
                     ))}
@@ -87,12 +88,13 @@ export const Detail = ({ studentId, studentUserId }: any) => {
                             <span className="font-bold text-black">
                                 Assessment Submission
                             </span>{' '}
-                            - Submission #1
+                            - Submission #
+                            {selectedCourse?.results[0]?.totalSubmission}
                         </Typography>
                         <Typography variant={'label'} color={'text-gray-500'}>
-                            Assessor:
+                            Assessor:{' '}
                             <span className="font-semibold text-black">
-                                John Doe
+                                {getUserCredentials()?.name}
                             </span>
                         </Typography>
                     </div>
@@ -159,7 +161,11 @@ export const Detail = ({ studentId, studentUserId }: any) => {
                             />
                         </div>
                     </div>
-                    <Actions />
+                    {selectedCourse?.results
+                        ?.map((result: any) => result.result)
+                        .includes('pending') && (
+                        <Actions result={selectedCourse?.results[0]} />
+                    )}
                 </div>
             )}
         </div>

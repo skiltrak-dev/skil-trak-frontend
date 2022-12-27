@@ -12,7 +12,7 @@ export const Socket = ({ children }: any) => {
 
     const { notification } = useNotification()
     useEffect(() => {
-        setSocket(io('ws://192.168.0.134:81'))
+        setSocket(io(`${process.env.NEXT_PUBLIC_SOCKET_END_POINT}`))
     }, [])
 
     useEffect(() => {

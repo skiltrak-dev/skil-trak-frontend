@@ -124,15 +124,12 @@ export const AssessmentFolderDetailX = ({ folder, fileUpload }: Props) => {
                 <div className="mt-4 border-dashed border border-gray-300 rounded-lg p-2">
                     <Typography variant="muted" color="text-gray-400">
                         Assessed On:{' '}
-                        {moment(
-                            folder?.assessedTime,
-                            'YYYY-MM-DD hh:mm:ss Z'
-                        ).format('Do MMM, YYYY')}
+                        {moment(data?.assessmentFolder?.updatedAt).format(
+                            'Do MMM, YYYY'
+                        )}
                     </Typography>
                     <Typography variant="body" color="text-gray-600">
-                        {folder?.isActive
-                            ? folder?.positiveComment
-                            : folder?.negativeComment}
+                        {data?.comment}
                     </Typography>
                 </div>
             </div>
