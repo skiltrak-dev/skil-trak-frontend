@@ -244,6 +244,12 @@ export const AppointmentTypes = () => {
                 >
                     <>
                         <Button
+                            text="Create Appointment"
+                            onClick={() => {
+                                router.push('appointment-type/create-appointment')
+                            }}
+                        />
+                        <Button
                             text="Add Appointment Type"
                             onClick={() => {
                                 router.push('appointment-type/form')

@@ -20,6 +20,7 @@ import {
     useSubmitStudentAssessmentMutation,
 } from '@queries'
 import { useNotification } from '@hooks'
+import { Actions } from '@components/sections/student/AssessmentsContainer/AssessmentsEvidence/components/Actions'
 
 type Props = {}
 
@@ -37,12 +38,16 @@ const AssessmentEvidence: NextPageWithLayout = (props: Props) => {
             skip: !selectedCourse,
         }
     )
-    const [submitAssessment, submitAssessmentResult] =
-        useSubmitStudentAssessmentMutation()
 
     useEffect(() => {
         if (assessmentsCourses.isSuccess) {
-            setSelectedCourse(selectedCourse || assessmentsCourses?.data[0])
+            setSelectedCourse(
+                selectedCourse
+                    ? assessmentsCourses?.data?.find(
+                          (c) => c?.id === selectedCourse?.id
+                      )
+                    : assessmentsCourses?.data[0]
+            )
         }
     }, [assessmentsCourses])
 
@@ -52,26 +57,14 @@ const AssessmentEvidence: NextPageWithLayout = (props: Props) => {
         }
     }, [assessmentsFolders])
 
-    useEffect(() => {
-        if (submitAssessmentResult.isSuccess) {
-            notification.success({
-                title: 'Assessment Submitted Successfully',
-                description: 'Assessment Submitted Successfully',
-            })
-        }
-    }, [submitAssessmentResult])
-
-    const onSubmit = () => {
-        submitAssessment(selectedCourse?.id)
-    }
-
     const isFilesUploaded = assessmentsFolders?.data?.every(
         (f: any) => f?.studentResponse?.files?.length > 0
     )
-   
+
+    console.log('isFilesUploaded', selectedCourse?.results[0]?.totalSubmission)
+
     return (
         <>
-            <ShowErrorNotifications result={submitAssessmentResult} />
             {/* <AssessmentsEvidence /> */}
             <div>
                 <div className="mb-3">
@@ -116,36 +109,23 @@ const AssessmentEvidence: NextPageWithLayout = (props: Props) => {
                                 }
                             />
                             {isFilesUploaded &&
-                                selectedCourse?.results
-                                    ?.map((result: any) => result.result)
-                                    .includes('reOpened') && (
-                                    <div className="flex items-center gap-x-2 mt-10">
-                                        <div>
-                                            <Button
-                                                text="SUBMIT"
-                                                onClick={onSubmit}
-                                                loading={
-                                                    submitAssessmentResult.isLoading
-                                                }
-                                                disabled={
-                                                    submitAssessmentResult.isLoading ||
-                                                    selectedCourse?.results[0]
-                                                        ?.totalSubmission > 2
-                                                }
-                                            />
-                                        </div>
-                                        <div className="flex items-center gap-x-2">
-                                            <Checkbox
-                                                name="notifyCoordinator"
-                                                label="Notify Coordinator"
-                                            />
-                                            <Checkbox
-                                                name="notifyCoordinator"
-                                                label="Notify Coordinator"
-                                            />
-                                        </div>
-                                    </div>
-                                )}
+                                selectedCourse?.results[0]?.totalSubmission <
+                                    3 &&
+                                (selectedCourse?.results?.length > 0 ? (
+                                    selectedCourse?.results
+                                        ?.map((result: any) => result.result)
+                                        .includes('reOpened') ? (
+                                        <Actions
+                                            selectedCourseId={
+                                                selectedCourse?.id
+                                            }
+                                        />
+                                    ) : null
+                                ) : (
+                                    <Actions
+                                        selectedCourseId={selectedCourse?.id}
+                                    />
+                                ))}
 
                             <div className="my-2">
                                 <Typography

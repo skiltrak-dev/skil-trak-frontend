@@ -43,8 +43,9 @@ const Detail: NextPageWithLayout = () => {
 
     useEffect(() => {
         navBar.setTitle('Industry Detail')
+        navBar.setSubTitle(industry?.data?.user?.name)
         contextBar.hide()
-    }, [])
+    }, [industry])
 
     const onModalCancelClicked = () => {
         setModal(null)

@@ -47,7 +47,7 @@ const AssessmentEvidence: NextPageWithLayout = (props: Props) => {
                 } = student
                 const course = courses[0]
                 router.push(
-                    `/portals/sub-admin/tasks/assessment-evidence/${id}/${userId}/${course.id}`
+                    `/portals/sub-admin/tasks/assessment-evidence/${id}/${userId}`
                 )
             },
             Icon: FaEye,
@@ -70,7 +70,7 @@ const AssessmentEvidence: NextPageWithLayout = (props: Props) => {
                 return (
                     <div className="flex items-center relative">
                         <Link
-                            href={`/portals/sub-admin/tasks/assessment-evidence/${id}/${userId}/${course.id}`}
+                            href={`/portals/sub-admin/tasks/assessment-evidence/${id}/${userId}`}
                         >
                             <a>
                                 <div className="flex items-center gap-x-2">
@@ -169,13 +169,6 @@ const AssessmentEvidence: NextPageWithLayout = (props: Props) => {
 
     return (
         <>
-            {/* <ReactTable
-                action={useGetAssessmentEvidenceQuery}
-                Columns={Columns}
-                querySort={'title'}
-                pagination
-                pagesize
-            /> */}
             <Card noPadding>
                 {isError && <TechnicalError />}
                 {isLoading ? (
@@ -213,8 +206,8 @@ const AssessmentEvidence: NextPageWithLayout = (props: Props) => {
                 ) : (
                     !isError && (
                         <EmptyData
-                            title={'No Pending RTO!'}
-                            description={'You have no pending RTO request yet'}
+                            title={'No AssessmentEvidence!'}
+                            description={'You have no Assessment found yet'}
                             height={'50vh'}
                         />
                     )
@@ -227,7 +220,7 @@ AssessmentEvidence.getLayout = (page: ReactElement) => {
     return (
         <SubAdminLayout
             pageTitle={{
-                title: 'AssessmentEvidence',
+                title: 'Assessment Evidence',
                 navigateBack: true,
                 backTitle: 'Back',
             }}

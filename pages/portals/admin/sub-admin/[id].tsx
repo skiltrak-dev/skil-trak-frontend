@@ -50,8 +50,9 @@ const RtoDetail: NextPageWithLayout = () => {
 
     useEffect(() => {
         navBar.setTitle('Sub Admin Detail')
+        navBar.setSubTitle(data?.user?.name)
         contextBar.hide()
-    }, [])
+    }, [data])
 
     const onModalCancelClicked = () => {
         setModal(null)

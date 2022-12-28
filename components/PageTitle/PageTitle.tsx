@@ -1,6 +1,7 @@
 import { BackButton } from '@components/buttons'
 import { NavbarBreadCrumbs } from '@components/navBars/AdminNavbar/components'
 import { Typography } from '@components/Typography'
+import { useNavbar } from '@hooks'
 import { useRouter } from 'next/router'
 
 export interface PageTitleProps {
@@ -15,13 +16,20 @@ export const PageTitle = ({
 }: PageTitleProps) => {
     const router = useRouter()
 
+    const navBar = useNavbar()
+
     const paths = router.pathname.split('/')
-    const links = paths.slice(1, -1)
+    let links = paths.slice(1, -1)
+    links = links?.filter((link) => !link.includes("["))
+
+    console.log('links', links[links.length - 1].includes('['))
 
     var find = '-'
     var remove = new RegExp(find, 'g')
 
     const breadCrumbTitle = paths[paths.length - 1].replace(remove, ' ')
+
+    console.log('sadsd', navBar)
 
     return (
         <div>
@@ -34,7 +42,10 @@ export const PageTitle = ({
                     {title || 'Dashboard'}
                 </Typography>
 
-                <NavbarBreadCrumbs links={links} title={breadCrumbTitle} />
+                <NavbarBreadCrumbs
+                    links={links}
+                    title={navBar?.subTitle || navBar?.title || breadCrumbTitle}
+                />
             </div>
 
             {/* Other actions */}

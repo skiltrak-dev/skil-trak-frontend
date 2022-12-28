@@ -1,30 +1,31 @@
-import { useEffect, useState, useCallback } from 'react'
-
-// components
-import { TimeSlots } from '@components/sections/student'
 import {
-    Card,
-    Typography,
     Button,
-    TextInput,
+    Card,
     LoadingAnimation,
+    TextInput,
+    Typography,
 } from '@components'
-import { AppointmentFor, AppointmentWithData } from './components'
-import { AppointmentType } from '@partials/appointmentType'
-import { getUserCredentials } from '@utils'
+import { TimeSlots } from '@components/sections'
 import { useNotification } from '@hooks'
-
-// query
+import { AppointmentType } from '@partials/appointmentType'
 import {
-    useUserAvailabilitiesQuery,
-    useSubAdminCreateAppointmentMutation,
-    useGetSubAdminStudentDetailQuery,
+    Arrow,
+    CreateAppointmentCard,
+    SearchedUserCard,
+    SearchUser,
+    SearchUserCard,
+} from '@partials/common'
+import {
     useSearchUserByIdQuery,
+    useSubAdminCreateAppointmentMutation,
+    useUserAvailabilitiesQuery,
 } from '@queries'
+import { getUserCredentials } from '@utils'
 import { useRouter } from 'next/router'
-import { Arrow, CreateAppointmentCard, SearchUser } from '@partials/common'
+import React, { useEffect, useState } from 'react'
+import { AppointmentFor, AppointmentWithData } from './components'
 
-export const CreateAppointments = () => {
+export const CreateAppointmentContainer = () => {
     const router = useRouter()
     const query = Object.keys(router.query)?.length > 0
 
@@ -133,7 +134,6 @@ export const CreateAppointments = () => {
             appointmentBy: selectedUser.selectedAppointmentWithUser,
         })
     }
-
     return (
         <>
             <div className="flex flex-col gap-y-2">

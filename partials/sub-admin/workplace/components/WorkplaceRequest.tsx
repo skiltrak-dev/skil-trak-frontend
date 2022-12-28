@@ -76,7 +76,7 @@ export const WorkplaceRequest = ({ workplace }: any) => {
     return (
         <Card noPadding>
             <div
-                className={`w-full h-full p-4 ${
+                className={`w-full h-full p-4 rounded-md shadow-lg ${
                     appliedIndustry?.isCompleted ? 'bg-gray-50' : ''
                 } `}
             >

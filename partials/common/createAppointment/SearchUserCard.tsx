@@ -15,7 +15,7 @@ import { SearchedUserCard } from './SearchedUserCard'
 // query
 import { useSearchUserQuery } from '@queries'
 
-export const SearchUser = ({
+export const SearchUserCard = ({
     onClick,
     selectedUser,
     selectedAppointment,
@@ -33,7 +33,10 @@ export const SearchUser = ({
     const searchAppointment = useSearchUserQuery(
         {
             search,
-            role: selectedAppointment?.toLowerCase(),
+            role:
+                selectedAppointment === 'Coordinator'
+                    ? 'subadmin'
+                    : selectedAppointment?.toLowerCase(),
         },
         { skip: !search }
     )

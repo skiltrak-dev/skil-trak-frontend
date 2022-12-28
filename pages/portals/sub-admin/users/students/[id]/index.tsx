@@ -23,7 +23,7 @@ import {
     useUpdateAssessmentToolArchiveMutation,
 } from '@queries'
 
-import { useContextBar } from '@hooks'
+import { useContextBar, useNavbar } from '@hooks'
 
 import { DetailTabs } from '@partials/sub-admin/students'
 import { AddWorkplace } from '@partials/sub-admin/students'
@@ -33,12 +33,18 @@ const StudentsProfile: NextPageWithLayout = () => {
     const router = useRouter()
     const { id } = router.query
 
+    const navBar = useNavbar()
+
     const [addWorkplace, setAddWorkplace] = useState<boolean>(false)
 
     const { data, isLoading, isError, isSuccess } =
         useGetSubAdminStudentDetailQuery(String(id), {
             skip: !id,
         })
+
+    useEffect(() => {
+        navBar.setSubTitle(data?.user?.name)
+    }, [data])
 
     useEffect(() => {
         if (isSuccess) {
