@@ -16,7 +16,12 @@ import { SignAgreement } from './Industries/components/Actions/components/SignAg
 import { useSendInterviewNotificationMutation } from '@queries'
 import OutsideClickHandler from 'react-outside-click-handler'
 import { useNotification } from '@hooks'
-import { ForwardModal, PlacementStartedModal } from '../modals'
+import {
+    ForwardModal,
+    PlacementStartedModal,
+    SmallActionModal,
+} from '../modals'
+import { HiCheckBadge } from 'react-icons/hi2'
 
 export const RequestType = ({
     workplace,
@@ -43,6 +48,15 @@ export const RequestType = ({
                 title: 'Interview Assigned to Student',
                 description: 'Interview Assigned to Student',
             })
+            setModal(
+                <SmallActionModal
+                    Icon={HiCheckBadge}
+                    title={'Successfully Interview'}
+                    subtitle={'Now You can forward the request to Industry'}
+                    onCancel={onModalCancelClicked}
+                    confirmText={'OK'}
+                />
+            )
         }
     }, [interViewResult])
 
@@ -129,14 +143,21 @@ export const RequestType = ({
             color: 'text-info',
             onClick: (isCleared: any) => {
                 isCleared(false)
-                // if (workplace?.currentStatus === '') {
-                // } else {
-                //     notification.error({
-                //         title: 'First Approve the workplace',
-                //         description:
-                //             'Placement cannot start without approving the workplace',
-                //     })
-                // }
+                if (workplace?.currentStatus === 'awaitingWorkplaceResponse') {
+                    notification.info({
+                        title: 'Approve or reject the Request',
+                        description:
+                            'Before uploading agreement you must have to Approve the workplace request',
+                    })
+                    isCleared(false)
+                } else {
+                    isCleared(false)
+                    notification.error({
+                        title: 'Forward the request to Industry',
+                        description:
+                            'You Must have to Forward the request to Industry before uploading agreement',
+                    })
+                }
             },
             status: 'awaitingAgreementSigned',
         },
@@ -144,7 +165,23 @@ export const RequestType = ({
             primaryText: 'Agreement & Eligibility ',
             secondaryText: 'Checklist Signed',
             color: 'text-success',
-            onClick: () => {},
+            onClick: (isCleared: any) => {
+                if (workplace?.currentStatus === 'awaitingAgreementSigned') {
+                    notification.info({
+                        title: 'Agreement Sign',
+                        description:
+                            'Now You can upload the agreement file on th workplace which is provided by student or you can request to student to upload the agreement file',
+                    })
+                    isCleared(false)
+                } else {
+                    isCleared(false)
+                    notification.error({
+                        title: 'Approve or reject',
+                        description:
+                            'You must have to Approve the workplace request',
+                    })
+                }
+            },
             status: 'AgreementSigned',
         },
         {
@@ -297,19 +334,19 @@ export const RequestType = ({
                                 className="pb-2 cursor-pointer hover:bg-gray-100 px-2"
                                 onClick={() => {
                                     setVisibleRequestType(false)
-                                    // if (findStatusIndex < i) {
-                                    const isCleared = (clear = true) => {
-                                        clear && setSelectedRequestType(i)
-                                    }
+                                    if (findStatusIndex < i) {
+                                        const isCleared = (clear = true) => {
+                                            clear && setSelectedRequestType(i)
+                                        }
 
-                                    type.onClick(isCleared)
-                                    // } else {
-                                    //     notification.error({
-                                    //         title: 'You already performed this action',
-                                    //         description:
-                                    //             'You already performed this action',
-                                    //     })
-                                    // }
+                                        type.onClick(isCleared)
+                                    } else {
+                                        notification.error({
+                                            title: 'You already performed this action',
+                                            description:
+                                                'You already performed this action',
+                                        })
+                                    }
                                 }}
                             >
                                 <Typography
