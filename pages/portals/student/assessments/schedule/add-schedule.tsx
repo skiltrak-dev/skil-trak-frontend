@@ -56,9 +56,6 @@ const Schedule: NextPageWithLayout = (props: Props) => {
     ]
     return (
         <>
-            <Button text={'Add Schedule'} variant={'info'} onClick={() => {
-                router.push()
-            }} />
             <BigCalendar events={events} />
         </>
     )
