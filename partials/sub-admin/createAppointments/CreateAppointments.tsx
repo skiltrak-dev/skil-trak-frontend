@@ -47,6 +47,9 @@ export const CreateAppointments = () => {
     const [selectedDate, setSelectedDate] = useState<Date | null>(null)
     const [selectedTime, setSelectedTime] = useState<any | null>(null)
     const [note, setNote] = useState<any | null>(null)
+    const [appointmentTypeId, setAppointmentTypeId] = useState<string | null>(
+        null
+    )
 
     const { notification } = useNotification()
 
@@ -76,18 +79,21 @@ export const CreateAppointments = () => {
 
     const userAvailabilities = useUserAvailabilitiesQuery(
         {
+            date: selectedDate?.toISOString(),
+            id: appointmentTypeId,
             forUser: selectedUser.selectedAppointmentForUser,
             byUser: selectedUser.selectedAppointmentWithUser,
         },
         {
             skip:
+                !selectedDate ||
+                !appointmentTypeId ||
                 !selectedUser.selectedAppointmentForUser ||
                 !selectedUser.selectedAppointmentWithUser,
         }
     )
-    const [appointmentTypeId, setAppointmentTypeId] = useState<string | null>(
-        null
-    )
+    console.log('selectedUser', selectedUser)
+
     const [createAppointment, createAppointmentResult] =
         useSubAdminCreateAppointmentMutation()
 

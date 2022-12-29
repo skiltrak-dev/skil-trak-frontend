@@ -10,19 +10,24 @@ import {
     ShowErrorNotifications,
 } from '@components'
 import { requestType } from './requestTypeData'
+import { SignAgreement } from './Industries/components/Actions/components/SignAgreement'
 
 // query
 import { useSendInterviewNotificationMutation } from '@queries'
 import OutsideClickHandler from 'react-outside-click-handler'
 import { useNotification } from '@hooks'
+import { ForwardModal, PlacementStartedModal } from '../modals'
 
 export const RequestType = ({
-    data,
     workplace,
+    folders,
+    appliedIndustry,
 }: {
-    data: any
     workplace: any
+    folders: any
+    appliedIndustry: any
 }) => {
+    const [modal, setModal] = useState<any>(null)
     const [visibleRequestType, setVisibleRequestType] = useState(false)
     const [selectedRequestType, setSelectedRequestType] = useState<
         number | null
@@ -40,6 +45,32 @@ export const RequestType = ({
             })
         }
     }, [interViewResult])
+
+    const onModalCancelClicked = () => {
+        setModal(null)
+    }
+
+    const onForwardClicked = (industry: any) => {
+        setModal(
+            <ForwardModal
+                industry={industry}
+                workplaceId={workplace?.id}
+                folders={folders}
+                onCancel={() => onModalCancelClicked()}
+            />
+        )
+    }
+
+    const onPlacementStartedClicked = (id: number) => {
+        setModal(
+            <PlacementStartedModal
+                id={id}
+                agreementSigned={appliedIndustry?.AgreementSigned}
+                student={workplace?.student}
+                onCancel={() => onModalCancelClicked()}
+            />
+        )
+    }
 
     const requestTypeActions = [
         {
@@ -60,8 +91,9 @@ export const RequestType = ({
             primaryText: 'Interview',
             secondaryText: 'with Case Officer',
             color: 'text-primary-light',
-            onClick: () => {
-                interView(data?.id)
+            onClick: (isCleared: any) => {
+                isCleared(true)
+                interView(appliedIndustry?.id)
             },
             status: 'interview',
         },
@@ -69,7 +101,19 @@ export const RequestType = ({
             primaryText: 'Waiting',
             secondaryText: 'for Workplace Response',
             color: 'text-info-light',
-            onClick: () => {},
+            onClick: (isCleared: any) => {
+                if (workplace?.currentStatus === 'interview') {
+                    onForwardClicked(appliedIndustry)
+                    isCleared(true)
+                } else {
+                    isCleared(false)
+                    notification.error({
+                        title: 'Take an Interview',
+                        description:
+                            'You Must have to take an Interview from student before sending request to industry',
+                    })
+                }
+            },
             status: 'awaitingWorkplaceResponse',
         },
         {
@@ -83,7 +127,17 @@ export const RequestType = ({
             primaryText: 'Agreement & Eligibility ',
             secondaryText: 'Checklist Pending',
             color: 'text-info',
-            onClick: () => {},
+            onClick: (isCleared: any) => {
+                isCleared(false)
+                // if (workplace?.currentStatus === '') {
+                // } else {
+                //     notification.error({
+                //         title: 'First Approve the workplace',
+                //         description:
+                //             'Placement cannot start without approving the workplace',
+                //     })
+                // }
+            },
             status: 'awaitingAgreementSigned',
         },
         {
@@ -97,7 +151,19 @@ export const RequestType = ({
             primaryText: 'Placement Started',
             secondaryText: 'Placement Started',
             color: 'text-success-dark',
-            onClick: () => {},
+            onClick: (isCleared: any) => {
+                if (workplace?.currentStatus === 'awaitingAgreementSigned') {
+                    onPlacementStartedClicked(Number(appliedIndustry?.id))
+                    isCleared(true)
+                } else {
+                    notification.error({
+                        title: 'First Approve the workplace',
+                        description:
+                            'Placement cannot start without approving the workplace',
+                    })
+                    isCleared(false)
+                }
+            },
             status: 'placementStarted',
         },
         {
@@ -135,7 +201,7 @@ export const RequestType = ({
     )
 
     useEffect(() => {
-        if (data?.industryResponse === 'rejected') {
+        if (appliedIndustry?.industryResponse === 'rejected') {
             setSelectedRequestType(requestTypeActions.length - 1)
         } else {
             setSelectedRequestType(findStatusIndex)
@@ -156,12 +222,20 @@ export const RequestType = ({
         // if (data?.AgreementSigned) {
         //     setSelectedRequestType(6)
         // }
-    }, [data])
+    }, [appliedIndustry])
 
     const isLoading = interViewResult.isLoading
 
     return (
         <div className="relative">
+            {modal && modal}
+
+            <div className="hidden">
+                <SignAgreement
+                    studentId={workplace?.student?.id}
+                    appliedIndustryId={appliedIndustry?.id}
+                />
+            </div>
             <ShowErrorNotifications result={interViewResult} />
             <OutsideClickHandler
                 onOutsideClick={() => {
@@ -224,8 +298,11 @@ export const RequestType = ({
                                 onClick={() => {
                                     setVisibleRequestType(false)
                                     // if (findStatusIndex < i) {
-                                    setSelectedRequestType(i)
-                                    type.onClick()
+                                    const isCleared = (clear = true) => {
+                                        clear && setSelectedRequestType(i)
+                                    }
+
+                                    type.onClick(isCleared)
                                     // } else {
                                     //     notification.error({
                                     //         title: 'You already performed this action',

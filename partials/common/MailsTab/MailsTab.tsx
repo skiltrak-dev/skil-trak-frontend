@@ -11,26 +11,26 @@ import {
 
 // query
 // query
-import { AdminApi, useSendMessageMutation } from '@queries'
+import { CommonApi, AdminApi, useSendMessageMutation } from '@queries'
 
 // hooks
 import { useContextBar } from 'hooks'
 // import { useMessage } from 'hooks'
 
-export const MailsTab = ({ student }: any) => {
+export const MailsTab = ({ user }: any) => {
     const [messagesList, setMessagesList] = useState([])
     const [approvedUser, setApprovedUser] = useState(
-        student?.user?.status === 'approved'
+        user?.user?.status === 'approved'
     )
 
     // query
-    const messages = AdminApi.Messages.useList(student?.user?.id, {
-        skip: !student?.user?.id,
+    const messages = CommonApi.Messages.useMessages(user?.id, {
+        skip: !user?.id,
     })
 
     useEffect(() => {
-        setApprovedUser(student?.user?.status === 'approved')
-    }, [student])
+        setApprovedUser(user?.user?.status === 'approved')
+    }, [user])
 
     // useEffect(() => {
     //     messages.refetch()
@@ -41,11 +41,11 @@ export const MailsTab = ({ student }: any) => {
             <div className={`w-full bg-gray-50 rounded-lg p-2`}>
                 {messages.isError && <TechnicalError />}
                 <div className={`flex flex-col gap-y-2.5 h-full `}>
-                    {messages?.isLoading ? (
+                    {messages?.isLoading || messages?.isFetching ? (
                         <div className="flex justify-center items-center h-full">
                             <LoadingAnimation />
                         </div>
-                    ) : messages?.data?.length > 0 ? (
+                    ) : !messages.isError && messages?.data?.length > 0 ? (
                         messages?.data?.map(
                             (message: any, i: number) =>
                                 message && (
@@ -73,15 +73,15 @@ export const MailsTab = ({ student }: any) => {
                     )}
                 </div>
             </div>
-            {approvedUser && (
-                <div className={`w-2/5`}>
-                    <MailForm
-                        action={useSendMessageMutation}
-                        receiverId={Number(student?.id)}
-                        sender={'admin'}
-                    />
-                </div>
-            )}
+            {/* {approvedUser && ( */}
+            <div className={`w-2/5`}>
+                <MailForm
+                    action={useSendMessageMutation}
+                    receiverId={Number(user?.id)}
+                    sender={'admin'}
+                />
+            </div>
+            {/* )} */}
         </div>
     )
 }

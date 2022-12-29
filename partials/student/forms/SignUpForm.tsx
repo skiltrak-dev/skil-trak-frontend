@@ -275,7 +275,6 @@ export const StudentSignUpForm = ({ onSubmit }: { onSubmit: any }) => {
                                 name={'rto'}
                                 options={rtoOptions}
                                 placeholder={'Select Rtos...'}
-                                multi
                                 loading={rtoResponse.isLoading}
                                 // onChange={}
                                 validationIcons

@@ -1,6 +1,5 @@
 import { TabNavigation, TabProps } from '@components'
-import { AllCommunicationTab, NotesTab } from '@partials/common'
-import { MailsTab } from './MailsTab'
+import { AllCommunicationTab, MailsTab, NotesTab } from '@partials/common'
 import { SectorsTab } from './SectorsTab'
 
 export const DetailTabs = ({
@@ -24,7 +23,7 @@ export const DetailTabs = ({
         {
             label: 'Mails',
             href: { query: { tab: 'mails', id } },
-            element: <MailsTab industry={industry?.data} />,
+            element: <MailsTab user={industry?.data?.user} />,
         },
         {
             label: 'All Communications',

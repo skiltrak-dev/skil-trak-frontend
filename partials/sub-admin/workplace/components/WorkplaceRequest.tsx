@@ -9,6 +9,9 @@ import { Card, Typography, Button, ActionButton } from '@components'
 // utils
 import { ellipsisText, userStatus } from '@utils'
 
+// hooks
+import { GetFolders } from '../hooks'
+
 // query
 import {
     useAssignToSubAdminMutation,
@@ -30,13 +33,13 @@ import { RtoDetail } from './RtoDetail'
 export const WorkplaceRequest = ({ workplace }: any) => {
     const [appliedIndustry, setAppliedIndustry] = useState<any | null>(null)
     const [course, setCourse] = useState<any | null>(null)
-    const [folders, setFolders] = useState<any | null>(null)
 
     const { setContent, show } = useContextBar()
 
     // query
     const [cancelWorkplace, cancelWorkplaceResult] =
         useCancelWorkplaceStatusMutation()
+
     // query
     const workplaceFolders = useGetWorkplaceFoldersQuery(
         {
@@ -47,32 +50,12 @@ export const WorkplaceRequest = ({ workplace }: any) => {
         { skip: !workplace || !appliedIndustry || !course }
     )
 
+    const folders = GetFolders(workplaceFolders)
+
     useEffect(() => {
         setAppliedIndustry(workplace.industries?.find((i: any) => i.applied))
         setCourse(workplace?.courses ? workplace?.courses[0] : {})
     }, [workplace])
-
-    useEffect(() => {
-        const getFolders = () => {
-            const uploadedFolders = {}
-            workplaceFolders?.data?.uploaded?.forEach((folder: any) => {
-                if ((uploadedFolders as any)[folder.name]) {
-                    ;(uploadedFolders as any)[folder.name].push(folder)
-                } else {
-                    ;(uploadedFolders as any)[folder.name] = []
-                    ;(uploadedFolders as any)[folder.name].push(folder)
-                }
-            })
-            const allFolders = workplaceFolders?.data?.folders?.map(
-                (folder: any) => ({
-                    ...folder,
-                    uploaded: (uploadedFolders as any)[folder?.folder?.name],
-                })
-            )
-            setFolders(allFolders)
-        }
-        getFolders()
-    }, [workplaceFolders])
 
     return (
         <Card noPadding>
@@ -99,7 +82,7 @@ export const WorkplaceRequest = ({ workplace }: any) => {
                                 </Typography>
                                 <Typography variant={'muted'}>
                                     {course?.code} -{' '}
-                                    {ellipsisText(course?.title, 20)}
+                                    {ellipsisText(course?.title, 15)}
                                 </Typography>
                             </div>
                         </div>
@@ -124,8 +107,9 @@ export const WorkplaceRequest = ({ workplace }: any) => {
                             />
                         )}
                         <RequestType
-                            data={appliedIndustry}
+                            folders={folders}
                             workplace={workplace}
+                            appliedIndustry={appliedIndustry}
                         />
                     </div>
                 </div>
