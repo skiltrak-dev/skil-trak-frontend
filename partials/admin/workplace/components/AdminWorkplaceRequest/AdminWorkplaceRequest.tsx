@@ -100,7 +100,10 @@ export const AdminWorkplaceRequest = ({ workplace }: Props) => {
                     </div>
 
                     {/* Request Type Selection */}
-                    <RequestType data={appliedIndustry} workplace={workplace} />
+                    <RequestType
+                        appliedIndustry={appliedIndustry}
+                        workplace={workplace}
+                    />
                 </div>
 
                 {/* Student Small Details */}

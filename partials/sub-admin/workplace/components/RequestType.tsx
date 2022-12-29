@@ -29,7 +29,7 @@ export const RequestType = ({
     appliedIndustry,
 }: {
     workplace: any
-    folders: any
+    folders?: any
     appliedIndustry: any
 }) => {
     const [modal, setModal] = useState<any>(null)
