@@ -15,8 +15,6 @@ export const NavbarProvider = ({ children }: { children: React.ReactNode }) => {
     const [title, setTitle] = useState('')
     const [subTitle, setSubTitle] = useState('')
 
-    console.log('subTitle', subTitle)
-
     useEffect(() => {
         setSubTitle('')
     }, [router])

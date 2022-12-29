@@ -25,6 +25,7 @@ import { Industries } from './Industries'
 import { Notes } from './Notes'
 import { SmallDetail } from './smallDetail'
 import { ViewAgreement } from '../contextBar'
+import { RtoDetail } from './RtoDetail'
 
 export const WorkplaceRequest = ({ workplace }: any) => {
     const [appliedIndustry, setAppliedIndustry] = useState<any | null>(null)
@@ -86,35 +87,7 @@ export const WorkplaceRequest = ({ workplace }: any) => {
                         appliedIndustry={appliedIndustry}
                     />
 
-                    <div className="flex items-center relative">
-                        <div className="flex items-center gap-x-2">
-                            <img
-                                className="rounded-full w-8 h-8"
-                                src={'https://picsum.photos/100/100'}
-                                alt={''}
-                            />
-                            <div>
-                                <Typography color={'black'} variant={'small'}>
-                                    {workplace?.student?.rto?.user?.name}
-                                </Typography>
-                                <div className="flex items-center gap-x-2">
-                                    <Typography
-                                        variant={'muted'}
-                                        color={'text-gray-400'}
-                                    >
-                                        {workplace?.student?.rto?.user?.email}
-                                    </Typography>
-                                    <span className="text-gray-400">|</span>
-                                    <Typography
-                                        variant={'muted'}
-                                        color={'text-gray-400'}
-                                    >
-                                        {workplace?.student?.rto?.phone}
-                                    </Typography>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    <RtoDetail rto={workplace?.student?.rto} />
 
                     {/*  */}
                     <div className="flex items-center relative">
@@ -125,7 +98,8 @@ export const WorkplaceRequest = ({ workplace }: any) => {
                                     {course?.sector?.name}
                                 </Typography>
                                 <Typography variant={'muted'}>
-                                    {course?.code} - {course?.title}
+                                    {course?.code} -{' '}
+                                    {ellipsisText(course?.title, 20)}
                                 </Typography>
                             </div>
                         </div>

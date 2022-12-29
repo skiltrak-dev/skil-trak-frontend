@@ -2,65 +2,20 @@ import React from 'react'
 
 // components
 import { ProgressStep, Card, InitialAvatar, Typography } from '@components'
-import { StepIndustryChecks } from './StepIndustryChecks'
-import {
-    AgreementSigned,
-    StepAppointmentBooked,
-    StepAwaitingResponse,
-    StepInterview,
-    StepPlacementStarted,
-} from '@partials/common'
-import { StepSignAgreement } from './StepSignAgreement'
 
 type Props = {
-    status: any
+    getNextStep: any
     appliedIndustry: any
-    setIndustrySelection?: any
-    workplaceCancelRequest: any
     workplaceRequest: any
-    studentAdded?: boolean
+    workplaceCancelRequest: Function
 }
 
-export const AppliedIndustry = ({
-    status,
+export const AppliedIndustryCard = ({
+    getNextStep,
     appliedIndustry,
-    setIndustrySelection,
-    workplaceCancelRequest,
     workplaceRequest,
-    studentAdded,
+    workplaceCancelRequest,
 }: Props) => {
-    const getNextStep = () => {
-        switch (status) {
-            case 'interview':
-                return <StepInterview />
-
-            case 'awaitingWorkplaceResponse':
-                return <StepAwaitingResponse />
-
-            case 'appointmentBooked':
-                return <StepAppointmentBooked />
-
-            case 'awaitingAgreementSigned':
-                return (
-                    <StepSignAgreement
-                        appliedIndustryId={appliedIndustry?.id}
-                    />
-                )
-            case 'AgreementSigned':
-                return <AgreementSigned />
-
-            case 'placementStarted':
-                return <StepPlacementStarted />
-
-            default:
-                return !studentAdded ? (
-                    <StepIndustryChecks
-                        appliedIndustry={appliedIndustry}
-                        setIndustrySelection={setIndustrySelection}
-                    />
-                ) : null
-        }
-    }
     return (
         <div>
             <Typography variant={'label'}>
@@ -77,7 +32,7 @@ export const AppliedIndustry = ({
                             <div className="flex items-center gap-x-2">
                                 <img
                                     className="w-16 h-16 rounded-md"
-                                    src={`https://picsum.photos/100/10${appliedIndustry?.id}`}
+                                    src={`https://picsum.photos/100/10`}
                                     alt=""
                                 />
                                 <div>

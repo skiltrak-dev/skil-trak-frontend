@@ -1,5 +1,7 @@
 export * from './StepInterview'
 export * from './AgreementSigned'
+export * from './AppliedIndustryCard'
 export * from './StepAwaitingResponse'
 export * from './StepPlacementStarted'
 export * from './StepAppointmentBooked'
+export * from './StepCaseOfficerAssigned'

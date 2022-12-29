@@ -20,9 +20,8 @@ import {
     useGetWorkplaceIndustriesQuery,
 } from '@queries'
 import { useNotification } from '@hooks'
-import { AppliedIndustry } from '@components/sections/student/WorkplaceContainer/MyWorkPlace/components/IndustrySelection/AppliedIndustry'
 import { AddCustomIndustryForm, FindWorkplaceForm } from '@partials/common'
-import { ExistinIndustryCard } from '@partials/student/workplace'
+import { AppliedIndustry, ExistinIndustryCard } from '@partials/student'
 
 type Props = {}
 

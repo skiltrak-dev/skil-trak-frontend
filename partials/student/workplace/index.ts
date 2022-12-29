@@ -1,2 +1,2 @@
-export * from './provideWorkplaceDetail'
-export * from './requestWorkplaceDetail'
+export * from './have-workplace'
+export * from './dont-have-workplace'
