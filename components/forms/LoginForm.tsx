@@ -1,7 +1,7 @@
-import { Button, Checkbox, TextInput } from '@components'
+import { Button, LoadingAnimation, TextInput } from '@components'
 import { yupResolver } from '@hookform/resolvers/yup'
-import { FormProvider, useForm } from 'react-hook-form'
 import Link from 'next/link'
+import { FormProvider, useForm } from 'react-hook-form'
 import * as Yup from 'yup'
 
 export const LoginForm = ({
@@ -23,7 +23,15 @@ export const LoginForm = ({
         mode: 'all',
     })
 
-    return (
+    return result.isLoading || result.isSuccess ? (
+        <div className="min-h-[268px] flex flex-col items-center justify-center">
+            <LoadingAnimation />
+            <div className="text-center">
+                <p className="font-semibold text-blue-500">Logging You In...</p>
+                <p className="text-sm text-gray-500">Please wait...</p>
+            </div>
+        </div>
+    ) : (
         <FormProvider {...methods}>
             <form
                 className="mt-2 w-full"
@@ -47,10 +55,6 @@ export const LoginForm = ({
                         validationIcons
                         required
                     />
-                </div>
-
-                <div className="mb-6">
-                    <Checkbox name={'rememberMe'} label={'Remember Me'} />
                 </div>
 
                 <div className="mt-4 flex items-center justify-between">
