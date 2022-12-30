@@ -82,7 +82,7 @@ export const MyWorkplace = ({ myWorkplace }: Props) => {
                                     </p>
                                 </div>
                                 <div>
-                                    <div>
+                                    {/* <div>
                                         <p className="font-medium">
                                             {
                                                 data?.industries[0]?.industry
@@ -95,7 +95,7 @@ export const MyWorkplace = ({ myWorkplace }: Props) => {
                                                     ?.user?.email
                                             }
                                         </p>
-                                    </div>
+                                    </div> */}
                                     <div className="flex gap-x-3 mt-1 border-t pt-2">
                                         <div className="flex items-center gap-x-1">
                                             <span className="text-gray-400">

@@ -71,7 +71,7 @@ export const ArchivedStudent = () => {
         {
             text: 'View',
             onClick: (student: Student) => {
-                router.push(`/portals/rto/users/students/${student.id}`)
+                router.push(`/portals/rto/students/${student.id}`)
             },
             Icon: FaEye,
         },

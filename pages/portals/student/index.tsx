@@ -55,10 +55,10 @@ const getSectors = (courses: any) => {
     const sectors = {}
     courses.forEach((c: any) => {
         if ((sectors as any)[c.sector.name]) {
-            ;(sectors as any)[c.sector.name].push(c)
+            ; (sectors as any)[c.sector.name].push(c)
         } else {
-            ;(sectors as any)[c.sector.name] = []
-            ;(sectors as any)[c.sector.name].push(c)
+            ; (sectors as any)[c.sector.name] = []
+                ; (sectors as any)[c.sector.name].push(c)
         }
     })
     return sectors
@@ -67,6 +67,7 @@ const getSectors = (courses: any) => {
 const StudentDashboard: NextPageWithLayout = () => {
     const { data, isSuccess, isLoading } = useGetStudentProfileDetailQuery()
     const sectorsWithCourses = getSectors(data?.courses)
+    console.log("workplace data ", data);
 
     const [name, setName] = useState('')
     const credentials = AuthUtils.getUserCredentials()
@@ -734,10 +735,10 @@ const StudentDashboard: NextPageWithLayout = () => {
                             <div>
                                 <div>
                                     <p className="font-medium">
-                                        {data?.rto.user.name}
+                                        {data?.rto?.user?.name}
                                     </p>
                                     <p className="text-slate-400 text-sm">
-                                        {data?.rto.user.email}
+                                        {data?.rto?.user?.email}
                                     </p>
                                 </div>
                                 <div className="flex gap-x-6 mt-1">
@@ -754,7 +755,7 @@ const StudentDashboard: NextPageWithLayout = () => {
                                             <MdPhone size={14} />
                                         </span>
                                         <span className="text-xs">
-                                            {data?.rto.phone}
+                                            {data?.rto?.phone}
                                         </span>
                                     </div>
                                 </div>
@@ -764,56 +765,56 @@ const StudentDashboard: NextPageWithLayout = () => {
                                         Coordinators
                                     </p>
                                     <div className="flex justify-between gap-x-2">
-                                        {data?.rto.subadmin.length && (
+                                        {data?.rto?.subadmin?.length && (
                                             <div>
                                                 <p className="font-medium text-sm">
                                                     {
-                                                        data?.rto.subadmin[0]
-                                                            .user.name
+                                                        data?.rto?.subadmin[0]
+                                                            ?.user?.name
                                                     }
                                                 </p>
                                                 <p className="text-xs font-medium text-slate-400">
                                                     {
-                                                        data?.rto.subadmin[0]
-                                                            .user.email
+                                                        data?.rto?.subadmin[0]
+                                                            ?.user?.email
                                                     }
                                                 </p>
                                             </div>
                                         )}
 
-                                        {data?.rto.subadmin.slice(
+                                        {data?.rto?.subadmin.slice(
                                             1,
-                                            data?.rto.subadmin.length
+                                            data?.rto?.subadmin?.length
                                         ).length > 0 && (
-                                            <InitialAvatarContainer show={2}>
-                                                {data?.rto.subadmin
-                                                    .slice(
-                                                        1,
-                                                        data?.rto.subadmin
-                                                            .length
-                                                    )
-                                                    .map(
-                                                        (
-                                                            subAdmin: SubAdmin,
-                                                            idx: number
-                                                        ) => (
-                                                            <InitialAvatar
-                                                                key={
-                                                                    subAdmin.id
-                                                                }
-                                                                name={
-                                                                    subAdmin
-                                                                        .user
-                                                                        .name
-                                                                }
-                                                                first={
-                                                                    idx === 0
-                                                                }
-                                                            />
+                                                <InitialAvatarContainer show={2}>
+                                                    {data?.rto.subadmin
+                                                        .slice(
+                                                            1,
+                                                            data?.rto?.subadmin
+                                                                .length
                                                         )
-                                                    )}
-                                            </InitialAvatarContainer>
-                                        )}
+                                                        .map(
+                                                            (
+                                                                subAdmin: SubAdmin,
+                                                                idx: number
+                                                            ) => (
+                                                                <InitialAvatar
+                                                                    key={
+                                                                        subAdmin.id
+                                                                    }
+                                                                    name={
+                                                                        subAdmin
+                                                                            .user
+                                                                            .name
+                                                                    }
+                                                                    first={
+                                                                        idx === 0
+                                                                    }
+                                                                />
+                                                            )
+                                                        )}
+                                                </InitialAvatarContainer>
+                                            )}
                                     </div>
                                 </div>
                             </div>
@@ -848,13 +849,13 @@ const StudentDashboard: NextPageWithLayout = () => {
                     </div>
 
                     {/* Card Body */}
-                    {data?.workplace.length ? (
+                    {data?.workplace?.length > 0 ? (
                         <div className="mt-4">
                             <div className="flex items-center gap-x-6 mb-4">
                                 <div className="flex-shrink-0">
-                                    {data?.rto?.user.avatar ? (
+                                    {data?.rto?.user?.avatar ? (
                                         <Image
-                                            src={data?.rto?.user.avatar}
+                                            src={data?.rto?.user?.avatar}
                                             width={100}
                                             height={100}
                                             className="rounded-full shadow-inner-image"
@@ -867,53 +868,71 @@ const StudentDashboard: NextPageWithLayout = () => {
                                         </div>
                                     )}
                                 </div>
-                                <div>
-                                    <div>
-                                        <p className="font-medium">
-                                            Tandoori Fusions Restaurants
-                                        </p>
-                                        <p className="text-slate-400 text-sm">
-                                            info@tandoori.edu.au
-                                        </p>
-                                    </div>
+                                {data?.workplace[0]?.industries?.map((workplace: any) => (
+                                    workplace?.applied && (
+                                        <>
+                                            <div key={data?.workplace?.[0]?.id}>
+                                                <div>
+                                                    <p className="font-medium">
+                                                        {workplace?.industry?.businessName}
+                                                    </p>
+                                                    <p className="text-slate-400 text-sm">
+                                                        {workplace?.industry?.user?.email}
+                                                    </p>
+                                                </div>
 
-                                    <div className="flex gap-x-3 mt-1 border-t pt-2">
-                                        <div className="flex items-center gap-x-1">
-                                            <span className="text-gray-400">
-                                                <MdPermContactCalendar
-                                                    size={14}
-                                                />
-                                            </span>
-                                            <span className="text-xs">
-                                                John Smith
-                                            </span>
-                                        </div>
-                                        <div className="flex items-center gap-x-1">
-                                            <span className="text-gray-400">
-                                                <MdPhone size={14} />
-                                            </span>
-                                            <span className="text-xs">
-                                                039 6534 100
-                                            </span>
-                                        </div>
-                                    </div>
+                                                <div className="flex gap-x-3 mt-1 border-t pt-2">
+                                                    <div className="flex items-center gap-x-1">
+                                                        <span className="text-gray-400">
+                                                            <MdPermContactCalendar
+                                                                size={14}
+                                                            />
+                                                        </span>
+                                                        <span className="text-xs">
+                                                            {workplace?.industry?.user?.name}
+                                                        </span>
+                                                    </div>
+                                                    <div className="flex items-center gap-x-1">
+                                                        <span className="text-gray-400">
+                                                            <MdPhone size={14} />
+                                                        </span>
+                                                        <span className="text-xs">
+                                                            {workplace?.industry?.phoneNumber}
+                                                        </span>
+                                                    </div>
+                                                </div>
 
-                                    <div className="mt-2">
-                                        <p className="text-[11px] text-gray-400">
-                                            Contact Person
-                                        </p>
-                                        <div className="flex justify-between gap-x-4">
-                                            <div>
-                                                <p className="font-medium text-sm">
-                                                    Taylor Smith
-                                                </p>
-                                                <p className="text-xs font-medium text-slate-400">
-                                                    smith@tandoori.com.au
-                                                </p>
+                                                <div className="mt-2">
+                                                    <p className="text-[11px] text-gray-400">
+                                                        Contact Person
+                                                    </p>
+                                                    <div className="flex justify-between gap-x-4">
+                                                        <div>
+                                                            <p className="font-medium text-sm">
+                                                                {workplace?.industry?.contactPerson || "N/A"}
+
+                                                            </p>
+                                                            <p className="text-xs font-medium text-slate-400">
+                                                                {/* smith@tandoori.com.au */}
+                                                                {workplace?.industry?.contactPersonNumber || "N/A"}
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                </div>
                                             </div>
-                                        </div>
-                                    </div>
-                                </div>
+                                            {/* <div className="flex gap-x-3 mt-1 border-t pt-2">
+                                                <div className="flex items-center gap-x-1">
+                                                    <span className="text-gray-400">
+                                                        <FaMapMarkerAlt size={14} />
+                                                    </span>
+                                                    <span className="text-xs">
+                                                        221B Baker Street, Sydney, Australia
+                                                    </span>
+                                                </div>
+                                            </div> */}
+                                        </>
+                                    )
+                                ))}
                             </div>
 
                             <div className="flex gap-x-3 mt-1 border-t pt-2">

@@ -58,7 +58,7 @@ export const IndustrySelection = ({
             //         ?.find((i: any) => i.industry.id === industrySelection)
             //         ?.industry.courses.map((c: any) => c.id)
             // )
-            setSelectedCourses(workplace?.data?.courses[0]?.id)
+            setSelectedCourses(workplace?.data[0]?.courses[0]?.id)
         }
     }, [
         workplace,

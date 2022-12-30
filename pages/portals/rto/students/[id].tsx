@@ -12,7 +12,7 @@ import {
     TechnicalError,
 } from '@components'
 
-import { DetailTabs } from '@partials/rto/student'
+import { DetailTabs, RtoStudentProfileCB } from '@partials/rto/student'
 
 import { useContextBar, useNavbar } from '@hooks'
 import { RtoLayout } from '@layouts'
@@ -43,7 +43,7 @@ const Detail: NextPageWithLayout = () => {
         useGetRtoStudentProfileQuery(Number(id), {
             skip: !id,
         })
-
+// console.log('RTO Student', data)
     useEffect(() => {
         if (data && isSuccess) {
             setAppliedIndustry(
@@ -56,6 +56,12 @@ const Detail: NextPageWithLayout = () => {
         navBar.setTitle('Student Detail')
         contextBar.hide()
     }, [])
+    useEffect(() => {
+        if (isSuccess) {
+            contextBar.setContent(<RtoStudentProfileCB student={data} />)
+            contextBar.show(false)
+        }
+    }, [data])
 
     return (
         <>
@@ -84,7 +90,7 @@ const Detail: NextPageWithLayout = () => {
                     <div>
                         <div className="w-full grid grid-cols-9 gap-x-2 gap-y-2">
                             {/* first */}
-                            <div
+                            {/* <div
                                 className={`col-span-10 xl:col-span-5 w-full flex flex-col justify-between bg-white rounded-2xl shadow-xl`}
                             >
                                 <div className="w-full flex items-center gap-x-2 px-4 py-2">
@@ -140,14 +146,14 @@ const Detail: NextPageWithLayout = () => {
                                         />
                                     </div>
                                 </div>
-                            </div>
+                            </div> */}
 
                             {/* second */}
                             <div
                                 className={`col-span-10 lg:col-span-4 xl:col-span-4 w-full flex flex-col gap-y-2`}
                             >
                                 {/* Contact Person */}
-                                <div className="w-full h-full bg-white rounded-2xl shadow-xl px-4 py-2">
+                                {/* <div className="w-full h-full bg-white rounded-2xl shadow-xl px-4 py-2">
                                     <div className="mb-2">
                                         <Typography variant={'muted'}>
                                             Emergency Person
@@ -175,10 +181,10 @@ const Detail: NextPageWithLayout = () => {
                                             </p>
                                         </div>
                                     </div>
-                                </div>
+                                </div> */}
 
                                 {/* Placement Coordinator */}
-                                <div className="w-full h-full bg-white rounded-2xl shadow-xl px-4 py-2">
+                                {/* <div className="w-full h-full bg-white rounded-2xl shadow-xl px-4 py-2">
                                     <div className="mb-2">
                                         <Typography variant={'muted'}>
                                             Placement Coordinator(s)
@@ -207,7 +213,7 @@ const Detail: NextPageWithLayout = () => {
                                             <InitialAvatar name="AB Deviler" />
                                         </InitialAvatarContainer>
                                     </div>
-                                </div>
+                                </div> */}
                             </div>
                         </div>
                     </div>
