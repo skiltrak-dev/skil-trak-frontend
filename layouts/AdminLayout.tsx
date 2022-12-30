@@ -1,6 +1,5 @@
 import React, { ReactElement, ReactNode, useEffect } from 'react'
-import { useAlert } from 'hooks'
-import { useNotification } from 'hooks'
+import { useAlert, useNotification } from '@hooks'
 
 // components
 import {

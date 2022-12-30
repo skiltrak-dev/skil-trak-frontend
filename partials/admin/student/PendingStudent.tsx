@@ -9,6 +9,7 @@ import {
     Table,
     TableAction,
     TableActionOption,
+    TechnicalError,
     Typography,
 } from '@components'
 import { PageHeading } from '@components/headings'
@@ -36,7 +37,7 @@ export const PendingStudent = () => {
     const [itemPerPage, setItemPerPage] = useState(5)
     const [page, setPage] = useState(1)
     const [filter, setFilter] = useState({})
-    const { isLoading, data } = AdminApi.Students.useListQuery({
+    const { isLoading, data, isError } = AdminApi.Students.useListQuery({
         search: `status:pending`,
         skip: itemPerPage * page - itemPerPage,
         limit: itemPerPage,
@@ -176,6 +177,7 @@ export const PendingStudent = () => {
                 />
 
                 <Card noPadding>
+                    {isError && <TechnicalError />}
                     {isLoading ? (
                         <LoadingAnimation height="h-[60vh]" />
                     ) : data && data?.data.length ? (
@@ -212,11 +214,15 @@ export const PendingStudent = () => {
                             }}
                         </Table>
                     ) : (
-                        <EmptyData
-                            title={'No Pending RTO!'}
-                            description={'You have no pending RTO request yet'}
-                            height={'50vh'}
-                        />
+                        !isError && (
+                            <EmptyData
+                                title={'No Pending RTO!'}
+                                description={
+                                    'You have no pending RTO request yet'
+                                }
+                                height={'50vh'}
+                            />
+                        )
                     )}
                 </Card>
             </div>

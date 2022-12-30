@@ -61,8 +61,6 @@ const AssessmentEvidence: NextPageWithLayout = (props: Props) => {
         (f: any) => f?.studentResponse?.files?.length > 0
     )
 
-    console.log('isFilesUploaded', selectedCourse?.results[0]?.totalSubmission)
-
     return (
         <>
             {/* <AssessmentsEvidence /> */}

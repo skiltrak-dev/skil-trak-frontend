@@ -19,7 +19,9 @@ import { useNotification } from '@hooks'
 import {
     ForwardModal,
     PlacementStartedModal,
-    SmallActionModal,
+    ActionModal,
+    CompleteWorkplaceModal,
+    TerminateWorkplaceModal,
 } from '../modals'
 import { HiCheckBadge } from 'react-icons/hi2'
 
@@ -49,7 +51,7 @@ export const RequestType = ({
                 description: 'Interview Assigned to Student',
             })
             setModal(
-                <SmallActionModal
+                <ActionModal
                     Icon={HiCheckBadge}
                     title={'Successfully Interview'}
                     subtitle={'Now You can forward the request to Industry'}
@@ -82,6 +84,24 @@ export const RequestType = ({
                 agreementSigned={appliedIndustry?.AgreementSigned}
                 student={workplace?.student}
                 onCancel={() => onModalCancelClicked()}
+            />
+        )
+    }
+
+    const onCompleteClicked = () => {
+        setModal(
+            <CompleteWorkplaceModal
+                appliedIndustryId={appliedIndustry?.id}
+                onCancel={onModalCancelClicked}
+            />
+        )
+    }
+
+    const onTerminateClicked = () => {
+        setModal(
+            <TerminateWorkplaceModal
+                appliedIndustryId={appliedIndustry?.id}
+                onCancel={onModalCancelClicked}
             />
         )
     }
@@ -207,7 +227,9 @@ export const RequestType = ({
             primaryText: 'Completed',
             secondaryText: 'Completed',
             color: 'text-error',
-            onClick: () => {},
+            onClick: () => {
+                onCompleteClicked()
+            },
             status: 'completed',
         },
         {
@@ -228,7 +250,9 @@ export const RequestType = ({
             primaryText: 'Terminated',
             secondaryText: 'Terminated',
             color: 'text-error',
-            onClick: () => {},
+            onClick: () => {
+                onTerminateClicked()
+            },
             status: 'terminated',
         },
     ]

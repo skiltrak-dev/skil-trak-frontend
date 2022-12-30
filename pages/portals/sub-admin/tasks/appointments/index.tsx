@@ -35,16 +35,16 @@ const Appointments: NextPageWithLayout = (props: Props) => {
         status: 'future',
     })
 
-    const events: CalendarEvent[] = subAdminAppointments?.data?.map(
-        (appointment: any) => ({
-            allDay: false,
-            start: new Date(appointment?.date),
-            end: new Date('2023-02-25T02:00:15.221Z'),
-            title: 'Appointment',
-            priority: 'high',
-            subTitle: 'Go For It',
-        })
-    )
+    const events = subAdminAppointments?.data?.map((appointment: any) => ({
+        allDay: false,
+        start: new Date(appointment?.date),
+        end: new Date(appointment?.date),
+        title: 'Appointment',
+        priority: 'high',
+        subTitle: 'Go For It',
+    }))
+
+    console.log('eventsevents', events)
 
     return (
         <div>

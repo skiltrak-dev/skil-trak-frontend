@@ -9,6 +9,7 @@ import {
     Table,
     TableAction,
     TableActionOption,
+    TechnicalError,
 } from '@components'
 import { SubAdminCell } from './components'
 import { PageHeading } from '@components/headings'
@@ -27,7 +28,7 @@ export const ArchivedSubAdmin = () => {
     const [page, setPage] = useState(1)
     const [filter, setFilter] = useState({})
 
-    const { isLoading, data } = AdminApi.SubAdmins.useListQuery({
+    const { isLoading, data, isError } = AdminApi.SubAdmins.useListQuery({
         search: `status:archived,${JSON.stringify(filter)
             .replaceAll('{', '')
             .replaceAll('}', '')
@@ -150,28 +151,25 @@ export const ArchivedSubAdmin = () => {
                 title={'Archived Sub Admin'}
                 subtitle={'List of Archived Sub Admin'}
             >
+                {filterAction}
                 {data && data?.data.length ? (
-                    <>
-                        {filterAction}
-                        <Button
-                            text="Export"
-                            variant="action"
-                            Icon={FaFileExport}
-                        />
-                    </>
+                    <Button
+                        text="Export"
+                        variant="action"
+                        Icon={FaFileExport}
+                    />
                 ) : null}
             </PageHeading>
 
-            {data && data?.data.length ? (
-                <Filter
-                    component={RtoFilters}
-                    initialValues={{ name: '', email: '', rtoCode: '' }}
-                    setFilterAction={setFilterAction}
-                    setFilter={setFilter}
-                />
-            ) : null}
+            <Filter
+                component={RtoFilters}
+                initialValues={{ name: '', email: '', rtoCode: '' }}
+                setFilterAction={setFilterAction}
+                setFilter={setFilter}
+            />
 
             <Card noPadding>
+                {isError && <TechnicalError />}
                 {isLoading ? (
                     <LoadingAnimation height="h-[60vh]" />
                 ) : data && data?.data.length ? (
@@ -205,13 +203,15 @@ export const ArchivedSubAdmin = () => {
                         }}
                     </Table>
                 ) : (
-                    <EmptyData
-                        title={'No Archived Industry!'}
-                        description={
-                            'You have not archived any Industry request yet'
-                        }
-                        height={'50vh'}
-                    />
+                    !isError && (
+                        <EmptyData
+                            title={'No Archived Industry!'}
+                            description={
+                                'You have not archived any Industry request yet'
+                            }
+                            height={'50vh'}
+                        />
+                    )
                 )}
             </Card>
         </div>

@@ -9,6 +9,7 @@ import {
     Table,
     TableAction,
     TableActionOption,
+    TechnicalError,
 } from '@components'
 import { PageHeading } from '@components/headings'
 import { ColumnDef } from '@tanstack/react-table'
@@ -29,7 +30,7 @@ export const PendingIndustry = () => {
     const [itemPerPage, setItemPerPage] = useState(5)
     const [page, setPage] = useState(1)
     const [filter, setFilter] = useState({})
-    const { isLoading, data } = AdminApi.Industries.useListQuery({
+    const { isLoading, data, isError } = AdminApi.Industries.useListQuery({
         search: `status:pending,${JSON.stringify(filter)
             .replaceAll('{', '')
             .replaceAll('}', '')
@@ -195,6 +196,7 @@ export const PendingIndustry = () => {
                 ) : null}
 
                 <Card noPadding>
+                    {isError && <TechnicalError />}
                     {isLoading ? (
                         <LoadingAnimation height="h-[60vh]" />
                     ) : data && data?.data.length ? (
@@ -231,11 +233,13 @@ export const PendingIndustry = () => {
                             }}
                         </Table>
                     ) : (
-                        <EmptyData
-                            title={'No Pending Industry!'}
-                            description={'You have no pending Industry'}
-                            height={'50vh'}
-                        />
+                        !isError && (
+                            <EmptyData
+                                title={'No Pending Industry!'}
+                                description={'You have no pending Industry'}
+                                height={'50vh'}
+                            />
+                        )
                     )}
                 </Card>
             </div>

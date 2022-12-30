@@ -1,60 +1,56 @@
 import {
-    ActionButton,
     Button,
+    ActionButton,
     Card,
     EmptyData,
     Filter,
     LoadingAnimation,
-    RtoFilters,
     Table,
     TableAction,
     TableActionOption,
-    TechnicalError,
+    StudentFilters,
     Typography,
 } from '@components'
 import { PageHeading } from '@components/headings'
 import { ColumnDef } from '@tanstack/react-table'
-import { FaEdit, FaEye, FaFileExport, FaFilter, FaTrash } from 'react-icons/fa'
+import { FaEdit, FaEye, FaFileExport, FaFilter } from 'react-icons/fa'
 
 import { AdminApi } from '@queries'
 import { MdBlock, MdEmail, MdPhoneIphone } from 'react-icons/md'
 import { ReactElement, useState } from 'react'
-import { CgUnblock } from 'react-icons/cg'
-import { SectorCell, StudentCellInfo } from './components'
+import {
+    CourseDot,
+    ProgressCell,
+    SectorCell,
+    StudentCellInfo,
+} from './components'
+import { RtoCellInfo } from '@partials/admin/rto/components'
 import { Student } from '@types'
-import { DeleteModal, UnblockModal } from './modals'
-import { RtoCellInfo } from '../rto/components'
+import { BlockModal } from './modals'
 import { useRouter } from 'next/router'
-import { IndustryCell } from '../industry/components'
+import { checkWorkplaceStatus } from '@utils'
+import { IndustryCellInfo } from '@partials/sub-admin/indestries/components'
 
-export const BlockedStudent = () => {
+export const FilteredStudents = ({
+    student,
+    setPage,
+    itemPerPage,
+    setItemPerPage,
+}: {
+    student: any
+    setPage: any
+    itemPerPage: any
+    setItemPerPage: any
+}) => {
     const router = useRouter()
     const [modal, setModal] = useState<ReactElement | null>(null)
-    const [filterAction, setFilterAction] = useState(null)
-    const [itemPerPage, setItemPerPage] = useState(5)
-    const [page, setPage] = useState(1)
-    const [filter, setFilter] = useState({})
-
-    const { isLoading, data, isError } = AdminApi.Students.useListQuery({
-        search: `status:blocked`,
-        skip: itemPerPage * page - itemPerPage,
-        limit: itemPerPage,
-    })
 
     const onModalCancelClicked = () => {
         setModal(null)
     }
-    const onUnblockClicked = (student: Student) => {
+    const onBlockClicked = (student: Student) => {
         setModal(
-            <UnblockModal
-                item={student}
-                onCancel={() => onModalCancelClicked()}
-            />
-        )
-    }
-    const onDeleteClicked = (student: Student) => {
-        setModal(
-            <DeleteModal
+            <BlockModal
                 item={student}
                 onCancel={() => onModalCancelClicked()}
             />
@@ -79,15 +75,9 @@ export const BlockedStudent = () => {
             Icon: FaEdit,
         },
         {
-            text: 'Unblock',
-            onClick: (student: Student) => onUnblockClicked(student),
-            Icon: CgUnblock,
-            color: 'text-orange-500 hover:bg-orange-100 hover:border-orange-200',
-        },
-        {
-            text: 'Delete',
-            onClick: (student: Student) => onDeleteClicked(student),
-            Icon: FaTrash,
+            text: 'Block',
+            onClick: (student: Student) => onBlockClicked(student),
+            Icon: MdBlock,
             color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
         },
     ]
@@ -101,39 +91,27 @@ export const BlockedStudent = () => {
             header: () => <span>Student</span>,
         },
         {
-            accessorKey: 'rto',
-            header: () => <span>RTO</span>,
-            cell: (info) => {
-                return <RtoCellInfo rto={info.row.original.rto} short />
-            },
+            accessorKey: 'phone',
+            header: () => <span>Phone</span>,
+            cell: (info) => info.getValue(),
         },
-        {
-            accessorKey: 'industry',
-            header: () => <span>Industry</span>,
-            cell: (info) => {
-                const industry =
-                    info.row.original?.workplace[0]?.industries.find(
-                        (i: any) => i.applied
-                    )?.industry
 
-                return industry ? (
-                    <IndustryCell industry={industry} />
-                ) : (
-                    <Typography center>N/A</Typography>
-                )
-            },
+        {
+            accessorKey: 'suburb',
+            header: () => <span>Address</span>,
+            cell: (info) => info.getValue(),
         },
         {
-            accessorKey: 'sectors',
-            header: () => <span>Sectors</span>,
+            accessorKey: 'progress',
+            header: () => <span>Progress</span>,
             cell: (info) => {
-                return <SectorCell student={info.row.original} />
+                return <ProgressCell step={9} />
             },
         },
         {
             accessorKey: 'action',
             header: () => <span>Action</span>,
-            cell: (info: any) => {
+            cell: (info) => {
                 return (
                     <div className="flex gap-x-1 items-center">
                         <TableAction
@@ -150,44 +128,36 @@ export const BlockedStudent = () => {
         id: 'id',
         individual: (id: number) => (
             <div className="flex gap-x-2">
+                <ActionButton Icon={FaEdit}>Edit</ActionButton>
                 <ActionButton>Sub Admins</ActionButton>
-                <ActionButton Icon={CgUnblock} variant="warning">
-                    Unblock
-                </ActionButton>
-                <ActionButton Icon={FaTrash} variant="error">
-                    Delete
+                <ActionButton Icon={MdBlock} variant="error">
+                    Block
                 </ActionButton>
             </div>
         ),
         common: (ids: number[]) => (
-            <div className="flex gap-x-2">
-                <ActionButton Icon={CgUnblock} variant="warning">
-                    Unblock
-                </ActionButton>
-                <ActionButton Icon={FaTrash} variant="error">
-                    Delete
-                </ActionButton>
-            </div>
+            <ActionButton Icon={MdBlock} variant="error">
+                Block
+            </ActionButton>
         ),
     }
 
     return (
         <>
             {modal && modal}
-            <div className="flex flex-col gap-y-4 mb-32">
+            <div className="flex flex-col gap-y-4 p-4">
                 <PageHeading
-                    title={'Blocked Students'}
-                    subtitle={'List of Blocked Students'}
+                    title={'Filtered Students'}
+                    subtitle={'List of Filtered Students'}
                 />
 
                 <Card noPadding>
-                    {isError && <TechnicalError />}
-                    {isLoading ? (
+                    {student?.isLoading || student?.isFetching ? (
                         <LoadingAnimation height="h-[60vh]" />
-                    ) : data && data?.data.length ? (
+                    ) : student?.data && student?.data?.data.length ? (
                         <Table
                             columns={columns}
-                            data={data.data}
+                            data={student?.data.data}
                             quickActions={quickActionsElements}
                             enableRowSelection
                         >
@@ -207,7 +177,7 @@ export const BlockedStudent = () => {
                                             <div className="flex gap-x-2">
                                                 {quickActions}
                                                 {pagination(
-                                                    data?.pagination,
+                                                    student?.data?.pagination,
                                                     setPage
                                                 )}
                                             </div>
@@ -218,15 +188,11 @@ export const BlockedStudent = () => {
                             }}
                         </Table>
                     ) : (
-                        !isError && (
-                            <EmptyData
-                                title={'No Blocked RTO!'}
-                                description={
-                                    'You have not blocked any RTO request yet'
-                                }
-                                height={'50vh'}
-                            />
-                        )
+                        <EmptyData
+                            title={'No Students in your Search!'}
+                            description={'No Students in your Search yet'}
+                            height={'50vh'}
+                        />
                     )}
                 </Card>
             </div>

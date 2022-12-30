@@ -1,61 +1,54 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 
 // components
 import { Button, ShowErrorNotifications } from '@components'
 
-// query
 import {
-    useTerminatePlacementMutation,
-    useCompletePlacementMutation,
-} from '@queries'
-import { useNotification } from '@hooks'
+    CompleteWorkplaceModal,
+    TerminateWorkplaceModal,
+} from '@partials/sub-admin/workplace/modals'
 
 export const AfterPlacementActions = ({ appliedIndustry }: any) => {
-    const [terminatePlacement, terminatePlacementResult] =
-        useTerminatePlacementMutation()
-    const [completePlacement, completePlacementResult] =
-        useCompletePlacementMutation()
+    const [modal, setModal] = useState<any | null>(null)
 
-    // hooks
-    const { notification } = useNotification()
+    const onCancel = () => {
+        setModal(null)
+    }
 
-    useEffect(() => {
-        if (completePlacementResult.isSuccess) {
-            notification.success({
-                title: 'Workplace Placement Completed',
-                description: 'Workplace Placement Completed Successfully',
-            })
-        }
-        if (terminatePlacementResult.isSuccess) {
-            notification.success({
-                title: `Workplace Placement Terminated`,
-                description: `Workplace Placement Terminated Successfully`,
-            })
-        }
-    }, [terminatePlacementResult, completePlacementResult])
+    const onCompleteClicked = (id: number) => {
+        setModal(
+            <CompleteWorkplaceModal
+                appliedIndustryId={id}
+                onCancel={onCancel}
+            />
+        )
+    }
+
+    const onTerminateClicked = (id: number) => {
+        setModal(
+            <TerminateWorkplaceModal
+                appliedIndustryId={id}
+                onCancel={onCancel}
+            />
+        )
+    }
 
     return (
         <div className="flex items-center gap-x-2">
-            <ShowErrorNotifications result={terminatePlacementResult} />
-            <ShowErrorNotifications result={completePlacementResult} />
-
+            {modal && modal}
             <Button
                 text={'TERMINATE'}
                 variant={'error'}
                 onClick={() => {
-                    terminatePlacement(appliedIndustry?.id)
+                    onTerminateClicked(appliedIndustry?.id)
                 }}
-                loading={terminatePlacementResult.isLoading}
-                disabled={terminatePlacementResult.isLoading}
             />
             <Button
                 text={'COMPLETE'}
                 variant={'success'}
                 onClick={() => {
-                    completePlacement(appliedIndustry?.id)
+                    onCompleteClicked(appliedIndustry?.id)
                 }}
-                loading={completePlacementResult.isLoading}
-                disabled={completePlacementResult.isLoading}
             />
         </div>
     )

@@ -22,14 +22,10 @@ export const PageTitle = ({
     let links = paths.slice(1, -1)
     links = links?.filter((link) => !link.includes("["))
 
-    console.log('links', links[links.length - 1].includes('['))
-
     var find = '-'
     var remove = new RegExp(find, 'g')
 
     const breadCrumbTitle = paths[paths.length - 1].replace(remove, ' ')
-
-    console.log('sadsd', navBar)
 
     return (
         <div>

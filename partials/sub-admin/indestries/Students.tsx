@@ -54,7 +54,6 @@ export const Students = ({ data }: Props) => {
 
   // const { data, isLoading, isError, isSuccess } =
   //   useGetSubAdminIndustryStudentsQuery(String(id), { skip: !id })
-  // console.log(data)
   // WORKPLACE JOY RIDE - Start
   const joyride = useJoyRide()
 

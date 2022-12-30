@@ -9,6 +9,7 @@ import {
     Table,
     TableAction,
     TableActionOption,
+    TechnicalError,
     Typography,
 } from '@components'
 import { PageHeading } from '@components/headings'
@@ -34,7 +35,7 @@ export const RejectedStudent = () => {
     const [page, setPage] = useState(1)
     const [filter, setFilter] = useState({})
 
-    const { isLoading, data } = AdminApi.Students.useListQuery({
+    const { isLoading, data, isError } = AdminApi.Students.useListQuery({
         search: `status:rejected`,
         skip: itemPerPage * page - itemPerPage,
         limit: itemPerPage,
@@ -174,6 +175,7 @@ export const RejectedStudent = () => {
                 />
 
                 <Card noPadding>
+                    {isError && <TechnicalError />}
                     {isLoading ? (
                         <LoadingAnimation height="h-[60vh]" />
                     ) : data && data?.data.length ? (
@@ -210,13 +212,15 @@ export const RejectedStudent = () => {
                             }}
                         </Table>
                     ) : (
-                        <EmptyData
-                            title={'No Rejected RTO!'}
-                            description={
-                                'You have not rejected any RTO request yet'
-                            }
-                            height={'50vh'}
-                        />
+                        !isError && (
+                            <EmptyData
+                                title={'No Rejected RTO!'}
+                                description={
+                                    'You have not rejected any RTO request yet'
+                                }
+                                height={'50vh'}
+                            />
+                        )
                     )}
                 </Card>
             </div>

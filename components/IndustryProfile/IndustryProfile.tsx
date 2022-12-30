@@ -24,7 +24,6 @@ type Props = {
 }
 
 export const IndustryProfile = ({ data }: Props) => {
-    // console.log("industry profile data", data);
     return (
         <div>
             <div className="flex justify-end gap-x-2">

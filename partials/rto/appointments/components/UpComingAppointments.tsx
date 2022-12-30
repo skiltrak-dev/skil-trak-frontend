@@ -1,6 +1,11 @@
 import React from 'react'
 
-import { Typography, EmptyData, UpcomingAppointmentCard } from '@components'
+import {
+    Typography,
+    EmptyData,
+    UpcomingAppointmentCard,
+    FutureAppointments,
+} from '@components'
 
 // query
 import { useGetRTOAppointmentsQuery } from '@queries'
@@ -22,26 +27,7 @@ export const UpcomingAppointments = (props: Props) => {
                 {rtoAppointments.isLoading ? (
                     <LoadingAnimation />
                 ) : rtoAppointments?.data && rtoAppointments?.data?.length ? (
-                    rtoAppointments?.data?.map(
-                        (upcomingAppointment: any, index: number) => {
-                            return (
-                                <UpcomingAppointmentCard
-                                    key={index}
-                                    date={upcomingAppointment.date}
-                                    time={upcomingAppointment.time}
-                                    totalMinutes={
-                                        upcomingAppointment.totalMinutes
-                                    }
-                                    address={upcomingAppointment.address}
-                                    name={upcomingAppointment.name}
-                                    imageUrl={
-                                        '/images/card-images/video-icon.png'
-                                    }
-                                    post={upcomingAppointment.post}
-                                />
-                            )
-                        }
-                    )
+                    <FutureAppointments appointments={rtoAppointments?.data} />
                 ) : (
                     <EmptyData
                         title={'No Recent Appointments'}

@@ -9,6 +9,7 @@ import {
     Table,
     TableAction,
     TableActionOption,
+    TechnicalError,
 } from '@components'
 import { PageHeading } from '@components/headings'
 import { ColumnDef } from '@tanstack/react-table'
@@ -30,7 +31,7 @@ export const RejectedSubAdmin = () => {
     const [page, setPage] = useState(1)
     const [filter, setFilter] = useState({})
 
-    const { isLoading, data } = AdminApi.SubAdmins.useListQuery({
+    const { isLoading, data, isError } = AdminApi.SubAdmins.useListQuery({
         search: `status:rejected,${JSON.stringify(filter)
             .replaceAll('{', '')
             .replaceAll('}', '')
@@ -176,28 +177,25 @@ export const RejectedSubAdmin = () => {
                     title={'Rejected Sub Admin'}
                     subtitle={'List of Rejected Sub Admin'}
                 >
+                    {filterAction}
                     {data && data?.data.length ? (
-                        <>
-                            {filterAction}
-                            <Button
-                                text="Export"
-                                variant="action"
-                                Icon={FaFileExport}
-                            />
-                        </>
+                        <Button
+                            text="Export"
+                            variant="action"
+                            Icon={FaFileExport}
+                        />
                     ) : null}
                 </PageHeading>
 
-                {data && data?.data.length ? (
-                    <Filter
-                        component={RtoFilters}
-                        initialValues={{ name: '', email: '', rtoCode: '' }}
-                        setFilterAction={setFilterAction}
-                        setFilter={setFilter}
-                    />
-                ) : null}
+                <Filter
+                    component={RtoFilters}
+                    initialValues={{ name: '', email: '', rtoCode: '' }}
+                    setFilterAction={setFilterAction}
+                    setFilter={setFilter}
+                />
 
                 <Card noPadding>
+                    {isError && <TechnicalError />}
                     {isLoading ? (
                         <LoadingAnimation height="h-[60vh]" />
                     ) : data && data?.data.length ? (
@@ -234,13 +232,15 @@ export const RejectedSubAdmin = () => {
                             }}
                         </Table>
                     ) : (
-                        <EmptyData
-                            title={'No Rejected Sub Admin!'}
-                            description={
-                                'You have not rejected any Sub Admin request yet'
-                            }
-                            height={'50vh'}
-                        />
+                        !isError && (
+                            <EmptyData
+                                title={'No Rejected Sub Admin!'}
+                                description={
+                                    'You have not rejected any Sub Admin request yet'
+                                }
+                                height={'50vh'}
+                            />
+                        )
                     )}
                 </Card>
             </div>

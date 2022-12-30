@@ -10,6 +10,7 @@ import {
     Table,
     TableAction,
     TableActionOption,
+    TechnicalError,
 } from '@components'
 import { PageHeading } from '@components/headings'
 import { ColumnDef } from '@tanstack/react-table'
@@ -33,7 +34,7 @@ export const Courses = () => {
     const [page, setPage] = useState(1)
     const [filter, setFilter] = useState({})
 
-    const { isLoading, data } = AdminApi.Courses.useListQuery({
+    const { isLoading, data, isError } = AdminApi.Courses.useListQuery({
         search: `${JSON.stringify(filter)
             .replaceAll('{', '')
             .replaceAll('}', '')
@@ -212,31 +213,29 @@ export const Courses = () => {
                             router.push('sectors/courses/form')
                         }}
                     />
-                    {/* {data && data?.data.length ? ( */}
-                    <>
-                        {filterAction}
+
+                    {filterAction}
+                    {data && data?.data.length ? (
                         <Button
                             text="Export"
                             variant="action"
                             Icon={FaFileExport}
                         />
-                    </>
-                    {/* ) : null} */}
+                    ) : null}
                 </PageHeading>
 
-                {data && data?.data.length ? (
-                    <Filter
-                        component={CourseFilters}
-                        initialValues={{ name: '', email: '', rtoCode: '' }}
-                        setFilterAction={setFilterAction}
-                        setFilter={setFilter}
-                    />
-                ) : null}
+                <Filter
+                    component={CourseFilters}
+                    initialValues={{ name: '', email: '', rtoCode: '' }}
+                    setFilterAction={setFilterAction}
+                    setFilter={setFilter}
+                />
 
-                {isLoading ? (
-                    <LoadingAnimation height="h-[60vh]" />
-                ) : data && data?.data.length ? (
-                    <Card noPadding>
+                <Card noPadding>
+                    {isError && <TechnicalError />}
+                    {isLoading ? (
+                        <LoadingAnimation height="h-[60vh]" />
+                    ) : data && data?.data.length ? (
                         <Table
                             columns={columns}
                             data={data.data}
@@ -269,14 +268,18 @@ export const Courses = () => {
                                 )
                             }}
                         </Table>
-                    </Card>
-                ) : (
-                    <EmptyData
-                        title={'No Courses!'}
-                        description={'You have not added any course yet'}
-                        height={'50vh'}
-                    />
-                )}
+                    ) : (
+                        !isError && (
+                            <EmptyData
+                                title={'No Courses!'}
+                                description={
+                                    'You have not added any course yet'
+                                }
+                                height={'50vh'}
+                            />
+                        )
+                    )}
+                </Card>
             </div>
         </>
     )

@@ -67,38 +67,6 @@ export const IndustrySignUpForm = ({ onSubmit }: { onSubmit: any }) => {
         setCourseLoading(false)
     }
 
-    const initialValues = {
-        // Profile Information
-        // name: '',
-        email: '',
-        password: '',
-        confirmPassword: '',
-
-        // Business Information
-        businessName: '',
-        abn: '',
-        phoneNumber: '',
-        // studentCapacity: 0,
-
-        // Sector Information
-        sectors: [],
-        courses: [],
-
-        // Address Information
-        addressLine1: '',
-        addressLine2: '',
-        state: '',
-        suburb: '',
-        zipCode: '',
-
-        // Contact Person
-        contactPersonName: '',
-        contactPersonEmail: '',
-        contactPersonNumber: '',
-
-        agreedWithPrivacyPolicy: false,
-    }
-
     const validationSchema = yup.object({
         // Profile Information
         // name: yup
@@ -409,27 +377,20 @@ export const IndustrySignUpForm = ({ onSubmit }: { onSubmit: any }) => {
                                 placeholder={'Your Address Line 1...'}
                                 validationIcons
                             />
-
-                            <TextInput
-                                label={'Address Line 2'}
-                                name={'addressLine2'}
-                                placeholder={'Your Address Line 2...'}
-                                validationIcons
-                            />
                         </div>
 
                         <div className="grid grid-cols-1 sm:grid-cols-3 gap-x-8">
                             <TextInput
-                                label={'State'}
-                                name={'state'}
-                                placeholder={'State...'}
+                                label={'Suburb'}
+                                name={'suburb'}
+                                placeholder={'Suburb...'}
                                 validationIcons
                             />
 
                             <TextInput
-                                label={'Suburb'}
-                                name={'suburb'}
-                                placeholder={'Suburb...'}
+                                label={'State'}
+                                name={'state'}
+                                placeholder={'State...'}
                                 validationIcons
                             />
 

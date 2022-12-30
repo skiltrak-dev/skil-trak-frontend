@@ -17,6 +17,7 @@ import { Button } from '@components/buttons'
 import { useNotification } from '@hooks'
 import { userStatus } from '@utils'
 import {
+    ApproveRequestModal,
     ForwardModal,
     PlacementStartedModal,
 } from '@partials/sub-admin/workplace/modals'
@@ -88,6 +89,15 @@ export const Actions = ({
                 workplaceId={workplaceId}
                 folders={folders}
                 onCancel={() => onModalCancelClicked()}
+            />
+        )
+    }
+
+    const onApproveModal = () => {
+        setModal(
+            <ApproveRequestModal
+                appliedIndustryId={appliedIndustry?.id}
+                onCancel={onModalCancelClicked}
             />
         )
     }
@@ -243,11 +253,12 @@ export const Actions = ({
                             <Button
                                 variant={'secondary'}
                                 onClick={() => {
-                                    setActionStatus(userStatus.APPROVED)
-                                    updateStatus({
-                                        id: Number(appliedIndustry?.id),
-                                        response: userStatus.APPROVED,
-                                    })
+                                    onApproveModal()
+                                    // setActionStatus(userStatus.APPROVED)
+                                    // updateStatus({
+                                    //     id: Number(appliedIndustry?.id),
+                                    //     response: userStatus.APPROVED,
+                                    // })
                                 }}
                                 loading={
                                     updateStatusResult?.isLoading &&

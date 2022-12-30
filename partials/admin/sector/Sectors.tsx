@@ -9,6 +9,7 @@ import {
     Table,
     TableAction,
     TableActionOption,
+    TechnicalError,
 } from '@components'
 import { PageHeading } from '@components/headings'
 import { ColumnDef } from '@tanstack/react-table'
@@ -30,7 +31,7 @@ export const Sectors = () => {
     const [itemPerPage, setItemPerPage] = useState(5)
     const [page, setPage] = useState(1)
     const [filter, setFilter] = useState({})
-    const { isLoading, data } = AdminApi.Sectors.useListQuery({
+    const { isLoading, data, isError } = AdminApi.Sectors.useListQuery({
         search: `${JSON.stringify(filter)
             .replaceAll('{', '')
             .replaceAll('}', '')
@@ -185,32 +186,29 @@ export const Sectors = () => {
                                 router.push('sectors/form')
                             }}
                         />
-                        {/* {data && data?.data.length ? ( */}
-                        <>
-                            {filterAction}
+                        {filterAction}
+                        {data && data?.data.length ? (
                             <Button
                                 text="Export"
                                 variant="action"
                                 Icon={FaFileExport}
                             />
-                        </>
-                        {/* ) : null} */}
+                        ) : null}
                     </>
                 </PageHeading>
 
-                {data && data?.data.length ? (
-                    <Filter
-                        component={SectorFilters}
-                        initialValues={{ name: '', email: '', rtoCode: '' }}
-                        setFilterAction={setFilterAction}
-                        setFilter={setFilter}
-                    />
-                ) : null}
+                <Filter
+                    component={SectorFilters}
+                    initialValues={{ name: '', email: '', rtoCode: '' }}
+                    setFilterAction={setFilterAction}
+                    setFilter={setFilter}
+                />
 
-                {isLoading ? (
-                    <LoadingAnimation height="h-[60vh]" />
-                ) : data && data?.data.length ? (
-                    <Card noPadding>
+                <Card noPadding>
+                    {isError && <TechnicalError />}
+                    {isLoading ? (
+                        <LoadingAnimation height="h-[60vh]" />
+                    ) : data && data?.data.length ? (
                         <Table
                             columns={columns}
                             data={data.data}
@@ -243,14 +241,16 @@ export const Sectors = () => {
                                 )
                             }}
                         </Table>
-                    </Card>
-                ) : (
-                    <EmptyData
-                        title={'No Sector!'}
-                        description={'You have no sectors yet'}
-                        height={'50vh'}
-                    />
-                )}
+                    ) : (
+                        !isError && (
+                            <EmptyData
+                                title={'No Sector!'}
+                                description={'You have no sectors yet'}
+                                height={'50vh'}
+                            />
+                        )
+                    )}
+                </Card>
             </div>
         </>
     )

@@ -17,6 +17,7 @@ type Props = {
     selectedTime: any
     appointmentAvailability: any
     bookedAppointment: any
+    userAvailabilities?: any
 }
 
 const days = [
@@ -59,6 +60,7 @@ export const TimeSlots = ({
     setSelectedTime,
     appointmentAvailability,
     bookedAppointment,
+    userAvailabilities,
 }: Props) => {
     const [currentItems, setCurrentItems] = useState(Array())
     const [slotsTime, setSlotsTime] = useState(Array())
@@ -177,7 +179,7 @@ export const TimeSlots = ({
             <Typography variant="small" color="text-gray-400">
                 Select Time Slot
             </Typography>
-            <div className="flex justify-between gap-x-8 mt-1">
+            <div className="flex justify-center gap-x-16 mt-1">
                 <div className="w-2/6">
                     <SidebarCalendar
                         // enabledDays={daysAvailability || [1, 2, 3, 4, 5]}
@@ -195,40 +197,45 @@ export const TimeSlots = ({
                                 ).format('dddd, Do MMMM')}
                             </Typography>
 
-                            <Paginate
-                                data={slotsTime}
-                                itemsPerPage={12}
-                                setCurrentItems={setCurrentItems}
-                            />
+                            {userAvailabilities &&
+                                userAvailabilities?.length > 0 && (
+                                    <Paginate
+                                        data={userAvailabilities}
+                                        itemsPerPage={12}
+                                        setCurrentItems={setCurrentItems}
+                                    />
+                                )}
                         </div>
                         <Typography variant="muted" color="text-gray-400">
                             Please select one of time slot from below given list
                         </Typography>
                         <div className="grid grid-cols-3 gap-2 mt-2.5">
-                            {currentItems.map((timeSlot, index) => (
-                                <div
-                                    key={index}
-                                    onClick={() => {
-                                        setSelectedTime(timeSlot.time)
-                                    }}
-                                    className={`group hover:bg-orange-500 hover:border-none ${
-                                        selectedTime === timeSlot.time
-                                            ? 'bg-orange-500 border-none'
-                                            : 'bg-white border'
-                                    } w-26 h-11 flex justify-center items-center border-orange-500 px-4 py-3 rounded-lg cursor-pointer`}
-                                >
-                                    <Typography
-                                        variant="body"
-                                        color={`group-hover:text-white ${
-                                            selectedTime === timeSlot.time
-                                                ? 'text-white'
-                                                : 'text-orange-500'
-                                        }`}
+                            {currentItems?.map(
+                                (timeSlot: any, index: number) => (
+                                    <div
+                                        key={index}
+                                        onClick={() => {
+                                            setSelectedTime(timeSlot)
+                                        }}
+                                        className={`group hover:bg-orange-500 hover:border-none ${
+                                            selectedTime === timeSlot
+                                                ? 'bg-orange-500 border-none'
+                                                : 'bg-white border'
+                                        } w-26 h-11 flex justify-center items-center border-orange-500 px-4 py-3 rounded-lg cursor-pointer`}
                                     >
-                                        {timeSlot.time}
-                                    </Typography>
-                                </div>
-                            ))}
+                                        <Typography
+                                            variant="body"
+                                            color={`group-hover:text-white ${
+                                                selectedTime === timeSlot
+                                                    ? 'text-white'
+                                                    : 'text-orange-500'
+                                            }`}
+                                        >
+                                            {timeSlot}
+                                        </Typography>
+                                    </div>
+                                )
+                            )}
                         </div>
                     </div>
                 )}

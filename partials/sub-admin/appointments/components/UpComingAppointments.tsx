@@ -5,6 +5,7 @@ import {
     Typography,
     TechnicalError,
     UpcomingAppointmentCard,
+    FutureAppointments,
 } from '@components'
 
 // query
@@ -20,40 +21,19 @@ export const UpcomingAppointments = ({ subAdminAppointments }: any) => {
                 </Typography>
             </div>
             {subAdminAppointments.isError && <TechnicalError />}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                {subAdminAppointments.isLoading ? (
-                    <LoadingAnimation />
-                ) : subAdminAppointments?.data &&
-                  subAdminAppointments?.data?.length ? (
-                    subAdminAppointments?.data?.map(
-                        (upcomingAppointment: any, index: number) => {
-                            return (
-                                <UpcomingAppointmentCard
-                                    key={index}
-                                    date={upcomingAppointment.date}
-                                    time={upcomingAppointment.time}
-                                    totalMinutes={
-                                        upcomingAppointment.totalMinutes
-                                    }
-                                    address={upcomingAppointment.address}
-                                    name={upcomingAppointment.name}
-                                    imageUrl={
-                                        '/images/card-images/video-icon.png'
-                                    }
-                                    post={upcomingAppointment.post}
-                                />
-                            )
-                        }
-                    )
-                ) : (
-                    !subAdminAppointments.isError && (
-                        <EmptyData
-                            title={'No Recent Appointments'}
-                            description={'No Recent Appointments'}
-                        />
-                    )
-                )}
-            </div>
+            {subAdminAppointments.isLoading ? (
+                <LoadingAnimation />
+            ) : subAdminAppointments?.data &&
+              subAdminAppointments?.data?.length > 0 ? (
+                <FutureAppointments appointments={subAdminAppointments?.data} />
+            ) : (
+                !subAdminAppointments.isError && (
+                    <EmptyData
+                        title={'No Recent Appointments'}
+                        description={'No Recent Appointments'}
+                    />
+                )
+            )}
         </>
     )
 }
