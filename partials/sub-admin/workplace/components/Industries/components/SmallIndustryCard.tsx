@@ -1,4 +1,5 @@
 import { Typography } from '@components/Typography'
+import { ellipsisText } from '@utils'
 import React from 'react'
 import { BsDot } from 'react-icons/bs'
 
@@ -12,10 +13,10 @@ export const SmallIndustryCard = ({ industry }: any) => {
             />
             <div className="flex items-center gap-x-0.5">
                 <Typography variant={'label'}>
-                    {industry?.industry?.businessName}
+                    {ellipsisText(industry?.industry?.businessName, 10)}
                 </Typography>
                 <BsDot />
-                <Typography variant={'xs'} color={'text-gray-400'}>
+                <Typography variant={'badge'} color={'text-gray-400'}>
                     5km away
                 </Typography>
             </div>

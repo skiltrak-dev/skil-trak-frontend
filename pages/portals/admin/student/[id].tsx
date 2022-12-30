@@ -90,8 +90,9 @@ const Detail: NextPageWithLayout = () => {
 
     useEffect(() => {
         navBar.setTitle('Student Detail')
+        navBar.setSubTitle(data?.user?.name)
         contextBar.hide()
-    }, [])
+    }, [data])
 
     const onModalCancelClicked = () => {
         setModal(null)
@@ -130,7 +131,17 @@ const Detail: NextPageWithLayout = () => {
                     <div className="flex items-center justify-between">
                         <BackButton text="RTOs" />
                         <div className="flex gap-x-2">
-                            <Button>Book Appointment</Button>
+                            <Button
+                                onClick={() => {
+                                    router.push({
+                                        pathname:
+                                            '/portals/admin/appointment-type/create-appointment',
+                                        query: { student: data?.user?.id },
+                                    })
+                                }}
+                            >
+                                Book Appointment
+                            </Button>
                             <ActionButton
                                 Icon={FaArchive}
                                 onClick={() => {

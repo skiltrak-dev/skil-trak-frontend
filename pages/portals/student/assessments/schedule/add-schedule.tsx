@@ -2,11 +2,13 @@ import { ReactElement } from 'react'
 
 import { StudentLayout } from '@layouts'
 import { NextPageWithLayout } from '@types'
-import { BigCalendar } from '@components'
+import { BigCalendar, Button } from '@components'
+import { useRouter } from 'next/router'
 
 type Props = {}
 
 const Schedule: NextPageWithLayout = (props: Props) => {
+    const router = useRouter()
     const events = [
         {
             allDay: false,

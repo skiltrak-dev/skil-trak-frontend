@@ -2,12 +2,15 @@ import moment from 'moment'
 
 // Icons
 import { RiBook2Fill } from 'react-icons/ri'
-
+import { SmallActionModal } from '../modals'
 // components
 import { Card, Typography, Button, ActionButton } from '@components'
 
 // utils
 import { ellipsisText, userStatus } from '@utils'
+
+// hooks
+import { GetFolders } from '../hooks'
 
 // query
 import {
@@ -25,17 +28,18 @@ import { Industries } from './Industries'
 import { Notes } from './Notes'
 import { SmallDetail } from './smallDetail'
 import { ViewAgreement } from '../contextBar'
+import { RtoDetail } from './RtoDetail'
 
 export const WorkplaceRequest = ({ workplace }: any) => {
     const [appliedIndustry, setAppliedIndustry] = useState<any | null>(null)
     const [course, setCourse] = useState<any | null>(null)
-    const [folders, setFolders] = useState<any | null>(null)
 
     const { setContent, show } = useContextBar()
 
     // query
     const [cancelWorkplace, cancelWorkplaceResult] =
         useCancelWorkplaceStatusMutation()
+
     // query
     const workplaceFolders = useGetWorkplaceFoldersQuery(
         {
@@ -46,37 +50,17 @@ export const WorkplaceRequest = ({ workplace }: any) => {
         { skip: !workplace || !appliedIndustry || !course }
     )
 
+    const folders = GetFolders(workplaceFolders)
+
     useEffect(() => {
         setAppliedIndustry(workplace.industries?.find((i: any) => i.applied))
         setCourse(workplace?.courses ? workplace?.courses[0] : {})
     }, [workplace])
 
-    useEffect(() => {
-        const getFolders = () => {
-            const uploadedFolders = {}
-            workplaceFolders?.data?.uploaded?.forEach((folder: any) => {
-                if ((uploadedFolders as any)[folder.name]) {
-                    ;(uploadedFolders as any)[folder.name].push(folder)
-                } else {
-                    ;(uploadedFolders as any)[folder.name] = []
-                    ;(uploadedFolders as any)[folder.name].push(folder)
-                }
-            })
-            const allFolders = workplaceFolders?.data?.folders?.map(
-                (folder: any) => ({
-                    ...folder,
-                    uploaded: (uploadedFolders as any)[folder?.folder?.name],
-                })
-            )
-            setFolders(allFolders)
-        }
-        getFolders()
-    }, [workplaceFolders])
-
     return (
         <Card noPadding>
             <div
-                className={`w-full h-full p-4 ${
+                className={`w-full h-full p-4 rounded-md shadow-lg ${
                     appliedIndustry?.isCompleted ? 'bg-gray-50' : ''
                 } `}
             >
@@ -86,35 +70,7 @@ export const WorkplaceRequest = ({ workplace }: any) => {
                         appliedIndustry={appliedIndustry}
                     />
 
-                    <div className="flex items-center relative">
-                        <div className="flex items-center gap-x-2">
-                            <img
-                                className="rounded-full w-8 h-8"
-                                src={'https://picsum.photos/100/100'}
-                                alt={''}
-                            />
-                            <div>
-                                <Typography color={'black'} variant={'small'}>
-                                    {workplace?.student?.rto?.user?.name}
-                                </Typography>
-                                <div className="flex items-center gap-x-2">
-                                    <Typography
-                                        variant={'muted'}
-                                        color={'text-gray-400'}
-                                    >
-                                        {workplace?.student?.rto?.user?.email}
-                                    </Typography>
-                                    <span className="text-gray-400">|</span>
-                                    <Typography
-                                        variant={'muted'}
-                                        color={'text-gray-400'}
-                                    >
-                                        {workplace?.student?.rto?.phone}
-                                    </Typography>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    <RtoDetail rto={workplace?.student?.rto} />
 
                     {/*  */}
                     <div className="flex items-center relative">
@@ -125,7 +81,8 @@ export const WorkplaceRequest = ({ workplace }: any) => {
                                     {course?.sector?.name}
                                 </Typography>
                                 <Typography variant={'muted'}>
-                                    {course?.code} - {course?.title}
+                                    {course?.code} -{' '}
+                                    {ellipsisText(course?.title, 15)}
                                 </Typography>
                             </div>
                         </div>
@@ -150,8 +107,9 @@ export const WorkplaceRequest = ({ workplace }: any) => {
                             />
                         )}
                         <RequestType
-                            data={appliedIndustry}
+                            folders={folders}
                             workplace={workplace}
+                            appliedIndustry={appliedIndustry}
                         />
                     </div>
                 </div>

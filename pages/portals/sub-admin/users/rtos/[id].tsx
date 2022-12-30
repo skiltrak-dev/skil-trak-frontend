@@ -2,7 +2,7 @@ import { useRouter } from 'next/router'
 import { ReactElement, useEffect } from 'react'
 
 // hooks
-import { useContextBar } from '@hooks'
+import { useContextBar, useNavbar } from '@hooks'
 //Layouts
 import { SubAdminLayout } from '@layouts'
 import { NextPageWithLayout } from '@types'
@@ -48,6 +48,9 @@ const RtoProfile: NextPageWithLayout = (props: Props) => {
     const rtoDetail = useGetSubAdminRTODetailQuery(String(id), {
         skip: !id,
     })
+
+    const navBar = useNavbar()
+
     useEffect(() => {
         setContent(
             <>
@@ -56,9 +59,11 @@ const RtoProfile: NextPageWithLayout = (props: Props) => {
         )
     }, [setContent])
 
+    useEffect(() => {
+        navBar.setSubTitle(rtoDetail?.data?.user?.name)
+    }, [rtoDetail])
 
     // query
-
 
     // const [archiveAssessmentTool, archiveAssessmentToolResult] =
     //     useUpdateAssessmentToolArchiveMutation()
@@ -113,9 +118,7 @@ const RtoProfile: NextPageWithLayout = (props: Props) => {
                 query: { tab: 'assessments' },
             },
             badge: { text: '', color: 'text-error-500' },
-            element: (
-                <AssessmentToolsSubAdmin />
-            ),
+            element: <AssessmentToolsSubAdmin />,
         },
         {
             label: 'Appointments',

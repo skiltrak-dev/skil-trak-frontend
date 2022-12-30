@@ -47,7 +47,7 @@ export const Mail = ({ message, sender, index }: any) => {
     return (
         <div
             id={message?.id}
-            className={`flex gap-x-2 ${sender ? 'flex-row-reverse' : ''} group`}
+            className={`flex gap-x-2 ${myMessages ? 'flex-row-reverse' : ''} group`}
         >
             <img
                 className="w-10 h-10 rounded-full border-2 border-white"
@@ -56,14 +56,14 @@ export const Mail = ({ message, sender, index }: any) => {
             />
             <div
                 className={`flex items-center gap-x-2 ${
-                    sender ? 'flex-row-reverse' : ''
+                    myMessages ? 'flex-row-reverse' : ''
                 }`}
             >
                 <div
                     className={`max-w-600 min-w-280  shadow-1 rounded-b-lg p-2 pt-1.5 flex flex-col justify-between ${
                         message.parent ? 'min-h-[105px]' : 'min-h-[77px]'
                     } ${
-                        sender
+                        myMessages
                             ? 'bg-white rounded-tr-0 rounded-tl-lg'
                             : 'bg-[#FCD6A540] rounded-tl-0 rounded-tr-lg'
                     }`}
@@ -138,7 +138,7 @@ export const Mail = ({ message, sender, index }: any) => {
                         </Typography>
 
                         {/* show message status icons */}
-                        {sender && (
+                        {myMessages && (
                             <span className="absolute bottom-0 right-0 z-0">
                                 {checkMessageStatus()}
                             </span>
@@ -153,7 +153,7 @@ export const Mail = ({ message, sender, index }: any) => {
                         // })
                     }}
                 >
-                    {sender ? (
+                    {myMessages ? (
                         <RiShareForwardFill className={replyIconClasses} />
                     ) : (
                         <TiArrowBack className={replyIconClasses} />

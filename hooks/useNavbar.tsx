@@ -1,27 +1,38 @@
-import React, { createContext, useContext, useState } from "react";
+import { useRouter } from 'next/router'
+import React, { createContext, useContext, useEffect, useState } from 'react'
 
 interface NavbarContextType {
-	title: string;
-	setTitle: Function;
+    title: string
+    setTitle: Function
+    subTitle: string
+    setSubTitle: Function
 }
 
-const NavbarContext = createContext<NavbarContextType | null>(null);
+const NavbarContext = createContext<NavbarContextType | null>(null)
 
 export const NavbarProvider = ({ children }: { children: React.ReactNode }) => {
-	const [title, setTitle] = useState("");
+    const router = useRouter()
+    const [title, setTitle] = useState('')
+    const [subTitle, setSubTitle] = useState('')
 
-	const values = {
-		title,
-		setTitle: (title: string) => setTitle(title),
-	};
+    useEffect(() => {
+        setSubTitle('')
+    }, [router])
 
-	return (
-		<NavbarContext.Provider value={values}>
-			{children}
-		</NavbarContext.Provider>
-	);
-};
+    const values = {
+        title,
+        setTitle: (title: string) => setTitle(title),
+        subTitle,
+        setSubTitle: (subTitle: string) => setSubTitle(subTitle),
+    }
+
+    return (
+        <NavbarContext.Provider value={values}>
+            {children}
+        </NavbarContext.Provider>
+    )
+}
 
 export const useNavbar = () => {
-	return useContext(NavbarContext) as NavbarContextType;
-};
+    return useContext(NavbarContext) as NavbarContextType
+}

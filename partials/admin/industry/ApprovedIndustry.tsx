@@ -9,6 +9,7 @@ import {
     Table,
     TableAction,
     TableActionOption,
+    TechnicalError,
 } from '@components'
 import { PageHeading } from '@components/headings'
 import { ColumnDef } from '@tanstack/react-table'
@@ -30,7 +31,7 @@ export const ApprovedIndustry = () => {
     const [itemPerPage, setItemPerPage] = useState(5)
     const [page, setPage] = useState(1)
     const [filter, setFilter] = useState({})
-    const { isLoading, data } = AdminApi.Industries.useListQuery({
+    const { isLoading, data, isError } = AdminApi.Industries.useListQuery({
         search: `status:approved,${JSON.stringify(filter)
             .replaceAll('{', '')
             .replaceAll('}', '')
@@ -152,28 +153,25 @@ export const ApprovedIndustry = () => {
                     title={'Approved Industries'}
                     subtitle={'List of Approved Industries'}
                 >
+                    {filterAction}
                     {data && data?.data.length ? (
-                        <>
-                            {filterAction}
-                            <Button
-                                text="Export"
-                                variant="action"
-                                Icon={FaFileExport}
-                            />
-                        </>
+                        <Button
+                            text="Export"
+                            variant="action"
+                            Icon={FaFileExport}
+                        />
                     ) : null}
                 </PageHeading>
 
-                {data && data?.data.length ? (
-                    <Filter
-                        component={IndustryFilters}
-                        initialValues={{ name: '', email: '', rtoCode: '' }}
-                        setFilterAction={setFilterAction}
-                        setFilter={setFilter}
-                    />
-                ) : null}
+                <Filter
+                    component={IndustryFilters}
+                    initialValues={{ name: '', email: '', rtoCode: '' }}
+                    setFilterAction={setFilterAction}
+                    setFilter={setFilter}
+                />
 
                 <Card noPadding>
+                    {isError && <TechnicalError />}
                     {isLoading ? (
                         <LoadingAnimation height="h-[60vh]" />
                     ) : data && data?.data.length ? (
@@ -210,13 +208,15 @@ export const ApprovedIndustry = () => {
                             }}
                         </Table>
                     ) : (
-                        <EmptyData
-                            title={'No Approved Industry!'}
-                            description={
-                                'You have not approved any Industry request yet'
-                            }
-                            height={'50vh'}
-                        />
+                        !isError && (
+                            <EmptyData
+                                title={'No Approved Industry!'}
+                                description={
+                                    'You have not approved any Industry request yet'
+                                }
+                                height={'50vh'}
+                            />
+                        )
                     )}
                 </Card>
             </div>

@@ -154,7 +154,7 @@ export const Detail = ({ studentId, studentUserId }: any) => {
                         </div>
 
                         {/* Assessment Response */}
-                        <div className="col-span-2 border border-gray-300">
+                        <div className="col-span-2 border border-gray-300 overflow-hidden">
                             <AssessmentResponse
                                 getAssessmentResponse={getAssessmentResponse}
                                 folder={selectedFolder}

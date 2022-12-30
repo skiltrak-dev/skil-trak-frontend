@@ -61,6 +61,7 @@ export const Actions = ({ result }: any) => {
                                 label={'Result'}
                                 name={'result'}
                                 options={ResultOptions}
+                                menuPlacement={'top'}
                                 onlyValue
                             />
                         </div>

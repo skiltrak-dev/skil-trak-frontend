@@ -58,7 +58,13 @@ export const Actions = ({
                 description: `WPlacement Started Successfully`,
             })
         }
-    }, [updateStatusResult, startPlacementResult])
+        if (industryResponseResult?.isSuccess) {
+            notification.success({
+                title: 'Industry Not Responded',
+                description: 'Industry Not Responded Successfully',
+            })
+        }
+    }, [updateStatusResult, startPlacementResult, industryResponseResult])
 
     const onModalCancelClicked = () => {
         setModal(null)
@@ -96,7 +102,7 @@ export const Actions = ({
             {appliedIndustry?.industryResponse === 'approved' ? (
                 <>
                     {!appliedIndustry.placementStarted && (
-                        <div className="flex flex-col justify-between">
+                        <div className="flex flex-col gap-y-1 justify-between">
                             <div className="flex justify-end gap-x-1">
                                 <Typography variant={'xs'}>
                                     <span className="text-success bg-secondary px-1">
@@ -143,19 +149,22 @@ export const Actions = ({
                                 )}
 
                                 <div className="flex-shrink-0">
-                                    <Button
-                                        text={'Book Appointment'}
-                                        variant={'info'}
-                                        onClick={() => {
-                                            router.push({
-                                                pathname:
-                                                    '/portals/sub-admin/tasks/appointments/create-appointment',
-                                                query: {
-                                                    student: student?.user?.id,
-                                                },
-                                            })
-                                        }}
-                                    />
+                                    {!student?.user?.appointmentFor?.length && (
+                                        <Button
+                                            text={'Book Appointment'}
+                                            variant={'info'}
+                                            onClick={() => {
+                                                router.push({
+                                                    pathname:
+                                                        '/portals/sub-admin/tasks/appointments/create-appointment',
+                                                    query: {
+                                                        student:
+                                                            student?.user?.id,
+                                                    },
+                                                })
+                                            }}
+                                        />
+                                    )}
                                 </div>
                             </div>
                         </div>

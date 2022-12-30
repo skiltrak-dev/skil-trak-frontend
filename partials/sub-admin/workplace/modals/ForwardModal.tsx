@@ -153,7 +153,11 @@ export const ForwardModal = ({
                             }}
                         />
                         <Button
-                            text={'FORWARD WITHOUT DOCUMENTS'}
+                            text={
+                                isDocsUploaded
+                                    ? 'FORWARD REQUEST TO INDUSTRY'
+                                    : 'FORWARD WITHOUT DOCUMENTS'
+                            }
                             variant={'primary'}
                             onClick={() => {
                                 onConfirmUClicked()
