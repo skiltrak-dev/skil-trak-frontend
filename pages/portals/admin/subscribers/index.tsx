@@ -11,6 +11,7 @@ import {
     Table,
     TableAction,
     TableActionOption,
+    TechnicalError,
 } from '@components'
 import { PageHeading } from '@components/headings'
 import { useContextBar, useNavbar } from '@hooks'
@@ -32,7 +33,7 @@ const Subscribers: NextPageWithLayout = () => {
     const [itemPerPage, setItemPerPage] = useState(5)
     const [page, setPage] = useState(1)
     const [filter, setFilter] = useState({})
-    const { isLoading, data } = AdminApi.Subscribers.useListQuery({
+    const { isLoading, data, isError } = AdminApi.Subscribers.useListQuery({
         search: filterify(filter),
         skip: itemPerPage * page - itemPerPage,
         limit: itemPerPage,
@@ -180,6 +181,7 @@ const Subscribers: NextPageWithLayout = () => {
                 ) : null}
 
                 <Card noPadding>
+                    {isError && <TechnicalError />}
                     {isLoading ? (
                         <LoadingAnimation height="h-[60vh]" />
                     ) : data && data?.data.length ? (
@@ -211,11 +213,13 @@ const Subscribers: NextPageWithLayout = () => {
                             }}
                         </Table>
                     ) : (
-                        <EmptyData
-                            title={'No Subscriber!'}
-                            description={'Maybe No One Has Subscribed Yet!'}
-                            height={'50vh'}
-                        />
+                        !isError && (
+                            <EmptyData
+                                title={'No Subscriber!'}
+                                description={'Maybe No One Has Subscribed Yet!'}
+                                height={'50vh'}
+                            />
+                        )
                     )}
                 </Card>
             </div>

@@ -44,8 +44,6 @@ const Appointments: NextPageWithLayout = (props: Props) => {
         subTitle: 'Go For It',
     }))
 
-    console.log('eventsevents', events)
-
     return (
         <div>
             <div className="flex justify-between items-center mb-4">

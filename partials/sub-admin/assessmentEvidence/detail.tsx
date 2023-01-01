@@ -24,7 +24,7 @@ export const Detail = ({ studentId, studentUserId }: any) => {
     const studentCourses = useStudentCoursesQuery(Number(studentId), {
         skip: !studentId,
     })
-    const getAssessmentDetails = useGetAssessmentEvidenceDetailQuery(
+    const getFolders = useGetAssessmentEvidenceDetailQuery(
         String(selectedCourse?.id),
         {
             skip: !selectedCourse,
@@ -46,12 +46,16 @@ export const Detail = ({ studentId, studentUserId }: any) => {
     }, [studentCourses])
 
     useEffect(() => {
-        if (getAssessmentDetails.isSuccess) {
-            setSelectedFolder(selectedFolder || getAssessmentDetails?.data[0])
+        if (getFolders.isSuccess) {
+            setSelectedFolder(selectedFolder || getFolders?.data[0])
         }
-    }, [getAssessmentDetails])
+    }, [getFolders])
+
+    const allCommentsAdded = getFolders?.data?.every(
+        (f: any) => f?.studentResponse?.comment
+    )
     return (
-        <div>
+        <div className="mb-10">
             {studentCourses?.isLoading ? (
                 <div className="flex flex-col justify-center items-center gap-y-2">
                     <LoadingAnimation size={60} />
@@ -116,37 +120,33 @@ export const Detail = ({ studentId, studentUserId }: any) => {
                             </div>
 
                             <div className="bg-white h-full overflow-auto">
-                                {getAssessmentDetails?.isLoading ||
-                                getAssessmentDetails.isFetching ? (
+                                {getFolders?.isLoading ||
+                                getFolders.isFetching ? (
                                     <div className="flex flex-col justify-center items-center gap-y-2 py-5">
                                         <LoadingAnimation size={50} />
                                         <Typography variant={'label'}>
                                             Folders Loading
                                         </Typography>
                                     </div>
-                                ) : getAssessmentDetails?.data &&
-                                  getAssessmentDetails?.data?.length > 0 ? (
-                                    getAssessmentDetails?.data?.map(
-                                        (assessment: any) => (
-                                            <AssessmentFolderCard
-                                                key={assessment?.id}
-                                                id={assessment?.id}
-                                                name={assessment?.name}
-                                                // isActive={folder.isActive}
-                                                selectedFolderId={
-                                                    selectedFolder?.id
-                                                }
-                                                response={
-                                                    assessment?.studentResponse
-                                                }
-                                                onClick={() => {
-                                                    setSelectedFolder(
-                                                        assessment
-                                                    )
-                                                }}
-                                            />
-                                        )
-                                    )
+                                ) : getFolders?.data &&
+                                  getFolders?.data?.length > 0 ? (
+                                    getFolders?.data?.map((assessment: any) => (
+                                        <AssessmentFolderCard
+                                            key={assessment?.id}
+                                            id={assessment?.id}
+                                            name={assessment?.name}
+                                            // isActive={folder.isActive}
+                                            selectedFolderId={
+                                                selectedFolder?.id
+                                            }
+                                            response={
+                                                assessment?.studentResponse
+                                            }
+                                            onClick={() => {
+                                                setSelectedFolder(assessment)
+                                            }}
+                                        />
+                                    ))
                                 ) : (
                                     <NoData text={'No Assessment were found'} />
                                 )}
@@ -161,9 +161,11 @@ export const Detail = ({ studentId, studentUserId }: any) => {
                             />
                         </div>
                     </div>
-                    {selectedCourse?.results
+                    {/* {selectedCourse?.results
                         ?.map((result: any) => result.result)
                         .includes('pending') && (
+                            )} */}
+                    {!allCommentsAdded && (
                         <Actions result={selectedCourse?.results[0]} />
                     )}
                 </div>

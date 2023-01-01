@@ -82,7 +82,7 @@ export const SubAdminNavbar = () => {
                         </a>
                     </Link>
                 </li>
-                <li>
+                {/* <li>
                     <Link href={Routes.ESignature}>
                         <a
                             className={`${
@@ -99,7 +99,7 @@ export const SubAdminNavbar = () => {
                             </span>
                         </a>
                     </Link>
-                </li>
+                </li> */}
 
                 <li>
                     <Link href={Routes.Notification}>

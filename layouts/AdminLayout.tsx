@@ -99,7 +99,7 @@ const routes: Route[] = [
     // },
     {
         text: 'Subscribers',
-        path: 'subscribers/*',
+        path: getRoutePath('/subscribers'),
         Icon: MdSubscriptions,
     },
     // {

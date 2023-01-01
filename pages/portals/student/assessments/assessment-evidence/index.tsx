@@ -53,7 +53,7 @@ const AssessmentEvidence: NextPageWithLayout = (props: Props) => {
 
     useEffect(() => {
         if (assessmentsFolders.isSuccess) {
-            setSelectedFolder(selectedFolder || assessmentsFolders?.data[0])
+            setSelectedFolder(assessmentsFolders?.data[0])
         }
     }, [assessmentsFolders])
 
@@ -75,7 +75,7 @@ const AssessmentEvidence: NextPageWithLayout = (props: Props) => {
                         </div>
                     ) : assessmentsCourses?.data &&
                       assessmentsCourses?.data?.length > 0 ? (
-                        <div className="mb-3 grid grid-cols-3 gap-x-2">
+                        <div className="mb-3 grid grid-cols-3 gap-2">
                             {assessmentsCourses?.data?.map((course: any) => (
                                 <AssessmentCourseCard
                                     key={course.id}

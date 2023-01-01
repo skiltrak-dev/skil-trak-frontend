@@ -10,6 +10,7 @@ import {
     Table,
     TableAction,
     TableActionOption,
+    TechnicalError,
 } from '@components'
 import { PageHeading } from '@components/headings'
 import { ColumnDef } from '@tanstack/react-table'
@@ -32,7 +33,7 @@ export const AppointmentTypes = () => {
     const [itemPerPage, setItemPerPage] = useState(5)
     const [page, setPage] = useState(1)
     const [filter, setFilter] = useState({})
-    const { isLoading, data } = AdminApi.AppointmentTypes.useList({
+    const { isLoading, data, isError } = AdminApi.AppointmentTypes.useList({
         search: `${JSON.stringify(filter)
             .replaceAll('{', '')
             .replaceAll('}', '')
@@ -246,7 +247,9 @@ export const AppointmentTypes = () => {
                         <Button
                             text="Create Appointment"
                             onClick={() => {
-                                router.push('appointment-type/create-appointment')
+                                router.push(
+                                    'appointment-type/create-appointment'
+                                )
                             }}
                         />
                         <Button
@@ -278,6 +281,7 @@ export const AppointmentTypes = () => {
                 ) : null}
 
                 <Card noPadding>
+                    {isError && <TechnicalError />}
                     {isLoading ? (
                         <LoadingAnimation height="h-[60vh]" />
                     ) : data && data?.data.length ? (
@@ -314,11 +318,13 @@ export const AppointmentTypes = () => {
                             }}
                         </Table>
                     ) : (
-                        <EmptyData
-                            title={'No Appointment Type!'}
-                            description={'You have no appointment type yet'}
-                            height={'50vh'}
-                        />
+                        !isError && (
+                            <EmptyData
+                                title={'No Appointment Type!'}
+                                description={'You have no appointment type yet'}
+                                height={'50vh'}
+                            />
+                        )
                     )}
                 </Card>
             </div>

@@ -11,9 +11,12 @@ interface StudentLayoutProps {
     children: ReactNode
 }
 export const StudentLayout = ({ title, children }: StudentLayoutProps) => {
-    const { pathname } = useRouter()
+    const [mounted, setMounted] = useState(false)
+    const router = useRouter()
     const { alert } = useAlert()
     const userData = getUserCredentials()
+    const joyride = useJoyRide()
+
     useEffect(() => {
         if (userData?.status === 'pending') {
             alert.warning({
@@ -23,12 +26,16 @@ export const StudentLayout = ({ title, children }: StudentLayoutProps) => {
             })
         }
     }, [])
-    const [mounted, setMounted] = useState(false)
-    const joyride = useJoyRide()
 
     useEffect(() => {
         setMounted(true)
     }, [])
+
+    // useEffect(() => {
+    //     if (userData?.status === 'pending') {
+    //         router.push('/portals/student')
+    //     }
+    // }, [router])
     return (
         <UserLayout>
             <>
