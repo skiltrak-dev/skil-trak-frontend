@@ -61,6 +61,8 @@ const AssessmentEvidence: NextPageWithLayout = (props: Props) => {
         (f: any) => f?.studentResponse?.files?.length > 0
     )
 
+    console.log('selectedCourse?.results', isFilesUploaded)
+
     return (
         <>
             {/* <AssessmentsEvidence /> */}
@@ -107,12 +109,11 @@ const AssessmentEvidence: NextPageWithLayout = (props: Props) => {
                                 }
                             />
                             {isFilesUploaded &&
-                                selectedCourse?.results[0]?.totalSubmission <
-                                    3 &&
                                 (selectedCourse?.results?.length > 0 ? (
-                                    selectedCourse?.results
-                                        ?.map((result: any) => result.result)
-                                        .includes('reOpened') ? (
+                                    selectedCourse?.results[0]
+                                        ?.totalSubmission < 3 &&
+                                    selectedCourse?.results[0]?.result ===
+                                        'reOpened' ? (
                                         <Actions
                                             selectedCourseId={
                                                 selectedCourse?.id
