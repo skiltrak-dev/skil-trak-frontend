@@ -1,16 +1,17 @@
 import { ReactElement, useEffect, useState } from 'react'
 
 import { LoadingAnimation, StepIndicator } from '@components'
-import {
-    Availability,
-    IndustrySelection,
-    PersonalInfo,
-} from '@components/sections/student/WorkplaceContainer/MyWorkPlace'
+
 import { StudentLayout } from '@layouts'
 import { NextPageWithLayout } from '@types'
 
 // query
 import { useGetWorkplaceIndustriesQuery } from '@queries'
+import {
+    Availability,
+    PersonalInfo,
+    IndustrySelection,
+} from '@partials/student/workplace'
 
 type Props = {}
 
@@ -22,7 +23,11 @@ const DontHaveWorkplace: NextPageWithLayout = (props: Props) => {
     const workplace = useGetWorkplaceIndustriesQuery()
 
     useEffect(() => {
-        if (workplace.isSuccess && workplace.data) {
+        if (
+            workplace.isSuccess &&
+            workplace.data &&
+            workplace.data?.length > 0
+        ) {
             if (workplace.data?.currentStatus === 'placementStarted')
                 setActive(4)
             else setActive(3)
@@ -88,24 +93,6 @@ const DontHaveWorkplace: NextPageWithLayout = (props: Props) => {
                         workplace={workplace}
                     />
                 )}
-
-                {/* {active === 4 && (
-                    <Card>
-                        <ActionAlert
-                            title={'Your Request Has Been Place Successfully!'}
-                            description={
-                                'This prompt should be shown, when some long or multiprocess has been completed, and now user need to return to home or some other page.'
-                            }
-                            variant={'primary' || 'info' || 'error'}
-                            primaryAction={{
-                                text: 'Go Back',
-                                onClick: () => {
-                                    setActive(1)
-                                },
-                            }}
-                        />
-                    </Card>
-                )} */}
             </div>
         </div>
     )

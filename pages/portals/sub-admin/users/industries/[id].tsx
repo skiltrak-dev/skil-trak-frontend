@@ -6,7 +6,7 @@ import { SubAdminLayout } from '@layouts'
 import { NextPageWithLayout } from '@types'
 
 // hooks
-import { useContextBar } from '@hooks'
+import { useContextBar, useNavbar } from '@hooks'
 //components
 import {
     LoadingAnimation,
@@ -29,7 +29,10 @@ import {
 // icons
 // import { FaEdit } from 'react-icons/fa'
 // queries
-import { useGetSubAdminIndustriesProfileQuery, useGetSubAdminIndustryStudentsQuery } from '@queries'
+import {
+    useGetSubAdminIndustriesProfileQuery,
+    useGetSubAdminIndustryStudentsQuery,
+} from '@queries'
 import { AllCommunicationTab, NotesTab } from '@partials/common'
 import { Students } from '@partials/sub-admin/indestries'
 
@@ -40,11 +43,19 @@ const IndustriesProfile: NextPageWithLayout = (props: Props) => {
     const pathname = useRouter()
     const { id } = pathname.query
 
+    const navBar = useNavbar()
+
     const { data, isLoading, isError, isSuccess } =
         useGetSubAdminIndustriesProfileQuery(String(id), { skip: !id })
-    const studentList =
-        useGetSubAdminIndustryStudentsQuery(String(id), { skip: !id })
+    const studentList = useGetSubAdminIndustryStudentsQuery(String(id), {
+        skip: !id,
+    })
     const studentCount = studentList?.data?.data.length
+
+    useEffect(() => {
+        navBar.setSubTitle(data?.user?.name)
+    }, [data])
+
     useEffect(() => {
         setContent(
             <>
@@ -77,7 +88,11 @@ const IndustriesProfile: NextPageWithLayout = (props: Props) => {
         {
             label: 'Schedule',
             href: { pathname: String(id), query: { tab: 'schedule' } },
-            element: <Card><BigCalendar /></Card>,
+            element: (
+                <Card>
+                    <BigCalendar events />
+                </Card>
+            ),
         },
         {
             label: 'Mails',
@@ -105,9 +120,11 @@ const IndustriesProfile: NextPageWithLayout = (props: Props) => {
                         text="Book Appointment"
                         variant="info"
                         onClick={() => {
-                            pathname.push(
-                                `/portals/sub-admin/tasks/appointments/create-appointment?industry=${data?.user?.id}`
-                            )
+                            pathname.push({
+                                pathname:
+                                    '/portals/sub-admin/tasks/appointments/create-appointment',
+                                query: { student: data?.user?.id },
+                            })
                         }}
                         disabled={!isSuccess}
                     />

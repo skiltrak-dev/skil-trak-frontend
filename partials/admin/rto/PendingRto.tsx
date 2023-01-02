@@ -10,6 +10,7 @@ import {
     Table,
     TableAction,
     TableActionOption,
+    TechnicalError,
 } from '@components'
 import { PageHeading } from '@components/headings'
 import { ColumnDef } from '@tanstack/react-table'
@@ -34,7 +35,7 @@ export const PendingRto = () => {
     const [itemPerPage, setItemPerPage] = useState(5)
     const [page, setPage] = useState(1)
     const [filter, setFilter] = useState({})
-    const { isLoading, data } = AdminApi.Rtos.useListQuery({
+    const { isLoading, data, isError } = AdminApi.Rtos.useListQuery({
         search: `status:pending,${JSON.stringify(filter)
             .replaceAll('{', '')
             .replaceAll('}', '')
@@ -160,28 +161,25 @@ export const PendingRto = () => {
                     title={'Pending RTOs'}
                     subtitle={'List of Pending RTOs'}
                 >
+                    {filterAction}
                     {data && data?.data.length ? (
-                        <>
-                            {filterAction}
-                            <Button
-                                text="Export"
-                                variant="action"
-                                Icon={FaFileExport}
-                            />
-                        </>
+                        <Button
+                            text="Export"
+                            variant="action"
+                            Icon={FaFileExport}
+                        />
                     ) : null}
                 </PageHeading>
 
-                {data && data?.data.length ? (
-                    <Filter
-                        component={RtoFilters}
-                        initialValues={{ name: '', email: '', rtoCode: '' }}
-                        setFilterAction={setFilterAction}
-                        setFilter={setFilter}
-                    />
-                ) : null}
+                <Filter
+                    component={RtoFilters}
+                    initialValues={{ name: '', email: '', rtoCode: '' }}
+                    setFilterAction={setFilterAction}
+                    setFilter={setFilter}
+                />
 
                 <Card noPadding>
+                    {isError && <TechnicalError />}
                     {isLoading ? (
                         <LoadingAnimation height="h-[60vh]" />
                     ) : data && data?.data.length ? (
@@ -218,11 +216,15 @@ export const PendingRto = () => {
                             }}
                         </Table>
                     ) : (
-                        <EmptyData
-                            title={'No Pending RTO!'}
-                            description={'You have no pending RTO request yet'}
-                            height={'50vh'}
-                        />
+                        !isError && (
+                            <EmptyData
+                                title={'No Pending RTO!'}
+                                description={
+                                    'You have no pending RTO request yet'
+                                }
+                                height={'50vh'}
+                            />
+                        )
                     )}
                 </Card>
             </div>

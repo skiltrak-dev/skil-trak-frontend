@@ -1,7 +1,5 @@
 export * from './subAdminRtos.query'
 export * from './subAdminIndustries.query'
-export * from './subAdminWorkplace.query'
-export * from './subAdminStudents.query'
 export * from './assessmentEvidence.query'
 export * from './notes.query'
 export * from './setSchedule.query'

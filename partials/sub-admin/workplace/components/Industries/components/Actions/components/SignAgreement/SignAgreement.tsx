@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, useRef } from 'react'
 // Icons
 import { ShowErrorNotifications } from '@components'
 

@@ -9,6 +9,7 @@ import {
     Table,
     TableAction,
     TableActionOption,
+    TechnicalError,
 } from '@components'
 import { PageHeading } from '@components/headings'
 import { ColumnDef } from '@tanstack/react-table'
@@ -34,7 +35,7 @@ export const ApprovedRto = () => {
     const [itemPerPage, setItemPerPage] = useState(5)
     const [page, setPage] = useState(1)
     const [filter, setFilter] = useState({})
-    const { isLoading, data } = AdminApi.Rtos.useListQuery({
+    const { isLoading, data, isError } = AdminApi.Rtos.useListQuery({
         search: `status:approved,${JSON.stringify(filter)
             .replaceAll('{', '')
             .replaceAll('}', '')
@@ -182,6 +183,7 @@ export const ApprovedRto = () => {
                 />
 
                 <Card noPadding>
+                    {isError && <TechnicalError />}
                     {isLoading ? (
                         <LoadingAnimation height="h-[60vh]" />
                     ) : data && data?.data.length ? (
@@ -218,13 +220,15 @@ export const ApprovedRto = () => {
                             }}
                         </Table>
                     ) : (
-                        <EmptyData
-                            title={'No Approved RTO!'}
-                            description={
-                                'You have not approved any RTO request yet'
-                            }
-                            height={'50vh'}
-                        />
+                        !isError && (
+                            <EmptyData
+                                title={'No Approved RTO!'}
+                                description={
+                                    'You have not approved any RTO request yet'
+                                }
+                                height={'50vh'}
+                            />
+                        )
                     )}
                 </Card>
             </div>

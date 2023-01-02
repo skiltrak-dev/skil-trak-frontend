@@ -21,6 +21,7 @@ import {
     PlacementStartedModal,
 } from '@partials/sub-admin/workplace/modals'
 import { SignAgreement } from './components'
+import { useRouter } from 'next/router'
 
 export const Actions = ({
     appliedIndustry,
@@ -29,6 +30,8 @@ export const Actions = ({
     folders,
     student,
 }: any) => {
+    const router = useRouter()
+
     const [actionStatus, setActionStatus] = useState<any | string>('')
     const [modal, setModal] = useState<ReactElement | null>(null)
 
@@ -55,7 +58,13 @@ export const Actions = ({
                 description: `WPlacement Started Successfully`,
             })
         }
-    }, [updateStatusResult, startPlacementResult])
+        if (industryResponseResult?.isSuccess) {
+            notification.success({
+                title: 'Industry Not Responded',
+                description: 'Industry Not Responded Successfully',
+            })
+        }
+    }, [updateStatusResult, startPlacementResult, industryResponseResult])
 
     const onModalCancelClicked = () => {
         setModal(null)
@@ -93,37 +102,8 @@ export const Actions = ({
             {appliedIndustry?.industryResponse === 'approved' ? (
                 <>
                     {!appliedIndustry.placementStarted && (
-                        <div className="flex justify-between">
-                            <div className="flex items-center flex-wrap gap-2">
-                                {!appliedIndustry?.AgreementSigned && (
-                                    <SignAgreement
-                                        studentId={workplace?.student?.id}
-                                        appliedIndustryId={appliedIndustry?.id}
-                                    />
-                                )}
-                                {!appliedIndustry.placementStarted && (
-                                    <Button
-                                        text={'START PLACEMENT'}
-                                        variant={'primary'}
-                                        onClick={() => {
-                                            onPlacementStartedClicked(
-                                                Number(appliedIndustry?.id)
-                                            )
-                                            // startPlacement(appliedIndustry?.id)
-                                        }}
-                                        loading={startPlacementResult.isLoading}
-                                        disabled={
-                                            startPlacementResult.isLoading
-                                        }
-                                    />
-                                )}
-
-                                <Button
-                                    text={'Book Appointment'}
-                                    variant={'info'}
-                                />
-                            </div>
-                            <div className="flex gap-x-1">
+                        <div className="flex flex-col gap-y-1 justify-between">
+                            <div className="flex justify-end gap-x-1">
                                 <Typography variant={'xs'}>
                                     <span className="text-success bg-secondary px-1">
                                         APPROVED
@@ -139,6 +119,53 @@ export const Actions = ({
                                         ).fromNow()}
                                     </span>
                                 </Typography>
+                            </div>
+                            <div className="flex items-center gap-2">
+                                {!appliedIndustry?.AgreementSigned && (
+                                    <SignAgreement
+                                        studentId={workplace?.student?.id}
+                                        appliedIndustryId={appliedIndustry?.id}
+                                    />
+                                )}
+                                {!appliedIndustry.placementStarted && (
+                                    <div className="flex-shrink-0">
+                                        <Button
+                                            text={'START PLACEMENT'}
+                                            variant={'primary'}
+                                            onClick={() => {
+                                                onPlacementStartedClicked(
+                                                    Number(appliedIndustry?.id)
+                                                )
+                                                // startPlacement(appliedIndustry?.id)
+                                            }}
+                                            loading={
+                                                startPlacementResult.isLoading
+                                            }
+                                            disabled={
+                                                startPlacementResult.isLoading
+                                            }
+                                        />
+                                    </div>
+                                )}
+
+                                <div className="flex-shrink-0">
+                                    {!student?.user?.appointmentFor?.length && (
+                                        <Button
+                                            text={'Book Appointment'}
+                                            variant={'info'}
+                                            onClick={() => {
+                                                router.push({
+                                                    pathname:
+                                                        '/portals/sub-admin/tasks/appointments/create-appointment',
+                                                    query: {
+                                                        student:
+                                                            student?.user?.id,
+                                                    },
+                                                })
+                                            }}
+                                        />
+                                    )}
+                                </div>
                             </div>
                         </div>
                     )}

@@ -27,7 +27,7 @@ export const RtoProfileSidebar = ({ data }: any) => {
   // const {data} = useGetSubAdminRTODetailQuery(String(profileId), {
   //   skip: !profileId,
   // })
-  console.log("rto detail",data.data)
+
   return (
     <div>
       <div className='flex justify-end gap-x-2'>

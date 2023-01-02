@@ -20,6 +20,7 @@ import { HeadWrapper } from '@layouts'
 import 'swiper/css/bundle'
 import 'swiper/css/navigation'
 import 'swiper/css/pagination'
+import { Socket } from '@components'
 
 type AppPropsWithLayout = AppProps & {
     Component: NextPageWithLayout
@@ -41,9 +42,13 @@ const MyApp = ({ Component, pageProps }: AppPropsWithLayout) => {
                         <NavbarProvider>
                             <ContextBarProvider>
                                 {/* <Component {...pageProps} /> */}
-                                <HeadWrapper>
-                                    {getLayout(<Component {...pageProps} />)}
-                                </HeadWrapper>
+                                <Socket>
+                                    <HeadWrapper>
+                                        {getLayout(
+                                            <Component {...pageProps} />
+                                        )}
+                                    </HeadWrapper>
+                                </Socket>
                             </ContextBarProvider>
                         </NavbarProvider>
                     </NotificationProvider>

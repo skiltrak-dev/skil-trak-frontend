@@ -1,6 +1,5 @@
 import { TabNavigation, TabProps } from '@components'
-import { AllCommunicationTab, NotesTab } from '@partials/common'
-import { MailsTab } from './MailsTab'
+import { AllCommunicationTab, NotesTab, MailsTab } from '@partials/common'
 
 export const DetailTabs = ({
     id,
@@ -18,7 +17,7 @@ export const DetailTabs = ({
         {
             label: 'Mails',
             href: { query: { tab: 'mails', id } },
-            element: <MailsTab subAdmin={subAdmin?.user} />,
+            element: <MailsTab user={subAdmin?.user} />,
         },
         {
             label: 'All Communication',

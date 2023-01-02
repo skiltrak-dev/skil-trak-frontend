@@ -23,14 +23,17 @@ import {
     useUpdateAssessmentToolArchiveMutation,
 } from '@queries'
 
-import { useContextBar } from '@hooks'
+import { useContextBar, useNavbar } from '@hooks'
 
 import { DetailTabs } from '@partials/sub-admin/students'
+import { AddWorkplace } from '@partials/sub-admin/students'
 
 const StudentsProfile: NextPageWithLayout = () => {
     const contextBar = useContextBar()
     const router = useRouter()
     const { id } = router.query
+
+    const navBar = useNavbar()
 
     const [addWorkplace, setAddWorkplace] = useState<boolean>(false)
 
@@ -38,6 +41,10 @@ const StudentsProfile: NextPageWithLayout = () => {
         useGetSubAdminStudentDetailQuery(String(id), {
             skip: !id,
         })
+
+    useEffect(() => {
+        navBar.setSubTitle(data?.user?.name)
+    }, [data])
 
     useEffect(() => {
         if (isSuccess) {
@@ -49,21 +56,6 @@ const StudentsProfile: NextPageWithLayout = () => {
     const [archiveAssessmentTool, archiveAssessmentToolResult] =
         useUpdateAssessmentToolArchiveMutation()
 
-    const workplaceActions = [
-        {
-            text: 'Provide Workplace Detail',
-            onClick: () => {
-                router.push(`${id}/provide-workplace-detail`)
-            },
-        },
-        {
-            text: 'Request Workplace Detail',
-            onClick: () => {
-                router.push(`${id}/request-workplace-detail`)
-            },
-        },
-    ]
-
     return (
         <div className="mb-16">
             <div className="flex justify-between items-end mb-4">
@@ -73,46 +65,17 @@ const StudentsProfile: NextPageWithLayout = () => {
                         <StudentTimer date={new Date('12/30/2022')} />
                     </div>
                     <div className="flex items-end gap-x-2">
-                        <OutsideClickHandler
-                            onOutsideClick={() => {
-                                setAddWorkplace(false)
-                            }}
-                        >
-                            <div className="relative">
-                                <Button
-                                    text="Add Workplace"
-                                    onClick={() => {
-                                        setAddWorkplace(!addWorkplace)
-                                    }}
-                                />
-                                {addWorkplace && (
-                                    <div className="absolute z-20 mt-2 bg-white py-2 shadow-lg rounded">
-                                        {workplaceActions.map(
-                                            ({ text, onClick }) => (
-                                                <p
-                                                    key={text}
-                                                    className="whitespace-pre text-sm text-gray-600 font-medium py-2 border-b border-gray-200 cursor-pointer px-2 hover:bg-gray-200"
-                                                    onClick={() => {
-                                                        onClick()
-                                                        setAddWorkplace(false)
-                                                    }}
-                                                >
-                                                    {text}
-                                                </p>
-                                            )
-                                        )}
-                                    </div>
-                                )}
-                            </div>
-                        </OutsideClickHandler>
+                        <AddWorkplace id={data?.id} />
 
                         <Button
                             text="Book Appointment"
                             variant="info"
                             onClick={() => {
-                                router.push(
-                                    `/portals/sub-admin/tasks/appointments/create-appointment?student=${data?.user?.id}`
-                                )
+                                router.push({
+                                    pathname:
+                                        '/portals/sub-admin/tasks/appointments/create-appointment',
+                                    query: { student: data?.user?.id },
+                                })
                             }}
                             disabled={!isSuccess}
                         />

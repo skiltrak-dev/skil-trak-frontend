@@ -21,7 +21,7 @@ export const AddCustomIndustryForm = ({
     onSubmit,
     setActive,
 }: {
-    setWorkplaceData: any
+    setWorkplaceData?: any
     result: any
     industryABN: string | null
     onSubmit: any

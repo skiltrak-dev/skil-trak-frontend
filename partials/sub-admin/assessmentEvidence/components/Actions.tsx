@@ -1,16 +1,24 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
 import { FormProvider, useForm } from 'react-hook-form'
 
 // components
-import { Button, Checkbox, Select, TextArea } from '@components'
+import {
+    Button,
+    Checkbox,
+    Select,
+    ShowErrorNotifications,
+    TextArea,
+} from '@components'
 
 // query
 import { useSubmitAssessmentEvidenceMutation } from '@queries'
+import { useNotification } from '@hooks'
 
-export const Actions = () => {
+export const Actions = ({ result }: any) => {
     const pathname = useRouter()
     const studentId = pathname.query.studentId
+    const { notification } = useNotification()
 
     // query
     const [submitAssessmentEvidence, submitAssessmentEvidenceResult] =
@@ -20,8 +28,17 @@ export const Actions = () => {
         mode: 'all',
     })
 
+    useEffect(() => {
+        if (submitAssessmentEvidenceResult.isSuccess) {
+            notification.success({
+                title: 'Result Submitted Successfully',
+                description: 'Result Submitted Successfully',
+            })
+        }
+    }, [submitAssessmentEvidenceResult])
+
     const onSubmit = (values: any) => {
-        submitAssessmentEvidence({ id: studentId, body: values })
+        submitAssessmentEvidence({ id: result?.id, body: values })
     }
 
     const ResultOptions = [
@@ -30,52 +47,60 @@ export const Actions = () => {
         { label: 'Re-Open', value: 'reOpened' },
     ]
     return (
-        <FormProvider {...methods}>
-            <form
-                className="mt-2 w-full"
-                onSubmit={methods.handleSubmit(onSubmit)}
-            >
-                {/*  */}
-                <div className="grid grid-cols-3 gap-x-2 mt-2">
-                    <div>
-                        <Select
-                            label={'Result'}
-                            name={'result'}
-                            options={ResultOptions}
-                            onlyValue
-                        />
+        <>
+            <ShowErrorNotifications result={submitAssessmentEvidenceResult} />
+            <FormProvider {...methods}>
+                <form
+                    className="mt-2 w-full"
+                    onSubmit={methods.handleSubmit(onSubmit)}
+                >
+                    {/*  */}
+                    <div className="grid grid-cols-3 gap-x-2 mt-2">
+                        <div>
+                            <Select
+                                label={'Result'}
+                                name={'result'}
+                                options={ResultOptions}
+                                menuPlacement={'top'}
+                                onlyValue
+                            />
+                        </div>
+                        <div className="col-span-2">
+                            <TextArea
+                                label={'Comment'}
+                                name={'finalComment'}
+                                placeholder={'Write Your Comment'}
+                            />
+                        </div>
                     </div>
-                    <div className="col-span-2">
-                        <TextArea
-                            label={'Comment'}
-                            name={'finalComment'}
-                            placeholder={'Write Your Comment'}
-                        />
-                    </div>
-                </div>
 
-                {/* Actions */}
-                <div className="flex items-center gap-x-2 mt-2">
-                    <div>
-                        <Button
-                            text="SUBMIT"
-                            submit
-                            loading={submitAssessmentEvidenceResult?.isLoading}
-                            disabled={submitAssessmentEvidenceResult?.isLoading}
-                        />
+                    {/* Actions */}
+                    <div className="flex items-center gap-x-2 mt-2">
+                        <div>
+                            <Button
+                                text="SUBMIT"
+                                submit
+                                loading={
+                                    submitAssessmentEvidenceResult?.isLoading
+                                }
+                                disabled={
+                                    submitAssessmentEvidenceResult?.isLoading
+                                }
+                            />
+                        </div>
+                        <div className="flex items-center gap-x-2">
+                            <Checkbox
+                                name="notifyCoordinator"
+                                label="Notify Coordinator"
+                            />
+                            <Checkbox
+                                name="notifyCoordinator"
+                                label="Notify Coordinator"
+                            />
+                        </div>
                     </div>
-                    <div className="flex items-center gap-x-2">
-                        <Checkbox
-                            name="notifyCoordinator"
-                            label="Notify Coordinator"
-                        />
-                        <Checkbox
-                            name="notifyCoordinator"
-                            label="Notify Coordinator"
-                        />
-                    </div>
-                </div>
-            </form>
-        </FormProvider>
+                </form>
+            </FormProvider>
+        </>
     )
 }

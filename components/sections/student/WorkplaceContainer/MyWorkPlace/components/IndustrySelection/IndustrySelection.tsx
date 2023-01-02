@@ -38,8 +38,8 @@ export const IndustrySelection = ({
 
     useEffect(() => {
         if (workplace) {
-            const allIndustries = workplace?.data?.industries
-            setWorkplaceIndustries(workplace?.data)
+            const allIndustries = workplace?.data[0]?.industries
+            setWorkplaceIndustries(workplace?.data[0])
             setNoRespondedIndustries(
                 allIndustries?.filter(
                     (i: any) => i?.industryResponse === 'noResponse'

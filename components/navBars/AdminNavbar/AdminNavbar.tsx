@@ -50,7 +50,10 @@ export const AdminNavbar = () => {
                     {navbar.title || 'Dashboard'}
                 </Typography>
 
-                <NavbarBreadCrumbs links={links} title={title} />
+                <NavbarBreadCrumbs
+                    links={links}
+                    title={navbar?.subTitle || navbar.title}
+                />
             </div>
 
             <div className="flex items-center gap-x-4">

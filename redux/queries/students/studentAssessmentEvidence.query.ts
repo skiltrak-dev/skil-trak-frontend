@@ -1,6 +1,5 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 import { AuthUtils } from '@utils'
-import { StudentJobsType, StudentJobType } from 'redux/queryTypes'
 
 export const studentAssessmentEvidenceApi = createApi({
     reducerPath: 'studentAssessmentEvidenceApi',
@@ -39,6 +38,13 @@ export const studentAssessmentEvidenceApi = createApi({
             }),
             invalidatesTags: ['StudentAssessmentEvidence'],
         }),
+        submitStudentAssessment: builder.mutation({
+            query: (id) => ({
+                url: `assessment-evidence/submit/${id}`,
+                method: 'POST',
+            }),
+            invalidatesTags: ['StudentAssessmentEvidence'],
+        }),
     }),
 })
 
@@ -47,7 +53,5 @@ export const {
     useGetAssessmentsFoldersQuery,
     useGetAssessmentsFolderDetailQuery,
     useUploadFolderDocsMutation,
-    // useGetCoordinatorsForStudentQuery,
-    // useGetStudentPastAppointmentsQuery,
-    // useGetStudentUpcomingAppointmentsQuery,
+    useSubmitStudentAssessmentMutation,
 } = studentAssessmentEvidenceApi

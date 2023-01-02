@@ -17,6 +17,7 @@ import { ellipsisText } from '@utils'
 
 // functions
 import { AuthUtils, userStatus } from '@utils'
+import { CommonApi } from '@queries'
 
 export const MailForm = ({ action, receiverId, sender }: any) => {
     // const { replyMessage, setReplyMessage, setMessage } = useMessage()
@@ -25,6 +26,7 @@ export const MailForm = ({ action, receiverId, sender }: any) => {
     const [cc, setCc] = useState(false)
 
     const [actionData, actionDataResult] = action()
+    const [sendMessage, sendMessageResult] = CommonApi.Messages.useSendMessage()
 
     const validationSchema = yup.object({
         subject: yup.string().required('Must provide subject'),
@@ -36,17 +38,17 @@ export const MailForm = ({ action, receiverId, sender }: any) => {
         mode: 'all',
     })
     useEffect(() => {
-        if (actionDataResult.isSuccess) {
+        if (sendMessageResult.isSuccess) {
             methods.reset()
         }
-    }, [actionDataResult.isSuccess])
+    }, [sendMessageResult])
 
     const onSubmit = (values: any) => {
         const userCredentials = AuthUtils.getUserCredentials()
         const date = new Date()
         const parent = -1
         // const parent = replyMessage?.id
-        actionData({
+        sendMessage({
             // parent,
             subject: values.subject,
             message: values.message,
@@ -156,8 +158,8 @@ export const MailForm = ({ action, receiverId, sender }: any) => {
                                     /> */}
                                     <Button
                                         submit
-                                        loading={actionDataResult?.isLoading}
-                                        disabled={actionDataResult?.isLoading}
+                                        loading={sendMessageResult?.isLoading}
+                                        disabled={sendMessageResult?.isLoading}
                                     >
                                         <div className="flex items-center gap-x-2">
                                             <span>Send</span>

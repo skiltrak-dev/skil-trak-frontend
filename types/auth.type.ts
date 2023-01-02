@@ -3,4 +3,4 @@ export interface LoginCredentials {
 	password: string;
 }
 
-export type StatusType = "pending" | "approved" | "rejected";
+export type StatusType = "pending" | "approved" | "rejected" | "archived" | "blocked";

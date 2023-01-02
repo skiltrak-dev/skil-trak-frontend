@@ -11,6 +11,8 @@ import { MdPermContactCalendar, MdPhone } from 'react-icons/md'
 import { useGetSubAdminMyRtoQuery } from '@queries'
 import { NoData } from '@components/ActionAnimations'
 import { Button } from '@components/buttons'
+import { AddWorkplace } from './AddWorkplace'
+import { WorkplaceAvatar } from '@components'
 
 type Props = {
     myWorkplace: any
@@ -22,9 +24,9 @@ export const MyWorkplace = ({ myWorkplace }: Props) => {
     const { data } = useGetSubAdminMyRtoQuery(String(profileId), {
         skip: !profileId,
     })
-    const filteredData = myWorkplace?.workplace.filter((item: any) => {
-        return item.approvalStatus === 'approved' && item.isCancelled === false
-    })
+    const filteredData = myWorkplace?.workplace.filter(
+        (item: any) => !item.isCancelled
+    )
 
     return (
         <Card fullHeight>
@@ -62,9 +64,9 @@ export const MyWorkplace = ({ myWorkplace }: Props) => {
             {filteredData?.length > 0 ? (
                 filteredData?.map((data: any) => (
                     <div key={data?.id} className="mt-4">
-                        <div className="flex items-center gap-x-6 mb-4">
+                        <div className="flex gap-x-6 mb-4">
                             <div className="flex-shrink-0">
-                                <Image src="/#" height={100} width={100} />
+                                <WorkplaceAvatar />
                             </div>
                             <div>
                                 <div>
@@ -189,7 +191,7 @@ export const MyWorkplace = ({ myWorkplace }: Props) => {
                                 You don&apos;t have any workplace yet
                             </p>
                         </div>
-                        <Button text="Add Workplace" />
+                        <AddWorkplace id={Number(profileId)} />
                     </div>
                 </div>
             )}

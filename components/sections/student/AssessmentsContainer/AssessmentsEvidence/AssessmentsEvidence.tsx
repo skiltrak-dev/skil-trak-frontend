@@ -15,12 +15,14 @@ type Props = {
     assessmentsFolders: any
     setSelectedFolder: any
     selectedFolder: any
+    submission: number
 }
 
 export const AssessmentsEvidence = ({
-    assessmentsFolders,
     selectedFolder,
     setSelectedFolder,
+    assessmentsFolders,
+    submission,
 }: Props) => {
     return (
         <>
@@ -31,7 +33,7 @@ export const AssessmentsEvidence = ({
                             Assessment Submission -
                         </Typography>
                         <Typography variant="muted" color="text-gray-500">
-                            Submission #1
+                            Submission #{submission ? submission + 1 : 1}
                         </Typography>
                     </div>
                     <div className="bg-white border-r min-h-[400px]">

@@ -12,7 +12,6 @@ import {
     ActionButton,
 } from '@components'
 import { ShowErrorNotifications } from '@components/ShowErrorNotifications'
-import { YourIndustry } from '@components/sections/student/WorkplaceContainer/MyWorkPlace'
 
 // query
 import {
@@ -20,10 +19,9 @@ import {
     useAddWorkplaceMutation,
     useGetWorkplaceIndustriesQuery,
 } from '@queries'
-import { FindWorkplace } from '@components/sections/student/WorkplaceContainer/MyWorkPlace/components/FindWorkplace'
-import { IndustryForm } from '@components/sections/student/WorkplaceContainer/MyWorkPlace/IndustryForm'
 import { useNotification } from '@hooks'
-import { AppliedIndustry } from '@components/sections/student/WorkplaceContainer/MyWorkPlace/components/IndustrySelection/AppliedIndustry'
+import { AddCustomIndustryForm, FindWorkplaceForm } from '@partials/common'
+import { AppliedIndustry, ExistinIndustryCard } from '@partials/student'
 
 type Props = {}
 
@@ -127,6 +125,14 @@ const HaveWorkplace: NextPageWithLayout = (props: Props) => {
         // setActive((active: number) => active + 1)
     }
 
+    const onAddIndustry = (values: any) => {
+        addWorkplace({
+            ...values,
+            courses: [values?.courses?.value],
+            role: 'industry',
+        })
+    }
+
     return workplace?.isLoading ? (
         <LoadingAnimation />
     ) : (
@@ -145,19 +151,20 @@ const HaveWorkplace: NextPageWithLayout = (props: Props) => {
 
             <div className="w-[75%]">
                 {active === 1 && (
-                    <FindWorkplace onSubmit={onSubmit} result={result} />
+                    <FindWorkplaceForm onSubmit={onSubmit} result={result} />
                 )}
 
                 {active === 2 &&
                     (!result?.data ? (
-                        <IndustryForm
-                            addWorkplace={addWorkplace}
+                        <AddCustomIndustryForm
+                            onSubmit={onAddIndustry}
                             setWorkplaceData={setWorkplaceData}
                             result={addWorkplaceResult}
                             industryABN={industryABN}
+                            setActive={setActive}
                         />
                     ) : (
-                        <YourIndustry
+                        <ExistinIndustryCard
                             setActive={setActive}
                             personalInfoData={personalInfoData}
                             res={result}
@@ -166,49 +173,52 @@ const HaveWorkplace: NextPageWithLayout = (props: Props) => {
                         />
                     ))}
 
-                {active === 3 &&
-                    (workplaceData?.studentProvidedWorkplace ||
-                        workplaceData?.byExistingAbn) &&
-                    (workplaceData?.industryStatus === 'approved' ? (
-                        <AppliedIndustry
-                            workplaceCancelRequest={workplaceCancelRequest}
-                            appliedIndustry={workplaceData[0]?.industries[0]}
-                            status={workplaceData?.currentStatus}
-                            workplaceRequest={workplaceData}
-                            studentAdded
-                        />
-                    ) : workplaceData?.industryStatus === 'rejected' ? (
-                        <Card>
-                            <div className="px-5 py-16 border-2 border-dashed border-gray-600 flex justify-center">
-                                <Typography
-                                    variant={'label'}
-                                    center
-                                    color={'text-gray-700'}
-                                >
-                                    Your Workplace Industry has been Rejected,
-                                    You can recreate a workplace after canceling
-                                    the workplace
-                                </Typography>
-                            </div>
-                            {workplaceCancelRequest()}
-                        </Card>
-                    ) : (
-                        <Card>
-                            <div className="px-5 py-16 border-2 border-dashed border-gray-600 flex justify-center">
-                                <Typography
-                                    variant={'label'}
-                                    center
-                                    color={'text-gray-700'}
-                                >
-                                    Your request has been received, Our team
-                                    after confirming the provided information
-                                    will approved your request and Will Contact
-                                    you soon
-                                </Typography>
-                            </div>
-                            {workplaceCancelRequest()}
-                        </Card>
-                    ))}
+                {active === 3 && (
+                    <>
+                        {workplaceData?.industryStatus === 'approved' ? (
+                            <AppliedIndustry
+                                workplaceCancelRequest={workplaceCancelRequest}
+                                appliedIndustry={
+                                    workplaceData[0]?.industries[0]
+                                }
+                                status={workplaceData?.currentStatus}
+                                workplaceRequest={workplaceData}
+                                studentAdded
+                            />
+                        ) : workplaceData?.industryStatus === 'rejected' ? (
+                            <Card>
+                                <div className="px-5 py-16 border-2 border-dashed border-gray-600 flex justify-center">
+                                    <Typography
+                                        variant={'label'}
+                                        center
+                                        color={'text-gray-700'}
+                                    >
+                                        Your Workplace Industry has been
+                                        Rejected, You can recreate a workplace
+                                        after canceling the workplace
+                                    </Typography>
+                                </div>
+                                {workplaceCancelRequest()}
+                            </Card>
+                        ) : (
+                            <Card>
+                                <div className="px-5 py-16 border-2 border-dashed border-gray-600 flex justify-center">
+                                    <Typography
+                                        variant={'label'}
+                                        center
+                                        color={'text-gray-700'}
+                                    >
+                                        Your request has been received, Our team
+                                        after confirming the provided
+                                        information will approved your request
+                                        and Will Contact you soon
+                                    </Typography>
+                                </div>
+                                {workplaceCancelRequest()}
+                            </Card>
+                        )}
+                    </>
+                )}
 
                 {active === 4 && (
                     <Card>

@@ -7,6 +7,38 @@ export const messagesEndpoints = (
 ) => ({
     getAdminMessages: builder.query<any, any>({
         query: (id) => `${PREFIX}/mail/list/${id}`,
+        async onCacheEntryAdded(
+            arg,
+            { updateCachedData, cacheDataLoaded, cacheEntryRemoved }
+        ) {
+            // create a websocket connection when the cache subscription starts
+            const ws = new WebSocket('ws://192.168.0.134:81')
+            try {
+                // wait for the initial query to resolve before proceeding
+                await cacheDataLoaded
+
+                // when data is received from the socket connection to the server,
+                // if it is a message and for the appropriate channel,
+                // update our query result with the received message
+                const listener = (event: MessageEvent) => {
+                    const data = JSON.parse(event.data)
+                    if (data.channel !== arg) return
+
+                    updateCachedData((draft) => {
+                        draft.push(data)
+                    })
+                }
+
+                ws.addEventListener('message', listener)
+            } catch {
+                // no-op in case `cacheEntryRemoved` resolves before `cacheDataLoaded`,
+                // in which case `cacheDataLoaded` will throw
+            }
+            // cacheEntryRemoved will resolve when the cache subscription is no longer active
+            await cacheEntryRemoved
+            // perform cleanup steps once the `cacheEntryRemoved` promise resolves
+            ws.close()
+        },
         providesTags: ['Message'],
     }),
     sendAdminMessage: builder.mutation({

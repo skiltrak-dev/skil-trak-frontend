@@ -86,6 +86,7 @@ export const Industries = ({
                             workplaceId={workplaceId}
                             workplace={workplace}
                             folders={folders}
+                            student={workplace?.student}
                         />
                     )}
 

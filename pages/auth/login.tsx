@@ -1,50 +1,31 @@
 import { useEffect, useState } from 'react'
 
-import Link from 'next/link'
 import type { NextPage } from 'next'
+import Link from 'next/link'
 import { useRouter } from 'next/router'
 
-import * as Yup from 'yup'
-
 import {
-    Button,
-    Checkbox,
-    TextInput,
-    Typography,
     AccountStatus,
-    LottieAnimation,
     LoginForm,
+    LottieAnimation,
+    Typography,
 } from '@components'
 
-import { AuthApi } from '@queries'
-import { AuthUtils } from '@utils'
-import { AuthLayout } from '@layouts'
 import { Animations } from '@animations'
+import { AuthLayout } from '@layouts'
+import { AuthApi } from '@queries'
 import { LoginCredentials, StatusType } from '@types'
-import { FormProvider } from 'react-hook-form'
+import { AuthUtils } from '@utils'
 
 const Login: NextPage = () => {
     const router = useRouter()
 
     const [login, loginResult] = AuthApi.useLogin()
 
-    // const [checkStatus, checkStatusResult] = AuthApi.useStatusCheck()
-
     const [requested, setRequested] = useState(false)
     const [rejected, setRejected] = useState(false)
-    const [rememberMe, setRememberMe] = useState(false)
-
-    const initialValues: LoginCredentials = {
-        email: '',
-        password: '',
-    }
-
-    const validationSchema = Yup.object({
-        email: Yup.string()
-            .email('Invalid Email')
-            .required('Email is required!'),
-        password: Yup.string().required('Password is required'),
-    })
+    const [archived, setArchived] = useState(false)
+    const [blocked, setBlocked] = useState(false)
 
     const nextDestination = (role: string) => {
         switch (role) {
@@ -72,20 +53,20 @@ const Login: NextPage = () => {
             case 'pending':
                 setRequested(true)
                 break
-            case 'approved':
-                nextDestination(role)
+            case 'archived':
+                setArchived(true)
+                break
+            case 'blocked':
+                setBlocked(true)
                 break
             case 'rejected':
                 setRejected(true)
                 break
+            case 'approved':
+                nextDestination(role)
+                break
         }
     }
-
-    // useEffect(() => {
-    //     if (AuthUtils.isAuthenticated()) {
-    //         checkStatus({})
-    //     }
-    // }, [])
 
     useEffect(() => {
         if (loginResult.isSuccess) {
@@ -96,12 +77,6 @@ const Login: NextPage = () => {
         }
     }, [loginResult.isSuccess])
 
-    // useEffect(() => {
-    //     if (checkStatusResult.isSuccess) {
-    //         onLogin(checkStatusResult.data.status)
-    //     }
-    // }, [checkStatusResult])
-
     const onSubmit = async (values: LoginCredentials) => {
         await login(values)
     }
@@ -110,8 +85,10 @@ const Login: NextPage = () => {
         <AuthLayout type="log-in">
             {requested && <AccountStatus status={'pending'} />}
             {rejected && <AccountStatus status={'rejected'} />}
+            {archived && <AccountStatus status={'archived'} />}
+            {blocked && <AccountStatus status={'blocked'} />}
 
-            {!requested && !rejected && (
+            {!requested && !rejected && !archived && !blocked && (
                 // <div className="w-4/5 mx-auto flex items-center justify-between">
                 <div className="w-full sm:w-4/5 mx-auto flex flex-col sm:flex-row items-center justify-between">
                     <div className="flex flex-col items-center flex-grow">
@@ -129,16 +106,18 @@ const Login: NextPage = () => {
 
                         <LoginForm onSubmit={onSubmit} result={loginResult} />
 
-                        <div className="mt-16">
-                            <Typography variant="muted">
-                                Don&apos;t have account?{' '}
-                                <Link href="/auth/signup">
-                                    <a className="text-link">
-                                        Please Create Account
-                                    </a>
-                                </Link>
-                            </Typography>
-                        </div>
+                        {!loginResult.isLoading || !loginResult.isSuccess ? (
+                            <div className="mt-16">
+                                <Typography variant="muted">
+                                    Don&apos;t have account?{' '}
+                                    <Link href="/auth/signup">
+                                        <a className="text-link">
+                                            Please Create Account
+                                        </a>
+                                    </Link>
+                                </Typography>
+                            </div>
+                        ) : null}
                     </div>
 
                     <div className="hidden sm:block h-48 w-px bg-gray-300 mx-8"></div>
