@@ -112,7 +112,7 @@ const RtoStudents: NextPageWithLayout = (props: Props) => {
                                         <button
                                             onClick={() => {
                                                 router.push(
-                                                    'students/import-students'
+                                                    'students/add-individual-student'
                                                 )
                                             }}
                                             className="w-full flex items-center gap-x-2 text-sm px-2 py-2 hover:bg-gray-200"

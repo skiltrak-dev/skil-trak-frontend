@@ -25,8 +25,10 @@ export const RtoProfileOverview = ({ userId, rtoId, rtoDetail }: Props) => {
     const { data, isError, isLoading }: any =
         useGetSubAdminRtosStudentsQuery(rtoId)
     // recent appointments
-    const { data: rtoRecentAppointment } =
-        useGetSubAdminRtoAppointmentsQuery(rtoId)
+
+    const rtoRecentAppointment = useGetSubAdminRtoAppointmentsQuery(rtoId)
+    // console.log("rtoRecentAppointment", rtoRecentAppointment)
+
 
     const FigureCardData = [
         {

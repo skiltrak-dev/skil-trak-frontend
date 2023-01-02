@@ -64,7 +64,7 @@ export const PendingStudent = () => {
         {
             text: 'View',
             onClick: (student: any) => {
-                router.push(`/portals/rto/users/students/${student.id}`)
+                router.push(`/portals/rto/students/${student.id}`)
             },
             Icon: FaEye,
         },
