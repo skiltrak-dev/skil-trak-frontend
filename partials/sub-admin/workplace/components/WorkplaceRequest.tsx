@@ -2,7 +2,6 @@ import moment from 'moment'
 
 // Icons
 import { RiBook2Fill } from 'react-icons/ri'
-import { SmallActionModal } from '../modals'
 // components
 import { Card, Typography, Button, ActionButton } from '@components'
 

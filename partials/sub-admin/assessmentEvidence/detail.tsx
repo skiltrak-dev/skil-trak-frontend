@@ -54,6 +54,8 @@ export const Detail = ({ studentId, studentUserId }: any) => {
     const allCommentsAdded = getFolders?.data?.every(
         (f: any) => f?.studentResponse?.comment
     )
+
+    console.log('allCommentsAdded', allCommentsAdded)
     return (
         <div className="mb-10">
             {studentCourses?.isLoading ? (
@@ -165,9 +167,16 @@ export const Detail = ({ studentId, studentUserId }: any) => {
                         ?.map((result: any) => result.result)
                         .includes('pending') && (
                             )} */}
-                    {!allCommentsAdded && (
+                    {allCommentsAdded && (
                         <Actions result={selectedCourse?.results[0]} />
                     )}
+                    <div className="mt-4">
+                        <Typography variant="muted" color="text-neutral-500">
+                            *You will be able to submit assessment evedence
+                            result after you add a comment to each folder
+                            mentioned above.
+                        </Typography>
+                    </div>
                 </div>
             )}
         </div>

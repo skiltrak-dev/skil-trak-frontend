@@ -29,6 +29,8 @@ import { MdBlock } from 'react-icons/md'
 import { getActiveIndustry } from '@partials/student/utils'
 import { IndustryCell } from '@partials/admin/industry/components'
 import { IndustryCellInfo } from '../indestries/components'
+import { ProgressCell } from '@partials/admin/student/components'
+import { checkWorkplaceStatus } from '@utils'
 
 export const MyStudents = () => {
     const router = useRouter()
@@ -97,29 +99,11 @@ export const MyStudents = () => {
             },
         },
         {
-            header: () => 'Industry',
-            accessorKey: 'industry',
-            cell({ row }: any) {
-                const { workplace } = row.original
-                const industry = getActiveIndustry(workplace)
-
-                return (
-                    <div className="flex justify-center">
-                        {industry ? (
-                            <IndustryCell industry={industry} />
-                        ) : (
-                            <div>N/A</div>
-                        )}
-                    </div>
-                )
-            },
-        },
-        {
             accessorKey: 'industry',
             header: () => <span>Industry</span>,
             cell: (info: any) => {
                 const industry =
-                    info.row.original?.workplace[0]?.industries.find(
+                    info.row.original?.workplace[0]?.industries?.find(
                         (i: any) => i.applied
                     )?.industry
 
@@ -134,10 +118,12 @@ export const MyStudents = () => {
             header: () => 'Progress',
             accessorKey: 'progress',
             cell: ({ row }: any) => {
+                const workplace = row.original.workplace[0]
+                const steps = checkWorkplaceStatus(workplace?.currentStatus)
                 return (
-                    <div className="flex justify-center">
-                        <PlacementTableCell request={row.original?.workplace} />
-                    </div>
+                    <ProgressCell
+                        step={steps > 9 ? 9 : steps < 1 ? 1 : steps}
+                    />
                 )
             },
         },
