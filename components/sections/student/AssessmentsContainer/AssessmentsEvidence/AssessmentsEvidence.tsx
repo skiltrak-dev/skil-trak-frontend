@@ -74,7 +74,8 @@ export const AssessmentsEvidence = ({
                                                     name={folder.name}
                                                     isActive={folder.isActive}
                                                     response={
-                                                        folder?.studentResponse
+                                                        folder
+                                                            ?.studentResponse[0]
                                                     }
                                                     selectedFolderId={
                                                         selectedFolder?.id

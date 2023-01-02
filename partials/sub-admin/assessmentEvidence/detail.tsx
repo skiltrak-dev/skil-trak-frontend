@@ -13,10 +13,19 @@ import {
     useGetAssessmentEvidenceDetailQuery,
 } from '@queries'
 import { getUserCredentials } from '@utils'
+import { useAlert } from '@hooks'
 
-export const Detail = ({ studentId, studentUserId }: any) => {
+export const Detail = ({
+    studentId,
+    studentUserId,
+}: {
+    studentId: string | string[] | undefined
+    studentUserId: string | string[] | undefined
+}) => {
     const [selectedCourse, setSelectedCourse] = useState<any | null>(null)
     const [selectedFolder, setSelectedFolder] = useState<any | null>(null)
+
+    const { alert } = useAlert()
 
     const pathname = useRouter()
 
@@ -25,7 +34,7 @@ export const Detail = ({ studentId, studentUserId }: any) => {
         skip: !studentId,
     })
     const getFolders = useGetAssessmentEvidenceDetailQuery(
-        String(selectedCourse?.id),
+        { courseId: Number(selectedCourse?.id), studentId: Number(studentId) },
         {
             skip: !selectedCourse,
         }
@@ -40,6 +49,16 @@ export const Detail = ({ studentId, studentUserId }: any) => {
     )
 
     useEffect(() => {
+        if (selectedCourse?.results[0]?.isAssessed) {
+            alert.info({
+                title: selectedCourse?.results[0]?.result,
+                description: selectedCourse?.results[0]?.result,
+                autoDismiss: false,
+            })
+        }
+    }, [studentCourses, selectedCourse])
+
+    useEffect(() => {
         if (studentCourses.isSuccess) {
             setSelectedCourse(selectedCourse || studentCourses?.data[0])
         }
@@ -52,10 +71,10 @@ export const Detail = ({ studentId, studentUserId }: any) => {
     }, [getFolders])
 
     const allCommentsAdded = getFolders?.data?.every(
-        (f: any) => f?.studentResponse?.comment
+        (f: any) => f?.studentResponse[0]?.comment
     )
 
-    console.log('allCommentsAdded', allCommentsAdded)
+    console.log('allCommentsAdded', selectedCourse?.results[0]?.isAssessed)
     return (
         <div className="mb-10">
             {studentCourses?.isLoading ? (
@@ -142,7 +161,7 @@ export const Detail = ({ studentId, studentUserId }: any) => {
                                                 selectedFolder?.id
                                             }
                                             response={
-                                                assessment?.studentResponse
+                                                assessment?.studentResponse[0]
                                             }
                                             onClick={() => {
                                                 setSelectedFolder(assessment)
@@ -160,6 +179,7 @@ export const Detail = ({ studentId, studentUserId }: any) => {
                             <AssessmentResponse
                                 getAssessmentResponse={getAssessmentResponse}
                                 folder={selectedFolder}
+                                studentId={studentId}
                             />
                         </div>
                     </div>
@@ -167,9 +187,10 @@ export const Detail = ({ studentId, studentUserId }: any) => {
                         ?.map((result: any) => result.result)
                         .includes('pending') && (
                             )} */}
-                    {allCommentsAdded && (
-                        <Actions result={selectedCourse?.results[0]} />
-                    )}
+                    {allCommentsAdded &&
+                        !selectedCourse?.results[0]?.isAssessed && (
+                            <Actions result={selectedCourse?.results[0]} />
+                        )}
                     <div className="mt-4">
                         <Typography variant="muted" color="text-neutral-500">
                             *You will be able to submit assessment evedence

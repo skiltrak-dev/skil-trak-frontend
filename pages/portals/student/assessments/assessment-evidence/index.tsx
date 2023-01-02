@@ -58,7 +58,7 @@ const AssessmentEvidence: NextPageWithLayout = (props: Props) => {
     }, [assessmentsFolders])
 
     const isFilesUploaded = assessmentsFolders?.data?.every(
-        (f: any) => f?.studentResponse?.files?.length > 0
+        (f: any) => f?.studentResponse[0]?.files?.length > 0
     )
 
     console.log('selectedCourse?.results', isFilesUploaded)
@@ -80,12 +80,14 @@ const AssessmentEvidence: NextPageWithLayout = (props: Props) => {
                         <div className="mb-3 grid grid-cols-3 gap-2">
                             {assessmentsCourses?.data?.map((course: any) => (
                                 <AssessmentCourseCard
-                                    key={course.id}
-                                    id={course.id}
-                                    code={course.code}
-                                    title={course.title}
-                                    isActive={course.isActive}
-                                    coordinator={course?.subadmin[0]?.user.name}
+                                    key={course?.id}
+                                    id={course?.id}
+                                    code={course?.code}
+                                    title={course?.title}
+                                    isActive={course?.isActive}
+                                    coordinator={
+                                        course?.subadmin[0]?.user?.name
+                                    }
                                     selectedCourseId={selectedCourse?.id}
                                     onClick={() => {
                                         setSelectedCourse(course)
@@ -108,8 +110,8 @@ const AssessmentEvidence: NextPageWithLayout = (props: Props) => {
                                     selectedCourse?.results[0]?.totalSubmission
                                 }
                             />
-                            {isFilesUploaded &&
-                                (selectedCourse?.results?.length > 0 ? (
+                            {isFilesUploaded ? (
+                                selectedCourse?.results?.length > 0 ? (
                                     selectedCourse?.results[0]
                                         ?.totalSubmission < 3 &&
                                     selectedCourse?.results[0]?.result ===
@@ -124,7 +126,8 @@ const AssessmentEvidence: NextPageWithLayout = (props: Props) => {
                                     <Actions
                                         selectedCourseId={selectedCourse?.id}
                                     />
-                                ))}
+                                )
+                            ) : null}
 
                             <div className="my-2">
                                 <Typography

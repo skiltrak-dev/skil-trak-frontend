@@ -16,7 +16,11 @@ import { Button } from '@components/buttons'
 // query
 import { useAddCommentOnAssessmentMutation } from '@queries'
 
-export const AssessmentResponse = ({ getAssessmentResponse, folder }: any) => {
+export const AssessmentResponse = ({
+    folder,
+    studentId,
+    getAssessmentResponse,
+}: any) => {
     const [comment, setComment] = useState<any | null>(null)
     const [commentType, setCommentType] = useState<string | null>(null)
 
@@ -133,6 +137,7 @@ export const AssessmentResponse = ({ getAssessmentResponse, folder }: any) => {
                                     id: getAssessmentResponse?.data?.id,
                                     comment,
                                     status: commentType,
+                                    std: studentId,
                                 })
                             }}
                             loading={
