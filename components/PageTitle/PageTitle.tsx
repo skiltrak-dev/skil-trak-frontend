@@ -20,7 +20,7 @@ export const PageTitle = ({
 
     const paths = router.pathname.split('/')
     let links = paths.slice(1, -1)
-    links = links?.filter((link) => !link.includes("["))
+    links = links?.filter((link) => !link.includes('['))
 
     var find = '-'
     var remove = new RegExp(find, 'g')
@@ -40,7 +40,7 @@ export const PageTitle = ({
 
                 <NavbarBreadCrumbs
                     links={links}
-                    title={navBar?.subTitle || navBar?.title || breadCrumbTitle}
+                    title={navBar?.subTitle || title || breadCrumbTitle}
                 />
             </div>
 

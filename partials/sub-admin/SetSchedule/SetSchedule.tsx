@@ -9,7 +9,9 @@ import { ScheduleCard } from './components'
 import { useEffect, useState } from 'react'
 
 import { useSetScheduleMutation, useSetScheduledListQuery } from '@queries'
+import { useRouter } from 'next/router'
 export const SetScheduleContainer = () => {
+    const router = useRouter()
     const initialSchedule = [
         {
             id: -1,
@@ -105,6 +107,12 @@ export const SetScheduleContainer = () => {
             }
         }
     }, [availability])
+
+    useEffect(() => {
+        if (saveScheduleResult.isSuccess) {
+            router.push('/portals/sub-admin/tasks/appointments')
+        }
+    }, [saveScheduleResult])
 
     const onSubmit = async () => {
         await saveSchedule({ days: scheduleTime })

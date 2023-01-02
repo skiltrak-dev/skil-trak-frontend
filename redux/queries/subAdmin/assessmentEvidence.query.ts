@@ -24,8 +24,12 @@ export const assessmentEvidenceApi = createApi({
             }),
             providesTags: ['AssessmentEvidence'],
         }),
-        getAssessmentEvidenceDetail: builder.query<any, string>({
-            query: (id) => `student/assessment-evidence/${id}`,
+        getAssessmentEvidenceDetail: builder.query<
+            any,
+            { courseId: number; studentId: number }
+        >({
+            query: ({ courseId, studentId }) =>
+                `student/assessment-evidence/${courseId}/${studentId}`,
             providesTags: ['AssessmentEvidence'],
         }),
         getAssessmentResponse: builder.query<
@@ -37,8 +41,8 @@ export const assessmentEvidenceApi = createApi({
             providesTags: ['AssessmentEvidence'],
         }),
         addCommentOnAssessment: builder.mutation<any, any | null>({
-            query: ({ id, comment, status }: any) => ({
-                url: `student/assessment-evidence/comment/${id}`,
+            query: ({ id, comment, status, std }: any) => ({
+                url: `student/assessment-evidence/comment/${id}/${std}`,
                 method: 'PATCH',
                 body: { status, comment },
             }),

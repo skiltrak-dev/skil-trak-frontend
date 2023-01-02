@@ -22,7 +22,7 @@ export const studentAssessmentEvidenceApi = createApi({
             query: () => 'courses/view',
             providesTags: ['StudentAssessmentEvidence'],
         }),
-        getAssessmentsFolders: builder.query<any[], string | null>({
+        getAssessmentsFolders: builder.query<any, string | null>({
             query: (id: string | null) => `assessmentevidence/view/${id}`,
             providesTags: ['StudentAssessmentEvidence'],
         }),
