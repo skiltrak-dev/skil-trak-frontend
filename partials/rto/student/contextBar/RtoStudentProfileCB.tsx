@@ -1,4 +1,4 @@
-import { StudentAvatar, Typography } from "@components";
+import { NoData, StudentAvatar, Typography } from "@components";
 import moment from "moment";
 import React from "react";
 import { AiFillEdit } from "react-icons/ai";
@@ -6,18 +6,35 @@ import { BiRename } from "react-icons/bi";
 import { FaAddressCard, FaBirthdayCake, FaUserCircle } from "react-icons/fa";
 import { IoLocation } from "react-icons/io5";
 import { MdBatchPrediction, MdBlock, MdPhone, MdVerified } from "react-icons/md";
+import { Course, Rto } from '@types'
 
 type Props = {
   student: any;
 };
 
-export const RtoStudentProfileCB = ({student}: Props) => {
+export const RtoStudentProfileCB = ({ student }: Props) => {
   const getGender = (gender: string | undefined) => {
     if (!gender) return 'N/A'
 
     if (gender.toLocaleLowerCase() === 'm') return 'Male'
     if (gender.toLocaleLowerCase() === 'f') return 'Female'
   }
+  // get sector from courses array
+  const getSectors = (courses: any) => {
+    if (!courses) return {}
+    const sectors = {}
+    courses.forEach((c: any) => {
+      if ((sectors as any)[c.sector.name]) {
+        ; (sectors as any)[c.sector.name].push(c)
+      } else {
+        ; (sectors as any)[c.sector.name] = []
+          ; (sectors as any)[c.sector.name].push(c)
+      }
+    })
+    return sectors
+  }
+
+  const sectorsWithCourses = getSectors(student?.courses)
   return <>
     <div>
       <div className="flex justify-end gap-x-2">
@@ -183,6 +200,55 @@ export const RtoStudentProfileCB = ({student}: Props) => {
       {/* <StudentStatus /> */}
 
       {/* Sector & Courses */}
+      <div className="mt-4">
+        <Typography variant={'small'} color={'text-gray-500'}>
+          Sector & Courses
+        </Typography>
+        {sectorsWithCourses ? (
+          Object.keys(sectorsWithCourses).map((sector) => {
+            return (
+              <>
+                <Typography
+                  variant={'label'}
+                  color={'text-black'}
+                >
+                  {sector}
+                </Typography>
+
+                {(sectorsWithCourses as any)[sector].map(
+                  (c: Course) => (
+                    <div
+                      key={c?.id}
+                      className="flex gap-x-2 justify-start"
+                    >
+                      <div className="flex flex-col items-center">
+                        <div className="bg-blue-400 p-2 rounded-full"></div>
+                        <div className="bg-blue-400 w-[1px] h-full"></div>
+                      </div>
+                      <div className="pb-2">
+                        <Typography
+                          variant={'small'}
+                          color={'text-gray-500'}
+                        >
+                          {c?.code}
+                        </Typography>
+                        <Typography
+                          variant={'small'}
+                          color={'text-gray-800'}
+                        >
+                          {c?.title}
+                        </Typography>
+                      </div>
+                    </div>
+                  )
+                )}
+              </>
+            )
+          })
+        ) : (
+          <NoData text={'No Sectors Assigned'} />
+        )}
+      </div>
       {/* <div className="mt-4">
         <Typography variant={'small'} color={'text-gray-500'}>
           Sector & Courses
@@ -263,6 +329,7 @@ export const RtoStudentProfileCB = ({student}: Props) => {
           </div>
         </div>
       </div> */}
+
     </div>
   </>;
 };

@@ -119,16 +119,6 @@ export const MyWorkPlaceCard = ({ data }: Props) => {
             ))}
           </div>
 
-          {/* <div className="flex gap-x-3 mt-1 border-t pt-2">
-            <div className="flex items-center gap-x-1">
-              <span className="text-gray-400">
-                <FaMapMarkerAlt size={14} />
-              </span>
-              <span className="text-xs">
-                221B Baker Street, Sydney, Australia
-              </span>
-            </div>
-          </div> */}
         </div>
       ) : (
         <div className="mt-6">
