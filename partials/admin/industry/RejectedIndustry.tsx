@@ -9,6 +9,7 @@ import {
     Table,
     TableAction,
     TableActionOption,
+    TechnicalError,
 } from '@components'
 import { PageHeading } from '@components/headings'
 import { ColumnDef } from '@tanstack/react-table'
@@ -30,7 +31,7 @@ export const RejectedIndustry = () => {
     const [page, setPage] = useState(1)
     const [filter, setFilter] = useState({})
 
-    const { isLoading, data } = AdminApi.Industries.useListQuery({
+    const { isLoading, data, isError } = AdminApi.Industries.useListQuery({
         search: `status:rejected,${JSON.stringify(filter)
             .replaceAll('{', '')
             .replaceAll('}', '')
@@ -196,6 +197,7 @@ export const RejectedIndustry = () => {
                 ) : null}
 
                 <Card noPadding>
+                    {isError && <TechnicalError />}
                     {isLoading ? (
                         <LoadingAnimation height="h-[60vh]" />
                     ) : data && data?.data.length ? (
@@ -232,13 +234,15 @@ export const RejectedIndustry = () => {
                             }}
                         </Table>
                     ) : (
-                        <EmptyData
-                            title={'No Rejected Industry!'}
-                            description={
-                                'You have not rejected any Industry request yet'
-                            }
-                            height={'50vh'}
-                        />
+                        !isError && (
+                            <EmptyData
+                                title={'No Rejected Industry!'}
+                                description={
+                                    'You have not rejected any Industry request yet'
+                                }
+                                height={'50vh'}
+                            />
+                        )
                     )}
                 </Card>
             </div>

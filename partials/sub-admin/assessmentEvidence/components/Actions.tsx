@@ -34,6 +34,7 @@ export const Actions = ({ result }: any) => {
                 title: 'Result Submitted Successfully',
                 description: 'Result Submitted Successfully',
             })
+            pathname.push('/portals/sub-admin/tasks/assessment-evidence')
         }
     }, [submitAssessmentEvidenceResult])
 

@@ -1,6 +1,7 @@
 import { Note } from '@components'
 import { NotesCard } from '@components/sections/subAdmin'
 import { CommonApi } from '@queries'
+import { useRef } from 'react'
 import { Navigation, Pagination } from 'swiper'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import { SwiperContainer } from './style'
@@ -10,6 +11,8 @@ export const PinnedNotes = ({
 }: {
     id: number | string | string[] | undefined
 }) => {
+
+    
     const pinnedNotes = CommonApi.Notes.usePinned(id, {
         skip: !id,
     })

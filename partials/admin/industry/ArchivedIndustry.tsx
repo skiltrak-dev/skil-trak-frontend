@@ -9,6 +9,7 @@ import {
     Table,
     TableAction,
     TableActionOption,
+    TechnicalError,
 } from '@components'
 import { PageHeading } from '@components/headings'
 import { ColumnDef } from '@tanstack/react-table'
@@ -36,7 +37,7 @@ export const ArchivedIndustry = () => {
     const [page, setPage] = useState(1)
     const [filter, setFilter] = useState({})
 
-    const { isLoading, data } = AdminApi.Industries.useListQuery({
+    const { isLoading, data, isError } = AdminApi.Industries.useListQuery({
         search: `status:archived,${JSON.stringify(filter)
             .replaceAll('{', '')
             .replaceAll('}', '')
@@ -179,6 +180,7 @@ export const ArchivedIndustry = () => {
             ) : null}
 
             <Card noPadding>
+                {isError && <TechnicalError />}
                 {isLoading ? (
                     <LoadingAnimation height="h-[60vh]" />
                 ) : data && data?.data.length ? (
@@ -212,13 +214,15 @@ export const ArchivedIndustry = () => {
                         }}
                     </Table>
                 ) : (
-                    <EmptyData
-                        title={'No Archived Industry!'}
-                        description={
-                            'You have not archived any Industry request yet'
-                        }
-                        height={'50vh'}
-                    />
+                    !isError && (
+                        <EmptyData
+                            title={'No Archived Industry!'}
+                            description={
+                                'You have not archived any Industry request yet'
+                            }
+                            height={'50vh'}
+                        />
+                    )
                 )}
             </Card>
         </div>

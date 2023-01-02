@@ -50,6 +50,14 @@ export const CreateAppointments = () => {
     const [appointmentTypeId, setAppointmentTypeId] = useState<string | null>(
         null
     )
+    // const [date, setDate] = useState<any | null>(selectedDate)
+    // useEffect(() => {
+    //     let date = selectedDate
+    //     date?.setDate(date.getDate() + 1)
+    //     setDate(date)
+    // }, [selectedDate])
+
+    // date?.setDate(date.getDate() + 1)
 
     const { notification } = useNotification()
 
@@ -92,8 +100,6 @@ export const CreateAppointments = () => {
                 !selectedUser.selectedAppointmentWithUser,
         }
     )
-    console.log('selectedUser', selectedUser)
-
     const [createAppointment, createAppointmentResult] =
         useSubAdminCreateAppointmentMutation()
 
@@ -128,6 +134,10 @@ export const CreateAppointments = () => {
         }
     }, [createAppointmentResult])
 
+    useEffect(() => {
+        setSelectedTime(null)
+    }, [appointmentTypeId])
+
     const onSubmit = () => {
         let date = selectedDate
         date?.setDate(date.getDate() + 1)
@@ -135,6 +145,7 @@ export const CreateAppointments = () => {
             date,
             note,
             type: appointmentTypeId,
+            time: selectedTime,
             appointmentFor: selectedUser.selectedAppointmentForUser,
             appointmentBy: selectedUser.selectedAppointmentWithUser,
         })
@@ -218,9 +229,6 @@ export const CreateAppointments = () => {
 
                     {/*  */}
                     <div className="my-5">
-                        <Typography variant={'small'} color={'text-gray-500'}>
-                            Select Time Slot
-                        </Typography>
                         <TimeSlots
                             setSelectedDate={setSelectedDate}
                             selectedDate={selectedDate}
@@ -229,6 +237,7 @@ export const CreateAppointments = () => {
                             appointmentAvailability={
                                 userAvailabilities?.data?.availabilityBy
                             }
+                            userAvailabilities={userAvailabilities?.data}
                             subAdmin
                             appointmentWith={
                                 selectedPerson?.selectedAppointmentWith
@@ -249,16 +258,17 @@ export const CreateAppointments = () => {
                             text={'Book Appointment'}
                             variant={'info'}
                             onClick={onSubmit}
-                            // disabled={
-                            //     !selectedDate ||
-                            //     !selectedPerson.selectedAppointmentFor ||
-                            //     !selectedPerson.selectedAppointmentWith ||
-                            //     !selectedUser.selectedAppointmentForUser ||
-                            //     !selectedUser.selectedAppointmentWithUser ||
-                            //     !appointmentTypeId
-                            // }
+                            disabled={
+                                !selectedDate ||
+                                !selectedPerson.selectedAppointmentFor ||
+                                !selectedPerson.selectedAppointmentWith ||
+                                !selectedUser.selectedAppointmentForUser ||
+                                !selectedUser.selectedAppointmentWithUser ||
+                                !appointmentTypeId ||
+                                createAppointmentResult.isLoading
+                            }
                             loading={createAppointmentResult.isLoading}
-                            disabled={createAppointmentResult.isLoading}
+                            // disabled={createAppointmentResult.isLoading}
                         />
                     </div>
                 </Card>

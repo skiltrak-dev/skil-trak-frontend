@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, ChangeEvent } from 'react'
 import Calendar from 'react-calendar'
 import { Paginate } from '@components/Paginate/Paginate'
 // import 'react-calendar/dist/Calendar.css'
@@ -6,13 +6,14 @@ import { Paginate } from '@components/Paginate/Paginate'
 import { CalendarStyles } from './style'
 
 export const SidebarCalendar = ({ enabledDays, setSelectedDate }: any) => {
+    const [isDateChange, setIsDateChange] = useState(false)
     const [date, setDate] = useState(new Date())
 
     useEffect(() => {
-        if (setSelectedDate) {
+        if (setSelectedDate && isDateChange) {
             setSelectedDate(date)
         }
-    }, [date])
+    }, [date, isDateChange])
 
     return (
         <CalendarStyles>
@@ -27,7 +28,10 @@ export const SidebarCalendar = ({ enabledDays, setSelectedDate }: any) => {
                           },
                       }
                     : {})}
-                onChange={setDate}
+                onChange={(e: Date) => {
+                    setDate(e)
+                    setIsDateChange(true)
+                }}
                 value={date}
             />
         </CalendarStyles>

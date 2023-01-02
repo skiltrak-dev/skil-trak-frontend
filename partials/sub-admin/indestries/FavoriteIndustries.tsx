@@ -15,11 +15,11 @@ import {
     LoadingAnimation,
     Table,
     EmptyData,
+    TechnicalError,
 } from '@components'
 
 import { Industry } from '@types'
 import { useGetSubAdminIndustriesQuery } from '@queries'
-import { TechnicalError } from '@components/ActionAnimations/TechnicalError'
 
 export const FavoriteIndustries = () => {
     const [modal, setModal] = useState<ReactElement | null>(null)
@@ -27,7 +27,7 @@ export const FavoriteIndustries = () => {
     const [itemPerPage, setItemPerPage] = useState(5)
     const [page, setPage] = useState(1)
 
-    const { isLoading, data } = useGetSubAdminIndustriesQuery({
+    const { isLoading, data, isError } = useGetSubAdminIndustriesQuery({
         search: `status:favourite`,
         skip: itemPerPage * page - itemPerPage,
         limit: itemPerPage,
@@ -185,6 +185,7 @@ export const FavoriteIndustries = () => {
 
     return (
         <Card noPadding>
+            {isError && <TechnicalError />}
             {isLoading ? (
                 <LoadingAnimation height="h-[60vh]" />
             ) : data && data?.data.length ? (
@@ -210,13 +211,15 @@ export const FavoriteIndustries = () => {
                     }}
                 </Table>
             ) : (
-                <EmptyData
-                    title={'No Approved Industry!'}
-                    description={
-                        'You have not approved any Industry request yet'
-                    }
-                    height={'50vh'}
-                />
+                !isError && (
+                    <EmptyData
+                        title={'No Approved Industry!'}
+                        description={
+                            'You have not approved any Industry request yet'
+                        }
+                        height={'50vh'}
+                    />
+                )
             )}
         </Card>
     )

@@ -27,7 +27,7 @@ export type SelectProps = {
     onlyValue?: any
     placeholder?: string
     inputRef?: any
-    menuPlacement?: any
+    menuPlacement?: string
 } & InputProps
 
 export const Select = ({

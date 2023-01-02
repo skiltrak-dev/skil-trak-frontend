@@ -46,7 +46,6 @@ const IndustrySignUp: NextPage = () => {
         SignUpUtils.setValuesToStorage({
             ...values,
             role: UserRoles.INDUSTRY,
-            location: '34.1506,73.2013',
         })
 
         router.push('/auth/signup/notification-method')

@@ -13,6 +13,7 @@ import {
     InitialAvatar,
     LoadingAnimation,
     PlacementTableCell,
+    ProgressStep,
     Table,
     TableAction,
     TableActionOption,
@@ -31,6 +32,8 @@ import { AssignStudentModal } from './modals'
 import { IndustryCellInfo } from '../indestries/components'
 import { IndustryCell } from '@partials/admin/industry/components'
 import { getActiveIndustry } from '@partials/student/utils'
+import { checkWorkplaceStatus } from '@utils'
+import { ProgressCell } from '@partials/admin/student/components'
 
 export const AllStudents = () => {
     const router = useRouter()
@@ -133,10 +136,12 @@ export const AllStudents = () => {
             header: () => 'Progress',
             accessorKey: 'progress',
             cell: ({ row }: any) => {
+                const workplace = row.original.workplace[0]
+                const steps = checkWorkplaceStatus(workplace?.currentStatus)
                 return (
-                    <div className="flex justify-center">
-                        <PlacementTableCell request={row.original.workplace} />
-                    </div>
+                    <ProgressCell
+                        step={steps > 9 ? 9 : steps < 1 ? 1 : steps}
+                    />
                 )
             },
         },

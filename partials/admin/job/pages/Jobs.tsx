@@ -11,6 +11,7 @@ import {
     Table,
     TableAction,
     TableActionOption,
+    TechnicalError,
 } from '@components'
 import { PageHeading } from '@components/headings'
 import { ColumnDef } from '@tanstack/react-table'
@@ -41,7 +42,7 @@ export const Jobs = () => {
     const [itemPerPage, setItemPerPage] = useState(5)
     const [page, setPage] = useState(1)
     const [filter, setFilter] = useState({})
-    const { isLoading, data } = AdminApi.Jobs.useList({
+    const { isLoading, data, isError } = AdminApi.Jobs.useList({
         search: `${JSON.stringify(filter)
             .replaceAll('{', '')
             .replaceAll('}', '')
@@ -226,30 +227,25 @@ export const Jobs = () => {
             {modal && modal}
             <div className="flex flex-col gap-y-4 mb-32">
                 <PageHeading title={'Jobs'} subtitle={'List of All Jobs'}>
-                    <>
-                        {/* {data && data?.data.length ? ( */}
-                        <>
-                            {filterAction}
-                            <Button
-                                text="Export"
-                                variant="action"
-                                Icon={FaFileExport}
-                            />
-                        </>
-                        {/* ) : null} */}
-                    </>
+                    {filterAction}
+                    {data && data?.data.length ? (
+                        <Button
+                            text="Export"
+                            variant="action"
+                            Icon={FaFileExport}
+                        />
+                    ) : null}
                 </PageHeading>
 
-                {data && data?.data.length ? (
-                    <Filter
-                        component={AppointmentTypeFilters}
-                        initialValues={{ title: '', appointmentFor: '' }}
-                        setFilterAction={setFilterAction}
-                        setFilter={setFilter}
-                    />
-                ) : null}
+                <Filter
+                    component={AppointmentTypeFilters}
+                    initialValues={{ title: '', appointmentFor: '' }}
+                    setFilterAction={setFilterAction}
+                    setFilter={setFilter}
+                />
 
                 <Card noPadding>
+                    {isError && <TechnicalError />}
                     {isLoading ? (
                         <LoadingAnimation height="h-[60vh]" />
                     ) : data && data?.data.length ? (
@@ -286,11 +282,13 @@ export const Jobs = () => {
                             }}
                         </Table>
                     ) : (
-                        <EmptyData
-                            title={'No Jobs!'}
-                            description={'You have no jobs yet'}
-                            height={'50vh'}
-                        />
+                        !isError && (
+                            <EmptyData
+                                title={'No Jobs!'}
+                                description={'You have no jobs yet'}
+                                height={'50vh'}
+                            />
+                        )
                     )}
                 </Card>
             </div>

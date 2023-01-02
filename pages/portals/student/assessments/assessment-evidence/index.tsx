@@ -53,7 +53,7 @@ const AssessmentEvidence: NextPageWithLayout = (props: Props) => {
 
     useEffect(() => {
         if (assessmentsFolders.isSuccess) {
-            setSelectedFolder(selectedFolder || assessmentsFolders?.data[0])
+            setSelectedFolder(assessmentsFolders?.data[0])
         }
     }, [assessmentsFolders])
 
@@ -61,7 +61,7 @@ const AssessmentEvidence: NextPageWithLayout = (props: Props) => {
         (f: any) => f?.studentResponse?.files?.length > 0
     )
 
-    console.log('isFilesUploaded', selectedCourse?.results[0]?.totalSubmission)
+    console.log('selectedCourse?.results', isFilesUploaded)
 
     return (
         <>
@@ -77,7 +77,7 @@ const AssessmentEvidence: NextPageWithLayout = (props: Props) => {
                         </div>
                     ) : assessmentsCourses?.data &&
                       assessmentsCourses?.data?.length > 0 ? (
-                        <div className="mb-3 grid grid-cols-3 gap-x-2">
+                        <div className="mb-3 grid grid-cols-3 gap-2">
                             {assessmentsCourses?.data?.map((course: any) => (
                                 <AssessmentCourseCard
                                     key={course.id}
@@ -109,12 +109,11 @@ const AssessmentEvidence: NextPageWithLayout = (props: Props) => {
                                 }
                             />
                             {isFilesUploaded &&
-                                selectedCourse?.results[0]?.totalSubmission <
-                                    3 &&
                                 (selectedCourse?.results?.length > 0 ? (
-                                    selectedCourse?.results
-                                        ?.map((result: any) => result.result)
-                                        .includes('reOpened') ? (
+                                    selectedCourse?.results[0]
+                                        ?.totalSubmission < 3 &&
+                                    selectedCourse?.results[0]?.result ===
+                                        'reOpened' ? (
                                         <Actions
                                             selectedCourseId={
                                                 selectedCourse?.id

@@ -4,23 +4,52 @@ import { RtoLayout } from '@layouts'
 import { NextPageWithLayout } from '@types'
 
 //components
-import { Button, PageTitle, TabNavigation, TabProps } from '@components'
+import {
+    Button,
+    Card,
+    Filter,
+    LoadingAnimation,
+    PageTitle,
+    StudentFilters,
+    TabNavigation,
+    TabProps,
+} from '@components'
 import { useContextBar, useJoyRide } from '@hooks'
 import {
     ApprovedStudent,
     ArchivedStudent,
     BlockedStudent,
+    FilteredStudents,
     PendingStudent,
     RejectedStudent,
 } from '@partials/rto/student'
 import { useRouter } from 'next/router'
 import { FaChevronDown, FaFileImport, FaUserGraduate } from 'react-icons/fa'
+import { useGetRtoStudentsQuery } from '@queries'
 
 type Props = {}
 
 const RtoStudents: NextPageWithLayout = (props: Props) => {
     const router = useRouter()
     const contextBar = useContextBar()
+
+    const [filterAction, setFilterAction] = useState(null)
+    const [filter, setFilter] = useState({})
+    const [page, setPage] = useState(1)
+    const [itemPerPage, setItemPerPage] = useState(5)
+
+    const filteredStudents = useGetRtoStudentsQuery(
+        {
+            search: `${JSON.stringify(filter)
+                .replaceAll('{', '')
+                .replaceAll('}', '')
+                .replaceAll('"', '')
+                .trim()}`,
+            skip: itemPerPage * page - itemPerPage,
+            limit: itemPerPage,
+        },
+        { skip: !Object.keys(filter).length }
+    )
 
     // ADD STUDENT JOY RIDE - START
     const joyride = useJoyRide()
@@ -79,13 +108,13 @@ const RtoStudents: NextPageWithLayout = (props: Props) => {
                             onMouseLeave={() => setShowDropDown(false)}
                         >
                             <Button>
-                                <div
+                                <span
                                     id="add-students"
                                     className="flex items-center gap-x-2"
                                 >
                                     <span>Add Students</span>
                                     <FaChevronDown />
-                                </div>
+                                </span>
                             </Button>
 
                             {showDropDown ? (
@@ -142,16 +171,45 @@ const RtoStudents: NextPageWithLayout = (props: Props) => {
                     </div>
                 </div>
 
-                <TabNavigation tabs={tabs}>
-                    {({ header, element }: any) => {
-                        return (
-                            <div>
-                                <div>{header}</div>
-                                <div className="p-4">{element}</div>
-                            </div>
-                        )
-                    }}
-                </TabNavigation>
+                <div>
+                    <div className="px-4">
+                        <div className="flex justify-end mb-2">
+                            {filterAction}
+                        </div>
+                        <Filter
+                            component={StudentFilters}
+                            initialValues={{}}
+                            setFilterAction={setFilterAction}
+                            setFilter={setFilter}
+                        />
+                    </div>
+                    {filteredStudents.isLoading ? (
+                        <div className="px-4 mt-4">
+                            <Card>
+                                <LoadingAnimation />
+                            </Card>
+                        </div>
+                    ) : Object.keys(filter).length &&
+                      filteredStudents.isSuccess ? (
+                        <FilteredStudents
+                            setPage={setPage}
+                            itemPerPage={itemPerPage}
+                            student={filteredStudents}
+                            setItemPerPage={setItemPerPage}
+                        />
+                    ) : (
+                        <TabNavigation tabs={tabs}>
+                            {({ header, element }: any) => {
+                                return (
+                                    <div>
+                                        <div>{header}</div>
+                                        <div className="p-4">{element}</div>
+                                    </div>
+                                )
+                            }}
+                        </TabNavigation>
+                    )}
+                </div>
             </div>
         </>
     )

@@ -7,7 +7,7 @@ import { useEffect, useState } from 'react'
 
 // utils
 import { ellipsisText } from '@utils'
-import { SmallActionModal } from '../modals'
+import { ActionModal } from '../modals'
 import { HiCheckBadge } from 'react-icons/hi2'
 
 export const AssignToMe = ({ workplace, appliedIndustry }: any) => {
@@ -24,7 +24,7 @@ export const AssignToMe = ({ workplace, appliedIndustry }: any) => {
                 description: 'Workplace Assigned to you Successfully',
             })
             setModal(
-                <SmallActionModal
+                <ActionModal
                     Icon={HiCheckBadge}
                     title={'Successfully Assigned'}
                     subtitle={

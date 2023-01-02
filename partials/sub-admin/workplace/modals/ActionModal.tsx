@@ -10,7 +10,7 @@ export const ActionModalType = {
     success: 'text-green-500',
 }
 
-export const SmallActionModal = ({
+export const ActionModal = ({
     title,
     subtitle,
     Icon,

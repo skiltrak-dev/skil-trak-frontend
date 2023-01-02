@@ -22,7 +22,7 @@ export const UpcomingAppointmentCard = ({
 }: AppointmentCardProps) => {
     return (
         <>
-            <div className="bg-gradient-to-r from-[#3883F3] to-[#5D1BE0] rounded-2xl p-4">
+            <div className="w-full bg-gradient-to-r from-[#3883F3] to-[#5D1BE0] rounded-2xl p-4">
                 <div className="flex justify-between gap-x-4">
                     <div className="">
                         <Typography variant={'label'} color={'text-[#BCDEFF]'}>

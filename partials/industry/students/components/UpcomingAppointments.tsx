@@ -5,6 +5,7 @@ import {
     Typography,
     TechnicalError,
     UpcomingAppointmentCard,
+    FutureAppointments,
 } from '@components'
 
 // query
@@ -29,26 +30,9 @@ export const UpcomingAppointments = () => {
                     <LoadingAnimation />
                 ) : industryAppointments?.data &&
                   industryAppointments?.data?.length ? (
-                    industryAppointments?.data?.map(
-                        (upcomingAppointment: any, index: number) => {
-                            return (
-                                <UpcomingAppointmentCard
-                                    key={index}
-                                    date={upcomingAppointment.date}
-                                    time={upcomingAppointment.time}
-                                    totalMinutes={
-                                        upcomingAppointment.totalMinutes
-                                    }
-                                    address={upcomingAppointment.address}
-                                    name={upcomingAppointment.name}
-                                    imageUrl={
-                                        '/images/card-images/video-icon.png'
-                                    }
-                                    post={upcomingAppointment.post}
-                                />
-                            )
-                        }
-                    )
+                    <FutureAppointments
+                        appointments={industryAppointments?.data}
+                    />
                 ) : (
                     !industryAppointments.isError && (
                         <EmptyData

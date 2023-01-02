@@ -102,6 +102,7 @@ export const AssessmentResponse = ({ getAssessmentResponse, folder }: any) => {
                         <div className="w-full">
                             <Select
                                 name={'type'}
+                                menuPlacement={'top'}
                                 options={[
                                     { label: 'Approve', value: 'approved' },
                                     { label: 'Reject', value: 'rejected' },
@@ -109,7 +110,6 @@ export const AssessmentResponse = ({ getAssessmentResponse, folder }: any) => {
                                 onChange={(e: any) => {
                                     setCommentType(e?.value)
                                 }}
-                                disabled={getAssessmentResponse?.data?.comment}
                             />
                         </div>
                         <div className="col-span-2">
@@ -140,10 +140,7 @@ export const AssessmentResponse = ({ getAssessmentResponse, folder }: any) => {
                                 addCommentResult?.originalArgs?.status ===
                                     'approved'
                             }
-                            disabled={
-                                addCommentResult?.isLoading ||
-                                getAssessmentResponse?.data?.comment
-                            }
+                            disabled={addCommentResult?.isLoading}
                         />
                     </div>
                 </div>

@@ -9,6 +9,7 @@ import {
     Table,
     TableAction,
     TableActionOption,
+    TechnicalError,
 } from '@components'
 import { PageHeading } from '@components/headings'
 import { ColumnDef } from '@tanstack/react-table'
@@ -35,7 +36,7 @@ export const ActiveSubAdmin = () => {
     const [itemPerPage, setItemPerPage] = useState(5)
     const [page, setPage] = useState(1)
     const [filter, setFilter] = useState({})
-    const { isLoading, data } = AdminApi.SubAdmins.useListQuery({
+    const { isLoading, data, isError } = AdminApi.SubAdmins.useListQuery({
         search: `status:approved,${JSON.stringify(filter)
             .replaceAll('{', '')
             .replaceAll('}', '')
@@ -192,6 +193,7 @@ export const ActiveSubAdmin = () => {
                 ) : null}
 
                 <Card noPadding>
+                    {isError && <TechnicalError />}
                     {isLoading ? (
                         <LoadingAnimation height="h-[60vh]" />
                     ) : data && data?.data.length ? (
@@ -228,11 +230,13 @@ export const ActiveSubAdmin = () => {
                             }}
                         </Table>
                     ) : (
-                        <EmptyData
-                            title={'No Pending Industry!'}
-                            description={'You have no pending Industry'}
-                            height={'50vh'}
-                        />
+                        !isError && (
+                            <EmptyData
+                                title={'No Pending Industry!'}
+                                description={'You have no pending Industry'}
+                                height={'50vh'}
+                            />
+                        )
                     )}
                 </Card>
             </div>
