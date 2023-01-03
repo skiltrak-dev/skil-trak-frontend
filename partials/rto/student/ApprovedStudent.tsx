@@ -10,6 +10,7 @@ import {
     TableAction,
     TableActionOption,
     TechnicalError,
+    Typography,
 } from '@components'
 import { PageHeading } from '@components/headings'
 import { ColumnDef } from '@tanstack/react-table'
@@ -29,6 +30,8 @@ import { Student } from '@types'
 import { BlockModal, ArchiveModal } from './modals'
 import { useRouter } from 'next/router'
 import { useGetRtoStudentsQuery } from '@queries'
+import { checkWorkplaceStatus } from '@utils'
+import { IndustryCell } from './components/IndustryCell'
 
 export const ApprovedStudent = () => {
     const router = useRouter()
@@ -104,17 +107,41 @@ export const ApprovedStudent = () => {
             header: () => <span>Phone</span>,
             cell: (info) => info.getValue(),
         },
-
         {
-            accessorKey: 'suburb',
-            header: () => <span>Address</span>,
-            cell: (info) => info.getValue(),
+            accessorKey: 'industry',
+            header: () => <span>Industry</span>,
+            cell: (info) => {
+                const industry =
+                    info.row.original?.workplace[0]?.industries?.find(
+                        (i: any) => i.applied
+                    )?.industry
+
+                return industry ? (
+                    <IndustryCell industry={industry} />
+                ) : (
+                    <Typography center>N/A</Typography>
+                )
+            },
+        },
+        {
+            accessorKey: 'sectors',
+            header: () => <span>Sectors</span>,
+            cell: (info) => {
+                return <SectorCell student={info.row.original} />
+            },
         },
         {
             accessorKey: 'progress',
             header: () => <span>Progress</span>,
-            cell: (info) => {
-                return <ProgressCell step={9} />
+            cell: ({ row }) => {
+                console.log("workplace", row.original)
+                const workplace = row?.original?.workplace
+                const steps = checkWorkplaceStatus(workplace?.currentStatus)
+                return (
+                    <ProgressCell
+                        step={steps > 9 ? 9 : steps < 1 ? 1 : steps}
+                    />
+                )
             },
         },
         {
