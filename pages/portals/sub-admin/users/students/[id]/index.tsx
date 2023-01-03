@@ -27,73 +27,10 @@ import { useContextBar, useNavbar } from '@hooks'
 
 import { DetailTabs } from '@partials/sub-admin/students'
 import { AddWorkplace } from '@partials/sub-admin/students'
+import {StudentProfile} from '@partials/student/pages'
 
 const StudentsProfile: NextPageWithLayout = () => {
-    const contextBar = useContextBar()
-    const router = useRouter()
-    const { id } = router.query
-
-    const navBar = useNavbar()
-
-    const [addWorkplace, setAddWorkplace] = useState<boolean>(false)
-
-    const { data, isLoading, isError, isSuccess } =
-        useGetSubAdminStudentDetailQuery(String(id), {
-            skip: !id,
-        })
-
-    useEffect(() => {
-        navBar.setSubTitle(data?.user?.name)
-    }, [data])
-
-    useEffect(() => {
-        if (isSuccess) {
-            contextBar.setContent(<SubAdminStudentProfile student={data} />)
-            contextBar.show(false)
-        }
-    }, [data])
-
-    const [archiveAssessmentTool, archiveAssessmentToolResult] =
-        useUpdateAssessmentToolArchiveMutation()
-
-    return (
-        <div className="mb-16">
-            <div className="flex justify-between items-end mb-4">
-                <PageTitle title="Student Profile" backTitle="Students" />
-                <div className="flex flex-col items-end gap-y-2">
-                    <div className="pl-4">
-                        <StudentTimer date={new Date('12/30/2022')} />
-                    </div>
-                    <div className="flex items-end gap-x-2">
-                        <AddWorkplace id={data?.id} />
-
-                        <Button
-                            text="Book Appointment"
-                            variant="info"
-                            onClick={() => {
-                                router.push({
-                                    pathname:
-                                        '/portals/sub-admin/tasks/appointments/create-appointment',
-                                    query: { student: data?.user?.id },
-                                })
-                            }}
-                            disabled={!isSuccess}
-                        />
-                        <Button text="More" variant="action" />
-                    </div>
-                </div>
-            </div>
-
-            {isError && <TechnicalError />}
-            {isLoading ? (
-                <LoadingAnimation />
-            ) : data ? (
-                <DetailTabs student={data} id={data?.id} />
-            ) : (
-                !isError && <EmptyData />
-            )}
-        </div>
-    )
+    return <StudentProfile />
 }
 StudentsProfile.getLayout = (page: ReactElement) => {
     return <SubAdminLayout>{page}</SubAdminLayout>

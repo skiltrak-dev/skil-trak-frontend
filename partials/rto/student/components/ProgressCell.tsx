@@ -76,7 +76,7 @@ export const ProgressCell = ({
    step,
 }: {
    status?: WorkplaceRequestStatus
-   step: 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9
+   step: 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | number
 }) => {
    // const currentStatus = WorkplaceRequestProgress[status]
    const currentStatus = Object.values(WorkplaceRequestProgress)[step - 1]

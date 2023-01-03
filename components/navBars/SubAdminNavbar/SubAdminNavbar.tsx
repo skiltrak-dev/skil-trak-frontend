@@ -2,13 +2,14 @@ import Link from 'next/link'
 import { useRouter } from 'next/router'
 
 import { MdNotifications, MdSpaceDashboard } from 'react-icons/md'
-import { FaClipboardList, FaSignature } from 'react-icons/fa'
+import { FaClipboardList, FaSignature, FaUserGraduate } from 'react-icons/fa'
 import { HiUsers } from 'react-icons/hi'
 import { isActiveRoute } from '@utils'
 
 const PREFIX = '/portals/sub-admin'
 const Routes = {
     Dashboard: '/portals/sub-admin',
+    Students: '/portals/sub-admin/users/students?tab=all',
     Users: '/portals/sub-admin/users',
     Tasks: '/portals/sub-admin/tasks',
     ESignature: '/portals/sub-admin/e-signature',
@@ -43,6 +44,24 @@ export const SubAdminNavbar = () => {
                             <span className="text-sm font-semibold">
                                 Dashboard
                             </span>
+                        </a>
+                    </Link>
+                </li>
+
+                <li>
+                    <Link href={Routes.Students}>
+                        <a
+                            className={`${
+                                isActive(Routes.Students)
+                                    ? 'bg-blue-100 text-blue-700'
+                                    : 'text-slate-700'
+                            } ${defaultClasses} hover:bg-blue-100 hover:text-blue-700`}
+                            id="users"
+                        >
+                            <span>
+                                <FaUserGraduate />
+                            </span>
+                            <span className="text-sm font-semibold">Students</span>
                         </a>
                     </Link>
                 </li>

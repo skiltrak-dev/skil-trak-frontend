@@ -27,13 +27,13 @@ const PrimaryLinks = [
         animation: Animations.Student.Workplace.Student,
         id: 'rtos',
     },
-    {
-        title: 'Students',
-        description: 'Manage Allocated Students',
-        link: 'users/students?tab=all',
-        animation: Animations.Industry.Students.CurrentStudents,
-        id: 'students',
-    },
+    // {
+    //     title: 'Students',
+    //     description: 'Manage Allocated Students',
+    //     link: 'users/students?tab=all',
+    //     animation: Animations.Industry.Students.CurrentStudents,
+    //     id: 'students',
+    // },
     {
         title: 'Industries',
         description: 'Manage Allocated Industries',
