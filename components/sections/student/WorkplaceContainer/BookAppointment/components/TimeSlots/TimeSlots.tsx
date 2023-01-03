@@ -74,105 +74,106 @@ export const TimeSlots = ({
     useEffect(() => {
         // const availability =
         //     coordinatorAvailability?.availabilities[0]?.availability
-        const available = appointmentAvailability?.map((a: any) => a.name)
+        const available = appointmentAvailability?.map((a: any) => a?.name)
 
         const daysId = days
-            .filter((f) => available?.includes(f.day))
-            .map((d) => d.id)
+            .filter((f) => available?.includes(f?.day))
+            .map((d) => d?.id)
         setDaysAvailability(
             subAdmin
                 ? appointmentWith === 'Self'
                     ? daysId
-                    : [0, 1, 2, 3, 4, 5, 6]
+                    : [1, 2, 3, 4, 5]
                 : daysId
         )
         setTimeAvailability(appointmentAvailability)
     }, [appointmentAvailability, appointmentWith])
 
-    const timeSlots = useCallback(() => {
-        // const days = [
-        //     'sunday',
-        //     'monday',
-        //     'tuesday',
-        //     'wednesday',
-        //     'thursday',
-        //     'friday',
-        //     'saturday',
-        // ]
-        const getIndexData = (text: string, index: number) => {
-            return Number(text.split(':')[index])
-        }
+    // const timeSlots = useCallback(() => {
+    //     // const days = [
+    //     //     'sunday',
+    //     //     'monday',
+    //     //     'tuesday',
+    //     //     'wednesday',
+    //     //     'thursday',
+    //     //     'friday',
+    //     //     'saturday',
+    //     // ]
+    //     const getIndexData = (text: string, index: number) => {
+    //         return Number(text.split(':')[index])
+    //     }
 
-        const getMeridiem = (hour: number) => {
-            return hour < 12 ? 'am' : 'pm'
-        }
-        const getFormattedHours = (hour: number) => {
-            return hour <= 12 ? hour : hour - 12
-        }
+    //     const getMeridiem = (hour: number) => {
+    //         return hour < 12 ? 'am' : 'pm'
+    //     }
+    //     const getFormattedHours = (hour: number) => {
+    //         return hour <= 12 ? hour : hour - 12
+    //     }
 
-        const selectedDay = moment(selectedDate, 'YYYY-MM-DD').format(
-            'YYYY-MM-DD'
-        )
-        const bookedSlot = bookedAppointment?.filter?.(
-            (b: any) => b.date === selectedDay
-        )
+    //     const selectedDay = moment(selectedDate, 'YYYY-MM-DD').format(
+    //         'YYYY-MM-DD'
+    //     )
+    //     const bookedSlot = bookedAppointment?.filter?.(
+    //         (b: any) => b.date === selectedDay
+    //     )
 
-        const bookedSlotsTime = bookedSlot?.map((t: any) =>
-            moment(t.time, 'hh:mm:ss').format('h:mm a')
-        )
+    //     const bookedSlotsTime = bookedSlot?.map((t: any) =>
+    //         moment(t.time, 'hh:mm:ss').format('h:mm a')
+    //     )
 
-        const findDay = selectedDate && days[selectedDate?.getDay()].day
-        const selectedDayAvailability = timeAvailability?.find(
-            (t: any) => t.name === findDay
-        )
+    //     const findDay = selectedDate && days[selectedDate?.getDay()].day
+    //     const selectedDayAvailability = timeAvailability?.find(
+    //         (t: any) => t.name === findDay
+    //     )
 
-        const opening = selectedDayAvailability
-            ? selectedDayAvailability.openingTime
-            : '00:00'
-        const closing = selectedDayAvailability
-            ? selectedDayAvailability.closingTime
-            : '00:00'
-        const start = getIndexData(opening, 0)
-        const end = getIndexData(closing, 0)
-        const startMins = getIndexData(opening, 1)
-        const endMins = getIndexData(closing, 1)
-        const startHourIndex = Math.ceil(startMins / 15)
-        const endHourIndex = Math.ceil(endMins / 15)
+    //     const opening = selectedDayAvailability
+    //         ? selectedDayAvailability.openingTime
+    //         : '00:00'
+    //     const closing = selectedDayAvailability
+    //         ? selectedDayAvailability.closingTime
+    //         : '00:00'
+    //     const start = getIndexData(opening, 0)
+    //     const end = getIndexData(closing, 0)
+    //     const startMins = getIndexData(opening, 1)
+    //     const endMins = getIndexData(closing, 1)
+    //     const startHourIndex = Math.ceil(startMins / 15)
+    //     const endHourIndex = Math.ceil(endMins / 15)
 
-        let slots = []
+    //     let slots = []
 
-        for (let i = start; i < end; i++) {
-            const meridiem = getMeridiem(i)
-            const hour = getFormattedHours(i)
+    //     for (let i = start; i < end; i++) {
+    //         const meridiem = getMeridiem(i)
+    //         const hour = getFormattedHours(i)
 
-            slots.push(
-                { time: `${hour}:00 ${meridiem}` },
-                { time: `${hour}:15 ${meridiem}` },
-                { time: `${hour}:30 ${meridiem}` },
-                { time: `${hour}:45 ${meridiem}` }
-            )
+    //         slots.push(
+    //             { time: `${hour}:00 ${meridiem}` },
+    //             { time: `${hour}:15 ${meridiem}` },
+    //             { time: `${hour}:30 ${meridiem}` },
+    //             { time: `${hour}:45 ${meridiem}` }
+    //         )
 
-            if (endHourIndex > 0 && i == end - 1) {
-                for (let j = 0; j <= endHourIndex; j++) {
-                    if (j < endHourIndex) {
-                        slots.push({
-                            time: `${hour + 1}:${
-                                j == 0 ? '00' : j !== endHourIndex ? j * 15 : ''
-                            } ${meridiem}`,
-                        })
-                    }
-                }
-            }
-        }
-        return slots
-            .slice(startHourIndex)
-            .filter((t) => !bookedSlotsTime.includes(t.time))
-    }, [selectedDate])
+    //         if (endHourIndex > 0 && i == end - 1) {
+    //             for (let j = 0; j <= endHourIndex; j++) {
+    //                 if (j < endHourIndex) {
+    //                     slots.push({
+    //                         time: `${hour + 1}:${
+    //                             j == 0 ? '00' : j !== endHourIndex ? j * 15 : ''
+    //                         } ${meridiem}`,
+    //                     })
+    //                 }
+    //             }
+    //         }
+    //     }
+    //     console.log('daysAvailabilitydaysAvailability', daysAvailability)
+    //     return slots
+    //         .slice(startHourIndex)
+    //         .filter((t) => !bookedSlotsTime.includes(t.time))
+    // }, [selectedDate])
 
-    useEffect(() => {
-        const slots = timeSlots()
-        setSlotsTime(slots)
-    }, [timeSlots])
+    // useEffect(() => {
+    //     const slots = timeSlots()
+    //     setSlotsTime(slots)
+    // }, [timeSlots])
 
     return (
         <div className="mt-5">
@@ -182,8 +183,8 @@ export const TimeSlots = ({
             <div className="flex justify-center gap-x-16 mt-1">
                 <div className="w-2/6">
                     <SidebarCalendar
-                        // enabledDays={daysAvailability || [1, 2, 3, 4, 5]}
-                        enabledDays={[1, 2, 3, 4, 5]}
+                        enabledDays={daysAvailability || [1, 2, 3, 4, 5]}
+                        // enabledDays={[1, 2, 3, 4, 5]}
                         setSelectedDate={setSelectedDate}
                     />
                 </div>
@@ -215,23 +216,28 @@ export const TimeSlots = ({
                                     <div
                                         key={index}
                                         onClick={() => {
-                                            setSelectedTime(timeSlot)
+                                            setSelectedTime({
+                                                startTime: timeSlot[0],
+                                                endTime: timeSlot[1],
+                                            })
                                         }}
                                         className={`group hover:bg-orange-500 hover:border-none ${
-                                            selectedTime === timeSlot
+                                            selectedTime?.startTime ===
+                                            timeSlot[0]
                                                 ? 'bg-orange-500 border-none'
                                                 : 'bg-white border'
-                                        } w-26 h-11 flex justify-center items-center border-orange-500 px-4 py-3 rounded-lg cursor-pointer`}
+                                        } w-32 h-11 flex justify-center items-center border-orange-500 py-3 rounded-lg cursor-pointer`}
                                     >
                                         <Typography
                                             variant="body"
                                             color={`group-hover:text-white ${
-                                                selectedTime === timeSlot
+                                                selectedTime?.startTime ===
+                                                timeSlot[0]
                                                     ? 'text-white'
                                                     : 'text-orange-500'
                                             }`}
                                         >
-                                            {timeSlot}
+                                            {timeSlot[0]}-{timeSlot[1]}
                                         </Typography>
                                     </div>
                                 )

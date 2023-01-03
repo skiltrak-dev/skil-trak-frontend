@@ -115,7 +115,7 @@ export const SearchUserCard = ({
                         </div>
                     </div>
                 </div>
-                {selectedAppointment === 'Student' &&
+                {/* {selectedAppointment === 'Student' &&
                     searchAppointment.isSuccess && (
                         <div>
                             <div className="mt-5">
@@ -153,7 +153,7 @@ export const SearchUserCard = ({
                                 />
                             </div>
                         </div>
-                    )}
+                    )} */}
 
                 {/*  */}
                 {/* {selectedAppointment === 'Industry' &&
