@@ -35,8 +35,15 @@ export const rtoAppointmentsApi = createApi({
             }),
             providesTags: ['RTOAppointment'],
         }),
+        getCoordinatorsForRTO: builder.query<any, void>({
+            query: () => 'assigned/coordinator/list',
+            providesTags: ['RTOAppointment'],
+        }),
     }),
 })
 
-export const { useCreateRTOAppointmentMutation, useGetRTOAppointmentsQuery } =
-    rtoAppointmentsApi
+export const {
+    useGetRTOAppointmentsQuery,
+    useGetCoordinatorsForRTOQuery,
+    useCreateRTOAppointmentMutation,
+} = rtoAppointmentsApi

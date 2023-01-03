@@ -1,12 +1,13 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 import { AuthUtils } from '@utils'
 
-import { industriesEndpoints } from './industries'
 import { rtosEndpoints } from './rtos'
-import { coursesEndpoints } from './courses'
-import { notesEndpoints } from './notes'
-import { allCommunicationEndpoints } from './allCommunication'
 import { mailsEndpoints } from './mails'
+import { notesEndpoints } from './notes'
+import { coursesEndpoints } from './courses'
+import { industriesEndpoints } from './industries'
+import { appointmentsEndpoints } from './appointments'
+import { allCommunicationEndpoints } from './allCommunication'
 
 import { AdminStats } from '@types'
 
@@ -27,8 +28,9 @@ export const commonApi = createApi({
         'RTOS',
         'Notes',
         'Mails',
-        'Industry',
         'Course',
+        'Industry',
+        'Appointments',
         'AllCommunications',
     ],
 
@@ -39,6 +41,7 @@ export const commonApi = createApi({
         ...mailsEndpoints(build),
         ...coursesEndpoints(build),
         ...industriesEndpoints(build),
+        ...appointmentsEndpoints(build),
         ...allCommunicationEndpoints(build),
     }),
 })
@@ -66,6 +69,9 @@ const {
     // --- MAILS --- //
     useGetMessagesQuery,
     useSendMessageMutation,
+
+    // -- APPOINTMENTS -- //
+    useGetAppointmentsAvailableSlotsQuery,
 } = commonApi
 
 export const CommonApi = {
@@ -90,5 +96,8 @@ export const CommonApi = {
     Messages: {
         useMessages: useGetMessagesQuery,
         useSendMessage: useSendMessageMutation,
+    },
+    Appointments: {
+        useAppointmentsAvailableSlots: useGetAppointmentsAvailableSlotsQuery,
     },
 }

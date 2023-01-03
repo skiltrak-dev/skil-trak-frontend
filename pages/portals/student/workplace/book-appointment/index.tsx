@@ -10,7 +10,10 @@ import { useForm, FormProvider } from 'react-hook-form'
 
 // query
 import {
+    useGetStudentTimeSlotesQuery,
     useCreateAppointmentMutation,
+    useGetWorkplaceIndustriesQuery,
+    CommonApi,
     useGetCoordinatorsAvailabilityQuery,
 } from '@queries'
 
@@ -27,6 +30,10 @@ const BookAppointment: NextPageWithLayout = (props: Props) => {
         label: string
         value: number
     } | null>(null)
+    const [selectedCourse, setSelectedCourse] = useState<{
+        label: string
+        value: number
+    } | null>(null)
     const [selectedDate, setSelectedDate] = useState<Date | null>(null)
     const [selectedTime, setSelectedTime] = useState<any | null>(null)
 
@@ -36,8 +43,18 @@ const BookAppointment: NextPageWithLayout = (props: Props) => {
         Number(selectedCoordinator?.value),
         { skip: !selectedCoordinator }
     )
+    const studentTimeSlotes =
+        CommonApi.Appointments.useAppointmentsAvailableSlots(
+            {
+                id: type,
+                date: selectedDate?.toISOString(),
+                byUser: selectedCoordinator?.value,
+            },
+            { skip: !type || !selectedDate || !selectedCoordinator }
+        )
     const [createAppointment, createAppointmentResult] =
         useCreateAppointmentMutation()
+    const workplace = useGetWorkplaceIndustriesQuery()
 
     // hooks
     const { notification } = useNotification()
@@ -55,6 +72,21 @@ const BookAppointment: NextPageWithLayout = (props: Props) => {
     const formMethods = useForm({
         mode: 'all',
     })
+
+    useEffect(() => {
+        if (workplace?.data && workplace?.data?.length) {
+            const workplceResult = {
+                name: '',
+                email: '',
+                phone: '',
+                address: '',
+            }
+            for (const key in workplace?.data) {
+                formMethods.setValue(key, workplace?.data[key])
+            }
+        }
+    }, [workplace])
+
     const onSubmit = (values: any) => {
         const time = moment(selectedTime, ['h:mm A']).format('HH:mm')
         let date = selectedDate
@@ -63,7 +95,7 @@ const BookAppointment: NextPageWithLayout = (props: Props) => {
             ...values,
             type,
             date,
-            // time,
+            time,
             coordinator: values.coordinator.value,
             appointmentFor: values.coordinator.value,
         })
@@ -76,6 +108,7 @@ const BookAppointment: NextPageWithLayout = (props: Props) => {
                     <Form
                         setType={setType}
                         type={type}
+                        setSelectedCourse={setSelectedCourse}
                         selectedCoordinator={selectedCoordinator}
                         setSelectedCoordinator={setSelectedCoordinator}
                     />
@@ -88,6 +121,7 @@ const BookAppointment: NextPageWithLayout = (props: Props) => {
                             coordinatorAvailability.data?.availabilities[0]
                                 ?.availability
                         }
+                        userAvailabilities={studentTimeSlotes?.data}
                         bookedAppointment={coordinatorAvailability.data?.booked}
                     />
 
@@ -103,8 +137,10 @@ const BookAppointment: NextPageWithLayout = (props: Props) => {
                         disabled={
                             createAppointmentResult.isLoading ||
                             !selectedDate ||
-                            // !selectedTime ||
-                            !type
+                            !selectedTime ||
+                            !type ||
+                            !selectedCoordinator ||
+                            !selectedCourse
                         }
                     />
                 </form>

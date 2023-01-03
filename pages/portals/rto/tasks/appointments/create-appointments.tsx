@@ -16,9 +16,10 @@ import { useNotification } from '@hooks'
 // query
 import {
     useCreateRTOAppointmentMutation,
-    useGetCoordinatorsForStudentQuery,
+    useGetCoordinatorsForRTOQuery,
     useGetCoordinatorsAvailabilityQuery,
     RtoApi,
+    CommonApi,
 } from '@queries'
 
 type Props = {}
@@ -33,18 +34,29 @@ const CreateAppointments: NextPageWithLayout = (props: Props) => {
     } | null>(null)
     const [selectedDate, setSelectedDate] = useState<Date | null>(null)
     const [selectedTime, setSelectedTime] = useState<any | null>(null)
-    // const [appointmentTypeId, setAppointmentTypeId] = useState<string | null>(
-    //     null
-    // )
+    const [selectedCourse, setSelectedCourse] = useState<{
+        label: string
+        value: number
+    } | null>(null)
 
     // query
     const coordinatorAvailability = useGetCoordinatorsAvailabilityQuery(
         Number(selectedCoordinator?.value),
         { skip: !selectedCoordinator }
     )
+    console.log('selectedCoordinator', selectedCoordinator)
     const [createAppointment, createAppointmentResult] =
         useCreateRTOAppointmentMutation()
-
+    const coordinators = useGetCoordinatorsForRTOQuery()
+    const rtoCourses = RtoApi.Rto.useProfile()
+    const availableSlots = CommonApi.Appointments.useAppointmentsAvailableSlots(
+        {
+            id: type,
+            date: selectedDate?.toISOString(),
+            byUser: selectedCoordinator?.value,
+        },
+        { skip: !type || !selectedDate || !selectedCoordinator }
+    )
     // hooks
     const { notification } = useNotification()
 
@@ -53,15 +65,12 @@ const CreateAppointments: NextPageWithLayout = (props: Props) => {
     )
     const [coursesOptions, setCoursesOptions] = useState<any>([])
 
-    const coordinators = useGetCoordinatorsForStudentQuery()
-    const rtoCourses = RtoApi.Rto.useProfile()
-
     useEffect(() => {
         setSelectedCoordinator(null)
         if (coordinators.data && coordinators.isSuccess) {
             const options = coordinators?.data?.map((coordinator: any) => ({
-                label: coordinator.name,
-                value: coordinator.id,
+                label: coordinator?.user?.name,
+                value: coordinator?.user?.id,
             }))
             setCoordinatorsOptions(options)
         }
@@ -131,6 +140,9 @@ const CreateAppointments: NextPageWithLayout = (props: Props) => {
                             options={coursesOptions}
                             loading={rtoCourses.isLoading}
                             disabled={rtoCourses.isLoading}
+                            onChange={(e: any) => {
+                                setSelectedCourse(e)
+                            }}
                             onlyValue
                         />
                     </div>
@@ -139,6 +151,7 @@ const CreateAppointments: NextPageWithLayout = (props: Props) => {
                         selectedDate={selectedDate}
                         setSelectedTime={setSelectedTime}
                         selectedTime={selectedTime}
+                        userAvailabilities={availableSlots?.data}
                         appointmentAvailability={
                             coordinatorAvailability.data?.availabilities[0]
                                 ?.availability
@@ -159,7 +172,9 @@ const CreateAppointments: NextPageWithLayout = (props: Props) => {
                             createAppointmentResult.isLoading ||
                             !selectedDate ||
                             !selectedTime ||
-                            !type
+                            !type ||
+                            !selectedCoordinator ||
+                            !selectedCourse
                         }
                     />
                 </form>

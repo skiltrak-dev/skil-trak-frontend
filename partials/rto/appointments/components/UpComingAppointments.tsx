@@ -5,6 +5,7 @@ import {
     EmptyData,
     UpcomingAppointmentCard,
     FutureAppointments,
+    TechnicalError,
 } from '@components'
 
 // query
@@ -23,18 +24,19 @@ export const UpcomingAppointments = (props: Props) => {
                     Your Upcoming Appointments
                 </Typography>
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                {rtoAppointments.isLoading ? (
-                    <LoadingAnimation />
-                ) : rtoAppointments?.data && rtoAppointments?.data?.length ? (
-                    <FutureAppointments appointments={rtoAppointments?.data} />
-                ) : (
+            {rtoAppointments.isError && <TechnicalError />}
+            {rtoAppointments.isLoading ? (
+                <LoadingAnimation />
+            ) : rtoAppointments?.data && rtoAppointments?.data?.length ? (
+                <FutureAppointments appointments={rtoAppointments?.data} />
+            ) : (
+                !rtoAppointments?.isError && (
                     <EmptyData
                         title={'No Recent Appointments'}
                         description={'No Recent Appointments'}
                     />
-                )}
-            </div>
+                )
+            )}
         </>
     )
 }

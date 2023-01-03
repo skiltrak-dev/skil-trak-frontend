@@ -7,20 +7,26 @@ export const workplaceEndpoints = (
     builder: EndpointBuilder<BaseQueryFn, string, string>
 ) => ({
     unAssignedSubAdmins: builder.query<any, any>({
-        query: (params) => {
-            return {
-                url: `${PREFIX}/subadmin/list`,
-                params,
-            }
-        },
+        query: (params) => ({
+            url: `${PREFIX}/subadmin/list`,
+            params,
+        }),
         providesTags: ['Workplaces'],
     }),
-    unAssignedWorkplaceList: builder.query<any, any>({
-        query: () => {
-            return {
-                url: `${PREFIX}/workplace-request/unassigned/list`,
-            }
-        },
+    unAssignedWorkplaceList: builder.query<any, void>({
+        query: () => `${PREFIX}/workplace-request/unassigned/list`,
+        providesTags: ['Workplaces'],
+    }),
+    allStudentProvidedWorkplaceList: builder.query<any, void>({
+        query: () => `${PREFIX}/workplace-request/provided-by-student/list`,
+        providesTags: ['Workplaces'],
+    }),
+    allRequestedWorkplaceList: builder.query<any, void>({
+        query: () => `${PREFIX}/workplace-request/requested/list`,
+        providesTags: ['Workplaces'],
+    }),
+    assignedRequestList: builder.query<any, void>({
+        query: () => `${PREFIX}/workplace-request/assigned/list`,
         providesTags: ['Workplaces'],
     }),
     assignedWorkplace: builder.mutation<any, any>({

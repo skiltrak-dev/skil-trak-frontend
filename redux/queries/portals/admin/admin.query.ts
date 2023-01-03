@@ -157,6 +157,9 @@ const {
     useUnAssignedSubAdminsQuery,
     useAssignedWorkplaceMutation,
     useUnAssignedWorkplaceListQuery,
+    useAllStudentProvidedWorkplaceListQuery,
+    useAllRequestedWorkplaceListQuery,
+    useAssignedRequestListQuery,
 
     // -------Messages-------//
     useGetAdminMessagesQuery,
@@ -242,8 +245,11 @@ export const AdminApi = {
     },
     Workplace: {
         useListQuery: useUnAssignedSubAdminsQuery,
-        useWorkplaceListQuery: useUnAssignedWorkplaceListQuery,
+        useUnAssignedWorkplace: useUnAssignedWorkplaceListQuery,
         useWorkplaceMutation: useAssignedWorkplaceMutation,
+        useAssignedWorkplace: useAssignedRequestListQuery,
+        useRequestedWorkplace: useAllRequestedWorkplaceListQuery,
+        useStudentProvidedWorkplace: useAllStudentProvidedWorkplaceListQuery,
     },
 
     Industries: {

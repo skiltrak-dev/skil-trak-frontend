@@ -69,7 +69,7 @@ const routes: Route[] = [
     },
     {
         text: 'Workplace Request',
-        path: getRoutePath('/workplaces'),
+        path: getRoutePath('/workplaces?tab=all-student-provided-workplace'),
         Icon: MdHomeWork,
     },
     {
