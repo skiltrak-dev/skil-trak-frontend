@@ -7,7 +7,11 @@ import { NextPageWithLayout } from '@types'
 import { StudentProfile } from '@partials/student/pages'
 
 const StudentsProfile: NextPageWithLayout = () => {
-    return <StudentProfile />
+    return (
+        <>
+            <StudentProfile />
+        </>
+    )
 }
 StudentsProfile.getLayout = (page: ReactElement) => {
     return <SubAdminLayout>{page}</SubAdminLayout>
