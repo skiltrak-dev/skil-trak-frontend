@@ -18,6 +18,7 @@ import { useNotification } from '@hooks'
 import {
     useUserAvailabilitiesQuery,
     useSubAdminCreateAppointmentMutation,
+    useAvailabilityListQuery,
     useGetSubAdminStudentDetailQuery,
     useSearchUserByIdQuery,
 } from '@queries'
@@ -102,6 +103,12 @@ export const CreateAppointments = () => {
     )
     const [createAppointment, createAppointmentResult] =
         useSubAdminCreateAppointmentMutation()
+    const availabilityList = useAvailabilityListQuery(
+        {},
+        {
+            skip: selectedPerson.selectedAppointmentWith !== 'Self',
+        }
+    )
 
     useEffect(() => {
         setAppointmentWith(
@@ -142,10 +149,10 @@ export const CreateAppointments = () => {
         let date = selectedDate
         date?.setDate(date.getDate() + 1)
         createAppointment({
+            ...selectedTime,
             date,
             note,
             type: appointmentTypeId,
-            time: selectedTime,
             appointmentFor: selectedUser.selectedAppointmentForUser,
             appointmentBy: selectedUser.selectedAppointmentWithUser,
         })
@@ -218,6 +225,7 @@ export const CreateAppointments = () => {
                     selectedUser={selectedUser}
                     selectedPerson={selectedPerson}
                     setSelectedUser={setSelectedUser}
+                    setSelectedPerson={setSelectedPerson}
                 />
 
                 <Card>
@@ -234,9 +242,7 @@ export const CreateAppointments = () => {
                             selectedDate={selectedDate}
                             setSelectedTime={setSelectedTime}
                             selectedTime={selectedTime}
-                            appointmentAvailability={
-                                userAvailabilities?.data?.availabilityBy
-                            }
+                            appointmentAvailability={availabilityList?.data}
                             userAvailabilities={userAvailabilities?.data}
                             subAdmin
                             appointmentWith={

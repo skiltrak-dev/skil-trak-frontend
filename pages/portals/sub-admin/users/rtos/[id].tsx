@@ -160,7 +160,7 @@ const RtoProfile: NextPageWithLayout = (props: Props) => {
                             pathname.push({
                                 pathname:
                                     '/portals/sub-admin/tasks/appointments/create-appointment',
-                                query: { student: rtoDetail?.data?.user?.id },
+                                query: { rto: rtoDetail?.data?.user?.id },
                             })
                         }}
                         disabled={!rtoDetail?.isSuccess}

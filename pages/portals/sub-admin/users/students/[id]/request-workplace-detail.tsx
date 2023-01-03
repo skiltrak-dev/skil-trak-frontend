@@ -36,7 +36,11 @@ const RequestWorkplaceDetail: NextPageWithLayout = (props: Props) => {
     })
 
     useEffect(() => {
-        if (workplace.isSuccess && workplace?.data) {
+        if (
+            workplace?.data &&
+            workplace.isSuccess &&
+            workplace?.data?.length > 0
+        ) {
             if (workplace?.data[0]?.currentStatus === 'placementStarted')
                 setActive(4)
             else setActive(3)

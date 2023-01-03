@@ -1,7 +1,9 @@
 import { Card, LoadingAnimation, Typography } from '@components'
 import { useSearchUserByIdQuery } from '@queries'
 import { useRouter } from 'next/router'
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
+import { SearchAppointmentForUser } from './SearchAppointmentForUser'
+import { SearchAppointmentWithUser } from './SearchAppointmentWithUser'
 import { SearchedUserCard } from './SearchedUserCard'
 import { SearchUserCard } from './SearchUserCard'
 
@@ -11,6 +13,7 @@ export const SearchUser = ({
     user,
     query,
     selectedUser,
+    setSelectedPerson,
 }: {
     selectedPerson: {
         selectedAppointmentFor: string
@@ -23,94 +26,28 @@ export const SearchUser = ({
         selectedAppointmentForUser: string
         selectedAppointmentWithUser: string
     }
+    setSelectedPerson: Function
 }) => {
-    const router = useRouter()
-    const userData = useSearchUserByIdQuery(
-        {
-            search: (router?.query as any)[user],
-            role: user,
-        },
-        { skip: !user }
-    )
-
-    useEffect(() => {
-        if (userData?.isSuccess && userData?.data) {
-            setSelectedUser((selectedUser: any) => ({
-                ...selectedUser,
-                selectedAppointmentForUser: userData?.data?.id,
-            }))
-        }
-    }, [userData])
+    const [studentIndustry, setStudentIndustry] = useState<number | null>(null)
+    console.log('studentIndustry', studentIndustry)
     return (
-        <div>
-            {selectedPerson?.selectedAppointmentFor &&
-                (query && user ? (
-                    <Card>
-                        {userData?.isLoading ? (
-                            <LoadingAnimation size={80} />
-                        ) : (
-                            <>
-                                <Typography>
-                                    Appointment For {userData?.data?.name}{' '}
-                                    <span className="text-sm">
-                                        (
-                                        {selectedPerson?.selectedAppointmentFor}
-                                        )
-                                    </span>
-                                </Typography>
-                                <SearchedUserCard
-                                    data={userData?.data}
-                                    onClick={() => {
-                                        setSelectedUser({
-                                            ...selectedUser,
-                                            selectedAppointmentForUser:
-                                                userData?.data?.id,
-                                        })
-                                    }}
-                                    selected={
-                                        selectedUser?.selectedAppointmentForUser
-                                    }
-                                    selectedPerson={
-                                        selectedPerson?.selectedAppointmentFor
-                                    }
-                                />
-                            </>
-                        )}
-                    </Card>
-                ) : (
-                    <SearchUserCard
-                        selectedAppointment={
-                            selectedPerson?.selectedAppointmentFor
-                        }
-                        onClick={(s: any) => {
-                            setSelectedUser({
-                                ...selectedUser,
-                                selectedAppointmentForUser: s.id,
-                            })
-                        }}
-                        selectedUser={selectedUser.selectedAppointmentForUser}
-                        type={'For'}
-                        selectedPerson={selectedPerson?.selectedAppointmentFor}
-                    />
-                ))}
+        <div className="flex flex-col gap-y-2.5">
+            <SearchAppointmentForUser
+                user={user}
+                setSelectedUser={setSelectedUser}
+                selectedPerson={selectedPerson}
+                selectedUser={selectedUser}
+                query={query}
+                setStudentIndustry={setStudentIndustry}
+                setSelectedPerson={setSelectedPerson}
+            />
 
-            {selectedPerson.selectedAppointmentWith &&
-                selectedPerson.selectedAppointmentWith !== 'Self' && (
-                    <SearchUserCard
-                        selectedAppointment={
-                            selectedPerson?.selectedAppointmentWith
-                        }
-                        onClick={(s: any) => {
-                            setSelectedUser({
-                                ...selectedUser,
-                                selectedAppointmentWithUser: s.id,
-                            })
-                        }}
-                        selectedUser={selectedUser.selectedAppointmentWithUser}
-                        type={'With'}
-                        selectedPerson={selectedPerson?.selectedAppointmentWith}
-                    />
-                )}
+            <SearchAppointmentWithUser
+                selectedPerson={selectedPerson}
+                setSelectedUser={setSelectedUser}
+                selectedUser={selectedUser}
+                studentIndustry={Number(studentIndustry)}
+            />
         </div>
     )
 }

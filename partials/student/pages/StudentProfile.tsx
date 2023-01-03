@@ -28,7 +28,7 @@ import { useContextBar, useNavbar } from '@hooks'
 import { DetailTabs } from '@partials/sub-admin/students'
 import { AddWorkplace } from '@partials/sub-admin/students'
 
-export const StudentProfile = ({noTitle}:{noTitle?:boolean}) => {
+export const StudentProfile = ({ noTitle }: { noTitle?: boolean }) => {
     const contextBar = useContextBar()
     const router = useRouter()
     const { id } = router.query
@@ -59,7 +59,11 @@ export const StudentProfile = ({noTitle}:{noTitle?:boolean}) => {
     return (
         <div className="mb-16">
             <div className="flex justify-between items-end mb-4">
-                {!noTitle? <PageTitle title="Student Profile" backTitle="Students" />:<div/>}
+                {!noTitle ? (
+                    <PageTitle title="Student Profile" backTitle="Students" />
+                ) : (
+                    <div />
+                )}
                 <div className="flex flex-col items-end gap-y-2">
                     <div className="pl-4">
                         <StudentTimer date={new Date('12/30/2022')} />

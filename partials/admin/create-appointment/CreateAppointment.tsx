@@ -201,6 +201,7 @@ export const CreateAppointmentContainer = () => {
                     selectedUser={selectedUser}
                     selectedPerson={selectedPerson}
                     setSelectedUser={setSelectedUser}
+                    setSelectedPerson={setSelectedPerson}
                 />
 
                 <Card>
