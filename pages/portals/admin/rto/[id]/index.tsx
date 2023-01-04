@@ -23,7 +23,7 @@ import {
   AiTwotonePhone,
 } from 'react-icons/ai'
 import { BsPatchCheckFill } from 'react-icons/bs'
-import { FaArchive, FaBan, FaPhoneAlt } from 'react-icons/fa'
+import { FaArchive, FaBan, FaChevronDown, FaFileImport, FaPhoneAlt, FaUserGraduate } from 'react-icons/fa'
 
 import { AdminApi } from '@queries'
 import { IoLogIn } from 'react-icons/io5'
@@ -70,6 +70,8 @@ const RtoDetail: NextPageWithLayout = () => {
       <BlockModal rto={rto} onCancel={() => onModalCancelClicked()} />
     )
   }
+  const [showDropDown, setShowDropDown] = useState(false)
+
 
   return (
     <>
@@ -83,13 +85,68 @@ const RtoDetail: NextPageWithLayout = () => {
           <div className="flex items-center justify-between">
             <BackButton text="RTOs" />
             <div className="flex gap-x-2">
-              <Button
+              {/* <Button
                 onClick={() => {
                   router.push(`${rto?.data?.id}/student-list`)
                 }}
               >
                 Import Students
-              </Button>
+              </Button> */}
+              <div className="flex items-center gap-x-3">
+                <div
+                  className="relative"
+                  onMouseEnter={() => setShowDropDown(true)}
+                  onMouseLeave={() => setShowDropDown(false)}
+                >
+                  <Button>
+                    <span
+                      id="add-students"
+                      className="flex items-center gap-x-2"
+                    >
+                      <span>Add Students</span>
+                      <FaChevronDown />
+                    </span>
+                  </Button>
+
+                  {showDropDown ? (
+                    <ul className="bg-white shadow-xl rounded-xl overflow-hidden absolute">
+                      <li>
+                        <button
+                          onClick={() => {
+                            router.push(
+                              `${rto?.data?.id}/student-list`
+                            )
+                          }}
+                          className="w-full flex items-center gap-x-2 text-sm px-2 py-2 hover:bg-gray-200"
+                        >
+                          <span className="text-gray-500">
+                            <FaFileImport />
+                          </span>
+                          <span className="whitespace-nowrap">
+                            {' '}
+                            Import Students
+                          </span>
+                        </button>
+                      </li>
+                      <li>
+                        <button
+                          onClick={() => {
+                            router.push(
+                              `${rto?.data?.id}/add-individual-student`
+                            )
+                          }}
+                          className="w-full flex items-center gap-x-2 text-sm px-2 py-2 hover:bg-gray-200"
+                        >
+                          <span className="text-gray-500">
+                            <FaUserGraduate />
+                          </span>
+                          <span> Add Individual</span>
+                        </button>
+                      </li>
+                    </ul>
+                  ) : null}
+                </div>
+              </div>
               <Button variant="dark">Summary Report</Button>
               <ActionButton
                 Icon={FaArchive}

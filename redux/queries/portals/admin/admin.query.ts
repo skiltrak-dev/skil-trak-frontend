@@ -87,6 +87,8 @@ const {
     useRtoSectorsQuery,
     useRtoAssignCoursesMutation,
     useRtoUnassignCourseMutation,
+    useRtoImportStudentsMutation,
+    useRtoAddStudentMutation,
 
     useRtoSubAdminsQuery,
     useRtoAssignSubAdminsMutation,
@@ -200,6 +202,8 @@ export const AdminApi = {
         useUpdateAssessmentTools: useRtoUpdateAssessmentToolsMutation,
         useRemoveAssessmentTools: useRtoRemoveAssessmentToolsMutation,
         useArchiveAssessmentTools: useRtoAssessmentToolArchiveMutation,
+        useRtoImportStudents: useRtoImportStudentsMutation,
+        useRtoAddStudent: useRtoAddStudentMutation,
 
         useSectors: useRtoSectorsQuery,
         useAssignCourses: useRtoAssignCoursesMutation,
