@@ -17,7 +17,6 @@ import { useState, useEffect } from 'react'
 
 export const AddIndividualStudentForm = () => {
     const router = useRouter()
-    console.log('router', Number(router.query.id))
     const [isSuccess, setIsSuccess] = useState<boolean>(false)
     const [sectorOptions, setSectorOptions] = useState([])
     const [courseOptions, setCourseOptions] = useState([])

@@ -48,7 +48,6 @@ const RtoProfile: NextPageWithLayout = (props: Props) => {
     const rtoDetail = useGetSubAdminRTODetailQuery(String(id), {
         skip: !id,
     })
-    console.log(rtoDetail.data)
     const navBar = useNavbar()
 
     useEffect(() => {

@@ -67,7 +67,6 @@ const getSectors = (courses: any) => {
 const StudentDashboard: NextPageWithLayout = () => {
     const { data, isSuccess, isLoading } = useGetStudentProfileDetailQuery()
     const sectorsWithCourses = getSectors(data?.courses)
-    console.log("workplace data ", data);
 
     const [name, setName] = useState('')
     const credentials = AuthUtils.getUserCredentials()

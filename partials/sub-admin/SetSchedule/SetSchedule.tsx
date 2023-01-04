@@ -115,7 +115,6 @@ export const SetScheduleContainer = () => {
         }
     }, [availability])
 
-    console.log('availabilities', availability.data === true)
 
     useEffect(() => {
         if (saveScheduleResult.isSuccess) {
