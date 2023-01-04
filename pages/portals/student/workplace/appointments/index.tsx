@@ -1,7 +1,7 @@
 import { useRouter } from 'next/router'
 
 import { ReactElement, useEffect } from 'react'
-import { PastAppointments, UpcomingAppointments } from '@components/sections'
+import { UpcommingAppointments, PastAppointments } from '@partials/common'
 import { Button } from '@components'
 
 import { StudentLayout } from '@layouts'
@@ -38,7 +38,7 @@ const Appointments: NextPageWithLayout = (props: Props) => {
                     }}
                 />
             </div>
-            <UpcomingAppointments />
+            <UpcommingAppointments />
             <PastAppointments />
         </>
     )

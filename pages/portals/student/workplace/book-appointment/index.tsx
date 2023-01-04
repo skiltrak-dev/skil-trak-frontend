@@ -75,6 +75,7 @@ const BookAppointment: NextPageWithLayout = (props: Props) => {
 
     useEffect(() => {
         if (workplace?.data && workplace?.data?.length) {
+            const industry = workplace?.data[0]
             const workplceResult = {
                 name: '',
                 email: '',
@@ -122,6 +123,10 @@ const BookAppointment: NextPageWithLayout = (props: Props) => {
                                 ?.availability
                         }
                         userAvailabilities={studentTimeSlotes?.data}
+                        loading={
+                            studentTimeSlotes?.isLoading ||
+                            studentTimeSlotes?.isFetching
+                        }
                         bookedAppointment={coordinatorAvailability.data?.booked}
                     />
 

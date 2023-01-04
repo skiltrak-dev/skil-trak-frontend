@@ -39,7 +39,7 @@ const Students: NextPageWithLayout = (props: Props) => {
     const [filterAction, setFilterAction] = useState(null)
     const [filter, setFilter] = useState({})
     const [page, setPage] = useState(1)
-    const [itemPerPage, setItemPerPage] = useState(5)
+    const [itemPerPage, setItemPerPage] = useState(50)
 
     const filteredStudents = useSubAdminFilteredStudentsQuery(
         {
@@ -94,7 +94,6 @@ const Students: NextPageWithLayout = (props: Props) => {
                 />
             </div>
 
-           
             <div>
                 {filteredStudents.isError && <TechnicalError />}
                 {filteredStudents.isLoading ? (
@@ -103,8 +102,7 @@ const Students: NextPageWithLayout = (props: Props) => {
                             <LoadingAnimation />
                         </Card>
                     </div>
-                ) : Object.keys(filter).length &&
-                    filteredStudents.isSuccess ? (
+                ) : Object.keys(filter).length && filteredStudents.isSuccess ? (
                     <FilteredStudents
                         setPage={setPage}
                         itemPerPage={itemPerPage}
@@ -125,7 +123,6 @@ const Students: NextPageWithLayout = (props: Props) => {
                         </TabNavigation>
                     )
                 )}
-
             </div>
         </>
     )

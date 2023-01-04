@@ -3,7 +3,13 @@ import { useRouter } from 'next/router'
 import { ReactElement, useEffect, useState } from 'react'
 
 //components
-import { CourseCard, LoadingAnimation, NoData, Typography } from '@components'
+import {
+    CourseCard,
+    LoadingAnimation,
+    NoData,
+    PageTitle,
+    Typography,
+} from '@components'
 import { Actions, AssessmentFolderCard, AssessmentResponse } from './components'
 
 // queries
@@ -14,6 +20,7 @@ import {
 } from '@queries'
 import { getUserCredentials } from '@utils'
 import { useAlert } from '@hooks'
+import { NotificationMessage } from '@components/NotificationMessage'
 
 export const Detail = ({
     studentId,
@@ -24,10 +31,6 @@ export const Detail = ({
 }) => {
     const [selectedCourse, setSelectedCourse] = useState<any | null>(null)
     const [selectedFolder, setSelectedFolder] = useState<any | null>(null)
-
-    const { alert } = useAlert()
-
-    const pathname = useRouter()
 
     // query
     const studentCourses = useStudentCoursesQuery(Number(studentId), {
@@ -49,16 +52,6 @@ export const Detail = ({
     )
 
     useEffect(() => {
-        if (selectedCourse?.results[0]?.isAssessed) {
-            alert.info({
-                title: selectedCourse?.results[0]?.result,
-                description: selectedCourse?.results[0]?.result,
-                autoDismiss: false,
-            })
-        }
-    }, [studentCourses, selectedCourse])
-
-    useEffect(() => {
         if (studentCourses.isSuccess) {
             setSelectedCourse(selectedCourse || studentCourses?.data[0])
         }
@@ -74,9 +67,44 @@ export const Detail = ({
         (f: any) => f?.studentResponse[0]?.comment
     )
 
-    console.log('allCommentsAdded', selectedCourse?.results[0]?.isAssessed)
     return (
         <div className="mb-10">
+            <div className="flex justify-between items-center mb-6">
+                <PageTitle
+                    title="Assessment Evidence Detail"
+                    backTitle="Assessment"
+                />
+                <div>
+                    {selectedCourse?.results[0]?.result === 'pending' && (
+                        <NotificationMessage
+                            title={'New Request For Approvel'}
+                            subtitle={'Student Submitted a assessment request'}
+                        />
+                    )}
+                    {selectedCourse?.results[0]?.result === 'reOpened' && (
+                        <NotificationMessage
+                            title={'Student Reques Reopened'}
+                            subtitle={'You hve reopened the student request'}
+                        />
+                    )}
+                    {selectedCourse?.results[0]?.result === 'competent' && (
+                        <NotificationMessage
+                            title={'Competent'}
+                            subtitle={
+                                'Student has successfully passed the Assessment'
+                            }
+                        />
+                    )}
+                    {selectedCourse?.results[0]?.result === 'notCompetent' && (
+                        <NotificationMessage
+                            title={'Failed'}
+                            subtitle={
+                                'Student has failed the assessment on this course'
+                            }
+                        />
+                    )}
+                </div>
+            </div>
             {studentCourses?.isLoading ? (
                 <div className="flex flex-col justify-center items-center gap-y-2">
                     <LoadingAnimation size={60} />
@@ -85,7 +113,7 @@ export const Detail = ({
                     </Typography>
                 </div>
             ) : studentCourses?.data && studentCourses?.data?.length > 0 ? (
-                <div className="mb-3 grid grid-cols-3 gap-x-2">
+                <div className="mb-3 grid grid-cols-3 gap-2">
                     {studentCourses?.data?.map((course: any) => (
                         <CourseCard
                             key={course.id}

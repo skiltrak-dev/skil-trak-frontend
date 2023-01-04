@@ -11,7 +11,7 @@ import {
     EmptyData,
     UpcomingAppointmentCard,
 } from '@components'
-import { UpcomingAppointments, PastAppointments } from '@partials/rto'
+import { UpcommingAppointments, PastAppointments } from '@partials/common'
 import { useGetRTOAppointmentsQuery } from '@queries'
 
 type Props = {}
@@ -33,7 +33,7 @@ const RtoAppointments: NextPageWithLayout = (props: Props) => {
                     }}
                 />
             </div>
-            <UpcomingAppointments />
+            <UpcommingAppointments />
             <PastAppointments />
         </>
     )

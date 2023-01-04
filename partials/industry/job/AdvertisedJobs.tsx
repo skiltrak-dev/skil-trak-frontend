@@ -42,7 +42,7 @@ const Colors = getThemeColors()
 export const AdvertisedJobsContainer = () => {
     const router = useRouter()
 
-    const [itemPerPage, setItemPerPage] = useState(5)
+    const [itemPerPage, setItemPerPage] = useState(50)
     const [page, setPage] = useState(1)
     const [filter, setFilter] = useState({})
     const [filterActionButton, setFilterActionButton] = useState(null)

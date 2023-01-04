@@ -65,7 +65,7 @@ export const AssessmentFolderCard = ({
                                             ? 'Pending'
                                             : response?.status === 'rejected'
                                             ? 'Rejected'
-                                            : 'Not Approved'
+                                            : 'Not Assessed'
                                     }
                                     variant="success"
                                 />

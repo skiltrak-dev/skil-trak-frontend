@@ -13,7 +13,17 @@ import { FaEye } from 'react-icons/fa'
 
 //components
 import {
-    Button, Card, EmptyData, LoadingAnimation, RtoContextBarData, SidebarCalendar, Table, TableAction, TableActionOption, TechnicalError, Typography
+    Button,
+    Card,
+    EmptyData,
+    LoadingAnimation,
+    RtoContextBarData,
+    SidebarCalendar,
+    Table,
+    TableAction,
+    TableActionOption,
+    TechnicalError,
+    Typography,
 } from '@components'
 // queries
 import { useGetSubAdminRtosQuery } from '@queries'
@@ -27,7 +37,7 @@ const RTOs: NextPageWithLayout = () => {
     const { setContent } = useContextBar()
     const router = useRouter()
     const [filterAction, setFilterAction] = useState(null)
-    const [itemPerPage, setItemPerPage] = useState(5)
+    const [itemPerPage, setItemPerPage] = useState(50)
     const [page, setPage] = useState(1)
     const [filter, setFilter] = useState({})
     const { isLoading, data, isError } = useGetSubAdminRtosQuery({

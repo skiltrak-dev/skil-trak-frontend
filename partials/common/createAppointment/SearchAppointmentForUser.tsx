@@ -34,6 +34,7 @@ export const SearchAppointmentForUser = ({
     )
     const industry =
         userData?.data?.student?.workplace[0]?.industries[0]?.industry?.user?.id
+    console.log('industry')
 
     useEffect(() => {
         if (selectedPerson?.selectedAppointmentFor?.toLowerCase() === user) {
@@ -139,7 +140,10 @@ export const SearchAppointmentForUser = ({
                                     'Student'
                                 ) {
                                     // send student workplace Industry id
-                                    setStudentIndustry(industry)
+                                    setStudentIndustry(
+                                        s?.student?.workplace[0]?.industries[0]
+                                            ?.industry?.user?.id
+                                    )
                                     setSelectedPerson({
                                         ...selectedPerson,
                                         selectedAppointmentWith: 'Industry',

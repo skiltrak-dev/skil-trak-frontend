@@ -8,7 +8,8 @@ type AppointmentCardProps = {
     address?: string
     name?: string
     imageUrl?: string // imageUrl
-    post?: string // REactElement ReactNode
+    type?: string // REactElement ReactNode
+    role: string
 }
 
 export const UpcomingAppointmentCard = ({
@@ -18,7 +19,8 @@ export const UpcomingAppointmentCard = ({
     address,
     name,
     imageUrl,
-    post,
+    type,
+    role,
 }: AppointmentCardProps) => {
     return (
         <>
@@ -36,7 +38,7 @@ export const UpcomingAppointmentCard = ({
                                 variant={'muted'}
                                 color={'text-[#BCDEFF]'}
                             >
-                                {totalMinutes}
+                                {totalMinutes} Minutes
                             </Typography>
                         </div>
                         <Typography variant={'label'} color={'text-[#BCDEFF]'}>
@@ -50,9 +52,9 @@ export const UpcomingAppointmentCard = ({
                 <div className="w-full flex justify-between items-center mt-8">
                     <div>
                         <h1 className="font-medium text-[16px] text-white">
-                            {name}
+                            {name} ({role})
                         </h1>
-                        <p className="text-[#BCDEFF]">{post}</p>
+                        <p className="text-[#BCDEFF]">{type}</p>
                     </div>
                     <div>
                         <Image src={imageUrl || ''} width={50} height={50} />

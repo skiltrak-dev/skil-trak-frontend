@@ -28,17 +28,7 @@ const AssessmentEvidenceDetails: NextPageWithLayout = (props: Props) => {
     )
 }
 AssessmentEvidenceDetails.getLayout = (page: ReactElement) => {
-    return (
-        <SubAdminLayout
-            pageTitle={{
-                title: 'Assessment Evidence Detail',
-                navigateBack: true,
-                backTitle: 'Back',
-            }}
-        >
-            {page}
-        </SubAdminLayout>
-    )
+    return <SubAdminLayout>{page}</SubAdminLayout>
 }
 
 export default AssessmentEvidenceDetails

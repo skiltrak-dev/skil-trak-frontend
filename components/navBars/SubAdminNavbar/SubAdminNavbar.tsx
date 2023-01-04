@@ -61,7 +61,9 @@ export const SubAdminNavbar = () => {
                             <span>
                                 <FaUserGraduate />
                             </span>
-                            <span className="text-sm font-semibold">Students</span>
+                            <span className="text-sm font-semibold">
+                                Students
+                            </span>
                         </a>
                     </Link>
                 </li>

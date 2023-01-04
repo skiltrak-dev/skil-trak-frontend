@@ -63,6 +63,8 @@ export const StudentAvailability = ({ availability }: any) => {
         )
     }
 
+    const schedule = ['morning', 'afternoon', 'evening', 'night']
+
     return (
         <div>
             <Typography variant={'xs'} color={'text-gray-400'}>
@@ -95,16 +97,14 @@ export const StudentAvailability = ({ availability }: any) => {
                                     variant={'xs'}
                                     color={'text-gray-400'}
                                 >
-                                    {time.name}
+                                    {time?.name}
                                 </Typography>
 
-                                {/* {Object.values(time)
-                                    .slice(1)
-                                    .map((value: any) => isAvailable(value))} */}
-                                {isAvailable(time.morning)}
-                                {isAvailable(time.afternoon)}
-                                {isAvailable(time.evening)}
-                                {isAvailable(time.night)}
+                                {schedule?.map((s) => isAvailable(time[s]))}
+                                {/* {isAvailable(time?.morning)}
+                                {isAvailable(time?.afternoon)}
+                                {isAvailable(time?.evening)}
+                                {isAvailable(time?.night)} */}
                             </div>
                         ))}
                     </div>

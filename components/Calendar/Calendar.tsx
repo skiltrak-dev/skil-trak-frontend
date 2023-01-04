@@ -20,12 +20,9 @@ export const SidebarCalendar = ({ enabledDays, setSelectedDate }: any) => {
             <Calendar
                 {...(enabledDays
                     ? {
-                          tileDisabled: ({ date }) => {
-                              return (
-                                  !enabledDays?.includes(date.getDay()) ||
-                                  date < new Date()
-                              )
-                          },
+                          tileDisabled: ({ date }) =>
+                              !enabledDays?.includes(date.getDay()) ||
+                              date < new Date(),
                       }
                     : {})}
                 onChange={(e: Date) => {

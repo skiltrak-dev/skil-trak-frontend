@@ -30,7 +30,7 @@ export const SetUnavailabilityContainer = () => {
     const router = useRouter()
     const { setContent, show } = useContextBar()
 
-    const [itemPerPage, setItemPerPage] = useState(5)
+    const [itemPerPage, setItemPerPage] = useState(50)
     const [page, setPage] = useState(1)
     const [modal, setModal] = useState<ReactElement | null>(null)
 

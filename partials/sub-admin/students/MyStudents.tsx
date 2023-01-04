@@ -37,7 +37,7 @@ export const MyStudents = () => {
 
     const [modal, setModal] = useState<ReactElement | null>(null)
 
-    const [itemPerPage, setItemPerPage] = useState(5)
+    const [itemPerPage, setItemPerPage] = useState(50)
     const [page, setPage] = useState(1)
     const { isLoading, data, isError } = useGetSubAdminMyStudentsQuery({
         skip: itemPerPage * page - itemPerPage,

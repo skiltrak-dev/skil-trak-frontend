@@ -28,7 +28,7 @@ type Props = {}
 const AssessmentEvidence: NextPageWithLayout = (props: Props) => {
     const router = useRouter()
 
-    const [itemPerPage, setItemPerPage] = useState(5)
+    const [itemPerPage, setItemPerPage] = useState(50)
     const [page, setPage] = useState(1)
 
     const { isLoading, isError, data } = useGetAssessmentEvidenceQuery({
