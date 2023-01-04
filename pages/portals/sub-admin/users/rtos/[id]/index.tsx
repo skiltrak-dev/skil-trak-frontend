@@ -1,5 +1,5 @@
 import { useRouter } from 'next/router'
-import { ReactElement, useEffect } from 'react'
+import { ReactElement, useEffect, useState } from 'react'
 
 // hooks
 import { useContextBar, useNavbar } from '@hooks'
@@ -29,7 +29,7 @@ import {
     AppointmentProfile,
 } from '@components/sections/subAdmin/UsersContainer'
 // icons
-import { FaEdit } from 'react-icons/fa'
+import { FaChevronDown, FaEdit, FaFileImport, FaUserGraduate } from 'react-icons/fa'
 // queries
 import {
     useGetSubAdminRTODetailQuery,
@@ -48,7 +48,7 @@ const RtoProfile: NextPageWithLayout = (props: Props) => {
     const rtoDetail = useGetSubAdminRTODetailQuery(String(id), {
         skip: !id,
     })
-
+    console.log(rtoDetail.data)
     const navBar = useNavbar()
 
     useEffect(() => {
@@ -147,12 +147,67 @@ const RtoProfile: NextPageWithLayout = (props: Props) => {
             element: <AllCommunicationTab user={rtoDetail?.data?.user} />,
         },
     ]
-
+    const [showDropDown, setShowDropDown] = useState(false)
     return (
         <>
             <div className="flex justify-between items-end mb-4">
                 <PageTitle title="RTO Profile" backTitle="RTO" />
                 <div className="flex items-center gap-x-2">
+                    <div className="flex items-center gap-x-3">
+                        <div
+                            className="relative"
+                            onMouseEnter={() => setShowDropDown(true)}
+                            onMouseLeave={() => setShowDropDown(false)}
+                        >
+                            <Button>
+                                <span
+                                    id="add-students"
+                                    className="flex items-center gap-x-2"
+                                >
+                                    <span>Add Students</span>
+                                    <FaChevronDown />
+                                </span>
+                            </Button>
+
+                            {showDropDown ? (
+                                <ul className="bg-white shadow-xl rounded-xl overflow-hidden absolute">
+                                    <li>
+                                        <button
+                                            onClick={() => {
+                                                pathname.push(
+                                                    `${rtoDetail?.data?.user?.id}/student-list`
+                                                )
+                                            }}
+                                            className="w-full flex items-center gap-x-2 text-sm px-2 py-2 hover:bg-gray-200"
+                                        >
+                                            <span className="text-gray-500">
+                                                <FaFileImport />
+                                            </span>
+                                            <span className="whitespace-nowrap">
+                                                {' '}
+                                                Import Students
+                                            </span>
+                                        </button>
+                                    </li>
+                                    <li>
+                                        <button
+                                            onClick={() => {
+                                                pathname.push(
+                                                    `${rtoDetail.data.user.id}/add-individual-student`
+                                                )
+                                            }}
+                                            className="w-full flex items-center gap-x-2 text-sm px-2 py-2 hover:bg-gray-200"
+                                        >
+                                            <span className="text-gray-500">
+                                                <FaUserGraduate />
+                                            </span>
+                                            <span> Add Individual</span>
+                                        </button>
+                                    </li>
+                                </ul>
+                            ) : null}
+                        </div>
+                    </div>
                     <Button
                         text="Book Appointment"
                         variant="info"
