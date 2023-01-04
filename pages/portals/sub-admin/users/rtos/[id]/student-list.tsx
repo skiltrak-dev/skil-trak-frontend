@@ -39,7 +39,6 @@ const RtoStudentLists: NextPageWithLayout = () => {
 
     })
 
-    console.log("::: COLS", columnsToRead)
     const [file, setFile] = useState<any>(null)
 
     const onStudentFound = (students: any, file: any) => {
@@ -153,7 +152,7 @@ const RtoStudentLists: NextPageWithLayout = () => {
                                         {foundStudents.map((student: any, i: number) => (
                                             <tr key={i}>
                                                 {Object.values(columnsToRead).map((k: any) => (
-                                                    <td>{student[k]}</td>
+                                                    <td key={k?.id}>{student[k]}</td>
                                                 ))
                                                 }
                                             </tr>
