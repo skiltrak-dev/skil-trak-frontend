@@ -44,25 +44,17 @@ export const UpcomingAppointments = (props: Props) => {
                     Your Upcoming Appointments
                 </Typography>
             </div>
-            <div
-                className={`grid ${
-                    studentAppointments?.data?.length ? 'grid-cols-1' : ''
-                } md:grid-cols-2 gap-4`}
-            >
-                {studentAppointments.isLoading ? (
-                    <LoadingAnimation />
-                ) : studentAppointments?.data &&
-                  studentAppointments?.data?.length ? (
-                    <FutureAppointments
-                        appointments={studentAppointments?.data}
-                    />
-                ) : (
-                    <EmptyData
-                        title={'No Recent Appointments'}
-                        description={'No Recent Appointments'}
-                    />
-                )}
-            </div>
+            {studentAppointments.isLoading ? (
+                <LoadingAnimation />
+            ) : studentAppointments?.data &&
+              studentAppointments?.data?.length ? (
+                <FutureAppointments appointments={studentAppointments?.data} />
+            ) : (
+                <EmptyData
+                    title={'No Recent Appointments'}
+                    description={'No Recent Appointments'}
+                />
+            )}
         </>
     )
 }

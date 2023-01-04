@@ -110,10 +110,12 @@ export const SetScheduleContainer = () => {
 
                 setAvailabilities(tempAvailabilities)
                 setScheduleTime(tempAvailabilities)
-                setIsUpdated(true)
             }
+            setIsUpdated(true)
         }
     }, [availability])
+
+    console.log('availabilities', availability.data === true)
 
     useEffect(() => {
         if (saveScheduleResult.isSuccess) {
@@ -122,40 +124,43 @@ export const SetScheduleContainer = () => {
     }, [saveScheduleResult])
 
     const onSubmit = async () => {
-        console.log('scheduleTime', scheduleTime)
         await saveSchedule({ days: scheduleTime })
     }
 
     return (
         <Card>
             <ShowErrorNotifications result={saveScheduleResult} />
-            <Typography variant={'small'}>Select Time {'&'} Days</Typography>
-            <div className="my-2 flex flex-col gap-y-2">
-                {availability.isLoading ? (
-                    <LoadingAnimation />
-                ) : availability?.data &&
-                  availability?.data?.length > 0 &&
-                  isUpdated ? (
-                    availabilities?.map((availability: any) => (
-                        <ScheduleCard
-                            key={availability.name}
-                            setScheduleTime={setScheduleTime}
-                            onScheduleChange={onScheduleChange}
-                            availability={availability}
-                        />
-                    ))
-                ) : null}
-            </div>
+            {availability.isLoading ? (
+                <LoadingAnimation />
+            ) : availability?.isSuccess && isUpdated ? (
+                <>
+                    <Typography variant={'small'}>
+                        Select Time {'&'} Days
+                    </Typography>
+                    <div className="my-2 flex flex-col gap-y-2">
+                        {availabilities?.map((availability: any) => (
+                            <ScheduleCard
+                                key={availability.name}
+                                setScheduleTime={setScheduleTime}
+                                onScheduleChange={onScheduleChange}
+                                availability={availability}
+                            />
+                        ))}
+                    </div>
 
-            <div className="flex items-center gap-x-4 text-sm text-green-500">
-                <Button
-                    text={'Submit'}
-                    onClick={() => onSubmit()}
-                    loading={saveScheduleResult.isLoading}
-                    disabled={saveScheduleResult.isLoading}
-                />
-                {saveScheduleResult.isSuccess ? <div> - Saved</div> : null}
-            </div>
+                    <div className="flex items-center gap-x-4 text-sm text-green-500">
+                        <Button
+                            text={'Submit'}
+                            onClick={() => onSubmit()}
+                            loading={saveScheduleResult.isLoading}
+                            disabled={saveScheduleResult.isLoading}
+                        />
+                        {saveScheduleResult.isSuccess ? (
+                            <div> - Saved</div>
+                        ) : null}
+                    </div>
+                </>
+            ) : null}
         </Card>
     )
 }

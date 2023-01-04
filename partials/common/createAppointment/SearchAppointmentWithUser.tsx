@@ -38,59 +38,67 @@ export const SearchAppointmentWithUser = ({
     return (
         <div>
             {selectedPerson.selectedAppointmentWith &&
-            selectedPerson.selectedAppointmentWith !== 'Self' &&
-            userData?.isLoading ? (
-                <LoadingAnimation size={80} />
-            ) : studentIndustry &&
-              userData?.data &&
-              selectedPerson?.selectedAppointmentFor === 'Student' ? (
-                <Card>
+            selectedPerson.selectedAppointmentWith !== 'Self' ? (
+                userData?.isLoading ? (
+                    <LoadingAnimation size={80} />
+                ) : studentIndustry &&
+                  userData?.data &&
+                  selectedPerson?.selectedAppointmentFor === 'Student' ? (
+                    <Card>
+                        <>
+                            <Typography>
+                                Appointment For {userData?.data?.name}{' '}
+                                <span className="text-sm">
+                                    ({selectedPerson?.selectedAppointmentWith})
+                                </span>
+                            </Typography>
+                            <SearchedUserCard
+                                data={userData?.data}
+                                onClick={() => {
+                                    setSelectedUser({
+                                        ...selectedUser,
+                                        selectedAppointmentWithUser:
+                                            userData?.data?.id,
+                                    })
+                                }}
+                                selected={
+                                    selectedUser.selectedAppointmentWithUser
+                                }
+                                selectedPerson={
+                                    selectedPerson?.selectedAppointmentWith
+                                }
+                            />
+                        </>
+                    </Card>
+                ) : (
                     <>
-                        <Typography>
-                            Appointment For {userData?.data?.name}{' '}
-                            <span className="text-sm">
-                                ({selectedPerson?.selectedAppointmentWith})
-                            </span>
-                        </Typography>
-                        <SearchedUserCard
-                            data={userData?.data}
-                            onClick={() => {
+                        {studentIndustry && !userData?.data ? (
+                            <Typography>
+                                No {selectedPerson?.selectedAppointmentWith}{' '}
+                                Found
+                            </Typography>
+                        ) : null}
+                        <SearchUserCard
+                            selectedAppointment={
+                                selectedPerson?.selectedAppointmentWith
+                            }
+                            onClick={(s: any) => {
                                 setSelectedUser({
                                     ...selectedUser,
-                                    selectedAppointmentWithUser:
-                                        userData?.data?.id,
+                                    selectedAppointmentWithUser: s.id,
                                 })
                             }}
-                            selected={selectedUser.selectedAppointmentWithUser}
+                            selectedUser={
+                                selectedUser.selectedAppointmentWithUser
+                            }
+                            type={'With'}
                             selectedPerson={
                                 selectedPerson?.selectedAppointmentWith
                             }
                         />
                     </>
-                </Card>
-            ) : (
-                <>
-                    {studentIndustry && !userData?.data ? (
-                        <Typography>
-                            No {selectedPerson?.selectedAppointmentWith} Found
-                        </Typography>
-                    ) : null}
-                    <SearchUserCard
-                        selectedAppointment={
-                            selectedPerson?.selectedAppointmentWith
-                        }
-                        onClick={(s: any) => {
-                            setSelectedUser({
-                                ...selectedUser,
-                                selectedAppointmentWithUser: s.id,
-                            })
-                        }}
-                        selectedUser={selectedUser.selectedAppointmentWithUser}
-                        type={'With'}
-                        selectedPerson={selectedPerson?.selectedAppointmentWith}
-                    />
-                </>
-            )}
+                )
+            ) : null}
         </div>
     )
 }

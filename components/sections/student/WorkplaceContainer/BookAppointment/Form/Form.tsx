@@ -17,11 +17,13 @@ type Props = {
     type: number | null
     selectedCoordinator: { label: string; value: number } | null
     setSelectedCoordinator: Function
+    setSelectedCourse: Function
 }
 
 export const Form = ({
     setType,
     type,
+    setSelectedCourse,
     selectedCoordinator,
     setSelectedCoordinator,
 }: Props) => {
@@ -83,6 +85,9 @@ export const Form = ({
                     options={coursesOptions}
                     loading={studentCourses.isLoading}
                     disabled={studentCourses.isLoading}
+                    onChange={(e: any) => {
+                        setSelectedCourse(e)
+                    }}
                     onlyValue
                 />
             </div>

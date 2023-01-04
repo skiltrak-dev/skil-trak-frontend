@@ -66,7 +66,7 @@ export const StudentProfile = ({ noTitle }: { noTitle?: boolean }) => {
                 )}
                 <div className="flex flex-col items-end gap-y-2">
                     <div className="pl-4">
-                        <StudentTimer date={new Date('12/30/2022')} />
+                        <StudentTimer date={new Date('02/25/2023')} />
                     </div>
                     <div className="flex items-end gap-x-2">
                         <AddWorkplace id={data?.id} />
@@ -77,7 +77,7 @@ export const StudentProfile = ({ noTitle }: { noTitle?: boolean }) => {
                             onClick={() => {
                                 router.push({
                                     pathname:
-                                        '/portals/sub-admin/tasks/appointments/create-appointment',
+                                        '/portals/admin/appointment-type/create-appointment',
                                     query: { student: data?.user?.id },
                                 })
                             }}

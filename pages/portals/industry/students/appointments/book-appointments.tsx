@@ -15,6 +15,7 @@ import { useNotification } from '@hooks'
 
 // query
 import {
+    CommonApi,
     useCreateIndustryAppointmentMutation,
     useGetCoordinatorsAvailabilityQuery,
     useGetCoordinatorsForStudentQuery,
@@ -40,6 +41,14 @@ const BookAppointment: NextPageWithLayout = (props: Props) => {
     const coordinatorAvailability = useGetCoordinatorsAvailabilityQuery(
         Number(selectedCoordinator?.value),
         { skip: !selectedCoordinator }
+    )
+    const timeSlots = CommonApi.Appointments.useAppointmentsAvailableSlots(
+        {
+            id: type,
+            date: selectedDate?.toISOString(),
+            byUser: selectedCoordinator?.value,
+        },
+        { skip: !type || !selectedDate || !selectedCoordinator }
     )
 
     const [createAppointment, createAppointmentResult] =
@@ -112,6 +121,7 @@ const BookAppointment: NextPageWithLayout = (props: Props) => {
                         selectedDate={selectedDate}
                         setSelectedTime={setSelectedTime}
                         selectedTime={selectedTime}
+                        userAvailabilities={timeSlots?.data}
                         appointmentAvailability={
                             coordinatorAvailability.data?.availabilities[0]
                                 ?.availability

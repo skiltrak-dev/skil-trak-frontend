@@ -3,7 +3,7 @@ import { ReactElement, useEffect } from 'react'
 import { AdminLayout } from '@layouts'
 import { NextPageWithLayout } from '@types'
 
-import { Card } from '@components'
+import { Card, TabNavigation, TabProps } from '@components'
 
 // query
 import { AdminApi } from '@queries'
@@ -12,6 +12,12 @@ import { AdminApi } from '@queries'
 import { EmptyData, LoadingAnimation, TechnicalError } from '@components'
 import { useNavbar } from '@hooks'
 import { AdminWorkplaceRequest } from '@partials/admin/workplace/components/AdminWorkplaceRequest'
+import {
+    AllRequestedWorkplace,
+    AllStudentProvidedWorkplace,
+    AssignedRequest,
+    UnAssignedRequest,
+} from '@partials'
 
 type Props = {}
 
@@ -22,26 +28,56 @@ const Workplace: NextPageWithLayout = (props: Props) => {
         navBar.setTitle('Workplace Request')
     }, [])
 
-    const subAdminWorkplace = AdminApi.Workplace.useWorkplaceListQuery({})
+    const tabs: TabProps[] = [
+        {
+            label: 'AllStudentProvidedWorkplace',
+            href: {
+                pathname: 'workplaces',
+                query: { tab: 'all-student-provided-workplace' },
+            },
+            element: <AllStudentProvidedWorkplace />,
+        },
+        {
+            label: 'AllRequestedWorkplace',
+            href: {
+                pathname: 'workplaces',
+                query: { tab: 'all-requested-workplace' },
+            },
+            element: <AllRequestedWorkplace />,
+        },
+        {
+            label: 'AssignedRequest',
+            href: {
+                pathname: 'workplaces',
+                query: { tab: 'assigned-request' },
+            },
+            element: <AssignedRequest />,
+        },
+        {
+            label: 'UnAssignedRequest',
+            href: {
+                pathname: 'workplaces',
+                query: { tab: 'un-assigned-request' },
+            },
+            element: <UnAssignedRequest />,
+        },
+    ]
 
     return (
-        <div className="p-4">
-            {subAdminWorkplace.isError && <TechnicalError />}
-            {subAdminWorkplace.isLoading && subAdminWorkplace.isFetching ? (
-                <LoadingAnimation />
-            ) : subAdminWorkplace.data && subAdminWorkplace.data.length > 0 ? (
-                <div className="flex flex-col gap-y-2">
-                    {subAdminWorkplace?.data?.map((workplace: any) => (
-                        <AdminWorkplaceRequest
-                            key={workplace?.id}
-                            workplace={workplace}
-                        />
-                    ))}
-                </div>
-            ) : (
-                !subAdminWorkplace.isError && <EmptyData />
-            )}
-        </div>
+        <>
+            <div>
+                <TabNavigation tabs={tabs}>
+                    {({ header, element }: any) => {
+                        return (
+                            <div>
+                                <div>{header}</div>
+                                <div className="p-4">{element}</div>
+                            </div>
+                        )
+                    }}
+                </TabNavigation>
+            </div>
+        </>
     )
 }
 Workplace.getLayout = (page: ReactElement) => {
