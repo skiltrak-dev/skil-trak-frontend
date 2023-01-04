@@ -23,7 +23,7 @@ const ImportStudents: NextPageWithLayout = () => {
         RtoApi.Students.useImportStudents()
 
     const onSubmit = async (values: any) => {
-        const courses = values.courses.map((c: any) => c.value)
+        const courses = values?.courses?.map((c: any) => c.value)
 
         const formData = new FormData()
         courses.forEach((c: any) => {

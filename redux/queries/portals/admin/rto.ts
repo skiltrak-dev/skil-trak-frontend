@@ -156,6 +156,27 @@ export const rtoEndpoints = (
         },
         invalidatesTags: ['RTOS'],
     }),
+    rtoImportStudents: builder.mutation<any, any>({
+        query: ({id, body}: any) => {
+            return {
+                url: `${PREFIX}/students/import/${id}`,
+                method: 'POST',
+                body,
+            }
+        },
+        invalidatesTags: ['RTOS'],
+    }),
+    rtoAddStudent: builder.mutation({
+        query: ({id, body}: any) => {
+            console.log("id, body", id, body)
+            return {
+                url: `${PREFIX}/student/add/${id}`,
+                method: 'POST',
+                body,
+            }
+        },
+        invalidatesTags: ['RTOS'],
+    }),
 
     rtoUnassignSubAdmins: builder.mutation({
         query: (body: any) => ({

@@ -9,12 +9,12 @@ export const SwiperContainer = styled.div`
   min-height: 0;
   min-width: 0;
   max-width: 100vw; 
-  width: 100%;
+  width: 100% !important;
   overflow: hidden;
 }
  
 .swiper-slide{
-  width: auto !important;
+  width: auto;
   flex-shrink: 0;
   display: block;
   height: 100%;
