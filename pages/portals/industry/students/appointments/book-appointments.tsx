@@ -126,6 +126,7 @@ const BookAppointment: NextPageWithLayout = (props: Props) => {
                             coordinatorAvailability.data?.availabilities[0]
                                 ?.availability
                         }
+                        loading={timeSlots?.isLoading}
                         bookedAppointment={coordinatorAvailability.data?.booked}
                     />
 
