@@ -2,10 +2,10 @@ import { AiFillEdit } from 'react-icons/ai'
 import { MdBlock, MdPhone, MdVerified } from 'react-icons/md'
 import Image from 'next/image'
 import { Course, Rto } from '@types'
-import { FaAddressCard, FaPhoneAlt, FaSchool } from 'react-icons/fa'
+import { FaAddressCard, FaMoneyBill, FaPhoneAlt, FaSchool } from 'react-icons/fa'
 import { GiBackwardTime } from 'react-icons/gi'
 import { useState, useEffect } from 'react'
-import { AuthUtils } from '@utils'
+import { AuthUtils, ellipsisText } from '@utils'
 import { AdminApi, RtoApi } from '@queries'
 import { IoLocation } from 'react-icons/io5'
 import {
@@ -15,17 +15,17 @@ import {
     LoadingAnimation,
     NoData,
 } from '@components'
-import { BiRename } from 'react-icons/bi'
+import { BiPackage, BiRename } from 'react-icons/bi'
 
 const getSectors = (courses: any) => {
     if (!courses) return {}
     const sectors = {}
     courses.forEach((c: any) => {
         if ((sectors as any)[c.sector.name]) {
-            ;(sectors as any)[c.sector.name].push(c)
+            ; (sectors as any)[c.sector.name].push(c)
         } else {
-            ;(sectors as any)[c.sector.name] = []
-            ;(sectors as any)[c.sector.name].push(c)
+            ; (sectors as any)[c.sector.name] = []
+                ; (sectors as any)[c.sector.name].push(c)
         }
     })
     return sectors
@@ -35,7 +35,7 @@ export const ViewProfileCB = () => {
     const { data: rto, isLoading } = RtoApi.Rto.useProfile()
 
     const sectorsWithCourses = getSectors(rto?.courses)
-
+    console.log("rotssss package", rto)
     return isLoading ? (
         <LoadingAnimation />
     ) : (
@@ -65,11 +65,10 @@ export const ViewProfileCB = () => {
                         </div>
                     )}
                     <div
-                        className={`${
-                            rto?.user.avatar
+                        className={`${rto?.user.avatar
                                 ? 'w-[100px] h-[100px]'
                                 : 'w-24 h-24'
-                        } absolute top-0 left-0 bg-transparent rounded-full shadow-inner-image`}
+                            } absolute top-0 left-0 bg-transparent rounded-full shadow-inner-image`}
                     ></div>
                 </div>
 

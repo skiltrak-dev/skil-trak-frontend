@@ -32,6 +32,7 @@ import Image from 'next/image'
 import { DetailTabs } from '@partials/admin/rto/tabs'
 import { PinnedNotes } from '@partials'
 import { ArchiveModal, BlockModal } from '@partials/admin/rto/modals'
+import { ViewProfileCB } from '@partials/rto/contextBar'
 
 const RtoDetail: NextPageWithLayout = () => {
   const router = useRouter()
@@ -48,9 +49,10 @@ const RtoDetail: NextPageWithLayout = () => {
     navBar.setSubTitle(rto?.data?.user?.name)
     // contextBar.hide()
   }, [rto.data])
+  console.log("rto admin", rto)
   useEffect(() => {
     if (rto.isSuccess) {
-      contextBar.setContent(<RtoProfileSidebar data={rto.data} />)
+      contextBar.setContent(<RtoProfileSidebar data={rto.data}/>)
       contextBar.show(false)
     }
   }, [rto.data])

@@ -7,7 +7,7 @@ import { ReactElement, useEffect, useState } from 'react'
 import { AdminApi } from '@queries'
 import { BackButton, Card, PageTitle } from '@components'
 import { PageHeading } from '@components/headings'
-import { ImportStudentForm } from '@partials/admin/rto/students'
+import { ImportStudentForm, SpecifyColumns } from '@partials/admin/rto/students'
 import { RtoApi } from '@queries'
 
 const RtoStudentLists: NextPageWithLayout = () => {
@@ -25,6 +25,16 @@ const RtoStudentLists: NextPageWithLayout = () => {
         contextBar.hide()
     }, [])
     const [foundStudents, setFoundStudents] = useState<any>([])
+    const [columnsToRead, setColumnsToRead] = useState<any>({
+        id: 'id',
+        name: 'name',
+        email: 'email',
+        contact: 'contact',
+        address: 'address',
+        state: 'state',
+        zipcode: 'zipcode'
+
+    })
     const [file, setFile] = useState<any>(null)
 
     const onStudentFound = (students: any, file: any) => {
@@ -48,9 +58,11 @@ const RtoStudentLists: NextPageWithLayout = () => {
 
         formData.append('file', file)
 
-        await importStudents({id: Number(router.query.id), body: formData})
+        await importStudents({ id: Number(router.query.id), body: formData })
     }
-
+    const onColumnsChange = (columns: any) => {
+        setColumnsToRead(columns)
+    }
     useEffect(() => {
         if (importStudentsResult.isSuccess) {
             alert.success({
@@ -72,7 +84,7 @@ const RtoStudentLists: NextPageWithLayout = () => {
                 </div>
             </div>
             <div className="w-full mb-16 flex gap-x-2">
-                <div className="w-3/5">
+                <div className="w-full">
                     <Card>
                         <ImportStudentForm
                             onSubmit={onSubmit}
@@ -80,43 +92,72 @@ const RtoStudentLists: NextPageWithLayout = () => {
                         />
                     </Card>
                 </div>
-                {foundStudents.length ? (
-                    <div className="w-2/5">
-                        <Card>
-                            <p>
-                                <span className="text-sm font-semibold text-gray-700">
-                                    {foundStudents.length}
-                                </span>{' '}
-                                -{' '}
-                                <span className="text-sm font-medium text-gray-500">
-                                    Student(s) Found
-                                </span>
-                            </p>
+            </div>
+            <div className="flex justify-between items-stretch gap-6">
+                <div className="w-2/6">
 
-                            <table>
-                                <thead>
-                                    <tr>
-                                        <th>Student Id</th>
-                                        <th>Name</th>
-                                        <th>Email</th>
-                                        <th>Contact</th>
-                                    </tr>
-                                </thead>
+                    <SpecifyColumns
+                        initialValues={{ ...columnsToRead }}
+                        onColumnsChange={onColumnsChange}
+                    />
 
-                                <tbody>
-                                    {foundStudents.map((s: any, i: number) => (
-                                        <tr key={i}>
-                                            <td>{s.Student_id}</td>
-                                            <td>{s.name}</td>
-                                            <td>{s.email}</td>
-                                            <td>{s.contact}</td>
+                </div>
+                <div className='w-4/6'>
+                    {foundStudents.length ? (
+                        <div className="w-full">
+                            <Card>
+                                <p>
+                                    <span className="text-sm font-semibold text-gray-700">
+                                        {foundStudents.length}
+                                    </span>{' '}
+                                    -{' '}
+                                    <span className="text-sm font-medium text-gray-500">
+                                        Student(s) Found
+                                    </span>
+                                </p>
+
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th>Student Id</th>
+                                            <th>Name</th>
+                                            <th>Email</th>
+                                            <th>Contact</th>
+                                            <th>Address</th>
+                                            <th>State</th>
+                                            <th>Zip Code</th>
                                         </tr>
-                                    ))}
-                                </tbody>
-                            </table>
-                        </Card>
-                    </div>
-                ) : null}
+                                    </thead>
+
+                                    <tbody>
+                                        {/* {foundStudents.map(
+                                            (s: any, i: number) => (
+                                                <tr key={i}>
+                                                    <td>{s.Student_id}</td>
+                                                    <td>{s.name}</td>
+                                                    <td>{s.email}</td>
+                                                    <td>{s.contact}</td>
+                                                </tr>
+                                            )
+                                        )} */}
+                                        {foundStudents.map((student: any, i: number) => (
+                                            <tr key={i}>
+                                                {Object.values(columnsToRead).map((k: any) => (
+                                                    <td key={k?.id}>{student[k]}</td>
+                                                ))
+                                                }
+                                            </tr>
+                                        ))}
+                                    </tbody>
+                                </table>
+                            </Card>
+                        </div>
+                    ) : <div className='border-2 border-dashed rounded-md flex flex-col items-center justify-center h-full'>
+                        <p className='text-lg font-semibold text-gray-600'>No Students</p>
+                        <p className='text-md font-medium text-gray-500'>Students not found, or you have not selected any file</p>
+                        <p className='text-sm font-medium text-gray-400'>Also try to specify column names for particular field</p>
+                    </div>}
+                </div>
             </div>
         </>
     )
