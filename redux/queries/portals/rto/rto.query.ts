@@ -26,6 +26,10 @@ export const rtoApi = createApi({
             query: () => `rtos/profile/view`,
             providesTags: ['RTO'],
         }),
+        dashboard: build.query<any, void>({
+            query: () => `rtos/dashboard/count`,
+            providesTags: ['RTO'],
+        }),
         ...contactPersonEndpoints(build),
         ...studentEndpoints(build),
         ...coordinatorEndpoints(build),
@@ -35,6 +39,7 @@ export const rtoApi = createApi({
 const {
     // ------ SELF ------ //
     useProfileQuery,
+    useDashboardQuery,
 
     // ------ Contact Persons ------ //
     useContactPersonsQuery,
@@ -54,6 +59,7 @@ export const RtoApi = {
     Rto: {
         useProfile: useProfileQuery,
         useContactPersons: useContactPersonsQuery,
+        useDashboard: useDashboardQuery,
         useAddContactPerson: useAddContactPersonMutation,
         useRemoveContactPerson: useRemoveContactPersonMutation,
         useUpdateContactPerson: useUpdateContactPersonMutation,
