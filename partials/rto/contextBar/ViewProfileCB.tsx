@@ -35,7 +35,6 @@ export const ViewProfileCB = () => {
     const { data: rto, isLoading } = RtoApi.Rto.useProfile()
 
     const sectorsWithCourses = getSectors(rto?.courses)
-    console.log("rotssss package", rto)
     return isLoading ? (
         <LoadingAnimation />
     ) : (
@@ -66,8 +65,8 @@ export const ViewProfileCB = () => {
                     )}
                     <div
                         className={`${rto?.user.avatar
-                                ? 'w-[100px] h-[100px]'
-                                : 'w-24 h-24'
+                            ? 'w-[100px] h-[100px]'
+                            : 'w-24 h-24'
                             } absolute top-0 left-0 bg-transparent rounded-full shadow-inner-image`}
                     ></div>
                 </div>
@@ -158,7 +157,7 @@ export const ViewProfileCB = () => {
                             </Typography>
                         </div>
                         <Typography variant={'small'} color={'text-black'}>
-                            {/* {rto?.contactPerson} */}
+                            {/* {rto?.contactPerson || "NA"} */}
                             {'Not Available'}
                         </Typography>
                     </div>
@@ -173,10 +172,43 @@ export const ViewProfileCB = () => {
                             </Typography>
                         </div>
                         <Typography variant={'small'} color={'text-black'}>
-                            {/* {rto?.contactPersonNumber} */}
+                            {/* {rto?.contactPersonNumber || "N/A"} */}
                             {'Not Available'}
                         </Typography>
                     </div>
+                </div>
+            </div>
+            {/* rto Package */}
+            <div className='mt-4'>
+                <Typography variant={'small'} color={'text-gray-500'}>
+                    RTO Package
+                </Typography>
+            </div>
+            <div className="flex justify-around divide-x border-t border-b">
+                <div className='p-2'>
+                    <div className='flex items-center gap-x-2'>
+                        <BiPackage className='text-gray-400' />
+                        <Typography variant={'small'} color={"text-gray-400"}>
+                            Package Name
+                        </Typography>
+                    </div>
+                    <Typography variant={'small'} color={"text-black"}>
+                        {rto?.package?.name || "N/A"}
+                    </Typography>
+                    <Typography variant={'small'} color={"text-black"}>
+                        {ellipsisText(rto?.package?.shortDescription, 15) || "N/A"}
+                    </Typography>
+                </div>
+                <div className='p-2'>
+                    <div className='flex items-center gap-x-2'>
+                        <FaMoneyBill className='text-gray-400' />
+                        <Typography variant={'small'} color={"text-gray-400"}>
+                            Billing Type
+                        </Typography>
+                    </div>
+                    <Typography variant={'small'} color={"text-black"}>
+                        {rto?.package?.billingType || "N/A"}
+                    </Typography>
                 </div>
             </div>
 

@@ -20,8 +20,7 @@ const ImportStudents: NextPageWithLayout = () => {
         contact: 'contact',
         address: 'address',
         state: 'state',
-        zipcode: 'zipcode'
-
+        zipcode: 'zipcode',
     })
     const [file, setFile] = useState<any>(null)
 
@@ -63,54 +62,53 @@ const ImportStudents: NextPageWithLayout = () => {
 
     return (
         <>
-            <div className="w-full mb-16 flex gap-x-2">
-                <div className="w-full">
-                    <Card>
-                        <ImportStudentForm
-                            onSubmit={onSubmit}
-                            onStudentFound={onStudentFound}
+            <div className="p-6">
+                <div className="w-full mb-16 flex gap-x-2">
+                    <div className="w-full">
+                        <Card>
+                            <ImportStudentForm
+                                onSubmit={onSubmit}
+                                onStudentFound={onStudentFound}
+                            />
+                        </Card>
+                    </div>
+                </div>
+                <div className="flex justify-between items-stretch gap-6">
+                    <div className="w-2/6">
+                        <SpecifyColumns
+                            initialValues={{ ...columnsToRead }}
+                            onColumnsChange={onColumnsChange}
                         />
-                    </Card>
-                </div>
-            </div>
-            <div className="flex justify-between items-stretch gap-6">
-                <div className="w-2/6">
+                    </div>
+                    <div className="w-4/6">
+                        {foundStudents.length ? (
+                            <div className="w-full">
+                                <Card>
+                                    <p>
+                                        <span className="text-sm font-semibold text-gray-700">
+                                            {foundStudents.length}
+                                        </span>{' '}
+                                        -{' '}
+                                        <span className="text-sm font-medium text-gray-500">
+                                            Student(s) Found
+                                        </span>
+                                    </p>
 
-                    <SpecifyColumns
-                        initialValues={{ ...columnsToRead }}
-                        onColumnsChange={onColumnsChange}
-                    />
+                                    <table>
+                                        <thead>
+                                            <tr>
+                                                <th>Student Id</th>
+                                                <th>Name</th>
+                                                <th>Email</th>
+                                                <th>Contact</th>
+                                                <th>Address</th>
+                                                <th>State</th>
+                                                <th>Zip Code</th>
+                                            </tr>
+                                        </thead>
 
-                </div>
-                <div className='w-4/6'>
-                    {foundStudents.length ? (
-                        <div className="w-full">
-                            <Card>
-                                <p>
-                                    <span className="text-sm font-semibold text-gray-700">
-                                        {foundStudents.length}
-                                    </span>{' '}
-                                    -{' '}
-                                    <span className="text-sm font-medium text-gray-500">
-                                        Student(s) Found
-                                    </span>
-                                </p>
-
-                                <table>
-                                    <thead>
-                                        <tr>
-                                            <th>Student Id</th>
-                                            <th>Name</th>
-                                            <th>Email</th>
-                                            <th>Contact</th>
-                                            <th>Address</th>
-                                            <th>State</th>
-                                            <th>Zip Code</th>
-                                        </tr>
-                                    </thead>
-
-                                    <tbody>
-                                        {/* {foundStudents.map(
+                                        <tbody>
+                                            {/* {foundStudents.map(
                                             (s: any, i: number) => (
                                                 <tr key={i}>
                                                     <td>{s.Student_id}</td>
@@ -120,25 +118,42 @@ const ImportStudents: NextPageWithLayout = () => {
                                                 </tr>
                                             )
                                         )} */}
-                                        {foundStudents.map((student: any, i: number) => (
-                                            <tr key={i}>
-                                                {Object.values(columnsToRead).map((k: any) => (
-                                                    <td key={k?.id}>{student[k]}</td>
-                                                ))
-                                                }
-                                            </tr>
-                                        ))}
-                                    </tbody>
-                                </table>
-                            </Card>
-                        </div>
-                    ) : <div className='border-2 border-dashed rounded-md flex flex-col items-center justify-center h-full'>
-                        <p className='text-lg font-semibold text-gray-600'>No Students</p>
-                        <p className='text-md font-medium text-gray-500'>Students not found, or you have not selected any file</p>
-                        <p className='text-sm font-medium text-gray-400'>Also try to specify column names for particular field</p>
-                    </div>}
+                                            {foundStudents.map(
+                                                (student: any, i: number) => (
+                                                    <tr key={i}>
+                                                        {Object.values(
+                                                            columnsToRead
+                                                        ).map((k: any) => (
+                                                            <td key={k?.id}>
+                                                                {student[k]}
+                                                            </td>
+                                                        ))}
+                                                    </tr>
+                                                )
+                                            )}
+                                        </tbody>
+                                    </table>
+                                </Card>
+                            </div>
+                        ) : (
+                            <div className="border-2 border-dashed rounded-md flex flex-col items-center justify-center h-full">
+                                <p className="text-lg font-semibold text-gray-600">
+                                    No Students
+                                </p>
+                                <p className="text-md font-medium text-gray-500">
+                                    Students not found, or you have not selected
+                                    any file
+                                </p>
+                                <p className="text-sm font-medium text-gray-400">
+                                    Also try to specify column names for
+                                    particular field
+                                </p>
+                            </div>
+                        )}
+                    </div>
                 </div>
-            </div></>
+            </div>
+        </>
     )
 }
 

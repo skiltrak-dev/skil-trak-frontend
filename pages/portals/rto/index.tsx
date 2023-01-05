@@ -33,6 +33,7 @@ const RTODashboard: NextPageWithLayout = () => {
     const contextBar = useContextBar()
     const [credentials, setCredentials] = useState<any>(null)
     const { data: rto, isLoading } = RtoApi.Rto.useProfile()
+    const count = RtoApi.Rto.useDashboard()
     const router = useRouter()
 
     const UserQuestions = [
@@ -401,22 +402,22 @@ const RTODashboard: NextPageWithLayout = () => {
                 <div className="flex gap-x-4">
                     <FigureCard
                         imageUrl="/images/icons/students.png"
-                        count={0}
+                        count={count?.data?.currentStudent}
                         title={'Current Students'}
                     />
                     <FigureCard
                         imageUrl="/images/icons/pending-student.png"
-                        count={0}
+                        count={count?.data?.pendingStudent}
                         title={'Pending Students'}
                     />
                     <FigureCard
                         imageUrl="/images/icons/industry.png"
-                        count={0}
+                        count={count?.data?.workplaceRequest}
                         title={'Workplace Requests'}
                     />
                     <FigureCard
                         imageUrl="/images/icons/job.png"
-                        count={0}
+                        count={count?.data?.pendingResult}
                         title={'Pending Result'}
                     />
                 </div>

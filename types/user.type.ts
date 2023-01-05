@@ -38,6 +38,7 @@ export interface Rto extends BaseResponse {
     addressLine2: string
     zipCode: string
     user: User
+    package: any
     courses: Course[]
     subadmin: SubAdmin[]
     students: Student[]

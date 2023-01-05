@@ -49,7 +49,6 @@ const RtoDetail: NextPageWithLayout = () => {
     navBar.setSubTitle(rto?.data?.user?.name)
     // contextBar.hide()
   }, [rto.data])
-  console.log("rto admin", rto)
   useEffect(() => {
     if (rto.isSuccess) {
       contextBar.setContent(<RtoProfileSidebar data={rto.data}/>)

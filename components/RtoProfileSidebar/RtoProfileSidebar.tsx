@@ -2,7 +2,7 @@ import {
   InitialAvatar,
   InitialAvatarContainer,
 } from '@components/InitialAvatar'
-import { Typography } from '@components/Typography'
+import { Typography, LoadingAnimation } from '@components'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
 import { AiFillEdit } from 'react-icons/ai'
@@ -13,6 +13,7 @@ import {
   FaBirthdayCake,
   FaMoneyBill,
   FaPhoneAlt,
+  FaSchool,
   FaUserCircle,
 } from 'react-icons/fa'
 import { GiBackwardTime } from 'react-icons/gi'
@@ -26,7 +27,7 @@ type Props = {}
 
 export const RtoProfileSidebar = ({ data }: any) => {
   const pathname = useRouter()
-  const profileId = pathname.query.profileId;
+  const profileId = pathname.query.profileId
   // const {data} = useGetSubAdminRTODetailQuery(String(profileId), {
   //   skip: !profileId,
   // })
@@ -44,25 +45,40 @@ export const RtoProfileSidebar = ({ data }: any) => {
     return sectors
   }
   const sectorsWithCourses = getSectors(data?.courses)
-  return (
+  return data.isLoading ? (
+    <LoadingAnimation /> 
+  ):(
     <div>
-      <div className='flex justify-end gap-x-2'>
-        <div className='bg-blue-100 rounded-full p-1'>
-          <AiFillEdit className='text-blue-400  cursor-pointer ' />
+      <div className="flex justify-end gap-x-2">
+        <div className="bg-blue-100 rounded-full p-1">
+          <AiFillEdit className="text-blue-400  cursor-pointer " />
         </div>
-        <div className='bg-red-100 rounded-full p-1'>
-          <MdBlock className='text-red-400  cursor-pointer bg-red-100 rounded-full' />
+        <div className="bg-red-100 rounded-full p-1">
+          <MdBlock className="text-red-400  cursor-pointer bg-red-100 rounded-full" />
         </div>
       </div>
       <div className="flex flex-col items-center">
         <div className="relative">
-          <Image
-            src="https://images.unsplash.com/photo-1615915468538-0fbd857888ca?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8N3x8ZG9zYSUyMGh1dCUyMGxvZ298ZW58MHx8MHx8&auto=format&fit=crop&w=500&q=60"
-            width={100}
-            height={100}
-            className="rounded-full shadow-inner-image"
-          />
-          <div className="absolute top-0 w-[100px] h-[100px] bg-transparent rounded-full shadow-inner-image"></div>
+          {data?.user.avatar ? (
+            <Image
+              src={data?.user.avatar}
+              width={100}
+              height={100}
+              className="rounded-full shadow-inner-image"
+            />
+          ) : (
+            <div className="h-24 w-24 flex items-center justify-center bg-gray-100 rounded-full">
+              <span className="text-4xl text-gray-300">
+                <FaSchool />
+              </span>
+            </div>
+          )}
+          <div
+            className={`${data?.user.avatar
+                ? 'w-[100px] h-[100px]'
+                : 'w-24 h-24'
+              } absolute top-0 left-0 bg-transparent rounded-full shadow-inner-image`}
+          ></div>
         </div>
 
         <div className="flex flex-col items-center">
@@ -116,8 +132,6 @@ export const RtoProfileSidebar = ({ data }: any) => {
         </div>
       </div>
 
-
-
       {/* Info Row 3 */}
       <div className="flex justify-around">
         <div className="p-2">
@@ -125,8 +139,9 @@ export const RtoProfileSidebar = ({ data }: any) => {
             <span className="text-gray-300">
               <IoLocation />
             </span>
-            <Typography variant='body' color='text-gray-700'>
-              {data?.addressLine1} {data?.addressLine2} {data?.state} {data?.suburb}
+            <Typography variant="body" color="text-gray-700">
+              {data?.addressLine1} {data?.addressLine2}{' '}
+              {data?.state} {data?.suburb}
             </Typography>
           </div>
           {/* <div className="text-gray-400 text-[11px] -mt-0.5 text-center">
@@ -139,59 +154,60 @@ export const RtoProfileSidebar = ({ data }: any) => {
         Contact Person
       </Typography>
       <div className="flex justify-around divide-x border-t border-b">
-        <div className='p-2'>
-          <div className='flex items-center gap-x-2'>
-            <BiRename className='text-gray-400' />
-            <Typography variant={'small'} color={"text-gray-400"}>
+        <div className="p-2">
+          <div className="flex items-center gap-x-2">
+            <BiRename className="text-gray-400" />
+            <Typography variant={'small'} color={'text-gray-400'}>
               Name
             </Typography>
           </div>
-          <Typography variant={'small'} color={"text-black"}>
-            {data?.contactPerson || "N/A"}
+          <Typography variant={'small'} color={'text-black'}>
+            {data?.contactPerson || 'N/A'}
           </Typography>
         </div>
-        <div className='p-2'>
-          <div className='flex items-center gap-x-2'>
-            <FaPhoneAlt className='text-gray-400' />
-            <Typography variant={'small'} color={"text-gray-400"}>
+        <div className="p-2">
+          <div className="flex items-center gap-x-2">
+            <FaPhoneAlt className="text-gray-400" />
+            <Typography variant={'small'} color={'text-gray-400'}>
               Phone
             </Typography>
           </div>
-          <Typography variant={'small'} color={"text-black"}>
-            {data?.contactPersonNumber || "N/A"}
+          <Typography variant={'small'} color={'text-black'}>
+            {data?.contactPersonNumber || 'N/A'}
           </Typography>
         </div>
       </div>
       {/* rto Package */}
-      <div className='my-4'>
+      <div className="mt-4">
         <Typography variant={'small'} color={'text-gray-500'}>
           RTO Package
         </Typography>
       </div>
       <div className="flex justify-around divide-x border-t border-b">
-        <div className='p-2'>
-          <div className='flex items-center gap-x-2'>
-            <BiPackage className='text-gray-400' />
-            <Typography variant={'small'} color={"text-gray-400"}>
+        <div className="p-2">
+          <div className="flex items-center gap-x-2">
+            <BiPackage className="text-gray-400" />
+            <Typography variant={'small'} color={'text-gray-400'}>
               Package Name
             </Typography>
           </div>
-          <Typography variant={'small'} color={"text-black"}>
-            {data?.package?.name || "N/A"}
+          <Typography variant={'small'} color={'text-black'}>
+            {data?.package?.name || 'N/A'}
           </Typography>
-          <Typography variant={'small'} color={"text-black"}>
-            {ellipsisText(data?.package?.shortDescription, 15) || "N/A"}
+          <Typography variant={'small'} color={'text-black'}>
+            {ellipsisText(data?.package?.shortDescription, 15) ||
+              'N/A'}
           </Typography>
         </div>
-        <div className='p-2'>
-          <div className='flex items-center gap-x-2'>
-            <FaMoneyBill className='text-gray-400' />
-            <Typography variant={'small'} color={"text-gray-400"}>
+        <div className="p-2">
+          <div className="flex items-center gap-x-2">
+            <FaMoneyBill className="text-gray-400" />
+            <Typography variant={'small'} color={'text-gray-400'}>
               Billing Type
             </Typography>
           </div>
-          <Typography variant={'small'} color={"text-black"}>
-            {data?.package?.billingType || "N/A"}
+          <Typography variant={'small'} color={'text-black'}>
+            {data?.package?.billingType || 'N/A'}
           </Typography>
         </div>
       </div>
@@ -222,8 +238,6 @@ export const RtoProfileSidebar = ({ data }: any) => {
           </InitialAvatarContainer>
         </div>
       </div>
-
-
 
       {/* Eligible sectors */}
       <div className="mt-4">
@@ -319,7 +333,6 @@ export const RtoProfileSidebar = ({ data }: any) => {
           </div>
         </div>
       </div> */}
-
     </div>
   )
 }
