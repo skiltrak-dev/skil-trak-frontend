@@ -1,627 +1,50 @@
-import { ReactElement, useEffect, useState } from 'react'
 import Image from 'next/image'
-import Link from 'next/link'
-// layout
+import { ReactElement, useEffect } from 'react'
+
 import { StudentLayout } from '@layouts'
 import { Course, NextPageWithLayout, SubAdmin } from '@types'
-// components
+
 import {
-    Badge,
     Card,
-    DocumentCard,
-    HelpQuestionSet,
-    InitialAvatar,
-    LottieAnimation,
-    UserProfile,
-    InitialAvatarContainer,
     ContextBarLoading,
+    InitialAvatar,
+    InitialAvatarContainer,
     NoData,
 } from '@components'
-import { Animations } from '@animations'
-// icons
-import {
-    FaBook,
-    FaBriefcase,
-    FaMapMarker,
-    FaMapMarkerAlt,
-    FaSchool,
-} from 'react-icons/fa'
-import { MdPermContactCalendar, MdPhone, MdVerified } from 'react-icons/md'
+
+import { FaBriefcase, FaMapMarkerAlt, FaSchool } from 'react-icons/fa'
 import { IoBriefcase } from 'react-icons/io5'
-// hooks
+import { MdPermContactCalendar, MdPhone } from 'react-icons/md'
+
 import { useContextBar } from '@hooks'
-import { AuthUtils } from '@utils'
-import { ImportantDocuments } from '@partials/student/components'
+import {
+    ImportantDocuments,
+    PortalQuestions,
+} from '@partials/student/components'
 import { ViewProfileCB } from '@partials/student/contextBar'
-// import { InitialAvatarContainer } from '@components/InitialAvatar/InitialAvatarContainer'
+
 import { useGetStudentProfileDetailQuery } from '@queries'
 
-import { CallBackProps } from 'react-joyride'
-import { useRouter } from 'next/router'
-
-const NotificationQuestions = [
-    {
-        text: `I have a workplace. What next?`,
-        link: '#',
-    },
-    {
-        text: `I don't have a workplace. What should I do?`,
-        link: '#',
-    },
-]
-
-const getSectors = (courses: any) => {
-    if (!courses) return {}
-    const sectors = {}
-    courses.forEach((c: any) => {
-        if ((sectors as any)[c.sector.name]) {
-            ; (sectors as any)[c.sector.name].push(c)
-        } else {
-            ; (sectors as any)[c.sector.name] = []
-                ; (sectors as any)[c.sector.name].push(c)
-        }
-    })
-    return sectors
-}
+import { getSectors } from '@utils'
 
 const StudentDashboard: NextPageWithLayout = () => {
-    const { data, isSuccess, isLoading } = useGetStudentProfileDetailQuery()
+    const { data, isLoading } = useGetStudentProfileDetailQuery()
     const sectorsWithCourses = getSectors(data?.courses)
 
-    const [name, setName] = useState('')
-    const credentials = AuthUtils.getUserCredentials()
-
     const contextBar = useContextBar()
-    const router = useRouter()
-    const WorkplaceQuestions = [
-        {
-            text: `I have a workplace. What next?`,
-            link: 'student/workplace',
-            steps: [
-                {
-                    target: '#workplace',
-                    content: (
-                        <>
-                            <div className="font-semibold">Click here</div>
-                            <div>
-                                You can select your workplace option from here
-                            </div>
-                        </>
-                    ),
-                    disableBeacon: true,
-                },
-                {
-                    target: '#my-workplace',
-                    content: (
-                        <>
-                            <div>Click Here</div>
-                            <div>You Will find already workplace procedure</div>
-                        </>
-                    ),
-                },
-                {
-                    target: '#i-have-workplace',
-                    content: (
-                        <>
-                            <div>Click Here</div>
-                            <div>You can go here</div>
-                        </>
-                    ),
-                },
-                {
-                    target: '#routeB',
-                    content: (
-                        <>
-                            <div>This is Route B</div>
-                            <div>
-                                Yet another loader simulation and now we reached
-                                the last step in our tour!
-                            </div>
-                        </>
-                    ),
-                },
-            ],
-            joyrideCallback: (joyride: any) => {
-                return (data: CallBackProps) => {
-                    const { action, index, lifecycle, type } = data
-                    if (
-                        type === 'step:after' &&
-                        index === 0 /* or step.target === '#home' */
-                    ) {
-                        joyride.setState((prev: any) => ({
-                            ...prev,
-                            run: false,
-                        }))
-                        router.push('/portals/student/workplace')
-                    } else if (
-                        type === 'step:after' &&
-                        index === 1 /* or step.target === '#home' */
-                    ) {
-                        joyride.setState((prev: any) => ({
-                            ...prev,
-                            run: false,
-                        }))
-                        router.push('/portals/student/workplace/my-workplace')
-                    } else if (action === 'reset' || lifecycle === 'complete') {
-                        joyride.setState({
-                            ...joyride.state,
-                            run: false,
-                            stepIndex: 0,
-                            tourActive: false,
-                        })
-                    }
-                }
-            },
-        },
-        {
-            text: `I don't have a workplace. What should I do?`,
-            link: '/student/workplace/my-workplace/dont-have-workplace',
-            steps: [
-                {
-                    target: '#workplace',
-                    content: (
-                        <>
-                            <div className="font-semibold">Click here</div>
-                            <div>
-                                You can select your workplace option from here
-                            </div>
-                        </>
-                    ),
-                    disableBeacon: true,
-                },
-                {
-                    target: '#my-workplace',
-                    content: (
-                        <>
-                            <div>Click Here</div>
-                            <div>You can go here</div>
-                        </>
-                    ),
-                },
-                {
-                    target: '#i-dont-have-workplace',
-                    content: (
-                        <>
-                            <div>Click Here</div>
-                            <div>You can go here</div>
-                        </>
-                    ),
-                },
-                {
-                    target: '#routeB',
-                    content: (
-                        <>
-                            <div>This is Route B</div>
-                            <div>
-                                Yet another loader simulation and now we reached
-                                the last step in our tour!
-                            </div>
-                        </>
-                    ),
-                },
-            ],
-            joyrideCallback: (joyride: any) => {
-                return (data: CallBackProps) => {
-                    const { action, index, lifecycle, type } = data
-                    if (
-                        type === 'step:after' &&
-                        index === 0 /* or step.target === '#home' */
-                    ) {
-                        joyride.setState((prev: any) => ({
-                            ...prev,
-                            run: false,
-                        }))
-                        router.push('/portals/student/workplace')
-                    } else if (
-                        type === 'step:after' &&
-                        index === 1 /* or step.target === '#home' */
-                    ) {
-                        joyride.setState((prev: any) => ({
-                            ...prev,
-                            run: false,
-                        }))
-                        router.push('/portals/student/workplace/my-workplace')
-                    } else if (action === 'reset' || lifecycle === 'complete') {
-                        joyride.setState({
-                            ...joyride.state,
-                            run: false,
-                            stepIndex: 0,
-                            tourActive: false,
-                        })
-                    }
-                }
-            },
-        },
-        {
-            text: `I want to book an appointment`,
-            link: '/student/workplace/appointments',
-            steps: [
-                {
-                    target: '#workplace',
-                    content: (
-                        <>
-                            <div className="font-semibold">Click here</div>
-                            <div>You can see appointment tab from here</div>
-                        </>
-                    ),
-                    disableBeacon: true,
-                },
-                {
-                    target: '#appointments',
-                    content: (
-                        <>
-                            <div>Click Here</div>
-                            <div>Select appointment tab</div>
-                        </>
-                    ),
-                },
-                {
-                    target: '#book-appointment',
-                    content: (
-                        <>
-                            <div>Click Here</div>
-                        </>
-                    ),
-                },
-                {
-                    target: '#routeB',
-                    content: (
-                        <>
-                            <div>This is Route B</div>
-                            <div>
-                                Yet another loader simulation and now we reached
-                                the last step in our tour!
-                            </div>
-                        </>
-                    ),
-                },
-            ],
-            joyrideCallback: (joyride: any) => {
-                return (data: CallBackProps) => {
-                    const { action, index, lifecycle, type } = data
-                    if (
-                        type === 'step:after' &&
-                        index === 0 /* or step.target === '#home' */
-                    ) {
-                        joyride.setState((prev: any) => ({
-                            ...prev,
-                            run: false,
-                        }))
-                        router.push('/portals/student/workplace')
-                    } else if (
-                        type === 'step:after' &&
-                        index === 1 /* or step.target === '#home' */
-                    ) {
-                        joyride.setState((prev: any) => ({
-                            ...prev,
-                            run: false,
-                        }))
-                        router.push('/portals/student/workplace/appointments')
-                    } else if (action === 'reset' || lifecycle === 'complete') {
-                        joyride.setState({
-                            ...joyride.state,
-                            run: false,
-                            stepIndex: 0,
-                            tourActive: false,
-                        })
-                    }
-                }
-            },
-        },
-        {
-            text: `I want to look for a job`,
-            link: '#',
-            steps: [
-                {
-                    target: '#workplace',
-                    content: (
-                        <>
-                            <div className="font-semibold">Click here</div>
-                            <div>You can see jobs tab from here</div>
-                        </>
-                    ),
-                    disableBeacon: true,
-                },
-                {
-                    target: '#jobs',
-                    content: (
-                        <>
-                            <div>Click Here</div>
-                            <div>You can find jobs here</div>
-                        </>
-                    ),
-                },
-                {
-                    target: '#routeB',
-                    content: (
-                        <>
-                            <div>This is Route B</div>
-                            <div>
-                                Yet another loader simulation and now we reached
-                                the last step in our tour!
-                            </div>
-                        </>
-                    ),
-                },
-            ],
-            joyrideCallback: (joyride: any) => {
-                return (data: CallBackProps) => {
-                    const { action, index, lifecycle, type } = data
-                    if (
-                        type === 'step:after' &&
-                        index === 0 /* or step.target === '#home' */
-                    ) {
-                        joyride.setState((prev: any) => ({
-                            ...prev,
-                            run: false,
-                        }))
-                        router.push('/portals/student/workplace')
-                    } else if (
-                        type === 'step:after' &&
-                        index === 1 /* or step.target === '#home' */
-                    ) {
-                        joyride.setState((prev: any) => ({
-                            ...prev,
-                            run: false,
-                        }))
-                        router.push('/portals/student/workplace/jobs')
-                    } else if (action === 'reset' || lifecycle === 'complete') {
-                        joyride.setState({
-                            ...joyride.state,
-                            run: false,
-                            stepIndex: 0,
-                            tourActive: false,
-                        })
-                    }
-                }
-            },
-        },
-    ]
-    const AssessmentQuestions = [
-        {
-            text: `Where can I find assessment evidence?`,
-            link: '#',
-            steps: [
-                {
-                    target: '#assessments',
-                    content: (
-                        <>
-                            <div className="font-semibold">Click here</div>
-                            <div>
-                                You can see assessments evidence tab from here
-                            </div>
-                        </>
-                    ),
-                    disableBeacon: true,
-                },
-                {
-                    target: '#assessment-evidence',
-                    content: (
-                        <>
-                            <div>Click Here</div>
-                            <div>You can find assessment evidence here</div>
-                        </>
-                    ),
-                },
-                {
-                    target: '#routeB',
-                    content: (
-                        <>
-                            <div>This is Route B</div>
-                            <div>
-                                Yet another loader simulation and now we reached
-                                the last step in our tour!
-                            </div>
-                        </>
-                    ),
-                },
-            ],
-            joyrideCallback: (joyride: any) => {
-                return (data: CallBackProps) => {
-                    const { action, index, lifecycle, type } = data
-                    if (
-                        type === 'step:after' &&
-                        index === 0 /* or step.target === '#home' */
-                    ) {
-                        joyride.setState((prev: any) => ({
-                            ...prev,
-                            run: false,
-                        }))
-                        router.push('/portals/student/assessments')
-                    } else if (action === 'reset' || lifecycle === 'complete') {
-                        joyride.setState({
-                            ...joyride.state,
-                            run: false,
-                            stepIndex: 0,
-                            tourActive: false,
-                        })
-                    }
-                }
-            },
-        },
-        {
-            text: `where can I find assessment tools`,
-            link: '#',
-            steps: [
-                {
-                    target: '#assessments',
-                    content: (
-                        <>
-                            <div className="font-semibold">Click here</div>
-                            <div>
-                                You can see assessment tools tab from here
-                            </div>
-                        </>
-                    ),
-                    disableBeacon: true,
-                },
-                {
-                    target: '#assessment-tools',
-                    content: (
-                        <>
-                            <div>Click Here</div>
-                            <div>You can find assessment tools here</div>
-                        </>
-                    ),
-                },
-                {
-                    target: '#routeB',
-                    content: (
-                        <>
-                            <div>This is Route B</div>
-                            <div>
-                                Yet another loader simulation and now we reached
-                                the last step in our tour!
-                            </div>
-                        </>
-                    ),
-                },
-            ],
-            joyrideCallback: (joyride: any) => {
-                return (data: CallBackProps) => {
-                    const { action, index, lifecycle, type } = data
-                    if (
-                        type === 'step:after' &&
-                        index === 0 /* or step.target === '#home' */
-                    ) {
-                        joyride.setState((prev: any) => ({
-                            ...prev,
-                            run: false,
-                        }))
-                        router.push('/portals/student/assessments')
-                    } else if (action === 'reset' || lifecycle === 'complete') {
-                        joyride.setState({
-                            ...joyride.state,
-                            run: false,
-                            stepIndex: 0,
-                            tourActive: false,
-                        })
-                    }
-                }
-            },
-        },
-        {
-            text: `Where can I find e-signature?`,
-            link: '#',
-            steps: [
-                {
-                    target: '#assessments',
-                    content: (
-                        <>
-                            <div className="font-semibold">Click here</div>
-                            <div>You can see E-Sign tab from here</div>
-                        </>
-                    ),
-                    disableBeacon: true,
-                },
-                {
-                    target: '#e-sign',
-                    content: (
-                        <>
-                            <div>Click Here</div>
-                            <div>Here is E-Sign</div>
-                        </>
-                    ),
-                },
-                {
-                    target: '#routeB',
-                    content: (
-                        <>
-                            <div>This is Route B</div>
-                            <div>
-                                Yet another loader simulation and now we reached
-                                the last step in our tour!
-                            </div>
-                        </>
-                    ),
-                },
-            ],
-            joyrideCallback: (joyride: any) => {
-                return (data: CallBackProps) => {
-                    const { action, index, lifecycle, type } = data
-                    if (
-                        type === 'step:after' &&
-                        index === 0 /* or step.target === '#home' */
-                    ) {
-                        joyride.setState((prev: any) => ({
-                            ...prev,
-                            run: false,
-                        }))
-                        router.push('/portals/student/assessments')
-                    } else if (action === 'reset' || lifecycle === 'complete') {
-                        joyride.setState({
-                            ...joyride.state,
-                            run: false,
-                            stepIndex: 0,
-                            tourActive: false,
-                        })
-                    }
-                }
-            },
-        },
-    ]
+
     useEffect(() => {
         contextBar.setContent(<ViewProfileCB />)
         contextBar.show(false)
     }, [])
 
-    useEffect(() => {
-        if (name === '') {
-            if (credentials) {
-                setName(credentials?.name || 'Student')
-            } else {
-                setName('Student')
-            }
-        }
-    }, [])
-
     return (
         <div className="flex flex-col gap-y-6 pb-8">
             {/* Question Section */}
-            <section className="bg-[#D6F4FF] w-full p-4 rounded-2xl relative overflow-hidden">
-                <div className="absolute right-0 -bottom-3">
-                    <LottieAnimation
-                        animation={Animations.Common.Help}
-                        width={200}
-                        height={200}
-                    />
-                </div>
-                <div>
-                    <h3 className="text-2xl text-orange-500">
-                        Welcome Back,{' '}
-                        <span className="font-semibold text-black">{name}</span>
-                    </h3>
-                    <h4 className="font-semibold text-gray-400">
-                        What you want to do here?
-                    </h4>
-                </div>
+            <PortalQuestions />
 
-                <div className="mt-2 flex gap-x-6">
-                    <div>
-                        <HelpQuestionSet
-                            title="Workplace"
-                            questions={WorkplaceQuestions}
-                            smallHeading
-                        />
-                    </div>
-
-                    <div>
-                        <HelpQuestionSet
-                            title="Assessments"
-                            questions={AssessmentQuestions}
-                            smallHeading
-                        />
-
-                        <div className="mt-2">
-                            <HelpQuestionSet
-                                title="Notifications"
-                                questions={NotificationQuestions}
-                                smallHeading
-                            />
-                        </div>
-                    </div>
-                </div>
-            </section>
+            {/* Documents Section */}
+            <ImportantDocuments />
 
             {/* Sector Card */}
             <Card>
@@ -785,35 +208,35 @@ const StudentDashboard: NextPageWithLayout = () => {
                                             1,
                                             data?.rto?.subadmin?.length
                                         ).length > 0 && (
-                                                <InitialAvatarContainer show={2}>
-                                                    {data?.rto.subadmin
-                                                        .slice(
-                                                            1,
-                                                            data?.rto?.subadmin
-                                                                .length
+                                            <InitialAvatarContainer show={2}>
+                                                {data?.rto.subadmin
+                                                    .slice(
+                                                        1,
+                                                        data?.rto?.subadmin
+                                                            .length
+                                                    )
+                                                    .map(
+                                                        (
+                                                            subAdmin: SubAdmin,
+                                                            idx: number
+                                                        ) => (
+                                                            <InitialAvatar
+                                                                key={
+                                                                    subAdmin.id
+                                                                }
+                                                                name={
+                                                                    subAdmin
+                                                                        .user
+                                                                        .name
+                                                                }
+                                                                first={
+                                                                    idx === 0
+                                                                }
+                                                            />
                                                         )
-                                                        .map(
-                                                            (
-                                                                subAdmin: SubAdmin,
-                                                                idx: number
-                                                            ) => (
-                                                                <InitialAvatar
-                                                                    key={
-                                                                        subAdmin.id
-                                                                    }
-                                                                    name={
-                                                                        subAdmin
-                                                                            .user
-                                                                            .name
-                                                                    }
-                                                                    first={
-                                                                        idx === 0
-                                                                    }
-                                                                />
-                                                            )
-                                                        )}
-                                                </InitialAvatarContainer>
-                                            )}
+                                                    )}
+                                            </InitialAvatarContainer>
+                                        )}
                                     </div>
                                 </div>
                             </div>
@@ -850,100 +273,148 @@ const StudentDashboard: NextPageWithLayout = () => {
                     {/* Card Body */}
                     {data?.workplace?.length > 0 ? (
                         <div className="mt-4">
-                            <div className="flex items-center gap-x-6 mb-4">
-                                <div className="flex-shrink-0">
-                                    {data?.rto?.user?.avatar ? (
-                                        <Image
-                                            src={data?.rto?.user?.avatar}
-                                            width={100}
-                                            height={100}
-                                            className="rounded-full shadow-inner-image"
-                                        />
-                                    ) : (
-                                        <div className="h-24 w-24 flex items-center justify-center bg-gray-100 rounded-full">
-                                            <span className="text-4xl text-gray-300">
-                                                <FaBriefcase />
-                                            </span>
-                                        </div>
-                                    )}
-                                </div>
-                                {data?.workplace[0]?.industries?.map((workplace: any) => (
-                                    workplace?.applied && (
-                                        <>
-                                            <div key={data?.workplace?.[0]?.id}>
-                                                <div>
-                                                    <p className="font-medium">
-                                                        {workplace?.industry?.businessName}
-                                                    </p>
-                                                    <p className="text-slate-400 text-sm">
-                                                        {workplace?.industry?.user?.email}
-                                                    </p>
-                                                </div>
+                            {data?.workplace[0]?.industries?.map(
+                                (workplace: any) => {
+                                    return (
+                                        workplace?.applied && (
+                                            <>
+                                                <div
+                                                    key={
+                                                        data?.workplace?.[0]?.id
+                                                    }
+                                                >
+                                                    <div className="flex items-center gap-x-6 mb-4">
+                                                        <div className="flex-shrink-0">
+                                                            {workplace?.industry
+                                                                ?.avatar ? (
+                                                                <Image
+                                                                    src={
+                                                                        data
+                                                                            ?.rto
+                                                                            ?.user
+                                                                            ?.avatar
+                                                                    }
+                                                                    width={100}
+                                                                    height={100}
+                                                                    className="rounded-full shadow-inner-image"
+                                                                />
+                                                            ) : (
+                                                                <div className="h-24 w-24 flex items-center justify-center bg-gray-100 rounded-full">
+                                                                    <span className="text-4xl text-gray-300">
+                                                                        <FaBriefcase />
+                                                                    </span>
+                                                                </div>
+                                                            )}
+                                                        </div>
 
-                                                <div className="flex gap-x-3 mt-1 border-t pt-2">
-                                                    <div className="flex items-center gap-x-1">
-                                                        <span className="text-gray-400">
-                                                            <MdPermContactCalendar
-                                                                size={14}
-                                                            />
-                                                        </span>
-                                                        <span className="text-xs">
-                                                            {workplace?.industry?.user?.name}
-                                                        </span>
-                                                    </div>
-                                                    <div className="flex items-center gap-x-1">
-                                                        <span className="text-gray-400">
-                                                            <MdPhone size={14} />
-                                                        </span>
-                                                        <span className="text-xs">
-                                                            {workplace?.industry?.phoneNumber}
-                                                        </span>
-                                                    </div>
-                                                </div>
-
-                                                <div className="mt-2">
-                                                    <p className="text-[11px] text-gray-400">
-                                                        Contact Person
-                                                    </p>
-                                                    <div className="flex justify-between gap-x-4">
                                                         <div>
-                                                            <p className="font-medium text-sm">
-                                                                {workplace?.industry?.contactPerson || "N/A"}
+                                                            <div>
+                                                                <p className="font-medium">
+                                                                    {
+                                                                        workplace
+                                                                            ?.industry
+                                                                            ?.businessName
+                                                                    }
+                                                                </p>
+                                                                <p className="text-slate-400 text-sm">
+                                                                    {
+                                                                        workplace
+                                                                            ?.industry
+                                                                            ?.user
+                                                                            ?.email
+                                                                    }
+                                                                </p>
+                                                            </div>
 
-                                                            </p>
-                                                            <p className="text-xs font-medium text-slate-400">
-                                                                {/* smith@tandoori.com.au */}
-                                                                {workplace?.industry?.contactPersonNumber || "N/A"}
-                                                            </p>
+                                                            <div className="flex gap-x-3 mt-1 border-t pt-2">
+                                                                <div className="flex items-center gap-x-1">
+                                                                    <span className="text-gray-400">
+                                                                        <MdPermContactCalendar
+                                                                            size={
+                                                                                14
+                                                                            }
+                                                                        />
+                                                                    </span>
+                                                                    <span className="text-xs">
+                                                                        {
+                                                                            workplace
+                                                                                ?.industry
+                                                                                ?.user
+                                                                                ?.name
+                                                                        }
+                                                                    </span>
+                                                                </div>
+                                                                <div className="flex items-center gap-x-1">
+                                                                    <span className="text-gray-400">
+                                                                        <MdPhone
+                                                                            size={
+                                                                                14
+                                                                            }
+                                                                        />
+                                                                    </span>
+                                                                    <span className="text-xs">
+                                                                        {
+                                                                            workplace
+                                                                                ?.industry
+                                                                                ?.phoneNumber
+                                                                        }
+                                                                    </span>
+                                                                </div>
+                                                            </div>
+
+                                                            <div className="mt-2">
+                                                                <p className="text-[11px] text-gray-400">
+                                                                    Contact
+                                                                    Person
+                                                                </p>
+                                                                <div className="flex justify-between gap-x-4">
+                                                                    <div>
+                                                                        <p className="font-medium text-sm">
+                                                                            {workplace
+                                                                                ?.industry
+                                                                                ?.contactPerson ||
+                                                                                'N/A'}
+                                                                        </p>
+                                                                        <p className="text-xs font-medium text-slate-400">
+                                                                            {workplace
+                                                                                ?.industry
+                                                                                ?.contactPersonNumber ||
+                                                                                'N/A'}
+                                                                        </p>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div className="flex gap-x-3 mt-1 border-t pt-2">
+                                                        <div className="flex items-center gap-x-1">
+                                                            <span className="text-gray-400">
+                                                                <FaMapMarkerAlt
+                                                                    size={14}
+                                                                />
+                                                            </span>
+                                                            <span className="text-xs">
+                                                                {
+                                                                    workplace
+                                                                        ?.industry
+                                                                        ?.state
+                                                                }
+                                                                ,
+                                                                {
+                                                                    workplace
+                                                                        ?.industry
+                                                                        ?.suburb
+                                                                }
+                                                            </span>
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                            {/* <div className="flex gap-x-3 mt-1 border-t pt-2">
-                                                <div className="flex items-center gap-x-1">
-                                                    <span className="text-gray-400">
-                                                        <FaMapMarkerAlt size={14} />
-                                                    </span>
-                                                    <span className="text-xs">
-                                                        221B Baker Street, Sydney, Australia
-                                                    </span>
-                                                </div>
-                                            </div> */}
-                                        </>
+                                            </>
+                                        )
                                     )
-                                ))}
-                            </div>
-
-                            <div className="flex gap-x-3 mt-1 border-t pt-2">
-                                <div className="flex items-center gap-x-1">
-                                    <span className="text-gray-400">
-                                        <FaMapMarkerAlt size={14} />
-                                    </span>
-                                    <span className="text-xs">
-                                        221B Baker Street, Sydney, Australia
-                                    </span>
-                                </div>
-                            </div>
+                                }
+                            )}
                         </div>
                     ) : (
                         <div className="mt-6">
@@ -952,8 +423,6 @@ const StudentDashboard: NextPageWithLayout = () => {
                     )}
                 </Card>
             </div>
-
-            <ImportantDocuments />
         </div>
     )
 }

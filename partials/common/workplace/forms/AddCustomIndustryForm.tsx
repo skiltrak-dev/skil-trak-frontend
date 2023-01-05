@@ -341,7 +341,7 @@ export const AddCustomIndustryForm = ({
                             </div>
                         </div>
 
-                        <div className="ml-auto pl-12">
+                        <div className="">
                             <div className="mb-6">
                                 <Checkbox
                                     name={'agreedWithPrivacyPolicy'}

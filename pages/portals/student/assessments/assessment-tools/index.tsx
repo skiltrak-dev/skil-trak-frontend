@@ -42,7 +42,11 @@ const AssessmentTools: NextPageWithLayout = (props: Props) => {
     )
 }
 AssessmentTools.getLayout = (page: ReactElement) => {
-    return <StudentLayout title="Assessment Tools">{page}</StudentLayout>
+    return (
+        <StudentLayout pageTitle={{ title: 'Assessment Tools' }}>
+            {page}
+        </StudentLayout>
+    )
 }
 
 export default AssessmentTools

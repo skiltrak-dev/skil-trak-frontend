@@ -21,7 +21,7 @@ import {
 } from '@queries'
 import { useNotification } from '@hooks'
 import { AddCustomIndustryForm, FindWorkplaceForm } from '@partials/common'
-import { AppliedIndustry, ExistinIndustryCard } from '@partials/student'
+import { AppliedIndustry, ExistingIndustryCard } from '@partials/student'
 
 type Props = {}
 
@@ -29,6 +29,8 @@ const HaveWorkplace: NextPageWithLayout = (props: Props) => {
     const [active, setActive] = useState(1)
     const [personalInfoData, setPersonalInfoData] = useState({})
     const [industryABN, setIndustryABN] = useState<string | null>(null)
+
+    const [industryNotFound, setIndustryNotFound] = useState(false)
 
     const [workplaceData, setWorkplaceData] = useState<any | null>(null)
     const { notification } = useNotification()
@@ -58,14 +60,16 @@ const HaveWorkplace: NextPageWithLayout = (props: Props) => {
 
     useEffect(() => {
         if (!result.data && result.isSuccess) {
-            notification.error({
-                title: 'Industry Not Found',
-                description:
-                    'Your Industry Not found in our record, we are redirecting you to industry signup page, pleae provide the details',
-            })
+            // notification.error({
+            //     title: 'Industry Not Found',
+            //     description:
+            //         'Your Industry Not found in our record, we are redirecting you to industry signup page, pleae provide the details',
+            // })
+
+            setIndustryNotFound(true)
             setTimeout(() => {
                 setActive((active: number) => active + 1)
-            }, 2000)
+            }, 3000)
         }
         if (result.data && result.isSuccess) {
             setActive((active: number) => active + 1)
@@ -98,7 +102,7 @@ const HaveWorkplace: NextPageWithLayout = (props: Props) => {
 
     const StepIndicatorOptions = [
         {
-            label: 'Personal Info',
+            label: 'Search Industry',
             visited: false,
             last: false,
         },
@@ -151,20 +155,38 @@ const HaveWorkplace: NextPageWithLayout = (props: Props) => {
 
             <div className="w-[75%]">
                 {active === 1 && (
-                    <FindWorkplaceForm onSubmit={onSubmit} result={result} />
+                    <div>
+                        {industryNotFound ? (
+                            <div className="bg-red-200 rounded-lg px-2 py-1 mb-2">
+                                <p className="text-sm font-semibold text-red-500">
+                                    Industry for provided ABN not found
+                                </p>
+                                <p className="text-xs text-red-400">
+                                    You will be redirected to Industry Form so
+                                    you can add your industry&apos;s information
+                                </p>
+                            </div>
+                        ) : null}
+                        <FindWorkplaceForm
+                            onSubmit={onSubmit}
+                            result={result}
+                        />
+                    </div>
                 )}
 
                 {active === 2 &&
                     (!result?.data ? (
-                        <AddCustomIndustryForm
-                            onSubmit={onAddIndustry}
-                            setWorkplaceData={setWorkplaceData}
-                            result={addWorkplaceResult}
-                            industryABN={industryABN}
-                            setActive={setActive}
-                        />
+                        <div className="mb-4">
+                            <AddCustomIndustryForm
+                                onSubmit={onAddIndustry}
+                                setWorkplaceData={setWorkplaceData}
+                                result={addWorkplaceResult}
+                                industryABN={industryABN}
+                                setActive={setActive}
+                            />
+                        </div>
                     ) : (
-                        <ExistinIndustryCard
+                        <ExistingIndustryCard
                             setActive={setActive}
                             personalInfoData={personalInfoData}
                             res={result}
@@ -242,7 +264,13 @@ const HaveWorkplace: NextPageWithLayout = (props: Props) => {
     )
 }
 HaveWorkplace.getLayout = (page: ReactElement) => {
-    return <StudentLayout title="Workplace">{page}</StudentLayout>
+    return (
+        <StudentLayout
+            pageTitle={{ title: 'Add Workplace', backTitle: 'Workplace' }}
+        >
+            {page}
+        </StudentLayout>
+    )
 }
 
 export default HaveWorkplace

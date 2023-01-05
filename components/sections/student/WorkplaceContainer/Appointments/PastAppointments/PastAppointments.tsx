@@ -46,8 +46,10 @@ export const PastAppointments = (props: Props) => {
                     )
                 ) : (
                     <EmptyData
-                        title={'No Past appointments'}
-                        description={'No Past appointments'}
+                        title={'No Past Appointments'}
+                        imageUrl={'/images/icons/appointments.png'}
+                        description={'No Past Appointments'}
+                        height={'30vh'}
                     />
                 )}
             </div>

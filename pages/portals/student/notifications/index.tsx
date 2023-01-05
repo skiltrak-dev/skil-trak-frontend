@@ -113,7 +113,7 @@ const StudentNotifications: NextPageWithLayout = () => {
 }
 
 StudentNotifications.getLayout = (page: ReactElement) => {
-    return <StudentLayout title="Notifications">{page}</StudentLayout>
+    return <StudentLayout pageTitle={{title:"Notifications"}}>{page}</StudentLayout>
 }
 
 export default StudentNotifications

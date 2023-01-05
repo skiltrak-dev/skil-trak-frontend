@@ -80,8 +80,7 @@ const OtherQuestions = [
 ]
 
 const StudentWorkplace: NextPageWithLayout = () => {
-    const { data, isLoading, isError, isSuccess } =
-        useGetPlacementProgressQuery()
+    const { data: getPlacementProgress } = useGetPlacementProgressQuery()
     const { data: recentAppointments } = useGetStudentPastAppointmentsQuery()
 
     const { setContent } = useContextBar()
@@ -114,30 +113,32 @@ const StudentWorkplace: NextPageWithLayout = () => {
 
                 {/* Special Cards */}
                 <div className="w-full flex flex-col space-y-2">
-                    <PlacementProgressCard placementProgress={data} />
+                    <PlacementProgressCard
+                        placementProgress={getPlacementProgress}
+                    />
                     <RecentAppointmentCard appointment={recentAppointments} />
                 </div>
             </div>
 
-            <div className="mt-6 flex justify-between">
-                {/* Related Questions */}
+            {/* <div className="mt-6 flex justify-between">
                 <HelpQuestionSet
                     title={'What you want to do here?'}
                     questions={RelatedQuestions}
                 />
 
-                {/* Other Questions */}
                 <HelpQuestionSet
                     title={'What else you want to do?'}
                     questions={OtherQuestions}
                 />
-            </div>
+            </div> */}
         </div>
     )
 }
 
 StudentWorkplace.getLayout = (page: ReactElement) => {
-    return <StudentLayout title="Workplace">{page}</StudentLayout>
+    return (
+        <StudentLayout pageTitle={{ title: 'Workplace' }}>{page}</StudentLayout>
+    )
 }
 
 export default StudentWorkplace

@@ -14,7 +14,7 @@ const AssessmentEvidence: NextPageWithLayout = (props: Props) => {
     )
 }
 AssessmentEvidence.getLayout = (page: ReactElement) => {
-    return <StudentLayout title="E-Sign">{page}</StudentLayout>
+    return <StudentLayout pageTitle={{title:"E-Sign"}}>{page}</StudentLayout>
 }
 
 export default AssessmentEvidence

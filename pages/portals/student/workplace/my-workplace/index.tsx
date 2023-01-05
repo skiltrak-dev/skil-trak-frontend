@@ -123,7 +123,13 @@ const MyWorkPlaces: NextPageWithLayout = (props: Props) => {
     )
 }
 MyWorkPlaces.getLayout = (page: ReactElement) => {
-    return <StudentLayout title="Workplace">{page}</StudentLayout>
+    return (
+        <StudentLayout
+            pageTitle={{ title: 'My Workplace', backTitle: 'Workplace' }}
+        >
+            {page}
+        </StudentLayout>
+    )
 }
 
 export default MyWorkPlaces

@@ -1,4 +1,9 @@
-import { DisplayAlerts, PageTitle, StudentNavbar } from '@components'
+import {
+    DisplayAlerts,
+    PageTitle,
+    PageTitleProps,
+    StudentNavbar,
+} from '@components'
 import { ReactNode, useEffect, useState } from 'react'
 import { UserLayout } from './UserLayout'
 import { useAlert, useJoyRide } from '@hooks'
@@ -7,12 +12,14 @@ import { useRouter } from 'next/router'
 import Joyride, { CallBackProps } from 'react-joyride'
 
 interface StudentLayoutProps {
-    title?: string
+    pageTitle?: PageTitleProps
     children: ReactNode
 }
-export const StudentLayout = ({ title, children }: StudentLayoutProps) => {
+
+export const StudentLayout = ({ pageTitle, children }: StudentLayoutProps) => {
     const [mounted, setMounted] = useState(false)
     const router = useRouter()
+
     const { alert } = useAlert()
     const userData = getUserCredentials()
     const joyride = useJoyRide()
@@ -44,9 +51,13 @@ export const StudentLayout = ({ title, children }: StudentLayoutProps) => {
                         <StudentNavbar />
                         <DisplayAlerts />
                     </div>
-                    {title && (
+                    {pageTitle && pageTitle.title && (
                         <div className="mb-6">
-                            <PageTitle title={title} />
+                            <PageTitle
+                                title={pageTitle.title}
+                                navigateBack={pageTitle?.navigateBack}
+                                backTitle={pageTitle?.backTitle}
+                            />
                         </div>
                     )}
                     <div>{children}</div>

@@ -1,4 +1,4 @@
-import { default as ReactSelect } from 'react-select'
+import { default as ReactSelect, MenuPlacement } from 'react-select'
 
 // components
 import {
@@ -27,7 +27,7 @@ export type SelectProps = {
     onlyValue?: any
     placeholder?: string
     inputRef?: any
-    menuPlacement?: any
+    menuPlacement?: MenuPlacement
 } & InputProps
 
 export const Select = ({

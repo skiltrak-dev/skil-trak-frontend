@@ -154,7 +154,7 @@ const BookAppointment: NextPageWithLayout = (props: Props) => {
     )
 }
 BookAppointment.getLayout = (page: ReactElement) => {
-    return <StudentLayout title="Workplace">{page}</StudentLayout>
+    return <StudentLayout pageTitle={{title:"Workplace"}}>{page}</StudentLayout>
 }
 
 export default BookAppointment

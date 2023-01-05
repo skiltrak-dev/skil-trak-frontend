@@ -127,7 +127,11 @@ const StudentAssessments: NextPageWithLayout = () => {
 }
 
 StudentAssessments.getLayout = (page: ReactElement) => {
-    return <StudentLayout title="Assessments">{page}</StudentLayout>
+    return (
+        <StudentLayout pageTitle={{ title: 'Assessments' }}>
+            {page}
+        </StudentLayout>
+    )
 }
 
 export default StudentAssessments

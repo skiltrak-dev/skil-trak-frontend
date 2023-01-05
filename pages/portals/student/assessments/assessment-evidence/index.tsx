@@ -1,29 +1,21 @@
-import { ReactElement, useState, useEffect } from 'react'
+import { ReactElement, useEffect, useState } from 'react'
 
-import { StudentLayout } from '@layouts'
-import { NextPageWithLayout } from '@types'
-import { AssessmentsEvidence } from '@components/sections/student/AssessmentsContainer/AssessmentsEvidence'
 import {
-    NoData,
-    Button,
-    Checkbox,
-    Typography,
-    LoadingAnimation,
-    ShowErrorNotifications,
-    PageTitle,
+    LoadingAnimation, NoData, PageTitle, Typography
 } from '@components'
 import { AssessmentCourseCard } from '@components/sections/student/AssessmentsContainer'
+import { AssessmentsEvidence } from '@components/sections/student/AssessmentsContainer/AssessmentsEvidence'
+import { StudentLayout } from '@layouts'
+import { NextPageWithLayout } from '@types'
 
 // query
+import { NotificationMessage } from '@components/NotificationMessage'
+import { Actions } from '@components/sections/student/AssessmentsContainer/AssessmentsEvidence/components/Actions'
+import { useNotification } from '@hooks'
 import {
     useGetAssessmentsCoursesQuery,
-    useGetAssessmentsFoldersQuery,
-    useSubmitStudentAssessmentMutation,
+    useGetAssessmentsFoldersQuery
 } from '@queries'
-import { useNotification } from '@hooks'
-import { Actions } from '@components/sections/student/AssessmentsContainer/AssessmentsEvidence/components/Actions'
-import { MdOutlineEditNotifications } from 'react-icons/md'
-import { NotificationMessage } from '@components/NotificationMessage'
 
 type Props = {}
 
@@ -182,7 +174,11 @@ const AssessmentEvidence: NextPageWithLayout = (props: Props) => {
     )
 }
 AssessmentEvidence.getLayout = (page: ReactElement) => {
-    return <StudentLayout>{page}</StudentLayout>
+    return (
+        <StudentLayout pageTitle={{ title: 'Assessment Evidence' }}>
+            {page}
+        </StudentLayout>
+    )
 }
 
 export default AssessmentEvidence

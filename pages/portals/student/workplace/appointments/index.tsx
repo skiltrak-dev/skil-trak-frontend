@@ -2,7 +2,8 @@ import { useRouter } from 'next/router'
 
 import { ReactElement, useEffect } from 'react'
 import { UpcommingAppointments, PastAppointments } from '@partials/common'
-import { Button } from '@components'
+import { UpcomingAppointments } from '@components/sections'
+import { Button, PageTitle } from '@components'
 
 import { StudentLayout } from '@layouts'
 import { NextPageWithLayout } from '@types'
@@ -24,19 +25,19 @@ const Appointments: NextPageWithLayout = (props: Props) => {
     // APPOINTMENTS JOY RIDE - END
     return (
         <>
-            <div
-                id="book-appointment"
-                className="flex items-center justify-end"
-            >
-                <Button
-                    text={'Book Appointment'}
-                    variant={'info'}
-                    onClick={() => {
-                        router.push(
-                            '/portals/student/workplace/book-appointment'
-                        )
-                    }}
-                />
+            <div className="flex justify-between items-end mb-4">
+                <PageTitle title="Appointments" backTitle="Workplace" />
+                <div id="book-appointment">
+                    <Button
+                        text={'Book Appointment'}
+                        variant={'info'}
+                        onClick={() => {
+                            router.push(
+                                '/portals/student/workplace/book-appointment'
+                            )
+                        }}
+                    />
+                </div>
             </div>
             <UpcommingAppointments />
             <PastAppointments />
@@ -44,7 +45,7 @@ const Appointments: NextPageWithLayout = (props: Props) => {
     )
 }
 Appointments.getLayout = (page: ReactElement) => {
-    return <StudentLayout title="Appointments">{page}</StudentLayout>
+    return <StudentLayout>{page}</StudentLayout>
 }
 
 export default Appointments

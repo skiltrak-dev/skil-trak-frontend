@@ -4,7 +4,7 @@ import { Typography, Button, Card } from '@components'
 // query
 import { useApplyWorkplaceWithAbnIndustryMutation } from '@queries'
 
-export const ExistinIndustryCard = ({
+export const ExistingIndustryCard = ({
     industry,
     setActive,
     setWorkplaceData,
@@ -22,11 +22,21 @@ export const ExistinIndustryCard = ({
     return (
         <div>
             <Card>
-                <Typography variant="h4">Your Industry</Typography>
-                <div className="bg-secondary-dark py-2 px-4 rounded-lg flex justify-between items-center">
+                <div className="mb-4">
+                    <h2 className="font-semibold">
+                        We found following industry
+                    </h2>
+                    <p className="text-xs text-gray-400">
+                        This is result of ABN number you have provided{' '}
+                        <i>{industry.abn}</i>
+                    </p>
+                </div>
+
+                <p className='font-medium text-xs text-gray-500 mb-1'>You can carry on by clicking &apos;Apply Here&apos; button</p>
+                <div className="bg-gray-100 py-2 px-2 rounded-lg flex justify-between items-center">
                     <div className="flex items-center gap-x-2">
                         <img
-                            className="w-12 h-12"
+                            className="w-12 h-12 rounded-md"
                             src={`https://picsum.photos/100/10${industry?.id}`}
                             alt=""
                         />
@@ -44,7 +54,7 @@ export const ExistinIndustryCard = ({
                         </div>
                     </div>
                     <Button
-                        variant={'secondary'}
+                        variant={'primary'}
                         text={'Apply Here'}
                         // disabled={industries?.map((i: any) => i.applied).includes(true)}
                         onClick={async () => {

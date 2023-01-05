@@ -61,7 +61,7 @@ const Schedule: NextPageWithLayout = (props: Props) => {
     )
 }
 Schedule.getLayout = (page: ReactElement) => {
-    return <StudentLayout title="Schedule">{page}</StudentLayout>
+    return <StudentLayout pageTitle={{title:"Schedule"}}>{page}</StudentLayout>
 }
 
 export default Schedule

@@ -1,15 +1,11 @@
-import React from 'react'
 
 import {
-    Typography,
-    EmptyData,
-    UpcomingAppointmentCard,
-    FutureAppointments,
+    FutureAppointments, Typography
 } from '@components'
 
 // query
-import { useGetStudentAppointmentsQuery } from '@queries'
 import { LoadingAnimation } from '@components/LoadingAnimation'
+import { useGetStudentAppointmentsQuery } from '@queries'
 
 type Props = {}
 
@@ -17,44 +13,30 @@ export const UpcomingAppointments = (props: Props) => {
     const studentAppointments = useGetStudentAppointmentsQuery({
         status: 'future',
     })
-    const UpcomingAppointmentsData = [
-        {
-            date: 'Wednesday, October 19',
-            time: '09:30 am - 10:00 am',
-            totalMinutes: '~ 60 Min',
-            address: '221b Baker St, VIC 3000',
-            name: 'Saad Shah',
-            imageUrl: '/images/card-images/video-icon.png',
-            post: 'Video Conference',
-        },
-        {
-            date: 'Wednesday, October 19',
-            time: '09:30 am - 10:00 am',
-            totalMinutes: '~ 60 Min',
-            address: '221b Baker St, VIC 3000',
-            name: 'Salman Khan',
-            imageUrl: '/images/card-images/phone-icon.png',
-            post: 'Phone Consultation',
-        },
-    ]
+
     return (
         <>
-            <div className="pb-1">
-                <Typography variant={'label'} color={'text-black'}>
-                    Your Upcoming Appointments
-                </Typography>
+            <div
+                className={`grid ${
+                    studentAppointments?.data?.length ? 'grid-cols-1' : ''
+                } md:grid-cols-2 gap-4`}
+            >
+                {studentAppointments.isLoading ? (
+                    <LoadingAnimation />
+                ) : studentAppointments?.data &&
+                  studentAppointments?.data?.length ? (
+                    <>
+                        <div className="pb-1">
+                            <Typography variant={'label'} color={'text-black'}>
+                                Your Upcoming Appointments
+                            </Typography>
+                        </div>
+                        <FutureAppointments
+                            appointments={studentAppointments?.data}
+                        />
+                    </>
+                ) : null}
             </div>
-            {studentAppointments.isLoading ? (
-                <LoadingAnimation />
-            ) : studentAppointments?.data &&
-              studentAppointments?.data?.length ? (
-                <FutureAppointments appointments={studentAppointments?.data} />
-            ) : (
-                <EmptyData
-                    title={'No Recent Appointments'}
-                    description={'No Recent Appointments'}
-                />
-            )}
         </>
     )
 }
