@@ -87,7 +87,7 @@ const RtoWorkplaces: NextPageWithLayout = (props: Props) => {
 
                 return (
                     <Link
-                        href={`/portals/rto/industries/workplaces/${row.original.id}`}
+                        href={`/portals/rto/industries/workplaces/${row?.original?.id}`}
                     >
                         <a className="flex items-center gap-x-2">
                             <div className="shadow-inner-image rounded-full relative">

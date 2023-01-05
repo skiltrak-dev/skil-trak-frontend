@@ -33,7 +33,7 @@ import { IndustryCellInfo } from '../indestries/components'
 import { IndustryCell } from '@partials/admin/industry/components'
 import { getActiveIndustry } from '@partials/student/utils'
 import { checkWorkplaceStatus } from '@utils'
-import { ProgressCell } from '@partials/admin/student/components'
+import { ProgressCell, SectorCell } from '@partials/admin/student/components'
 
 export const AllStudents = () => {
     const router = useRouter()
@@ -130,6 +130,13 @@ export const AllStudents = () => {
                         )}
                     </div>
                 )
+            },
+        },
+        {
+            accessorKey: 'sectors',
+            header: () => <span>Sectors</span>,
+            cell: ({row}:any) => {
+                return <SectorCell student={row.original} />
             },
         },
         {

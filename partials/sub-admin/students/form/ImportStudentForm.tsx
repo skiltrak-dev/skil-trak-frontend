@@ -56,7 +56,6 @@ export const ImportStudentForm = ({
 
         if (sheets.length) {
             const rows = utils.sheet_to_json(wb.Sheets[sheets[0]])
-            console.log("::: ROWS", rows)
             onStudentFound && onStudentFound(rows, fileData)
         }
     }

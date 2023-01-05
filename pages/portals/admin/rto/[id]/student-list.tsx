@@ -60,7 +60,6 @@ const RtoStudentLists: NextPageWithLayout = () => {
             router.back()
         }
     }, [importStudentsResult])
-    console.log("importStudentsResult:::::", importStudentsResult)
     return (
         <>
             <div className="p-6">

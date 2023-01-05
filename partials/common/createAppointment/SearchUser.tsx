@@ -29,7 +29,6 @@ export const SearchUser = ({
     setSelectedPerson: Function
 }) => {
     const [studentIndustry, setStudentIndustry] = useState<number | null>(null)
-    console.log('studentIndustry', studentIndustry)
     return (
         <div className="flex flex-col gap-y-2.5">
             <SearchAppointmentForUser

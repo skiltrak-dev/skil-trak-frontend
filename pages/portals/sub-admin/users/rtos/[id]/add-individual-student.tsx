@@ -15,7 +15,6 @@ import { AddIndividualStudentForm } from '@partials/sub-admin/students/form'
 const AddIndividualStudent: NextPageWithLayout = () => {
     const { alert } = useAlert()
     const router = useRouter()
-    console.log(router.query.id)
     const contextBar = useContextBar()
     // const [addStudent, addStudentResult] =
     //     RtoApi.Coordinator.useCreate()
