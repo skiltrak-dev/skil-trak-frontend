@@ -152,6 +152,7 @@ const CreateAppointments: NextPageWithLayout = (props: Props) => {
                         setSelectedTime={setSelectedTime}
                         selectedTime={selectedTime}
                         userAvailabilities={availableSlots?.data}
+                        loading={availableSlots.isLoading}
                         appointmentAvailability={
                             coordinatorAvailability.data?.availabilities[0]
                                 ?.availability

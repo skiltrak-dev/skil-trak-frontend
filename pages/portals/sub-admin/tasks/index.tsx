@@ -36,7 +36,7 @@ const PrimaryLinks = [
         id: 'appointments',
     },
     {
-        title: 'Assessment Evidence',
+        title: 'Assessment Submissions',
         description: 'Some helping text',
         link: 'tasks/assessment-evidence',
         animation: Animations.Student.Appointments.AssessmentEvidence,

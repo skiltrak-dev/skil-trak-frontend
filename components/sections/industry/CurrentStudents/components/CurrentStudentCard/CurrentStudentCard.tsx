@@ -4,11 +4,11 @@ import { Typography } from '@components/Typography'
 import React, { useEffect, useState } from 'react'
 import { RiBook2Fill } from 'react-icons/ri'
 import { Notes } from '../Notes'
-import { StudentAvailability } from '../StudentAvailability'
 import { StudentDetail } from '../StudentDetail'
 import moment from 'moment'
 import { Actions } from '../Actions'
 import { RtoDetail } from '../RtoDetail'
+import { StudentAvailability } from '@partials/common'
 
 export const CurrentStudentCard = ({ workplace }: any) => {
     const [industry, setIndustry] = useState<any | null>(null)

@@ -28,7 +28,7 @@ const RtoList: NextPageWithLayout = () => {
     const [filterAction, setFilterAction] = useState(null)
     const [filter, setFilter] = useState({})
     const [page, setPage] = useState(1)
-    const [itemPerPage, setItemPerPage] = useState(5)
+    const [itemPerPage, setItemPerPage] = useState(50)
 
     const { isLoading, data } = AdminApi.Students.useCountQuery()
     const filteredStudents = AdminApi.Students.useFilteredStudents(

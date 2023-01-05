@@ -1,4 +1,4 @@
-import { SidebarCalendar } from '@components'
+import { LoadingAnimation, SidebarCalendar } from '@components'
 import { Typography } from '@components/Typography'
 import { Paginate } from '@components'
 import { useCallback, useEffect, useMemo, useState } from 'react'
@@ -7,6 +7,7 @@ import moment from 'moment'
 
 // queries
 import { useGetCoordinatorsAvailabilityQuery } from '@queries'
+import { RiErrorWarningFill, RiRestTimeLine } from 'react-icons/ri'
 
 type Props = {
     subAdmin?: boolean
@@ -18,6 +19,7 @@ type Props = {
     appointmentAvailability: any
     bookedAppointment: any
     userAvailabilities?: any
+    loading: boolean
 }
 
 const days = [
@@ -53,14 +55,15 @@ const days = [
 
 export const TimeSlots = ({
     subAdmin,
-    appointmentWith,
-    setSelectedDate,
-    selectedDate,
+    loading,
     selectedTime,
+    selectedDate,
     setSelectedTime,
-    appointmentAvailability,
+    setSelectedDate,
+    appointmentWith,
     bookedAppointment,
     userAvailabilities,
+    appointmentAvailability,
 }: Props) => {
     const [currentItems, setCurrentItems] = useState(Array())
     const [slotsTime, setSlotsTime] = useState(Array())
@@ -188,7 +191,7 @@ export const TimeSlots = ({
                         setSelectedDate={setSelectedDate}
                     />
                 </div>
-                {selectedDate && (
+                {
                     <div>
                         <div className="flex justify-between items-center">
                             <Typography variant="subtitle" color="text-black">
@@ -210,41 +213,59 @@ export const TimeSlots = ({
                         <Typography variant="muted" color="text-gray-400">
                             Please select one of time slot from below given list
                         </Typography>
-                        <div className="grid grid-cols-3 gap-2 mt-2.5">
-                            {currentItems?.map(
-                                (timeSlot: any, index: number) => (
-                                    <div
-                                        key={index}
-                                        onClick={() => {
-                                            setSelectedTime({
-                                                startTime: timeSlot[0],
-                                                endTime: timeSlot[1],
-                                            })
-                                        }}
-                                        className={`group hover:bg-orange-500 hover:border-none ${
-                                            selectedTime?.startTime ===
-                                            timeSlot[0]
-                                                ? 'bg-orange-500 border-none'
-                                                : 'bg-white border'
-                                        } w-32 h-11 flex justify-center items-center border-orange-500 py-3 rounded-lg cursor-pointer`}
-                                    >
-                                        <Typography
-                                            variant="body"
-                                            color={`group-hover:text-white ${
+                        {loading ? (
+                            <LoadingAnimation size={80} />
+                        ) : currentItems && currentItems?.length > 0 ? (
+                            <div className="grid grid-cols-3 gap-2 mt-2.5">
+                                {currentItems?.map(
+                                    (timeSlot: any, index: number) => (
+                                        <div
+                                            key={index}
+                                            onClick={() => {
+                                                setSelectedTime({
+                                                    startTime: timeSlot[0],
+                                                    endTime: timeSlot[1],
+                                                })
+                                            }}
+                                            className={`group hover:bg-orange-500 hover:border-none ${
                                                 selectedTime?.startTime ===
                                                 timeSlot[0]
-                                                    ? 'text-white'
-                                                    : 'text-orange-500'
-                                            }`}
+                                                    ? 'bg-orange-500 border-none'
+                                                    : 'bg-white border'
+                                            } w-32 h-11 flex justify-center items-center border-orange-500 py-3 rounded-lg cursor-pointer`}
                                         >
-                                            {timeSlot[0]}-{timeSlot[1]}
-                                        </Typography>
-                                    </div>
-                                )
-                            )}
-                        </div>
+                                            <Typography
+                                                variant="body"
+                                                color={`group-hover:text-white ${
+                                                    selectedTime?.startTime ===
+                                                    timeSlot[0]
+                                                        ? 'text-white'
+                                                        : 'text-orange-500'
+                                                }`}
+                                            >
+                                                {timeSlot[0]}-{timeSlot[1]}
+                                            </Typography>
+                                        </div>
+                                    )
+                                )}
+                            </div>
+                        ) : (
+                            <div className="p-7 w-80 h-60 border border-dashed border-gray-300 rounded-lg flex flex-col justify-center items-center gap-y-5">
+                                <RiRestTimeLine
+                                    className="text-error"
+                                    size={45}
+                                />
+                                <Typography
+                                    center
+                                    variant={'label'}
+                                    color={'text-error'}
+                                >
+                                    No Slots, Check another day
+                                </Typography>
+                            </div>
+                        )}
                     </div>
-                )}
+                }
             </div>
         </div>
     )

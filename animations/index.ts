@@ -4,6 +4,7 @@ import shakeEmptyBox from './common/shake-empty-box.json'
 import loading from './common/loading.json'
 import pageNotFound from './common/404.json'
 import pageNotFound2 from './common/404-sleeping-cat.json'
+import appointmentBox from './common/appointments.json'
 
 import help from './common/help.json'
 import help1 from './common/help1.json'
@@ -83,6 +84,7 @@ export const Animations = {
         EmptyBox: emptyBox,
         ShakeEmptyBox: shakeEmptyBox,
         Loading: loading,
+        Appointment: appointmentBox,
         UnderConstruction: underConstruction,
         Actions: {
             Success: check,

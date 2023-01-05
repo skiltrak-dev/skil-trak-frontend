@@ -6,6 +6,13 @@ const PREFIX = `appointments`
 export const appointmentsEndpoints = (
     builder: EndpointBuilder<BaseQueryFn, string, string>
 ) => ({
+    getBookedAppointmnts: builder.query<any, any>({
+        query: (params) => ({
+            url: `${PREFIX}/my-appointments/view`,
+            params,
+        }),
+        providesTags: ['Appointments'],
+    }),
     getAppointmentsAvailableSlots: builder.query<any, any>({
         query: (params) => ({
             url: `${PREFIX}/coordinator/available/slots`,

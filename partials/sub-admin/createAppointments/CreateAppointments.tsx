@@ -51,6 +51,7 @@ export const CreateAppointments = () => {
     const [appointmentTypeId, setAppointmentTypeId] = useState<string | null>(
         null
     )
+    const [slots, setSlots] = useState(true)
     // const [date, setDate] = useState<any | null>(selectedDate)
     // useEffect(() => {
     //     let date = selectedDate
@@ -98,7 +99,8 @@ export const CreateAppointments = () => {
                 !selectedDate ||
                 !appointmentTypeId ||
                 !selectedUser.selectedAppointmentForUser ||
-                !selectedUser.selectedAppointmentWithUser,
+                !selectedUser.selectedAppointmentWithUser ||
+                !slots,
         }
     )
     const [createAppointment, createAppointmentResult] =
@@ -146,6 +148,7 @@ export const CreateAppointments = () => {
     }, [appointmentTypeId])
 
     const onSubmit = () => {
+        setSlots(false)
         let date = selectedDate
         date?.setDate(date.getDate() + 1)
         createAppointment({
@@ -244,6 +247,10 @@ export const CreateAppointments = () => {
                             selectedTime={selectedTime}
                             appointmentAvailability={availabilityList?.data}
                             userAvailabilities={userAvailabilities?.data}
+                            loading={
+                                userAvailabilities?.isLoading ||
+                                userAvailabilities?.isFetching
+                            }
                             subAdmin
                             appointmentWith={
                                 selectedPerson?.selectedAppointmentWith

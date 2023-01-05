@@ -28,6 +28,7 @@ import { Notes } from './Notes'
 import { SmallDetail } from './smallDetail'
 import { ViewAgreement } from '../contextBar'
 import { RtoDetail } from './RtoDetail'
+import { Availability } from './Availability'
 
 export const WorkplaceRequest = ({ workplace }: any) => {
     const [appliedIndustry, setAppliedIndustry] = useState<any | null>(null)
@@ -127,12 +128,20 @@ export const WorkplaceRequest = ({ workplace }: any) => {
                 </div>
 
                 {/*  */}
-                <SmallDetail
-                    currentWork={workplace?.currentWork}
-                    haveTransport={workplace?.haveTransport}
-                    haveDrivingLicense={workplace?.haveDrivingLicense}
-                    currentQualification={workplace?.currentQualification}
-                />
+                <div className="w-full flex justify-between items-center">
+                    <SmallDetail
+                        currentWork={workplace?.currentWork}
+                        haveTransport={workplace?.haveTransport}
+                        haveDrivingLicense={workplace?.haveDrivingLicense}
+                        currentQualification={workplace?.currentQualification}
+                    />
+
+                    <div className="flex-shrink-0">
+                        <Availability
+                            availability={workplace?.generalAvailability}
+                        />
+                    </div>
+                </div>
 
                 {/* Industries and notes */}
                 <div className="grid grid-cols-2 gap-x-3 mt-4">

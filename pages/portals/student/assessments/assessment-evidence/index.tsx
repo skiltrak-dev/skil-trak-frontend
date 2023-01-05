@@ -10,6 +10,7 @@ import {
     Typography,
     LoadingAnimation,
     ShowErrorNotifications,
+    PageTitle,
 } from '@components'
 import { AssessmentCourseCard } from '@components/sections/student/AssessmentsContainer'
 
@@ -21,6 +22,8 @@ import {
 } from '@queries'
 import { useNotification } from '@hooks'
 import { Actions } from '@components/sections/student/AssessmentsContainer/AssessmentsEvidence/components/Actions'
+import { MdOutlineEditNotifications } from 'react-icons/md'
+import { NotificationMessage } from '@components/NotificationMessage'
 
 type Props = {}
 
@@ -65,7 +68,41 @@ const AssessmentEvidence: NextPageWithLayout = (props: Props) => {
     return (
         <>
             {/* <AssessmentsEvidence /> */}
+            <div className="flex justify-between items-center mb-6">
+                <PageTitle title="Assessment Evidence" backTitle="Assessment" />
+                <div>
+                    {selectedCourse?.results[0]?.result === 'pending' && (
+                        <NotificationMessage
+                            title={'Submitted For Approval'}
+                            subtitle={'Wait for Admin review'}
+                        />
+                    )}
+                    {selectedCourse?.results[0]?.result === 'reOpened' && (
+                        <NotificationMessage
+                            title={'Admin Reopened your request'}
+                            subtitle={'You can resubmit your assessment'}
+                        />
+                    )}
+                    {selectedCourse?.results[0]?.result === 'competent' && (
+                        <NotificationMessage
+                            title={'Congratulations!'}
+                            subtitle={
+                                'You have successfully passes the Assessment'
+                            }
+                        />
+                    )}
+                    {selectedCourse?.results[0]?.result === 'notCompetent' && (
+                        <NotificationMessage
+                            title={'Failed'}
+                            subtitle={
+                                'You have failed the assessment on this course, you can resubmit your assessment'
+                            }
+                        />
+                    )}
+                </div>
+            </div>
             <div>
+                <div></div>
                 <div className="mb-3">
                     {assessmentsCourses.isLoading ? (
                         <div className="flex flex-col items-center">
@@ -145,7 +182,7 @@ const AssessmentEvidence: NextPageWithLayout = (props: Props) => {
     )
 }
 AssessmentEvidence.getLayout = (page: ReactElement) => {
-    return <StudentLayout title="Assessment Evidence">{page}</StudentLayout>
+    return <StudentLayout>{page}</StudentLayout>
 }
 
 export default AssessmentEvidence

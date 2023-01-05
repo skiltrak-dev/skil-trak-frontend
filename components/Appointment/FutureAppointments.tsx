@@ -13,6 +13,7 @@ export const FutureAppointments = ({ appointments }: { appointments: any }) => {
     const [iconClasses] = useState(
         'absolute top-1/2 -mt-2 z-10 cursor-pointer bg-white shadow-md rounded-full hover:scale-150 transition-all hover:opacity-100 w-5 h-5 flex justify-center items-center'
     )
+
     return (
         <HeroSliderContainer className="mt-4 relative">
             <div className="swiper-container w-full relative">
@@ -45,20 +46,33 @@ export const FutureAppointments = ({ appointments }: { appointments: any }) => {
                     modules={[Navigation]}
                     className="mySwiper static"
                 >
-                    {appointments?.map((appointment: any, index: number) => (
-                        <SwiperSlide key={appointment.id}>
-                            <UpcomingAppointmentCard
-                                key={index}
-                                date={appointment?.date}
-                                time={appointment?.time}
-                                totalMinutes={appointment?.totalMinutes}
-                                address={appointment?.address}
-                                name={appointment?.name}
-                                imageUrl={'/images/card-images/video-icon.png'}
-                                post={appointment?.post}
-                            />
-                        </SwiperSlide>
-                    ))}
+                    {appointments?.map((appointment: any, index: number) => {
+                        const ap =
+                            appointment?.appointmentFor[
+                                appointment?.appointmentFor['role'] ===
+                                'subadmin'
+                                    ? appointment?.appointmentFor['role']
+                                    : appointment?.appointmentFor
+                                          ?.coordinator[0]
+                            ]
+                        return (
+                            <SwiperSlide key={appointment.id}>
+                                <UpcomingAppointmentCard
+                                    key={index}
+                                    date={appointment?.date}
+                                    time={appointment?.startTime}
+                                    totalMinutes={appointment?.type?.duration}
+                                    address={`${ap?.addressLine1}, ${ap?.addressLine2}`}
+                                    name={appointment?.appointmentFor?.name}
+                                    imageUrl={
+                                        '/images/card-images/video-icon.png'
+                                    }
+                                    type={appointment?.type?.title}
+                                    role={appointment?.appointmentFor?.role}
+                                />
+                            </SwiperSlide>
+                        )
+                    })}
                     <div
                         ref={navigationPrevRef}
                         className={`${iconClasses} left-0 lg:-left-3`}

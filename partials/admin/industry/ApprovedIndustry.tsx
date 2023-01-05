@@ -28,7 +28,7 @@ export const ApprovedIndustry = () => {
     const [modal, setModal] = useState<ReactElement | null>(null)
     const router = useRouter()
     const [filterAction, setFilterAction] = useState(null)
-    const [itemPerPage, setItemPerPage] = useState(5)
+    const [itemPerPage, setItemPerPage] = useState(50)
     const [page, setPage] = useState(1)
     const [filter, setFilter] = useState({})
     const { isLoading, data, isError } = AdminApi.Industries.useListQuery({

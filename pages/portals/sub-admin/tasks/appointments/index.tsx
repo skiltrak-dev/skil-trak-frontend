@@ -16,8 +16,8 @@ import {
 
 import { useContextBar } from '@hooks'
 import { CommonCB } from '@partials/rto/contextBar'
-import { PastAppointments, UpcomingAppointments } from '@partials/sub-admin'
-import { useGetSubAdminAppointmentsQuery } from '@queries'
+import { CommonApi } from '@queries'
+import { UpcommingAppointments, PastAppointments } from '@partials/common'
 
 type Props = {}
 
@@ -31,11 +31,11 @@ const Appointments: NextPageWithLayout = (props: Props) => {
     }, [])
 
     // query
-    const subAdminAppointments = useGetSubAdminAppointmentsQuery({
+    const futureAppointments = CommonApi.Appointments.useBookedAppointments({
         status: 'future',
     })
 
-    const events = subAdminAppointments?.data?.map((appointment: any) => ({
+    const events = futureAppointments?.data?.map((appointment: any) => ({
         allDay: false,
         start: new Date(appointment?.date),
         end: new Date(appointment?.date),
@@ -86,7 +86,7 @@ const Appointments: NextPageWithLayout = (props: Props) => {
                 </Card>
             </div>
 
-            <UpcomingAppointments subAdminAppointments={subAdminAppointments} />
+            <UpcommingAppointments />
             <PastAppointments />
         </div>
     )

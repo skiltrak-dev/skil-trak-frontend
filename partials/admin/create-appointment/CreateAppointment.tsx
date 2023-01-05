@@ -224,6 +224,7 @@ export const CreateAppointmentContainer = () => {
                             appointmentAvailability={
                                 userAvailabilities?.data?.availabilityBy
                             }
+                            loading={userAvailabilities.isLoading}
                             subAdmin
                             appointmentWith={
                                 selectedPerson?.selectedAppointmentWith

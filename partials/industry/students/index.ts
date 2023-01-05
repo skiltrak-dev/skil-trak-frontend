@@ -1,2 +1,1 @@
 export * from './Students'
-export * from './components'

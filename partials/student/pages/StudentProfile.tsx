@@ -77,7 +77,7 @@ export const StudentProfile = ({ noTitle }: { noTitle?: boolean }) => {
                             onClick={() => {
                                 router.push({
                                     pathname:
-                                        '/portals/admin/appointment-type/create-appointment',
+                                        '/portals/sub-admin/tasks/appointments/create-appointment',
                                     query: { student: data?.user?.id },
                                 })
                             }}

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, ChangeEvent } from 'react'
 
 // components
 import {
@@ -21,8 +21,12 @@ export const AssessmentResponse = ({
     studentId,
     getAssessmentResponse,
 }: any) => {
-    const [comment, setComment] = useState<any | null>(null)
-    const [commentType, setCommentType] = useState<string | null>(null)
+    const [comment, setComment] = useState<string>('')
+    const [commentType, setCommentType] = useState<string>('')
+
+    useEffect(() => {
+        setComment('')
+    }, [folder, getAssessmentResponse])
 
     useEffect(() => {
         if (getAssessmentResponse?.data) {
@@ -42,6 +46,8 @@ export const AssessmentResponse = ({
             }
         }
     }, [getAssessmentResponse, commentType])
+
+    console.log('folder', comment)
 
     // query
     const [addComment, addCommentResult] = useAddCommentOnAssessmentMutation()
@@ -121,7 +127,9 @@ export const AssessmentResponse = ({
                                 name="comment"
                                 value={comment}
                                 placeholder={'Write your comment'}
-                                onChange={(e: any) => {
+                                onChange={(
+                                    e: ChangeEvent<HTMLInputElement>
+                                ) => {
                                     setComment(e.target.value)
                                 }}
                             />

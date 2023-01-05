@@ -11,7 +11,6 @@ import {
 import {
     CurrentStudentCard,
     Notes,
-    StudentAvailability,
     StudentDetail,
 } from './components'
 

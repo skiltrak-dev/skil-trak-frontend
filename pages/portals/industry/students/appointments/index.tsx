@@ -4,7 +4,7 @@ import { ReactElement } from 'react'
 
 import { Typography, Button } from '@components'
 import { useRouter } from 'next/router'
-import { UpcomingAppointments, PastAppointments } from '@partials/industry'
+import { UpcommingAppointments, PastAppointments } from '@partials/common'
 
 const Appointments: NextPageWithLayout = () => {
     const router = useRouter()
@@ -22,7 +22,7 @@ const Appointments: NextPageWithLayout = () => {
                     }}
                 />
             </div>
-            <UpcomingAppointments />
+            <UpcommingAppointments />
             <PastAppointments />
         </div>
     )
