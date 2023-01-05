@@ -16,6 +16,7 @@ import { useSubmitAssessmentEvidenceMutation } from '@queries'
 import { useNotification } from '@hooks'
 
 export const Actions = ({ result }: any) => {
+    const [selectedResult, setSelectedResult] = useState<string>('')
     const pathname = useRouter()
     const studentId = pathname.query.studentId
     const { notification } = useNotification()
@@ -34,7 +35,38 @@ export const Actions = ({ result }: any) => {
                 title: 'Result Submitted Successfully',
                 description: 'Result Submitted Successfully',
             })
-            pathname.push('/portals/sub-admin/tasks/assessment-evidence')
+            switch (selectedResult) {
+                case 'competent':
+                    pathname.push({
+                        pathname:
+                            '/portals/sub-admin/tasks/assessment-evidence',
+                        query: { tab: 'competent' },
+                    })
+                    break
+                case 'notCompetent':
+                    pathname.push({
+                        pathname:
+                            '/portals/sub-admin/tasks/assessment-evidence',
+                        query: { tab: 'non-competent' },
+                    })
+                    break
+                case 'reOpened':
+                    pathname.push({
+                        pathname:
+                            '/portals/sub-admin/tasks/assessment-evidence',
+                        query: { tab: 're-opened' },
+                    })
+                    break
+
+                default:
+                    pathname.push({
+                        pathname:
+                            '/portals/sub-admin/tasks/assessment-evidence',
+                        query: { tab: 'pending' },
+                    })
+                    break
+            }
+            // pathname.push('/portals/sub-admin/tasks/assessment-evidence')
         }
     }, [submitAssessmentEvidenceResult])
 
@@ -61,6 +93,9 @@ export const Actions = ({ result }: any) => {
                             <Select
                                 label={'Result'}
                                 name={'result'}
+                                onChange={(e: any) => {
+                                    setSelectedResult(e?.value)
+                                }}
                                 options={ResultOptions}
                                 menuPlacement={'top'}
                                 onlyValue

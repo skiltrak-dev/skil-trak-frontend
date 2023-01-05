@@ -9,6 +9,7 @@ import {
     NoData,
     PageTitle,
     Typography,
+    Checkbox,
 } from '@components'
 import { Actions, AssessmentFolderCard, AssessmentResponse } from './components'
 
@@ -17,9 +18,10 @@ import {
     useStudentCoursesQuery,
     useGetAssessmentResponseQuery,
     useGetAssessmentEvidenceDetailQuery,
+    useMaulallyReopenSubmissionRequestMutation,
 } from '@queries'
 import { getUserCredentials } from '@utils'
-import { useAlert } from '@hooks'
+import { useAlert, useNotification } from '@hooks'
 import { NotificationMessage } from '@components/NotificationMessage'
 
 export const Detail = ({
@@ -31,6 +33,13 @@ export const Detail = ({
 }) => {
     const [selectedCourse, setSelectedCourse] = useState<any | null>(null)
     const [selectedFolder, setSelectedFolder] = useState<any | null>(null)
+    const [manualReOpen, setManualReOpen] = useState<boolean>(false)
+
+    const results = selectedCourse?.results[0]
+
+    console.log('resultsresults', selectedCourse)
+
+    const { notification } = useNotification()
 
     // query
     const studentCourses = useStudentCoursesQuery(Number(studentId), {
@@ -50,12 +59,23 @@ export const Detail = ({
         },
         { skip: !selectedFolder || !studentUserId }
     )
+    const [manullyReopenSubmission, manuallyReopenSubmissionResult] =
+        useMaulallyReopenSubmissionRequestMutation()
 
     useEffect(() => {
-        if (studentCourses.isSuccess) {
-            setSelectedCourse(selectedCourse || studentCourses?.data[0])
+        if (
+            studentCourses.isSuccess ||
+            manuallyReopenSubmissionResult.isSuccess
+        ) {
+            setSelectedCourse(
+                selectedCourse
+                    ? studentCourses?.data?.find(
+                          (c: any) => c?.id === selectedCourse?.id
+                      )
+                    : studentCourses?.data[0]
+            )
         }
-    }, [studentCourses])
+    }, [studentCourses, manuallyReopenSubmissionResult])
 
     useEffect(() => {
         if (getFolders.isSuccess) {
@@ -63,9 +83,22 @@ export const Detail = ({
         }
     }, [getFolders])
 
+    useEffect(() => {
+        if (manuallyReopenSubmissionResult.isSuccess) {
+            notification.success({
+                title: 'Successfully Opened Request Manullay',
+                description: 'Successfully Opened Request Manullay',
+            })
+        }
+    }, [manuallyReopenSubmissionResult])
+
     const allCommentsAdded = getFolders?.data?.every(
         (f: any) => f?.studentResponse[0]?.comment
     )
+
+    const onManuallyReopen = (event: any) => {
+        manullyReopenSubmission(selectedCourse?.results[0]?.id)
+    }
 
     return (
         <div className="mb-10">
@@ -75,32 +108,57 @@ export const Detail = ({
                     backTitle="Assessment"
                 />
                 <div>
-                    {selectedCourse?.results[0]?.result === 'pending' && (
+                    {selectedCourse?.results[0]?.result === 'pending' &&
+                        results?.totalSubmission === 1 &&
+                        !results?.isManualSubmission && (
+                            <NotificationMessage
+                                title={`New Request For ${selectedCourse?.title}`}
+                                subtitle={
+                                    'Student Submitted a assessment request'
+                                }
+                            />
+                        )}
+                    {selectedCourse?.results[0]?.result === 'pending' &&
+                        results?.totalSubmission > 1 &&
+                        !results?.isManualSubmission && (
+                            <NotificationMessage
+                                title={`Request Resubmitted For ${selectedCourse?.title}`}
+                                subtitle={
+                                    'Student Re-Submitted a assessment request'
+                                }
+                            />
+                        )}
+                    {selectedCourse?.results[0]?.result === 'reOpened' &&
+                        !results?.isManualSubmission && (
+                            <NotificationMessage
+                                title={`Student Request Reopened for ${selectedCourse?.title}`}
+                                subtitle={
+                                    'You hve reopened the student request'
+                                }
+                            />
+                        )}
+                    {selectedCourse?.results[0]?.result === 'competent' &&
+                        !results?.isManualSubmission && (
+                            <NotificationMessage
+                                title={`Student is Competent for ${selectedCourse?.title}`}
+                                subtitle={
+                                    'Student has successfully passed the Assessment'
+                                }
+                            />
+                        )}
+                    {selectedCourse?.results[0]?.result === 'notCompetent' &&
+                        !results?.isManualSubmission && (
+                            <NotificationMessage
+                                title={`Student has failed in ${selectedCourse?.title}`}
+                                subtitle={
+                                    'Student has failed the assessment on this course'
+                                }
+                            />
+                        )}
+                    {results?.isManualSubmission && (
                         <NotificationMessage
-                            title={'New Request For Approvel'}
-                            subtitle={'Student Submitted a assessment request'}
-                        />
-                    )}
-                    {selectedCourse?.results[0]?.result === 'reOpened' && (
-                        <NotificationMessage
-                            title={'Student Reques Reopened'}
-                            subtitle={'You hve reopened the student request'}
-                        />
-                    )}
-                    {selectedCourse?.results[0]?.result === 'competent' && (
-                        <NotificationMessage
-                            title={'Competent'}
-                            subtitle={
-                                'Student has successfully passed the Assessment'
-                            }
-                        />
-                    )}
-                    {selectedCourse?.results[0]?.result === 'notCompetent' && (
-                        <NotificationMessage
-                            title={'Failed'}
-                            subtitle={
-                                'Student has failed the assessment on this course'
-                            }
+                            title={`You have manually reopend the student request on ${selectedCourse?.title}`}
+                            subtitle={`You have manually reopend the student request on ${selectedCourse?.title}`}
                         />
                     )}
                 </div>
@@ -216,8 +274,30 @@ export const Detail = ({
                         .includes('pending') && (
                             )} */}
                     {allCommentsAdded &&
-                        !selectedCourse?.results[0]?.isAssessed && (
-                            <Actions result={selectedCourse?.results[0]} />
+                        ((!results?.isAssessed && results?.isSubmitted) ||
+                            manualReOpen) && <Actions result={results} />}
+
+                    {results?.totalSubmission >= 3 &&
+                        results?.result !== 'pending' &&
+                        !results?.isManualSubmission && (
+                            <div className="mt-5 flex flex-col gap-y-1">
+                                <Typography variant={'small'}>
+                                    Student Has Subitted 3 times, now you can
+                                    manually reopen the submit request on
+                                    request on Student
+                                </Typography>
+                                <Checkbox
+                                    label={'Manual Re Open'}
+                                    name={'manualReOpen'}
+                                    loading={
+                                        manuallyReopenSubmissionResult?.isLoading
+                                    }
+                                    onChange={(e: any) => {
+                                        onManuallyReopen(e)
+                                        // setManualReOpen(e.target.checked)
+                                    }}
+                                />
+                            </div>
                         )}
                     <div className="mt-4">
                         <Typography variant="muted" color="text-neutral-500">

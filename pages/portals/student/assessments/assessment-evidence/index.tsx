@@ -23,6 +23,8 @@ const AssessmentEvidence: NextPageWithLayout = (props: Props) => {
     const [selectedCourse, setSelectedCourse] = useState<any | null>(null)
     const [selectedFolder, setSelectedFolder] = useState<any | null>(null)
 
+    const results = selectedCourse?.results[0]
+
     const { notification } = useNotification()
 
     // query
@@ -63,31 +65,43 @@ const AssessmentEvidence: NextPageWithLayout = (props: Props) => {
             <div className="flex justify-between items-center mb-6">
                 <PageTitle title="Assessment Evidence" backTitle="Assessment" />
                 <div>
-                    {selectedCourse?.results[0]?.result === 'pending' && (
+                    {results?.result === 'pending' &&
+                        results?.totalSubmission < 3 && (
+                            <NotificationMessage
+                                title={'Submitted For Approval'}
+                                subtitle={'Wait for Admin review'}
+                            />
+                        )}
+                    {results?.result === 'reOpened' &&
+                        results?.totalSubmission < 3 && (
+                            <NotificationMessage
+                                title={'Admin Reopened your request'}
+                                subtitle={'You can resubmit your assessment'}
+                            />
+                        )}
+                    {results?.result === 'competent' &&
+                        results?.totalSubmission < 3 && (
+                            <NotificationMessage
+                                title={'Congratulations!'}
+                                subtitle={
+                                    'You have successfully passes the Assessment'
+                                }
+                            />
+                        )}
+                    {results?.result === 'notCompetent' &&
+                        results?.totalSubmission < 3 && (
+                            <NotificationMessage
+                                title={'Failed'}
+                                subtitle={
+                                    'You have failed the assessment on this course, you can resubmit your assessment'
+                                }
+                            />
+                        )}
+                    {results?.totalSubmission >= 3 && (
                         <NotificationMessage
-                            title={'Submitted For Approval'}
-                            subtitle={'Wait for Admin review'}
-                        />
-                    )}
-                    {selectedCourse?.results[0]?.result === 'reOpened' && (
-                        <NotificationMessage
-                            title={'Admin Reopened your request'}
-                            subtitle={'You can resubmit your assessment'}
-                        />
-                    )}
-                    {selectedCourse?.results[0]?.result === 'competent' && (
-                        <NotificationMessage
-                            title={'Congratulations!'}
+                            title={'Request manually for reopen'}
                             subtitle={
-                                'You have successfully passes the Assessment'
-                            }
-                        />
-                    )}
-                    {selectedCourse?.results[0]?.result === 'notCompetent' && (
-                        <NotificationMessage
-                            title={'Failed'}
-                            subtitle={
-                                'You have failed the assessment on this course, you can resubmit your assessment'
+                                'You have failed the assessment on this course, you can request for admin to reopen manullay'
                             }
                         />
                     )}
@@ -134,16 +148,13 @@ const AssessmentEvidence: NextPageWithLayout = (props: Props) => {
                                 assessmentsFolders={assessmentsFolders}
                                 selectedFolder={selectedFolder}
                                 setSelectedFolder={setSelectedFolder}
-                                submission={
-                                    selectedCourse?.results[0]?.totalSubmission
-                                }
+                                submission={results?.totalSubmission}
                             />
                             {isFilesUploaded ? (
                                 selectedCourse?.results?.length > 0 ? (
-                                    selectedCourse?.results[0]
-                                        ?.totalSubmission < 3 &&
-                                    selectedCourse?.results[0]?.result ===
-                                        'reOpened' ? (
+                                    results?.totalSubmission < 3 &&
+                                    (results?.result === 'reOpened' ||
+                                        results?.result === 'notCompetent') ? (
                                         <Actions
                                             selectedCourseId={
                                                 selectedCourse?.id

@@ -38,7 +38,7 @@ const PrimaryLinks = [
     {
         title: 'Assessment Submissions',
         description: 'Some helping text',
-        link: 'tasks/assessment-evidence',
+        link: 'tasks/assessment-evidence?tab=pending',
         animation: Animations.Student.Appointments.AssessmentEvidence,
         id: 'assessment-evidence',
     },

@@ -60,6 +60,13 @@ export const assessmentEvidenceApi = createApi({
             query: (id) => `student/course/${id}`,
             providesTags: ['AssessmentEvidence'],
         }),
+        maulallyReopenSubmissionRequest: builder.mutation<any, number>({
+            query: (id) => ({
+                url: `student/assessment-evidence/allow-submission/${id}`,
+                method: 'PATCH',
+            }),
+            invalidatesTags: ['AssessmentEvidence'],
+        }),
     }),
 })
 
@@ -70,4 +77,5 @@ export const {
     useGetAssessmentEvidenceDetailQuery,
     useAddCommentOnAssessmentMutation,
     useSubmitAssessmentEvidenceMutation,
+    useMaulallyReopenSubmissionRequestMutation,
 } = assessmentEvidenceApi
