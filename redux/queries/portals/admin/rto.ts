@@ -168,7 +168,6 @@ export const rtoEndpoints = (
     }),
     rtoAddStudent: builder.mutation({
         query: ({id, body}: any) => {
-            console.log("id, body", id, body)
             return {
                 url: `${PREFIX}/student/add/${id}`,
                 method: 'POST',

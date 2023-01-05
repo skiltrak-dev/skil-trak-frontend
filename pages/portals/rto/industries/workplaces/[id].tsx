@@ -25,7 +25,6 @@ const Detail: NextPageWithLayout = () => {
         useGetRTOWorkplaceDetailQuery(Number(id), {
             skip: !id,
         })
-
     useEffect(() => {
         navBar.setTitle('Workplace Detail')
         contextBar.hide()

@@ -74,7 +74,6 @@ export const Detail = ({
         (f: any) => f?.studentResponse[0]?.comment
     )
 
-    console.log('allCommentsAdded', selectedCourse?.results[0]?.isAssessed)
     return (
         <div className="mb-10">
             {studentCourses?.isLoading ? (

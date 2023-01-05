@@ -29,7 +29,7 @@ import { MdBlock } from 'react-icons/md'
 import { getActiveIndustry } from '@partials/student/utils'
 import { IndustryCell } from '@partials/admin/industry/components'
 import { IndustryCellInfo } from '../indestries/components'
-import { ProgressCell } from '@partials/admin/student/components'
+import { ProgressCell, SectorCell } from '@partials/admin/student/components'
 import { checkWorkplaceStatus } from '@utils'
 
 export const MyStudents = () => {
@@ -112,6 +112,13 @@ export const MyStudents = () => {
                 ) : (
                     <Typography center>N/A</Typography>
                 )
+            },
+        },
+        {
+            accessorKey: 'sectors',
+            header: () => <span>Sectors</span>,
+            cell: ({row}:any) => {
+                return <SectorCell student={row.original} />
             },
         },
         {

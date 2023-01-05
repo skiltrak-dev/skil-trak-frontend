@@ -31,7 +31,7 @@ export const MyRto = ({ myRto }: any) => {
 
                 {/* Action */}
                 <Link
-                    href={`/portals/sub-admin/users/rtos/${myRto.rto.id}?tab=overview`}
+                    href={`/portals/sub-admin/users/rtos/${myRto?.rto?.id}?tab=overview`}
                 >
                     <a className="inline-block uppercase text-xs font-medium bg-orange-100 text-orange-600 px-4 py-2 rounded">
                         See Details
