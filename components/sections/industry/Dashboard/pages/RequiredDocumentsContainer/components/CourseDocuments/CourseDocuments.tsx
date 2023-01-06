@@ -54,7 +54,7 @@ export const CourseDocuments = ({ course }: any) => {
                 />
             ) : (
                 <div>
-                    <div className="flex justify-between">
+                    <div className="flex flex-col md:flex-row  md:justify-between">
                         <div>
                             <Typography>
                                 Please select documents you want to require from
@@ -78,7 +78,7 @@ export const CourseDocuments = ({ course }: any) => {
 
                     {/* Checkboxes */}
                     {getRelatedData().length ? (
-                        <div className="grid grid-cols-2 gap-x-4 gap-y-2 my-2">
+                        <div className="grid md:grid-cols-2 grid-cols-1 gap-x-4 gap-y-2 my-2">
                             {getRelatedData()?.map(
                                 ({
                                     folder_id,

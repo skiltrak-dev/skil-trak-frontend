@@ -9,7 +9,7 @@ export const SmallDetail = ({
 }: any) => {
     return (
         <div className="mt-5">
-            <div className="grid grid-cols-5 gap-x-6">
+            <div className="grid grid-cols-2 gap-y-2 md:grid-cols-5 gap-x-6">
                 <div>
                     <Typography variant={'small'} color={'text-gray-500'}>
                         Current Qualification

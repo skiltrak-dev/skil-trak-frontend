@@ -24,7 +24,7 @@ export const CurrentStudentCard = ({ workplace }: any) => {
 
     return (
         <Card>
-            <div className="flex justify-between items-center pb-2.5 border-b border-dashed">
+            <div className="flex flex-col gap-y-4 md:flex-row md:justify-between md:items-center pb-2.5 border-b border-dashed">
                 <div className="flex items-center gap-x-6">
                     <div>
                         <Typography variant={'xs'}>Recieved On:</Typography>
@@ -51,7 +51,7 @@ export const CurrentStudentCard = ({ workplace }: any) => {
             </div>
 
             {/* Student Small Details */}
-            <div className="mt-3 flex justify-between items-center">
+            <div className="mt-3 flex flex-col gap-y-4 md:flex-row md:justify-between md:items-center">
                 <StudentDetail
                     student={workplace?.student}
                     agreementSigned={workplace?.industries[0]?.AgreementSigned}
@@ -76,7 +76,7 @@ export const CurrentStudentCard = ({ workplace }: any) => {
             />
 
             {/* Industries and notes */}
-            <div className="grid grid-cols-2 gap-x-3 mt-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-x-3 mt-4">
                 {/* Industries */}
                 <StudentAvailability
                     availability={workplace?.generalAvailability}

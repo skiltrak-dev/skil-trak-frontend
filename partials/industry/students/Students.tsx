@@ -58,8 +58,8 @@ export const StudentsContainer = () => {
     return (
         <div>
             {/* Links */}
-            <div className="w-full flex justify-between">
-                <div className="w-[59%] ">
+            <div className="w-full flex flex-col md:flex-row gap-y-4 md:justify-between">
+                <div className="md:w-[59%] w-full ">
                     <Typography variant={'title'}>Get Started</Typography>
                     {/*  */}
                     <Card>
@@ -68,7 +68,7 @@ export const StudentsContainer = () => {
                         />
                     </Card>
                 </div>
-                <div className="w-[36%]">
+                <div className="md:w-[36%] w-full">
                     <div className="w-full flex justify-between">
                         <Typography variant={'title'}>
                             Total Students

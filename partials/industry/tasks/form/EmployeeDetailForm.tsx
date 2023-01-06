@@ -111,43 +111,45 @@ export const EmployeeDetailForm = ({ onVolunteer, employeeDetail }: any) => {
                     onSubmit={methods.handleSubmit(onSubmit)}
                 >
                     <div className="border border-secondary-dark mt-6">
-                        <div className="grid grid-cols-4 gap-x-6 p-2">
-                            <Typography variant={'label'}>
-                                {' '}
-                                First Name*{' '}
-                            </Typography>
-                            <Typography variant={'label'}>
-                                {' '}
-                                Last Name*{' '}
-                            </Typography>
-                            <Typography variant={'label'}>
-                                Mobile Number*
-                            </Typography>
-                            <Typography variant={'label'}> Email </Typography>
-                        </div>
-                        {fields.map((item, index) => (
-                            <div
-                                className="flex items-start gap-x-6 px-2 py-1"
-                                key={index}
-                            >
-                                <TextInput
-                                    placeholder="Enter your Email"
-                                    name={`employee.${index}.firstName`}
-                                />
-                                <TextInput
-                                    placeholder="Enter your Email"
-                                    name={`employee.${index}.lastName`}
-                                />
-                                <TextInput
-                                    placeholder="Enter your Email"
-                                    name={`employee.${index}.mobileNo`}
-                                />
-                                <TextInput
-                                    placeholder="Enter your Email"
-                                    name={`employee.${index}.email`}
-                                />
+                        <div className='flex justify-between md:block'>
+                            <div className="grid grid-cols-1 md:grid-cols-4 gap-y-2 md:gap-x-6 p-2">
+                                <Typography variant={'label'}>
+                                    {' '}
+                                    First Name*{' '}
+                                </Typography>
+                                <Typography variant={'label'}>
+                                    {' '}
+                                    Last Name*{' '}
+                                </Typography>
+                                <Typography variant={'label'}>
+                                    Mobile Number*
+                                </Typography>
+                                <Typography variant={'label'}> Email </Typography>
                             </div>
-                        ))}
+                            {fields.map((item, index) => (
+                                <div
+                                    className="flex flex-col md:flex-row items-start gap-x-6 px-2 py-1"
+                                    key={index}
+                                >
+                                    <TextInput
+                                        placeholder="Enter your Email"
+                                        name={`employee.${index}.firstName`}
+                                    />
+                                    <TextInput
+                                        placeholder="Enter your Email"
+                                        name={`employee.${index}.lastName`}
+                                    />
+                                    <TextInput
+                                        placeholder="Enter your Email"
+                                        name={`employee.${index}.mobileNo`}
+                                    />
+                                    <TextInput
+                                        placeholder="Enter your Email"
+                                        name={`employee.${index}.email`}
+                                    />
+                                </div>
+                            ))}
+                        </div>
                         {/* {!employeeData && ( */}
                         <div className="flex flex-col">
                             <Button
@@ -177,7 +179,7 @@ export const EmployeeDetailForm = ({ onVolunteer, employeeDetail }: any) => {
                         loading={addEmployeeResult.isLoading}
                         disabled={addEmployeeResult.isLoading}
                         text={'Confirm'}
-                        //   disabled={addEmployeeResult.isLoading || !isValid}
+                    //   disabled={addEmployeeResult.isLoading || !isValid}
                     />
                 </form>
             </FormProvider>

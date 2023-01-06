@@ -37,7 +37,7 @@ export const AddScheduleContainer = () => {
             <Card>
                 <Typography variant={'subtitle'}>Continue with</Typography>
 
-                <div className="flex  gap-x-16 px-6 py-11">
+                <div className="flex flex-col gap-y-2 md:flex-row  md:gap-x-16 px-6 py-11">
                     {continueWith.map(({ image, text }, index) => (
                         <Fragment key={index}>
                             <div
