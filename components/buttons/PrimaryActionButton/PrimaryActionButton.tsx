@@ -2,6 +2,7 @@ import { LottieAnimation } from '@components/LottieAnimation'
 import Link from 'next/link'
 
 // components
+import { Desktop } from '@components'
 
 export interface PrimaryActionButtonProps {
     title: string
@@ -25,7 +26,7 @@ export const PrimaryActionButton = ({
     return (
         <Link href={`${link}` || '/under-construction'}>
             <a
-                className={`border flex justify-between items-center gap-x-5 py-1 px-4 rounded-lg w-full cursor-pointer bg-white hover:bg-gray-50`}
+                className={`border flex justify-between items-center gap-x-1 md:gap-x-5 py-1 px-4 rounded-lg w-full cursor-pointer bg-white hover:bg-gray-50`}
                 id={id}
             >
                 <div className="flex-grow">
@@ -34,15 +35,20 @@ export const PrimaryActionButton = ({
                         {description}
                     </p>
                 </div>
-                {image ? (
-                    <img className="h-16" src={image} alt="Info" />
-                ) : animation ? (
-                    <div>
-                        <LottieAnimation animation={animation} height={80} />
-                    </div>
-                ) : (
-                    <></>
-                )}
+                <Desktop>
+                    {image ? (
+                        <img className="h-16" src={image} alt="Info" />
+                    ) : animation ? (
+                        <div>
+                            <LottieAnimation
+                                animation={animation}
+                                height={80}
+                            />
+                        </div>
+                    ) : (
+                        <></>
+                    )}
+                </Desktop>
             </a>
         </Link>
     )

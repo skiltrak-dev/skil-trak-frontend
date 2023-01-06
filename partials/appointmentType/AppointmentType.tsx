@@ -20,7 +20,7 @@ export const AppointmentType = ({ setAppointmentTypeId }: Props) => {
             <Typography variant="body" color="text-black">
                 What kind of appointment you want to book?
             </Typography>
-            <div className="flex gap-x-4 items-center mt-1">
+            <div className="flex flex-wrap gap-y-2 gap-x-4 items-center mt-1">
                 {appointmentTypes.isError && (
                     <NoData
                         text={

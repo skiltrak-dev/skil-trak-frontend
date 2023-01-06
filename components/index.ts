@@ -20,6 +20,7 @@ export * from './AssessmentEvidence'
 export * from './ProgressStep'
 export * from './Timeline'
 export * from './Socket'
+export * from './Responsive'
 
 // export * from './Pagination'
 export * from './PopUp'

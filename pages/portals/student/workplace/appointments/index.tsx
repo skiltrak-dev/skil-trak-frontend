@@ -25,9 +25,9 @@ const Appointments: NextPageWithLayout = (props: Props) => {
     // APPOINTMENTS JOY RIDE - END
     return (
         <>
-            <div className="flex justify-between items-end mb-4">
+            <div className="flex flex-col md:flex-row gap-y-1.5 justify-between md:items-end mb-4">
                 <PageTitle title="Appointments" backTitle="Workplace" />
-                <div id="book-appointment">
+                <div id="book-appointment" className="flex-shrink-0 ml-auto">
                     <Button
                         text={'Book Appointment'}
                         variant={'info'}

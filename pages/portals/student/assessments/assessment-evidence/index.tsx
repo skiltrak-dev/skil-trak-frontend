@@ -1,10 +1,11 @@
 import { ReactElement, useEffect, useState } from 'react'
 
-import {
-    LoadingAnimation, NoData, PageTitle, Typography
-} from '@components'
+import { LoadingAnimation, NoData, PageTitle, Typography } from '@components'
 import { AssessmentCourseCard } from '@components/sections/student/AssessmentsContainer'
-import { AssessmentsEvidence } from '@components/sections/student/AssessmentsContainer/AssessmentsEvidence'
+import {
+    AssessmentsEvidence,
+    TitleAndMessages,
+} from '@components/sections/student/AssessmentsContainer/AssessmentsEvidence'
 import { StudentLayout } from '@layouts'
 import { NextPageWithLayout } from '@types'
 
@@ -14,7 +15,7 @@ import { Actions } from '@components/sections/student/AssessmentsContainer/Asses
 import { useNotification } from '@hooks'
 import {
     useGetAssessmentsCoursesQuery,
-    useGetAssessmentsFoldersQuery
+    useGetAssessmentsFoldersQuery,
 } from '@queries'
 
 type Props = {}
@@ -58,55 +59,10 @@ const AssessmentEvidence: NextPageWithLayout = (props: Props) => {
         (f: any) => f?.studentResponse[0]?.files?.length > 0
     )
 
-
     return (
         <>
             {/* <AssessmentsEvidence /> */}
-            <div className="flex justify-between items-center mb-6">
-                <PageTitle title="Assessment Evidence" backTitle="Assessment" />
-                <div>
-                    {results?.result === 'pending' &&
-                        results?.totalSubmission < 3 && (
-                            <NotificationMessage
-                                title={'Submitted For Approval'}
-                                subtitle={'Wait for Admin review'}
-                            />
-                        )}
-                    {results?.result === 'reOpened' &&
-                        results?.totalSubmission < 3 && (
-                            <NotificationMessage
-                                title={'Admin Reopened your request'}
-                                subtitle={'You can resubmit your assessment'}
-                            />
-                        )}
-                    {results?.result === 'competent' &&
-                        results?.totalSubmission < 3 && (
-                            <NotificationMessage
-                                title={'Congratulations!'}
-                                subtitle={
-                                    'You have successfully passes the Assessment'
-                                }
-                            />
-                        )}
-                    {results?.result === 'notCompetent' &&
-                        results?.totalSubmission < 3 && (
-                            <NotificationMessage
-                                title={'Failed'}
-                                subtitle={
-                                    'You have failed the assessment on this course, you can resubmit your assessment'
-                                }
-                            />
-                        )}
-                    {results?.totalSubmission >= 3 && (
-                        <NotificationMessage
-                            title={'Request manually for reopen'}
-                            subtitle={
-                                'You have failed the assessment on this course, you can request for admin to reopen manullay'
-                            }
-                        />
-                    )}
-                </div>
-            </div>
+            <TitleAndMessages results={results} />
             <div>
                 <div></div>
                 <div className="mb-3">
@@ -152,7 +108,8 @@ const AssessmentEvidence: NextPageWithLayout = (props: Props) => {
                             />
                             {isFilesUploaded ? (
                                 selectedCourse?.results?.length > 0 ? (
-                                    results?.totalSubmission < 3 &&
+                                    (results?.totalSubmission < 3 ||
+                                        results?.isManualSubmission) &&
                                     (results?.result === 'reOpened' ||
                                         results?.result === 'notCompetent') ? (
                                         <Actions
@@ -185,11 +142,7 @@ const AssessmentEvidence: NextPageWithLayout = (props: Props) => {
     )
 }
 AssessmentEvidence.getLayout = (page: ReactElement) => {
-    return (
-        <StudentLayout pageTitle={{ title: 'Assessment Evidence' }}>
-            {page}
-        </StudentLayout>
-    )
+    return <StudentLayout>{page}</StudentLayout>
 }
 
 export default AssessmentEvidence

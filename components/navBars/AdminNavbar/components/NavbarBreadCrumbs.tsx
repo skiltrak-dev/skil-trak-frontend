@@ -9,7 +9,7 @@ export const NavbarBreadCrumbs = ({
     title: string
 }) => {
     return (
-        <div className="flex text-xs font-medium gap-x-1 text-gray-300">
+        <div className="flex text-xs font-medium gap-x-1 text-gray-300 overflow-scroll">
             <Link href="/">
                 <a className="">DASHBOARD</a>
             </Link>{' '}

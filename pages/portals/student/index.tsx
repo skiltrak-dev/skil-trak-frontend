@@ -162,27 +162,39 @@ const StudentDashboard: NextPageWithLayout = () => {
                     {/* Card Body */}
                     {data?.rto ? (
                         <div className="flex items-center gap-x-6 py-4">
-                            <div className="flex-shrink-0">
-                                {data?.rto?.user.avatar ? (
-                                    <Image
-                                        src={data?.rto?.user.avatar}
-                                        width={100}
-                                        height={100}
-                                        className="rounded-full shadow-inner-image"
-                                    />
-                                ) : (
-                                    <div className="h-24 w-24 flex items-center justify-center bg-gray-100 rounded-full">
-                                        <span className="text-4xl text-gray-300">
-                                            <FaSchool />
-                                        </span>
-                                    </div>
-                                )}
-                            </div>
+                            {!isMobile && (
+                                <div className="flex-shrink-0">
+                                    {data?.rto?.user.avatar ? (
+                                        <Image
+                                            src={data?.rto?.user.avatar}
+                                            width={100}
+                                            height={100}
+                                            className="rounded-full shadow-inner-image"
+                                        />
+                                    ) : (
+                                        <div className="h-24 w-24 flex items-center justify-center bg-gray-100 rounded-full">
+                                            <span className="text-4xl text-gray-300">
+                                                <FaSchool />
+                                            </span>
+                                        </div>
+                                    )}
+                                </div>
+                            )}
                             <div>
                                 <div>
-                                    <p className="font-medium">
-                                        {data?.rto?.user?.name}
-                                    </p>
+                                    <div className="flex items-center gap-x-1">
+                                        {isMobile && (
+                                            <div className="h-8 w-8 flex items-center justify-center bg-gray-100 rounded-full">
+                                                <FaSchool
+                                                    className="text-gray-300"
+                                                    size={16}
+                                                />
+                                            </div>
+                                        )}
+                                        <p className="font-medium">
+                                            {data?.rto?.user?.name}
+                                        </p>
+                                    </div>
                                     <p className="text-slate-400 text-sm">
                                         {data?.rto?.user?.email}
                                     </p>

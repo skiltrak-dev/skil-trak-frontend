@@ -137,7 +137,8 @@ export const SearchAppointmentForUser = ({
                                 })
                                 if (
                                     selectedPerson?.selectedAppointmentFor ===
-                                    'Student'
+                                        'Student' &&
+                                    s?.student?.workplace?.length
                                 ) {
                                     // send student workplace Industry id
                                     setStudentIndustry(

@@ -10,9 +10,9 @@ export const SearchAppointmentWithUser = ({
     selectedUser,
     studentIndustry,
 }: {
+    selectedUser: any
     selectedPerson: any
     setSelectedUser: any
-    selectedUser: any
     studentIndustry: number
 }) => {
     const userData = useSearchUserByIdQuery(
