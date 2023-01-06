@@ -81,7 +81,7 @@ export const AvailabilityForm = ({
             <Typography variant={'label'}>Select Your Availability</Typography>
 
             {/*  */}
-            <div className="overflow-scroll">
+            <div className="overflow-scroll remove-scrollbar">
                 <div className="min-w-[500px]">
                     <Card>
                         <div className="grid grid-cols-5 gap-4 px-3">

@@ -4,7 +4,7 @@ import React from 'react'
 
 export const TitleAndMessages = ({ results }: { results: any }) => {
     return (
-        <div className="flex justify-between items-center mb-6">
+        <div className="flex flex-col md:flex-row gap-2 justify-between  md:items-center mb-6">
             <PageTitle title="Assessment Evidence" backTitle="Assessment" />
             <div>
                 {results?.result === 'pending' &&

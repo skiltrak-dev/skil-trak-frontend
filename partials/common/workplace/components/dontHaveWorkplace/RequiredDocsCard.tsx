@@ -73,7 +73,7 @@ export const RequiredDocsCard = ({
                     {(fileList || invalidSelection) && (
                         <Typography variant={'label'}>-</Typography>
                     )}
-                    <div className="overflow-scroll">
+                    <div className="overflow-scroll remove-scrollbar">
                         {fileList && (
                             <>
                                 <Typography
@@ -97,7 +97,7 @@ export const RequiredDocsCard = ({
                     )}
                 </div>
                 {requiredDoc?.uploaded && (
-                    <div className="flex items-center gap-x-1 overflow-scroll w-full">
+                    <div className="flex items-center gap-x-1 overflow-scroll remove-scrollbar w-full">
                         {requiredDoc?.uploaded
                             ?.slice(0, 4)
                             ?.map((uploaded: any, idx: number) => (

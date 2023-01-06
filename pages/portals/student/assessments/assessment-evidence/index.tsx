@@ -1,6 +1,13 @@
 import { ReactElement, useEffect, useState } from 'react'
 
-import { LoadingAnimation, NoData, PageTitle, Typography } from '@components'
+import {
+    LoadingAnimation,
+    NoData,
+    PageTitle,
+    Typography,
+    Desktop,
+    Mobile,
+} from '@components'
 import { AssessmentCourseCard } from '@components/sections/student/AssessmentsContainer'
 import {
     AssessmentsEvidence,
@@ -17,10 +24,15 @@ import {
     useGetAssessmentsCoursesQuery,
     useGetAssessmentsFoldersQuery,
 } from '@queries'
+import { DesktopAssessment, MobileAssessment } from '@partials/student'
+import { useMediaQuery } from 'react-responsive'
+import { MediaQueries } from '@constants'
 
 type Props = {}
 
 const AssessmentEvidence: NextPageWithLayout = (props: Props) => {
+    const isMobile = useMediaQuery(MediaQueries.Mobile)
+
     const [selectedCourse, setSelectedCourse] = useState<any | null>(null)
     const [selectedFolder, setSelectedFolder] = useState<any | null>(null)
 
@@ -44,14 +56,16 @@ const AssessmentEvidence: NextPageWithLayout = (props: Props) => {
                     ? assessmentsCourses?.data?.find(
                           (c) => c?.id === selectedCourse?.id
                       )
-                    : assessmentsCourses?.data[0]
+                    : !isMobile
+                    ? assessmentsCourses?.data[0]
+                    : null
             )
         }
     }, [assessmentsCourses])
 
     useEffect(() => {
         if (assessmentsFolders.isSuccess) {
-            setSelectedFolder(assessmentsFolders?.data[0])
+            !isMobile && setSelectedFolder(assessmentsFolders?.data[0])
         }
     }, [assessmentsFolders])
 
@@ -63,81 +77,30 @@ const AssessmentEvidence: NextPageWithLayout = (props: Props) => {
         <>
             {/* <AssessmentsEvidence /> */}
             <TitleAndMessages results={results} />
-            <div>
-                <div></div>
-                <div className="mb-3">
-                    {assessmentsCourses.isLoading ? (
-                        <div className="flex flex-col items-center">
-                            <LoadingAnimation size={50} />
-                            <Typography variant={'subtitle'}>
-                                Course Loading
-                            </Typography>
-                        </div>
-                    ) : assessmentsCourses?.data &&
-                      assessmentsCourses?.data?.length > 0 ? (
-                        <div className="mb-3 grid grid-cols-3 gap-2">
-                            {assessmentsCourses?.data?.map((course: any) => (
-                                <AssessmentCourseCard
-                                    key={course?.id}
-                                    id={course?.id}
-                                    code={course?.code}
-                                    title={course?.title}
-                                    isActive={course?.isActive}
-                                    coordinator={
-                                        course?.subadmin[0]?.user?.name
-                                    }
-                                    selectedCourseId={selectedCourse?.id}
-                                    onClick={() => {
-                                        setSelectedCourse(course)
-                                    }}
-                                />
-                            ))}
-                        </div>
-                    ) : (
-                        <NoData text={'No Course Were Found'} />
-                    )}
-                </div>
-                {assessmentsCourses?.data &&
-                    assessmentsCourses?.data?.length > 0 && (
-                        <>
-                            <AssessmentsEvidence
-                                assessmentsFolders={assessmentsFolders}
-                                selectedFolder={selectedFolder}
-                                setSelectedFolder={setSelectedFolder}
-                                submission={results?.totalSubmission}
-                            />
-                            {isFilesUploaded ? (
-                                selectedCourse?.results?.length > 0 ? (
-                                    (results?.totalSubmission < 3 ||
-                                        results?.isManualSubmission) &&
-                                    (results?.result === 'reOpened' ||
-                                        results?.result === 'notCompetent') ? (
-                                        <Actions
-                                            selectedCourseId={
-                                                selectedCourse?.id
-                                            }
-                                        />
-                                    ) : null
-                                ) : (
-                                    <Actions
-                                        selectedCourseId={selectedCourse?.id}
-                                    />
-                                )
-                            ) : null}
-
-                            <div className="my-2">
-                                <Typography
-                                    variant="muted"
-                                    color="text-neutral-500"
-                                >
-                                    *You will be able to submit assessment
-                                    request after you upload at least one
-                                    attachment to each folder mentioned above.
-                                </Typography>
-                            </div>
-                        </>
-                    )}
-            </div>
+            <Desktop>
+                <DesktopAssessment
+                    results={results}
+                    selectedFolder={selectedFolder}
+                    selectedCourse={selectedCourse}
+                    setSelectedCourse={setSelectedCourse}
+                    setSelectedFolder={setSelectedFolder}
+                    assessmentsFolders={assessmentsFolders}
+                    assessmentsCourses={assessmentsCourses}
+                    isFilesUploaded={isFilesUploaded}
+                />
+            </Desktop>
+            <Mobile>
+                <MobileAssessment
+                    results={results}
+                    selectedFolder={selectedFolder}
+                    selectedCourse={selectedCourse}
+                    setSelectedCourse={setSelectedCourse}
+                    setSelectedFolder={setSelectedFolder}
+                    assessmentsFolders={assessmentsFolders}
+                    assessmentsCourses={assessmentsCourses}
+                    isFilesUploaded={isFilesUploaded}
+                />
+            </Mobile>
         </>
     )
 }

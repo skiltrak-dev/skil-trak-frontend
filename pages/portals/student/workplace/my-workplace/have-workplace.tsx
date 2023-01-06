@@ -276,7 +276,6 @@ const HaveWorkplace: NextPageWithLayout = (props: Props) => {
                     </div>
                 </div>
             )}
-            <div className="mt-96"></div>
         </>
     )
 }
