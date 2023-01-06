@@ -11,7 +11,7 @@ export const StudentDetail = ({
     agreementSigned: boolean
 }) => {
     return (
-        <div className="flex items-center gap-x-4">
+        <div className="flex flex-col gap-y-4 md:flex-row md:items-center md:gap-x-4">
             <div className="flex items-center gap-x-2">
                 <img
                     className="w-16 h-16 rounded-full"
@@ -40,7 +40,7 @@ export const StudentDetail = ({
 
             {/*  */}
             <div>
-                <div className="flex items-center gap-x-2">
+                <div className="flex md:items-center gap-x-2">
                     <FaPhoneSquareAlt className="text-gray-400 rounded-full" />
                     <Typography variant={'label'}>{student?.phone}</Typography>
                 </div>

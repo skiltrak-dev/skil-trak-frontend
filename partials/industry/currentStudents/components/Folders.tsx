@@ -60,7 +60,7 @@ export const Folders = ({
     }, [getWorkplaceFolders])
 
     return (
-        <div className="flex items-center gap-x-5">
+        <div className="flex justify-between md:justify-start items-center gap-x-5">
             {!workplace?.byExistingAbn &&
                 !workplace?.studentProvidedWorkplace && (
                     <div className="flex flex-col items-end gap-y-1">

@@ -1,4 +1,6 @@
 import { useEffect, useState } from 'react'
+import { useMediaQuery } from 'react-responsive'
+import { MediaQueries } from '@constants'
 
 // Components
 import {
@@ -18,6 +20,7 @@ import { AdForRPL } from '@components/sections/industry'
 import { ImportantDocuments } from '@partials/industry'
 import { AuthUtils } from '@utils'
 import { ViewProfileCB } from '@partials/industry/contextBar'
+import { Desktop, Mobile } from '@components/Responsive'
 
 const WorkplaceQuestions = [
     {
@@ -88,10 +91,10 @@ const getSectors = (courses: any) => {
     const sectors = {}
     courses.forEach((c: any) => {
         if ((sectors as any)[c.sector.name]) {
-            ;(sectors as any)[c.sector.name].push(c)
+            ; (sectors as any)[c.sector.name].push(c)
         } else {
-            ;(sectors as any)[c.sector.name] = []
-            ;(sectors as any)[c.sector.name].push(c)
+            ; (sectors as any)[c.sector.name] = []
+                ; (sectors as any)[c.sector.name].push(c)
         }
     })
     return sectors
@@ -101,11 +104,25 @@ export const IndustryDashboardContainer = () => {
     const contextBar = useContextBar()
     const [credentials, setCredentials] = useState<any>(null)
     const sectorsWithCourses = getSectors([])
-
+    const handleMediaQueryChange = (matches: any) => {
+        if (matches) {
+            if (contextBar.isVisible) contextBar.hide()
+        } else {
+            // contextBar.setContent(<ViewProfileCB />)
+            if (!contextBar.isVisible) contextBar.show(false)
+        }
+    }
+    const isMobile = useMediaQuery(
+        MediaQueries.Mobile,
+        undefined,
+        handleMediaQueryChange
+    )
     useEffect(() => {
-        contextBar.setContent(<ViewProfileCB />)
-        contextBar.show(false)
-    }, [])
+        if (!isMobile) {
+            contextBar.setContent(<ViewProfileCB />)
+            contextBar.show(false)
+        }
+    }, [isMobile])
 
     useEffect(() => {
         if (!credentials) {
@@ -118,7 +135,7 @@ export const IndustryDashboardContainer = () => {
     return (
         <div className="flex flex-col gap-y-6">
             <section className="bg-[#D6F4FF] w-full p-4 rounded-2xl relative overflow-hidden">
-                <div className="absolute right-0 -bottom-3">
+                <div className="absolute md:block hidden right-0 -bottom-3">
                     <LottieAnimation
                         animation={Animations.Common.Help}
                         width={200}
@@ -137,7 +154,7 @@ export const IndustryDashboardContainer = () => {
                     </h4>
                 </div>
 
-                <div className="mt-2 flex gap-x-6">
+                <div className="mt-2 flex flex-col gap-y-4 md:flex-row md:gap-x-6">
                     <div>
                         <HelpQuestionSet
                             title="Workplace"
@@ -164,7 +181,12 @@ export const IndustryDashboardContainer = () => {
                 </div>
             </section>
 
-            <ImportantDocuments />
+            {/* <ImportantDocuments /> */}
+            <Desktop>
+                <ImportantDocuments />
+            </Desktop>
+
+
 
             {/* Others */}
             <div className="w-full">
@@ -175,6 +197,9 @@ export const IndustryDashboardContainer = () => {
                     <AdForRPL />
                 </Card>
             </div>
+            <Mobile>
+                <ImportantDocuments />
+            </Mobile>
         </div>
     )
 }

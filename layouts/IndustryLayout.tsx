@@ -10,7 +10,7 @@ interface IndustryLayoutProps {
 export const IndustryLayout = ({ title, children }: IndustryLayoutProps) => {
     return (
         <UserLayout>
-            <div className="px-16">
+            <div className="md:px-16 px-4">
                 <div className="mb-6">
                     <IndustryNavbar />
                 </div>
