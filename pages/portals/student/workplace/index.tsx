@@ -105,7 +105,7 @@ const StudentWorkplace: NextPageWithLayout = () => {
     // WORKPLACE JOY RIDE - END
     return (
         <div className="flex flex-col">
-            <div className="flex gap-x-6">
+            <div className="flex flex-col md:flex-row gap-y-2 gap-x-6">
                 {/* Primary Actions */}
                 <div className="bg-white p-4 rounded-2xl shadow-xl flex-shrink-0">
                     <DisplayPrimaryActions actions={PrimaryLinks} />

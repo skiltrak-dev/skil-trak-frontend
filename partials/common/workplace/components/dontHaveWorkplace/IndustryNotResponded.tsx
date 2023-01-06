@@ -9,6 +9,7 @@ type Props = {
 }
 
 export const IndustryNotResponded = ({ industries }: Props) => {
+    console.log('industries', industries)
     return (
         <>
             <Card>
@@ -19,32 +20,32 @@ export const IndustryNotResponded = ({ industries }: Props) => {
                 </div>
                 <div className="flex flex-col gap-y-2">
                     {industries?.map((industry: any) => (
-                        <div className="py-3 px-4 bg-red-100 rounded-lg flex justify-between items-center">
-                            <div className="flex items-center gap-x-2">
+                        <div className="py-3 px-4 bg-red-100 rounded-lg flex flex-col md:flex-row justify-between md:items-center gap-y-2">
+                            <div className="flex items-start md:items-center gap-x-2">
                                 <Image
                                     src="https://picsum.photos/200/300"
                                     width={45}
                                     height={45}
                                 />
                                 <div>
-                                    <Typography
+                                    {/* <Typography
                                         variant="muted"
                                         color={'text-gray-500'}
                                     >
                                         5km away
-                                    </Typography>
+                                    </Typography> */}
                                     <Typography
                                         variant="label"
                                         color={'text-black'}
                                     >
-                                        Claro Aged Care and Disability Services
+                                        {industry?.businessName}
                                     </Typography>
                                     <Typography
                                         variant="muted"
                                         color={'text-gray-500'}
                                     >
-                                        28 Rainwater Dr Lyndhurst VIC 3975,
-                                        Australia
+                                        {industry?.addressLine1},{' '}
+                                        {industry?.addressLine2}
                                     </Typography>
                                 </div>
                             </div>

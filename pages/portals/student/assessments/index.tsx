@@ -93,7 +93,7 @@ const StudentAssessments: NextPageWithLayout = () => {
     // WORKPLACE JOY RIDE - END
     return (
         <div className="flex flex-col">
-            <div className="flex gap-x-6">
+            <div className="flex flex-col md:flex-row gap-y-3 gap-x-6">
                 {/* Primary Actions */}
                 <div className="bg-white p-4 rounded-2xl shadow-xl flex-shrink-0">
                     <DisplayPrimaryActions actions={PrimaryLinks} />
@@ -109,7 +109,7 @@ const StudentAssessments: NextPageWithLayout = () => {
                 </div>
             </div>
 
-            <div className="mt-6 flex justify-between">
+            <div className="mt-6 flex flex-col md:flex-row gap-y-3 justify-between">
                 {/* Related Questions */}
                 <HelpQuestionSet
                     title={'What you want to do here?'}

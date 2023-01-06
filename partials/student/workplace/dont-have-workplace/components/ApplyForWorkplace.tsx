@@ -20,7 +20,7 @@ export const ApplyForWorkplace = ({
 
     return (
         <div
-            className={`${BACKGROUNDS[index]} p-2 rounded-lg flex justify-between items-center`}
+            className={`${BACKGROUNDS[index]} p-2 rounded-lg flex flex-col md:flex-row justify-between items-start md:items-center gap-y-2`}
         >
             <div className="flex items-center gap-x-2">
                 <img

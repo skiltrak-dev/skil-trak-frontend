@@ -76,7 +76,7 @@ export const PersonalInfoForm = ({ onSubmit, courses }: PersonalInfoProps) => {
                                 onlyValue
                             />
                         </div>
-                        <div className="flex gap-x-2 mt-4">
+                        <div className="flex flex-col md:flex-row  gap-x-2 mt-4">
                             <TextInput
                                 name="currentQualification"
                                 label="Current Qualification"
@@ -85,9 +85,10 @@ export const PersonalInfoForm = ({ onSubmit, courses }: PersonalInfoProps) => {
                             <TextInput
                                 name="currentWork"
                                 label="Current Work"
+                                placeholder="Current Work"
                             />
                         </div>
-                        <div className=" flex mb-5">
+                        <div className="flex flex-col md:flex-row gap-y-3 mb-5">
                             <RadioGroup
                                 gridColumns="2"
                                 layout="grid"

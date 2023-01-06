@@ -59,7 +59,7 @@ export const AppointmentTypeCard = ({
                         height={100}
                         alt="appointment type"
                     /> */}
-                    <div className="">
+                    <div className="whitespace-pre">
                         <Typography variant="body" color="text-black">
                             {title}
                         </Typography>

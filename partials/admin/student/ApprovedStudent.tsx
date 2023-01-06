@@ -149,7 +149,6 @@ export const ApprovedStudent = () => {
                 )
             },
         },
-    
     ]
 
     const quickActionsElements = {
@@ -211,8 +210,10 @@ export const ApprovedStudent = () => {
                                                 )}
                                             </div>
                                         </div>
-                                        <div className='w-full overflow-hidden overflow-x-scroll '>
-                                        <div className="px-6 w-full">{table}</div>
+                                        <div className="w-full overflow-hidden overflow-x-scroll ">
+                                            <div className="px-6 w-full">
+                                                {table}
+                                            </div>
                                         </div>
                                     </div>
                                 )

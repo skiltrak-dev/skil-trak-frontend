@@ -60,7 +60,7 @@ const MyWorkPlaces: NextPageWithLayout = (props: Props) => {
                     option
                 </p>
 
-                <div className="flex gap-x-6 mt-4">
+                <div className="flex flex-col md:flex-row gap-y-3 gap-x-6 mt-4">
                     <div
                         id="i-have-workplace"
                         className="border rounded-md p-4 flex flex-col items-center"
@@ -75,7 +75,7 @@ const MyWorkPlaces: NextPageWithLayout = (props: Props) => {
                             <p className="font-semibold mt-4 mb-2">
                                 Already have a Workplace?
                             </p>
-                            <p className="text-sm text-gray-500 w-64 mb-2">
+                            <p className="text-sm text-gray-500 w-full md:w-64 mb-2">
                                 I already have workplace, and willing to provide
                                 information about that workplace
                             </p>
@@ -103,7 +103,7 @@ const MyWorkPlaces: NextPageWithLayout = (props: Props) => {
                             <p className="font-semibold mt-4 mb-2">
                                 Don&apos;t have a Workplace?
                             </p>
-                            <p className="text-sm text-gray-500 w-64 mb-2">
+                            <p className="text-sm text-gray-500 w-full md:w-64 mb-2">
                                 I don&apos;t have any workplace, already! So
                                 I&apos;ll want to request one.
                             </p>

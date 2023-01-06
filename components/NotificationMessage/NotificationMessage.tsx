@@ -9,7 +9,7 @@ export const NotificationMessage = ({
     subtitle: string
 }) => {
     return (
-        <div className="flex gap-x-2 items-center w-96 border-b-8 border-gray-400 bg-white p-3">
+        <div className="flex gap-x-2 items-center w-full md:w-96 border-b-8 border-gray-400 bg-white p-3">
             <MdOutlineEditNotifications size={30} />
             <div>
                 <Typography variant={'label'}>{title}</Typography>

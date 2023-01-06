@@ -36,15 +36,14 @@ export const Step = ({
     }
 
     const stepLabelClasses = classNames({
-        'text-sm flex-shrink-0': true,
+        'text-sm whitespace-pre': true,
         'text-indigo-500': visited,
         'text-gray-400': !visited,
     })
 
     const stepLineClasses = classNames({
-        'h-10 w-0.5': vertical,
-        'w-14 h-0.5': horizontal,
-        'ml-4 ': vertical,
+        'h-10 w-0.5 ml-4': vertical,
+        'w-14 h-1': horizontal,
         // 'w-0.5': !fluid,
         'bg-indigo-500': visited,
         'bg-gray-400': !visited,

@@ -16,7 +16,7 @@ export const StepIndustryChecks = ({
 
     return (
         <div>
-            <p className="text-xs text-right mb-2">
+            <p className="text-xs md:text-right mb-2">
                 <span className="font-semibold">{daysLeft()}</span>{' '}
                 <span className="text-gray-400">days left</span>
             </p>

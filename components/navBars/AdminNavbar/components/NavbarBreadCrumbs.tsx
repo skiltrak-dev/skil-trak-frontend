@@ -9,7 +9,7 @@ export const NavbarBreadCrumbs = ({
     title: string
 }) => {
     return (
-        <div className="flex text-xs font-medium gap-x-1 text-gray-300">
+        <div className="flex text-xs font-medium gap-x-1 text-gray-300 overflow-scroll remove-scrollbar">
             <Link href="/">
                 <a className="">DASHBOARD</a>
             </Link>{' '}
@@ -22,7 +22,9 @@ export const NavbarBreadCrumbs = ({
                     <span>/</span>{' '}
                 </Fragment>
             ))}
-            <div className="text-gray-400">{title.toUpperCase()}</div>
+            <div className="text-gray-400 whitespace-pre">
+                {title.toUpperCase()}
+            </div>
         </div>
     )
 }

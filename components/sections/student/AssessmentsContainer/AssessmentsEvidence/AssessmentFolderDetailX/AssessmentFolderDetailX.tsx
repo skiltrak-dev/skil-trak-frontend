@@ -122,7 +122,7 @@ export const AssessmentFolderDetailX = ({ folder, fileUpload }: Props) => {
                         </Typography>
                     </div>
                 ) : data?.files?.length > 0 ? (
-                    <div className="grid grid-cols-6 gap-x-2 gap-y-3">
+                    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-x-2 gap-y-3">
                         {data?.files.map((file: any) => (
                             <AssessmentFolderFileCard
                                 key={file.id}

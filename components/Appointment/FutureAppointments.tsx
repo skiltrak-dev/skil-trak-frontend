@@ -18,7 +18,21 @@ export const FutureAppointments = ({ appointments }: { appointments: any }) => {
         <HeroSliderContainer className="mt-4 relative">
             <div className="swiper-container w-full relative">
                 <Swiper
-                    slidesPerView={2}
+                    breakpoints={{
+                        0: {
+                            width: 0,
+                            slidesPerView: 1,
+                        },
+                        992: {
+                            width: 992,
+                            slidesPerView: 2,
+                        },
+                        1536: {
+                            width: 1536,
+                            slidesPerView: 3,
+                        },
+                    }}
+                    // slidesPerView={2}
                     spaceBetween={10}
                     slidesPerGroup={1}
                     pagination={{

@@ -26,8 +26,8 @@ export const AssessmentsEvidence = ({
 }: Props) => {
     return (
         <>
-            <div className="flex">
-                <div className="w-1/3 h-full ">
+            <div className="flex flex-col md:flex-row">
+                <div className="w-full md:w-1/3 h-full ">
                     <div className="flex items-center gap-x-1 mb-1">
                         <Typography variant="label" color="text-black">
                             Assessment Submission -
@@ -105,7 +105,7 @@ export const AssessmentsEvidence = ({
                     </div>
                 </div>
 
-                <div className="w-2/3 h-full relative">
+                <div className="w-full md:w-2/3 h-full relative">
                     <AssessmentFolderDetailX
                         fileUpload
                         folder={selectedFolder}
