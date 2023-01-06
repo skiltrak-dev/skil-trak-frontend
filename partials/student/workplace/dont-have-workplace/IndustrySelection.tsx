@@ -42,7 +42,7 @@ export const IndustrySelection = ({
             setNoRespondedIndustries(
                 allIndustries
                     ?.filter((i: any) => i?.industryResponse === 'noResponse')
-                    ?.map((i) => i?.industry)
+                    ?.map((i: any) => i?.industry)
             )
             setIndustries(
                 allIndustries?.filter(
