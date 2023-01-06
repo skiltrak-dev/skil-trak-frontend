@@ -27,11 +27,11 @@ export const AppliedIndustryCard = ({
                 </div>
 
                 <div className="py-2 px-4">
-                    <div className="py-2 px-4 rounded-lg flex justify-between items-start">
-                        <div>
-                            <div className="flex items-center gap-x-2">
+                    <div className="py-2 md:px-4 rounded-lg flex flex-col md:flex-row gap-y-2 justify-between items-start">
+                        <div className="flex flex-col gap-y-3.5">
+                            <div className="flex md:items-center gap-x-2">
                                 <img
-                                    className="w-16 h-16 rounded-md"
+                                    className="w-9 md:w-16 h-9 md:h-16 rounded-md"
                                     src={`https://picsum.photos/100/10`}
                                     alt=""
                                 />
@@ -59,7 +59,7 @@ export const AppliedIndustryCard = ({
                                 </div>
                             </div>
 
-                            <div className="px-20">
+                            <div className="px-10 md:px-20">
                                 <p className="text-xs text-gray-400">
                                     Case Officer:
                                 </p>
@@ -86,7 +86,7 @@ export const AppliedIndustryCard = ({
                             </div>
                         </div>
 
-                        <div>{getNextStep()}</div>
+                        <div className="mt-3 md:mt-0">{getNextStep()}</div>
                     </div>
 
                     {workplaceCancelRequest(true)}

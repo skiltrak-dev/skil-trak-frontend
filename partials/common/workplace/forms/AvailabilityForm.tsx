@@ -81,74 +81,81 @@ export const AvailabilityForm = ({
             <Typography variant={'label'}>Select Your Availability</Typography>
 
             {/*  */}
-            <Card>
-                <div className="grid grid-cols-5 gap-4 px-3">
-                    {shifts.map((shift, i) => (
-                        <div
-                            key={shift.time}
-                            className={`${
-                                i === 0 ? 'col-start-2' : ''
-                            } mx-auto flex items-center gap-x-2`}
-                        >
-                            <img src={shift.icon} alt="" />
-                            <Typography variant={'label'} capitalize>
-                                {shift.time}
-                            </Typography>
-                        </div>
-                    ))}
-                </div>
-
-                <div className="flex flex-col gap-y-2 mt-4">
-                    {days.map((days, i) => (
-                        <div
-                            key={days}
-                            className="grid grid-cols-5 gap-4 px-3 bg-secondary rounded-lg py-2"
-                        >
-                            <Typography capitalize variant={'label'}>
-                                {days}
-                            </Typography>
-
+            <div className="overflow-scroll">
+                <div className="min-w-[500px]">
+                    <Card>
+                        <div className="grid grid-cols-5 gap-4 px-3">
                             {shifts.map((shift, i) => (
-                                <div className="mx-auto" key={shift.time}>
-                                    <Checkbox
-                                        name={days}
-                                        value={shift.time}
-                                        onChange={(e: any) => {
-                                            handleChange(e)
-                                        }}
-                                    />
+                                <div
+                                    key={shift.time}
+                                    className={`${
+                                        i === 0 ? 'col-start-2' : ''
+                                    } mx-auto flex items-center gap-x-2`}
+                                >
+                                    <img src={shift.icon} alt="" />
+                                    <Typography variant={'label'} capitalize>
+                                        {shift.time}
+                                    </Typography>
                                 </div>
                             ))}
                         </div>
-                    ))}
-                </div>
-                <div className="my-4">
-                    <Typography variant={'muted'} color={'grayLight'}>
-                        * Your request will be submitted when you’ll click find
-                        industries
-                    </Typography>
-                </div>
 
-                <div className="flex items-center gap-x-4">
-                    <Button
-                        variant={'secondary'}
-                        onClick={() => {
-                            setActive((active: number) => active - 1)
-                        }}
-                    >
-                        Previous
-                    </Button>
-                    <Button
-                        onClick={() => {
-                          onSubmit(daysAvailability)
-                        }}
-                        loading={result.isLoading}
-                        disabled={result.isLoading}
-                    >
-                        Find Industries
-                    </Button>
+                        <div className="flex flex-col gap-y-2 mt-4">
+                            {days.map((days, i) => (
+                                <div
+                                    key={days}
+                                    className="grid grid-cols-5 gap-4 px-3 bg-secondary rounded-lg py-2"
+                                >
+                                    <Typography capitalize variant={'label'}>
+                                        {days}
+                                    </Typography>
+
+                                    {shifts.map((shift, i) => (
+                                        <div
+                                            className="mx-auto"
+                                            key={shift.time}
+                                        >
+                                            <Checkbox
+                                                name={days}
+                                                value={shift.time}
+                                                onChange={(e: any) => {
+                                                    handleChange(e)
+                                                }}
+                                            />
+                                        </div>
+                                    ))}
+                                </div>
+                            ))}
+                        </div>
+                        <div className="my-4">
+                            <Typography variant={'muted'} color={'grayLight'}>
+                                * Your request will be submitted when you’ll
+                                click find industries
+                            </Typography>
+                        </div>
+
+                        <div className="flex items-center gap-x-4">
+                            <Button
+                                variant={'secondary'}
+                                onClick={() => {
+                                    setActive((active: number) => active - 1)
+                                }}
+                            >
+                                Previous
+                            </Button>
+                            <Button
+                                onClick={() => {
+                                    onSubmit(daysAvailability)
+                                }}
+                                loading={result.isLoading}
+                                disabled={result.isLoading}
+                            >
+                                Find Industries
+                            </Button>
+                        </div>
+                    </Card>
                 </div>
-            </Card>
+            </div>
         </div>
     )
 }

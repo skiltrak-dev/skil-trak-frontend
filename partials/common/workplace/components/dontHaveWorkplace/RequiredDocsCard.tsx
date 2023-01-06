@@ -50,38 +50,54 @@ export const RequiredDocsCard = ({
 
     const isNotUploadedDocs = uploadedDocs < capacity
     return (
-        <div className="bg-secondary rounded-lg p-2 flex justify-between items-center">
-            <div className="flex items-center gap-x-2">
-                {fileList && !invalidSelection ? (
-                    <AiFillCheckCircle className="text-success" />
-                ) : invalidSelection ? (
-                    <HiExclamationTriangle className="text-error" />
-                ) : (
-                    <AiFillExclamationCircle className="text-info" />
-                )}
-                <Typography variant={'label'}>{name}</Typography>
-                {(fileList || invalidSelection) && (
-                    <Typography variant={'label'}>-</Typography>
-                )}
-                {fileList && (
-                    <>
-                        <Typography variant={'xs'} color={'text-gray-400'}>
-                            {fileList
-                                ? fileList?.map(
-                                      (f: any) => `${f.name.substring(0, 10)}, `
-                                  )
-                                : null}
-                            {/* {Object.values(file).map((f) => f.name)} */}
-                        </Typography>
-                    </>
-                )}
-                {invalidSelection && (
-                    <Typography variant={'xs'} color={'text-error'}>
-                        Invalid File Format is selected
-                    </Typography>
-                )}
-                {requiredDoc?.uploaded && (
+        <div className="bg-secondary rounded-lg p-2 flex flex-col md:flex-row gap-2 justify-between md:items-center">
+            <div className="flex flex-col md:flex-row gap-2 md:items-center gap-x-2">
+                {/* title and capacity */}
+                <div className="flex items-center justify-between md:justify-start gap-x-2 w-full md:w-auto">
+                    {/* capacity */}
                     <div className="flex items-center gap-x-1">
+                        {fileList && !invalidSelection ? (
+                            <AiFillCheckCircle className="text-success" />
+                        ) : invalidSelection ? (
+                            <HiExclamationTriangle className="text-error" />
+                        ) : (
+                            <AiFillExclamationCircle className="text-info" />
+                        )}
+                        <Typography variant={'label'}>{name}</Typography>
+                    </div>
+                    <Typography variant={'small'} color={'text-gray-500'}>
+                        ({uploadedDocs}/{capacity})
+                    </Typography>
+                </div>
+                <div className="flex items-center">
+                    {(fileList || invalidSelection) && (
+                        <Typography variant={'label'}>-</Typography>
+                    )}
+                    <div className="overflow-scroll">
+                        {fileList && (
+                            <>
+                                <Typography
+                                    variant={'xs'}
+                                    color={'text-gray-400'}
+                                >
+                                    {fileList
+                                        ? fileList?.map(
+                                              (f: any) =>
+                                                  `${f.name.substring(0, 10)}, `
+                                          )
+                                        : null}
+                                </Typography>
+                            </>
+                        )}
+                    </div>
+                    {invalidSelection && (
+                        <Typography variant={'xs'} color={'text-error'}>
+                            Invalid File Format is selected
+                        </Typography>
+                    )}
+                </div>
+                {requiredDoc?.uploaded && (
+                    <div className="flex items-center gap-x-1 overflow-scroll w-full">
                         {requiredDoc?.uploaded
                             ?.slice(0, 4)
                             ?.map((uploaded: any, idx: number) => (
@@ -90,7 +106,9 @@ export const RequiredDocsCard = ({
                                     variant={'xs'}
                                     color={'text-error'}
                                 >
-                                    {ellipsisText(uploaded?.fileName, 10)},
+                                    <span className="whitespace-pre">
+                                        {ellipsisText(uploaded?.fileName, 10)},
+                                    </span>
                                 </Typography>
                             ))}
                         {requiredDoc?.uploaded?.length > 4 && (
@@ -100,14 +118,14 @@ export const RequiredDocsCard = ({
                         )}
                     </div>
                 )}
-                <Typography variant={'small'} color={'text-gray-500'}>
-                    ({uploadedDocs}/{capacity})
-                </Typography>
+
                 {!isNotUploadedDocs && (
                     <div className="flex items-center">
                         <Typography variant={'small'}>-</Typography>
                         <Typography variant={'small'} color={'text-success'}>
-                            Documents Uploaded
+                            <span className="whitespace-pre">
+                                Documents Uploaded
+                            </span>
                         </Typography>
                     </div>
                 )}

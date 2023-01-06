@@ -76,7 +76,7 @@ const DontHaveWorkplace: NextPageWithLayout = (props: Props) => {
                 />
             </div>
 
-            <div className="w-[75%]">
+            <div className="w-full md:w-[75%]">
                 {active === 1 && (
                     <PersonalInfo
                         setActive={setActive}

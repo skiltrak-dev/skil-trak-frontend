@@ -22,10 +22,13 @@ import {
 import { useNotification } from '@hooks'
 import { AddCustomIndustryForm, FindWorkplaceForm } from '@partials/common'
 import { AppliedIndustry, ExistingIndustryCard } from '@partials/student'
+import { MediaQueries } from '@constants'
+import { useMediaQuery } from 'react-responsive'
 
 type Props = {}
 
 const HaveWorkplace: NextPageWithLayout = (props: Props) => {
+    const isMobile = useMediaQuery(MediaQueries.Mobile)
     const [active, setActive] = useState(1)
     const [personalInfoData, setPersonalInfoData] = useState({})
     const [industryABN, setIndustryABN] = useState<string | null>(null)
@@ -137,130 +140,144 @@ const HaveWorkplace: NextPageWithLayout = (props: Props) => {
         })
     }
 
-    return workplace?.isLoading ? (
-        <LoadingAnimation />
-    ) : (
-        <div className="flex gap-x-5 w-full">
+    return (
+        <>
             <ShowErrorNotifications result={addWorkplaceResult} />
-            {/* <GoBackButton>Workplace Choice</GoBackButton> */}
+            {workplace?.isLoading ? (
+                <LoadingAnimation />
+            ) : (
+                <div className="flex flex-col md:flex-row gap-x-5 w-full">
+                    {/* <GoBackButton>Workplace Choice</GoBackButton> */}
 
-            {/*  */}
-            <div className="py-4 w-[25%]">
-                <StepIndicator
-                    steps={StepIndicatorOptions}
-                    currentStep={StepIndicatorOptions[active - 1]}
-                    vertical
-                />
-            </div>
-
-            <div className="w-[75%]">
-                {active === 1 && (
-                    <div>
-                        {industryNotFound ? (
-                            <div className="bg-red-200 rounded-lg px-2 py-1 mb-2">
-                                <p className="text-sm font-semibold text-red-500">
-                                    Industry for provided ABN not found
-                                </p>
-                                <p className="text-xs text-red-400">
-                                    You will be redirected to Industry Form so
-                                    you can add your industry&apos;s information
-                                </p>
-                            </div>
-                        ) : null}
-                        <FindWorkplaceForm
-                            onSubmit={onSubmit}
-                            result={result}
+                    {/*  */}
+                    <div className="py-4 w-full md:w-[25%]">
+                        <StepIndicator
+                            steps={StepIndicatorOptions}
+                            currentStep={StepIndicatorOptions[active - 1]}
+                            vertical={!isMobile}
                         />
                     </div>
-                )}
 
-                {active === 2 &&
-                    (!result?.data ? (
-                        <div className="mb-4">
-                            <AddCustomIndustryForm
-                                onSubmit={onAddIndustry}
-                                setWorkplaceData={setWorkplaceData}
-                                result={addWorkplaceResult}
-                                industryABN={industryABN}
-                                setActive={setActive}
-                            />
-                        </div>
-                    ) : (
-                        <ExistingIndustryCard
-                            setActive={setActive}
-                            personalInfoData={personalInfoData}
-                            res={result}
-                            industry={result?.data}
-                            setWorkplaceData={setWorkplaceData}
-                        />
-                    ))}
+                    <div className="w-full md:w-[75%]">
+                        {active === 1 && (
+                            <div>
+                                {industryNotFound ? (
+                                    <div className="bg-red-200 rounded-lg px-2 py-1 mb-2">
+                                        <p className="text-sm font-semibold text-red-500">
+                                            Industry for provided ABN not found
+                                        </p>
+                                        <p className="text-xs text-red-400">
+                                            You will be redirected to Industry
+                                            Form so you can add your
+                                            industry&apos;s information
+                                        </p>
+                                    </div>
+                                ) : null}
+                                <FindWorkplaceForm
+                                    onSubmit={onSubmit}
+                                    result={result}
+                                />
+                            </div>
+                        )}
 
-                {active === 3 && (
-                    <>
-                        {workplaceData?.industryStatus === 'approved' ? (
-                            <AppliedIndustry
-                                workplaceCancelRequest={workplaceCancelRequest}
-                                appliedIndustry={
-                                    workplaceData[0]?.industries[0]
-                                }
-                                status={workplaceData?.currentStatus}
-                                workplaceRequest={workplaceData}
-                                studentAdded
-                            />
-                        ) : workplaceData?.industryStatus === 'rejected' ? (
-                            <Card>
-                                <div className="px-5 py-16 border-2 border-dashed border-gray-600 flex justify-center">
-                                    <Typography
-                                        variant={'label'}
-                                        center
-                                        color={'text-gray-700'}
-                                    >
-                                        Your Workplace Industry has been
-                                        Rejected, You can recreate a workplace
-                                        after canceling the workplace
-                                    </Typography>
+                        {active === 2 &&
+                            (!result?.data ? (
+                                <div className="mb-4">
+                                    <AddCustomIndustryForm
+                                        onSubmit={onAddIndustry}
+                                        setWorkplaceData={setWorkplaceData}
+                                        result={addWorkplaceResult}
+                                        industryABN={industryABN}
+                                        setActive={setActive}
+                                    />
                                 </div>
-                                {workplaceCancelRequest()}
-                            </Card>
-                        ) : (
+                            ) : (
+                                <ExistingIndustryCard
+                                    setActive={setActive}
+                                    personalInfoData={personalInfoData}
+                                    res={result}
+                                    industry={result?.data}
+                                    setWorkplaceData={setWorkplaceData}
+                                />
+                            ))}
+
+                        {active === 3 && (
+                            <>
+                                {workplaceData?.industryStatus ===
+                                'approved' ? (
+                                    <AppliedIndustry
+                                        workplaceCancelRequest={
+                                            workplaceCancelRequest
+                                        }
+                                        appliedIndustry={
+                                            workplaceData[0]?.industries[0]
+                                        }
+                                        status={workplaceData?.currentStatus}
+                                        workplaceRequest={workplaceData}
+                                        studentAdded
+                                    />
+                                ) : workplaceData?.industryStatus ===
+                                  'rejected' ? (
+                                    <Card>
+                                        <div className="px-5 py-16 border-2 border-dashed border-gray-600 flex justify-center">
+                                            <Typography
+                                                variant={'label'}
+                                                center
+                                                color={'text-gray-700'}
+                                            >
+                                                Your Workplace Industry has been
+                                                Rejected, You can recreate a
+                                                workplace after canceling the
+                                                workplace
+                                            </Typography>
+                                        </div>
+                                        {workplaceCancelRequest()}
+                                    </Card>
+                                ) : (
+                                    <Card>
+                                        <div className="px-5 py-16 border-2 border-dashed border-gray-600 flex justify-center">
+                                            <Typography
+                                                variant={'label'}
+                                                center
+                                                color={'text-gray-700'}
+                                            >
+                                                Your request has been received,
+                                                Our team after confirming the
+                                                provided information will
+                                                approved your request and Will
+                                                Contact you soon
+                                            </Typography>
+                                        </div>
+                                        {workplaceCancelRequest()}
+                                    </Card>
+                                )}
+                            </>
+                        )}
+
+                        {active === 4 && (
                             <Card>
-                                <div className="px-5 py-16 border-2 border-dashed border-gray-600 flex justify-center">
-                                    <Typography
-                                        variant={'label'}
-                                        center
-                                        color={'text-gray-700'}
-                                    >
-                                        Your request has been received, Our team
-                                        after confirming the provided
-                                        information will approved your request
-                                        and Will Contact you soon
-                                    </Typography>
-                                </div>
-                                {workplaceCancelRequest()}
+                                <ActionAlert
+                                    title={
+                                        'Your Request Has Been Place Successfully!'
+                                    }
+                                    description={
+                                        'This prompt should be shown, when some long or multiprocess has been completed, and now user need to return to home or some other page.'
+                                    }
+                                    variant={'primary' || 'info' || 'error'}
+                                    primaryAction={{
+                                        text: 'Go Back',
+                                        onClick: () => {
+                                            setActive(1)
+                                        },
+                                    }}
+                                />
                             </Card>
                         )}
-                    </>
-                )}
-
-                {active === 4 && (
-                    <Card>
-                        <ActionAlert
-                            title={'Your Request Has Been Place Successfully!'}
-                            description={
-                                'This prompt should be shown, when some long or multiprocess has been completed, and now user need to return to home or some other page.'
-                            }
-                            variant={'primary' || 'info' || 'error'}
-                            primaryAction={{
-                                text: 'Go Back',
-                                onClick: () => {
-                                    setActive(1)
-                                },
-                            }}
-                        />
-                    </Card>
-                )}
-            </div>
-        </div>
+                    </div>
+                </div>
+            )}
+            <div className="mt-96"></div>
+        </>
     )
 }
 HaveWorkplace.getLayout = (page: ReactElement) => {

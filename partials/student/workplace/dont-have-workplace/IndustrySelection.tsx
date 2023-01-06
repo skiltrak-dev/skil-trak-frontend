@@ -40,9 +40,9 @@ export const IndustrySelection = ({
             const allIndustries = workplace?.data[0]?.industries
             setWorkplaceIndustries(workplace?.data[0])
             setNoRespondedIndustries(
-                allIndustries?.filter(
-                    (i: any) => i?.industryResponse === 'noResponse'
-                )
+                allIndustries
+                    ?.filter((i: any) => i?.industryResponse === 'noResponse')
+                    ?.map((i) => i?.industry)
             )
             setIndustries(
                 allIndustries?.filter(
