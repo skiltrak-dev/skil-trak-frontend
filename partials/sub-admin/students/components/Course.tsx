@@ -21,9 +21,12 @@ export const Course = ({ course }: any) => {
         endTime: '',
     })
 
+    console.log('course', course)
+    const result = course?.results ? course?.results[0]?.result : []
+
     const badge = (text: string, outline?: boolean) => {
         return (
-            <Typography variant={'badge'}>
+            <Typography variant={'badge'} uppercase>
                 <span
                     className={`p-1 rounded ${
                         outline ? 'border border-success' : 'bg-success'
@@ -34,6 +37,22 @@ export const Course = ({ course }: any) => {
             </Typography>
         )
     }
+
+    const courseStatus = () => {
+        switch (result) {
+            case 'competent':
+                return 'Completed'
+            case 'reOpened':
+                return 'Not Completed'
+            case 'notCompetent':
+                return 'Not Completed'
+            case 'pending':
+                return 'Pending'
+            default:
+                return 'Not Assessed'
+        }
+    }
+    const status = courseStatus()
     return (
         <div className="px-2 py-2.5 flex justify-between items-center bg-gray-50">
             <div className="border-l-4 border-red-500 px-1">
@@ -41,8 +60,8 @@ export const Course = ({ course }: any) => {
                     <Typography variant={'small'} color={'text-gray-500'}>
                         {course?.code}
                     </Typography>
-                    {badge('COMPLETED', true)}
-                    {badge('COMPETENT')}
+                    {badge(status, true)}
+                    {badge(result?.length ? result : 'Not Assessed')}
                 </div>
                 <Typography variant={'label'}>{course?.title}</Typography>
             </div>

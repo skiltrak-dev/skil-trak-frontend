@@ -75,15 +75,20 @@ const BookAppointment: NextPageWithLayout = (props: Props) => {
 
     useEffect(() => {
         if (workplace?.data && workplace?.data?.length) {
-            const industry = workplace?.data[0]
+            const industry = workplace?.data[0]?.industries.find(
+                (i: any) => i.applied
+            )?.industry
             const workplceResult = {
-                name: '',
-                email: '',
-                phone: '',
-                address: '',
+                name: industry?.user?.name,
+                email: industry?.user?.email,
+                phone: industry?.phoneNumber,
+                address: industry?.addressLine1,
             }
-            for (const key in workplace?.data) {
-                formMethods.setValue(key, workplace?.data[key])
+            for (const key in workplceResult) {
+                formMethods.setValue(
+                    key,
+                    workplceResult[key as keyof typeof workplceResult]
+                )
             }
         }
     }, [workplace])
