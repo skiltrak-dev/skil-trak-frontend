@@ -26,17 +26,39 @@ import { ViewProfileCB } from '@partials/student/contextBar'
 import { useGetStudentProfileDetailQuery } from '@queries'
 
 import { getSectors } from '@utils'
+import { useMediaQuery } from 'react-responsive'
+import { MediaQueries } from '@constants'
+import { Desktop, Mobile } from '@components/Responsive'
 
 const StudentDashboard: NextPageWithLayout = () => {
+    const contextBar = useContextBar()
+    const handleMediaQueryChange = (matches: any) => {
+        if (matches) {
+            if (contextBar.isVisible) contextBar.hide()
+        } else {
+            // contextBar.setContent(<ViewProfileCB />)
+            if (!contextBar.isVisible) contextBar.show(false)
+        }
+    }
+    const isMobile = useMediaQuery(
+        MediaQueries.Mobile,
+        undefined,
+        handleMediaQueryChange
+    )
+
     const { data, isLoading } = useGetStudentProfileDetailQuery()
     const sectorsWithCourses = getSectors(data?.courses)
 
-    const contextBar = useContextBar()
-
     useEffect(() => {
-        contextBar.setContent(<ViewProfileCB />)
-        contextBar.show(false)
-    }, [])
+        if (!isMobile) {
+            contextBar.setContent(<ViewProfileCB />)
+            contextBar.show(false)
+        }
+
+        return () => {
+            contextBar.hide()
+        }
+    }, [isMobile])
 
     return (
         <div className="flex flex-col gap-y-6 pb-8">
@@ -44,7 +66,9 @@ const StudentDashboard: NextPageWithLayout = () => {
             <PortalQuestions />
 
             {/* Documents Section */}
-            <ImportantDocuments />
+            <Desktop>
+                <ImportantDocuments />
+            </Desktop>
 
             {/* Sector Card */}
             <Card>
@@ -114,7 +138,7 @@ const StudentDashboard: NextPageWithLayout = () => {
                 </div>
             </Card>
 
-            <div className="flex gap-x-6">
+            <div className="flex flex-col gap-y-4 md:flex-row md:gap-x-6">
                 {/* RTO Card */}
                 <Card>
                     {/* Card Header */}
@@ -423,6 +447,10 @@ const StudentDashboard: NextPageWithLayout = () => {
                     )}
                 </Card>
             </div>
+
+            <Mobile>
+                <ImportantDocuments />
+            </Mobile>
         </div>
     )
 }

@@ -30,12 +30,20 @@ export const AuthNavbar = ({ type }: AuthHeaderProps) => {
 
     return (
         <div className="w-full py-2 bg-white border-b border-secondary-dark">
-            <div className="px-16 h-full mx-auto flex justify-between items-center">
+            <div className="px-4 md:px-16 h-full mx-auto flex justify-between items-center">
                 <HeaderLogo />
                 <div className="flex items-center gap-x-5">
-                    <NavItem Icon={AiFillHome} color={'transparent'} link={'/'}>
-                        <span className="font-bold">Homepage</span>
-                    </NavItem>
+                    <div className="bg-gray-100 md:bg-transparent rounded-md">
+                        <NavItem
+                            Icon={AiFillHome}
+                            color={'transparent'}
+                            link={'/'}
+                        >
+                            <span className="hidden md:block font-bold">
+                                Homepage
+                            </span>
+                        </NavItem>
+                    </div>
                     {/* {AuthUtils.isAuthenticated() ? ( */}
                     {(false || type === 'logged-in') && (
                         <Button variant={'error'} onClick={onLogOut}>

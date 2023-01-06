@@ -19,19 +19,23 @@ import { NotificationDropDown } from '../AdminNavbar/components/notifications'
 import { ProfileOptionsDropDown } from './components'
 import { ProfileOptionButton } from './components/profileOption/ProfileOptionButton'
 import { DisplayNotifications } from '@components/Notification'
+import { useMediaQuery } from 'react-responsive'
+import { MediaQueries } from '@constants'
 
 export const DetailNavbar = () => {
+    const isMobile = useMediaQuery(MediaQueries.Mobile)
+
     const [messagesExpanded, setMessagesExpanded] = useState(false)
     const [notificationsExpanded, setNotificationsExpanded] = useState(false)
     const [profileOptionsExpanded, setProfileOptionsExpanded] = useState(false)
 
     return (
-        <div className="w-full z-50 px-8 py-2 bg-white border-b border-secondary-dark flex justify-between items-center">
+        <div className="w-full z-50 px-2 md:px-8 py-2 bg-white border-b border-secondary-dark flex justify-between items-center">
             <div className="flex justify-between items-center">
                 <HeaderLogo />
             </div>
 
-            <div className="flex items-center gap-x-8">
+            <div className="flex items-center gap-x-4 md:gap-x-8">
                 <OutsideClickHandler
                     onOutsideClick={() => {
                         setMessagesExpanded(false)

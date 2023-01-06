@@ -1,10 +1,10 @@
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 
-import { MdNotifications, MdSpaceDashboard } from 'react-icons/md'
-import { FaClipboardList, FaSignature, FaUserGraduate } from 'react-icons/fa'
-import { HiUsers } from 'react-icons/hi'
 import { isActiveRoute } from '@utils'
+import { FaClipboardList, FaUserGraduate } from 'react-icons/fa'
+import { HiUsers } from 'react-icons/hi'
+import { MdNotifications, MdSpaceDashboard } from 'react-icons/md'
 
 const PREFIX = '/portals/sub-admin'
 const Routes = {

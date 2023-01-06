@@ -6,7 +6,7 @@ import { HeaderLogo } from "../NavbarLogo";
 export const Navbar = () => {
 	return (
 		<div className="w-full py-2 bg-white border-b border-secondary-dark">
-			<div className="px-16 h-full mx-auto flex justify-between items-center">
+			<div className="px-4 md:px-16 h-full mx-auto flex justify-between items-center">
 				<HeaderLogo />
 			</div>
 		</div>

@@ -1,7 +1,5 @@
 import { Animations } from '@animations'
-import {
-  HelpQuestionSet, LottieAnimation
-} from '@components'
+import { HelpQuestionSet, LottieAnimation } from '@components'
 import { AuthUtils } from '@utils'
 import { useEffect, useState } from 'react'
 
@@ -525,7 +523,7 @@ export const PortalQuestions = () => {
 
     return (
         <section className="bg-[#D6F4FF] w-full p-4 rounded-2xl relative overflow-hidden">
-            <div className="absolute right-0 -bottom-3">
+            <div className="hidden md:block absolute right-0 -bottom-3">
                 <LottieAnimation
                     animation={Animations.Common.Help}
                     width={200}
@@ -533,7 +531,7 @@ export const PortalQuestions = () => {
                 />
             </div>
             <div>
-                <h3 className="text-2xl text-orange-500">
+                <h3 className="text-xl md:text-2xl text-orange-500">
                     Welcome Back,{' '}
                     <span className="font-semibold text-black">{name}</span>
                 </h3>
@@ -542,7 +540,7 @@ export const PortalQuestions = () => {
                 </h4>
             </div>
 
-            <div className="mt-2 flex gap-x-6">
+            <div className="mt-2 flex flex-col gap-y-4 md:flex-row md:gap-x-6 ">
                 <div>
                     <HelpQuestionSet
                         title="Workplace"

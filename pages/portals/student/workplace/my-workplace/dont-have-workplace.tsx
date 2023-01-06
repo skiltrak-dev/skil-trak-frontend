@@ -12,10 +12,14 @@ import {
     PersonalInfo,
     IndustrySelection,
 } from '@partials/student/workplace'
+import { useMediaQuery } from 'react-responsive'
+import { MediaQueries } from '@constants'
 
 type Props = {}
 
 const DontHaveWorkplace: NextPageWithLayout = (props: Props) => {
+    const isMobile = useMediaQuery(MediaQueries.Mobile)
+
     const [active, setActive] = useState(1)
     const [personalInfoData, setPersonalInfoData] = useState({})
 
@@ -60,15 +64,15 @@ const DontHaveWorkplace: NextPageWithLayout = (props: Props) => {
     return workplace.isLoading ? (
         <LoadingAnimation />
     ) : (
-        <div className="flex gap-x-5 w-full">
+        <div className="flex flex-col md:flex-row gap-x-5 w-full">
             {/* <GoBackButton>Workplace Choice</GoBackButton> */}
 
             {/*  */}
-            <div className="py-4 w-[25%]">
+            <div className="py-4 w-full md:w-[25%]">
                 <StepIndicator
                     steps={StepIndicatorOptions}
                     currentStep={StepIndicatorOptions[active - 1]}
-                    vertical
+                    vertical={!isMobile}
                 />
             </div>
 
@@ -98,7 +102,9 @@ const DontHaveWorkplace: NextPageWithLayout = (props: Props) => {
     )
 }
 DontHaveWorkplace.getLayout = (page: ReactElement) => {
-    return <StudentLayout pageTitle={{title:"Workplace"}}>{page}</StudentLayout>
+    return (
+        <StudentLayout pageTitle={{ title: 'Workplace' }}>{page}</StudentLayout>
+    )
 }
 
 export default DontHaveWorkplace

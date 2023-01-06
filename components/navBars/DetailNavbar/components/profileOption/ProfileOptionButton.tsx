@@ -1,6 +1,10 @@
 import { AuthUtils } from '@utils'
 import { FiChevronDown, FiChevronUp } from 'react-icons/fi'
 import { useEffect, useState } from 'react'
+import { Desktop } from '@components/Responsive'
+import classNames from 'classnames'
+import { useMediaQuery } from 'react-responsive'
+import { MediaQueries } from '@constants'
 
 interface ProfileOptionButtonProps {
     onClick: Function
@@ -11,6 +15,7 @@ export const ProfileOptionButton = ({
     onClick,
     expanded,
 }: ProfileOptionButtonProps) => {
+    const isMobile = useMediaQuery(MediaQueries.Mobile)
     const [credentials, setCredentials] = useState<any>(null)
 
     useEffect(() => {
@@ -21,11 +26,15 @@ export const ProfileOptionButton = ({
         }
     }, [credentials])
 
+    const classes = classNames({
+        'flex items-center cursor-pointer hover:bg-gray-100 py-2 rounded-md':
+            true,
+        'px-4': !isMobile,
+        '': isMobile,
+    })
+
     return (
-        <div
-            onClick={() => onClick()}
-            className="flex items-center cursor-pointer hover:bg-gray-100 px-4 py-2 rounded-md"
-        >
+        <div onClick={() => onClick()} className={classes}>
             {/* Image */}
             <div className="border w-[32px] h-[32px] rounded-lg overflow-hidden mr-2">
                 <img
@@ -38,25 +47,27 @@ export const ProfileOptionButton = ({
             </div>
 
             {/* Name & Email */}
-            <div>
-                <p className="text-sm font-semibold">
-                    {credentials?.name || 'Anonymous'}
-                </p>
-                <p className="text-[11px] font-medium text-gray-400">
-                    {credentials?.email || 'Not Provided'}
-                </p>
-            </div>
+            <Desktop>
+                <div>
+                    <p className="text-sm font-semibold">
+                        {credentials?.name || 'Anonymous'}
+                    </p>
+                    <p className="text-[11px] font-medium text-gray-400">
+                        {credentials?.email || 'Not Provided'}
+                    </p>
+                </div>
 
-            {/* Icon */}
-            <div className="ml-2">
-                <span
-                    className={`block transition-all duration-300 ${
-                        expanded ? 'rotate-180' : 'rotate-0'
-                    }`}
-                >
-                    <FiChevronDown />
-                </span>
-            </div>
+                {/* Icon */}
+                <div className="ml-2">
+                    <span
+                        className={`block transition-all duration-300 ${
+                            expanded ? 'rotate-180' : 'rotate-0'
+                        }`}
+                    >
+                        <FiChevronDown />
+                    </span>
+                </div>
+            </Desktop>
         </div>
     )
 }

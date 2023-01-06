@@ -9,7 +9,7 @@ export const ImportantDocuments = ({ sidebar }: { sidebar?: boolean }) => {
     })
 
     const containerClasses = classNames({
-        'flex gap-x-4': !sidebar,
+        'grid grid-cols-2 gap-4 md:flex md:gap-x-4': !sidebar,
         'flex flex-col gap-y-2': sidebar,
     })
     return (

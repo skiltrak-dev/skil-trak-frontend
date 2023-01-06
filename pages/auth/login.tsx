@@ -90,8 +90,8 @@ const Login: NextPage = () => {
 
             {!requested && !rejected && !archived && !blocked && (
                 // <div className="w-4/5 mx-auto flex items-center justify-between">
-                <div className="w-full sm:w-4/5 mx-auto flex flex-col sm:flex-row items-center justify-between">
-                    <div className="flex flex-col items-center flex-grow">
+                <div className="w-full md:w-4/5 mx-auto flex flex-col sm:flex-row items-center justify-between">
+                    <div className="flex flex-col items-center flex-grow mt-8 w-full px-4">
                         <div className="w-full mb-8">
                             <Typography variant={'h3'}>
                                 Login To Your Account
@@ -120,9 +120,9 @@ const Login: NextPage = () => {
                         ) : null}
                     </div>
 
-                    <div className="hidden sm:block h-48 w-px bg-gray-300 mx-8"></div>
+                    <div className="hidden md:block h-48 w-px bg-gray-300 mx-8"></div>
 
-                    <div className="">
+                    <div className="hidden md:block">
                         <LottieAnimation
                             height={550}
                             width={450}

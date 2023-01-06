@@ -46,7 +46,7 @@ export const StudentLayout = ({ pageTitle, children }: StudentLayoutProps) => {
     return (
         <UserLayout>
             <>
-                <div className="px-16">
+                <div className="px-4 mb-32 md:px-16">
                     <div className="mb-6">
                         <StudentNavbar />
                         <DisplayAlerts />
