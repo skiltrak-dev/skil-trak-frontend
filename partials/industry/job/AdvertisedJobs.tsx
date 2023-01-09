@@ -174,7 +174,7 @@ export const AdvertisedJobsContainer = () => {
     return (
         <div>
             {modal}
-            <div className="flex justify-between items-center pb-4">
+            <div className="flex flex-col md:flex-row md:justify-between md:items-center pb-4">
                 <BackButton link={'jobs'} text={'Back To Jobs'} />
                 <div className="flex items-center gap-x-2">
                     {filterActionButton && filterActionButton}

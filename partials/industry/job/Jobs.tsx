@@ -40,14 +40,14 @@ export const JobsContainer = () => {
     return (
         <div>
             {/* Links */}
-            <div className="w-full flex justify-between">
-                <div className="w-[59%] ">
+            <div className="w-full flex flex-col gap-2 md:flex-row md:justify-between">
+                <div className="md:w-[59%] w-full ">
                     <Typography variant={'title'}>Get Started</Typography>
                     <Card>
                         <DisplayPrimaryActions actions={JobsPrimaryActions} />
                     </Card>
                 </div>
-                <div className="w-[36%]">
+                <div className="md:w-[36%] w-full">
                     <div className="w-full flex justify-between">
                         <Typography variant={'title'}>
                             Total Students

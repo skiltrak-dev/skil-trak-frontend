@@ -15,7 +15,7 @@ import { useGetIndustryMessagesQuery, useSendMessageMutation } from '@queries'
 
 // hooks
 import { useContextBar } from 'hooks'
-
+// TODO: Can be deleted
 export const MailsTab = () => {
     const { isVisible } = useContextBar()
     // const [messagesList, setMessagesList] = useState([])
@@ -36,7 +36,7 @@ export const MailsTab = () => {
 
     return (
         <div
-            className={`flex gap-x-2.5 w-full ${
+            className={`flex flex-col md:flex-row gap-y-2 md:gap-x-2.5 w-full ${
                 isVisible ? 'flex-col' : 'flex-row'
             }`}
         >
@@ -80,7 +80,7 @@ export const MailsTab = () => {
                 </div>
             </div>
 
-            <div className={`${isVisible ? 'w-full' : 'w-[29%]'}`}>
+            <div className={`${isVisible ? 'w-full' : 'md:w-[29%] w-full'}`}>
                 <MailForm
                     action={useSendMessageMutation}
                     // receiverId={Number(industry?.id)}

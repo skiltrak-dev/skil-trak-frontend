@@ -60,7 +60,7 @@ export const Actions = ({ workplace, industry, student }: any) => {
     }
 
     return (
-        <div className="flex items-center gap-x-2">
+        <div className="flex flex-col md:flex-row gap-y-2 md:items-center md:gap-x-2">
             {modal && modal}
             {industry?.industryResponseDate && (
                 <Typography variant={'xs'} color={'text-success'}>
@@ -86,9 +86,9 @@ export const Actions = ({ workplace, industry, student }: any) => {
             )}
             {industry?.industryResponse === 'approved' ? (
                 !industry?.terminated &&
-                !industry?.isCompleted &&
-                !industry?.cancelled &&
-                !industry?.placementStarted ? (
+                    !industry?.isCompleted &&
+                    !industry?.cancelled &&
+                    !industry?.placementStarted ? (
                     <>
                         {!industry.placementStarted && (
                             <Button
@@ -132,23 +132,27 @@ export const Actions = ({ workplace, industry, student }: any) => {
                 )
             ) : (
                 <>
-                    <Button text={'Book Appointment'} variant={'info'} />
-                    <Button
-                        variant={'secondary'}
-                        onClick={() => {
-                            workplaceActions({
-                                id: industry.id,
-                                status: 'approved',
-                            })
-                        }}
-                        loading={workplaceActionsResult?.isLoading}
-                        disabled={workplaceActionsResult?.isLoading}
-                    >
-                        <span className="text-success">Approve</span>
-                    </Button>
-                    <Button variant={'secondary'}>
-                        <span className="text-error">Reject</span>
-                    </Button>
+                    <div className='flex items-center gap-x-2'>
+                        <div className='whitespace-nowrap'>
+                            <Button text={'Book Appointment'} variant={'info'} />
+                        </div>
+                        <Button
+                            variant={'secondary'}
+                            onClick={() => {
+                                workplaceActions({
+                                    id: industry.id,
+                                    status: 'approved',
+                                })
+                            }}
+                            loading={workplaceActionsResult?.isLoading}
+                            disabled={workplaceActionsResult?.isLoading}
+                        >
+                            <span className="text-success">Approve</span>
+                        </Button>
+                        <Button variant={'secondary'}>
+                            <span className="text-error">Reject</span>
+                        </Button>
+                    </div>
                 </>
             )}
         </div>

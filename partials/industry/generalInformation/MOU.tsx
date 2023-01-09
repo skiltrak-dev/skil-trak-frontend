@@ -280,7 +280,7 @@ export const MoUContainer = () => {
             <BackButton text={'Back To MoU Instructions'} />
 
             {/* Title */}
-            <div className="flex justify-between items-center py-4">
+            <div className="flex md:gap-x-2 gap-x-4 justify-between items-center py-4">
                 <div>
                     <Typography variant={'title'}>All MOU</Typography>
                     <Typography variant={'muted'} color={'gray'}>
