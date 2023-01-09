@@ -17,6 +17,7 @@ import { ShowErrorNotifications } from '@components/ShowErrorNotifications'
 import {
     useUpdateFindAbnMutation,
     useAddWorkplaceMutation,
+    useCancelWorkplaceRequestMutation,
     useGetWorkplaceIndustriesQuery,
 } from '@queries'
 import { useNotification } from '@hooks'
@@ -42,6 +43,9 @@ const HaveWorkplace: NextPageWithLayout = (props: Props) => {
     const workplace = useGetWorkplaceIndustriesQuery()
     const [findAbn, result] = useUpdateFindAbnMutation()
     const [addWorkplace, addWorkplaceResult] = useAddWorkplaceMutation()
+
+    const [cancelRequest, cancelRequestResult] =
+        useCancelWorkplaceRequestMutation()
 
     useEffect(() => {
         if (addWorkplaceResult.isSuccess && addWorkplaceResult.data) {
@@ -85,16 +89,22 @@ const HaveWorkplace: NextPageWithLayout = (props: Props) => {
     //     }
     // }, [workplace.data, workplace.isSuccess])
 
+    useEffect(() => {
+        if (cancelRequestResult.isSuccess) {
+            setActive(1)
+        }
+    }, [cancelRequestResult.isSuccess])
+
     const workplaceCancelRequest = (simple: boolean = false) => {
         return (
             <div className="mt-3">
                 <ActionButton
                     variant={'error'}
                     onClick={async () => {
-                        // await cancelRequest(null)
+                        await cancelRequest()
                     }}
-                    // loading={cancelRequestResult.isLoading}
-                    // disabled={cancelRequestResult.isLoading}
+                    loading={cancelRequestResult.isLoading}
+                    disabled={cancelRequestResult.isLoading}
                     simple={simple}
                 >
                     Cancel Request

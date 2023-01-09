@@ -213,13 +213,13 @@ export const AddCustomIndustryForm = ({ workplaceId }: any) => {
                     />
 
                     {/* Business Information */}
-                    <TextInput
+                    {/* <TextInput
                         label={'Business Name'}
                         name={'businessName'}
                         placeholder={'Industry Name...'}
                         validationIcons
                         required
-                    />
+                    /> */}
                     <TextInput
                         label={'Contact Person Number'}
                         name={'contactPersonNumber'}

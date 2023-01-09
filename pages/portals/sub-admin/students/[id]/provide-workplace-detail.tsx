@@ -20,6 +20,7 @@ import { YourIndustry } from '@components/sections/student/WorkplaceContainer/My
 import {
     useFindByAbnWorkplaceMutation,
     useAddCustomIndustyForWorkplaceMutation,
+    useSubAdminCancelStudentWorkplaceRequestMutation,
     useGetWorkplaceIndustriesQuery,
     useGetSubAdminStudentDetailQuery,
     useGetSubAdminStudentWorkplaceQuery,
@@ -54,6 +55,8 @@ const ProvideWorkplaceDetail: NextPageWithLayout = (props: Props) => {
     const [findAbn, result] = useFindByAbnWorkplaceMutation()
     const [addWorkplace, addWorkplaceResult] =
         useAddCustomIndustyForWorkplaceMutation()
+    const [cancelRequest, cancelRequestResult] =
+        useSubAdminCancelStudentWorkplaceRequestMutation()
 
     useEffect(() => {
         if (addWorkplaceResult.isSuccess && addWorkplaceResult.data) {
@@ -63,7 +66,11 @@ const ProvideWorkplaceDetail: NextPageWithLayout = (props: Props) => {
     }, [addWorkplaceResult])
 
     useEffect(() => {
-        if (workplace.isSuccess && workplace?.data) {
+        if (
+            workplace.isSuccess &&
+            workplace?.data &&
+            workplace?.data?.length > 0
+        ) {
             setWorkplaceData(workplace?.data)
             setActive(3)
         }
@@ -91,16 +98,22 @@ const ProvideWorkplaceDetail: NextPageWithLayout = (props: Props) => {
     //     }
     // }, [workplace.data, workplace.isSuccess])
 
+    useEffect(() => {
+        if (cancelRequestResult.isSuccess) {
+            setActive(1)
+        }
+    }, [cancelRequestResult.isSuccess])
+
     const workplaceCancelRequest = (simple: boolean = false) => {
         return (
             <div className="mt-3">
                 <ActionButton
                     variant={'error'}
                     onClick={async () => {
-                        // await cancelRequest(null)
+                        await cancelRequest(workplace?.data[0]?.id)
                     }}
-                    // loading={cancelRequestResult.isLoading}
-                    // disabled={cancelRequestResult.isLoading}
+                    loading={cancelRequestResult.isLoading}
+                    disabled={cancelRequestResult.isLoading}
                     simple={simple}
                 >
                     Cancel Request
@@ -202,7 +215,7 @@ const ProvideWorkplaceDetail: NextPageWithLayout = (props: Props) => {
 
                             {active === 3 && (
                                 <>
-                                    {workplaceData?.industryStatus ===
+                                    {workplaceData[0]?.industryStatus ===
                                     'approved' ? (
                                         <AppliedIndustry
                                             workplaceCancelRequest={
@@ -212,12 +225,12 @@ const ProvideWorkplaceDetail: NextPageWithLayout = (props: Props) => {
                                                 workplaceData[0]?.industries[0]
                                             }
                                             status={
-                                                workplaceData?.currentStatus
+                                                workplaceData[0]?.currentStatus
                                             }
                                             workplaceRequest={workplaceData}
                                             studentAdded
                                         />
-                                    ) : workplaceData?.industryStatus ===
+                                    ) : workplaceData[0]?.industryStatus ===
                                       'rejected' ? (
                                         <Card>
                                             <div className="px-5 py-16 border-2 border-dashed border-gray-600 flex justify-center">

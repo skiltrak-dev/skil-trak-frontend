@@ -56,7 +56,7 @@ export const assessmentEvidenceApi = createApi({
             }),
             invalidatesTags: ['AssessmentEvidence'],
         }),
-        studentCourses: builder.query<any, number>({
+        studentAssessmentCourses: builder.query<any, number>({
             query: (id) => `student/course/${id}`,
             providesTags: ['AssessmentEvidence'],
         }),
@@ -71,7 +71,7 @@ export const assessmentEvidenceApi = createApi({
 })
 
 export const {
-    useStudentCoursesQuery,
+    useStudentAssessmentCoursesQuery,
     useGetAssessmentEvidenceQuery,
     useGetAssessmentResponseQuery,
     useGetAssessmentEvidenceDetailQuery,

@@ -35,7 +35,7 @@ export const ExistinIndustryCard = ({
                         5km away
                     </Typography> */}
                         <Typography variant={'label'}>
-                            {industry?.businessName}
+                            {industry?.user?.name}
                         </Typography>
                         <Typography variant={'muted'} color={'gray'}>
                             {industry?.addressLine1}, {industry?.addressLine2}

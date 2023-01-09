@@ -1,12 +1,11 @@
 import { ReactElement, useEffect, useState } from 'react'
 
-import { useContextBar } from '@hooks'
-import { AdminLayout } from '@layouts'
-import { NextPageWithLayout } from '@types'
-import { format } from 'date-fns'
-import { AuthUtils } from '@utils'
-import { AdminApi } from '@queries'
 import { FigureCard } from '@components/sections/subAdmin'
+import { AdminLayout } from '@layouts'
+import { AdminApi } from '@queries'
+import { NextPageWithLayout } from '@types'
+import { AuthUtils } from '@utils'
+import { format } from 'date-fns'
 
 const AdminDashboard: NextPageWithLayout = () => {
     const [name, setName] = useState('')

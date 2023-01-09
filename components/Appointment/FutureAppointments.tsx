@@ -19,8 +19,8 @@ export const FutureAppointments = ({ appointments }: { appointments: any }) => {
             <div className="swiper-container w-full relative">
                 <Swiper
                     breakpoints={{
-                        0: {
-                            width: 0,
+                        300: {
+                            width: 300,
                             slidesPerView: 1,
                         },
                         992: {

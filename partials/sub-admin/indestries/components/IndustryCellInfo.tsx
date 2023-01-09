@@ -25,7 +25,7 @@ export const IndustryCellInfo = ({ industry }: { industry: Industry }) => {
                     <a>
                         <Typography color={'black'}>
                             {' '}
-                            {industry?.businessName}{' '}
+                            {industry?.user?.name}{' '}
                         </Typography>
                         <div className="flex items-center gap-x-2">
                             <FaPhoneSquareAlt className="text-gray" />

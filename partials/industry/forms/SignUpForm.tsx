@@ -19,6 +19,7 @@ export const IndustrySignUpForm = ({ onSubmit }: { onSubmit: any }) => {
     const { notification } = useNotification()
 
     const sectorResponse = AuthApi.useSectors({})
+
     const [checkEmailExists, emailCheckResult] = AuthApi.useEmailCheck()
 
     const [sectorOptions, setSectorOptions] = useState([])
@@ -179,13 +180,13 @@ export const IndustrySignUpForm = ({ onSubmit }: { onSubmit: any }) => {
                     </div>
 
                     <div className="w-4/6">
-                        {/* <TextInput
-                     label={'Name'}
-                     name={'name'}
-                     placeholder={'Industry Name...'}
-                     validationIcons
-                     required
-                  /> */}
+                        <TextInput
+                            label={'Name'}
+                            name={'name'}
+                            placeholder={'Industry Name...'}
+                            validationIcons
+                            required
+                        />
 
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-8">
                             <TextInput
@@ -229,13 +230,13 @@ export const IndustrySignUpForm = ({ onSubmit }: { onSubmit: any }) => {
                     </div>
 
                     <div className="w-4/6">
-                        <TextInput
+                        {/* <TextInput
                             label={'Business Name'}
                             name={'businessName'}
                             placeholder={'Industry Name...'}
                             validationIcons
                             required
-                        />
+                        /> */}
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-8">
                             <TextInput
                                 label={'Contact Person Number'}

@@ -68,38 +68,6 @@ export const IndustriesForm = ({ onSubmit }: { onSubmit: any }) => {
         setCourseLoading(false)
     }
 
-    const initialValues = {
-        // Profile Information
-        name: '',
-        email: '',
-        password: '',
-        confirmPassword: '',
-
-        // Business Information
-        businessName: '',
-        abn: '',
-        phoneNumber: '',
-        // studentCapacity: 0,
-
-        // Sector Information
-        sectors: [],
-        courses: [],
-
-        // Address Information
-        addressLine1: '',
-        addressLine2: '',
-        state: '',
-        suburb: '',
-        zipCode: '',
-
-        // Contact Person
-        contactPersonName: '',
-        contactPersonEmail: '',
-        contactPersonNumber: '',
-
-        agreedWithPrivacyPolicy: false,
-    }
-
     const validationSchema = yup.object({
         // Profile Information
         name: yup
@@ -124,7 +92,7 @@ export const IndustriesForm = ({ onSubmit }: { onSubmit: any }) => {
             .required('Must confirm entered password'),
 
         // Business Information
-        businessName: yup.string().required('Must provide business name'),
+        // businessName: yup.string().required('Must provide business name'),
         abn: yup.string().required('Must provide ABN'),
         phoneNumber: yup.string().required('Must provide phone number'),
 
@@ -236,7 +204,7 @@ export const IndustriesForm = ({ onSubmit }: { onSubmit: any }) => {
                 </div>
 
                 <div className="w-4/6">
-                    <div className="">
+                    {/* <div className="">
                         <TextInput
                             label={'Business Name'}
                             name={'businessName'}
@@ -244,7 +212,7 @@ export const IndustriesForm = ({ onSubmit }: { onSubmit: any }) => {
                             validationIcons
                             required
                         />
-                    </div>
+                    </div> */}
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-2 mt-2">
                         <TextInput
                             label={'ABN'}

@@ -53,7 +53,7 @@ export const AddIndustryCB = ({ workplaceId, courseId }: any) => {
     useEffect(() => {
         if (getExistingIndustries?.isSuccess) {
             const options = getExistingIndustries?.data?.map((i: any) => ({
-                label: i?.businessName,
+                label: i?.user?.name,
                 value: i?.id,
             }))
             setCustomIndustriesOptions(options)

@@ -1,5 +1,5 @@
 import { PersonalInfoForm } from '@partials/common'
-import { useStudentCoursesQuery } from '@queries'
+import { SubAdminApi } from '@queries'
 import { useRouter } from 'next/router'
 import React, { useState, useEffect } from 'react'
 
@@ -14,10 +14,13 @@ export const PersonalInfo = ({
 }: PersonalInfoProps) => {
     const router = useRouter()
     const { id } = router.query
-    const { data, isSuccess, isLoading } = useStudentCoursesQuery(Number(id), {
-        skip: !id,
-    })
+
     const [courses, setCourses] = useState<any>([])
+
+    const { data, isSuccess, isLoading } =
+        SubAdminApi.Courses.useStudentCourses(Number(id), {
+            skip: !id,
+        })
 
     useEffect(() => {
         if (isSuccess) {

@@ -85,10 +85,7 @@ export const AppliedIndustry = ({
                 5km away
             </Typography> */}
                                     <p className="font-semibold">
-                                        {
-                                            appliedIndustry?.industry
-                                                ?.businessName
-                                        }
+                                        {appliedIndustry?.industry?.user?.name}
                                     </p>
                                     <p className="text-sm text-gray-500">
                                         {

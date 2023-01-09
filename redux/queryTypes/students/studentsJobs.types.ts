@@ -1,53 +1,53 @@
 export interface StudentJobType {
     id: any
-    isActive: any
-    createdAt: any
-    updatedAt: any
-    title: any
-    phone: any
-    email: any
-    description: any
+    isActive: boolean
+    createdAt: Date
+    updatedAt: Date
+    title: string
+    phone: string
+    email: string
+    description: string
     employmentType: any
-    addressLine1: any
-    addressLine2: any
-    zipCode: any
-    suburb: any
-    state: any
-    contactPerson: any
-    website: any
+    addressLine1: string
+    addressLine2: string
+    zipCode: string
+    suburb: string
+    state: string
+    contactPerson: string
+    website: string
     vacancies: any
-    salaryFrom: any
-    salaryTo: any
-    expiry: any
-    status: any
+    salaryFrom: string
+    salaryTo: string
+    expiry: string
+    status: string
     savedJobs: any
     avatar: any
     industry: {
         id: any
-        isActive: any
-        createdAt: any
-        updatedAt: any
-        businessName: any
-        abn: any
-        phoneNumber: any
-        contactPerson: any
+        isActive: boolean
+        createdAt: Date
+        updatedAt: Date
+        businessName: string
+        abn: string
+        phoneNumber: string
+        contactPerson: string
         contactPersonNumber: any
         studentCapacity: any
-        addressLine1: any
-        addressLine2: any
-        zipCode: any
-        suburb: any
-        state: any
-        location: any
+        addressLine1: string
+        addressLine2: string
+        zipCode: string
+        suburb: string
+        state: string
+        location: string
         user: {
             id: any
-            isActive: any
-            createdAt: any
-            updatedAt: any
-            name: any
-            email: any
-            role: any
-            status: any
+            isActive: boolean
+            createdAt: Date
+            updatedAt: Date
+            name: string
+            email: string
+            role: string
+            status: string
             socketId: any
             password: any
             avatar: any

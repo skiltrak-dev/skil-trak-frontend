@@ -53,7 +53,7 @@ export const workplaceRequestApi = createApi({
             },
             invalidatesTags: ['Workplace'],
         }),
-        cancelWorkplaceRequest: builder.mutation({
+        cancelWorkplaceRequest: builder.mutation<any, void>({
             query: () => ({
                 url: `workplace/cancel`,
                 method: 'PATCH',

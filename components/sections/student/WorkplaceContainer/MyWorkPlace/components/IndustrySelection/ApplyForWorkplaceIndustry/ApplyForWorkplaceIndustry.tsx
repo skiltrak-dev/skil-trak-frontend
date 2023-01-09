@@ -33,7 +33,7 @@ export const ApplyForWorkplaceIndustry = ({
                         5km away
                     </Typography> */}
                     <p className="font-semibold text-sm">
-                        {industry?.industry?.businessName}
+                        {industry?.industry?.user?.name}
                     </p>
                     <p className="font-medium text-xs text-gray-500">
                         {industry?.industry?.addressLine1},{' '}
