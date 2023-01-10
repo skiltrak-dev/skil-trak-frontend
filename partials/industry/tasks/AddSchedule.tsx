@@ -6,6 +6,8 @@ import { Button, BackButton, Card, Typography } from '@components'
 
 // Context
 import { useContextBar } from 'hooks'
+import Image from 'next/image'
+import studentImage from '../../../public/images/portal-icons/students.png'
 
 export const AddScheduleContainer = () => {
     const { setContent } = useContextBar()
@@ -19,11 +21,11 @@ export const AddScheduleContainer = () => {
     // const origin = window.location.origin;
     const continueWith = [
         {
-            image: 'https://picsum.photos/200/300',
+            image: '/images/portal-icons/Employee.png',
             text: 'Employee Schedule',
         },
         {
-            image: 'https://picsum.photos/200/300',
+            image: '/images/portal-icons/students.png',
             text: 'Student Scheduled',
         },
     ]
@@ -41,17 +43,16 @@ export const AddScheduleContainer = () => {
                     {continueWith.map(({ image, text }, index) => (
                         <Fragment key={index}>
                             <div
-                                className={`border p-2 flex flex-col items-center cursor-pointer rounded-lg ${
-                                    selectedSchedule === text
-                                        ? 'border-primary'
-                                        : 'border-secondary-dark'
-                                }`}
+                                className={`border p-2 flex flex-col items-center cursor-pointer rounded-lg ${selectedSchedule === text
+                                    ? 'border-primary'
+                                    : 'border-secondary-dark'
+                                    }`}
                                 onClick={() => setSelectedSchedule(text)}
                             >
-                                <img src={`${image}`} alt="Employee" />
-                                <Typography variant={'subtitle'}>
-                                    {text}
-                                </Typography>
+                                    <img className='w-32 h-32' src={`${image}`} alt="Employee"  />
+                                    <Typography variant={'subtitle'}>
+                                        {text}
+                                    </Typography>
                             </div>
                             {index !== continueWith.length - 1 && (
                                 <div className="border-r"></div>

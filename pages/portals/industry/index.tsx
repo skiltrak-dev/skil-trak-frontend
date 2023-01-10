@@ -11,9 +11,9 @@ const IndustryDashboard: NextPageWithLayout = () => {
     const contextBar = useContextBar()
     const router = useRouter()
 
-    useEffect(() => {
-        contextBar.show(false)
-    }, [])
+    // useEffect(() => {
+    //     contextBar.show(false)
+    // }, [])
 
     return (
         <div>

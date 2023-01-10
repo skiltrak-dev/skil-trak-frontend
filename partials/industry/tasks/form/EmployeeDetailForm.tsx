@@ -132,15 +132,15 @@ export const EmployeeDetailForm = ({ onVolunteer, employeeDetail }: any) => {
                                     key={index}
                                 >
                                     <TextInput
-                                        placeholder="Enter your Email"
+                                        placeholder="Enter your First Name"
                                         name={`employee.${index}.firstName`}
                                     />
                                     <TextInput
-                                        placeholder="Enter your Email"
+                                        placeholder="Enter your Last Name"
                                         name={`employee.${index}.lastName`}
                                     />
                                     <TextInput
-                                        placeholder="Enter your Email"
+                                        placeholder="Enter your Mobile No"
                                         name={`employee.${index}.mobileNo`}
                                     />
                                     <TextInput

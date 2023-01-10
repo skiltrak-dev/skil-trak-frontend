@@ -49,7 +49,7 @@ export const AdForRPL = ({ short }: any) => {
         <div className={`${short && 'mt-2'}`}>
           <Button
             variant={'primary'}
-            // onClick={() => router.push('/apply-for-rpl')}
+            onClick={() => router.push('/portals/industry/tasks/apply-for-rpl')}
           >
             Apply For RPL
           </Button>

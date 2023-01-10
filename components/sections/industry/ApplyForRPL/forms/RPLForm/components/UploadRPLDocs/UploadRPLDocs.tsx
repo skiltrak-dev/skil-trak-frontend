@@ -1,6 +1,7 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Field } from 'formik'
 import { FileDrop } from 'react-file-drop'
+import { useFormContext } from 'react-hook-form'
 
 // Icons
 import { BsFillFileEarmarkPdfFill } from 'react-icons/bs'
@@ -8,15 +9,16 @@ import { AiFillPlusCircle, AiFillDelete } from 'react-icons/ai'
 
 // components
 import { Typography, VideoPreview } from '@components'
+import { getMimeTypes } from '@utils'
 // import { elipiciseText } from '@utills'
 
 // components
-
 export const UploadRPLDocs = ({
     name,
     fileupload,
     label,
     acceptFiles,
+    multiple,
 }: any) => {
     const [mediaFile, setMediaFile] = useState({
         file: '',
@@ -24,6 +26,10 @@ export const UploadRPLDocs = ({
     })
     const [fileName, setFileName] = useState('')
     const [isDrag, setIsDrag] = useState(false)
+    const [values, setValues] = useState<File[] | null>(null)
+
+    const formContext = useFormContext()
+
     const handleRemove = () => {
         setMediaFile({
             file: '',
@@ -38,7 +44,7 @@ export const UploadRPLDocs = ({
         setIsDrag(false)
         // Gettin file Data
         const FileData = event[0] || event.target.files[0]
-        setFileName(FileData.name)
+        setFileName(FileData?.name)
         fileupload(name, FileData)
         const reader = new FileReader()
 
@@ -60,6 +66,11 @@ export const UploadRPLDocs = ({
         // for that purposr removed the value
         !isDragging && (event.target.value = '')
     }
+    useEffect(() => {
+        if (formContext && values) {
+            formContext.setValue(name, values)
+        }
+    }, [values])
 
     return (
         <div className="w-full">
@@ -78,11 +89,10 @@ export const UploadRPLDocs = ({
                 onDrop={(event) => handleChange(event, true)}
             >
                 <div
-                    className={`w-full h-36 border rounded-lg overflow-hidden relative ${
-                        isDrag
+                    className={`w-full h-36 border rounded-lg overflow-hidden relative ${isDrag
                             ? 'bg-primary-light flex justify-center items-center border-primary'
                             : 'bg-white border-secondary-dark'
-                    }`}
+                        }`}
                 >
                     {isDrag ? (
                         // Showing text on Drop File
@@ -115,16 +125,15 @@ export const UploadRPLDocs = ({
 
                             {/* Showing details after uploading media */}
                             <div
-                                className={`absolute bottom-0 pt-1.5 pb-5 w-full flex justify-between px-4 ${
-                                    (mediaFile.type === 'video/mp4' ||
+                                className={`absolute bottom-0 pt-1.5 pb-5 w-full flex justify-between px-4 ${(mediaFile.type === 'video/mp4' ||
                                         mediaFile.type === 'image/png') &&
                                     'bg-gradient-to-b from-[#00000000] to-black text-white'
-                                }`}
+                                    }`}
                             >
                                 <Typography
                                     color={
                                         mediaFile.type === 'video/mp4' ||
-                                        mediaFile.type === 'image/png'
+                                            mediaFile.type === 'image/png'
                                             ? 'white'
                                             : 'gray'
                                     }
@@ -140,7 +149,7 @@ export const UploadRPLDocs = ({
                         >
                             {/* <Typography variant={"smallText"} color={"textLink"}> */}
                             <label
-                                htmlFor={name}
+                                htmlFor={`file_id_${name}`}
                                 className="cursor-pointer hover:underline"
                             >
                                 <AiFillPlusCircle className="text-6xl text-gray-light" />
@@ -151,7 +160,7 @@ export const UploadRPLDocs = ({
                 </div>
 
                 {/* Formik fieid, made this hidden and and custom design */}
-                <Field name={name}>
+                {/* <Field name={name}>
                     {(props: any) => {
                         return (
                             <>
@@ -176,7 +185,33 @@ export const UploadRPLDocs = ({
                             </>
                         )
                     }}
-                </Field>
+                </Field> */}
+                <input
+                    type="file"
+                    id={`file_id_${name}`}
+                    // name={name}
+                    className="hidden"
+                    // {...getMethodsForInput(
+                    // 	name,
+                    // 	formContext,
+                    // 	rules,
+                    // 	(e: any) => {
+                    // 		onChange && onChange(e);
+                    // 		handleChange(e, false);
+                    // 	},
+                    // 	onBlur
+                    // )}
+                    {...(formContext ? formContext.register(name) : { name })}
+                    onChange={(e: any) => {
+                        setValues(e.target.files)
+                        handleChange(e, false)
+                        // onChange && onChange(e);
+                    }}
+                    // {...(acceptFiles
+                    //     ? { accept: getMimeTypes(acceptFiles) }
+                    //     : {})}
+                    {...(multiple ? { multiple } : {})}
+                />
             </FileDrop>
         </div>
     )

@@ -115,7 +115,7 @@ export const AssessmentsToolsContainer = () => {
                                     name={course?.title}
                                     id={course.id}
                                     onClick={() =>
-                                        setSelectedCourseId(course.id)
+                                        setSelectedCourseId(course?.id)
                                     }
                                     selectedCourseId={selectedCourseId}
                                 />
