@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 
-import { MdEmail, MdNotifications, MdSpaceDashboard } from 'react-icons/md'
+import { MdEmail, MdNotifications, MdSpaceDashboard, MdWork } from 'react-icons/md'
 import { FaClipboardList, FaSignature } from 'react-icons/fa'
 import { HiInformationCircle, HiUsers } from 'react-icons/hi'
 import { Desktop, Mobile } from '@components/Responsive'
@@ -167,7 +167,7 @@ export const IndustryNavbar = () => {
       </Desktop>
       <Mobile>
         <ul
-          className="flex justify-evenly w-full overflow-scroll gap-x-2 py-4 fixed bottom-0 left-0 right-0 bg-white z-30"
+          className="flex w-full overflow-scroll gap-x-2 py-4 fixed bottom-0 left-0 right-0 bg-white z-30"
           style={{
             boxShadow: `0 -10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1)`,
           }}
@@ -181,7 +181,7 @@ export const IndustryNavbar = () => {
                   } ${defaultClasses} hover:bg-indigo-100 hover:text-indigo-700`}
               >
                 <span>
-                  <MdSpaceDashboard />
+                  <MdSpaceDashboard size={24}/>
                 </span>
                 <span className="text-xs font-semibold">
                   Dashboard
@@ -199,7 +199,7 @@ export const IndustryNavbar = () => {
                   } ${defaultClasses} hover:bg-blue-100 hover:text-blue-700`}
               >
                 <span>
-                  <HiUsers />
+                  <HiUsers size={24} />
                 </span>
                 <span className="text-xs font-semibold">
                   Tasks
@@ -218,7 +218,7 @@ export const IndustryNavbar = () => {
                   } ${defaultClasses} hover:bg-orange-100 hover:text-orange-700`}
               >
                 <span>
-                  <FaClipboardList />
+                  <FaClipboardList size={24} />
                 </span>
                 <span className="text-xs font-semibold">
                   Students
@@ -235,7 +235,7 @@ export const IndustryNavbar = () => {
                   } ${defaultClasses} hover:bg-green-100 hover:text-green-700`}
               >
                 <span>
-                  <FaSignature />
+                  <MdWork size={24} />
                 </span>
                 <span className="text-xs font-semibold">
                   Jobs
@@ -253,7 +253,7 @@ export const IndustryNavbar = () => {
                   } ${defaultClasses} hover:bg-green-100 hover:text-green-700`}
               >
                 <span>
-                  <HiInformationCircle />
+                  <HiInformationCircle size={24} />
                 </span>
                 <span className="text-xs whitespace-nowrap font-semibold">
                   General Info
@@ -272,7 +272,7 @@ export const IndustryNavbar = () => {
                   } ${defaultClasses} hover:bg-green-100 hover:text-green-700`}
               >
                 <span>
-                  <MdEmail />
+                  <MdEmail size={24} />
                 </span>
                 <span className="text-xs whitespace-nowrap font-semibold">
                   E-mails
@@ -289,7 +289,7 @@ export const IndustryNavbar = () => {
                   } ${defaultClasses} hover:bg-blue-100 hover:text-blue-700`}
               >
                 <span>
-                  <MdNotifications />
+                  <MdNotifications size={24} />
                 </span>
                 <span className="text-sm font-semibold">
                   Settings

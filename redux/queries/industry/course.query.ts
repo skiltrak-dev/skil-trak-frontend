@@ -60,6 +60,10 @@ export const industryCourseApi = createApi({
       query: () => 'industries/course/list',
       providesTags: ['Course'],
     }),
+    getIndustrySectors: builder.query<any, void>({
+      query: () => 'industries/sectors/list',
+      providesTags: ['Course'],
+    }),
     addCourses: builder.mutation({
       query: (body) => ({
         url: `industries/folder/add`,
@@ -78,5 +82,6 @@ export const {
   useAddCoursesMutation,
   useRemoveCourseMutation,
   useGetIndustryCoursesQuery,
+  useGetIndustrySectorsQuery, 
   useUpdateCourseMutation,
 } = industryCourseApi

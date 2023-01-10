@@ -113,7 +113,7 @@ export const Notes = ({ workplace }: { workplace: any }) => {
                         className="mt-2 w-full"
                         onSubmit={methods.handleSubmit(onSubmit)}
                     >
-                        <div className="flex items-start">
+                        <div className="flex flex-col md:flex-row gap-y-2 md:gap-x-2 md:items-start">
                             <TextInput
                                 name={'message'}
                                 placeholder={'Leave Quick Note'}

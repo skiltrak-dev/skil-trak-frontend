@@ -5,7 +5,7 @@ import React from 'react'
 export const FutureCandidateCard = ({ data }: any) => {
     return (
         <Card>
-            <div className="flex justify-between items-center">
+            <div className="flex flex-col gap-y-3 md:flex-row md:justify-between md:items-center">
                 <div className="flex items-center gap-x-2">
                     <img
                         className="w-7 h-7 rounded-full"

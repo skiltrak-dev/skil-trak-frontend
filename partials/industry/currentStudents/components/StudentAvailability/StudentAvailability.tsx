@@ -9,6 +9,7 @@ export const StudentAvailability = ({ availability }: any) => {
     const [generalAvailability, setGeneralAvailability] = useState<
         any[] | null
     >(null)
+    
     useEffect(() => {
         const weekdays = [
             'monday',

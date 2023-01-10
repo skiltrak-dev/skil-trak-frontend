@@ -127,7 +127,7 @@ export const FutureCandidatesContainer = () => {
   return (
     <div>
       <BackButton link={'Back To Students'} />
-      <div className="flex justify-between items-center py-4">
+      <div className="flex md:gap-x-2 gap-x-4 justify-between items-center py-4">
         <div>
           <Typography variant={'title'}>All Future Candidates</Typography>
           <Typography variant={'muted'} color={'gray'}>

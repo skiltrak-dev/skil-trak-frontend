@@ -19,11 +19,11 @@ export const AddScheduleContainer = () => {
     // const origin = window.location.origin;
     const continueWith = [
         {
-            image: '/images/Employee.png',
+            image: 'https://picsum.photos/200/300',
             text: 'Employee Schedule',
         },
         {
-            image: '/images/student.png',
+            image: 'https://picsum.photos/200/300',
             text: 'Student Scheduled',
         },
     ]

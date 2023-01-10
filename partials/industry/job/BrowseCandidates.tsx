@@ -24,11 +24,13 @@ import { JobsCB } from './contextBar'
 
 export const BrowseCandidatesContainer = () => {
     const { setContent } = useContextBar()
+    const [courseId, setCourseId] = useState<any>(null)
+
     const [browseCandidateData, setBrowseCandidateData] = useState<any | null>(
         null
     )
 
-    const browseCandidates = useGetBrowseCandidatesQuery()
+    const browseCandidates = useGetBrowseCandidatesQuery(courseId)
 
     useEffect(() => {
         setContent(
@@ -41,7 +43,7 @@ export const BrowseCandidatesContainer = () => {
     const onSubmit = (values: any) => {
         setBrowseCandidateData(values)
     }
-
+    console.log("browseCandidates++++++++: ", courseId)
     return (
         <div className="flex flex-col gap-y-4">
             <BackButton link={'jobs'} text={'Back To Jobs'} />
@@ -53,7 +55,7 @@ export const BrowseCandidatesContainer = () => {
                 </Typography>
 
                 {/*  */}
-                <BrowseCandidateForm onSubmit={onSubmit} />
+                <BrowseCandidateForm setCourseId={setCourseId} />
             </Card>
 
             {/*  */}

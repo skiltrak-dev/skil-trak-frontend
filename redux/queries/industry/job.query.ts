@@ -70,10 +70,11 @@ export const jobsApi = createApi({
       }),
       invalidatesTags: ['Job'],
     }),
-    getBrowseCandidates: builder.query<any, void>({
-      query: () => {
+    getBrowseCandidates: builder.query<any, any>({
+      query: (params:any) => {
         return {
           url: 'browse-candidate/list',
+          params,
         }
       },
       providesTags: ['Job'],
