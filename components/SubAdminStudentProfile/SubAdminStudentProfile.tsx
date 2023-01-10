@@ -14,6 +14,8 @@ import { Student } from '@types'
 import { StudentStatus } from './StudentStatus'
 import { useState } from 'react'
 import { EditPassword } from './EditPassword'
+import { EditStudentDetail } from './EditStudentDetail'
+import { useRouter } from 'next/router'
 
 const getGender = (gender: string | undefined) => {
     if (!gender) return 'N/A'
@@ -24,16 +26,36 @@ const getGender = (gender: string | undefined) => {
 export const SubAdminStudentProfile = ({ student }: { student: Student }) => {
     const [modal, setModal] = useState<any | null>(null)
 
+    const router = useRouter()
+
     const onEditClicked = () => {
-        setModal(<EditPassword onCancel={() => setModal(null)} />)
+        setModal(
+            <EditPassword student={student} onCancel={() => setModal(null)} />
+        )
+    }
+
+    const onEditDetailClicked = () => {
+        setModal(
+            <EditStudentDetail
+                student={student}
+                onCancel={() => setModal(null)}
+            />
+        )
     }
     return (
         <div>
             {modal && modal}
             <div className="flex justify-between items-center">
                 <div className="flex justify-end gap-x-2">
-                    <div className="bg-blue-100 rounded-full p-1">
-                        <AiFillEdit className="text-blue-400  cursor-pointer " />
+                    <div
+                        className="bg-blue-100 rounded-full p-1"
+                        onClick={() => {
+                            router.push(
+                                '/portals/sub-admin/students/26/edit-student'
+                            )
+                        }}
+                    >
+                        <AiFillEdit className="text-blue-400  cursor-pointer" />
                     </div>
                     <div className="bg-red-100 rounded-full p-1">
                         <MdBlock className="text-red-400  cursor-pointer bg-red-100 rounded-full" />

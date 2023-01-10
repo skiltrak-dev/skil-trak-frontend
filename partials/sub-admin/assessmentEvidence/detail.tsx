@@ -15,7 +15,7 @@ import { Actions, AssessmentFolderCard, AssessmentResponse } from './components'
 
 // queries
 import {
-    useStudentCoursesQuery,
+    useStudentAssessmentCoursesQuery,
     useGetAssessmentResponseQuery,
     useGetAssessmentEvidenceDetailQuery,
     useMaulallyReopenSubmissionRequestMutation,
@@ -42,7 +42,7 @@ export const Detail = ({
     const { notification } = useNotification()
 
     // query
-    const studentCourses = useStudentCoursesQuery(Number(studentId), {
+    const studentCourses = useStudentAssessmentCoursesQuery(Number(studentId), {
         skip: !studentId,
     })
     const getFolders = useGetAssessmentEvidenceDetailQuery(
@@ -274,8 +274,9 @@ export const Detail = ({
                         .includes('pending') && (
                             )} */}
                     {allCommentsAdded &&
-                        ((!results?.isAssessed && results?.isSubmitted) ||
-                            manualReOpen) && <Actions result={results} />}
+                        (results?.isSubmitted || manualReOpen) && (
+                            <Actions result={results} />
+                        )}
 
                     {results?.totalSubmission >= 3 &&
                         results?.result !== 'pending' &&

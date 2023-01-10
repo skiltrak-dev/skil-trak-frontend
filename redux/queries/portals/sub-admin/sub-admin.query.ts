@@ -84,6 +84,8 @@ export const {
     useFindByAbnWorkplaceMutation,
     useApplyWorkplaceOnExistingIndustryMutation,
     useAddCustomIndustyForWorkplaceMutation,
+    useStudentCoursesQuery,
+    useChangeStudentPasswordMutation,
 } = subAdminApi
 
 export const SubAdminApi = {
@@ -95,6 +97,10 @@ export const SubAdminApi = {
         useCreate: useNoteAddMutation,
         useDelete: useNoteDeleteMutation,
         useStatusChange: useNoteStatusChangeMutation,
+    },
+
+    Student: {
+        useChangePassword: useChangeStudentPasswordMutation,
     },
     Workplace: {
         AgreementSign: useAgrementSignMutation,
@@ -119,5 +125,9 @@ export const SubAdminApi = {
         useShowExistingIndustriesQuery,
         useAddExistingIndustriesMutation,
         useChangeCustomIndustryStatusMutation,
+    },
+
+    Courses: {
+        useStudentCourses: useStudentCoursesQuery,
     },
 }

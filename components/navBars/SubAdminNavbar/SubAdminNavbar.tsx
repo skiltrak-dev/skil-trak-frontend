@@ -9,7 +9,7 @@ import { MdNotifications, MdSpaceDashboard } from 'react-icons/md'
 const PREFIX = '/portals/sub-admin'
 const Routes = {
     Dashboard: '/portals/sub-admin',
-    Students: '/portals/sub-admin/users/students?tab=all',
+    Students: '/portals/sub-admin/students?tab=all',
     Users: '/portals/sub-admin/users',
     Tasks: '/portals/sub-admin/tasks',
     ESignature: '/portals/sub-admin/e-signature',

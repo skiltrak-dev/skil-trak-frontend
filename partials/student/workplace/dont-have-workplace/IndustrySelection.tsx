@@ -77,7 +77,7 @@ export const IndustrySelection = ({
                 <ActionButton
                     variant={'error'}
                     onClick={async () => {
-                        await cancelRequest(null)
+                        await cancelRequest()
                     }}
                     loading={cancelRequestResult.isLoading}
                     disabled={cancelRequestResult.isLoading}

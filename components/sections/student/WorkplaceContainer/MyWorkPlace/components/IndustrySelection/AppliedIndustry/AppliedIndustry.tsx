@@ -28,6 +28,7 @@ export const AppliedIndustry = ({
     workplaceRequest,
     studentAdded,
 }: Props) => {
+    console.log('appliedIndustryappliedIndustry', appliedIndustry)
     const getNextStep = () => {
         switch (status) {
             case 'interview':
@@ -87,10 +88,7 @@ export const AppliedIndustry = ({
                 5km away
             </Typography> */}
                                     <p className="font-semibold">
-                                        {
-                                            appliedIndustry?.industry
-                                                ?.businessName
-                                        }
+                                        {appliedIndustry?.industry?.user?.name}
                                     </p>
                                     <p className="text-sm text-gray-500">
                                         {

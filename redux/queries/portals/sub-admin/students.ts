@@ -147,6 +147,20 @@ export const studentsEndpoints = (
         }),
         invalidatesTags: ['SubAdminStudents'],
     }),
+    studentCourses: builder.query<any, any>({
+        query: (id) => ({
+            url: `subadmin/student/course/list/${id}`,
+        }),
+        providesTags: ['SubAdminStudents'],
+    }),
+    changeStudentPassword: builder.mutation<any, any>({
+        query: (body) => ({
+            url: `subadmin/student/update-password`,
+            method: 'POST',
+            body,
+        }),
+        invalidatesTags: ['SubAdminStudents'],
+    }),
 
     // updateSubAdminRtoStudentStatus: builder.mutation<any, any | null>({
     //     query: ({id, status}:any) => {

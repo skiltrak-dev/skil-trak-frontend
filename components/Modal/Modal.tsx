@@ -14,6 +14,7 @@ interface ModalProps {
     cancelText?: string
     onCancelClick?: Function
     loading?: boolean
+    disabled?: boolean
 }
 
 export const Modal = ({
@@ -25,6 +26,7 @@ export const Modal = ({
     cancelText,
     onCancelClick,
     loading,
+    disabled,
 }: ModalProps) => {
     const onConfirmButtonClick = () => {
         onConfirmClick && onConfirmClick()
@@ -59,7 +61,7 @@ export const Modal = ({
                     <Button
                         onClick={onConfirmButtonClick}
                         loading={loading}
-                        disabled={loading}
+                        disabled={disabled || loading}
                     >
                         {confirmText || 'Confirm'}
                     </Button>

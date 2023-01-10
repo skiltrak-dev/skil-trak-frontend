@@ -320,38 +320,55 @@ const StudentDashboard: NextPageWithLayout = () => {
                                                     }
                                                 >
                                                     <div className="flex items-center gap-x-6 mb-4">
-                                                        <div className="flex-shrink-0">
-                                                            {workplace?.industry
-                                                                ?.avatar ? (
-                                                                <Image
-                                                                    src={
-                                                                        data
-                                                                            ?.rto
-                                                                            ?.user
-                                                                            ?.avatar
-                                                                    }
-                                                                    width={100}
-                                                                    height={100}
-                                                                    className="rounded-full shadow-inner-image"
-                                                                />
-                                                            ) : (
-                                                                <div className="h-24 w-24 flex items-center justify-center bg-gray-100 rounded-full">
-                                                                    <span className="text-4xl text-gray-300">
-                                                                        <FaBriefcase />
-                                                                    </span>
-                                                                </div>
-                                                            )}
+                                                        <div className="hidden md:block">
+                                                            <div className="flex-shrink-0">
+                                                                {workplace
+                                                                    ?.industry
+                                                                    ?.avatar ? (
+                                                                    <Image
+                                                                        src={
+                                                                            data
+                                                                                ?.rto
+                                                                                ?.user
+                                                                                ?.avatar
+                                                                        }
+                                                                        width={
+                                                                            100
+                                                                        }
+                                                                        height={
+                                                                            100
+                                                                        }
+                                                                        className="hidden md:block rounded-full shadow-inner-image"
+                                                                    />
+                                                                ) : (
+                                                                    <div className="h-24 w-24 flex items-center justify-center bg-gray-100 rounded-full">
+                                                                        <span className="text-4xl text-gray-300">
+                                                                            <FaBriefcase />
+                                                                        </span>
+                                                                    </div>
+                                                                )}
+                                                            </div>
                                                         </div>
 
                                                         <div>
                                                             <div>
-                                                                <p className="font-medium">
-                                                                    {
-                                                                        workplace
-                                                                            ?.industry
-                                                                            ?.businessName
-                                                                    }
-                                                                </p>
+                                                                <div className="flex items-center gap-x-1">
+                                                                    <div className="h-8 w-8 flex items-center justify-center bg-gray-100 rounded-full">
+                                                                        <FaBriefcase
+                                                                            size={
+                                                                                16
+                                                                            }
+                                                                        />
+                                                                    </div>
+                                                                    <p className="font-medium">
+                                                                        {
+                                                                            workplace
+                                                                                ?.industry
+                                                                                ?.user
+                                                                                ?.name
+                                                                        }
+                                                                    </p>
+                                                                </div>
                                                                 <p className="text-slate-400 text-sm">
                                                                     {
                                                                         workplace

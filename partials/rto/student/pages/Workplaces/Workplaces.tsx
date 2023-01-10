@@ -42,7 +42,7 @@ export const Workplaces = ({ workplaces }: any) => {
                             />
                             <div>
                                 <Typography variant={'subtitle'}>
-                                    {workplace?.industry?.businessName}
+                                    {workplace?.industry?.user?.name}
                                 </Typography>
                                 <Typography variant={'label'} color={'gray'}>
                                     {workplace?.industry?.user?.email}

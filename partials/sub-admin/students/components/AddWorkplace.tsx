@@ -25,8 +25,9 @@ export const AddWorkplace = ({ id }: { id: number }) => {
             <Button
                 text="Add Workplace"
                 onClick={() => {
-                    setAddWorkplace((workplace: boolean) => !workplace)
+                    if (id) setAddWorkplace((workplace: boolean) => !workplace)
                 }}
+                disabled={!id}
             />
             {addWorkplace && (
                 <OutsideClickHandler

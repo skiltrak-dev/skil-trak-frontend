@@ -9,49 +9,23 @@ import { AdminApi } from '@queries'
 import moment from 'moment'
 import { useEffect, useState } from 'react'
 import { RiBook2Fill } from 'react-icons/ri'
+import { AssignWorkplace } from '../AssignWorkplace'
 type Props = {
     workplace: any
 }
 
 export const AdminWorkplaceRequest = ({ workplace }: Props) => {
     const [appliedIndustry, setAppliedIndustry] = useState<any | null>(null)
-    const [subAdminOptions, setSubAdminOptions] = useState([])
 
-    const { isLoading, data } = AdminApi.Workplace.useListQuery({
-        createdBy: 'admin',
-    })
-    const [assignSubAdmin] = AdminApi.Workplace.useWorkplaceMutation()
     useEffect(() => {
         setAppliedIndustry(workplace.industries?.find((i: any) => i.applied))
     }, [workplace])
-    useEffect(() => {
-        if (data?.data.length) {
-            const options = data?.data?.map((subAdmin: any) => ({
-                label: subAdmin?.user?.name,
-                value: subAdmin?.id,
-            }))
-            setSubAdminOptions(options)
-        }
-    }, [data?.data])
-
-    const onAssignSubAdmin = (e: any) => {
-        assignSubAdmin({ subadmin: e?.value, workplace: workplace?.id })
-    }
 
     return (
         <div>
             <Card>
                 <div className="flex justify-between gap-x-4 items-center pb-2.5 border-b border-dashed">
-                    <Select
-                        label={'Sub Admin'}
-                        name={'subAdmin'}
-                        placeholder={'Select Sub Admin'}
-                        options={subAdminOptions}
-                        loading={data?.isLoading}
-                        onChange={(e: any) => {
-                            onAssignSubAdmin(e)
-                        }}
-                    />
+                    <AssignWorkplace workplace={workplace} />
 
                     <div className="flex items-center relative">
                         <div className="flex items-center gap-x-2">
@@ -100,10 +74,10 @@ export const AdminWorkplaceRequest = ({ workplace }: Props) => {
                     </div>
 
                     {/* Request Type Selection */}
-                    <RequestType
+                    {/* <RequestType
                         appliedIndustry={appliedIndustry}
                         workplace={workplace}
-                    />
+                    /> */}
                 </div>
 
                 {/* Student Small Details */}
@@ -112,7 +86,7 @@ export const AdminWorkplaceRequest = ({ workplace }: Props) => {
 
                     {/*  */}
                     <div className="flex items-center gap-x-5">
-                        <div className="flex flex-col items-end gap-y-1">
+                        {/* <div className="flex flex-col items-end gap-y-1">
                             <Typography variant={'small'}>
                                 <span className="bg-primary-light text-primary rounded-md p-1">
                                     Documents Pending
@@ -123,7 +97,7 @@ export const AdminWorkplaceRequest = ({ workplace }: Props) => {
                                     View Folders
                                 </span>
                             </Typography>
-                        </div>
+                        </div> */}
                         <div>
                             <Typography variant={'xs'}>Recieved On:</Typography>
                             <Typography variant={'small'}>
@@ -146,6 +120,7 @@ export const AdminWorkplaceRequest = ({ workplace }: Props) => {
                         appliedIndustry={appliedIndustry}
                         industries={workplace?.industries}
                         workplaceId={workplace?.id}
+                        admin
                     />
 
                     {/* Notes */}

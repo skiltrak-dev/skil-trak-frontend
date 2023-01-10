@@ -38,7 +38,7 @@ export const IndustryNotResponded = ({ industries }: Props) => {
                                         variant="label"
                                         color={'text-black'}
                                     >
-                                        {industry?.businessName}
+                                        {industry?.user?.name}
                                     </Typography>
                                     <Typography
                                         variant="muted"

@@ -24,7 +24,7 @@ export const StudentCellInfo = ({ student }: { student: Student }) => {
                 </div>
 
                 <Link
-                    href={`/portals/sub-admin/users/students/${student?.id}?tab=overview`}
+                    href={`/portals/sub-admin/students/${student?.id}?tab=overview`}
                 >
                     <a>
                         <div className="flex items-center gap-x-2">

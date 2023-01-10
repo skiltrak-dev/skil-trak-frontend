@@ -108,7 +108,7 @@ export const ForwardModal = ({
                                 <div className="flex items-center gap-x-0.5">
                                     <Typography variant={'label'}>
                                         <span className="font-bold">
-                                            {industry?.industry?.businessName}
+                                            {industry?.industry?.user?.name}
                                         </span>
                                     </Typography>
                                 </div>

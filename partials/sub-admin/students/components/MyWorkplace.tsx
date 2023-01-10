@@ -191,7 +191,7 @@ export const MyWorkplace = ({ myWorkplace }: Props) => {
                                 You don&apos;t have any workplace yet
                             </p>
                         </div>
-                        <AddWorkplace id={Number(profileId)} />
+                        <AddWorkplace id={Number(myWorkplace?.id)} />
                     </div>
                 </div>
             )}

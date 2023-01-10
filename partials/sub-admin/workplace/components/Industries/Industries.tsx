@@ -8,6 +8,7 @@ import { AddIndustryCB } from '../../contextBar'
 import { Actions, IndustryCard, SmallIndustryCard } from './components'
 
 export const Industries = ({
+    admin,
     industries,
     workplaceId,
     appliedIndustry,
@@ -80,7 +81,8 @@ export const Industries = ({
                 )}
 
                 {/* Book Appointment Button */}
-                {!appliedIndustry?.cancelled &&
+                {!admin &&
+                    !appliedIndustry?.cancelled &&
                     appliedIndustry?.industryResponse !== 'rejected' && (
                         <Actions
                             appliedIndustry={appliedIndustry}

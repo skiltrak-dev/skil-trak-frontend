@@ -28,7 +28,7 @@ export const YourIndustry = ({
             <Card>
                 <Typography variant="h4">Your Industry</Typography>
                 {res?.isSuccess && res?.data?.length > 0 ? (
-                    <p>{res?.data?.businessName}</p>
+                    <p>{res?.data?.user?.name}</p>
                 ) : (
                     <>
                         {/* <p className="mt-2 text-red-400">Industry Not found</p> */}
