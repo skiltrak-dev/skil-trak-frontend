@@ -11,8 +11,6 @@ export const PinnedNotes = ({
 }: {
     id: number | string | string[] | undefined
 }) => {
-
-    
     const pinnedNotes = CommonApi.Notes.usePinned(id, {
         skip: !id,
     })

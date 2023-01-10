@@ -14,8 +14,8 @@ import { Student } from '@types'
 import { StudentStatus } from './StudentStatus'
 import { useState } from 'react'
 import { EditPassword } from './EditPassword'
-import { EditStudentDetail } from './EditStudentDetail'
 import { useRouter } from 'next/router'
+import { BlockModal } from '@partials/sub-admin/students/modals'
 
 const getGender = (gender: string | undefined) => {
     if (!gender) return 'N/A'
@@ -34,11 +34,14 @@ export const SubAdminStudentProfile = ({ student }: { student: Student }) => {
         )
     }
 
-    const onEditDetailClicked = () => {
+    const onModalCancelClicked = () => {
+        setModal(null)
+    }
+    const onBlockClicked = (student: Student) => {
         setModal(
-            <EditStudentDetail
-                student={student}
-                onCancel={() => setModal(null)}
+            <BlockModal
+                item={student}
+                onCancel={() => onModalCancelClicked()}
             />
         )
     }
@@ -51,13 +54,18 @@ export const SubAdminStudentProfile = ({ student }: { student: Student }) => {
                         className="bg-blue-100 rounded-full p-1"
                         onClick={() => {
                             router.push(
-                                '/portals/sub-admin/students/26/edit-student'
+                                `/portals/sub-admin/students/${student?.id}/edit-student`
                             )
                         }}
                     >
                         <AiFillEdit className="text-blue-400  cursor-pointer" />
                     </div>
-                    <div className="bg-red-100 rounded-full p-1">
+                    <div
+                        className="bg-red-100 rounded-full p-1"
+                        onClick={() => {
+                            onBlockClicked(student)
+                        }}
+                    >
                         <MdBlock className="text-red-400  cursor-pointer bg-red-100 rounded-full" />
                     </div>
                 </div>

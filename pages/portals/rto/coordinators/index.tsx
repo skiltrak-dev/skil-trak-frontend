@@ -95,7 +95,7 @@ const RtoCoordinators: NextPageWithLayout = (props: Props) => {
                 } = row.original
                 return (
                     <Link
-                        href={`/portals/rto/users/coordinators/${row.original.id}`}
+                        href={`/portals/rto/coordinators/${row.original.id}`}
                         className="flex items-center gap-x-2 relative"
                     >
                         <a>
@@ -138,7 +138,7 @@ const RtoCoordinators: NextPageWithLayout = (props: Props) => {
                                 text: 'View',
                                 onClick: () => {
                                     router.push(
-                                        `/portals/rto/users/coordinators/${row.original.id}`
+                                        `/portals/rto/coordinators/${row.original.id}`
                                     )
                                 },
                                 Icon: '',

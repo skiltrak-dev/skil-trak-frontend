@@ -5,6 +5,7 @@ import { SubAdmin } from '@types'
 import { notesEndpoints } from './notes'
 import { workplaceEndpoints } from './workplace'
 import { studentsEndpoints } from './students'
+import { profileEndpoints } from './profile'
 
 export const subAdminApi = createApi({
     reducerPath: 'subAdminApi',
@@ -18,7 +19,13 @@ export const subAdminApi = createApi({
             return headers
         },
     }),
-    tagTypes: ['SubAdmin', 'Notes', 'SubAdminWorkplace', 'SubAdminStudents'],
+    tagTypes: [
+        'SubAdmin',
+        'Notes',
+        'SubAdminWorkplace',
+        'SubAdminStudents',
+        'Statistics',
+    ],
 
     // ---------- Sub Admin ENDPOINTS ---------- //
     endpoints: (build) => ({
@@ -27,9 +34,15 @@ export const subAdminApi = createApi({
             providesTags: ['SubAdmin'],
         }),
 
+        statistics: build.query<any, void>({
+            query: () => `subadmin/dashboard/count`,
+            providesTags: ['Statistics'],
+        }),
+
         ...notesEndpoints(build),
         ...workplaceEndpoints(build),
         ...studentsEndpoints(build),
+        ...profileEndpoints(build),
     }),
 })
 
@@ -86,9 +99,17 @@ export const {
     useAddCustomIndustyForWorkplaceMutation,
     useStudentCoursesQuery,
     useChangeStudentPasswordMutation,
+    useUpdateStudentDetailMutation,
+    useChangeStudentStatusMutation,
+
+    // -- COUNT -- //
+    useStatisticsQuery,
 } = subAdminApi
 
 export const SubAdminApi = {
+    Count: {
+        statistics: useStatisticsQuery,
+    },
     SubAdmin: {
         useProfile: useProfileQuery,
     },
@@ -101,6 +122,8 @@ export const SubAdminApi = {
 
     Student: {
         useChangePassword: useChangeStudentPasswordMutation,
+        useUpdateDetail: useUpdateStudentDetailMutation,
+        changeStatus: useChangeStudentStatusMutation,
     },
     Workplace: {
         AgreementSign: useAgrementSignMutation,

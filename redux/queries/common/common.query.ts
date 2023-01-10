@@ -71,8 +71,10 @@ const {
     useSendMessageMutation,
 
     // -- APPOINTMENTS -- //
+    useCreateAppointmentMutation,
     useGetBookedAppointmntsQuery,
     useGetAppointmentsAvailableSlotsQuery,
+    useAllCoordinatorsQuery,
 } = commonApi
 
 export const CommonApi = {
@@ -99,7 +101,9 @@ export const CommonApi = {
         useSendMessage: useSendMessageMutation,
     },
     Appointments: {
+        createAppointment: useCreateAppointmentMutation,
         useAppointmentsAvailableSlots: useGetAppointmentsAvailableSlotsQuery,
         useBookedAppointments: useGetBookedAppointmntsQuery,
+        allCoordinators: useAllCoordinatorsQuery,
     },
 }

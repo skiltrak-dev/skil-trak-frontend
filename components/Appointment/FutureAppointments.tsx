@@ -65,9 +65,8 @@ export const FutureAppointments = ({ appointments }: { appointments: any }) => {
                             appointment?.appointmentFor[
                                 appointment?.appointmentFor['role'] ===
                                 'subadmin'
-                                    ? appointment?.appointmentFor['role']
-                                    : appointment?.appointmentFor
-                                          ?.coordinator[0]
+                                    ? 'coordinator'
+                                    : appointment?.appointmentFor['role']
                             ]
                         return (
                             <SwiperSlide key={appointment.id}>
@@ -76,7 +75,10 @@ export const FutureAppointments = ({ appointments }: { appointments: any }) => {
                                     date={appointment?.date}
                                     time={appointment?.startTime}
                                     totalMinutes={appointment?.type?.duration}
-                                    address={`${ap?.addressLine1}, ${ap?.addressLine2}`}
+                                    address={
+                                        ap[0]?.address ||
+                                        `${ap?.addressLine1}, ${ap?.addressLine2}`
+                                    }
                                     name={appointment?.appointmentFor?.name}
                                     imageUrl={
                                         '/images/card-images/video-icon.png'

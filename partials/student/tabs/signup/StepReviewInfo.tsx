@@ -66,32 +66,67 @@ export const StepReviewInfo = () => {
                                         variant={'muted'}
                                         color={'text-gray-500'}
                                     >
-                                        ABN
-                                    </Typography>
-                                    <Typography variant={'label'}>
-                                        {formData.abn || ''}
-                                    </Typography>
-                                </div>
-                                <div>
-                                    <Typography
-                                        variant={'muted'}
-                                        color={'text-gray-500'}
-                                    >
-                                        Code
-                                    </Typography>
-                                    <Typography variant={'label'}>
-                                        {formData.code || ''}
-                                    </Typography>
-                                </div>
-                                <div>
-                                    <Typography
-                                        variant={'muted'}
-                                        color={'text-gray-500'}
-                                    >
                                         Phone Number
                                     </Typography>
                                     <Typography variant={'label'}>
                                         {formData.phone || ''}
+                                    </Typography>
+                                </div>
+                                <div>
+                                    <Typography
+                                        variant={'muted'}
+                                        color={'text-gray-500'}
+                                    >
+                                        Faimly Name
+                                    </Typography>
+                                    <Typography variant={'label'}>
+                                        {formData.familyName || ''}
+                                    </Typography>
+                                </div>
+                                <div>
+                                    <Typography
+                                        variant={'muted'}
+                                        color={'text-gray-500'}
+                                    >
+                                        Student Id
+                                    </Typography>
+                                    <Typography variant={'label'}>
+                                        {formData.studentId || ''}
+                                    </Typography>
+                                </div>
+                                <div>
+                                    <Typography
+                                        variant={'muted'}
+                                        color={'text-gray-500'}
+                                    >
+                                        Date of birth
+                                    </Typography>
+                                    <Typography variant={'label'}>
+                                        {formData.dob || ''}
+                                    </Typography>
+                                </div>
+
+                                <div>
+                                    <Typography
+                                        variant={'muted'}
+                                        color={'text-gray-500'}
+                                    >
+                                        Emergency Person
+                                    </Typography>
+                                    <Typography variant={'label'}>
+                                        {formData.emergencyPerson || ''}
+                                    </Typography>
+                                </div>
+
+                                <div>
+                                    <Typography
+                                        variant={'muted'}
+                                        color={'text-gray-500'}
+                                    >
+                                        Emergency Person Phone
+                                    </Typography>
+                                    <Typography variant={'label'}>
+                                        {formData.emergencyPersonPhone || ''}
                                     </Typography>
                                 </div>
                             </div>
@@ -121,7 +156,7 @@ export const StepReviewInfo = () => {
                                     </Typography>
                                 </div>
                             </div>
-                            <div>
+                            {/* <div>
                                 <Typography
                                     variant={'muted'}
                                     color={'text-gray-500'}
@@ -129,9 +164,9 @@ export const StepReviewInfo = () => {
                                     RTO
                                 </Typography>
                                 <Typography variant={'label'}>
-                                    {formData.rto || ''}
+                                    {formData.rto.label || ''}
                                 </Typography>
-                            </div>
+                            </div> */}
                         </div>
                     </div>
 

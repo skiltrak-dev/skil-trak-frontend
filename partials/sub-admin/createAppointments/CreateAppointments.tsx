@@ -20,7 +20,7 @@ import {
     useSubAdminCreateAppointmentMutation,
     useAvailabilityListQuery,
     useGetSubAdminStudentDetailQuery,
-    useSearchUserByIdQuery,
+    CommonApi,
 } from '@queries'
 import { useRouter } from 'next/router'
 import { Arrow, CreateAppointmentCard, SearchUser } from '@partials/common'
@@ -87,10 +87,26 @@ export const CreateAppointments = () => {
         }
     }, [selectedPerson.selectedAppointmentWith])
 
-    const userAvailabilities = useUserAvailabilitiesQuery(
+    // const userAvailabilities = useUserAvailabilitiesQuery(
+    //     {
+    //         date: selectedDate?.toISOString(),
+    //         id: appointmentTypeId,
+    //         forUser: selectedUser.selectedAppointmentForUser,
+    //         byUser: selectedUser.selectedAppointmentWithUser,
+    //     },
+    //     {
+    //         skip:
+    //             !selectedDate ||
+    //             !appointmentTypeId ||
+    //             !selectedUser.selectedAppointmentForUser ||
+    //             !selectedUser.selectedAppointmentWithUser ||
+    //             !slots,
+    //     }
+    // )
+    const timeSlots = CommonApi.Appointments.useAppointmentsAvailableSlots(
         {
-            date: selectedDate?.toISOString(),
             id: appointmentTypeId,
+            date: selectedDate?.toISOString(),
             forUser: selectedUser.selectedAppointmentForUser,
             byUser: selectedUser.selectedAppointmentWithUser,
         },
@@ -104,7 +120,7 @@ export const CreateAppointments = () => {
         }
     )
     const [createAppointment, createAppointmentResult] =
-        useSubAdminCreateAppointmentMutation()
+        CommonApi.Appointments.createAppointment()
     const availabilityList = useAvailabilityListQuery(
         {},
         {
@@ -125,13 +141,13 @@ export const CreateAppointments = () => {
     }, [selectedPerson.selectedAppointmentFor])
 
     useEffect(() => {
-        if (userAvailabilities?.data?.availabilities?.length === 0) {
+        if (timeSlots?.data?.availabilities?.length === 0) {
             notification.error({
                 title: 'No Availabilities were found',
                 description: 'No Availabilities were found',
             })
         }
-    }, [userAvailabilities])
+    }, [timeSlots])
 
     useEffect(() => {
         if (createAppointmentResult.isSuccess) {
@@ -246,16 +262,15 @@ export const CreateAppointments = () => {
                             setSelectedTime={setSelectedTime}
                             selectedTime={selectedTime}
                             appointmentAvailability={availabilityList?.data}
-                            userAvailabilities={userAvailabilities?.data}
+                            userAvailabilities={timeSlots?.data}
                             loading={
-                                userAvailabilities?.isLoading ||
-                                userAvailabilities?.isFetching
+                                timeSlots?.isLoading || timeSlots?.isFetching
                             }
                             subAdmin
                             appointmentWith={
                                 selectedPerson?.selectedAppointmentWith
                             }
-                            bookedAppointment={userAvailabilities?.data?.booked}
+                            bookedAppointment={timeSlots?.data?.booked}
                         />
                     </div>
                     <TextInput

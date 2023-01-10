@@ -7,7 +7,7 @@ import { NextPageWithLayout } from '@types'
 
 import { Form, TimeSlots } from '@components/sections'
 import { AppointmentType } from '@partials/appointmentType'
-import { Button, TextArea, Select } from '@components'
+import { Button, TextArea, Select, ShowErrorNotifications } from '@components'
 import { useForm, FormProvider } from 'react-hook-form'
 
 // hooks
@@ -41,19 +41,18 @@ const CreateAppointments: NextPageWithLayout = (props: Props) => {
 
     // query
     const coordinatorAvailability = useGetCoordinatorsAvailabilityQuery(
-        Number(selectedCoordinator?.value),
+        Number(selectedCoordinator),
         { skip: !selectedCoordinator }
     )
-    console.log('selectedCoordinator', selectedCoordinator)
     const [createAppointment, createAppointmentResult] =
-        useCreateRTOAppointmentMutation()
+        CommonApi.Appointments.createAppointment()
     const coordinators = useGetCoordinatorsForRTOQuery()
     const rtoCourses = RtoApi.Rto.useProfile()
     const availableSlots = CommonApi.Appointments.useAppointmentsAvailableSlots(
         {
             id: type,
             date: selectedDate?.toISOString(),
-            byUser: selectedCoordinator?.value,
+            byUser: selectedCoordinator,
         },
         { skip: !type || !selectedDate || !selectedCoordinator }
     )
@@ -100,27 +99,27 @@ const CreateAppointments: NextPageWithLayout = (props: Props) => {
         mode: 'all',
     })
     const onSubmit = (values: any) => {
+        console.log('rrrr', values)
         const time = moment(selectedTime, ['h:mm A']).format('HH:mm')
         let date = selectedDate
         date?.setDate(date.getDate() + 1)
         createAppointment({
             ...values,
-            coordinator: values.coordinator.value,
+            ...selectedTime,
             type,
             date,
-            time,
-            appointmentFor: 4,
         })
     }
 
     return (
         <>
+            <ShowErrorNotifications result={createAppointmentResult} />
             <FormProvider {...formMethods}>
                 <form onSubmit={formMethods.handleSubmit(onSubmit)}>
                     <AppointmentType setAppointmentTypeId={setType} />
                     <div className="grid grid-cols-3 items-center gap-x-5 mb-5">
                         <Select
-                            name="coordinator"
+                            name="appointmentFor"
                             label="WBT Coordinator"
                             placeholder="Select Your Choice"
                             options={coordinatorsOptions}
@@ -131,7 +130,7 @@ const CreateAppointments: NextPageWithLayout = (props: Props) => {
                             onChange={(e: any) => {
                                 setSelectedCoordinator(e)
                             }}
-                            value={selectedCoordinator}
+                            onlyValue
                         />
                         <Select
                             name="course"

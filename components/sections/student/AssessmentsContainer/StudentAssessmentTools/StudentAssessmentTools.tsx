@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { IoIosArrowRoundBack } from 'react-icons/io'
@@ -6,11 +6,11 @@ import { IoIosArrowRoundBack } from 'react-icons/io'
 import {
     Button,
     Card,
-    LoadingAnimation,
     Typography,
     Desktop,
     Mobile,
     NoData,
+    LoadingAnimation,
 } from '@components'
 import { AssessmentCourse, DownloadableFile } from '..'
 // queries
@@ -26,18 +26,31 @@ type Props = {
 
 export const StudentAssessmentTools = ({ role, actions }: Props) => {
     const router = useRouter()
-    const [selectedCourseId, setSelectedCourseId] = useState<any | null>(null)
+    const [selectedCourse, setSelectedCourse] = useState<any | null>(null)
     const {
         data: coursesData,
         isLoading,
         isError,
+        isSuccess,
     } = useGetStudentCoursesQuery()
     const getAssessmentTools = useGetStudentAssessmentToolQuery(
-        selectedCourseId?.id,
+        selectedCourse?.id,
         {
-            skip: !selectedCourseId,
+            skip: !selectedCourse,
         }
     )
+
+    useEffect(() => {
+        if (isSuccess) {
+            setSelectedCourse(
+                selectedCourse
+                    ? coursesData?.find(
+                          (c: any) => c?.id === selectedCourse?.id
+                      )?.id
+                    : coursesData[0]
+            )
+        }
+    }, [coursesData, isSuccess])
     return (
         <div>
             <div className="mb-2">
@@ -56,20 +69,32 @@ export const StudentAssessmentTools = ({ role, actions }: Props) => {
                                     Select a Course
                                 </Typography>
                             </div>
-
-                            {coursesData?.map((course: any, index: any) => (
-                                <>
-                                    <AssessmentCourse
-                                        code={course?.course?.code}
-                                        name={course?.title}
-                                        id={course.id}
-                                        onClick={() =>
-                                            setSelectedCourseId(course)
-                                        }
-                                        selectedCourseId={selectedCourseId?.id}
-                                    />
-                                </>
-                            ))}
+                            {isError && <NoData text={'Network Issue'} />}
+                            {isLoading ? (
+                                <LoadingAnimation size={60} />
+                            ) : coursesData &&
+                              coursesData?.length > 0 &&
+                              !isError ? (
+                                coursesData?.map((course: any, index: any) => (
+                                    <>
+                                        <AssessmentCourse
+                                            code={course?.code}
+                                            name={course?.title}
+                                            id={course.id}
+                                            onClick={() =>
+                                                setSelectedCourse(course)
+                                            }
+                                            selectedCourseId={
+                                                selectedCourse?.id
+                                            }
+                                        />
+                                    </>
+                                ))
+                            ) : (
+                                !isError && (
+                                    <NoData text={'No Courses were found'} />
+                                )
+                            )}
                         </div>
                         <div className="w-[75%]">
                             {role === 'RTO' && (
@@ -114,10 +139,15 @@ export const StudentAssessmentTools = ({ role, actions }: Props) => {
                                 </div>
                             </div>
                             <div className="p-2 min-h-[260px]">
-                                {isLoading ? (
-                                    <LoadingAnimation />
+                                {getAssessmentTools.isError && (
+                                    <NoData text={'Network Issue'} />
+                                )}
+                                {getAssessmentTools.isLoading ||
+                                getAssessmentTools.isFetching ? (
+                                    <LoadingAnimation size={80} />
                                 ) : getAssessmentTools?.data &&
-                                  getAssessmentTools?.data?.length > 0 ? (
+                                  getAssessmentTools?.data?.length > 0 &&
+                                  !getAssessmentTools.isError ? (
                                     getAssessmentTools?.data?.map(
                                         (assessment: any) => (
                                             <DownloadableFile
@@ -135,7 +165,15 @@ export const StudentAssessmentTools = ({ role, actions }: Props) => {
                                         )
                                     )
                                 ) : (
-                                    <NoData text={'No Assessment were found'} />
+                                    !getAssessmentTools.isError && (
+                                        <NoData
+                                            text={
+                                                selectedCourse
+                                                    ? 'No Assessment were found'
+                                                    : 'No Course Selected'
+                                            }
+                                        />
+                                    )
                                 )}
                             </div>
                         </div>
@@ -143,7 +181,7 @@ export const StudentAssessmentTools = ({ role, actions }: Props) => {
                 </Card>
             </Desktop>
             <Mobile>
-                {!selectedCourseId && (
+                {!selectedCourse && (
                     <div className="w-full md:w-[25%] border-r bg-white px-3 pt-2 pb-5 rounded-md">
                         <div className={`p-3.5`}>
                             <Typography variant="label" color="text-black">
@@ -151,33 +189,46 @@ export const StudentAssessmentTools = ({ role, actions }: Props) => {
                             </Typography>
                         </div>
 
-                        {coursesData?.map((course: any, index: any) => (
-                            <>
-                                <AssessmentCourse
-                                    code={course?.course?.code}
-                                    name={course?.title}
-                                    id={course.id}
-                                    onClick={() => setSelectedCourseId(course)}
-                                    selectedCourseId={selectedCourseId?.id}
-                                />
-                            </>
-                        ))}
+                        {isError && <NoData text={'Network Issue'} />}
+                        {isLoading ? (
+                            <LoadingAnimation size={50} />
+                        ) : coursesData &&
+                          coursesData?.length > 0 &&
+                          !isError ? (
+                            coursesData?.map((course: any, index: any) => (
+                                <>
+                                    <AssessmentCourse
+                                        code={course?.course?.code}
+                                        name={course?.title}
+                                        id={course.id}
+                                        onClick={() =>
+                                            setSelectedCourse(course)
+                                        }
+                                        selectedCourseId={selectedCourse?.id}
+                                    />
+                                </>
+                            ))
+                        ) : (
+                            !isError && (
+                                <NoData text={'No Courses were found'} />
+                            )
+                        )}
                     </div>
                 )}
 
-                {selectedCourseId && (
+                {selectedCourse && (
                     <>
                         <div
                             className={
                                 'group max-w-max transition-all text-xs flex justify-start items-center py-2.5 text-muted hover:text-muted-dark rounded-lg cursor-pointer'
                             }
-                            onClick={() => setSelectedCourseId(null)}
+                            onClick={() => setSelectedCourse(null)}
                         >
                             <IoIosArrowRoundBack className="transition-all inline-flex text-base group-hover:-translate-x-1" />
                             <span className="ml-2">{'Back To Folders'}</span>
                         </div>
                         <Typography variant="label" color="text-black">
-                            Course : {selectedCourseId?.title}
+                            Course : {selectedCourse?.title}
                         </Typography>
 
                         <div className="bg-white rounded-md p-3">
@@ -205,7 +256,7 @@ export const StudentAssessmentTools = ({ role, actions }: Props) => {
                             </div>
                             <div className="p-2 min-h-[260px]">
                                 {isLoading ? (
-                                    <LoadingAnimation />
+                                    <LoadingAnimation size={50} />
                                 ) : getAssessmentTools?.data &&
                                   getAssessmentTools?.data?.length > 0 ? (
                                     getAssessmentTools?.data?.map(

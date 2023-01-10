@@ -60,7 +60,7 @@ const Schedule: NextPageWithLayout = (props: Props) => {
                 text={'Add Schedule'}
                 variant={'info'}
                 onClick={() => {
-                    router.push('add-schedule')
+                    router.push('schedule/add-schedule')
                 }}
             />
             <BigCalendar events={events} />
@@ -68,7 +68,9 @@ const Schedule: NextPageWithLayout = (props: Props) => {
     )
 }
 Schedule.getLayout = (page: ReactElement) => {
-    return <StudentLayout pageTitle={{title:"Schedule"}}>{page}</StudentLayout>
+    return (
+        <StudentLayout pageTitle={{ title: 'Schedule' }}>{page}</StudentLayout>
+    )
 }
 
 export default Schedule

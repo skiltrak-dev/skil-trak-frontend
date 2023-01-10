@@ -53,7 +53,7 @@ const BookAppointment: NextPageWithLayout = (props: Props) => {
             { skip: !type || !selectedDate || !selectedCoordinator }
         )
     const [createAppointment, createAppointmentResult] =
-        useCreateAppointmentMutation()
+        CommonApi.Appointments.createAppointment()
     const workplace = useGetWorkplaceIndustriesQuery()
 
     // hooks
@@ -159,7 +159,9 @@ const BookAppointment: NextPageWithLayout = (props: Props) => {
     )
 }
 BookAppointment.getLayout = (page: ReactElement) => {
-    return <StudentLayout pageTitle={{title:"Workplace"}}>{page}</StudentLayout>
+    return (
+        <StudentLayout pageTitle={{ title: 'Workplace' }}>{page}</StudentLayout>
+    )
 }
 
 export default BookAppointment
