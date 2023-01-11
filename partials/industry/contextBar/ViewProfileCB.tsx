@@ -14,11 +14,11 @@ import {
     MdVerified,
     MdAdminPanelSettings,
 } from 'react-icons/md'
-import { SubAdminApi, useGetStudentProfileDetailQuery } from '@queries'
+import {  useIndustryProfileQuery } from '@queries'
 import moment from 'moment'
 export const ViewProfileCB = () => {
-    const { data, isSuccess, isLoading } = SubAdminApi.SubAdmin.useProfile()
-
+    const { data, isSuccess, isLoading } = useIndustryProfileQuery()
+    console.log("industry profile", data)
     return (
         <div>
             <div className="flex flex-col items-center">
@@ -38,11 +38,10 @@ export const ViewProfileCB = () => {
                         </div>
                     )}
                     <div
-                        className={`${
-                            data?.user.avatar
+                        className={`${data?.user.avatar
                                 ? 'w-[100px] h-[100px]'
                                 : 'w-24 h-24'
-                        } absolute top-0 w-[100px] h-[100px] bg-transparent rounded-full shadow-inner-image`}
+                            } absolute top-0 w-[100px] h-[100px] bg-transparent rounded-full shadow-inner-image`}
                     ></div>
                 </div>
 
@@ -67,8 +66,8 @@ export const ViewProfileCB = () => {
                             <FaAddressCard />
                         </span>
                         <p className="text-sm font-medium">
-                          {data?.coordinatorId}
-                          </p>
+                            {data?.coordinatorId}
+                        </p>
                     </div>
                     <div className="text-gray-400 text-[11px] -mt-0.5 text-center">
                         Coordinator ID
