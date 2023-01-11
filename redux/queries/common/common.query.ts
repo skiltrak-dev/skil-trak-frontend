@@ -8,6 +8,7 @@ import { coursesEndpoints } from './courses'
 import { industriesEndpoints } from './industries'
 import { appointmentsEndpoints } from './appointments'
 import { allCommunicationEndpoints } from './allCommunication'
+import { changeProfileImageEndpoints } from './changeProfileImage'
 
 import { AdminStats } from '@types'
 
@@ -28,6 +29,7 @@ export const commonApi = createApi({
         'RTOS',
         'Notes',
         'Mails',
+        'Avatar',
         'Course',
         'Industry',
         'Appointments',
@@ -43,6 +45,7 @@ export const commonApi = createApi({
         ...industriesEndpoints(build),
         ...appointmentsEndpoints(build),
         ...allCommunicationEndpoints(build),
+        ...changeProfileImageEndpoints(build),
     }),
 })
 
@@ -54,6 +57,9 @@ const {
     useGetSubAdminRtosQuery,
 
     useGetAllCoursesQuery,
+
+    // ----- AVATAR ----- //
+    useChangeProfileMutation,
 
     // ------ NOTES ------ //
     useNotesQuery,
@@ -78,6 +84,9 @@ const {
 } = commonApi
 
 export const CommonApi = {
+    Avatar: {
+        useChangeProfile: useChangeProfileMutation,
+    },
     Filter: {
         useIndustries: useGetAllIndustriesQuery,
         useRtos: useGetAllRtosQuery,

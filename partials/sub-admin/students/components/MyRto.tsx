@@ -101,8 +101,8 @@ export const MyRto = ({ myRto }: any) => {
                                     ?.slice(1)
                                     ?.map((subAdmin: SubAdmin, idx: number) => (
                                         <InitialAvatar
-                                            key={subAdmin.id}
-                                            name={subAdmin.user.name}
+                                            key={subAdmin?.id}
+                                            name={subAdmin?.user?.name}
                                             first={idx === 0}
                                         />
                                     ))}

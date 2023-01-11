@@ -7,6 +7,14 @@ export const profileEndpoints = (
 ) => ({
     myProfile: builder.query<any, void>({
         query: () => `${PREFIX}/me/profile`,
-        providesTags: ['Notes'],
+        providesTags: ['SubAdmin'],
+    }),
+    updateSubAdminProfile: builder.mutation<any, any>({
+        query: (body) => ({
+            url: `${PREFIX}/profile/update`,
+            method: 'PATCH',
+            body,
+        }),
+        invalidatesTags: ['SubAdmin'],
     }),
 })

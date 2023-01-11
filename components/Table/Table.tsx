@@ -160,6 +160,10 @@ export const Table = <Type,>({
             : {}),
     })
 
+    useEffect(() => {
+        table.setPageSize(data?.length)
+    }, [data, table])
+
     // Render Table
     return children({
         quickActions: selectedRowActions,
