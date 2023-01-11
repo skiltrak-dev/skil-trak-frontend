@@ -5,6 +5,7 @@ import { AdminStats, ContactPerson, PaginatedResponse, Rto } from '@types'
 import { studentEndpoints } from './student'
 import { contactPersonEndpoints } from './contactPerson'
 import { coordinatorEndpoints } from './coordinator'
+import { profileEndpoints } from './profile'
 
 export const rtoApi = createApi({
     reducerPath: 'rto',
@@ -33,6 +34,7 @@ export const rtoApi = createApi({
         ...contactPersonEndpoints(build),
         ...studentEndpoints(build),
         ...coordinatorEndpoints(build),
+        ...profileEndpoints(build),
     }),
 })
 

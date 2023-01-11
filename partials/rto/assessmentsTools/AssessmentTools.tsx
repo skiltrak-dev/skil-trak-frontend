@@ -52,12 +52,25 @@ export const AssessmentsToolsContainer = () => {
     //  ADD ASSESSMENT JOY RIDE - END
     const joyride = useJoyRide()
     useEffect(() => {
+        if (rtoCourses.isSuccess) {
+            setSelectedCourseId(
+                selectedCourseId
+                    ? rtoCourses?.data?.data?.find(
+                          (c: any) => c?.id === selectedCourseId
+                      )?.id
+                    : rtoCourses?.data?.data[0]?.id
+            )
+        }
+    }, [rtoCourses])
+
+    useEffect(() => {
         if (joyride.state.tourActive) {
             setTimeout(() => {
                 joyride.setState({ ...joyride.state, run: true, stepIndex: 2 })
             }, 1200)
         }
     }, [])
+
     //  ADD ASSESSMENT JOY RIDE - END
 
     const actions = (assessment: any) => {
@@ -105,10 +118,10 @@ export const AssessmentsToolsContainer = () => {
                                 Select a Course
                             </Typography>
                         </div>
-                        {rtoCourses?.isLoading ? (
+                        {rtoCourses?.isLoading || rtoCourses?.isFetching ? (
                             <LoadingAnimation size={85} />
                         ) : rtoCourses?.data?.data &&
-                            rtoCourses?.data?.data?.length > 0 ? (
+                          rtoCourses?.data?.data?.length > 0 ? (
                             rtoCourses?.data?.data?.map((course: any) => (
                                 <AssessmentCourse
                                     code={course?.code}
@@ -126,7 +139,7 @@ export const AssessmentsToolsContainer = () => {
                     </div>
                     <div className="w-[75%]">
                         <div className="flex justify-end gap-x-2.5 p-4">
-                            <div id='add-assessments'>
+                            <div id="add-assessments">
                                 <Button
                                     variant="primary"
                                     text="ADD ASSESSMENT"
@@ -157,10 +170,11 @@ export const AssessmentsToolsContainer = () => {
                             </div>
                         </div>
                         <div className="p-2 min-h-[260px]">
-                            {getAssessmentTools?.isLoading ? (
+                            {getAssessmentTools?.isLoading ||
+                            getAssessmentTools?.isFetching ? (
                                 <LoadingAnimation size={80} />
                             ) : getAssessmentTools?.data &&
-                                getAssessmentTools?.data?.length > 0 ? (
+                              getAssessmentTools?.data?.length > 0 ? (
                                 getAssessmentTools?.data?.map(
                                     (assessment: any) => (
                                         <DownloadableFile

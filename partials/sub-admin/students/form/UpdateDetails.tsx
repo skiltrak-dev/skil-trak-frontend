@@ -13,8 +13,23 @@ import { Button, Card, Select, TextInput, Typography } from '@components'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { FormProvider, useForm } from 'react-hook-form'
 
-export const UpdateDetails = ({ onSubmit }: { onSubmit: any }) => {
+// queries
+import { useGetSubAdminStudentDetailQuery } from '@queries'
+
+export const UpdateDetails = ({
+    onSubmit,
+    result,
+}: {
+    onSubmit: any
+    result: any
+}) => {
     const router = useRouter()
+    const { id } = router.query
+
+    const { data, isLoading, isError, isSuccess } =
+        useGetSubAdminStudentDetailQuery(Number(id), {
+            skip: !id,
+        })
 
     const { notification } = useNotification()
 
@@ -70,11 +85,32 @@ export const UpdateDetails = ({ onSubmit }: { onSubmit: any }) => {
 
     const formMethods = useForm({
         mode: 'all',
-        defaultValues: SignUpUtils.getEditingMode()
-            ? SignUpUtils.getValuesFromStorage()
-            : {},
+        // defaultValues: isSuccess ? data : {},
         resolver: yupResolver(validationSchema),
     })
+
+    useEffect(() => {
+        const {
+            id,
+            user,
+            rto,
+            courses,
+            workplace,
+            result,
+            assessmentEvidence,
+            password,
+            updatedAt,
+            createdAt,
+            ...rest
+        } = data || {}
+        const values = {
+            ...rest,
+            ...user,
+        }
+        for (const key in values) {
+            formMethods.setValue(key, values[key as keyof typeof values])
+        }
+    }, [data])
 
     return (
         <Card>
@@ -179,7 +215,12 @@ export const UpdateDetails = ({ onSubmit }: { onSubmit: any }) => {
                                 />
                             </div>
                             <div className="flex justify-end">
-                                <Button text={'Continue'} submit />
+                                <Button
+                                    submit
+                                    text={'Continue'}
+                                    loading={result.isLoading}
+                                    disabled={result.isLoading}
+                                />
                             </div>
                         </div>
                     </div>

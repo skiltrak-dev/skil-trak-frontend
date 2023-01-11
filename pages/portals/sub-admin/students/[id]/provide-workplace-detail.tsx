@@ -46,7 +46,7 @@ const ProvideWorkplaceDetail: NextPageWithLayout = (props: Props) => {
 
     // query
     const { data, isLoading, isError, isSuccess } =
-        useGetSubAdminStudentDetailQuery(String(id), {
+        useGetSubAdminStudentDetailQuery(Number(id), {
             skip: !id,
         })
     const workplace = useGetSubAdminStudentWorkplaceQuery(Number(id), {

@@ -38,7 +38,7 @@ export const StudentProfile = ({ noTitle }: { noTitle?: boolean }) => {
     const [addWorkplace, setAddWorkplace] = useState<boolean>(false)
 
     const { data, isLoading, isError, isSuccess } =
-        useGetSubAdminStudentDetailQuery(String(id), {
+        useGetSubAdminStudentDetailQuery(Number(id), {
             skip: !id,
         })
 

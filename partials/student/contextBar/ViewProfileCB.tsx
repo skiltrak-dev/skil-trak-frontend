@@ -17,13 +17,11 @@ import { useGetStudentProfileDetailQuery } from '@queries'
 import moment from 'moment'
 import { StudentAvatar } from '@components'
 import { getGender } from 'utils/functions/getGender'
-import { ImportantDocuments } from '../components'
 export const ViewProfileCB = () => {
     const { data } = useGetStudentProfileDetailQuery()
     return (
         <div>
             {/* Profile */}
-
             <div>
                 <div className="flex flex-col items-center">
                     <StudentAvatar

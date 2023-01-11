@@ -1,15 +1,15 @@
 import { BaseQueryFn } from '@reduxjs/toolkit/dist/query/baseQueryTypes'
 import { EndpointBuilder } from '@reduxjs/toolkit/dist/query/endpointDefinitions'
-import { PaginatedResponse } from '@types'
+import { PaginatedResponse, Student, UserStatus } from '@types'
 
-const PREFIX = 'subadmin/'
+const PREFIX = 'subadmin'
 export const studentsEndpoints = (
     builder: EndpointBuilder<BaseQueryFn, string, string>
 ) => ({
     getSubAdminStudents: builder.query<any, any>({
         query: (params) => {
             return {
-                url: 'subadmin/students/list-all',
+                url: `${PREFIX}/students/list-all`,
                 params,
             }
         },
@@ -19,7 +19,7 @@ export const studentsEndpoints = (
     subAdminFilteredStudents: builder.query<PaginatedResponse<any>, any>({
         query: (params: any) => {
             return {
-                url: `subadmin/student-list/filter`,
+                url: `${PREFIX}/student-list/filter`,
                 params,
             }
         },
@@ -27,60 +27,52 @@ export const studentsEndpoints = (
     }),
 
     getSubAdminMyStudents: builder.query<any, any>({
-        query: (params) => {
-            return {
-                url: 'subadmin/my-students/list',
-                params,
-            }
-        },
+        query: (params) => ({
+            url: `${PREFIX}/my-students/list`,
+            params,
+        }),
         providesTags: ['SubAdminStudents'],
     }),
 
     updateSubAdminCourseDuration: builder.mutation<any, any | null>({
-        query: ({ id, body }: any) => {
-            return {
-                url: `subadmin/student/course/timing/${id}`,
-                method: 'POST',
-                body,
-            }
-        },
+        query: ({ id, body }: any) => ({
+            url: `${PREFIX}/student/course/timing/${id}`,
+            method: 'POST',
+            body,
+        }),
         invalidatesTags: ['SubAdminStudents'],
     }),
 
     getSubAdminMyRto: builder.query<any, string>({
-        query: (id) => {
-            return {
-                url: `subadmin/student/view/${id}`,
-                params: { id },
-            }
-        },
+        query: (id) => ({
+            url: `${PREFIX}/student/view/${id}`,
+            params: { id },
+        }),
         providesTags: ['SubAdminStudents'],
     }),
-    getSubAdminStudentDetail: builder.query<any, string>({
-        query: (id) => {
-            return {
-                url: `subadmin/student/view/${id}`,
-                params: { id },
-            }
-        },
+    getSubAdminStudentDetail: builder.query<any, number>({
+        query: (id) => ({
+            url: `${PREFIX}/student/view/${id}`,
+            params: { id },
+        }),
         providesTags: ['SubAdminStudents'],
     }),
 
     getSubAdminStudentWorkplace: builder.query<any, number>({
-        query: (id) => `subadmin/student/workplace-request/${id}`,
+        query: (id) => `${PREFIX}/student/workplace-request/${id}`,
         providesTags: ['SubAdminStudents'],
     }),
 
     assignStudentsToSubAdmin: builder.mutation<any, number>({
         query: (id) => ({
-            url: `subadmin/student/assign-subadmin/${id}`,
+            url: `${PREFIX}/student/assign-subadmin/${id}`,
             method: 'PATCH',
         }),
         invalidatesTags: ['SubAdminStudents'],
     }),
     subAdminRequestWorkplace: builder.mutation<any, any>({
         query: (body) => ({
-            url: `students/workplace-requests`,
+            url: `${PREFIX}/workplace-requests`,
             method: 'POST',
             body,
         }),
@@ -89,7 +81,7 @@ export const studentsEndpoints = (
 
     subAdminRequestIndustryWorkplace: builder.mutation<any, any>({
         query: (id) => ({
-            url: `subadmin/student/workplace-request/apply/${id}`,
+            url: `${PREFIX}/student/workplace-request/apply/${id}`,
             method: 'PATCH',
         }),
         invalidatesTags: ['SubAdminStudents'],
@@ -97,7 +89,7 @@ export const studentsEndpoints = (
 
     subAdminCancelStudentWorkplaceRequest: builder.mutation<any, any>({
         query: (id) => ({
-            url: `subadmin/student/workplace-request/cancel/${id}`,
+            url: `${PREFIX}/student/workplace-request/cancel/${id}`,
             method: 'PATCH',
         }),
         invalidatesTags: ['SubAdminStudents'],
@@ -105,7 +97,7 @@ export const studentsEndpoints = (
 
     getRequiredDocs: builder.query<any, any>({
         query: ({ id, course, user }) => ({
-            url: `subadmin/student/required-document/${id}`,
+            url: `${PREFIX}/student/required-document/${id}`,
             params: { course, user },
         }),
         providesTags: ['SubAdminStudents'],
@@ -113,7 +105,7 @@ export const studentsEndpoints = (
 
     uploadRequiredDocs: builder.mutation<any, any>({
         query: ({ id, workplaceId, user, body }) => ({
-            url: `subadmin/student/workplace/response`,
+            url: `${PREFIX}/student/workplace/response`,
             method: 'POST',
             params: { docs: [id], wpId: workplaceId, user },
             body,
@@ -123,7 +115,7 @@ export const studentsEndpoints = (
 
     findByAbnWorkplace: builder.mutation<any, any>({
         query: (body) => ({
-            url: `subadmin/student/industry/find-by-abn`,
+            url: `${PREFIX}/student/industry/find-by-abn`,
             method: 'POST',
             params: { abn: body },
         }),
@@ -132,7 +124,7 @@ export const studentsEndpoints = (
 
     applyWorkplaceOnExistingIndustry: builder.mutation<any, any>({
         query: ({ studentId, IndustryId }) => ({
-            url: `subadmin/student/workplcae/existing-industry/${IndustryId}`,
+            url: `${PREFIX}/student/workplcae/existing-industry/${IndustryId}`,
             method: 'POST',
             params: { student: studentId },
         }),
@@ -140,7 +132,7 @@ export const studentsEndpoints = (
     }),
     addCustomIndustyForWorkplace: builder.mutation<any, any>({
         query: ({ id, body }) => ({
-            url: `subadmin/student/add/workplace`,
+            url: `${PREFIX}/student/add/workplace`,
             method: 'POST',
             params: { student: id },
             body,
@@ -149,17 +141,39 @@ export const studentsEndpoints = (
     }),
     studentCourses: builder.query<any, any>({
         query: (id) => ({
-            url: `subadmin/student/course/list/${id}`,
+            url: `${PREFIX}/student/course/list/${id}`,
         }),
         providesTags: ['SubAdminStudents'],
     }),
     changeStudentPassword: builder.mutation<any, any>({
         query: (body) => ({
-            url: `subadmin/student/update-password`,
+            url: `${PREFIX}/student/update-password`,
             method: 'POST',
             body,
         }),
         invalidatesTags: ['SubAdminStudents'],
+    }),
+    updateStudentDetail: builder.mutation<any, any>({
+        query: ({ id, body }) => ({
+            url: `${PREFIX}/student/edit-profile/${id}`,
+            method: 'PATCH',
+            body,
+        }),
+        invalidatesTags: ['SubAdminStudents'],
+    }),
+    changeStudentStatus: builder.mutation<
+        Student,
+        { id: number; status: UserStatus }
+    >({
+        query: ({ id, status }) => {
+            return {
+                url: `${PREFIX}/students/status`,
+                method: 'PATCH',
+                params: { id },
+                body: { status },
+            }
+        },
+        invalidatesTags: ['Students'],
     }),
 
     // updateSubAdminRtoStudentStatus: builder.mutation<any, any | null>({

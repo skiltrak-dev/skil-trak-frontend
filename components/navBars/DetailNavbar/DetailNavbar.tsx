@@ -89,6 +89,7 @@ export const DetailNavbar = () => {
 
                         <ProfileOptionsDropDown
                             expanded={profileOptionsExpanded}
+                            setExpanded={setProfileOptionsExpanded}
                         />
                     </div>
                 </OutsideClickHandler>

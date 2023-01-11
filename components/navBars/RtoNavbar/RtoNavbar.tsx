@@ -101,7 +101,7 @@ export const RtoNavbar = () => {
                 </Link>
             </li>
 
-            <li>
+            {/* <li>
                 <Link href="/portals/rto/notifications">
                     <a
                         className={`${router.pathname == '/portals/rto/notifications'
@@ -118,7 +118,7 @@ export const RtoNavbar = () => {
                         </span>
                     </a>
                 </Link>
-            </li>
+            </li> */}
             <li>
                 <Link href="/portals/rto/coordinators">
                     <a

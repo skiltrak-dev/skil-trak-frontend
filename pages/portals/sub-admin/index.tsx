@@ -130,6 +130,7 @@ const SubAdminDashboard: NextPageWithLayout = () => {
     const [credentials, setCredentials] = useState<any>(null)
 
     const { data, isSuccess, isLoading } = SubAdminApi.SubAdmin.useProfile()
+    const statistics = SubAdminApi.Count.statistics()
     const sectorsWithCourses = getSectors(data?.courses)
 
     const router = useRouter()
@@ -462,19 +463,19 @@ const SubAdminDashboard: NextPageWithLayout = () => {
                 <div className="flex gap-x-4">
                     <FigureCard
                         imageUrl="/images/icons/rto.png"
-                        count={data?.rtos?.length}
+                        count={statistics?.data?.rto}
                         title={'RTOs'}
                         link={'sub-admin/users/rtos'}
                     />
                     <FigureCard
                         imageUrl="/images/icons/students.png"
-                        count={0}
+                        count={statistics?.data?.student}
                         title={'Students'}
                         link={'sub-admin/users/students?tab=all'}
                     />
                     <FigureCard
                         imageUrl="/images/icons/industry.png"
-                        count={0}
+                        count={statistics?.data?.industry}
                         title={'Industries'}
                         link={'sub-admin/users/industries?tab=all'}
                     />
@@ -482,19 +483,19 @@ const SubAdminDashboard: NextPageWithLayout = () => {
                 <div className="flex gap-x-4">
                     <FigureCard
                         imageUrl="/images/icons/workplace.png"
-                        count={0}
+                        count={statistics?.data?.workplaceRequest}
                         title={'Workplace Requests'}
                         link={'sub-admin/tasks/workplace?tab=all'}
                     />
                     <FigureCard
                         imageUrl="/images/icons/pending-student.png"
-                        count={0}
+                        count={statistics?.data?.assessmentEvidence}
                         title={'Assessment Submissions'}
                         link={'sub-admin/tasks/appointments'}
                     />
                     <FigureCard
                         imageUrl="/images/icons/appointments.png"
-                        count={0}
+                        count={statistics?.data?.appointment}
                         title={'Appointments'}
                         link={'sub-admin/tasks/appointments'}
                     />

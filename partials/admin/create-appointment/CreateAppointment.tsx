@@ -19,6 +19,7 @@ import {
     useSearchUserByIdQuery,
     useSubAdminCreateAppointmentMutation,
     useUserAvailabilitiesQuery,
+    CommonApi,
 } from '@queries'
 import { getUserCredentials } from '@utils'
 import { useRouter } from 'next/router'
@@ -90,7 +91,7 @@ export const CreateAppointmentContainer = () => {
         null
     )
     const [createAppointment, createAppointmentResult] =
-        useSubAdminCreateAppointmentMutation()
+        CommonApi.Appointments.createAppointment()
 
     useEffect(() => {
         setAppointmentWith(

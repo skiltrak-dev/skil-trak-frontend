@@ -27,10 +27,9 @@ const BookAppointment: NextPageWithLayout = (props: Props) => {
     const router = useRouter()
 
     const [type, setType] = useState<number | null>(null)
-    const [selectedCoordinator, setSelectedCoordinator] = useState<{
-        label: string
-        value: number
-    } | null>(null)
+    const [selectedCoordinator, setSelectedCoordinator] = useState<
+        number | null
+    >(null)
     const [coordinatorsOptions, setCoordinatorsOptions] = useState<any | null>(
         []
     )
@@ -39,25 +38,25 @@ const BookAppointment: NextPageWithLayout = (props: Props) => {
 
     // query
     const coordinatorAvailability = useGetCoordinatorsAvailabilityQuery(
-        Number(selectedCoordinator?.value),
+        Number(selectedCoordinator),
         { skip: !selectedCoordinator }
     )
     const timeSlots = CommonApi.Appointments.useAppointmentsAvailableSlots(
         {
             id: type,
             date: selectedDate?.toISOString(),
-            byUser: selectedCoordinator?.value,
+            byUser: selectedCoordinator,
         },
         { skip: !type || !selectedDate || !selectedCoordinator }
     )
 
     const [createAppointment, createAppointmentResult] =
-        useCreateIndustryAppointmentMutation()
+        CommonApi.Appointments.createAppointment()
 
     // hooks
     const { notification } = useNotification()
 
-    const coordinators = useGetCoordinatorsForStudentQuery()
+    const coordinators = CommonApi.Appointments.allCoordinators()
 
     useEffect(() => {
         setSelectedCoordinator(null)
@@ -89,11 +88,9 @@ const BookAppointment: NextPageWithLayout = (props: Props) => {
         date?.setDate(date.getDate() + 1)
         createAppointment({
             ...values,
+            ...selectedDate,
             type,
             date,
-            time,
-            coordinator: values.coordinator.value,
-            // appointmentFor: 4,
         })
     }
 
@@ -103,7 +100,7 @@ const BookAppointment: NextPageWithLayout = (props: Props) => {
                 <form onSubmit={formMethods.handleSubmit(onSubmit)}>
                     <AppointmentType setAppointmentTypeId={setType} />
                     <Select
-                        name="coordinator"
+                        name="appointmentFor"
                         label="WBT Coordinator"
                         placeholder="Select Your Choice"
                         options={coordinatorsOptions}
@@ -115,6 +112,7 @@ const BookAppointment: NextPageWithLayout = (props: Props) => {
                             setSelectedCoordinator(e)
                         }}
                         value={selectedCoordinator}
+                        onlyValue
                     />
                     <TimeSlots
                         setSelectedDate={setSelectedDate}
