@@ -22,7 +22,18 @@ export const studentProfileApi = createApi({
             query: () => 'profile',
             providesTags: ['StudentProfile'],
         }),
+        updateStudentProfile: builder.mutation<any, any>({
+            query: (body) => ({
+                url: 'profile/update',
+                method: 'PATCH',
+                body,
+            }),
+            invalidatesTags: ['StudentProfile'],
+        }),
     }),
 })
 
-export const { useGetStudentProfileDetailQuery } = studentProfileApi
+export const {
+    useGetStudentProfileDetailQuery,
+    useUpdateStudentProfileMutation,
+} = studentProfileApi

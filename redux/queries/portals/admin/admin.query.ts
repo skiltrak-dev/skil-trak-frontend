@@ -14,6 +14,7 @@ import { appointmentTypeEndpoints } from './appointment-type'
 import { jobEndpoints } from './job'
 import { workplaceEndpoints } from './workplace'
 import { messagesEndpoints } from './messages'
+import { profileEndpoints } from './profile'
 import { AdminStats } from '@types'
 
 export const adminApi = createApi({
@@ -65,12 +66,15 @@ export const adminApi = createApi({
         ...jobEndpoints(build),
         ...workplaceEndpoints(build),
         ...messagesEndpoints(build),
+        ...profileEndpoints(build),
     }),
 })
 
 const {
     // ------ ADMIN ------ //
     useStatisticsQuery,
+    useGetProfileQuery,
+    useUpdateAdminProfileMutation,
 
     // ------ RTO ------ //
     useRtoCountQuery,
@@ -190,6 +194,8 @@ const {
 export const AdminApi = {
     Admin: {
         useCount: useStatisticsQuery,
+        useProfile: useGetProfileQuery,
+        useUpdateProfile: useUpdateAdminProfileMutation,
     },
     Rtos: {
         useCountQuery: useRtoCountQuery,

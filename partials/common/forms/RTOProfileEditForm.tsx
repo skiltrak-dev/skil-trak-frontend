@@ -1,26 +1,22 @@
-import { ReactElement, useEffect } from 'react'
-
-import { StudentLayout } from '@layouts'
-import { NextPageWithLayout } from '@types'
+import { useEffect } from 'react'
 
 import * as yup from 'yup'
 
-import { getDate, onlyAlphabets } from '@utils'
+import { onlyAlphabets } from '@utils'
 
-import { Button, Card, TextInput, Typography } from '@components'
+import { Button, TextInput, Typography, Card } from '@components'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { FormProvider, useForm } from 'react-hook-form'
 
-// query
-import {
-    useGetStudentProfileDetailQuery,
-    useUpdateStudentProfileMutation,
-} from '@queries'
-
-const MyProfile: NextPageWithLayout = () => {
-    const profile = useGetStudentProfileDetailQuery()
-    const [updateProfile, updateProfileResult] =
-        useUpdateStudentProfileMutation()
+export const RTOProfileEditForm = ({
+    onSubmit,
+    profile,
+    result,
+}: {
+    onSubmit: any
+    profile: any
+    result: any
+}) => {
     const validationSchema = yup.object({
         // Profile Information
         name: yup
@@ -33,15 +29,15 @@ const MyProfile: NextPageWithLayout = () => {
             .email('Invalid Email')
             .required('Must provide email'),
 
-        dob: yup.date().required('Must provide Date of Birth'),
-
+        // Business Information
         phone: yup.string().required('Must provide phone number'),
 
         // Contact Person Information
-        emergencyPerson: yup
+        contactPersonName: yup
             .string()
             .matches(onlyAlphabets(), 'Must be a valid name'),
-        emergencyPersonPhone: yup.string(),
+        contactPersonEmail: yup.string().email('Must be a valid email'),
+        contactPersonNumber: yup.string(),
 
         // Address Information
         addressLine1: yup.string().required('Must provide address'),
@@ -59,28 +55,26 @@ const MyProfile: NextPageWithLayout = () => {
         if (profile?.data && profile.isSuccess) {
             const {
                 courses,
-                result,
-                rto,
-                savedJobs,
+                package: RtoPackage,
+                students,
+                subadmin,
                 user,
-                workplace,
+
+                id,
                 updatedAt,
                 createdAt,
                 ...rest
             } = profile?.data
+            const { id: userId, socketId, ...userRest } = user
             const values = {
                 ...rest,
-                ...user,
+                ...userRest,
             }
             for (const key in values) {
                 formMethods.setValue(key, values[key])
             }
         }
     }, [profile])
-
-    const onSubmit = (values: any) => {
-        updateProfile(values)
-    }
 
     return (
         <Card>
@@ -96,7 +90,7 @@ const MyProfile: NextPageWithLayout = () => {
                                 variant={'subtitle'}
                                 color={'text-gray-500'}
                             >
-                                Student Information
+                                RTO Information
                             </Typography>
                             <p className="text-gray-400 text-sm leading-6">
                                 Your information is required to make things
@@ -108,54 +102,24 @@ const MyProfile: NextPageWithLayout = () => {
                             <TextInput
                                 label={'Name'}
                                 name={'name'}
-                                placeholder={'Student Name...'}
+                                placeholder={'RTO Name...'}
                                 validationIcons
                                 required
                             />
 
                             <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-8">
                                 <TextInput
+                                    label={'Code'}
+                                    name={'rtoCode'}
+                                    placeholder={'Code...'}
+                                    validationIcons
+                                    required
+                                />
+
+                                <TextInput
                                     label={'Phone Number'}
                                     name={'phone'}
                                     placeholder={'Your phone number...'}
-                                    validationIcons
-                                    required
-                                />
-                                <TextInput
-                                    label={'Family Name'}
-                                    name={'familyName'}
-                                    placeholder={'Family Name...'}
-                                    validationIcons
-                                    required
-                                />
-                                <TextInput
-                                    label={'Student ID'}
-                                    name={'studentId'}
-                                    placeholder={'Student ID...'}
-                                    validationIcons
-                                    required
-                                    disabled
-                                />
-                                <TextInput
-                                    label={'Date of Birth'}
-                                    name={'dob'}
-                                    type="date"
-                                    max={getDate()}
-                                    placeholder={'Date of Birth...'}
-                                    validationIcons
-                                    required
-                                />
-                                <TextInput
-                                    label={'Emergency Person'}
-                                    name={'emergencyPerson'}
-                                    placeholder={'Emergency Person...'}
-                                    validationIcons
-                                    required
-                                />
-                                <TextInput
-                                    label={'Emergency Person Phone'}
-                                    name={'emergencyPersonPhone'}
-                                    placeholder={'emergencyPersonPhone...'}
                                     validationIcons
                                     required
                                 />
@@ -243,10 +207,10 @@ const MyProfile: NextPageWithLayout = () => {
 
                     <div className="w-4/6 ml-auto pl-12">
                         <Button
-                            text={'Update'}
                             submit
-                            loading={updateProfileResult.isLoading}
-                            disabled={updateProfileResult.isLoading}
+                            text={'Continue'}
+                            loading={result.isLoading}
+                            disabled={result.isLoading}
                         />
                     </div>
                 </form>
@@ -254,13 +218,3 @@ const MyProfile: NextPageWithLayout = () => {
         </Card>
     )
 }
-
-MyProfile.getLayout = (page: ReactElement) => {
-    return (
-        <StudentLayout pageTitle={{ title: 'My Profile' }}>
-            {page}
-        </StudentLayout>
-    )
-}
-
-export default MyProfile

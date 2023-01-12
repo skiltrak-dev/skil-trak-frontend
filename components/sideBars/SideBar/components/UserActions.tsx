@@ -27,8 +27,11 @@ export const UserActions = () => {
     const ProfileOptions = [
         {
             text: 'My Profile',
-            link: '/my-profile',
+            link: '/portals/admin/my-profile',
             Icon: CgProfile,
+            onClick: () => {
+                setShowOptions(false)
+            },
         },
         {
             text: 'Log Out',

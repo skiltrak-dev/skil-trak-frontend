@@ -49,6 +49,7 @@ export const subAdminApi = createApi({
 export const {
     // ------ SELF ------ //
     useProfileQuery,
+    useUpdateSubAdminProfileMutation,
 
     // ------ NOTES ------ //
     useNotesQuery,
@@ -112,6 +113,7 @@ export const SubAdminApi = {
     },
     SubAdmin: {
         useProfile: useProfileQuery,
+        useUpdateProfile: useUpdateSubAdminProfileMutation,
     },
     Notes: {
         useList: useNotesQuery,

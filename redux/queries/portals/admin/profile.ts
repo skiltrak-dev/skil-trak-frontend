@@ -1,20 +1,20 @@
 import { BaseQueryFn } from '@reduxjs/toolkit/dist/query/baseQueryTypes'
 import { EndpointBuilder } from '@reduxjs/toolkit/dist/query/endpointDefinitions'
 
-const PREFIX = 'rtos/'
+const PREFIX = 'admin'
 export const profileEndpoints = (
     builder: EndpointBuilder<BaseQueryFn, string, string>
 ) => ({
-    getRTOProfileDetail: builder.query({
-        query: () => `rtos/profile/view`,
-        providesTags: ['RTO'],
+    getProfile: builder.query<any, void>({
+        query: () => `${PREFIX}/profile/get`,
+        providesTags: ['StudentProfile'],
     }),
-    updateRTOProfile: builder.mutation<any, any>({
+    updateAdminProfile: builder.mutation<any, any>({
         query: (body) => ({
-            url: 'rtos/profile/update',
+            url: `${PREFIX}/profile/update`,
             method: 'PATCH',
             body,
         }),
-        invalidatesTags: ['RTO'],
+        invalidatesTags: ['StudentProfile'],
     }),
 })

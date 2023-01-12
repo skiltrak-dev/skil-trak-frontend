@@ -21,6 +21,7 @@ export * from './ProgressStep'
 export * from './Timeline'
 export * from './Socket'
 export * from './Responsive'
+export * from './Avatar'
 
 // export * from './Pagination'
 export * from './PopUp'

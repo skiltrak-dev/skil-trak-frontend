@@ -42,6 +42,7 @@ const {
     // ------ SELF ------ //
     useProfileQuery,
     useDashboardQuery,
+    useUpdateRTOProfileMutation,
 
     // ------ Contact Persons ------ //
     useContactPersonsQuery,
@@ -62,6 +63,7 @@ export const RtoApi = {
         useProfile: useProfileQuery,
         useContactPersons: useContactPersonsQuery,
         useDashboard: useDashboardQuery,
+        useUpdateProfile: useUpdateRTOProfileMutation,
         useAddContactPerson: useAddContactPersonMutation,
         useRemoveContactPerson: useRemoveContactPersonMutation,
         useUpdateContactPerson: useUpdateContactPersonMutation,

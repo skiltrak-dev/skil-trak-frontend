@@ -35,6 +35,14 @@ export const industriesApi = createApi({
             query: () => 'profile/get',
             providesTags: ['Industries'],
         }),
+        updateIndustryProfile: builder.mutation<any, any>({
+            query: (body) => ({
+                url: 'profile/update',
+                method: 'PATCH',
+                body,
+            }),
+            invalidatesTags: ['Industries'],
+        }),
         getArchivedIndustries: builder.query({
             query: (params) => {
                 return {
@@ -102,6 +110,7 @@ export const {
     useGetActiveIndustriesQuery,
     useGetArchivedIndustriesQuery,
     useGetIndustryDetailQuery,
+    useUpdateIndustryProfileMutation,
     useGetPendingIndustriesQuery,
     useGetRejectedIndustriesQuery,
     useGetBlockedIndustriesQuery,

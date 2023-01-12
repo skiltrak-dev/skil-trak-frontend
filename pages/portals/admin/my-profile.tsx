@@ -1,10 +1,127 @@
-import { ReactElement } from 'react'
+import { ReactElement, useEffect } from 'react'
 
 import { AdminLayout } from '@layouts'
 import { NextPageWithLayout } from '@types'
 
+import * as yup from 'yup'
+
+import { getDate, onlyAlphabets } from '@utils'
+
+import {
+    ActionButton,
+    Button,
+    Card,
+    TextInput,
+    Typography,
+    Avatar,
+} from '@components'
+import { yupResolver } from '@hookform/resolvers/yup'
+import { FormProvider, useForm } from 'react-hook-form'
+
+// hooks
+import { useContextBar, useNotification } from '@hooks'
+
+// query
+import { AdminApi } from '@queries'
+
 const MyProfile: NextPageWithLayout = () => {
-    return <p>Saad</p>
+    const contextBar = useContextBar()
+    const { notification } = useNotification()
+
+    const profile = AdminApi.Admin.useProfile()
+    const [updateProfile, updateProfileResult] =
+        AdminApi.Admin.useUpdateProfile()
+
+    useEffect(() => {
+        contextBar.setContent(null)
+        contextBar.hide()
+    }, [])
+
+    useEffect(() => {
+        if (updateProfileResult.isSuccess) {
+            notification.success({
+                title: 'Profile Updated',
+                description: 'Profile Updated Successfully',
+            })
+        }
+    }, [updateProfileResult])
+
+    const validationSchema = yup.object({
+        // Profile Information
+        name: yup
+            .string()
+            .matches(onlyAlphabets(), 'Please enter valid name')
+            .required('Must provide your name'),
+
+        email: yup
+            .string()
+            .email('Invalid Email')
+            .required('Must provide email'),
+    })
+
+    const formMethods = useForm({
+        mode: 'all',
+        resolver: yupResolver(validationSchema),
+    })
+
+    useEffect(() => {
+        if (profile?.data && profile.isSuccess) {
+            const values = {
+                name: profile?.data?.name,
+                email: profile?.data?.email,
+            }
+            for (const key in values) {
+                formMethods.setValue(key, (values as any)[key])
+            }
+        }
+    }, [profile])
+
+    const onSubmit = (values: any) => {
+        updateProfile(values)
+    }
+    return (
+        <div className="p-4">
+            <Card>
+                <div className="flex justify-between gap-x-16 border-t py-4">
+                    <FormProvider {...formMethods}>
+                        <form
+                            className="w-4/6"
+                            onSubmit={formMethods.handleSubmit(onSubmit)}
+                        >
+                            {/* Personal Information */}
+                            <TextInput
+                                label={'Name'}
+                                name={'name'}
+                                placeholder={'Student Name...'}
+                                validationIcons
+                                required
+                            />
+
+                            <TextInput
+                                label={'Email'}
+                                name={'email'}
+                                type={'email'}
+                                placeholder={'Your Email...'}
+                                validationIcons
+                                required
+                                disabled
+                            />
+
+                            <div>
+                                <Button
+                                    text={'Update'}
+                                    submit
+                                    loading={updateProfileResult.isLoading}
+                                    disabled={updateProfileResult.isLoading}
+                                />
+                            </div>
+                        </form>
+                    </FormProvider>
+                    <Avatar />
+                </div>
+            </Card>
+        </div>
+    )
 }
 
 MyProfile.getLayout = (page: ReactElement) => {
