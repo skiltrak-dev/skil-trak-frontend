@@ -3,10 +3,11 @@ import React, { useEffect, useState } from 'react'
 // components
 import { ActionButton } from '@components'
 
-// components
-import { Typography } from 'components'
+// query
+import { CommonApi } from '@queries'
+
+// hooks
 import { useNotification } from '@hooks'
-import { ellipsisText } from '@utils'
 
 export const AvatarCard = ({
     name,
@@ -15,14 +16,34 @@ export const AvatarCard = ({
     uploadedDocs,
     requiredDoc,
     result,
+    avatar,
 }: any) => {
     const [file, setfile] = useState<any | null>(null)
+    const [avatarImage, setAvatarImage] = useState(avatar)
+
+    useEffect(() => {
+        setAvatarImage(avatar)
+    }, [avatar])
+
+    const { notification } = useNotification()
+
+    // query
+    const [removeProfile, removeProfileResult] =
+        CommonApi.Avatar.useRemoveProfile()
 
     useEffect(() => {
         if (result.isError) {
             setfile(null)
         }
-    }, [result])
+        if (removeProfileResult.isSuccess) {
+            setAvatarImage(null)
+            setfile(null)
+            notification.error({
+                title: 'Profile Removed',
+                description: 'Profile Removed Successfully',
+            })
+        }
+    }, [result, removeProfileResult])
 
     const handleChange = (event: any) => {
         // Getting file Data
@@ -31,14 +52,19 @@ export const AvatarCard = ({
         fileData && onChange && onChange(fileData)
     }
 
-    console.log('filefilefile', file)
+    const onRemove = () => {
+        removeProfile()
+    }
 
-    const isNotUploadedDocs = uploadedDocs < capacity
+    console.log('file   avatarImage', file, avatarImage)
+
     return (
         <div className="w-48">
             <img
-                className="w-full h-48 rounded-md border object-cover"
-                src={file || 'https://picsum.photos/200/200'}
+                className={`w-full h-48 rounded-full border object-cover transition-all ${
+                    result.isLoading ? 'opacity-50' : ''
+                }`}
+                src={file || avatarImage || '/images/avatar.png'}
                 alt=""
             />
             <div className="mt-2 flex justify-between items-center">
@@ -56,7 +82,13 @@ export const AvatarCard = ({
                         Change
                     </label>
                 </ActionButton>
-                <ActionButton variant={'error'} simple>
+                <ActionButton
+                    variant={'error'}
+                    simple
+                    onClick={onRemove}
+                    loading={removeProfileResult.isLoading}
+                    disabled={removeProfileResult.isLoading}
+                >
                     Remove
                 </ActionButton>
             </div>

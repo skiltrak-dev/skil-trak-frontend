@@ -30,6 +30,7 @@ export const adminApi = createApi({
         },
     }),
     tagTypes: [
+        'Profile',
         'RTOS',
         'Students',
         'Subscribers',

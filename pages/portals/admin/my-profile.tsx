@@ -117,7 +117,7 @@ const MyProfile: NextPageWithLayout = () => {
                             </div>
                         </form>
                     </FormProvider>
-                    <Avatar />
+                    <Avatar avatar={profile?.data?.avatar} />
                 </div>
             </Card>
         </div>

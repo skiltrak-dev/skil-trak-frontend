@@ -3,7 +3,13 @@ const nextConfig = {
     // reactStrictMode: true,
     swcMinify: true,
     images: {
-        domains: ['images.unsplash.com', 'loremflickr.com', 'picsum.photos', 'placeimg.com'],
+        domains: [
+            'images.unsplash.com',
+            'loremflickr.com',
+            'picsum.photos',
+            'placeimg.com',
+            'skiltrak-dev.s3.amazonaws.com',
+        ],
     },
 }
 

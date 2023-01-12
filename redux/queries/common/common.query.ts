@@ -60,6 +60,7 @@ const {
 
     // ----- AVATAR ----- //
     useChangeProfileMutation,
+    useRemoveProfileMutation,
 
     // ------ NOTES ------ //
     useNotesQuery,
@@ -86,6 +87,7 @@ const {
 export const CommonApi = {
     Avatar: {
         useChangeProfile: useChangeProfileMutation,
+        useRemoveProfile: useRemoveProfileMutation,
     },
     Filter: {
         useIndustries: useGetAllIndustriesQuery,

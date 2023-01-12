@@ -186,7 +186,7 @@ export const Table = <Type,>({
               )
             : null,
         table: (
-            <table className="w-full overflow-x-scroll">
+            <table className="w-full">
                 <thead>
                     {table.getHeaderGroups().map((headerGroup) => (
                         <tr key={headerGroup.id}>
