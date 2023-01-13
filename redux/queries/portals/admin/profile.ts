@@ -7,7 +7,7 @@ export const profileEndpoints = (
 ) => ({
     getProfile: builder.query<any, void>({
         query: () => `${PREFIX}/profile/get`,
-        providesTags: ['StudentProfile'],
+        providesTags: ['Profile'],
     }),
     updateAdminProfile: builder.mutation<any, any>({
         query: (body) => ({
@@ -15,6 +15,6 @@ export const profileEndpoints = (
             method: 'PATCH',
             body,
         }),
-        invalidatesTags: ['StudentProfile'],
+        invalidatesTags: ['Profile'],
     }),
 })

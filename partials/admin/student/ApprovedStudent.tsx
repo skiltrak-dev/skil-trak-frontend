@@ -189,7 +189,7 @@ export const ApprovedStudent = () => {
                             columns={columns}
                             data={data.data}
                             quickActions={quickActionsElements}
-                            // enableRowSelection
+                            enableRowSelection
                         >
                             {({
                                 table,
@@ -212,7 +212,7 @@ export const ApprovedStudent = () => {
                                                 )}
                                             </div>
                                         </div>
-                                        <div className="w-full overflow-hidden overflow-x-scroll ">
+                                        <div className="w-full">
                                             <div className="px-6 w-full">
                                                 {table}
                                             </div>

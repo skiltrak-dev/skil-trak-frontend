@@ -8,7 +8,7 @@ import { AvatarCard } from './AvatarCard'
 import { CommonApi } from '@queries'
 import { useNotification } from '@hooks'
 
-export const Avatar = () => {
+export const Avatar = ({ avatar }: { avatar: string }) => {
     const { notification } = useNotification()
     const [changeProfileImage, changeProfileImageResult] =
         CommonApi.Avatar.useChangeProfile()
@@ -31,6 +31,7 @@ export const Avatar = () => {
         <>
             <ShowErrorNotifications result={changeProfileImageResult} />
             <AvatarCard
+                avatar={avatar}
                 onChange={(e: any) => onChange(e)}
                 result={changeProfileImageResult}
             />

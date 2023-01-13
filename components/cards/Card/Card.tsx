@@ -28,5 +28,9 @@ export const Card = ({
         'p-0': noPadding,
         'p-4': !noPadding,
     })
-    return <div className={`${classes} ${shadowColor}`}>{children}</div>
+    return (
+        <div className={`${classes} ${shadowColor}`}>
+            {children}
+        </div>
+    )
 }

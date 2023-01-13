@@ -30,7 +30,7 @@ export const TaskPrimaryActions = [
         animation: Animations.Industry.MyTasks.Scheduling,
     },
     {
-        link: 'tasks/add-a-schedule',
+        link: 'tasks/available-shifts',
         title: 'Available Shifts',
         description: 'Some helping text',
         // image: null, //"./images/dashboardbtn.png",

@@ -3,6 +3,7 @@ import { configureStore } from '@reduxjs/toolkit'
 import { setupListeners } from '@reduxjs/toolkit/query'
 
 import {
+    availableShiftsApi,
     authApi,
     commonApi,
     rtoCoursesApi,
@@ -45,13 +46,13 @@ import {
     subAdminApi,
     industriesApi,
     rplApi,
-    
 } from '@queries'
 
 export const store = configureStore({
     reducer: {
         // Add the generated reducer as a specific top-level slice
         [authApi.reducerPath]: authApi.reducer,
+        [availableShiftsApi.reducerPath]: availableShiftsApi.reducer,
         [commonApi.reducerPath]: commonApi.reducer,
         [rtoCoursesApi.reducerPath]: rtoCoursesApi.reducer,
         [rtoCoordinatorsApi.reducerPath]: rtoCoordinatorsApi.reducer,
@@ -95,16 +96,15 @@ export const store = configureStore({
         [rtoApi.reducerPath]: rtoApi.reducer,
         [subAdminApi.reducerPath]: subAdminApi.reducer,
 
-
         [industriesApi.reducerPath]: industriesApi.reducer,
         [rplApi.reducerPath]: rplApi.reducer,
-
     },
     // Adding the api middleware enables caching, invalidation, polling,
     // and other useful features of `rtk-query`.
     middleware: (getDefaultMiddleware) =>
         getDefaultMiddleware().concat([
             authApi.middleware,
+            availableShiftsApi.middleware,
             commonApi.middleware,
             rtoCoursesApi.middleware,
             rtoCoordinatorsApi.middleware,
