@@ -68,7 +68,7 @@ export const RtoProfileSidebar = ({ data }: any) => {
                                 className="rounded-full shadow-inner-image"
                             /> */}
                             <div
-                                className="w-24 h-24 bg-cover bg-center bg-no-repeat rounded-full shadow-inner-image"
+                                className="w-24 h-24 bg-cover bg-center bg-no-repeat rounded-full"
                                 style={{
                                     backgroundImage: `url(${data?.user.avatar})`,
                                 }}
@@ -82,11 +82,7 @@ export const RtoProfileSidebar = ({ data }: any) => {
                         </div>
                     )}
                     <div
-                        className={`${
-                            data?.user.avatar
-                                ? 'w-[100px] h-[100px]'
-                                : 'w-24 h-24'
-                        } absolute top-0 left-0 bg-transparent rounded-full shadow-inner-image`}
+                        className={`'w-24 h-24' absolute top-0 left-0 bg-transparent rounded-full shadow-inner-image`}
                     ></div>
                 </div>
 
@@ -161,7 +157,7 @@ export const RtoProfileSidebar = ({ data }: any) => {
                 </div>
             </div>
             {/* contact person row 4 */}
-            <div className='mt-4'>
+            <div className="mt-4">
                 <Typography variant={'small'} color={'text-gray-500'}>
                     Contact Person
                 </Typography>
