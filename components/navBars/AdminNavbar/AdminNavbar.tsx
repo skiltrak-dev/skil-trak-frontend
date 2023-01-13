@@ -45,7 +45,7 @@ export const AdminNavbar = () => {
 
     // bg-[#F9FAFB]
     return (
-        <div className="w-full transition-all  z-30 py-1 px-6 pt-2  flex justify-between items-center">
+        <div className="w-full transition-all  z-30 py-2 px-6  flex justify-between items-center">
             <div>
                 <Typography variant={'h4'} capitalize>
                     {navbar.title || 'Dashboard'}

@@ -94,7 +94,10 @@ const RtoDetail: NextPageWithLayout = () => {
                 <div className="p-6 mb-32 flex flex-col gap-y-6">
                     {/* Action Bar */}
                     <div className="flex items-center justify-between">
-                        <BackButton text="RTOs" />
+                        <BackButton
+                            text="RTOs"
+                            link="/portals/admin/rto?tab=approved"
+                        />
                         <div className="flex gap-x-2">
                             {/* <Button
                 onClick={() => {
