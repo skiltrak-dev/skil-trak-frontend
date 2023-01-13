@@ -152,24 +152,6 @@ export const MyWorkplace = ({ myWorkplace }: Props) => {
                                     </div>
                                 </div>
                             </div>
-                            <div className="flex justify-between mt-1 border-t pt-2">
-                                <div className="flex items-center gap-x-1">
-                                    <span className="text-gray-400">
-                                        <MdPermContactCalendar size={14} />
-                                    </span>
-                                    <span className="text-xs">
-                                        {data?.user?.name || 'Name here'}{' '}
-                                    </span>
-                                </div>
-                                <div className="flex items-center gap-x-1">
-                                    <span className="text-gray-400">
-                                        <MdPhone size={14} />
-                                    </span>
-                                    <span className="text-xs">
-                                        {data?.phone || 'phone number'}
-                                    </span>
-                                </div>
-                            </div>
                         </div>
                     </div>
                 ))

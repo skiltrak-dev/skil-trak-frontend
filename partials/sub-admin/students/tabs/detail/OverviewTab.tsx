@@ -16,11 +16,11 @@ export const OverViewTab = ({ student }: StudentsProfileOverviewProps) => {
     return (
         <div className="w-full mt-6">
             {/* pinned Notes */}
-            <PinnedNotes id={student?.user?.id} />
+            {/* <PinnedNotes id={student?.user?.id} /> */}
 
             {/* Progress */}
             {student?.workplace?.length > 0 && (
-                <div className="my-4">
+                <div className="my-4 max-w-[768px] overflow-hidden overflow-x-auto">
                     <ProgressStep
                         status={student?.workplace[0]?.currentStatus}
                     />

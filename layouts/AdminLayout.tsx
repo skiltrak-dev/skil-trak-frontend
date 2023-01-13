@@ -118,7 +118,9 @@ export const AdminLayout = ({ children }: any) => {
         <div className="flex w-full h-screen overflow-hidden bg-[#F9FAFB]">
             <SideBar portalType={'admin'} routes={routes} />
             <div className="flex-grow flex flex-col justify-between">
-                <AdminNavbar />
+                <div className='border-b bg-white'>
+                    <AdminNavbar />
+                </div>
                 <div className="flex h-full">
                     <div
                         className={`h-full overflow-scroll remove-scrollbar w-full relative`}

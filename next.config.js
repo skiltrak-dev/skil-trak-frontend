@@ -10,6 +10,7 @@ const nextConfig = {
             'placeimg.com',
             'skiltrak-dev.s3.amazonaws.com',
             'skiltrak.com.au',
+            'www.skiltrak.com.au',
         ],
     },
 }
