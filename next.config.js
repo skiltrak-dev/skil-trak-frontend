@@ -9,6 +9,7 @@ const nextConfig = {
             'picsum.photos',
             'placeimg.com',
             'skiltrak-dev.s3.amazonaws.com',
+            'skiltrak.com.au',
         ],
     },
 }

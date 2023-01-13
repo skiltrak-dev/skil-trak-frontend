@@ -42,10 +42,10 @@ const Detail: NextPageWithLayout = () => {
     const industry = AdminApi.Industries.useDetail(Number(router.query.id), {
         skip: !router.query?.id,
     })
+    
     useEffect(() => {
         navBar.setSubTitle(industry.data?.user?.name)
     }, [industry.data])
-
     useEffect(() => {
         if (industry.isSuccess) {
             contextBar.setContent(<IndustryProfile data={industry.data} />)

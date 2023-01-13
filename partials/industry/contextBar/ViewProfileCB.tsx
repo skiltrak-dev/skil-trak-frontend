@@ -1,9 +1,6 @@
 import Image from 'next/image'
 import {
-    FaAddressCard,
-    FaBirthdayCake,
-    FaUserCircle,
-    FaUserGraduate,
+    FaAddressCard, FaRegHandshake,
 } from 'react-icons/fa'
 import { IoLocation } from 'react-icons/io5'
 import {
@@ -13,14 +10,47 @@ import {
     MdGroups,
     MdVerified,
     MdAdminPanelSettings,
+    MdBlock,
 } from 'react-icons/md'
-import {  useIndustryProfileQuery } from '@queries'
+import { useIndustryProfileQuery } from '@queries'
 import moment from 'moment'
+import { LoadingAnimation, NoData, Typography } from '@components'
+import { Course } from '@types'
+import { BiRename } from 'react-icons/bi'
+import { FcCollaboration } from 'react-icons/fc'
+import { AiFillEdit, AiOutlineNumber } from 'react-icons/ai'
+import { GiBackwardTime } from 'react-icons/gi'
 export const ViewProfileCB = () => {
     const { data, isSuccess, isLoading } = useIndustryProfileQuery()
-    console.log("industry profile", data)
-    return (
+
+    const getSectors = (courses: any) => {
+        if (!courses) return {}
+        const sectors = {}
+        courses.forEach((c: any) => {
+            if ((sectors as any)[c.sector.name]) {
+                ; (sectors as any)[c.sector.name].push(c)
+            } else {
+                ; (sectors as any)[c.sector.name] = []
+                    ; (sectors as any)[c.sector.name].push(c)
+            }
+        })
+        return sectors
+    }
+    const sectorsWithCourses = getSectors(data?.courses)
+    return isLoading ? (
+        <LoadingAnimation />
+    ) : (
         <div>
+            {/* Edit and update button */}
+            <div className="flex justify-end gap-x-2">
+                <div className="bg-blue-100 rounded-full p-1">
+                    <AiFillEdit className="text-blue-400  cursor-pointer " />
+                </div>
+                {/* <div className="bg-red-100 rounded-full p-1">
+                    <MdBlock className="text-red-400  cursor-pointer bg-red-100 rounded-full" />
+                </div> */}
+            </div>
+            {/* Avatar, Name and Email */}
             <div className="flex flex-col items-center">
                 <div className="relative">
                     {data?.user.avatar ? (
@@ -39,17 +69,17 @@ export const ViewProfileCB = () => {
                     )}
                     <div
                         className={`${data?.user.avatar
-                                ? 'w-[100px] h-[100px]'
-                                : 'w-24 h-24'
+                            ? 'w-[100px] h-[100px]'
+                            : 'w-24 h-24'
                             } absolute top-0 w-[100px] h-[100px] bg-transparent rounded-full shadow-inner-image`}
                     ></div>
                 </div>
 
                 <div className="flex flex-col items-center">
-                    <p className="text-lg font-semibold">{data?.user?.name}</p>
+                    <p className="text-lg font-semibold">{data?.user?.name || "N/A"}</p>
                     <div className="flex items-center gap-x-2">
                         <p className="text-sm text-gray-400">
-                            {data?.user?.email}
+                            {data?.user?.email || "N/A"}
                         </p>
                         <span className="text-blue-500">
                             <MdVerified />
@@ -65,68 +95,58 @@ export const ViewProfileCB = () => {
                         <span className="text-gray-300">
                             <FaAddressCard />
                         </span>
-                        <p className="text-sm font-medium">
-                            {data?.coordinatorId}
-                        </p>
+                        <p className="text-sm font-medium">{data?.abn}</p>
                     </div>
                     <div className="text-gray-400 text-[11px] -mt-0.5 text-center">
-                        Coordinator ID
+                        ABN
                     </div>
                 </div>
-
-                {/* <div className="p-2">
-                    <div className="flex items-center space-x-2">
-                        <span className="text-gray-300">
-                            <MdBatchPrediction />
-                        </span>
-                        <p className="text-sm font-medium">April 22</p>
-                    </div>
-                    <div className="text-gray-400 text-[11px] -mt-0.5 text-center">
-                        Batch
-                    </div>
-                </div> */}
 
                 <div className="p-2">
                     <div className="flex items-center space-x-2">
                         <span className="text-gray-300">
                             <MdPhone />
                         </span>
-                        <p className="text-sm font-medium">{data?.phone}</p>
+                        <p className="text-sm font-medium">
+                            {data?.phoneNumber}
+                        </p>
                     </div>
                     <div className="text-gray-400 text-[11px] -mt-0.5 text-center">
                         Phone Number
                     </div>
                 </div>
+                <div className="p-2">
+                    <div className="flex items-center space-x-2">
+                        <span className="text-gray-300">
+                            <GiBackwardTime />
+                        </span>
+                        <p className="text-sm font-medium">N/A</p>
+                    </div>
+                    <div className="text-gray-400 text-[11px] -mt-0.5 text-center">
+                        Last Login
+                    </div>
+                </div>
+            </div>
+            {/* Is Partner */}
+            <Typography variant={'small'} color={'text-gray-500'}>
+                Partnership
+            </Typography>
+            <div className="flex justify-around divide-x border-t border-b">
+                <div className="p-2">
+                    <div className="flex items-center gap-x-2">
+                        <FaRegHandshake className="text-gray-400" />
+                        <Typography variant={'small'} color={'text-gray-400'}>
+                            Partner
+                        </Typography>
+                    </div>
+                    <div className='text-center'>
+                        <Typography variant={'small'} color={'text-black'}>
+                            {data?.isPartner === false ? "No" : 'Yes' || "N/A"}
+                        </Typography>
+                    </div>
+                </div>
             </div>
 
-            {/* Info Row 2 */}
-            {/* <div className="flex justify-around divide-x border-b">
-                <div className="p-2">
-                    <div className="flex items-center space-x-2">
-                        <span className="text-gray-300">
-                            <FaBirthdayCake />
-                        </span>
-                        <p className="text-sm font-medium">
-                            {moment(data?.dob).format('LL')}
-                        </p>
-                    </div>
-                    <div className="text-gray-400 text-[11px] -mt-0.5 text-center">
-                        Date Of Birth
-                    </div>
-                </div>
-
-                <div className="p-2">
-                    <div className="flex items-center space-x-2">
-                        <span className="text-gray-300">
-                            <FaUserCircle />
-                        </span>
-                        <p className="text-sm font-medium">Male</p>
-                    </div>
-                    <div className="text-gray-400 text-[11px] -mt-0.5 text-center">
-                        Gender
-                    </div>
-                </div>
-            </div> */}
 
             {/* Info Row 3 */}
             <div className="flex justify-around divide-x border-b">
@@ -136,15 +156,94 @@ export const ViewProfileCB = () => {
                             <IoLocation />
                         </span>
                         <p className="text-sm font-medium">
-                            {/* {data?.addressLine1}, {data?.addressLine2},{' '}
-                            {data?.state}, {data?.suburb} */}
-                            {data?.address}
+                            {data?.addressLine1}, {data?.addressLine2},{' '}
+                            {data?.state}, {data?.suburb}
                         </p>
                     </div>
                     <div className="text-gray-400 text-[11px] -mt-0.5 text-center">
                         Address
                     </div>
                 </div>
+            </div>
+            {/* contact person row 4 */}
+            <Typography variant={'small'} color={'text-gray-500'}>
+                Contact Person
+            </Typography>
+            <div className="flex justify-around divide-x border-t border-b">
+                <div className="p-2">
+                    <div className="flex items-center gap-x-2">
+                        <BiRename className="text-gray-400" />
+                        <Typography variant={'small'} color={'text-gray-400'}>
+                            Name
+                        </Typography>
+                    </div>
+                    <Typography variant={'small'} color={'text-black'}>
+                        {data?.contactPerson || 'N/A'}
+                    </Typography>
+                </div>
+                <div className="p-2">
+                    <div className="flex items-center gap-x-2">
+                        <MdPhone className="text-gray-400" />
+                        <Typography variant={'small'} color={'text-gray-400'}>
+                            Phone
+                        </Typography>
+                    </div>
+                    <Typography variant={'small'} color={'text-black'}>
+                        {data?.contactPersonNumber || 'N/A'}
+                    </Typography>
+                </div>
+            </div>
+
+            {/* Eligible Sectors */}
+            <div className="mt-4">
+                <Typography variant={'small'} color={'text-gray-500'}>
+                    Eligible Sectors
+                </Typography>
+
+                {sectorsWithCourses ? (
+                    Object.keys(sectorsWithCourses).map((sector) => {
+                        return (
+                            <>
+                                <Typography
+                                    variant={'label'}
+                                    color={'text-black'}
+                                >
+                                    {sector}
+                                </Typography>
+
+                                {(sectorsWithCourses as any)[sector]?.map(
+                                    (c: Course) => (
+                                        <div
+                                            key={c?.id}
+                                            className="flex gap-x-2 justify-start"
+                                        >
+                                            <div className="flex flex-col items-center">
+                                                <div className="bg-blue-400 p-2 rounded-full"></div>
+                                                <div className="bg-blue-400 w-[1px] h-full"></div>
+                                            </div>
+                                            <div className="pb-2">
+                                                <Typography
+                                                    variant={'small'}
+                                                    color={'text-gray-500'}
+                                                >
+                                                    {c?.code}
+                                                </Typography>
+                                                <Typography
+                                                    variant={'small'}
+                                                    color={'text-gray-800'}
+                                                >
+                                                    {c?.title}
+                                                </Typography>
+                                            </div>
+                                        </div>
+                                    )
+                                )}
+                            </>
+                        )
+                    })
+                ) : (
+                    <NoData text={'No Sectors Assigned'} />
+                )}
             </div>
         </div>
     )
