@@ -56,8 +56,6 @@ export const AvatarCard = ({
         removeProfile()
     }
 
-    console.log('file   avatarImage', file, avatarImage)
-
     return (
         <div className="w-48">
             <img

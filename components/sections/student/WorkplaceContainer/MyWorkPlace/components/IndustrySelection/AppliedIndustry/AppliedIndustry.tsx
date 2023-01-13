@@ -28,7 +28,6 @@ export const AppliedIndustry = ({
     workplaceRequest,
     studentAdded,
 }: Props) => {
-    console.log('appliedIndustryappliedIndustry', appliedIndustry)
     const getNextStep = () => {
         switch (status) {
             case 'interview':

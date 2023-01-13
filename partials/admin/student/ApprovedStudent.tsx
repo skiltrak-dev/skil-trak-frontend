@@ -47,7 +47,6 @@ export const ApprovedStudent = () => {
             limit: itemPerPage,
         })
 
-    console.log('datadatadata', data)
 
     const onModalCancelClicked = () => {
         setModal(null)

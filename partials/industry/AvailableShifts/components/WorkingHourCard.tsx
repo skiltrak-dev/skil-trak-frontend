@@ -11,6 +11,7 @@ import {
 import { AddShiftContext } from '../contextbar'
 import { useContextBar } from '@hooks'
 import { AddBreakForm } from '../form'
+import { getDate } from '@utils'
 
 export const WorkingHourCard = ({
     availability,
@@ -33,6 +34,7 @@ export const WorkingHourCard = ({
     const [closingTime, setClosingTime] = useState<any>(
         availability?.closingTime
     )
+
     const [isBreak, setIsBreak] = useState<any>(availability?.break)
     const [breakStart, setBreakStart] = useState<any>(availability?.breakStart)
     const [breakEnd, setBreakEnd] = useState<any>(availability?.breakEnd)
@@ -48,16 +50,14 @@ export const WorkingHourCard = ({
             dayOff: isAvailable,
         })
     }, [isAvailable, openingTime, closingTime, breakStart, breakEnd, isBreak])
-    console.log('breakStart', breakStart)
 
     const onAddShift = () => {
-        contextBar.setContent(<AddShiftContext day={availability?.day} />)
+        contextBar.setContent(<AddShiftContext availability={availability} />)
         contextBar.show()
         contextBar.setTitle('Add Shift')
     }
 
     const onBreakSubmit = (values: any) => {
-        console.log('values')
         setBreakStart(values?.breakStart)
         setBreakEnd(values?.breakEnd)
         setIsBreak(true)
@@ -65,7 +65,7 @@ export const WorkingHourCard = ({
     }
 
     const onCancel = () => {
-      setModal(null)
+        setModal(null)
     }
 
     const onAddBreak = () => {
@@ -75,26 +75,11 @@ export const WorkingHourCard = ({
                 onSubmit={onBreakSubmit}
                 onCancel={onCancel}
                 setIsBreak={setIsBreak}
-setBreakStart={setBreakStart}
-setBreakEnd={setBreakEnd}
+                setBreakStart={setBreakStart}
+                setBreakEnd={setBreakEnd}
             />
         )
     }
-
-    // useEffect(() => {
-    //     setIsAvailable(availability?.dayOff)
-    //     setOpeningTime(availability?.openingTime)
-    //     setClosingTime(availability?.closingTime)
-    // }, [availability])
-
-    // useEffect(() => {
-    //     onScheduleChange({
-    //         day: availability?.day,
-    //         openingTime,
-    //         closingTime,
-    //         dayOff: isAvailable,
-    //     })
-    // }, [isAvailable, openingTime, closingTime])
 
     return (
         <>
@@ -110,15 +95,6 @@ setBreakEnd={setBreakEnd}
                             defaultChecked={isAvailable}
                         />
                         <Typography capitalize>{availability?.day}</Typography>
-                    </div>
-                    <div>
-                        <ActionButton
-                            disabled={!isAvailable}
-                            variant={'info'}
-                            onClick={onAddBreak}
-                        >
-                            Break
-                        </ActionButton>
                     </div>
                 </div>
                 <div className="flex gap-x-2.5  col-span-3">
@@ -144,7 +120,41 @@ setBreakEnd={setBreakEnd}
                     />
                 </div>
 
-                <div className="flex items-center gap-x-2.5 col-span-3">
+                <div className="flex flex-col gap-x-2.5 col-span-3">
+                    {isBreak && (
+                        <>
+                            <Typography
+                                variant={'small'}
+                                color={'text-gray-500'}
+                            >
+                                Break
+                            </Typography>
+                            <div className="flex items-center gap-x-2">
+                                <div className="flex items-center gap-x-2">
+                                    <Typography
+                                        variant={'small'}
+                                        color={'text-gray-700'}
+                                    >
+                                        Break Start:
+                                    </Typography>
+                                    <Typography variant={'label'}>
+                                        {breakStart}
+                                    </Typography>
+                                </div>
+                                <div className="flex items-center gap-x-2">
+                                    <Typography
+                                        variant={'small'}
+                                        color={'text-gray-700'}
+                                    >
+                                        Break End:
+                                    </Typography>
+                                    <Typography variant={'label'}>
+                                        {breakEnd}
+                                    </Typography>
+                                </div>
+                            </div>
+                        </>
+                    )}
                     {/* <Switch
                         name={availability?.day}
                         onChange={(e: ChangeEvent<HTMLInputElement>) => {
@@ -174,16 +184,16 @@ setBreakEnd={setBreakEnd}
                 </div>
 
                 <div className="flex items-center gap-x-4  justify-end  col-span-2">
-                    {/* <Button
+                    <Button
                         text={'Break'}
                         variant={'info'}
                         onClick={onAddBreak}
                         disabled={!isAvailable}
-                    /> */}
+                    />
                     <Button
                         text={'Add Shift'}
                         onClick={onAddShift}
-                        disabled={!isAvailable}
+                        disabled={!isAvailable || !availability?.id}
                     />
                 </div>
             </div>

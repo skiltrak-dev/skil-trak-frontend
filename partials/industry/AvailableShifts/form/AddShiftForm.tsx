@@ -19,8 +19,8 @@ export const AddShiftForm = ({
     initialValues,
 }: any) => {
     const validationSchema = yup.object({
-        startTime: yup.string().required('Start Time is required!'),
-        endTime: yup.string().required('End Time is required!'),
+        openingTime: yup.string().required('Start Time is required!'),
+        closingTime: yup.string().required('End Time is required!'),
         studentCapacity: yup.string().required('Student Capacity is required!'),
     })
 
@@ -49,8 +49,8 @@ export const AddShiftForm = ({
 
                     <TextInput
                         label={'Start Time'}
-                        name={'startTime'}
-                        type={'date'}
+                        name={'openingTime'}
+                        type={'time'}
                         placeholder={'Your Start Time Here...'}
                         validationIcons
                         required
@@ -58,8 +58,8 @@ export const AddShiftForm = ({
 
                     <TextInput
                         label={'End Time'}
-                        name={'endTime'}
-                        type={'date'}
+                        name={'closingTime'}
+                        type={'time'}
                         placeholder={'Your End Time Here...'}
                         validationIcons
                         required

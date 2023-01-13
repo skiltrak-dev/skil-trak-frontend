@@ -43,7 +43,6 @@ export const BrowseCandidatesContainer = () => {
     const onSubmit = (values: any) => {
         setBrowseCandidateData(values)
     }
-    console.log("browseCandidates++++++++: ", courseId)
     return (
         <div className="flex flex-col gap-y-4">
             <BackButton link={'jobs'} text={'Back To Jobs'} />

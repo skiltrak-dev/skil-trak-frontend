@@ -9,7 +9,6 @@ type Props = {
 }
 
 export const IndustryNotResponded = ({ industries }: Props) => {
-    console.log('industries', industries)
     return (
         <>
             <Card>

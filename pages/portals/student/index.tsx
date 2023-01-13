@@ -262,8 +262,8 @@ const StudentDashboard: NextPageWithLayout = () => {
                                                                 }
                                                                 name={
                                                                     subAdmin
-                                                                        .user
-                                                                        .name
+                                                                        ?.user
+                                                                        ?.name
                                                                 }
                                                                 first={
                                                                     idx === 0

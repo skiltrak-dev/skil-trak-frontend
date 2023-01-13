@@ -115,7 +115,6 @@ export const SetScheduleContainer = () => {
         }
     }, [availability])
 
-
     useEffect(() => {
         if (saveScheduleResult.isSuccess) {
             router.push('/portals/sub-admin/tasks/appointments')
@@ -146,20 +145,28 @@ export const SetScheduleContainer = () => {
                             />
                         ))}
                     </div>
-
-                    <div className="flex items-center gap-x-4 text-sm text-green-500">
-                        <Button
-                            text={'Submit'}
-                            onClick={() => onSubmit()}
-                            loading={saveScheduleResult.isLoading}
-                            disabled={saveScheduleResult.isLoading}
-                        />
-                        {saveScheduleResult.isSuccess ? (
-                            <div> - Saved</div>
-                        ) : null}
-                    </div>
                 </>
-            ) : null}
+            ) : (
+                <div className="flex flex-col gap-y-2">
+                    {availabilities?.map((availability: any) => (
+                        <ScheduleCard
+                            key={availability.name}
+                            setScheduleTime={setScheduleTime}
+                            onScheduleChange={onScheduleChange}
+                            availability={availability}
+                        />
+                    ))}
+                </div>
+            )}
+            <div className="flex items-center gap-x-4 text-sm text-green-500">
+                <Button
+                    text={'Submit'}
+                    onClick={() => onSubmit()}
+                    loading={saveScheduleResult.isLoading}
+                    disabled={saveScheduleResult.isLoading}
+                />
+                {saveScheduleResult.isSuccess ? <div> - Saved</div> : null}
+            </div>
         </Card>
     )
 }

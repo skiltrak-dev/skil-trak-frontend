@@ -75,10 +75,7 @@ export const FutureAppointments = ({ appointments }: { appointments: any }) => {
                                     date={appointment?.date}
                                     time={appointment?.startTime}
                                     totalMinutes={appointment?.type?.duration}
-                                    address={
-                                        ap[0]?.address ||
-                                        `${ap?.addressLine1}, ${ap?.addressLine2}`
-                                    }
+                                    address={`${ap?.addressLine1}, ${ap?.addressLine2}`}
                                     name={appointment?.appointmentFor?.name}
                                     imageUrl={
                                         '/images/card-images/video-icon.png'

@@ -19,6 +19,13 @@ export const industryAppointmentApi = createApi({
     }),
     tagTypes: ['IndustryAppointment'],
     endpoints: (builder) => ({
+        industryCoordinatorAvailability: builder.query<any, any>({
+            query: (user) => ({
+                url: 'coordinator/availabilities',
+                params: { user },
+            }),
+            providesTags: ['IndustryAppointment'],
+        }),
         createIndustryAppointment: builder.mutation({
             query: (body) => ({
                 url: `appointment/create`,
@@ -40,4 +47,5 @@ export const industryAppointmentApi = createApi({
 export const {
     useGetIndustryAppointmentsQuery,
     useCreateIndustryAppointmentMutation,
+    useIndustryCoordinatorAvailabilityQuery,
 } = industryAppointmentApi

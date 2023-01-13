@@ -17,7 +17,7 @@ import { useNotification } from '@hooks'
 import {
     CommonApi,
     useCreateIndustryAppointmentMutation,
-    useGetCoordinatorsAvailabilityQuery,
+    useIndustryCoordinatorAvailabilityQuery,
     useGetCoordinatorsForStudentQuery,
 } from '@queries'
 
@@ -37,10 +37,11 @@ const BookAppointment: NextPageWithLayout = (props: Props) => {
     const [selectedTime, setSelectedTime] = useState<any | null>(null)
 
     // query
-    const coordinatorAvailability = useGetCoordinatorsAvailabilityQuery(
-        Number(selectedCoordinator),
-        { skip: !selectedCoordinator }
-    )
+    const coordinatorAvailability =
+        CommonApi.Appointments.useCoordinatorAvailablity(
+            Number(selectedCoordinator),
+            { skip: !selectedCoordinator }
+        )
     const timeSlots = CommonApi.Appointments.useAppointmentsAvailableSlots(
         {
             id: type,
@@ -49,6 +50,7 @@ const BookAppointment: NextPageWithLayout = (props: Props) => {
         },
         { skip: !type || !selectedDate || !selectedCoordinator }
     )
+    const coordinators = CommonApi.Appointments.allCoordinators()
 
     const [createAppointment, createAppointmentResult] =
         CommonApi.Appointments.createAppointment()
@@ -56,14 +58,12 @@ const BookAppointment: NextPageWithLayout = (props: Props) => {
     // hooks
     const { notification } = useNotification()
 
-    const coordinators = CommonApi.Appointments.allCoordinators()
-
     useEffect(() => {
         setSelectedCoordinator(null)
         if (coordinators.data && coordinators.isSuccess) {
             const options = coordinators?.data?.map((coordinator: any) => ({
-                label: coordinator.name,
-                value: coordinator.id,
+                label: coordinator?.user?.name,
+                value: coordinator?.user?.id,
             }))
             setCoordinatorsOptions(options)
         }
@@ -88,7 +88,7 @@ const BookAppointment: NextPageWithLayout = (props: Props) => {
         date?.setDate(date.getDate() + 1)
         createAppointment({
             ...values,
-            ...selectedDate,
+            ...selectedTime,
             type,
             date,
         })
@@ -111,7 +111,6 @@ const BookAppointment: NextPageWithLayout = (props: Props) => {
                         onChange={(e: any) => {
                             setSelectedCoordinator(e)
                         }}
-                        value={selectedCoordinator}
                         onlyValue
                     />
                     <TimeSlots
@@ -120,10 +119,7 @@ const BookAppointment: NextPageWithLayout = (props: Props) => {
                         setSelectedTime={setSelectedTime}
                         selectedTime={selectedTime}
                         userAvailabilities={timeSlots?.data}
-                        appointmentAvailability={
-                            coordinatorAvailability.data?.availabilities[0]
-                                ?.availability
-                        }
+                        appointmentAvailability={coordinatorAvailability.data}
                         loading={timeSlots?.isLoading}
                         bookedAppointment={coordinatorAvailability.data?.booked}
                     />

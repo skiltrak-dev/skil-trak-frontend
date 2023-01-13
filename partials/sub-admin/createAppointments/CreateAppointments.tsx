@@ -52,6 +52,7 @@ export const CreateAppointments = () => {
         null
     )
     const [slots, setSlots] = useState(true)
+
     // const [date, setDate] = useState<any | null>(selectedDate)
     // useEffect(() => {
     //     let date = selectedDate
