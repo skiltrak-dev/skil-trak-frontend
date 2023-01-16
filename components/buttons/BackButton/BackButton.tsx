@@ -5,19 +5,20 @@ import Link from 'next/link'
 import { IoIosArrowRoundBack } from 'react-icons/io'
 
 interface BackButtonProps {
-  text?: string
-  link?: string
+    text?: string
+    link?: string
 }
 
 export const BackButton = ({ text, link }: BackButtonProps) => {
-  const router = useRouter()
+    const router = useRouter()
 
-  const navigateBack = () => {
-    router.back()
-  }
+    const navigateBack = () => {
+        router.back()
+    }
 
-  const classes =
-    'group max-w-max transition-all text-xs flex justify-start items-center py-2.5 text-muted hover:text-muted-dark rounded-lg cursor-pointer'
+    const classes =
+        'group max-w-max transition-all text-xs flex justify-start items-center py-2.5 text-muted hover:text-muted-dark rounded-lg cursor-pointer'
+
 
   return link ? (
     <Link legacyBehavior href={`/${link === '/' ? '' : link}`} className={classes}>
@@ -32,4 +33,5 @@ export const BackButton = ({ text, link }: BackButtonProps) => {
       <span className="ml-2">{text || 'Back To Previous'}</span>
     </div>
   )
+
 }

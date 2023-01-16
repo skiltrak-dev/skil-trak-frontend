@@ -49,49 +49,48 @@ export const RtoProfileSidebar = ({ data }: any) => {
         <LoadingAnimation />
     ) : (
         <div>
-            <div className="flex justify-end gap-x-2">
-                <div className="bg-blue-100 rounded-full p-1">
-                    <AiFillEdit className="text-blue-400  cursor-pointer " />
-                </div>
-                <div className="bg-red-100 rounded-full p-1">
-                    <MdBlock className="text-red-400  cursor-pointer bg-red-100 rounded-full" />
-                </div>
-            </div>
             <div className="flex flex-col items-center">
-                <div className="relative">
-                    {data?.user.avatar ? (
-                        <>
-                            {/* <Image
+                <div className="relative flex items-center justify-center w-full">
+                    <div className="flex justify-end gap-x-2 absolute right-0 top-0">
+                        <div className="bg-blue-100 rounded-full p-1">
+                            <AiFillEdit className="text-blue-400  cursor-pointer " />
+                        </div>
+                        <div className="bg-red-100 rounded-full p-1">
+                            <MdBlock className="text-red-400  cursor-pointer bg-red-100 rounded-full" />
+                        </div>
+                    </div>
+
+                    <div className="relative">
+                        {data?.user.avatar ? (
+                            <>
+                                {/* <Image
                                 src={data?.user.avatar}
                                 width={100}
                                 height={100}
                                 className="rounded-full shadow-inner-image"
                             /> */}
-                            <div
-                                className="w-24 h-24 bg-cover bg-center bg-no-repeat rounded-full shadow-inner-image"
-                                style={{
-                                    backgroundImage: `url(${data?.user.avatar})`,
-                                }}
-                            />
-                        </>
-                    ) : (
-                        <div className="h-24 w-24 flex items-center justify-center bg-gray-100 rounded-full">
-                            <span className="text-4xl text-gray-300">
-                                <FaSchool />
-                            </span>
-                        </div>
-                    )}
-                    <div
-                        className={`${
-                            data?.user.avatar
-                                ? 'w-[100px] h-[100px]'
-                                : 'w-24 h-24'
-                        } absolute top-0 left-0 bg-transparent rounded-full shadow-inner-image`}
-                    ></div>
+                                <div
+                                    className="w-24 h-24 bg-cover bg-center bg-no-repeat rounded-full"
+                                    style={{
+                                        backgroundImage: `url(${data?.user.avatar})`,
+                                    }}
+                                />
+                            </>
+                        ) : (
+                            <div className="h-24 w-24 flex items-center justify-center bg-gray-100 rounded-full">
+                                <span className="text-4xl text-gray-300">
+                                    <FaSchool />
+                                </span>
+                            </div>
+                        )}
+                        <div
+                            className={`'w-24 h-24' absolute top-0 left-0 bg-transparent rounded-full shadow-inner-image`}
+                        ></div>
+                    </div>
                 </div>
 
-                <div className="flex flex-col items-center">
-                    <p className="text-md font-semibold text-center">
+                <div className="flex flex-col items-center mt-2">
+                    <p className="text-sm font-semibold text-center">
                         {data?.user?.name}
                     </p>
                     <div className="flex items-center gap-x-2">
@@ -161,7 +160,7 @@ export const RtoProfileSidebar = ({ data }: any) => {
                 </div>
             </div>
             {/* contact person row 4 */}
-            <div className='mt-4'>
+            <div className="mt-4">
                 <Typography variant={'small'} color={'text-gray-500'}>
                     Contact Person
                 </Typography>
