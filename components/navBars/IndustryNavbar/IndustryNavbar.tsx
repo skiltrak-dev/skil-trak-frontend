@@ -21,7 +21,7 @@ export const IndustryNavbar = () => {
         <div className="flex items-center justify-between">
           <ul className="flex gap-x-2 py-4">
             <li>
-              <Link href="/portals/industry">
+              <Link legacyBehavior href="/portals/industry">
                 <a
                   className={`${router.pathname == '/portals/industry'
                     ? 'bg-indigo-100 text-indigo-700'
@@ -39,7 +39,7 @@ export const IndustryNavbar = () => {
             </li>
 
             <li>
-              <Link href="/portals/industry/tasks">
+              <Link legacyBehavior href="/portals/industry/tasks">
                 <a
                   className={`${router.pathname ==
                     '/portals/industry/tasks'
@@ -58,7 +58,7 @@ export const IndustryNavbar = () => {
             </li>
 
             <li>
-              <Link href="/portals/industry/students">
+              <Link legacyBehavior href="/portals/industry/students">
                 <a
                   className={`${router.pathname ==
                     '/portals/industry/students'
@@ -76,7 +76,7 @@ export const IndustryNavbar = () => {
               </Link>
             </li>
             <li>
-              <Link href="/portals/industry/jobs">
+              <Link legacyBehavior href="/portals/industry/jobs">
                 <a
                   className={`${router.pathname ==
                     '/portals/industry/jobs'
@@ -94,7 +94,7 @@ export const IndustryNavbar = () => {
               </Link>
             </li>
             <li>
-              <Link href="/portals/industry/general-information">
+              <Link legacyBehavior href="/portals/industry/general-information">
                 <a
                   className={`${router.pathname ==
                     '/portals/industry/general-info'
@@ -113,7 +113,7 @@ export const IndustryNavbar = () => {
             </li>
             {/* Mails */}
             <li>
-              <Link href="/portals/industry/e-mails">
+              <Link legacyBehavior href="/portals/industry/e-mails">
                 <a
                   className={`${router.pathname ==
                     '/portals/industry/e-mails'
@@ -131,7 +131,7 @@ export const IndustryNavbar = () => {
               </Link>
             </li>
             {/* <li>
-          <Link href="/portals/industry/notifications">
+          <Link legacyBehavior href="/portals/industry/notifications">
             <a
               className={`${router.pathname == '/portals/industry/notifications'
                   ? 'bg-blue-100 text-blue-700'
@@ -147,7 +147,7 @@ export const IndustryNavbar = () => {
         </li> */}
           </ul>
           <div>
-            <Link href="#">
+            <Link legacyBehavior href="#">
               <a
                 className={`${router.pathname == '#'
                   ? 'bg-blue-100 text-blue-700'
@@ -173,7 +173,7 @@ export const IndustryNavbar = () => {
           }}
         >
           <li>
-            <Link href="/portals/industry">
+            <Link legacyBehavior href="/portals/industry">
               <a
                 className={`${router.pathname == '/portals/industry'
                   ? 'bg-indigo-100 text-indigo-700'
@@ -181,7 +181,7 @@ export const IndustryNavbar = () => {
                   } ${defaultClasses} hover:bg-indigo-100 hover:text-indigo-700`}
               >
                 <span>
-                  <MdSpaceDashboard size={24}/>
+                  <MdSpaceDashboard size={24} />
                 </span>
                 <span className="text-xs font-semibold">
                   Dashboard
@@ -191,7 +191,7 @@ export const IndustryNavbar = () => {
           </li>
 
           <li>
-            <Link href="/portals/industry/tasks">
+            <Link legacyBehavior href="/portals/industry/tasks">
               <a
                 className={`${router.pathname == '/portals/industry/tasks'
                   ? 'bg-green-100 text-accent-700'
@@ -209,7 +209,7 @@ export const IndustryNavbar = () => {
           </li>
 
           <li>
-            <Link href="/portals/industry/students">
+            <Link legacyBehavior href="/portals/industry/students">
               <a
                 className={`${router.pathname ==
                   '/portals/industry/students'
@@ -227,7 +227,7 @@ export const IndustryNavbar = () => {
             </Link>
           </li>
           <li>
-            <Link href="/portals/industry/jobs">
+            <Link legacyBehavior href="/portals/industry/jobs">
               <a
                 className={`${router.pathname == '/portals/industry/jobs'
                   ? 'bg-green-100 text-green-700'
@@ -244,7 +244,7 @@ export const IndustryNavbar = () => {
             </Link>
           </li>
           <li>
-            <Link href="/portals/industry/general-information">
+            <Link legacyBehavior href="/portals/industry/general-information">
               <a
                 className={`${router.pathname ==
                   '/portals/industry/general-info'
@@ -263,7 +263,7 @@ export const IndustryNavbar = () => {
           </li>
           {/* Mails */}
           <li>
-            <Link href="/portals/industry/e-mails">
+            <Link legacyBehavior href="/portals/industry/e-mails">
               <a
                 className={`${router.pathname ==
                   '/portals/industry/e-mails'
@@ -281,7 +281,7 @@ export const IndustryNavbar = () => {
             </Link>
           </li>
           <li>
-            <Link href="#">
+            <Link legacyBehavior href="#">
               <a
                 className={`${router.pathname == '#'
                   ? 'bg-blue-100 text-blue-700'

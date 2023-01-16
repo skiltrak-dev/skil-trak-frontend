@@ -14,7 +14,7 @@ export const PortalSelectButton = ({
 	onMouseEnter,
 }: PortalSelectButtonProps) => {
 	return (
-		<Link href={link}>
+		<Link legacyBehavior href={link}>
 			<a
 				className={`group transition-all text-center text-lg h-20 w-60 font-bold flex justify-start items-center px-4 py-2 border border-primary rounded-lg text-black hover:text-white hover:bg-primary`}
 				onMouseEnter={() => {

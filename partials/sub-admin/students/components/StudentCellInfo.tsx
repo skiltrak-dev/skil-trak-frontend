@@ -23,7 +23,7 @@ export const StudentCellInfo = ({ student }: { student: Student }) => {
                     )}
                 </div>
 
-                <Link
+                <Link legacyBehavior
                     href={`/portals/sub-admin/students/${student?.id}?tab=overview`}
                 >
                     <a>

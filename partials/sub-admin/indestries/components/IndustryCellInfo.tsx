@@ -19,7 +19,7 @@ export const IndustryCellInfo = ({ industry }: { industry: Industry }) => {
                     width={50}
                     height={50}
                 />
-                <Link
+                <Link legacyBehavior
                     href={`/portals/sub-admin/users/industries/${industry?.id}?tab=overview`}
                 >
                     <a>

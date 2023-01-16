@@ -85,7 +85,7 @@ const StudentDashboard: NextPageWithLayout = () => {
                     </div>
 
                     {/* Action */}
-                    {/* <Link href="#">
+                    {/* <Link legacyBehavior href="#">
                         <a className="inline-block uppercase text-xs font-medium bg-indigo-100 text-indigo-600 px-4 py-2 rounded">
                             See Details
                         </a>
@@ -152,7 +152,7 @@ const StudentDashboard: NextPageWithLayout = () => {
                         </div>
 
                         {/* Action */}
-                        {/* <Link href="#">
+                        {/* <Link legacyBehavior href="#">
                             <a className="inline-block uppercase text-xs font-medium bg-orange-100 text-orange-600 px-4 py-2 rounded">
                                 See Details
                             </a>
@@ -169,6 +169,7 @@ const StudentDashboard: NextPageWithLayout = () => {
                                             src={data?.rto?.user.avatar}
                                             width={100}
                                             height={100}
+                                            alt=""
                                             className="rounded-full shadow-inner-image"
                                         />
                                     ) : (
@@ -244,35 +245,35 @@ const StudentDashboard: NextPageWithLayout = () => {
                                             1,
                                             data?.rto?.subadmin?.length
                                         ).length > 0 && (
-                                            <InitialAvatarContainer show={2}>
-                                                {data?.rto.subadmin
-                                                    .slice(
-                                                        1,
-                                                        data?.rto?.subadmin
-                                                            .length
-                                                    )
-                                                    .map(
-                                                        (
-                                                            subAdmin: SubAdmin,
-                                                            idx: number
-                                                        ) => (
-                                                            <InitialAvatar
-                                                                key={
-                                                                    subAdmin.id
-                                                                }
-                                                                name={
-                                                                    subAdmin
-                                                                        .user
-                                                                        .name
-                                                                }
-                                                                first={
-                                                                    idx === 0
-                                                                }
-                                                            />
+                                                <InitialAvatarContainer show={2}>
+                                                    {data?.rto.subadmin
+                                                        .slice(
+                                                            1,
+                                                            data?.rto?.subadmin
+                                                                .length
                                                         )
-                                                    )}
-                                            </InitialAvatarContainer>
-                                        )}
+                                                        .map(
+                                                            (
+                                                                subAdmin: SubAdmin,
+                                                                idx: number
+                                                            ) => (
+                                                                <InitialAvatar
+                                                                    key={
+                                                                        subAdmin.id
+                                                                    }
+                                                                    name={
+                                                                        subAdmin
+                                                                            ?.user
+                                                                            ?.name
+                                                                    }
+                                                                    first={
+                                                                        idx === 0
+                                                                    }
+                                                                />
+                                                            )
+                                                        )}
+                                                </InitialAvatarContainer>
+                                            )}
                                     </div>
                                 </div>
                             </div>
@@ -299,7 +300,7 @@ const StudentDashboard: NextPageWithLayout = () => {
                         </div>
 
                         {/* Action */}
-                        {/* <Link href="#">
+                        {/* <Link legacyBehavior href="#">
                             <a className="inline-block uppercase text-xs font-medium bg-green-100 text-green-600 px-4 py-2 rounded">
                                 See Details
                             </a>
@@ -338,6 +339,7 @@ const StudentDashboard: NextPageWithLayout = () => {
                                                                         height={
                                                                             100
                                                                         }
+                                                                        alt=""
                                                                         className="hidden md:block rounded-full shadow-inner-image"
                                                                     />
                                                                 ) : (

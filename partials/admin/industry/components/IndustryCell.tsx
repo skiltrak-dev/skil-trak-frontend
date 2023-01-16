@@ -5,14 +5,13 @@ import { MdEmail, MdPhoneIphone } from 'react-icons/md'
 
 export const IndustryCell = ({ industry }: { industry: Industry }) => {
     return (
-        <Link href={`industry/${industry?.id}?tab=sectors`}>
+        <Link legacyBehavior href={`industry/${industry?.id}?tab=sectors`}>
             <a className="flex items-center gap-x-2">
                 <div className="shadow-inner-image rounded-full relative">
                     <img
                         src={
                             industry?.user?.avatar ||
-                            `https://picsum.photos/64/${
-                                64 + Number(industry?.id)
+                            `https://picsum.photos/64/${64 + Number(industry?.id)
                             }`
                         }
                         className="w-10 h-10 rounded-full"

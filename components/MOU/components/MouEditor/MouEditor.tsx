@@ -17,6 +17,7 @@ const htmlToDraft =
 // styles
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css'
 import { Button } from 'components'
+import { isBrowser } from '@utils'
 
 export const MouEditor = ({
   content,
@@ -30,6 +31,11 @@ export const MouEditor = ({
     contentBlocks,
     entityMap
   )
+
+  const [editor, setEditor] = useState<boolean>(false)
+  useEffect(() => {
+    setEditor(true)
+  }, [])
 
   const raw = convertToRaw(contentState)
 
@@ -72,13 +78,13 @@ export const MouEditor = ({
 
   return (
     <>
-      <Editor
+      {/* {isBrowser() && editor && <Editor
         defaultContentState={editorState}
         toolbarClassName="border"
         wrapperClassName="border"
         editorClassName="h-80 px-5 remove-scrollbar"
         onEditorStateChange={onEditorStateChange}
-      />
+      />} */}
     </>
   )
 }

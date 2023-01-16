@@ -43,7 +43,6 @@ const Detail: NextPageWithLayout = () => {
         useGetRtoStudentProfileQuery(Number(id), {
             skip: !id,
         })
-// console.log('RTO Student', data)
     useEffect(() => {
         if (data && isSuccess) {
             setAppliedIndustry(

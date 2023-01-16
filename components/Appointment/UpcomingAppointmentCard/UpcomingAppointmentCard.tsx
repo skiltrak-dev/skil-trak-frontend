@@ -57,7 +57,7 @@ export const UpcomingAppointmentCard = ({
                         <p className="text-[#BCDEFF]">{type}</p>
                     </div>
                     <div>
-                        <Image src={imageUrl || ''} width={50} height={50} />
+                        <Image src={imageUrl || ''} width={50} height={50} alt="" />
                     </div>
                 </div>
             </div>

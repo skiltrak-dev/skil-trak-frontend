@@ -99,7 +99,6 @@ const CreateAppointments: NextPageWithLayout = (props: Props) => {
         mode: 'all',
     })
     const onSubmit = (values: any) => {
-        console.log('rrrr', values)
         const time = moment(selectedTime, ['h:mm A']).format('HH:mm')
         let date = selectedDate
         date?.setDate(date.getDate() + 1)

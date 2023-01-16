@@ -7,8 +7,6 @@ import { Course } from './Course'
 export const Courses = ({ courses, results }: any) => {
     const [studentCourse, setStudentCourse] = useState<any | null>(null)
 
-    console.log(results)
-
     useEffect(() => {
         const getCourseWithResults = () => {
             const courseResults = {}
@@ -20,7 +18,6 @@ export const Courses = ({ courses, results }: any) => {
                     ;(courseResults as any)[result?.course?.id].push(result)
                 }
             })
-            console.log('courseResults', courseResults)
             const allCourses = courses?.map((course: any) => ({
                 ...course,
                 results: (courseResults as any)[course?.id],
@@ -30,7 +27,6 @@ export const Courses = ({ courses, results }: any) => {
         getCourseWithResults()
     }, [courses, results])
 
-    console.log('studentCourse', studentCourse)
     return (
         <Card>
             <div className="flex items-center gap-x-2">

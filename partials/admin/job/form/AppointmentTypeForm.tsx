@@ -128,11 +128,11 @@ export const AppointmentTypeForm = ({
                     </div>
 
                     <div className="">
-                        <ContentEditor
+                        {isBrowser() && <ContentEditor
                             label="Email Content"
                             content={emailContent}
                             setContent={setEmailContent}
-                        />
+                        />}
                     </div>
 
                     <div className="my-4">

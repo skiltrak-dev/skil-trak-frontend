@@ -56,8 +56,8 @@ export const AssessmentsToolsContainer = () => {
             setSelectedCourseId(
                 selectedCourseId
                     ? rtoCourses?.data?.data?.find(
-                          (c: any) => c?.id === selectedCourseId
-                      )?.id
+                        (c: any) => c?.id === selectedCourseId
+                    )?.id
                     : rtoCourses?.data?.data[0]?.id
             )
         }
@@ -121,7 +121,7 @@ export const AssessmentsToolsContainer = () => {
                         {rtoCourses?.isLoading || rtoCourses?.isFetching ? (
                             <LoadingAnimation size={85} />
                         ) : rtoCourses?.data?.data &&
-                          rtoCourses?.data?.data?.length > 0 ? (
+                            rtoCourses?.data?.data?.length > 0 ? (
                             rtoCourses?.data?.data?.map((course: any) => (
                                 <AssessmentCourse
                                     code={course?.code}
@@ -171,10 +171,10 @@ export const AssessmentsToolsContainer = () => {
                         </div>
                         <div className="p-2 min-h-[260px]">
                             {getAssessmentTools?.isLoading ||
-                            getAssessmentTools?.isFetching ? (
+                                getAssessmentTools?.isFetching ? (
                                 <LoadingAnimation size={80} />
                             ) : getAssessmentTools?.data &&
-                              getAssessmentTools?.data?.length > 0 ? (
+                                getAssessmentTools?.data?.length > 0 ? (
                                 getAssessmentTools?.data?.map(
                                     (assessment: any) => (
                                         <DownloadableFile
@@ -201,7 +201,7 @@ export const AssessmentsToolsContainer = () => {
             </div>
             <div>
                 <Typography variant="label" color="text-blue-500">
-                    <Link href="#">
+                    <Link legacyBehavior href="#">
                         I want to access my assessment tool for enrolled course
                     </Link>
                 </Typography>

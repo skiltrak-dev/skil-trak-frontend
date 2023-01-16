@@ -77,7 +77,6 @@ const RtoStudentLists: NextPageWithLayout = () => {
             router.back()
         }
     }, [importStudentsResult])
-    // console.log('importStudentsResult:::::', importStudentsResult)
 
     return (
         <>

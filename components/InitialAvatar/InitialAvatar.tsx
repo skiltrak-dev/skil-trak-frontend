@@ -68,6 +68,7 @@ export const InitialAvatar = ({
                         width={24}
                         height={24}
                         className="rounded-full"
+                        alt=""
                     />
                 ) : (
                     <div

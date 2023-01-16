@@ -18,7 +18,7 @@ export const AuthBreadCrumb = ({
         <div className="flex items-center gap-x-2 remove-scrollbar overflow-x-scroll">
             {breadcrumbs.map((breadcrumb, i) => (
                 <div key={i} className="flex items-center gap-x-2">
-                    <Link href={breadcrumb.link}>
+                    <Link legacyBehavior href={breadcrumb.link}>
                         <a>
                             <Typography
                                 variant={'label'}

@@ -37,8 +37,6 @@ export const Detail = ({
 
     const results = selectedCourse?.results[0]
 
-    console.log('resultsresults', selectedCourse)
-
     const { notification } = useNotification()
 
     // query

@@ -23,7 +23,7 @@ export const RecentAppointmentCard = ({
                     </p>
                 </div>
                 {/* <div>
-                    <Link href="#">
+                    <Link legacyBehavior href="#">
                         <a className="text-xs rounded-full bg-white px-2 py-1 text-indigo-800">
                             View All
                         </a>
@@ -84,6 +84,7 @@ export const RecentAppointmentCard = ({
                         src="/images/card-icons/ic_calendar.png"
                         width={100}
                         height={100}
+                        alt=""
                     />
                 </div>
             </div>

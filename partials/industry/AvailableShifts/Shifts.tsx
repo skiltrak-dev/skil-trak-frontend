@@ -1,128 +1,106 @@
-import React, { useState } from 'react'
-import { WorkingHourCard } from './components'
+import React, { useState, useEffect } from 'react'
+import { WorkingHourCard, initialSchedule } from './components'
 import { AddShiftContext } from './contextbar'
 
 //components
-import { Button, Card } from '@components'
+import { Button, Card, LoadingAnimation } from '@components'
 import {
     useGetAvailableShiftsQuery,
     useAddWorkingHoursMutation,
 } from '@queries'
 import moment from 'moment'
 
-const initialSchedule = [
-    {
-        day: 'monday',
-        openingTime: '09:00',
-        closingTime: '17:00',
-        break: false,
-        breakStart: null,
-        breakEnd: null,
-        dayOff: false,
-    },
-    {
-        day: 'tuesday',
-        openingTime: '09:00',
-        closingTime: '17:00',
-        break: false,
-        breakStart: null,
-        breakEnd: null,
-        dayOff: false,
-    },
-    {
-        day: 'wednesday',
-        openingTime: '09:00',
-        closingTime: '17:00',
-        break: false,
-        breakStart: null,
-        breakEnd: null,
-        dayOff: false,
-    },
-    {
-        day: 'thursday',
-        openingTime: '09:00',
-        closingTime: '17:00',
-        break: false,
-        breakStart: null,
-        breakEnd: null,
-        dayOff: false,
-    },
-    {
-        day: 'friday',
-        openingTime: '09:00',
-        closingTime: '17:00',
-        break: false,
-        breakStart: null,
-        breakEnd: null,
-        dayOff: false,
-    },
-    {
-        day: 'saturday',
-        openingTime: '09:00',
-        closingTime: '17:00',
-        break: false,
-        breakStart: null,
-        breakEnd: null,
-        dayOff: false,
-    },
-    {
-        day: 'sunday',
-        openingTime: '09:00',
-        closingTime: '17:00',
-        break: false,
-        breakStart: null,
-        breakEnd: null,
-        dayOff: false,
-    },
-]
-
 export const Shifts = () => {
-    const [scheduleTime, setScheduleTime] = useState<any | null>(
+    const [courseWorkingHours, setCourseWorkingHours] = useState<any | null>(
         initialSchedule
     )
-    console.log('scheduleTime', scheduleTime)
-    const [availabilities, setAvailabilities] = useState<any | null>(
+    const [workingHoursTime, setWorkingHoursTime] = useState<any | null>(
         initialSchedule
     )
+    const [isUpdated, setIsUpdated] = useState<boolean>(false)
 
     const workingHours = useGetAvailableShiftsQuery()
     const [addWorkingHours, addWorkingHoursResult] =
         useAddWorkingHoursMutation()
 
+    useEffect(() => {
+        if (workingHours.isSuccess) {
+            if (workingHours.data?.length) {
+                const tempWorkingHours: any = [...workingHoursTime]
+
+                workingHours.data.forEach((schedule: any) => {
+                    const dayIndex = tempWorkingHours.findIndex(
+                        (d: any) => d.day === schedule.day
+                    )
+                    tempWorkingHours[dayIndex].id = schedule.id
+                    tempWorkingHours[dayIndex].openingTime =
+                        schedule.openingTime
+                    tempWorkingHours[dayIndex].closingTime =
+                        schedule.closingTime
+                    tempWorkingHours[dayIndex].dayOff = schedule.dayOff
+                    tempWorkingHours[dayIndex].break = schedule.break
+                    tempWorkingHours[dayIndex].breakStart = schedule.breakStart
+                    tempWorkingHours[dayIndex].breakEnd = schedule.breakEnd
+                    tempWorkingHours[dayIndex].shifts = schedule.shifts
+                })
+
+                setWorkingHoursTime(tempWorkingHours)
+                setCourseWorkingHours(tempWorkingHours)
+            }
+            setIsUpdated(true)
+        }
+    }, [workingHours])
+
     const onScheduleChange = (schedule: any) => {
-        const tempSchedule: any = [...scheduleTime]
-        const dayIndex = tempSchedule.findIndex(
+        const tempWorkingHours: any = [...courseWorkingHours]
+        const dayIndex = tempWorkingHours.findIndex(
             (d: any) => d.day === schedule.day
         )
 
-        tempSchedule[dayIndex].openingTime = moment(schedule.openingTime, [
+        tempWorkingHours[dayIndex].openingTime = moment(schedule.openingTime, [
             'h:mm A',
         ]).format('HH:mm')
-        tempSchedule[dayIndex].closingTime = moment(schedule.closingTime, [
+        tempWorkingHours[dayIndex].closingTime = moment(schedule.closingTime, [
             'h:mm A',
         ]).format('HH:mm')
-        tempSchedule[dayIndex].dayOff = schedule.dayOff
-        tempSchedule[dayIndex].break = schedule.break
-        tempSchedule[dayIndex].breakStart = schedule.breakStart
-        tempSchedule[dayIndex].breakEnd = schedule.breakEnd
+        tempWorkingHours[dayIndex].dayOff = schedule.dayOff
+        tempWorkingHours[dayIndex].break = schedule.break
+        tempWorkingHours[dayIndex].breakStart = schedule.breakStart
+        tempWorkingHours[dayIndex].breakEnd = schedule.breakEnd
 
-        setScheduleTime(tempSchedule)
+        setWorkingHoursTime(tempWorkingHours)
     }
 
     const onAddWorkingHours = () => {
-        addWorkingHours({ days: scheduleTime?.filter((s: any) => s.dayOff) })
+        addWorkingHours({
+            days: courseWorkingHours?.filter((s: any) => s.dayOff),
+        })
     }
 
     return (
         <Card>
             <div className="flex flex-col gap-y-2 mb-3">
-                {initialSchedule.map((schedule) => (
-                    <WorkingHourCard
-                        availability={schedule}
-                        onScheduleChange={onScheduleChange}
-                    />
-                ))}
+                {workingHours.isLoading ? (
+                    <LoadingAnimation />
+                ) : workingHours?.isSuccess && isUpdated ? (
+                    workingHoursTime.map((schedule: any) => (
+                        <WorkingHourCard
+                            availability={schedule}
+                            onScheduleChange={onScheduleChange}
+                        />
+                    ))
+                ) : null}
             </div>
+            {!workingHours.isLoading && !workingHours?.isSuccess && (
+                <div className="flex flex-col gap-y-2">
+                    {workingHoursTime.map((schedule: any) => (
+                        <WorkingHourCard
+                            availability={schedule}
+                            onScheduleChange={onScheduleChange}
+                        />
+                    ))}
+                </div>
+            )}
             <Button
                 text={'Submit'}
                 onClick={onAddWorkingHours}

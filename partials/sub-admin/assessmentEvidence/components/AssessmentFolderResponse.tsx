@@ -47,8 +47,6 @@ export const AssessmentResponse = ({
         }
     }, [getAssessmentResponse, commentType])
 
-    console.log('folder', comment)
-
     // query
     const [addComment, addCommentResult] = useAddCommentOnAssessmentMutation()
     return (

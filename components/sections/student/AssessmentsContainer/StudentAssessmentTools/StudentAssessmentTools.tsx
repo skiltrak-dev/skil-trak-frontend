@@ -45,8 +45,8 @@ export const StudentAssessmentTools = ({ role, actions }: Props) => {
             setSelectedCourse(
                 selectedCourse
                     ? coursesData?.find(
-                          (c: any) => c?.id === selectedCourse?.id
-                      )?.id
+                        (c: any) => c?.id === selectedCourse?.id
+                    )?.id
                     : coursesData[0]
             )
         }
@@ -73,8 +73,8 @@ export const StudentAssessmentTools = ({ role, actions }: Props) => {
                             {isLoading ? (
                                 <LoadingAnimation size={60} />
                             ) : coursesData &&
-                              coursesData?.length > 0 &&
-                              !isError ? (
+                                coursesData?.length > 0 &&
+                                !isError ? (
                                 coursesData?.map((course: any, index: any) => (
                                     <>
                                         <AssessmentCourse
@@ -117,11 +117,10 @@ export const StudentAssessmentTools = ({ role, actions }: Props) => {
                                 </>
                             )}
                             <div
-                                className={`${
-                                    role === 'RTO'
+                                className={`${role === 'RTO'
                                         ? 'border-b border-t'
                                         : 'border-b'
-                                } p-4`}
+                                    } p-4`}
                             >
                                 <div className="flex justify-between">
                                     <Typography
@@ -143,11 +142,11 @@ export const StudentAssessmentTools = ({ role, actions }: Props) => {
                                     <NoData text={'Network Issue'} />
                                 )}
                                 {getAssessmentTools.isLoading ||
-                                getAssessmentTools.isFetching ? (
+                                    getAssessmentTools.isFetching ? (
                                     <LoadingAnimation size={80} />
                                 ) : getAssessmentTools?.data &&
-                                  getAssessmentTools?.data?.length > 0 &&
-                                  !getAssessmentTools.isError ? (
+                                    getAssessmentTools?.data?.length > 0 &&
+                                    !getAssessmentTools.isError ? (
                                     getAssessmentTools?.data?.map(
                                         (assessment: any) => (
                                             <DownloadableFile
@@ -155,9 +154,9 @@ export const StudentAssessmentTools = ({ role, actions }: Props) => {
                                                 actions={() =>
                                                     actions
                                                         ? actions(
-                                                              assessment?.id
-                                                          )
-                                                        : () => {}
+                                                            assessment?.id
+                                                        )
+                                                        : () => { }
                                                 }
                                                 name={assessment?.title}
                                                 archivedView={false}
@@ -193,8 +192,8 @@ export const StudentAssessmentTools = ({ role, actions }: Props) => {
                         {isLoading ? (
                             <LoadingAnimation size={50} />
                         ) : coursesData &&
-                          coursesData?.length > 0 &&
-                          !isError ? (
+                            coursesData?.length > 0 &&
+                            !isError ? (
                             coursesData?.map((course: any, index: any) => (
                                 <>
                                     <AssessmentCourse
@@ -233,11 +232,10 @@ export const StudentAssessmentTools = ({ role, actions }: Props) => {
 
                         <div className="bg-white rounded-md p-3">
                             <div
-                                className={`${
-                                    role === 'RTO'
+                                className={`${role === 'RTO'
                                         ? 'border-b border-t'
                                         : 'border-b'
-                                } p-4`}
+                                    } p-4`}
                             >
                                 <div className="flex justify-between">
                                     <Typography
@@ -258,7 +256,7 @@ export const StudentAssessmentTools = ({ role, actions }: Props) => {
                                 {isLoading ? (
                                     <LoadingAnimation size={50} />
                                 ) : getAssessmentTools?.data &&
-                                  getAssessmentTools?.data?.length > 0 ? (
+                                    getAssessmentTools?.data?.length > 0 ? (
                                     getAssessmentTools?.data?.map(
                                         (assessment: any) => (
                                             <DownloadableFile
@@ -266,9 +264,9 @@ export const StudentAssessmentTools = ({ role, actions }: Props) => {
                                                 actions={() =>
                                                     actions
                                                         ? actions(
-                                                              assessment?.id
-                                                          )
-                                                        : () => {}
+                                                            assessment?.id
+                                                        )
+                                                        : () => { }
                                                 }
                                                 name={assessment?.title}
                                                 archivedView={false}
@@ -290,7 +288,7 @@ export const StudentAssessmentTools = ({ role, actions }: Props) => {
             </div>
             <div>
                 <Typography variant="label" color="text-blue-500">
-                    <Link href="#">
+                    <Link legacyBehavior href="#">
                         I want to access my assessment tool for enrolled course
                     </Link>
                 </Typography>

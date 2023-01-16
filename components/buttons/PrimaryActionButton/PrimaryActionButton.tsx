@@ -24,7 +24,7 @@ export const PrimaryActionButton = ({
     id,
 }: PrimaryActionButtonProps) => {
     return (
-        <Link href={`${link}` || '/under-construction'}>
+        <Link legacyBehavior href={`${link}` || '/under-construction'}>
             <a
                 className={`border flex justify-between items-center gap-x-1 md:gap-x-5 py-1 px-4 rounded-lg w-full cursor-pointer bg-white hover:bg-gray-50`}
                 id={id}

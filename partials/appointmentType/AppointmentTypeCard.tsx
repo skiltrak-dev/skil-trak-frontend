@@ -45,8 +45,10 @@ export const AppointmentTypeCard = ({
         >
             <div
                 className={`border ${
-                    selected === title ? 'border-[#3782F3]' : 'border-gray-300'
-                } bg-white rounded-lg py-2 px-5`}
+                    selected === title
+                        ? 'border-[#3782F3] bg-blue-100'
+                        : 'border-gray-300 bg-white'
+                } rounded-lg py-2 px-5`}
             >
                 <div className="flex flex-col gap-y-1 items-center">
                     {/* <Image

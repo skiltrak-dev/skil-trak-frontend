@@ -25,6 +25,7 @@ export const IndustryNotResponded = ({ industries }: Props) => {
                                     src="https://picsum.photos/200/300"
                                     width={45}
                                     height={45}
+                                    alt=""
                                 />
                                 <div>
                                     <Typography

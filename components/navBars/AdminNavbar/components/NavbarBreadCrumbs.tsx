@@ -10,13 +10,13 @@ export const NavbarBreadCrumbs = ({
 }) => {
     return (
         <div className="flex text-xs font-medium gap-x-1 text-gray-300 overflow-scroll remove-scrollbar">
-            <Link href="/">
+            <Link legacyBehavior href="/">
                 <a className="">DASHBOARD</a>
             </Link>{' '}
             <div>/</div>{' '}
             {links.map((link, index) => (
                 <Fragment key={index}>
-                    <Link href={`/${links.slice(0, index + 1).join('/')}`}>
+                    <Link legacyBehavior href={`/${links.slice(0, index + 1).join('/')}`}>
                         {link.toUpperCase().replace('-', ' ')}
                     </Link>{' '}
                     <span>/</span>{' '}

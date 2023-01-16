@@ -54,8 +54,6 @@ export const BrowseCandidateForm = ({ setCourseId }: any) => {
             setCourseOptions(values.courses)
         }
     }, [])
-    // console.log("sector Options::::: ", sectorOptions)
-    // console.log("sector Response: ", courseId)
 
 
 
@@ -115,7 +113,6 @@ export const BrowseCandidateForm = ({ setCourseId }: any) => {
                             }
                             validationIcons
                             onChange={(values: any) => {
-                                console.log('courses:onchange ', values)
                                 setCourseId(values?.value)
                             }}
                         />

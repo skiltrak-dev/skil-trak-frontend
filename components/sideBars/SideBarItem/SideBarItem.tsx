@@ -55,7 +55,7 @@ export const SideBarItem = ({
     })
 
     return link ? (
-        <Link href={link}>
+        <Link legacyBehavior href={link}>
             <div className={classes}>
                 <Icon className={iconClasses} />
                 {children}

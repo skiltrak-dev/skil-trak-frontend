@@ -88,7 +88,7 @@ export const useColumns = () => {
                                     <InitialAvatar name={name} />
                                 )}
                             </div>
-                            <Link
+                            <Link legacyBehavior
                                 href={`/portals/sub-admin/users/rtos/${id}?tab=overview`}
                             >
                                 <a>

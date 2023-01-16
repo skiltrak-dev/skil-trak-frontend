@@ -17,7 +17,9 @@ export const CreateAppointmentCard = ({
     return (
         <div
             className={`w-full flex flex-col justify-center items-center gap-y-1 border ${
-                selected === text ? 'border-info' : 'border-gray-300'
+                selected === text
+                    ? 'border-info bg-blue-100'
+                    : 'border-gray-300'
             } rounded-lg px-6 py-3 cursor-pointer`}
             onClick={() => {
                 onClick()

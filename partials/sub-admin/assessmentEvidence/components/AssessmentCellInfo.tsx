@@ -23,7 +23,7 @@ export const AssessmentCellInfo = ({ student }: { student: Student }) => {
                     )}
                 </div>
 
-                <Link
+                <Link legacyBehavior
                     href={`/portals/sub-admin/tasks/assessment-evidence/${student?.id}/${student?.user?.id}`}
                 >
                     <a>

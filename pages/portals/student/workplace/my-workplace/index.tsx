@@ -69,6 +69,7 @@ const MyWorkPlaces: NextPageWithLayout = (props: Props) => {
                             src="/images/icons/working.png"
                             width={120}
                             height={120}
+                            alt=""
                         />
 
                         <div>
@@ -97,6 +98,7 @@ const MyWorkPlaces: NextPageWithLayout = (props: Props) => {
                         <Image
                             src="/images/icons/bad-work.png"
                             width={120}
+                            alt=""
                             height={120}
                         />
                         <div>

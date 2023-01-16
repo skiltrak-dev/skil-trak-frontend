@@ -19,6 +19,7 @@ export const ViewProfileCB = () => {
                             src={data?.user.avatar}
                             width={100}
                             height={100}
+                            alt=""
                             className="rounded-full shadow-inner-image"
                         />
                     ) : (

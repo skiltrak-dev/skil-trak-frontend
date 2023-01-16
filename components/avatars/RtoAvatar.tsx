@@ -10,6 +10,7 @@ export const RtoAvatar = ({ imageUrl }: { imageUrl?: string }) => {
                     width={80}
                     height={80}
                     className="rounded-full"
+                    alt=""
                 />
             ) : (
                 <div className="h-24 w-24 flex items-center justify-center bg-gray-100 rounded-full">

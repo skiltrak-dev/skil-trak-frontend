@@ -5,7 +5,7 @@ import { MdEmail, MdPhoneIphone } from 'react-icons/md'
 
 export const SubAdminCell = ({ subAdmin }: { subAdmin: SubAdmin }) => {
     return (
-        <Link href={`/portals/admin/sub-admin/${subAdmin?.id}?tab=notes`}>
+        <Link legacyBehavior href={`/portals/admin/sub-admin/${subAdmin?.id}?tab=notes`}>
             <a className="flex items-center gap-x-2">
                 <div className="shadow-inner-image rounded-full relative">
                     <img

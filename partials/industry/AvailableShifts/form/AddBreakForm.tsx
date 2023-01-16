@@ -23,8 +23,6 @@ export const AddBreakForm = ({
     setBreakStart,
     setBreakEnd,
 }: any) => {
-    const [startBreak, setStartBreak] = useState<any | null>(null)
-    const [endBreak, setEndBreak] = useState<any | null>(null)
     const validationSchema = yup.object({
         breakStart: yup.string().required('Start Time is required!'),
         breakEnd: yup.string().required('End Time is required!'),
@@ -36,55 +34,54 @@ export const AddBreakForm = ({
         mode: 'all',
     })
 
-    // useEffect(() => {
-    //     if (result.isSuccess) {
-    //         methods.reset()
-    //     }
-    // }, [result])
-
     const onSubmit = () => {
-        setIsBreak(true)
-        setBreakStart(startBreak)
-        setBreakEnd(endBreak)
-        onCancel()
+        // if (startBreak && endBreak) {
+        //     setIsBreak(true)
+        //     setBreakStart(startBreak)
+        //     setBreakEnd(endBreak)
+        //     onCancel()
+        // }
     }
 
     return (
         <Modal
             onCancelClick={onCancel}
-            onConfirmClick={onSubmit}
-            title={''}
-            subtitle={''}
+            onConfirmClick={methods.handleSubmit((values) => {
+                setIsBreak(true)
+                setBreakStart(values.breakStart)
+                setBreakEnd(values.breakEnd)
+                onCancel()
+            })}
+            title={'Add Break'}
+            subtitle={'Break Time'}
         >
-            <div className={'flex flex-col gap-y-2'}>
-                <Typography variant={'muted'} color={'text-gray-400'}>
-                    Add Shift
-                </Typography>
+            <FormProvider {...methods}>
+                <form>
+                    <div className={'flex flex-col gap-y-2'}>
+                        <Typography variant={'muted'} color={'text-gray-400'}>
+                            Add Shift
+                        </Typography>
 
-                <TextInput
-                    label={'Start Time'}
-                    name={'breakStart'}
-                    type={'time'}
-                    placeholder={'Your Start Time Here...'}
-                    validationIcons
-                    onChange={(e: any) => {
-                        setStartBreak(e.target.value)
-                    }}
-                    required
-                />
+                        <TextInput
+                            label={'Start Time'}
+                            name={'breakStart'}
+                            type={'time'}
+                            placeholder={'Your Start Time Here...'}
+                            validationIcons
+                            required
+                        />
 
-                <TextInput
-                    label={'End Time'}
-                    name={'breakEnd'}
-                    type={'time'}
-                    placeholder={'Your End Time Here...'}
-                    validationIcons
-                    onChange={(e: any) => {
-                        setEndBreak(e.target.value)
-                    }}
-                    required
-                />
-            </div>
+                        <TextInput
+                            label={'End Time'}
+                            name={'breakEnd'}
+                            type={'time'}
+                            placeholder={'Your End Time Here...'}
+                            validationIcons
+                            required
+                        />
+                    </div>
+                </form>
+            </FormProvider>
         </Modal>
     )
 }

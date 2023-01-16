@@ -27,6 +27,7 @@ import { useContextBar, useNavbar } from '@hooks'
 
 import { DetailTabs } from '@partials/sub-admin/students'
 import { AddWorkplace } from '@partials/sub-admin/students'
+import { getUserCredentials } from '@utils'
 
 export const StudentProfile = ({ noTitle }: { noTitle?: boolean }) => {
     const contextBar = useContextBar()
@@ -56,6 +57,8 @@ export const StudentProfile = ({ noTitle }: { noTitle?: boolean }) => {
     const [archiveAssessmentTool, archiveAssessmentToolResult] =
         useUpdateAssessmentToolArchiveMutation()
 
+    const role = getUserCredentials()?.role
+
     return (
         <div className="mb-16">
             <div className="flex justify-between items-end mb-4">
@@ -77,7 +80,9 @@ export const StudentProfile = ({ noTitle }: { noTitle?: boolean }) => {
                             onClick={() => {
                                 router.push({
                                     pathname:
-                                        '/portals/sub-admin/tasks/appointments/create-appointment',
+                                        role === 'admin'
+                                            ? '/portals/admin/appointment-type/create-appointment'
+                                            : `/portals/sub-admin/tasks/appointments/create-appointment`,
                                     query: { student: data?.user?.id },
                                 })
                             }}

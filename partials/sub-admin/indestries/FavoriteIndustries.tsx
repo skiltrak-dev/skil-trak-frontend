@@ -68,7 +68,7 @@ export const FavoriteIndustries = () => {
                                 width={50}
                                 height={50}
                             />
-                            <Link
+                            <Link legacyBehavior
                                 href={`/portals/sub-admin/users/industries/${row.original.id}?tab=overview`}
                             >
                                 <a>

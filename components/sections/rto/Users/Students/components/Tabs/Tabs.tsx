@@ -9,12 +9,11 @@ export const Tabs = ({ tabs }: Props) => {
   return (
     <div className="flex gap-x-14 py-4 mb-3 cursor-pointer border-b border-secondary-dark">
       {tabs.map(({ tab, url, count }: any, index: number) => (
-        <Link
+        <Link legacyBehavior
           key={index}
           href={url}
-          className={`text-sm font-semibold ${
-            pathname === url ? 'text-black' : 'text-gray-light'
-          }`}
+          className={`text-sm font-semibold ${pathname === url ? 'text-black' : 'text-gray-light'
+            }`}
         >
           <span className="flex items-center gap-x-1">
             {tab}

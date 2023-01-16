@@ -30,8 +30,32 @@ export const availableShiftsApi = createApi({
             }),
             invalidatesTags: ['AvailableShifts'],
         }),
+        addShift: builder.mutation<any, any>({
+            query: (body) => ({
+                url: 'available-shift/add',
+                method: 'POST',
+                body,
+            }),
+            invalidatesTags: ['AvailableShifts'],
+        }),
+        getShifts: builder.query<any, number>({
+            query: (id) => `available-shift/list/${id}`,
+            providesTags: ['AvailableShifts'],
+        }),
+        removeShift: builder.mutation<any, number>({
+            query: (id) => ({
+                url: `available-shift/remove/${id}`,
+                method: 'DELETE',
+            }),
+            invalidatesTags: ['AvailableShifts'],
+        }),
     }),
 })
 
-export const { useGetAvailableShiftsQuery, useAddWorkingHoursMutation } =
-    availableShiftsApi
+export const {
+    useGetShiftsQuery,
+    useAddShiftMutation,
+    useRemoveShiftMutation,
+    useGetAvailableShiftsQuery,
+    useAddWorkingHoursMutation,
+} = availableShiftsApi

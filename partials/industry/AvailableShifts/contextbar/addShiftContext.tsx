@@ -1,35 +1,44 @@
-import { ContextBarLoading, NoData, Typography } from '@components'
+import {
+    ContextBarLoading,
+    NoData,
+    LoadingAnimation,
+    Typography,
+} from '@components'
 import { useNotification } from '@hooks'
-import { AdminApi } from '@queries'
+import { AdminApi, useAddShiftMutation, useGetShiftsQuery } from '@queries'
 
-import { Course, Rto } from '@types'
 import { Fragment, useEffect } from 'react'
 import { AddShiftForm } from '../form'
 
-export const AddShiftContext = ({ day }: { day: string }) => {
+// components
+import { ShiftCard } from '../components'
+
+export const AddShiftContext = ({ availability }: { availability: any }) => {
     const { notification } = useNotification()
 
-    const [assignCourses, assignCoursesResult] =
-        AdminApi.Rtos.useAssignCourses()
+    const [addShift, addShiftResult] = useAddShiftMutation()
+    const shifts = useGetShiftsQuery(availability?.id, {
+        skip: !availability?.id,
+    })
 
     const [unassignCourse, unassignCourseResult] =
         AdminApi.Rtos.useUnassignCourses()
 
     useEffect(() => {
-        if (assignCoursesResult.isSuccess) {
+        if (addShiftResult.isSuccess) {
             notification.success({
                 title: 'Courses Assigned',
                 description: 'Courses have been assigned to RTO',
             })
         }
 
-        if (assignCoursesResult.isError) {
+        if (addShiftResult.isError) {
             notification.error({
                 title: 'Courses Assignment Failed',
                 description: 'An error occurred while assigning course(s)',
             })
         }
-    }, [assignCoursesResult])
+    }, [addShiftResult])
 
     useEffect(() => {
         if (unassignCourseResult.isSuccess) {
@@ -48,7 +57,7 @@ export const AddShiftContext = ({ day }: { day: string }) => {
     }, [unassignCourseResult])
 
     const onSubmit = (values: any) => {
-        console.log('values', values)
+        addShift({ workingHours: availability?.id, ...values })
     }
 
     return (
@@ -57,16 +66,38 @@ export const AddShiftContext = ({ day }: { day: string }) => {
                 <Typography variant={'muted'} color={'text-gray-400'}>
                     Day:
                 </Typography>
-                <Typography variant={'label'}>{day}</Typography>
+                <Typography variant={'label'}>{availability?.day}</Typography>
             </div>
 
-            <AddShiftForm onSubmit={onSubmit} result={assignCoursesResult} />
+            <AddShiftForm onSubmit={onSubmit} result={addShiftResult} />
 
             <div className={'flex flex-col gap-y-2'}>
                 <Typography variant={'muted'} color={'text-gray-400'}>
-                    Selected Sectors &amp; Courses
+                    Shifts
                 </Typography>
             </div>
+
+            {shifts.isError && <NoData text={'Network Error'} />}
+            {shifts?.isLoading ? (
+                <LoadingAnimation size={70} />
+            ) : shifts?.data && shifts?.data?.length > 0 ? (
+                <div>
+                    <div className="grid grid-cols-3 gap-x-1.5">
+                        <Typography variant={'muted'}>Opening Time</Typography>
+                        <Typography variant={'muted'}>Closing Time</Typography>
+                        <Typography variant={'muted'}>
+                            Student Capacity
+                        </Typography>
+                    </div>
+                    <div className="flex flex-col gap-y-1.5 mt-1.5">
+                        {shifts?.data?.map((shift: any) => (
+                            <ShiftCard shift={shift} />
+                        ))}
+                    </div>
+                </div>
+            ) : (
+                !shifts.isError && <NoData text={'No Shifts were found'} />
+            )}
         </div>
     )
 }

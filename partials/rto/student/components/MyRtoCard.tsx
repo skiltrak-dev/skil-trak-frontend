@@ -23,7 +23,7 @@ export const MyRtoCard = ({ data }: Props) => {
           </div>
 
           {/* Action */}
-          {/* <Link href="#">
+          {/* <Link legacyBehavior href="#">
                             <a className="inline-block uppercase text-xs font-medium bg-orange-100 text-orange-600 px-4 py-2 rounded">
                                 See Details
                             </a>
@@ -39,6 +39,7 @@ export const MyRtoCard = ({ data }: Props) => {
                   src={data?.rto?.user.avatar}
                   width={100}
                   height={100}
+                  alt=""
                   className="rounded-full shadow-inner-image"
                 />
               ) : (

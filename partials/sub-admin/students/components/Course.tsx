@@ -21,7 +21,6 @@ export const Course = ({ course }: any) => {
         endTime: '',
     })
 
-    console.log('course', course)
     const result = course?.results ? course?.results[0]?.result : []
 
     const badge = (text: string, outline?: boolean) => {

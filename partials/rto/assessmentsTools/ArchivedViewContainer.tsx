@@ -104,7 +104,7 @@ export const ArchivedViewContainer = ({ role }: ArchivedViewProps) => {
                         {rtoCourses?.isLoading ? (
                             <LoadingAnimation size={85} />
                         ) : rtoCourses?.data?.data &&
-                          rtoCourses?.data?.data?.length > 0 ? (
+                            rtoCourses?.data?.data?.length > 0 ? (
                             rtoCourses?.data?.data?.map((course: any) => (
                                 <AssessmentCourse
                                     code={course?.code}
@@ -146,11 +146,10 @@ export const ArchivedViewContainer = ({ role }: ArchivedViewProps) => {
                             </span>
                             <div className="border-4 border-blue-600">
                                 <div
-                                    className={`${
-                                        role === 'RTO'
+                                    className={`${role === 'RTO'
                                             ? 'border-b border-t'
                                             : 'border-b'
-                                    } p-4`}
+                                        } p-4`}
                                 >
                                     <div className="grid grid-cols-3">
                                         <Typography
@@ -186,7 +185,7 @@ export const ArchivedViewContainer = ({ role }: ArchivedViewProps) => {
                                     {getAssessmentTools?.isLoading ? (
                                         <LoadingAnimation size={80} />
                                     ) : getAssessmentTools?.data &&
-                                      getAssessmentTools?.data?.length > 0 ? (
+                                        getAssessmentTools?.data?.length > 0 ? (
                                         getAssessmentTools?.data?.map(
                                             (assessment: any) => (
                                                 <DownloadableFile
@@ -221,7 +220,7 @@ export const ArchivedViewContainer = ({ role }: ArchivedViewProps) => {
             </div>
             <div>
                 <Typography variant="label" color="text-blue-500">
-                    <Link href="#">
+                    <Link legacyBehavior href="#">
                         I want to access my assessment tool for enrolled course
                     </Link>
                 </Typography>

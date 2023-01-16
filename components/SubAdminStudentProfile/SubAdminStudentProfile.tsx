@@ -25,7 +25,6 @@ const getGender = (gender: string | undefined) => {
 }
 export const SubAdminStudentProfile = ({ student }: { student: Student }) => {
     const [modal, setModal] = useState<any | null>(null)
-    console.log("students", student)
     const router = useRouter()
 
     const onEditClicked = () => {

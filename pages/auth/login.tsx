@@ -110,7 +110,7 @@ const Login: NextPage = () => {
                             <div className="mt-16">
                                 <Typography variant="muted">
                                     Don&apos;t have account?{' '}
-                                    <Link href="/auth/signup">
+                                    <Link legacyBehavior href="/auth/signup">
                                         <a className="text-link">
                                             Please Create Account
                                         </a>

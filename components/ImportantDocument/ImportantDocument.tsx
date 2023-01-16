@@ -25,7 +25,7 @@ export const ImportantDocument = ({
     })
 
     return (
-        <Link href={href ? href : '#'}>
+        <Link legacyBehavior href={href ? href : '#'}>
             <a className="w-full">
                 <div className={detailContainerClasses}>
                     <Image

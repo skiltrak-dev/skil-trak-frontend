@@ -30,7 +30,7 @@ export const MyRto = ({ myRto }: any) => {
                 </div>
 
                 {/* Action */}
-                <Link
+                <Link legacyBehavior
                     href={`/portals/sub-admin/users/rtos/${myRto?.rto?.id}?tab=overview`}
                 >
                     <a className="inline-block uppercase text-xs font-medium bg-orange-100 text-orange-600 px-4 py-2 rounded">

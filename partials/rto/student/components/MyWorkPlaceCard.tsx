@@ -24,7 +24,7 @@ export const MyWorkPlaceCard = ({ data }: Props) => {
                     </div>
 
                     {/* Action */}
-                    {/* <Link href="#">
+                    {/* <Link legacyBehavior href="#">
                             <a className="inline-block uppercase text-xs font-medium bg-green-100 text-green-600 px-4 py-2 rounded">
                                 See Details
                             </a>
@@ -41,6 +41,7 @@ export const MyWorkPlaceCard = ({ data }: Props) => {
                                         src={data?.rto?.user?.avatar}
                                         width={100}
                                         height={100}
+                                        alt=""
                                         className="rounded-full shadow-inner-image"
                                     />
                                 ) : (

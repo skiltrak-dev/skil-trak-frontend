@@ -34,7 +34,6 @@ export const SearchAppointmentForUser = ({
     )
     const industry =
         userData?.data?.student?.workplace[0]?.industries[0]?.industry?.user?.id
-    console.log('industry')
 
     useEffect(() => {
         if (selectedPerson?.selectedAppointmentFor?.toLowerCase() === user) {
@@ -43,8 +42,6 @@ export const SearchAppointmentForUser = ({
             setIsAppointmentTypeChange(false)
         }
     }, [selectedPerson, userData])
-
-    console.log('isAppointmentTypeChange', isAppointmentTypeChange)
 
     useEffect(() => {
         if (userData?.isSuccess && userData?.data) {

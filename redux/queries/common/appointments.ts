@@ -6,6 +6,13 @@ const PREFIX = `appointments`
 export const appointmentsEndpoints = (
     builder: EndpointBuilder<BaseQueryFn, string, string>
 ) => ({
+    coordinatorAvailablity: builder.query<any, any>({
+        query: (user) => ({
+            url: `${PREFIX}/availabilities/list`,
+            params: { user },
+        }),
+        providesTags: ['Appointments'],
+    }),
     createAppointment: builder.mutation<any, any | null>({
         query: (body) => ({ url: `${PREFIX}`, method: 'POST', body }),
         invalidatesTags: ['Appointments'],
