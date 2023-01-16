@@ -126,6 +126,7 @@ const {
     useIndustryStatusChangeMutation,
     useIndustryRemoveMutation,
     useIndustryDetailQuery,
+    useRplRequestListQuery,
 
     // ------ SECTOR ------ //
     useSectorsQuery,
@@ -266,6 +267,7 @@ export const AdminApi = {
     Industries: {
         useListQuery: useIndustriesQuery,
         useCount: useIndustryCountQuery,
+        useRplList: useRplRequestListQuery,
         useStatusChange: useIndustryStatusChangeMutation,
         useDetail: useIndustryDetailQuery,
         useRemove: useIndustryRemoveMutation,

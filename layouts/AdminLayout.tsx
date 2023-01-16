@@ -14,7 +14,7 @@ import { MdHomeWork, MdSpaceDashboard, MdSubscriptions } from 'react-icons/md'
 import { IconType } from 'react-icons'
 import { FaClipboardList, FaUniversity, FaUserGraduate } from 'react-icons/fa'
 import { IoMdBriefcase } from 'react-icons/io'
-import { RiShieldUserFill } from 'react-icons/ri'
+import { RiShieldUserFill, RiVoiceRecognitionLine } from 'react-icons/ri'
 import { BsInfoSquareFill } from 'react-icons/bs'
 import { HiTicket } from 'react-icons/hi'
 
@@ -81,6 +81,11 @@ const routes: Route[] = [
         text: 'Appointments',
         path: getRoutePath('/appointment-type'),
         Icon: FaClipboardList,
+    },
+    {
+        text: 'RPL',
+        path: getRoutePath('/rpl-list'),
+        Icon: RiVoiceRecognitionLine,
     },
     {
         text: 'Jobs',

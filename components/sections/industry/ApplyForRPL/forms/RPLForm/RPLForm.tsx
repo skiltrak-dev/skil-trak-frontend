@@ -70,18 +70,19 @@ export const RPLForm = () => {
     })
 
     const onSubmit = async (values: any) => {
-        const formData = new FormData()
-        formData.append('identity', values.cnic)
-        formData.append('resume', values.resume)
-        formData.append('jobDescription', values.jobDescription)
-        values?.financialEvidence?.forEach((element: any) => {
-            formData.append('financialEvidence', element)
-        })
-        values?.academicDocuments?.forEach((element: any) => {
-            formData.append('academicDocuments', element)
-        })
+        console.log("aaa", values)
+        // const formData = new FormData()
+        // formData.append('identity', values.cnic)
+        // formData.append('resume', values.resume)
+        // formData.append('jobDescription', values.jobDescription)
+        // values?.financialEvidence?.forEach((element: any) => {
+        //     formData.append('financialEvidence', element)
+        // })
+        // values?.academicDocuments?.forEach((element: any) => {
+        //     formData.append('academicDocuments', element)
+        // })
 
-        await addRpl(formData)
+        // await addRpl(formData)
         // <Navigate to="/privew-industry" />;
         // navigate("/portal-selection/create-account/review-your-information");
     }
@@ -181,7 +182,7 @@ export const RPLForm = () => {
 
                                     <div className="mt-1.5 max-w-220">
                                         <UploadRPLDocs
-                                            name={'financialEvidence[0]'}
+                                            name={'financialEvidence'}
                                             fileupload={setFieldValue}
                                             acceptFiles={'application/pdf'}
                                         />
