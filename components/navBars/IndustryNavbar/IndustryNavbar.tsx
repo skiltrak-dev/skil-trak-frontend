@@ -85,7 +85,7 @@ export const IndustryNavbar = () => {
                     } ${defaultClasses} hover:bg-green-100 hover:text-green-700`}
                 >
                   <span>
-                    <FaSignature />
+                    <MdWork />
                   </span>
                   <span className="text-sm font-semibold">
                     Jobs

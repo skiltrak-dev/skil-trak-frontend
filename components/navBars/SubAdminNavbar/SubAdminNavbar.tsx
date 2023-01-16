@@ -53,8 +53,13 @@ export const SubAdminNavbar = () => {
                             className={`${isActive(Routes.Students)
                                     ? 'bg-blue-100 text-blue-700'
                                     : 'text-slate-700'
+<<<<<<< Updated upstream
                                 } ${defaultClasses} hover:bg-blue-100 hover:text-blue-700`}
                             id="users"
+=======
+                            } ${defaultClasses} hover:bg-blue-100 hover:text-blue-700`}
+                            id="student"
+>>>>>>> Stashed changes
                         >
                             <span>
                                 <FaUserGraduate />

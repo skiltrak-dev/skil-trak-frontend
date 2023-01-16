@@ -8,20 +8,19 @@ export const AdForRPL = ({ short }: any) => {
   const router = useRouter()
   return (
     <div
-      className={`flex ${
-        short ? 'flex-col' : 'flex-col lg:flex-row'
-      } items-center gap-x-8`}
+      className={`flex ${short ? 'flex-col' : 'flex-col lg:flex-row'
+        } items-center gap-x-8`}
     >
       {short ? (
         <img
           className="h-36 rounded-lg w-full object-cover"
-          src="https://placeimg.com/888/555/any"
+          src="/images/content/rpl.jpg"
           alt="Other"
         />
       ) : (
         <img
           className="h-full rounded-lg"
-          src="https://placeimg.com/640/480/any"
+          src="/images/content/rpl.jpg"
           alt="Other"
           width={180}
           height={180}
@@ -31,17 +30,14 @@ export const AdForRPL = ({ short }: any) => {
       <div className={`w-full h-full flex flex-col items-start gap-y-5`}>
         {!short && (
           <div className="flex flex-col gap-y-2.5">
-            <Typography color={'text-gray-700'}>
-              Lorem ipsum dolor sit amet. Quo dolore repellat qui culpa
-              voluptates est dolor perspiciatis qui voluptatem placeat. Eos
-              fugiat internos aut autem vero sed placeat odit aut eaque porro
-              qui explicabo voluptas 33 odit asperiores.
-            </Typography>
+            <h2 className='text-2xl font-bold'>RPL - Become Qualified Fast.</h2>
+            <p className="text-gray-500">
+              Use your work experience to achieve a nationally recognized qualification.
+            </p>
 
-            <Typography color={'text-gray-700'}>
-              Vel commodi repellat et repellat error ut minima tenetur id magnam
-              iure 33 nisi quisquam At error cumque.
-            </Typography>
+            <p className="text-gray-500">
+              Get your experience recognized and the qualification you deserve. All qualification you are awarded by our partnered RTO's.
+            </p>
           </div>
         )}
 
