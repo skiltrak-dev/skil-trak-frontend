@@ -19,7 +19,7 @@ import {
 import { MouEditor, Signature } from './components'
 
 // utils
-import { getUserCredentials } from '@utils'
+import { getUserCredentials, isBrowser } from '@utils'
 
 export const MOUDetailContainer = forwardRef(
     (
@@ -118,21 +118,21 @@ export const MOUDetailContainer = forwardRef(
                                                     )}
                                                 {getMouResult?.data?.status ===
                                                     'signed' && (
-                                                    <a
-                                                        href={`${process.env.NEXT_PUBLIC_END_POINT}industries/mou/download/${id}`}
-                                                        target="_blank"
-                                                        rel="noreferrer"
-                                                    >
-                                                        <Button
-                                                            variant={'action'}
-                                                            Icon={
-                                                                MdSimCardDownload
-                                                            }
-                                                            submit
-                                                            text={'Download'}
-                                                        />
-                                                    </a>
-                                                )}
+                                                        <a
+                                                            href={`${process.env.NEXT_PUBLIC_END_POINT}industries/mou/download/${id}`}
+                                                            target="_blank"
+                                                            rel="noreferrer"
+                                                        >
+                                                            <Button
+                                                                variant={'action'}
+                                                                Icon={
+                                                                    MdSimCardDownload
+                                                                }
+                                                                submit
+                                                                text={'Download'}
+                                                            />
+                                                        </a>
+                                                    )}
                                             </>
                                         ) : (
                                             <>
@@ -153,14 +153,14 @@ export const MOUDetailContainer = forwardRef(
                                 <div className="mt-6">
                                     {editMou ? (
                                         <>
-                                            <MouEditor
+                                            {isBrowser() && <MouEditor
                                                 content={content}
                                                 saveContent={saveContent}
                                                 setEditMou={setEditMou}
                                                 setSaveContentButton={
                                                     setSaveContentButton
                                                 }
-                                            />
+                                            />}
                                         </>
                                     ) : (
                                         <>
@@ -238,20 +238,20 @@ export const MOUDetailContainer = forwardRef(
                                     {/* Action */}
                                     {getMouResult?.data?.status !==
                                         'signed' && (
-                                        <Button
-                                            onClick={onSubmit}
-                                            loading={
-                                                acceptMouResult.isLoading ||
-                                                createMouResult.isLoading
-                                            }
-                                            disabled={
-                                                acceptMouResult.isLoading ||
-                                                createMouResult.isLoading
-                                            }
-                                        >
-                                            Submit
-                                        </Button>
-                                    )}
+                                            <Button
+                                                onClick={onSubmit}
+                                                loading={
+                                                    acceptMouResult.isLoading ||
+                                                    createMouResult.isLoading
+                                                }
+                                                disabled={
+                                                    acceptMouResult.isLoading ||
+                                                    createMouResult.isLoading
+                                                }
+                                            >
+                                                Submit
+                                            </Button>
+                                        )}
                                 </div>
                             </div>
                         ) : (

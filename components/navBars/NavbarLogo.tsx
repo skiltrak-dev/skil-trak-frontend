@@ -9,7 +9,7 @@ export const HeaderLogo = () => {
 
     const width = isMobile ? 80 : 140
     return (
-        <Link href="/">
+        <Link legacyBehavior href="/">
             <a className="flex-shrink-0">
                 {/* <Image
                     className={'w-8 mx-auto'}

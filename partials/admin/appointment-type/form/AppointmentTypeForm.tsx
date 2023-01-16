@@ -8,6 +8,7 @@ import {
 } from '@components'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { AppointmentType, Sector } from '@types'
+import { isBrowser } from '@utils'
 import React, { useState } from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
 import * as yup from 'yup'
@@ -128,11 +129,11 @@ export const AppointmentTypeForm = ({
                     </div>
 
                     <div className="">
-                        <ContentEditor
+                        {isBrowser() && <ContentEditor
                             label="Email Content"
                             content={emailContent}
                             setContent={setEmailContent}
-                        />
+                        />}
                     </div>
 
                     <div className="my-4">

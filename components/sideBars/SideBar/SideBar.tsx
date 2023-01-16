@@ -25,7 +25,7 @@ export const SideBar = ({ routes, portalType }: any) => {
 
     return (
         <div className="w-56 flex-shrink-0 h-screen pb-24 bg-white border-r border-secondary-dark px-2 py-2 relative overflow-y-scroll remove-scrollbar">
-            <Link href="/">
+            <Link legacyBehavior href="/">
                 <div className="relative w-fit mx-auto pt-2">
                     <Image
                         src={`/images/skiltrak_logo.svg`}

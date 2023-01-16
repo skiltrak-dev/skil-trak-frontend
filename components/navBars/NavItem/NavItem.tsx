@@ -19,11 +19,10 @@ export const NavItem = ({
 	onClick,
 }: NavItemProps) => {
 	return link ? (
-		<Link href={link}>
+		<Link legacyBehavior href={link}>
 			<div
-				className={`${
-					active ? "bg-primary text-white" : "bg-transparent"
-				} text-sm transition-all duration-300 cursor-pointer border-transparent px-4 py-2 focus:outline-none focus:ring-4 hover:bg-secondary hover:text-typography-light rounded-lg flex justify-start items-center`}
+				className={`${active ? "bg-primary text-white" : "bg-transparent"
+					} text-sm transition-all duration-300 cursor-pointer border-transparent px-4 py-2 focus:outline-none focus:ring-4 hover:bg-secondary hover:text-typography-light rounded-lg flex justify-start items-center`}
 			>
 				<Icon className="inline-flex mr-2 text-sm" />
 				{children}
@@ -31,9 +30,8 @@ export const NavItem = ({
 		</Link>
 	) : (
 		<div
-			className={`${
-				active ? "bg-primary text-white" : "bg-transparent"
-			} text-sm transition-all duration-300 cursor-pointer border-transparent px-4 py-2 focus:outline-none focus:ring-4 hover:bg-secondary hover:text-typography-light rounded-lg flex justify-start items-center`}
+			className={`${active ? "bg-primary text-white" : "bg-transparent"
+				} text-sm transition-all duration-300 cursor-pointer border-transparent px-4 py-2 focus:outline-none focus:ring-4 hover:bg-secondary hover:text-typography-light rounded-lg flex justify-start items-center`}
 			onClick={onClick}
 		>
 			<Icon className="inline-flex mr-3.5 text-sm" />

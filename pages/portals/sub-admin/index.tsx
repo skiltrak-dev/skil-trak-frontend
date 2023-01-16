@@ -116,10 +116,10 @@ const getSectors = (courses: any) => {
     const sectors = {}
     courses.forEach((c: any) => {
         if ((sectors as any)[c.sector.name]) {
-            ;(sectors as any)[c.sector.name].push(c)
+            ; (sectors as any)[c.sector.name].push(c)
         } else {
-            ;(sectors as any)[c.sector.name] = []
-            ;(sectors as any)[c.sector.name].push(c)
+            ; (sectors as any)[c.sector.name] = []
+                ; (sectors as any)[c.sector.name].push(c)
         }
     })
     return sectors
@@ -572,7 +572,7 @@ const SubAdminDashboard: NextPageWithLayout = () => {
                     </div>
 
                     {/* Action */}
-                    {/* <Link href="#">
+                    {/* <Link legacyBehavior href="#">
                         <a className="inline-block uppercase text-xs font-medium bg-indigo-100 text-indigo-600 px-4 py-2 rounded">
                             See Details
                         </a>

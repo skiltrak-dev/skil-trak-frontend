@@ -21,6 +21,7 @@ export const UserProfile = () => {
                         width={100}
                         height={100}
                         className="rounded-full shadow-inner-image"
+                        alt=""
                     />
                     <div className="absolute top-0 w-[100px] h-[100px] bg-transparent rounded-full shadow-inner-image"></div>
                 </div>

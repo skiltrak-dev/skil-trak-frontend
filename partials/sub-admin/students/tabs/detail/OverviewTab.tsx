@@ -47,7 +47,7 @@ export const OverViewTab = ({ student }: StudentsProfileOverviewProps) => {
     )
 }
 
-// <Link href="#">
+// <Link legacyBehavior href="#">
 // <a className="inline-block uppercase text-xs font-medium bg-orange-100 text-orange-600 px-4 py-2 rounded">
 //   See Details
 // </a>

@@ -88,7 +88,7 @@ const RTOs: NextPageWithLayout = () => {
                                 width={50}
                                 height={50}
                             />
-                            <Link
+                            <Link legacyBehavior
                                 href={`/portals/sub-admin/users/rtos/${row.original.id}?tab=overview`}
                             >
                                 <a>

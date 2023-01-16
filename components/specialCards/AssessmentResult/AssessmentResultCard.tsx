@@ -27,6 +27,7 @@ export const AssessmentResultCard = ({
                     src={'/images/card-icons/ic_assessment.png'}
                     width={100}
                     height={100}
+                    alt=""
                 />
             </div>
         </div>

@@ -99,7 +99,7 @@ export const AdvertisedJobsContainer = () => {
             cell: ({ row }: any) => {
                 const { title, industry } = row.original
                 return (
-                    <Link
+                    <Link legacyBehavior
                         href={`/jobs/job-detail/${row.original.id}`}
                         className="flex items-center gap-x-2 relative"
                     >

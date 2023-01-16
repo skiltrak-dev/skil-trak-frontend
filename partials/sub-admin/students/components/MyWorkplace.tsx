@@ -43,7 +43,7 @@ export const MyWorkplace = ({ myWorkplace }: Props) => {
                 {/* Action */}
                 <div className="flex justify-between gap-x-4">
                     {filteredData.length ? (
-                        <Link href="#">
+                        <Link legacyBehavior href="#">
                             <a className="inline-block uppercase text-xs font-medium bg-green-100 text-green-600 px-4 py-2 rounded">
                                 See Details
                             </a>
@@ -51,7 +51,7 @@ export const MyWorkplace = ({ myWorkplace }: Props) => {
                     ) : null}
 
                     {filteredData.length > 1 ? (
-                        <Link href="#">
+                        <Link legacyBehavior href="#">
                             <a className="inline-block uppercase text-xs font-medium bg-gray-100 text-gray-500 px-4 py-2 rounded">
                                 VIEW SECOND
                             </a>

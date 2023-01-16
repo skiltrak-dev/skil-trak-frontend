@@ -75,6 +75,7 @@ export const PastAppointmentCard = ({
                                 alt="Video Conference"
                                 width={50}
                                 height={50}
+                                alt=""
                             />
                         </div>
                     </div>

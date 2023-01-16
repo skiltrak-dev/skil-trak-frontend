@@ -162,6 +162,7 @@ export const AppointmentTypes = () => {
                             )}
                             width={28}
                             height={28}
+                            alt=""
                         />
                     </div>
                 )
@@ -180,6 +181,7 @@ export const AppointmentTypes = () => {
                                     src={getImages(p)}
                                     width={22}
                                     height={22}
+                                    alt=""
                                 />
                             </div>
                         ))}

@@ -30,13 +30,12 @@ export const SubAdminNavbar = () => {
         <div className="flex justify-between items-center">
             <ul className="flex gap-x-2 py-4">
                 <li>
-                    <Link href={Routes.Dashboard}>
+                    <Link legacyBehavior href={Routes.Dashboard}>
                         <a
-                            className={`${
-                                isActive(Routes.Dashboard)
+                            className={`${isActive(Routes.Dashboard)
                                     ? 'bg-indigo-100 text-indigo-700'
                                     : 'text-slate-700'
-                            } ${defaultClasses} hover:bg-indigo-100 hover:text-indigo-700`}
+                                } ${defaultClasses} hover:bg-indigo-100 hover:text-indigo-700`}
                         >
                             <span>
                                 <MdSpaceDashboard />
@@ -49,13 +48,12 @@ export const SubAdminNavbar = () => {
                 </li>
 
                 <li>
-                    <Link href={Routes.Students}>
+                    <Link legacyBehavior href={Routes.Students}>
                         <a
-                            className={`${
-                                isActive(Routes.Students)
+                            className={`${isActive(Routes.Students)
                                     ? 'bg-blue-100 text-blue-700'
                                     : 'text-slate-700'
-                            } ${defaultClasses} hover:bg-blue-100 hover:text-blue-700`}
+                                } ${defaultClasses} hover:bg-blue-100 hover:text-blue-700`}
                             id="users"
                         >
                             <span>
@@ -69,13 +67,12 @@ export const SubAdminNavbar = () => {
                 </li>
 
                 <li>
-                    <Link href={Routes.Users}>
+                    <Link legacyBehavior href={Routes.Users}>
                         <a
-                            className={`${
-                                isActive(Routes.Users)
+                            className={`${isActive(Routes.Users)
                                     ? 'bg-blue-100 text-blue-700'
                                     : 'text-slate-700'
-                            } ${defaultClasses} hover:bg-blue-100 hover:text-blue-700`}
+                                } ${defaultClasses} hover:bg-blue-100 hover:text-blue-700`}
                             id="users"
                         >
                             <span>
@@ -87,13 +84,12 @@ export const SubAdminNavbar = () => {
                 </li>
 
                 <li>
-                    <Link href={Routes.Tasks}>
+                    <Link legacyBehavior href={Routes.Tasks}>
                         <a
-                            className={`${
-                                isActive(Routes.Tasks)
+                            className={`${isActive(Routes.Tasks)
                                     ? 'bg-orange-100 text-orange-700'
                                     : 'text-slate-700'
-                            } ${defaultClasses} hover:bg-orange-100 hover:text-orange-700`}
+                                } ${defaultClasses} hover:bg-orange-100 hover:text-orange-700`}
                             id="tasks"
                         >
                             <span>
@@ -104,7 +100,7 @@ export const SubAdminNavbar = () => {
                     </Link>
                 </li>
                 {/* <li>
-                    <Link href={Routes.ESignature}>
+                    <Link legacyBehavior href={Routes.ESignature}>
                         <a
                             className={`${
                                 isActive(Routes.ESignature)
@@ -123,13 +119,12 @@ export const SubAdminNavbar = () => {
                 </li> */}
 
                 <li>
-                    <Link href={Routes.Notification}>
+                    <Link legacyBehavior href={Routes.Notification}>
                         <a
-                            className={`${
-                                isActive(Routes.Notification)
+                            className={`${isActive(Routes.Notification)
                                     ? 'bg-blue-100 text-blue-700'
                                     : 'text-slate-700'
-                            } ${defaultClasses} hover:bg-blue-100 hover:text-blue-700`}
+                                } ${defaultClasses} hover:bg-blue-100 hover:text-blue-700`}
                         >
                             <span>
                                 <MdNotifications />
@@ -141,13 +136,12 @@ export const SubAdminNavbar = () => {
                     </Link>
                 </li>
             </ul>
-            <Link href={Routes.Settings}>
+            <Link legacyBehavior href={Routes.Settings}>
                 <a
-                    className={`${
-                        isActive(Routes.Settings)
+                    className={`${isActive(Routes.Settings)
                             ? 'bg-blue-100 text-blue-700'
                             : 'text-slate-700'
-                    } ${defaultClasses} hover:bg-blue-100 hover:text-blue-700`}
+                        } ${defaultClasses} hover:bg-blue-100 hover:text-blue-700`}
                 >
                     <span>
                         <MdNotifications />

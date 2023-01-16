@@ -4,7 +4,7 @@ import { MdEmail, MdPhoneIphone } from 'react-icons/md'
 
 export const RtoCellInfo = ({ rto, short }: { rto: Rto; short?: boolean }) => {
     return (
-        <Link href={`rto/${rto?.id}?tab=sectors`}>
+        <Link legacyBehavior href={`rto/${rto?.id}?tab=sectors`}>
             <a className="flex items-center gap-x-2">
                 <div className="shadow-inner-image rounded-full">
                     <img
@@ -12,9 +12,8 @@ export const RtoCellInfo = ({ rto, short }: { rto: Rto; short?: boolean }) => {
                             rto?.user?.avatar ||
                             `https://picsum.photos/64/${64 + rto?.id}`
                         }
-                        className={`${
-                            short ? 'w-6 h-6' : 'w-8 h-8'
-                        } rounded-full`}
+                        className={`${short ? 'w-6 h-6' : 'w-8 h-8'
+                            } rounded-full`}
                     />
                 </div>
                 <div>

@@ -82,11 +82,10 @@ export const ArchivedView = ({ role, actions }: ArchivedViewProps) => {
                             </span>
                             <div className="border-2 border-blue-600">
                                 <div
-                                    className={`${
-                                        role === 'RTO'
+                                    className={`${role === 'RTO'
                                             ? 'border-b border-t'
                                             : 'border-b'
-                                    } p-4`}
+                                        } p-4`}
                                 >
                                     <div className="flex justify-between">
                                         <Typography
@@ -135,7 +134,7 @@ export const ArchivedView = ({ role, actions }: ArchivedViewProps) => {
             </div>
             <div>
                 <Typography variant="label" color="text-blue-500">
-                    <Link href="#">
+                    <Link legacyBehavior href="#">
                         I want to access my assessment tool for enrolled course
                     </Link>
                 </Typography>

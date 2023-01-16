@@ -65,7 +65,7 @@ export const HelpQuestionSet = ({
                             </li>
                         ) : (
                             <li key={i}>
-                                <Link href={question.link}>
+                                <Link legacyBehavior href={question.link}>
                                     <a className="text-blue-400 cursor-pointer text-sm hover:text-blue-500">
                                         {question.text}
                                     </a>

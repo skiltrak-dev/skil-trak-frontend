@@ -61,7 +61,7 @@ const SignUp: NextPage = () => {
                         <div className="mt-16">
                             <Typography variant="muted">
                                 Already have account?{' '}
-                                <Link href="/auth/login">
+                                <Link legacyBehavior href="/auth/login">
                                     <a className="text-link">Please Login</a>
                                 </Link>
                             </Typography>

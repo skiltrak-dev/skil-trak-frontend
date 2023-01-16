@@ -28,7 +28,7 @@ export const SpecialLink = ({
 	const Icon = icon;
 
 	return (
-		<Link
+		<Link legacyBehavior
 			href={`/${link}` || "#"}
 			className={`relative flex items-center justify-start group`}
 		>
@@ -44,9 +44,8 @@ export const SpecialLink = ({
 				</div>
 
 				<p
-					className={`text-sm font-medium ${
-						theme.light ? "text-white" : "text-secondary-text"
-					}`}
+					className={`text-sm font-medium ${theme.light ? "text-white" : "text-secondary-text"
+						}`}
 				>
 					{text}
 				</p>

@@ -237,6 +237,7 @@ const RtoDetail: NextPageWithLayout = () => {
                                         }
                                         width={48}
                                         height={48}
+                                        alt=""
                                     />
                                     <div className="flex flex-col items-end">
                                         <Typography variant={'h2'} center>
@@ -257,6 +258,7 @@ const RtoDetail: NextPageWithLayout = () => {
                                         }
                                         width={48}
                                         height={48}
+                                        alt=""
                                     />
                                     <div className="flex flex-col items-end">
                                         <Typography variant={'h2'} center>

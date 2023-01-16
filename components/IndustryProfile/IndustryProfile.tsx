@@ -64,6 +64,7 @@ export const IndustryProfile = ({ data }: Props) => {
                             width={100}
                             height={100}
                             className="rounded-full shadow-inner-image"
+                            alt=""
                         />
                     ) : (
                         <div className="h-24 w-24 flex items-center justify-center bg-gray-100 rounded-full">

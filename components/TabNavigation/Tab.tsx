@@ -46,7 +46,7 @@ export const Tab = ({ label, href, badge, active, element }: TabProps) => {
 
     return (
         <div className={classes}>
-            <Link href={href}>{label}</Link>
+            <Link legacyBehavior href={href}>{label}</Link>
             {badge && (
                 <>
                     {badge?.loading && (

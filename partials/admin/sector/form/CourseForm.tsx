@@ -9,6 +9,7 @@ import {
 import { yupResolver } from '@hookform/resolvers/yup'
 import { AdminApi } from '@queries'
 import { Course, Sector } from '@types'
+import { isBrowser } from '@utils'
 import React from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
 import * as yup from 'yup'
@@ -105,11 +106,11 @@ export const CourseForm = ({
                     </div>
 
                     <div>
-                        <ContentEditor
+                        {isBrowser() && <ContentEditor
                             label="Requirement"
                             content={requirementFile}
                             setContent={setRequirementFile}
-                        />
+                        />}
                     </div>
 
                     <div className="grid grid-cols-1 gap-x-8">

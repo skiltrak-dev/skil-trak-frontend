@@ -23,7 +23,7 @@ export const RecentEmailCard = ({ emails }: RecentEmailCardProps) => {
                     </p>
                 </div>
                 <div>
-                    <Link href="#">
+                    <Link legacyBehavior href="#">
                         <a className="text-xs rounded-full bg-white px-2 py-1 text-indigo-800">
                             View All
                         </a>
@@ -33,7 +33,7 @@ export const RecentEmailCard = ({ emails }: RecentEmailCardProps) => {
             <div className="flex justify-between gap-x-8 items-center">
                 <div className="w-full">
                     {emails.map((email, i) => (
-                        <Link href="#" key={i}>
+                        <Link legacyBehavior href="#" key={i}>
                             <a>
                                 <div
                                     key={email.subject}
@@ -67,6 +67,7 @@ export const RecentEmailCard = ({ emails }: RecentEmailCardProps) => {
                         src="/images/card-icons/ic_email.png"
                         width={100}
                         height={100}
+                        alt=""
                     />
                 </div>
             </div>

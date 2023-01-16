@@ -12,7 +12,7 @@ export const DocumentCard = ({
     idx,
 }: DocumentCardProps) => {
     return (
-        <Link href="#">
+        <Link legacyBehavior href="#">
             <a className="rounded-2xl bg-white shadow-xl inline-block overflow-hidden">
                 {/* <Image
                     src={`https://loremflickr.com/180/100/work?random=${idx}`}

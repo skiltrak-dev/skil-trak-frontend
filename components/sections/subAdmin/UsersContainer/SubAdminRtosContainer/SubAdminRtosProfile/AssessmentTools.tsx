@@ -133,7 +133,7 @@ export const AssessmentTools = ({ id, courses, actions, setAssessmentView }: any
             </div>
             <div>
                 <Typography variant="label" color="text-blue-500">
-                    <Link href="#">
+                    <Link legacyBehavior href="#">
                         I want to access my assessment tool for enrolled course
                     </Link>
                 </Typography>

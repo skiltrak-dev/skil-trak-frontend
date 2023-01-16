@@ -244,8 +244,8 @@ export const IndustryForm = ({
                                     label={'Sector'}
                                     {...(storedData
                                         ? {
-                                              defaultValue: storedData.sectors,
-                                          }
+                                            defaultValue: storedData.sectors,
+                                        }
                                         : {})}
                                     name={'sectors'}
                                     options={sectorOptions}
@@ -350,13 +350,13 @@ export const IndustryForm = ({
                                     label={
                                         <>
                                             I agree with{' '}
-                                            <Link href="/terms-and-conditions">
+                                            <Link legacyBehavior href="/terms-and-conditions">
                                                 <a className="text-link">
                                                     Terms
                                                 </a>
                                             </Link>{' '}
                                             {'&'}{' '}
-                                            <Link href="/privacy-policy">
+                                            <Link legacyBehavior href="/privacy-policy">
                                                 <a className="text-link">
                                                     Privacy Policy
                                                 </a>

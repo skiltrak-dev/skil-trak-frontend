@@ -94,7 +94,7 @@ const RtoCoordinators: NextPageWithLayout = (props: Props) => {
                     user: { name, email },
                 } = row.original
                 return (
-                    <Link
+                    <Link legacyBehavior
                         href={`/portals/rto/coordinators/${row.original.id}`}
                         className="flex items-center gap-x-2 relative"
                     >
