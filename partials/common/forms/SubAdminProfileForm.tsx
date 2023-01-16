@@ -1,22 +1,43 @@
 import { useEffect } from 'react'
-
-import * as yup from 'yup'
-
-import { onlyAlphabets } from '@utils'
-
-import { Button, TextInput, Typography, Card, Avatar } from '@components'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { FormProvider, useForm } from 'react-hook-form'
+import * as yup from 'yup'
 
-export const RTOProfileEditForm = ({
-    onSubmit,
-    profile,
+// components
+import { Avatar, Button, Card, TextInput, Typography } from '@components'
+
+// utils
+import { onlyAlphabets } from '@utils'
+
+// hooks
+import { useContextBar, useNotification } from '@hooks'
+
+export const SubAdminProfileForm = ({
     result,
+    profile,
+    onSubmit,
 }: {
-    onSubmit: any
-    profile: any
     result: any
+    profile: any
+    onSubmit: any
 }) => {
+    const contextBar = useContextBar()
+    const { notification } = useNotification()
+
+    useEffect(() => {
+        contextBar.setContent(null)
+        contextBar.hide()
+    }, [])
+
+    useEffect(() => {
+        if (result.isSuccess) {
+            notification.success({
+                title: 'Profile Updated',
+                description: 'Profile Updated Successfully',
+            })
+        }
+    }, [result])
+
     const validationSchema = yup.object({
         // Profile Information
         name: yup
@@ -29,21 +50,12 @@ export const RTOProfileEditForm = ({
             .email('Invalid Email')
             .required('Must provide email'),
 
-        // Business Information
         phone: yup.string().required('Must provide phone number'),
 
         // Contact Person Information
-        contactPersonName: yup
-            .string()
-            .matches(onlyAlphabets(), 'Must be a valid name'),
-        contactPersonEmail: yup.string().email('Must be a valid email'),
-        contactPersonNumber: yup.string(),
 
         // Address Information
-        addressLine1: yup.string().required('Must provide address'),
-        state: yup.string().required('Must provide name of state'),
-        suburb: yup.string().required('Must provide suburb name'),
-        zipCode: yup.string().required('Must provide zip code for your state'),
+        address: yup.string().required('Must provide address'),
     })
 
     const formMethods = useForm({
@@ -55,17 +67,14 @@ export const RTOProfileEditForm = ({
         if (profile?.data && profile.isSuccess) {
             const {
                 courses,
-                package: RtoPackage,
-                students,
-                subadmin,
+                createdBy,
+                rtos,
                 user,
-
-                id,
                 updatedAt,
                 createdAt,
                 ...rest
             } = profile?.data
-            const { id: userId, socketId, ...userRest } = user
+            const { skiltrakId, ...userRest } = user
             const values = {
                 ...rest,
                 ...userRest,
@@ -75,7 +84,6 @@ export const RTOProfileEditForm = ({
             }
         }
     }, [profile])
-
     return (
         <Card>
             <div className="flex justify-between gap-x-16 border-t py-4">
@@ -90,20 +98,12 @@ export const RTOProfileEditForm = ({
                             <TextInput
                                 label={'Name'}
                                 name={'name'}
-                                placeholder={'RTO Name...'}
+                                placeholder={'Student Name...'}
                                 validationIcons
                                 required
                             />
 
                             <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-8">
-                                <TextInput
-                                    label={'Code'}
-                                    name={'rtoCode'}
-                                    placeholder={'Code...'}
-                                    validationIcons
-                                    required
-                                />
-
                                 <TextInput
                                     label={'Phone Number'}
                                     name={'phone'}
@@ -111,10 +111,6 @@ export const RTOProfileEditForm = ({
                                     validationIcons
                                     required
                                 />
-                            </div>
-
-                            {/* Profile Information */}
-                            <div className="flex gap-x-16 border-t py-4">
                                 <TextInput
                                     label={'Email'}
                                     name={'email'}
@@ -125,46 +121,17 @@ export const RTOProfileEditForm = ({
                                     disabled
                                 />
                             </div>
-
-                            {/* Address Information */}
-                            <div className="flex flex-col gap-x-16 border-t py-4">
-                                <div className="grid grid-cols-1 gap-x-8">
-                                    <TextInput
-                                        label={'Address Line 1'}
-                                        name={'addressLine1'}
-                                        placeholder={'Your Address Line 1...'}
-                                        validationIcons
-                                    />
-                                </div>
-
-                                <div className="grid grid-cols-1 sm:grid-cols-3 gap-x-8">
-                                    <TextInput
-                                        label={'Suburb'}
-                                        name={'suburb'}
-                                        placeholder={'Suburb...'}
-                                        validationIcons
-                                    />
-
-                                    <TextInput
-                                        label={'State'}
-                                        name={'state'}
-                                        placeholder={'State...'}
-                                        validationIcons
-                                    />
-
-                                    <TextInput
-                                        label={'Zip Code'}
-                                        name={'zipCode'}
-                                        placeholder={'Zip Code...'}
-                                        validationIcons
-                                    />
-                                </div>
-                            </div>
+                            <TextInput
+                                label={'Address'}
+                                name={'address'}
+                                placeholder={'Your Address ...'}
+                                validationIcons
+                            />
 
                             <div>
                                 <Button
+                                    text={'Update'}
                                     submit
-                                    text={'Continue'}
                                     loading={result.isLoading}
                                     disabled={result.isLoading}
                                 />

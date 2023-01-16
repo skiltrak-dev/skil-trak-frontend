@@ -38,13 +38,10 @@ export const AddAssessmentToolCB = ({ edit, assessment }: Props) => {
         }
     }, [rtoCourses?.data, rtoCourses.isSuccess])
 
-
-
     const methods = useForm({
         mode: 'all',
         defaultValues: assessment,
     })
-
 
     const onSubmit = async (values: any) => {
         delete values.file
@@ -53,7 +50,9 @@ export const AddAssessmentToolCB = ({ edit, assessment }: Props) => {
         Object.keys(values).map((key) => {
             formData.append(key, values[key])
         })
-        await edit ? update({ body: values.title, assessment: assessment?.id }) : create({ body: formData, id: String(rtoId) })
+        ;(await edit)
+            ? update({ body: values.title, assessment: assessment?.id })
+            : create({ body: formData, id: String(rtoId) })
     }
     return (
         <div>
@@ -67,6 +66,7 @@ export const AddAssessmentToolCB = ({ edit, assessment }: Props) => {
                     onSubmit={methods.handleSubmit(onSubmit)}
                 >
                     <div className="">
+                        {/* TODO Course is not getting in rto portal */}
                         <Select
                             name="course"
                             label="Course(s)"
@@ -97,25 +97,28 @@ export const AddAssessmentToolCB = ({ edit, assessment }: Props) => {
                             }}
                             name={'file'}
                             component={UploadFile}
-                        // acceptTypes={getDocType()}
+                            // acceptTypes={getDocType()}
                         />
                     </div>
 
                     <div className="mt-4 flex items-center justify-between">
-                        {edit ? (<Button
-                            submit
-                            disabled={createResult.isLoading}
-                            loading={createResult.isLoading}
-                        >
-                            Update Assessment
-                        </Button>) : (<Button
-                            submit
-                            disabled={createResult.isLoading}
-                            loading={createResult.isLoading}
-                        >
-                            Add Assessment
-                        </Button>)}
-
+                        {edit ? (
+                            <Button
+                                submit
+                                disabled={createResult.isLoading}
+                                loading={createResult.isLoading}
+                            >
+                                Update Assessment
+                            </Button>
+                        ) : (
+                            <Button
+                                submit
+                                disabled={createResult.isLoading}
+                                loading={createResult.isLoading}
+                            >
+                                Add Assessment
+                            </Button>
+                        )}
                     </div>
                 </form>
             </FormProvider>

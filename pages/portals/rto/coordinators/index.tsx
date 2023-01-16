@@ -94,7 +94,8 @@ const RtoCoordinators: NextPageWithLayout = (props: Props) => {
                     user: { name, email },
                 } = row.original
                 return (
-                    <Link legacyBehavior
+                    <Link
+                        legacyBehavior
                         href={`/portals/rto/coordinators/${row.original.id}`}
                         className="flex items-center gap-x-2 relative"
                     >
@@ -123,7 +124,7 @@ const RtoCoordinators: NextPageWithLayout = (props: Props) => {
         },
         {
             header: () => 'Address',
-            accessorKey: 'address',
+            accessorKey: 'addressLine1',
         },
 
         {
@@ -132,6 +133,7 @@ const RtoCoordinators: NextPageWithLayout = (props: Props) => {
             cell: ({ row }: any) => {
                 return (
                     <TableAction
+                        // TODO Add Delete Option
                         rowItem={row}
                         options={[
                             {

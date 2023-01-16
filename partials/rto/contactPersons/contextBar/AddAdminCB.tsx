@@ -63,7 +63,7 @@ export const AddAdminCB = ({ initialValues, edit }: any) => {
 
     const onSubmit = async (values: any) => {
         if (edit) {
-            await update(values)
+            await update({ id: initialValues?.id, body: values })
         } else {
             await create(values)
         }

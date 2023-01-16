@@ -80,46 +80,46 @@ const MyProfile: NextPageWithLayout = () => {
         updateProfile(values)
     }
     return (
-        <div className="p-4">
-            <Card>
-                <div className="flex justify-between gap-x-16 border-t py-4">
-                    <FormProvider {...formMethods}>
-                        <form
-                            className="w-4/6"
-                            onSubmit={formMethods.handleSubmit(onSubmit)}
-                        >
-                            {/* Personal Information */}
-                            <TextInput
-                                label={'Name'}
-                                name={'name'}
-                                placeholder={'Student Name...'}
-                                validationIcons
-                                required
-                            />
+        <div className="p-4 mb-4">
+            <Avatar avatar={profile?.data?.avatar} />
 
-                            <TextInput
-                                label={'Email'}
-                                name={'email'}
-                                type={'email'}
-                                placeholder={'Your Email...'}
-                                validationIcons
-                                required
-                                disabled
-                            />
+            <div className="flex justify-between gap-x-16 border-t py-4">
+                <FormProvider {...formMethods}>
+                    <form
+                        className="w-4/6"
+                        onSubmit={formMethods.handleSubmit(onSubmit)}
+                    >
+                        {/* Personal Information */}
+                        <TextInput
+                            label={'Name'}
+                            name={'name'}
+                            placeholder={'Student Name...'}
+                            validationIcons
+                            required
+                        />
 
-                            <div>
-                                <Button
-                                    text={'Update'}
-                                    submit
-                                    loading={updateProfileResult.isLoading}
-                                    disabled={updateProfileResult.isLoading}
-                                />
-                            </div>
-                        </form>
-                    </FormProvider>
-                    <Avatar avatar={profile?.data?.avatar} />
-                </div>
-            </Card>
+                        <TextInput
+                            label={'Email'}
+                            name={'email'}
+                            type={'email'}
+                            placeholder={'Your Email...'}
+                            validationIcons
+                            required
+                            disabled
+                        />
+
+                        <div>
+                            <Button
+                                text={'Update'}
+                                submit
+                                loading={updateProfileResult.isLoading}
+                                disabled={updateProfileResult.isLoading}
+                            />
+                        </div>
+                    </form>
+                </FormProvider>
+                {/* <Avatar avatar={profile?.data?.avatar} /> */}
+            </div>
         </div>
     )
 }

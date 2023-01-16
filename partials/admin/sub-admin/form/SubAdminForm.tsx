@@ -41,7 +41,7 @@ export const SubAdminForm = ({ onSubmit }: any) => {
             .required('Must provide email'),
 
         // Address Information
-        address: yup.string().required('Must provide address'),
+        addressLine1: yup.string().required('Must provide address'),
     })
 
     const formMethods = useForm({
@@ -129,7 +129,7 @@ export const SubAdminForm = ({ onSubmit }: any) => {
                             />
                             <TextArea
                                 label={'Address'}
-                                name={'address'}
+                                name={'addressLine1'}
                                 placeholder={'Address...'}
                             />
                         </div>

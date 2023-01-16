@@ -65,10 +65,13 @@ export const studentEndpoints = (
         invalidatesTags: ['Students'],
     }),
 
-    studentUnassignCourses: builder.mutation({
-        query: (body: any) => ({
+    studentUnassignCourses: builder.mutation<
+        any,
+        { id: number; courseId: number }
+    >({
+        query: (body) => ({
             url: `${PREFIX}student/course/delete/${body.courseId}`,
-            params: { student: body.rtoId },
+            params: { student: body.id },
             method: 'DELETE',
         }),
         invalidatesTags: ['Students'],

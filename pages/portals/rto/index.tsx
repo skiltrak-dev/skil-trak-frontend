@@ -42,10 +42,10 @@ const RTODashboard: NextPageWithLayout = () => {
         const sectors = {}
         courses.forEach((c: any) => {
             if ((sectors as any)[c.sector.name]) {
-                ; (sectors as any)[c.sector.name].push(c)
+                ;(sectors as any)[c.sector.name].push(c)
             } else {
-                ; (sectors as any)[c.sector.name] = []
-                    ; (sectors as any)[c.sector.name].push(c)
+                ;(sectors as any)[c.sector.name] = []
+                ;(sectors as any)[c.sector.name].push(c)
             }
         })
         return sectors
@@ -438,7 +438,6 @@ const RTODashboard: NextPageWithLayout = () => {
                     />
                 </div>
             </div>
-
             {/* Question Section */}
             <section className="bg-[#D6F4FF] w-full p-4 rounded-2xl relative overflow-hidden">
                 <div className="absolute right-0 -bottom-3">
@@ -491,7 +490,7 @@ const RTODashboard: NextPageWithLayout = () => {
                     </div>
                 </div>
             </section>
-
+            {/* TODO Link to be added */}
             <div>
                 <ImportantDocuments />
             </div>

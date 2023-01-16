@@ -52,11 +52,10 @@ export const PastAppointmentCard = ({
                 <div>
                     <div className="flex flex-col items-center gap-y-2">
                         <div
-                            className={`${
-                                status === 'Completed'
+                            className={`${status === 'Completed'
                                     ? 'bg-[#D3F3C6]'
                                     : 'bg-[#FFD1D6]'
-                            } py-1 px-2 rounded-lg`}
+                                } py-1 px-2 rounded-lg`}
                         >
                             <Typography
                                 variant="muted"
@@ -75,7 +74,6 @@ export const PastAppointmentCard = ({
                                 alt="Video Conference"
                                 width={50}
                                 height={50}
-                                alt=""
                             />
                         </div>
                     </div>

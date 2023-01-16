@@ -134,7 +134,6 @@ export const ApprovedStudent = () => {
             accessorKey: 'progress',
             header: () => <span>Progress</span>,
             cell: ({ row }) => {
-
                 const workplace = row?.original?.workplace
                 const steps = checkWorkplaceStatus(workplace?.currentStatus)
                 return (
