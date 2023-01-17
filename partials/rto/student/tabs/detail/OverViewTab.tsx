@@ -8,7 +8,7 @@ import { Appointments, Sectors, Workplaces } from '../../pages'
 
 export const OverViewTab = ({ student }: any) => {
     return (
-        <div className='w-full mt-6'>
+        <div className="w-full mt-6">
             <PinnedNotes id={student?.user?.id} />
             {student?.workplace?.length > 0 && (
                 <div className="my-4">
@@ -25,6 +25,7 @@ export const OverViewTab = ({ student }: any) => {
                     <MyWorkPlaceCard data={student} />
                 </div>
             </div>
+            {/* TODO : Need to dynamic */}
             <div className="w-full flex flex-col gap-y-4">
                 <RecentAppointment />
             </div>

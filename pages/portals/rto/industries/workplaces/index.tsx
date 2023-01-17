@@ -86,7 +86,8 @@ const RtoWorkplaces: NextPageWithLayout = (props: Props) => {
                 } = row.original
 
                 return (
-                    <Link legacyBehavior
+                    <Link
+                        legacyBehavior
                         href={`/portals/rto/industries/workplaces/${row?.original?.id}`}
                     >
                         <a className="flex items-center gap-x-2">
@@ -94,7 +95,8 @@ const RtoWorkplaces: NextPageWithLayout = (props: Props) => {
                                 <img
                                     src={
                                         avatar ||
-                                        `https://picsum.photos/64/${64 + row.original.id
+                                        `https://picsum.photos/64/${
+                                            64 + row.original.id
                                         }`
                                     }
                                     className="w-10 h-10 rounded-full"
@@ -168,6 +170,7 @@ const RtoWorkplaces: NextPageWithLayout = (props: Props) => {
     ]
     return (
         <>
+            {/* TODO Workplace list is not getting */}
             <Card noPadding>
                 {isError && <TechnicalError />}
                 {isLoading ? (

@@ -26,13 +26,11 @@ export const contactPersonEndpoints = (
         invalidatesTags: ['ContactPersons'],
     }),
     updateContactPerson: builder.mutation<any, any>({
-        query: (body) => {
-            return {
-                url: `${PREFIX}/contact-person/update/${body.id}`,
-                method: 'PATCH',
-                body,
-            }
-        },
+        query: ({id,body}) => ({
+            url: `${PREFIX}/contact-person/update/${id}`,
+            method: 'PATCH',
+            body,
+        }),
         invalidatesTags: ['ContactPersons'],
     }),
     removeContactPerson: builder.mutation<any, number>({

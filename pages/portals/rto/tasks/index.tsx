@@ -14,7 +14,7 @@ import {
 // Hooks
 import { useContextBar, useJoyRide } from '@hooks'
 import { CommonCB } from '@partials/rto/contextBar'
-import { useGetRTOAppointmentsQuery } from '@queries'
+import { useGetRTOAppointmentsQuery, CommonApi } from '@queries'
 
 const PrimaryLinks = [
     {
@@ -79,7 +79,8 @@ const OtherQuestions = [
 
 const RtoTasks: NextPageWithLayout = () => {
     const contextBar = useContextBar()
-    const { data, isSuccess, isError } = useGetRTOAppointmentsQuery({
+
+    const futureAppointments = CommonApi.Appointments.useBookedAppointments({
         status: 'future',
     })
 
@@ -108,7 +109,9 @@ const RtoTasks: NextPageWithLayout = () => {
 
                 {/* Special Cards */}
                 <div className="w-3/5 flex flex-col justify-center space-y-2">
-                    <RecentAppointmentCard appointment={data} />
+                    <RecentAppointmentCard
+                        appointment={futureAppointments?.data}
+                    />
                 </div>
             </div>
 

@@ -70,7 +70,8 @@ export const RecentAppointmentCard = ({
                                 <div className="flex items-center gap-x-2 mb-2 text-blue-200">
                                     <MdLocationPin />
                                     <p className="font-bold text-sm">
-                                        {recentAppointment?.address}
+                                        {/* TODO Set Address */}
+                                        {recentAppointment?.addressLine1}
                                     </p>
                                 </div>
                             </div>

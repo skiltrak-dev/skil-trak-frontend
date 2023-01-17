@@ -84,7 +84,7 @@ export const SubAdminStudentProfile = ({ student }: { student: Student }) => {
 
                 <div className="flex flex-col items-center">
                     <p className="text-lg font-semibold">
-                        {student.user?.name}
+                        {student?.user?.name}
                     </p>
                     <div className="flex items-center gap-x-2">
                         <p className="text-sm text-gray-400">
@@ -159,7 +159,7 @@ export const SubAdminStudentProfile = ({ student }: { student: Student }) => {
                             <FaUserCircle size={12} />
                         </span>
                         <p className="text-xs font-medium">
-                            {getGender(student.gender)}
+                            {getGender(student?.gender)}
                         </p>
                     </div>
                     <div className="text-gray-400 text-[11px] -mt-0.5 text-right">

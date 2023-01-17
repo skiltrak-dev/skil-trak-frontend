@@ -94,7 +94,7 @@ const Detail: NextPageWithLayout = () => {
                                 Address
                             </Typography>
                             <Typography color={'black'}>
-                                {data?.address}
+                                {data?.addressLine1}
                             </Typography>
                         </div>
                     </div>

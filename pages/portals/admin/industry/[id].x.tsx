@@ -36,6 +36,7 @@ const Detail: NextPageWithLayout = () => {
     const navBar = useNavbar()
     const contextBar = useContextBar()
 
+    // FIXME: change this with something
     const [modal, setModal] = useState<ReactElement | null>(null)
 
     const industry = AdminApi.Industries.useDetail(Number(router.query.id), {

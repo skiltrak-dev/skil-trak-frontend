@@ -40,8 +40,8 @@ export const ViewSectorsCB = ({ student }: { student: Student }) => {
         AdminApi.Students.useUnassignCourses()
     const onCourseRemove = async (course: Course) => {
         await unassignCourse({
-            id: student.id,
-            courseId: course.id,
+            id: Number(student.id),
+            courseId: Number(course.id),
         })
     }
 

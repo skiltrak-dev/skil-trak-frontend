@@ -1,24 +1,18 @@
-import { ReactElement } from 'react'
 import { useRouter } from 'next/router'
+import { ReactElement } from 'react'
 
 import { RtoLayout } from '@layouts'
 import { NextPageWithLayout } from '@types'
 
 import {
-    Typography,
-    Button,
-    LoadingAnimation,
-    EmptyData,
-    UpcomingAppointmentCard,
+    Button, Typography
 } from '@components'
-import { UpcommingAppointments, PastAppointments } from '@partials/common'
-import { useGetRTOAppointmentsQuery } from '@queries'
+import { PastAppointments, UpcommingAppointments } from '@partials/common'
 
 type Props = {}
 
 const RtoAppointments: NextPageWithLayout = (props: Props) => {
     const router = useRouter()
-    const rtoAppointments = useGetRTOAppointmentsQuery({ status: 'future' })
     return (
         <>
             <div className="flex items-center justify-between">
@@ -33,6 +27,8 @@ const RtoAppointments: NextPageWithLayout = (props: Props) => {
                     }}
                 />
             </div>
+
+            {/* TODO Not getting the appointments */}
             <UpcommingAppointments />
             <PastAppointments />
         </>

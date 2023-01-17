@@ -78,13 +78,13 @@ export const MouEditor = ({
 
   return (
     <>
-      {/* {isBrowser() && editor && <Editor
+      {isBrowser() && editor && <Editor
         defaultContentState={editorState}
         toolbarClassName="border"
         wrapperClassName="border"
         editorClassName="h-80 px-5 remove-scrollbar"
         onEditorStateChange={onEditorStateChange}
-      />} */}
+      />}
     </>
   )
 }

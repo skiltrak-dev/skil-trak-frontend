@@ -73,6 +73,7 @@ const Detail: NextPageWithLayout = () => {
             ) : (
                 <div className="p-6 flex flex-col gap-y-4 mb-32">
                     {/* Action Bar */}
+                    {/* TODO Add Action on action button */}
                     <div className="flex items-center justify-between">
                         <BackButton text="RTOs" />
                         <div className="flex gap-x-2">

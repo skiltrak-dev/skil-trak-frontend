@@ -47,7 +47,7 @@ export const InitialAvatar = ({
     small,
 }: InitialAvatarProps) => {
     // const backgroundColor = 'bg-indigo-800'
-    const initials = name.split(' ')
+    const initials = name?.split(' ')
     const backgroundColor = (BgColors as any)[
         initials[0].charAt(0).toLowerCase()
     ]
