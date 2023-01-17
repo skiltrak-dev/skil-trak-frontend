@@ -1,5 +1,10 @@
-import { BackButton, Card, PageTitle } from '@components'
-import { useAlert, useContextBar } from '@hooks'
+import {
+    BackButton,
+    Card,
+    PageTitle,
+    ShowErrorNotifications,
+} from '@components'
+import { useAlert, useContextBar, useNotification } from '@hooks'
 import { RtoLayout } from '@layouts'
 import { NextPageWithLayout } from '@types'
 import { useRouter } from 'next/router'
@@ -12,7 +17,7 @@ import { UserRoles } from '@constants'
 import { AuthUtils } from '@utils'
 
 const AddCoordinator: NextPageWithLayout = () => {
-    const { alert } = useAlert()
+    const { notification } = useNotification()
     const router = useRouter()
     const contextBar = useContextBar()
     const [createCoordinator, createCoordinatorResult] =
@@ -31,7 +36,7 @@ const AddCoordinator: NextPageWithLayout = () => {
 
     useEffect(() => {
         if (createCoordinatorResult.isSuccess) {
-            alert.success({
+            notification.success({
                 title: 'Coordinator created successfully',
                 description: 'A new coordinator has been created and assigned',
             })
@@ -42,10 +47,14 @@ const AddCoordinator: NextPageWithLayout = () => {
 
     return (
         <div className="p-6 flex flex-col gap-y-4 mb-20">
+            <ShowErrorNotifications result={createCoordinatorResult} />
             <PageTitle title="Create Coordinator" backTitle="Coordinators" />
             <div className="w-3/4">
                 <Card>
-                    <SubAdminForm onSubmit={onSubmit} />
+                    <SubAdminForm
+                        onSubmit={onSubmit}
+                        result={createCoordinatorResult}
+                    />
                 </Card>
             </div>
         </div>

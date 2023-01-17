@@ -12,6 +12,9 @@ import { RtoLayout } from '@layouts'
 import { CommonCB } from '@partials/rto/contextBar'
 import { NextPageWithLayout } from '@types'
 
+// queries
+import { RtoApi } from '@queries'
+
 const PrimaryLinks = [
     // {
     //     title: 'Students',
@@ -74,6 +77,8 @@ const OtherQuestions = [
 const RtoUsers: NextPageWithLayout = () => {
     const contextBar = useContextBar()
 
+    const count = RtoApi.Rto.useDashboard()
+
     // CONTACT PERSON JOY RIDE - start
     const joyride = useJoyRide()
     useEffect(() => {
@@ -100,17 +105,16 @@ const RtoUsers: NextPageWithLayout = () => {
                 {/* Special Cards */}
                 <div className="w-3/5 flex flex-col justify-between space-y-2">
                     {/* Figure Cards */}
-                    {/* TODO Add Count */}
                     <div className="flex flex-col gap-y-4">
                         <div className="flex gap-x-4">
                             <FigureCard
                                 imageUrl="/images/icons/students.png"
-                                count={0}
+                                count={count?.data?.currentStudent}
                                 title={'Current Students'}
                             />
                             <FigureCard
                                 imageUrl="/images/icons/pending-student.png"
-                                count={0}
+                                count={count?.data?.pendingStudent}
                                 title={'Pending Students'}
                             />
                         </div>
