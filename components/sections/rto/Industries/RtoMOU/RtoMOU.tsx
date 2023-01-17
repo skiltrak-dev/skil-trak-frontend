@@ -1,6 +1,16 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { useRouter } from 'next/router'
-import { ReactTable, Button, TableAction, Typography } from '@components'
+import {
+    ReactTable,
+    Button,
+    TableAction,
+    Typography,
+    Card,
+    TechnicalError,
+    LoadingAnimation,
+    Table,
+    EmptyData,
+} from '@components'
 
 import {
     useGetRtoMOUListQuery,
@@ -16,14 +26,21 @@ const Colors = ThemeColors
 export const RtoMOUContainer = () => {
     const router = useRouter()
 
+    const [itemPerPage, setItemPerPage] = useState(50)
+    const [page, setPage] = useState(1)
+    const { data, isLoading, isError } = useGetRtoMOUListQuery({
+        skip: itemPerPage * page - itemPerPage,
+        limit: itemPerPage,
+    })
+
     const [cancelMouByRto, cancelMouByRtoResult] = useCancelMOUByRTOMutation()
     const [rejectMouByRto, rejectMouByRtoResult] = useRejectMOUByRTOMutation()
-    const Columns = [
+    const columns = [
         {
-            Header: 'Name',
-            accessor: 'user',
+            header: () => 'Name',
+            accessorKey: 'user',
             sort: true,
-            Cell: ({ row }: any) => {
+            cell: ({ row }: any) => {
                 const {
                     user: { name, email, image },
                 } = row.original
@@ -52,18 +69,17 @@ export const RtoMOUContainer = () => {
             },
         },
         {
-            Header: 'Code',
-            accessor: 'rtoCode',
-            disableFilters: true,
+            header: () => 'ABN',
+            accessorKey: 'abn',
         },
         {
-            Header: 'Phone',
-            accessor: 'phone',
+            header: () => 'Phone',
+            accessorKey: 'phoneNumber',
         },
         {
-            Header: 'Status',
-            accessor: 'user.status',
-            Cell: ({ row }: any) => {
+            header: () => 'Status',
+            accessorKey: 'user.status',
+            cell: ({ row }: any) => {
                 const { mous } = row.original
                 const mou = mous[0] || {}
                 const status = () => {
@@ -123,9 +139,9 @@ export const RtoMOUContainer = () => {
             disableFilters: true,
         },
         {
-            Header: 'Action',
-            accessor: 'Action',
-            Cell: ({ row }: any) => {
+            header: () => 'Action',
+            accessorKey: 'Action',
+            cell: ({ row }: any) => {
                 const { mous, id } = row.original
                 const mou = mous[0] || {}
                 const actions = () => {
@@ -247,14 +263,47 @@ export const RtoMOUContainer = () => {
     ]
     return (
         <div>
-            {/* TODO Need to change table */}
-            <ReactTable
-                action={useGetRtoMOUListQuery}
-                Columns={Columns}
-                querySort={'title'}
-                pagination
-                pagesize
-            />
+            <Card noPadding>
+                {isError && <TechnicalError />}
+                {isLoading ? (
+                    <LoadingAnimation height="h-[60vh]" />
+                ) : data && data?.data.length ? (
+                    <Table columns={columns} data={data.data}>
+                        {({
+                            table,
+                            pagination,
+                            pageSize,
+                            quickActions,
+                        }: any) => {
+                            return (
+                                <div>
+                                    <div className="p-6 mb-2 flex justify-between">
+                                        {pageSize(itemPerPage, setItemPerPage)}
+                                        <div className="flex gap-x-2">
+                                            {quickActions}
+                                            {pagination(
+                                                data?.pagination,
+                                                setPage
+                                            )}
+                                        </div>
+                                    </div>
+                                    <div className="px-6">{table}</div>
+                                </div>
+                            )
+                        }}
+                    </Table>
+                ) : (
+                    !isError && (
+                        <EmptyData
+                            title={'No Approved Student!'}
+                            description={
+                                'You have not approved any Student request yet'
+                            }
+                            height={'50vh'}
+                        />
+                    )
+                )}
+            </Card>
         </div>
     )
 }

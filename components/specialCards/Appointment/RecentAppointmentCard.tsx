@@ -41,7 +41,11 @@ export const RecentAppointmentCard = ({
                                     {recentAppointment?.type?.title || ' '}
                                 </h2>
                                 <p className="text-blue-300 font-medium">
-                                    {recentAppointment?.name}
+                                    {
+                                        recentAppointment?.appointmentFor
+                                            ?.coordinator[0]?.user?.name
+                                    }{' '}
+                                    (Coordinator)
                                 </p>
                             </div>
                             <div>
@@ -49,9 +53,9 @@ export const RecentAppointmentCard = ({
                                     <MdOutlineAccessTimeFilled />
                                     <p className="font-bold text-sm">
                                         {moment(
-                                            recentAppointment?.time,
-                                            'hh:mm:ss'
-                                        ).format('h:mm a')}
+                                            recentAppointment?.startTime,
+                                            'h:mm:ss'
+                                        ).format('hh:mm a')}
                                     </p>
                                 </div>
                                 <div className="flex items-center gap-x-2 mb-2 text-blue-200">
@@ -62,7 +66,7 @@ export const RecentAppointmentCard = ({
                                         <BsCalendarFill />
                                     </div>
                                     <p className="text-blue-200 font-bold text-sm">
-                                        {moment(recentAppointment.date).format(
+                                        {moment(recentAppointment?.date).format(
                                             'll'
                                         )}
                                     </p>
@@ -70,8 +74,10 @@ export const RecentAppointmentCard = ({
                                 <div className="flex items-center gap-x-2 mb-2 text-blue-200">
                                     <MdLocationPin />
                                     <p className="font-bold text-sm">
-                                        {/* TODO Set Address */}
-                                        {recentAppointment?.addressLine1}
+                                        {
+                                            recentAppointment?.appointmentFor
+                                                ?.coordinator[0]?.addressLine1
+                                        }
                                     </p>
                                 </div>
                             </div>

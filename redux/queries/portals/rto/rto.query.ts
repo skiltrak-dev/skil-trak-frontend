@@ -55,7 +55,10 @@ const {
     useAddStudentMutation,
 
     // ------ COORDINATOR ------ //
+    useGetRtoCoordinatorsQuery,
+    useRemoveCoordinatorMutation,
     useCoordinatorCreateMutation,
+    useGetRtoCoordinatorsDetailQuery,
 } = rtoApi
 
 export const RtoApi = {
@@ -74,5 +77,8 @@ export const RtoApi = {
     },
     Coordinator: {
         useCreate: useCoordinatorCreateMutation,
+        useList: useGetRtoCoordinatorsQuery,
+        useDetail: useGetRtoCoordinatorsDetailQuery,
+        useRemove: useRemoveCoordinatorMutation,
     },
 }

@@ -12,7 +12,7 @@ import { NextPageWithLayout } from '@types'
 import { useRouter } from 'next/router'
 import { ReactElement, useEffect, useState } from 'react'
 
-import { useGetRtoCoordinatorsDetailQuery } from '@queries'
+import { RtoApi } from '@queries'
 import { MdPlace } from 'react-icons/md'
 
 const Detail: NextPageWithLayout = () => {
@@ -22,7 +22,7 @@ const Detail: NextPageWithLayout = () => {
     const contextBar = useContextBar()
 
     const { data, isLoading, isSuccess, isError } =
-        useGetRtoCoordinatorsDetailQuery(Number(id), {
+        RtoApi.Coordinator.useDetail(Number(id), {
             skip: !id,
         })
 

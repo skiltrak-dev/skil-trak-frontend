@@ -2,7 +2,7 @@ import { ReactElement, useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
 // Layouts
 import { RtoLayout } from '@layouts'
-import { NextPageWithLayout } from '@types'
+import { NextPageWithLayout, SubAdmin } from '@types'
 import { ColumnDef } from '@tanstack/react-table'
 //components
 import {
@@ -16,26 +16,33 @@ import {
     LoadingAnimation,
     PageTitle,
     Button,
+    TableActionOption,
 } from '@components'
 // queries
-import { useGetRtoCoordinatorsQuery } from '@queries'
+import { RtoApi } from '@queries'
 // Link
 import Link from 'next/link'
 // React icons
 import { toNamespacedPath } from 'path'
-import { useJoyRide } from '@hooks'
+import { useJoyRide, useNotification } from '@hooks'
+import { DeleteModal } from '@partials/admin/sub-admin/modals'
 
 type Props = {}
 
 const RtoCoordinators: NextPageWithLayout = (props: Props) => {
+    const [modal, setModal] = useState<ReactElement | null>(null)
+    const { notification } = useNotification()
+
     const router = useRouter()
     const [itemPerPage, setItemPerPage] = useState(50)
     const [page, setPage] = useState(1)
     const [filter, setFilter] = useState({})
-    const { isLoading, data, isError } = useGetRtoCoordinatorsQuery({
+    const { isLoading, data, isError } = RtoApi.Coordinator.useList({
         skip: itemPerPage * page - itemPerPage,
         limit: itemPerPage,
     })
+    const [removeCoordinator, removeCoordinatorResult] =
+        RtoApi.Coordinator.useRemove()
 
     // ADD COORDINATOR JOY RIDE - START
     const joyride = useJoyRide()
@@ -47,6 +54,15 @@ const RtoCoordinators: NextPageWithLayout = (props: Props) => {
         }
     }, [])
     // ADD COORDINATOR JOY RIDE - END
+
+    useEffect(() => {
+        if (removeCoordinatorResult.isSuccess) {
+            notification.error({
+                title: 'Coordinato Removed',
+                description: 'Coordinato Removed Successfully',
+            })
+        }
+    }, [removeCoordinatorResult])
 
     const RelatedQuestions = [
         {
@@ -85,6 +101,36 @@ const RtoCoordinators: NextPageWithLayout = (props: Props) => {
             link: '#',
         },
     ]
+
+    const onModalCancelClicked = () => {
+        setModal(null)
+    }
+    const onArchivedClicked = (subAdmin: SubAdmin) => {
+        setModal(
+            <DeleteModal
+                subAdmin={subAdmin}
+                onCancel={() => onModalCancelClicked()}
+            />
+        )
+    }
+
+    const tableActionOptions: TableActionOption[] = [
+        {
+            text: 'View',
+            onClick: (coordinator: any) => {
+                router.push(`/portals/rto/coordinators/${coordinator?.id}`)
+            },
+            Icon: '',
+        },
+        {
+            text: 'Delete',
+            onClick: (coordinator: any) => {
+                removeCoordinator(coordinator?.id)
+            },
+            Icon: '',
+        },
+    ]
+
     const Columns: ColumnDef<any>[] = [
         {
             header: () => 'Coordinator',
@@ -133,19 +179,8 @@ const RtoCoordinators: NextPageWithLayout = (props: Props) => {
             cell: ({ row }: any) => {
                 return (
                     <TableAction
-                        // TODO Add Delete Option
-                        rowItem={row}
-                        options={[
-                            {
-                                text: 'View',
-                                onClick: () => {
-                                    router.push(
-                                        `/portals/rto/coordinators/${row.original.id}`
-                                    )
-                                },
-                                Icon: '',
-                            },
-                        ]}
+                        rowItem={row?.original}
+                        options={tableActionOptions}
                     />
                 )
             },
@@ -201,10 +236,8 @@ const RtoCoordinators: NextPageWithLayout = (props: Props) => {
                 ) : (
                     !isError && (
                         <EmptyData
-                            title={'No Approved Student!'}
-                            description={
-                                'You have not approved any Student request yet'
-                            }
+                            title={'No Coordinator!'}
+                            description={'You have not any Coordinator yet'}
                             height={'50vh'}
                         />
                     )

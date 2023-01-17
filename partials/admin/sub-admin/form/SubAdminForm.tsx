@@ -1,3 +1,4 @@
+import { useState, useEffect } from 'react'
 import {
     Button,
     TextArea,
@@ -12,9 +13,16 @@ import { AdminApi } from '@queries'
 import { onlyAlphabets } from '@utils'
 import { FormProvider, useForm } from 'react-hook-form'
 import * as yup from 'yup'
-import { useState, useEffect } from 'react'
 
-export const SubAdminForm = ({ onSubmit }: any) => {
+export const SubAdminForm = ({
+    onSubmit,
+    result,
+    subAdmin,
+}: {
+    onSubmit?: any
+    result?: any
+    subAdmin?: any
+}) => {
     const router = useRouter()
     const [isSuccess, setIsSuccess] = useState<boolean>(false)
     const [createSubAmin, createSubAminResult] =
@@ -47,6 +55,7 @@ export const SubAdminForm = ({ onSubmit }: any) => {
     const formMethods = useForm({
         mode: 'all',
         resolver: yupResolver(validationSchema),
+        defaultValues: subAdmin,
     })
 
     const onSubmitForm = (values: any) => {
@@ -136,9 +145,14 @@ export const SubAdminForm = ({ onSubmit }: any) => {
                         <Button
                             submit
                             text={'Create'}
-                            variant={'primary'}
-                            loading={createSubAminResult.isLoading}
-                            disabled={createSubAminResult.isLoading}
+                            loading={
+                                result?.isLoading ||
+                                createSubAminResult.isLoading
+                            }
+                            disabled={
+                                result?.isLoading ||
+                                createSubAminResult.isLoading
+                            }
                         />
 
                         {/* <Button text={'Update'} submit /> */}

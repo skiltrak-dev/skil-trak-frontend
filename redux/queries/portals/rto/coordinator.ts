@@ -9,17 +9,40 @@ import {
     UserStatus,
 } from '@types'
 
-const PREFIX = 'rtos/'
+const PREFIX = 'rtos'
 export const coordinatorEndpoints = (
     builder: EndpointBuilder<BaseQueryFn, string, string>
 ) => ({
     coordinatorCreate: builder.mutation<any, any>({
         query: (body) => ({
-            url: `${PREFIX}coordinator/add`,
+            url: `${PREFIX}/coordinator/add`,
             method: 'POST',
             body,
         }),
         invalidatesTags: ['Rto-Coordinators'],
     }),
-
+    getRtoCoordinators: builder.query<any, any>({
+        query: (params) => {
+            return {
+                url: `${PREFIX}/coordinator/list`,
+                params,
+            }
+        },
+        providesTags: ['Rto-Coordinators'],
+    }),
+    getRtoCoordinatorsDetail: builder.query<any, number>({
+        query: (id) => {
+            return {
+                url: `${PREFIX}/coordinator/profile/${id}`,
+            }
+        },
+        providesTags: ['Rto-Coordinators'],
+    }),
+    removeCoordinator: builder.mutation<any, number>({
+        query: (id) => ({
+            url: `${PREFIX}/coordinator/remove/${id}`,
+            method: 'DELETE',
+        }),
+        invalidatesTags: ['Rto-Coordinators'],
+    }),
 })

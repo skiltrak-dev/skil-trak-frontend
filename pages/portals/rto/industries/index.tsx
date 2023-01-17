@@ -19,6 +19,9 @@ import { useContextBar } from '@hooks'
 import { CommonCB } from '@partials/rto/contextBar'
 import { FigureCard } from '@components/sections/subAdmin'
 
+// queries
+import { RtoApi } from '@queries'
+
 const PrimaryLinks = [
     {
         title: 'Workplaces',
@@ -56,6 +59,9 @@ const MoUQuestions = [
 
 const RtoIndustries: NextPageWithLayout = () => {
     const contextBar = useContextBar()
+
+    const count = RtoApi.Rto.useDashboard()
+
     useEffect(() => {
         contextBar.setContent(<CommonCB />)
         contextBar.show(false)
@@ -75,12 +81,12 @@ const RtoIndustries: NextPageWithLayout = () => {
                         <div className="flex gap-x-4">
                             <FigureCard
                                 imageUrl="/images/icons/students.png"
-                                count={0}
+                                count={count?.data?.currentStudent}
                                 title={'Current Students'}
                             />
                             <FigureCard
                                 imageUrl="/images/icons/pending-student.png"
-                                count={0}
+                                count={count?.data?.pendingStudent}
                                 title={'Pending Students'}
                             />
                         </div>
