@@ -23,7 +23,7 @@ import { RtoCell, SectorCell, SubAdminCell } from './components'
 import { useChangeStatus } from './hooks'
 import { AcceptModal, ArchiveModal, RejectModal } from './modals'
 import { useContextBar } from '@hooks'
-import { ViewRtosCB, ViewSectorsCB } from './contextBar'
+import { AddSubAdminCB, ViewRtosCB, ViewSectorsCB } from './contextBar'
 import { BsArchiveFill } from 'react-icons/bs'
 
 export const ActiveSubAdmin = () => {
@@ -32,16 +32,11 @@ export const ActiveSubAdmin = () => {
 
     const contextBar = useContextBar()
 
-    const [filterAction, setFilterAction] = useState(null)
     const [itemPerPage, setItemPerPage] = useState(50)
     const [page, setPage] = useState(1)
-    const [filter, setFilter] = useState({})
+
     const { isLoading, data, isError } = AdminApi.SubAdmins.useListQuery({
-        search: `status:approved,${JSON.stringify(filter)
-            .replaceAll('{', '')
-            .replaceAll('}', '')
-            .replaceAll('"', '')
-            .trim()}`,
+        search: `status:approved`,
         skip: itemPerPage * page - itemPerPage,
         limit: itemPerPage,
     })
@@ -56,6 +51,12 @@ export const ActiveSubAdmin = () => {
                 onCancel={() => onModalCancelClicked()}
             />
         )
+    }
+
+    const onEditSubAdmin = (subAdmin: SubAdmin) => {
+        contextBar.setContent(<AddSubAdminCB edit subAdmin={subAdmin} />)
+        contextBar.setTitle('Edit SubAdmin')
+        contextBar.show()
     }
 
     const tableActionOptions: TableActionOption[] = [
@@ -86,10 +87,8 @@ export const ActiveSubAdmin = () => {
         },
         {
             text: 'Edit',
-            onClick: (row: any) => {
-                router.push(
-                    `/portals/admin/sub-admin/edit-sub-admin/${row?.id}`
-                )
+            onClick: (subadmin: SubAdmin) => {
+                onEditSubAdmin(subadmin)
             },
             Icon: FaEdit,
         },
@@ -110,14 +109,14 @@ export const ActiveSubAdmin = () => {
             header: () => <span>Sub Admin</span>,
         },
         {
-            accessorKey: 'id',
+            accessorKey: 'sector',
             header: () => <span>Sectors</span>,
             cell: (info) => {
                 return <SectorCell subAdmin={info.row.original} />
             },
         },
         {
-            accessorKey: 'id',
+            accessorKey: 'rto',
             header: () => <span>RTOs</span>,
             cell: (info) => {
                 return <RtoCell subAdmin={info.row.original} />
@@ -125,7 +124,7 @@ export const ActiveSubAdmin = () => {
         },
 
         {
-            accessorKey: 'address',
+            accessorKey: 'addressLine1',
             header: () => <span>Address</span>,
             cell: (info) => info.getValue(),
         },
@@ -172,25 +171,13 @@ export const ActiveSubAdmin = () => {
                     subtitle={'List of Active Sub Admin'}
                 >
                     {data && data?.data.length ? (
-                        <>
-                            {filterAction}
-                            <Button
-                                text="Export"
-                                variant="action"
-                                Icon={FaFileExport}
-                            />
-                        </>
+                        <Button
+                            text="Export"
+                            variant="action"
+                            Icon={FaFileExport}
+                        />
                     ) : null}
                 </PageHeading>
-
-                {data && data?.data.length ? (
-                    <Filter
-                        component={RtoFilters}
-                        initialValues={{ name: '', email: '', rtoCode: '' }}
-                        setFilterAction={setFilterAction}
-                        setFilter={setFilter}
-                    />
-                ) : null}
 
                 <Card noPadding>
                     {isError && <TechnicalError />}

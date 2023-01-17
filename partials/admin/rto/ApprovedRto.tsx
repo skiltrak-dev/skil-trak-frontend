@@ -31,16 +31,10 @@ export const ApprovedRto = () => {
 
     const [modal, setModal] = useState<ReactElement | null>(null)
 
-    const [filterAction, setFilterAction] = useState(null)
     const [itemPerPage, setItemPerPage] = useState(50)
     const [page, setPage] = useState(1)
-    const [filter, setFilter] = useState({})
     const { isLoading, data, isError } = AdminApi.Rtos.useListQuery({
-        search: `status:approved,${JSON.stringify(filter)
-            .replaceAll('{', '')
-            .replaceAll('}', '')
-            .replaceAll('"', '')
-            .trim()}`,
+        search: `status:approved`,
         skip: itemPerPage * page - itemPerPage,
         limit: itemPerPage,
     })
@@ -167,20 +161,12 @@ export const ApprovedRto = () => {
                     title={'Approved RTOs'}
                     subtitle={'List of Approved RTOs'}
                 >
-                    {filterAction}
                     <Button
                         text="Export"
                         variant="action"
                         Icon={FaFileExport}
                     />
                 </PageHeading>
-
-                <Filter
-                    component={RtoFilters}
-                    initialValues={{ name: '', email: '', rtoCode: '' }}
-                    setFilterAction={setFilterAction}
-                    setFilter={setFilter}
-                />
 
                 <Card noPadding>
                     {isError && <TechnicalError />}

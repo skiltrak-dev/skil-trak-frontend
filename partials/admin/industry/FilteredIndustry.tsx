@@ -1,43 +1,31 @@
 import {
-    Button,
     ActionButton,
     Card,
     EmptyData,
-    Filter,
     LoadingAnimation,
     Table,
     TableAction,
     TableActionOption,
-    StudentFilters,
-    Typography,
 } from '@components'
 import { PageHeading } from '@components/headings'
 import { ColumnDef } from '@tanstack/react-table'
-import { FaEdit, FaEye, FaFileExport, FaFilter } from 'react-icons/fa'
+import { FaEdit, FaEye } from 'react-icons/fa'
 
-import { AdminApi } from '@queries'
-import { MdBlock, MdEmail, MdPhoneIphone } from 'react-icons/md'
-import { ReactElement, useState } from 'react'
-import {
-    CourseDot,
-    ProgressCell,
-    SectorCell,
-    StudentCellInfo,
-} from './components'
-import { RtoCellInfo } from '@partials/admin/rto/components'
-import { Student } from '@types'
-import { BlockModal } from './modals'
+import { useContextBar } from '@hooks'
+import { Industry } from '@types'
 import { useRouter } from 'next/router'
-import { checkWorkplaceStatus } from '@utils'
-import { IndustryCell } from '../industry/components'
+import { ReactElement, useState } from 'react'
+import { MdBlock } from 'react-icons/md'
+import { IndustryCell } from './components'
+import { BlockModal } from './modals'
 
-export const FilteredStudents = ({
-    student,
+export const FilteredIndustry = ({
+    industry,
     setPage,
     itemPerPage,
     setItemPerPage,
 }: {
-    student: any
+    industry: any
     setPage: any
     itemPerPage: any
     setItemPerPage: any
@@ -48,10 +36,10 @@ export const FilteredStudents = ({
     const onModalCancelClicked = () => {
         setModal(null)
     }
-    const onBlockClicked = (student: Student) => {
+    const onBlockClicked = (industry: Industry) => {
         setModal(
             <BlockModal
-                item={student}
+                industry={industry}
                 onCancel={() => onModalCancelClicked()}
             />
         )
@@ -60,9 +48,9 @@ export const FilteredStudents = ({
     const tableActionOptions: TableActionOption[] = [
         {
             text: 'View',
-            onClick: (student: any) => {
+            onClick: (industry: any) => {
                 router.push(
-                    `/portals/admin/student/${student?.id}?tab=overview`
+                    `/portals/admin/industry/${industry.id}?tab=sectors`
                 )
             },
             Icon: FaEye,
@@ -70,80 +58,56 @@ export const FilteredStudents = ({
         {
             text: 'Edit',
             onClick: (row: any) => {
-                router.push(`/portals/admin/student/edit-student/${row?.id}`)
+                router.push(`/portals/admin/industry/edit-industry/${row.id}`)
             },
             Icon: FaEdit,
         },
-        // {
-        //     text: 'Block',
-        //     onClick: (student: Student) => onBlockClicked(student),
-        //     Icon: MdBlock,
-        //     color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
-        // },
+        {
+            text: 'Block',
+            onClick: (industry: Industry) => onBlockClicked(industry),
+            Icon: MdBlock,
+            color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
+        },
     ]
 
-    const columns: ColumnDef<any>[] = [
+    const columns: ColumnDef<Industry>[] = [
         {
             accessorKey: 'user.name',
             cell: (info) => {
-                return <StudentCellInfo student={info.row.original} />
+                return <IndustryCell industry={info.row.original} />
             },
-            header: () => <span>Student</span>,
-        },
-        {
-            accessorKey: 'rto',
-            header: () => <span>RTO</span>,
-            cell: (info) => {
-                return <RtoCellInfo rto={info.row.original?.rto} short />
-            },
-        },
-        {
-            accessorKey: 'industry',
             header: () => <span>Industry</span>,
+        },
+        {
+            accessorKey: 'abn',
+            header: () => <span>ABN</span>,
+            cell: (info) => info.getValue(),
+        },
+        {
+            accessorKey: 'contactPerson',
+            header: () => <span>Contact Person</span>,
             cell: (info) => {
-                const industry =
-                    info.row.original?.workplace[0]?.industries.find(
-                        (i: any) => i.applied
-                    )?.industry
-
-                return industry ? (
-                    <IndustryCell industry={industry} />
-                ) : (
-                    <Typography center>N/A</Typography>
+                return (
+                    <div>
+                        <p>{info.row.original.contactPerson}</p>
+                        <p className="text-xs text-gray-500">
+                            {info.row.original.contactPersonNumber}
+                        </p>
+                    </div>
                 )
             },
         },
+
         {
-            accessorKey: 'user.status',
-            header: () => <span>Status</span>,
-            cell: (info) => (
-                <Typography uppercase variant={'badge'}>
-                    <span className="font-bold">
-                        {info.row.original?.user?.status}
-                    </span>
-                </Typography>
-            ),
+            accessorKey: 'addressLine1',
+            header: () => <span>Address</span>,
+            cell: (info) => info.getValue(),
         },
-        {
-            accessorKey: 'sectors',
-            header: () => <span>Sectors</span>,
-            cell: (info) => {
-                return <SectorCell student={info.row.original} />
-            },
-        },
-        {
-            accessorKey: 'progress',
-            header: () => <span>Progress</span>,
-            cell: ({ row }) => {
-                const workplace = row.original.workplace[0]
-                const steps = checkWorkplaceStatus(workplace?.currentStatus)
-                return <ProgressCell step={1} />
-            },
-        },
+
         {
             accessorKey: 'action',
             header: () => <span>Action</span>,
-            cell: (info) => {
+            cell: (info: any) => {
                 return (
                     <div className="flex gap-x-1 items-center">
                         <TableAction
@@ -179,17 +143,17 @@ export const FilteredStudents = ({
             {modal && modal}
             <div className="flex flex-col gap-y-4 p-4">
                 <PageHeading
-                    title={'Filtered Students'}
-                    subtitle={'List of Filtered Students'}
+                    title={'Filtered Industries'}
+                    subtitle={'List of Filtered Industries'}
                 />
 
                 <Card noPadding>
-                    {student?.isLoading || student?.isFetching ? (
+                    {industry?.isLoading || industry?.isFetching ? (
                         <LoadingAnimation height="h-[60vh]" />
-                    ) : student?.data && student?.data?.data.length ? (
+                    ) : industry?.data && industry?.data?.data.length ? (
                         <Table
                             columns={columns}
-                            data={student?.data.data}
+                            data={industry?.data.data}
                             quickActions={quickActionsElements}
                             enableRowSelection
                         >
@@ -209,7 +173,7 @@ export const FilteredStudents = ({
                                             <div className="flex gap-x-2">
                                                 {quickActions}
                                                 {pagination(
-                                                    student?.data?.pagination,
+                                                    industry?.data?.pagination,
                                                     setPage
                                                 )}
                                             </div>
@@ -221,8 +185,8 @@ export const FilteredStudents = ({
                         </Table>
                     ) : (
                         <EmptyData
-                            title={'No Students in your Search!'}
-                            description={'No Students in your Search yet'}
+                            title={'No RTOS in your Search!'}
+                            description={'No RTOS in your Search yet'}
                             height={'50vh'}
                         />
                     )}

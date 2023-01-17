@@ -13,36 +13,22 @@ import {
 } from '@components'
 import { PageHeading } from '@components/headings'
 import { ColumnDef } from '@tanstack/react-table'
-import { FaEdit, FaEye, FaFileExport, FaFilter, FaTrash } from 'react-icons/fa'
+import { FaEdit, FaEye, FaFileExport, FaTrash } from 'react-icons/fa'
 
 import { AdminApi } from '@queries'
-import {
-    MdBlock,
-    MdEmail,
-    MdPhoneIphone,
-    MdRestore,
-    MdUnarchive,
-} from 'react-icons/md'
-import { useState } from 'react'
-import { CgUnblock } from 'react-icons/cg'
-import { IndustryCell, SectorCell } from './components'
 import { Industry } from '@types'
-import { RtoCellInfo } from '../rto/components'
 import { useRouter } from 'next/router'
+import { useState } from 'react'
+import { MdUnarchive } from 'react-icons/md'
+import { IndustryCell } from './components'
 
 export const ArchivedIndustry = () => {
     const router = useRouter()
-    const [filterAction, setFilterAction] = useState(null)
     const [itemPerPage, setItemPerPage] = useState(50)
     const [page, setPage] = useState(1)
-    const [filter, setFilter] = useState({})
 
     const { isLoading, data, isError } = AdminApi.Industries.useListQuery({
-        search: `status:archived,${JSON.stringify(filter)
-            .replaceAll('{', '')
-            .replaceAll('}', '')
-            .replaceAll('"', '')
-            .trim()}`,
+        search: `status:archived`,
         skip: itemPerPage * page - itemPerPage,
         limit: itemPerPage,
     })
@@ -160,7 +146,6 @@ export const ArchivedIndustry = () => {
             >
                 {data && data?.data.length ? (
                     <>
-                        {filterAction}
                         <Button
                             text="Export"
                             variant="action"
@@ -169,15 +154,6 @@ export const ArchivedIndustry = () => {
                     </>
                 ) : null}
             </PageHeading>
-
-            {data && data?.data.length ? (
-                <Filter
-                    component={RtoFilters}
-                    initialValues={{ name: '', email: '', rtoCode: '' }}
-                    setFilterAction={setFilterAction}
-                    setFilter={setFilter}
-                />
-            ) : null}
 
             <Card noPadding>
                 {isError && <TechnicalError />}

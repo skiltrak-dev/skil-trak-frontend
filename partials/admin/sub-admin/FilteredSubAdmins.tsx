@@ -1,156 +1,133 @@
 import {
-    Button,
     ActionButton,
     Card,
     EmptyData,
-    Filter,
     LoadingAnimation,
     Table,
     TableAction,
     TableActionOption,
-    StudentFilters,
     Typography,
 } from '@components'
 import { PageHeading } from '@components/headings'
 import { ColumnDef } from '@tanstack/react-table'
-import { FaEdit, FaEye, FaFileExport, FaFilter } from 'react-icons/fa'
+import { FaEdit, FaEye } from 'react-icons/fa'
 
-import { AdminApi } from '@queries'
-import { MdBlock, MdEmail, MdPhoneIphone } from 'react-icons/md'
-import { ReactElement, useState } from 'react'
-import {
-    CourseDot,
-    ProgressCell,
-    SectorCell,
-    StudentCellInfo,
-} from './components'
-import { RtoCellInfo } from '@partials/admin/rto/components'
-import { Student } from '@types'
-import { BlockModal } from './modals'
+import { useContextBar } from '@hooks'
+import { SubAdmin } from '@types'
 import { useRouter } from 'next/router'
-import { checkWorkplaceStatus } from '@utils'
-import { IndustryCell } from '../industry/components'
+import { MdBlock } from 'react-icons/md'
+import { RtoCell, SectorCell, SubAdminCell } from './components'
+import { AddSubAdminCB, ViewRtosCB, ViewSectorsCB } from './contextBar'
 
-export const FilteredStudents = ({
-    student,
+export const FilteredSubAdmins = ({
+    subAdmin,
     setPage,
     itemPerPage,
     setItemPerPage,
 }: {
-    student: any
+    subAdmin: any
     setPage: any
     itemPerPage: any
     setItemPerPage: any
 }) => {
     const router = useRouter()
-    const [modal, setModal] = useState<ReactElement | null>(null)
 
-    const onModalCancelClicked = () => {
-        setModal(null)
-    }
-    const onBlockClicked = (student: Student) => {
-        setModal(
-            <BlockModal
-                item={student}
-                onCancel={() => onModalCancelClicked()}
-            />
-        )
+    const contextBar = useContextBar()
+
+    const onEditSubAdmin = (subAdmin: SubAdmin) => {
+        contextBar.setContent(<AddSubAdminCB edit subAdmin={subAdmin} />)
+        contextBar.setTitle('Edit SubAdmin')
+        contextBar.show()
     }
 
     const tableActionOptions: TableActionOption[] = [
         {
             text: 'View',
-            onClick: (student: any) => {
+            onClick: (subAdmin: any) => {
                 router.push(
-                    `/portals/admin/student/${student?.id}?tab=overview`
+                    `/portals/admin/sub-admin/${subAdmin?.id}?tab=notes`
                 )
             },
             Icon: FaEye,
         },
         {
-            text: 'Edit',
-            onClick: (row: any) => {
-                router.push(`/portals/admin/student/edit-student/${row?.id}`)
+            text: 'Assign Courses',
+            onClick: (subAdmin: any) => {
+                contextBar.setTitle('Sectors & Courses')
+                contextBar.setContent(<ViewSectorsCB subAdmin={subAdmin} />)
+                contextBar.show()
             },
+        },
+        {
+            text: 'Assign RTO',
+            onClick: (subAdmin: any) => {
+                contextBar.setTitle('Assigned RTOs')
+                contextBar.setContent(<ViewRtosCB subAdmin={subAdmin} />)
+                contextBar.show()
+            },
+        },
+        {
+            text: 'Edit',
+            onClick: (subadmin: SubAdmin) => onEditSubAdmin(subadmin),
             Icon: FaEdit,
         },
         // {
-        //     text: 'Block',
-        //     onClick: (student: Student) => onBlockClicked(student),
-        //     Icon: MdBlock,
+        //     text: 'Archive',
+        //     onClick: (subAdmin: SubAdmin) => onArchivedClicked(subAdmin),
+        //     Icon: BsArchiveFill,
         //     color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
         // },
     ]
 
-    const columns: ColumnDef<any>[] = [
+    const columns: ColumnDef<SubAdmin>[] = [
         {
             accessorKey: 'user.name',
             cell: (info) => {
-                return <StudentCellInfo student={info.row.original} />
+                return <SubAdminCell subAdmin={info.row.original} />
             },
-            header: () => <span>Student</span>,
+            header: () => <span>Sub Admin</span>,
+        },
+        {
+            accessorKey: 'sector',
+            header: () => <span>Sectors</span>,
+            cell: (info) => {
+                return <SectorCell subAdmin={info.row.original} />
+            },
         },
         {
             accessorKey: 'rto',
-            header: () => <span>RTO</span>,
+            header: () => <span>RTOs</span>,
             cell: (info) => {
-                return <RtoCellInfo rto={info.row.original?.rto} short />
-            },
-        },
-        {
-            accessorKey: 'industry',
-            header: () => <span>Industry</span>,
-            cell: (info) => {
-                const industry =
-                    info.row.original?.workplace[0]?.industries.find(
-                        (i: any) => i.applied
-                    )?.industry
-
-                return industry ? (
-                    <IndustryCell industry={industry} />
-                ) : (
-                    <Typography center>N/A</Typography>
-                )
+                return <RtoCell subAdmin={info.row.original} />
             },
         },
         {
             accessorKey: 'user.status',
             header: () => <span>Status</span>,
             cell: (info) => (
-                <Typography uppercase variant={'badge'}>
-                    <span className="font-bold">
+                <Typography variant={'small'} uppercase>
+                    <span className="font-semibold">
                         {info.row.original?.user?.status}
                     </span>
                 </Typography>
             ),
         },
+
         {
-            accessorKey: 'sectors',
-            header: () => <span>Sectors</span>,
-            cell: (info) => {
-                return <SectorCell student={info.row.original} />
-            },
+            accessorKey: 'addressLine1',
+            header: () => <span>Address</span>,
+            cell: (info) => info.getValue(),
         },
-        {
-            accessorKey: 'progress',
-            header: () => <span>Progress</span>,
-            cell: ({ row }) => {
-                const workplace = row.original.workplace[0]
-                const steps = checkWorkplaceStatus(workplace?.currentStatus)
-                return <ProgressCell step={1} />
-            },
-        },
+
         {
             accessorKey: 'action',
             header: () => <span>Action</span>,
-            cell: (info) => {
+            cell: (info: any) => {
                 return (
-                    <div className="flex gap-x-1 items-center">
-                        <TableAction
-                            options={tableActionOptions}
-                            rowItem={info.row.original}
-                        />
-                    </div>
+                    <TableAction
+                        options={tableActionOptions}
+                        rowItem={info.row.original}
+                    />
                 )
             },
         },
@@ -176,20 +153,19 @@ export const FilteredStudents = ({
 
     return (
         <>
-            {modal && modal}
             <div className="flex flex-col gap-y-4 p-4">
                 <PageHeading
-                    title={'Filtered Students'}
-                    subtitle={'List of Filtered Students'}
+                    title={'Filtered Sub Admins'}
+                    subtitle={'List of Filtered Sub Admins'}
                 />
 
                 <Card noPadding>
-                    {student?.isLoading || student?.isFetching ? (
+                    {subAdmin?.isLoading || subAdmin?.isFetching ? (
                         <LoadingAnimation height="h-[60vh]" />
-                    ) : student?.data && student?.data?.data.length ? (
+                    ) : subAdmin?.data && subAdmin?.data?.data.length ? (
                         <Table
                             columns={columns}
-                            data={student?.data.data}
+                            data={subAdmin?.data.data}
                             quickActions={quickActionsElements}
                             enableRowSelection
                         >
@@ -209,7 +185,7 @@ export const FilteredStudents = ({
                                             <div className="flex gap-x-2">
                                                 {quickActions}
                                                 {pagination(
-                                                    student?.data?.pagination,
+                                                    subAdmin?.data?.pagination,
                                                     setPage
                                                 )}
                                             </div>
@@ -221,8 +197,8 @@ export const FilteredStudents = ({
                         </Table>
                     ) : (
                         <EmptyData
-                            title={'No Students in your Search!'}
-                            description={'No Students in your Search yet'}
+                            title={'No Sub Admins in your Search!'}
+                            description={'No Sub Admins in your Search yet'}
                             height={'50vh'}
                         />
                     )}

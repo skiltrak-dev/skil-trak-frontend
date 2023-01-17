@@ -1,36 +1,24 @@
 import {
     ActionButton,
     BackButton,
-    Button,
-    DescriptiveInfo,
+    EmptyData,
     IndustryProfile,
-    InitialAvatar,
-    InitialAvatarContainer,
-    TabNavigation,
-    TabProps,
-    Typography,
+    LoadingAnimation,
+    TechnicalError,
 } from '@components'
 import { useContextBar, useNavbar } from '@hooks'
 import { AdminLayout } from '@layouts'
 import { NextPageWithLayout } from '@types'
 import { useRouter } from 'next/router'
-import { ReactElement, useState, useEffect } from 'react'
-import {
-    AiOutlineBarcode,
-    AiOutlineLogin,
-    AiTwotonePhone,
-} from 'react-icons/ai'
-import { BsPatchCheckFill } from 'react-icons/bs'
+import { ReactElement, useEffect, useState } from 'react'
 import { FaArchive, FaBan, FaEdit } from 'react-icons/fa'
 
-import { AdminApi } from '@queries'
-import Image from 'next/image'
-import { MdPlace } from 'react-icons/md'
 import { DetailTabs } from '@partials/admin/industry/tabs'
+import { AdminApi } from '@queries'
 
-import { Industry } from '@types'
-import { ArchiveModal, BlockModal } from '@partials/admin/industry/modals'
 import { PinnedNotes } from '@partials'
+import { ArchiveModal, BlockModal } from '@partials/admin/industry/modals'
+import { Industry } from '@types'
 
 const Detail: NextPageWithLayout = () => {
     const router = useRouter()
@@ -42,7 +30,7 @@ const Detail: NextPageWithLayout = () => {
     const industry = AdminApi.Industries.useDetail(Number(router.query.id), {
         skip: !router.query?.id,
     })
-    
+
     useEffect(() => {
         navBar.setSubTitle(industry.data?.user?.name)
     }, [industry.data])
@@ -52,7 +40,6 @@ const Detail: NextPageWithLayout = () => {
             contextBar.show(false)
         }
     }, [industry.data])
-   
 
     const onModalCancelClicked = () => {
         setModal(null)
@@ -76,35 +63,46 @@ const Detail: NextPageWithLayout = () => {
     }
 
     return (
-        <div className="p-6 flex flex-col gap-y-4">
-            {modal && modal}
-            {/* Action Bar */}
-            <div className="flex items-center justify-between">
-                <BackButton text="Industries" />
-                <div className="flex gap-x-2">
-                    <ActionButton Icon={FaEdit}>Edit</ActionButton>
-                    <ActionButton
-                        Icon={FaArchive}
-                        onClick={() => onArchiveClicked(industry?.data)}
-                    >
-                        Archive
-                    </ActionButton>
-                    <ActionButton
-                        Icon={FaBan}
-                        variant={'error'}
-                        onClick={() => onBlockClicked(industry?.data)}
-                    >
-                        Block
-                    </ActionButton>
+        <>
+            {industry.isError && <TechnicalError />}
+            {industry.isLoading ? (
+                <LoadingAnimation height={'60vh'} />
+            ) : industry.data ? (
+                <div className="p-6 flex flex-col gap-y-4">
+                    {modal && modal}
+                    {/* Action Bar */}
+                    <div className="flex items-center justify-between">
+                        <BackButton text="Industries" />
+                        <div className="flex gap-x-2">
+                            <ActionButton Icon={FaEdit}>Edit</ActionButton>
+                            <ActionButton
+                                Icon={FaArchive}
+                                onClick={() => onArchiveClicked(industry?.data)}
+                            >
+                                Archive
+                            </ActionButton>
+                            <ActionButton
+                                Icon={FaBan}
+                                variant={'error'}
+                                onClick={() => onBlockClicked(industry?.data)}
+                            >
+                                Block
+                            </ActionButton>
+                        </div>
+                    </div>
+
+                    <DetailTabs id={router.query.id} industry={industry} />
+                    <PinnedNotes id={industry?.data?.user?.id} />
                 </div>
-            </div>
-
-
-
-
-            <DetailTabs id={router.query.id} industry={industry} />
-            <PinnedNotes id={industry?.data?.user?.id}  />
-        </div>
+            ) : (
+                !industry.isError && (
+                    <EmptyData
+                        title={'No Industry Found'}
+                        description={'No Industry Found on your request'}
+                    />
+                )
+            )}
+        </>
     )
 }
 

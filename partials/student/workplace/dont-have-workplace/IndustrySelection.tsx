@@ -11,6 +11,7 @@ import {
 import { AppliedIndustry } from './AppliedIndustry'
 import { ApplyForWorkplace, VerifyStudentDocs } from './components'
 import { IndustryNotResponded } from '@partials/common'
+import { RejectedIndustries } from '@partials/common/workplace/components/dontHaveWorkplace/RejectedIndustries'
 
 export const IndustrySelection = ({
     setActive,
@@ -25,6 +26,7 @@ export const IndustrySelection = ({
     const [noRespondedIndustries, setNoRespondedIndustries] = useState<
         any | null
     >([])
+    const [rejectedIndustries, setRejectedIndustries] = useState<any | null>([])
     const [selectedCourses, setSelectedCourses] = useState<any[] | null>(null)
     const [industrySelection, setIndustrySelection] = useState(null)
     const [appliedIndustry, setAppliedIndustry] = useState<any | null>(null)
@@ -44,11 +46,17 @@ export const IndustrySelection = ({
                     ?.filter((i: any) => i?.industryResponse === 'noResponse')
                     ?.map((i: any) => i?.industry)
             )
+            setRejectedIndustries(
+                allIndustries
+                    ?.filter((i: any) => i?.industryResponse === 'rejected')
+                    ?.map((i: any) => i?.industry)
+            )
             setIndustries(
                 allIndustries?.filter(
                     (industry: any) =>
                         !industry?.applied &&
-                        industry?.industryResponse !== 'noResponse'
+                        industry?.industryResponse !== 'noResponse' &&
+                        industry?.industryResponse !== 'rejected'
                 )
             )
             setAppliedIndustry(allIndustries?.find((i: any) => i.applied))
@@ -102,9 +110,7 @@ export const IndustrySelection = ({
                     />
                 </>
             )}
-
             {/*  */}
-
             {workplace?.isFetching ? (
                 <LoadingAnimation />
             ) : industries && industries.length > 0 ? (
@@ -153,9 +159,11 @@ export const IndustrySelection = ({
                     </Card>
                 )
             )}
-
             {noRespondedIndustries && noRespondedIndustries?.length > 0 ? (
                 <IndustryNotResponded industries={noRespondedIndustries} />
+            ) : null}
+            {rejectedIndustries && rejectedIndustries?.length > 0 ? (
+                <RejectedIndustries industries={rejectedIndustries} />
             ) : null}
         </div>
     ) : (

@@ -16,6 +16,7 @@ import { workplaceEndpoints } from './workplace'
 import { messagesEndpoints } from './messages'
 import { profileEndpoints } from './profile'
 import { AdminStats } from '@types'
+import { useUpdateSubAdminProfileMutation } from '../sub-admin'
 
 export const adminApi = createApi({
     reducerPath: 'adminApi',
@@ -30,6 +31,7 @@ export const adminApi = createApi({
         },
     }),
     tagTypes: [
+        'Count',
         'Profile',
         'RTOS',
         'Students',
@@ -150,8 +152,10 @@ const {
     // ------ SUB ADMINS ------ //
     useSubAdminsQuery,
     useSubAdminCountQuery,
+    useSubAdminProfileCountQuery,
     useSubAdminProfileQuery,
     useCreateSubAdminMutation,
+    useUpdateSubAdminMutation,
 
     useSubAdminCoursesQuery,
     useSubAdminAssignCoursesMutation,
@@ -244,8 +248,10 @@ export const AdminApi = {
     SubAdmins: {
         useListQuery: useSubAdminsQuery,
         useCountQuery: useSubAdminCountQuery,
+        useProfileCount: useSubAdminProfileCountQuery,
         createSubAmin: useCreateSubAdminMutation,
         useRtoProfile: useSubAdminProfileQuery,
+        useUpdate: useUpdateSubAdminMutation,
 
         useCourses: useSubAdminCoursesQuery,
         useAssignCourses: useSubAdminAssignCoursesMutation,

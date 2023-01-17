@@ -15,6 +15,14 @@ export const subAdminEndpoints = (
         }),
         invalidatesTags: ['SubAdmins'],
     }),
+    updateSubAdmin: builder.mutation({
+        query: ({ id, body }) => ({
+            url: `${PREFIX}/subadmin/update/${id}`,
+            method: 'PATCH',
+            body,
+        }),
+        invalidatesTags: ['SubAdmins'],
+    }),
 
     subAdmins: builder.query<PaginatedResponse<SubAdmin>, any>({
         query: (params) => {
@@ -37,6 +45,14 @@ export const subAdminEndpoints = (
 
     subAdminCount: builder.query<UserCount, void>({
         query: () => `${PREFIX}/subadmin/list/count`,
+        providesTags: ['SubAdmins'],
+    }),
+
+    subAdminProfileCount: builder.query<any, number>({
+        query: (id) => ({
+            url: `subadmin/dashboard/count`,
+            params: { user: id },
+        }),
         providesTags: ['SubAdmins'],
     }),
 

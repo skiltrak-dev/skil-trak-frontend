@@ -34,7 +34,6 @@ export const rtoAssessmentToolsApi = createApi({
             query: (body) => {
                 return {
                     url: `course-assessment-tool/create`,
-                    // url: `create/assessmenttool`,
                     method: 'POST',
                     body,
                 }

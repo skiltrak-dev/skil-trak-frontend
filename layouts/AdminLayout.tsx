@@ -1,22 +1,19 @@
-import React, { ReactElement, ReactNode, useEffect } from 'react'
 import { useAlert, useNotification } from '@hooks'
+import { ReactElement, ReactNode } from 'react'
 
 // components
 import {
     AdminNavbar,
+    ContextBar,
     DisplayAlerts,
     DisplayNotifications,
-    Footer,
-    ContextBar,
     SideBar,
 } from '@components'
-import { MdHomeWork, MdSpaceDashboard, MdSubscriptions } from 'react-icons/md'
 import { IconType } from 'react-icons'
 import { FaClipboardList, FaUniversity, FaUserGraduate } from 'react-icons/fa'
 import { IoMdBriefcase } from 'react-icons/io'
+import { MdHomeWork, MdSpaceDashboard, MdSubscriptions } from 'react-icons/md'
 import { RiShieldUserFill, RiVoiceRecognitionLine } from 'react-icons/ri'
-import { BsInfoSquareFill } from 'react-icons/bs'
-import { HiTicket } from 'react-icons/hi'
 
 type Route = {
     type?: 'title' | 'divider'
@@ -123,7 +120,7 @@ export const AdminLayout = ({ children }: any) => {
         <div className="flex w-full h-screen overflow-hidden bg-[#F9FAFB]">
             <SideBar portalType={'admin'} routes={routes} />
             <div className="flex-grow flex flex-col justify-between">
-                <div className='border-b bg-white'>
+                <div className="border-b bg-white">
                     <AdminNavbar />
                 </div>
                 <div className="flex h-full">
@@ -132,7 +129,7 @@ export const AdminLayout = ({ children }: any) => {
                     >
                         <DisplayAlerts />
                         <DisplayNotifications />
-                        <div className="w-full mb-28">{children}</div>
+                        <div className="w-full mb-28 py-3">{children}</div>
                     </div>
                     <ContextBar />
                 </div>

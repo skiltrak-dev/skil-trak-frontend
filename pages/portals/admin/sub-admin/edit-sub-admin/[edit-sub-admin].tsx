@@ -50,7 +50,7 @@ const EditRto: NextPageWithLayout = () => {
 
     return (
         <div className="flex justify-center">
-            <SubAdminForm subAdmin={subAdmin?.data} onSubmit={setFormData} />
+            {/* <SubAdminForm subAdmin={subAdmin?.data} onSubmit={setFormData} /> */}
         </div>
     )
 }

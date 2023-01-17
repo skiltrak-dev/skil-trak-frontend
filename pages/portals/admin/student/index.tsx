@@ -20,6 +20,7 @@ import {
 } from '@partials/admin/student'
 import { AdminApi } from '@queries'
 import { NextPageWithLayout } from '@types'
+import { checkFilteredDataLength } from '@utils'
 
 const RtoList: NextPageWithLayout = () => {
     const navBar = useNavbar()
@@ -98,6 +99,8 @@ const RtoList: NextPageWithLayout = () => {
         },
     ]
 
+    const filteredDataLength = checkFilteredDataLength(filter)
+
     return (
         <div>
             <div className="px-4">
@@ -109,20 +112,15 @@ const RtoList: NextPageWithLayout = () => {
                     setFilter={setFilter}
                 />
             </div>
-            {filteredStudents.isLoading ? (
-                <div className="px-4 mt-4">
-                    <Card>
-                        <LoadingAnimation />
-                    </Card>
-                </div>
-            ) : Object.keys(filter).length && filteredStudents.isSuccess ? (
+            {filteredDataLength && filteredStudents.isSuccess ? (
                 <FilteredStudents
                     setPage={setPage}
                     itemPerPage={itemPerPage}
                     student={filteredStudents}
                     setItemPerPage={setItemPerPage}
                 />
-            ) : (
+            ) : null}
+            {!filteredDataLength && (
                 <TabNavigation tabs={tabs}>
                     {({ header, element }: any) => {
                         return (
