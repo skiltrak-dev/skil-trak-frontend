@@ -340,8 +340,8 @@ export const MoUContainer = () => {
                 ) : (
                     !isError && (
                         <EmptyData
-                            title={'No Advertsed Job!'}
-                            description={'You have not advertsed any Job yet'}
+                            title={'No RTO,s were found!'}
+                            description={'You have not approved RTO,s yet'}
                             height={'50vh'}
                         />
                     )

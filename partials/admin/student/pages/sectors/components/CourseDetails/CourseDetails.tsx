@@ -127,7 +127,12 @@ export const CourseDetails = ({ courseId }: any) => {
                     </div>
                 </div>
             ) : (
-                !isError && <EmptyData />
+                !isError && (
+                    <EmptyData
+                        title={'No Folders'}
+                        description={'No Folders were found'}
+                    />
+                )
             )}
         </>
     )

@@ -28,6 +28,9 @@ export const SectorsTab = ({ industry }: any) => {
             ))}
         </div>
     ) : (
-        <EmptyData />
+        <EmptyData
+            title={'No Courses were found'}
+            description={'You have no allocoted Courses'}
+        />
     )
 }

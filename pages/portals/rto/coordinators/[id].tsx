@@ -38,7 +38,14 @@ const Detail: NextPageWithLayout = () => {
                 <LoadingAnimation />
             ) : !data ? (
                 !isError &&
-                isSuccess && <EmptyData title={'No Student Found'} />
+                isSuccess && (
+                    <EmptyData
+                        title={'No Coordinator Found'}
+                        description={
+                            'Coordinator Detail were not found on your request'
+                        }
+                    />
+                )
             ) : (
                 <>
                     <div className="border-b border-secondary-dark pb-1">

@@ -205,9 +205,9 @@ export const RejectedStudent = () => {
                     ) : (
                         !isError && (
                             <EmptyData
-                                title={'No Rejected RTO!'}
+                                title={'No Rejected Student!'}
                                 description={
-                                    'You have not rejected any RTO request yet'
+                                    'You have not rejected any Student request yet'
                                 }
                                 height={'50vh'}
                             />

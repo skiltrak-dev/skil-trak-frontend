@@ -68,7 +68,8 @@ export const FavoriteIndustries = () => {
                                 width={50}
                                 height={50}
                             />
-                            <Link legacyBehavior
+                            <Link
+                                legacyBehavior
                                 href={`/portals/sub-admin/users/industries/${row.original.id}?tab=overview`}
                             >
                                 <a>
@@ -213,9 +214,9 @@ export const FavoriteIndustries = () => {
             ) : (
                 !isError && (
                     <EmptyData
-                        title={'No Approved Industry!'}
+                        title={'No Favorite Industries!'}
                         description={
-                            'You have not approved any Industry request yet'
+                            'You have not added a Favorite Industries yet'
                         }
                         height={'50vh'}
                     />

@@ -30,6 +30,8 @@ import { BlockModal } from './modals'
 import { useRouter } from 'next/router'
 import { checkWorkplaceStatus } from '@utils'
 import { IndustryCell } from '../industry/components'
+import { RiLockPasswordFill } from 'react-icons/ri'
+import { useActionModal } from '@hooks'
 
 export const FilteredStudents = ({
     student,
@@ -44,6 +46,9 @@ export const FilteredStudents = ({
 }) => {
     const router = useRouter()
     const [modal, setModal] = useState<ReactElement | null>(null)
+
+    // hooks
+    const { passwordModal, onViewPassword } = useActionModal()
 
     const onModalCancelClicked = () => {
         setModal(null)
@@ -73,6 +78,11 @@ export const FilteredStudents = ({
                 router.push(`/portals/admin/student/edit-student/${row?.id}`)
             },
             Icon: FaEdit,
+        },
+        {
+            text: 'View Password',
+            onClick: (student: Student) => onViewPassword(student),
+            Icon: RiLockPasswordFill,
         },
         // {
         //     text: 'Block',
@@ -177,6 +187,7 @@ export const FilteredStudents = ({
     return (
         <>
             {modal && modal}
+            {passwordModal && passwordModal}
             <div className="flex flex-col gap-y-4 p-4">
                 <PageHeading
                     title={'Filtered Students'}

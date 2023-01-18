@@ -188,9 +188,9 @@ export const SubAdminsTab = ({ rto }: any) => {
                         </Table>
                     ) : (
                         <EmptyData
-                            title={'No Approved RTO!'}
+                            title={'No RTO were found!'}
                             description={
-                                'You have not approved any RTO request yet'
+                                'There is no any RTO detail on your request'
                             }
                             height={'50vh'}
                         />

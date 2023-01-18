@@ -198,9 +198,9 @@ export const ArchivedSubAdmin = () => {
                 ) : (
                     !isError && (
                         <EmptyData
-                            title={'No Archived Industry!'}
+                            title={'No Archived SubAdmin!'}
                             description={
-                                'You have not archived any Industry request yet'
+                                'You have not archived any SubAdmin request yet'
                             }
                             height={'50vh'}
                         />

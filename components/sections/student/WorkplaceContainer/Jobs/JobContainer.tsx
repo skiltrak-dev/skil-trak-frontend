@@ -38,7 +38,12 @@ export const JobContainer = (props: Props) => {
                     />
                 ))
             ) : (
-                !isError && <EmptyData />
+                !isError && (
+                    <EmptyData
+                        title={'No Jobs were found'}
+                        description={'No Active jobs were found'}
+                    />
+                )
             )}
         </div>
     )

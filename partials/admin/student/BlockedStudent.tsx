@@ -26,6 +26,8 @@ import { DeleteModal, UnblockModal } from './modals'
 import { RtoCellInfo } from '../rto/components'
 import { useRouter } from 'next/router'
 import { IndustryCell } from '../industry/components'
+import { RiLockPasswordFill } from 'react-icons/ri'
+import { useActionModal } from '@hooks'
 
 export const BlockedStudent = () => {
     const router = useRouter()
@@ -34,6 +36,9 @@ export const BlockedStudent = () => {
     const [itemPerPage, setItemPerPage] = useState(50)
     const [page, setPage] = useState(1)
     const [filter, setFilter] = useState({})
+
+    // hooks
+    const { passwordModal, onViewPassword } = useActionModal()
 
     const { isLoading, data, isError } = AdminApi.Students.useListQuery({
         search: `status:blocked`,
@@ -77,6 +82,11 @@ export const BlockedStudent = () => {
                 router.push(`/portals/admin/student/edit-student/${row?.id}`)
             },
             Icon: FaEdit,
+        },
+        {
+            text: 'View Password',
+            onClick: (student: Student) => onViewPassword(student),
+            Icon: RiLockPasswordFill,
         },
         {
             text: 'Unblock',
@@ -174,6 +184,7 @@ export const BlockedStudent = () => {
     return (
         <>
             {modal && modal}
+            {passwordModal && passwordModal}
             <div className="flex flex-col gap-y-4 mb-32">
                 <PageHeading
                     title={'Blocked Students'}

@@ -23,12 +23,19 @@ import { IndustryCell } from './components'
 import { DeleteModal, UnblockModal } from './modals'
 import { useRouter } from 'next/router'
 
+// hooks
+import { useActionModal } from '@hooks'
+import { RiLockPasswordFill } from 'react-icons/ri'
+
 export const BlockedIndustry = () => {
     const router = useRouter()
     const [modal, setModal] = useState<ReactElement | null>(null)
 
     const [itemPerPage, setItemPerPage] = useState(50)
     const [page, setPage] = useState(1)
+
+    // hooks
+    const { passwordModal, onViewPassword } = useActionModal()
 
     const { isLoading, data, isError } = AdminApi.Industries.useListQuery({
         search: `status:blocked`,
@@ -72,6 +79,11 @@ export const BlockedIndustry = () => {
                 router.push(`/portals/admin/industry/edit-industry/${row.id}`)
             },
             Icon: FaEdit,
+        },
+        {
+            text: 'View Password',
+            onClick: (industry: Industry) => onViewPassword(industry),
+            Icon: RiLockPasswordFill,
         },
         {
             text: 'Unblock',
@@ -165,6 +177,7 @@ export const BlockedIndustry = () => {
     return (
         <>
             {modal && modal}
+            {passwordModal && passwordModal}
             <div className="flex flex-col gap-y-4 mb-32">
                 <PageHeading
                     title={'Blocked Industries'}

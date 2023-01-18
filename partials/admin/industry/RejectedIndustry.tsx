@@ -21,6 +21,8 @@ import { useRouter } from 'next/router'
 import { ReactElement, useState } from 'react'
 import { IndustryCell } from './components'
 import { AcceptModal, DeleteModal } from './modals'
+import { useActionModal } from '@hooks'
+import { RiLockPasswordFill } from 'react-icons/ri'
 
 export const RejectedIndustry = () => {
     const router = useRouter()
@@ -28,6 +30,9 @@ export const RejectedIndustry = () => {
 
     const [itemPerPage, setItemPerPage] = useState(50)
     const [page, setPage] = useState(1)
+
+    // hooks
+    const { passwordModal, onViewPassword } = useActionModal()
 
     const { isLoading, data, isError } = AdminApi.Industries.useListQuery({
         search: `status:rejected`,
@@ -71,6 +76,11 @@ export const RejectedIndustry = () => {
                 router.push(`/portals/admin/industry/edit-industry/${row.id}`)
             },
             Icon: FaEdit,
+        },
+        {
+            text: 'View Password',
+            onClick: (industry: Industry) => onViewPassword(industry),
+            Icon: RiLockPasswordFill,
         },
         {
             text: 'Accept',
@@ -164,6 +174,7 @@ export const RejectedIndustry = () => {
     return (
         <>
             {modal && modal}
+            {passwordModal && passwordModal}
             <div className="flex flex-col gap-y-4 mb-32">
                 <PageHeading
                     title={'Rejected Industries'}

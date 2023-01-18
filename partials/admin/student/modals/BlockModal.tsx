@@ -24,7 +24,7 @@ export const BlockModal = ({
         if (changeStatusResult.isSuccess) {
             alert.error({
                 title: `Student Blocked`,
-                description: `Student "${item.user.name}" has been blocked.`,
+                description: `Student "${item?.user?.name}" has been blocked.`,
             })
             onCancel()
         }
@@ -41,11 +41,11 @@ export const BlockModal = ({
             Icon={FaBan}
             variant="error"
             title="Are you sure!"
-            description={`You are about to block <em>"${item.user.name}"</em>. Do you wish to continue?`}
+            description={`You are about to block <em>"${item?.user?.name}"</em>. Do you wish to continue?`}
             onConfirm={onConfirmClicked}
             onCancel={onCancel}
             input
-            inputKey={item.user.email}
+            inputKey={item?.user?.email}
             actionObject={item}
             loading={changeStatusResult.isLoading}
         />

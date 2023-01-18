@@ -25,6 +25,8 @@ import { AcceptModal, DeleteModal } from './modals'
 import { RtoCellInfo } from '../rto/components'
 import { useRouter } from 'next/router'
 import { IndustryCell } from '../industry/components'
+import { RiLockPasswordFill } from 'react-icons/ri'
+import { useActionModal } from '@hooks'
 
 export const RejectedStudent = () => {
     const router = useRouter()
@@ -34,6 +36,9 @@ export const RejectedStudent = () => {
     const [itemPerPage, setItemPerPage] = useState(50)
     const [page, setPage] = useState(1)
     const [filter, setFilter] = useState({})
+
+    // hooks
+    const { passwordModal, onViewPassword } = useActionModal()
 
     const { isLoading, data, isError } = AdminApi.Students.useListQuery({
         search: `status:rejected`,
@@ -79,7 +84,11 @@ export const RejectedStudent = () => {
             },
             color: 'text-green-500 hover:bg-green-100 hover:border-green-200',
         },
-
+        {
+            text: 'View Password',
+            onClick: (student: Student) => onViewPassword(student),
+            Icon: RiLockPasswordFill,
+        },
         {
             text: 'Delete',
             onClick: (student: Student) => {
@@ -168,6 +177,7 @@ export const RejectedStudent = () => {
     return (
         <>
             {modal && modal}
+            {passwordModal && passwordModal}
             <div className="flex flex-col gap-y-4 mb-32">
                 <PageHeading
                     title={'Rejected Students'}

@@ -146,7 +146,12 @@ const IndustriesProfile: NextPageWithLayout = (props: Props) => {
                     }}
                 </TabNavigation>
             ) : (
-                !isError && <EmptyData />
+                !isError && (
+                    <EmptyData
+                        title={'No Industry were found'}
+                        description={'No Industry Detail were found'}
+                    />
+                )
             )}
         </>
     )

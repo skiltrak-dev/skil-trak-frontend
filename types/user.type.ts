@@ -17,6 +17,7 @@ export interface User extends BaseResponse {
     role: string
     socketId: string | undefined
     status: string
+    password: string
     avatar: string | undefined
 }
 

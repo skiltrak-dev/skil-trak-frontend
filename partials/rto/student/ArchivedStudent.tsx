@@ -214,10 +214,8 @@ export const ArchivedStudent = () => {
                 ) : (
                     !isError && (
                         <EmptyData
-                            title={'No Archived RTO!'}
-                            description={
-                                'You have not archived any RTO request yet'
-                            }
+                            title={'No Archived Student!'}
+                            description={'You have not archived Student yet'}
                             height={'50vh'}
                         />
                     )

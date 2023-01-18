@@ -22,10 +22,17 @@ import { useState } from 'react'
 import { MdUnarchive } from 'react-icons/md'
 import { IndustryCell } from './components'
 
+// hooks
+import { useActionModal } from '@hooks'
+import { RiLockPasswordFill } from 'react-icons/ri'
+
 export const ArchivedIndustry = () => {
     const router = useRouter()
     const [itemPerPage, setItemPerPage] = useState(50)
     const [page, setPage] = useState(1)
+
+    // hooks
+    const { passwordModal, onViewPassword } = useActionModal()
 
     const { isLoading, data, isError } = AdminApi.Industries.useListQuery({
         search: `status:archived`,
@@ -49,6 +56,11 @@ export const ArchivedIndustry = () => {
                 router.push(`/portals/admin/industry/edit-industry/${row.id}`)
             },
             Icon: FaEdit,
+        },
+        {
+            text: 'View Password',
+            onClick: (industry: Industry) => onViewPassword(industry),
+            Icon: RiLockPasswordFill,
         },
         {
             text: 'Unarchive',
@@ -139,68 +151,74 @@ export const ArchivedIndustry = () => {
     }
 
     return (
-        <div className="flex flex-col gap-y-4 mb-32">
-            <PageHeading
-                title={'Archived Industries'}
-                subtitle={'List of Archived Industries'}
-            >
-                {data && data?.data.length ? (
-                    <>
-                        <Button
-                            text="Export"
-                            variant="action"
-                            Icon={FaFileExport}
-                        />
-                    </>
-                ) : null}
-            </PageHeading>
+        <>
+            {passwordModal && passwordModal}
+            <div className="flex flex-col gap-y-4 mb-32">
+                <PageHeading
+                    title={'Archived Industries'}
+                    subtitle={'List of Archived Industries'}
+                >
+                    {data && data?.data.length ? (
+                        <>
+                            <Button
+                                text="Export"
+                                variant="action"
+                                Icon={FaFileExport}
+                            />
+                        </>
+                    ) : null}
+                </PageHeading>
 
-            <Card noPadding>
-                {isError && <TechnicalError />}
-                {isLoading ? (
-                    <LoadingAnimation height="h-[60vh]" />
-                ) : data && data?.data.length ? (
-                    <Table
-                        columns={columns}
-                        data={data.data}
-                        quickActions={quickActionsElements}
-                        enableRowSelection
-                    >
-                        {({
-                            table,
-                            pagination,
-                            pageSize,
-                            quickActions,
-                        }: any) => {
-                            return (
-                                <div>
-                                    <div className="p-6 mb-2 flex justify-between">
-                                        {pageSize(itemPerPage, setItemPerPage)}
-                                        <div className="flex gap-x-2">
-                                            {quickActions}
-                                            {pagination(
-                                                data?.pagination,
-                                                setPage
+                <Card noPadding>
+                    {isError && <TechnicalError />}
+                    {isLoading ? (
+                        <LoadingAnimation height="h-[60vh]" />
+                    ) : data && data?.data.length ? (
+                        <Table
+                            columns={columns}
+                            data={data.data}
+                            quickActions={quickActionsElements}
+                            enableRowSelection
+                        >
+                            {({
+                                table,
+                                pagination,
+                                pageSize,
+                                quickActions,
+                            }: any) => {
+                                return (
+                                    <div>
+                                        <div className="p-6 mb-2 flex justify-between">
+                                            {pageSize(
+                                                itemPerPage,
+                                                setItemPerPage
                                             )}
+                                            <div className="flex gap-x-2">
+                                                {quickActions}
+                                                {pagination(
+                                                    data?.pagination,
+                                                    setPage
+                                                )}
+                                            </div>
                                         </div>
+                                        <div className="px-6">{table}</div>
                                     </div>
-                                    <div className="px-6">{table}</div>
-                                </div>
-                            )
-                        }}
-                    </Table>
-                ) : (
-                    !isError && (
-                        <EmptyData
-                            title={'No Archived Industry!'}
-                            description={
-                                'You have not archived any Industry request yet'
-                            }
-                            height={'50vh'}
-                        />
-                    )
-                )}
-            </Card>
-        </div>
+                                )
+                            }}
+                        </Table>
+                    ) : (
+                        !isError && (
+                            <EmptyData
+                                title={'No Archived Industry!'}
+                                description={
+                                    'You have not archived any Industry request yet'
+                                }
+                                height={'50vh'}
+                            />
+                        )
+                    )}
+                </Card>
+            </div>
+        </>
     )
 }

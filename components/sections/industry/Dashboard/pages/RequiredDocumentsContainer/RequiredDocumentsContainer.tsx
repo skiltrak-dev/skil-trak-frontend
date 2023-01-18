@@ -49,7 +49,12 @@ export const RequiredDocumentsContainer = () => {
                     </Fragment>
                 ))
             ) : (
-                !isError && <EmptyData />
+                !isError && (
+                    <EmptyData
+                        title={'No Courses were found!'}
+                        description={'it seems that no courses were found!'}
+                    />
+                )
             )}
         </div>
     )

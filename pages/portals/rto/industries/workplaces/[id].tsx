@@ -37,7 +37,13 @@ const Detail: NextPageWithLayout = () => {
                 <LoadingAnimation />
             ) : !data ? (
                 !isError &&
-                isSuccess && <EmptyData title={'No Workplace Found'} />
+                isSuccess && (
+                    <EmptyData
+                        title={'No Workplace Found'}
+                        description={'No Workplace Detail were found'}
+                        height={'50vh'}
+                    />
+                )
             ) : (
                 <>
                     <div className="border-b border-secondary-dark pb-1">

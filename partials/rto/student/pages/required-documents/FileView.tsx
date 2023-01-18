@@ -1,7 +1,6 @@
 import React from 'react'
 
 // Icons
-import { IoClose } from 'react-icons/io5'
 import { AiFillEye } from 'react-icons/ai'
 import { MdCloudDownload } from 'react-icons/md'
 import { BsFileEarmarkText } from 'react-icons/bs'
@@ -172,7 +171,12 @@ export const FileView = ({ id, docType }: any) => {
                     </div>
                 </div>
             ) : (
-                !isError && <EmptyData />
+                !isError && (
+                    <EmptyData
+                        title={'No Folders'}
+                        description={'No Folders'}
+                    />
+                )
             )}
         </>
     )

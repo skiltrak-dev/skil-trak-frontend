@@ -135,7 +135,7 @@ export const AllStudents = () => {
         {
             accessorKey: 'sectors',
             header: () => <span>Sectors</span>,
-            cell: ({row}:any) => {
+            cell: ({ row }: any) => {
                 return <SectorCell student={row.original} />
             },
         },
@@ -208,9 +208,7 @@ export const AllStudents = () => {
                     !isError && (
                         <EmptyData
                             title={'No Students'}
-                            description={
-                                'You have not approved any Student yet'
-                            }
+                            description={'You have not approved Students yet'}
                             height={'50vh'}
                         />
                     )

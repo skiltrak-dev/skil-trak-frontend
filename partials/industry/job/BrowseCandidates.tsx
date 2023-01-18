@@ -85,7 +85,12 @@ export const BrowseCandidatesContainer = () => {
                             )}
                         </>
                     ) : (
-                        !browseCandidates.isError && <EmptyData />
+                        !browseCandidates.isError && (
+                            <EmptyData
+                                title={'No Candidate yet'}
+                                description={'No Candidate were found'}
+                            />
+                        )
                     )}
                 </div>
             </Card>

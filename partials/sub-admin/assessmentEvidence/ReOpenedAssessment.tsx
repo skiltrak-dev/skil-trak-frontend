@@ -60,8 +60,10 @@ export const ReOpenedAssessment = () => {
                 ) : (
                     !isError && (
                         <EmptyData
-                            title={'No AssessmentEvidence!'}
-                            description={'You have no Assessment found yet'}
+                            title={'No Re-Opened AssessmentEvidence!'}
+                            description={
+                                'There is no Re-Opened Assessment were found'
+                            }
                             height={'50vh'}
                         />
                     )

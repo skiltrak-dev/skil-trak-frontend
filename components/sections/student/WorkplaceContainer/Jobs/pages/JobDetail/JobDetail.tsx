@@ -186,7 +186,14 @@ export const JobDetail = (props: Props) => {
                     </div>
                 </div>
             ) : (
-                !isError && <EmptyData />
+                !isError && (
+                    <EmptyData
+                        title={'No Job Available'}
+                        description={
+                            'It seems that job is removed or not added'
+                        }
+                    />
+                )
             )}
         </>
     )

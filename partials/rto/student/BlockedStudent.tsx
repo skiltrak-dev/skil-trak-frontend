@@ -211,9 +211,9 @@ export const BlockedStudent = () => {
                     ) : (
                         !isError && (
                             <EmptyData
-                                title={'No Blocked RTO!'}
+                                title={'No Blocked Student!'}
                                 description={
-                                    'You have not blocked any RTO request yet'
+                                    'There is no any blocked Student yet'
                                 }
                                 height={'50vh'}
                             />

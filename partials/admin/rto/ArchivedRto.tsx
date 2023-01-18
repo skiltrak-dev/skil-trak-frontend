@@ -104,7 +104,7 @@ export const ArchivedRto = () => {
         {
             accessorKey: 'students',
             header: () => <span>Students</span>,
-            cell: (info) => info.getValue(),
+            cell: (info) => info.row.original?.students?.length,
         },
         {
             accessorKey: 'sectors',

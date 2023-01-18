@@ -2,7 +2,8 @@ import {
     Card,
     EmptyData,
     LoadingAnimation,
-    Table, TechnicalError
+    Table,
+    TechnicalError,
 } from '@components'
 import { useGetAssessmentEvidenceQuery } from '@queries'
 import { useState } from 'react'
@@ -59,8 +60,10 @@ export const CompetentAssessment = () => {
                 ) : (
                     !isError && (
                         <EmptyData
-                            title={'No AssessmentEvidence!'}
-                            description={'You have no Assessment found yet'}
+                            title={'No Competent AssessmentEvidence!'}
+                            description={
+                                'There is no Competent Assessment were found'
+                            }
                             height={'50vh'}
                         />
                     )

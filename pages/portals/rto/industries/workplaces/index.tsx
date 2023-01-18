@@ -208,9 +208,9 @@ const RtoWorkplaces: NextPageWithLayout = (props: Props) => {
                 ) : (
                     !isError && (
                         <EmptyData
-                            title={'No Approved RTO!'}
+                            title={'No Workplaces!'}
                             description={
-                                'You have not approved any RTO request yet'
+                                'it seems that there is no workplace request'
                             }
                             height={'50vh'}
                         />

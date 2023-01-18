@@ -219,8 +219,8 @@ export const ActiveSubAdmin = () => {
                     ) : (
                         !isError && (
                             <EmptyData
-                                title={'No Pending Industry!'}
-                                description={'You have no pending Industry'}
+                                title={'No Active SubAdmin!'}
+                                description={'You have no Active SubAdmin'}
                                 height={'50vh'}
                             />
                         )

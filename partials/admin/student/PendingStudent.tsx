@@ -19,7 +19,7 @@ import { FaEdit, FaEye, FaFileExport, FaFilter } from 'react-icons/fa'
 import { AdminApi } from '@queries'
 import { MdEmail, MdPhoneIphone } from 'react-icons/md'
 import { ReactElement, useEffect, useState } from 'react'
-import { useContextBar } from '@hooks'
+import { useActionModal, useContextBar } from '@hooks'
 import { Rto, Student } from '@types'
 import { SectorCell, StudentCellInfo } from './components'
 import { RtoCellInfo } from '@partials/admin/rto/components'
@@ -27,6 +27,7 @@ import { AcceptModal, RejectModal } from './modals'
 import { useChangeStatus } from './hooks'
 import { useRouter } from 'next/router'
 import { IndustryCell } from '../industry/components'
+import { RiLockPasswordFill } from 'react-icons/ri'
 
 export const PendingStudent = () => {
     const router = useRouter()
@@ -37,6 +38,10 @@ export const PendingStudent = () => {
     const [itemPerPage, setItemPerPage] = useState(50)
     const [page, setPage] = useState(1)
     const [filter, setFilter] = useState({})
+
+    // hooks
+    const { passwordModal, onViewPassword } = useActionModal()
+
     const { isLoading, data, isError } = AdminApi.Students.useListQuery({
         search: `status:pending`,
         skip: itemPerPage * page - itemPerPage,
@@ -74,6 +79,11 @@ export const PendingStudent = () => {
                 router.push(`/portals/admin/student/edit-student/${row.id}`)
             },
             Icon: FaEdit,
+        },
+        {
+            text: 'View Password',
+            onClick: (student: Student) => onViewPassword(student),
+            Icon: RiLockPasswordFill,
         },
     ]
 
@@ -170,6 +180,7 @@ export const PendingStudent = () => {
     return (
         <>
             {modal && modal}
+            {passwordModal && passwordModal}
             <div className="flex flex-col gap-y-4 mb-32">
                 <PageHeading
                     title={'Pending Students'}

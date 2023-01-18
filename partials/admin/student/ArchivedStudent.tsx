@@ -1,11 +1,8 @@
 import {
     ActionButton,
-    Button,
     Card,
     EmptyData,
-    Filter,
     LoadingAnimation,
-    RtoFilters,
     Table,
     TableAction,
     TableActionOption,
@@ -14,23 +11,18 @@ import {
 } from '@components'
 import { PageHeading } from '@components/headings'
 import { ColumnDef } from '@tanstack/react-table'
-import { FaEdit, FaEye, FaFileExport, FaFilter, FaTrash } from 'react-icons/fa'
+import { FaEdit, FaEye, FaTrash } from 'react-icons/fa'
 
 import { AdminApi } from '@queries'
-import {
-    MdBlock,
-    MdEmail,
-    MdPhoneIphone,
-    MdRestore,
-    MdUnarchive,
-} from 'react-icons/md'
-import { useState } from 'react'
-import { CgUnblock } from 'react-icons/cg'
-import { SectorCell, StudentCellInfo } from './components'
 import { Student } from '@types'
-import { RtoCellInfo } from '../rto/components'
 import { useRouter } from 'next/router'
+import { useState } from 'react'
+import { MdUnarchive } from 'react-icons/md'
 import { IndustryCell } from '../industry/components'
+import { RtoCellInfo } from '../rto/components'
+import { SectorCell, StudentCellInfo } from './components'
+import { useActionModal } from '@hooks'
+import { RiLockPasswordFill } from 'react-icons/ri'
 
 export const ArchivedStudent = () => {
     const router = useRouter()
@@ -38,6 +30,9 @@ export const ArchivedStudent = () => {
     const [itemPerPage, setItemPerPage] = useState(50)
     const [page, setPage] = useState(1)
     const [filter, setFilter] = useState({})
+
+    // hooks
+    const { passwordModal, onViewPassword } = useActionModal()
 
     const { isLoading, data, isError } = AdminApi.Students.useListQuery({
         search: `status:archived`,
@@ -61,6 +56,11 @@ export const ArchivedStudent = () => {
                 router.push(`/portals/admin/student/edit-student/${row?.id}`)
             },
             Icon: FaEdit,
+        },
+        {
+            text: 'View Password',
+            onClick: (student: Student) => onViewPassword(student),
+            Icon: RiLockPasswordFill,
         },
         {
             text: 'Unarchive',
@@ -156,58 +156,64 @@ export const ArchivedStudent = () => {
     }
 
     return (
-        <div className="flex flex-col gap-y-4 mb-32">
-            <PageHeading
-                title={'Archived Students'}
-                subtitle={'List of Archived Students'}
-            />
+        <>
+            {passwordModal && passwordModal}
+            <div className="flex flex-col gap-y-4 mb-32">
+                <PageHeading
+                    title={'Archived Students'}
+                    subtitle={'List of Archived Students'}
+                />
 
-            <Card noPadding>
-                {isError && <TechnicalError />}
-                {isLoading ? (
-                    <LoadingAnimation height="h-[60vh]" />
-                ) : data && data?.data.length ? (
-                    <Table
-                        columns={columns}
-                        data={data.data}
-                        quickActions={quickActionsElements}
-                        enableRowSelection
-                    >
-                        {({
-                            table,
-                            pagination,
-                            pageSize,
-                            quickActions,
-                        }: any) => {
-                            return (
-                                <div>
-                                    <div className="p-6 mb-2 flex justify-between">
-                                        {pageSize(itemPerPage, setItemPerPage)}
-                                        <div className="flex gap-x-2">
-                                            {quickActions}
-                                            {pagination(
-                                                data?.pagination,
-                                                setPage
+                <Card noPadding>
+                    {isError && <TechnicalError />}
+                    {isLoading ? (
+                        <LoadingAnimation height="h-[60vh]" />
+                    ) : data && data?.data.length ? (
+                        <Table
+                            columns={columns}
+                            data={data.data}
+                            quickActions={quickActionsElements}
+                            enableRowSelection
+                        >
+                            {({
+                                table,
+                                pagination,
+                                pageSize,
+                                quickActions,
+                            }: any) => {
+                                return (
+                                    <div>
+                                        <div className="p-6 mb-2 flex justify-between">
+                                            {pageSize(
+                                                itemPerPage,
+                                                setItemPerPage
                                             )}
+                                            <div className="flex gap-x-2">
+                                                {quickActions}
+                                                {pagination(
+                                                    data?.pagination,
+                                                    setPage
+                                                )}
+                                            </div>
                                         </div>
+                                        <div className="px-6">{table}</div>
                                     </div>
-                                    <div className="px-6">{table}</div>
-                                </div>
-                            )
-                        }}
-                    </Table>
-                ) : (
-                    !isError && (
-                        <EmptyData
-                            title={'No Archived RTO!'}
-                            description={
-                                'You have not archived any RTO request yet'
-                            }
-                            height={'50vh'}
-                        />
-                    )
-                )}
-            </Card>
-        </div>
+                                )
+                            }}
+                        </Table>
+                    ) : (
+                        !isError && (
+                            <EmptyData
+                                title={'No Archived RTO!'}
+                                description={
+                                    'You have not archived any RTO request yet'
+                                }
+                                height={'50vh'}
+                            />
+                        )
+                    )}
+                </Card>
+            </div>
+        </>
     )
 }

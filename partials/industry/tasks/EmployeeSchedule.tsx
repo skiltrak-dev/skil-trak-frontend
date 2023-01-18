@@ -216,8 +216,8 @@ export const EmployeeSchedule = () => {
                 ) : (
                     !isError && (
                         <EmptyData
-                            title={'No Advertsed Job!'}
-                            description={'You have not advertsed any Job yet'}
+                            title={'No Employee Schedule!'}
+                            description={'There is no any Employee Schedule!'}
                             height={'50vh'}
                         />
                     )

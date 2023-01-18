@@ -88,7 +88,8 @@ const RTOs: NextPageWithLayout = () => {
                                 width={50}
                                 height={50}
                             />
-                            <Link legacyBehavior
+                            <Link
+                                legacyBehavior
                                 href={`/portals/sub-admin/users/rtos/${row.original.id}?tab=overview`}
                             >
                                 <a>
@@ -236,10 +237,8 @@ const RTOs: NextPageWithLayout = () => {
                 ) : (
                     !isError && (
                         <EmptyData
-                            title={'No Approved Industry!'}
-                            description={
-                                'You have not approved any Industry request yet'
-                            }
+                            title={'No RTO were found!'}
+                            description={'You have not any rto yet'}
                             height={'50vh'}
                         />
                     )

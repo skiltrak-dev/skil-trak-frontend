@@ -22,6 +22,8 @@ import { IndustryCell } from './components'
 import { useChangeStatus } from './hooks'
 import { AcceptModal, RejectModal } from './modals'
 import { useRouter } from 'next/router'
+import { useActionModal } from '@hooks'
+import { RiLockPasswordFill } from 'react-icons/ri'
 
 export const PendingIndustry = () => {
     const [modal, setModal] = useState<ReactElement | null>(null)
@@ -29,6 +31,9 @@ export const PendingIndustry = () => {
 
     const [itemPerPage, setItemPerPage] = useState(50)
     const [page, setPage] = useState(1)
+
+    // hooks
+    const { passwordModal, onViewPassword } = useActionModal()
 
     const { isLoading, data, isError } = AdminApi.Industries.useListQuery({
         search: `status:pending`,
@@ -66,6 +71,11 @@ export const PendingIndustry = () => {
                 )
             },
             Icon: FaEye,
+        },
+        {
+            text: 'View Password',
+            onClick: (industry: Industry) => onViewPassword(industry),
+            Icon: RiLockPasswordFill,
         },
         {
             text: 'Edit',
@@ -165,6 +175,7 @@ export const PendingIndustry = () => {
     return (
         <>
             {modal && modal}
+            {passwordModal && passwordModal}
             <div className="flex flex-col gap-y-4 mb-32">
                 <PageHeading
                     title={'Pending Industries'}

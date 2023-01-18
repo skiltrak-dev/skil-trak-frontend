@@ -1,45 +1,44 @@
 import {
-    Button,
     ActionButton,
     Card,
     EmptyData,
-    Filter,
     LoadingAnimation,
     Table,
     TableAction,
     TableActionOption,
-    StudentFilters,
     TechnicalError,
     Typography,
+    ViewUserPassword,
 } from '@components'
 import { PageHeading } from '@components/headings'
 import { ColumnDef } from '@tanstack/react-table'
-import { FaEdit, FaEye, FaFileExport, FaFilter } from 'react-icons/fa'
+import { FaEdit, FaEye } from 'react-icons/fa'
 
-import { AdminApi } from '@queries'
-import { MdBlock, MdEmail, MdPhoneIphone } from 'react-icons/md'
-import { ReactElement, useState } from 'react'
-import {
-    CourseDot,
-    ProgressCell,
-    SectorCell,
-    StudentCellInfo,
-} from './components'
 import { RtoCellInfo } from '@partials/admin/rto/components'
+import { AdminApi } from '@queries'
 import { Student } from '@types'
-import { BlockModal } from './modals'
-import { useRouter } from 'next/router'
 import { checkWorkplaceStatus } from '@utils'
+import { useRouter } from 'next/router'
+import { ReactElement, useState } from 'react'
+import { MdBlock } from 'react-icons/md'
+import { RiLockPasswordFill } from 'react-icons/ri'
 import { IndustryCell } from '../industry/components'
+import { ProgressCell, SectorCell, StudentCellInfo } from './components'
+import { BlockModal } from './modals'
+
+// hooks
+import { useActionModal } from '@hooks'
 
 export const ApprovedStudent = () => {
     const router = useRouter()
     const [modal, setModal] = useState<ReactElement | null>(null)
 
-    const [filterAction, setFilterAction] = useState(null)
     const [itemPerPage, setItemPerPage] = useState(50)
     const [page, setPage] = useState(1)
-    const [filter, setFilter] = useState({})
+
+    // hooks
+    const { passwordModal, onViewPassword } = useActionModal()
+
     const { isLoading, isFetching, data, isError } =
         AdminApi.Students.useListQuery({
             search: `status:approved`,
@@ -47,17 +46,11 @@ export const ApprovedStudent = () => {
             limit: itemPerPage,
         })
 
-
     const onModalCancelClicked = () => {
         setModal(null)
     }
     const onBlockClicked = (student: Student) => {
-        setModal(
-            <BlockModal
-                item={student}
-                onCancel={() => onModalCancelClicked()}
-            />
-        )
+        setModal(<BlockModal item={student} onCancel={onModalCancelClicked} />)
     }
 
     const tableActionOptions: TableActionOption[] = [
@@ -72,10 +65,17 @@ export const ApprovedStudent = () => {
         },
         {
             text: 'Edit',
-            onClick: (row: any) => {
-                router.push(`/portals/admin/student/edit-student/${row?.id}`)
+            onClick: (student: Student) => {
+                router.push(
+                    `/portals/admin/student/edit-student/${student?.id}`
+                )
             },
             Icon: FaEdit,
+        },
+        {
+            text: 'View Password',
+            onClick: (student: Student) => onViewPassword(student),
+            Icon: RiLockPasswordFill,
         },
         {
             text: 'Block',
@@ -173,12 +173,12 @@ export const ApprovedStudent = () => {
     return (
         <>
             {modal && modal}
+            {passwordModal && passwordModal}
             <div className="flex flex-col gap-y-4">
                 <PageHeading
                     title={'Approved Students'}
                     subtitle={'List of Approved Students'}
                 />
-
                 <Card noPadding>
                     {isError && <TechnicalError />}
                     {isLoading ? (
