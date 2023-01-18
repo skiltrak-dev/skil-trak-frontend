@@ -1,16 +1,13 @@
-import { useState, useEffect } from 'react'
 import {
     Button,
+    ShowErrorNotifications,
     TextArea,
     TextInput,
-    ActionAlert,
-    ShowErrorNotifications,
 } from '@components'
-import { useRouter } from 'next/router'
-import { UserRoles } from '@constants'
 import { yupResolver } from '@hookform/resolvers/yup'
-import { AdminApi } from '@queries'
+import { User } from '@types'
 import { onlyAlphabets } from '@utils'
+import { useEffect } from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
 import * as yup from 'yup'
 
@@ -18,22 +15,13 @@ export const SubAdminForm = ({
     onSubmit,
     result,
     subAdmin,
+    edit,
 }: {
-    onSubmit?: any
-    result?: any
+    edit?: boolean
+    onSubmit: any
+    result: any
     subAdmin?: any
 }) => {
-    const router = useRouter()
-    const [isSuccess, setIsSuccess] = useState<boolean>(false)
-    const [createSubAmin, createSubAminResult] =
-        AdminApi.SubAdmins.createSubAmin()
-
-    useEffect(() => {
-        if (createSubAminResult.isSuccess) {
-            setIsSuccess(createSubAminResult.isSuccess)
-        }
-    }, [createSubAminResult.isSuccess])
-
     const validationSchema = yup.object({
         // Profile Information
         name: yup
@@ -55,110 +43,91 @@ export const SubAdminForm = ({
     const formMethods = useForm({
         mode: 'all',
         resolver: yupResolver(validationSchema),
-        defaultValues: subAdmin,
     })
 
-    const onSubmitForm = (values: any) => {
-        if (onSubmit) {
-            onSubmit(values)
-        } else
-            createSubAmin({
-                ...values,
-                role: UserRoles.SUBADMIN,
-                status: 'approved',
-            })
-    }
+    useEffect(() => {
+        if (result.isSuccess) {
+            formMethods.reset()
+        }
+    }, [result])
+
+    useEffect(() => {
+        if (subAdmin) {
+            const values = {
+                name: subAdmin?.user?.name,
+                email: subAdmin?.user?.email,
+                phone: subAdmin?.phone,
+                addressLine1: subAdmin?.addressLine1,
+                coordinatorId: subAdmin?.coordinatorId,
+            }
+            for (let key in values) {
+                formMethods.setValue(key, values[key as keyof typeof values])
+            }
+        }
+    }, [subAdmin])
+
+    console.log('result', result)
 
     return (
         <>
-            <ShowErrorNotifications result={createSubAminResult} />
-            {isSuccess && (
-                <ActionAlert
-                    title={'Sub Admin Created Successfully!'}
-                    description={'You will be redirected to jobs in a moment.'}
-                    variant={'primary'}
-                    primaryAction={{
-                        text: 'Back To List',
-                        onClick: () => {
-                            router.push(`/portals/admin/sub-admin?tab=active`)
-                        },
-                    }}
-                    secondaryAction={{
-                        text: 'Add New',
-                        onClick: () => {
-                            setIsSuccess(false)
-                        },
-                    }}
-                />
-            )}
-            {!isSuccess && (
-                <FormProvider {...formMethods}>
-                    <form onSubmit={formMethods.handleSubmit(onSubmitForm)}>
-                        <div className="w-full grid grid-cols-1 sm:grid-cols-2 gap-x-8">
-                            <TextInput
-                                label={'Full Name'}
-                                name={'name'}
-                                placeholder={'Your Full Name...'}
-                                validationIcons
-                                required
-                            />
+            <ShowErrorNotifications result={result} />
+            <FormProvider {...formMethods}>
+                <form onSubmit={formMethods.handleSubmit(onSubmit)}>
+                    <TextInput
+                        label={'Full Name'}
+                        name={'name'}
+                        placeholder={'Your Full Name...'}
+                        validationIcons
+                        required
+                    />
 
-                            <TextInput
-                                label={'Coordinator Id'}
-                                name={'coordinatorId'}
-                                placeholder={'Coordinator Id...'}
-                                validationIcons
-                                required
-                            />
+                    <TextInput
+                        label={'Coordinator Id'}
+                        name={'coordinatorId'}
+                        placeholder={'Coordinator Id...'}
+                        validationIcons
+                        required
+                    />
 
-                            <TextInput
-                                label={'Phone No'}
-                                name={'phone'}
-                                placeholder={'Phone No...'}
-                                validationIcons
-                                required
-                            />
-                            <TextInput
-                                label={'Password'}
-                                name={'password'}
-                                type={'password'}
-                                placeholder={'Password...'}
-                                validationIcons
-                                required
-                            />
-                        </div>
-                        <div className="w-full grid grid-cols-1 gap-x-8">
-                            <TextInput
-                                label={'Email'}
-                                type={'email'}
-                                name={'email'}
-                                placeholder={'Email...'}
-                                validationIcons
-                                required
-                            />
-                            <TextArea
-                                label={'Address'}
-                                name={'addressLine1'}
-                                placeholder={'Address...'}
-                            />
-                        </div>
-                        <Button
-                            submit
-                            text={'Create'}
-                            loading={
-                                result?.isLoading ||
-                                createSubAminResult.isLoading
-                            }
-                            disabled={
-                                result?.isLoading ||
-                                createSubAminResult.isLoading
-                            }
+                    <TextInput
+                        label={'Phone No'}
+                        name={'phone'}
+                        placeholder={'Phone No...'}
+                        validationIcons
+                        required
+                    />
+                    {!edit && (
+                        <TextInput
+                            label={'Password'}
+                            name={'password'}
+                            type={'password'}
+                            placeholder={'Password...'}
+                            validationIcons
+                            required
                         />
-
-                        {/* <Button text={'Update'} submit /> */}
-                    </form>
-                </FormProvider>
-            )}
+                    )}
+                    <TextInput
+                        label={'Email'}
+                        type={'email'}
+                        name={'email'}
+                        placeholder={'Email...'}
+                        validationIcons
+                        required
+                    />
+                    <TextArea
+                        label={'Address'}
+                        name={'addressLine1'}
+                        placeholder={'Address...'}
+                    />
+                    <Button
+                        submit
+                        text={edit ? 'Update' : 'Create'}
+                        variant={edit ? 'secondary' : 'primary'}
+                        loading={result?.isLoading}
+                        disabled={result?.isLoading}
+                    />
+                </form>
+            </FormProvider>
         </>
     )
 }

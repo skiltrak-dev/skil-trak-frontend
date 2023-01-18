@@ -58,9 +58,7 @@ const EditRto: NextPageWithLayout = () => {
                 subtitle={`You are creating a sector`}
             />
             <div className="w-3/4">
-                <Card>
-                    <SubAdminForm subAdmin={subAdmin} />
-                </Card>
+                <Card>{/* <SubAdminForm subAdmin={subAdmin} /> */}</Card>
             </div>
         </div>
     )

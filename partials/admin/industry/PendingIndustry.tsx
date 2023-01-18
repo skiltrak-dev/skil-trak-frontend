@@ -26,16 +26,12 @@ import { useRouter } from 'next/router'
 export const PendingIndustry = () => {
     const [modal, setModal] = useState<ReactElement | null>(null)
     const router = useRouter()
-    const [filterAction, setFilterAction] = useState(null)
+
     const [itemPerPage, setItemPerPage] = useState(50)
     const [page, setPage] = useState(1)
-    const [filter, setFilter] = useState({})
+
     const { isLoading, data, isError } = AdminApi.Industries.useListQuery({
-        search: `status:pending,${JSON.stringify(filter)
-            .replaceAll('{', '')
-            .replaceAll('}', '')
-            .replaceAll('"', '')
-            .trim()}`,
+        search: `status:pending`,
         skip: itemPerPage * page - itemPerPage,
         limit: itemPerPage,
     })
@@ -176,7 +172,6 @@ export const PendingIndustry = () => {
                 >
                     {data && data?.data.length ? (
                         <>
-                            {filterAction}
                             <Button
                                 text="Export"
                                 variant="action"
@@ -185,15 +180,6 @@ export const PendingIndustry = () => {
                         </>
                     ) : null}
                 </PageHeading>
-
-                {data && data?.data.length ? (
-                    <Filter
-                        component={RtoFilters}
-                        initialValues={{ name: '', email: '', rtoCode: '' }}
-                        setFilterAction={setFilterAction}
-                        setFilter={setFilter}
-                    />
-                ) : null}
 
                 <Card noPadding>
                     {isError && <TechnicalError />}

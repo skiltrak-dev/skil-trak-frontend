@@ -1,6 +1,13 @@
-import { ReactElement, useEffect } from 'react'
+import { ReactElement, useEffect, useState } from 'react'
 
-import { TabNavigation, TabProps } from '@components'
+import {
+    Card,
+    Filter,
+    IndustryFilters,
+    LoadingAnimation,
+    TabNavigation,
+    TabProps,
+} from '@components'
 import { useContextBar, useNavbar } from '@hooks'
 import { AdminLayout } from '@layouts'
 import { NextPageWithLayout } from '@types'
@@ -9,15 +16,30 @@ import {
     ApprovedIndustry,
     ArchivedIndustry,
     BlockedIndustry,
+    FilteredIndustry,
     PendingIndustry,
     RejectedIndustry,
 } from '@partials/admin/industry'
 import { AdminApi } from '@queries'
+import { checkFilteredDataLength } from '@utils'
 
-const RtoList: NextPageWithLayout = () => {
+const IndustryList: NextPageWithLayout = () => {
     const navBar = useNavbar()
     const contextBar = useContextBar()
 
+    const [filterAction, setFilterAction] = useState(null)
+    const [itemPerPage, setItemPerPage] = useState(50)
+    const [page, setPage] = useState(1)
+    const [filter, setFilter] = useState({})
+    const filteredIndustries = AdminApi.Industries.useListQuery({
+        search: `status:approved,${JSON.stringify(filter)
+            .replaceAll('{', '')
+            .replaceAll('}', '')
+            .replaceAll('"', '')
+            .trim()}`,
+        skip: itemPerPage * page - itemPerPage,
+        limit: itemPerPage,
+    })
     const { isLoading, data } = AdminApi.Industries.useCount()
 
     useEffect(() => {
@@ -74,24 +96,45 @@ const RtoList: NextPageWithLayout = () => {
         },
     ]
 
+    const filteredDataLength = checkFilteredDataLength(filter)
+
     return (
         <div>
-            <TabNavigation tabs={tabs}>
-                {({ header, element }: any) => {
-                    return (
-                        <div>
-                            <div>{header}</div>
-                            <div className="p-4">{element}</div>
-                        </div>
-                    )
-                }}
-            </TabNavigation>
+            <div className="px-4">
+                <div className="flex justify-end mb-2">{filterAction}</div>
+                <Filter
+                    component={IndustryFilters}
+                    initialValues={{}}
+                    setFilterAction={setFilterAction}
+                    setFilter={setFilter}
+                />
+            </div>
+            {filteredDataLength && filteredIndustries.isSuccess ? (
+                <FilteredIndustry
+                    setPage={setPage}
+                    itemPerPage={itemPerPage}
+                    industry={filteredIndustries}
+                    setItemPerPage={setItemPerPage}
+                />
+            ) : null}
+            {!filteredDataLength && (
+                <TabNavigation tabs={tabs}>
+                    {({ header, element }: any) => {
+                        return (
+                            <div>
+                                <div>{header}</div>
+                                <div className="p-4">{element}</div>
+                            </div>
+                        )
+                    }}
+                </TabNavigation>
+            )}
         </div>
     )
 }
 
-RtoList.getLayout = (page: ReactElement) => {
+IndustryList.getLayout = (page: ReactElement) => {
     return <AdminLayout>{page}</AdminLayout>
 }
 
-export default RtoList
+export default IndustryList

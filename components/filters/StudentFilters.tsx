@@ -122,7 +122,7 @@ export const StudentFilters = ({ onFilterChange, filter }: ItemFilterProps) => {
             <Select
                 label={'Search by Batch/Class'}
                 name={'batchId'}
-                options={[{ value: '', label: '' }]}
+                options={[]}
                 placeholder={'Select Batch/Class...'}
                 onChange={(e: any) => {
                     onFilterChange({ ...filter, batchId: e?.value })

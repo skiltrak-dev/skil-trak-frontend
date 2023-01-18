@@ -27,17 +27,11 @@ export const BlockedIndustry = () => {
     const router = useRouter()
     const [modal, setModal] = useState<ReactElement | null>(null)
 
-    const [filterAction, setFilterAction] = useState(null)
     const [itemPerPage, setItemPerPage] = useState(50)
     const [page, setPage] = useState(1)
-    const [filter, setFilter] = useState({})
 
     const { isLoading, data, isError } = AdminApi.Industries.useListQuery({
-        search: `status:blocked,${JSON.stringify(filter)
-            .replaceAll('{', '')
-            .replaceAll('}', '')
-            .replaceAll('"', '')
-            .trim()}`,
+        search: `status:blocked`,
         skip: itemPerPage * page - itemPerPage,
         limit: itemPerPage,
     })
@@ -176,7 +170,6 @@ export const BlockedIndustry = () => {
                     title={'Blocked Industries'}
                     subtitle={'List of Blocked Industries'}
                 >
-                    {filterAction}
                     {data && data?.data.length ? (
                         <Button
                             text="Export"
@@ -185,13 +178,6 @@ export const BlockedIndustry = () => {
                         />
                     ) : null}
                 </PageHeading>
-
-                <Filter
-                    component={RtoFilters}
-                    initialValues={{ name: '', email: '', rtoCode: '' }}
-                    setFilterAction={setFilterAction}
-                    setFilter={setFilter}
-                />
 
                 <Card noPadding>
                     {isError && <TechnicalError />}

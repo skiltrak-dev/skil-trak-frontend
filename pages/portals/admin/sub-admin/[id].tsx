@@ -47,6 +47,9 @@ const RtoDetail: NextPageWithLayout = () => {
             skip: !router.query?.id,
         }
     )
+    const count = AdminApi.SubAdmins.useProfileCount(Number(data?.user?.id), {
+        skip: !data,
+    })
 
     useEffect(() => {
         navBar.setTitle('Sub Admin Detail')
@@ -167,34 +170,34 @@ const RtoDetail: NextPageWithLayout = () => {
                                 <div className="flex gap-x-4 w-full">
                                     <FigureCard
                                         imageUrl="/images/icons/students.png"
-                                        count={0}
+                                        count={count?.data?.student}
                                         title={'Students'}
                                     />
                                     <FigureCard
                                         imageUrl="/images/icons/industry.png"
-                                        count={0}
+                                        count={count?.data?.industry}
                                         title={'Industries'}
                                     />
                                     <FigureCard
                                         imageUrl="/images/icons/rto.png"
-                                        count={0}
+                                        count={count?.data?.rto}
                                         title={'RTOs'}
                                     />
                                 </div>
                                 <div className="flex gap-x-4">
                                     <FigureCard
                                         imageUrl="/images/icons/workplace.png"
-                                        count={0}
+                                        count={count?.data?.workplaceRequest}
                                         title={'Workplace Requests'}
                                     />
                                     <FigureCard
                                         imageUrl="/images/icons/pending-student.png"
-                                        count={0}
+                                        count={count?.data?.Pendingstudent}
                                         title={'Pending Students'}
                                     />
                                     <FigureCard
                                         imageUrl="/images/icons/appointments.png"
-                                        count={0}
+                                        count={count?.data?.appointment}
                                         title={'Appointments'}
                                     />
                                 </div>

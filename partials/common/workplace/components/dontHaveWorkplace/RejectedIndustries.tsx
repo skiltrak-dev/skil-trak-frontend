@@ -8,13 +8,13 @@ type Props = {
     industries: any
 }
 
-export const IndustryNotResponded = ({ industries }: Props) => {
+export const RejectedIndustries = ({ industries }: Props) => {
     return (
         <>
             <Card>
                 <div className="pb-2">
                     <Typography variant="muted" color={'text-red-500'}>
-                        This industry not responded on your profile.
+                        This industry has rejected your profile.
                     </Typography>
                 </div>
                 <div className="flex flex-col gap-y-2">
@@ -50,7 +50,7 @@ export const IndustryNotResponded = ({ industries }: Props) => {
                                 </div>
                             </div>
                             <div>
-                                <Button variant="error" text="Not Responded" />
+                                <Button variant="error" text="Rejected" />
                             </div>
                         </div>
                     ))}

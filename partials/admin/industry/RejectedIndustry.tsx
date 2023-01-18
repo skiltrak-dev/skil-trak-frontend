@@ -17,26 +17,20 @@ import { FaEdit, FaEye, FaFileExport, FaTrash } from 'react-icons/fa'
 
 import { AdminApi } from '@queries'
 import { Industry } from '@types'
+import { useRouter } from 'next/router'
 import { ReactElement, useState } from 'react'
 import { IndustryCell } from './components'
 import { AcceptModal, DeleteModal } from './modals'
-import { useRouter } from 'next/router'
 
 export const RejectedIndustry = () => {
     const router = useRouter()
     const [modal, setModal] = useState<ReactElement | null>(null)
 
-    const [filterAction, setFilterAction] = useState(null)
     const [itemPerPage, setItemPerPage] = useState(50)
     const [page, setPage] = useState(1)
-    const [filter, setFilter] = useState({})
 
     const { isLoading, data, isError } = AdminApi.Industries.useListQuery({
-        search: `status:rejected,${JSON.stringify(filter)
-            .replaceAll('{', '')
-            .replaceAll('}', '')
-            .replaceAll('"', '')
-            .trim()}`,
+        search: `status:rejected`,
         skip: itemPerPage * page - itemPerPage,
         limit: itemPerPage,
     })
@@ -177,7 +171,6 @@ export const RejectedIndustry = () => {
                 >
                     {data && data?.data.length ? (
                         <>
-                            {filterAction}
                             <Button
                                 text="Export"
                                 variant="action"
@@ -186,15 +179,6 @@ export const RejectedIndustry = () => {
                         </>
                     ) : null}
                 </PageHeading>
-
-                {data && data?.data.length ? (
-                    <Filter
-                        component={RtoFilters}
-                        initialValues={{ name: '', email: '', rtoCode: '' }}
-                        setFilterAction={setFilterAction}
-                        setFilter={setFilter}
-                    />
-                ) : null}
 
                 <Card noPadding>
                     {isError && <TechnicalError />}

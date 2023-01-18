@@ -1,43 +1,33 @@
 import {
-    Button,
     ActionButton,
     Card,
     EmptyData,
-    Filter,
     LoadingAnimation,
     Table,
     TableAction,
     TableActionOption,
-    StudentFilters,
-    Typography,
 } from '@components'
 import { PageHeading } from '@components/headings'
 import { ColumnDef } from '@tanstack/react-table'
-import { FaEdit, FaEye, FaFileExport, FaFilter } from 'react-icons/fa'
+import { FaEdit, FaEye } from 'react-icons/fa'
 
-import { AdminApi } from '@queries'
-import { MdBlock, MdEmail, MdPhoneIphone } from 'react-icons/md'
-import { ReactElement, useState } from 'react'
-import {
-    CourseDot,
-    ProgressCell,
-    SectorCell,
-    StudentCellInfo,
-} from './components'
+import { useContextBar } from '@hooks'
 import { RtoCellInfo } from '@partials/admin/rto/components'
-import { Student } from '@types'
-import { BlockModal } from './modals'
+import { Rto } from '@types'
 import { useRouter } from 'next/router'
-import { checkWorkplaceStatus } from '@utils'
-import { IndustryCell } from '../industry/components'
+import { ReactElement, useState } from 'react'
+import { MdBlock } from 'react-icons/md'
+import { SectorCell } from './components'
+import { ViewSubAdminsCB } from './contextBar'
+import { BlockModal } from './modals'
 
-export const FilteredStudents = ({
-    student,
+export const FilteredRto = ({
+    rto,
     setPage,
     itemPerPage,
     setItemPerPage,
 }: {
-    student: any
+    rto: any
     setPage: any
     itemPerPage: any
     setItemPerPage: any
@@ -45,110 +35,91 @@ export const FilteredStudents = ({
     const router = useRouter()
     const [modal, setModal] = useState<ReactElement | null>(null)
 
+    const contextBar = useContextBar()
+    const onViewSubAdminsClicked = (rto: Rto) => {
+        contextBar.setTitle('Sub Admins')
+        contextBar.setContent(<ViewSubAdminsCB rto={rto} />)
+        contextBar.show()
+    }
+
     const onModalCancelClicked = () => {
         setModal(null)
     }
-    const onBlockClicked = (student: Student) => {
+    const onBlockClicked = (rto: Rto) => {
         setModal(
-            <BlockModal
-                item={student}
-                onCancel={() => onModalCancelClicked()}
-            />
+            <BlockModal rto={rto} onCancel={() => onModalCancelClicked()} />
         )
     }
 
     const tableActionOptions: TableActionOption[] = [
         {
             text: 'View',
-            onClick: (student: any) => {
-                router.push(
-                    `/portals/admin/student/${student?.id}?tab=overview`
-                )
+            onClick: (rto: Rto) => {
+                router.push(`/portals/admin/rto/${rto.id}?tab=sectors`)
             },
             Icon: FaEye,
         },
         {
             text: 'Edit',
-            onClick: (row: any) => {
-                router.push(`/portals/admin/student/edit-student/${row?.id}`)
+            onClick: (rto: Rto) => {
+                router.push(`/portals/admin/rto/edit/${rto.id}`)
             },
             Icon: FaEdit,
         },
-        // {
-        //     text: 'Block',
-        //     onClick: (student: Student) => onBlockClicked(student),
-        //     Icon: MdBlock,
-        //     color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
-        // },
+        {
+            text: 'Sub Admins',
+            onClick: (item: any) => {
+                onViewSubAdminsClicked(item)
+            },
+            Icon: FaEdit,
+        },
+        {
+            text: 'Block',
+            onClick: (rto: Rto) => onBlockClicked(rto),
+            Icon: MdBlock,
+            color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
+        },
     ]
 
-    const columns: ColumnDef<any>[] = [
+    const columns: ColumnDef<Rto>[] = [
         {
             accessorKey: 'user.name',
             cell: (info) => {
-                return <StudentCellInfo student={info.row.original} />
+                return <RtoCellInfo rto={info.row.original} />
             },
-            header: () => <span>Student</span>,
+            header: () => <span>Name</span>,
         },
         {
-            accessorKey: 'rto',
-            header: () => <span>RTO</span>,
-            cell: (info) => {
-                return <RtoCellInfo rto={info.row.original?.rto} short />
-            },
+            accessorKey: 'rtoCode',
+            header: () => <span>Code</span>,
+            cell: (info) => info.getValue(),
         },
         {
-            accessorKey: 'industry',
-            header: () => <span>Industry</span>,
-            cell: (info) => {
-                const industry =
-                    info.row.original?.workplace[0]?.industries.find(
-                        (i: any) => i.applied
-                    )?.industry
-
-                return industry ? (
-                    <IndustryCell industry={industry} />
-                ) : (
-                    <Typography center>N/A</Typography>
-                )
-            },
-        },
-        {
-            accessorKey: 'user.status',
-            header: () => <span>Status</span>,
-            cell: (info) => (
-                <Typography uppercase variant={'badge'}>
-                    <span className="font-bold">
-                        {info.row.original?.user?.status}
-                    </span>
-                </Typography>
-            ),
+            accessorKey: 'students',
+            header: () => <span>Students</span>,
+            cell: (info) => info?.row?.original?.students.length,
         },
         {
             accessorKey: 'sectors',
             header: () => <span>Sectors</span>,
             cell: (info) => {
-                return <SectorCell student={info.row.original} />
+                return <SectorCell rto={info.row.original} />
             },
         },
         {
-            accessorKey: 'progress',
-            header: () => <span>Progress</span>,
-            cell: ({ row }) => {
-                const workplace = row.original.workplace[0]
-                const steps = checkWorkplaceStatus(workplace?.currentStatus)
-                return <ProgressCell step={1} />
-            },
+            accessorKey: 'suburb',
+            header: () => <span>Address</span>,
+            cell: (info) => info.getValue(),
         },
         {
             accessorKey: 'action',
             header: () => <span>Action</span>,
-            cell: (info) => {
+            cell: ({ row }: any) => {
                 return (
                     <div className="flex gap-x-1 items-center">
                         <TableAction
                             options={tableActionOptions}
-                            rowItem={info.row.original}
+                            rowItem={row.original}
                         />
                     </div>
                 )
@@ -179,17 +150,17 @@ export const FilteredStudents = ({
             {modal && modal}
             <div className="flex flex-col gap-y-4 p-4">
                 <PageHeading
-                    title={'Filtered Students'}
-                    subtitle={'List of Filtered Students'}
+                    title={'Filtered RTOS'}
+                    subtitle={'List of Filtered RTOS'}
                 />
 
                 <Card noPadding>
-                    {student?.isLoading || student?.isFetching ? (
+                    {rto?.isLoading || rto?.isFetching ? (
                         <LoadingAnimation height="h-[60vh]" />
-                    ) : student?.data && student?.data?.data.length ? (
+                    ) : rto?.data && rto?.data?.data.length ? (
                         <Table
                             columns={columns}
-                            data={student?.data.data}
+                            data={rto?.data.data}
                             quickActions={quickActionsElements}
                             enableRowSelection
                         >
@@ -209,7 +180,7 @@ export const FilteredStudents = ({
                                             <div className="flex gap-x-2">
                                                 {quickActions}
                                                 {pagination(
-                                                    student?.data?.pagination,
+                                                    rto?.data?.pagination,
                                                     setPage
                                                 )}
                                             </div>
@@ -221,8 +192,8 @@ export const FilteredStudents = ({
                         </Table>
                     ) : (
                         <EmptyData
-                            title={'No Students in your Search!'}
-                            description={'No Students in your Search yet'}
+                            title={'No RTOS in your Search!'}
+                            description={'No RTOS in your Search yet'}
                             height={'50vh'}
                         />
                     )}

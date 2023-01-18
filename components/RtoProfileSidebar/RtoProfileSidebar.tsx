@@ -45,7 +45,6 @@ export const RtoProfileSidebar = ({ data }: any) => {
         return sectors
     }
     const sectorsWithCourses = getSectors(data?.courses)
-    console.log('data?.subadmin', data?.subadmin)
     return data.isLoading ? (
         <LoadingAnimation />
     ) : (

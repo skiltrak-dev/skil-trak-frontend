@@ -17,7 +17,7 @@ import { CommonApi, AdminApi, useSendMessageMutation } from '@queries'
 import { useContextBar } from 'hooks'
 // import { useMessage } from 'hooks'
 
-export const MailsTab = ({ user }: any) => {
+export const MailsTab = ({ user }: { user: any }) => {
     const [messagesList, setMessagesList] = useState([])
     const [approvedUser, setApprovedUser] = useState(
         user?.user?.status === 'approved'
@@ -37,7 +37,9 @@ export const MailsTab = ({ user }: any) => {
     // }, [messages.refetch])
 
     return (
-        <div className={`flex flex-col md:flex-row gap-y-4 md:gap-x-2.5 w-full mt-4 mb-32`}>
+        <div
+            className={`flex flex-col md:flex-row gap-y-4 md:gap-x-2.5 w-full mt-4 mb-32`}
+        >
             <div className={`w-full bg-gray-50 rounded-lg p-2`}>
                 {messages.isError && <TechnicalError />}
                 <div className={`flex flex-col gap-y-2.5 h-full `}>
@@ -73,7 +75,6 @@ export const MailsTab = ({ user }: any) => {
                     )}
                 </div>
             </div>
-            {/* {approvedUser && ( */}
             <div className={`md:w-2/5 w-full`}>
                 <MailForm
                     action={useSendMessageMutation}
@@ -81,7 +82,6 @@ export const MailsTab = ({ user }: any) => {
                     sender={'admin'}
                 />
             </div>
-            {/* )} */}
         </div>
     )
 }

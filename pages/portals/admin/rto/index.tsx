@@ -1,22 +1,44 @@
-import { ReactElement, useEffect } from 'react'
+import { ReactElement, useEffect, useState } from 'react'
 
-import { TabNavigation, TabProps } from '@components'
+import {
+    Card,
+    Filter,
+    LoadingAnimation,
+    TabNavigation,
+    TabProps,
+    RtoFilters,
+} from '@components'
 import { useNavbar } from '@hooks'
 import { AdminLayout } from '@layouts'
 import {
     ApprovedRto,
     ArchivedRto,
     BlockedRto,
+    FilteredRto,
     PendingRto,
     RejectedRto,
 } from '@partials'
 import { AdminApi } from '@queries'
 import { NextPageWithLayout } from '@types'
+import { checkFilteredDataLength } from '@utils'
 
 const RtoList: NextPageWithLayout = () => {
     const navBar = useNavbar()
 
-    const { isLoading, data } = AdminApi.Rtos.useCountQuery()
+    const [filterAction, setFilterAction] = useState(null)
+    const [itemPerPage, setItemPerPage] = useState(50)
+    const [page, setPage] = useState(1)
+    const [filter, setFilter] = useState({})
+    const filteredRtos = AdminApi.Rtos.useListQuery({
+        search: `${JSON.stringify(filter)
+            .replaceAll('{', '')
+            .replaceAll('}', '')
+            .replaceAll('"', '')
+            .trim()}`,
+        skip: itemPerPage * page - itemPerPage,
+        limit: itemPerPage,
+    })
+    const count = AdminApi.Rtos.useCountQuery()
 
     useEffect(() => {
         navBar.setTitle('RTO')
@@ -27,8 +49,8 @@ const RtoList: NextPageWithLayout = () => {
             label: 'Pending',
             href: { pathname: 'rto', query: { tab: 'pending' } },
             badge: {
-                text: data?.pending,
-                loading: isLoading,
+                text: count?.data?.pending,
+                loading: count?.isLoading,
             },
             element: <PendingRto />,
         },
@@ -36,8 +58,8 @@ const RtoList: NextPageWithLayout = () => {
             label: 'Approved',
             href: { pathname: 'rto', query: { tab: 'approved' } },
             badge: {
-                text: data?.approved,
-                loading: isLoading,
+                text: count?.data?.approved,
+                loading: count?.isLoading,
             },
             element: <ApprovedRto />,
         },
@@ -45,8 +67,8 @@ const RtoList: NextPageWithLayout = () => {
             label: 'Rejected',
             href: { pathname: 'rto', query: { tab: 'rejected' } },
             badge: {
-                text: data?.rejected,
-                loading: isLoading,
+                text: count?.data?.rejected,
+                loading: count?.isLoading,
             },
             element: <RejectedRto />,
         },
@@ -54,8 +76,8 @@ const RtoList: NextPageWithLayout = () => {
             label: 'Blocked',
             href: { pathname: 'rto', query: { tab: 'blocked' } },
             badge: {
-                text: data?.blocked,
-                loading: isLoading,
+                text: count?.data?.blocked,
+                loading: count?.isLoading,
             },
             element: <BlockedRto />,
         },
@@ -63,25 +85,46 @@ const RtoList: NextPageWithLayout = () => {
             label: 'Archived',
             href: { pathname: 'rto', query: { tab: 'archived' } },
             badge: {
-                text: data?.archived,
-                loading: isLoading,
+                text: count?.data?.archived,
+                loading: count?.isLoading,
             },
             element: <ArchivedRto />,
         },
     ]
 
+    const filteredDataLength = checkFilteredDataLength(filter)
+
     return (
         <div>
-            <TabNavigation tabs={tabs}>
-                {({ header, element }: any) => {
-                    return (
-                        <div>
-                            <div>{header}</div>
-                            <div className="p-4">{element}</div>
-                        </div>
-                    )
-                }}
-            </TabNavigation>
+            <div className="px-4">
+                <div className="flex justify-end mb-2">{filterAction}</div>
+                <Filter
+                    component={RtoFilters}
+                    initialValues={{}}
+                    setFilterAction={setFilterAction}
+                    setFilter={setFilter}
+                />
+            </div>
+            {filteredDataLength && filteredRtos.isSuccess ? (
+                <FilteredRto
+                    setPage={setPage}
+                    itemPerPage={itemPerPage}
+                    rto={filteredRtos}
+                    setItemPerPage={setItemPerPage}
+                />
+            ) : null}
+            {!filteredDataLength && (
+                <TabNavigation tabs={tabs}>
+                    {({ header, element }: any) => {
+                        return (
+                            <div>
+                                <div>{header}</div>
+                                <div className="p-4">{element}</div>
+                            </div>
+                        )
+                    }}
+                </TabNavigation>
+            )}
         </div>
     )
 }

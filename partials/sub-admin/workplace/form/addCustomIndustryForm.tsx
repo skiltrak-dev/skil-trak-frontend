@@ -9,7 +9,13 @@ import { useContextBar, useNotification } from '@hooks'
 import { AuthApi, useAddCustomIndustryMutation } from '@queries'
 import { isEmailValid, onlyAlphabets, SignUpUtils } from '@utils'
 
-import { Button, Checkbox, Select, TextInput } from '@components'
+import {
+    Button,
+    Checkbox,
+    Select,
+    ShowErrorNotifications,
+    TextInput,
+} from '@components'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { FormProvider, useForm } from 'react-hook-form'
 
@@ -29,16 +35,6 @@ export const AddCustomIndustryForm = ({ workplaceId }: any) => {
     const [storedData, setStoredData] = useState<any>(null)
 
     const [lastEnteredEmail, setLastEnteredEmail] = useState('')
-
-    useEffect(() => {
-        if (addCustomIndustryResult.isSuccess) {
-            notification.success({
-                title: 'Industry Added Successfully',
-                description: 'Industry Added Successfully',
-            })
-            hide()
-        }
-    }, [addCustomIndustryResult])
 
     const onEmailChange = (e: any) => {
         _debounce(() => {
@@ -163,6 +159,17 @@ export const AddCustomIndustryForm = ({ workplaceId }: any) => {
         resolver: yupResolver(validationSchema),
     })
 
+    useEffect(() => {
+        if (addCustomIndustryResult.isSuccess) {
+            notification.success({
+                title: 'Industry Added Successfully',
+                description: 'Industry Added Successfully',
+            })
+            formMethods.reset()
+            hide()
+        }
+    }, [addCustomIndustryResult])
+
     const onSubmit = (values: any) => {
         addCustomIndustry({
             id: workplaceId,
@@ -178,6 +185,7 @@ export const AddCustomIndustryForm = ({ workplaceId }: any) => {
 
     return (
         <>
+            <ShowErrorNotifications result={addCustomIndustryResult} />
             <FormProvider {...formMethods}>
                 <form onSubmit={formMethods.handleSubmit(onSubmit)}>
                     {/* Personal Information */}
@@ -240,13 +248,12 @@ export const AddCustomIndustryForm = ({ workplaceId }: any) => {
                         label={'Sector'}
                         {...(storedData
                             ? {
-                                defaultValue: storedData.sectors,
-                            }
+                                  defaultValue: storedData.sectors,
+                              }
                             : {})}
                         name={'sectors'}
                         options={sectorOptions}
                         placeholder={'Select Sectors...'}
-                        multi
                         loading={sectorResponse.isLoading}
                         onChange={onSectorChanged}
                         validationIcons
@@ -257,7 +264,6 @@ export const AddCustomIndustryForm = ({ workplaceId }: any) => {
                         name={'courses'}
                         defaultValue={courseOptions}
                         options={courseOptions}
-                        multi
                         loading={courseLoading}
                         disabled={
                             storedData
@@ -339,7 +345,10 @@ export const AddCustomIndustryForm = ({ workplaceId }: any) => {
                             label={
                                 <>
                                     I agree with{' '}
-                                    <Link legacyBehavior href="/terms-and-conditions">
+                                    <Link
+                                        legacyBehavior
+                                        href="/terms-and-conditions"
+                                    >
                                         <a className="text-link">Terms</a>
                                     </Link>{' '}
                                     {'&'}{' '}

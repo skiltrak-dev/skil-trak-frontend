@@ -27,17 +27,11 @@ export const BlockedRto = () => {
     const [modal, setModal] = useState<ReactElement | null>(null)
     const router = useRouter()
 
-    const [filterAction, setFilterAction] = useState(null)
     const [itemPerPage, setItemPerPage] = useState(50)
     const [page, setPage] = useState(1)
-    const [filter, setFilter] = useState({})
 
     const { isLoading, data, isError } = AdminApi.Rtos.useListQuery({
-        search: `status:blocked,${JSON.stringify(filter)
-            .replaceAll('{', '')
-            .replaceAll('}', '')
-            .replaceAll('"', '')
-            .trim()}`,
+        search: `status:blocked`,
         skip: itemPerPage * page - itemPerPage,
         limit: itemPerPage,
     })
@@ -175,7 +169,6 @@ export const BlockedRto = () => {
                     title={'Blocked RTOs'}
                     subtitle={'List of Blocked RTOs'}
                 >
-                    {filterAction}
                     {data && data?.data.length ? (
                         <Button
                             text="Export"
@@ -184,13 +177,6 @@ export const BlockedRto = () => {
                         />
                     ) : null}
                 </PageHeading>
-
-                <Filter
-                    component={RtoFilters}
-                    initialValues={{ name: '', email: '', rtoCode: '' }}
-                    setFilterAction={setFilterAction}
-                    setFilter={setFilter}
-                />
 
                 <Card noPadding>
                     {isError && <TechnicalError />}

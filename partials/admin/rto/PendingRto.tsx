@@ -1,4 +1,3 @@
-import { useRouter } from 'next/router'
 import {
     ActionButton,
     Button,
@@ -14,14 +13,13 @@ import {
 } from '@components'
 import { PageHeading } from '@components/headings'
 import { ColumnDef } from '@tanstack/react-table'
-import { FaEdit, FaEye, FaFileExport, FaFilter } from 'react-icons/fa'
+import { useRouter } from 'next/router'
+import { FaEdit, FaEye, FaFileExport } from 'react-icons/fa'
 
+import { useContextBar } from '@hooks'
 import { AdminApi } from '@queries'
-import { MdEmail, MdPhoneIphone } from 'react-icons/md'
-import { ReactElement, useEffect, useState } from 'react'
-import { useAlert, useContextBar, useNotification } from '@hooks'
-import { ViewSectorsCB } from './contextBar'
-import { Course, Rto, UserStatus } from '@types'
+import { Rto } from '@types'
+import { ReactElement, useState } from 'react'
 import { RtoCellInfo, SectorCell } from './components'
 import { useChangeStatus } from './hooks'
 import { AcceptModal, RejectModal } from './modals'
@@ -31,16 +29,10 @@ export const PendingRto = () => {
     const [modal, setModal] = useState<ReactElement | null>(null)
     const router = useRouter()
 
-    const [filterAction, setFilterAction] = useState(null)
     const [itemPerPage, setItemPerPage] = useState(50)
     const [page, setPage] = useState(1)
-    const [filter, setFilter] = useState({})
     const { isLoading, data, isError } = AdminApi.Rtos.useListQuery({
-        search: `status:pending,${JSON.stringify(filter)
-            .replaceAll('{', '')
-            .replaceAll('}', '')
-            .replaceAll('"', '')
-            .trim()}`,
+        search: `status:pending`,
         skip: itemPerPage * page - itemPerPage,
         limit: itemPerPage,
     })
@@ -161,7 +153,6 @@ export const PendingRto = () => {
                     title={'Pending RTOs'}
                     subtitle={'List of Pending RTOs'}
                 >
-                    {filterAction}
                     {data && data?.data.length ? (
                         <Button
                             text="Export"
@@ -170,13 +161,6 @@ export const PendingRto = () => {
                         />
                     ) : null}
                 </PageHeading>
-
-                <Filter
-                    component={RtoFilters}
-                    initialValues={{ name: '', email: '', rtoCode: '' }}
-                    setFilterAction={setFilterAction}
-                    setFilter={setFilter}
-                />
 
                 <Card noPadding>
                     {isError && <TechnicalError />}

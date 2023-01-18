@@ -70,7 +70,6 @@ export const RPLForm = () => {
     })
 
     const onSubmit = async (values: any) => {
-        console.log("aaa", values)
         // const formData = new FormData()
         // formData.append('identity', values.cnic)
         // formData.append('resume', values.resume)

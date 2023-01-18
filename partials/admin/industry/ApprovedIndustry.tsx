@@ -27,16 +27,10 @@ import { useRouter } from 'next/router'
 export const ApprovedIndustry = () => {
     const [modal, setModal] = useState<ReactElement | null>(null)
     const router = useRouter()
-    const [filterAction, setFilterAction] = useState(null)
     const [itemPerPage, setItemPerPage] = useState(50)
     const [page, setPage] = useState(1)
-    const [filter, setFilter] = useState({})
     const { isLoading, data, isError } = AdminApi.Industries.useListQuery({
-        search: `status:approved,${JSON.stringify(filter)
-            .replaceAll('{', '')
-            .replaceAll('}', '')
-            .replaceAll('"', '')
-            .trim()}`,
+        search: `status:approved`,
         skip: itemPerPage * page - itemPerPage,
         limit: itemPerPage,
     })
@@ -153,7 +147,6 @@ export const ApprovedIndustry = () => {
                     title={'Approved Industries'}
                     subtitle={'List of Approved Industries'}
                 >
-                    {filterAction}
                     {data && data?.data.length ? (
                         <Button
                             text="Export"
@@ -162,13 +155,6 @@ export const ApprovedIndustry = () => {
                         />
                     ) : null}
                 </PageHeading>
-
-                <Filter
-                    component={IndustryFilters}
-                    initialValues={{ name: '', email: '', rtoCode: '' }}
-                    setFilterAction={setFilterAction}
-                    setFilter={setFilter}
-                />
 
                 <Card noPadding>
                     {isError && <TechnicalError />}

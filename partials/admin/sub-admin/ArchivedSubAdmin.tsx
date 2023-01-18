@@ -20,23 +20,26 @@ import { useRouter } from 'next/router'
 import { useState } from 'react'
 import { FaEdit, FaEye, FaFileExport, FaTrash } from 'react-icons/fa'
 import { MdUnarchive } from 'react-icons/md'
+import { useContextBar } from '@hooks'
+import { AddSubAdminCB } from './contextBar'
 
 export const ArchivedSubAdmin = () => {
     const router = useRouter()
-    const [filterAction, setFilterAction] = useState(null)
+    const contextBar = useContextBar()
     const [itemPerPage, setItemPerPage] = useState(50)
     const [page, setPage] = useState(1)
-    const [filter, setFilter] = useState({})
 
     const { isLoading, data, isError } = AdminApi.SubAdmins.useListQuery({
-        search: `status:archived,${JSON.stringify(filter)
-            .replaceAll('{', '')
-            .replaceAll('}', '')
-            .replaceAll('"', '')
-            .trim()}`,
+        search: `status:archived`,
         skip: itemPerPage * page - itemPerPage,
         limit: itemPerPage,
     })
+
+    const onEditSubAdmin = (subAdmin: SubAdmin) => {
+        contextBar.setContent(<AddSubAdminCB edit subAdmin={subAdmin} />)
+        contextBar.setTitle('Edit SubAdmin')
+        contextBar.show()
+    }
 
     const tableActionOptions: TableActionOption[] = [
         {
@@ -50,10 +53,8 @@ export const ArchivedSubAdmin = () => {
         },
         {
             text: 'Edit',
-            onClick: (row: any) => {
-                router.push(
-                    `/portals/admin/sub-admin/edit-sub-admin/${row?.id}`
-                )
+            onClick: (subadmin: SubAdmin) => {
+                onEditSubAdmin(subadmin)
             },
             Icon: FaEdit,
         },
@@ -100,7 +101,7 @@ export const ArchivedSubAdmin = () => {
         },
 
         {
-            accessorKey: 'address',
+            accessorKey: 'addressLine1',
             header: () => <span>Address</span>,
             cell: (info) => info.getValue(),
         },
@@ -151,7 +152,6 @@ export const ArchivedSubAdmin = () => {
                 title={'Archived Sub Admin'}
                 subtitle={'List of Archived Sub Admin'}
             >
-                {filterAction}
                 {data && data?.data.length ? (
                     <Button
                         text="Export"
@@ -160,13 +160,6 @@ export const ArchivedSubAdmin = () => {
                     />
                 ) : null}
             </PageHeading>
-
-            <Filter
-                component={RtoFilters}
-                initialValues={{ name: '', email: '', rtoCode: '' }}
-                setFilterAction={setFilterAction}
-                setFilter={setFilter}
-            />
 
             <Card noPadding>
                 {isError && <TechnicalError />}
