@@ -16,6 +16,7 @@ import { useState } from 'react'
 import { EditPassword } from './EditPassword'
 import { useRouter } from 'next/router'
 import { BlockModal } from '@partials/sub-admin/students/modals'
+import { getUserCredentials } from '@utils'
 
 const getGender = (gender: string | undefined) => {
     if (!gender) return 'N/A'
@@ -44,6 +45,8 @@ export const SubAdminStudentProfile = ({ student }: { student: Student }) => {
             />
         )
     }
+
+    const role = getUserCredentials()?.role
     return (
         <div>
             {modal && modal}
@@ -53,7 +56,9 @@ export const SubAdminStudentProfile = ({ student }: { student: Student }) => {
                         className="bg-blue-100 rounded-full p-1"
                         onClick={() => {
                             router.push(
-                                `/portals/sub-admin/students/${student?.id}/edit-student`
+                                role === 'admin'
+                                    ? `/portals/admin/student/edit-student/${student?.id}`
+                                    : `/portals/sub-admin/students/${student?.id}/edit-student`
                             )
                         }}
                     >

@@ -49,19 +49,25 @@ type Props = {}
 const RtoProfile: NextPageWithLayout = (props: Props) => {
     const pathname = useRouter()
     const { id } = pathname.query
-    const { setContent } = useContextBar()
+    const { setContent, show } = useContextBar()
     const rtoDetail = useGetSubAdminRTODetailQuery(String(id), {
         skip: !id,
     })
     const navBar = useNavbar()
 
     useEffect(() => {
-        setContent(
-            <>
-                <RtoProfileSidebar data={rtoDetail} />
-            </>
-        )
-    }, [setContent])
+        if (rtoDetail?.isSuccess) {
+            setContent(
+                <>
+                    <RtoProfileSidebar
+                        loading={rtoDetail?.isLoading}
+                        data={rtoDetail?.data}
+                    />
+                </>
+            )
+            show(false)
+        }
+    }, [rtoDetail, setContent])
 
     useEffect(() => {
         navBar.setSubTitle(rtoDetail?.data?.user?.name)

@@ -66,8 +66,6 @@ export const SubAdminForm = ({
         }
     }, [subAdmin])
 
-    console.log('result', result)
-
     return (
         <>
             <ShowErrorNotifications result={result} />

@@ -12,12 +12,13 @@ import { PageHeading } from '@components/headings'
 import { ColumnDef } from '@tanstack/react-table'
 import { FaEdit, FaEye } from 'react-icons/fa'
 
-import { useContextBar } from '@hooks'
+import { useActionModal, useContextBar } from '@hooks'
 import { SubAdmin } from '@types'
 import { useRouter } from 'next/router'
 import { MdBlock } from 'react-icons/md'
 import { RtoCell, SectorCell, SubAdminCell } from './components'
 import { AddSubAdminCB, ViewRtosCB, ViewSectorsCB } from './contextBar'
+import { RiLockPasswordFill } from 'react-icons/ri'
 
 export const FilteredSubAdmins = ({
     subAdmin,
@@ -33,6 +34,9 @@ export const FilteredSubAdmins = ({
     const router = useRouter()
 
     const contextBar = useContextBar()
+
+    // hooks
+    const { passwordModal, onViewPassword } = useActionModal()
 
     const onEditSubAdmin = (subAdmin: SubAdmin) => {
         contextBar.setContent(<AddSubAdminCB edit subAdmin={subAdmin} />)
@@ -70,6 +74,11 @@ export const FilteredSubAdmins = ({
             text: 'Edit',
             onClick: (subadmin: SubAdmin) => onEditSubAdmin(subadmin),
             Icon: FaEdit,
+        },
+        {
+            text: 'View Password',
+            onClick: (subAdmin: SubAdmin) => onViewPassword(subAdmin),
+            Icon: RiLockPasswordFill,
         },
         // {
         //     text: 'Archive',
@@ -153,6 +162,7 @@ export const FilteredSubAdmins = ({
 
     return (
         <>
+            {passwordModal && passwordModal}
             <div className="flex flex-col gap-y-4 p-4">
                 <PageHeading
                     title={'Filtered Sub Admins'}

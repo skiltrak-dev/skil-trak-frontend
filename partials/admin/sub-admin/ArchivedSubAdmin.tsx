@@ -20,14 +20,18 @@ import { useRouter } from 'next/router'
 import { useState } from 'react'
 import { FaEdit, FaEye, FaFileExport, FaTrash } from 'react-icons/fa'
 import { MdUnarchive } from 'react-icons/md'
-import { useContextBar } from '@hooks'
+import { useActionModal, useContextBar } from '@hooks'
 import { AddSubAdminCB } from './contextBar'
+import { RiLockPasswordFill } from 'react-icons/ri'
 
 export const ArchivedSubAdmin = () => {
     const router = useRouter()
     const contextBar = useContextBar()
     const [itemPerPage, setItemPerPage] = useState(50)
     const [page, setPage] = useState(1)
+
+    // hooks
+    const { passwordModal, onViewPassword } = useActionModal()
 
     const { isLoading, data, isError } = AdminApi.SubAdmins.useListQuery({
         search: `status:archived`,
@@ -57,6 +61,11 @@ export const ArchivedSubAdmin = () => {
                 onEditSubAdmin(subadmin)
             },
             Icon: FaEdit,
+        },
+        {
+            text: 'View Password',
+            onClick: (subAdmin: SubAdmin) => onViewPassword(subAdmin),
+            Icon: RiLockPasswordFill,
         },
         {
             text: 'Unarchive',

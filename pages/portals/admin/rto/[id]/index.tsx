@@ -58,7 +58,9 @@ const RtoDetail: NextPageWithLayout = () => {
     }, [rto.data])
     useEffect(() => {
         if (rto.isSuccess) {
-            contextBar.setContent(<RtoProfileSidebar data={rto.data} />)
+            contextBar.setContent(
+                <RtoProfileSidebar loading={rto?.isLoading} data={rto?.data} />
+            )
             contextBar.show(false)
         }
 

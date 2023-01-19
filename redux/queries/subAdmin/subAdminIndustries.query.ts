@@ -26,7 +26,7 @@ export const subAdminIndustriesApi = createApi({
             },
             providesTags: ['SubAdminIndustries'],
         }),
-        getSubAdminIndustriesProfile: builder.query<any, string>({
+        getSubAdminIndustriesProfile: builder.query<any, number>({
             query: (id) => {
                 return {
                     url: `subadmin/industry/profile/${id}`,
