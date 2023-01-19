@@ -10,6 +10,7 @@ import {
     JoyRideProvider,
     NavbarProvider,
     NotificationProvider,
+    useActionModal,
 } from '@hooks'
 
 import { store } from '../redux/store'

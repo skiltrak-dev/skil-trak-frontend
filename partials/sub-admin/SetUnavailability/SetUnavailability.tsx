@@ -171,7 +171,9 @@ export const SetUnavailabilityContainer = () => {
                     !isError && (
                         <EmptyData
                             title={'No Un Availability!'}
-                            description={'You have not Un Availability yet'}
+                            description={
+                                'You have not added an Un Availability yet'
+                            }
                             height={'50vh'}
                         />
                     )

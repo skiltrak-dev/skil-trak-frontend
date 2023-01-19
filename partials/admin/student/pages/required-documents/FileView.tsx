@@ -172,7 +172,12 @@ export const FileView = ({ id, docType }: any) => {
                     </div>
                 </div>
             ) : (
-                !isError && <EmptyData />
+                !isError && (
+                    <EmptyData
+                        title={'No Documents were found'}
+                        description={'No Documents'}
+                    />
+                )
             )}
         </>
     )

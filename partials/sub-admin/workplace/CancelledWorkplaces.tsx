@@ -23,7 +23,12 @@ export const CancelledWorkplaces = () => {
                     ))}
                 </div>
             ) : (
-                !subAdminWorkplace.isError && <EmptyData />
+                !subAdminWorkplace.isError && (
+                    <EmptyData
+                        title={'No Cancelled Workplace yet'}
+                        description={'No Cancelled workplace were found'}
+                    />
+                )
             )}
         </div>
     )

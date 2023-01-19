@@ -13,6 +13,8 @@ type StudentsProfileOverviewProps = {
 export const OverViewTab = ({ student }: StudentsProfileOverviewProps) => {
     // const {data} = useGetSubAdminMyRtoQuery(studentId)
 
+    console.log('student', student)
+
     return (
         <div className="w-full mt-6">
             {/* pinned Notes */}

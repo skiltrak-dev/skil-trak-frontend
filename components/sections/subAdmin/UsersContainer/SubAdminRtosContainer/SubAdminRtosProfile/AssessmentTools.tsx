@@ -20,14 +20,21 @@ import Link from 'next/link'
 import { useContextBar } from '@hooks'
 import { AddAssessmentToolCB } from './contextBar'
 import { UserStatus } from '@types'
-export const AssessmentTools = ({ id, courses, actions, setAssessmentView }: any) => {
+export const AssessmentTools = ({
+    id,
+    courses,
+    actions,
+    setAssessmentView,
+}: any) => {
     const contextBar = useContextBar()
     const [selectedCourseId, setSelectedCourseId] = useState<any | null>(null)
-    const getAssessmentTools = useGetRTOAssessmentToolsQuery({
-        id: Number(selectedCourseId),
-        status: UserStatus.Approved,
-    },
-        { skip: !selectedCourseId })
+    const getAssessmentTools = useGetRTOAssessmentToolsQuery(
+        {
+            id: Number(selectedCourseId),
+            status: UserStatus.Approved,
+        },
+        { skip: !selectedCourseId }
+    )
 
     useEffect(() => {
         setSelectedCourseId(selectedCourseId || courses[0]?.id)
@@ -70,9 +77,13 @@ export const AssessmentTools = ({ id, courses, actions, setAssessmentView }: any
                     </div>
                     <div className="w-[75%]">
                         <div className="flex justify-end gap-x-2.5 p-4">
-                            <Button variant="primary" text="ADD ASSESSMENT" onClick={() => {
-                                onAddAssessment()
-                            }} />
+                            <Button
+                                variant="primary"
+                                text="ADD ASSESSMENT"
+                                onClick={() => {
+                                    onAddAssessment()
+                                }}
+                            />
                             <Button
                                 variant="dark"
                                 text="VIEW ARCHIVED"
@@ -104,7 +115,7 @@ export const AssessmentTools = ({ id, courses, actions, setAssessmentView }: any
                             {getAssessmentTools?.isLoading ? (
                                 <LoadingAnimation />
                             ) : getAssessmentTools?.data &&
-                                getAssessmentTools?.data?.length > 0 ? (
+                              getAssessmentTools?.data?.length > 0 ? (
                                 getAssessmentTools?.data?.map((tools: any) => (
                                     <DownloadableFile
                                         key={tools.id}
@@ -113,12 +124,6 @@ export const AssessmentTools = ({ id, courses, actions, setAssessmentView }: any
                                         archivedView={false}
                                     />
                                 ))
-                            ) : !getAssessmentTools?.data ? (
-                                <div className="flex justify-center items-center h-full">
-                                    <Typography>
-                                        No Course is Selected
-                                    </Typography>
-                                </div>
                             ) : (
                                 <EmptyData />
                             )}

@@ -4,9 +4,6 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import { FormProvider, useForm } from 'react-hook-form'
 import { useRouter } from 'next/router'
 
-// Icons
-import { BsFillCheckCircleFill } from 'react-icons/bs'
-
 // components
 import {
     Button,
@@ -27,16 +24,11 @@ import { useAddRplMutation } from '@queries'
 
 export const RPLForm = () => {
     const [addRpl, addRplResult] = useAddRplMutation()
-    const [fieldValue, setFieldValue] = useState<any>('')
     const [isRPLApplied] = useState(false)
     const [iseRPLSaved, setIseRPLSaved] = useState(false)
 
     const router = useRouter()
     const { setContent } = useContextBar()
-
-    useEffect(() => {
-        setContent(<></>)
-    }, [setContent])
 
     useEffect(() => {
         iseRPLSaved &&
@@ -45,23 +37,45 @@ export const RPLForm = () => {
             }, 4000)
     }, [iseRPLSaved])
 
-    // const initialValues = {
-    //     cnic: '',
-    //     resume: '',
-    //     jobDescription: '',
-    //     financialEvidence: [],
-    //     academicDoc1: '',
-    //     academicDoc2: '',
-    //     academicDoc3: '',
-    //     academicDocuments: [],
-    // }
+    const validationSchema = yup.object().shape({
+        cnic: yup
+            .mixed()
+            .test('file', 'You need to provide a file', (value) => {
+                console.log('value validation', value)
+                if (value) {
+                    return true
+                }
+                return false
+            }),
+        resume: yup
+            .mixed()
+            .test('file', 'You need to provide a file', (value) => {
+                if (value.length > 0) {
+                    return true
+                }
+                return false
+            }),
+        financialEvidence: yup
+            .mixed()
+            .test('file', 'You need to provide a file', (value) => {
+                if (value.length > 0) {
+                    return true
+                }
+                return false
+            }),
+        academicDocuments: yup
+            .mixed()
+            .test('file', 'You need to provide a file', (values) => {
+                values.forEach((file: any) => {
+                    if (file.length > 0) {
+                        return true
+                    }
+                    return false
+                })
+                return false
+            }),
 
-    const validationSchema = yup.object({
-        // businessName: yup.string().required("Some error occured!"),
-        // sector: yup.object({
-        //   label: yup.string().required("Sector is required"),
-        //   value: yup.string().required("Sector is required"),
-        // }),
+        jobDescription: yup.string().required(),
     })
 
     const methods = useForm({
@@ -70,20 +84,16 @@ export const RPLForm = () => {
     })
 
     const onSubmit = async (values: any) => {
-        // const formData = new FormData()
-        // formData.append('identity', values.cnic)
-        // formData.append('resume', values.resume)
-        // formData.append('jobDescription', values.jobDescription)
-        // values?.financialEvidence?.forEach((element: any) => {
-        //     formData.append('financialEvidence', element)
-        // })
-        // values?.academicDocuments?.forEach((element: any) => {
-        //     formData.append('academicDocuments', element)
-        // })
-
-        // await addRpl(formData)
-        // <Navigate to="/privew-industry" />;
-        // navigate("/portal-selection/create-account/review-your-information");
+        console.log('valuuuuuuu', values)
+        const formData = new FormData()
+        const { academicDocuments, ...rest } = values
+        Object.keys(rest).forEach((file: any) => {
+            formData.append(file, values[file])
+        })
+        values?.academicDocuments?.forEach((file: any) => {
+            formData.append('academicDocuments', file)
+        })
+        await addRpl(formData)
     }
     return (
         <>
@@ -112,7 +122,8 @@ export const RPLForm = () => {
                         onClick: () => {
                             router.push(`/portals/industry`)
                         },
-                    }} />
+                    }}
+                />
             )}
             <div className={`${isRPLApplied ? 'hidden' : ''}`}>
                 <BackButton
@@ -120,7 +131,6 @@ export const RPLForm = () => {
                     text={'Back To RPL Instructions'}
                 />
                 {!addRplResult.isSuccess && (
-
                     <Card>
                         <FormProvider {...methods}>
                             <form
@@ -131,15 +141,15 @@ export const RPLForm = () => {
                                     Your Identity
                                 </Typography>
                                 <Typography variant={'muted'}>
-                                    Passport, Drivers Licence, Utility bills, Any
-                                    photo ID etc.
+                                    Passport, Drivers Licence, Utility bills,
+                                    Any photo ID etc.
                                 </Typography>
 
                                 <div className="mt-1.5 max-w-220">
                                     <UploadRPLDocs
                                         name={'cnic'}
-                                        fileupload={setFieldValue}
                                         acceptFiles={'application/pdf'}
+                                        required
                                     />
                                 </div>
 
@@ -148,16 +158,17 @@ export const RPLForm = () => {
                                         Detailed Resume
                                     </Typography>
                                     <Typography variant={'muted'}>
-                                        Resume must contain true information about
-                                        your academic details & Job information.
+                                        Resume must contain true information
+                                        about your academic details & Job
+                                        information.
                                     </Typography>
 
                                     <div className="flex justify-between items-end gap-x-6">
                                         <div className="mt-1.5 w-1/4">
                                             <UploadRPLDocs
                                                 name={'resume'}
-                                                fileupload={setFieldValue}
                                                 acceptFiles={'application/pdf'}
+                                                required
                                             />
                                         </div>
                                         <div className="w-3/4">
@@ -175,15 +186,15 @@ export const RPLForm = () => {
                                         Payslip or Financial Evidence
                                     </Typography>
                                     <Typography variant={'muted'}>
-                                        The most recent one to justify that you are
-                                        working in the industry.
+                                        The most recent one to justify that you
+                                        are working in the industry.
                                     </Typography>
 
                                     <div className="mt-1.5 max-w-220">
                                         <UploadRPLDocs
                                             name={'financialEvidence'}
-                                            fileupload={setFieldValue}
                                             acceptFiles={'application/pdf'}
+                                            required
                                         />
                                     </div>
                                 </div>
@@ -194,24 +205,21 @@ export const RPLForm = () => {
                                     </Typography>
                                     <Typography variant={'muted'}>
                                         All other past or most recent degrees or
-                                        certification that you achieved either in
-                                        Australia
+                                        certification that you achieved either
+                                        in Australia
                                     </Typography>
 
                                     <div className="mt-1.5 flex gap-x-3 w-full md:w-5/6">
                                         <UploadRPLDocs
                                             name={'academicDocuments[0]'}
-                                            fileupload={setFieldValue}
                                             acceptFiles={'application/pdf'}
                                         />
                                         <UploadRPLDocs
                                             name={'academicDocuments[1]'}
-                                            fileupload={setFieldValue}
                                             acceptFiles={'application/pdf'}
                                         />
                                         <UploadRPLDocs
                                             name={'academicDocuments[2]'}
-                                            fileupload={setFieldValue}
                                             acceptFiles={'application/pdf'}
                                         />
                                     </div>

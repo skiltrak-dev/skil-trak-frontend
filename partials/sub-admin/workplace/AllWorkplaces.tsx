@@ -37,7 +37,12 @@ export const AllWorkplaces = () => {
                     })}
                 </div>
             ) : (
-                !subAdminWorkplace.isError && <EmptyData />
+                !subAdminWorkplace.isError && (
+                    <EmptyData
+                        title={'No Workplace request yet'}
+                        description={'No workplace request were found'}
+                    />
+                )
             )}
         </div>
     )

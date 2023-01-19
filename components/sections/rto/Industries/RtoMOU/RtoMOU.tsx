@@ -295,9 +295,9 @@ export const RtoMOUContainer = () => {
                 ) : (
                     !isError && (
                         <EmptyData
-                            title={'No Approved Student!'}
+                            title={'No Industries!'}
                             description={
-                                'You have not approved any Student request yet'
+                                'There is no any approved industry yet'
                             }
                             height={'50vh'}
                         />

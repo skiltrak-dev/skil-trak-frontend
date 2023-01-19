@@ -58,7 +58,9 @@ const RtoDetail: NextPageWithLayout = () => {
     }, [rto.data])
     useEffect(() => {
         if (rto.isSuccess) {
-            contextBar.setContent(<RtoProfileSidebar data={rto.data} />)
+            contextBar.setContent(
+                <RtoProfileSidebar loading={rto?.isLoading} data={rto?.data} />
+            )
             contextBar.show(false)
         }
 
@@ -182,7 +184,13 @@ const RtoDetail: NextPageWithLayout = () => {
                     <DetailTabs id={router.query?.id} rto={rto} />
                 </div>
             ) : (
-                !rto.isError && rto.isSuccess && <EmptyData />
+                !rto.isError &&
+                rto.isSuccess && (
+                    <EmptyData
+                        title={'No RTO Found'}
+                        description={'There is no RTO Detail found'}
+                    />
+                )
             )}
         </>
     )

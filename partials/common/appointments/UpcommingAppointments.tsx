@@ -29,8 +29,8 @@ export const UpcommingAppointments = () => {
             ) : (
                 !futureAppointments.isError && (
                     <EmptyData
-                        title={'No Recent Appointments'}
-                        description={'No Recent Appointments'}
+                        title={'No Upcomming Appointments'}
+                        description={'No Upcomming Appointments'}
                     />
                 )
             )}

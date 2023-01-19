@@ -2,7 +2,8 @@ import {
     Card,
     EmptyData,
     LoadingAnimation,
-    Table, TechnicalError
+    Table,
+    TechnicalError,
 } from '@components'
 import { useGetAssessmentEvidenceQuery } from '@queries'
 import { useRouter } from 'next/router'
@@ -61,8 +62,10 @@ export const PendingAssessment = () => {
                 ) : (
                     !isError && (
                         <EmptyData
-                            title={'No AssessmentEvidence!'}
-                            description={'You have no Assessment found yet'}
+                            title={'No Pending AssessmentEvidence!'}
+                            description={
+                                'There is no Pending Assessment were found'
+                            }
                             height={'50vh'}
                         />
                     )

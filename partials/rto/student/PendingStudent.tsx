@@ -202,8 +202,10 @@ export const PendingStudent = () => {
                         </Table>
                     ) : (
                         <EmptyData
-                            title={'No Pending RTO!'}
-                            description={'You have no pending RTO request yet'}
+                            title={'No Pending Student!'}
+                            description={
+                                'You have no pending Student request yet'
+                            }
                             height={'50vh'}
                         />
                     )}

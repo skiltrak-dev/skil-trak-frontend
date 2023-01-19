@@ -28,7 +28,6 @@ export const RtoProfileOverview = ({ userId, rtoId, rtoDetail }: Props) => {
 
     const rtoRecentAppointment = useGetSubAdminRtoAppointmentsQuery(rtoId)
 
-
     const FigureCardData = [
         {
             count: rtoDetail?.subadmin?.length,
@@ -113,14 +112,21 @@ export const RtoProfileOverview = ({ userId, rtoId, rtoDetail }: Props) => {
                                     />
                                 ))
                             ) : (
-                                !isError && <EmptyData />
+                                !isError && (
+                                    <EmptyData
+                                        title={'No Pending Studenuts'}
+                                        description={`No Pending Students for ${rtoDetail?.user?.name} yet`}
+                                    />
+                                )
                             )}
                         </div>
                         <div className="flex flex-col gap-y-2">
                             {recentAppointments?.map((data: any) => (
                                 <div key={data?.id}>
                                     <RecentAppointment
-                                        rtoRecentAppointment={rtoRecentAppointment}
+                                        rtoRecentAppointment={
+                                            rtoRecentAppointment
+                                        }
                                     />
                                 </div>
                             ))}

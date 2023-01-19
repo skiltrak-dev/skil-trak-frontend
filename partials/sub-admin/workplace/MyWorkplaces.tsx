@@ -21,7 +21,12 @@ export const MyWorkplaces = () => {
                     ))}
                 </div>
             ) : (
-                !subAdminWorkplace.isError && <EmptyData />
+                !subAdminWorkplace.isError && (
+                    <EmptyData
+                        title={'No Assigned Workplace'}
+                        description={'You have not assigned any workplace'}
+                    />
+                )
             )}
         </div>
     )

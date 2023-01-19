@@ -22,9 +22,10 @@ import { ReactElement, useState } from 'react'
 import { RtoCell, SectorCell, SubAdminCell } from './components'
 import { useChangeStatus } from './hooks'
 import { AcceptModal, ArchiveModal, RejectModal } from './modals'
-import { useContextBar } from '@hooks'
+import { useActionModal, useContextBar } from '@hooks'
 import { AddSubAdminCB, ViewRtosCB, ViewSectorsCB } from './contextBar'
 import { BsArchiveFill } from 'react-icons/bs'
+import { RiLockPasswordFill } from 'react-icons/ri'
 
 export const ActiveSubAdmin = () => {
     const [modal, setModal] = useState<ReactElement | null>(null)
@@ -34,6 +35,9 @@ export const ActiveSubAdmin = () => {
 
     const [itemPerPage, setItemPerPage] = useState(50)
     const [page, setPage] = useState(1)
+
+    // hooks
+    const { passwordModal, onViewPassword } = useActionModal()
 
     const { isLoading, data, isError } = AdminApi.SubAdmins.useListQuery({
         search: `status:approved`,
@@ -91,6 +95,11 @@ export const ActiveSubAdmin = () => {
                 onEditSubAdmin(subadmin)
             },
             Icon: FaEdit,
+        },
+        {
+            text: 'View Password',
+            onClick: (subAdmin: SubAdmin) => onViewPassword(subAdmin),
+            Icon: RiLockPasswordFill,
         },
         {
             text: 'Archive',
@@ -165,6 +174,7 @@ export const ActiveSubAdmin = () => {
     return (
         <>
             {modal && modal}
+            {passwordModal && passwordModal}
             <div className="flex flex-col gap-y-4 mb-32">
                 <PageHeading
                     title={'Active Sub Admin'}
@@ -219,8 +229,8 @@ export const ActiveSubAdmin = () => {
                     ) : (
                         !isError && (
                             <EmptyData
-                                title={'No Pending Industry!'}
-                                description={'You have no pending Industry'}
+                                title={'No Active SubAdmin!'}
+                                description={'You have no Active SubAdmin'}
                                 height={'50vh'}
                             />
                         )

@@ -105,7 +105,14 @@ export const JobDetailContainer = () => {
                     data ? (
                         <JobDetailData data={data} />
                     ) : (
-                        !isError && <EmptyData />
+                        !isError && (
+                            <EmptyData
+                                title={'No Job Detail'}
+                                description={
+                                    'No job detail were found on your request'
+                                }
+                            />
+                        )
                     )
                 ) : (
                     <LoadingAnimation />

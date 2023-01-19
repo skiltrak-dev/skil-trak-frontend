@@ -22,7 +22,12 @@ export const AllStudentProvidedWorkplace = () => {
                     ))}
                 </div>
             ) : (
-                !subAdminWorkplace.isError && <EmptyData />
+                !subAdminWorkplace.isError && (
+                    <EmptyData
+                        title={'No Provided Workplace Request'}
+                        description={'No Provided Workplace Request were found'}
+                    />
+                )
             )}
         </div>
     )

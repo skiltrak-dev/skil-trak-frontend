@@ -30,7 +30,14 @@ export const FilteredWorkplaces = ({ workplace }: { workplace: any }) => {
                     })}
                 </div>
             ) : (
-                !workplace.isError && <EmptyData />
+                !workplace.isError && (
+                    <EmptyData
+                        title={'No Workplace request in your search'}
+                        description={
+                            'No workplace request were found in your search'
+                        }
+                    />
+                )
             )}
         </div>
     )

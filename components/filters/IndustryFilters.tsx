@@ -1,4 +1,10 @@
 import { Select, TextInput } from '@components/inputs'
+import { useState, useEffect } from 'react'
+
+import { statusOptions } from './statusOptions'
+
+// queries
+import { CommonApi } from '@queries'
 
 interface ItemFilterProps {
     onFilterChange: Function
@@ -8,8 +14,23 @@ export const IndustryFilters = ({
     onFilterChange,
     filter,
 }: ItemFilterProps) => {
+    const [coursesOptions, setCoursesOptions] = useState<any>([])
+
+    // query
+    const getCourses = CommonApi.Filter.useCourses()
+
+    useEffect(() => {
+        if (getCourses.isSuccess) {
+            setCoursesOptions(
+                getCourses?.data?.map((course: any) => ({
+                    value: course?.id,
+                    label: course?.title,
+                }))
+            )
+        }
+    }, [getCourses])
     return (
-        <div className="grid grid-cols-4 gap-x-3">
+        <div className="grid grid-cols-3 gap-x-3">
             <TextInput
                 name="name"
                 label={'Name'}
@@ -30,10 +51,10 @@ export const IndustryFilters = ({
             <Select
                 label={'Status'}
                 name={'status'}
-                options={[{ value: '', label: '' }]}
+                options={statusOptions}
                 placeholder={'Select Status...'}
                 onChange={(e: any) => {
-                    onFilterChange({ ...filter, status: e.value })
+                    onFilterChange({ ...filter, status: e?.value })
                 }}
             />
             <TextInput
@@ -43,6 +64,17 @@ export const IndustryFilters = ({
                 onChange={(e: any) => {
                     onFilterChange({ ...filter, address: e.value })
                 }}
+            />
+            <Select
+                label={'Search by Courses'}
+                name={'courseId'}
+                options={coursesOptions}
+                placeholder={'Select Courses...'}
+                onChange={(e: any) => {
+                    onFilterChange({ ...filter, courseId: e?.value })
+                }}
+                loading={getCourses.isLoading}
+                disabled={getCourses.isLoading}
             />
         </div>
     )

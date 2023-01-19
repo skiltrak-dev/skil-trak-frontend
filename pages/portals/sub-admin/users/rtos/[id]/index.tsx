@@ -29,7 +29,12 @@ import {
     AppointmentProfile,
 } from '@components/sections/subAdmin/UsersContainer'
 // icons
-import { FaChevronDown, FaEdit, FaFileImport, FaUserGraduate } from 'react-icons/fa'
+import {
+    FaChevronDown,
+    FaEdit,
+    FaFileImport,
+    FaUserGraduate,
+} from 'react-icons/fa'
 // queries
 import {
     useGetSubAdminRTODetailQuery,
@@ -44,19 +49,25 @@ type Props = {}
 const RtoProfile: NextPageWithLayout = (props: Props) => {
     const pathname = useRouter()
     const { id } = pathname.query
-    const { setContent } = useContextBar()
+    const { setContent, show } = useContextBar()
     const rtoDetail = useGetSubAdminRTODetailQuery(String(id), {
         skip: !id,
     })
     const navBar = useNavbar()
 
     useEffect(() => {
-        setContent(
-            <>
-                <RtoProfileSidebar data={rtoDetail} />
-            </>
-        )
-    }, [setContent])
+        if (rtoDetail?.isSuccess) {
+            setContent(
+                <>
+                    <RtoProfileSidebar
+                        loading={rtoDetail?.isLoading}
+                        data={rtoDetail?.data}
+                    />
+                </>
+            )
+            show(false)
+        }
+    }, [rtoDetail, setContent])
 
     useEffect(() => {
         navBar.setSubTitle(rtoDetail?.data?.user?.name)
@@ -237,7 +248,14 @@ const RtoProfile: NextPageWithLayout = (props: Props) => {
                     }}
                 </TabNavigation>
             ) : (
-                !rtoDetail.isError && <EmptyData />
+                !rtoDetail.isError && (
+                    <EmptyData
+                        title={'No RTO Found'}
+                        description={
+                            'No detail were found or you request a wrong user'
+                        }
+                    />
+                )
             )}
         </>
     )

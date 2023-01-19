@@ -40,7 +40,12 @@ export const Terminated = () => {
                     ))}
                 </div>
             ) : (
-                !industryWorkplace.isError && <EmptyData />
+                !industryWorkplace.isError && (
+                    <EmptyData
+                        title={'There is no any Terminated Student'}
+                        description={'There is no any Terminated Student'}
+                    />
+                )
             )}
         </>
     )

@@ -1,54 +1,57 @@
-import {
-    InitialAvatar,
-    InitialAvatarContainer,
-} from '@components/InitialAvatar'
 import { Typography } from '@components/Typography'
 import Image from 'next/image'
 
 import { AiFillEdit } from 'react-icons/ai'
 import { BiRename } from 'react-icons/bi'
 
-import {
-    FaAddressCard,
-    FaBirthdayCake,
-    FaPhoneAlt,
-    FaRegHandshake,
-    FaUserCircle,
-} from 'react-icons/fa'
-import { GiBackwardTime } from 'react-icons/gi'
-import { IoLocation } from 'react-icons/io5'
-import { MdPhone, MdBlock, MdVerified, MdAdminPanelSettings } from 'react-icons/md'
-import { useGetSubAdminIndustriesProfileQuery } from '@queries'
+import { NoData } from '@components/ActionAnimations'
 import { LoadingAnimation } from '@components/LoadingAnimation'
 import { Course } from '@types'
-import { NoData } from '@components/ActionAnimations'
+import { useRouter } from 'next/router'
+import { FaAddressCard, FaRegHandshake } from 'react-icons/fa'
+import { GiBackwardTime } from 'react-icons/gi'
+import { IoLocation } from 'react-icons/io5'
+import { MdAdminPanelSettings, MdPhone, MdVerified } from 'react-icons/md'
+import { getUserCredentials } from '@utils'
 
 type Props = {
     data: any
 }
 
 export const IndustryProfile = ({ data }: Props) => {
+    const router = useRouter()
     const getSectors = (courses: any) => {
         if (!courses) return {}
         const sectors = {}
         courses.forEach((c: any) => {
             if ((sectors as any)[c.sector.name]) {
-                ; (sectors as any)[c.sector.name].push(c)
+                ;(sectors as any)[c.sector.name].push(c)
             } else {
-                ; (sectors as any)[c.sector.name] = []
-                    ; (sectors as any)[c.sector.name].push(c)
+                ;(sectors as any)[c.sector.name] = []
+                ;(sectors as any)[c.sector.name].push(c)
             }
         })
         return sectors
     }
     const sectorsWithCourses = getSectors(data?.courses)
+
+    const role = getUserCredentials()?.role
     return data?.isLoading ? (
         <LoadingAnimation />
     ) : (
         <div>
             {/* Edit and update button */}
             <div className="flex justify-end gap-x-2">
-                <div className="bg-blue-100 rounded-full p-1">
+                <div
+                    className="bg-blue-100 rounded-full p-1"
+                    onClick={() => {
+                        router.push(
+                            role === 'admin'
+                                ? `/portals/admin/industry/edit-industry/${router.query.id}`
+                                : `/portals/sub-admin/users/industries/${router.query.id}/edit-profile`
+                        )
+                    }}
+                >
                     <AiFillEdit className="text-blue-400  cursor-pointer " />
                 </div>
                 {/* <div className="bg-red-100 rounded-full p-1">
@@ -74,18 +77,21 @@ export const IndustryProfile = ({ data }: Props) => {
                         </div>
                     )}
                     <div
-                        className={`${data?.user?.avatar
-                            ? 'w-[100px] h-[100px]'
-                            : 'w-24 h-24'
-                            } absolute top-0 w-[100px] h-[100px] bg-transparent rounded-full shadow-inner-image`}
+                        className={`${
+                            data?.user?.avatar
+                                ? 'w-[100px] h-[100px]'
+                                : 'w-24 h-24'
+                        } absolute top-0 w-[100px] h-[100px] bg-transparent rounded-full shadow-inner-image`}
                     ></div>
                 </div>
 
                 <div className="flex flex-col items-center">
-                    <p className="text-lg font-semibold">{data?.user?.name || "N/A"}</p>
+                    <p className="text-lg font-semibold">
+                        {data?.user?.name || 'N/A'}
+                    </p>
                     <div className="flex items-center gap-x-2">
                         <p className="text-sm text-gray-400">
-                            {data?.user?.email || "N/A"}
+                            {data?.user?.email || 'N/A'}
                         </p>
                         <span className="text-blue-500">
                             <MdVerified />
@@ -145,14 +151,13 @@ export const IndustryProfile = ({ data }: Props) => {
                             Partner
                         </Typography>
                     </div>
-                    <div className='text-center'>
+                    <div className="text-center">
                         <Typography variant={'small'} color={'text-black'}>
-                            {data?.isPartner === false ? "No" : 'Yes' || "N/A"}
+                            {data?.isPartner === false ? 'No' : 'Yes' || 'N/A'}
                         </Typography>
                     </div>
                 </div>
             </div>
-
 
             {/* Info Row 3 */}
             <div className="flex justify-around divide-x border-b">

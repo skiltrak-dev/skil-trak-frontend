@@ -8,11 +8,7 @@ import {
     Card,
     Typography,
 } from '@components'
-import {
-    CurrentStudentCard,
-    Notes,
-    StudentDetail,
-} from './components'
+import { CurrentStudentCard, Notes, StudentDetail } from './components'
 
 // query
 import { useGetIndustryWorkplaceQuery } from '@queries'
@@ -37,7 +33,14 @@ export const CurrentStudnts = () => {
                     ))}
                 </div>
             ) : (
-                !industryWorkplace.isError && <EmptyData />
+                !industryWorkplace.isError && (
+                    <EmptyData
+                        title={'No Current Students'}
+                        description={
+                            'It seems that no current students were found yet'
+                        }
+                    />
+                )
             )}
         </>
     )

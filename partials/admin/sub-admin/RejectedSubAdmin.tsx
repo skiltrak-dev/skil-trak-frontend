@@ -21,6 +21,8 @@ import { ReactElement, useState } from 'react'
 import { SubAdminCell } from './components'
 import { AcceptModal, DeleteModal } from './modals'
 import { useRouter } from 'next/router'
+import { useActionModal } from '@hooks'
+import { RiLockPasswordFill } from 'react-icons/ri'
 
 export const RejectedSubAdmin = () => {
     const router = useRouter()
@@ -30,6 +32,9 @@ export const RejectedSubAdmin = () => {
     const [itemPerPage, setItemPerPage] = useState(50)
     const [page, setPage] = useState(1)
     const [filter, setFilter] = useState({})
+
+    // hooks
+    const { passwordModal, onViewPassword } = useActionModal()
 
     const { isLoading, data, isError } = AdminApi.SubAdmins.useListQuery({
         search: `status:rejected,${JSON.stringify(filter)
@@ -81,12 +86,17 @@ export const RejectedSubAdmin = () => {
             Icon: FaEdit,
         },
         {
-            text: 'Accept',
-            onClick: (subAdmin: SubAdmin) => {
-                onAcceptClicked(subAdmin)
-            },
-            color: 'text-green-500 hover:bg-green-100 hover:border-green-200',
+            text: 'View Password',
+            onClick: (subAdmin: SubAdmin) => onViewPassword(subAdmin),
+            Icon: RiLockPasswordFill,
         },
+        // {
+        //     text: 'Accept',
+        //     onClick: (subAdmin: SubAdmin) => {
+        //         onAcceptClicked(subAdmin)
+        //     },
+        //     color: 'text-green-500 hover:bg-green-100 hover:border-green-200',
+        // },
 
         {
             text: 'Delete',
@@ -172,6 +182,7 @@ export const RejectedSubAdmin = () => {
     return (
         <>
             {modal && modal}
+            {passwordModal && passwordModal}
             <div className="flex flex-col gap-y-4 mb-32">
                 <PageHeading
                     title={'Rejected Sub Admin'}

@@ -101,8 +101,8 @@ export const AllCommunicationTab = ({ user }: { user: any }) => {
                     !allCommunications.isError && (
                         <EmptyData
                             imageUrl={'/images/icons/common/notes.png'}
-                            title="No Notes Attached"
-                            description="Attach a note to view notes here"
+                            title="No All Communication Attached"
+                            description="Attach a note or message to view All Communication here"
                             height="40vh"
                         />
                     )

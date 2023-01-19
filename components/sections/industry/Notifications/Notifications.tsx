@@ -140,7 +140,12 @@ export const Notifications = () => {
                                 ))}
                             </>
                         ) : (
-                            !isError && <EmptyData actionLink={null} />
+                            !isError && (
+                                <EmptyData
+                                    title={'No Notifications were found'}
+                                    description={'No Notifications were found'}
+                                />
+                            )
                         )}
                     </div>
                 </>

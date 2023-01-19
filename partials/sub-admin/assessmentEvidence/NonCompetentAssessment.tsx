@@ -62,8 +62,10 @@ export const NonCompetentAssessment = () => {
                 ) : (
                     !isError && (
                         <EmptyData
-                            title={'No AssessmentEvidence!'}
-                            description={'You have no Assessment found yet'}
+                            title={'No Not Competent AssessmentEvidence!'}
+                            description={
+                                'There is no Not Competent Assessment were found'
+                            }
                             height={'50vh'}
                         />
                     )

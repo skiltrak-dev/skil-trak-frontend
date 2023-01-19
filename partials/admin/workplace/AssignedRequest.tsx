@@ -22,7 +22,12 @@ export const AssignedRequest = () => {
                     ))}
                 </div>
             ) : (
-                !subAdminWorkplace.isError && <EmptyData />
+                !subAdminWorkplace.isError && (
+                    <EmptyData
+                        title={'No Assigned Workplace Request'}
+                        description={'No Assigned Workplace Request were found'}
+                    />
+                )
             )}
         </div>
     )

@@ -34,7 +34,7 @@ import { FigureCard } from '@components/sections/subAdmin/components/Cards/Figur
 import { PinnedNotes } from '@partials'
 import { ArchiveModal, BlockModal } from '@partials/admin/sub-admin/modals'
 
-const RtoDetail: NextPageWithLayout = () => {
+const SubAdminDetail: NextPageWithLayout = () => {
     const router = useRouter()
     const navBar = useNavbar()
     const contextBar = useContextBar()
@@ -214,8 +214,8 @@ const RtoDetail: NextPageWithLayout = () => {
     )
 }
 
-RtoDetail.getLayout = (page: ReactElement) => {
+SubAdminDetail.getLayout = (page: ReactElement) => {
     return <AdminLayout>{page}</AdminLayout>
 }
 
-export default RtoDetail
+export default SubAdminDetail

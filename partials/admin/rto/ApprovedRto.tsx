@@ -10,6 +10,7 @@ import {
     TableAction,
     TableActionOption,
     TechnicalError,
+    ViewUserPassword,
 } from '@components'
 import { PageHeading } from '@components/headings'
 import { ColumnDef } from '@tanstack/react-table'
@@ -21,8 +22,8 @@ import { ReactElement, useState } from 'react'
 import { RtoCellInfo, SectorCell } from './components'
 import { useChangeStatus } from './hooks'
 import { Rto } from '@types'
-import { BlockModal } from './modals'
-import { useContextBar } from '@hooks'
+import { ArchiveModal, BlockModal } from './modals'
+import { useActionModal, useContextBar } from '@hooks'
 import { ViewSubAdminsCB } from './contextBar'
 import { useRouter } from 'next/router'
 
@@ -33,6 +34,10 @@ export const ApprovedRto = () => {
 
     const [itemPerPage, setItemPerPage] = useState(50)
     const [page, setPage] = useState(1)
+
+    // hooks
+    const { passwordModal, onViewPassword } = useActionModal()
+
     const { isLoading, data, isError } = AdminApi.Rtos.useListQuery({
         search: `status:approved`,
         skip: itemPerPage * page - itemPerPage,
@@ -41,6 +46,11 @@ export const ApprovedRto = () => {
 
     const onModalCancelClicked = () => {
         setModal(null)
+    }
+    const onArchiveClicked = (rto: Rto) => {
+        setModal(
+            <ArchiveModal item={rto} onCancel={() => onModalCancelClicked()} />
+        )
     }
     const onBlockClicked = (rto: Rto) => {
         setModal(
@@ -71,11 +81,22 @@ export const ApprovedRto = () => {
             Icon: FaEdit,
         },
         {
+            text: 'View Password',
+            onClick: (rto: Rto) => onViewPassword(rto),
+            Icon: FaEdit,
+        },
+        {
             text: 'Sub Admins',
             onClick: (item: any) => {
                 onViewSubAdminsClicked(item)
             },
             Icon: FaEdit,
+        },
+        {
+            text: 'Archive',
+            onClick: (rto: Rto) => onArchiveClicked(rto),
+            Icon: MdBlock,
+            color: 'text-primary hover:bg-primary-light hover:border-primary-dark',
         },
         {
             text: 'Block',
@@ -101,7 +122,7 @@ export const ApprovedRto = () => {
         {
             accessorKey: 'students',
             header: () => <span>Students</span>,
-            cell: (info) => info?.row?.original?.students.length,
+            cell: (info) => info?.row?.original?.students?.length,
         },
         {
             accessorKey: 'sectors',
@@ -156,6 +177,7 @@ export const ApprovedRto = () => {
     return (
         <>
             {modal && modal}
+            {passwordModal && passwordModal}
             <div className="flex flex-col gap-y-4 mb-32">
                 <PageHeading
                     title={'Approved RTOs'}

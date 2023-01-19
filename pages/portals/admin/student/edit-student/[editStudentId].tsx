@@ -21,7 +21,7 @@ import {
 import { BsPatchCheckFill } from 'react-icons/bs'
 import { FaArchive, FaBan, FaPhoneAlt } from 'react-icons/fa'
 
-import { AdminApi } from '@queries'
+import { AdminApi, useUpdateStudentProfileMutation } from '@queries'
 import { IoLogIn } from 'react-icons/io5'
 import { MdPlace } from 'react-icons/md'
 import Image from 'next/image'
@@ -30,10 +30,9 @@ import { PinnedNotes } from '@partials'
 import { RtoForm } from '@partials/admin/rto/form'
 import { useState } from 'react'
 import { StudentForm } from '@partials/admin/student/form'
+import { StudentProfileForm } from '@partials/common'
 
 const EditStudent: NextPageWithLayout = () => {
-    const [formData, setFormData] = useState<any>('')
-
     const router = useRouter()
     const editStudentId = Number(router.query.editStudentId)
     const navBar = useNavbar()
@@ -43,14 +42,25 @@ const EditStudent: NextPageWithLayout = () => {
         skip: !editStudentId,
     })
 
+    const [updateProfile, updateProfileResult] =
+        useUpdateStudentProfileMutation()
+
+    const onSubmit = (values: any) => {
+        updateProfile(values)
+    }
+
     useEffect(() => {
         navBar.setTitle('Edit Student')
         contextBar.hide()
     }, [])
 
     return (
-        <div className="flex justify-center m-4">
-            <StudentForm onSubmit={student} />
+        <div className="px-4">
+            <StudentProfileForm
+                onSubmit={onSubmit}
+                profile={student}
+                result={updateProfileResult}
+            />
         </div>
     )
 }

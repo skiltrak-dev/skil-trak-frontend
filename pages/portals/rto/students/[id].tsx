@@ -69,7 +69,13 @@ const Detail: NextPageWithLayout = () => {
                 <LoadingAnimation />
             ) : !data ? (
                 !isError &&
-                isSuccess && <EmptyData title={'No Student Found'} />
+                isSuccess && (
+                    <EmptyData
+                        title={'No Student Found'}
+                        description={'No Student Detail were found'}
+                        height={'50vh'}
+                    />
+                )
             ) : (
                 <div className="p-6 flex flex-col gap-y-4 mb-32">
                     {/* Action Bar */}

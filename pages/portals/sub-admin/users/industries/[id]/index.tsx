@@ -39,14 +39,14 @@ import { Students } from '@partials/sub-admin/indestries'
 type Props = {}
 
 const IndustriesProfile: NextPageWithLayout = (props: Props) => {
-    const { setContent } = useContextBar()
+    const { setContent, show } = useContextBar()
     const pathname = useRouter()
     const { id } = pathname.query
 
     const navBar = useNavbar()
 
     const { data, isLoading, isError, isSuccess } =
-        useGetSubAdminIndustriesProfileQuery(String(id), { skip: !id })
+        useGetSubAdminIndustriesProfileQuery(Number(id), { skip: !id })
     const studentList = useGetSubAdminIndustryStudentsQuery(String(id), {
         skip: !id,
     })
@@ -57,12 +57,15 @@ const IndustriesProfile: NextPageWithLayout = (props: Props) => {
     }, [data])
 
     useEffect(() => {
-        setContent(
-            <>
-                <IndustryProfile data={data} />
-            </>
-        )
-    }, [data, setContent])
+        if (isSuccess && data) {
+            setContent(
+                <>
+                    <IndustryProfile data={data} />
+                </>
+            )
+            show(false)
+        }
+    }, [data, isSuccess, setContent])
 
     const tabs: TabProps[] = [
         {
@@ -146,7 +149,12 @@ const IndustriesProfile: NextPageWithLayout = (props: Props) => {
                     }}
                 </TabNavigation>
             ) : (
-                !isError && <EmptyData />
+                !isError && (
+                    <EmptyData
+                        title={'No Industry were found'}
+                        description={'No Industry Detail were found'}
+                    />
+                )
             )}
         </>
     )

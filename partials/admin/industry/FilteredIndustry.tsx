@@ -11,13 +11,14 @@ import { PageHeading } from '@components/headings'
 import { ColumnDef } from '@tanstack/react-table'
 import { FaEdit, FaEye } from 'react-icons/fa'
 
-import { useContextBar } from '@hooks'
+import { useActionModal, useContextBar } from '@hooks'
 import { Industry } from '@types'
 import { useRouter } from 'next/router'
 import { ReactElement, useState } from 'react'
 import { MdBlock } from 'react-icons/md'
 import { IndustryCell } from './components'
 import { BlockModal } from './modals'
+import { RiLockPasswordFill } from 'react-icons/ri'
 
 export const FilteredIndustry = ({
     industry,
@@ -32,6 +33,9 @@ export const FilteredIndustry = ({
 }) => {
     const router = useRouter()
     const [modal, setModal] = useState<ReactElement | null>(null)
+
+    // hooks
+    const { passwordModal, onViewPassword } = useActionModal()
 
     const onModalCancelClicked = () => {
         setModal(null)
@@ -63,11 +67,16 @@ export const FilteredIndustry = ({
             Icon: FaEdit,
         },
         {
-            text: 'Block',
-            onClick: (industry: Industry) => onBlockClicked(industry),
-            Icon: MdBlock,
-            color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
+            text: 'View Password',
+            onClick: (industry: Industry) => onViewPassword(industry),
+            Icon: RiLockPasswordFill,
         },
+        // {
+        //     text: 'Block',
+        //     onClick: (industry: Industry) => onBlockClicked(industry),
+        //     Icon: MdBlock,
+        //     color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
+        // },
     ]
 
     const columns: ColumnDef<Industry>[] = [
@@ -141,6 +150,7 @@ export const FilteredIndustry = ({
     return (
         <>
             {modal && modal}
+            {passwordModal && passwordModal}
             <div className="flex flex-col gap-y-4 p-4">
                 <PageHeading
                     title={'Filtered Industries'}
@@ -185,8 +195,8 @@ export const FilteredIndustry = ({
                         </Table>
                     ) : (
                         <EmptyData
-                            title={'No RTOS in your Search!'}
-                            description={'No RTOS in your Search yet'}
+                            title={'No Industries in your Search!'}
+                            description={'No Industries in your Search yet'}
                             height={'50vh'}
                         />
                     )}

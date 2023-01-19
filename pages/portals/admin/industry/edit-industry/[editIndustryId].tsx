@@ -1,35 +1,12 @@
-import {
-    ActionButton,
-    BackButton,
-    Button,
-    DescriptiveInfo,
-    InitialAvatar,
-    InitialAvatarContainer,
-    Typography,
-} from '@components'
-import { useContextBar, useNavbar } from '@hooks'
+import { useContextBar, useNavbar, useNotification } from '@hooks'
 import { AdminLayout } from '@layouts'
 import { NextPageWithLayout } from '@types'
 import { useRouter } from 'next/router'
 import { ReactElement, useEffect } from 'react'
-import {
-    AiFillCodeSandboxCircle,
-    AiOutlineBarcode,
-    AiOutlineLogin,
-    AiTwotonePhone,
-} from 'react-icons/ai'
-import { BsPatchCheckFill } from 'react-icons/bs'
-import { FaArchive, FaBan, FaPhoneAlt } from 'react-icons/fa'
 
-import { AdminApi } from '@queries'
-import { IoLogIn } from 'react-icons/io5'
-import { MdPlace } from 'react-icons/md'
-import Image from 'next/image'
-import { DetailTabs } from '@partials/admin/rto/tabs'
-import { PinnedNotes } from '@partials'
-import { RtoForm } from '@partials/admin/rto/form'
+import { IndustryProfileFrom } from '@partials/common'
+import { AdminApi, RtoApi } from '@queries'
 import { useState } from 'react'
-import { IndustriesForm } from '@partials/admin/industry/form'
 
 const EditRto: NextPageWithLayout = () => {
     const [formData, setFormData] = useState<any>('')
@@ -43,14 +20,33 @@ const EditRto: NextPageWithLayout = () => {
         skip: !editIndustryId,
     })
 
+    const { notification } = useNotification()
+    const [updateProfile, updateProfileResult] = RtoApi.Rto.useUpdateProfile()
+
     useEffect(() => {
-        navBar.setTitle('Edit Industry')
+        contextBar.setContent(null)
         contextBar.hide()
     }, [])
 
+    useEffect(() => {
+        if (updateProfileResult.isSuccess) {
+            notification.success({
+                title: 'Profile Updated',
+                description: 'Profile Updated Successfully',
+            })
+        }
+    }, [])
+    const onSubmit = (values: any) => {
+        updateProfile(values)
+    }
+
     return (
-        <div className="flex justify-center">
-            <IndustriesForm onSubmit={industry} />
+        <div className="px-4">
+            <IndustryProfileFrom
+                onSubmit={onSubmit}
+                profile={industry}
+                result={updateProfileResult}
+            />
         </div>
     )
 }
