@@ -34,7 +34,7 @@ const PrimaryLinks = [
     },
     {
         title: 'Jobs',
-        description: 'Track Progress Or File a request',
+        description: 'Find a job here',
         link: 'workplace/jobs',
         animation: Animations.Student.Workplace.Jobs,
         id: 'jobs',

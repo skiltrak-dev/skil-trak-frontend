@@ -28,7 +28,7 @@ const MyProfile: NextPageWithLayout = () => {
         }
     }, [])
     const onSubmit = (values: any) => {
-        updateProfile(values)
+        updateProfile({ body: values })
     }
     return (
         <>

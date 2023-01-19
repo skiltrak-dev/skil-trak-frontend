@@ -28,7 +28,7 @@ const EditIndustriesProfile: NextPageWithLayout = (props: Props) => {
         useUpdateIndustryProfileMutation()
 
     const onSubmit = (values: any) => {
-        updateProfile(values)
+        updateProfile({ id: profile?.data?.user?.id, body: values })
     }
 
     return (

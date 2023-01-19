@@ -7,7 +7,7 @@ import { NextPageWithLayout } from '@types'
 import { IndustryProfileFrom } from '@partials/common'
 import {
     useIndustryProfileQuery,
-    useUpdateIndustryProfileMutation
+    useUpdateIndustryProfileMutation,
 } from '@queries'
 
 const MyProfile: NextPageWithLayout = () => {
@@ -15,13 +15,16 @@ const MyProfile: NextPageWithLayout = () => {
     const [updateProfile, updateProfileResult] =
         useUpdateIndustryProfileMutation()
 
-
     const onSubmit = (values: any) => {
-        updateProfile(values)
+        updateProfile({ body: values })
     }
 
     return (
-        <IndustryProfileFrom onSubmit={onSubmit} profile={profile} result={updateProfileResult} />
+        <IndustryProfileFrom
+            onSubmit={onSubmit}
+            profile={profile}
+            result={updateProfileResult}
+        />
     )
 }
 

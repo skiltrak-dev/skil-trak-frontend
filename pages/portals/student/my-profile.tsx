@@ -24,11 +24,15 @@ const MyProfile: NextPageWithLayout = () => {
         useUpdateStudentProfileMutation()
 
     const onSubmit = (values: any) => {
-        updateProfile(values)
+        updateProfile({ body: values })
     }
 
     return (
-        <StudentProfileForm onSubmit={onSubmit} profile={profile} result={updateProfileResult} />
+        <StudentProfileForm
+            onSubmit={onSubmit}
+            profile={profile}
+            result={updateProfileResult}
+        />
     )
 }
 

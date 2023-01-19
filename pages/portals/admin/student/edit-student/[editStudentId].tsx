@@ -46,7 +46,7 @@ const EditStudent: NextPageWithLayout = () => {
         useUpdateStudentProfileMutation()
 
     const onSubmit = (values: any) => {
-        updateProfile(values)
+        updateProfile({ id: student?.data?.user?.id, body: values })
     }
 
     useEffect(() => {
