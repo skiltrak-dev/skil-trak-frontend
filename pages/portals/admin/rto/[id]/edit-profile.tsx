@@ -1,14 +1,19 @@
 import { useContextBar, useNotification } from '@hooks'
 import { AdminLayout } from '@layouts'
 import { RTOProfileEditForm } from '@partials/common'
-import { RtoApi } from '@queries'
+import { AdminApi, RtoApi } from '@queries'
 import { NextPageWithLayout } from '@types'
+import { useRouter } from 'next/router'
 import { ReactElement, useEffect } from 'react'
 
 const EditRtoProfile: NextPageWithLayout = () => {
     const contextBar = useContextBar()
     const { notification } = useNotification()
-    const profile = RtoApi.Rto.useProfile()
+
+    const router = useRouter()
+    const profile = AdminApi.Rtos.useDetailQuery(Number(router.query.id), {
+        skip: !router.query?.id,
+    })
     const [updateProfile, updateProfileResult] = RtoApi.Rto.useUpdateProfile()
 
     useEffect(() => {
@@ -25,7 +30,7 @@ const EditRtoProfile: NextPageWithLayout = () => {
         }
     }, [])
     const onSubmit = (values: any) => {
-        updateProfile(values)
+        updateProfile({ id: profile?.data?.user?.id, body: values })
     }
     return (
         <>

@@ -24,7 +24,6 @@ export const ImportantDocuments = ({ sidebar }: { sidebar?: boolean }) => {
                 <ImportantDocument
                     imageUrl={'/images/documents/requirements.webp'}
                     title={'Course Requirement'}
-                    href={'rto/course-requirements'}
                 />
 
                 <ImportantDocument

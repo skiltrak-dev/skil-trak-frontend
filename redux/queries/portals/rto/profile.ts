@@ -10,9 +10,10 @@ export const profileEndpoints = (
         providesTags: ['RTO'],
     }),
     updateRTOProfile: builder.mutation<any, any>({
-        query: (body) => ({
+        query: ({ id, body }) => ({
             url: 'rtos/profile/update',
             method: 'PATCH',
+            params: { rto: id },
             body,
         }),
         invalidatesTags: ['RTO'],

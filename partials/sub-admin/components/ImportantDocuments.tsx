@@ -13,7 +13,6 @@ export const ImportantDocuments = () => {
                 <ImportantDocument
                     imageUrl={'/images/documents/requirements.webp'}
                     title={'Course Requirement'}
-                    href={'rto/course-requirements'}
                 />
 
                 <ImportantDocument

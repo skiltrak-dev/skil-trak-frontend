@@ -23,9 +23,11 @@ export const studentProfileApi = createApi({
             providesTags: ['StudentProfile'],
         }),
         updateStudentProfile: builder.mutation<any, any>({
-            query: (body) => ({
+            query: ({ id, body }) => ({
                 url: 'profile/update',
                 method: 'PATCH',
+                // using student id to update when updating from admin or subadmin portal
+                params: { student: id },
                 body,
             }),
             invalidatesTags: ['StudentProfile'],

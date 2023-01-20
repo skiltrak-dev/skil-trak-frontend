@@ -5,7 +5,7 @@ import { useRouter } from 'next/router'
 import { ReactElement, useEffect } from 'react'
 
 import { IndustryProfileFrom } from '@partials/common'
-import { AdminApi, RtoApi } from '@queries'
+import { AdminApi, RtoApi, useUpdateIndustryProfileMutation } from '@queries'
 import { useState } from 'react'
 
 const EditRto: NextPageWithLayout = () => {
@@ -21,7 +21,8 @@ const EditRto: NextPageWithLayout = () => {
     })
 
     const { notification } = useNotification()
-    const [updateProfile, updateProfileResult] = RtoApi.Rto.useUpdateProfile()
+    const [updateProfile, updateProfileResult] =
+        useUpdateIndustryProfileMutation()
 
     useEffect(() => {
         contextBar.setContent(null)
@@ -37,7 +38,7 @@ const EditRto: NextPageWithLayout = () => {
         }
     }, [])
     const onSubmit = (values: any) => {
-        updateProfile(values)
+        updateProfile({ id: industry?.data?.user?.id, body: values })
     }
 
     return (

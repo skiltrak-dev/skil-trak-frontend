@@ -36,9 +36,10 @@ export const industriesApi = createApi({
             providesTags: ['Industries'],
         }),
         updateIndustryProfile: builder.mutation<any, any>({
-            query: (body) => ({
+            query: ({ id, body }) => ({
                 url: 'profile/update',
                 method: 'PATCH',
+                params: { industry: id },
                 body,
             }),
             invalidatesTags: ['Industries'],

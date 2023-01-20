@@ -35,7 +35,7 @@ const EditRTOProfile: NextPageWithLayout = (props: Props) => {
         }
     }, [])
     const onSubmit = (values: any) => {
-        updateProfile(values)
+        updateProfile({ id: profile?.data?.user?.id, body: values })
     }
     return (
         <>
