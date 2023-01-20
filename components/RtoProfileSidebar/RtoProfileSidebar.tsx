@@ -2,7 +2,7 @@ import {
     InitialAvatar,
     InitialAvatarContainer,
 } from '@components/InitialAvatar'
-import { Typography, LoadingAnimation } from '@components'
+import { Typography, LoadingAnimation, RtoAvatar } from '@components'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
 import { AiFillEdit } from 'react-icons/ai'
@@ -22,6 +22,7 @@ import { MdPhone, MdBlock, MdVerified } from 'react-icons/md'
 import { useGetSubAdminRTODetailQuery } from '@queries'
 import { NoData } from '@components/ActionAnimations'
 import { ellipsisText, getUserCredentials } from '@utils'
+import { CourseList } from '@partials/common'
 
 type Props = {}
 
@@ -60,8 +61,8 @@ export const RtoProfileSidebar = ({ loading, data }: any) => {
                                 onClick={() => {
                                     pathname.push(
                                         role === 'admin'
-                                            ? `/portals/admin/rto/${profileId}/edit-profile`
-                                            : `/portals/sub-admin/users/rtos/${profileId}/edit-profile`
+                                            ? `/portals/admin/rto/${data?.id}/edit-profile`
+                                            : `/portals/sub-admin/users/rtos/${data?.id}/edit-profile`
                                     )
                                 }}
                             >
@@ -72,33 +73,7 @@ export const RtoProfileSidebar = ({ loading, data }: any) => {
                             </div>
                         </div>
 
-                        <div className="relative">
-                            {data?.user?.avatar ? (
-                                <>
-                                    {/* <Image
-                                src={data?.user.avatar}
-                                width={100}
-                                height={100}
-                                className="rounded-full shadow-inner-image"
-                            /> */}
-                                    <div
-                                        className="w-24 h-24 bg-cover bg-center bg-no-repeat rounded-full"
-                                        style={{
-                                            backgroundImage: `url(${data?.user.avatar})`,
-                                        }}
-                                    />
-                                </>
-                            ) : (
-                                <div className="h-24 w-24 flex items-center justify-center bg-gray-100 rounded-full">
-                                    <span className="text-4xl text-gray-300">
-                                        <FaSchool />
-                                    </span>
-                                </div>
-                            )}
-                            <div
-                                className={`'w-24 h-24' absolute top-0 left-0 bg-transparent rounded-full shadow-inner-image`}
-                            ></div>
-                        </div>
+                        <RtoAvatar imageUrl={data?.user?.avatar} />
                     </div>
 
                     <div className="flex flex-col items-center mt-2">
@@ -117,18 +92,21 @@ export const RtoProfileSidebar = ({ loading, data }: any) => {
                 </div>
 
                 {/* Info Row 1 */}
-                <div className="flex justify-between divide-x border-b mt-4">
+                <div className="flex flex-col divide-y mt-4">
                     <div className="p-2">
                         <div className="flex items-center space-x-2">
                             <span className="text-gray-300">
                                 <FaAddressCard />
                             </span>
-                            <p className="text-xs font-medium">
-                                {data?.rtoCode}
-                            </p>
-                        </div>
-                        <div className="text-gray-400 text-[11px] -mt-0.5 text-right">
-                            RTO Code
+
+                            <div>
+                                <div className="text-gray-400 text-[11px] -mb-1">
+                                    RTO Code
+                                </div>
+                                <p className="text-xs font-medium">
+                                    {data?.rtoCode}
+                                </p>
+                            </div>
                         </div>
                     </div>
 
@@ -137,27 +115,21 @@ export const RtoProfileSidebar = ({ loading, data }: any) => {
                             <span className="text-gray-300">
                                 <MdPhone />
                             </span>
-                            <p className="text-xs font-medium">{data?.phone}</p>
+
+                            <div>
+                                <div className="text-gray-400 text-[11px] -mb-1">
+                                    Phone Number
+                                </div>
+                                <p className="text-xs font-medium">
+                                    {data?.phone}
+                                </p>
+                            </div>
                         </div>
-                        <div className="text-gray-400 text-[11px] -mt-0.5 text-right">
-                            Phone Number
-                        </div>
                     </div>
-                    {/* <div className="p-2">
-                    <div className="flex items-center space-x-2">
-                        <span className="text-gray-300">
-                            <GiBackwardTime />
-                        </span>
-                        <p className="text-sm font-medium">Yesterday</p>
-                    </div>
-                    <div className="text-gray-400 text-[11px] -mt-0.5 text-center">
-                        N/A
-                    </div>
-                </div> */}
                 </div>
 
                 {/* Info Row 3 */}
-                <div className="flex justify-around">
+                <div className="flex justify-around border-t">
                     <div className="p-2">
                         <div className="flex items-center space-x-2">
                             <span className="text-gray-300">
@@ -174,14 +146,14 @@ export const RtoProfileSidebar = ({ loading, data }: any) => {
                     </div>
                 </div>
                 {/* contact person row 4 */}
-                <div className="mt-4">
+                {/* <div className="mt-4">
                     <Typography variant={'small'} color={'text-gray-500'}>
                         Contact Person
                     </Typography>
                     <div className="flex justify-around divide-x border-t border-b">
                         <div className="p-2">
                             <div className="flex items-center gap-x-2">
-                                <BiRename className="text-gray-400" />
+                                <BiRename className="text-gray-400" size={11}/>
                                 <Typography
                                     variant={'small'}
                                     color={'text-gray-400'}
@@ -195,7 +167,7 @@ export const RtoProfileSidebar = ({ loading, data }: any) => {
                         </div>
                         <div className="p-2">
                             <div className="flex items-center gap-x-2">
-                                <FaPhoneAlt className="text-gray-400" />
+                                <FaPhoneAlt className="text-gray-400" size={11} />
                                 <Typography
                                     variant={'small'}
                                     color={'text-gray-400'}
@@ -208,7 +180,7 @@ export const RtoProfileSidebar = ({ loading, data }: any) => {
                             </Typography>
                         </div>
                     </div>
-                </div>
+                </div> */}
 
                 {/* rto Package */}
                 <div className="mt-4">
@@ -219,41 +191,33 @@ export const RtoProfileSidebar = ({ loading, data }: any) => {
                 <div className="flex justify-around divide-x border-t border-b">
                     <div className="p-2">
                         <div className="flex items-center gap-x-2">
-                            <BiPackage className="text-gray-400" />
-                            <Typography
-                                variant={'small'}
-                                color={'text-gray-400'}
-                            >
+                            <BiPackage className="text-gray-400" size={12} />
+                            <Typography variant={'xs'} color={'text-gray-400'}>
                                 Package Name
                             </Typography>
                         </div>
                         <Typography variant={'small'} color={'text-black'}>
                             {data?.package?.name || 'N/A'}
                         </Typography>
-                        <Typography variant={'small'} color={'text-black'}>
-                            {ellipsisText(
-                                data?.package?.shortDescription,
-                                15
-                            ) || 'N/A'}
-                        </Typography>
                     </div>
                     <div className="p-2">
                         <div className="flex items-center gap-x-2">
-                            <FaMoneyBill className="text-gray-400" />
-                            <Typography
-                                variant={'small'}
-                                color={'text-gray-400'}
-                            >
+                            <FaMoneyBill className="text-gray-400" size={12} />
+                            <Typography variant={'xs'} color={'text-gray-400'}>
                                 Billing Type
                             </Typography>
                         </div>
-                        <Typography variant={'small'} color={'text-black'}>
+                        <Typography
+                            variant={'small'}
+                            color={'text-black'}
+                            capitalize
+                        >
                             {data?.package?.billingType || 'N/A'}
                         </Typography>
                     </div>
                 </div>
                 {/* placement coordinator row 5 */}
-                <div className="mt-4">
+                {/* <div className="mt-4">
                     <p className="text-[11px] text-gray-400">
                         Placement Coordinators
                     </p>
@@ -278,7 +242,7 @@ export const RtoProfileSidebar = ({ loading, data }: any) => {
                             ))}
                         </InitialAvatarContainer>
                     </div>
-                </div>
+                </div> */}
 
                 {/* Eligible sectors */}
                 <div className="mt-4">
@@ -297,33 +261,11 @@ export const RtoProfileSidebar = ({ loading, data }: any) => {
                                         {sector}
                                     </Typography>
 
-                                    {(sectorsWithCourses as any)[sector]?.map(
-                                        (c: Course) => (
-                                            <div
-                                                key={c?.id}
-                                                className="flex gap-x-2 justify-start"
-                                            >
-                                                <div className="flex flex-col items-center">
-                                                    <div className="bg-blue-400 p-2 rounded-full"></div>
-                                                    <div className="bg-blue-400 w-[1px] h-full"></div>
-                                                </div>
-                                                <div className="pb-2">
-                                                    <Typography
-                                                        variant={'small'}
-                                                        color={'text-gray-500'}
-                                                    >
-                                                        {c?.code}
-                                                    </Typography>
-                                                    <Typography
-                                                        variant={'small'}
-                                                        color={'text-gray-800'}
-                                                    >
-                                                        {c?.title}
-                                                    </Typography>
-                                                </div>
-                                            </div>
-                                        )
-                                    )}
+                                    <CourseList
+                                        courses={
+                                            (sectorsWithCourses as any)[sector]
+                                        }
+                                    />
                                 </>
                             )
                         })

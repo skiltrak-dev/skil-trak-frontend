@@ -27,8 +27,9 @@ const EditRtoProfile: NextPageWithLayout = () => {
                 title: 'Profile Updated',
                 description: 'Profile Updated Successfully',
             })
+            router.push(`/portals/admin/rto/${profile?.data?.id}?tab=sectors`)
         }
-    }, [])
+    }, [updateProfileResult])
     const onSubmit = (values: any) => {
         updateProfile({ id: profile?.data?.user?.id, body: values })
     }

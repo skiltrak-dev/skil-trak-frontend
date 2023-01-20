@@ -104,22 +104,14 @@ const routes: Route[] = [
         path: getRoutePath('/subscribers'),
         Icon: MdSubscriptions,
     },
-    // {
-    //     text: 'Subscribers',
-    //     path: 'subscribers/*',
-    //     Icon: MdSubscriptions,
-    //     placement: 'after',
-    // },
 ]
 
 export const AdminLayout = ({ children }: any) => {
-    const { alert } = useAlert()
-    const { notification } = useNotification()
-
     return (
         <div className="flex w-full h-screen overflow-hidden bg-[#F9FAFB]">
             <SideBar portalType={'admin'} routes={routes} />
-            <div className="flex-grow flex flex-col justify-between">
+            {/* <div className="flex-grow flex flex-col justify-between"> */}
+            <div className="flex-grow w-[calc(100vh-224px)]  justify-between">
                 <div className="border-b bg-white">
                     <AdminNavbar />
                 </div>

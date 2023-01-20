@@ -103,22 +103,6 @@ export const PendingStudent = () => {
             },
         },
         {
-            accessorKey: 'industry',
-            header: () => <span>Industry</span>,
-            cell: (info) => {
-                const industry =
-                    info.row.original?.workplace[0]?.industries.find(
-                        (i: any) => i.applied
-                    )?.industry
-
-                return industry ? (
-                    <IndustryCell industry={industry} />
-                ) : (
-                    <Typography center>N/A</Typography>
-                )
-            },
-        },
-        {
             accessorKey: 'sectors',
             header: () => <span>Sectors</span>,
             cell: (info) => {

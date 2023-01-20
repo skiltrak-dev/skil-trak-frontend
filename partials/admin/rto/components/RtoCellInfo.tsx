@@ -1,3 +1,4 @@
+import { InitialAvatar } from '@components'
 import { Rto } from '@types'
 import Link from 'next/link'
 import { MdEmail, MdPhoneIphone } from 'react-icons/md'
@@ -7,13 +8,9 @@ export const RtoCellInfo = ({ rto, short }: { rto: Rto; short?: boolean }) => {
         <Link legacyBehavior href={`rto/${rto?.id}?tab=sectors`}>
             <a className="flex items-center gap-x-2">
                 <div className="shadow-inner-image rounded-full">
-                    <img
-                        src={
-                            rto?.user?.avatar ||
-                            `https://picsum.photos/64/${64 + rto?.id}`
-                        }
-                        className={`${short ? 'w-6 h-6' : 'w-8 h-8'
-                            } rounded-full`}
+                    <InitialAvatar
+                        name={rto.user.name}
+                        imageUrl={rto.user?.avatar}
                     />
                 </div>
                 <div>

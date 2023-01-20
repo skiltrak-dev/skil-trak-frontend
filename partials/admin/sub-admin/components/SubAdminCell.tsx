@@ -1,3 +1,4 @@
+import { InitialAvatar } from '@components'
 import { Industry, SubAdmin } from '@types'
 import Link from 'next/link'
 import { FaHandshake } from 'react-icons/fa'
@@ -5,15 +6,15 @@ import { MdEmail, MdPhoneIphone } from 'react-icons/md'
 
 export const SubAdminCell = ({ subAdmin }: { subAdmin: SubAdmin }) => {
     return (
-        <Link legacyBehavior href={`/portals/admin/sub-admin/${subAdmin?.id}?tab=notes`}>
+        <Link
+            legacyBehavior
+            href={`/portals/admin/sub-admin/${subAdmin?.id}?tab=notes`}
+        >
             <a className="flex items-center gap-x-2">
                 <div className="shadow-inner-image rounded-full relative">
-                    <img
-                        src={
-                            subAdmin?.user?.avatar ||
-                            `https://picsum.photos/64/${64 + subAdmin?.id}`
-                        }
-                        className="w-10 h-10 rounded-full"
+                    <InitialAvatar
+                        name={subAdmin.user.name}
+                        imageUrl={subAdmin.user?.avatar}
                     />
                 </div>
                 <div>

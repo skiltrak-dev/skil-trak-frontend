@@ -4,7 +4,14 @@ import * as yup from 'yup'
 
 import { onlyAlphabets } from '@utils'
 
-import { Button, TextInput, Typography, Card, Avatar } from '@components'
+import {
+    Button,
+    TextInput,
+    Typography,
+    Card,
+    Avatar,
+    ShowErrorNotifications,
+} from '@components'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { FormProvider, useForm } from 'react-hook-form'
 
@@ -59,13 +66,27 @@ export const RTOProfileEditForm = ({
                 students,
                 subadmin,
                 user,
-
                 id,
                 updatedAt,
                 createdAt,
                 ...rest
             } = profile?.data
-            const { id: userId, socketId, ...userRest } = user
+            const {
+                id: userId,
+                notes,
+                notificationViaEmail,
+                notificationViaSms,
+                avatar,
+                isActive,
+                messageCount,
+                skiltrakId,
+                refreshToken,
+                password,
+                updatedAt: userUpdatedAt,
+                createdAt: userCreatedAt,
+                socketId,
+                ...userRest
+            } = user
             const values = {
                 ...rest,
                 ...userRest,
@@ -78,6 +99,7 @@ export const RTOProfileEditForm = ({
 
     return (
         <Card>
+            <ShowErrorNotifications result={result} />
             <div className="flex justify-between gap-x-16 border-t py-4">
                 <div className="w-4/6">
                     <FormProvider {...formMethods}>

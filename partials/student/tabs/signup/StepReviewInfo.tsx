@@ -2,6 +2,7 @@ import { Button, Typography } from '@components'
 import { PackageView } from '@partials/rto/components'
 import { OptionType, RtoFormData } from '@types'
 import { SignUpUtils } from '@utils'
+import moment from 'moment'
 import { useRouter } from 'next/router'
 
 export const StepReviewInfo = () => {
@@ -102,7 +103,9 @@ export const StepReviewInfo = () => {
                                         Date of birth
                                     </Typography>
                                     <Typography variant={'label'}>
-                                        {formData.dob || ''}
+                                        {moment(formData.dob).format(
+                                            'MMM, Do YYYY'
+                                        ) || ''}
                                     </Typography>
                                 </div>
 
@@ -114,7 +117,8 @@ export const StepReviewInfo = () => {
                                         Emergency Person
                                     </Typography>
                                     <Typography variant={'label'}>
-                                        {formData.emergencyPerson || ''}
+                                        {formData.emergencyPerson ||
+                                            'Not Provided'}
                                     </Typography>
                                 </div>
 

@@ -6,14 +6,15 @@ import { MyRto } from '../../components/MyRto'
 import { MyWorkplace } from '../../components/MyWorkplace'
 import { RecentAppointment } from '../../components/RecentAppointment'
 
+import { CommonApi } from '@queries'
+
 type StudentsProfileOverviewProps = {
     student: any
 }
 
 export const OverViewTab = ({ student }: StudentsProfileOverviewProps) => {
-    // const {data} = useGetSubAdminMyRtoQuery(studentId)
-
-    console.log('student', student)
+    const upcommingAppointment =
+        CommonApi.Appointments.useUpcommingAppointment()
 
     return (
         <div className="w-full mt-6">
@@ -43,7 +44,7 @@ export const OverViewTab = ({ student }: StudentsProfileOverviewProps) => {
             </div>
 
             <div className="w-full flex flex-col gap-y-4">
-                <RecentAppointment />
+                <RecentAppointment appointment={upcommingAppointment?.data} />
             </div>
         </div>
     )

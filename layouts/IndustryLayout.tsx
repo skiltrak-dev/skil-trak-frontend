@@ -1,7 +1,9 @@
 import { PageTitle } from '@components'
 import { IndustryNavbar, PageTitleProps } from '@components'
-import { ReactNode } from 'react'
+import { ReactNode, useEffect } from 'react'
 import { UserLayout } from './UserLayout'
+import { getToken, getUserCredentials } from '@utils'
+import { useRouter } from 'next/router'
 
 interface IndustryLayoutProps {
     pageTitle?: PageTitleProps
@@ -11,6 +13,15 @@ export const IndustryLayout = ({
     pageTitle,
     children,
 }: IndustryLayoutProps) => {
+    const router = useRouter()
+    const token = getToken()
+    const status = getUserCredentials()?.status
+    useEffect(() => {
+        if (token && status !== 'approved') {
+            router.push('/portals/industry')
+        }
+    }, [router, token])
+
     return (
         <UserLayout>
             <div className="md:px-16 px-2 mb-24">

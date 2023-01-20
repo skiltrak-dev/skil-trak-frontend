@@ -2,7 +2,12 @@ import { AiFillEdit } from 'react-icons/ai'
 import { MdBlock, MdPhone, MdVerified } from 'react-icons/md'
 import Image from 'next/image'
 import { Course, Rto } from '@types'
-import { FaAddressCard, FaMoneyBill, FaPhoneAlt, FaSchool } from 'react-icons/fa'
+import {
+    FaAddressCard,
+    FaMoneyBill,
+    FaPhoneAlt,
+    FaSchool,
+} from 'react-icons/fa'
 import { GiBackwardTime } from 'react-icons/gi'
 import { useState, useEffect } from 'react'
 import { AuthUtils, ellipsisText } from '@utils'
@@ -16,22 +21,25 @@ import {
     NoData,
 } from '@components'
 import { BiPackage, BiRename } from 'react-icons/bi'
+import { useRouter } from 'next/router'
 
 const getSectors = (courses: any) => {
     if (!courses) return {}
     const sectors = {}
     courses.forEach((c: any) => {
         if ((sectors as any)[c.sector.name]) {
-            ; (sectors as any)[c.sector.name].push(c)
+            ;(sectors as any)[c.sector.name].push(c)
         } else {
-            ; (sectors as any)[c.sector.name] = []
-                ; (sectors as any)[c.sector.name].push(c)
+            ;(sectors as any)[c.sector.name] = []
+            ;(sectors as any)[c.sector.name].push(c)
         }
     })
     return sectors
 }
 
 export const ViewProfileCB = () => {
+    const router = useRouter()
+
     const { data: rto, isLoading } = RtoApi.Rto.useProfile()
 
     const sectorsWithCourses = getSectors(rto?.courses)
@@ -41,11 +49,14 @@ export const ViewProfileCB = () => {
         <div>
             <div className="flex justify-end gap-x-2">
                 <div className="bg-blue-100 rounded-full p-1">
-                    <AiFillEdit className="text-blue-400  cursor-pointer " />
+                    <AiFillEdit
+                        className="text-blue-400  cursor-pointer"
+                        onClick={() => router.push('/portals/rto/my-profile')}
+                    />
                 </div>
-                <div className="bg-red-100 rounded-full p-1">
+                {/* <div className="bg-red-100 rounded-full p-1">
                     <MdBlock className="text-red-400  cursor-pointer bg-red-100 rounded-full" />
-                </div>
+                </div> */}
             </div>
             <div className="flex flex-col items-center">
                 <div className="relative">
@@ -65,10 +76,11 @@ export const ViewProfileCB = () => {
                         </div>
                     )}
                     <div
-                        className={`${rto?.user.avatar
-                            ? 'w-[100px] h-[100px]'
-                            : 'w-24 h-24'
-                            } absolute top-0 left-0 bg-transparent rounded-full shadow-inner-image`}
+                        className={`${
+                            rto?.user.avatar
+                                ? 'w-[100px] h-[100px]'
+                                : 'w-24 h-24'
+                        } absolute top-0 left-0 bg-transparent rounded-full shadow-inner-image`}
                     ></div>
                 </div>
 
@@ -180,35 +192,36 @@ export const ViewProfileCB = () => {
                 </div>
             </div>
             {/* rto Package */}
-            <div className='mt-4'>
+            <div className="mt-4">
                 <Typography variant={'small'} color={'text-gray-500'}>
                     RTO Package
                 </Typography>
             </div>
             <div className="flex justify-around divide-x border-t border-b">
-                <div className='p-2'>
-                    <div className='flex items-center gap-x-2'>
-                        <BiPackage className='text-gray-400' />
-                        <Typography variant={'small'} color={"text-gray-400"}>
+                <div className="p-2">
+                    <div className="flex items-center gap-x-2">
+                        <BiPackage className="text-gray-400" />
+                        <Typography variant={'small'} color={'text-gray-400'}>
                             Package Name
                         </Typography>
                     </div>
-                    <Typography variant={'small'} color={"text-black"}>
-                        {rto?.package?.name || "N/A"}
+                    <Typography variant={'small'} color={'text-black'}>
+                        {rto?.package?.name || 'N/A'}
                     </Typography>
-                    <Typography variant={'small'} color={"text-black"}>
-                        {ellipsisText(rto?.package?.shortDescription, 15) || "N/A"}
+                    <Typography variant={'small'} color={'text-black'}>
+                        {ellipsisText(rto?.package?.shortDescription, 15) ||
+                            'N/A'}
                     </Typography>
                 </div>
-                <div className='p-2'>
-                    <div className='flex items-center gap-x-2'>
-                        <FaMoneyBill className='text-gray-400' />
-                        <Typography variant={'small'} color={"text-gray-400"}>
+                <div className="p-2">
+                    <div className="flex items-center gap-x-2">
+                        <FaMoneyBill className="text-gray-400" />
+                        <Typography variant={'small'} color={'text-gray-400'}>
                             Billing Type
                         </Typography>
                     </div>
-                    <Typography variant={'small'} color={"text-black"}>
-                        {rto?.package?.billingType || "N/A"}
+                    <Typography variant={'small'} color={'text-black'}>
+                        {rto?.package?.billingType || 'N/A'}
                     </Typography>
                 </div>
             </div>

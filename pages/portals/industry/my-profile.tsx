@@ -1,4 +1,4 @@
-import { ReactElement } from 'react'
+import { ReactElement, useEffect } from 'react'
 
 import { IndustryLayout } from '@layouts'
 import { NextPageWithLayout } from '@types'
@@ -9,11 +9,22 @@ import {
     useIndustryProfileQuery,
     useUpdateIndustryProfileMutation,
 } from '@queries'
+import { useNotification } from '@hooks'
 
 const MyProfile: NextPageWithLayout = () => {
+    const { notification } = useNotification()
     const profile = useIndustryProfileQuery()
     const [updateProfile, updateProfileResult] =
         useUpdateIndustryProfileMutation()
+
+    useEffect(() => {
+        if (updateProfileResult.isSuccess) {
+            notification.success({
+                title: 'Profile Updated',
+                description: 'Profile Updated Successfully',
+            })
+        }
+    }, [updateProfileResult])
 
     const onSubmit = (values: any) => {
         updateProfile({ body: values })

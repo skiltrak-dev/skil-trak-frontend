@@ -1,3 +1,4 @@
+import { InitialAvatar } from '@components'
 import { Industry } from '@types'
 import Link from 'next/link'
 import { FaHandshake } from 'react-icons/fa'
@@ -8,13 +9,9 @@ export const IndustryCell = ({ industry }: { industry: Industry }) => {
         <Link legacyBehavior href={`industry/${industry?.id}?tab=sectors`}>
             <a className="flex items-center gap-x-2">
                 <div className="shadow-inner-image rounded-full relative">
-                    <img
-                        src={
-                            industry?.user?.avatar ||
-                            `https://picsum.photos/64/${64 + Number(industry?.id)
-                            }`
-                        }
-                        className="w-10 h-10 rounded-full"
+                    <InitialAvatar
+                        name={industry.user.name}
+                        imageUrl={industry.user?.avatar}
                     />
                     {industry?.studentCapacity ? (
                         <div className="absolute -bottom-1 -right-1 w-5 h-5 flex items-center justify-center bg-green-500 rounded-full text-white">

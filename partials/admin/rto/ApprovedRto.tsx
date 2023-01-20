@@ -222,7 +222,9 @@ export const ApprovedRto = () => {
                                                 )}
                                             </div>
                                         </div>
-                                        <div className="px-6">{table}</div>
+                                        <div className="px-6 w-full overflow-x-scroll remove-scrollbar">
+                                            {table}
+                                        </div>
                                     </div>
                                 )
                             }}
