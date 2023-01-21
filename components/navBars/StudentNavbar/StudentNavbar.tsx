@@ -1,4 +1,5 @@
 import { Desktop, Mobile } from '@components/Responsive'
+import { getUserCredentials } from '@utils'
 import classNames from 'classnames'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
@@ -8,6 +9,8 @@ import { MdAssessment, MdNotifications, MdSpaceDashboard } from 'react-icons/md'
 
 export const StudentNavbar = () => {
     const router = useRouter()
+
+    const status = getUserCredentials()?.status
 
     const defaultClasses = classNames({
         'transition-all duration-300 px-4 py-2 flex flex-col md:flex-row gap-x-2 items-center rounded-md':
@@ -21,10 +24,11 @@ export const StudentNavbar = () => {
                     <li>
                         <Link legacyBehavior href="/portals/student">
                             <a
-                                className={`${router.pathname == '/student'
+                                className={`${
+                                    router.pathname == '/student'
                                         ? 'bg-indigo-100 text-indigo-700'
                                         : 'text-slate-700'
-                                    } ${defaultClasses} hover:bg-indigo-100 hover:text-indigo-700`}
+                                } ${defaultClasses} hover:bg-indigo-100 hover:text-indigo-700`}
                             >
                                 <span>
                                     <MdSpaceDashboard />
@@ -36,47 +40,55 @@ export const StudentNavbar = () => {
                         </Link>
                     </li>
 
-                    <li>
-                        <Link legacyBehavior href="/portals/student/workplace">
-                            <a
-                                className={`${router.pathname ==
-                                        '/portals/student/workplace'
-                                        ? 'bg-green-100 text-green-700'
-                                        : 'text-slate-700'
-                                    } ${defaultClasses} hover:bg-green-100 hover:text-green-700`}
-                                id="workplace"
-                            >
-                                <span>
-                                    <FaBriefcase />
-                                </span>
-                                <span className="text-sm font-semibold">
-                                    Workplace
-                                </span>
-                            </a>
-                        </Link>
-                    </li>
-
-                    <li>
-                        <Link legacyBehavior href="/portals/student/assessments">
-                            <a
-                                className={`${router.pathname ==
-                                        '/portals/student/assessments'
-                                        ? 'bg-orange-100 text-orange-700'
-                                        : 'text-slate-700'
-                                    } ${defaultClasses} hover:bg-orange-100 hover:text-orange-700`}
-                                id="assessments"
-                            >
-                                <span>
-                                    <MdAssessment />
-                                </span>
-                                <span className="text-sm font-semibold">
-                                    Assessments
-                                </span>
-                            </a>
-                        </Link>
-                    </li>
-
-                    {/* <li>
+                    {status === 'approved' && (
+                        <>
+                            <li>
+                                <Link
+                                    legacyBehavior
+                                    href="/portals/student/workplace"
+                                >
+                                    <a
+                                        className={`${
+                                            router.pathname ==
+                                            '/portals/student/workplace'
+                                                ? 'bg-green-100 text-green-700'
+                                                : 'text-slate-700'
+                                        } ${defaultClasses} hover:bg-green-100 hover:text-green-700`}
+                                        id="workplace"
+                                    >
+                                        <span>
+                                            <FaBriefcase />
+                                        </span>
+                                        <span className="text-sm font-semibold">
+                                            Workplace
+                                        </span>
+                                    </a>
+                                </Link>
+                            </li>
+                            <li>
+                                <Link
+                                    legacyBehavior
+                                    href="/portals/student/assessments"
+                                >
+                                    <a
+                                        className={`${
+                                            router.pathname ==
+                                            '/portals/student/assessments'
+                                                ? 'bg-orange-100 text-orange-700'
+                                                : 'text-slate-700'
+                                        } ${defaultClasses} hover:bg-orange-100 hover:text-orange-700`}
+                                        id="assessments"
+                                    >
+                                        <span>
+                                            <MdAssessment />
+                                        </span>
+                                        <span className="text-sm font-semibold">
+                                            Assessments
+                                        </span>
+                                    </a>
+                                </Link>
+                            </li>
+                            {/* <li>
                 <Link legacyBehavior href="/portals/student/notifications">
                     <a
                         className={`${
@@ -93,7 +105,9 @@ export const StudentNavbar = () => {
                         </span>
                     </a>
                 </Link>
-            </li> */}
+            </li> */}{' '}
+                        </>
+                    )}
                 </ul>
             </Desktop>
 
@@ -107,10 +121,11 @@ export const StudentNavbar = () => {
                     <li>
                         <Link legacyBehavior href="/portals/student">
                             <a
-                                className={`${router.pathname == '/student'
+                                className={`${
+                                    router.pathname == '/student'
                                         ? 'bg-indigo-100 text-indigo-700'
                                         : 'text-slate-700'
-                                    } ${defaultClasses} hover:bg-indigo-100 hover:text-indigo-700`}
+                                } ${defaultClasses} hover:bg-indigo-100 hover:text-indigo-700`}
                             >
                                 <div>
                                     <MdSpaceDashboard size={24} />
@@ -125,11 +140,12 @@ export const StudentNavbar = () => {
                     <li>
                         <Link legacyBehavior href="/portals/student/workplace">
                             <a
-                                className={`${router.pathname ==
-                                        '/portals/student/workplace'
+                                className={`${
+                                    router.pathname ==
+                                    '/portals/student/workplace'
                                         ? 'bg-green-100 text-green-700'
                                         : 'text-slate-700'
-                                    } ${defaultClasses} hover:bg-green-100 hover:text-green-700`}
+                                } ${defaultClasses} hover:bg-green-100 hover:text-green-700`}
                                 id="workplace"
                             >
                                 <span>
@@ -143,13 +159,17 @@ export const StudentNavbar = () => {
                     </li>
 
                     <li>
-                        <Link legacyBehavior href="/portals/student/assessments">
+                        <Link
+                            legacyBehavior
+                            href="/portals/student/assessments"
+                        >
                             <a
-                                className={`${router.pathname ==
-                                        '/portals/student/assessments'
+                                className={`${
+                                    router.pathname ==
+                                    '/portals/student/assessments'
                                         ? 'bg-orange-100 text-orange-700'
                                         : 'text-slate-700'
-                                    } ${defaultClasses} hover:bg-orange-100 hover:text-orange-700`}
+                                } ${defaultClasses} hover:bg-orange-100 hover:text-orange-700`}
                                 id="assessments"
                             >
                                 <span>

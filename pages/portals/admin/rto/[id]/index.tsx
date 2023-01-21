@@ -1,45 +1,24 @@
-import { ReactElement, useState, useEffect } from 'react'
 import {
     ActionButton,
     BackButton,
-    Button,
-    DescriptiveInfo,
-    InitialAvatar,
-    InitialAvatarContainer,
-    Typography,
-    LoadingAnimation,
-    EmptyData,
-    TechnicalError,
-    RtoProfileSidebar,
+    Button, EmptyData, LoadingAnimation, RtoProfileSidebar, TechnicalError
 } from '@components'
 import { useContextBar, useNavbar } from '@hooks'
 import { AdminLayout } from '@layouts'
 import { NextPageWithLayout, Rto } from '@types'
 import { useRouter } from 'next/router'
-import {
-    AiFillCodeSandboxCircle,
-    AiOutlineBarcode,
-    AiOutlineLogin,
-    AiTwotonePhone,
-} from 'react-icons/ai'
-import { BsPatchCheckFill } from 'react-icons/bs'
+import { ReactElement, useEffect, useState } from 'react'
 import {
     FaArchive,
     FaBan,
     FaChevronDown,
-    FaFileImport,
-    FaPhoneAlt,
-    FaUserGraduate,
+    FaFileImport, FaUserGraduate
 } from 'react-icons/fa'
 
-import { AdminApi } from '@queries'
-import { IoLogIn } from 'react-icons/io5'
-import { MdPlace } from 'react-icons/md'
-import Image from 'next/image'
-import { DetailTabs } from '@partials/admin/rto/tabs'
 import { PinnedNotes } from '@partials'
 import { ArchiveModal, BlockModal } from '@partials/admin/rto/modals'
-import { ViewProfileCB } from '@partials/rto/contextBar'
+import { DetailTabs } from '@partials/admin/rto/tabs'
+import { AdminApi } from '@queries'
 
 const RtoDetail: NextPageWithLayout = () => {
     const router = useRouter()

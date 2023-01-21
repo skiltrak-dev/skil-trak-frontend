@@ -1,18 +1,14 @@
+import { EmptyData, TechnicalError, Typography } from '@components'
 import {
-    FigureCard,
-    NotesCard,
-    PinnedNotes,
+    FigureCard, PinnedNotes
 } from '@components/sections/subAdmin/components'
-import { Typography, EmptyData, TechnicalError } from '@components'
 import { PendingStudents, RecentAppointment } from './components'
 
 // queries
-import {
-    useGetNotesQuery,
-    useGetSubAdminRtosStudentsQuery,
-    useGetSubAdminRtoAppointmentsQuery,
-} from '@queries'
 import { LoadingAnimation } from '@components/LoadingAnimation'
+import {
+    useGetSubAdminRtoAppointmentsQuery, useGetSubAdminRtosStudentsQuery
+} from '@queries'
 
 type Props = {
     rtoId: any

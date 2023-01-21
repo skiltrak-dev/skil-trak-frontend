@@ -46,7 +46,6 @@ export const UploadRPLDocs = ({
         // Gettin file Data
         setValues(event.target.files[0])
         const FileData = event[0] || event.target.files[0]
-        console.log('innnnner', FileData)
         setMediaFile({
             file: URL.createObjectURL(FileData),
             type: FileData.type,

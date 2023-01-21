@@ -1,21 +1,24 @@
-import React, { useEffect } from 'react'
-import * as yup from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
+import { useEffect, useState } from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
+import * as yup from 'yup'
 
 // components
 import {
     Button,
     Card,
+    Select,
     ShowErrorNotifications,
     TextInput,
-    Typography,
+    Typography
 } from '@components'
 
 // hooks
 import { useContextBar, useNotification } from '@hooks'
 
 // utills
+import { AuthApi } from '@queries'
+import { Course } from '@types'
 import { onlyAlphabets } from '@utils'
 
 export const IndustryProfileFrom = ({
@@ -30,6 +33,50 @@ export const IndustryProfileFrom = ({
     const { notification } = useNotification()
     const contextBar = useContextBar()
 
+    const sectorResponse = AuthApi.useSectors({})
+    const [sectorDefaultOptions, setSectorDefaultOptions] = useState<
+        any | null
+    >(null)
+    const [sectors, setSectors] = useState<any | null>(null)
+    const [courseOptions, setCourseOptions] = useState([])
+    const [courseDefaultOptions, setCourseDefaultOptions] = useState([])
+
+    const sectorOptions = sectorResponse?.data
+        ? sectorResponse.data?.map((sector: any) => ({
+              label: sector.name,
+              value: sector.id,
+          }))
+        : []
+
+    useEffect(() => {
+        if (profile?.data) {
+            setSectors([
+                ...new Map(
+                    profile?.data?.courses
+                        ?.map((c: any) => c.sector)
+                        ?.map((v: any) => [v.id, v])
+                ).values(),
+            ])
+        }
+    }, [profile?.data])
+
+    useEffect(() => {
+        if (sectors && sectors?.length > 0) {
+            setSectorDefaultOptions(
+                sectors?.map((sector: any) => ({
+                    label: sector?.name,
+                    value: sector?.id,
+                }))
+            )
+        }
+    }, [sectors])
+
+    useEffect(() => {
+        if (sectorDefaultOptions && sectorDefaultOptions?.length > 0) {
+            onSectorChanged(sectorDefaultOptions)
+        }
+    }, [sectorDefaultOptions, sectorResponse])
+
     useEffect(() => {
         contextBar.setContent(null)
         contextBar.hide()
@@ -43,6 +90,35 @@ export const IndustryProfileFrom = ({
             })
         }
     }, [result])
+
+    const onSectorChanged = (sectors: any) => {
+        const filteredCourses = sectors.map((selectedSector: any) => {
+            const sectorExisting = sectorResponse.data?.find(
+                (sector: any) => sector.id === selectedSector.value
+            )
+            if (sectorExisting && sectorExisting?.courses?.length) {
+                return sectorExisting.courses
+            }
+        })
+
+        const newCourseOptions: any = []
+        filteredCourses.map((courseList: any) => {
+            if (courseList && courseList.length) {
+                return courseList.map((course: any) =>
+                    newCourseOptions.push({
+                        label: course.title,
+                        value: course.id,
+                    })
+                )
+            }
+        })
+
+        const courses = profile?.data?.courses?.map((c: Course) => c.title)
+        setCourseDefaultOptions(
+            newCourseOptions?.filter((s: any) => courses.includes(s.label))
+        )
+        setCourseOptions(newCourseOptions)
+    }
 
     const validationSchema = yup.object({
         // Profile Information
@@ -204,6 +280,43 @@ export const IndustryProfileFrom = ({
                                     required
                                 />
                             </div>
+                        </div>
+                    </div>
+
+                    <div className="w-4/6 grid grid-cols-1 gap-y-4">
+                        <div>
+                            {sectorDefaultOptions &&
+                                sectorDefaultOptions?.length > 0 && (
+                                    <Select
+                                        label={'Sector'}
+                                        {...(sectorDefaultOptions &&
+                                            sectorDefaultOptions?.length >
+                                                0 && {
+                                                defaultValue:
+                                                    sectorDefaultOptions,
+                                            })}
+                                        name={'sectors'}
+                                        options={sectorOptions}
+                                        placeholder={'Select Sectors...'}
+                                        multi
+                                        loading={sectorResponse.isLoading}
+                                        onChange={onSectorChanged}
+                                        validationIcons
+                                    />
+                                )}
+                        </div>
+                        <div>
+                            {courseOptions && courseOptions?.length > 0 && (
+                                <Select
+                                    label={'Courses'}
+                                    name={'courses'}
+                                    defaultValue={courseDefaultOptions}
+                                    options={courseOptions}
+                                    multi
+                                    disabled={courseOptions?.length === 0}
+                                    validationIcons
+                                />
+                            )}
                         </div>
                     </div>
 

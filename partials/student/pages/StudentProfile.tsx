@@ -15,6 +15,7 @@ import {
     PageTitle,
     StudentTimer,
     Button,
+    BackButton,
 } from '@components'
 
 // queries
@@ -62,11 +63,17 @@ export const StudentProfile = ({ noTitle }: { noTitle?: boolean }) => {
     return (
         <div className="mb-16">
             <div className="flex justify-between items-end mb-4">
-                {!noTitle ? (
-                    <PageTitle title="Student Profile" backTitle="Students" />
-                ) : (
-                    <div />
-                )}
+                <div>
+                    <BackButton
+                        link={
+                            role === 'admin'
+                                ? '/portals/admin/student?tab=approved'
+                                : '/portals/sub-admin/students?tab=all'
+                        }
+                        text="Students"
+                    />
+                    {!noTitle ? <PageTitle title="Student Profile" /> : <div />}
+                </div>
                 <div className="flex flex-col items-end gap-y-2">
                     <div className="pl-4">
                         <StudentTimer date={new Date('02/25/2023')} />

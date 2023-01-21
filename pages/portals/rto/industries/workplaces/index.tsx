@@ -12,6 +12,7 @@ import {
     EmptyData,
     TechnicalError,
     LoadingAnimation,
+    InitialAvatar,
 } from '@components'
 // Links
 import Link from 'next/link'
@@ -92,15 +93,7 @@ const RtoWorkplaces: NextPageWithLayout = (props: Props) => {
                     >
                         <a className="flex items-center gap-x-2">
                             <div className="shadow-inner-image rounded-full relative">
-                                <img
-                                    src={
-                                        avatar ||
-                                        `https://picsum.photos/64/${
-                                            64 + row.original.id
-                                        }`
-                                    }
-                                    className="w-10 h-10 rounded-full"
-                                />
+                                <InitialAvatar name={name} imageUrl={avatar} />
                             </div>
                             <div>
                                 <p className="font-semibold">{name}</p>

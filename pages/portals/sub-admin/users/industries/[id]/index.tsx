@@ -18,6 +18,7 @@ import {
     Button,
     BigCalendar,
     Card,
+    CalendarEvent,
 } from '@components'
 import { IndustryProfile } from '@components/IndustryProfile'
 import {
@@ -37,6 +38,24 @@ import { AllCommunicationTab, NotesTab } from '@partials/common'
 import { Students } from '@partials/sub-admin/indestries'
 
 type Props = {}
+
+const events: CalendarEvent[] = [
+    {
+        allDay: false,
+        start: new Date('2023-01-26T02:00:15.221Z'),
+        end: new Date('2023-01-27T02:00:15.221Z'),
+        title: 'Appointment',
+        priority: 'high',
+        subTitle: 'Go For It',
+    },
+    {
+        allDay: false,
+        end: new Date('2023-01-29T05:00:00.000Z'),
+        start: new Date('2023-01-29T07:00:00.000Z'),
+        title: 'test larger',
+        priority: 'low',
+    },
+]
 
 const IndustriesProfile: NextPageWithLayout = (props: Props) => {
     const { setContent, show } = useContextBar()
@@ -93,7 +112,7 @@ const IndustriesProfile: NextPageWithLayout = (props: Props) => {
             href: { pathname: String(id), query: { tab: 'schedule' } },
             element: (
                 <Card>
-                    <BigCalendar events />
+                    <BigCalendar events={events} />
                 </Card>
             ),
         },
@@ -126,7 +145,7 @@ const IndustriesProfile: NextPageWithLayout = (props: Props) => {
                             pathname.push({
                                 pathname:
                                     '/portals/sub-admin/tasks/appointments/create-appointment',
-                                query: { student: data?.user?.id },
+                                query: { industry: data?.user?.id },
                             })
                         }}
                         disabled={!isSuccess}

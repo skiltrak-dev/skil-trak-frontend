@@ -93,7 +93,7 @@ export const InitialAvatar = ({
                         />
                         <div
                             className={`absolute z-20 rounded-md bg-center bg-cover bg-no-repeat top-full left-0 transition-all duration-200 ${
-                                zoomImage ? 'w-32 h-32' : 'w-0 h-0'
+                                zoomImage ? 'w-36 h-36' : 'w-0 h-0'
                             }`}
                             style={{ backgroundImage: `url(${imageUrl})` }}
                         />

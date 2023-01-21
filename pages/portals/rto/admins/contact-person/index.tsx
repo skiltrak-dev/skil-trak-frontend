@@ -5,10 +5,12 @@ import {
     Card,
     EmptyData,
     HelpQuestionSet,
+    InitialAvatar,
     LoadingAnimation,
     Table,
     TableAction,
     TableActionOption,
+    Typography,
 } from '@components'
 import { RtoLayout } from '@layouts'
 import { AdminApi, RtoApi } from '@queries'
@@ -138,7 +140,14 @@ const RtoContactPersons: NextPageWithLayout = (props: Props) => {
     const columns: ColumnDef<any>[] = [
         {
             accessorKey: 'name',
-            cell: (info) => info.getValue(),
+            cell: (info) => (
+                <div className="flex items-center gap-x-1">
+                    <InitialAvatar name={info.row.original.name} />
+                    <Typography variant={'label'}>
+                        {info.row.original.name}
+                    </Typography>
+                </div>
+            ),
             header: () => <span>Name</span>,
         },
         {

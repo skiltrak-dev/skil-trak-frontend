@@ -19,19 +19,17 @@ export const BackButton = ({ text, link }: BackButtonProps) => {
     const classes =
         'group max-w-max transition-all text-xs flex justify-start items-center py-2.5 text-muted hover:text-muted-dark rounded-lg cursor-pointer'
 
-
-  return link ? (
-    <Link legacyBehavior href={`/${link === '/' ? '' : link}`} className={classes}>
-      <a>
-        <IoIosArrowRoundBack className="transition-all inline-flex text-base group-hover:-translate-x-1" />
-        <span className="ml-2">{text || 'Back To Previous'}</span>
-      </a>
-    </Link>
-  ) : (
-    <div className={classes} onClick={navigateBack}>
-      <IoIosArrowRoundBack className="transition-all inline-flex text-base group-hover:-translate-x-1" />
-      <span className="ml-2">{text || 'Back To Previous'}</span>
-    </div>
-  )
-
+    return link ? (
+        <Link legacyBehavior href={`/${link === '/' ? '' : link}`}>
+            <a className={classes}>
+                <IoIosArrowRoundBack className="transition-all inline-flex text-base group-hover:-translate-x-1" />
+                <span className="ml-2">{text || 'Back To Previous'}</span>
+            </a>
+        </Link>
+    ) : (
+        <div className={classes} onClick={navigateBack}>
+            <IoIosArrowRoundBack className="transition-all inline-flex text-base group-hover:-translate-x-1" />
+            <span className="ml-2">{text || 'Back To Previous'}</span>
+        </div>
+    )
 }

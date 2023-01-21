@@ -36,6 +36,7 @@ import { getThemeColors } from '@theme'
 // HOC
 import { DeleteModal } from './modals'
 import { Rto } from '@types'
+import { JobCell } from './components'
 
 const Colors = getThemeColors()
 
@@ -97,29 +98,7 @@ export const AdvertisedJobsContainer = () => {
             header: () => 'Job Title',
             accessorKey: 'title',
             cell: ({ row }: any) => {
-                const { title, industry } = row.original
-                return (
-                    <Link legacyBehavior
-                        href={`/jobs/job-detail/${row.original.id}`}
-                        className="flex items-center gap-x-2 relative"
-                    >
-                        <a>
-                            <div className="absolute top-1">
-                                {/* <SimpleCheckbox /> */}
-                            </div>
-
-                            <div>
-                                <Typography color={'black'}>
-                                    {' '}
-                                    {title}{' '}
-                                </Typography>
-                                <Typography variant={'muted'} color={'gray'}>
-                                    {industry?.user?.name}
-                                </Typography>
-                            </div>
-                        </a>
-                    </Link>
-                )
+                return <JobCell job={row.original} />
             },
         },
         {

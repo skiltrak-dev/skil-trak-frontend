@@ -2,7 +2,7 @@ import { PageTitle } from '@components'
 import { IndustryNavbar, PageTitleProps } from '@components'
 import { ReactNode, useEffect } from 'react'
 import { UserLayout } from './UserLayout'
-import { getToken, getUserCredentials } from '@utils'
+import { AuthUtils } from '@utils'
 import { useRouter } from 'next/router'
 
 interface IndustryLayoutProps {
@@ -14,11 +14,11 @@ export const IndustryLayout = ({
     children,
 }: IndustryLayoutProps) => {
     const router = useRouter()
-    const token = getToken()
-    const status = getUserCredentials()?.status
+    const token = AuthUtils.getToken()
+    const status = AuthUtils.getUserCredentials()?.status
     useEffect(() => {
         if (token && status !== 'approved') {
-            router.push('/portals/industry')
+            router?.push('/portals/industry')
         }
     }, [router, token])
 

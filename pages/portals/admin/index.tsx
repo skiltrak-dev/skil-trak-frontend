@@ -2,7 +2,7 @@ import { ReactElement, useEffect, useState } from 'react'
 
 import { FigureCard } from '@components/sections/subAdmin'
 import { AdminLayout } from '@layouts'
-import { AdminApi } from '@queries'
+import { adminApi, AdminApi } from '@queries'
 import { NextPageWithLayout } from '@types'
 import { AuthUtils } from '@utils'
 import { format } from 'date-fns'

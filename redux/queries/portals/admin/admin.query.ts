@@ -30,6 +30,10 @@ export const adminApi = createApi({
             return headers
         },
     }),
+    keepUnusedDataFor: 30,
+    refetchOnMountOrArgChange: 20,
+    refetchOnReconnect: true,
+    // refetchOnFocus: true,
     tagTypes: [
         'Count',
         'Profile',

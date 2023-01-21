@@ -96,8 +96,8 @@ export const IndustrySignUpForm = ({ onSubmit }: { onSubmit: any }) => {
         phoneNumber: yup.string().required('Must provide phone number'),
 
         // Sector Information
-        sectors: yup.array().min(1, 'Must select at least 1 sector'),
-        courses: yup.array().min(1, 'Must select at least 1 course'),
+        sectors: yup.array().min(1, 'Must select at least 1 sector').required(),
+        courses: yup.array().min(1, 'Must select at least 1 course').required(),
 
         // Contact Person Information
         contactPersonName: yup

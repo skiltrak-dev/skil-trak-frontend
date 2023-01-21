@@ -6,6 +6,13 @@ const PREFIX = 'subadmin/'
 export const notesEndpoints = (
     builder: EndpointBuilder<BaseQueryFn, string, string>
 ) => ({
+    getNotes: builder.query<any, any>({
+        query: ({ id, pinned }) => ({
+            url: `${PREFIX}notes/${id}`,
+            params: { pinned },
+        }),
+        providesTags: ['Notes'],
+    }),
     notes: builder.query<Note[], { id: number; pinned?: boolean }>({
         query: ({ id, pinned }) => ({
             url: `${PREFIX}notes/${id}`,
@@ -21,6 +28,14 @@ export const notesEndpoints = (
                 body,
             }
         },
+        invalidatesTags: ['Notes'],
+    }),
+    updateNote: builder.mutation<any, any | null>({
+        query: ({ id, status }: any) => ({
+            url: `${PREFIX}student/update-status/${id}`,
+            method: 'PATCH',
+            body: { status },
+        }),
         invalidatesTags: ['Notes'],
     }),
     noteStatusChange: builder.mutation<Note, number>({

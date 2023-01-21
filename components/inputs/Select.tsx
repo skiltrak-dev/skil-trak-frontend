@@ -7,6 +7,7 @@ import {
     Typography,
     RequiredStar,
     ValidationIcon,
+    InputErrorMessage,
 } from '@components'
 
 // Colors
@@ -58,6 +59,8 @@ export const Select = ({
     onlyValue,
 }: SelectProps) => {
     const formContext = useFormContext()
+
+    console.log('defaultValuedefaultValue', defaultValue)
 
     const CustomStyle = {
         control: (
@@ -197,7 +200,7 @@ export const Select = ({
                             onChange && onChange(handleChange(event))
                         },
                         onBlur,
-                        value
+                        defaultValue
                     )
                 }
             />
@@ -222,6 +225,8 @@ export const Select = ({
                     : getSimpleSelect(onChange, onBlur, defaultValue)}
                 {validationIcons && <ValidationIcon name={name} />}
             </div>
+
+            <InputErrorMessage name={name} />
 
             <HelpText text={helpText} />
         </div>
