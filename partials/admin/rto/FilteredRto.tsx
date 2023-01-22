@@ -68,9 +68,7 @@ export const FilteredRto = ({
         },
         {
             text: 'Sub Admins',
-            onClick: (item: any) => {
-                onViewSubAdminsClicked(item)
-            },
+            onClick: (item: any) => onViewSubAdminsClicked(item),
             Icon: FaEdit,
         },
         {
@@ -84,9 +82,7 @@ export const FilteredRto = ({
     const columns: ColumnDef<Rto>[] = [
         {
             accessorKey: 'user.name',
-            cell: (info) => {
-                return <RtoCellInfo rto={info.row.original} />
-            },
+            cell: (info) => <RtoCellInfo rto={info.row.original} />,
             header: () => <span>Name</span>,
         },
         {
@@ -102,9 +98,7 @@ export const FilteredRto = ({
         {
             accessorKey: 'sectors',
             header: () => <span>Sectors</span>,
-            cell: (info) => {
-                return <SectorCell rto={info.row.original} />
-            },
+            cell: (info) => <SectorCell rto={info.row.original} />,
         },
         {
             accessorKey: 'suburb',
@@ -114,16 +108,14 @@ export const FilteredRto = ({
         {
             accessorKey: 'action',
             header: () => <span>Action</span>,
-            cell: ({ row }: any) => {
-                return (
-                    <div className="flex gap-x-1 items-center">
-                        <TableAction
-                            options={tableActionOptions}
-                            rowItem={row.original}
-                        />
-                    </div>
-                )
-            },
+            cell: ({ row }: any) => (
+                <div className="flex gap-x-1 items-center">
+                    <TableAction
+                        options={tableActionOptions}
+                        rowItem={row.original}
+                    />
+                </div>
+            ),
         },
     ]
 

@@ -3,9 +3,7 @@ import {
     Button,
     Card,
     EmptyData,
-    Filter,
     LoadingAnimation,
-    RtoFilters,
     Table,
     TableAction,
     TableActionOption,
@@ -71,9 +69,7 @@ export const PendingRto = () => {
     const columns: ColumnDef<any>[] = [
         {
             accessorKey: 'user.name',
-            cell: (info) => {
-                return <RtoCellInfo rto={info.row.original} />
-            },
+            cell: (info) => <RtoCellInfo rto={info.row.original} />,
             header: () => <span>Name</span>,
         },
         {
@@ -84,9 +80,7 @@ export const PendingRto = () => {
         {
             accessorKey: 'sectors',
             header: () => <span>Sectors</span>,
-            cell: (info) => {
-                return <SectorCell rto={info.row.original} />
-            },
+            cell: (info) => <SectorCell rto={info.row.original} />,
         },
         {
             accessorKey: 'suburb',
@@ -96,33 +90,31 @@ export const PendingRto = () => {
         {
             accessorKey: 'action',
             header: () => <span>Action</span>,
-            cell: (info) => {
-                return (
-                    <div className="flex gap-x-1 items-center">
-                        <ActionButton
-                            variant="success"
-                            onClick={() => onAcceptClicked(info.row.original)}
-                            loading={changeStatusResult.isLoading}
-                            disabled={changeStatusResult.isLoading}
-                        >
-                            Accept
-                        </ActionButton>
-                        <ActionButton
-                            variant="error"
-                            onClick={() => onRejectClicked(info.row.original)}
-                            loading={changeStatusResult.isLoading}
-                            disabled={changeStatusResult.isLoading}
-                        >
-                            Reject
-                        </ActionButton>
+            cell: (info) => (
+                <div className="flex gap-x-1 items-center">
+                    <ActionButton
+                        variant="success"
+                        onClick={() => onAcceptClicked(info.row.original)}
+                        loading={changeStatusResult.isLoading}
+                        disabled={changeStatusResult.isLoading}
+                    >
+                        Accept
+                    </ActionButton>
+                    <ActionButton
+                        variant="error"
+                        onClick={() => onRejectClicked(info.row.original)}
+                        loading={changeStatusResult.isLoading}
+                        disabled={changeStatusResult.isLoading}
+                    >
+                        Reject
+                    </ActionButton>
 
-                        <TableAction
-                            options={tableActionOptions}
-                            rowItem={info.row.original}
-                        />
-                    </div>
-                )
-            },
+                    <TableAction
+                        options={tableActionOptions}
+                        rowItem={info.row.original}
+                    />
+                </div>
+            ),
         },
     ]
 

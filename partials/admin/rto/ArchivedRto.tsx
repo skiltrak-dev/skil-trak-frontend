@@ -1,12 +1,9 @@
-import { useRouter } from 'next/router'
 import {
     ActionButton,
     Button,
     Card,
     EmptyData,
-    Filter,
     LoadingAnimation,
-    RtoFilters,
     Table,
     TableAction,
     TableActionOption,
@@ -14,20 +11,14 @@ import {
 } from '@components'
 import { PageHeading } from '@components/headings'
 import { ColumnDef } from '@tanstack/react-table'
-import { FaEdit, FaEye, FaFileExport, FaFilter, FaTrash } from 'react-icons/fa'
+import { useRouter } from 'next/router'
+import { FaEdit, FaEye, FaFileExport, FaTrash } from 'react-icons/fa'
 
 import { AdminApi } from '@queries'
-import {
-    MdBlock,
-    MdEmail,
-    MdPhoneIphone,
-    MdRestore,
-    MdUnarchive,
-} from 'react-icons/md'
-import { ReactElement, useState } from 'react'
-import { CgUnblock } from 'react-icons/cg'
-import { RtoCellInfo, SectorCell } from './components'
 import { Rto } from '@types'
+import { ReactElement, useState } from 'react'
+import { MdUnarchive } from 'react-icons/md'
+import { RtoCellInfo, SectorCell } from './components'
 import { DeleteModal } from './modals'
 
 export const ArchivedRto = () => {
@@ -91,9 +82,7 @@ export const ArchivedRto = () => {
     const columns: ColumnDef<any>[] = [
         {
             accessorKey: 'user.name',
-            cell: (info) => {
-                return <RtoCellInfo rto={info.row.original} />
-            },
+            cell: (info) => <RtoCellInfo rto={info.row.original} />,
             header: () => <span>Name</span>,
         },
         {
@@ -109,9 +98,7 @@ export const ArchivedRto = () => {
         {
             accessorKey: 'sectors',
             header: () => <span>Sectors</span>,
-            cell: (info) => {
-                return <SectorCell rto={info.row.original} />
-            },
+            cell: (info) => <SectorCell rto={info.row.original} />,
         },
         {
             accessorKey: 'suburb',
@@ -121,16 +108,14 @@ export const ArchivedRto = () => {
         {
             accessorKey: 'action',
             header: () => <span>Action</span>,
-            cell: (info) => {
-                return (
-                    <div className="flex gap-x-1 items-center">
-                        <TableAction
-                            options={tableActionOptions}
-                            rowItem={info.row.original}
-                        />
-                    </div>
-                )
-            },
+            cell: (info) => (
+                <div className="flex gap-x-1 items-center">
+                    <TableAction
+                        options={tableActionOptions}
+                        rowItem={info.row.original}
+                    />
+                </div>
+            ),
         },
     ]
 

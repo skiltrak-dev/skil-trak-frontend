@@ -50,7 +50,13 @@ const EditRTOProfile: NextPageWithLayout = (props: Props) => {
     )
 }
 EditRTOProfile.getLayout = (page: ReactElement) => {
-    return <SubAdminLayout>{page}</SubAdminLayout>
+    return (
+        <SubAdminLayout
+            pageTitle={{ title: 'Edit Profile', navigateBack: true }}
+        >
+            {page}
+        </SubAdminLayout>
+    )
 }
 
 export default EditRTOProfile

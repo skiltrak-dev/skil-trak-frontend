@@ -3,11 +3,14 @@ import Image from 'next/image'
 import { useMediaQuery } from 'react-responsive'
 import classNames from 'classnames'
 import { MediaQueries } from '@constants'
+import { getUserCredentials } from '@utils'
 
 export const HeaderLogo = () => {
     const isMobile = useMediaQuery(MediaQueries.Mobile)
 
     const width = isMobile ? 80 : 140
+
+    const role = getUserCredentials()?.role
     return (
         <Link legacyBehavior href="/">
             <a className="flex-shrink-0">

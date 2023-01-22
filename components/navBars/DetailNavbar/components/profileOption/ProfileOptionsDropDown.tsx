@@ -6,7 +6,7 @@ import { MdLogout } from 'react-icons/md'
 import { useRouter } from 'next/router'
 import { useDispatch } from 'react-redux'
 
-import { subAdminApi } from '@queries'
+import { subAdminApi, rtoApi, commonApi } from '@queries'
 
 export const ProfileOptionsDropDown = ({
     expanded,
@@ -47,6 +47,8 @@ export const ProfileOptionsDropDown = ({
                     onClick={() => {
                         AuthUtils.logout(router)
                         dispatch(subAdminApi.util.resetApiState())
+                        dispatch(rtoApi.util.resetApiState())
+                        dispatch(commonApi.util.resetApiState())
                     }}
                     className="flex items-center gap-x-4 px-4 py-2 hover:bg-red-100 cursor-pointer group"
                 >

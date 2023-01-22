@@ -9,13 +9,13 @@ import {
     UserStatus,
 } from '@types'
 
-const PREFIX = 'rtos/'
+const PREFIX = 'rtos'
 export const studentEndpoints = (
     builder: EndpointBuilder<BaseQueryFn, string, string>
 ) => ({
     studentsImport: builder.mutation<any, any>({
         query: (body) => ({
-            url: `${PREFIX}students/import`,
+            url: `${PREFIX}/students/import`,
             method: 'POST',
             body,
         }),
@@ -23,7 +23,7 @@ export const studentEndpoints = (
     }),
     addStudent: builder.mutation<any, any>({
         query: (body) => ({
-            url: `${PREFIX}student/add`,
+            url: `${PREFIX}/student/add`,
             method: 'POST',
             body,
         }),
@@ -31,8 +31,46 @@ export const studentEndpoints = (
     }),
 
     studentsImportedList: builder.query<any, any>({
-        query: () => `${PREFIX}students/imported-lists`,
+        query: () => `${PREFIX}/students/imported-lists`,
         providesTags: ['Rto-Students'],
     }),
-
+    getRtoStudents: builder.query<any, any>({
+        query: (params) => {
+            return {
+                url: `${PREFIX}/students/list`,
+                params,
+            }
+        },
+        providesTags: ['Rto-Students'],
+    }),
+    getRtoStudentProfile: builder.query<any, any>({
+        query: (id) => {
+            return {
+                url: `${PREFIX}/student/profile/${id}`,
+            }
+        },
+        providesTags: ['Rto-Students'],
+    }),
+    removeRTOStudent: builder.mutation<any, any | null>({
+        query: (id) => {
+            return {
+                url: `${PREFIX}/student/remove/${id}`,
+                method: 'DELETE',
+            }
+        },
+        invalidatesTags: ['Rto-Students'],
+    }),
+    changeRTOStudentsStatus: builder.mutation<
+        any,
+        { id: number; status: string }
+    >({
+        query: ({ id, status }) => {
+            return {
+                url: `${PREFIX}/student-status/update/${id}`,
+                method: 'PATCH',
+                body: { status },
+            }
+        },
+        invalidatesTags: ['Rto-Students'],
+    }),
 })

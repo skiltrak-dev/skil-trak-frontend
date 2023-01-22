@@ -6,6 +6,12 @@ import { studentEndpoints } from './student'
 import { contactPersonEndpoints } from './contactPerson'
 import { coordinatorEndpoints } from './coordinator'
 import { profileEndpoints } from './profile'
+import { appointmentsEndpoints } from './appointments'
+import { assessmentToolsEndpoints } from './assessmentTools'
+import { coursesEndpoints } from './courses'
+import { industriesEndpoints } from './industries'
+import { mouEndpoints } from './mou'
+import { workplaceEndpoints } from './workplace'
 
 export const rtoApi = createApi({
     reducerPath: 'rto',
@@ -19,11 +25,22 @@ export const rtoApi = createApi({
             return headers
         },
     }),
-    tagTypes: ['RTO', 'ContactPersons', 'Rto-Students', 'Rto-Coordinators'],
+    tagTypes: [
+        'RTO',
+        'RTOMOU',
+        'RTOCourses',
+        'Rto-Students',
+        'RTOWorkplace',
+        'RTOIndustries',
+        'ContactPersons',
+        'RTOAppointment',
+        'Rto-Coordinators',
+        'RtoAssessmentToolsList',
+    ],
 
     // ---------- RTO ENDPOINTS ---------- //
     endpoints: (build) => ({
-        profile: build.query<Rto, void>({
+        rtoProfile: build.query<Rto, void>({
             query: () => `rtos/profile/view`,
             providesTags: ['RTO'],
         }),
@@ -31,16 +48,22 @@ export const rtoApi = createApi({
             query: () => `rtos/dashboard/count`,
             providesTags: ['RTO'],
         }),
-        ...contactPersonEndpoints(build),
-        ...studentEndpoints(build),
-        ...coordinatorEndpoints(build),
+        ...mouEndpoints(build),
         ...profileEndpoints(build),
+        ...coursesEndpoints(build),
+        ...studentEndpoints(build),
+        ...workplaceEndpoints(build),
+        ...industriesEndpoints(build),
+        ...coordinatorEndpoints(build),
+        ...appointmentsEndpoints(build),
+        ...contactPersonEndpoints(build),
+        ...assessmentToolsEndpoints(build),
     }),
 })
 
-const {
+export const {
     // ------ SELF ------ //
-    useProfileQuery,
+    useRtoProfileQuery,
     useDashboardQuery,
     useUpdateRTOProfileMutation,
 
@@ -59,11 +82,48 @@ const {
     useRemoveCoordinatorMutation,
     useCoordinatorCreateMutation,
     useGetRtoCoordinatorsDetailQuery,
+
+    // --- APPOINTMENTS --- //
+    useGetRTOAppointmentsQuery,
+    useGetCoordinatorsForRTOQuery,
+    useCreateRTOAppointmentMutation,
+
+    //  --- ASSESSMENT TOOLS --- //
+    useGetAssessmentToolQuery,
+    useGetAssessmentToolDetailQuery,
+    useGetAssessmentToolByCourseQuery,
+    useCreateRtoAssessmentToolsMutation,
+    useUpdateAssessmentToolArchiveMutation,
+    useRemoveRTOAssessmentToolsMutation,
+
+    //  --- COURSES --- //
+    useGetRTOCoursesQuery,
+
+    // --- INDUSTRIES --- //
+    useGetIndustriesListQuery,
+
+    // --- MOU --- //
+    useGetRtoMOUListQuery,
+    useGetRtoMOUDetailQuery,
+    useCreateMOUbyRTOMutation,
+    useAcceptMOUbyRTOMutation,
+    useCancelMOUByRTOMutation,
+    useRejectMOUByRTOMutation,
+
+    // --- STUDENTS --- //
+    useGetRtoStudentsQuery,
+    useRemoveRTOStudentMutation,
+    useGetRtoStudentProfileQuery,
+    useChangeRTOStudentsStatusMutation,
+
+    // --- WORKPLACES --- //
+    useGetRTOWorkplacesQuery,
+    useGetRTOWorkplaceDetailQuery,
 } = rtoApi
 
 export const RtoApi = {
     Rto: {
-        useProfile: useProfileQuery,
+        useProfile: useRtoProfileQuery,
         useContactPersons: useContactPersonsQuery,
         useDashboard: useDashboardQuery,
         useUpdateProfile: useUpdateRTOProfileMutation,

@@ -157,7 +157,7 @@ export const rtoEndpoints = (
         invalidatesTags: ['RTOS'],
     }),
     rtoImportStudents: builder.mutation<any, any>({
-        query: ({id, body}: any) => {
+        query: ({ id, body }: any) => {
             return {
                 url: `${PREFIX}/students/import/${id}`,
                 method: 'POST',
@@ -167,7 +167,7 @@ export const rtoEndpoints = (
         invalidatesTags: ['RTOS'],
     }),
     rtoAddStudent: builder.mutation({
-        query: ({id, body}: any) => {
+        query: ({ id, body }: any) => {
             return {
                 url: `${PREFIX}/student/add/${id}`,
                 method: 'POST',

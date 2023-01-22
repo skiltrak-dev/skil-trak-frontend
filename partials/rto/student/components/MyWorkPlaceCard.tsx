@@ -10,6 +10,10 @@ type Props = {
 }
 
 export const MyWorkPlaceCard = ({ data }: Props) => {
+    const appliedIndustry = data?.workplace[0]?.industries
+        ?.filter((i: any) => i?.applied)
+        ?.slice(0, 1)
+    console.log('data?.workplace', appliedIndustry)
     return (
         <>
             <Card>
@@ -38,7 +42,10 @@ export const MyWorkPlaceCard = ({ data }: Props) => {
                             <div className="flex-shrink-0">
                                 {data?.rto?.user?.avatar ? (
                                     <Image
-                                        src={data?.rto?.user?.avatar}
+                                        src={
+                                            appliedIndustry[0]?.industry?.user
+                                                ?.avatar
+                                        }
                                         width={100}
                                         height={100}
                                         alt=""
@@ -52,117 +59,99 @@ export const MyWorkPlaceCard = ({ data }: Props) => {
                                     </div>
                                 )}
                             </div>
-                            {data?.workplace[0]?.industries?.map(
-                                (workplace: any) =>
-                                    workplace?.applied && (
-                                        <>
-                                            <div key={data?.workplace?.[0]?.id}>
+                            {appliedIndustry?.map((workplace: any) => (
+                                <>
+                                    <div key={data?.workplace?.[0]?.id}>
+                                        <div>
+                                            <p className="font-medium">
+                                                {
+                                                    workplace?.industry?.user
+                                                        ?.name
+                                                }
+                                            </p>
+                                            <p className="text-slate-400 text-sm">
+                                                {
+                                                    workplace?.industry?.user
+                                                        ?.email
+                                                }
+                                            </p>
+                                        </div>
+
+                                        <div className="flex gap-x-3 mt-1 border-t pt-2">
+                                            <div className="flex items-center gap-x-1">
+                                                <span className="text-gray-400">
+                                                    <MdPermContactCalendar
+                                                        size={14}
+                                                    />
+                                                </span>
+                                                <span className="text-xs">
+                                                    {
+                                                        workplace?.industry
+                                                            ?.user?.name
+                                                    }
+                                                </span>
+                                            </div>
+                                            <div className="flex items-center gap-x-1">
+                                                <span className="text-gray-400">
+                                                    <MdPhone size={14} />
+                                                </span>
+                                                <span className="text-xs">
+                                                    {
+                                                        workplace?.industry
+                                                            ?.phoneNumber
+                                                    }
+                                                </span>
+                                            </div>
+                                        </div>
+
+                                        <div className="mt-2">
+                                            <p className="text-[11px] text-gray-400">
+                                                Contact Person
+                                            </p>
+                                            <div className="flex justify-between gap-x-4">
                                                 <div>
-                                                    <p className="font-medium">
-                                                        {
-                                                            workplace?.industry
-                                                                ?.user?.name
-                                                        }
+                                                    <p className="font-medium text-sm">
+                                                        {workplace?.industry
+                                                            ?.contactPerson ||
+                                                            'N/A'}
                                                     </p>
-                                                    <p className="text-slate-400 text-sm">
-                                                        {
-                                                            workplace?.industry
-                                                                ?.user?.email
-                                                        }
+                                                    <p className="text-xs font-medium text-slate-400">
+                                                        {/* smith@tandoori.com.au */}
+                                                        {workplace?.industry
+                                                            ?.contactPersonNumber ||
+                                                            'N/A'}
                                                     </p>
-                                                </div>
-
-                                                <div className="flex gap-x-3 mt-1 border-t pt-2">
-                                                    <div className="flex items-center gap-x-1">
-                                                        <span className="text-gray-400">
-                                                            <MdPermContactCalendar
-                                                                size={14}
-                                                            />
-                                                        </span>
-                                                        <span className="text-xs">
-                                                            {
-                                                                workplace
-                                                                    ?.industry
-                                                                    ?.user?.name
-                                                            }
-                                                        </span>
-                                                    </div>
-                                                    <div className="flex items-center gap-x-1">
-                                                        <span className="text-gray-400">
-                                                            <MdPhone
-                                                                size={14}
-                                                            />
-                                                        </span>
-                                                        <span className="text-xs">
-                                                            {
-                                                                workplace
-                                                                    ?.industry
-                                                                    ?.phoneNumber
-                                                            }
-                                                        </span>
-                                                    </div>
-                                                </div>
-
-                                                <div className="mt-2">
-                                                    <p className="text-[11px] text-gray-400">
-                                                        Contact Person
-                                                    </p>
-                                                    <div className="flex justify-between gap-x-4">
-                                                        <div>
-                                                            <p className="font-medium text-sm">
-                                                                {workplace
-                                                                    ?.industry
-                                                                    ?.contactPerson ||
-                                                                    'N/A'}
-                                                            </p>
-                                                            <p className="text-xs font-medium text-slate-400">
-                                                                {/* smith@tandoori.com.au */}
-                                                                {workplace
-                                                                    ?.industry
-                                                                    ?.contactPersonNumber ||
-                                                                    'N/A'}
-                                                            </p>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div className="flex gap-x-3 mt-1 border-t pt-2">
-                                                    <div className="flex items-center gap-x-1">
-                                                        <span className="text-gray-400">
-                                                            <FaMapMarkerAlt
-                                                                size={14}
-                                                            />
-                                                        </span>
-                                                        <span className="text-xs">
-                                                            {
-                                                                workplace
-                                                                    ?.industry
-                                                                    ?.addressLine1
-                                                            }
-                                                            ,{' '}
-                                                            {
-                                                                workplace
-                                                                    ?.industry
-                                                                    ?.addressLine2
-                                                            }
-                                                            ,{' '}
-                                                            {
-                                                                workplace
-                                                                    ?.industry
-                                                                    ?.suburb
-                                                            }
-                                                            ,{' '}
-                                                            {
-                                                                workplace
-                                                                    ?.industry
-                                                                    ?.state
-                                                            }
-                                                        </span>
-                                                    </div>
                                                 </div>
                                             </div>
-                                        </>
-                                    )
-                            )}
+                                        </div>
+                                        <div className="flex gap-x-3 mt-1 border-t pt-2">
+                                            <div className="flex items-center gap-x-1">
+                                                <span className="text-gray-400">
+                                                    <FaMapMarkerAlt size={14} />
+                                                </span>
+                                                <span className="text-xs">
+                                                    {
+                                                        workplace?.industry
+                                                            ?.addressLine1
+                                                    }
+                                                    ,{' '}
+                                                    {
+                                                        workplace?.industry
+                                                            ?.addressLine2
+                                                    }
+                                                    ,{' '}
+                                                    {
+                                                        workplace?.industry
+                                                            ?.suburb
+                                                    }
+                                                    ,{' '}
+                                                    {workplace?.industry?.state}
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </>
+                            ))}
                         </div>
                     </div>
                 ) : (

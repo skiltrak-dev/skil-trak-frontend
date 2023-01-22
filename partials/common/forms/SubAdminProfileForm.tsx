@@ -128,7 +128,6 @@ export const SubAdminProfileForm = ({
                                 placeholder={'Your Address ...'}
                                 validationIcons
                             />
-                            Khan babababa
                             <div>
                                 <Button
                                     text={'Update'}

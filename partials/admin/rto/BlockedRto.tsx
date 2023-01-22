@@ -1,12 +1,9 @@
-import { useRouter } from 'next/router'
 import {
     ActionButton,
     Button,
     Card,
     EmptyData,
-    Filter,
     LoadingAnimation,
-    RtoFilters,
     Table,
     TableAction,
     TableActionOption,
@@ -14,6 +11,7 @@ import {
 } from '@components'
 import { PageHeading } from '@components/headings'
 import { ColumnDef } from '@tanstack/react-table'
+import { useRouter } from 'next/router'
 import { FaEdit, FaEye, FaFileExport, FaTrash } from 'react-icons/fa'
 
 import { AdminApi } from '@queries'
@@ -85,9 +83,7 @@ export const BlockedRto = () => {
     const columns: ColumnDef<any>[] = [
         {
             accessorKey: 'user.name',
-            cell: (info) => {
-                return <RtoCellInfo rto={info.row.original} />
-            },
+            cell: (info) => <RtoCellInfo rto={info.row.original} />,
             header: () => <span>Name</span>,
         },
         {
@@ -103,9 +99,7 @@ export const BlockedRto = () => {
         {
             accessorKey: 'sectors',
             header: () => <span>Sectors</span>,
-            cell: (info) => {
-                return <SectorCell rto={info.row.original} />
-            },
+            cell: (info) => <SectorCell rto={info.row.original} />,
         },
         {
             accessorKey: 'suburb',
@@ -115,16 +109,14 @@ export const BlockedRto = () => {
         {
             accessorKey: 'action',
             header: () => <span>Action</span>,
-            cell: (info) => {
-                return (
-                    <div className="flex gap-x-1 items-center">
-                        <TableAction
-                            options={tableActionOptions}
-                            rowItem={info.row.original}
-                        />
-                    </div>
-                )
-            },
+            cell: (info) => (
+                <div className="flex gap-x-1 items-center">
+                    <TableAction
+                        options={tableActionOptions}
+                        rowItem={info.row.original}
+                    />
+                </div>
+            ),
         },
     ]
 

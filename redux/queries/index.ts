@@ -1,5 +1,4 @@
 export * from './auth'
-export * from './rto'
 export * from './students'
 export * from './portals'
 export * from './industry'

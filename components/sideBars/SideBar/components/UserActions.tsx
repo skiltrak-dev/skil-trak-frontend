@@ -11,7 +11,7 @@ import { SideBarItem } from '@components/sideBars/SideBarItem'
 
 import Image from 'next/image'
 import { useDispatch } from 'react-redux'
-import { adminApi } from '@queries'
+import { adminApi, commonApi } from '@queries'
 
 export const UserActions = () => {
     const router = useRouter()
@@ -42,6 +42,7 @@ export const UserActions = () => {
             onClick: () => {
                 AuthUtils.logout(router)
                 dispatch(adminApi.util.resetApiState())
+                dispatch(commonApi.util.resetApiState())
             },
             Icon: IoLogOut,
             color: true,

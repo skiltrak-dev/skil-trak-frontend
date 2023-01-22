@@ -27,11 +27,17 @@ export const subAdminApi = createApi({
         },
     }),
     tagTypes: [
-        'SubAdmin',
         'Notes',
-        'SubAdminWorkplace',
-        'SubAdminStudents',
+        'Setting',
+        'SubAdmin',
         'Statistics',
+        'Appointment',
+        'SetSchedule',
+        'SubAdminRtos',
+        'SubAdminStudents',
+        'SubAdminWorkplace',
+        'AssessmentEvidence',
+        'SubAdminIndustries',
     ],
 
     // ---------- Sub Admin ENDPOINTS ---------- //

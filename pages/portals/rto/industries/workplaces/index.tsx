@@ -132,7 +132,7 @@ const RtoWorkplaces: NextPageWithLayout = (props: Props) => {
         },
         {
             header: () => 'Address',
-            accessorKey: 'industry.abn',
+            accessorKey: 'address',
             cell: ({ row }) => {
                 const { addressLine1, addressLine2 } = row.original.industry
                 return `${addressLine1} ${addressLine2}`

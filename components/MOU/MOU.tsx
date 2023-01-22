@@ -163,12 +163,6 @@ export const MOUDetailContainer = forwardRef(
                                                     }
                                                 />
                                             )}
-                                            <Button
-                                                text={'Text'}
-                                                onClick={() => {
-                                                    saveContent('Saad Khan')
-                                                }}
-                                            />
                                         </>
                                     ) : (
                                         <>

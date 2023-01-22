@@ -1,6 +1,8 @@
 import classNames from 'classnames'
-import Image from 'next/image'
 import { useState } from 'react'
+
+// utils
+import { trimText } from '@utils'
 
 interface InitialAvatarProps {
     first?: boolean
@@ -50,7 +52,7 @@ export const InitialAvatar = ({
     small,
 }: InitialAvatarProps) => {
     // const backgroundColor = 'bg-indigo-800'
-    const initials = name?.split(' ')
+    const initials = trimText(name)?.split(' ')
     const [zoomImage, setZoomImage] = useState(false)
     const backgroundColor = (BgColors as any)[
         initials[0].charAt(0).toLowerCase()
