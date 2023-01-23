@@ -4,19 +4,22 @@ import moment from 'moment'
 // icons
 import { AiFillEdit } from 'react-icons/ai'
 import { BiRename } from 'react-icons/bi'
+import { BsUnlockFill } from 'react-icons/bs'
 import { FaAddressCard, FaBirthdayCake, FaUserCircle } from 'react-icons/fa'
 import { IoLocation } from 'react-icons/io5'
-import { MdBatchPrediction, MdBlock, MdPhone, MdVerified } from 'react-icons/md'
-// queries
+import { MdBatchPrediction, MdPhone, MdVerified } from 'react-icons/md'
 
+// hooks
+import { useActionModal } from '@hooks'
+
+// queries
 import { StudentAvatar } from '@components/avatars'
-import { Student } from '@types'
-import { StudentStatus } from './StudentStatus'
-import { useState } from 'react'
-import { EditPassword } from './EditPassword'
-import { useRouter } from 'next/router'
 import { BlockModal } from '@partials/sub-admin/students/modals'
+import { Student } from '@types'
 import { getUserCredentials } from '@utils'
+import { useRouter } from 'next/router'
+import { useState } from 'react'
+import { StudentStatus } from './StudentStatus'
 
 const getGender = (gender: string | undefined) => {
     if (!gender) return 'N/A'
@@ -25,33 +28,16 @@ const getGender = (gender: string | undefined) => {
     if (gender.toLocaleLowerCase() === 'f') return 'Female'
 }
 export const SubAdminStudentProfile = ({ student }: { student: Student }) => {
-    const [modal, setModal] = useState<any | null>(null)
     const router = useRouter()
 
-    const onEditClicked = () => {
-        setModal(
-            <EditPassword student={student} onCancel={() => setModal(null)} />
-        )
-    }
-
-    const onModalCancelClicked = () => {
-        setModal(null)
-    }
-    const onBlockClicked = (student: Student) => {
-        setModal(
-            <BlockModal
-                item={student}
-                onCancel={() => onModalCancelClicked()}
-            />
-        )
-    }
+    const { passwordModal, onUpdatePassword } = useActionModal()
 
     const role = getUserCredentials()?.role
     return (
         <div>
-            {modal && modal}
-            <div className="flex justify-between items-center">
-                <div className="flex justify-end gap-x-2">
+            {passwordModal && passwordModal}
+            <div className="relative flex flex-col items-center">
+                <div className="flex items-center gap-x-2 absolute top-0 right-0">
                     <div
                         className="bg-blue-100 rounded-full p-1"
                         onClick={() => {
@@ -65,22 +51,12 @@ export const SubAdminStudentProfile = ({ student }: { student: Student }) => {
                         <AiFillEdit className="text-blue-400  cursor-pointer" />
                     </div>
                     <div
-                        className="bg-red-100 rounded-full p-1"
-                        onClick={() => {
-                            onBlockClicked(student)
-                        }}
+                        className="bg-blue-100 rounded-full p-1"
+                        onClick={() => onUpdatePassword(student)}
                     >
-                        <MdBlock className="text-red-400  cursor-pointer bg-red-100 rounded-full" />
+                        <BsUnlockFill className="text-blue-400  cursor-pointer" />
                     </div>
                 </div>
-                <div
-                    className="bg-blue-100 rounded-full p-1"
-                    onClick={onEditClicked}
-                >
-                    <AiFillEdit className="text-blue-400  cursor-pointer " />
-                </div>
-            </div>
-            <div className="flex flex-col items-center">
                 <StudentAvatar
                     name={student?.user.name}
                     imageUrl={student?.user?.avatar}

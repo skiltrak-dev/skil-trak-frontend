@@ -11,7 +11,7 @@ export const ArchiveModal = ({
     item,
     onCancel,
 }: {
-    item: Rto | undefined
+    item: Rto | undefined | null
     onCancel: Function
 }) => {
     const { alert } = useAlert()

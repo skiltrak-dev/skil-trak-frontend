@@ -10,11 +10,11 @@ import {
     Select,
     ShowErrorNotifications,
     TextInput,
-    Typography
+    Typography,
 } from '@components'
 
 // hooks
-import { useContextBar, useNotification } from '@hooks'
+import { useActionModal, useContextBar, useNotification } from '@hooks'
 
 // utills
 import { AuthApi } from '@queries'
@@ -40,6 +40,8 @@ export const IndustryProfileFrom = ({
     const [sectors, setSectors] = useState<any | null>(null)
     const [courseOptions, setCourseOptions] = useState([])
     const [courseDefaultOptions, setCourseDefaultOptions] = useState([])
+
+    const { onUpdatePassword, passwordModal } = useActionModal()
 
     const sectorOptions = sectorResponse?.data
         ? sectorResponse.data?.map((sector: any) => ({
@@ -192,7 +194,14 @@ export const IndustryProfileFrom = ({
     }, [profile])
     return (
         <Card>
+            {passwordModal && passwordModal}
             <ShowErrorNotifications result={result} />
+            <div className="mb-3 flex justify-end">
+                <Button
+                    text={'Update Password'}
+                    onClick={() => onUpdatePassword(profile?.data)}
+                />
+            </div>
             <FormProvider {...formMethods}>
                 <form
                     className="flex flex-col gap-y-4"

@@ -25,14 +25,6 @@ export const StudentLayout = ({ pageTitle, children }: StudentLayoutProps) => {
     const userData = getUserCredentials()
     const joyride = useJoyRide()
 
-    const token = AuthUtils.getToken()
-    const status = AuthUtils.getUserCredentials()?.status
-    useEffect(() => {
-        if (token && status !== 'approved') {
-            router?.push('/portals/student')
-        }
-    }, [router, token])
-
     useEffect(() => {
         if (userData?.status === 'pending') {
             alert.warning({

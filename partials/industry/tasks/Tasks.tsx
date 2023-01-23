@@ -3,8 +3,9 @@ import { useEffect } from 'react'
 // Components
 import {
     Card,
-    CircularProgresbar,
     Typography,
+    RedirectUser,
+    CircularProgresbar,
     DisplayPrimaryActions,
 } from '@components'
 
@@ -14,6 +15,7 @@ import { useContextBar } from 'hooks'
 // Colors
 import { Animations } from '@animations'
 import { AdForRPL } from '@components/sections'
+import { AuthUtils } from '@utils'
 
 export const TaskPrimaryActions = [
     {
@@ -40,6 +42,13 @@ export const TaskPrimaryActions = [
 
 export const TasksContainer = () => {
     const { setContent } = useContextBar()
+
+    const status = AuthUtils.getUserCredentials()?.status
+    // useEffect(() => {
+    //     if (token && status !== 'approved') {
+    //         router?.push('/portals/industry')
+    //     }
+    // }, [router, token])
 
     useEffect(() => {
         setContent(null)

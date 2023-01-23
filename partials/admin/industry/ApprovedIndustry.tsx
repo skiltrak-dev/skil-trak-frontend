@@ -2,27 +2,22 @@ import {
     ActionButton,
     Button,
     Card,
-    EmptyData,
-    Filter,
-    LoadingAnimation,
-    IndustryFilters,
-    Table,
+    EmptyData, LoadingAnimation, Table,
     TableAction,
     TableActionOption,
-    TechnicalError,
+    TechnicalError
 } from '@components'
 import { PageHeading } from '@components/headings'
 import { ColumnDef } from '@tanstack/react-table'
 import { FaEdit, FaEye, FaFileExport } from 'react-icons/fa'
 
-import { RtoCellInfo } from '@partials/admin/rto/components'
 import { AdminApi } from '@queries'
 import { Industry } from '@types'
+import { useRouter } from 'next/router'
 import { ReactElement, useState } from 'react'
 import { MdBlock } from 'react-icons/md'
-import { IndustryCell, ProgressCell, SectorCell } from './components'
+import { IndustryCell } from './components'
 import { BlockModal } from './modals'
-import { useRouter } from 'next/router'
 
 // hooks
 import { useActionModal } from '@hooks'

@@ -8,9 +8,11 @@ import { useChangeStatus } from '../hooks'
 export const BlockModal = ({
     item,
     onCancel,
+    setResult,
 }: {
     item: Student
     onCancel: Function
+    setResult?: Function
 }) => {
     const { alert } = useAlert()
     const { notification } = useNotification()
@@ -19,6 +21,12 @@ export const BlockModal = ({
     const onConfirmClicked = async (item: Student) => {
         await onBlock(item)
     }
+
+    useEffect(() => {
+        if (setResult) {
+            setResult(changeStatusResult)
+        }
+    }, [changeStatusResult])
 
     useEffect(() => {
         if (changeStatusResult.isSuccess) {

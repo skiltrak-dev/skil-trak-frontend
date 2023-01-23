@@ -23,6 +23,8 @@ import {
 import { BiPackage, BiRename } from 'react-icons/bi'
 import { useRouter } from 'next/router'
 import { CourseList } from '@partials/common'
+import { BsUnlockFill } from 'react-icons/bs'
+import { useActionModal } from '@hooks'
 
 const getSectors = (courses: any) => {
     if (!courses) return {}
@@ -41,251 +43,285 @@ const getSectors = (courses: any) => {
 export const ViewProfileCB = () => {
     const router = useRouter()
 
+    const { onUpdatePassword, passwordModal } = useActionModal()
+
     const { data: rto, isLoading } = RtoApi.Rto.useProfile()
 
     const sectorsWithCourses = getSectors(rto?.courses)
-    return isLoading ? (
-        <LoadingAnimation />
-    ) : (
-        <div>
-            <div className="flex justify-end gap-x-2">
-                <div className="bg-blue-100 rounded-full p-1">
-                    <AiFillEdit
-                        className="text-blue-400  cursor-pointer"
-                        onClick={() => router.push('/portals/rto/my-profile')}
-                    />
-                </div>
-                {/* <div className="bg-red-100 rounded-full p-1">
-                    <MdBlock className="text-red-400  cursor-pointer bg-red-100 rounded-full" />
-                </div> */}
-            </div>
-            <div className="flex flex-col items-center">
-                <div className="relative">
-                    {rto?.user.avatar ? (
-                        <Image
-                            src={rto?.user.avatar}
-                            width={100}
-                            height={100}
-                            alt=""
-                            className="rounded-full shadow-inner-image"
-                        />
-                    ) : (
-                        <div className="h-24 w-24 flex items-center justify-center bg-gray-100 rounded-full">
-                            <span className="text-4xl text-gray-300">
-                                <FaSchool />
-                            </span>
+    return (
+        <>
+            {passwordModal && passwordModal}
+            {isLoading ? (
+                <LoadingAnimation />
+            ) : (
+                <div>
+                    <div className="flex justify-end gap-x-2">
+                        <div className="bg-blue-100 rounded-full p-1">
+                            <AiFillEdit
+                                className="text-blue-400  cursor-pointer"
+                                onClick={() =>
+                                    router.push('/portals/rto/my-profile')
+                                }
+                            />
                         </div>
-                    )}
-                    <div
-                        className={`${
-                            rto?.user.avatar
-                                ? 'w-[100px] h-[100px]'
-                                : 'w-24 h-24'
-                        } absolute top-0 left-0 bg-transparent rounded-full shadow-inner-image`}
-                    ></div>
-                </div>
-
-                <div className="flex flex-col items-center mt-2">
-                    <p className="text-md font-semibold">{rto?.user?.name}</p>
-                    <div className="flex items-center gap-x-2">
-                        <p className="text-sm text-gray-400">
-                            {rto?.user?.email}
-                        </p>
-                        <span className="text-blue-500">
-                            <MdVerified />
-                        </span>
-                    </div>
-                </div>
-            </div>
-
-            {/* Info Row 1 */}
-            <div className="flex justify-between divide-x border-b mt-4">
-                <div className="p-1">
-                    <div className="flex items-center space-x-2">
-                        <span className="text-gray-300">
-                            <FaAddressCard />
-                        </span>
-                        <p className="text-xs font-medium">{rto?.rtoCode}</p>
-                    </div>
-                    <div className="text-gray-400 text-[11px] -mt-0.5 text-center">
-                        RTO CODE
-                    </div>
-                </div>
-
-                <div className="p-1">
-                    <div className="flex items-center space-x-2">
-                        <span className="text-gray-300">
-                            <MdPhone />
-                        </span>
-                        <p className="text-xs font-medium">{rto?.phone}</p>
-                    </div>
-                    <div className="text-gray-400 text-[11px] -mt-0.5 text-center">
-                        Phone Number
-                    </div>
-                </div>
-                <div className="p-1">
-                    <div className="flex items-center space-x-2">
-                        <span className="text-gray-300">
-                            <GiBackwardTime />
-                        </span>
-                        <p className="text-xs font-medium">NA</p>
-                    </div>
-                    <div className="text-gray-400 text-[11px] -mt-0.5 text-center">
-                        Last Login
-                    </div>
-                </div>
-            </div>
-
-            {/* Info Row 3 */}
-            <div className="flex justify-around mb-2">
-                <div className="p-2">
-                    <div className="flex items-center space-x-2">
-                        <span className="text-gray-300">
-                            <IoLocation />
-                        </span>
-                        <p className="text-xs">
-                            {rto?.addressLine1}, {rto?.addressLine2},{' '}
-                            {rto?.state}, {rto?.suburb}
-                        </p>
-                    </div>
-                    {/* <div className="text-gray-400 text-[11px] -mt-0.5 text-center">
-          Address
-        </div> */}
-                </div>
-            </div>
-
-            {/* contact person row 4 */}
-            <div className="mb-2">
-                <Typography variant={'small'} color={'text-gray-500'}>
-                    Contact Person
-                </Typography>
-                <div className="flex justify-around divide-x border-t border-b">
-                    <div className="p-2">
-                        <div className="flex items-center gap-x-2">
-                            <BiRename className="text-gray-400" />
-                            <Typography
-                                variant={'small'}
-                                color={'text-gray-400'}
-                            >
-                                Name
-                            </Typography>
+                        <div
+                            className="bg-blue-100 rounded-full p-1"
+                            onClick={() => onUpdatePassword(rto)}
+                        >
+                            <BsUnlockFill className="text-blue-400  cursor-pointer" />
                         </div>
-                        <Typography variant={'small'} color={'text-black'}>
-                            {/* {rto?.contactPerson || "NA"} */}
-                            {'Not Available'}
-                        </Typography>
                     </div>
-                    <div className="p-2">
-                        <div className="flex items-center gap-x-2">
-                            <FaPhoneAlt className="text-gray-400" />
-                            <Typography
-                                variant={'small'}
-                                color={'text-gray-400'}
-                            >
-                                Phone
-                            </Typography>
+                    <div className="flex flex-col items-center">
+                        <div className="relative">
+                            {rto?.user.avatar ? (
+                                <Image
+                                    src={rto?.user.avatar}
+                                    width={100}
+                                    height={100}
+                                    alt=""
+                                    className="rounded-full shadow-inner-image"
+                                />
+                            ) : (
+                                <div className="h-24 w-24 flex items-center justify-center bg-gray-100 rounded-full">
+                                    <span className="text-4xl text-gray-300">
+                                        <FaSchool />
+                                    </span>
+                                </div>
+                            )}
+                            <div
+                                className={`${
+                                    rto?.user.avatar
+                                        ? 'w-[100px] h-[100px]'
+                                        : 'w-24 h-24'
+                                } absolute top-0 left-0 bg-transparent rounded-full shadow-inner-image`}
+                            ></div>
                         </div>
-                        <Typography variant={'small'} color={'text-black'}>
-                            {/* {rto?.contactPersonNumber || "N/A"} */}
-                            {'Not Available'}
+
+                        <div className="flex flex-col items-center mt-2">
+                            <p className="text-md font-semibold">
+                                {rto?.user?.name}
+                            </p>
+                            <div className="flex items-center gap-x-2">
+                                <p className="text-sm text-gray-400">
+                                    {rto?.user?.email}
+                                </p>
+                                <span className="text-blue-500">
+                                    <MdVerified />
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* Info Row 1 */}
+                    <div className="flex justify-between divide-x border-b mt-4">
+                        <div className="p-1">
+                            <div className="flex items-center space-x-2">
+                                <span className="text-gray-300">
+                                    <FaAddressCard />
+                                </span>
+                                <p className="text-xs font-medium">
+                                    {rto?.rtoCode}
+                                </p>
+                            </div>
+                            <div className="text-gray-400 text-[11px] -mt-0.5 text-center">
+                                RTO CODE
+                            </div>
+                        </div>
+
+                        <div className="p-1">
+                            <div className="flex items-center space-x-2">
+                                <span className="text-gray-300">
+                                    <MdPhone />
+                                </span>
+                                <p className="text-xs font-medium">
+                                    {rto?.phone}
+                                </p>
+                            </div>
+                            <div className="text-gray-400 text-[11px] -mt-0.5 text-center">
+                                Phone Number
+                            </div>
+                        </div>
+                        <div className="p-1">
+                            <div className="flex items-center space-x-2">
+                                <span className="text-gray-300">
+                                    <GiBackwardTime />
+                                </span>
+                                <p className="text-xs font-medium">NA</p>
+                            </div>
+                            <div className="text-gray-400 text-[11px] -mt-0.5 text-center">
+                                Last Login
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* Info Row 3 */}
+                    <div className="flex justify-around mb-2">
+                        <div className="p-2">
+                            <div className="flex items-center space-x-2">
+                                <span className="text-gray-300">
+                                    <IoLocation />
+                                </span>
+                                <p className="text-xs">
+                                    {rto?.addressLine1}, {rto?.addressLine2},{' '}
+                                    {rto?.state}, {rto?.suburb}
+                                </p>
+                            </div>
+                            {/* <div className="text-gray-400 text-[11px] -mt-0.5 text-center">
+                      Address
+                    </div> */}
+                        </div>
+                    </div>
+
+                    {/* contact person row 4 */}
+                    <div className="mb-2">
+                        <Typography variant={'small'} color={'text-gray-500'}>
+                            Contact Person
                         </Typography>
-                    </div>
-                </div>
-            </div>
-            {/* rto Package */}
-            <div className="mt-4">
-                <Typography variant={'small'} color={'text-gray-500'}>
-                    RTO Package
-                </Typography>
-            </div>
-            <div className="flex justify-around divide-x border-t border-b">
-                <div className="p-2">
-                    <div className="flex items-center gap-x-2">
-                        <BiPackage className="text-gray-400" />
-                        <Typography variant={'small'} color={'text-gray-400'}>
-                            Package Name
-                        </Typography>
-                    </div>
-                    <Typography variant={'small'} color={'text-black'}>
-                        {rto?.package?.name || 'N/A'}
-                    </Typography>
-                    <Typography variant={'small'} color={'text-black'}>
-                        {ellipsisText(rto?.package?.shortDescription, 15) ||
-                            'N/A'}
-                    </Typography>
-                </div>
-                <div className="p-2">
-                    <div className="flex items-center gap-x-2">
-                        <FaMoneyBill className="text-gray-400" />
-                        <Typography variant={'small'} color={'text-gray-400'}>
-                            Billing Type
-                        </Typography>
-                    </div>
-                    <Typography variant={'small'} color={'text-black'}>
-                        {rto?.package?.billingType || 'N/A'}
-                    </Typography>
-                </div>
-            </div>
-
-            {/* placement coordinator row 5 */}
-            <div className="mb-2">
-                <p className="text-[11px] text-gray-400">
-                    Placement Coordinators
-                </p>
-                <div className="flex justify-between gap-x-2">
-                    <div>
-                        <p className="font-medium text-sm">
-                            {rto?.subadmin[0]?.user.name}
-                        </p>
-                        <p className="text-xs font-medium text-slate-400">
-                            {rto?.subadmin[0]?.user.email}
-                        </p>
-                    </div>
-
-                    {rto?.subadmin.length && (
-                        <InitialAvatarContainer show={3}>
-                            {rto?.subadmin.map((coordinator: any) => (
-                                <>
-                                    <InitialAvatar
-                                        name={coordinator?.user?.name}
-                                        first
-                                    />
-                                </>
-                            ))}
-                        </InitialAvatarContainer>
-                    )}
-                </div>
-            </div>
-
-            {/* Eligible sectors */}
-            <div className="mt-4">
-                <Typography variant={'small'} color={'text-gray-500'}>
-                    Eligible Sectors
-                </Typography>
-
-                {sectorsWithCourses ? (
-                    Object.keys(sectorsWithCourses).map((sector) => {
-                        return (
-                            <>
+                        <div className="flex justify-around divide-x border-t border-b">
+                            <div className="p-2">
+                                <div className="flex items-center gap-x-2">
+                                    <BiRename className="text-gray-400" />
+                                    <Typography
+                                        variant={'small'}
+                                        color={'text-gray-400'}
+                                    >
+                                        Name
+                                    </Typography>
+                                </div>
                                 <Typography
-                                    variant={'label'}
+                                    variant={'small'}
                                     color={'text-black'}
                                 >
-                                    {sector}
+                                    {/* {rto?.contactPerson || "NA"} */}
+                                    {'Not Available'}
                                 </Typography>
+                            </div>
+                            <div className="p-2">
+                                <div className="flex items-center gap-x-2">
+                                    <FaPhoneAlt className="text-gray-400" />
+                                    <Typography
+                                        variant={'small'}
+                                        color={'text-gray-400'}
+                                    >
+                                        Phone
+                                    </Typography>
+                                </div>
+                                <Typography
+                                    variant={'small'}
+                                    color={'text-black'}
+                                >
+                                    {/* {rto?.contactPersonNumber || "N/A"} */}
+                                    {'Not Available'}
+                                </Typography>
+                            </div>
+                        </div>
+                    </div>
+                    {/* rto Package */}
+                    <div className="mt-4">
+                        <Typography variant={'small'} color={'text-gray-500'}>
+                            RTO Package
+                        </Typography>
+                    </div>
+                    <div className="flex justify-around divide-x border-t border-b">
+                        <div className="p-2">
+                            <div className="flex items-center gap-x-2">
+                                <BiPackage className="text-gray-400" />
+                                <Typography
+                                    variant={'small'}
+                                    color={'text-gray-400'}
+                                >
+                                    Package Name
+                                </Typography>
+                            </div>
+                            <Typography variant={'small'} color={'text-black'}>
+                                {rto?.package?.name || 'N/A'}
+                            </Typography>
+                            <Typography variant={'small'} color={'text-black'}>
+                                {ellipsisText(
+                                    rto?.package?.shortDescription,
+                                    15
+                                ) || 'N/A'}
+                            </Typography>
+                        </div>
+                        <div className="p-2">
+                            <div className="flex items-center gap-x-2">
+                                <FaMoneyBill className="text-gray-400" />
+                                <Typography
+                                    variant={'small'}
+                                    color={'text-gray-400'}
+                                >
+                                    Billing Type
+                                </Typography>
+                            </div>
+                            <Typography variant={'small'} color={'text-black'}>
+                                {rto?.package?.billingType || 'N/A'}
+                            </Typography>
+                        </div>
+                    </div>
 
-                                <CourseList
-                                    courses={
-                                        (sectorsWithCourses as any)[sector]
-                                    }
-                                />
-                            </>
-                        )
-                    })
-                ) : (
-                    <NoData text={'No Sectors Assigned'} />
-                )}
-            </div>
-        </div>
+                    {/* placement coordinator row 5 */}
+                    <div className="mb-2">
+                        <p className="text-[11px] text-gray-400">
+                            Placement Coordinators
+                        </p>
+                        <div className="flex justify-between gap-x-2">
+                            <div>
+                                <p className="font-medium text-sm">
+                                    {rto?.subadmin[0]?.user.name}
+                                </p>
+                                <p className="text-xs font-medium text-slate-400">
+                                    {rto?.subadmin[0]?.user.email}
+                                </p>
+                            </div>
+
+                            {rto?.subadmin.length && (
+                                <InitialAvatarContainer show={3}>
+                                    {rto?.subadmin.map((coordinator: any) => (
+                                        <>
+                                            <InitialAvatar
+                                                name={coordinator?.user?.name}
+                                                first
+                                            />
+                                        </>
+                                    ))}
+                                </InitialAvatarContainer>
+                            )}
+                        </div>
+                    </div>
+
+                    {/* Eligible sectors */}
+                    <div className="mt-4">
+                        <Typography variant={'small'} color={'text-gray-500'}>
+                            Eligible Sectors
+                        </Typography>
+
+                        {sectorsWithCourses ? (
+                            Object.keys(sectorsWithCourses).map((sector) => {
+                                return (
+                                    <>
+                                        <Typography
+                                            variant={'label'}
+                                            color={'text-black'}
+                                        >
+                                            {sector}
+                                        </Typography>
+
+                                        <CourseList
+                                            courses={
+                                                (sectorsWithCourses as any)[
+                                                    sector
+                                                ]
+                                            }
+                                        />
+                                    </>
+                                )
+                            })
+                        ) : (
+                            <NoData text={'No Sectors Assigned'} />
+                        )}
+                    </div>
+                </div>
+            )}
+        </>
     )
 }

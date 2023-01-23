@@ -9,7 +9,7 @@ export const UnblockModal = ({
     rto,
     onCancel,
 }: {
-    rto: Rto
+    rto: Rto | undefined | null
     onCancel: Function
 }) => {
     const { alert } = useAlert()
@@ -24,7 +24,7 @@ export const UnblockModal = ({
         if (changeStatusResult.isSuccess) {
             alert.warning({
                 title: `RTO Unblocked`,
-                description: `RTO "${rto.user.name}" has been unblocked.`,
+                description: `RTO "${rto?.user.name}" has been unblocked.`,
             })
             onCancel()
         }
@@ -41,11 +41,11 @@ export const UnblockModal = ({
             Icon={CgUnblock}
             variant="primary"
             title="Are you sure!"
-            description={`You are about to unblock <em>"${rto.user.name}"</em>. Do you wish to continue?`}
+            description={`You are about to unblock <em>"${rto?.user?.name}"</em>. Do you wish to continue?`}
             onConfirm={onConfirmClicked}
             onCancel={onCancel}
             input
-            inputKey={rto.user.email}
+            inputKey={rto?.user?.email}
             actionObject={rto}
             loading={changeStatusResult.isLoading}
         />

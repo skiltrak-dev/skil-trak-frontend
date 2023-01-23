@@ -11,7 +11,7 @@ export const AcceptModal = ({
     industry,
     onCancel,
 }: {
-    industry: Industry
+    industry: Industry | undefined | null
     onCancel: Function
 }) => {
     const { alert } = useAlert()
@@ -26,7 +26,7 @@ export const AcceptModal = ({
         if (changeStatusResult.isSuccess) {
             alert.success({
                 title: `Request Accepted`,
-                description: `Industry "${industry.user.name}" has been accepted.`,
+                description: `Industry "${industry?.user?.name}" has been accepted.`,
             })
             onCancel()
         }
@@ -43,11 +43,11 @@ export const AcceptModal = ({
             Icon={HiCheckBadge}
             variant="success"
             title="Are you sure!"
-            description={`You are about to accept <em>"${industry.user.name}"<em>. Do you wish to continue?`}
+            description={`You are about to accept <em>"${industry?.user?.name}"<em>. Do you wish to continue?`}
             onConfirm={onConfirmUClicked}
             onCancel={onCancel}
             input
-            inputKey={industry.user.email}
+            inputKey={industry?.user?.email}
             actionObject={industry}
             loading={changeStatusResult.isLoading}
         />

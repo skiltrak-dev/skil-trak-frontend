@@ -10,6 +10,7 @@ import { Button, Card, TextInput, Typography, Select } from '@components'
 import { getDate, onlyAlphabets } from '@utils'
 import { AuthApi } from '@queries'
 import { Course, Sector } from '@types'
+import { useActionModal } from '@hooks'
 
 export const StudentProfileForm = ({
     profile,
@@ -27,6 +28,8 @@ export const StudentProfileForm = ({
     const [sectors, setSectors] = useState<any | null>(null)
     const [courseOptions, setCourseOptions] = useState([])
     const [courseDefaultOptions, setCourseDefaultOptions] = useState([])
+
+    const { onUpdatePassword, passwordModal } = useActionModal()
 
     const sectorOptions = sectorResponse?.data
         ? sectorResponse.data?.map((sector: any) => ({
@@ -66,11 +69,11 @@ export const StudentProfileForm = ({
 
     const onSectorChanged = (sectors: any, chkDefaultOptions?: boolean) => {
         const filteredCourses = sectors.map((selectedSector: any) => {
-            const sectorExisting = sectorResponse.data.find(
-                (sector: any) => sector.id === selectedSector.value
+            const sectorExisting = sectorResponse.data?.find(
+                (sector: any) => sector?.id === selectedSector?.value
             )
             if (sectorExisting && sectorExisting?.courses?.length) {
-                return sectorExisting.courses
+                return sectorExisting?.courses
             }
         })
 
@@ -155,6 +158,13 @@ export const StudentProfileForm = ({
     }, [profile])
     return (
         <Card>
+            {passwordModal && passwordModal}
+            <div className="flex justify-end mb-3">
+                <Button
+                    text={'Update Password'}
+                    onClick={() => onUpdatePassword(profile?.data)}
+                />
+            </div>
             <FormProvider {...formMethods}>
                 <form
                     className="flex flex-col gap-y-4"

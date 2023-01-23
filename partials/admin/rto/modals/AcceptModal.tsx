@@ -11,7 +11,7 @@ export const AcceptModal = ({
     rto,
     onCancel,
 }: {
-    rto: Rto
+    rto: Rto | undefined | null
     onCancel: Function
 }) => {
     const { alert } = useAlert()
@@ -26,7 +26,7 @@ export const AcceptModal = ({
         if (changeStatusResult.isSuccess) {
             alert.success({
                 title: `Request Accepted`,
-                description: `RTO "${rto.user.name}" has been accepted.`,
+                description: `RTO "${rto?.user?.name}" has been accepted.`,
             })
             onCancel()
         }
@@ -43,11 +43,11 @@ export const AcceptModal = ({
             Icon={HiCheckBadge}
             variant="success"
             title="Are you sure!"
-            description={`You are about to accept <em>"${rto.user.name}"<em>. Do you wish to continue?`}
+            description={`You are about to accept <em>"${rto?.user?.name}"<em>. Do you wish to continue?`}
             onConfirm={onConfirmUClicked}
             onCancel={onCancel}
             input
-            inputKey={rto.user.email}
+            inputKey={rto?.user?.email}
             actionObject={rto}
             loading={changeStatusResult.isLoading}
         />

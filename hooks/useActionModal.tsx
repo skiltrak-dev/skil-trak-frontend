@@ -1,7 +1,7 @@
 import { ReactElement, useState } from 'react'
 
 // components
-import { ViewUserPassword } from '@components'
+import { EditPassword, ViewUserPassword } from '@components'
 
 export const useActionModal = () => {
     const [passwordModal, setPasswordModal] = useState<ReactElement | null>(
@@ -21,10 +21,17 @@ export const useActionModal = () => {
             />
         )
     }
+
+    const onUpdatePassword = (item: any) => {
+        setPasswordModal(
+            <EditPassword onCancel={onModalCancelClicked} item={item} />
+        )
+    }
     return {
         passwordModal,
-        setPasswordModal,
         onViewPassword,
+        setPasswordModal,
+        onUpdatePassword,
         onModalCancelClicked,
     }
 }

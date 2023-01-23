@@ -17,13 +17,40 @@ import { useGetStudentProfileDetailQuery } from '@queries'
 import moment from 'moment'
 import { StudentAvatar } from '@components'
 import { getGender } from 'utils/functions/getGender'
+import { AiFillEdit } from 'react-icons/ai'
+import { BsUnlockFill } from 'react-icons/bs'
+
+// hooks
+import { useActionModal } from '@hooks'
+import { useRouter } from 'next/router'
 export const ViewProfileCB = () => {
+    const router = useRouter()
+
     const { data } = useGetStudentProfileDetailQuery()
+
+    const { onUpdatePassword, passwordModal } = useActionModal()
     return (
         <div>
+            {passwordModal && passwordModal}
             {/* Profile */}
             <div>
-                <div className="flex flex-col items-center">
+                <div className="relative flex flex-col items-center">
+                    <div className="flex justify-end gap-x-2 absolute top-0 right-0">
+                        <div className="bg-blue-100 rounded-full p-1">
+                            <AiFillEdit
+                                className="text-blue-400  cursor-pointer"
+                                onClick={() =>
+                                    router.push('/portals/student/my-profile')
+                                }
+                            />
+                        </div>
+                        <div
+                            className="bg-blue-100 rounded-full p-1"
+                            onClick={() => onUpdatePassword(data)}
+                        >
+                            <BsUnlockFill className="text-blue-400  cursor-pointer" />
+                        </div>
+                    </div>
                     <StudentAvatar
                         name={data?.user?.name}
                         imageUrl={data?.user.avatar}

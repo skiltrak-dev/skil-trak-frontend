@@ -1,4 +1,13 @@
-import React, { ReactElement, ReactNode, useContext, useState } from 'react'
+import React, {
+    ReactElement,
+    ReactNode,
+    useContext,
+    useEffect,
+    useState,
+} from 'react'
+
+// utils
+import { getToken } from '@utils'
 
 interface ContextBarContextType {
     content: ReactElement | ReactNode | undefined
@@ -26,6 +35,16 @@ export const ContextBarProvider = ({
     const [fixed, setFixed] = useState(false)
     const [content, setContent] = useState(null)
     const [title, setTitle] = useState('')
+
+    const token = getToken()
+
+    useEffect(() => {
+        if (!token) {
+            setContent(null)
+            setTitle('')
+            setVisible(false)
+        }
+    }, [token])
 
     const value = {
         content,

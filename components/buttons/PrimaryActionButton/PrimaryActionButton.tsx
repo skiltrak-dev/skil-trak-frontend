@@ -9,7 +9,7 @@ export interface PrimaryActionButtonProps {
     description: string
     image?: string
     shadow?: boolean
-    link: string
+    link: string | undefined
     animation: any
     id?: string
 }

@@ -1,19 +1,42 @@
 import { SubAdminApi } from '@queries'
+import { useRouter } from 'next/router'
 import Image from 'next/image'
-import {
-    FaAddressCard
-} from 'react-icons/fa'
+import { AiFillEdit } from 'react-icons/ai'
+import { BsUnlockFill } from 'react-icons/bs'
+import { FaAddressCard } from 'react-icons/fa'
 import { IoLocation } from 'react-icons/io5'
-import {
-    MdAdminPanelSettings, MdPhone, MdVerified
-} from 'react-icons/md'
+import { MdAdminPanelSettings, MdPhone, MdVerified } from 'react-icons/md'
+
+// hooks
+import { useActionModal } from '@hooks'
+
 export const ViewProfileCB = () => {
+    const router = useRouter()
     const { data, isSuccess, isLoading } = SubAdminApi.SubAdmin.useProfile()
+
+    const { onUpdatePassword, passwordModal } = useActionModal()
 
     return (
         <div>
-            <div className="flex flex-col items-center">
-                <div className="relative">
+            {passwordModal && passwordModal}
+            <div className="flex flex-col">
+                <div className="relative flex flex-col items-center">
+                    <div className="flex justify-end gap-x-2 absolute top-0 right-0">
+                        <div className="bg-blue-100 rounded-full p-1">
+                            <AiFillEdit
+                                className="text-blue-400  cursor-pointer"
+                                onClick={() =>
+                                    router.push('/portals/sub-admin/my-profile')
+                                }
+                            />
+                        </div>
+                        <div
+                            className="bg-blue-100 rounded-full p-1"
+                            onClick={() => onUpdatePassword(data)}
+                        >
+                            <BsUnlockFill className="text-blue-400  cursor-pointer" />
+                        </div>
+                    </div>
                     {data?.user.avatar ? (
                         <Image
                             src={data?.user.avatar}
@@ -59,8 +82,8 @@ export const ViewProfileCB = () => {
                             <FaAddressCard />
                         </span>
                         <p className="text-sm font-medium">
-                          {data?.coordinatorId}
-                          </p>
+                            {data?.coordinatorId}
+                        </p>
                     </div>
                     <div className="text-gray-400 text-[11px] -mt-0.5 text-center">
                         Coordinator ID

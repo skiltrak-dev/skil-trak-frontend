@@ -3,9 +3,11 @@ import { useRouter } from 'next/router'
 
 // components
 import { Typography, Button, Card } from 'components'
+import { getUserCredentials } from '@utils'
 
 export const AdForRPL = ({ short }: any) => {
     const router = useRouter()
+    const status = getUserCredentials()?.status
     return (
         <div
             className={`flex ${
@@ -52,6 +54,7 @@ export const AdForRPL = ({ short }: any) => {
                     <Button
                         variant={'primary'}
                         onClick={() =>
+                            status === 'approved' &&
                             router.push('/portals/industry/tasks/apply-for-rpl')
                         }
                     >

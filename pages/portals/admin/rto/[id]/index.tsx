@@ -1,7 +1,11 @@
 import {
     ActionButton,
     BackButton,
-    Button, EmptyData, LoadingAnimation, RtoProfileSidebar, TechnicalError
+    Button,
+    EmptyData,
+    LoadingAnimation,
+    RtoProfileSidebar,
+    TechnicalError,
 } from '@components'
 import { useContextBar, useNavbar } from '@hooks'
 import { AdminLayout } from '@layouts'
@@ -12,20 +16,31 @@ import {
     FaArchive,
     FaBan,
     FaChevronDown,
-    FaFileImport, FaUserGraduate
+    FaFileImport,
+    FaUserGraduate,
 } from 'react-icons/fa'
 
 import { PinnedNotes } from '@partials'
 import { ArchiveModal, BlockModal } from '@partials/admin/rto/modals'
 import { DetailTabs } from '@partials/admin/rto/tabs'
 import { AdminApi } from '@queries'
+import { useActionModals } from '@partials/admin/rto/hooks/useActionModals'
 
 const RtoDetail: NextPageWithLayout = () => {
     const router = useRouter()
     const navBar = useNavbar()
     const contextBar = useContextBar()
 
-    const [modal, setModal] = useState<ReactElement | null>(null)
+    const {
+        modal,
+        onAcceptClicked,
+        onRejectClicked,
+        onArchiveClicked,
+        onUnArchiveClicked,
+        onUnblockClicked,
+        onDeleteClicked,
+        onBlockClicked,
+    } = useActionModals()
 
     const rto = AdminApi.Rtos.useDetailQuery(Number(router.query.id), {
         skip: !router.query?.id,
@@ -49,21 +64,162 @@ const RtoDetail: NextPageWithLayout = () => {
         }
     }, [rto.data])
 
-    const onModalCancelClicked = () => {
-        setModal(null)
-    }
-    const onArchiveClicked = (rto: Rto | undefined) => {
-        setModal(
-            <ArchiveModal item={rto} onCancel={() => onModalCancelClicked()} />
-        )
-    }
-
-    const onBlockClicked = (rto: Rto | undefined) => {
-        setModal(
-            <BlockModal rto={rto} onCancel={() => onModalCancelClicked()} />
-        )
-    }
     const [showDropDown, setShowDropDown] = useState(false)
+
+    const statusBaseActions = () => {
+        switch (rto.data?.user?.status) {
+            case 'pending':
+                return (
+                    <div className="flex items-center gap-x-2">
+                        <ActionButton
+                            variant={'success'}
+                            Icon={FaArchive}
+                            onClick={() => onAcceptClicked(rto?.data)}
+                        >
+                            Accept
+                        </ActionButton>
+                        <ActionButton
+                            Icon={FaBan}
+                            variant={'error'}
+                            onClick={() => onRejectClicked(rto?.data)}
+                        >
+                            Reject
+                        </ActionButton>
+                    </div>
+                )
+            case 'approved':
+                return (
+                    <div className="flex gap-x-2">
+                        <div className="flex items-center gap-x-3">
+                            <div
+                                className="relative"
+                                onMouseEnter={() => setShowDropDown(true)}
+                                onMouseLeave={() => setShowDropDown(false)}
+                            >
+                                <Button>
+                                    <span
+                                        id="add-students"
+                                        className="flex items-center gap-x-2"
+                                    >
+                                        <span>Add Students</span>
+                                        <FaChevronDown />
+                                    </span>
+                                </Button>
+
+                                {showDropDown ? (
+                                    <ul className="bg-white shadow-xl rounded-xl overflow-hidden absolute">
+                                        <li>
+                                            <button
+                                                onClick={() => {
+                                                    router.push(
+                                                        `${rto?.data?.id}/student-list`
+                                                    )
+                                                }}
+                                                className="w-full flex items-center gap-x-2 text-sm px-2 py-2 hover:bg-gray-200"
+                                            >
+                                                <span className="text-gray-500">
+                                                    <FaFileImport />
+                                                </span>
+                                                <span className="whitespace-nowrap">
+                                                    {' '}
+                                                    Import Students
+                                                </span>
+                                            </button>
+                                        </li>
+                                        <li>
+                                            <button
+                                                onClick={() => {
+                                                    router.push(
+                                                        `${rto?.data?.id}/add-individual-student`
+                                                    )
+                                                }}
+                                                className="w-full flex items-center gap-x-2 text-sm px-2 py-2 hover:bg-gray-200"
+                                            >
+                                                <span className="text-gray-500">
+                                                    <FaUserGraduate />
+                                                </span>
+                                                <span> Add Individual</span>
+                                            </button>
+                                        </li>
+                                    </ul>
+                                ) : null}
+                            </div>
+                        </div>
+                        <Button variant="dark">Summary Report</Button>
+                        <ActionButton
+                            Icon={FaArchive}
+                            onClick={() => onArchiveClicked(rto?.data)}
+                        >
+                            Archive
+                        </ActionButton>
+                        <ActionButton
+                            Icon={FaBan}
+                            variant={'error'}
+                            onClick={() => onBlockClicked(rto?.data)}
+                        >
+                            Block
+                        </ActionButton>
+                    </div>
+                )
+            case 'blocked':
+                return (
+                    <div className="flex items-center gap-x-2">
+                        <ActionButton
+                            Icon={FaArchive}
+                            onClick={() => onUnblockClicked(rto?.data)}
+                        >
+                            Un Block
+                        </ActionButton>
+                        <ActionButton
+                            Icon={FaBan}
+                            variant={'error'}
+                            onClick={() => onDeleteClicked(rto?.data)}
+                        >
+                            Delete
+                        </ActionButton>
+                    </div>
+                )
+            case 'rejected':
+                return (
+                    <div className="flex items-center gap-x-2">
+                        <ActionButton
+                            Icon={FaArchive}
+                            onClick={() => onAcceptClicked(rto?.data)}
+                        >
+                            Accept
+                        </ActionButton>
+                        <ActionButton
+                            Icon={FaBan}
+                            variant={'error'}
+                            onClick={() => onDeleteClicked(rto?.data)}
+                        >
+                            Delete
+                        </ActionButton>
+                    </div>
+                )
+            case 'archived':
+                return (
+                    <div className="flex items-center gap-x-2">
+                        <ActionButton
+                            Icon={FaArchive}
+                            onClick={() => onUnArchiveClicked(rto?.data)}
+                        >
+                            Un Archive
+                        </ActionButton>
+                        <ActionButton
+                            Icon={FaBan}
+                            variant={'error'}
+                            onClick={() => onDeleteClicked(rto?.data)}
+                        >
+                            Delete
+                        </ActionButton>
+                    </div>
+                )
+
+            default:
+                return
+        }
+    }
 
     return (
         <>
@@ -79,84 +235,7 @@ const RtoDetail: NextPageWithLayout = () => {
                             text="RTOs"
                             link="/portals/admin/rto?tab=approved"
                         />
-                        <div className="flex gap-x-2">
-                            {/* <Button
-                onClick={() => {
-                  router.push(`${rto?.data?.id}/student-list`)
-                }}
-              >
-                Import Students
-              </Button> */}
-                            <div className="flex items-center gap-x-3">
-                                <div
-                                    className="relative"
-                                    onMouseEnter={() => setShowDropDown(true)}
-                                    onMouseLeave={() => setShowDropDown(false)}
-                                >
-                                    <Button>
-                                        <span
-                                            id="add-students"
-                                            className="flex items-center gap-x-2"
-                                        >
-                                            <span>Add Students</span>
-                                            <FaChevronDown />
-                                        </span>
-                                    </Button>
-
-                                    {showDropDown ? (
-                                        <ul className="bg-white shadow-xl rounded-xl overflow-hidden absolute">
-                                            <li>
-                                                <button
-                                                    onClick={() => {
-                                                        router.push(
-                                                            `${rto?.data?.id}/student-list`
-                                                        )
-                                                    }}
-                                                    className="w-full flex items-center gap-x-2 text-sm px-2 py-2 hover:bg-gray-200"
-                                                >
-                                                    <span className="text-gray-500">
-                                                        <FaFileImport />
-                                                    </span>
-                                                    <span className="whitespace-nowrap">
-                                                        {' '}
-                                                        Import Students
-                                                    </span>
-                                                </button>
-                                            </li>
-                                            <li>
-                                                <button
-                                                    onClick={() => {
-                                                        router.push(
-                                                            `${rto?.data?.id}/add-individual-student`
-                                                        )
-                                                    }}
-                                                    className="w-full flex items-center gap-x-2 text-sm px-2 py-2 hover:bg-gray-200"
-                                                >
-                                                    <span className="text-gray-500">
-                                                        <FaUserGraduate />
-                                                    </span>
-                                                    <span> Add Individual</span>
-                                                </button>
-                                            </li>
-                                        </ul>
-                                    ) : null}
-                                </div>
-                            </div>
-                            <Button variant="dark">Summary Report</Button>
-                            <ActionButton
-                                Icon={FaArchive}
-                                onClick={() => onArchiveClicked(rto?.data)}
-                            >
-                                Archive
-                            </ActionButton>
-                            <ActionButton
-                                Icon={FaBan}
-                                variant={'error'}
-                                onClick={() => onBlockClicked(rto?.data)}
-                            >
-                                Block
-                            </ActionButton>
-                        </div>
+                        {statusBaseActions()}
                     </div>
 
                     <PinnedNotes id={rto?.data?.user?.id} />
