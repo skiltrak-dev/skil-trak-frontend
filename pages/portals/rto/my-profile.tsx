@@ -7,9 +7,13 @@ import { RTOProfileEditForm } from '@partials/common'
 // query
 import { RtoApi } from '@queries'
 import { useContextBar, useNotification } from '@hooks'
+import { useRouter } from 'next/router'
 
 const MyProfile: NextPageWithLayout = () => {
+    const router = useRouter()
+
     const contextBar = useContextBar()
+
     const { notification } = useNotification()
     const profile = RtoApi.Rto.useProfile()
     const [updateProfile, updateProfileResult] = RtoApi.Rto.useUpdateProfile()
@@ -25,8 +29,9 @@ const MyProfile: NextPageWithLayout = () => {
                 title: 'Profile Updated',
                 description: 'Profile Updated Successfully',
             })
+            router.push(`/portals/rto`)
         }
-    }, [])
+    }, [updateProfileResult])
     const onSubmit = (values: any) => {
         updateProfile({ body: values })
     }

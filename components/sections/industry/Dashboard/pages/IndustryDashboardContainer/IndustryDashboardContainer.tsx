@@ -1,73 +1,64 @@
+import { MediaQueries } from '@constants'
 import { useEffect, useState } from 'react'
 import { useMediaQuery } from 'react-responsive'
-import { MediaQueries } from '@constants'
 
 // Components
-import {
-    Card,
-    CircularProgresbar,
-    Typography,
-    DisplayPrimaryActions,
-    LottieAnimation,
-    HelpQuestionSet,
-} from '@components'
+import { Card, HelpQuestionSet, LottieAnimation, Typography } from '@components'
 
 // Context
-import { useContextBar } from 'hooks'
-import { ContextBarContent } from './ContextbarContent'
 import { Animations } from '@animations'
+import { Desktop, Mobile } from '@components/Responsive'
 import { AdForRPL } from '@components/sections/industry'
 import { ImportantDocuments } from '@partials/industry'
-import { AuthUtils } from '@utils'
 import { ViewProfileCB } from '@partials/industry/contextBar'
-import { Desktop, Mobile } from '@components/Responsive'
-
+import { AuthUtils } from '@utils'
+import { useContextBar } from 'hooks'
 const WorkplaceQuestions = [
     {
         text: `I have a workplace. What next?`,
-        link: '#',
+        link: '',
     },
     {
         text: `I don't have a workplace. What should I do?`,
-        link: '#',
+        link: '',
     },
     {
         text: `I want to book an appointment`,
-        link: '#',
+        link: '',
     },
     {
         text: `I want to look for a job`,
-        link: '#',
+        link: '',
     },
     {
         text: `I don't have a workplace. What should I do?`,
-        link: '#',
+        link: '',
     },
 ]
 
 const AssessmentQuestions = [
     {
         text: `I have a workplace. What next?`,
-        link: '#',
+        link: '',
     },
     {
         text: `I don't have a workplace. What should I do?`,
-        link: '#',
+        link: '',
     },
     {
         text: `I want to book an appointment`,
-        link: '#',
+        link: '',
     },
 ]
 
 const NotificationQuestions = [
     {
         text: `I have a workplace. What next?`,
-        link: '#',
+        link: '',
     },
     {
         text: `I don't have a workplace. What should I do?`,
-        link: '#',
+        link: '',
     },
 ]
 
@@ -91,10 +82,10 @@ const getSectors = (courses: any) => {
     const sectors = {}
     courses.forEach((c: any) => {
         if ((sectors as any)[c.sector.name]) {
-            ; (sectors as any)[c.sector.name].push(c)
+            ;(sectors as any)[c.sector.name].push(c)
         } else {
-            ; (sectors as any)[c.sector.name] = []
-                ; (sectors as any)[c.sector.name].push(c)
+            ;(sectors as any)[c.sector.name] = []
+            ;(sectors as any)[c.sector.name].push(c)
         }
     })
     return sectors
@@ -185,8 +176,6 @@ export const IndustryDashboardContainer = () => {
             <Desktop>
                 <ImportantDocuments />
             </Desktop>
-
-
 
             {/* Others */}
             <div className="w-full">

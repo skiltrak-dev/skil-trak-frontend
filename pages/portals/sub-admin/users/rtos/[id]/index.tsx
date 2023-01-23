@@ -9,40 +9,28 @@ import { NextPageWithLayout } from '@types'
 
 //components
 import {
-    IndustryProfile,
-    RtoProfileSidebar,
+    BackButton,
+    Button,
+    EmptyData,
     LoadingAnimation,
-    ReactTable,
+    PageTitle,
+    RtoProfileSidebar,
     TabNavigation,
     TabProps,
-    Typography,
     TechnicalError,
-    EmptyData,
-    PageTitle,
-    Button,
 } from '@components'
 
-import { FigureCard } from '@components/sections/subAdmin'
-import { SubAdminProfileTabsView } from '@components/sections/subAdmin'
 import {
-    RtoProfileOverview,
     AppointmentProfile,
+    RtoProfileOverview,
 } from '@components/sections/subAdmin/UsersContainer'
 // icons
-import {
-    FaChevronDown,
-    FaEdit,
-    FaFileImport,
-    FaUserGraduate,
-} from 'react-icons/fa'
+import { FaChevronDown, FaFileImport, FaUserGraduate } from 'react-icons/fa'
 // queries
-import {
-    useGetSubAdminRTODetailQuery,
-    useUpdateSubAdminAssessmentToolArchiveMutation,
-} from '@queries'
 import { AssessmentToolsSubAdmin } from '@components/sections/subAdmin/UsersContainer/SubAdminRtosContainer/SubAdminRtosProfile'
 import { MailsTab } from '@components/sections/subAdmin/UsersContainer/SubAdminRtosContainer/SubAdminRtosProfile/components/MailsTab'
 import { AllCommunicationTab, NotesTab } from '@partials/common'
+import { useGetSubAdminRTODetailQuery } from '@queries'
 
 type Props = {}
 
@@ -161,7 +149,13 @@ const RtoProfile: NextPageWithLayout = (props: Props) => {
     return (
         <>
             <div className="flex justify-between items-end mb-4">
-                <PageTitle title="RTO Profile" backTitle="RTO" />
+                <div>
+                    <BackButton
+                        text={'RTOs'}
+                        link={'/portals/sub-admin/users/rtos'}
+                    />
+                    <PageTitle title="RTO Profile" />
+                </div>
                 <div className="flex items-center gap-x-2">
                     <div className="flex items-center gap-x-3">
                         <div

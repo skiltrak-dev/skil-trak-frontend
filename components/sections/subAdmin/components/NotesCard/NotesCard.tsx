@@ -1,28 +1,17 @@
-import { useEffect } from 'react'
 import moment from 'moment'
+import { useEffect } from 'react'
 
-import { Typography, LoadingAnimation, ActionButton } from '@components'
-import {
-    AiFillDelete,
-    AiFillPushpin,
-    AiTwotoneEdit,
-    AiOutlinePushpin,
-    AiFillEdit,
-} from 'react-icons/ai'
+import { ActionButton, LoadingAnimation } from '@components'
 
-import {
-    useChangeNoteStatusMutation,
-    useDeleteNoteMutation,
-    SubAdminApi,
-} from '@queries'
+import { SubAdminApi } from '@queries'
 
 // hooks
 import { useNotification } from '@hooks'
+import { ellipsisText } from '@utils'
+import classNames from 'classnames'
+import { BsPinAngleFill, BsPinFill } from 'react-icons/bs'
 import { FaTrash } from 'react-icons/fa'
 import { PuffLoader } from 'react-spinners'
-import { BsPinAngleFill, BsPinFill } from 'react-icons/bs'
-import classNames from 'classnames'
-import { ellipsisText } from '@utils'
 
 export const NotesCard = ({ note, pinnedNote, setEditValues }: any) => {
     const { notification } = useNotification()

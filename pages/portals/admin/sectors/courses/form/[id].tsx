@@ -73,9 +73,10 @@ const CourseEditPage: NextPageWithLayout = () => {
                         />
                     ) : (
                         <CourseForm
-                            onSubmit={onSubmit}
                             edit={true}
+                            onSubmit={onSubmit}
                             initialValues={data}
+                            result={updateResult}
                             requirementFile={requirementFile}
                             setRequirementFile={setRequirementFile}
                         />

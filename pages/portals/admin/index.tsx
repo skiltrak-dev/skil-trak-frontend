@@ -2,7 +2,7 @@ import { ReactElement, useEffect, useState } from 'react'
 
 import { FigureCard } from '@components/sections/subAdmin'
 import { AdminLayout } from '@layouts'
-import { AdminApi } from '@queries'
+import { adminApi, AdminApi } from '@queries'
 import { NextPageWithLayout } from '@types'
 import { AuthUtils } from '@utils'
 import { format } from 'date-fns'
@@ -65,24 +65,28 @@ const AdminDashboard: NextPageWithLayout = () => {
                         count={stats.data?.users.rto || 0}
                         title={'RTOs'}
                         loading={stats.isLoading}
+                        link="admin/rto?tab=approved"
                     />
                     <FigureCard
                         imageUrl="/images/icons/students.png"
                         count={stats.data?.users.student || 0}
                         title={'Students'}
                         loading={stats.isLoading}
+                        link="admin/student?tab=approved"
                     />
                     <FigureCard
                         imageUrl="/images/icons/industry.png"
                         count={stats.data?.users.industry || 0}
                         title={'Industries'}
                         loading={stats.isLoading}
+                        link="admin/industry?tab=approved"
                     />
                     <FigureCard
                         imageUrl="/images/icons/job.png"
                         count={stats.data?.jobs || 0}
                         title={'Jobs'}
                         loading={stats.isLoading}
+                        link="admin/jobs"
                     />
                 </div>
                 <div className="flex gap-x-4">
@@ -91,19 +95,21 @@ const AdminDashboard: NextPageWithLayout = () => {
                         count={stats.data?.users.subadmin || 0}
                         title={'Sub-admins'}
                         loading={stats.isLoading}
+                        link="admin/sub-admin?tab=active"
                     />
                     <FigureCard
                         imageUrl="/images/icons/workplace.png"
                         count={stats.data?.workplaceRequests || 0}
                         title={'Workplace Requests'}
                         loading={stats.isLoading}
+                        link="admin/workplaces?tab=all-student-provided-workplace"
                     />
-                    <FigureCard
+                    {/* <FigureCard
                         imageUrl="/images/icons/industry.png"
                         count={0}
                         title={'Joining Requests'}
                         loading={stats.isLoading}
-                    />
+                    /> */}
                 </div>
             </div>
         </div>

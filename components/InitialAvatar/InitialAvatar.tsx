@@ -1,5 +1,8 @@
 import classNames from 'classnames'
-import Image from 'next/image'
+import { useState } from 'react'
+
+// utils
+import { trimText } from '@utils'
 
 interface InitialAvatarProps {
     first?: boolean
@@ -8,6 +11,7 @@ interface InitialAvatarProps {
     show?: number
     description?: string
     small?: boolean
+    large?: boolean
 }
 
 const BgColors = {
@@ -44,44 +48,80 @@ export const InitialAvatar = ({
     name,
     imageUrl,
     description,
+    large,
     small,
 }: InitialAvatarProps) => {
     // const backgroundColor = 'bg-indigo-800'
-    const initials = name?.split(' ')
+    const initials = trimText(name)?.split(' ')
+    const [zoomImage, setZoomImage] = useState(false)
     const backgroundColor = (BgColors as any)[
         initials[0].charAt(0).toLowerCase()
     ]
     const classes = classNames({
         [`${backgroundColor} transition-all rounded-full relative border-white shadow hover:shadow-md flex items-center justify-center`]:
             true,
-        'w-8 h-8 border-2': !small,
+        'w-12 h-12 border-2': large,
+        'w-8 h-8 border-2': !small && !large,
         'w-6 h-6 border-1': small,
         '-ml-2': !first,
     })
+
+    const onImageEnter = () => {
+        setZoomImage(true)
+    }
+    const onImageLeave = () => {
+        setZoomImage(false)
+    }
 
     return (
         <div className="relative hover:z-30 cursor-pointer group">
             <div className={classes}>
                 {imageUrl ? (
-                    <Image
-                        src={imageUrl}
-                        width={24}
-                        height={24}
-                        className="rounded-full"
-                        alt=""
-                    />
+                    <div
+                        className="relative w-8 h-8"
+                        onMouseEnter={onImageEnter}
+                        onMouseLeave={onImageLeave}
+                    >
+                        {/* <Image
+                            src={imageUrl}
+                            width={24}
+                            height={24}
+                            className="rounded-full"
+                            alt=""
+                        /> */}
+                        <div
+                            className="rounded-full bg-center bg-cover bg-no-repeat w-8 h-8"
+                            style={{ backgroundImage: `url(${imageUrl})` }}
+                        />
+                        <div
+                            className={`absolute z-20 rounded-md bg-center bg-cover bg-no-repeat top-full left-0 transition-all duration-200 ${
+                                zoomImage ? 'w-36 h-36' : 'w-0 h-0'
+                            }`}
+                            style={{ backgroundImage: `url(${imageUrl})` }}
+                        />
+
+                        {/* <Image
+                            src={imageUrl}
+                            width={96}
+                            height={96}
+                            className="absolute"
+                            alt=""
+                        /> */}
+                    </div>
                 ) : (
                     <div
                         className={`${
                             small ? 'text-[10px]' : 'text-xs'
                         } text-white font-medium`}
                     >
-                        <p>
+                        <p className="uppercase">
                             {initials.length > 1
                                 ? `${initials[0].charAt(0)}${initials[1].charAt(
                                       0
                                   )}`
-                                : initials[0].charAt(0)}
+                                : `${initials[0].charAt(0)}${initials[0].charAt(
+                                      1
+                                  )}`}
                         </p>
                     </div>
                 )}

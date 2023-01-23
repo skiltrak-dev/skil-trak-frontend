@@ -1,0 +1,34 @@
+import { BaseQueryFn } from '@reduxjs/toolkit/dist/query/baseQueryTypes'
+import { EndpointBuilder } from '@reduxjs/toolkit/dist/query/endpointDefinitions'
+
+const PREFIX = 'subadmin'
+export const subAdminIndustriesEndpoints = (
+    builder: EndpointBuilder<BaseQueryFn, string, string>
+) => ({
+    getSubAdminIndustries: builder.query<any, any>({
+        query: (params) => {
+            return {
+                url: `${PREFIX}/industries/list`,
+                params,
+            }
+        },
+        providesTags: ['SubAdminIndustries'],
+    }),
+    getSubAdminIndustriesProfile: builder.query<any, number>({
+        query: (id) => {
+            return {
+                url: `${PREFIX}/industry/profile/${id}`,
+                params: { id },
+            }
+        },
+        providesTags: ['SubAdminIndustries'],
+    }),
+    getSubAdminIndustryStudents: builder.query<any, string>({
+        query: (id) => {
+            return {
+                url: `${PREFIX}/industry/students/list/${id}`,
+            }
+        },
+        providesTags: ['SubAdminIndustries'],
+    }),
+})

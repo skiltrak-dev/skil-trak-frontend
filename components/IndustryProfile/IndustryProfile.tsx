@@ -13,6 +13,7 @@ import { GiBackwardTime } from 'react-icons/gi'
 import { IoLocation } from 'react-icons/io5'
 import { MdAdminPanelSettings, MdPhone, MdVerified } from 'react-icons/md'
 import { getUserCredentials } from '@utils'
+import { CourseList } from '@partials/common'
 
 type Props = {
     data: any
@@ -222,33 +223,11 @@ export const IndustryProfile = ({ data }: Props) => {
                                     {sector}
                                 </Typography>
 
-                                {(sectorsWithCourses as any)[sector]?.map(
-                                    (c: Course) => (
-                                        <div
-                                            key={c?.id}
-                                            className="flex gap-x-2 justify-start"
-                                        >
-                                            <div className="flex flex-col items-center">
-                                                <div className="bg-blue-400 p-2 rounded-full"></div>
-                                                <div className="bg-blue-400 w-[1px] h-full"></div>
-                                            </div>
-                                            <div className="pb-2">
-                                                <Typography
-                                                    variant={'small'}
-                                                    color={'text-gray-500'}
-                                                >
-                                                    {c?.code}
-                                                </Typography>
-                                                <Typography
-                                                    variant={'small'}
-                                                    color={'text-gray-800'}
-                                                >
-                                                    {c?.title}
-                                                </Typography>
-                                            </div>
-                                        </div>
-                                    )
-                                )}
+                                <CourseList
+                                    courses={
+                                        (sectorsWithCourses as any)[sector]
+                                    }
+                                />
                             </>
                         )
                     })

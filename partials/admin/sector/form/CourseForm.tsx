@@ -15,6 +15,7 @@ import { FormProvider, useForm } from 'react-hook-form'
 import * as yup from 'yup'
 
 interface CourseFormProps {
+    result: any
     onSubmit: any
     edit?: boolean
     initialValues?: Course
@@ -25,6 +26,7 @@ interface CourseFormProps {
 export const CourseForm = ({
     edit,
     onSubmit,
+    result,
     initialValues,
     requirementFile,
     setRequirementFile,
@@ -106,11 +108,11 @@ export const CourseForm = ({
                     </div>
 
                     <div>
-                        {isBrowser() && <ContentEditor
+                        <ContentEditor
                             label="Requirement"
                             content={requirementFile}
                             setContent={setRequirementFile}
-                        />}
+                        />
                     </div>
 
                     <div className="grid grid-cols-1 gap-x-8">
@@ -127,7 +129,8 @@ export const CourseForm = ({
                         <Button
                             submit
                             // disabled={!(isValid && dirty)}
-                            // loading={loginResult.isLoading}
+                            disabled={result.isLoading}
+                            loading={result.isLoading}
                         >
                             {edit ? 'Update Course' : 'Add Course'}
                         </Button>

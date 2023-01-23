@@ -23,10 +23,22 @@ export const StudentSignUpForm = ({ onSubmit }: { onSubmit: any }) => {
 
     const [checkEmailExists, emailCheckResult] = AuthApi.useEmailCheck()
 
-    const [rtoOptions, setRtoOptions] = useState([])
-    const [sectorOptions, setSectorOptions] = useState([])
     const [courseOptions, setCourseOptions] = useState([])
     const [courseLoading, setCourseLoading] = useState(false)
+
+    const sectorOptions = sectorResponse.data?.length
+        ? sectorResponse.data?.map((sector: any) => ({
+              label: sector.name,
+              value: sector.id,
+          }))
+        : []
+
+    const rtoOptions = rtoResponse.data?.length
+        ? rtoResponse?.data?.map((rto: any) => ({
+              label: rto.user.name,
+              value: rto.id,
+          }))
+        : []
 
     const [storedData, setStoredData] = useState<any>(null)
 
@@ -102,6 +114,11 @@ export const StudentSignUpForm = ({ onSubmit }: { onSubmit: any }) => {
             .string()
             .oneOf([yup.ref('password'), null], 'Passwords must match')
             .required('Must confirm entered password'),
+        emergencyPerson: yup.string().required('Must provide Emergency Person'),
+        emergencyPersonPhone: yup
+            .string()
+            .required('Must provide Emergency Person Phone'),
+
         rto: yup.number().required('Must provide RTO'),
         dob: yup.date().required('Must provide Date of Birth'),
 
@@ -133,32 +150,12 @@ export const StudentSignUpForm = ({ onSubmit }: { onSubmit: any }) => {
     })
 
     useEffect(() => {
-        if (sectorResponse.data?.length) {
-            const options = sectorResponse.data?.map((sector: any) => ({
-                label: sector.name,
-                value: sector.id,
-            }))
-            setSectorOptions(options)
-        }
-    }, [sectorResponse.data])
-
-    useEffect(() => {
         if (SignUpUtils.getEditingMode()) {
             const values = SignUpUtils.getValuesFromStorage()
             setStoredData(values)
             setCourseOptions(values.courses)
         }
     }, [])
-
-    useEffect(() => {
-        if (rtoResponse?.data?.length) {
-            const options = rtoResponse?.data?.map((rto: any) => ({
-                label: rto.user.name,
-                value: rto.id,
-            }))
-            setRtoOptions(options)
-        }
-    }, [rtoResponse?.data])
 
     // useEffect For Email
     useEffect(() => {
@@ -215,16 +212,16 @@ export const StudentSignUpForm = ({ onSubmit }: { onSubmit: any }) => {
 
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-8">
                             <TextInput
-                                label={'Phone Number'}
-                                name={'phone'}
-                                placeholder={'Your phone number...'}
+                                label={'Family Name'}
+                                name={'familyName'}
+                                placeholder={'Family Name...'}
                                 validationIcons
                                 required
                             />
                             <TextInput
-                                label={'Family Name'}
-                                name={'familyName'}
-                                placeholder={'Family Name...'}
+                                label={'Phone Number'}
+                                name={'phone'}
+                                placeholder={'Your phone number...'}
                                 validationIcons
                                 required
                             />
@@ -269,8 +266,8 @@ export const StudentSignUpForm = ({ onSubmit }: { onSubmit: any }) => {
                                 label={'RTOs'}
                                 {...(storedData
                                     ? {
-                                        defaultValue: storedData.sectors,
-                                    }
+                                          defaultValue: storedData.sectors,
+                                      }
                                     : {})}
                                 name={'rto'}
                                 options={rtoOptions}
@@ -304,8 +301,8 @@ export const StudentSignUpForm = ({ onSubmit }: { onSubmit: any }) => {
                                 label={'Sector'}
                                 {...(storedData
                                     ? {
-                                        defaultValue: storedData.sectors,
-                                    }
+                                          defaultValue: storedData.sectors,
+                                      }
                                     : {})}
                                 name={'sectors'}
                                 options={sectorOptions}
@@ -440,7 +437,10 @@ export const StudentSignUpForm = ({ onSubmit }: { onSubmit: any }) => {
                             label={
                                 <>
                                     I agree with{' '}
-                                    <Link legacyBehavior href="/terms-and-conditions">
+                                    <Link
+                                        legacyBehavior
+                                        href="/terms-and-conditions"
+                                    >
                                         <a className="text-link">Terms</a>
                                     </Link>{' '}
                                     {'&'}{' '}

@@ -79,7 +79,7 @@ export const StepReviewInfo = () => {
                                         Code
                                     </Typography>
                                     <Typography variant={'label'}>
-                                        {formData.code || ''}
+                                        {formData.rtoCode || ''}
                                     </Typography>
                                 </div>
                                 <div>

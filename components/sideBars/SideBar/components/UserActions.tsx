@@ -10,11 +10,15 @@ import { useRouter } from 'next/router'
 import { SideBarItem } from '@components/sideBars/SideBarItem'
 
 import Image from 'next/image'
+import { useDispatch } from 'react-redux'
+import { adminApi, commonApi } from '@queries'
 
 export const UserActions = () => {
     const router = useRouter()
     const [showOptions, setShowOptions] = useState(false)
     const [credentials, setCredentials] = useState<any>(null)
+
+    const dispatch = useDispatch()
 
     useEffect(() => {
         if (!credentials) {
@@ -37,6 +41,8 @@ export const UserActions = () => {
             text: 'Log Out',
             onClick: () => {
                 AuthUtils.logout(router)
+                dispatch(adminApi.util.resetApiState())
+                dispatch(commonApi.util.resetApiState())
             },
             Icon: IoLogOut,
             color: true,

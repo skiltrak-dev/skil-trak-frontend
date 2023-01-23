@@ -6,6 +6,13 @@ import { notesEndpoints } from './notes'
 import { workplaceEndpoints } from './workplace'
 import { studentsEndpoints } from './students'
 import { profileEndpoints } from './profile'
+import { assessmentEvidenceEndpoints } from './assessmentEvidence'
+import { setScheduleEndpoints } from './setSchedule'
+import { setUnavailabilityEndpoints } from './setUnavailability'
+import { subAdminAppointmentspoints } from './appointments'
+import { subAdminRtoEndpoints } from './rto'
+import { subAdminSettingEndpoints } from './setting'
+import { subAdminIndustriesEndpoints } from './industries'
 
 export const subAdminApi = createApi({
     reducerPath: 'subAdminApi',
@@ -20,11 +27,17 @@ export const subAdminApi = createApi({
         },
     }),
     tagTypes: [
-        'SubAdmin',
         'Notes',
-        'SubAdminWorkplace',
-        'SubAdminStudents',
+        'Setting',
+        'SubAdmin',
         'Statistics',
+        'Appointment',
+        'SetSchedule',
+        'SubAdminRtos',
+        'SubAdminStudents',
+        'SubAdminWorkplace',
+        'AssessmentEvidence',
+        'SubAdminIndustries',
     ],
 
     // ---------- Sub Admin ENDPOINTS ---------- //
@@ -40,9 +53,16 @@ export const subAdminApi = createApi({
         }),
 
         ...notesEndpoints(build),
-        ...workplaceEndpoints(build),
-        ...studentsEndpoints(build),
         ...profileEndpoints(build),
+        ...studentsEndpoints(build),
+        ...workplaceEndpoints(build),
+        ...setScheduleEndpoints(build),
+        ...subAdminRtoEndpoints(build),
+        ...subAdminSettingEndpoints(build),
+        ...setUnavailabilityEndpoints(build),
+        ...subAdminAppointmentspoints(build),
+        ...assessmentEvidenceEndpoints(build),
+        ...subAdminIndustriesEndpoints(build),
     }),
 })
 
@@ -53,8 +73,10 @@ export const {
 
     // ------ NOTES ------ //
     useNotesQuery,
+    useGetNotesQuery,
     useNoteAddMutation,
     useNoteDeleteMutation,
+    useUpdateNoteMutation,
     useNoteStatusChangeMutation,
 
     // ------WORKPLACE------ //
@@ -105,6 +127,54 @@ export const {
 
     // -- COUNT -- //
     useStatisticsQuery,
+
+    // --- ASSESSMENT EVIDENCE --- //
+    useGetAssessmentEvidenceQuery,
+    useGetAssessmentResponseQuery,
+    useStudentAssessmentCoursesQuery,
+    useAddCommentOnAssessmentMutation,
+    useGetAssessmentEvidenceDetailQuery,
+    useSubmitAssessmentEvidenceMutation,
+    useMaulallyReopenSubmissionRequestMutation,
+
+    // --- SET SCHEDULE --- //
+    useSetScheduleMutation,
+    useSetScheduledListQuery,
+
+    // --- SET UNAVAILABILITY -- //
+    useAddUnavailabilityMutation,
+    useGetUnAvailabilitiesQuery,
+    useRemoveUnAvailabilityMutation,
+
+    // --- APOINTMENTS --- //
+    useSearchUserQuery,
+    useSearchUserByIdQuery,
+    useAvailabilityListQuery,
+    useUserAvailabilitiesQuery,
+    useGetSubAdminAppointmentsQuery,
+    useSubAdminCreateAppointmentMutation,
+
+    // ---- RTO ---- //
+    useGetSubAdminRtosQuery,
+    useGetSubAdminRTODetailQuery,
+    useGetSubAdminRTOCoursesQuery,
+    useGetRTOAssessmentToolsQuery,
+    useGetSubAdminRtosStudentsQuery,
+    useGetSubAdminRtoAppointmentsQuery,
+    useUpdateSubAdminRtoStudentStatusMutation,
+    useCreateRtoSubAdminAssessmentToolsMutation,
+    useRemoveSubAdminRTOAssessmentToolsMutation,
+    useUpdateRtoSubAdminAssessmentToolsMutation,
+    useUpdateSubAdminAssessmentToolArchiveMutation,
+
+    // --- SETTING --- //
+    useGetSettingDataQuery,
+    useSubAdminSettingMutation,
+
+    // --- INDUSTRIES --- //
+    useGetSubAdminIndustriesQuery,
+    useGetSubAdminIndustryStudentsQuery,
+    useGetSubAdminIndustriesProfileQuery,
 } = subAdminApi
 
 export const SubAdminApi = {

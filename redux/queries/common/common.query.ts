@@ -83,6 +83,7 @@ const {
     useGetAppointmentsAvailableSlotsQuery,
     useAllCoordinatorsQuery,
     useCoordinatorAvailablityQuery,
+    useGetUpcommingAppointmentQuery,
 } = commonApi
 
 export const CommonApi = {
@@ -118,5 +119,6 @@ export const CommonApi = {
         useBookedAppointments: useGetBookedAppointmntsQuery,
         allCoordinators: useAllCoordinatorsQuery,
         useCoordinatorAvailablity: useCoordinatorAvailablityQuery,
+        useUpcommingAppointment: useGetUpcommingAppointmentQuery,
     },
 }

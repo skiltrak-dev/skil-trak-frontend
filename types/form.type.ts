@@ -7,7 +7,7 @@ export interface RtoFormData {
     password: string
     confirmPassword: string
     avatar: string | undefined
-    code: string
+    rtoCode: string
     abn: string
     phone: string
     suburb: string

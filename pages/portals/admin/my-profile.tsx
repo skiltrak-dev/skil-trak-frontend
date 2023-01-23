@@ -19,13 +19,14 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import { FormProvider, useForm } from 'react-hook-form'
 
 // hooks
-import { useContextBar, useNotification } from '@hooks'
+import { useContextBar, useNavbar, useNotification } from '@hooks'
 
 // query
 import { AdminApi } from '@queries'
 
 const MyProfile: NextPageWithLayout = () => {
     const contextBar = useContextBar()
+    const navbar = useNavbar()
     const { notification } = useNotification()
 
     const profile = AdminApi.Admin.useProfile()
@@ -35,6 +36,7 @@ const MyProfile: NextPageWithLayout = () => {
     useEffect(() => {
         contextBar.setContent(null)
         contextBar.hide()
+        navbar.setTitle('Edit My Profile')
     }, [])
 
     useEffect(() => {

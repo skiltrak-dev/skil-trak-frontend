@@ -1,25 +1,18 @@
+import { InitialAvatar, Typography } from '@components'
 import { Industry } from '@types'
 import Link from 'next/link'
-import { MdEmail, MdPhoneIphone } from 'react-icons/md'
-import { Typography } from '@components'
-import Image from 'next/image'
 import { FaEnvelope, FaPhoneSquareAlt } from 'react-icons/fa'
 
 export const IndustryCellInfo = ({ industry }: { industry: Industry }) => {
     return (
         <div className="flex items-center relative">
             <div className="flex items-center gap-x-2">
-                <Image
-                    className="rounded-full w-7 h-7"
-                    src={
-                        'https://images.unsplash.com/photo-1664575602276-acd073f104c1?ixlib=rb-4.0.3&ixid=MnwxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80' ||
-                        ' '
-                    }
-                    alt={''}
-                    width={50}
-                    height={50}
+                <InitialAvatar
+                    name={industry?.user?.name}
+                    imageUrl={industry?.user?.avatar}
                 />
-                <Link legacyBehavior
+                <Link
+                    legacyBehavior
                     href={`/portals/sub-admin/users/industries/${industry?.id}?tab=overview`}
                 >
                     <a>

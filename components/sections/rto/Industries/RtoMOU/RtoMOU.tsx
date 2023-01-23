@@ -10,6 +10,7 @@ import {
     LoadingAnimation,
     Table,
     EmptyData,
+    InitialAvatar,
 } from '@components'
 
 import {
@@ -42,18 +43,12 @@ export const RtoMOUContainer = () => {
             sort: true,
             cell: ({ row }: any) => {
                 const {
-                    user: { name, email, image },
+                    user: { name, email, avatar },
                 } = row.original
                 return (
                     <div className="flex items-center relative">
                         <div className="flex items-center gap-x-2">
-                            <img
-                                className="rounded-full w-7 h-7"
-                                src={
-                                    image || 'https://placeimg.com/100/100/any'
-                                }
-                                alt={name}
-                            />
+                            <InitialAvatar name={name} imageUrl={avatar} />
                             <div>
                                 <Typography color={'black'}>
                                     {' '}

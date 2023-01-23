@@ -41,7 +41,6 @@ export const RPLForm = () => {
         cnic: yup
             .mixed()
             .test('file', 'You need to provide a file', (value) => {
-                console.log('value validation', value)
                 if (value) {
                     return true
                 }
@@ -84,7 +83,6 @@ export const RPLForm = () => {
     })
 
     const onSubmit = async (values: any) => {
-        console.log('valuuuuuuu', values)
         const formData = new FormData()
         const { academicDocuments, ...rest } = values
         Object.keys(rest).forEach((file: any) => {

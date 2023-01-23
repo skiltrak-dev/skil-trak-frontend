@@ -74,6 +74,23 @@ export const AddCustomIndustryForm = ({ workplaceId }: any) => {
         setCourseLoading(false)
     }
 
+    // const onSectorChanged = (sectors: any) => {
+    //     setCourseLoading(true)
+
+    //     const sectorExisting = sectorResponse?.data?.find(
+    //         (sector: any) => sector.id === sectors?.value
+    //     )
+    //     const newCourseOptions: any = []
+    //     sectorExisting?.courses?.map((course: any) =>
+    //         newCourseOptions.push({
+    //             label: course.title,
+    //             value: course.id,
+    //         })
+    //     )
+    //     setCourseOptions(newCourseOptions)
+    //     setCourseLoading(false)
+    // }
+
     const validationSchema = yup.object({
         // Profile Information
         name: yup

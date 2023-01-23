@@ -33,6 +33,7 @@ export const useGetSectors = (data: any) => {
                 {
                   id: sector?.id,
                   name: sector?.title,
+                  title: sector?.title,
                   code: sector?.code,
                 },
               ],

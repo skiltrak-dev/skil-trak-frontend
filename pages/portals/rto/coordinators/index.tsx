@@ -17,6 +17,7 @@ import {
     PageTitle,
     Button,
     TableActionOption,
+    InitialAvatar,
 } from '@components'
 // queries
 import { RtoApi } from '@queries'
@@ -137,7 +138,7 @@ const RtoCoordinators: NextPageWithLayout = (props: Props) => {
             accessorKey: 'title',
             cell: ({ row }: any) => {
                 const {
-                    user: { name, email },
+                    user: { name, email, avatar },
                 } = row.original
                 return (
                     <Link
@@ -145,11 +146,8 @@ const RtoCoordinators: NextPageWithLayout = (props: Props) => {
                         href={`/portals/rto/coordinators/${row.original.id}`}
                         className="flex items-center gap-x-2 relative"
                     >
-                        <a>
-                            {' '}
-                            <div className="absolute top-1">
-                                {/* <SimpleCheckbox /> */}
-                            </div>
+                        <a className='flex items-center gap-x-1'>
+                            <InitialAvatar name={name} imageUrl={avatar} />
                             <div>
                                 <Typography color={'black'}>
                                     {' '}

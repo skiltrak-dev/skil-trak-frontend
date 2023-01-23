@@ -4,7 +4,7 @@ import { useJoyRide } from '@hooks'
 import { ReactNode, useEffect, useState } from 'react'
 import { UserLayout } from './UserLayout'
 import Joyride, { CallBackProps } from 'react-joyride'
-import { getUserCredentials } from '@utils'
+import { AuthUtils, getUserCredentials } from '@utils'
 import { useRouter } from 'next/router'
 interface RtoLayoutProps {
     pageTitle?: PageTitleProps
@@ -15,17 +15,18 @@ export const RtoLayout = ({ pageTitle, children }: RtoLayoutProps) => {
     const joyride = useJoyRide()
     const router = useRouter()
 
-    const userStatus = getUserCredentials()?.status
+    const token = AuthUtils.getToken()
+    const status = AuthUtils.getUserCredentials()?.status
+
+    useEffect(() => {
+        if (token && status !== 'approved') {
+            router?.push('/portals/rto')
+        }
+    }, [router, token])
 
     useEffect(() => {
         setMounted(true)
     }, [])
-
-    useEffect(() => {
-        if (userStatus === 'pending') {
-            router.push('/portals/rto')
-        }
-    }, [router])
 
     return (
         <UserLayout>

@@ -5,7 +5,7 @@ import { IoLocationSharp, IoTime } from 'react-icons/io5'
 
 type Props = {}
 
-export const RecentAppointment = (props: Props) => {
+export const RecentAppointment = ({ appointment }: { appointment: any }) => {
     return (
         <div className="w-full">
             <div className="bg-gradient-to-r from-[#3883F3] to-[#5D1BE0] rounded-2xl p-4">

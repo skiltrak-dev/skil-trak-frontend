@@ -1,6 +1,4 @@
 export * from './auth'
-export * from './rto'
-export * from './subAdmin'
 export * from './students'
 export * from './portals'
 export * from './industry'

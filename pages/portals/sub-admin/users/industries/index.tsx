@@ -1,40 +1,21 @@
-import { ReactElement, useEffect, useState } from 'react'
-import Link from 'next/link'
+import { ReactElement, useEffect } from 'react'
 //Layouts
 import { SubAdminLayout } from '@layouts'
 import { NextPageWithLayout } from '@types'
 
-import { TabsView } from '@components/sections/rto'
 //components
 import {
-    Button,
-    ReactTable,
-    RtoContextBarData,
-    SidebarCalendar,
-    Typography,
-    TableAction,
-    TableActionOption,
-    Card,
-    LoadingAnimation,
-    EmptyData,
-    TechnicalError,
-    Table,
-    TabNavigation,
-    TabProps,
+    Button, RtoContextBarData,
+    SidebarCalendar, TabNavigation,
+    TabProps
 } from '@components'
 // queries
-import { useGetSubAdminIndustriesQuery } from '@queries'
-import { FaEnvelope, FaEye, FaPhoneSquareAlt } from 'react-icons/fa'
-import Image from 'next/image'
 import { useContextBar } from '@hooks'
 
-import { Industry } from '@types'
-import { useRouter } from 'next/router'
 
-import { AdminApi } from '@queries'
 import {
     AllIndustries,
-    FavoriteIndustries,
+    FavoriteIndustries
 } from '@partials/sub-admin/indestries'
 
 type Props = {}

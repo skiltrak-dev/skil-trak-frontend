@@ -1,4 +1,5 @@
 import {
+    Alert,
     DisplayAlerts,
     PageTitle,
     PageTitleProps,
@@ -7,7 +8,7 @@ import {
 import { ReactNode, useEffect, useState } from 'react'
 import { UserLayout } from './UserLayout'
 import { useAlert, useJoyRide } from '@hooks'
-import { getUserCredentials } from '@utils'
+import { AuthUtils, getUserCredentials } from '@utils'
 import { useRouter } from 'next/router'
 import Joyride, { CallBackProps } from 'react-joyride'
 
@@ -24,6 +25,14 @@ export const StudentLayout = ({ pageTitle, children }: StudentLayoutProps) => {
     const userData = getUserCredentials()
     const joyride = useJoyRide()
 
+    const token = AuthUtils.getToken()
+    const status = AuthUtils.getUserCredentials()?.status
+    useEffect(() => {
+        if (token && status !== 'approved') {
+            router?.push('/portals/student')
+        }
+    }, [router, token])
+
     useEffect(() => {
         if (userData?.status === 'pending') {
             alert.warning({
@@ -38,11 +47,6 @@ export const StudentLayout = ({ pageTitle, children }: StudentLayoutProps) => {
         setMounted(true)
     }, [])
 
-    // useEffect(() => {
-    //     if (userData?.status === 'pending') {
-    //         router.push('/portals/student')
-    //     }
-    // }, [router])
     return (
         <UserLayout>
             <>

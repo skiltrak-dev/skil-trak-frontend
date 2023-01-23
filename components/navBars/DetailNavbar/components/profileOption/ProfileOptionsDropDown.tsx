@@ -4,6 +4,9 @@ import { FaRegAddressCard } from 'react-icons/fa'
 import { FiChevronDown } from 'react-icons/fi'
 import { MdLogout } from 'react-icons/md'
 import { useRouter } from 'next/router'
+import { useDispatch } from 'react-redux'
+
+import { subAdminApi, rtoApi, commonApi } from '@queries'
 
 export const ProfileOptionsDropDown = ({
     expanded,
@@ -12,8 +15,11 @@ export const ProfileOptionsDropDown = ({
     expanded: boolean
     setExpanded: Function
 }) => {
+    const dispatch = useDispatch()
+
     const router = useRouter()
     const role = getUserCredentials()?.role
+
     return (
         <div
             className={`absolute top-14 overflow-scroll right-0 z-40 bg-white w-48 transition-all rounded-lg remove-scrollbar ${
@@ -40,6 +46,9 @@ export const ProfileOptionsDropDown = ({
                 <li
                     onClick={() => {
                         AuthUtils.logout(router)
+                        dispatch(subAdminApi.util.resetApiState())
+                        dispatch(rtoApi.util.resetApiState())
+                        dispatch(commonApi.util.resetApiState())
                     }}
                     className="flex items-center gap-x-4 px-4 py-2 hover:bg-red-100 cursor-pointer group"
                 >

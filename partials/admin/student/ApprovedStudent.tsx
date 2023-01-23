@@ -211,7 +211,7 @@ export const ApprovedStudent = () => {
                                                 )}
                                             </div>
                                         </div>
-                                        <div className="w-full">
+                                        <div className=" overflow-x-scroll remove-scrollbar">
                                             <div className="px-6 w-full">
                                                 {table}
                                             </div>

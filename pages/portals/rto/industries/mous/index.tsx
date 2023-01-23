@@ -1,28 +1,18 @@
-import { ReactElement, useEffect } from 'react'
+import { ReactElement } from 'react'
 // Layouts
 import { RtoLayout } from '@layouts'
 //Types
 import { NextPageWithLayout } from '@types'
 // components
 import {
-    Button,
-    HelpQuestionSet,
-    ReactTable,
-    RtoContextBarData,
-    SidebarCalendar,
-    Typography,
+    HelpQuestionSet
 } from '@components'
 // Link
-import Link from 'next/link'
 
-import Image from 'next/image'
-import { useContextBar } from '@hooks'
 
 // query
-import { useGetRtoMOUListQuery } from '@queries'
 import { RtoMOUContainer } from '@components/sections'
 
-import { useGetIndustriesListQuery } from '@queries'
 
 type Props = {}
 

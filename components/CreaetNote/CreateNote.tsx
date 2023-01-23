@@ -1,21 +1,19 @@
-import React, { useEffect, useState } from 'react'
-import * as yup from 'yup'
+import { useEffect, useState } from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
 
 // components
 import {
-    Card,
     Button,
-    TextInput,
-    TextArea,
+    Card,
     Checkbox,
     Select,
+    TextArea,
+    TextInput,
 } from '@components'
 import { useContextBar } from '@hooks'
-import { MdOutlineCancel } from 'react-icons/md'
 
 // query
-import { CommonApi, useCreateNoteMutation } from '@queries'
+import { CommonApi } from '@queries'
 import { useNotification } from 'hooks'
 
 export const CreateNote = ({
@@ -29,7 +27,6 @@ export const CreateNote = ({
     const { notification } = useNotification()
     // query
     const [createNote, createNoteResult] = CommonApi.Notes.useCreate()
-    // const [updateNote, updateNoteResult] = useUpdateNoteMutation()
 
     const [editing, setEditing] = useState(false)
 

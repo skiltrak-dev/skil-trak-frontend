@@ -1,14 +1,8 @@
 import {
     ActionButton,
     BackButton,
-    Button,
-    DescriptiveInfo,
-    InitialAvatar,
-    InitialAvatarContainer,
-    LoadingAnimation,
     EmptyData,
-    Typography,
-    Card,
+    LoadingAnimation,
     TechnicalError,
 } from '@components'
 
@@ -20,17 +14,9 @@ import { NextPageWithLayout } from '@types'
 import { useRouter } from 'next/router'
 import { ReactElement, useEffect, useState } from 'react'
 
-import {
-    AiFillCodeSandboxCircle,
-    AiOutlineBarcode,
-    AiOutlineLogin,
-    AiTwotonePhone,
-} from 'react-icons/ai'
-import { BsPatchCheckFill } from 'react-icons/bs'
-import { FaArchive, FaBan, FaPhoneAlt, FaUniversity } from 'react-icons/fa'
+import { FaArchive, FaBan } from 'react-icons/fa'
 
 import { useGetRtoStudentProfileQuery } from '@queries'
-import { MdPlace } from 'react-icons/md'
 
 const Detail: NextPageWithLayout = () => {
     const router = useRouter()
@@ -81,7 +67,7 @@ const Detail: NextPageWithLayout = () => {
                     {/* Action Bar */}
                     {/* TODO Add Action on action button */}
                     <div className="flex items-center justify-between">
-                        <BackButton text="RTOs" />
+                        <BackButton text="Students" />
                         <div className="flex gap-x-2">
                             {/* <Button>Book Appointment</Button> */}
                             <ActionButton Icon={FaArchive}>

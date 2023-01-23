@@ -6,6 +6,7 @@ import { SideBarItem } from '../SideBarItem'
 import { PortalTypeBadge } from '@components/Badge'
 import { useRouter } from 'next/router'
 import { UserActions } from './components'
+import { getUserCredentials } from '@utils'
 
 export const SideBar = ({ routes, portalType }: any) => {
     const router = useRouter()
@@ -22,10 +23,14 @@ export const SideBar = ({ routes, portalType }: any) => {
             return trimmedPath.includes(currentPath)
         }
     }
+    const role = getUserCredentials()?.role
 
     return (
         <div className="w-56 flex-shrink-0 h-screen pb-24 bg-white border-r border-secondary-dark px-2 py-2 relative overflow-y-scroll remove-scrollbar">
-            <Link legacyBehavior href="/">
+            <Link
+                legacyBehavior
+                href={`/portals/${role === 'subadmin' ? 'sub-admin' : role}`}
+            >
                 <div className="relative w-fit mx-auto pt-2">
                     <Image
                         src={`/images/skiltrak_logo.svg`}

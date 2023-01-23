@@ -13,15 +13,14 @@ import {
 } from '@components'
 import { PageHeading } from '@components/headings'
 import { ColumnDef } from '@tanstack/react-table'
-import { FaEdit, FaEye, FaFileExport, FaFilter, FaTrash } from 'react-icons/fa'
+import { FaEdit, FaEye, FaFileExport, FaTrash } from 'react-icons/fa'
 
 import { AdminApi } from '@queries'
-import { MdBlock, MdEmail, MdPhoneIphone } from 'react-icons/md'
+import { Rto } from '@types'
+import { useRouter } from 'next/router'
 import { ReactElement, useState } from 'react'
 import { RtoCellInfo } from './components'
 import { AcceptModal, DeleteModal } from './modals'
-import { Rto } from '@types'
-import { useRouter } from 'next/router'
 
 export const RejectedRto = () => {
     const [modal, setModal] = useState<ReactElement | null>(null)
@@ -86,9 +85,7 @@ export const RejectedRto = () => {
     const columns: ColumnDef<any>[] = [
         {
             accessorKey: 'user.name',
-            cell: (info) => {
-                return <RtoCellInfo rto={info.row.original} />
-            },
+            cell: (info) => <RtoCellInfo rto={info.row.original} />,
             header: () => <span>Name</span>,
         },
         {
@@ -110,16 +107,14 @@ export const RejectedRto = () => {
         {
             accessorKey: 'action',
             header: () => <span>Action</span>,
-            cell: (info) => {
-                return (
-                    <div className="flex gap-x-1 items-center">
-                        <TableAction
-                            options={tableActionOptions}
-                            rowItem={info.row.original}
-                        />
-                    </div>
-                )
-            },
+            cell: (info) => (
+                <div className="flex gap-x-1 items-center">
+                    <TableAction
+                        options={tableActionOptions}
+                        rowItem={info.row.original}
+                    />
+                </div>
+            ),
         },
     ]
 
