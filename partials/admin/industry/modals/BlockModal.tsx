@@ -9,7 +9,7 @@ export const BlockModal = ({
     industry,
     onCancel,
 }: {
-    industry: Industry | undefined
+    industry: Industry | undefined | null
     onCancel: Function
 }) => {
     const { alert } = useAlert()

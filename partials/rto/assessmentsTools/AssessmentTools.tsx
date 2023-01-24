@@ -6,6 +6,9 @@ import { UserStatus } from '@types'
 // Icons
 import { FaEdit } from 'react-icons/fa'
 
+// colors
+import { getThemeColors } from '@theme'
+
 // components
 import {
     Typography,
@@ -15,15 +18,19 @@ import {
     AssessmentCourse,
     DownloadableFile,
     NoData,
+    ShowErrorNotifications,
 } from '@components'
 import {
     useGetRTOCoursesQuery,
     useGetAssessmentToolByCourseQuery,
+    useRemoveRTOAssessmentToolsMutation,
     useUpdateAssessmentToolArchiveMutation,
 } from '@queries'
-import { useContextBar, useJoyRide } from '@hooks'
+import { useContextBar, useJoyRide, useNotification } from '@hooks'
 import { AddAssessmentToolCB } from '../../../components/sections/subAdmin/UsersContainer/SubAdminRtosContainer/SubAdminRtosProfile/contextBar'
 import { AddAssessmentForm } from './form'
+import { MdDelete } from 'react-icons/md'
+import { PulseLoader } from 'react-spinners'
 // import {AssessmentCourse} from
 
 export const AssessmentsToolsContainer = () => {
@@ -31,6 +38,9 @@ export const AssessmentsToolsContainer = () => {
     const [selectedCourseId, setSelectedCourseId] = useState<number | null>(
         null
     )
+
+    // hooks
+    const { notification } = useNotification()
 
     const contextBar = useContextBar()
 
@@ -44,6 +54,7 @@ export const AssessmentsToolsContainer = () => {
     )
     const [archiveAssessmentTool, archiveAssessmentToolResult] =
         useUpdateAssessmentToolArchiveMutation()
+    const [remove, removeResult] = useRemoveRTOAssessmentToolsMutation()
 
     const onAddAssessment = () => {
         contextBar.setTitle('Add Assessment')
@@ -72,6 +83,15 @@ export const AssessmentsToolsContainer = () => {
         }
     }, [])
 
+    useEffect(() => {
+        if (removeResult.isSuccess) {
+            notification.error({
+                title: 'Assessment Deleted',
+                description: 'Assessment Deleted Successfully',
+            })
+        }
+    }, [removeResult])
+
     //  ADD ASSESSMENT JOY RIDE - END
 
     const actions = (assessment: any) => {
@@ -93,17 +113,27 @@ export const AssessmentsToolsContainer = () => {
                         Archive
                     </Typography>
                 </div>
-                {/* <div
-                    onClick={() => {
-                    }}
-                >
-                    <FaEdit className="text-[#686DE0] cursor-pointer" />
-                </div> */}
+                {removeResult.isLoading &&
+                removeResult?.originalArgs === assessment?.id ? (
+                    <PulseLoader
+                        size={4}
+                        color={getThemeColors()?.error?.DEFAULT}
+                    />
+                ) : (
+                    <div
+                        onClick={() => {
+                            remove(assessment?.id)
+                        }}
+                    >
+                        <MdDelete className="text-red-400 cursor-pointer" />
+                    </div>
+                )}
             </div>
         )
     }
     return (
         <div>
+            <ShowErrorNotifications result={removeResult} />
             <div className="mb-2">
                 <Typography variant="muted" color="text-gray-400">
                     *You can access all your assessment tools by clicking on

@@ -60,7 +60,6 @@ export const Select = ({
 }: SelectProps) => {
     const formContext = useFormContext()
 
-    console.log('defaultValuedefaultValue', defaultValue)
 
     const CustomStyle = {
         control: (

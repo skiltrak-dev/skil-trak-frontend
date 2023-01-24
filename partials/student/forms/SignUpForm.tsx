@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
+import 'react-phone-number-input/style.css'
 
 import _debounce from 'lodash/debounce'
 import * as yup from 'yup'
@@ -9,12 +10,20 @@ import { useNotification } from '@hooks'
 import { AuthApi } from '@queries'
 import { getDate, isEmailValid, onlyAlphabets, SignUpUtils } from '@utils'
 
-import { Button, Checkbox, Select, TextInput, Typography } from '@components'
+import {
+    Button,
+    Checkbox,
+    PhoneInputWithCountry,
+    Select,
+    TextInput,
+    Typography,
+} from '@components'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { FormProvider, useForm } from 'react-hook-form'
 
 export const StudentSignUpForm = ({ onSubmit }: { onSubmit: any }) => {
     const router = useRouter()
+    const [phoneValue, setPhoneValue] = useState()
 
     const { notification } = useNotification()
 
@@ -122,7 +131,11 @@ export const StudentSignUpForm = ({ onSubmit }: { onSubmit: any }) => {
         rto: yup.number().required('Must provide RTO'),
         dob: yup.date().required('Must provide Date of Birth'),
 
-        phone: yup.string().required('Must provide phone number'),
+        phone: yup
+            .string()
+            .nullable(true)
+            .min(12, 'Phone Number must be 9 number')
+            .required('Must provide phone number'),
 
         // Sector Information
         sectors: yup.array().min(1, 'Must select at least 1 sector'),
@@ -218,13 +231,23 @@ export const StudentSignUpForm = ({ onSubmit }: { onSubmit: any }) => {
                                 validationIcons
                                 required
                             />
-                            <TextInput
+                            {/* <TextInput
                                 label={'Phone Number'}
                                 name={'phone'}
                                 placeholder={'Your phone number...'}
                                 validationIcons
                                 required
+                            /> */}
+                            <PhoneInputWithCountry
+                                label={'Phone'}
+                                required
+                                name={'phone'}
+                                validationIcons
+                                countries={['AU']}
+                                defaultCountry={'AU'}
+                                placeholder={'Enter your number'}
                             />
+
                             <TextInput
                                 label={'Student ID'}
                                 name={'studentId'}

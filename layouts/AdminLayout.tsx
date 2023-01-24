@@ -1,4 +1,3 @@
-import { useAlert, useNotification } from '@hooks'
 import { ReactElement, ReactNode } from 'react'
 
 // components
@@ -12,7 +11,12 @@ import {
 import { IconType } from 'react-icons'
 import { FaClipboardList, FaUniversity, FaUserGraduate } from 'react-icons/fa'
 import { IoMdBriefcase } from 'react-icons/io'
-import { MdHomeWork, MdSpaceDashboard, MdSubscriptions } from 'react-icons/md'
+import {
+    MdHomeWork,
+    MdSpaceDashboard,
+    MdSubscriptions,
+    MdVolunteerActivism,
+} from 'react-icons/md'
 import { RiShieldUserFill, RiVoiceRecognitionLine } from 'react-icons/ri'
 
 type Route = {
@@ -83,6 +87,11 @@ const routes: Route[] = [
         text: 'RPL',
         path: getRoutePath('/rpl-list'),
         Icon: RiVoiceRecognitionLine,
+    },
+    {
+        text: 'Volunteer Request',
+        path: getRoutePath('/volunteer-requests'),
+        Icon: MdVolunteerActivism,
     },
     {
         text: 'Jobs',

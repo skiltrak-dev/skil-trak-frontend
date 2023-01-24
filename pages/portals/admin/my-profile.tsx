@@ -19,7 +19,12 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import { FormProvider, useForm } from 'react-hook-form'
 
 // hooks
-import { useContextBar, useNavbar, useNotification } from '@hooks'
+import {
+    useActionModal,
+    useContextBar,
+    useNavbar,
+    useNotification,
+} from '@hooks'
 
 // query
 import { AdminApi } from '@queries'
@@ -28,6 +33,8 @@ const MyProfile: NextPageWithLayout = () => {
     const contextBar = useContextBar()
     const navbar = useNavbar()
     const { notification } = useNotification()
+
+    const { onUpdatePassword, passwordModal } = useActionModal()
 
     const profile = AdminApi.Admin.useProfile()
     const [updateProfile, updateProfileResult] =
@@ -82,47 +89,56 @@ const MyProfile: NextPageWithLayout = () => {
         updateProfile(values)
     }
     return (
-        <div className="p-4 mb-4">
-            <Avatar avatar={profile?.data?.avatar} />
+        <>
+            {passwordModal && passwordModal}
+            <div className="p-4 mb-4">
+                <Avatar avatar={profile?.data?.avatar} />
 
-            <div className="flex justify-between gap-x-16 border-t py-4">
-                <FormProvider {...formMethods}>
-                    <form
-                        className="w-4/6"
-                        onSubmit={formMethods.handleSubmit(onSubmit)}
-                    >
-                        {/* Personal Information */}
-                        <TextInput
-                            label={'Name'}
-                            name={'name'}
-                            placeholder={'Student Name...'}
-                            validationIcons
-                            required
-                        />
-
-                        <TextInput
-                            label={'Email'}
-                            name={'email'}
-                            type={'email'}
-                            placeholder={'Your Email...'}
-                            validationIcons
-                            required
-                            disabled
-                        />
-
-                        <div>
-                            <Button
-                                text={'Update'}
-                                submit
-                                loading={updateProfileResult.isLoading}
-                                disabled={updateProfileResult.isLoading}
+                <div className="flex justify-between gap-x-16 border-t py-4">
+                    <FormProvider {...formMethods}>
+                        <form
+                            className="w-4/6"
+                            onSubmit={formMethods.handleSubmit(onSubmit)}
+                        >
+                            {/* Personal Information */}
+                            <TextInput
+                                label={'Name'}
+                                name={'name'}
+                                placeholder={'Student Name...'}
+                                validationIcons
+                                required
                             />
-                        </div>
-                    </form>
-                </FormProvider>
-                {/* <Avatar avatar={profile?.data?.avatar} /> */}
+
+                            <TextInput
+                                label={'Email'}
+                                name={'email'}
+                                type={'email'}
+                                placeholder={'Your Email...'}
+                                validationIcons
+                                required
+                                disabled
+                            />
+
+                            <div>
+                                <Button
+                                    text={'Update'}
+                                    submit
+                                    loading={updateProfileResult.isLoading}
+                                    disabled={updateProfileResult.isLoading}
+                                />
+                            </div>
+                        </form>
+                    </FormProvider>
+                    <div>
+                        <Button
+                            text={'Update Password'}
+                            onClick={() => onUpdatePassword(profile?.data)}
+                        />
+                    </div>
+                    {/* <Avatar avatar={profile?.data?.avatar} /> */}
+                </div>
             </div>
-        </div>
+        </>
     )
 }
 

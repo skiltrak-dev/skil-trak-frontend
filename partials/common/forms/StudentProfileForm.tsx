@@ -10,6 +10,7 @@ import { Button, Card, TextInput, Typography, Select } from '@components'
 import { getDate, onlyAlphabets } from '@utils'
 import { AuthApi } from '@queries'
 import { Course, Sector } from '@types'
+import { useActionModal } from '@hooks'
 
 export const StudentProfileForm = ({
     profile,
@@ -21,6 +22,7 @@ export const StudentProfileForm = ({
     onSubmit: any
 }) => {
     const sectorResponse = AuthApi.useSectors({})
+    const rtoResponse = AuthApi.useRtos({})
     const [sectorDefaultOptions, setSectorDefaultOptions] = useState<
         any | null
     >(null)
@@ -28,12 +30,27 @@ export const StudentProfileForm = ({
     const [courseOptions, setCourseOptions] = useState([])
     const [courseDefaultOptions, setCourseDefaultOptions] = useState([])
 
+    const { onUpdatePassword, passwordModal } = useActionModal()
+
     const sectorOptions = sectorResponse?.data
         ? sectorResponse.data?.map((sector: any) => ({
               label: sector.name,
               value: sector.id,
           }))
         : []
+
+    const rtoOptions = rtoResponse.data?.length
+        ? rtoResponse?.data?.map((rto: any) => ({
+              label: rto.user.name,
+              value: rto.id,
+          }))
+        : []
+    const rtoDefaultOptions = profile?.data?.rto
+        ? {
+              label: profile?.data?.rto?.user?.name,
+              value: profile?.data?.rto?.id,
+          }
+        : {}
 
     useEffect(() => {
         if (profile?.data) {
@@ -66,11 +83,11 @@ export const StudentProfileForm = ({
 
     const onSectorChanged = (sectors: any, chkDefaultOptions?: boolean) => {
         const filteredCourses = sectors.map((selectedSector: any) => {
-            const sectorExisting = sectorResponse.data.find(
-                (sector: any) => sector.id === selectedSector.value
+            const sectorExisting = sectorResponse.data?.find(
+                (sector: any) => sector?.id === selectedSector?.value
             )
             if (sectorExisting && sectorExisting?.courses?.length) {
-                return sectorExisting.courses
+                return sectorExisting?.courses
             }
         })
 
@@ -145,6 +162,8 @@ export const StudentProfileForm = ({
                 ...rest
             } = profile?.data
             const values = {
+                courses: courses?.map((c: Course) => c.id),
+                rto: rto?.id,
                 ...rest,
                 ...user,
             }
@@ -155,6 +174,13 @@ export const StudentProfileForm = ({
     }, [profile])
     return (
         <Card>
+            {passwordModal && passwordModal}
+            <div className="flex justify-end mb-3">
+                <Button
+                    text={'Update Password'}
+                    onClick={() => onUpdatePassword(profile?.data)}
+                />
+            </div>
             <FormProvider {...formMethods}>
                 <form
                     className="flex flex-col gap-y-4"
@@ -234,6 +260,36 @@ export const StudentProfileForm = ({
                         </div>
                     </div>
 
+                    {Object.values(rtoDefaultOptions)?.filter(
+                        (f) => f !== undefined
+                    )?.length > 0 && (
+                        <Select
+                            label={'RTO'}
+                            {...(Object.values(rtoDefaultOptions)?.filter(
+                                (f) => f !== undefined
+                            )?.length > 0 && {
+                                defaultValue: rtoDefaultOptions,
+                            })}
+                            name={'rto'}
+                            options={rtoOptions}
+                            placeholder={'Select RTO...'}
+                            onlyValue
+                            loading={rtoResponse.isLoading}
+                            validationIcons
+                        />
+                    )}
+                    {!Object.keys(rtoDefaultOptions)?.length && (
+                        <Select
+                            label={'RTO'}
+                            name={'rto'}
+                            options={rtoOptions}
+                            placeholder={'Select RTO...'}
+                            onlyValue
+                            loading={rtoResponse.isLoading}
+                            validationIcons
+                        />
+                    )}
+
                     <div className="w-4/6 grid grid-cols-1 gap-y-4">
                         <div>
                             {sectorDefaultOptions &&
@@ -255,6 +311,18 @@ export const StudentProfileForm = ({
                                         validationIcons
                                     />
                                 )}
+                            {!sectorDefaultOptions?.length && (
+                                <Select
+                                    label={'Sector'}
+                                    name={'sectors'}
+                                    options={sectorOptions}
+                                    placeholder={'Select Sectors...'}
+                                    multi
+                                    loading={sectorResponse.isLoading}
+                                    onChange={onSectorChanged}
+                                    validationIcons
+                                />
+                            )}
                         </div>
                         <div>
                             {courseOptions && courseOptions?.length > 0 && (
@@ -266,6 +334,18 @@ export const StudentProfileForm = ({
                                     multi
                                     disabled={courseOptions?.length === 0}
                                     validationIcons
+                                    onlyValue
+                                />
+                            )}
+                            {!courseOptions?.length && (
+                                <Select
+                                    label={'Courses'}
+                                    name={'courses'}
+                                    options={courseOptions}
+                                    multi
+                                    disabled={courseOptions?.length === 0}
+                                    validationIcons
+                                    onlyValue
                                 />
                             )}
                         </div>

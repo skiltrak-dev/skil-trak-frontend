@@ -9,7 +9,7 @@ export const UnblockModal = ({
     industry,
     onCancel,
 }: {
-    industry: Industry
+    industry: Industry | undefined | null
     onCancel: Function
 }) => {
     const { alert } = useAlert()
@@ -24,7 +24,7 @@ export const UnblockModal = ({
         if (changeStatusResult.isSuccess) {
             alert.warning({
                 title: `Industry Unblocked`,
-                description: `Industry "${industry.user.name}" has been unblocked.`,
+                description: `Industry "${industry?.user?.name}" has been unblocked.`,
             })
             onCancel()
         }
@@ -41,11 +41,11 @@ export const UnblockModal = ({
             Icon={CgUnblock}
             variant="primary"
             title="Are you sure!"
-            description={`You are about to unblock <em>"${industry.user.name}"</em>. Do you wish to continue?`}
+            description={`You are about to unblock <em>"${industry?.user?.name}"</em>. Do you wish to continue?`}
             onConfirm={onConfirmClicked}
             onCancel={onCancel}
             input
-            inputKey={industry.user.email}
+            inputKey={industry?.user?.email}
             actionObject={industry}
             loading={changeStatusResult.isLoading}
         />

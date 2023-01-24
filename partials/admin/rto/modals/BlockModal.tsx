@@ -9,7 +9,7 @@ export const BlockModal = ({
     rto,
     onCancel,
 }: {
-    rto: Rto | undefined
+    rto: Rto | undefined | null
     onCancel: Function
 }) => {
     const { alert } = useAlert()

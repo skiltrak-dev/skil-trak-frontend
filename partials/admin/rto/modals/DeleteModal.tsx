@@ -10,7 +10,7 @@ export const DeleteModal = ({
     rto,
     onCancel,
 }: {
-    rto: Rto
+    rto: Rto | undefined | null
     onCancel: Function
 }) => {
     const { alert } = useAlert()
@@ -18,14 +18,14 @@ export const DeleteModal = ({
     const [remove, removeResult] = AdminApi.Rtos.useRemove()
 
     const onConfirmUClicked = async (rto: Rto) => {
-        await remove(rto.id)
+        await remove(rto?.id)
     }
 
     useEffect(() => {
         if (removeResult.isSuccess) {
             alert.error({
                 title: `RTO Deleted`,
-                description: `RTO "${rto.user.name}" has been deleted.`,
+                description: `RTO "${rto?.user?.name}" has been deleted.`,
             })
             onCancel()
         }
@@ -42,11 +42,11 @@ export const DeleteModal = ({
             Icon={FaTrash}
             variant="error"
             title="Are you sure!"
-            description={`You are about to delete "${rto.user.name}". Do you wish to continue?`}
+            description={`You are about to delete "${rto?.user?.name}". Do you wish to continue?`}
             onConfirm={onConfirmUClicked}
             onCancel={onCancel}
             input
-            inputKey={rto.user.email}
+            inputKey={rto?.user?.email}
             actionObject={rto}
             loading={removeResult.isLoading}
         />

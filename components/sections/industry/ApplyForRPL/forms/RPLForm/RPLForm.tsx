@@ -1,23 +1,18 @@
-import React, { useEffect, useState } from 'react'
-import * as yup from 'yup'
-import { yupResolver } from '@hookform/resolvers/yup'
-import { FormProvider, useForm } from 'react-hook-form'
 import { useRouter } from 'next/router'
+import { useEffect, useState } from 'react'
+import { FormProvider, useForm } from 'react-hook-form'
+import * as yup from 'yup'
 
 // components
 import {
-    Button,
-    BackButton,
-    Card,
+    ActionAlert, BackButton, Button, Card,
     Popup,
     TextArea,
-    Typography,
-    ActionAlert,
+    Typography
 } from 'components'
 import { UploadRPLDocs } from './components'
 
 // hooks
-import { useContextBar } from 'hooks'
 
 // query
 import { useAddRplMutation } from '@queries'
@@ -28,7 +23,6 @@ export const RPLForm = () => {
     const [iseRPLSaved, setIseRPLSaved] = useState(false)
 
     const router = useRouter()
-    const { setContent } = useContextBar()
 
     useEffect(() => {
         iseRPLSaved &&

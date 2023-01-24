@@ -39,56 +39,50 @@ export const StudentNavbar = () => {
                             </a>
                         </Link>
                     </li>
-
-                    {status === 'approved' && (
-                        <>
-                            <li>
-                                <Link
-                                    legacyBehavior
-                                    href="/portals/student/workplace"
-                                >
-                                    <a
-                                        className={`${
-                                            router.pathname ==
-                                            '/portals/student/workplace'
-                                                ? 'bg-green-100 text-green-700'
-                                                : 'text-slate-700'
-                                        } ${defaultClasses} hover:bg-green-100 hover:text-green-700`}
-                                        id="workplace"
-                                    >
-                                        <span>
-                                            <FaBriefcase />
-                                        </span>
-                                        <span className="text-sm font-semibold">
-                                            Workplace
-                                        </span>
-                                    </a>
-                                </Link>
-                            </li>
-                            <li>
-                                <Link
-                                    legacyBehavior
-                                    href="/portals/student/assessments"
-                                >
-                                    <a
-                                        className={`${
-                                            router.pathname ==
-                                            '/portals/student/assessments'
-                                                ? 'bg-orange-100 text-orange-700'
-                                                : 'text-slate-700'
-                                        } ${defaultClasses} hover:bg-orange-100 hover:text-orange-700`}
-                                        id="assessments"
-                                    >
-                                        <span>
-                                            <MdAssessment />
-                                        </span>
-                                        <span className="text-sm font-semibold">
-                                            Assessments
-                                        </span>
-                                    </a>
-                                </Link>
-                            </li>
-                            {/* <li>
+                    <li>
+                        <Link legacyBehavior href="/portals/student/workplace">
+                            <a
+                                className={`${
+                                    router.pathname ==
+                                    '/portals/student/workplace'
+                                        ? 'bg-green-100 text-green-700'
+                                        : 'text-slate-700'
+                                } ${defaultClasses} hover:bg-green-100 hover:text-green-700`}
+                                id="workplace"
+                            >
+                                <span>
+                                    <FaBriefcase />
+                                </span>
+                                <span className="text-sm font-semibold">
+                                    Workplace
+                                </span>
+                            </a>
+                        </Link>
+                    </li>
+                    <li>
+                        <Link
+                            legacyBehavior
+                            href="/portals/student/assessments"
+                        >
+                            <a
+                                className={`${
+                                    router.pathname ==
+                                    '/portals/student/assessments'
+                                        ? 'bg-orange-100 text-orange-700'
+                                        : 'text-slate-700'
+                                } ${defaultClasses} hover:bg-orange-100 hover:text-orange-700`}
+                                id="assessments"
+                            >
+                                <span>
+                                    <MdAssessment />
+                                </span>
+                                <span className="text-sm font-semibold">
+                                    Assessments
+                                </span>
+                            </a>
+                        </Link>
+                    </li>
+                    {/* <li>
                 <Link legacyBehavior href="/portals/student/notifications">
                     <a
                         className={`${
@@ -106,8 +100,6 @@ export const StudentNavbar = () => {
                     </a>
                 </Link>
             </li> */}{' '}
-                        </>
-                    )}
                 </ul>
             </Desktop>
 
