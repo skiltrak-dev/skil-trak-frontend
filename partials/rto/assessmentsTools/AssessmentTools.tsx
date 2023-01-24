@@ -50,20 +50,20 @@ export const AssessmentsToolsContainer = () => {
         contextBar.setContent(<AddAssessmentForm courses={rtoCourses} />)
         contextBar.show()
     }
-    //  ADD ASSESSMENT JOY RIDE - END
-    const joyride = useJoyRide()
     useEffect(() => {
         if (rtoCourses.isSuccess) {
             setSelectedCourseId(
                 selectedCourseId
                     ? rtoCourses?.data?.data?.find(
-                          (c: any) => c?.id === selectedCourseId
-                      )?.id
+                        (c: any) => c?.id === selectedCourseId
+                    )?.id
                     : rtoCourses?.data?.data[0]?.id
             )
         }
     }, [rtoCourses])
 
+    //  ADD ASSESSMENT JOY RIDE 
+    const joyride = useJoyRide()
     useEffect(() => {
         if (joyride.state.tourActive) {
             setTimeout(() => {
@@ -72,7 +72,7 @@ export const AssessmentsToolsContainer = () => {
         }
     }, [])
 
-    //  ADD ASSESSMENT JOY RIDE - END
+    //  ADD ASSESSMENT JOY RIDE 
 
     const actions = (assessment: any) => {
         return (
@@ -122,7 +122,7 @@ export const AssessmentsToolsContainer = () => {
                         {rtoCourses?.isLoading || rtoCourses?.isFetching ? (
                             <LoadingAnimation size={85} />
                         ) : rtoCourses?.data?.data &&
-                          rtoCourses?.data?.data?.length > 0 ? (
+                            rtoCourses?.data?.data?.length > 0 ? (
                             rtoCourses?.data?.data?.map((course: any) => (
                                 <AssessmentCourse
                                     code={course?.code}
@@ -172,10 +172,10 @@ export const AssessmentsToolsContainer = () => {
                         </div>
                         <div className="p-2 min-h-[260px]">
                             {getAssessmentTools?.isLoading ||
-                            getAssessmentTools?.isFetching ? (
+                                getAssessmentTools?.isFetching ? (
                                 <LoadingAnimation size={80} />
                             ) : getAssessmentTools?.data &&
-                              getAssessmentTools?.data?.length > 0 ? (
+                                getAssessmentTools?.data?.length > 0 ? (
                                 getAssessmentTools?.data?.map(
                                     (assessment: any) => (
                                         <DownloadableFile

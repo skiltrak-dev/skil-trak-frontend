@@ -67,6 +67,8 @@ const Workplace: NextPageWithLayout = (props: Props) => {
         // },
     ]
 
+  
+
     return (
         <>
             <div>
@@ -80,14 +82,14 @@ const Workplace: NextPageWithLayout = (props: Props) => {
                     />
                 </div>
                 {filteredWorkplaces.isLoading ||
-                filteredWorkplaces.isFetching ? (
+                    filteredWorkplaces.isFetching ? (
                     <div className="mt-5">
                         <Card>
                             <LoadingAnimation />
                         </Card>
                     </div>
                 ) : Object.keys(filter).length &&
-                  filteredWorkplaces.isSuccess ? (
+                    filteredWorkplaces.isSuccess ? (
                     <FilteredWorkplaces workplace={filteredWorkplaces} />
                 ) : (
                     <TabNavigation tabs={tabs}>

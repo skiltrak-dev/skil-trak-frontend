@@ -453,13 +453,15 @@ const StudentDashboard: NextPageWithLayout = () => {
                                                                 {
                                                                     workplace
                                                                         ?.industry
-                                                                        ?.state
-                                                                }
-                                                                ,
+                                                                        ?.addressLine1
+                                                                },{" "}
                                                                 {
                                                                     workplace
                                                                         ?.industry
-                                                                        ?.suburb
+                                                                        ?.addressLine2 || "N/A"
+                                                                }, {" "}
+                                                                {
+                                                                    workplace?.industry?.suburb || 'N/A'
                                                                 }
                                                             </span>
                                                         </div>
@@ -476,6 +478,7 @@ const StudentDashboard: NextPageWithLayout = () => {
                             <NoData text="No Workplace" />
                         </div>
                     )}
+                    {/* approvalStatus */}
                 </Card>
             </div>
 

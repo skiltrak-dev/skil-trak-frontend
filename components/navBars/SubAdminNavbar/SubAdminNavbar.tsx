@@ -56,7 +56,7 @@ export const SubAdminNavbar = () => {
                                     ? 'bg-blue-100 text-blue-700'
                                     : 'text-slate-700'
                             } ${defaultClasses} hover:bg-blue-100 hover:text-blue-700`}
-                            id="users"
+                            id="student"
                         >
                             <span>
                                 <FaUserGraduate />

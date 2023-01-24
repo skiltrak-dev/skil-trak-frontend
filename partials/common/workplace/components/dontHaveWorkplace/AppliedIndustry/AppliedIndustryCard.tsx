@@ -8,6 +8,7 @@ type Props = {
     appliedIndustry: any
     workplaceRequest: any
     workplaceCancelRequest: Function
+    status: any
 }
 
 export const AppliedIndustryCard = ({
@@ -15,6 +16,7 @@ export const AppliedIndustryCard = ({
     appliedIndustry,
     workplaceRequest,
     workplaceCancelRequest,
+    status,
 }: Props) => {
     return (
         <div>

@@ -76,7 +76,7 @@ export const ApprovedStudent = () => {
         {
             text: 'View',
             onClick: (student: Student) => {
-                router.push(`/portals/rto/students/${student.id}`)
+                router.push(`/portals/rto/students/${student.id}?tab=overview`)
             },
             Icon: FaEye,
         },

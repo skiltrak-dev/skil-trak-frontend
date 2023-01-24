@@ -7,6 +7,8 @@ import { useRouter } from 'next/router'
 import { useDispatch } from 'react-redux'
 
 import { subAdminApi, rtoApi, commonApi } from '@queries'
+import { useJoyRide } from '@hooks'
+import { useEffect } from 'react'
 
 export const ProfileOptionsDropDown = ({
     expanded,
@@ -19,19 +21,29 @@ export const ProfileOptionsDropDown = ({
 
     const router = useRouter()
     const role = getUserCredentials()?.role
+    //  EDIT PROFILE JOY RIDE 
+    const joyride = useJoyRide()
+    useEffect(() => {
+        if (joyride.state.tourActive) {
+            setTimeout(() => {
+                joyride.setState({ ...joyride.state, run: true, stepIndex: 0 })
+            }, 1200)
+        }
+    }, [])
+
+    //  EDIT PROFILE JOY RIDE 
 
     return (
         <div
-            className={`absolute top-14 overflow-scroll right-0 z-40 bg-white w-48 transition-all rounded-lg remove-scrollbar ${
-                !expanded ? 'max-h-0' : 'max-h-96 shadow-md border'
-            } `}
+            className={`absolute top-14 overflow-scroll right-0 z-40 bg-white w-48 transition-all rounded-lg remove-scrollbar ${!expanded ? 'max-h-0' : 'max-h-96 shadow-md border'
+                } `}
         >
             <ul>
                 <li
+                    id='edit-profile'
                     onClick={() => {
                         router.push(
-                            `/portals/${
-                                role === 'subadmin' ? 'sub-admin' : role
+                            `/portals/${role === 'subadmin' ? 'sub-admin' : role
                             }/my-profile`
                         )
                         setExpanded(false)

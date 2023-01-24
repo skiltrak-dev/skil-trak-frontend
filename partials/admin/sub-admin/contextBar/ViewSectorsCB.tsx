@@ -27,7 +27,6 @@ export const ViewSectorsCB = ({ subAdmin }: { subAdmin: SubAdmin }) => {
     const sectorsWithCourses = getSectors(courses.data)
     //  const courses = subAdmin.courses
     //  const sectorsWithCourses = getSectors(courses)
-
     const [assignCourses, assignCoursesResult] =
         AdminApi.SubAdmins.useAssignCourses()
     const onSubmit = async (values: any) => {
@@ -41,6 +40,7 @@ export const ViewSectorsCB = ({ subAdmin }: { subAdmin: SubAdmin }) => {
     const [unassignCourse, unassignCourseResult] =
         AdminApi.SubAdmins.useUnassignCourse()
     const onCourseRemove = async (course: Course) => {
+        console.log("course", course)
         await unassignCourse({
             id: subAdmin.id,
             course: course.id,

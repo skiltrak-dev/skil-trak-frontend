@@ -9,8 +9,8 @@ export const checkWorkplaceStatus = (currentStatus: string) => {
         'awaitingAgreementSigned',
         'AgreementSigned',
         'placementStarted',
-        'completed',
         'cancelled',
+        'completed',
         'rejected',
         'terminated',
     ]

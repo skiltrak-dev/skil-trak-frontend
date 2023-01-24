@@ -69,6 +69,12 @@ const WorkplaceRequestProgress = {
         color: 'text-white',
         image: 'placement-started.png',
     },
+    '10-PlacementStarted': {
+        status: 'Placement Cancelled',
+        description: '',
+        color: 'text-white',
+        image: 'placement-cancelled.png',
+    },
 }
 
 export const ProgressCell = ({
@@ -76,7 +82,7 @@ export const ProgressCell = ({
     step,
 }: {
     status?: WorkplaceRequestStatus
-    step: 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | number
+    step: 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | number
 }) => {
     // const currentStatus = WorkplaceRequestProgress[status]
     const currentStatus = Object.values(WorkplaceRequestProgress)[step - 1]
