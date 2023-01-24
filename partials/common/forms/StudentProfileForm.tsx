@@ -22,6 +22,7 @@ export const StudentProfileForm = ({
     onSubmit: any
 }) => {
     const sectorResponse = AuthApi.useSectors({})
+    const rtoResponse = AuthApi.useRtos({})
     const [sectorDefaultOptions, setSectorDefaultOptions] = useState<
         any | null
     >(null)
@@ -37,6 +38,19 @@ export const StudentProfileForm = ({
               value: sector.id,
           }))
         : []
+
+    const rtoOptions = rtoResponse.data?.length
+        ? rtoResponse?.data?.map((rto: any) => ({
+              label: rto.user.name,
+              value: rto.id,
+          }))
+        : []
+    const rtoDefaultOptions = profile?.data?.rto
+        ? {
+              label: profile?.data?.rto?.user?.name,
+              value: profile?.data?.rto?.id,
+          }
+        : {}
 
     useEffect(() => {
         if (profile?.data) {
@@ -148,6 +162,8 @@ export const StudentProfileForm = ({
                 ...rest
             } = profile?.data
             const values = {
+                courses: courses?.map((c: Course) => c.id),
+                rto: rto?.id,
                 ...rest,
                 ...user,
             }
@@ -244,6 +260,36 @@ export const StudentProfileForm = ({
                         </div>
                     </div>
 
+                    {Object.values(rtoDefaultOptions)?.filter(
+                        (f) => f !== undefined
+                    )?.length > 0 && (
+                        <Select
+                            label={'RTO'}
+                            {...(Object.values(rtoDefaultOptions)?.filter(
+                                (f) => f !== undefined
+                            )?.length > 0 && {
+                                defaultValue: rtoDefaultOptions,
+                            })}
+                            name={'rto'}
+                            options={rtoOptions}
+                            placeholder={'Select RTO...'}
+                            onlyValue
+                            loading={rtoResponse.isLoading}
+                            validationIcons
+                        />
+                    )}
+                    {!Object.keys(rtoDefaultOptions)?.length && (
+                        <Select
+                            label={'RTO'}
+                            name={'rto'}
+                            options={rtoOptions}
+                            placeholder={'Select RTO...'}
+                            onlyValue
+                            loading={rtoResponse.isLoading}
+                            validationIcons
+                        />
+                    )}
+
                     <div className="w-4/6 grid grid-cols-1 gap-y-4">
                         <div>
                             {sectorDefaultOptions &&
@@ -265,6 +311,18 @@ export const StudentProfileForm = ({
                                         validationIcons
                                     />
                                 )}
+                            {!sectorDefaultOptions?.length && (
+                                <Select
+                                    label={'Sector'}
+                                    name={'sectors'}
+                                    options={sectorOptions}
+                                    placeholder={'Select Sectors...'}
+                                    multi
+                                    loading={sectorResponse.isLoading}
+                                    onChange={onSectorChanged}
+                                    validationIcons
+                                />
+                            )}
                         </div>
                         <div>
                             {courseOptions && courseOptions?.length > 0 && (
@@ -276,6 +334,18 @@ export const StudentProfileForm = ({
                                     multi
                                     disabled={courseOptions?.length === 0}
                                     validationIcons
+                                    onlyValue
+                                />
+                            )}
+                            {!courseOptions?.length && (
+                                <Select
+                                    label={'Courses'}
+                                    name={'courses'}
+                                    options={courseOptions}
+                                    multi
+                                    disabled={courseOptions?.length === 0}
+                                    validationIcons
+                                    onlyValue
                                 />
                             )}
                         </div>

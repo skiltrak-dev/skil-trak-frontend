@@ -4,6 +4,7 @@ import { useActionModal } from '@hooks'
 import { CourseList } from '@partials/common'
 import { getUserCredentials } from '@utils'
 import { useRouter } from 'next/router'
+import { useEffect, useState } from 'react'
 import { AiFillEdit } from 'react-icons/ai'
 import { BiPackage } from 'react-icons/bi'
 import { BsUnlockFill } from 'react-icons/bs'
@@ -13,12 +14,22 @@ import { MdBlock, MdPhone, MdVerified } from 'react-icons/md'
 
 type Props = {}
 
-export const RtoProfileSidebar = ({ loading, data }: any) => {
+export const RtoProfileSidebar = ({ loading, data, rto }: any) => {
     const pathname = useRouter()
     const profileId = pathname.query.profileId
+    const [isAvatarUpdated, setIsAvatarUpdated] = useState<boolean>(false)
     // const {data} = useGetSubAdminRTODetailQuery(String(profileId), {
     //   skip: !profileId,
     // })
+
+    useEffect(() => {
+        if (isAvatarUpdated) {
+            rto.refetch()
+        }
+        if (rto.isSuccess) {
+            setIsAvatarUpdated(false)
+        }
+    }, [isAvatarUpdated, rto])
 
     // hooks
     const { onUpdatePassword, passwordModal } = useActionModal()
@@ -38,14 +49,14 @@ export const RtoProfileSidebar = ({ loading, data }: any) => {
     }
 
     const role = getUserCredentials()?.role
-    const sectorsWithCourses = getSectors(data?.courses)
+    const sectorsWithCourses = getSectors(rto?.data?.courses)
     return (
         <>
             {passwordModal && passwordModal}
-            {loading ? (
+            {rto?.isLoading ? (
                 <LoadingAnimation />
             ) : (
-                data && (
+                rto?.data && (
                     <div>
                         <div className="flex flex-col items-center">
                             <div className="relative flex items-center justify-center w-full">
@@ -55,8 +66,8 @@ export const RtoProfileSidebar = ({ loading, data }: any) => {
                                         onClick={() => {
                                             pathname.push(
                                                 role === 'admin'
-                                                    ? `/portals/admin/rto/${data?.id}/edit-profile`
-                                                    : `/portals/sub-admin/users/rtos/${data?.id}/edit-profile`
+                                                    ? `/portals/admin/rto/${rto?.data?.id}/edit-profile`
+                                                    : `/portals/sub-admin/users/rtos/${rto?.data?.id}/edit-profile`
                                             )
                                         }}
                                     >
@@ -64,24 +75,28 @@ export const RtoProfileSidebar = ({ loading, data }: any) => {
                                     </div>
                                     <div
                                         className="bg-blue-100 rounded-full p-1"
-                                        onClick={() => onUpdatePassword(data)}
+                                        onClick={() =>
+                                            onUpdatePassword(rto?.data)
+                                        }
                                     >
                                         <BsUnlockFill className="text-blue-400  cursor-pointer" />
                                     </div>
                                 </div>
                                 <RtoAvatar
-                                    imageUrl={data?.user?.avatar}
+                                    imageUrl={rto?.data?.user?.avatar}
+                                    user={rto?.data?.user?.id}
                                     canEdit
+                                    setIsAvatarUpdated={setIsAvatarUpdated}
                                 />
                             </div>
 
                             <div className="flex flex-col items-center mt-2">
                                 <p className="text-sm font-semibold text-center">
-                                    {data?.user?.name}
+                                    {rto?.data?.user?.name}
                                 </p>
                                 <div className="flex items-center gap-x-2">
                                     <p className="text-sm text-gray-400">
-                                        {data?.user?.email}
+                                        {rto?.data?.user?.email}
                                     </p>
                                     <span className="text-blue-500">
                                         <MdVerified />
@@ -103,7 +118,7 @@ export const RtoProfileSidebar = ({ loading, data }: any) => {
                                             RTO Code
                                         </div>
                                         <p className="text-xs font-medium">
-                                            {data?.rtoCode}
+                                            {rto?.data?.rtoCode}
                                         </p>
                                     </div>
                                 </div>
@@ -120,7 +135,7 @@ export const RtoProfileSidebar = ({ loading, data }: any) => {
                                             Phone Number
                                         </div>
                                         <p className="text-xs font-medium">
-                                            {data?.phone}
+                                            {rto?.data?.phone}
                                         </p>
                                     </div>
                                 </div>
@@ -135,9 +150,9 @@ export const RtoProfileSidebar = ({ loading, data }: any) => {
                                         <IoLocation />
                                     </span>
                                     <p className="text-xs text-gray-700">
-                                        {data?.addressLine1}{' '}
-                                        {data?.addressLine2} {data?.state}{' '}
-                                        {data?.suburb}
+                                        {rto?.data?.addressLine1}{' '}
+                                        {rto?.data?.addressLine2}{' '}
+                                        {rto?.data?.state} {rto?.data?.suburb}
                                     </p>
                                 </div>
                                 {/* <div className="text-gray-400 text-[11px] -mt-0.5 text-center">
@@ -162,7 +177,7 @@ export const RtoProfileSidebar = ({ loading, data }: any) => {
                                             </Typography>
                                         </div>
                                         <Typography variant={'small'} color={'text-black'}>
-                                            {data?.contactPerson || 'N/A'}
+                                            {rto?.data?.contactPerson || 'N/A'}
                                         </Typography>
                                     </div>
                                     <div className="p-2">
@@ -176,7 +191,7 @@ export const RtoProfileSidebar = ({ loading, data }: any) => {
                                             </Typography>
                                         </div>
                                         <Typography variant={'small'} color={'text-black'}>
-                                            {data?.contactPersonNumber || 'N/A'}
+                                            {rto?.data?.contactPersonNumber || 'N/A'}
                                         </Typography>
                                     </div>
                                 </div>
@@ -209,7 +224,7 @@ export const RtoProfileSidebar = ({ loading, data }: any) => {
                                     variant={'small'}
                                     color={'text-black'}
                                 >
-                                    {data?.package?.name || 'N/A'}
+                                    {rto?.data?.package?.name || 'N/A'}
                                 </Typography>
                             </div>
                             <div className="p-2">
@@ -230,7 +245,7 @@ export const RtoProfileSidebar = ({ loading, data }: any) => {
                                     color={'text-black'}
                                     capitalize
                                 >
-                                    {data?.package?.billingType || 'N/A'}
+                                    {rto?.data?.package?.billingType || 'N/A'}
                                 </Typography>
                             </div>
                         </div>

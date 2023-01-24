@@ -38,7 +38,10 @@ const EditRto: NextPageWithLayout = () => {
         }
     }, [])
     const onSubmit = (values: any) => {
-        updateProfile({ id: industry?.data?.user?.id, body: values })
+        updateProfile({
+            id: industry?.data?.user?.id,
+            body: { ...values, courses: values?.courses || [] },
+        })
     }
 
     return (

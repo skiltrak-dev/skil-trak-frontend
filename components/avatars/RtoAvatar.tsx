@@ -5,31 +5,50 @@ import { FaSchool } from 'react-icons/fa'
 import { HiPencil } from 'react-icons/hi'
 import { PulseLoader } from 'react-spinners'
 
+// query
+import { CommonApi } from '@queries'
+
 export const RtoAvatar = ({
+    user,
     imageUrl,
     canEdit,
+    setIsAvatarUpdated,
 }: {
+    user: number
     imageUrl?: string
     canEdit?: boolean
+    setIsAvatarUpdated: any
 }) => {
-    const [first, setfirst] = useState(false)
     const { notification } = useNotification()
 
+    const [changeProfileImage, changeProfileImageResult] =
+        CommonApi.Avatar.useChangeProfile()
+
     useEffect(() => {
-        if (first) {
-            setTimeout(() => {
-                setfirst(false)
-            }, 3000)
+        if (changeProfileImageResult.isSuccess) {
+            setIsAvatarUpdated(changeProfileImageResult.isSuccess)
         }
-    }, [first])
+    }, [changeProfileImageResult])
+
+    useEffect(() => {
+        if (changeProfileImageResult.isSuccess) {
+            notification.success({
+                title: 'Avatar Updated',
+                description: 'Avatar Updated Successfully',
+            })
+        }
+    }, [changeProfileImageResult])
 
     const handleOnChange = (e: any) => {
         const file = e.target.files[0]
         const filesType = ['image/png', 'image/jpg', 'image/jpeg']
 
+        console.log('file', file)
+
         if (file && filesType.includes(file?.type)) {
-            setfirst(true)
-            console.log('wwwww', e.target.files[0])
+            const formData = new FormData()
+            formData.append('profile', file)
+            changeProfileImage({ user, body: formData })
         } else {
             notification.error({
                 title: 'Please select a valid image',
@@ -56,19 +75,19 @@ export const RtoAvatar = ({
                             <>
                                 <div
                                     className={`${
-                                        first
+                                        changeProfileImageResult.isLoading
                                             ? 'translate-x-0'
                                             : 'group-hover:translate-x-0 translate-x-full'
                                     } w-11 h-28 relative   transition-all duration-500 bg-[#00000085] float-right rotate-[25deg]`}
                                 />
                                 <div
                                     className={`${
-                                        first
+                                        changeProfileImageResult.isLoading
                                             ? '-translate-x-[1.2px]'
                                             : '-ml-2 group-hover:-ml-0 -translate-x-full group-hover:-translate-x-[1.2px]'
                                     } w-11 h-28 relative  -translate-y-6 transition-all duration-500 bg-[#00000085] rotate-[25deg]`}
                                 />
-                                {!first && (
+                                {!changeProfileImageResult.isLoading && (
                                     <label htmlFor="profile">
                                         <HiPencil
                                             className="cursor-pointer absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-all duration-1000 text-white"
@@ -76,7 +95,7 @@ export const RtoAvatar = ({
                                         />
                                     </label>
                                 )}
-                                {first && (
+                                {changeProfileImageResult.isLoading && (
                                     <PulseLoader
                                         color="white"
                                         className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-white"
@@ -97,7 +116,7 @@ export const RtoAvatar = ({
             <input
                 id="profile"
                 type="file"
-                accept="image/jpg,image/png"
+                accept="image/*"
                 onChange={handleOnChange}
                 className="hidden"
             />

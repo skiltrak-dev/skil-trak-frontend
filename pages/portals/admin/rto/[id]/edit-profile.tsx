@@ -27,11 +27,15 @@ const EditRtoProfile: NextPageWithLayout = () => {
                 title: 'Profile Updated',
                 description: 'Profile Updated Successfully',
             })
+            profile.refetch()
             router.push(`/portals/admin/rto/${profile?.data?.id}?tab=sectors`)
         }
     }, [updateProfileResult])
     const onSubmit = (values: any) => {
-        updateProfile({ id: profile?.data?.user?.id, body: values })
+        updateProfile({
+            id: profile?.data?.user?.id,
+            body: { ...values, courses: values?.courses || [] },
+        })
     }
     return (
         <>

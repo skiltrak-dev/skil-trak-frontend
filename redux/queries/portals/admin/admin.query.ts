@@ -17,6 +17,7 @@ import { messagesEndpoints } from './messages'
 import { profileEndpoints } from './profile'
 import { AdminStats } from '@types'
 import { useUpdateSubAdminProfileMutation } from '../sub-admin'
+import { volunteerEndpoints } from './volunteer'
 
 export const adminApi = createApi({
     reducerPath: 'adminApi',
@@ -74,6 +75,7 @@ export const adminApi = createApi({
         ...workplaceEndpoints(build),
         ...messagesEndpoints(build),
         ...profileEndpoints(build),
+        ...volunteerEndpoints(build),
     }),
 })
 
@@ -199,6 +201,9 @@ const {
     // ------ JOBS ------ //
     useJobsQuery,
     useJobStatusChangeMutation,
+
+    // --- VOLUNTEER --- //
+    useGetVolunteerRequestsQuery,
 } = adminApi
 
 export const AdminApi = {
@@ -330,5 +335,8 @@ export const AdminApi = {
     Jobs: {
         useList: useJobsQuery,
         useStatusChange: useJobStatusChangeMutation,
+    },
+    Volunteer: {
+        useList: useGetVolunteerRequestsQuery,
     },
 }

@@ -167,6 +167,7 @@ export const RTOProfileEditForm = ({
                 ...userRest
             } = user
             const values = {
+                courses: courses?.map((c: Course) => c.id),
                 ...rest,
                 ...userRest,
             }
@@ -263,6 +264,22 @@ export const RTOProfileEditForm = ({
                                                         validationIcons
                                                     />
                                                 )}
+                                            {!sectorDefaultOptions?.length && (
+                                                <Select
+                                                    label={'Sector'}
+                                                    name={'sectors'}
+                                                    options={sectorOptions}
+                                                    placeholder={
+                                                        'Select Sectors...'
+                                                    }
+                                                    multi
+                                                    loading={
+                                                        sectorResponse.isLoading
+                                                    }
+                                                    onChange={onSectorChanged}
+                                                    validationIcons
+                                                />
+                                            )}
                                         </div>
                                         <div>
                                             {courseOptions &&
@@ -275,6 +292,7 @@ export const RTOProfileEditForm = ({
                                                         }
                                                         options={courseOptions}
                                                         multi
+                                                        onlyValue
                                                         disabled={
                                                             courseOptions?.length ===
                                                             0
@@ -282,6 +300,20 @@ export const RTOProfileEditForm = ({
                                                         validationIcons
                                                     />
                                                 )}
+                                            {!courseOptions?.length && (
+                                                <Select
+                                                    label={'Courses'}
+                                                    name={'courses'}
+                                                    options={courseOptions}
+                                                    multi
+                                                    onlyValue
+                                                    disabled={
+                                                        courseOptions?.length ===
+                                                        0
+                                                    }
+                                                    validationIcons
+                                                />
+                                            )}
                                         </div>
                                     </div>
 

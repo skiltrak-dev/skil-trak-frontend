@@ -9,24 +9,26 @@ import {
     DisplayPrimaryActions,
     Typography,
 } from '@components'
+import { AdForRPL } from '@components/sections/industry/ApplyForRPL'
 
 export const RightSidebarData = () => {
     const router = useRouter()
     return (
         <div className="flex flex-col items-start gap-y-4">
-            <img
+            {/* <img
                 className="w-full h-[180px] object-cover rounded-lg"
                 src="https://picsum.photos/800/800"
                 alt="Sidebar"
             />
-            <Button onClick={() => {}}>Apply For RPL</Button>
+            <Button onClick={() => {}}>Apply For RPL</Button> */}
+            <AdForRPL short />
 
             <div className="flex flex-col gap-y-2 mt-2">
-                <Typography variant={'title'} color={'gray'}>
+                {/* <Typography variant={'title'} color={'gray'}>
                     Related Links
-                </Typography>
+                </Typography> */}
 
-                <DisplayPrimaryActions actions={StudentsPrimaryActions} />
+                {/* <DisplayPrimaryActions actions={StudentsPrimaryActions} /> */}
             </div>
 
             {/* Other Links */}

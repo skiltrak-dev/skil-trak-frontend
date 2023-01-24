@@ -13,7 +13,6 @@ export const MyWorkPlaceCard = ({ data }: Props) => {
     const appliedIndustry = data?.workplace[0]?.industries
         ?.filter((i: any) => i?.applied)
         ?.slice(0, 1)
-    console.log('data?.workplace', appliedIndustry)
     return (
         <>
             <Card>

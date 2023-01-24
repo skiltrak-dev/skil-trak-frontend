@@ -17,9 +17,13 @@ export const StepCreate = () => {
             if (formData) {
                 const values = {
                     ...formData,
-                    courses: formData.courses.map((c: OptionType) => c.value),
-                    sectors: formData.sectors.map((s: OptionType) => s.value),
-                    package: formData.package?.id,
+                    courses: formData?.courses?.map(
+                        (c: OptionType) => c?.value
+                    ),
+                    sectors: formData?.sectors?.map(
+                        (s: OptionType) => s?.value
+                    ),
+                    package: formData?.package?.id,
                     role: UserRoles.RTO,
                 }
 

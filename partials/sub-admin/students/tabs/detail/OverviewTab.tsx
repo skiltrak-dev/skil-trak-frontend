@@ -13,8 +13,10 @@ type StudentsProfileOverviewProps = {
 }
 
 export const OverViewTab = ({ student }: StudentsProfileOverviewProps) => {
-    const upcommingAppointment =
-        CommonApi.Appointments.useUpcommingAppointment()
+    const upcommingAppointment = CommonApi.Appointments.useUpcommingAppointment(
+        student?.user?.id,
+        { skip: !student }
+    )
 
     return (
         <div className="w-full mt-6">

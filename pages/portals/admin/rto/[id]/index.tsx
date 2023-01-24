@@ -44,6 +44,7 @@ const RtoDetail: NextPageWithLayout = () => {
 
     const rto = AdminApi.Rtos.useDetailQuery(Number(router.query.id), {
         skip: !router.query?.id,
+        refetchOnMountOrArgChange: true,
     })
     useEffect(() => {
         navBar.setTitle('RTO Detail')
@@ -53,7 +54,11 @@ const RtoDetail: NextPageWithLayout = () => {
     useEffect(() => {
         if (rto.isSuccess) {
             contextBar.setContent(
-                <RtoProfileSidebar loading={rto?.isLoading} data={rto?.data} />
+                <RtoProfileSidebar
+                    rto={rto}
+                    loading={rto?.isLoading}
+                    data={rto?.data}
+                />
             )
             contextBar.show(false)
         }

@@ -1,4 +1,7 @@
+import { NoData } from '@components'
 import { Button } from '@components/buttons'
+import { getUserCredentials } from '@utils'
+import moment from 'moment'
 import React from 'react'
 import { BsCalendarDateFill } from 'react-icons/bs'
 import { IoLocationSharp, IoTime } from 'react-icons/io5'
@@ -6,6 +9,24 @@ import { IoLocationSharp, IoTime } from 'react-icons/io5'
 type Props = {}
 
 export const RecentAppointment = ({ appointment }: { appointment: any }) => {
+    const id = getUserCredentials()?.id
+    const appointmentWith =
+        appointment?.appointmentBy?.id === id
+            ? 'appointmentFor'
+            : 'appointmentBy'
+
+    const appointmentWithUser =
+        appointment[appointmentWith][
+            appointment[appointmentWith]['role'] === 'subadmin'
+                ? 'coordinator'
+                : appointment[appointmentWith]['role']
+        ]
+
+    const checkrole =
+        appointment[appointmentWith]['role'] === 'subadmin'
+            ? appointmentWithUser[0]
+            : appointmentWithUser
+
     return (
         <div className="w-full">
             <div className="bg-gradient-to-r from-[#3883F3] to-[#5D1BE0] rounded-2xl p-4">
@@ -15,43 +36,61 @@ export const RecentAppointment = ({ appointment }: { appointment: any }) => {
                             Recent Appointment
                         </p>
                     </div>
-                    <div>
-                        <Button variant={'secondary'} rounded>
-                            <span className="text-[#3883F3]">View All</span>
-                        </Button>
-                    </div>
+                    {appointment && (
+                        <div>
+                            <Button variant={'secondary'} rounded>
+                                <span className="text-[#3883F3]">View All</span>
+                            </Button>
+                        </div>
+                    )}
                 </div>
                 <div className="flex flex-col">
-                    <div>
-                        <div className="mb-4">
-                            <h2 className="text-[#0644AF] font-semibold text-lg">
-                                Appointment Title
-                            </h2>
-                            <p className="text-[#8CD2F9] font-medium ">
-                                John Doe
-                            </p>
-                        </div>
+                    {appointment ? (
                         <div>
-                            <div className="flex items-center gap-x-2.5 mb-2">
-                                <IoTime className="text-[#E3F2FF]" />
-                                <p className="text-[#E3F2FF] font-bold text-sm">
-                                    11:30 am - 12:30 pm
+                            <div className="mb-4">
+                                <h2 className="text-[#0644AF] font-semibold text-lg">
+                                    {appointment?.type?.title}
+                                </h2>
+                                <p className="text-[#8CD2F9] font-medium ">
+                                    {appointment[appointmentWith]?.name}
                                 </p>
                             </div>
-                            <div className="flex items-center gap-x-2.5 mb-2">
-                                <BsCalendarDateFill className="text-[#E3F2FF]" />
-                                <p className="text-[#E3F2FF] font-bold text-sm">
-                                    Wednesday, 5 October, 2022
-                                </p>
-                            </div>
-                            <div className="flex items-center gap-x-2.5 mb-2">
-                                <IoLocationSharp className="text-[#E3F2FF]" />
-                                <p className="text-[#E3F2FF] font-bold text-sm">
-                                    11:30 am - 12:30 pm
-                                </p>
+                            <div>
+                                <div className="flex items-center gap-x-2.5 mb-2">
+                                    <IoTime className="text-[#E3F2FF]" />
+                                    <p className="text-[#E3F2FF] font-bold text-sm">
+                                        {moment(
+                                            appointment?.startTime,
+                                            'hh:mm:ss'
+                                        ).format('hh:m a')}{' '}
+                                        -{' '}
+                                        {moment(
+                                            appointment?.endTime,
+                                            'hh:mm:ss'
+                                        ).format('hh:mm a')}
+                                    </p>
+                                </div>
+                                <div className="flex items-center gap-x-2.5 mb-2">
+                                    <BsCalendarDateFill className="text-[#E3F2FF]" />
+                                    <p className="text-[#E3F2FF] font-bold text-sm">
+                                        {moment(appointment?.date).format(
+                                            'dddd, DDD MMMM, YYYY'
+                                        )}
+                                    </p>
+                                </div>
+                                <div className="flex items-center gap-x-2.5 mb-2">
+                                    <IoLocationSharp className="text-[#E3F2FF]" />
+                                    <p className="text-[#E3F2FF] font-bold text-sm">
+                                        {`${checkrole?.addressLine1}, ${
+                                            checkrole?.addressLine2 || ''
+                                        }`}
+                                    </p>
+                                </div>
                             </div>
                         </div>
-                    </div>
+                    ) : (
+                        <NoData text={'No Recent Appointment were found'} />
+                    )}
                 </div>
             </div>
         </div>

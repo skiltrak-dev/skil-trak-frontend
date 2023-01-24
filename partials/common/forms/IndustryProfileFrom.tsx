@@ -50,6 +50,7 @@ export const IndustryProfileFrom = ({
           }))
         : []
 
+    // remove duplicate Sectors
     useEffect(() => {
         if (profile?.data) {
             setSectors([
@@ -184,6 +185,7 @@ export const IndustryProfileFrom = ({
                 ...userRest
             } = user
             const values = {
+                courses: courses?.map((c: Course) => c.id),
                 ...rest,
                 ...userRest,
             }
@@ -313,6 +315,18 @@ export const IndustryProfileFrom = ({
                                         validationIcons
                                     />
                                 )}
+                            {!sectorDefaultOptions?.length && (
+                                <Select
+                                    label={'Sector'}
+                                    name={'sectors'}
+                                    options={sectorOptions}
+                                    placeholder={'Select Sectors...'}
+                                    multi
+                                    loading={sectorResponse.isLoading}
+                                    onChange={onSectorChanged}
+                                    validationIcons
+                                />
+                            )}
                         </div>
                         <div>
                             {courseOptions && courseOptions?.length > 0 && (
@@ -324,6 +338,18 @@ export const IndustryProfileFrom = ({
                                     multi
                                     disabled={courseOptions?.length === 0}
                                     validationIcons
+                                    onlyValue
+                                />
+                            )}
+                            {!courseOptions?.length && (
+                                <Select
+                                    label={'Courses'}
+                                    name={'courses'}
+                                    options={courseOptions}
+                                    multi
+                                    disabled={courseOptions?.length === 0}
+                                    validationIcons
+                                    onlyValue
                                 />
                             )}
                         </div>

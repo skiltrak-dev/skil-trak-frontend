@@ -127,8 +127,8 @@ export const RtoSignUpForm = ({ onSubmit }: { onSubmit: any }) => {
         phone: yup.string().required('Must provide phone number'),
 
         // Sector Information
-        sectors: yup.array().min(1, 'Must select at least 1 sector'),
-        courses: yup.array().min(1, 'Must select at least 1 course'),
+        // sectors: yup.array().min(1, 'Must select at least 1 sector'),
+        // courses: yup.array().min(1, 'Must select at least 1 course'),
 
         // Contact Person Information
         contactPersonName: yup
@@ -267,8 +267,8 @@ export const RtoSignUpForm = ({ onSubmit }: { onSubmit: any }) => {
                                 label={'Sector'}
                                 {...(storedData
                                     ? {
-                                        defaultValue: storedData.sectors,
-                                    }
+                                          defaultValue: storedData.sectors,
+                                      }
                                     : {})}
                                 name={'sectors'}
                                 options={sectorOptions}
@@ -403,7 +403,10 @@ export const RtoSignUpForm = ({ onSubmit }: { onSubmit: any }) => {
                             label={
                                 <>
                                     I agree with{' '}
-                                    <Link legacyBehavior href="/terms-and-conditions">
+                                    <Link
+                                        legacyBehavior
+                                        href="/terms-and-conditions"
+                                    >
                                         <a className="text-link">Terms</a>
                                     </Link>{' '}
                                     {'&'}{' '}
