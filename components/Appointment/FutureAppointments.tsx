@@ -82,6 +82,7 @@ export const FutureAppointments = ({ appointments }: { appointments: any }) => {
                                     }
                                     type={appointment?.type?.title}
                                     role={appointment?.appointmentFor?.role}
+                                    appointment={appointment}
                                 />
                             </SwiperSlide>
                         )

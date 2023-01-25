@@ -3,14 +3,25 @@ import { ReactElement } from 'react'
 import { StudentLayout } from '@layouts'
 import { NextPageWithLayout } from '@types'
 
+<<<<<<< Updated upstream
 // query
 
+=======
+
+
+
+// query
+import { StudentProfileForm } from '@partials/common'
+>>>>>>> Stashed changes
 import {
     useGetStudentProfileDetailQuery,
-    useUpdateStudentProfileMutation,
+    useUpdateStudentProfileMutation
 } from '@queries'
+<<<<<<< Updated upstream
 
 import { StudentProfileForm } from '@partials/common'
+=======
+>>>>>>> Stashed changes
 
 import { useRouter } from 'next/router'
 

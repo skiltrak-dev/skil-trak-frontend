@@ -1,4 +1,6 @@
 import { Button, Typography } from '@components'
+import { getUserCredentials } from '@utils'
+import moment from 'moment'
 import Image from 'next/image'
 
 type AppointmentCardProps = {
@@ -10,6 +12,7 @@ type AppointmentCardProps = {
     imageUrl?: string // imageUrl
     type?: string // REactElement ReactNode
     role: string
+    appointment: any
 }
 
 export const UpcomingAppointmentCard = ({
@@ -21,18 +24,49 @@ export const UpcomingAppointmentCard = ({
     imageUrl,
     type,
     role,
+    appointment,
 }: AppointmentCardProps) => {
+    const id = getUserCredentials()?.id
+    const appointmentWith =
+        appointment?.appointmentBy?.id === id
+            ? 'appointmentFor'
+            : 'appointmentBy'
+
+    const appointmentUser = appointment[appointmentWith]
+
+    const appointmentWithUser =
+        appointmentUser[
+            appointmentUser['role'] === 'subadmin'
+                ? 'coordinator'
+                : appointmentUser['role']
+        ]
+
+    const checkrole =
+        appointmentUser['role'] === 'subadmin'
+            ? appointmentWithUser[0]
+            : appointmentWithUser
+
     return (
         <>
             <div className="w-full bg-gradient-to-r from-[#3883F3] to-[#5D1BE0] rounded-2xl p-4">
                 <div className="flex justify-between gap-x-4">
                     <div className="">
                         <Typography variant={'label'} color={'text-[#BCDEFF]'}>
-                            {date}
+                            {moment(appointment?.date).format(
+                                'dddd, DDD MMMM, YYYY'
+                            )}
                         </Typography>
                         <div className="flex gap-x-2 items-center">
                             <Typography variant={'body'} color={'text-white'}>
-                                {time}
+                                {moment(
+                                    appointment?.startTime,
+                                    'hh:mm:ss'
+                                ).format('hh:mm a')}{' '}
+                                -{' '}
+                                {moment(
+                                    appointment?.endTime,
+                                    'hh:mm:ss'
+                                ).format('hh:mm a')}
                             </Typography>
                             <Typography
                                 variant={'muted'}
@@ -42,7 +76,8 @@ export const UpcomingAppointmentCard = ({
                             </Typography>
                         </div>
                         <Typography variant={'label'} color={'text-[#BCDEFF]'}>
-                            {address}
+                            {checkrole?.addressLine1},{' '}
+                            {checkrole?.addressLine2 || ''}
                         </Typography>
                     </div>
                     <div>
@@ -52,12 +87,17 @@ export const UpcomingAppointmentCard = ({
                 <div className="w-full flex justify-between items-center mt-8">
                     <div>
                         <h1 className="font-medium text-[16px] text-white">
-                            {name} ({role})
+                            {appointmentUser?.name} ({appointmentUser?.role})
                         </h1>
                         <p className="text-[#BCDEFF]">{type}</p>
                     </div>
                     <div>
-                        <Image src={imageUrl || ''} width={50} height={50} alt="" />
+                        <Image
+                            src={imageUrl || ''}
+                            width={50}
+                            height={50}
+                            alt=""
+                        />
                     </div>
                 </div>
             </div>

@@ -100,7 +100,7 @@ export const AvatarCard = ({
                             simple
                             onClick={onRemove}
                             loading={removeProfileResult.isLoading}
-                            disabled={removeProfileResult.isLoading}
+                            disabled={removeProfileResult.isLoading || !avatar}
                         >
                             Remove
                         </ActionButton>
@@ -112,6 +112,7 @@ export const AvatarCard = ({
                         className="hidden"
                         onChange={(e: any) => {
                             handleChange(e)
+                            e.target.value = null
                         }}
                         accept={'pdf/*'}
                         multiple

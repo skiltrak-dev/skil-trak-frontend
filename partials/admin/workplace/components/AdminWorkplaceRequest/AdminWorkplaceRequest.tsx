@@ -1,4 +1,4 @@
-import { Card, Select, Typography } from '@components'
+import { Card, InitialAvatar, Select, Typography } from '@components'
 import {
     Industries,
     RequestType,
@@ -29,10 +29,9 @@ export const AdminWorkplaceRequest = ({ workplace }: Props) => {
 
                     <div className="flex items-center relative">
                         <div className="flex items-center gap-x-2">
-                            <img
-                                className="rounded-full w-8 h-8"
-                                src={'https://picsum.photos/100/100'}
-                                alt={''}
+                            <InitialAvatar
+                                name={workplace?.student?.user?.name}
+                                imageUrl={workplace?.student?.user?.avatar}
                             />
                             <div>
                                 <Typography color={'black'} variant={'small'}>

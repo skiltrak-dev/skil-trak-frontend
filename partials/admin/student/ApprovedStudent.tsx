@@ -104,13 +104,17 @@ export const ApprovedStudent = () => {
             accessorKey: 'industry',
             header: () => <span>Industry</span>,
             cell: (info) => {
+<<<<<<< Updated upstream
                 const industry =
                     info.row.original?.workplace[0]?.industries.find(
                         (i: any) => i.applied)?.industry
                 console.log("industries", info.row.original.user.name, info.row.original.workplace[0])
+=======
+                const industry = info.row.original?.industries
+>>>>>>> Stashed changes
 
-                return industry ? (
-                    <IndustryCell industry={industry} />
+                return industry && industry?.length > 0 ? (
+                    <IndustryCell industry={industry[0]} />
                 ) : (
                     <Typography center>N/A</Typography>
                 )

@@ -7,6 +7,7 @@ import { PulseLoader } from 'react-spinners'
 
 // query
 import { CommonApi } from '@queries'
+import { ShowErrorNotifications } from '@components/ShowErrorNotifications'
 
 export const RtoAvatar = ({
     user,
@@ -25,7 +26,7 @@ export const RtoAvatar = ({
         CommonApi.Avatar.useChangeProfile()
 
     useEffect(() => {
-        if (changeProfileImageResult.isSuccess) {
+        if (setIsAvatarUpdated && changeProfileImageResult.isSuccess) {
             setIsAvatarUpdated(changeProfileImageResult.isSuccess)
         }
     }, [changeProfileImageResult])
@@ -43,8 +44,6 @@ export const RtoAvatar = ({
         const file = e.target.files[0]
         const filesType = ['image/png', 'image/jpg', 'image/jpeg']
 
-        console.log('file', file)
-
         if (file && filesType.includes(file?.type)) {
             const formData = new FormData()
             formData.append('profile', file)
@@ -57,21 +56,16 @@ export const RtoAvatar = ({
         }
     }
     return (
-        <div className="relative flex items-center justify-center bg-transparent rounded-full shadow-inner-image p-2">
-            {imageUrl ? (
-                // <Image
-                //     src={imageUrl || ''}
-                //     width={80}
-                //     height={80}
-                //     className="rounded-full flex-shrink-0"
-                //     alt=""
-                // />
-                <>
-                    <div
-                        className="relative w-20 h-20 overflow-hidden group rounded-full bg-cover bg-center bg-no-repeat"
-                        style={{ backgroundImage: `url(${imageUrl})` }}
-                    >
-                        {canEdit && (
+        <>
+            <ShowErrorNotifications result={changeProfileImageResult} />
+            <div className="relative group overflow-hidden flex items-center justify-center bg-transparent rounded-full shadow-inner-image p-2">
+                <div>
+                    {imageUrl ? (
+                        <div
+                            className="relative w-20 h-20 overflow-hidden group rounded-full bg-cover bg-center bg-no-repeat"
+                            style={{ backgroundImage: `url(${imageUrl})` }}
+                        >
+                            {/* {canEdit && (
                             <>
                                 <div
                                     className={`${
@@ -103,23 +97,59 @@ export const RtoAvatar = ({
                                     />
                                 )}
                             </>
-                        )}
-                    </div>
-                </>
-            ) : (
-                <div className="h-24 w-24 flex items-center justify-center bg-gray-100 rounded-full">
-                    <span className="text-4xl text-gray-300">
-                        <FaSchool />
-                    </span>
+                        )} */}
+                        </div>
+                    ) : (
+                        <div className="h-24 w-24 flex items-center justify-center bg-gray-100 rounded-full">
+                            <span className="text-4xl text-gray-300">
+                                <FaSchool />
+                            </span>
+                        </div>
+                    )}
                 </div>
-            )}
-            <input
-                id="profile"
-                type="file"
-                accept="image/*"
-                onChange={handleOnChange}
-                className="hidden"
-            />
-        </div>
+                <div className="absolute">
+                    {canEdit && (
+                        <>
+                            <div
+                                className={`${
+                                    changeProfileImageResult.isLoading
+                                        ? 'translate-x-9'
+                                        : 'group-hover:translate-x-9 translate-x-28'
+                                } w-16 h-40 absolute right-0 transition-all duration-500 bg-[#00000085] float-right rotate-[25deg]`}
+                            />
+                            <div
+                                className={`${
+                                    changeProfileImageResult.isLoading
+                                        ? '-translate-x-[23.3px]'
+                                        : '-ml-2 group-hover:-ml-0 -translate-x-28 group-hover:-translate-x-[23.3px]'
+                                } w-16 h-40 relative -translate-y-6 transition-all duration-500 bg-[#00000085] rotate-[25deg]`}
+                            />
+                            {!changeProfileImageResult.isLoading && (
+                                <label htmlFor="profile">
+                                    <HiPencil
+                                        className="cursor-pointer absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-all duration-1000 text-white"
+                                        size={20}
+                                    />
+                                </label>
+                            )}
+                            {changeProfileImageResult.isLoading && (
+                                <PulseLoader
+                                    color="white"
+                                    className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-white"
+                                    size={6}
+                                />
+                            )}
+                        </>
+                    )}
+                </div>
+                <input
+                    id="profile"
+                    type="file"
+                    accept="image/*"
+                    onChange={handleOnChange}
+                    className="hidden"
+                />
+            </div>
+        </>
     )
 }

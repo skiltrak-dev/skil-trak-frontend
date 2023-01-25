@@ -1,10 +1,11 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 
 import { LoadingAnimation, ShowErrorNotifications } from '@components'
 import { RequiredDocsCard } from '@partials/common'
 
 // query
 import { useUploadDocumentsMutation } from '@queries'
+import { useNotification } from '@hooks'
 
 const Loading = () => {
     return (
@@ -15,7 +16,18 @@ const Loading = () => {
 }
 
 export const UploadDocs = ({ requiredDoc, workplaceId }: any) => {
+    const { notification } = useNotification()
+
     const [uploadDocs, uploadDocsResult] = useUploadDocumentsMutation()
+
+    useEffect(() => {
+        if (uploadDocsResult.isSuccess) {
+            notification.success({
+                title: 'Document Uploaded',
+                description: 'Document Uploaded Successfully',
+            })
+        }
+    }, [uploadDocsResult])
 
     const onChange = (docs: any) => {
         const formData = new FormData()

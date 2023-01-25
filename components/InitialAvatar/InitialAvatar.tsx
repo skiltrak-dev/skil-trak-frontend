@@ -78,7 +78,7 @@ export const InitialAvatar = ({
             <div className={classes}>
                 {imageUrl ? (
                     <div
-                        className="relative w-8 h-8"
+                        className="relative w-full h-full"
                         onMouseEnter={onImageEnter}
                         onMouseLeave={onImageLeave}
                     >
@@ -90,7 +90,7 @@ export const InitialAvatar = ({
                             alt=""
                         /> */}
                         <div
-                            className="rounded-full bg-center bg-cover bg-no-repeat w-8 h-8"
+                            className="rounded-full bg-center bg-cover bg-no-repeat w-full h-full"
                             style={{ backgroundImage: `url(${imageUrl})` }}
                         />
                         <div

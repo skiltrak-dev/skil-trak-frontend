@@ -4,22 +4,23 @@ import { FaChevronLeft, FaChevronRight } from 'react-icons/fa'
 import ReactPaginate from 'react-paginate'
 
 interface PaginationProps {
-    table: Table<any>
+    table?: Table<any>
     pagination?: Paginate
     setPage?: Function
 }
 export const Pagination = ({ table, pagination, setPage }: PaginationProps) => {
+    console.log('pagination', pagination)
     const handlePageClick = ({ selected }: any) => {
-        if (!pagination) table.setPageIndex(selected)
+        if (!pagination) table?.setPageIndex(selected)
         else if (setPage) setPage(selected + 1)
     }
 
     const hasNextPage = () => {
-        return pagination ? pagination.hasNext : table.getCanNextPage()
+        return pagination ? pagination.hasNext : table?.getCanNextPage()
     }
 
     const hasPreviousPage = () => {
-        return pagination ? pagination.hasPrevious : table.getCanPreviousPage()
+        return pagination ? pagination.hasPrevious : table?.getCanPreviousPage()
     }
 
     return (
@@ -28,12 +29,14 @@ export const Pagination = ({ table, pagination, setPage }: PaginationProps) => {
             <ReactPaginate
                 breakLabel="..."
                 pageCount={
-                    pagination ? pagination.totalPage : table.getPageCount()
+                    pagination
+                        ? pagination.totalPage
+                        : Number(table?.getPageCount())
                 }
                 selectedPageRel={null}
                 pageRangeDisplayed={3}
                 forcePage={
-                    pagination ? 0 : table.getState().pagination.pageIndex
+                    pagination ? 0 : table?.getState().pagination.pageIndex
                 }
                 marginPagesDisplayed={3}
                 nextClassName={`${

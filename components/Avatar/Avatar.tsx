@@ -8,7 +8,7 @@ import { AvatarCard } from './AvatarCard'
 import { CommonApi } from '@queries'
 import { useNotification } from '@hooks'
 
-export const Avatar = ({ avatar }: { avatar: string }) => {
+export const Avatar = ({ avatar, user }: { user?: number; avatar: string }) => {
     const { notification } = useNotification()
     const [changeProfileImage, changeProfileImageResult] =
         CommonApi.Avatar.useChangeProfile()
@@ -25,7 +25,7 @@ export const Avatar = ({ avatar }: { avatar: string }) => {
     const onChange = (event: any) => {
         const formData = new FormData()
         formData.append('profile', event)
-        changeProfileImage({ body: formData })
+        changeProfileImage({ user, body: formData })
     }
     return (
         <>

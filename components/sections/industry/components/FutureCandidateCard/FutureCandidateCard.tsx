@@ -1,5 +1,5 @@
 import { Card } from '@components/cards'
-import { Typography } from '@components/Typography'
+import { InitialAvatar, Typography } from '@components'
 import React from 'react'
 
 export const FutureCandidateCard = ({ data }: any) => {
@@ -7,10 +7,9 @@ export const FutureCandidateCard = ({ data }: any) => {
         <Card>
             <div className="flex flex-col gap-y-3 md:flex-row md:justify-between md:items-center">
                 <div className="flex items-center gap-x-2">
-                    <img
-                        className="w-7 h-7 rounded-full"
-                        src="https://picsum.photos/100/100"
-                        alt=""
+                    <InitialAvatar
+                        name={data?.user?.name}
+                        imageUrl={data?.user?.avatar}
                     />
                     <div>
                         <Typography variant={'label'}>
@@ -48,10 +47,9 @@ export const FutureCandidateCard = ({ data }: any) => {
                         <span className="font-semibold">RTO</span>
                     </Typography>
                     <div className="flex items-center gap-x-2">
-                        <img
-                            className="rounded-full w-8 h-8"
-                            src={'https://picsum.photos/100/100'}
-                            alt={''}
+                        <InitialAvatar
+                            name={data?.rto?.user?.name}
+                            imageUrl={data?.rto?.user?.avatar}
                         />
                         <div>
                             <Typography color={'black'} variant={'small'}>

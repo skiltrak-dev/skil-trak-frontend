@@ -1,3 +1,4 @@
+import { InitialAvatar } from '@components'
 import { Typography } from '@components/Typography'
 import React from 'react'
 import { FaPhoneSquareAlt } from 'react-icons/fa'
@@ -7,14 +8,13 @@ export const StudentDetail = ({ data }: any) => {
     return (
         <div className="flex items-center gap-x-4">
             <div className="flex items-center gap-x-2">
-                <img
-                    className="w-16 h-16 rounded-full"
-                    src="https://picsum.photos/200/200"
-                    alt=""
+                <InitialAvatar
+                    name={data?.user?.name}
+                    imageUrl={data?.user?.avatar}
                 />
                 <div>
-                    <Typography variant={'small'}>
-                        <span className="font-semibold">{data?.id}</span>
+                    <Typography variant={'xs'} color={'text-gray-500'}>
+                        <span className="font-semibold">{data?.studentId}</span>
                     </Typography>
                     <Typography variant={'label'}>
                         {data?.user?.name}

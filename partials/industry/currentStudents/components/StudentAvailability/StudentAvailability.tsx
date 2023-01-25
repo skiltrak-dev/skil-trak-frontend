@@ -9,7 +9,7 @@ export const StudentAvailability = ({ availability }: any) => {
     const [generalAvailability, setGeneralAvailability] = useState<
         any[] | null
     >(null)
-    
+
     useEffect(() => {
         const weekdays = [
             'monday',
@@ -67,7 +67,7 @@ export const StudentAvailability = ({ availability }: any) => {
     const schedule = ['morning', 'afternoon', 'evening', 'night']
 
     return (
-        <div className=''>
+        <div className="">
             <Typography variant={'xs'} color={'text-gray-400'}>
                 Student Availability
             </Typography>
@@ -102,10 +102,6 @@ export const StudentAvailability = ({ availability }: any) => {
                                 </Typography>
 
                                 {schedule?.map((s) => isAvailable(time[s]))}
-                                {/* {isAvailable(time?.morning)}
-                                {isAvailable(time?.afternoon)}
-                                {isAvailable(time?.evening)}
-                                {isAvailable(time?.night)} */}
                             </div>
                         ))}
                     </div>

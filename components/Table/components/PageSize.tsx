@@ -1,7 +1,7 @@
 import { Table } from '@tanstack/react-table'
 
 interface PageSizeProps {
-    table: Table<any>
+    table?: Table<any>
     itemPerPage?: 5 | 10 | 20 | 30 | 40 | 50 | number
     setItemPerPage?: Function
 }
@@ -25,10 +25,10 @@ export const PageSize = ({
                         defaultValue={
                             itemPerPage
                                 ? itemPerPage
-                                : table.getState().pagination.pageSize
+                                : table?.getState().pagination.pageSize
                         }
                         onChange={(e) => {
-                            table.setPageSize(Number(e.target.value))
+                            table?.setPageSize(Number(e.target.value))
                             if (setItemPerPage) setItemPerPage(e.target.value)
                         }}
                         className="outline-none border rounded px-1 py-0.5"

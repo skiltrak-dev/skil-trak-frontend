@@ -1,12 +1,14 @@
-import { ProgressStep } from '@components'
+import { ProgressStep, RecentAppointment } from '@components'
 import { PinnedNotes } from '@partials/notes'
-import React from 'react'
+import { CommonApi } from '@queries'
 import { MyRtoCard } from '../../components/MyRtoCard'
 import { MyWorkPlaceCard } from '../../components/MyWorkPlaceCard'
-import { RecentAppointment } from '../../components/RecentAppointment'
-import { Appointments, Sectors, Workplaces } from '../../pages'
 
 export const OverViewTab = ({ student }: any) => {
+    const upcommingAppointment = CommonApi.Appointments.useUpcommingAppointment(
+        student?.user?.id,
+        { skip: !student }
+    )
     return (
         <div className="w-full mt-6">
             <PinnedNotes id={student?.user?.id} />
@@ -27,7 +29,7 @@ export const OverViewTab = ({ student }: any) => {
             </div>
             {/* TODO : Need to dynamic */}
             <div className="w-full flex flex-col gap-y-4">
-                <RecentAppointment />
+                <RecentAppointment appointment={upcommingAppointment?.data} />
             </div>
         </div>
     )
