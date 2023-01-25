@@ -1,9 +1,7 @@
 import { NoData, Typography } from '@components'
 import { SubAdminApi } from '@queries'
-
-import { Course } from '@types'
 import { useRouter } from 'next/router'
-
+import { Course } from '@types'
 import Image from 'next/image'
 import { AiFillEdit } from 'react-icons/ai'
 import { BsUnlockFill } from 'react-icons/bs'
@@ -17,6 +15,8 @@ import { useActionModal } from '@hooks'
 export const ViewProfileCB = () => {
     const router = useRouter()
     const { data, isSuccess, isLoading } = SubAdminApi.SubAdmin.useProfile()
+
+    const { onUpdatePassword, passwordModal } = useActionModal()
 
     const getSectors = (courses: any) => {
         if (!courses) return {}
@@ -32,10 +32,6 @@ export const ViewProfileCB = () => {
         return sectors
     }
     const sectorsWithCourses = getSectors(data?.courses)
-
-    const { onUpdatePassword, passwordModal } = useActionModal()
-
-
     return (
         <div>
             {passwordModal && passwordModal}

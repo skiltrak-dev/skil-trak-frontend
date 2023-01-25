@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Typography } from '@components'
-import { useContextBar } from '@hooks'
+import { useContextBar, useJoyRide } from '@hooks'
 import moment from 'moment'
 
 // query
@@ -25,12 +25,23 @@ export const WorkplaceFolders = ({
             folders?.length > 0 && folders?.every((f: any) => f.uploaded)
         )
     }, [folders])
+    // Placement documents JOY RIDE - Start
+    const joyride = useJoyRide()
+
+    useEffect(() => {
+        if (joyride.state.tourActive) {
+            setTimeout(() => {
+                joyride.setState({ ...joyride.state, run: true, stepIndex: 2 })
+            }, 1200)
+        }
+    }, [])
+    // Placement documents JOY RIDE - END
 
     return (
         <div className="flex items-center gap-x-5">
             {!workplace?.byExistingAbn &&
                 !workplace?.studentProvidedWorkplace && (
-                    <div className="flex flex-col items-end gap-y-1">
+                    <div id='placement-documents' className="flex flex-col items-end gap-y-1">
                         <Typography variant={'small'}>
                             {isAllDocumentsUploaded ? (
                                 <span className="bg-green-500 text-white rounded-md p-1">

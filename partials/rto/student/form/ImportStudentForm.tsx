@@ -134,7 +134,11 @@ export const ImportStudentForm = ({
                     />
 
                     <div className="flex">
-                        <Button text="Import" submit />
+                        {checkEmailResult?.isSuccess && Array.isArray(checkEmailResult?.data) ? (
+                            <Button text="Import" submit disabled />
+                        ) : (
+                            <Button text="Import" submit />
+                        )}
                     </div>
                 </div>
             </form>
