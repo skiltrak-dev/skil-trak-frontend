@@ -1,5 +1,9 @@
+import { NoData, Typography } from '@components'
 import { SubAdminApi } from '@queries'
+
+import { Course } from '@types'
 import { useRouter } from 'next/router'
+
 import Image from 'next/image'
 import { AiFillEdit } from 'react-icons/ai'
 import { BsUnlockFill } from 'react-icons/bs'
@@ -14,7 +18,23 @@ export const ViewProfileCB = () => {
     const router = useRouter()
     const { data, isSuccess, isLoading } = SubAdminApi.SubAdmin.useProfile()
 
+    const getSectors = (courses: any) => {
+        if (!courses) return {}
+        const sectors = {}
+        courses.forEach((c: any) => {
+            if ((sectors as any)[c.sector.name]) {
+                ; (sectors as any)[c.sector.name].push(c)
+            } else {
+                ; (sectors as any)[c.sector.name] = []
+                    ; (sectors as any)[c.sector.name].push(c)
+            }
+        })
+        return sectors
+    }
+    const sectorsWithCourses = getSectors(data?.courses)
+
     const { onUpdatePassword, passwordModal } = useActionModal()
+
 
     return (
         <div>
@@ -53,11 +73,10 @@ export const ViewProfileCB = () => {
                         </div>
                     )}
                     <div
-                        className={`${
-                            data?.user.avatar
+                        className={`${data?.user.avatar
                                 ? 'w-[100px] h-[100px]'
                                 : 'w-24 h-24'
-                        } absolute top-0 w-[100px] h-[100px] bg-transparent rounded-full shadow-inner-image`}
+                            } absolute top-0 w-[100px] h-[100px] bg-transparent rounded-full shadow-inner-image`}
                     ></div>
                 </div>
 
@@ -152,9 +171,9 @@ export const ViewProfileCB = () => {
                             <IoLocation />
                         </span>
                         <p className="text-sm font-medium">
-                            {/* {data?.addressLine1}, {data?.addressLine2},{' '}
-                            {data?.state}, {data?.suburb} */}
-                            {data?.address}
+                            {data?.addressLine1}, {data?.addressLine2},{' '}
+                            {data?.state}, {data?.suburb}
+                            {/* {data?.addressLine1} */}
                         </p>
                     </div>
                     <div className="text-gray-400 text-[11px] -mt-0.5 text-center">
@@ -162,6 +181,57 @@ export const ViewProfileCB = () => {
                     </div>
                 </div>
             </div>
+            {/* Eligible sectors */}
+            {/* <div className="mt-4">
+                <Typography variant={'small'} color={'text-gray-500'}>
+                    Eligible Sectors
+                </Typography>
+
+                {sectorsWithCourses ? (
+                    Object.keys(sectorsWithCourses).map((sector) => {
+                        return (
+                            <>
+                                <Typography
+                                    variant={'label'}
+                                    color={'text-black'}
+                                >
+                                    {sector}
+                                </Typography>
+
+                                {(sectorsWithCourses as any)[sector]?.map(
+                                    (c: Course) => (
+                                        <div
+                                            key={c?.id}
+                                            className="flex gap-x-2 justify-start"
+                                        >
+                                            <div className="flex flex-col items-center">
+                                                <div className="bg-blue-400 p-2 rounded-full"></div>
+                                                <div className="bg-blue-400 w-[1px] h-full"></div>
+                                            </div>
+                                            <div className="pb-2">
+                                                <Typography
+                                                    variant={'small'}
+                                                    color={'text-gray-500'}
+                                                >
+                                                    {c?.code}
+                                                </Typography>
+                                                <Typography
+                                                    variant={'small'}
+                                                    color={'text-gray-800'}
+                                                >
+                                                    {c?.title}
+                                                </Typography>
+                                            </div>
+                                        </div>
+                                    )
+                                )}
+                            </>
+                        )
+                    })
+                ) : (
+                    <NoData text={'No Sectors Assigned'} />
+                )}
+            </div> */}      
         </div>
     )
 }

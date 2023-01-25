@@ -72,6 +72,7 @@ export const AppliedIndustry = ({
             appliedIndustry={appliedIndustry}
             workplaceRequest={workplaceRequest}
             workplaceCancelRequest={workplaceCancelRequest}
+            status={status}
         />
     )
 }

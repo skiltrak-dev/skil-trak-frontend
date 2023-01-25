@@ -74,7 +74,7 @@ export const subAdminEndpoints = (
         query: (body: any) => ({
             url: `${PREFIX}/sub-admin/course/un-assign/${body.id}`,
             method: 'POST',
-            body: { course: body.course },
+            params: { course: body.course },
         }),
         invalidatesTags: ['SubAdmins'],
     }),

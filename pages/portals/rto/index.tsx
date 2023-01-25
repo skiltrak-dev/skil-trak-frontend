@@ -42,10 +42,10 @@ const RTODashboard: NextPageWithLayout = () => {
         const sectors = {}
         courses.forEach((c: any) => {
             if ((sectors as any)[c.sector.name]) {
-                ;(sectors as any)[c.sector.name].push(c)
+                ; (sectors as any)[c.sector.name].push(c)
             } else {
-                ;(sectors as any)[c.sector.name] = []
-                ;(sectors as any)[c.sector.name].push(c)
+                ; (sectors as any)[c.sector.name] = []
+                    ; (sectors as any)[c.sector.name].push(c)
             }
         })
         return sectors
@@ -308,6 +308,81 @@ const RTODashboard: NextPageWithLayout = () => {
         {
             text: `I want to book an appointment?`,
             link: '#',
+            steps: [
+                {
+                    target: '#tasks',
+                    content: (
+                        <>
+                            <div className="font-semibold">Click here</div>
+                            <div>In tasks you will find appointments tab</div>
+                        </>
+                    ),
+                    disableBeacon: true,
+                },
+                {
+                    target: '#appointments',
+                    content: (
+                        <>
+                            <div>Click here</div>
+                            <div>
+                                Click on appointments tab to book an appointment
+                            </div>
+                        </>
+                    ),
+                },
+                {
+                    target: '#create-appointment',
+                    content: (
+                        <>
+                            <div>Click here</div>
+                            <div>You can create an appointment here</div>
+                        </>
+                    ),
+                },
+                {
+                    target: '#routeB',
+                    content: (
+                        <>
+                            <div>This is Route B</div>
+                            <div>
+                                Yet another loader simulation and now we reached
+                                the last step in our tour!
+                            </div>
+                        </>
+                    ),
+                },
+            ],
+            joyrideCallback: (joyride: any) => {
+                return (data: CallBackProps) => {
+                    const { action, index, lifecycle, type } = data
+                    if (
+                        type === 'step:after' &&
+                        index === 0 /* or step.target === '#home' */
+                    ) {
+                        joyride.setState((prev: any) => ({
+                            ...prev,
+                            run: false,
+                        }))
+                        router.push('/portals/rto/tasks')
+                    } else if (
+                        type === 'step:after' &&
+                        index === 1 /* or step.target === '#home' */
+                    ) {
+                        joyride.setState((prev: any) => ({
+                            ...prev,
+                            run: false,
+                        }))
+                        router.push('/portals/rto/tasks/appointments')
+                    } else if (action === 'reset' || lifecycle === 'complete') {
+                        joyride.setState({
+                            ...joyride.state,
+                            run: false,
+                            stepIndex: 0,
+                            tourActive: false,
+                        })
+                    }
+                }
+            },
         },
         {
             text: `How can I upload assessment tools?`,
@@ -392,10 +467,51 @@ const RTODashboard: NextPageWithLayout = () => {
 
     const ProfileQuestions = [
         {
-            text: `How can I edit my account?`,
+            text: `How can I edit my profile?`,
             link: '#',
+            steps: [
+                {
+                    target: '#edit-profile',
+                    content: (
+                        <>
+                            <div className="font-semibold">Click here</div>
+                            <div>From Dropdown Click On Profile to Edit Your Profile</div>
+                        </>
+                    ),
+                    disableBeacon: true,
+                },
+                {
+                    target: '#routeB',
+                    content: (
+                        <>
+                            <div>This is Route B</div>
+                            <div>
+                                Yet another loader simulation and now we reached
+                                the last step in our tour!
+                            </div>
+                        </>
+                    ),
+                },
+            ],
+            joyrideCallback: (joyride: any) => {
+                return (data: CallBackProps) => {
+                    const { action, index, lifecycle, type } = data
+                    if (
+                        type === 'step:after' &&
+                        index === 0 /* or step.target === '#home' */
+                    ) {
+                        joyride.setState((prev: any) => ({
+                            ...prev,
+                            run: false,
+                        }))
+                        router.push('/portals/rto/my-profile')
+                    }
+                    
+                }
+            },
         },
     ]
+    // Pa$$w0rd!
     useEffect(() => {
         contextBar.setContent(<ViewProfileCB />)
         contextBar.show(false)

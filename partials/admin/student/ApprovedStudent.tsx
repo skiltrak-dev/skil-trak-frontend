@@ -33,7 +33,7 @@ export const ApprovedStudent = () => {
     const router = useRouter()
     const [modal, setModal] = useState<ReactElement | null>(null)
 
-    const [itemPerPage, setItemPerPage] = useState(50)
+    const [itemPerPage, setItemPerPage] = useState(1)
     const [page, setPage] = useState(1)
 
     // hooks
@@ -106,8 +106,8 @@ export const ApprovedStudent = () => {
             cell: (info) => {
                 const industry =
                     info.row.original?.workplace[0]?.industries.find(
-                        (i: any) => i.applied
-                    )?.industry
+                        (i: any) => i.applied)?.industry
+                console.log("industries", info.row.original.user.name, info.row.original.workplace[0])
 
                 return industry ? (
                     <IndustryCell industry={industry} />
@@ -129,9 +129,10 @@ export const ApprovedStudent = () => {
             cell: ({ row }) => {
                 const workplace = row.original.workplace[0]
                 const steps = checkWorkplaceStatus(workplace?.currentStatus)
+                console.log("steps", row.original.workplace[0])
                 return (
                     <ProgressCell
-                        step={steps > 9 ? 9 : steps < 1 ? 1 : steps}
+                        step={steps > 10 ? 10 : steps < 1 ? 1 : steps}
                     />
                 )
             },

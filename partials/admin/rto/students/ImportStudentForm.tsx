@@ -3,7 +3,7 @@ import { FormProvider, useForm } from 'react-hook-form'
 import * as yup from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { AdminApi } from '@queries'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Course } from '@types'
 import { read, readFile, utils, writeFile } from 'xlsx'
 import { BinaryFileUpload } from '@components/inputs/BinaryFileUpload'
@@ -13,17 +13,26 @@ interface FormProps {
     edit?: boolean
     initialValues?: any
     onStudentFound: Function
+    setEmailExistList: Function
 }
 export const ImportStudentForm = ({
     onSubmit,
     edit,
     initialValues,
     onStudentFound,
+    setEmailExistList,
 }: FormProps) => {
     const sectors = AdminApi.Sectors.useListQuery({})
+    const [checkEmail, checkEmailResult] = AdminApi.Rtos.useCheckStudentEmail()
 
     const courses = AdminApi.Courses.useListQuery({})
     const [selectableCourses, setSelectableCourses] = useState<Course[]>([])
+    const [emailExists, setEmailExists] = useState<any>([])
+    useEffect(() => {
+        if (checkEmailResult.isSuccess && checkEmailResult?.data) {
+            setEmailExistList(checkEmailResult?.data)
+        }
+    }, [checkEmailResult])
 
     const onSectorSelect = (options: any) => {
         const currentSelectedSectors = options.map((opt: any) => opt.value)
@@ -49,14 +58,20 @@ export const ImportStudentForm = ({
         mode: 'all',
     })
 
-    const onFileChange = (e: any, fileData: any) => {
+    const onFileChange = async (e: any, fileData: any) => {
         // const wb = readFile(e.target.result)
         const wb = read(e.target.result, { type: 'binary' })
         const sheets = wb.SheetNames
 
         if (sheets.length) {
             const rows = utils.sheet_to_json(wb.Sheets[sheets[0]])
-            onStudentFound && onStudentFound(rows, fileData)
+            const result: any = await checkEmail({
+                body: rows.map((row: any) => row.email),
+            })
+            if (result?.data && result?.data?.email) {
+                setEmailExists([...emailExists, result?.data?.email])
+            }
+            onStudentFound && onStudentFound(rows, fileData, emailExists)
         }
     }
 
@@ -89,9 +104,9 @@ export const ImportStudentForm = ({
                                     sectors.isLoading
                                         ? []
                                         : sectors.data?.data.map((s) => ({
-                                              label: s.name,
-                                              value: s.id,
-                                          }))
+                                            label: s.name,
+                                            value: s.id,
+                                        }))
                                 }
                                 onChange={(option: any) =>
                                     onSectorSelect(option)
@@ -119,7 +134,11 @@ export const ImportStudentForm = ({
                     />
 
                     <div className="flex">
-                        <Button text="Import" submit />
+                        {checkEmailResult?.isSuccess && Array.isArray(checkEmailResult?.data) ? (
+                            <Button text="Import" submit disabled />
+                        ) : (
+                            <Button text="Import" submit />
+                        )}
                     </div>
                 </div>
             </form>

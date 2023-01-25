@@ -5,7 +5,7 @@ import { useRouter } from 'next/router'
 import { ReactElement, useEffect, useState } from 'react'
 
 import { AdminApi } from '@queries'
-import { BackButton, Card, PageTitle } from '@components'
+import { BackButton, Card, PageTitle, Typography } from '@components'
 import { PageHeading } from '@components/headings'
 import { RtoApi } from '@queries'
 import {
@@ -18,6 +18,9 @@ const RtoStudentLists: NextPageWithLayout = () => {
     const router = useRouter()
     const navBar = useNavbar()
     const contextBar = useContextBar()
+    // check student already email exist
+    const [emailExistList, setEmailExistList] = useState<any | null>(null);
+    const [emailFound, setEmailFound] = useState<any>([])
 
     const rto = AdminApi.Rtos.useDetailQuery(Number(router.query.id), {
         skip: !router.query?.id,
@@ -28,6 +31,7 @@ const RtoStudentLists: NextPageWithLayout = () => {
         contextBar.hide()
     }, [])
     const [foundStudents, setFoundStudents] = useState<any>([])
+
     const [columnsToRead, setColumnsToRead] = useState<any>({
         id: 'id',
         name: 'name',
@@ -40,7 +44,8 @@ const RtoStudentLists: NextPageWithLayout = () => {
 
     const [file, setFile] = useState<any>(null)
 
-    const onStudentFound = (students: any, file: any) => {
+    const onStudentFound = (students: any, file: any, emailExists: any) => {
+        setEmailFound(emailExists)
         setFoundStudents(students)
         setFile(file)
     }
@@ -96,6 +101,7 @@ const RtoStudentLists: NextPageWithLayout = () => {
                             <ImportStudentForm
                                 onSubmit={onSubmit}
                                 onStudentFound={onStudentFound}
+                                setEmailExistList={setEmailExistList}
                             />
                         </Card>
                     </div>
@@ -148,14 +154,30 @@ const RtoStudentLists: NextPageWithLayout = () => {
                                             {foundStudents.map(
                                                 (student: any, i: number) => (
                                                     <tr key={i}>
-                                                        {Object.values(
-                                                            columnsToRead
-                                                        ).map((k: any) => (
-                                                            <td key={k?.id}>
-                                                                {student[k]}
-                                                            </td>
-                                                        ))}
-                                                    </tr>
+                                                    {Object.values(
+                                                        columnsToRead
+                                                    ).map((k: any) => (
+                                                        <td key={k?.id}>
+                                                            {k === 'email' ? (
+                                                                <div className="flex items-center gap-x-1">
+                                                                    {
+                                                                        student[k]
+                                                                    }
+                                                                    <Typography
+                                                                        variant={
+                                                                            'badge'
+                                                                        }
+                                                                        color={
+                                                                            'text-error'
+                                                                        }
+                                                                    >
+                                                                        {emailExistList.map((item: any) => item.includes(student['email']) ? '- email already exists' : '')}
+                                                                    </Typography>
+                                                                </div> // check email exist
+                                                            ) : (student[k])}
+                                                        </td>
+                                                    ))}
+                                                </tr>
                                                 )
                                             )}
                                         </tbody>

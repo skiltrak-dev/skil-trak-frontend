@@ -176,6 +176,16 @@ export const rtoEndpoints = (
         },
         invalidatesTags: ['RTOS'],
     }),
+    checkStudentEmail: builder.mutation({
+        query: ({body}: any) => {
+            return {
+                url: `${PREFIX}/email/find`,
+                method: 'POST',
+                body: {emails: body}
+            }
+        },
+        invalidatesTags: ['RTOS'],
+    }),
 
     rtoUnassignSubAdmins: builder.mutation({
         query: (body: any) => ({
