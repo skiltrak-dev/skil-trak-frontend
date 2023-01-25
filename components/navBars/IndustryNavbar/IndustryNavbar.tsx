@@ -48,122 +48,113 @@ export const IndustryNavbar = () => {
                             </Link>
                         </li>
 
-                        {status === 'approved' && (
-                            <>
-                                <li>
-                                    <Link
-                                        legacyBehavior
-                                        href="/portals/industry/tasks"
-                                    >
-                                        <a
-                                            className={`${
-                                                router.pathname ==
-                                                '/portals/industry/tasks'
-                                                    ? 'bg-green-100 text-accent-700'
-                                                    : 'text-slate-700'
-                                            } ${defaultClasses} hover:bg-blue-100 hover:text-blue-700`}
-                                        >
-                                            <span>
-                                                <HiUsers />
-                                            </span>
-                                            <span className="text-sm font-semibold">
-                                                Tasks
-                                            </span>
-                                        </a>
-                                    </Link>
-                                </li>
+                        <li>
+                            <Link legacyBehavior href="/portals/industry/tasks">
+                                <a
+                                    className={`${
+                                        router.pathname ==
+                                        '/portals/industry/tasks'
+                                            ? 'bg-green-100 text-accent-700'
+                                            : 'text-slate-700'
+                                    } ${defaultClasses} hover:bg-blue-100 hover:text-blue-700`}
+                                >
+                                    <span>
+                                        <HiUsers />
+                                    </span>
+                                    <span className="text-sm font-semibold">
+                                        Tasks
+                                    </span>
+                                </a>
+                            </Link>
+                        </li>
 
-                                <li>
-                                    <Link
-                                        legacyBehavior
-                                        href="/portals/industry/students"
-                                    >
-                                        <a
-                                            className={`${
-                                                router.pathname ==
-                                                '/portals/industry/students'
-                                                    ? 'bg-orange-100 text-orange-700'
-                                                    : 'text-slate-700'
-                                            } ${defaultClasses} hover:bg-orange-100 hover:text-orange-700`}
-                                        >
-                                            <span>
-                                                <FaClipboardList />
-                                            </span>
-                                            <span className="text-sm font-semibold">
-                                                Students
-                                            </span>
-                                        </a>
-                                    </Link>
-                                </li>
-                                <li>
-                                    <Link
-                                        legacyBehavior
-                                        href="/portals/industry/jobs"
-                                    >
-                                        <a
-                                            className={`${
-                                                router.pathname ==
-                                                '/portals/industry/jobs'
-                                                    ? 'bg-green-100 text-green-700'
-                                                    : 'text-slate-700'
-                                            } ${defaultClasses} hover:bg-green-100 hover:text-green-700`}
-                                        >
-                                            <span>
-                                                <MdWork />
-                                            </span>
-                                            <span className="text-sm font-semibold">
-                                                Jobs
-                                            </span>
-                                        </a>
-                                    </Link>
-                                </li>
-                                <li>
-                                    <Link
-                                        legacyBehavior
-                                        href="/portals/industry/general-information"
-                                    >
-                                        <a
-                                            className={`${
-                                                router.pathname ==
-                                                '/portals/industry/general-info'
-                                                    ? 'bg-green-100 text-green-700'
-                                                    : 'text-slate-700'
-                                            } ${defaultClasses} hover:bg-green-100 hover:text-green-700`}
-                                        >
-                                            <span>
-                                                <HiInformationCircle />
-                                            </span>
-                                            <span className="text-sm font-semibold">
-                                                General Info
-                                            </span>
-                                        </a>
-                                    </Link>
-                                </li>
-                                {/* Mails */}
-                                <li>
-                                    <Link
-                                        legacyBehavior
-                                        href="/portals/industry/e-mails"
-                                    >
-                                        <a
-                                            className={`${
-                                                router.pathname ==
-                                                '/portals/industry/e-mails'
-                                                    ? 'bg-green-100 text-green-700'
-                                                    : 'text-slate-700'
-                                            } ${defaultClasses} hover:bg-green-100 hover:text-green-700`}
-                                        >
-                                            <span>
-                                                <MdEmail />
-                                            </span>
-                                            <span className="text-sm font-semibold">
-                                                E-mails
-                                            </span>
-                                        </a>
-                                    </Link>
-                                </li>
-                            </>
-                        )}
+                        <li>
+                            <Link
+                                legacyBehavior
+                                href="/portals/industry/students"
+                            >
+                                <a
+                                    className={`${
+                                        router.pathname ==
+                                        '/portals/industry/students'
+                                            ? 'bg-orange-100 text-orange-700'
+                                            : 'text-slate-700'
+                                    } ${defaultClasses} hover:bg-orange-100 hover:text-orange-700`}
+                                >
+                                    <span>
+                                        <FaClipboardList />
+                                    </span>
+                                    <span className="text-sm font-semibold">
+                                        Students
+                                    </span>
+                                </a>
+                            </Link>
+                        </li>
+                        <li>
+                            <Link legacyBehavior href="/portals/industry/jobs">
+                                <a
+                                    className={`${
+                                        router.pathname ==
+                                        '/portals/industry/jobs'
+                                            ? 'bg-green-100 text-green-700'
+                                            : 'text-slate-700'
+                                    } ${defaultClasses} hover:bg-green-100 hover:text-green-700`}
+                                >
+                                    <span>
+                                        <MdWork />
+                                    </span>
+                                    <span className="text-sm font-semibold">
+                                        Jobs
+                                    </span>
+                                </a>
+                            </Link>
+                        </li>
+                        <li>
+                            <Link
+                                legacyBehavior
+                                href="/portals/industry/general-information"
+                            >
+                                <a
+                                    className={`${
+                                        router.pathname ==
+                                        '/portals/industry/general-info'
+                                            ? 'bg-green-100 text-green-700'
+                                            : 'text-slate-700'
+                                    } ${defaultClasses} hover:bg-green-100 hover:text-green-700`}
+                                >
+                                    <span>
+                                        <HiInformationCircle />
+                                    </span>
+                                    <span className="text-sm font-semibold">
+                                        General Info
+                                    </span>
+                                </a>
+                            </Link>
+                        </li>
+                        {/* Mails */}
+                        <li>
+                            <Link
+                                legacyBehavior
+                                href="/portals/industry/e-mails"
+                            >
+                                <a
+                                    className={`${
+                                        router.pathname ==
+                                        '/portals/industry/e-mails'
+                                            ? 'bg-green-100 text-green-700'
+                                            : 'text-slate-700'
+                                    } ${defaultClasses} hover:bg-green-100 hover:text-green-700`}
+                                >
+                                    <span>
+                                        <MdEmail />
+                                    </span>
+                                    <span className="text-sm font-semibold">
+                                        E-mails
+                                    </span>
+                                </a>
+                            </Link>
+                        </li>
+
                         {/* <li>
           <Link legacyBehavior href="/portals/industry/notifications">
             <a

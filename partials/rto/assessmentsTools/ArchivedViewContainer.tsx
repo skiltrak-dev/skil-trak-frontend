@@ -8,7 +8,13 @@ import {
     DownloadableFile,
 } from '@components/AssessmentsTools'
 import { Button } from '@components/buttons'
-import { Typography, NoData, Card, LoadingAnimation } from '@components'
+import {
+    Typography,
+    NoData,
+    Card,
+    LoadingAnimation,
+    ShowErrorNotifications,
+} from '@components'
 import { UserStatus } from '@types'
 import {
     useGetRTOCoursesQuery,
@@ -18,7 +24,8 @@ import {
 } from '@queries'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+import { useNotification } from '@hooks'
 
 type ArchivedViewProps = {
     role: 'RTO' | 'Student'
@@ -41,6 +48,16 @@ export const ArchivedViewContainer = ({ role }: ArchivedViewProps) => {
 
     const [remove, removeResult] = useRemoveRTOAssessmentToolsMutation()
     const router = useRouter()
+    const { notification } = useNotification()
+
+    useEffect(() => {
+        if (removeResult.isSuccess) {
+            notification.error({
+                title: 'Assessment Deleted',
+                description: 'Assessment Deleted Successfully',
+            })
+        }
+    }, [removeResult])
 
     const actions = (assessment: any) => {
         return (
@@ -79,6 +96,7 @@ export const ArchivedViewContainer = ({ role }: ArchivedViewProps) => {
 
     return (
         <>
+            <ShowErrorNotifications result={removeResult} />
             <div className="mb-2">
                 <Typography variant="muted" color="text-gray-400">
                     *You can access all your assessment tools by clicking on
@@ -104,7 +122,7 @@ export const ArchivedViewContainer = ({ role }: ArchivedViewProps) => {
                         {rtoCourses?.isLoading ? (
                             <LoadingAnimation size={85} />
                         ) : rtoCourses?.data?.data &&
-                            rtoCourses?.data?.data?.length > 0 ? (
+                          rtoCourses?.data?.data?.length > 0 ? (
                             rtoCourses?.data?.data?.map((course: any) => (
                                 <AssessmentCourse
                                     code={course?.code}
@@ -146,10 +164,11 @@ export const ArchivedViewContainer = ({ role }: ArchivedViewProps) => {
                             </span>
                             <div className="border-4 border-blue-600">
                                 <div
-                                    className={`${role === 'RTO'
+                                    className={`${
+                                        role === 'RTO'
                                             ? 'border-b border-t'
                                             : 'border-b'
-                                        } p-4`}
+                                    } p-4`}
                                 >
                                     <div className="grid grid-cols-3">
                                         <Typography
@@ -185,7 +204,7 @@ export const ArchivedViewContainer = ({ role }: ArchivedViewProps) => {
                                     {getAssessmentTools?.isLoading ? (
                                         <LoadingAnimation size={80} />
                                     ) : getAssessmentTools?.data &&
-                                        getAssessmentTools?.data?.length > 0 ? (
+                                      getAssessmentTools?.data?.length > 0 ? (
                                         getAssessmentTools?.data?.map(
                                             (assessment: any) => (
                                                 <DownloadableFile

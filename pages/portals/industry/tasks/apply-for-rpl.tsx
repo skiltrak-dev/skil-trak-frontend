@@ -6,12 +6,17 @@ import { NextPageWithLayout } from '@types'
 
 import { TasksContainer } from '@partials/industry'
 import { RPLForm } from '@components/sections/industry/ApplyForRPL/forms/RPLForm/RPLForm'
+
+// components
+import { RedirectUser } from '@components'
+
 const ApplyForRpl: NextPageWithLayout = () => {
     const router = useRouter()
     const { query } = router
 
     return (
         <div>
+            <RedirectUser link={'/portals/industry/tasks'} />
             <RPLForm />
         </div>
     )

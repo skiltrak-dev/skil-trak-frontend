@@ -28,14 +28,14 @@ export const assessmentToolsEndpoints = (
     getAssessmentTool: builder.query<any, string>({
         query: (status: string) => {
             return {
-                url: `${PREFIX}/assessmenttool/list`,
+                url: `${PREFIX}/assessment-tool/list`,
                 params: { status },
             }
         },
         providesTags: ['RtoAssessmentToolsList'],
     }),
     getAssessmentToolDetail: builder.query<any, number | null>({
-        query: (id: number | null) => `${PREFIX}/assessmenttool/${id}`,
+        query: (id: number | null) => `${PREFIX}/assessment-tool/${id}`,
         providesTags: ['RtoAssessmentToolsList'],
     }),
     // getAssessmentToolCourses: builder.query<any, number | null>({
@@ -57,7 +57,6 @@ export const assessmentToolsEndpoints = (
         invalidatesTags: ['RtoAssessmentToolsList'],
     }),
     removeRTOAssessmentTools: builder.mutation<any, any | null>({
-        // TODO ERROR: Cannot delete
         query: (id: any) => ({
             url: `${PREFIX}/assessment-tool/remove/${id}`,
             method: 'DELETE',

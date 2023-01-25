@@ -23,6 +23,8 @@ export * from './Socket'
 export * from './Responsive'
 export * from './Avatar'
 export * from './ViewUserPassword'
+export * from './RedirectUser'
+export * from './EditPassword'
 
 // export * from './Pagination'
 export * from './PopUp'

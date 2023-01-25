@@ -7,9 +7,10 @@ export const changeProfileImageEndpoints = (
     builder: EndpointBuilder<BaseQueryFn, string, string>
 ) => ({
     changeProfile: builder.mutation<any, any | null>({
-        query: ({ body }) => ({
+        query: ({ body, user }) => ({
             url: `${PREFIX}/avatar/update`,
             method: 'PATCH',
+            params: { user },
             body,
         }),
         invalidatesTags: ['Avatar', 'Profile'],

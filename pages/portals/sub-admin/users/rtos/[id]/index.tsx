@@ -40,6 +40,7 @@ const RtoProfile: NextPageWithLayout = (props: Props) => {
     const { setContent, show } = useContextBar()
     const rtoDetail = useGetSubAdminRTODetailQuery(String(id), {
         skip: !id,
+        refetchOnMountOrArgChange: true,
     })
     const navBar = useNavbar()
 
@@ -48,6 +49,7 @@ const RtoProfile: NextPageWithLayout = (props: Props) => {
             setContent(
                 <>
                     <RtoProfileSidebar
+                        rto={rtoDetail}
                         loading={rtoDetail?.isLoading}
                         data={rtoDetail?.data}
                     />

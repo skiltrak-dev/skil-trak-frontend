@@ -9,7 +9,7 @@ export const RejectModal = ({
     rto,
     onCancel,
 }: {
-    rto: Rto
+    rto: Rto | undefined | null
     onCancel: Function
 }) => {
     const { alert } = useAlert()
@@ -24,7 +24,7 @@ export const RejectModal = ({
         if (changeStatusResult.isSuccess) {
             alert.error({
                 title: `Request Rejected`,
-                description: `RTO "${rto.user.name}" has been rejected.`,
+                description: `RTO "${rto?.user?.name}" has been rejected.`,
             })
             onCancel()
         }
@@ -41,11 +41,11 @@ export const RejectModal = ({
             Icon={FaBan}
             variant="error"
             title="Are you sure!"
-            description={`You are about to reject "${rto.user.name}". Do you wish to continue?`}
+            description={`You are about to reject "${rto?.user?.name}". Do you wish to continue?`}
             onConfirm={onConfirmUClicked}
             onCancel={onCancel}
             input
-            inputKey={rto.user.email}
+            inputKey={rto?.user?.email}
             actionObject={rto}
             loading={changeStatusResult.isLoading}
         />

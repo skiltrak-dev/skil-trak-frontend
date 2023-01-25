@@ -1,19 +1,18 @@
-import { useEffect, useState } from 'react'
 import { yupResolver } from '@hookform/resolvers/yup'
+import { useEffect } from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
 import * as yup from 'yup'
 
 // queries
-import { AuthApi } from '@queries'
 
 // components
-import { Avatar, Button, Card, TextInput, Typography } from '@components'
+import { Avatar, Button, Card, TextInput } from '@components'
 
 // utils
 import { onlyAlphabets } from '@utils'
 
 // hooks
-import { useContextBar, useNotification } from '@hooks'
+import { useActionModal, useContextBar, useNotification } from '@hooks'
 
 export const SubAdminProfileForm = ({
     result,
@@ -26,6 +25,8 @@ export const SubAdminProfileForm = ({
 }) => {
     const contextBar = useContextBar()
     const { notification } = useNotification()
+
+    const { onUpdatePassword, passwordModal } = useActionModal()
 
     useEffect(() => {
         contextBar.setContent(null)
@@ -89,6 +90,13 @@ export const SubAdminProfileForm = ({
     }, [profile])
     return (
         <Card>
+            {passwordModal && passwordModal}
+            <div className="mb-3 flex justify-end">
+                <Button
+                    text={'Update Password'}
+                    onClick={() => onUpdatePassword(profile?.data)}
+                />
+            </div>
             <div className="flex justify-between gap-x-16 border-t py-4">
                 <div className="w-4/6">
                     <FormProvider {...formMethods}>

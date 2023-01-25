@@ -32,6 +32,7 @@ const EditRTOProfile: NextPageWithLayout = (props: Props) => {
                 title: 'Profile Updated',
                 description: 'Profile Updated Successfully',
             })
+            profile.refetch()
         }
     }, [])
     const onSubmit = (values: any) => {
@@ -40,6 +41,7 @@ const EditRTOProfile: NextPageWithLayout = (props: Props) => {
     return (
         <>
             <div className="px-4">
+                Saad kHan
                 <RTOProfileEditForm
                     onSubmit={onSubmit}
                     profile={profile}

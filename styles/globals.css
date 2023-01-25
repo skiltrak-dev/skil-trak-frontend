@@ -255,3 +255,8 @@ tr[aria-hidden] td {
    color: white;
    background-color: #1f95af;
 }
+
+.phoneinputwithcountry > input{
+   outline: 2px solid transparent;
+  outline-offset: 2px;
+}

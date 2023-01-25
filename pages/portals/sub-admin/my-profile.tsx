@@ -6,20 +6,20 @@ import { SubAdminApi } from '@queries'
 import { SubAdminProfileForm } from '@partials/common'
 
 const MyProfile: NextPageWithLayout = () => {
-    
-
     const profile = SubAdminApi.SubAdmin.useProfile()
     const [updateProfile, updateProfileResult] =
         SubAdminApi.SubAdmin.useUpdateProfile()
-
-    
 
     const onSubmit = (values: any) => {
         updateProfile(values)
     }
 
     return (
-        <SubAdminProfileForm onSubmit={onSubmit} profile={profile} result={updateProfileResult} />
+        <SubAdminProfileForm
+            onSubmit={onSubmit}
+            profile={profile}
+            result={updateProfileResult}
+        />
     )
 }
 

@@ -19,13 +19,24 @@ import { AdminApi } from '@queries'
 import { PinnedNotes } from '@partials'
 import { ArchiveModal, BlockModal } from '@partials/admin/industry/modals'
 import { Industry } from '@types'
+import { useActionModals } from '@partials/admin/industry/hooks/useActionModals'
+import { getUserCredentials } from '@utils'
 
 const Detail: NextPageWithLayout = () => {
     const router = useRouter()
     const navBar = useNavbar()
     const contextBar = useContextBar()
 
-    const [modal, setModal] = useState<ReactElement | null>(null)
+    const {
+        modal,
+        onAcceptClicked,
+        onRejectClicked,
+        onArchiveClicked,
+        onUnblockClicked,
+        onDeleteClicked,
+        onUnArchiveClicked,
+        onBlockClicked,
+    } = useActionModals()
 
     const industry = AdminApi.Industries.useDetail(Number(router.query.id), {
         skip: !router.query?.id,
@@ -41,25 +52,117 @@ const Detail: NextPageWithLayout = () => {
         }
     }, [industry.data])
 
-    const onModalCancelClicked = () => {
-        setModal(null)
-    }
-    const onArchiveClicked = (industry: Industry | undefined) => {
-        setModal(
-            <ArchiveModal
-                item={industry}
-                onCancel={() => onModalCancelClicked()}
-            />
-        )
-    }
+    const role = getUserCredentials()?.role
 
-    const onBlockClicked = (industry: Industry | undefined) => {
-        setModal(
-            <BlockModal
-                industry={industry}
-                onCancel={() => onModalCancelClicked()}
-            />
-        )
+    const statusBaseActions = () => {
+        switch (industry.data?.user?.status) {
+            case 'pending':
+                return (
+                    <div className="flex items-center gap-x-2">
+                        <ActionButton
+                            variant={'success'}
+                            Icon={FaArchive}
+                            onClick={() => onAcceptClicked(industry?.data)}
+                        >
+                            Accept
+                        </ActionButton>
+                        <ActionButton
+                            Icon={FaBan}
+                            variant={'error'}
+                            onClick={() => onRejectClicked(industry?.data)}
+                        >
+                            Reject
+                        </ActionButton>
+                    </div>
+                )
+            case 'approved':
+                return (
+                    <div className="flex gap-x-2">
+                        <ActionButton
+                            Icon={FaEdit}
+                            onClick={() => {
+                                router.push(
+                                    role === 'admin'
+                                        ? `/portals/admin/industry/edit-industry/${router.query.id}`
+                                        : `/portals/sub-admin/users/industries/${router.query.id}/edit-profile`
+                                )
+                            }}
+                        >
+                            Edit
+                        </ActionButton>
+                        <ActionButton
+                            Icon={FaArchive}
+                            onClick={() => onArchiveClicked(industry?.data)}
+                        >
+                            Archive
+                        </ActionButton>
+                        <ActionButton
+                            Icon={FaBan}
+                            variant={'error'}
+                            onClick={() => onBlockClicked(industry?.data)}
+                        >
+                            Block
+                        </ActionButton>
+                    </div>
+                )
+            case 'blocked':
+                return (
+                    <div className="flex items-center gap-x-2">
+                        <ActionButton
+                            Icon={FaArchive}
+                            onClick={() => onUnblockClicked(industry?.data)}
+                        >
+                            Un Block
+                        </ActionButton>
+                        <ActionButton
+                            Icon={FaBan}
+                            variant={'error'}
+                            onClick={() => onDeleteClicked(industry?.data)}
+                        >
+                            Delete
+                        </ActionButton>
+                    </div>
+                )
+            case 'rejected':
+                return (
+                    <div className="flex items-center gap-x-2">
+                        <ActionButton
+                            Icon={FaArchive}
+                            onClick={() => onAcceptClicked(industry?.data)}
+                        >
+                            Accept
+                        </ActionButton>
+                        <ActionButton
+                            Icon={FaBan}
+                            variant={'error'}
+                            onClick={() => onDeleteClicked(industry?.data)}
+                        >
+                            Delete
+                        </ActionButton>
+                    </div>
+                )
+            case 'archived':
+                return (
+                    <div className="flex items-center gap-x-2">
+                        <ActionButton
+                            Icon={FaArchive}
+                            onClick={() => onUnArchiveClicked(industry?.data)}
+                        >
+                            Un Archive
+                        </ActionButton>
+                        <ActionButton
+                            Icon={FaBan}
+                            variant={'error'}
+                            onClick={() => onDeleteClicked(industry?.data)}
+                        >
+                            Delete
+                        </ActionButton>
+                    </div>
+                )
+
+            default:
+                return
+        }
     }
 
     return (
@@ -73,22 +176,7 @@ const Detail: NextPageWithLayout = () => {
                     {/* Action Bar */}
                     <div className="flex items-center justify-between">
                         <BackButton text="Industries" />
-                        <div className="flex gap-x-2">
-                            <ActionButton Icon={FaEdit}>Edit</ActionButton>
-                            <ActionButton
-                                Icon={FaArchive}
-                                onClick={() => onArchiveClicked(industry?.data)}
-                            >
-                                Archive
-                            </ActionButton>
-                            <ActionButton
-                                Icon={FaBan}
-                                variant={'error'}
-                                onClick={() => onBlockClicked(industry?.data)}
-                            >
-                                Block
-                            </ActionButton>
-                        </div>
+                        {statusBaseActions()}
                     </div>
 
                     <DetailTabs id={router.query.id} industry={industry} />

@@ -2,7 +2,7 @@ import { ReactElement, useEffect } from 'react'
 import { useRouter } from 'next/router'
 
 // components
-import { BackButton, TabProps, TabNavigation } from '@components'
+import { BackButton, TabProps, TabNavigation, RedirectUser } from '@components'
 
 import { IndustryLayout } from '@layouts'
 import { NextPageWithLayout } from '@types'
@@ -27,6 +27,7 @@ const Schedule: NextPageWithLayout = () => {
 
     return (
         <div>
+            <RedirectUser link={'/portals/industry/tasks'} />
             <BackButton
                 link={'my-tasks/add-a-schedule'}
                 text={'Back To Selection'}
