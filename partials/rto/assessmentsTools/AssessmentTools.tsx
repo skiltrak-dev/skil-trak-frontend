@@ -93,6 +93,8 @@ export const AssessmentsToolsContainer = () => {
         }
     }, [removeResult])
 
+    //  ADD ASSESSMENT JOY RIDE - END
+    //  ADD ASSESSMENT JOY RIDE 
 
     const actions = (assessment: any) => {
         return (

@@ -3,15 +3,15 @@ import { ReactElement } from 'react'
 import { StudentLayout } from '@layouts'
 import { NextPageWithLayout } from '@types'
 
-
-
-
 // query
-import { StudentProfileForm } from '@partials/common'
+
 import {
     useGetStudentProfileDetailQuery,
-    useUpdateStudentProfileMutation
+    useUpdateStudentProfileMutation,
 } from '@queries'
+
+import { StudentProfileForm } from '@partials/common'
+
 import { useRouter } from 'next/router'
 
 const MyProfile: NextPageWithLayout = () => {

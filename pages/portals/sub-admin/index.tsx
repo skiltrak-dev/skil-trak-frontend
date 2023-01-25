@@ -28,8 +28,6 @@ import { SubAdminApi } from '@queries'
 import { CallBackProps } from 'react-joyride'
 import { useRouter } from 'next/router'
 
-
-
 const NotificationQuestions = [
     {
         text: `How to send an email to student from portal?`,
@@ -46,10 +44,10 @@ const getSectors = (courses: any) => {
     const sectors = {}
     courses.forEach((c: any) => {
         if ((sectors as any)[c.sector.name]) {
-            ; (sectors as any)[c.sector.name].push(c)
+            ;(sectors as any)[c.sector.name].push(c)
         } else {
-            ; (sectors as any)[c.sector.name] = []
-                ; (sectors as any)[c.sector.name].push(c)
+            ;(sectors as any)[c.sector.name] = []
+            ;(sectors as any)[c.sector.name].push(c)
         }
     })
     return sectors
@@ -307,7 +305,7 @@ const SubAdminDashboard: NextPageWithLayout = () => {
             link: 'sub-admin/users/students?tab=all',
             steps: [
                 {
-                    target: '#users',
+                    target: '#student',
                     content: (
                         <>
                             <div className="font-semibold">Click here</div>
@@ -330,7 +328,11 @@ const SubAdminDashboard: NextPageWithLayout = () => {
                     content: (
                         <>
                             <div>Click Here</div>
-                            <div>You can add note on student profile here</div>
+                            <div>
+                                You can select a single student in the following
+                                list then in you student profile go to notes tab
+                                you can add note there
+                            </div>
                         </>
                     ),
                 },
@@ -346,22 +348,24 @@ const SubAdminDashboard: NextPageWithLayout = () => {
                             ...prev,
                             run: false,
                         }))
-                        router.push('/portals/sub-admin/users')
+                        router.push('/portals/sub-admin/students?tab=all')
                     } else if (type === 'step:after' && index === 1) {
                         joyride.setState((prev: any) => ({
                             ...prev,
                             run: false,
                         }))
                         router.push('/portals/sub-admin/users/students?tab=all')
-                    } else if (type === 'step:after' && index === 2) {
-                        joyride.setState((prev: any) => ({
-                            ...prev,
-                            run: false,
-                        }))
-                        router.push(
-                            '/portals/sub-admin/users/students/9?tab=notes'
-                        )
-                    } else if (action === 'reset' || lifecycle === 'complete') {
+                    }
+                    // else if (type === 'step:after' && index === 2) {
+                    //     joyride.setState((prev: any) => ({
+                    //         ...prev,
+                    //         run: false,
+                    //     }))
+                    //     router.push(
+                    //         '/portals/sub-admin/users/students/9?tab=notes'
+                    //     )
+                    // }
+                    else if (action === 'reset' || lifecycle === 'complete') {
                         joyride.setState({
                             ...joyride.state,
                             run: false,
@@ -393,66 +397,21 @@ const SubAdminDashboard: NextPageWithLayout = () => {
                     content: (
                         <>
                             <div>Click Here</div>
-                            <div>You can find student placement from workplace</div>
-                        </>
-                    ),
-                },
-                {
-                    target: '#routeB',
-                    content: (
-                        <>
-                            <div>This is Route B</div>
                             <div>
-                                Yet another loader simulation and now we reached
-                                the last step in our tour!
+                                You can find student placement from workplace
                             </div>
                         </>
                     ),
                 },
-            ],
-            joyrideCallback: (joyride: any) => {
-                return (data: CallBackProps) => {
-                    const { action, index, lifecycle, type } = data
-                    if (
-                        type === 'step:after' &&
-                        index === 0 /* or step.target === '#home' */
-                    ) {
-                        joyride.setState((prev: any) => ({
-                            ...prev,
-                            run: false,
-                        }))
-                        router.push('/portals/sub-admin/tasks')
-                    } else if (action === 'reset' || lifecycle === 'complete') {
-                        joyride.setState({
-                            ...joyride.state,
-                            run: false,
-                            stepIndex: 0,
-                            tourActive: false,
-                        })
-                    }
-                }
-            },
-        },
-        {
-            text: `How can I upload student assessment?`,
-            link: '#',
-            steps: [
                 {
-                    target: '#tasks',
-                    content: (
-                        <>
-                            <div className="font-semibold">Click here</div>
-                            <div>You can go to Assessment Submission </div>
-                        </>
-                    ),
-                    disableBeacon: true,
-                },
-                {
-                    target: '#assessment-evidence',
+                    target: '#placement-documents',
                     content: (
                         <>
                             <div>Click Here</div>
-                            <div>You can upload student assessment from here</div>
+                            <div>
+                                You can find student placement document from
+                                here
+                            </div>
                         </>
                     ),
                 },
@@ -481,17 +440,89 @@ const SubAdminDashboard: NextPageWithLayout = () => {
                             run: false,
                         }))
                         router.push('/portals/sub-admin/tasks')
+                    } else if (
+                        type === 'step:after' &&
+                        index === 1 /* or step.target === '#home' */
+                    ) {
+                        joyride.setState((prev: any) => ({
+                            ...prev,
+                            run: false,
+                        }))
+                        router.push(
+                            '/portals/sub-admin/tasks/workplace?tab=all'
+                        )
                     } else if (action === 'reset' || lifecycle === 'complete') {
                         joyride.setState({
                             ...joyride.state,
                             run: false,
-                            stepIndex: 0,
+                            stepIndex: 2,
                             tourActive: false,
                         })
                     }
                 }
             },
         },
+        // {
+        //     text: `How can I upload student assessment?`,
+        //     link: '#',
+        //     steps: [
+        //         {
+        //             target: '#tasks',
+        //             content: (
+        //                 <>
+        //                     <div className="font-semibold">Click here</div>
+        //                     <div>You can go to Assessment Submission </div>
+        //                 </>
+        //             ),
+        //             disableBeacon: true,
+        //         },
+        //         {
+        //             target: '#assessment-evidence',
+        //             content: (
+        //                 <>
+        //                     <div>Click Here</div>
+        //                     <div>
+        //                         You can upload student assessment from here
+        //                     </div>
+        //                 </>
+        //             ),
+        //         },
+        //         {
+        //             target: '#routeB',
+        //             content: (
+        //                 <>
+        //                     <div>This is Route B</div>
+        //                     <div>
+        //                         Yet another loader simulation and now we reached
+        //                         the last step in our tour!
+        //                     </div>
+        //                 </>
+        //             ),
+        //         },
+        //     ],
+        //     joyrideCallback: (joyride: any) => {
+        //         return (data: CallBackProps) => {
+        //             const { action, index, lifecycle, type } = data
+        //             if (
+        //                 type === 'step:after' &&
+        //                 index === 0 /* or step.target === '#home' */
+        //             ) {
+        //                 joyride.setState((prev: any) => ({
+        //                     ...prev,
+        //                     run: false,
+        //                 }))
+        //                 router.push('/portals/sub-admin/tasks')
+        //             } else if (action === 'reset' || lifecycle === 'complete') {
+        //                 joyride.setState({
+        //                     ...joyride.state,
+        //                     run: false,
+        //                     stepIndex: 0,
+        //                     tourActive: false,
+        //                 })
+        //             }
+        //         }
+        //     },
+        // },
         {
             text: `Where can I add or view assessment requirements?`,
             link: '#',
@@ -511,7 +542,9 @@ const SubAdminDashboard: NextPageWithLayout = () => {
                     content: (
                         <>
                             <div>Click Here</div>
-                            <div>You can upload student assessment from here</div>
+                            <div>
+                                You can upload student assessment from here
+                            </div>
                         </>
                     ),
                 },

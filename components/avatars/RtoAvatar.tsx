@@ -14,10 +14,10 @@ export const RtoAvatar = ({
     canEdit,
     setIsAvatarUpdated,
 }: {
-    user: number
+    user?: number
     imageUrl?: string
     canEdit?: boolean
-    setIsAvatarUpdated: any
+    setIsAvatarUpdated?: any
 }) => {
     const { notification } = useNotification()
 

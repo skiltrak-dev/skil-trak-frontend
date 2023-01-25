@@ -46,7 +46,7 @@ export const OverViewTab = ({ student }: StudentsProfileOverviewProps) => {
             </div>
 
             <div className="w-full flex flex-col gap-y-4">
-                <RecentAppointment appointment={upcommingAppointment?.data} />
+                {/* <RecentAppointment appointment={upcommingAppointment?.data} /> */}
             </div>
         </div>
     )
