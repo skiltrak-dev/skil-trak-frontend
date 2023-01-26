@@ -36,7 +36,6 @@ export const MyWorkPlaceCard = ({ data }: Props) => {
                         <div className="mt-4">
                             {data?.workplace[0]?.industries?.map(
                                 (workplace: any) => {
-                                    console.log("workplaces", workplace)
                                     return (
                                         workplace?.applied && (
                                             <>

@@ -83,7 +83,7 @@ export const Students = ({ data }: Props) => {
             text: 'View',
             onClick: (student: Student) => {
                 router.push(
-                    `/portals/sub-admin/users/students/${student.id}?tab=overview`
+                    `/portals/sub-admin/students/${student.id}?tab=overview`
                 )
             },
             Icon: FaEye,

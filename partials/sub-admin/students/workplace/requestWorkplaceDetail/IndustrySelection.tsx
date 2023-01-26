@@ -72,7 +72,6 @@ export const IndustrySelection = ({
             setActive(1)
         }
     }, [cancelRequestResult.isSuccess])
-
     const workplaceCancelRequest = (simple: boolean = false) => {
         return (
             <div className="mt-3">

@@ -122,7 +122,7 @@ export const SubAdminNavbar = () => {
                     </Link>
                 </li> */}
 
-                <li>
+                {/* <li>
                     <Link legacyBehavior href={Routes.Notification}>
                         <a
                             className={`${
@@ -139,7 +139,7 @@ export const SubAdminNavbar = () => {
                             </span>
                         </a>
                     </Link>
-                </li>
+                </li> */}
             </ul>
             <Link legacyBehavior href={Routes.Settings}>
                 <a

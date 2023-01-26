@@ -40,7 +40,6 @@ export const ViewSectorsCB = ({ subAdmin }: { subAdmin: SubAdmin }) => {
     const [unassignCourse, unassignCourseResult] =
         AdminApi.SubAdmins.useUnassignCourse()
     const onCourseRemove = async (course: Course) => {
-        console.log("course", course)
         await unassignCourse({
             id: subAdmin.id,
             course: course.id,

@@ -44,10 +44,10 @@ const getSectors = (courses: any) => {
     const sectors = {}
     courses.forEach((c: any) => {
         if ((sectors as any)[c.sector.name]) {
-            ;(sectors as any)[c.sector.name].push(c)
+            ; (sectors as any)[c.sector.name].push(c)
         } else {
-            ;(sectors as any)[c.sector.name] = []
-            ;(sectors as any)[c.sector.name].push(c)
+            ; (sectors as any)[c.sector.name] = []
+                ; (sectors as any)[c.sector.name].push(c)
         }
     })
     return sectors
@@ -128,21 +128,26 @@ const SubAdminDashboard: NextPageWithLayout = () => {
             link: 'sub-admin/tasks',
             steps: [
                 {
-                    target: '#tasks',
+                    target: '#student',
                     content: (
                         <>
                             <div className="font-semibold">Click here</div>
-                            <div>You can handle student workplace here</div>
+                            <div>
+                                To See List of Student with their workplace details
+                            </div>
                         </>
                     ),
                     disableBeacon: true,
                 },
                 {
-                    target: '#workplace',
+                    target: '#students-list',
                     content: (
                         <>
                             <div>Click Here</div>
-                            <div>You can view all workplaces here</div>
+                            <div>Select a
+                                single student, it will redirect you to student
+                                profile from there you can add workplace by
+                                clicking "Add Workplace Button"</div>
                         </>
                     ),
                 },
@@ -170,15 +175,15 @@ const SubAdminDashboard: NextPageWithLayout = () => {
                             ...prev,
                             run: false,
                         }))
-                        router.push('/portals/sub-admin/tasks')
+                        router.push('/portals/sub-admin/students?tab=all')
                     } else if (action === 'reset' || lifecycle === 'complete') {
                         joyride.setState({
                             ...joyride.state,
                             run: false,
-                            stepIndex: 0,
+                            stepIndex: 1,
                             tourActive: false,
                         })
-                    }
+                    } 
                 }
             },
         },
@@ -302,7 +307,7 @@ const SubAdminDashboard: NextPageWithLayout = () => {
         },
         {
             text: `How to add note on student profile?`,
-            link: 'sub-admin/users/students?tab=all',
+            link: 'sub-admin/students?tab=all',
             steps: [
                 {
                     target: '#student',
@@ -324,7 +329,7 @@ const SubAdminDashboard: NextPageWithLayout = () => {
                     ),
                 },
                 {
-                    target: '#add-note-student',
+                    target: '#students-list',
                     content: (
                         <>
                             <div>Click Here</div>

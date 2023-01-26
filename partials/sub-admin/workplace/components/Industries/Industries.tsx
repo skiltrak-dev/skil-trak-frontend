@@ -23,7 +23,7 @@ export const Industries = ({
     const [suggestedIndustries, setSuggestedIndustries] = useState<any | null>(
         null
     )
-
+ 
     useEffect(() => {
         setSuggestedIndustries(
             industries
@@ -34,6 +34,8 @@ export const Industries = ({
 
     const { setContent, show } = useContextBar()
     const { notification } = useNotification()
+    
+    
     return (
         <div>
             <div className="flex justify-between">
