@@ -37,15 +37,6 @@ export const AvailabilityForm = ({
                 [value]: checked,
             },
         ])
-        // setDaysAvailability([
-        //     ...filterData,
-        //     daysAvailability.map((d) => d.name).includes(name)
-        //         ? {
-        //               ...daysAvailability[findIndex],
-        //               [value]: checked,
-        //           }
-        //         : { name, [value]: checked },
-        // ])
     }
     const days = [
         'monday',

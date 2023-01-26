@@ -63,7 +63,10 @@ export const RequiredDocsCard = ({
                         ) : (
                             <AiFillExclamationCircle className="text-info" />
                         )}
-                        <Typography variant={'label'}>{name}</Typography>
+                        <Typography variant={'label'}>
+                            {' '}
+                            <span className='whitespace-pre'>{name}</span>{' '}
+                        </Typography>
                     </div>
                     <Typography variant={'small'} color={'text-gray-500'}>
                         ({uploadedDocs}/{capacity})

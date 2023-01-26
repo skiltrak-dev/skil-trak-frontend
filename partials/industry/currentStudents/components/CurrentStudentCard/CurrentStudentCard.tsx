@@ -37,7 +37,7 @@ export const CurrentStudentCard = ({ workplace }: any) => {
                             </span>
                         </Typography>
                     </div>
-                    <RtoDetail rto={workplace?.courses[0]?.rtos[0]} />
+                    <RtoDetail rto={workplace?.student?.rto} />
                 </div>
 
                 {/*  */}

@@ -104,13 +104,10 @@ export const ApprovedStudent = () => {
             accessorKey: 'industry',
             header: () => <span>Industry</span>,
             cell: (info) => {
-                const industry =
-                    info.row.original?.workplace[0]?.industries.find(
-                        (i: any) => i.applied)?.industry
-                console.log("industries", info.row.original.user.name, info.row.original.workplace[0])
+                const industry = info.row.original?.industries
 
-                return industry ? (
-                    <IndustryCell industry={industry} />
+                return industry && industry?.length > 0 ? (
+                    <IndustryCell industry={industry[0]} />
                 ) : (
                     <Typography center>N/A</Typography>
                 )
@@ -129,7 +126,7 @@ export const ApprovedStudent = () => {
             cell: ({ row }) => {
                 const workplace = row.original.workplace[0]
                 const steps = checkWorkplaceStatus(workplace?.currentStatus)
-                console.log("steps", row.original.workplace[0])
+                console.log('steps', row.original.workplace[0])
                 return (
                     <ProgressCell
                         step={steps > 10 ? 10 : steps < 1 ? 1 : steps}

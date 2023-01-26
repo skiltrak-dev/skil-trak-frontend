@@ -19,6 +19,7 @@ import {
     InitialAvatar,
     LoadingAnimation,
     NoData,
+    RtoAvatar,
 } from '@components'
 import { BiPackage, BiRename } from 'react-icons/bi'
 import { useRouter } from 'next/router'
@@ -42,10 +43,20 @@ const getSectors = (courses: any) => {
 
 export const ViewProfileCB = () => {
     const router = useRouter()
+    const [isAvatarUpdated, setIsAvatarUpdated] = useState<boolean>(false)
 
     const { onUpdatePassword, passwordModal } = useActionModal()
 
-    const { data: rto, isLoading } = RtoApi.Rto.useProfile()
+    const { data: rto, isLoading, refetch, isSuccess } = RtoApi.Rto.useProfile()
+
+    useEffect(() => {
+        if (isAvatarUpdated) {
+            refetch()
+        }
+        if (isSuccess) {
+            setIsAvatarUpdated(false)
+        }
+    }, [isAvatarUpdated, rto])
 
     const sectorsWithCourses = getSectors(rto?.courses)
     return (
@@ -72,7 +83,12 @@ export const ViewProfileCB = () => {
                         </div>
                     </div>
                     <div className="flex flex-col items-center">
-                        <div className="relative">
+                        <RtoAvatar
+                            imageUrl={rto?.user.avatar}
+                            canEdit
+                            setIsAvatarUpdated={setIsAvatarUpdated}
+                        />
+                        {/* <div className="relative">
                             {rto?.user.avatar ? (
                                 <Image
                                     src={rto?.user.avatar}
@@ -95,7 +111,7 @@ export const ViewProfileCB = () => {
                                         : 'w-24 h-24'
                                 } absolute top-0 left-0 bg-transparent rounded-full shadow-inner-image`}
                             ></div>
-                        </div>
+                        </div> */}
 
                         <div className="flex flex-col items-center mt-2">
                             <p className="text-md font-semibold">

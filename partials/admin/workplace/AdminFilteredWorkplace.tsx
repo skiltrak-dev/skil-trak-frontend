@@ -3,23 +3,26 @@ import {
     TechnicalError,
     LoadingAnimation,
     EmptyData,
-    PageSize,
     Pagination,
+    PageSize,
 } from '@components'
 
 // queries
 import { AdminApi } from '@queries'
-import { useState } from 'react'
 import { AdminWorkplaceRequest } from './components'
 
-export const AssignedRequest = () => {
-    const [page, setPage] = useState(1)
-    const [itemPerPage, setItemPerPage] = useState(50)
-
-    const subAdminWorkplace = AdminApi.Workplace.useAssignedWorkplace({
-        skip: itemPerPage * page - itemPerPage,
-        limit: itemPerPage,
-    })
+export const AdminFilteredWorkplace = ({
+    setPage,
+    workplace,
+    setItemPerPage,
+    itemPerPage,
+}: {
+    setPage: any
+    workplace: any
+    itemPerPage: number
+    setItemPerPage: any
+}) => {
+    console.log('workplace', workplace)
     return (
         <div className="p-4">
             <div className="flex items-center justify-between">
@@ -28,17 +31,16 @@ export const AssignedRequest = () => {
                     setItemPerPage={setItemPerPage}
                 />
                 <Pagination
-                    pagination={subAdminWorkplace?.data?.pagination}
+                    pagination={workplace?.data?.pagination}
                     setPage={setPage}
                 />
             </div>
-            {subAdminWorkplace.isError && <TechnicalError />}
-            {subAdminWorkplace.isLoading && subAdminWorkplace.isFetching ? (
+            {workplace.isError && <TechnicalError />}
+            {workplace.isLoading && workplace.isFetching ? (
                 <LoadingAnimation />
-            ) : subAdminWorkplace.data?.data &&
-              subAdminWorkplace.data?.data?.length > 0 ? (
+            ) : workplace.data?.data && workplace.data?.data?.length > 0 ? (
                 <div className="flex flex-col gap-y-2">
-                    {subAdminWorkplace?.data?.data?.map((workplace: any) => (
+                    {workplace?.data?.data?.map((workplace: any) => (
                         <AdminWorkplaceRequest
                             key={workplace?.id}
                             workplace={workplace}
@@ -46,10 +48,10 @@ export const AssignedRequest = () => {
                     ))}
                 </div>
             ) : (
-                !subAdminWorkplace.isError && (
+                !workplace.isError && (
                     <EmptyData
-                        title={'No Assigned Workplace Request'}
-                        description={'No Assigned Workplace Request were found'}
+                        title={'No Search result'}
+                        description={'No Search result were found'}
                     />
                 )
             )}

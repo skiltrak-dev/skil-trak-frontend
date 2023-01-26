@@ -1,10 +1,9 @@
-import { ProgressStep } from '@components'
+import { ProgressStep, RecentAppointment } from '@components'
 import { PinnedNotes } from '@components/sections/subAdmin'
 
 import { Courses } from '../../components/Courses'
 import { MyRto } from '../../components/MyRto'
 import { MyWorkplace } from '../../components/MyWorkplace'
-import { RecentAppointment } from '../../components/RecentAppointment'
 
 import { CommonApi } from '@queries'
 

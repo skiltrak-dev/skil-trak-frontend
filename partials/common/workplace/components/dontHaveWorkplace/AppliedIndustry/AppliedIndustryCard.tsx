@@ -32,10 +32,12 @@ export const AppliedIndustryCard = ({
                     <div className="py-2 md:px-4 rounded-lg flex flex-col md:flex-row gap-y-2 justify-between items-start">
                         <div className="flex flex-col gap-y-3.5">
                             <div className="flex md:items-center gap-x-2">
-                                <img
-                                    className="w-9 md:w-16 h-9 md:h-16 rounded-md"
-                                    src={`https://picsum.photos/100/10`}
-                                    alt=""
+                                <InitialAvatar
+                                    name={appliedIndustry?.industry?.user?.name}
+                                    imageUrl={
+                                        appliedIndustry?.industry?.user?.avatar
+                                    }
+                                    large
                                 />
                                 <div>
                                     {/* <Typography variant={'muted'} color={'gray'}>

@@ -173,12 +173,13 @@ const {
     useSubAdminUnassignRtoMutation,
 
     //------ WORKPLACE -----//
+    useFilteredWorkplacesQuery,
     useUnAssignedSubAdminsQuery,
+    useAssignedRequestListQuery,
     useAssignedWorkplaceMutation,
     useUnAssignedWorkplaceListQuery,
-    useAllStudentProvidedWorkplaceListQuery,
     useAllRequestedWorkplaceListQuery,
-    useAssignedRequestListQuery,
+    useAllStudentProvidedWorkplaceListQuery,
 
     // -------Messages-------//
     useGetAdminMessagesQuery,
@@ -280,6 +281,7 @@ export const AdminApi = {
         useAssignedWorkplace: useAssignedRequestListQuery,
         useRequestedWorkplace: useAllRequestedWorkplaceListQuery,
         useStudentProvidedWorkplace: useAllStudentProvidedWorkplaceListQuery,
+        useFilteredWorkplaces: useFilteredWorkplacesQuery,
     },
 
     Industries: {
