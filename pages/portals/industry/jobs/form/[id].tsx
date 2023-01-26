@@ -12,6 +12,7 @@ import {
     BackButton,
     ActionAlertType,
     LoadingAnimation,
+    ShowErrorNotifications,
 } from 'components'
 // import { RightSidebarData } from './components'
 
@@ -64,7 +65,7 @@ const EditJob: NextPageWithLayout = () => {
 
     return (
         <>
-            {/* <ShowErrorNotifications result={!editing ? addResult : updateResult} /> */}
+            <ShowErrorNotifications result={updateResult} />
 
             <BackButton link={'jobs'} text={'Back To Jobs'} />
 

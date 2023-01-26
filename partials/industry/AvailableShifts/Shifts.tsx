@@ -3,12 +3,18 @@ import { WorkingHourCard, initialSchedule } from './components'
 import { AddShiftContext } from './contextbar'
 
 //components
-import { Button, Card, LoadingAnimation } from '@components'
+import {
+    Button,
+    Card,
+    LoadingAnimation,
+    ShowErrorNotifications,
+} from '@components'
 import {
     useGetAvailableShiftsQuery,
     useAddWorkingHoursMutation,
 } from '@queries'
 import moment from 'moment'
+import { useNotification } from '@hooks'
 
 export const Shifts = () => {
     const [courseWorkingHours, setCourseWorkingHours] = useState<any | null>(
@@ -19,9 +25,21 @@ export const Shifts = () => {
     )
     const [isUpdated, setIsUpdated] = useState<boolean>(false)
 
+    // hooks
+    const { notification } = useNotification()
+
     const workingHours = useGetAvailableShiftsQuery()
     const [addWorkingHours, addWorkingHoursResult] =
         useAddWorkingHoursMutation()
+
+    useEffect(() => {
+        if (addWorkingHoursResult.isSuccess) {
+            notification.success({
+                title: 'Shifts Added',
+                description: 'Shifts Added Successfully',
+            })
+        }
+    }, [addWorkingHoursResult])
 
     useEffect(() => {
         if (workingHours.isSuccess) {
@@ -79,6 +97,7 @@ export const Shifts = () => {
 
     return (
         <Card>
+            <ShowErrorNotifications result={addWorkingHoursResult} />
             <div className="flex flex-col gap-y-2 mb-3">
                 {workingHours.isLoading ? (
                     <LoadingAnimation />

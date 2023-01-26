@@ -2,7 +2,7 @@ import React from 'react'
 import update from 'immutability-helper'
 
 // components
-import { Typography, LoadingAnimation } from '@components'
+import { Typography, LoadingAnimation, InitialAvatar } from '@components'
 import { ScheduleCard } from './ScheduleCard'
 
 // redux
@@ -74,7 +74,11 @@ export const Schedule = ({
                         className="grid grid-cols-7 items-center px-2"
                     >
                         <div className="col-span-2 flex items-center gap-x-2 py-3">
-                            <img src={`/images/avatar.png`} alt="" />
+                            {/* <img src={`/images/avatar.png`} alt="" /> */}
+                            <InitialAvatar
+                                name={`${employee.firstName} ${employee.lastName}`}
+                                small
+                            />
                             <div>
                                 <Typography
                                     variant={'small'}

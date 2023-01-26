@@ -9,11 +9,12 @@ import {
     useSignAgreementMutation,
     useStartPlacementByIndustryMutation,
 } from '@queries'
-import { useState, ReactElement } from 'react'
+import { useState, ReactElement, useEffect } from 'react'
 import { ChangeStatusAction } from './components'
 import { ViewAgreement } from '../../contextBar'
-import { useContextBar } from '@hooks'
+import { useContextBar, useNotification } from '@hooks'
 import { Feedback, PlacementStartedModal, ReportModal } from '../../modals'
+import { UserStatus } from '@types'
 
 export const Actions = ({ workplace, industry, student }: any) => {
     const [modal, setModal] = useState<ReactElement | null>(null)
@@ -24,6 +25,30 @@ export const Actions = ({ workplace, industry, student }: any) => {
 
     // hooks
     const { setContent, show } = useContextBar()
+    const { notification } = useNotification()
+
+    useEffect(() => {
+        if (workplaceActionsResult.isSuccess) {
+            if (
+                workplaceActionsResult.originalArgs?.status ===
+                UserStatus.Approved
+            ) {
+                notification.success({
+                    title: 'Workplace Approved',
+                    description: 'Workplace Approved Successfully',
+                })
+            }
+            if (
+                workplaceActionsResult.originalArgs?.status ===
+                UserStatus.Rejected
+            ) {
+                notification.success({
+                    title: 'Workplace Rejected',
+                    description: 'Workplace Rejected Successfully',
+                })
+            }
+        }
+    }, [workplaceActionsResult])
 
     const onModalCancelClicked = () => {
         setModal(null)
@@ -58,18 +83,20 @@ export const Actions = ({ workplace, industry, student }: any) => {
             />
         )
     }
+    // TODO Cancell still showing in Current Students
 
+    console.log('workplace', workplace?.isCancelled)
     return (
         <div className="flex flex-col md:flex-row gap-y-2 md:items-center md:gap-x-2">
             {modal && modal}
-            {industry?.industryResponseDate && (
+            {/* {industry?.industryResponseDate && (
                 <Typography variant={'xs'} color={'text-success'}>
                     Student was APPROVED on{' '}
                     {moment(industry?.industryResponseDate).format(
                         'Do MMM, YYYY'
                     )}
                 </Typography>
-            )}
+            )} */}
             {industry?.AgreementSigned && (
                 <Button
                     variant={'info'}
@@ -84,12 +111,28 @@ export const Actions = ({ workplace, industry, student }: any) => {
                     }}
                 />
             )}
-            {industry?.industryResponse === 'approved' ? (
+            {workplace?.isCancelled && (
+                <Typography variant={'small'} color={'text-red-800'}>
+                    <span className="bg-secondary px-3 py-0.5 rounded-full">
+                        CANCELLED
+                    </span>
+                </Typography>
+            )}
+            {industry?.industryResponse === 'approved' &&
+            !workplace?.isCancelled ? (
                 !industry?.terminated &&
-                    !industry?.isCompleted &&
-                    !industry?.cancelled &&
-                    !industry?.placementStarted ? (
+                !industry?.isCompleted &&
+                !workplace?.isCancelled &&
+                !industry?.placementStarted ? (
                     <>
+                        {industry?.industryResponseDate && (
+                            <Typography variant={'xs'} color={'text-success'}>
+                                Student was APPROVED on{' '}
+                                {moment(industry?.industryResponseDate).format(
+                                    'Do MMM, YYYY'
+                                )}
+                            </Typography>
+                        )}
                         {!industry.placementStarted && (
                             <Button
                                 variant={'primary'}
@@ -99,7 +142,11 @@ export const Actions = ({ workplace, industry, student }: any) => {
                                 }}
                             />
                         )}
-                        <Button variant={'dark'} text={'ADD SCHEDULE'} />
+                        <Button
+                            variant={'dark'}
+                            text={'ADD SCHEDULE'}
+                            disabled
+                        />
                     </>
                 ) : industry?.isCompleted ? (
                     <Typography variant={'small'} color={'text-white'}>
@@ -113,15 +160,12 @@ export const Actions = ({ workplace, industry, student }: any) => {
                             TERMINATED
                         </span>
                     </Typography>
-                ) : industry?.cancelled ? (
-                    <Typography variant={'small'} color={'text-red-800'}>
-                        <span className="bg-secondary px-3 py-0.5 rounded-full">
-                            CANCELLED
-                        </span>
-                    </Typography>
                 ) : (
                     <>
-                        <ChangeStatusAction industry={industry} />
+                        <ChangeStatusAction
+                            industry={industry}
+                            workplace={workplace}
+                        />
                         <Button variant={'action'} onClick={onFeedBackClicked}>
                             <span className="text-gray-800">FEEDBACK</span>
                         </Button>
@@ -131,17 +175,17 @@ export const Actions = ({ workplace, industry, student }: any) => {
                     </>
                 )
             ) : (
-                <>
-                    <div className='flex items-center gap-x-2'>
-                        <div className='whitespace-nowrap'>
-                            <Button text={'Book Appointment'} variant={'info'} />
+                !workplace?.isCancelled && (
+                    <div className="flex items-center gap-x-2">
+                        <div className="whitespace-nowrap">
+                            {/* <Button text={'Book Appointment'} variant={'info'} /> */}
                         </div>
                         <Button
                             variant={'secondary'}
                             onClick={() => {
                                 workplaceActions({
                                     id: industry.id,
-                                    status: 'approved',
+                                    status: UserStatus.Approved,
                                 })
                             }}
                             loading={workplaceActionsResult?.isLoading}
@@ -149,11 +193,23 @@ export const Actions = ({ workplace, industry, student }: any) => {
                         >
                             <span className="text-success">Approve</span>
                         </Button>
-                        <Button variant={'secondary'}>
+
+                        {/* TODO Reject is not working */}
+                        <Button
+                            variant={'secondary'}
+                            onClick={() => {
+                                workplaceActions({
+                                    id: industry.id,
+                                    status: UserStatus.Rejected,
+                                })
+                            }}
+                            loading={workplaceActionsResult?.isLoading}
+                            disabled={workplaceActionsResult?.isLoading}
+                        >
                             <span className="text-error">Reject</span>
                         </Button>
                     </div>
-                </>
+                )
             )}
         </div>
     )

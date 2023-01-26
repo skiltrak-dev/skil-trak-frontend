@@ -9,7 +9,6 @@ interface PaginationProps {
     setPage?: Function
 }
 export const Pagination = ({ table, pagination, setPage }: PaginationProps) => {
-    console.log('pagination', pagination)
     const handlePageClick = ({ selected }: any) => {
         if (!pagination) table?.setPageIndex(selected)
         else if (setPage) setPage(selected + 1)

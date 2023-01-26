@@ -126,7 +126,6 @@ export const ApprovedStudent = () => {
             cell: ({ row }) => {
                 const workplace = row.original.workplace[0]
                 const steps = checkWorkplaceStatus(workplace?.currentStatus)
-                console.log('steps', row.original.workplace[0])
                 return (
                     <ProgressCell
                         step={steps > 10 ? 10 : steps < 1 ? 1 : steps}

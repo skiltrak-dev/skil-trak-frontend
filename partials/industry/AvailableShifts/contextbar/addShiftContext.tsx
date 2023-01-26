@@ -4,7 +4,7 @@ import {
     LoadingAnimation,
     Typography,
 } from '@components'
-import { useNotification } from '@hooks'
+import { useNotification, useContextBar } from '@hooks'
 import { AdminApi, useAddShiftMutation, useGetShiftsQuery } from '@queries'
 
 import { Fragment, useEffect } from 'react'
@@ -15,6 +15,7 @@ import { ShiftCard } from '../components'
 
 export const AddShiftContext = ({ availability }: { availability: any }) => {
     const { notification } = useNotification()
+    const contextBar = useContextBar()
 
     const [addShift, addShiftResult] = useAddShiftMutation()
     const shifts = useGetShiftsQuery(availability?.id, {
@@ -30,6 +31,8 @@ export const AddShiftContext = ({ availability }: { availability: any }) => {
                 title: 'Courses Assigned',
                 description: 'Courses have been assigned to RTO',
             })
+            contextBar.setContent(null)
+            contextBar.hide()
         }
 
         if (addShiftResult.isError) {

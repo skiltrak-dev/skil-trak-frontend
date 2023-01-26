@@ -47,7 +47,6 @@ const RPLList: NextPageWithLayout = (props: Props) => {
     skip: itemPerPage * page - itemPerPage,
     limit: itemPerPage,
   })
-  console.log("rpl data", data)
   const onModalCancelClicked = () => {
     setModal(null)
   }

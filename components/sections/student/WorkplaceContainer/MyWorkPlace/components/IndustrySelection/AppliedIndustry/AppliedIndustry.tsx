@@ -63,7 +63,6 @@ export const AppliedIndustry = ({
                 ) : null
         }
     }
-    console.log('appliedIndustry', status)
     return (
         <div>
             <Typography variant={'label'}>

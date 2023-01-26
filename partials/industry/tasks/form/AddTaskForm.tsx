@@ -14,11 +14,13 @@ import {
     Typography,
     TextInput,
     Select,
+    ShowErrorNotifications,
 } from 'components'
 
 // redux
 import { useGetEmployeeQuery, useAddEmployeeTaskMutation } from '@queries'
 import { getDate } from '@utils'
+import { useNotification } from '@hooks'
 
 const DaysOptions = [
     { value: 'monday', label: 'Monday' },
@@ -30,6 +32,9 @@ const DaysOptions = [
 
 export const AddTaskForm = ({ setIsSchedule, publishTask, DraftTask }: any) => {
     const [filteredDays, setFilteredDays] = useState(DaysOptions)
+
+    // hooks
+    const { notification } = useNotification()
     // Employee
     const EmployeeData = useGetEmployeeQuery(null)
 
@@ -37,20 +42,43 @@ export const AddTaskForm = ({ setIsSchedule, publishTask, DraftTask }: any) => {
     const [addEmployee, addEmployeeData] = useAddEmployeeTaskMutation()
 
     useEffect(() => {
-        addEmployeeData.isSuccess && setIsSchedule(false)
-    }, [addEmployeeData.isSuccess, setIsSchedule])
+        if (addEmployeeData.isSuccess) {
+            notification.success({
+                title: 'Schedule Added',
+                description: 'Schedule Added Successfully',
+            })
+            setIsSchedule(false)
+        }
+    }, [addEmployeeData, setIsSchedule])
 
     const onSelectEmployee = (employee: any) => {
         const selectedEmployeeTasks = EmployeeData?.data?.data
             ?.find((selected: any) => selected.id === employee)
-            .tasks?.map((task: any) => task.day)
+            ?.tasks?.map((task: any) => task.day)
         const filteredData = DaysOptions.filter(
-            (days) => !selectedEmployeeTasks.includes(days.value)
+            (days) => !selectedEmployeeTasks?.includes(days.value)
         )
         setFilteredDays(filteredData)
     }
 
-    const validationSchema = yup.object({})
+    const validationSchema = yup.object({
+        selectEmployee: yup
+            .number()
+            .nullable(true)
+            .required('Employee is a required field'),
+        day: yup.string().required('Day is a required field'),
+        title: yup.string().required('Title is a required field'),
+        location: yup.string().required('Location is a required field'),
+        dated: yup.string().required('Dated is a required field'),
+        totalHours: yup.string().required('Total Hours is a required field'),
+        note: yup.string().required('Note is a required field'),
+        startTime: yup.string().required('Start Time is a required field'),
+        endTime: yup.string().required('End Time is a required field'),
+        email: yup
+            .string()
+            .email('Invalid Email')
+            .required('Email is required!'),
+    })
 
     const methods = useForm({
         resolver: yupResolver(validationSchema),
@@ -63,19 +91,14 @@ export const AddTaskForm = ({ setIsSchedule, publishTask, DraftTask }: any) => {
         await addEmployee({
             employee,
             sendInvite: true,
-            tasks: [
-                {
-                    ...values,
-                    day: values?.day?.value,
-                    priority: values?.priority?.value,
-                },
-            ],
+            tasks: [values],
         })
         // publishTask(values);
     }
 
     return (
         <div>
+            <ShowErrorNotifications result={addEmployeeData} />
             <div className="flex justify-between items-center">
                 <Typography variant={'subtitle'}>Add Shift</Typography>
                 <ImCancelCircle
@@ -90,10 +113,6 @@ export const AddTaskForm = ({ setIsSchedule, publishTask, DraftTask }: any) => {
                     className="mt-2 w-full"
                     onSubmit={methods.handleSubmit(onSubmit)}
                 >
-                    <Typography variant={'small'} color={'gray'}>
-                        Employee
-                    </Typography>
-
                     <div className="mb-6">
                         <Select
                             label={'Select Employee'}
@@ -112,6 +131,8 @@ export const AddTaskForm = ({ setIsSchedule, publishTask, DraftTask }: any) => {
                                       )
                                     : []
                             }
+                            loading={EmployeeData?.isLoading}
+                            disabled={EmployeeData?.isLoading}
                             onlyValue
                             onChange={onSelectEmployee}
                         />
@@ -130,9 +151,11 @@ export const AddTaskForm = ({ setIsSchedule, publishTask, DraftTask }: any) => {
                             placeholder={'Dated...'}
                         />
                         <Select
+                            required
                             label={'Day'}
                             name={'day'}
                             options={filteredDays}
+                            onlyValue
                         />
                         <TextInput
                             label={'Total Hours'}
@@ -163,6 +186,7 @@ export const AddTaskForm = ({ setIsSchedule, publishTask, DraftTask }: any) => {
                                 { value: 'high', label: 'High' },
                                 { value: 'medium', label: 'Medium ' },
                             ]}
+                            onlyValue
                         />
                     </div>
 
@@ -172,22 +196,25 @@ export const AddTaskForm = ({ setIsSchedule, publishTask, DraftTask }: any) => {
 
                     <div className="flex flex-col gap-y-2 my-2">
                         <TextInput
+                            required
                             label={'Title'}
                             name={'title'}
                             placeholder={'Some Text Here...'}
                         />
                         <TextInput
+                            required
                             label={'Email'}
                             name={'email'}
                             placeholder={'Email...'}
                         />
                         <TextInput
+                            required
                             label={'Location'}
                             name={'location'}
                             placeholder={'Some Text Here...'}
                         />
 
-                        <TextArea label={'Notes'} name={'note'} />
+                        <TextArea required label={'Notes'} name={'note'} />
                     </div>
 
                     <div className="mb-6">

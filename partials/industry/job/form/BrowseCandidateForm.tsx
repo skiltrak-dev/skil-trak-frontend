@@ -55,41 +55,21 @@ export const BrowseCandidateForm = ({ setCourseId }: any) => {
         }
     }, [])
 
-
-
-    const validationSchema = yup.object({
-        // businessName: yup.string().required("Some error occured!"),
-        // abn: yup.string().required("Some error occured!"),
-        // businessPhoneNumber: yup.string().required("Some error occured!"),
-    })
-
     const methods = useForm({
-        // resolver: yupResolver(validationSchema),
         mode: 'all',
     })
-    const onSubmitForm = (values: any) => {
-        // if (onSubmit) {
-        //     onSubmit(values)
-        // } else
-        // sectorResponse({
-        //     courses: values.courses.map((course: any) => course.value),
-        // })
 
-    }
     return (
         <div>
             <FormProvider {...methods}>
-                <form
-                    className="mt-2 w-full"
-                    onSubmit={methods.handleSubmit(onSubmitForm)}
-                >
+                <form className="mt-2 w-full">
                     <div className="grid grid-cols-1 md:grid-cols-3 md:gap-x-4 my-4">
                         <Select
                             label={'Sector'}
                             {...(storedData
                                 ? {
-                                    defaultValue: storedData.sectors,
-                                }
+                                      defaultValue: storedData.sectors,
+                                  }
                                 : {})}
                             name={'sectors'}
                             multi
@@ -116,23 +96,7 @@ export const BrowseCandidateForm = ({ setCourseId }: any) => {
                                 setCourseId(values?.value)
                             }}
                         />
-
-                        {/* <Select
-                            label={'City'}
-                            name={'appointmentDate'}
-                            options={[
-                                { value: 'apple', label: 'Apple' },
-                                {
-                                    value: 'banana',
-                                    label: 'Banana',
-                                },
-                                { value: 'melon', label: 'Melon' },
-                            ]}
-                            onlyValue
-                        /> */}
                     </div>
-
-                    {/* <Button submit text={'Apply Criteria'} /> */}
                 </form>
             </FormProvider>
         </div>
