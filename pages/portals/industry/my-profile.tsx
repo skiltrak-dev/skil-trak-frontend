@@ -26,7 +26,9 @@ const MyProfile: NextPageWithLayout = () => {
         }
     }, [updateProfileResult])
 
+    // TODO Updating Error
     const onSubmit = (values: any) => {
+        delete values?.sectors
         updateProfile({ body: values })
     }
 

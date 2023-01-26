@@ -33,7 +33,7 @@ export const ApprovedStudent = () => {
     const router = useRouter()
     const [modal, setModal] = useState<ReactElement | null>(null)
 
-    const [itemPerPage, setItemPerPage] = useState(1)
+    const [itemPerPage, setItemPerPage] = useState(50)
     const [page, setPage] = useState(1)
 
     // hooks
