@@ -47,11 +47,13 @@ export const Mail = ({ message, sender, index }: any) => {
     return (
         <div
             id={message?.id}
-            className={`flex gap-x-2 ${myMessages ? 'flex-row-reverse' : ''} group`}
+            className={`flex gap-x-2 ${
+                myMessages ? 'flex-row-reverse' : ''
+            } group`}
         >
             <img
                 className="w-10 h-10 rounded-full border-2 border-white"
-                src={`https://placeimg.com/100/${100 + index}/any`}
+                src={message?.sender?.avatar || '/images/avatar.png'}
                 alt=""
             />
             <div
@@ -86,15 +88,15 @@ export const Mail = ({ message, sender, index }: any) => {
                         }`}
                     >
                         <div>
-                            <Typography variant={'muted'}>
+                            <Typography variant={'subtitle'}>
                                 {message?.subject || 'Message Subject'}
                             </Typography>
-                            <Typography variant={'muted'} color={'gray'}>
+                            <Typography variant={'label'} color={'gray'}>
                                 {myMessages ? 'You' : message?.sender?.name}
                             </Typography>
                         </div>
                         <div>
-                            <Typography variant={'badge'} color={'grayLight'}>
+                            <Typography variant={'small'} color={'grayLight'}>
                                 {/* Jul 15, 2022 10:55am */}
                                 {/* {moment(message.createdAt).format('LLL')} */}
                                 {moment(
@@ -130,12 +132,17 @@ export const Mail = ({ message, sender, index }: any) => {
                             )}
                         </div>
                     </div>
-                    <div className="flex justify-between gap-x-2 relative">
-                        <Typography variant={'small'}>
-                            <span className="break-all block mr-6">
-                                {message?.message}
+                    <div className="flex justify-between gap-x-2 relative mt-3">
+                        <p className="text-sm">
+                            <span
+                                className="break-all block mr-6"
+                                dangerouslySetInnerHTML={{
+                                    __html: message?.message,
+                                }}
+                            >
+                                {/* {message?.message} */}
                             </span>
-                        </Typography>
+                        </p>
 
                         {/* show message status icons */}
                         {myMessages && (
@@ -145,12 +152,12 @@ export const Mail = ({ message, sender, index }: any) => {
                         )}
                     </div>
                 </div>
-                <div
+                {/* <div
                     onClick={() => {
-                        // setReplyMessage({
-                        //     id: message?.id,
-                        //     message: message.message,
-                        // })
+                        setReplyMessage({
+                            id: message?.id,
+                            message: message.message,
+                        })
                     }}
                 >
                     {myMessages ? (
@@ -158,7 +165,7 @@ export const Mail = ({ message, sender, index }: any) => {
                     ) : (
                         <TiArrowBack className={replyIconClasses} />
                     )}
-                </div>
+                </div> */}
             </div>
         </div>
     )
