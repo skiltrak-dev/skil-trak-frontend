@@ -22,7 +22,6 @@ export const AdminFilteredWorkplace = ({
     itemPerPage: number
     setItemPerPage: any
 }) => {
-    console.log('workplace', workplace)
     return (
         <div className="p-4">
             <div className="flex items-center justify-between">

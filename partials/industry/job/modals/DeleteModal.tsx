@@ -26,11 +26,11 @@ export const DeleteModal = ({
     useEffect(() => {
         if (removeResult.isSuccess) {
             alert.error({
-                title: `RTO Deleted`,
-                description: `RTO "${job.title}" has been deleted.`,
+                title: `Job Deleted`,
+                description: `Job "${job.title}" has been deleted.`,
             })
             onCancel()
-            // router.push('/portals/industry/jobs/advertised-jobs')
+            router.push('/portals/industry/jobs/advertised-jobs')
         }
         if (removeResult.isError) {
             notification.error({

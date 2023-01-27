@@ -26,10 +26,7 @@ export const BrowseCandidatesContainer = () => {
     const { setContent } = useContextBar()
     const [courseId, setCourseId] = useState<any>(null)
 
-    const [browseCandidateData, setBrowseCandidateData] = useState<any | null>(
-        null
-    )
-
+    // TODO Check the course ID "KEY" on the backend
     const browseCandidates = useGetBrowseCandidatesQuery(courseId)
 
     useEffect(() => {
@@ -40,9 +37,7 @@ export const BrowseCandidatesContainer = () => {
         )
     }, [setContent])
 
-    const onSubmit = (values: any) => {
-        setBrowseCandidateData(values)
-    }
+    // TODO Error in filters
     return (
         <div className="flex flex-col gap-y-4">
             <BackButton link={'jobs'} text={'Back To Jobs'} />

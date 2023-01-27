@@ -99,6 +99,7 @@ const BookAppointment: NextPageWithLayout = (props: Props) => {
             <FormProvider {...formMethods}>
                 <form onSubmit={formMethods.handleSubmit(onSubmit)}>
                     <AppointmentType setAppointmentTypeId={setType} />
+                    {/* TODO Not getting coordinators */}
                     <Select
                         name="appointmentFor"
                         label="WBT Coordinator"

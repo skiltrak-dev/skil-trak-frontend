@@ -15,7 +15,7 @@ export const AllNotesCB = ({ notes }: any) => {
     return (
         <div className="flex flex-col gap-y-1">
             {notes && notes?.length > 0 ? (
-                [...notes]?.reverse()?.map((note: any) => (
+                notes?.map((note: any) => (
                     <div
                         key={note?.id}
                         className="bg-secondary py-1 px-2 rounded-lg"

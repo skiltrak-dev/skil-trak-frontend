@@ -9,7 +9,6 @@ export const JobCell = ({ job }: { job: Job }) => {
         <Link legacyBehavior href={`/portals/industry/jobs/${job?.id}`}>
             <a className="flex items-center gap-x-2">
                 <div className="shadow-inner-image rounded-full relative">
-                    {/* TODO Send industry User here */}
                     <InitialAvatar name={job?.title} />
                 </div>
                 <div>

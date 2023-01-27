@@ -16,6 +16,7 @@ export const CourseList = ({ courses }: { courses: Course[] }) => {
                             {c?.code}
                         </Typography>
                         <Typography variant={'small'} color={'text-gray-800'}>
+                            {/* TODO CHECK */}
                             {c?.name} {c?.title}
                         </Typography>
                     </div>

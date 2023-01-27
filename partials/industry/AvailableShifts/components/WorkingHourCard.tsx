@@ -12,6 +12,7 @@ import { AddShiftContext } from '../contextbar'
 import { useContextBar } from '@hooks'
 import { AddBreakForm } from '../form'
 import { getDate } from '@utils'
+import moment from 'moment'
 
 export const WorkingHourCard = ({
     availability,
@@ -138,7 +139,9 @@ export const WorkingHourCard = ({
                                         Break Start:
                                     </Typography>
                                     <Typography variant={'label'}>
-                                        {breakStart}
+                                        {moment(breakStart, 'hh:mm').format(
+                                            'hh:mm a'
+                                        )}
                                     </Typography>
                                 </div>
                                 <div className="flex items-center gap-x-2">
@@ -149,7 +152,9 @@ export const WorkingHourCard = ({
                                         Break End:
                                     </Typography>
                                     <Typography variant={'label'}>
-                                        {breakEnd}
+                                        {moment(breakEnd, 'hh:mm').format(
+                                            'hh:mm a'
+                                        )}
                                     </Typography>
                                 </div>
                             </div>

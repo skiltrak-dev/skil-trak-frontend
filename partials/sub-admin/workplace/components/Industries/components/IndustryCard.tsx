@@ -1,4 +1,4 @@
-import { Typography, ShowErrorNotifications } from '@components'
+import { Typography, ShowErrorNotifications, InitialAvatar } from '@components'
 import React, { useEffect } from 'react'
 import { BsDot } from 'react-icons/bs'
 
@@ -27,10 +27,9 @@ export const IndustryCard = ({ industry, appliedIndustry, workplace }: any) => {
             <ShowErrorNotifications result={applyForWorkplaceResult} />
             <div className="bg-secondary py-1 px-2 rounded-lg flex justify-between items-center">
                 <div className="flex items-center gap-x-2">
-                    <img
-                        className="w-6 h-6 rounded-full"
-                        src={`https://picsum.photos/100/${industry.id}`}
-                        alt=""
+                    <InitialAvatar
+                        name={industry?.industry?.user?.name}
+                        imageUrl={industry?.industry?.user?.avatar}
                     />
                     <div>
                         <div className="flex items-center gap-x-0.5">

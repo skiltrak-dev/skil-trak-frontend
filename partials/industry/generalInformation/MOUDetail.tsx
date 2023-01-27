@@ -70,6 +70,7 @@ export const IndustryMOUDetail = () => {
     return (
         <div>
             <MOUDetailContainer
+                id={id}
                 ref={ref}
                 role={'industry'}
                 isSigned={getMou?.data?.industrySignature}

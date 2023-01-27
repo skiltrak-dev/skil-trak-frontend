@@ -1,7 +1,6 @@
 import { InitialAvatar, Typography } from '@components'
 
 export const MOUCell = ({ mou }: any) => {
-    // TODO Send RTO full user, now getting only email and name
     return (
         <div className="flex items-center relative">
             <div className="flex items-center gap-x-2">

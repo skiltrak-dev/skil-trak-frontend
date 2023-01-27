@@ -36,12 +36,14 @@ import { useNotification, useContextBar } from 'hooks'
 // Colors
 import { ThemeColors } from '@utils'
 import { DeleteModal } from './modals'
+import { MdEdit } from 'react-icons/md'
+import { EditEmployeeCB } from './contextBar'
 
 const Colors = ThemeColors
 
 export const EmployeeSchedule = () => {
     // hooks
-    const { setContent } = useContextBar()
+    const { setContent, show } = useContextBar()
 
     const { notification } = useNotification()
 
@@ -80,24 +82,14 @@ export const EmployeeSchedule = () => {
     }
 
     const TableActionOption = [
-        // {
-        //     text: 'Edit',
-        //     Icon: MdEdit,
-        //     onClick: (employee: any) => {
-        //         setEmployeeDetail({
-        //             id: employee?.id,
-        //             employee: [
-        //                 {
-        //                     firstName: employee?.firstName,
-        //                     lastName: employee?.lastName,
-        //                     mobileNo: employee?.mobileNo,
-        //                     email: employee?.email,
-        //                 },
-        //             ],
-        //             isEditing: true,
-        //         })
-        //     },
-        // },
+        {
+            text: 'Edit',
+            Icon: MdEdit,
+            onClick: (employee: any) => {
+                setContent(<EditEmployeeCB values={employee} />)
+                show()
+            },
+        },
         {
             text: 'Delete',
             Icon: AiFillDelete,

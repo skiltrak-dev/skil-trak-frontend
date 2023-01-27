@@ -70,6 +70,7 @@ export const RTOMOUDetail = () => {
     return (
         <div>
             <MOUDetailContainer
+                id={id}
                 role={'rto'}
                 ref={ref}
                 content={content}
