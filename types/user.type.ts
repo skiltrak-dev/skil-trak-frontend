@@ -53,7 +53,7 @@ export interface Student extends BaseResponse {
     dob: Date
     emergencyPerson: string
     emergencyPersonPhone: string
-
+    industries: any
     addressLine1: string
     addressLine2: string
     suburb: string

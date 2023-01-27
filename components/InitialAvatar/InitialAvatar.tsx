@@ -52,7 +52,7 @@ export const InitialAvatar = ({
     small,
 }: InitialAvatarProps) => {
     // const backgroundColor = 'bg-indigo-800'
-    const initials = trimText(name)?.split(' ')
+    const initials = name?.split(' ')
     const [zoomImage, setZoomImage] = useState(false)
     const backgroundColor = (BgColors as any)[
         initials[0].charAt(0).toLowerCase()

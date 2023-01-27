@@ -11,11 +11,23 @@ import { useAlert, useJoyRide } from '@hooks'
 import { AuthUtils, getUserCredentials } from '@utils'
 import { useRouter } from 'next/router'
 import Joyride, { CallBackProps } from 'react-joyride'
+import { UserStatus } from '@types'
 
 interface StudentLayoutProps {
     pageTitle?: PageTitleProps
     children: ReactNode
 }
+
+const redirectUrls = [
+    'my-workplace',
+    'have-workplace',
+    'dont-have-workplace',
+    'appointments',
+    'book-appointment',
+    'assessment-evidence',
+    'assessment-tools',
+    'schedule',
+]
 
 export const StudentLayout = ({ pageTitle, children }: StudentLayoutProps) => {
     const [mounted, setMounted] = useState(false)
@@ -24,6 +36,17 @@ export const StudentLayout = ({ pageTitle, children }: StudentLayoutProps) => {
     const { alert } = useAlert()
     const userData = getUserCredentials()
     const joyride = useJoyRide()
+
+    const path = router.pathname?.split('/')?.reverse()[0]
+
+    useEffect(() => {
+        if (
+            redirectUrls.includes(path) &&
+            userData?.status !== UserStatus.Approved
+        ) {
+            router.push('/portals/student')
+        }
+    }, [path])
 
     useEffect(() => {
         if (userData?.status === 'pending') {

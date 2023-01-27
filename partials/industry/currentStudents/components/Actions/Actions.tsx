@@ -1,7 +1,7 @@
 import moment from 'moment'
 
 // components
-import { Button, Typography } from '@components'
+import { ActionButton, Button, Typography } from '@components'
 
 // query
 import {
@@ -118,6 +118,20 @@ export const Actions = ({ workplace, industry, student }: any) => {
                     </span>
                 </Typography>
             )}
+            {industry?.industryResponse === 'rejected' && (
+                <Typography variant={'small'} color={'text-red-800'}>
+                    <span className="bg-secondary px-3 py-0.5 rounded-full">
+                        REJECTED
+                    </span>
+                </Typography>
+            )}
+            {industry?.industryResponse === 'noResponse' && (
+                <Typography variant={'small'} color={'text-red-800'}>
+                    <span className="bg-secondary px-3 py-0.5 rounded-full">
+                        No Response
+                    </span>
+                </Typography>
+            )}
             {industry?.industryResponse === 'approved' &&
             !workplace?.isCancelled ? (
                 !industry?.terminated &&
@@ -175,13 +189,17 @@ export const Actions = ({ workplace, industry, student }: any) => {
                     </>
                 )
             ) : (
-                !workplace?.isCancelled && (
+                !workplace?.isCancelled &&
+                industry?.industryResponse !== 'rejected' &&
+                industry?.industryResponse !== 'noResponse' && (
                     <div className="flex items-center gap-x-2">
                         <div className="whitespace-nowrap">
                             {/* <Button text={'Book Appointment'} variant={'info'} /> */}
                         </div>
-                        <Button
-                            variant={'secondary'}
+
+                        {/* TODO Reject is not working */}
+                        <ActionButton
+                            variant={'success'}
                             onClick={() => {
                                 workplaceActions({
                                     id: industry.id,
@@ -191,12 +209,10 @@ export const Actions = ({ workplace, industry, student }: any) => {
                             loading={workplaceActionsResult?.isLoading}
                             disabled={workplaceActionsResult?.isLoading}
                         >
-                            <span className="text-success">Approve</span>
-                        </Button>
-
-                        {/* TODO Reject is not working */}
-                        <Button
-                            variant={'secondary'}
+                            Approve
+                        </ActionButton>
+                        <ActionButton
+                            variant={'error'}
                             onClick={() => {
                                 workplaceActions({
                                     id: industry.id,
@@ -206,8 +222,8 @@ export const Actions = ({ workplace, industry, student }: any) => {
                             loading={workplaceActionsResult?.isLoading}
                             disabled={workplaceActionsResult?.isLoading}
                         >
-                            <span className="text-error">Reject</span>
-                        </Button>
+                            Reject
+                        </ActionButton>
                     </div>
                 )
             )}

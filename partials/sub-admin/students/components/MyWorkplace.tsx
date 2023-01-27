@@ -24,9 +24,9 @@ export const MyWorkplace = ({ myWorkplace }: Props) => {
     const { data } = useGetSubAdminMyRtoQuery(String(profileId), {
         skip: !profileId,
     })
-    const filteredData = myWorkplace?.workplace.filter(
-        (item: any) => !item.isCancelled
-    )
+    // const filteredData = myWorkplace?.workplace.filter(
+    //     (item: any) => !item.isCancelled
+    // )
 
     return (
         <Card fullHeight>
@@ -42,7 +42,7 @@ export const MyWorkplace = ({ myWorkplace }: Props) => {
 
                 {/* Action */}
                 <div className="flex justify-between gap-x-4">
-                    {filteredData.length ? (
+                    {myWorkplace?.industries?.length ? (
                         <Link legacyBehavior href="#">
                             <a className="inline-block uppercase text-xs font-medium bg-green-100 text-green-600 px-4 py-2 rounded">
                                 See Details
@@ -50,7 +50,7 @@ export const MyWorkplace = ({ myWorkplace }: Props) => {
                         </Link>
                     ) : null}
 
-                    {filteredData.length > 1 ? (
+                    {myWorkplace?.industries?.length > 1 ? (
                         <Link legacyBehavior href="#">
                             <a className="inline-block uppercase text-xs font-medium bg-gray-100 text-gray-500 px-4 py-2 rounded">
                                 VIEW SECOND
@@ -61,8 +61,8 @@ export const MyWorkplace = ({ myWorkplace }: Props) => {
             </div>
 
             {/* Card Body */}
-            {filteredData?.length > 0 ? (
-                filteredData?.map((data: any) => (
+            {myWorkplace?.industries?.length > 0 ? (
+                myWorkplace?.industries?.slice(0, 1)?.map((data: any) => (
                     <div key={data?.id} className="mt-4">
                         <div className="flex gap-x-6 mb-4">
                             <div className="flex-shrink-0">
@@ -71,16 +71,10 @@ export const MyWorkplace = ({ myWorkplace }: Props) => {
                             <div>
                                 <div>
                                     <p className="font-medium">
-                                        {
-                                            data?.industries[0]?.industry?.user
-                                                ?.name
-                                        }
+                                        {data?.user?.name}
                                     </p>
                                     <p className="text-slate-400 text-sm">
-                                        {
-                                            data?.industries[0]?.industry?.user
-                                                ?.email
-                                        }
+                                        {data?.user?.email}
                                     </p>
                                 </div>
                                 <div>
@@ -104,25 +98,9 @@ export const MyWorkplace = ({ myWorkplace }: Props) => {
                                                 <FaMapMarkerAlt size={14} />
                                             </span>
                                             <span className="text-xs">
-                                                {
-                                                    data?.industries[0]
-                                                        ?.industry?.addressLine1
-                                                }
-                                                ,{' '}
-                                                {
-                                                    data?.industries[0]
-                                                        ?.industry?.addressLine2
-                                                }
-                                                ,{' '}
-                                                {
-                                                    data?.industries[0]
-                                                        ?.industry?.state
-                                                }
-                                                ,{' '}
-                                                {
-                                                    data?.industries[0]
-                                                        ?.industry?.suburb
-                                                }{' '}
+                                                {data?.addressLine1},{' '}
+                                                {data?.addressLine2},{' '}
+                                                {data?.state}, {data?.suburb}{' '}
                                             </span>
                                         </div>
                                     </div>
@@ -134,18 +112,10 @@ export const MyWorkplace = ({ myWorkplace }: Props) => {
                                         <div className="flex justify-between gap-x-4">
                                             <div>
                                                 <p className="font-medium text-sm">
-                                                    {
-                                                        data?.industries[0]
-                                                            ?.industry
-                                                            ?.contactPerson
-                                                    }
+                                                    {data?.contactPerson}
                                                 </p>
                                                 <p className="text-xs font-medium text-slate-400">
-                                                    {
-                                                        data?.industries[0]
-                                                            ?.industry
-                                                            ?.contactPersonNumber
-                                                    }
+                                                    {data?.contactPersonNumber}
                                                 </p>
                                             </div>
                                         </div>

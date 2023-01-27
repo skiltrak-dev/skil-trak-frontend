@@ -1,11 +1,9 @@
-import React, { useRef, useState } from 'react'
-import { UpcomingAppointmentCard } from './UpcomingAppointmentCard'
+import { useRef, useState } from 'react'
+import { MdKeyboardArrowLeft, MdKeyboardArrowRight } from 'react-icons/md'
 import { Navigation, Pagination } from 'swiper'
 import { Swiper, SwiperSlide } from 'swiper/react'
-import { SwiperContainer } from '@partials/notes/style'
-import { FaChevronCircleLeft, FaChevronCircleRight } from 'react-icons/fa'
 import { HeroSliderContainer } from './style'
-import { MdKeyboardArrowLeft, MdKeyboardArrowRight } from 'react-icons/md'
+import { UpcomingAppointmentCard } from './UpcomingAppointmentCard'
 
 export const FutureAppointments = ({ appointments }: { appointments: any }) => {
     const navigationPrevRef = useRef(null)
@@ -26,10 +24,6 @@ export const FutureAppointments = ({ appointments }: { appointments: any }) => {
                         992: {
                             width: 992,
                             slidesPerView: 2,
-                        },
-                        1536: {
-                            width: 1536,
-                            slidesPerView: 3,
                         },
                     }}
                     // slidesPerView={2}
@@ -57,7 +51,7 @@ export const FutureAppointments = ({ appointments }: { appointments: any }) => {
                             swiper.navigation.update()
                         })
                     }}
-                    modules={[Navigation]}
+                    modules={[Navigation, Pagination]}
                     className="mySwiper static"
                 >
                     {appointments?.map((appointment: any, index: number) => {

@@ -15,19 +15,22 @@ export const StudentCellInfo = ({ student }: { student: Student }) => {
                         }
                         className="w-8 h-8 rounded-full"
                     /> */}
-                    <InitialAvatar name={student.user.name} imageUrl={student.user?.avatar}/>
+                    <InitialAvatar
+                        name={student?.user?.name}
+                        imageUrl={student?.user?.avatar}
+                    />
                 </div>
                 <div>
                     <p className="flex items-center gap-x-1 text-xs">
-                        {student.studentId}
+                        {student?.studentId}
                     </p>
-                    <p className="font-semibold">{student.user.name}</p>
+                    <p className="font-semibold">{student?.user?.name}</p>
                     <div className="font-medium text-xs text-gray-500">
                         <p className="flex items-center gap-x-1">
                             <span>
                                 <MdEmail />
                             </span>
-                            {student.user.email}
+                            {student?.user?.email}
                         </p>
                     </div>
                 </div>

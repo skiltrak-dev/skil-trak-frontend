@@ -32,18 +32,27 @@ const RtoList: NextPageWithLayout = () => {
     const [itemPerPage, setItemPerPage] = useState(50)
 
     const { isLoading, data } = AdminApi.Students.useCountQuery()
-    const filteredStudents = AdminApi.Students.useFilteredStudents(
-        {
-            search: `${JSON.stringify(filter)
-                .replaceAll('{', '')
-                .replaceAll('}', '')
-                .replaceAll('"', '')
-                .trim()}`,
-            skip: itemPerPage * page - itemPerPage,
-            limit: itemPerPage,
-        },
-        { skip: !Object.keys(filter).length }
-    )
+    const filteredStudents = AdminApi.Students.useListQuery({
+        search: `${JSON.stringify(filter)
+            .replaceAll('{', '')
+            .replaceAll('}', '')
+            .replaceAll('"', '')
+            .trim()}`,
+        skip: itemPerPage * page - itemPerPage,
+        limit: itemPerPage,
+    })
+    // const filteredStudents = AdminApi.Students.useFilteredStudents(
+    //     {
+    //         search: `${JSON.stringify(filter)
+    //             .replaceAll('{', '')
+    //             .replaceAll('}', '')
+    //             .replaceAll('"', '')
+    //             .trim()}`,
+    //         skip: itemPerPage * page - itemPerPage,
+    //         limit: itemPerPage,
+    //     },
+    //     { skip: !Object.keys(filter).length }
+    // )
 
     useEffect(() => {
         navBar.setTitle('Students')

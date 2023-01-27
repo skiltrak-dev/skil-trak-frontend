@@ -208,9 +208,7 @@ export const SubAdminStudentProfile = ({ student }: { student: Student }) => {
             </div>
 
             {/* Status Of Student */}
-            {student?.workplace[0]?.industries[0]?.placementStarted && (
-                <StudentStatus industries={student?.workplace[0]?.industries} />
-            )}
+            <StudentStatus industries={student?.workplace[0]?.industries} />
 
             {/* Sector & Courses */}
             {/* <div className="mt-4">
