@@ -16,7 +16,6 @@ const ApplyForRpl: NextPageWithLayout = () => {
 
     return (
         <div>
-            <RedirectUser link={'/portals/industry/tasks'} />
             <RPLForm />
         </div>
     )

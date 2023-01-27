@@ -12,16 +12,22 @@ interface RtoLayoutProps {
     children: ReactNode
 }
 
+const getRoutePath = `/portals/rto`
+
+// Redirect Urls When not approved
 const redirectUrls = [
-    'students?tab=approved',
-    'contact-person',
-    'workplaces',
-    'mous',
-    'assessment-tools',
-    'appointments',
-    'create-appointments',
-    'create',
-    '/portals/rto/coordinators/[id]',
+    `${getRoutePath}/create`,
+    `${getRoutePath}/students`,
+    `${getRoutePath}/coordinators`,
+    `${getRoutePath}/students/[id]`,
+    `${getRoutePath}/industries/mous`,
+    `${getRoutePath}/coordinators/[id]`,
+    `${getRoutePath}/tasks/appointments`,
+    `${getRoutePath}/industries/workplaces`,
+    `${getRoutePath}/admins/contact-person`,
+    `${getRoutePath}/tasks/assessment-tools`,
+    `${getRoutePath}/industries/mous/[mouDetail]`,
+    `${getRoutePath}/tasks/appointments/create-appointments`,
 ]
 
 export const RtoLayout = ({ pageTitle, children }: RtoLayoutProps) => {
@@ -33,19 +39,15 @@ export const RtoLayout = ({ pageTitle, children }: RtoLayoutProps) => {
     const token = AuthUtils.getToken()
     const status = AuthUtils.getUserCredentials()?.status
 
-    const path = router.pathname?.split('/')?.reverse()[0]
-
-    console.log('router.pathname', router.pathname)
-
     useEffect(() => {
         if (
             token &&
-            redirectUrls.includes(path) &&
+            redirectUrls.includes(router.pathname) &&
             status !== UserStatus.Approved
         ) {
-            router.push('/portals/rto')
+            router.push(getRoutePath)
         }
-    }, [path, router])
+    }, [router])
 
     useEffect(() => {
         if (status === 'pending') {

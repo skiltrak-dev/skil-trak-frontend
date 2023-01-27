@@ -54,7 +54,6 @@ export const AdForRPL = ({ short }: any) => {
                     <Button
                         variant={'primary'}
                         onClick={() =>
-                            status === 'approved' &&
                             router.push('/portals/industry/tasks/apply-for-rpl')
                         }
                     >

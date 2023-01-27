@@ -27,7 +27,6 @@ const Schedule: NextPageWithLayout = () => {
 
     return (
         <div>
-            <RedirectUser link={'/portals/industry/tasks'} />
             <BackButton
                 link={'my-tasks/add-a-schedule'}
                 text={'Back To Selection'}

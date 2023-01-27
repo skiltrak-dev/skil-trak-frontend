@@ -3,6 +3,7 @@ import {
     Button,
     Typography,
     ShowErrorNotifications,
+    InitialAvatar,
 } from '@components'
 import { useAlert, useNotification } from '@hooks'
 import { AdminApi } from '@queries'
@@ -99,10 +100,9 @@ export const ForwardModal = ({
 
                     <div className="w-full py-1 px-2 rounded-lg flex justify-between items-center">
                         <div className="flex items-center gap-x-2">
-                            <img
-                                className="w-10 h-10 rounded-full"
-                                src={`https://picsum.photos/100/${industry?.industry?.id}`}
-                                alt=""
+                            <InitialAvatar
+                                name={industry?.industry?.user?.name}
+                                imageUrl={industry?.industry?.user?.avatar}
                             />
                             <div>
                                 <div className="flex items-center gap-x-0.5">

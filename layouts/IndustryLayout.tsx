@@ -19,6 +19,32 @@ import { AuthUtils } from '@utils'
 import { useAlert } from '@hooks'
 import { UserStatus } from '@types'
 
+const getRoutePath = `/portals/industry`
+
+// Redirect Urls When not approved
+const redirectUrls = [
+    `${getRoutePath}/required-documents`,
+    `${getRoutePath}/tasks/add-a-schedule`,
+    `${getRoutePath}/tasks/add-a-schedule/schedule`,
+    `${getRoutePath}/tasks/available-shifts`,
+    `${getRoutePath}/students/current-students`,
+    `${getRoutePath}/students/future-candidates`,
+    `${getRoutePath}/students/request-a-volunteer`,
+    `${getRoutePath}/students/appointments`,
+    `${getRoutePath}/students/appointments/book-appointments`,
+    `${getRoutePath}/jobs/advertised-jobs`,
+    `${getRoutePath}/jobs/form`,
+    `${getRoutePath}/jobs/[id]`,
+    `${getRoutePath}/jobs/browse-candidates`,
+    `${getRoutePath}/general-information/unit-requirements`,
+    `${getRoutePath}/general-information/placement-workflow`,
+    `${getRoutePath}/general-information/industry-consultation`,
+    `${getRoutePath}/general-information/consultation`,
+    `${getRoutePath}/general-information/mou`,
+    `${getRoutePath}/e-mails`,
+    `${getRoutePath}/tasks/apply-for-rpl`,
+]
+
 interface IndustryLayoutProps {
     pageTitle?: PageTitleProps
     children: ReactNode
@@ -36,9 +62,15 @@ export const IndustryLayout = ({
 
     const [modal, setModal] = useState<ReactElement | null>(null)
 
-    const onCancelClicked = () => {
-        setModal(null)
-    }
+    useEffect(() => {
+        if (
+            token &&
+            redirectUrls.includes(router.pathname) &&
+            status !== UserStatus.Approved
+        ) {
+            router.push(getRoutePath)
+        }
+    }, [router])
 
     useEffect(() => {
         const displayAlerts = () => {
