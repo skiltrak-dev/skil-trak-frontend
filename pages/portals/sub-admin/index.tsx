@@ -44,10 +44,10 @@ const getSectors = (courses: any) => {
     const sectors = {}
     courses.forEach((c: any) => {
         if ((sectors as any)[c.sector.name]) {
-            ; (sectors as any)[c.sector.name].push(c)
+            ;(sectors as any)[c.sector.name].push(c)
         } else {
-            ; (sectors as any)[c.sector.name] = []
-                ; (sectors as any)[c.sector.name].push(c)
+            ;(sectors as any)[c.sector.name] = []
+            ;(sectors as any)[c.sector.name].push(c)
         }
     })
     return sectors
@@ -133,7 +133,8 @@ const SubAdminDashboard: NextPageWithLayout = () => {
                         <>
                             <div className="font-semibold">Click here</div>
                             <div>
-                                To See List of Student with their workplace details
+                                To See List of Student with their workplace
+                                details
                             </div>
                         </>
                     ),
@@ -144,10 +145,11 @@ const SubAdminDashboard: NextPageWithLayout = () => {
                     content: (
                         <>
                             <div>Click Here</div>
-                            <div>Select a
-                                single student, it will redirect you to student
-                                profile from there you can add workplace by
-                                clicking "Add Workplace Button"</div>
+                            <div>
+                                Select a single student, it will redirect you to
+                                student profile from there you can add workplace
+                                by clicking &quot;Add Workplace Button&quot;
+                            </div>
                         </>
                     ),
                 },
@@ -183,7 +185,7 @@ const SubAdminDashboard: NextPageWithLayout = () => {
                             stepIndex: 1,
                             tourActive: false,
                         })
-                    } 
+                    }
                 }
             },
         },
