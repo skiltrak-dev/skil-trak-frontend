@@ -224,7 +224,7 @@ export const MoUContainer = () => {
                                     {
                                         text: (
                                             <a
-                                                href={`${process.env.NEXT_PUBLIC_END_POINT}industries/mou/download/${mou.id}`}
+                                                href={`${process.env.NEXT_PUBLIC_END_POINT}/industries/mou/download/${mou.id}`}
                                                 target="_blank"
                                                 rel="noreferrer"
                                             >

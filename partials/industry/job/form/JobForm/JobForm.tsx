@@ -45,8 +45,12 @@ export const JobForm = ({ initialValues, onSubmit, edit }: any) => {
     const validationSchema = yup.object({
         // Job Validation
         title: yup.string().required('Must provide a meaningful job title'),
+        employmentType: yup
+            .string()
+            .required('Employment Type is A Reuired field'),
         vacancies: yup
             .number()
+            .typeError('Vacancies must be a number')
             .min(1, 'Vacancies must be greater than 0')
             .positive("Vacancies can't be negative")
             .required('Please provide vacancies for your job'),
@@ -54,24 +58,27 @@ export const JobForm = ({ initialValues, onSubmit, edit }: any) => {
             .number()
             .min(1, 'Salary from range must be greater than 0')
             .positive("Salary from can't be negative")
-            .required('Please provide salary for your job'),
+            .required('Please provide salary for your job')
+            .typeError('Salary from must be a number'),
         salaryTo: yup
             .number()
+            .typeError('Salary to must be a number')
             .min(1, 'Salary to range must be greater than 0')
             .positive("Salary to can't be negative")
             .required('Please provide salary for your job'),
 
         // Contact Validation
-        phone: yup.string().required('Some error occured!'),
+        phone: yup.string().required('Phone is required field!'),
         email: yup.string().email('Invalid Email').required('Required!'),
-        website: yup.string().required('Some error occured!'),
+        website: yup.string().required('website is required field!'),
 
         // Address Validation
-        addressLine1: yup.string().required('Some error occured!'),
-        addressLine2: yup.string().required('Some error occured!'),
-        zipCode: yup.string().required('Some error occured!'),
-        suburb: yup.string().required('Some error occured!'),
-        state: yup.string().required('Some error occured!'),
+        addressLine1: yup
+            .string()
+            .required('Address Line 1 is required field!'),
+        zipCode: yup.string().required('ZipCode is required field!'),
+        suburb: yup.string().required('Suburb is required field!'),
+        state: yup.string().required('State is required field!'),
     })
 
     const methods = useForm({
@@ -97,7 +104,7 @@ export const JobForm = ({ initialValues, onSubmit, edit }: any) => {
                         <TextInput
                             label={'Job Title'}
                             name={'title'}
-                            // placeholder={"Your Job Title..."}
+                            placeholder={'Your Job Title...'}
                             validationIcons
                         />
 
@@ -184,28 +191,25 @@ export const JobForm = ({ initialValues, onSubmit, edit }: any) => {
                     </div>
 
                     <div className="grid grid-cols-2 gap-x-8 gap-y-2">
+                        <div className="col-span-2">
+                            <TextInput
+                                label={'Address 1'}
+                                name={'addressLine1'}
+                                placeholder={'Address Line 1...'}
+                                validationIcons
+                            />
+                        </div>
+
                         <TextInput
-                            label={'Address 1'}
-                            name={'addressLine1'}
-                            placeholder={'Address Line 1...'}
-                            validationIcons
-                        />
-                        <TextInput
-                            label={'Address 2'}
-                            name={'addressLine2'}
-                            placeholder={'Address Line 2...'}
+                            label={'Suburb'}
+                            name={'suburb'}
+                            placeholder={'Suburb...'}
                             validationIcons
                         />
                         <TextInput
                             label={'Zip Code'}
                             name={'zipCode'}
                             placeholder={'Zip Code...'}
-                            validationIcons
-                        />
-                        <TextInput
-                            label={'Suburb'}
-                            name={'suburb'}
-                            placeholder={'Suburb...'}
                             validationIcons
                         />
                         <TextInput

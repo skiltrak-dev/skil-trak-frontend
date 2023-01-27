@@ -81,29 +81,26 @@ export const Notes = ({ workplace }: { workplace: any }) => {
             <div className="border border-dashed border-gray-400 rounded-lg p-1 flex flex-col justify-between gap-y-3">
                 <div className="flex flex-col gap-y-1">
                     {notes && notes?.length > 0 ? (
-                        [...notes]
-                            ?.reverse()
-                            ?.slice(0, 2)
-                            ?.map((note: any) => (
-                                <div
-                                    key={note?.id}
-                                    className="bg-secondary py-1 px-2 rounded-lg"
-                                >
-                                    <Typography variant={'label'}>
-                                        {ellipsisText(note?.message, 70)}
+                        notes?.slice(0, 2)?.map((note: any) => (
+                            <div
+                                key={note?.id}
+                                className="bg-secondary py-1 px-2 rounded-lg"
+                            >
+                                <Typography variant={'label'}>
+                                    {ellipsisText(note?.message, 70)}
+                                </Typography>
+                                <div className="flex items-center gap-x-1">
+                                    <Typography
+                                        variant={'xs'}
+                                        color={'text-gray-400'}
+                                    >
+                                        {moment(note.createdAt).format(
+                                            'MMM DD, YYYY hh:mm a'
+                                        )}
                                     </Typography>
-                                    <div className="flex items-center gap-x-1">
-                                        <Typography
-                                            variant={'xs'}
-                                            color={'text-gray-400'}
-                                        >
-                                            {moment(note.createdAt).format(
-                                                'MMM DD, YYYY hh:mm a'
-                                            )}
-                                        </Typography>
-                                    </div>
                                 </div>
-                            ))
+                            </div>
+                        ))
                     ) : (
                         <NoData text={'No Notes were found'} />
                     )}

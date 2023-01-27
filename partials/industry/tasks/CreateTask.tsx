@@ -109,9 +109,9 @@ export const CreateTask = () => {
               )} */}
                         </div>
                         <div className="flex justify-between items-center">
-                            <p>Tabs</p>
+                            <p></p>
                             <div className="flex items-center gap-x-2">
-                                <Button onClick={() => {}} text={'Publish'} />
+                                {/* <Button onClick={() => {}} text={'Publish'} /> */}
                                 <Button
                                     variant={'dark'}
                                     onClick={() => {

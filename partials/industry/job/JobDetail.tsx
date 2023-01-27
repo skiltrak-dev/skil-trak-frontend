@@ -50,23 +50,6 @@ export const JobDetailContainer = () => {
         )
     }
 
-    // contexts
-    // const { setjobData } = useContext(JobDataContext);
-    // const { showAlerts, setShowAlerts } = useContext(AlertsContext);
-    // const { notification } = useNotification();
-
-    // For redirecting to jobs list page after successfully deleted
-
-    // const statusStyle = (status) => {
-    //   return status === "Active"
-    //     ? "success"
-    //     : status === userStatus.PENDING
-    //     ? "info"
-    //     : status === "Expired"
-    //     ? "error"
-    //     : "primary";
-    // };
-
     const TableActionOption = [
         {
             text: 'Edit',
