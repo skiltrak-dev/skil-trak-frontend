@@ -29,7 +29,6 @@ import { SmallDetail } from './smallDetail'
 import { ViewAgreement } from '../contextBar'
 import { RtoDetail } from './RtoDetail'
 import { Availability } from './Availability'
-
 export const WorkplaceRequest = ({ workplace }: any) => {
     const [appliedIndustry, setAppliedIndustry] = useState<any | null>(null)
     const [course, setCourse] = useState<any | null>(null)
@@ -56,13 +55,11 @@ export const WorkplaceRequest = ({ workplace }: any) => {
         setAppliedIndustry(workplace.industries?.find((i: any) => i.applied))
         setCourse(workplace?.courses ? workplace?.courses[0] : {})
     }, [workplace])
-
     return (
         <Card noPadding>
             <div
-                className={`w-full h-full p-4 rounded-md shadow-lg ${
-                    appliedIndustry?.isCompleted ? 'bg-gray-50' : ''
-                } `}
+                className={`w-full h-full p-4 rounded-md shadow-lg ${appliedIndustry?.isCompleted ? 'bg-gray-50' : ''
+                    } `}
             >
                 <div className="flex justify-between items-center pb-2.5 border-b border-dashed">
                     <AssignToMe
@@ -78,7 +75,7 @@ export const WorkplaceRequest = ({ workplace }: any) => {
                             <RiBook2Fill className="text-gray-400 text-2xl" />
                             <div>
                                 <Typography color={'black'} variant={'xs'}>
-                                    {course?.sector?.name}
+                                    {course?.sector?.name} 
                                 </Typography>
                                 <Typography variant={'muted'}>
                                     {course?.code} -{' '}

@@ -19,7 +19,6 @@ export const StepSignAgreement = ({
 }) => {
     const { notification } = useNotification()
     const [agreementSign, agreementSignResult] = useUploadAgreementMutation()
-
     useEffect(() => {
         if (agreementSignResult?.isSuccess) {
             notification.success({

@@ -77,7 +77,7 @@ export const AllStudents = () => {
             text: 'View',
             onClick: (student: Student) => {
                 router.push(
-                    `/portals/sub-admin/users/students/${student.id}?tab=overview`
+                    `/portals/sub-admin/students/${student.id}?tab=overview`
                 )
             },
             Icon: FaEye,
@@ -197,7 +197,7 @@ export const AllStudents = () => {
                                             )}
                                         </div>
                                     </div>
-                                    <div id="add-note-student" className="px-6">
+                                    <div id="students-list" className="px-6">
                                         {table}
                                     </div>
                                 </div>

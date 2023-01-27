@@ -29,6 +29,7 @@ export const AppliedIndustry = ({
     workplaceRequest,
     studentAdded,
 }: Props) => {
+    
     const getNextStep = () => {
         switch (status) {
             case 'interview':
