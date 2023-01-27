@@ -95,6 +95,7 @@ export const FilteredStudents = ({
     const columns: ColumnDef<any>[] = [
         {
             accessorKey: 'user.name',
+            // cell: (info) => 'Saad',
             cell: (info) => {
                 return <StudentCellInfo student={info.row.original} />
             },
@@ -111,13 +112,10 @@ export const FilteredStudents = ({
             accessorKey: 'industry',
             header: () => <span>Industry</span>,
             cell: (info) => {
-                const industry =
-                    info.row.original?.workplace[0]?.industries.find(
-                        (i: any) => i.applied
-                    )?.industry
+                const industry = info.row.original?.industries
 
-                return industry ? (
-                    <IndustryCell industry={industry} />
+                return industry && industry?.length > 0 ? (
+                    <IndustryCell industry={industry[0]} />
                 ) : (
                     <Typography center>N/A</Typography>
                 )

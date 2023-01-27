@@ -44,7 +44,7 @@ export const AssessmentFolderDetailX = ({ folder, fileUpload }: Props) => {
                 return ['mp4']
 
             default:
-                return
+                return ['pdf', 'jpg', 'png', 'jpeg', 'mp4']
         }
     }
 

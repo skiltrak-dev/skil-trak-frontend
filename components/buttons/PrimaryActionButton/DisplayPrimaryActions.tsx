@@ -15,7 +15,8 @@ export const DisplayPrimaryActions = ({
             {actions.map((action, i) => (
                 <PrimaryActionButton
                     key={i}
-                    link={status === 'approved' ? action.link : `#`}
+                    // link={status === 'approved' ? action.link : `#`}
+                    link={action.link}
                     title={action.title}
                     description={action.description}
                     image={action.image}

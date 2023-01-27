@@ -1,28 +1,61 @@
 import { PageTitle, PageTitleProps } from '@components'
 import { RtoNavbar } from '@components'
-import { useJoyRide } from '@hooks'
+import { useAlert, useJoyRide } from '@hooks'
 import { ReactNode, useEffect, useState } from 'react'
 import { UserLayout } from './UserLayout'
 import Joyride, { CallBackProps } from 'react-joyride'
 import { AuthUtils, getUserCredentials } from '@utils'
 import { useRouter } from 'next/router'
+import { UserStatus } from '@types'
 interface RtoLayoutProps {
     pageTitle?: PageTitleProps
     children: ReactNode
 }
+
+const redirectUrls = [
+    'students?tab=approved',
+    'contact-person',
+    'workplaces',
+    'mous',
+    'assessment-tools',
+    'appointments',
+    'create-appointments',
+    'create',
+    '/portals/rto/coordinators/[id]',
+]
+
 export const RtoLayout = ({ pageTitle, children }: RtoLayoutProps) => {
     const [mounted, setMounted] = useState(false)
     const joyride = useJoyRide()
     const router = useRouter()
+    const { alert } = useAlert()
 
     const token = AuthUtils.getToken()
     const status = AuthUtils.getUserCredentials()?.status
 
+    const path = router.pathname?.split('/')?.reverse()[0]
+
+    console.log('router.pathname', router.pathname)
+
     useEffect(() => {
-        if (token && status !== 'approved') {
-            router?.push('/portals/rto')
+        if (
+            token &&
+            redirectUrls.includes(path) &&
+            status !== UserStatus.Approved
+        ) {
+            router.push('/portals/rto')
         }
-    }, [router, token])
+    }, [path, router])
+
+    useEffect(() => {
+        if (status === 'pending') {
+            alert.warning({
+                title: `Your account is Pending`,
+                description: 'Please wait for admin approval',
+                autoDismiss: false,
+            })
+        }
+    }, [])
 
     useEffect(() => {
         setMounted(true)
