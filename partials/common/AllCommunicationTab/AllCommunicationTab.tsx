@@ -13,6 +13,7 @@ import { CommonApi } from '@queries'
 
 import { Note as NoteType } from '@types'
 import { getCommonDates, getDate } from '@utils'
+import moment from 'moment'
 
 export const AllCommunicationTab = ({ user }: { user: any }) => {
     const contextBar = useContextBar()
@@ -47,7 +48,7 @@ export const AllCommunicationTab = ({ user }: { user: any }) => {
                                 <div className="flex items-center sticky top-4 z-20">
                                     {/* <div className='w-2/5 h-[1px] bg-gray-700'/> */}
                                     <div className="bg-gray-700 w-fit shadow-md px-4 py-2 rounded-md text-gray-100">
-                                        {date}
+                                        {moment(date).format('MMM, DD YYYY')}
                                     </div>
                                     {/* <div className='w-2/5 h-[1px] bg-gray-700'/> */}
                                 </div>

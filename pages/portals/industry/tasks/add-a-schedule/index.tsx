@@ -14,7 +14,6 @@ const AddSchedule: NextPageWithLayout = () => {
 
     return (
         <div>
-            <RedirectUser link={'/portals/industry/tasks'} />
             <AddScheduleContainer />
         </div>
     )

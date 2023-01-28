@@ -21,5 +21,12 @@ export const useChangeStatus = () => {
         await changeStatus({ id: student.id, status: UserStatus.Blocked })
     }
 
-    return { onAccept, onReject, onArchive, onBlock, changeStatusResult }
+    return {
+        changeStatus,
+        onAccept,
+        onReject,
+        onArchive,
+        onBlock,
+        changeStatusResult,
+    }
 }

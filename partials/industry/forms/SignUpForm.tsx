@@ -284,6 +284,7 @@ export const IndustrySignUpForm = ({ onSubmit }: { onSubmit: any }) => {
                                 placeholder={'Select Sectors...'}
                                 multi
                                 loading={sectorResponse.isLoading}
+                                disabled={sectorResponse.isLoading}
                                 onChange={onSectorChanged}
                                 validationIcons
                             />

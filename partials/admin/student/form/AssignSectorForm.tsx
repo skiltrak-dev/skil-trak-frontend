@@ -2,7 +2,7 @@ import { Button, Select, TextArea, TextInput, Typography } from '@components'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { AdminApi } from '@queries'
 import { Course, Sector } from '@types'
-import React, { useState } from 'react'
+import React, { useRef, useState } from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
 import * as yup from 'yup'
 
@@ -11,6 +11,7 @@ interface FormProps {
     edit?: boolean
     initialValues?: Course
     result: any
+    sectorsWithCourses: any
 }
 
 export const AssignSectorForm = ({
@@ -18,7 +19,9 @@ export const AssignSectorForm = ({
     edit,
     initialValues,
     result,
+    sectorsWithCourses,
 }: FormProps) => {
+    const selectInputRef = useRef()
     const sectors = AdminApi.Sectors.useListQuery({})
 
     const courses = AdminApi.Courses.useListQuery({})
@@ -37,7 +40,15 @@ export const AssignSectorForm = ({
                 currentSelectableCourses.push(...currentCourses)
         })
 
-        setSelectableCourses(currentSelectableCourses)
+        const getAssignedCourses = Object.values(sectorsWithCourses)
+            ?.flat()
+            ?.map((c: any) => c?.title)
+
+        setSelectableCourses(
+            currentSelectableCourses?.filter(
+                (f) => !getAssignedCourses?.includes(f?.title)
+            )
+        )
     }
 
     const validationSchema = yup.object({})
@@ -47,6 +58,12 @@ export const AssignSectorForm = ({
         defaultValues: initialValues,
         mode: 'all',
     })
+
+    const removeAddedSectors = () => {
+        return sectors.data?.data?.filter(
+            (f) => f?.courses?.length !== sectorsWithCourses[f.name]?.length
+        )
+    }
 
     return (
         <FormProvider {...methods}>
@@ -65,12 +82,14 @@ export const AssignSectorForm = ({
                         options={
                             sectors.isLoading
                                 ? []
-                                : sectors.data?.data.map((s) => ({
+                                : removeAddedSectors()?.map((s) => ({
                                       label: s.name,
                                       value: s.id,
                                   }))
                         }
-                        onChange={(option: any) => onSectorSelect(option)}
+                        onChange={(option: any) => {
+                            onSectorSelect(option)
+                        }}
                         loading={sectors.isLoading}
                         multi
                     />
