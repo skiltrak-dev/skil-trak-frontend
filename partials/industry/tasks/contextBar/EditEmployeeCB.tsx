@@ -7,7 +7,7 @@ import React, { useEffect } from 'react'
 import { EditEmployeeDetailForm } from '../form'
 
 export const EditEmployeeCB = ({ values }: { values: any }) => {
-    const { setTitle } = useContextBar()
+    const { setTitle, setContent, hide } = useContextBar()
     const { notification } = useNotification()
 
     const [updateEmployee, updateEmployeeResult] = useUpdateEmployeeMutation()
@@ -22,6 +22,8 @@ export const EditEmployeeCB = ({ values }: { values: any }) => {
                 title: 'You have updated an Employee',
                 description: 'Some description for notification',
             })
+            setContent(null)
+            hide()
         }
     }, [updateEmployeeResult.isSuccess])
 

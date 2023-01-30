@@ -1,5 +1,5 @@
 import { ContextBarLoading, NoData, Typography } from '@components'
-import { useNotification } from '@hooks'
+import { useContextBar, useNotification } from '@hooks'
 import { AdminApi } from '@queries'
 
 import { Course, Rto } from '@types'
@@ -23,6 +23,8 @@ const getSectors = (courses: any) => {
 
 export const ViewSectorsCB = ({ rto }: { rto: Rto }) => {
     const { notification } = useNotification()
+    const contextBar = useContextBar()
+
     const rtoCourses = AdminApi.Rtos.useSectors(rto.id)
     const sectorsWithCourses = getSectors(rtoCourses.data)
 
@@ -51,6 +53,8 @@ export const ViewSectorsCB = ({ rto }: { rto: Rto }) => {
                 title: 'Courses Assigned',
                 description: 'Courses have been assigned to RTO',
             })
+            contextBar.setContent(null)
+            contextBar.hide()
         }
 
         if (assignCoursesResult.isError) {
@@ -89,6 +93,7 @@ export const ViewSectorsCB = ({ rto }: { rto: Rto }) => {
             <AssignSectorForm
                 onSubmit={onSubmit}
                 result={assignCoursesResult}
+                sectorsWithCourses={sectorsWithCourses}
             />
 
             <div className={'flex flex-col gap-y-2'}>

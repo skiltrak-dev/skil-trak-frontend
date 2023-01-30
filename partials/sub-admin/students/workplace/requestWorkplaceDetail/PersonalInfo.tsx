@@ -15,22 +15,9 @@ export const PersonalInfo = ({
     const router = useRouter()
     const { id } = router.query
 
-    const [courses, setCourses] = useState<any>([])
-
-    const { data, isSuccess, isLoading } =
-        SubAdminApi.Courses.useStudentCourses(Number(id), {
-            skip: !id,
-        })
-
-    useEffect(() => {
-        if (isSuccess) {
-            const options = data?.map((course: any) => ({
-                label: course.title,
-                value: course.id,
-            }))
-            setCourses(options)
-        }
-    }, [data, isSuccess])
+    const courses = SubAdminApi.Courses.useStudentCourses(Number(id), {
+        skip: !id,
+    })
 
     const onSubmit = (values: any) => {
         setPersonalInfoData({

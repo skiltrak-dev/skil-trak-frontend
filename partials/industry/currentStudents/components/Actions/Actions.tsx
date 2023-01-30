@@ -85,7 +85,6 @@ export const Actions = ({ workplace, industry, student }: any) => {
     }
     // TODO Cancell still showing in Current Students
 
-    console.log('workplace', workplace?.isCancelled)
     return (
         <div className="flex flex-col md:flex-row gap-y-2 md:items-center md:gap-x-2">
             {modal && modal}

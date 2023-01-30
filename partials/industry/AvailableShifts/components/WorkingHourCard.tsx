@@ -27,8 +27,9 @@ export const WorkingHourCard = ({
 
     const [modal, setModal] = useState<any | null>(null)
     const [isAvailable, setIsAvailable] = useState<boolean>(
-        availability?.dayOff
+        availability?.dayOn
     )
+    
     const [openingTime, setOpeningTime] = useState<any>(
         availability?.openingTime
     )
@@ -48,7 +49,7 @@ export const WorkingHourCard = ({
             breakStart,
             breakEnd,
             break: isBreak,
-            dayOff: isAvailable,
+            dayOn: isAvailable,
         })
     }, [isAvailable, openingTime, closingTime, breakStart, breakEnd, isBreak])
 

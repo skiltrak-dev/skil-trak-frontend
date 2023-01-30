@@ -1,4 +1,10 @@
-import { HelpText, RequiredStar, Tooltip, Typography } from '@components'
+import {
+    HelpText,
+    InputErrorMessage,
+    RequiredStar,
+    Tooltip,
+    Typography,
+} from '@components'
 import { OptionType } from '@types'
 import { InputProps } from './InputPropType'
 import { RadioButton } from './RadioButton'
@@ -80,12 +86,15 @@ export const RadioGroup = (
                         label={option.label}
                         value={option.value}
                         defaultChecked={option.value === value}
+                        group
                         onChange={(e: any) => {
                             onChange && onChange(e)
                         }}
                     />
                 ))}
             </div>
+
+            <InputErrorMessage name={name} />
 
             <HelpText text={helpText} />
         </div>

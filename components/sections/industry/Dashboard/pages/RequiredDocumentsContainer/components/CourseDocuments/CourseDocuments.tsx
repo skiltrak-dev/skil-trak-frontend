@@ -20,7 +20,7 @@ export const CourseDocuments = ({ course }: any) => {
         useState(false)
 
     const showCustomRequirements = () => {
-        const filtered = data.filter(
+        const filtered = data?.filter(
             ({ folder_isCustom, folder_courseId }: any) =>
                 folder_isCustom && folder_courseId === course.id
         )

@@ -53,8 +53,8 @@ export const ViewSectorsCB = ({ student }: { student: Student }) => {
                 title: 'Courses Assigned',
                 description: 'Courses have been assigned to Student',
             })
-            // contextBar.setContent(null)
-            // contextBar.hide()
+            contextBar.setContent(null)
+            contextBar.hide()
         }
 
         if (assignCoursesResult.isError) {

@@ -1,4 +1,4 @@
-import { HelpText, RequiredStar, Tooltip } from '@components'
+import { HelpText, InputErrorMessage, RequiredStar, Tooltip } from '@components'
 import { getMethodsForInput } from '@utils'
 import { useFormContext } from 'react-hook-form'
 import { ClipLoader } from 'react-spinners'
@@ -6,6 +6,7 @@ import { InputProps } from './InputPropType'
 
 export type RadioButtonProps = InputProps & {
     defaultChecked?: boolean
+    group?: boolean
 }
 
 export const RadioButton = (
@@ -27,6 +28,8 @@ export const RadioButton = (
         loading,
         required,
         disabled,
+
+        group,
     }: RadioButtonProps,
     ref: any
 ) => {
@@ -67,6 +70,7 @@ export const RadioButton = (
 
                 <Tooltip text={tooltip} />
             </label>
+            {!group && <InputErrorMessage name={name} />}
 
             <HelpText text={helpText} />
         </>

@@ -14,7 +14,7 @@ import { AdminWorkplaceRequest } from './components'
 
 export const AllRequestedWorkplace = () => {
     const [page, setPage] = useState(1)
-    const [itemPerPage, setItemPerPage] = useState(50)
+    const [itemPerPage, setItemPerPage] = useState(30)
 
     const subAdminWorkplace = AdminApi.Workplace.useRequestedWorkplace({
         skip: itemPerPage * page - itemPerPage,

@@ -17,6 +17,11 @@ type PersonalInfoProps = {
     courses: any
 }
 export const PersonalInfoForm = ({ onSubmit, courses }: PersonalInfoProps) => {
+    const coursesOptions = courses?.data?.map((course: any) => ({
+        label: course.title,
+        value: course.id,
+    }))
+
     // function getCurrentWeek() {
     //     var currentDate = moment()
 
@@ -37,18 +42,22 @@ export const PersonalInfoForm = ({ onSubmit, courses }: PersonalInfoProps) => {
     // }))
 
     const validationSchema = yup.object({
-        // course: yup.string().required('Must provide course'),
-        // currentQualification: yup
-        //     .string()
-        //     .required('Must provide currentQualification'),
-        // currentWork: yup.string().required('Must provide currentWork'),
-        // haveTransport: yup.string().required('Must provide haveTransport'),
-        // haveDrivingLicense: yup
-        //     .string()
-        //     .required('Must provide haveDrivingLicense'),
-        // preferableLocation: yup
-        //     .string()
-        //     .required('Must provide preferableLocation'),
+        courses: yup.string().required('Must provide course'),
+        currentQualification: yup
+            .string()
+            .required('Must provide currentQualification'),
+        currentWork: yup.string().required('Must provide currentWork'),
+        haveTransport: yup
+            .string()
+            .nullable(true)
+            .required('Must provide Transport Option'),
+        haveDrivingLicense: yup
+            .string()
+            .nullable(true)
+            .required('Must provide Driving License Option'),
+        preferableLocation: yup
+            .string()
+            .required('Must provide preferableLocation'),
     })
 
     const formMethods = useForm({
@@ -70,9 +79,9 @@ export const PersonalInfoForm = ({ onSubmit, courses }: PersonalInfoProps) => {
                                 placeholder="Select Your Choice"
                                 name="courses"
                                 label="Course"
-                                options={courses}
-                                // loading={isLoading}
-                                // disabled={isLoading}
+                                options={coursesOptions}
+                                loading={courses.isLoading}
+                                disabled={courses.isLoading}
                                 onlyValue
                             />
                         </div>
@@ -92,7 +101,6 @@ export const PersonalInfoForm = ({ onSubmit, courses }: PersonalInfoProps) => {
                             <RadioGroup
                                 gridColumns="2"
                                 layout="grid"
-                                // value={'yes'}
                                 name="haveTransport"
                                 label="Do you have your own transport?"
                                 options={[

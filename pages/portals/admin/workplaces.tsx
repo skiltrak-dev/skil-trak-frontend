@@ -31,7 +31,7 @@ const Workplace: NextPageWithLayout = (props: Props) => {
     const [filterAction, setFilterAction] = useState(null)
     const [filter, setFilter] = useState({})
     const [page, setPage] = useState(1)
-    const [itemPerPage, setItemPerPage] = useState(50)
+    const [itemPerPage, setItemPerPage] = useState(30)
     const navBar = useNavbar()
 
     useEffect(() => {

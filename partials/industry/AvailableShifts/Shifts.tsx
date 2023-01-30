@@ -55,7 +55,7 @@ export const Shifts = () => {
                         schedule.openingTime
                     tempWorkingHours[dayIndex].closingTime =
                         schedule.closingTime
-                    tempWorkingHours[dayIndex].dayOff = schedule.dayOff
+                    tempWorkingHours[dayIndex].dayOn = schedule.dayOn
                     tempWorkingHours[dayIndex].break = schedule.break
                     tempWorkingHours[dayIndex].breakStart = schedule.breakStart
                     tempWorkingHours[dayIndex].breakEnd = schedule.breakEnd
@@ -81,7 +81,7 @@ export const Shifts = () => {
         tempWorkingHours[dayIndex].closingTime = moment(schedule.closingTime, [
             'h:mm A',
         ]).format('HH:mm')
-        tempWorkingHours[dayIndex].dayOff = schedule.dayOff
+        tempWorkingHours[dayIndex].dayOn = schedule.dayOn
         tempWorkingHours[dayIndex].break = schedule.break
         tempWorkingHours[dayIndex].breakStart = schedule.breakStart
         tempWorkingHours[dayIndex].breakEnd = schedule.breakEnd
@@ -91,7 +91,7 @@ export const Shifts = () => {
 
     const onAddWorkingHours = () => {
         addWorkingHours({
-            days: courseWorkingHours?.filter((s: any) => s.dayOff),
+            days: courseWorkingHours?.filter((s: any) => s.dayOn),
         })
     }
 

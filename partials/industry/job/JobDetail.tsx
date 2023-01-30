@@ -70,13 +70,18 @@ export const JobDetailContainer = () => {
         <div>
             {modal}
             <div className="flex justify-between items-center mb-2">
-                <BackButton
-                    link={'/portals/industry/jobs/advertised-jobs'}
-                    text={'Back To Jobs'}
-                />
-                {data && (
-                    <TableAction options={TableActionOption} rowItem={data} />
-                )}
+                <>
+                    <BackButton
+                        link={'/portals/industry/jobs/advertised-jobs'}
+                        text={'Back To Jobs'}
+                    />
+                    {data && (
+                        <TableAction
+                            options={TableActionOption}
+                            rowItem={data}
+                        />
+                    )}
+                </>
             </div>
 
             {/* Alert */}

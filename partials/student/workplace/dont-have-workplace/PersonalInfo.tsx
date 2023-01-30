@@ -14,18 +14,8 @@ export const PersonalInfo = ({
 }: PersonalInfoProps) => {
     const router = useRouter()
     const { id } = router.query
-    const { data, isSuccess, isLoading } = useGetStudentCoursesQuery()
-    const [courses, setCourses] = useState<any>([])
-
-    useEffect(() => {
-        if (isSuccess) {
-            const options = data?.map((course: any) => ({
-                label: course.title,
-                value: course.id,
-            }))
-            setCourses(options)
-        }
-    }, [data, isSuccess])
+    const courses = useGetStudentCoursesQuery()
+    // const [courses, setCourses] = useState<any>([])
 
     const onSubmit = (values: any) => {
         setPersonalInfoData({
