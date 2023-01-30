@@ -31,9 +31,7 @@ export const mailsEndpoints = (
             photoId,
             { cacheDataLoaded, cacheEntryRemoved, updateCachedData }
         ) {
-            console.log('kala pela habshi most outer')
             try {
-                console.log('kala pela habshi outer')
                 await cacheDataLoaded
 
                 const socket = io('ws://192.168.1.13:8000', {
@@ -51,7 +49,6 @@ export const mailsEndpoints = (
                 })
 
                 socket.on(ChatEvent.ReceiveMessage, (message: any) => {
-                    console.log('kala pela habshi inner')
                     updateCachedData((draft) => {
                         draft.push(message)
                     })
