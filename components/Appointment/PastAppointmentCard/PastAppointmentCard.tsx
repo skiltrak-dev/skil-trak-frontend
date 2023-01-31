@@ -1,4 +1,5 @@
 import { Typography } from '@components/Typography'
+import moment from 'moment'
 import Image from 'next/image'
 
 type PastAppointmentProps = {
@@ -10,6 +11,7 @@ type PastAppointmentProps = {
     date?: string
     address?: string
     totalMinutes?: string
+    appointment: any
 }
 
 export const PastAppointmentCard = ({
@@ -21,14 +23,29 @@ export const PastAppointmentCard = ({
     date,
     address,
     totalMinutes,
+    appointment,
 }: PastAppointmentProps) => {
     return (
         <>
             <div className="flex justify-between items-center bg-white border rounded-2xl py-2 px-4 mt-1">
                 <div>
-                    <Typography variant="label" color="text-gray-400">
-                        {date}
-                    </Typography>
+                    <div className="">
+                        <p className="text-lg font-bold ">
+                            {moment(
+                                new Date(`01-01-2023 ${appointment.startTime}`)
+                            ).format('hh:mm a')}{' '}
+                            -{' '}
+                            {moment(
+                                new Date(`01-01-2023 ${appointment.endTime}`)
+                            ).format('hh:mm a')}
+                        </p>
+                        <p className="font-medium -mt-1 text-gray-500">
+                            {moment(new Date(appointment.date)).format(
+                                'DD MMM, YYYY'
+                            )}
+                        </p>
+                    </div>
+                    
                     <div className="flex items-center gap-x-2">
                         <Typography variant="subtitle" color="text-gray-600">
                             {time}
@@ -52,10 +69,11 @@ export const PastAppointmentCard = ({
                 <div>
                     <div className="flex flex-col items-center gap-y-2">
                         <div
-                            className={`${status === 'Completed'
+                            className={`${
+                                status === 'Completed'
                                     ? 'bg-[#D3F3C6]'
                                     : 'bg-[#FFD1D6]'
-                                } py-1 px-2 rounded-lg`}
+                            } py-1 px-2 rounded-lg`}
                         >
                             <Typography
                                 variant="muted"
