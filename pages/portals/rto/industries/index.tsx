@@ -11,7 +11,6 @@ import {
     PendingSignatureCard,
     PlacementProgressCard,
     QuestionCard,
-    RecentAppointmentCard,
     RtoContextBarData,
     SidebarCalendar,
 } from '@components'

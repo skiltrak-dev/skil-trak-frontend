@@ -4,7 +4,6 @@ import { Animations } from '@animations'
 import {
     DisplayPrimaryActions,
     HelpQuestionSet,
-    RecentAppointmentCard,
     Button,
     SidebarCalendar,
 } from '@components'
@@ -16,6 +15,7 @@ import {
     useGetPlacementProgressQuery,
     useGetStudentPastAppointmentsQuery,
 } from '@queries'
+import { RecentAppointment } from '@partials/common'
 
 const PrimaryLinks = [
     {
@@ -116,7 +116,9 @@ const StudentWorkplace: NextPageWithLayout = () => {
                     <PlacementProgressCard
                         placementProgress={getPlacementProgress}
                     />
-                    <RecentAppointmentCard appointment={recentAppointments} />
+                    <RecentAppointment
+                        link={'/portals/student/workplace/appointments'}
+                    />
                 </div>
             </div>
 

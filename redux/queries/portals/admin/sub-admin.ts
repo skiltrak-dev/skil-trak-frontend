@@ -102,4 +102,8 @@ export const subAdminEndpoints = (
         }),
         invalidatesTags: ['SubAdmins'],
     }),
+    viewSummary: builder.query<any, number>({
+        query: (id) => `${PREFIX}/summary-report/generate/${id}`,
+        providesTags: ['SubAdmins'],
+    }),
 })

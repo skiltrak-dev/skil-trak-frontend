@@ -19,6 +19,7 @@ import { AdminStats } from '@types'
 import { useUpdateSubAdminProfileMutation } from '../sub-admin'
 import { volunteerEndpoints } from './volunteer'
 
+const PREFIX = 'admin'
 export const adminApi = createApi({
     reducerPath: 'adminApi',
     baseQuery: fetchBaseQuery({
@@ -52,13 +53,23 @@ export const adminApi = createApi({
         'Messages',
         'Statistics',
         'Workplaces',
+        'SMS',
     ],
 
     // ---------- RTO ENDPOINTS ---------- //
     endpoints: (build) => ({
         statistics: build.query<AdminStats, void>({
-            query: () => `admin/count`,
+            query: () => `${PREFIX}/count`,
             providesTags: ['Statistics'],
+        }),
+
+        sendSMS: build.mutation<any, { number: number; message: string }>({
+            query: (body) => ({
+                url: `${PREFIX}/sms/send`,
+                method: 'POST',
+                body,
+            }),
+            invalidatesTags: ['SMS'],
         }),
 
         ...rtoEndpoints(build),
@@ -163,6 +174,7 @@ const {
     useSubAdminProfileQuery,
     useCreateSubAdminMutation,
     useUpdateSubAdminMutation,
+    useViewSummaryQuery,
 
     useSubAdminCoursesQuery,
     useSubAdminAssignCoursesMutation,
@@ -206,6 +218,9 @@ const {
 
     // --- VOLUNTEER --- //
     useGetVolunteerRequestsQuery,
+
+    // ----- SMS ----- //
+    useSendSMSMutation,
 } = adminApi
 
 export const AdminApi = {
@@ -228,7 +243,6 @@ export const AdminApi = {
         useRtoImportStudents: useRtoImportStudentsMutation,
         useRtoAddStudent: useRtoAddStudentMutation,
         useCheckStudentEmail: useCheckStudentEmailMutation,
-
 
         useSectors: useRtoSectorsQuery,
         useAssignCourses: useRtoAssignCoursesMutation,
@@ -273,6 +287,7 @@ export const AdminApi = {
         useRtos: useSubAdminRtosQuery,
         useAssignRto: useSubAdminAssignRtoMutation,
         useUnassignRto: useSubAdminUnassignRtoMutation,
+        useSummary: useViewSummaryQuery,
     },
     Workplace: {
         useListQuery: useUnAssignedSubAdminsQuery,
@@ -343,5 +358,8 @@ export const AdminApi = {
     },
     Volunteer: {
         useList: useGetVolunteerRequestsQuery,
+    },
+    SMS: {
+        sendSMS: useSendSMSMutation,
     },
 }

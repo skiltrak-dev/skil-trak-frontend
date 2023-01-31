@@ -51,7 +51,7 @@ export const FutureAppointments = ({ appointments }: { appointments: any }) => {
                             swiper.navigation.update()
                         })
                     }}
-                    modules={[Navigation, Pagination]}
+                    modules={[Navigation]}
                     className="mySwiper static"
                 >
                     {appointments?.map((appointment: any, index: number) => {

@@ -1,6 +1,8 @@
+import { PhoneInputWithCountry } from '@components'
 import type { NextPage } from 'next'
 import { useRouter } from 'next/router'
 import { useEffect } from 'react'
+import { FormProvider, useForm } from 'react-hook-form'
 
 import UnderConstruction from './under-construction'
 
@@ -23,7 +25,11 @@ const Home: NextPage = () => {
         }
     }, [])
 
-    return <UnderConstruction />
+    return (
+        <>
+            <UnderConstruction />
+        </>
+    )
 }
 
 export default Home

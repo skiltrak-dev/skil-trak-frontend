@@ -619,7 +619,7 @@ const SubAdminDashboard: NextPageWithLayout = () => {
                         imageUrl="/images/icons/students.png"
                         count={statistics?.data?.student}
                         title={'Students'}
-                        link={'sub-admin/users/students?tab=all'}
+                        link={'sub-admin/students?tab=all'}
                     />
                     <FigureCard
                         imageUrl="/images/icons/industry.png"

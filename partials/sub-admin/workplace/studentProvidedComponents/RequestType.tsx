@@ -27,6 +27,8 @@ export const RequestType = ({
         number | null
     >(0)
 
+    console.log('data workplace', data, workplace)
+
     const [interView, interViewResult] = useSendInterviewNotificationMutation()
 
     const { notification } = useNotification()
@@ -145,6 +147,29 @@ export const RequestType = ({
 
     const isLoading = interViewResult.isLoading
 
+    const onRequestClicked = () => {
+        if (workplace?.assignedTo && workplace?.industryStatus === 'approved') {
+            if (!data?.terminated && !data?.isCompleted && !data?.cancelled) {
+                setVisibleRequestType(!visibleRequestType)
+            } else {
+                notification.warning({
+                    title: 'Action cant perform',
+                    description: 'Action cant perform',
+                })
+            }
+        } else if (workplace?.industryStatus !== 'approved') {
+            notification.warning({
+                title: 'Industry Not Approved Yet',
+                description: 'Industry Not Approved Yet',
+            })
+        } else {
+            notification.warning({
+                title: 'Assign the workplace',
+                description: 'Assign the workplace before changing status',
+            })
+        }
+    }
+
     return (
         <div className="relative">
             <ShowErrorNotifications result={interViewResult} />
@@ -154,26 +179,12 @@ export const RequestType = ({
                 }}
             >
                 <div
-                    className={`border border-dashed border-gray-400 rounded-lg w-56 px-4 py-1 flex items-center justify-between gap-x-1 cursor-pointer relative`}
-                    onClick={() => {
-                        if (
-                            workplace?.assignedTo &&
-                            workplace?.industryStatus === 'approved'
-                        ) {
-                            setVisibleRequestType(!visibleRequestType)
-                        } else if (workplace?.industryStatus !== 'approved') {
-                            notification.warning({
-                                title: 'Industry Not Approved Yet',
-                                description: 'Industry Not Approved Yet',
-                            })
-                        } else {
-                            notification.warning({
-                                title: 'Assign the workplace',
-                                description:
-                                    'Assign the workplace before changing status',
-                            })
-                        }
-                    }}
+                    className={`${
+                        data?.terminated || data?.isCompleted || data?.cancelled
+                            ? 'bg-gray-100 cursor-default'
+                            : ''
+                    }  border border-dashed border-gray-400 rounded-lg w-56 px-4 py-1 flex items-center justify-between gap-x-1 cursor-pointer relative`}
+                    onClick={onRequestClicked}
                 >
                     {isLoading && (
                         <div className="absolute top-0 left-0 w-full h-full bg-[#00000010]">

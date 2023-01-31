@@ -35,7 +35,7 @@ export const EditPassword = ({
         password: Yup.string().required('Password is required'),
         confirmPassword: Yup.string()
             .oneOf([Yup.ref('password'), null], 'Passwords must match')
-            .required('Must confirm entered password'),
+            .required('Confirm Password is required'),
     })
 
     const methods = useForm({

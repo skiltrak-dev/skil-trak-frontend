@@ -56,13 +56,8 @@ export const Jobs = () => {
         setModal(null)
     }
 
-    const onViewContentClicked = (appointmentType: AppointmentType) => {
-        setModal(
-            <RequirementModal
-                appointmentType={appointmentType}
-                onCancel={onModalCancelClicked}
-            />
-        )
+    const onViewContentClicked = (job: any) => {
+        setModal(<RequirementModal job={job} onCancel={onModalCancelClicked} />)
     }
 
     const onDeleteClicked = (appointmentType: AppointmentType) => {
@@ -93,19 +88,19 @@ export const Jobs = () => {
             accessorKey: 'title',
             cell: (info) => {
                 return (
-                    <div>
-                        <p className="font-semibold">
-                            {info.row.original.title}
-                        </p>
-                        <div className="flex items-center gap-x-2">
-                            <InitialAvatar
-                                name={info.row.original.industry.businessName}
-                                imageUrl={
-                                    info.row.original.industry.user.avatar
-                                }
-                                small
-                            />
-                            <p>{info.row.original.industry.businessName}</p>
+                    <div className="flex items-center gap-x-1">
+                        <InitialAvatar
+                            name={info.row.original?.industry?.user?.name}
+                            imageUrl={info.row.original.industry.user.avatar}
+                            small
+                        />
+                        <div>
+                            <p className="font-semibold">
+                                {info.row.original.title}
+                            </p>
+                            <div className="flex items-center gap-x-2">
+                                <p>{info.row.original?.industry?.user?.name}</p>
+                            </div>
                         </div>
                     </div>
                 )
@@ -116,7 +111,13 @@ export const Jobs = () => {
             accessorKey: 'description',
             cell: (info) => {
                 return (
-                    <ActionButton variant="link" simple>
+                    <ActionButton
+                        variant="link"
+                        simple
+                        onClick={() => {
+                            onViewContentClicked(info.row.original)
+                        }}
+                    >
                         View
                     </ActionButton>
                 )

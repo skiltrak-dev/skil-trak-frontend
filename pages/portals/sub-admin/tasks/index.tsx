@@ -7,18 +7,17 @@ import { NextPageWithLayout } from '@types'
 import { Animations } from '@animations'
 // Components
 import {
-    AssessmentResultCard,
     Button,
     DisplayPrimaryActions,
     HelpQuestionSet,
-    PendingSignatureCard,
-    PlacementProgressCard,
-    RecentAppointmentCard,
     RtoContextBarData,
     SidebarCalendar,
 } from '@components'
+import { RecentAppointment } from '@partials/common'
 // Hooks
 import { useContextBar, useJoyRide } from '@hooks'
+
+// query
 
 const PrimaryLinks = [
     {
@@ -118,7 +117,9 @@ const SubAdminTasks: NextPageWithLayout = () => {
                     {/* <PlacementProgressCard
                         placementProgress={'Query'}
                     /> */}
-                    <RecentAppointmentCard appointment={'Query'} />
+                    <RecentAppointment
+                        link={'/portals/sub-admin/tasks/appointments'}
+                    />
                 </div>
             </div>
 

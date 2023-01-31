@@ -14,10 +14,7 @@ export const Socket = ({ children }: any) => {
     useEffect(() => {
         setSocket(io(`${process.env.NEXT_PUBLIC_SOCKET_END_POINT}`))
     }, [])
-    // console.log(
-    //     'process.env.NEXT_PUBLIC_SOCKET_END_POINT',
-    //     process.env.NEXT_PUBLIC_SOCKET_END_POINT
-    // )
+   
     useEffect(() => {
         if (AuthUtils.isAuthenticated()) {
             socket?.emit('join', AuthUtils.getUserCredentials()?.id)
