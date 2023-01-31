@@ -210,32 +210,13 @@ const VolunteerRequests: NextPageWithLayout = (props: Props) => {
         // },
     ]
 
-    const quickActionsElements = {
-        id: 'id',
-        individual: (id: number) => (
-            <div className="flex gap-x-2">
-                <ActionButton variant="success" onClick={() => {}}>
-                    Accept
-                </ActionButton>
-                <ActionButton variant="error" onClick={() => {}}>
-                    Reject
-                </ActionButton>
-            </div>
-        ),
-        common: (ids: number[]) => (
-            <ActionButton variant="error" onClick={() => {}}>
-                Reject
-            </ActionButton>
-        ),
-    }
-
     return (
         <div className="p-6">
             {modal && modal}
             <div className="flex flex-col gap-y-4 mb-32">
                 <PageHeading
-                    title={'RPL List'}
-                    subtitle={'List of Requested RPL'}
+                    title={'Volunteer Request'}
+                    subtitle={'List of Volunteer Request'}
                 >
                     {filterAction}
                     {data && data?.data.length ? (
@@ -259,12 +240,7 @@ const VolunteerRequests: NextPageWithLayout = (props: Props) => {
                     {isLoading ? (
                         <LoadingAnimation height="h-[60vh]" />
                     ) : data && data?.data.length ? (
-                        <Table
-                            columns={columns}
-                            data={data.data}
-                            quickActions={quickActionsElements}
-                            enableRowSelection
-                        >
+                        <Table columns={columns} data={data.data}>
                             {({
                                 table,
                                 pagination,
@@ -294,8 +270,10 @@ const VolunteerRequests: NextPageWithLayout = (props: Props) => {
                     ) : (
                         !isError && (
                             <EmptyData
-                                title={'No RPL Found'}
-                                description={'There is no any RPL request yet'}
+                                title={'No Volunteer Request Found'}
+                                description={
+                                    'There is no any Volunteer Request request yet'
+                                }
                                 height={'50vh'}
                             />
                         )

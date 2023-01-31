@@ -58,8 +58,9 @@ export const WorkplaceRequest = ({ workplace }: any) => {
     return (
         <Card noPadding>
             <div
-                className={`w-full h-full p-4 rounded-md shadow-lg ${appliedIndustry?.isCompleted ? 'bg-gray-50' : ''
-                    } `}
+                className={`w-full h-full p-4 rounded-md shadow-lg ${
+                    appliedIndustry?.isCompleted ? 'bg-gray-50' : ''
+                } `}
             >
                 <div className="flex justify-between items-center pb-2.5 border-b border-dashed">
                     <AssignToMe
@@ -75,7 +76,7 @@ export const WorkplaceRequest = ({ workplace }: any) => {
                             <RiBook2Fill className="text-gray-400 text-2xl" />
                             <div>
                                 <Typography color={'black'} variant={'xs'}>
-                                    {course?.sector?.name} 
+                                    {course?.sector?.name}
                                 </Typography>
                                 <Typography variant={'muted'}>
                                     {course?.code} -{' '}

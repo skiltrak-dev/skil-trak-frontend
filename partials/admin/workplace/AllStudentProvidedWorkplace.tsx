@@ -14,7 +14,7 @@ import { AdminWorkplaceRequest } from './components'
 
 export const AllStudentProvidedWorkplace = () => {
     const [page, setPage] = useState(1)
-    const [itemPerPage, setItemPerPage] = useState(50)
+    const [itemPerPage, setItemPerPage] = useState(30)
 
     const subAdminWorkplace = AdminApi.Workplace.useStudentProvidedWorkplace({
         skip: itemPerPage * page - itemPerPage,

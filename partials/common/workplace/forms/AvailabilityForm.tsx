@@ -95,7 +95,7 @@ export const AvailabilityForm = ({
                             {days.map((days, i) => (
                                 <div
                                     key={days}
-                                    className="grid grid-cols-5 gap-4 px-3 bg-secondary rounded-lg py-2"
+                                    className="grid grid-cols-5 items-center gap-4 px-3 bg-secondary rounded-lg py-2"
                                 >
                                     <Typography capitalize variant={'label'}>
                                         {days}

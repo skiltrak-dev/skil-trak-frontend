@@ -12,7 +12,7 @@ export const messagesEndpoints = (
             { updateCachedData, cacheDataLoaded, cacheEntryRemoved }
         ) {
             // create a websocket connection when the cache subscription starts
-            const ws = new WebSocket('ws://192.168.0.134:81')
+            const ws = new WebSocket('ws://192.168.1.13:8000')
             try {
                 // wait for the initial query to resolve before proceeding
                 await cacheDataLoaded
@@ -28,7 +28,7 @@ export const messagesEndpoints = (
                         draft.push(data)
                     })
                 }
-
+                console.log('testing deep')
                 ws.addEventListener('message', listener)
             } catch {
                 // no-op in case `cacheEntryRemoved` resolves before `cacheDataLoaded`,

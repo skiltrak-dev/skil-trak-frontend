@@ -28,6 +28,8 @@ type Props = {}
 const Workplace: NextPageWithLayout = (props: Props) => {
     const [filterAction, setFilterAction] = useState(null)
     const [filter, setFilter] = useState({})
+    const [page, setPage] = useState(1)
+    const [itemPerPage, setItemPerPage] = useState(30)
 
     const filteredWorkplaces = useGetSubAdminFilteredWorkplacesQuery(
         {
@@ -67,8 +69,6 @@ const Workplace: NextPageWithLayout = (props: Props) => {
         // },
     ]
 
-  
-
     return (
         <>
             <div>
@@ -82,15 +82,20 @@ const Workplace: NextPageWithLayout = (props: Props) => {
                     />
                 </div>
                 {filteredWorkplaces.isLoading ||
-                    filteredWorkplaces.isFetching ? (
+                filteredWorkplaces.isFetching ? (
                     <div className="mt-5">
                         <Card>
                             <LoadingAnimation />
                         </Card>
                     </div>
                 ) : Object.keys(filter).length &&
-                    filteredWorkplaces.isSuccess ? (
-                    <FilteredWorkplaces workplace={filteredWorkplaces} />
+                  filteredWorkplaces.isSuccess ? (
+                    <FilteredWorkplaces
+                        workplace={filteredWorkplaces}
+                        setPage={setPage}
+                        setItemPerPage={setItemPerPage}
+                        itemPerPage={itemPerPage}
+                    />
                 ) : (
                     <TabNavigation tabs={tabs}>
                         {({ header, element }: any) => {

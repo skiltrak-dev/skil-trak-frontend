@@ -18,15 +18,17 @@ interface StudentLayoutProps {
     children: ReactNode
 }
 
+const getRoutePath = `/portals/student`
 const redirectUrls = [
-    'my-workplace',
-    'have-workplace',
-    'dont-have-workplace',
-    'appointments',
-    'book-appointment',
-    'assessment-evidence',
-    'assessment-tools',
-    'schedule',
+    `${getRoutePath}/my-workplace`,
+    `${getRoutePath}/have-workplace`,
+    `${getRoutePath}/dont-have-workplace`,
+    `${getRoutePath}/appointments`,
+    `${getRoutePath}/book-appointment`,
+    `${getRoutePath}/assessment-evidence`,
+    `${getRoutePath}/assessment-tools`,
+    `${getRoutePath}/schedule`,
+    `${getRoutePath}/jobs`,
 ]
 
 export const StudentLayout = ({ pageTitle, children }: StudentLayoutProps) => {
@@ -35,18 +37,21 @@ export const StudentLayout = ({ pageTitle, children }: StudentLayoutProps) => {
 
     const { alert } = useAlert()
     const userData = getUserCredentials()
+    const token = AuthUtils.getToken()
+
     const joyride = useJoyRide()
 
     const path = router.pathname?.split('/')?.reverse()[0]
 
     useEffect(() => {
         if (
-            redirectUrls.includes(path) &&
+            token &&
+            redirectUrls.includes(router.pathname) &&
             userData?.status !== UserStatus.Approved
         ) {
-            router.push('/portals/student')
+            router.push(getRoutePath)
         }
-    }, [path])
+    }, [router])
 
     useEffect(() => {
         if (userData?.status === 'pending') {

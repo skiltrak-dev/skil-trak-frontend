@@ -54,7 +54,7 @@ export const Notifications = () => {
 
     useEffect(() => {
         if (data) {
-            setNotifications(data.data)
+            setNotifications(data?.data)
         }
     }, [data])
 

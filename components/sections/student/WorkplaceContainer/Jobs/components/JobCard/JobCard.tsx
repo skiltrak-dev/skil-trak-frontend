@@ -55,7 +55,10 @@ export const JobCard = ({
                 <div className="p-4">
                     <div className="flex justify-between items-center">
                         <div>
-                            <Link legacyBehavior href={`/student/workplace/jobs/${id}`}>
+                            <Link
+                                legacyBehavior
+                                href={`/portals/student/workplace/jobs/${id}`}
+                            >
                                 <a>
                                     <Typography
                                         variant="subtitle"

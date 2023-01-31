@@ -1,12 +1,38 @@
 import React from 'react'
 
-import { TechnicalError, LoadingAnimation, EmptyData } from '@components'
+import {
+    TechnicalError,
+    LoadingAnimation,
+    EmptyData,
+    PageSize,
+    Pagination,
+} from '@components'
 import { WorkplaceRequest } from './components'
 import { WorkplaceRequest as StudentProvidedWorkplace } from './studentProvidedComponents'
 
-export const FilteredWorkplaces = ({ workplace }: { workplace: any }) => {
+export const FilteredWorkplaces = ({
+    setPage,
+    workplace,
+    setItemPerPage,
+    itemPerPage,
+}: {
+    setPage: any
+    workplace: any
+    itemPerPage: number
+    setItemPerPage: any
+}) => {
     return (
         <div className="mt-5">
+            {/* <div className="flex items-center justify-between">
+                <PageSize
+                    itemPerPage={itemPerPage}
+                    setItemPerPage={setItemPerPage}
+                />
+                <Pagination
+                    pagination={workplace?.data?.pagination}
+                    setPage={setPage}
+                />
+            </div> */}
             {workplace.data && workplace.data?.data?.length > 0 ? (
                 <div className="flex flex-col gap-y-4">
                     {workplace?.data?.data?.map((workplace: any) => {
