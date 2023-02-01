@@ -2,6 +2,7 @@ import { getMethodsForInput } from '@utils'
 import { useFormContext } from 'react-hook-form'
 import React from 'react'
 import { default as PhoneInput } from 'react-phone-number-input/react-hook-form'
+import 'react-phone-number-input/style.css'
 
 // components
 import { Typography } from '@components'
@@ -27,6 +28,7 @@ export const PhoneInputWithCountry = ({
     countries,
     defaultCountry,
     helpText,
+    isInternational,
 }: any) => {
     const formContext = useFormContext()
     return (
@@ -50,9 +52,10 @@ export const PhoneInputWithCountry = ({
                 <div className="relative">
                     <PhoneInput
                         className="phoneinputwithcountry h-10 border text-black w-full rounded-md outline-none px-4 placeholder-gray text-sm border-gray-200 bg-white"
-                        name={'phone'}
+                        name={name}
                         countries={countries}
                         defaultCountry={defaultCountry}
+                        addInternationalOption={isInternational}
                         id={`PhoneInputWithCountry_${label}`}
                         control={formContext.control}
                         onChange={onChange}

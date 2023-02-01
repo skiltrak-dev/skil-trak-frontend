@@ -113,6 +113,11 @@ const routes: Route[] = [
         path: getRoutePath('/subscribers'),
         Icon: MdSubscriptions,
     },
+    {
+        text: 'SMS',
+        path: getRoutePath('/sms'),
+        Icon: MdSubscriptions,
+    },
 ]
 
 export const AdminLayout = ({ children }: any) => {

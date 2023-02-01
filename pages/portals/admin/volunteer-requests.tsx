@@ -50,14 +50,6 @@ const VolunteerRequests: NextPageWithLayout = (props: Props) => {
     const onModalCancelClicked = () => {
         setModal(null)
     }
-    const onViewContentClicked = (appointmentType: AppointmentType) => {
-        setModal(
-            <RequirementModal
-                appointmentType={appointmentType}
-                onCancel={onModalCancelClicked}
-            />
-        )
-    }
 
     const onDeleteClicked = (appointmentType: AppointmentType) => {
         setModal(

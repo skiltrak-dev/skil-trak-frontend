@@ -5,8 +5,11 @@ const PREFIX = 'subadmin/'
 export const workplaceEndpoints = (
     builder: EndpointBuilder<BaseQueryFn, string, string>
 ) => ({
-    getSubAdminWorkplaces: builder.query<any, void>({
-        query: () => `${PREFIX}workplace-request/list`,
+    getSubAdminWorkplaces: builder.query<any, any>({
+        query: (params) => ({
+            url: `${PREFIX}workplace-request/list`,
+            params,
+        }),
         providesTags: ['SubAdminWorkplace'],
     }),
     getSubAdminFilteredWorkplaces: builder.query<any, any>({
@@ -16,12 +19,18 @@ export const workplaceEndpoints = (
         }),
         providesTags: ['SubAdminWorkplace'],
     }),
-    getAddedByStudentsWorkplaces: builder.query<any, void>({
-        query: () => `${PREFIX}workplace-request/list/abn`,
+    getAddedByStudentsWorkplaces: builder.query<any, any>({
+        query: (params) => ({
+            url: `${PREFIX}workplace-request/list/abn`,
+            params,
+        }),
         providesTags: ['SubAdminWorkplace'],
     }),
-    getMyStudentsWorkplaces: builder.query<any, void>({
-        query: () => `${PREFIX}my-workplace-request/list`,
+    getMyStudentsWorkplaces: builder.query<any, any>({
+        query: (params) => ({
+            url: `${PREFIX}my-workplace-request/list`,
+            params,
+        }),
         providesTags: ['SubAdminWorkplace'],
     }),
     assignToSubAdmin: builder.mutation({
@@ -96,8 +105,11 @@ export const workplaceEndpoints = (
             `${PREFIX}workplace-request/docs/${workplaceId}/${appliedIndustryId}/${courseId}`,
         providesTags: ['SubAdminWorkplace'],
     }),
-    getCancelledWorkplaces: builder.query<any, void>({
-        query: () => `${PREFIX}cancelled-workplace-request/list`,
+    getCancelledWorkplaces: builder.query<any, any>({
+        query: (params) => ({
+            url: `${PREFIX}cancelled-workplace-request/list`,
+            params,
+        }),
         providesTags: ['SubAdminWorkplace'],
     }),
     cancelWorkplaceStatus: builder.mutation<any, number>({

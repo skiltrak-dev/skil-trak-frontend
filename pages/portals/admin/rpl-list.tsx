@@ -50,14 +50,6 @@ const RPLList: NextPageWithLayout = (props: Props) => {
     const onModalCancelClicked = () => {
         setModal(null)
     }
-    const onViewContentClicked = (appointmentType: AppointmentType) => {
-        setModal(
-            <RequirementModal
-                appointmentType={appointmentType}
-                onCancel={onModalCancelClicked}
-            />
-        )
-    }
 
     const onDeleteClicked = (appointmentType: AppointmentType) => {
         setModal(
@@ -68,7 +60,7 @@ const RPLList: NextPageWithLayout = (props: Props) => {
         )
     }
     useEffect(() => {
-        navBar.setTitle('Workplace Request')
+        navBar.setTitle('RPL LIST')
     }, [])
     const tableActionOptions: TableActionOption[] = [
         {

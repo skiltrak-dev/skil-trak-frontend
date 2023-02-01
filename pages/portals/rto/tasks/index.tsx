@@ -6,15 +6,12 @@ import { NextPageWithLayout } from '@types'
 // Animations
 import { Animations } from '@animations'
 // Components
-import {
-    DisplayPrimaryActions,
-    HelpQuestionSet,
-    RecentAppointmentCard,
-} from '@components'
+import { DisplayPrimaryActions, HelpQuestionSet } from '@components'
+import { RecentAppointment } from '@partials/common'
 // Hooks
 import { useContextBar, useJoyRide } from '@hooks'
 import { CommonCB } from '@partials/rto/contextBar'
-import { useGetRTOAppointmentsQuery, CommonApi } from '@queries'
+import { CommonApi } from '@queries'
 
 const PrimaryLinks = [
     {
@@ -109,8 +106,8 @@ const RtoTasks: NextPageWithLayout = () => {
 
                 {/* Special Cards */}
                 <div className="w-3/5 flex flex-col justify-center space-y-2">
-                    <RecentAppointmentCard
-                        appointment={futureAppointments?.data}
+                    <RecentAppointment
+                        link={'/portals/rto/tasks/appointments'}
                     />
                 </div>
             </div>

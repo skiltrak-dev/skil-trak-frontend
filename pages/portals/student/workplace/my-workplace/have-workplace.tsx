@@ -150,6 +150,7 @@ const HaveWorkplace: NextPageWithLayout = (props: Props) => {
         })
     }
 
+
     return (
         <>
             <ShowErrorNotifications result={addWorkplaceResult} />
@@ -220,7 +221,7 @@ const HaveWorkplace: NextPageWithLayout = (props: Props) => {
                                             workplaceCancelRequest
                                         }
                                         appliedIndustry={
-                                            workplaceData[0]?.industries[0]
+                                            workplaceData?.industries[0]
                                         }
                                         status={workplaceData?.currentStatus}
                                         workplaceRequest={workplaceData}

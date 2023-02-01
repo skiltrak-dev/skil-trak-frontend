@@ -11,7 +11,7 @@ type PastAppointmentProps = {
     date?: string
     address?: string
     totalMinutes?: string
-    appointment: any
+    appointment?: any
 }
 
 export const PastAppointmentCard = ({
@@ -45,7 +45,7 @@ export const PastAppointmentCard = ({
                             )}
                         </p>
                     </div>
-                    
+
                     <div className="flex items-center gap-x-2">
                         <Typography variant="subtitle" color="text-gray-600">
                             {time}

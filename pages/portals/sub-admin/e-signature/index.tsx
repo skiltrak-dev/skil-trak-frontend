@@ -1,20 +1,18 @@
 import { ReactElement, useEffect } from 'react'
 
-import { SubAdminLayout } from '@layouts'
-import { NextPageWithLayout } from '@types'
 import { Animations } from '@animations'
 import {
-    AssessmentResultCard,
     Button,
     DisplayPrimaryActions,
     HelpQuestionSet,
-    ImportantDocumentCard,
-    PendingSignatureCard,
     PlacementProgressCard,
-    RecentAppointmentCard,
     RtoContextBarData,
     SidebarCalendar,
 } from '@components'
+import { SubAdminLayout } from '@layouts'
+import { RecentAppointment } from '@partials/common'
+import { NextPageWithLayout } from '@types'
+
 import { useContextBar } from '@hooks'
 
 const PrimaryLinks = [
@@ -98,7 +96,9 @@ const SubAdminESignature: NextPageWithLayout = () => {
                 {/* Special Cards */}
                 <div className="w-full flex flex-col justify-center space-y-2">
                     <PlacementProgressCard placementProgress={'Query'} />
-                    <RecentAppointmentCard appointment={'Query'} />
+                    <RecentAppointment
+                        link={'/portals/student/workplace/appointments'}
+                    />
                 </div>
             </div>
 

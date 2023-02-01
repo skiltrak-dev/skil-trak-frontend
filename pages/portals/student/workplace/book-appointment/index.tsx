@@ -101,7 +101,7 @@ const BookAppointment: NextPageWithLayout = (props: Props) => {
             ...values,
             type,
             date,
-            time,
+            ...selectedTime,
             coordinator: values.coordinator.value,
             appointmentFor: values.coordinator.value,
         })
