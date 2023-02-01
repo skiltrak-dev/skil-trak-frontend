@@ -51,7 +51,13 @@ export const Actions = ({
                 description: `Workplace ${actionStatus} Successfully`,
             })
         }
-    }, [updateStatusResult])
+        if (changeCustomIndustryStatusResult.isSuccess) {
+            notification.success({
+                title: `Industry ${actionStatus}`,
+                description: `Industry ${actionStatus} Successfully`,
+            })
+        }
+    }, [updateStatusResult, changeCustomIndustryStatusResult])
 
     const onModalCancelClicked = () => {
         setModal(null)
@@ -84,6 +90,7 @@ export const Actions = ({
             {modal && modal}
             <ShowErrorNotifications result={updateStatusResult} />
             <ShowErrorNotifications result={industryResponseResult} />
+            <ShowErrorNotifications result={changeCustomIndustryStatusResult} />
 
             {workplace?.industryStatus === 'pending' ? (
                 <div className="flex items-center gap-x-2">

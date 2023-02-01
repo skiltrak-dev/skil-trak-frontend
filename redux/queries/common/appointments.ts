@@ -35,7 +35,7 @@ export const appointmentsEndpoints = (
         query: () => `${PREFIX}/coordinator/list`,
         providesTags: ['Appointments'],
     }),
-    getUpcommingAppointment: builder.query<any, void>({
+    getUpcommingAppointment: builder.query<any, number | undefined>({
         query: (id) => ({
             url: `${PREFIX}/future/view`,
             params: { user: id },

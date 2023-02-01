@@ -20,6 +20,7 @@ import {
     useSubAdminCreateAppointmentMutation,
     useUserAvailabilitiesQuery,
     CommonApi,
+    useAvailabilityListQuery,
 } from '@queries'
 import { getUserCredentials } from '@utils'
 import { useRouter } from 'next/router'
@@ -36,6 +37,7 @@ export const CreateAppointmentContainer = () => {
     })
 
     const [user, setUser] = useState<string>('')
+    const [slots, setSlots] = useState(true)
 
     const [appointmentWith, setAppointmentWith] = useState<any | null>(null)
 
@@ -49,6 +51,9 @@ export const CreateAppointmentContainer = () => {
     const [selectedDate, setSelectedDate] = useState<Date | null>(null)
     const [selectedTime, setSelectedTime] = useState<any | null>(null)
     const [note, setNote] = useState<any | null>(null)
+    const [appointmentTypeId, setAppointmentTypeId] = useState<string | null>(
+        null
+    )
 
     const { notification } = useNotification()
 
@@ -76,22 +81,30 @@ export const CreateAppointmentContainer = () => {
         }
     }, [selectedPerson.selectedAppointmentWith])
 
-    const userAvailabilities = useUserAvailabilitiesQuery(
+    const timeSlots = CommonApi.Appointments.useAppointmentsAvailableSlots(
         {
+            id: appointmentTypeId,
+            date: selectedDate?.toISOString(),
             forUser: selectedUser.selectedAppointmentForUser,
             byUser: selectedUser.selectedAppointmentWithUser,
         },
         {
             skip:
+                !selectedDate ||
+                !appointmentTypeId ||
                 !selectedUser.selectedAppointmentForUser ||
-                !selectedUser.selectedAppointmentWithUser,
+                !selectedUser.selectedAppointmentWithUser ||
+                !slots,
         }
-    )
-    const [appointmentTypeId, setAppointmentTypeId] = useState<string | null>(
-        null
     )
     const [createAppointment, createAppointmentResult] =
         CommonApi.Appointments.createAppointment()
+    const availabilityList = useAvailabilityListQuery(
+        {},
+        {
+            skip: selectedPerson.selectedAppointmentWith !== 'Coordinator',
+        }
+    )
 
     useEffect(() => {
         setAppointmentWith(
@@ -106,13 +119,13 @@ export const CreateAppointmentContainer = () => {
     }, [selectedPerson.selectedAppointmentFor])
 
     useEffect(() => {
-        if (userAvailabilities?.data?.availabilities?.length === 0) {
+        if (timeSlots?.data?.availabilities?.length === 0) {
             notification.error({
                 title: 'No Availabilities were found',
                 description: 'No Availabilities were found',
             })
         }
-    }, [userAvailabilities])
+    }, [timeSlots])
 
     useEffect(() => {
         if (createAppointmentResult.isSuccess) {
@@ -120,16 +133,18 @@ export const CreateAppointmentContainer = () => {
                 title: 'Appointment Created',
                 description: 'Appointment Created Successfully',
             })
-            router.push('/portals/sub-admin/tasks/appointments')
+            router.push('/portals/admin/appointment-type')
         }
     }, [createAppointmentResult])
 
     const onSubmit = () => {
+        setSlots(false)
         let date = selectedDate
         date?.setDate(date.getDate() + 1)
         createAppointment({
             date,
             note,
+            ...selectedTime,
             type: appointmentTypeId,
             appointmentFor: selectedUser.selectedAppointmentForUser,
             appointmentBy: selectedUser.selectedAppointmentWithUser,
@@ -222,15 +237,16 @@ export const CreateAppointmentContainer = () => {
                             selectedDate={selectedDate}
                             setSelectedTime={setSelectedTime}
                             selectedTime={selectedTime}
-                            appointmentAvailability={
-                                userAvailabilities?.data?.availabilityBy
+                            appointmentAvailability={availabilityList?.data}
+                            userAvailabilities={timeSlots?.data}
+                            loading={
+                                timeSlots?.isLoading || timeSlots?.isFetching
                             }
-                            loading={userAvailabilities.isLoading}
                             subAdmin
                             appointmentWith={
                                 selectedPerson?.selectedAppointmentWith
                             }
-                            bookedAppointment={userAvailabilities?.data?.booked}
+                            bookedAppointment={timeSlots?.data?.booked}
                         />
                     </div>
                     <TextInput

@@ -75,8 +75,6 @@ export const TimeSlots = ({
     }, [appointmentAvailability])
 
     useEffect(() => {
-        // const availability =
-        //     coordinatorAvailability?.availabilities[0]?.availability
         const available = appointmentAvailability?.map((a: any) => a?.name)
 
         const daysId = days

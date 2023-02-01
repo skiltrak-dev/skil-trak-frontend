@@ -1,4 +1,4 @@
-import { ProgressStep, RecentAppointment } from '@components'
+import { ProgressStep } from '@components'
 import { PinnedNotes } from '@components/sections/subAdmin'
 
 import { Courses } from '../../components/Courses'
@@ -6,6 +6,9 @@ import { MyRto } from '../../components/MyRto'
 import { MyWorkplace } from '../../components/MyWorkplace'
 
 import { CommonApi } from '@queries'
+
+//
+import { RecentAppointment } from '@partials/common'
 
 type StudentsProfileOverviewProps = {
     student: any
@@ -45,7 +48,7 @@ export const OverViewTab = ({ student }: StudentsProfileOverviewProps) => {
             </div>
 
             <div className="w-full flex flex-col gap-y-4">
-                {/* <RecentAppointment appointment={upcommingAppointment?.data} /> */}
+                <RecentAppointment userId={student?.user?.id} />
             </div>
         </div>
     )

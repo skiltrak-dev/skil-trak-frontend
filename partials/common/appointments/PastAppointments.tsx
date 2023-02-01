@@ -15,7 +15,6 @@ export const PastAppointments = () => {
         status: 'past',
     })
 
-    console.log('::: PAST APPOINTMENTS', pastAppointments)
     return (
         <div className="mt-6">
             <div className="pb-1 flex items-center justify-between">

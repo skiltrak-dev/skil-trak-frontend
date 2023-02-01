@@ -1,4 +1,3 @@
-export * from './Appointment'
 export * from './PlacementProgress'
 export * from './PendingSignature'
 export * from './AssessmentResult'

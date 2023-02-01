@@ -1,5 +1,6 @@
 import { TabNavigation, TabProps } from '@components'
 import { AllCommunicationTab, NotesTab, MailsTab } from '@partials/common'
+import { ViewSummary } from './ViewSummary'
 
 export const DetailTabs = ({
     id,
@@ -23,6 +24,11 @@ export const DetailTabs = ({
             label: 'All Communication',
             href: { query: { tab: 'all-communications', id } },
             element: <AllCommunicationTab user={subAdmin?.user} />,
+        },
+        {
+            label: 'View Summary',
+            href: { query: { tab: 'view-summary', id } },
+            element: <ViewSummary user={subAdmin?.user} />,
         },
     ]
 

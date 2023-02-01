@@ -69,7 +69,7 @@ export const Notes = ({ workplace }: { workplace: any }) => {
                         className="font-semibold cursor-pointer"
                         onClick={() => {
                             show()
-                            setContent(<AllNotesCB notes={notes} />)
+                            setContent(<AllNotesCB notes={workplace?.notes} />)
                         }}
                     >
                         View All Notes
@@ -80,8 +80,8 @@ export const Notes = ({ workplace }: { workplace: any }) => {
             {/* Notes List */}
             <div className="border border-dashed border-gray-400 rounded-lg p-1 flex flex-col justify-between gap-y-3">
                 <div className="flex flex-col gap-y-1">
-                    {notes && notes?.length > 0 ? (
-                        [...notes]
+                    {workplace?.notes && workplace?.notes?.length > 0 ? (
+                        [...workplace?.notes]
                             ?.reverse()
                             ?.slice(0, 2)
                             ?.map((note: any) => (

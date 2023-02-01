@@ -21,7 +21,7 @@ export const FigureCard = ({
     link = '/#',
 }: FigureCardProps) => {
     return (
-        <Link legacyBehavior href={link}>
+        <Link legacyBehavior href={link || '#'}>
             <a className="w-full ">
                 <Card>
                     <div className="flex justify-between">

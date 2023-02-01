@@ -31,8 +31,8 @@ export const AllCommunicationTab = ({ user }: { user: any }) => {
                 contextBar.isVisible ? 'flex-col' : 'flex-row'
             }`}
         >
-            {allCommunications.isError && <TechnicalError />}
             <div className={`flex flex-col gap-y-2.5 w-full`}>
+                {allCommunications.isError && <TechnicalError />}
                 {allCommunications?.isLoading ? (
                     <div className="flex justify-center items-center h-full">
                         <LoadingAnimation />

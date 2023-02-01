@@ -83,7 +83,7 @@ const SubAdminDetail: NextPageWithLayout = () => {
             {modal && modal}
             {isError && <TechnicalError />}
             {isLoading ? (
-                <LoadingAnimation />
+                <LoadingAnimation height={'h-[60vh]'} />
             ) : data ? (
                 <div className="p-6 flex flex-col gap-y-4 pb-32">
                     {/* Action Bar */}
