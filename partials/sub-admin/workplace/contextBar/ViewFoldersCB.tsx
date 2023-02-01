@@ -42,24 +42,38 @@ export const ViewFoldersCB = ({ folders }: any) => {
                                                 </span>
                                             </Typography>
                                             <div className="flex items-center gap">
-                                                <ActionButton
-                                                    simple
-                                                    Icon={AiFillEye}
-                                                    variant="success"
+                                                <a
+                                                    href={uploaded?.file}
+                                                    target="_blank"
                                                 >
-                                                    <a href={uploaded?.file}>
+                                                    <ActionButton
+                                                        simple
+                                                        Icon={AiFillEye}
+                                                        variant="success"
+                                                    >
                                                         View
-                                                    </a>
-                                                </ActionButton>
-                                                <ActionButton
-                                                    simple
-                                                    variant="link"
-                                                    Icon={FaCloudDownloadAlt}
+                                                    </ActionButton>
+                                                </a>
+                                                <a
+                                                    href={uploaded?.file}
+                                                    target="_blank"
                                                 >
-                                                    <a href={uploaded?.file}>
-                                                        Download
-                                                    </a>
-                                                </ActionButton>
+                                                    <ActionButton
+                                                        simple
+                                                        variant="link"
+                                                        Icon={
+                                                            FaCloudDownloadAlt
+                                                        }
+                                                    >
+                                                        <a
+                                                            href={
+                                                                uploaded?.file
+                                                            }
+                                                        >
+                                                            Download
+                                                        </a>
+                                                    </ActionButton>
+                                                </a>
                                             </div>
                                         </div>
                                     ))}

@@ -73,12 +73,12 @@ export const ForwardModal = ({
                 <div className="bg-white rounded-2xl flex flex-col items-center gap-y-6 shadow-xl min-w-[450px] px-16 py-4">
                     <div
                         className={`${
-                            missingDocuments
-                                ? 'text-orange-500'
-                                : 'text-green-500'
+                            !missingDocuments?.length
+                                ? 'text-green-500'
+                                : 'text-orange-500'
                         }`}
                     >
-                        {!missingDocuments ? (
+                        {!missingDocuments?.length ? (
                             <HiCheckBadge size={48} />
                         ) : (
                             <IoIosWarning size={48} />

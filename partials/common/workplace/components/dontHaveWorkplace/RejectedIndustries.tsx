@@ -1,3 +1,4 @@
+import { InitialAvatar } from '@components'
 import { Button } from '@components/buttons'
 import { Card } from '@components/cards'
 import { Typography } from '@components/Typography'
@@ -21,11 +22,10 @@ export const RejectedIndustries = ({ industries }: Props) => {
                     {industries?.map((industry: any) => (
                         <div className="py-3 px-4 bg-red-100 rounded-lg flex flex-col md:flex-row justify-between md:items-center gap-y-2">
                             <div className="flex items-start md:items-center gap-x-2">
-                                <Image
-                                    src="https://picsum.photos/200/300"
-                                    width={45}
-                                    height={45}
-                                    alt=""
+                                <InitialAvatar
+                                    name={industry?.user?.name}
+                                    imageUrl={industry?.user?.avatar}
+                                    large
                                 />
                                 <div>
                                     {/* <Typography

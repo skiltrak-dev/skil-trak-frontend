@@ -2,10 +2,12 @@ import {
     ActionButton,
     Button,
     Card,
-    EmptyData, LoadingAnimation, Table,
+    EmptyData,
+    LoadingAnimation,
+    Table,
     TableAction,
     TableActionOption,
-    TechnicalError
+    TechnicalError,
 } from '@components'
 import { PageHeading } from '@components/headings'
 import { ColumnDef } from '@tanstack/react-table'
@@ -109,7 +111,7 @@ export const ApprovedIndustry = () => {
         },
 
         {
-            accessorKey: 'addressLine1',
+            accessorKey: 'suburb',
             header: () => <span>Address</span>,
             cell: (info) => info.getValue(),
         },

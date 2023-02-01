@@ -23,19 +23,20 @@ export const Industries = ({
     const [suggestedIndustries, setSuggestedIndustries] = useState<any | null>(
         null
     )
- 
+    console.log('appliedIndustryappliedIndustry', appliedIndustry)
     useEffect(() => {
         setSuggestedIndustries(
             industries
                 ?.filter((i: any) => !i.applied)
-                ?.slice(0, appliedIndustry ? 4 : 3)
+                ?.slice(0, appliedIndustry ? 3 : 4)
         )
-    }, [industries])
+    }, [industries, appliedIndustry])
 
     const { setContent, show } = useContextBar()
     const { notification } = useNotification()
-    
-    
+
+    console.log('workplaceworkplace', workplace?.student?.id)
+
     return (
         <div>
             <div className="flex justify-between">
@@ -53,6 +54,7 @@ export const Industries = ({
                             if (!appliedIndustry) {
                                 setContent(
                                     <AddIndustryCB
+                                        studentId={workplace?.student?.id}
                                         workplaceId={workplace?.id}
                                         courseId={courseId}
                                     />

@@ -140,9 +140,12 @@ export const workplaceEndpoints = (
         }),
         invalidatesTags: ['SubAdminWorkplace'],
     }),
-    showExistingIndustries: builder.query<any, any>({
-        query: (id) => ({
-            url: `${PREFIX}course-industries/list/${id}`,
+    showExistingIndustries: builder.query<
+        any,
+        { workplaceId: number; courseId: number }
+    >({
+        query: ({ workplaceId, courseId }) => ({
+            url: `${PREFIX}course-industries/list/${courseId}/${workplaceId}`,
         }),
         providesTags: ['SubAdminWorkplace'],
     }),

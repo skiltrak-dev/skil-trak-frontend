@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { NoData } from '@components'
+import { LoadingAnimation, NoData } from '@components'
 import { Button } from '@components/buttons'
 import { getUserCredentials } from '@utils'
 import moment from 'moment'
@@ -29,7 +29,7 @@ export const RecentAppointment = ({
         }
     }, [router])
 
-    const { data: appointment } =
+    const { data: appointment, isLoading } =
         CommonApi.Appointments.useUpcommingAppointment(userId)
 
     const appointmentWith = appointment
@@ -81,7 +81,9 @@ export const RecentAppointment = ({
                 </div>
                 <div className="flex flex-col">
                     <div className="flex justify-between items-center">
-                        {appointment ? (
+                        {isLoading ? (
+                            <LoadingAnimation size={70} height={'h-[20vh]'} />
+                        ) : appointment ? (
                             <div>
                                 <div className="mb-4">
                                     <h2 className="text-[#0644AF] font-semibold text-lg">

@@ -136,7 +136,7 @@ export const RequestType = ({
             secondaryText: 'for Workplace Response',
             color: 'text-info-light',
             onClick: (isCleared: any) => {
-                if (workplace?.currentStatus === 'interview') {
+                if (appliedIndustry?.interview) {
                     onForwardClicked(appliedIndustry)
                     isCleared(true)
                 } else {
