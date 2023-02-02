@@ -5,33 +5,91 @@ import { IoMdArrowDropdown } from 'react-icons/io'
 
 // components
 import {
-    Typography,
     LoadingAnimation,
     ShowErrorNotifications,
+    Typography,
 } from '@components'
 
 // query
-import { useSendInterviewNotificationMutation } from '@queries'
-import OutsideClickHandler from 'react-outside-click-handler'
 import { useNotification } from '@hooks'
+import { useSendInterviewNotificationMutation } from '@queries'
+import { HiCheckBadge } from 'react-icons/hi2'
+import OutsideClickHandler from 'react-outside-click-handler'
+import {
+    ActionModal,
+    CompleteWorkplaceModal,
+    PlacementStartedModal,
+    TerminateWorkplaceModal,
+} from '../modals'
+import { UserStatus } from '@types'
 
 export const RequestType = ({
-    data,
+    appliedIndustry,
     workplace,
 }: {
-    data: any
+    appliedIndustry: any
     workplace: any
 }) => {
     const [visibleRequestType, setVisibleRequestType] = useState(false)
     const [selectedRequestType, setSelectedRequestType] = useState<
         number | null
     >(0)
-
-    console.log('data workplace', data, workplace)
+    const [modal, setModal] = useState<any>(null)
 
     const [interView, interViewResult] = useSendInterviewNotificationMutation()
 
     const { notification } = useNotification()
+
+    useEffect(() => {
+        if (interViewResult.isSuccess) {
+            notification.success({
+                title: 'Interview Assigned to Student',
+                description: 'Interview Assigned to Student',
+            })
+            setModal(
+                <ActionModal
+                    Icon={HiCheckBadge}
+                    title={'Successfully Interview'}
+                    subtitle={'Now You can forward the request to Industry'}
+                    onCancel={onModalCancelClicked}
+                    confirmText={'OK'}
+                />
+            )
+        }
+    }, [interViewResult])
+
+    const onModalCancelClicked = () => {
+        setModal(null)
+    }
+
+    const onPlacementStartedClicked = (id: number) => {
+        setModal(
+            <PlacementStartedModal
+                id={id}
+                agreementSigned={appliedIndustry?.AgreementSigned}
+                student={workplace?.student}
+                onCancel={() => onModalCancelClicked()}
+            />
+        )
+    }
+
+    const onCompleteClicked = () => {
+        setModal(
+            <CompleteWorkplaceModal
+                appliedIndustryId={appliedIndustry?.id}
+                onCancel={onModalCancelClicked}
+            />
+        )
+    }
+
+    const onTerminateClicked = () => {
+        setModal(
+            <TerminateWorkplaceModal
+                appliedIndustryId={appliedIndustry?.id}
+                onCancel={onModalCancelClicked}
+            />
+        )
+    }
 
     useEffect(() => {
         if (interViewResult.isSuccess) {
@@ -61,8 +119,9 @@ export const RequestType = ({
             primaryText: 'Interview',
             secondaryText: 'with Case Officer',
             color: 'text-primary-light',
-            onClick: () => {
-                interView(data?.id)
+            onClick: (isCleared: any) => {
+                isCleared(true)
+                interView(appliedIndustry?.id)
             },
             status: 'interview',
         },
@@ -70,28 +129,75 @@ export const RequestType = ({
             primaryText: 'Agreement & Eligibility ',
             secondaryText: 'Checklist Pending',
             color: 'text-info',
-            onClick: () => {},
+            onClick: (isCleared: any) => {
+                isCleared(false)
+                if (workplace?.currentStatus === 'awaitingWorkplaceResponse') {
+                    notification.info({
+                        title: 'Approve or reject the Request',
+                        description:
+                            'Before uploading agreement you must have to Approve the workplace request',
+                    })
+                    isCleared(false)
+                } else {
+                    isCleared(false)
+                    notification.error({
+                        title: 'Forward the request to Industry',
+                        description:
+                            'You Must have to Forward the request to Industry before uploading agreement',
+                    })
+                }
+            },
             status: 'awaitingAgreementSigned',
         },
         {
             primaryText: 'Agreement & Eligibility ',
             secondaryText: 'Checklist Signed',
             color: 'text-success',
-            onClick: () => {},
+            onClick: (isCleared: any) => {
+                if (workplace?.currentStatus === 'awaitingAgreementSigned') {
+                    notification.info({
+                        title: 'Agreement Sign',
+                        description:
+                            'Now You can upload the agreement file on th workplace which is provided by student or you can request to student to upload the agreement file',
+                    })
+                    isCleared(false)
+                } else {
+                    isCleared(false)
+                    notification.error({
+                        title: 'Approve or reject',
+                        description:
+                            'You must have to Approve the workplace request',
+                    })
+                }
+            },
             status: 'AgreementSigned',
         },
         {
             primaryText: 'Placement Started',
             secondaryText: 'Placement Started',
             color: 'text-success-dark',
-            onClick: () => {},
+            onClick: (isCleared: any) => {
+                if (workplace?.currentStatus === 'AgreementSigned') {
+                    onPlacementStartedClicked(Number(appliedIndustry?.id))
+                    isCleared(true)
+                } else {
+                    notification.error({
+                        title: 'First Approve the workplace',
+                        description:
+                            'Placement cannot start without approving the workplace',
+                    })
+                    isCleared(false)
+                }
+            },
             status: 'placementStarted',
         },
         {
             primaryText: 'Completed',
             secondaryText: 'Completed',
             color: 'text-error',
-            onClick: () => {},
+            onClick: () => {
+                onCompleteClicked()
+            },
             status: 'completed',
         },
         {
@@ -112,7 +218,9 @@ export const RequestType = ({
             primaryText: 'Terminated',
             secondaryText: 'Terminated',
             color: 'text-error',
-            onClick: () => {},
+            onClick: () => {
+                onTerminateClicked()
+            },
             status: 'terminated',
         },
     ]
@@ -122,7 +230,7 @@ export const RequestType = ({
     )
 
     useEffect(() => {
-        if (data?.industryResponse === 'rejected') {
+        if (appliedIndustry?.industryResponse === 'rejected') {
             setSelectedRequestType(requestTypeActions.length - 1)
         } else {
             setSelectedRequestType(findStatusIndex)
@@ -143,25 +251,32 @@ export const RequestType = ({
         // if (data?.AgreementSigned) {
         //     setSelectedRequestType(6)
         // }
-    }, [data])
+    }, [appliedIndustry])
+    console.log('appliedIndustry', appliedIndustry)
 
     const isLoading = interViewResult.isLoading
 
     const onRequestClicked = () => {
-        if (workplace?.assignedTo && workplace?.industryStatus === 'approved') {
-            if (!data?.terminated && !data?.isCompleted && !data?.cancelled) {
-                setVisibleRequestType(!visibleRequestType)
+        if (workplace?.assignedTo) {
+            if (workplace.industryStatus === UserStatus.Approved) {
+                if (
+                    !appliedIndustry?.terminated &&
+                    !appliedIndustry?.isCompleted &&
+                    !appliedIndustry?.cancelled
+                ) {
+                    setVisibleRequestType(!visibleRequestType)
+                } else {
+                    notification.warning({
+                        title: 'Action cant perform',
+                        description: 'Action cant perform',
+                    })
+                }
             } else {
-                notification.warning({
-                    title: 'Action cant perform',
-                    description: 'Action cant perform',
+                notification.error({
+                    title: 'Industry Not Approved',
+                    description: 'Approve the Industry before changing status',
                 })
             }
-        } else if (workplace?.industryStatus !== 'approved') {
-            notification.warning({
-                title: 'Industry Not Approved Yet',
-                description: 'Industry Not Approved Yet',
-            })
         } else {
             notification.warning({
                 title: 'Assign the workplace',
@@ -172,6 +287,7 @@ export const RequestType = ({
 
     return (
         <div className="relative">
+            {modal && modal}
             <ShowErrorNotifications result={interViewResult} />
             <OutsideClickHandler
                 onOutsideClick={() => {
@@ -180,7 +296,9 @@ export const RequestType = ({
             >
                 <div
                     className={`${
-                        data?.terminated || data?.isCompleted || data?.cancelled
+                        appliedIndustry?.terminated ||
+                        appliedIndustry?.isCompleted ||
+                        appliedIndustry?.cancelled
                             ? 'bg-gray-100 cursor-default'
                             : ''
                     }  border border-dashed border-gray-400 rounded-lg w-56 px-4 py-1 flex items-center justify-between gap-x-1 cursor-pointer relative`}
@@ -227,16 +345,19 @@ export const RequestType = ({
                                 className="pb-2 cursor-pointer hover:bg-gray-100 px-2"
                                 onClick={() => {
                                     setVisibleRequestType(false)
-                                    // if (findStatusIndex < i) {
-                                    setSelectedRequestType(i)
-                                    type.onClick()
-                                    // } else {
-                                    //     notification.error({
-                                    //         title: 'You already performed this action',
-                                    //         description:
-                                    //             'You already performed this action',
-                                    //     })
-                                    // }
+                                    if (findStatusIndex < i) {
+                                        const isCleared = (clear = true) => {
+                                            clear && setSelectedRequestType(i)
+                                        }
+
+                                        type.onClick(isCleared)
+                                    } else {
+                                        notification.error({
+                                            title: 'You already performed this action',
+                                            description:
+                                                'You already performed this action',
+                                        })
+                                    }
                                 }}
                             >
                                 <Typography

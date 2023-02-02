@@ -30,7 +30,6 @@ export const UploadDocs = ({ requiredDoc, workplaceId }: any) => {
     }, [uploadDocsResult])
 
     const onChange = (docs: any) => {
-        console.log('doc', docs)
         const formData = new FormData()
         docs?.forEach((doc: any) => {
             formData.append(requiredDoc?.folder?.name, doc)

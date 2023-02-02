@@ -286,11 +286,10 @@ export const RequestType = ({
     }, [appliedIndustry])
 
     const isLoading = interViewResult.isLoading
-
+    console.log('appliedIndustry')
     return (
         <div className="relative">
             {modal && modal}
-
             <div className="hidden">
                 <SignAgreement
                     studentId={workplace?.student?.id}
@@ -307,7 +306,26 @@ export const RequestType = ({
                     className={`border border-dashed border-gray-400 rounded-lg w-56 px-4 py-1 flex items-center justify-between gap-x-1 cursor-pointer relative`}
                     onClick={() => {
                         if (workplace?.assignedTo) {
-                            setVisibleRequestType(!visibleRequestType)
+                            if (appliedIndustry) {
+                                if (
+                                    !appliedIndustry?.terminated &&
+                                    !appliedIndustry?.isCompleted &&
+                                    !appliedIndustry?.cancelled
+                                ) {
+                                    setVisibleRequestType(!visibleRequestType)
+                                } else {
+                                    notification.warning({
+                                        title: 'Action cant perform',
+                                        description: 'Action cant perform',
+                                    })
+                                }
+                            } else {
+                                notification.error({
+                                    title: 'Workplace Not applied',
+                                    description:
+                                        'Apply on any industry before changing status',
+                                })
+                            }
                         } else {
                             notification.warning({
                                 title: 'Assign the workplace',

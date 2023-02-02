@@ -62,7 +62,6 @@ export const SignAgreement = ({
                 }}
                 name={'folder?.name'}
                 component={UploadAgreementFile}
-                // component={uploadDocsResult.isLoading ? Loading : UploadFile}
                 acceptTypes={['pdf']}
             />
         </>

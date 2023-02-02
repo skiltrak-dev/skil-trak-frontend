@@ -61,16 +61,12 @@ export const IndustryCard = ({ industry, appliedIndustry, workplace }: any) => {
                             APPLIED
                         </Typography>
                     )}
-                {industry.industryResponse === 'rejected' ||
-                    (workplace?.industryStatus === 'rejected' && (
-                        <Typography
-                            variant={'xs'}
-                            color={'text-red-500'}
-                            center
-                        >
-                            Rejected
-                        </Typography>
-                    ))}
+                {(industry.industryResponse === 'rejected' ||
+                    workplace?.industryStatus === 'rejected') && (
+                    <Typography variant={'xs'} color={'text-red-500'} center>
+                        Rejected
+                    </Typography>
+                )}
                 {((industry.applied &&
                     industry.industryResponse === 'approved') ||
                     workplace?.industryStatus === 'approved') && (

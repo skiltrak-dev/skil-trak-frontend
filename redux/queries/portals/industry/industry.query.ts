@@ -47,7 +47,7 @@ export const industryApi = createApi({
     // ---------- RTO ENDPOINTS ---------- //
     endpoints: (build) => ({
         industryProfile: build.query<any, void>({
-            query: () => 'profile/get',
+            query: () => 'industries/profile/get',
             providesTags: ['Industries'],
         }),
         updateIndustryProfile: build.mutation<any, any>({

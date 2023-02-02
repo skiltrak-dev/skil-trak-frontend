@@ -23,7 +23,6 @@ export const Industries = ({
     const [suggestedIndustries, setSuggestedIndustries] = useState<any | null>(
         null
     )
-    console.log('appliedIndustryappliedIndustry', appliedIndustry)
     useEffect(() => {
         setSuggestedIndustries(
             industries
@@ -35,7 +34,6 @@ export const Industries = ({
     const { setContent, show } = useContextBar()
     const { notification } = useNotification()
 
-    console.log('workplaceworkplace', workplace?.student?.id)
 
     return (
         <div>
