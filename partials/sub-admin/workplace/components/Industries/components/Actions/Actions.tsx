@@ -46,6 +46,8 @@ export const Actions = ({
     // hooks
     const { notification } = useNotification()
 
+    const [agrementSign, agrementSignResult] = useAgrementSignMutation()
+
     useEffect(() => {
         if (updateStatusResult.isSuccess) {
             notification.success({
@@ -132,10 +134,14 @@ export const Actions = ({
                             </div>
                             <div className="flex items-center gap-2">
                                 {!appliedIndustry?.AgreementSigned && (
-                                    <SignAgreement
-                                        studentId={workplace?.student?.id}
-                                        appliedIndustryId={appliedIndustry?.id}
-                                    />
+                                    <div className="flex">
+                                        <SignAgreement
+                                            studentId={workplace?.student?.id}
+                                            appliedIndustryId={
+                                                appliedIndustry?.id
+                                            }
+                                        />
+                                    </div>
                                 )}
                                 {!appliedIndustry.placementStarted && (
                                     <div className="flex-shrink-0">

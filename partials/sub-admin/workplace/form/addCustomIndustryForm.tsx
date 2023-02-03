@@ -49,30 +49,47 @@ export const AddCustomIndustryForm = ({ workplaceId }: any) => {
 
     const onSectorChanged = (sectors: any) => {
         setCourseLoading(true)
-        const filteredCourses = sectors.map((selectedSector: any) => {
-            const sectorExisting = sectorResponse?.data?.find(
-                (sector: any) => sector.id === selectedSector.value
-            )
-            if (sectorExisting && sectorExisting?.courses?.length) {
-                return sectorExisting.courses
-            }
-        })
 
+        const sectorExisting = sectorResponse?.data?.find(
+            (sector: any) => sector.id === sectors?.value
+        )
         const newCourseOptions: any = []
-        filteredCourses.map((courseList: any) => {
-            if (courseList && courseList.length) {
-                return courseList.map((course: any) =>
-                    newCourseOptions.push({
-                        label: course.title,
-                        value: course.id,
-                    })
-                )
-            }
-        })
-
+        sectorExisting?.courses?.map((course: any) =>
+            newCourseOptions.push({
+                label: course.title,
+                value: course.id,
+            })
+        )
         setCourseOptions(newCourseOptions)
         setCourseLoading(false)
     }
+
+    // const onSectorChanged = (sectors: any) => {
+    //     setCourseLoading(true)
+    //     const filteredCourses = sectors.map((selectedSector: any) => {
+    //         const sectorExisting = sectorResponse?.data?.find(
+    //             (sector: any) => sector.id === selectedSector.value
+    //         )
+    //         if (sectorExisting && sectorExisting?.courses?.length) {
+    //             return sectorExisting.courses
+    //         }
+    //     })
+
+    //     const newCourseOptions: any = []
+    //     filteredCourses.map((courseList: any) => {
+    //         if (courseList && courseList.length) {
+    //             return courseList.map((course: any) =>
+    //                 newCourseOptions.push({
+    //                     label: course.title,
+    //                     value: course.id,
+    //                 })
+    //             )
+    //         }
+    //     })
+
+    //     setCourseOptions(newCourseOptions)
+    //     setCourseLoading(false)
+    // }
 
     // const onSectorChanged = (sectors: any) => {
     //     setCourseLoading(true)
@@ -119,8 +136,10 @@ export const AddCustomIndustryForm = ({ workplaceId }: any) => {
         phoneNumber: yup.string().required('Must provide phone number'),
 
         // Sector Information
-        sectors: yup.array().min(1, 'Must select at least 1 sector'),
-        courses: yup.array().min(1, 'Must select at least 1 course'),
+        sectors: yup.object().nullable(true).required(),
+        courses: yup.number().required(),
+        // sectors: yup.array().min(1, 'Must select at least 1 sector'),
+        // courses: yup.array().min(1, 'Must select at least 1 course'),
 
         // Contact Person Information
         contactPersonName: yup
@@ -192,8 +211,8 @@ export const AddCustomIndustryForm = ({ workplaceId }: any) => {
             id: workplaceId,
             body: {
                 ...values,
-                courses: values.courses?.map((c: any) => c.value),
-                sectors: values.sectors?.map((s: any) => s.value),
+                courses: [values.courses],
+                sectors: [values.sectors.value],
                 // package: formData.package.id,
                 role: UserRoles.INDUSTRY,
             },
@@ -237,14 +256,6 @@ export const AddCustomIndustryForm = ({ workplaceId }: any) => {
                         required
                     />
 
-                    {/* Business Information */}
-                    {/* <TextInput
-                        label={'Business Name'}
-                        name={'businessName'}
-                        placeholder={'Industry Name...'}
-                        validationIcons
-                        required
-                    /> */}
                     <TextInput
                         label={'Contact Person Number'}
                         name={'contactPersonNumber'}
@@ -282,6 +293,7 @@ export const AddCustomIndustryForm = ({ workplaceId }: any) => {
                         defaultValue={courseOptions}
                         options={courseOptions}
                         loading={courseLoading}
+                        onlyValue
                         disabled={
                             storedData
                                 ? storedData?.courses?.length === 0
@@ -329,9 +341,9 @@ export const AddCustomIndustryForm = ({ workplaceId }: any) => {
                     />
 
                     <TextInput
-                        label={'Address Line 2'}
-                        name={'addressLine2'}
-                        placeholder={'Your Address Line 2...'}
+                        label={'Suburb'}
+                        name={'suburb'}
+                        placeholder={'Suburb...'}
                         validationIcons
                     />
 
@@ -339,13 +351,6 @@ export const AddCustomIndustryForm = ({ workplaceId }: any) => {
                         label={'State'}
                         name={'state'}
                         placeholder={'State...'}
-                        validationIcons
-                    />
-
-                    <TextInput
-                        label={'Suburb'}
-                        name={'suburb'}
-                        placeholder={'Suburb...'}
                         validationIcons
                     />
 

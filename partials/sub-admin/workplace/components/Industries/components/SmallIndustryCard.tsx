@@ -1,3 +1,4 @@
+import { InitialAvatar } from '@components'
 import { Typography } from '@components/Typography'
 import { ellipsisText } from '@utils'
 import React from 'react'
@@ -6,10 +7,10 @@ import { BsDot } from 'react-icons/bs'
 export const SmallIndustryCard = ({ industry }: any) => {
     return (
         <div className="w-fit bg-secondary py-1 px-2 rounded-lg flex justify-between items-center gap-x-2">
-            <img
-                className="w-6 h-6 rounded-full"
-                src={`https://picsum.photos/100/100`}
-                alt=""
+            <InitialAvatar
+                name={industry?.industry?.user?.name}
+                imageUrl={industry?.industry?.user?.avatar}
+                small
             />
             <div className="flex items-center gap-x-0.5">
                 <Typography variant={'label'}>

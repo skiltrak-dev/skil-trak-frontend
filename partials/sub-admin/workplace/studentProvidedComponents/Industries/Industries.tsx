@@ -90,46 +90,15 @@ export const Industries = ({
                         />
                     )}
 
-                {appliedIndustry?.industryResponse !== 'approved' ? (
-                    industries && industries.length > 0 ? (
-                        appliedIndustry?.interview &&
-                        !industries
-                            .map((i: any) => i.industryResponse)
-                            .includes('noResponse') ? (
-                            <>
-                                <Typography
-                                    variant={'xs'}
-                                    color={'text-gray-400'}
-                                >
-                                    Other Suggested Industries
-                                </Typography>
-                                <div className="flex items-center flex-wrap gap-2">
-                                    {suggestedIndustries?.map(
-                                        (industry: any, i: number) => (
-                                            <SmallIndustryCard
-                                                key={industry?.id}
-                                                industry={industry}
-                                            />
-                                        )
-                                    )}
-                                </div>
-                            </>
-                        ) : (
-                            suggestedIndustries?.map(
-                                (industry: any, i: number) => (
-                                    <IndustryCard
-                                        key={industry.id}
-                                        industry={industry}
-                                        appliedIndustry={appliedIndustry}
-                                        workplace={workplace}
-                                    />
-                                )
-                            )
-                        )
-                    ) : (
-                        'No Industry Found'
-                    )
-                ) : null}
+                {appliedIndustry?.industryResponse !== 'approved' &&
+                    suggestedIndustries?.map((industry: any, i: number) => (
+                        <IndustryCard
+                            key={industry.id}
+                            industry={industry}
+                            appliedIndustry={appliedIndustry}
+                            workplace={workplace}
+                        />
+                    ))}
             </div>
         </div>
     )
