@@ -10,9 +10,10 @@ import { MdPermContactCalendar, MdPhone } from 'react-icons/md'
 //queries
 import { useGetSubAdminMyRtoQuery } from '@queries'
 import { NoData } from '@components/ActionAnimations'
-import { Button } from '@components/buttons'
+import { ActionButton, Button } from '@components/buttons'
 import { AddWorkplace } from './AddWorkplace'
 import { WorkplaceAvatar } from '@components'
+import { getUserCredentials } from '@utils'
 
 type Props = {
     myWorkplace: any
@@ -27,6 +28,10 @@ export const MyWorkplace = ({ myWorkplace }: Props) => {
     // const filteredData = myWorkplace?.workplace.filter(
     //     (item: any) => !item.isCancelled
     // )
+
+    console.log('myWorkplace', myWorkplace)
+
+    const role = getUserCredentials()?.role
 
     return (
         <Card fullHeight>
@@ -43,11 +48,18 @@ export const MyWorkplace = ({ myWorkplace }: Props) => {
                 {/* Action */}
                 <div className="flex justify-between gap-x-4">
                     {myWorkplace?.industries?.length ? (
-                        <Link legacyBehavior href="#">
-                            <a className="inline-block uppercase text-xs font-medium bg-green-100 text-green-600 px-4 py-2 rounded">
-                                See Details
-                            </a>
-                        </Link>
+                        <ActionButton
+                            variant="success"
+                            onClick={() => {
+                                pathname.push(
+                                    role === 'admin'
+                                        ? `/portals/admin/industry/${myWorkplace?.industries[0]?.id}?tab=sectors`
+                                        : `/portals/sub-admin/users/industries/${myWorkplace?.industries[0]?.id}?tab=overview`
+                                )
+                            }}
+                        >
+                            See Details
+                        </ActionButton>
                     ) : null}
 
                     {myWorkplace?.industries?.length > 1 ? (
@@ -59,7 +71,6 @@ export const MyWorkplace = ({ myWorkplace }: Props) => {
                     ) : null}
                 </div>
             </div>
-
             {/* Card Body */}
             {myWorkplace?.industries?.length > 0 ? (
                 myWorkplace?.industries?.slice(0, 1)?.map((data: any) => (

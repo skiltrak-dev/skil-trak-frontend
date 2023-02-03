@@ -43,6 +43,7 @@ const Detail: NextPageWithLayout = () => {
     })
 
     useEffect(() => {
+        navBar.setSubTitle('Industry Detail')
         navBar.setSubTitle(industry.data?.user?.name)
     }, [industry.data])
     useEffect(() => {

@@ -22,7 +22,7 @@ export const EditStudentDetail = ({
                 onConfirmClick={onCancel}
                 onCancelClick={onCancel}
             >
-                Saad
+                <></>
             </Modal>
         </div>
     )

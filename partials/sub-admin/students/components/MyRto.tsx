@@ -13,11 +13,14 @@ import { FaSchool } from 'react-icons/fa'
 import { MdPermContactCalendar, MdPhone } from 'react-icons/md'
 import { RtoAvatar } from '@components/avatars'
 import { SubAdmin } from '@types'
+import { ActionButton } from '@components'
+import { getUserCredentials } from '@utils'
 
 export const MyRto = ({ myRto }: any) => {
     const pathname = useRouter()
-    const { id } = pathname.query
+    const role = getUserCredentials()?.role
     return (
+        // /portals/admin/rto/2?tab=sectors
         <Card fullHeight>
             {/* Card Header */}
             <div className="flex justify-between items-center">
@@ -30,13 +33,28 @@ export const MyRto = ({ myRto }: any) => {
                 </div>
 
                 {/* Action */}
-                <Link legacyBehavior
+                {/* <Link
+                    legacyBehavior
                     href={`/portals/sub-admin/users/rtos/${myRto?.rto?.id}?tab=overview`}
                 >
                     <a className="inline-block uppercase text-xs font-medium bg-orange-100 text-orange-600 px-4 py-2 rounded">
                         See Details
                     </a>
-                </Link>
+                </Link> */}
+                {myRto?.rto ? (
+                    <ActionButton
+                        variant="success"
+                        onClick={() => {
+                            pathname.push(
+                                role === 'admin'
+                                    ? `/portals/admin/rto//${myRto?.rto?.id}?tab=sectors`
+                                    : `/portals/sub-admin/users/rtos/${myRto?.rto?.id}?tab=overview`
+                            )
+                        }}
+                    >
+                        See Details
+                    </ActionButton>
+                ) : null}
             </div>
 
             {/* Card Body */}
