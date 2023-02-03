@@ -286,7 +286,6 @@ export const RequestType = ({
     }, [appliedIndustry])
 
     const isLoading = interViewResult.isLoading
-    console.log('appliedIndustry')
     return (
         <div className="relative">
             {modal && modal}

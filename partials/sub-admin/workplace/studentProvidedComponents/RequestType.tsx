@@ -252,7 +252,6 @@ export const RequestType = ({
         //     setSelectedRequestType(6)
         // }
     }, [appliedIndustry])
-    console.log('appliedIndustry', appliedIndustry)
 
     const isLoading = interViewResult.isLoading
 
