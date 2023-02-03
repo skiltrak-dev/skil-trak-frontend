@@ -27,18 +27,29 @@ import {
 // form
 import { AddCustomIndustryForm } from '../form'
 
-export const AddIndustryCB = ({ workplaceId, courseId }: any) => {
+export const AddIndustryCB = ({
+    studentId,
+    workplaceId,
+    courseId,
+}: {
+    studentId?: any
+    workplaceId: any
+    courseId: any
+}) => {
     const [isAddCustomIndustry, setIsAddCustomIndustry] = useState(false)
     const [customIndustriesOptions, setCustomIndustriesOptions] = useState<
         any | null
     >([])
     const [selectedCustomIndustry, setSelectedCustomIndustry] = useState(false)
     const { notification } = useNotification()
-    const { setTitle, hide } = useContextBar()
+    const { setTitle, hide, setContent } = useContextBar()
 
     const [addExistingIndustry, addExistingIndustryResult] =
         useAddExistingIndustriesMutation()
-    const getExistingIndustries = useShowExistingIndustriesQuery(courseId)
+    const getExistingIndustries = useShowExistingIndustriesQuery({
+        workplaceId,
+        courseId,
+    })
 
     useEffect(() => {
         if (addExistingIndustryResult.isSuccess) {
@@ -46,6 +57,7 @@ export const AddIndustryCB = ({ workplaceId, courseId }: any) => {
                 title: 'Industry Added Successfully',
                 description: 'Industry Added Successfully',
             })
+            setContent(null)
             hide()
         }
     }, [addExistingIndustryResult])
@@ -87,8 +99,9 @@ export const AddIndustryCB = ({ workplaceId, courseId }: any) => {
                         options={customIndustriesOptions}
                         placeholder={'Select Industries...'}
                         loading={getExistingIndustries.isLoading}
+                        disabled={getExistingIndustries.isLoading}
                         onChange={(e: any) => {
-                            setSelectedCustomIndustry(e.value)
+                            setSelectedCustomIndustry(e?.value)
                         }}
                         validationIcons
                     />

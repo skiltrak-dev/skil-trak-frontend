@@ -132,7 +132,10 @@ export const WorkplaceRequest = ({ workplace }: any) => {
                     </div>
 
                     {/* Request Type Selection */}
-                    <RequestType data={appliedIndustry} workplace={workplace} />
+                    <RequestType
+                        appliedIndustry={appliedIndustry}
+                        workplace={workplace}
+                    />
                 </div>
 
                 {/* Student Small Details */}

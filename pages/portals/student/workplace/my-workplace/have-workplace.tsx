@@ -1,7 +1,7 @@
 import { ReactElement, useEffect, useState } from 'react'
 
 import { StudentLayout } from '@layouts'
-import { NextPageWithLayout } from '@types'
+import { NextPageWithLayout, UserStatus } from '@types'
 import {
     ActionAlert,
     ActionAlertType,
@@ -47,12 +47,12 @@ const HaveWorkplace: NextPageWithLayout = (props: Props) => {
     const [cancelRequest, cancelRequestResult] =
         useCancelWorkplaceRequestMutation()
 
-    useEffect(() => {
-        if (addWorkplaceResult.isSuccess && addWorkplaceResult.data) {
-            setWorkplaceData(addWorkplaceResult.data?.workplaceRequest)
-            setActive((active: number) => active + 1)
-        }
-    }, [addWorkplaceResult])
+    // useEffect(() => {
+    //     if (addWorkplaceResult.isSuccess && addWorkplaceResult.data) {
+    //         // setWorkplaceData(addWorkplaceResult.data?.workplaceRequest)
+    //         setActive((active: number) => active + 1)
+    //     }
+    // }, [addWorkplaceResult])
 
     useEffect(() => {
         if (
@@ -150,7 +150,6 @@ const HaveWorkplace: NextPageWithLayout = (props: Props) => {
         })
     }
 
-
     return (
         <>
             <ShowErrorNotifications result={addWorkplaceResult} />
@@ -215,7 +214,9 @@ const HaveWorkplace: NextPageWithLayout = (props: Props) => {
                         {active === 3 && (
                             <>
                                 {workplaceData?.industryStatus ===
-                                'approved' ? (
+                                    UserStatus.Approved &&
+                                workplaceData?.approvalStatus ===
+                                    UserStatus.Approved ? (
                                     <AppliedIndustry
                                         workplaceCancelRequest={
                                             workplaceCancelRequest

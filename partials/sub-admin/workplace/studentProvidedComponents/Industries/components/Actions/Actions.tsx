@@ -22,6 +22,7 @@ import {
     PlacementStartedModal,
 } from '@partials/sub-admin/workplace/modals'
 import { SignAgreement } from '@partials/sub-admin/workplace/components/Industries/components/Actions/components'
+import { UserStatus } from '@types'
 
 export const Actions = ({
     appliedIndustry,
@@ -100,6 +101,7 @@ export const Actions = ({
                             if (workplace?.assignedTo) {
                                 changeCustomIndustryStatus({
                                     id: appliedIndustry?.industry?.user?.id,
+                                    workplaceId,
                                     status: userStatus.APPROVED,
                                 })
                             } else {
@@ -120,6 +122,7 @@ export const Actions = ({
                             if (workplace?.assignedTo) {
                                 changeCustomIndustryStatus({
                                     id: appliedIndustry?.industry?.user?.id,
+                                    workplaceId,
                                     status: userStatus.REJECTED,
                                 })
                             } else {
@@ -136,13 +139,16 @@ export const Actions = ({
                 </div>
             ) : null}
 
-            {workplace?.industryStatus === 'approved' ? (
+            {workplace?.industryStatus === UserStatus.Approved &&
+            workplace?.approvalStatus === UserStatus.Approved ? (
                 <div className="flex items-center gap-x-2">
                     {!appliedIndustry?.AgreementSigned && (
-                        <SignAgreement
-                            studentId={workplace?.student?.id}
-                            appliedIndustryId={appliedIndustry?.id}
-                        />
+                        <div>
+                            <SignAgreement
+                                studentId={workplace?.student?.id}
+                                appliedIndustryId={appliedIndustry?.id}
+                            />
+                        </div>
                     )}
                     {!appliedIndustry?.placementStarted && (
                         <div className="flex-shrink-0">

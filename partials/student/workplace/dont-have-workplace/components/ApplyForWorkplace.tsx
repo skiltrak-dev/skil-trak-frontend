@@ -4,6 +4,7 @@ import {
     Button,
     ActionButton,
     ShowErrorNotifications,
+    InitialAvatar,
 } from '@components'
 
 // query
@@ -27,13 +28,13 @@ export const ApplyForWorkplace = ({
         <>
             <ShowErrorNotifications result={applyForWorkplaceResult} />
             <div
-                className={`${BACKGROUNDS[index]} p-2 rounded-lg flex flex-col md:flex-row justify-between items-start md:items-center gap-y-2`}
+                className={`${BACKGROUNDS[index]} p-2 px-4 rounded-lg flex flex-col md:flex-row justify-between items-start md:items-center gap-y-2`}
             >
                 <div className="flex items-center gap-x-2">
-                    <img
-                        className="w-12 h-12 rounded-md"
-                        src={`https://picsum.photos/100/10${industry?.id}`}
-                        alt=""
+                    <InitialAvatar
+                        name={industry?.industry?.user?.name}
+                        imageUrl={industry?.industry?.user?.avatar}
+                        large
                     />
                     <div>
                         {/* <Typography variant={'muted'} color={'gray'}>

@@ -140,9 +140,12 @@ export const workplaceEndpoints = (
         }),
         invalidatesTags: ['SubAdminWorkplace'],
     }),
-    showExistingIndustries: builder.query<any, any>({
-        query: (id) => ({
-            url: `${PREFIX}course-industries/list/${id}`,
+    showExistingIndustries: builder.query<
+        any,
+        { workplaceId: number; courseId: number }
+    >({
+        query: ({ workplaceId, courseId }) => ({
+            url: `${PREFIX}course-industries/list/${courseId}/${workplaceId}`,
         }),
         providesTags: ['SubAdminWorkplace'],
     }),
@@ -162,8 +165,8 @@ export const workplaceEndpoints = (
         invalidatesTags: ['SubAdminWorkplace'],
     }),
     changeCustomIndustryStatus: builder.mutation<any, any>({
-        query: ({ id, status }) => ({
-            url: `${PREFIX}custom-workplace-request/action/${id}`,
+        query: ({ id, status, workplaceId }) => ({
+            url: `${PREFIX}custom-workplace-request/action/${id}/${workplaceId}`,
             method: 'PATCH',
             params: { status },
         }),

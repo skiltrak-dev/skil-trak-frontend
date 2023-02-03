@@ -1,12 +1,11 @@
-import { ReactElement, useEffect } from 'react'
 import { useRouter } from 'next/router'
+import { ReactElement, useEffect } from 'react'
 
-import { IndustryLayout, StudentLayout, SubAdminLayout } from '@layouts'
+import { IndustryLayout } from '@layouts'
 import { NextPageWithLayout } from '@types'
 
-import { TabNavigation, TabProps } from '@components/TabNavigation'
+import { TabProps } from '@components/TabNavigation'
 import { PendingStudents } from '@partials/industry'
-
 
 const CurrentStudents: NextPageWithLayout = () => {
     const router = useRouter()
@@ -24,39 +23,39 @@ const CurrentStudents: NextPageWithLayout = () => {
     //         href: { pathname: 'current-students', query: { tab: 'pending' } },
     //         element: <PendingStudents />,
     //     },
-    //     {
-    //         label: 'Interview',
-    //         href: { pathname: 'current-students', query: { tab: 'approved' } },
-    //         element: <Interview />,
+    // {
+    //     label: 'Interview',
+    //     href: { pathname: 'current-students', query: { tab: 'approved' } },
+    //     element: <Interview />,
+    // },
+    // {
+    //     label: 'Approved',
+    //     href: { pathname: 'current-students', query: { tab: 'rejected' } },
+    //     element: <Approved />,
+    // },
+    // {
+    //     label: 'Rejected',
+    //     href: { pathname: 'current-students', query: { tab: 'blocked' } },
+    //     element: <Rejected />,
+    // },
+    // {
+    //     label: 'Cancelled',
+    //     href: { pathname: 'current-students', query: { tab: 'cancelled' } },
+    //     element: <Cancelled />,
+    // },
+    // {
+    //     label: 'Terminated',
+    //     href: {
+    //         pathname: 'current-students',
+    //         query: { tab: 'terminated' },
     //     },
-    //     {
-    //         label: 'Approved',
-    //         href: { pathname: 'current-students', query: { tab: 'rejected' } },
-    //         element: <Approved />,
-    //     },
-    //     {
-    //         label: 'Rejected',
-    //         href: { pathname: 'current-students', query: { tab: 'blocked' } },
-    //         element: <Rejected />,
-    //     },
-    //     {
-    //         label: 'Cancelled',
-    //         href: { pathname: 'current-students', query: { tab: 'cancelled' } },
-    //         element: <Cancelled />,
-    //     },
-    //     {
-    //         label: 'Terminated',
-    //         href: {
-    //             pathname: 'current-students',
-    //             query: { tab: 'terminated' },
-    //         },
-    //         element: <Terminated />,
-    //     },
-    //     {
-    //         label: 'Completed',
-    //         href: { pathname: 'current-students', query: { tab: 'completed' } },
-    //         element: <Completed />,
-    //     },
+    //     element: <Terminated />,
+    // },
+    // {
+    //     label: 'Completed',
+    //     href: { pathname: 'current-students', query: { tab: 'completed' } },
+    //     element: <Completed />,
+    // },
     // ]
     return (
         <div>
