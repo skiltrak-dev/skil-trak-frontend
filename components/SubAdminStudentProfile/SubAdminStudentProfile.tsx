@@ -44,7 +44,11 @@ export const SubAdminStudentProfile = ({ student }: { student: Student }) => {
                             router.push(
                                 role === 'admin'
                                     ? `/portals/admin/student/edit-student/${student?.id}`
-                                    : `/portals/sub-admin/students/${student?.id}/edit-student`
+                                    : role === 'subadmin'
+                                    ? `/portals/sub-admin/students/${student?.id}/edit-student`
+                                    : role === 'rto'
+                                    ? `/portals/rto/students/${student?.id}/edit-student`
+                                    : ''
                             )
                         }}
                     >

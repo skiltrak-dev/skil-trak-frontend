@@ -2,18 +2,15 @@ import { Card } from '@components/cards'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-import React from 'react'
 import { FaMapMarkerAlt } from 'react-icons/fa'
 import { IoBriefcase } from 'react-icons/io5'
-import { MdPermContactCalendar, MdPhone } from 'react-icons/md'
 
 //queries
-import { useGetSubAdminMyRtoQuery } from '@queries'
-import { NoData } from '@components/ActionAnimations'
-import { ActionButton, Button } from '@components/buttons'
-import { AddWorkplace } from './AddWorkplace'
 import { WorkplaceAvatar } from '@components'
+import { ActionButton } from '@components/buttons'
+import { useGetSubAdminMyRtoQuery } from '@queries'
 import { getUserCredentials } from '@utils'
+import { AddWorkplace } from './AddWorkplace'
 
 type Props = {
     myWorkplace: any
@@ -47,7 +44,7 @@ export const MyWorkplace = ({ myWorkplace }: Props) => {
 
                 {/* Action */}
                 <div className="flex justify-between gap-x-4">
-                    {myWorkplace?.industries?.length ? (
+                    {role !== 'rto' && myWorkplace?.industries?.length ? (
                         <ActionButton
                             variant="success"
                             onClick={() => {
@@ -62,7 +59,7 @@ export const MyWorkplace = ({ myWorkplace }: Props) => {
                         </ActionButton>
                     ) : null}
 
-                    {myWorkplace?.industries?.length > 1 ? (
+                    {role !== 'rto' && myWorkplace?.industries?.length > 1 ? (
                         <Link legacyBehavior href="#">
                             <a className="inline-block uppercase text-xs font-medium bg-gray-100 text-gray-500 px-4 py-2 rounded">
                                 VIEW SECOND

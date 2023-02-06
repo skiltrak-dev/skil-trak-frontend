@@ -291,6 +291,7 @@ export const RequestType = ({
             {modal && modal}
             <div className="hidden">
                 <SignAgreement
+                    student={workplace?.student}
                     studentId={workplace?.student?.id}
                     appliedIndustryId={appliedIndustry?.id}
                 />

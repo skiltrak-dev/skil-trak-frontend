@@ -16,7 +16,7 @@ import { PageHeading } from '@components/headings'
 import { ColumnDef } from '@tanstack/react-table'
 import { FaEdit, FaEye, FaFileExport, FaTrash } from 'react-icons/fa'
 
-import { useContextBar } from '@hooks'
+import { useContextBar, useNavbar } from '@hooks'
 import { AdminApi } from '@queries'
 import { Course } from '@types'
 import { useRouter } from 'next/router'
@@ -27,12 +27,18 @@ import { DeleteCourseModal, RequirementModal } from './modals'
 export const Courses = () => {
     const router = useRouter()
     const contextBar = useContextBar()
+    const navBar = useNavbar()
+
     const [modal, setModal] = useState<ReactElement | null>(null)
 
     const [filterAction, setFilterAction] = useState(null)
     const [itemPerPage, setItemPerPage] = useState(50)
     const [page, setPage] = useState(1)
     const [filter, setFilter] = useState({})
+
+    useEffect(() => {
+        navBar.setTitle('Courses')
+    }, [])
 
     const { isLoading, data, isError } = AdminApi.Courses.useListQuery({
         search: `${JSON.stringify(filter)

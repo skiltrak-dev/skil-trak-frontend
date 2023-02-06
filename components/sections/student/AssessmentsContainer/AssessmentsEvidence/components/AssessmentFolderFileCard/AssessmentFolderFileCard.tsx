@@ -19,11 +19,25 @@ export const AssessmentFolderFileCard = ({
 }: AssessmentFolderFileCardProps) => {
     const file = fileUrl.split('\\').join('/')
 
+    console.log('file', file)
+    const url = 'http://www.mymainsite.com/somepath/path2/path3/path4'
+    const pathname = new URL(file).pathname
+    console.log('pathnamepathname', pathname)
+
     return (
         <div className="">
             {fileUrl && (
                 <div className="relative w-full h-full flex flex-col gap-y-1.5">
                     {/* Video Preview */}
+                    {type === 'video' && (
+                        // Preview Video
+                        <div
+                            className="w-full h-28 bg-center bg-no-repeat bg-cover"
+                            style={{
+                                backgroundImage: `url(${`${file}` || ''})`,
+                            }}
+                        ></div>
+                    )}
                     {type === 'video' && (
                         // Preview Video
                         <div className="bg-black h-full">
@@ -48,7 +62,12 @@ export const AssessmentFolderFileCard = ({
                         ></div>
                     )}
                     <Typography variant="body" center>
-                        {ellipsisText(filename?.split('_')[0], 11)}
+                        {!filename
+                            ? ellipsisText(filename?.split('_')[0], 11)
+                            : ellipsisText(
+                                  pathname?.split('/')?.slice(1)[0],
+                                  7
+                              )}
                     </Typography>
                 </div>
             )}

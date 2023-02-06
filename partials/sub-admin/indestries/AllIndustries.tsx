@@ -1,4 +1,4 @@
-import { useState, ReactElement } from 'react'
+import { useState, ReactElement, useEffect } from 'react'
 import { useRouter } from 'next/router'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -19,7 +19,10 @@ import {
 } from '@components'
 
 import { Industry } from '@types'
-import { useGetSubAdminIndustriesQuery } from '@queries'
+import {
+    useAddToFavoriteMutation,
+    useGetSubAdminIndustriesQuery,
+} from '@queries'
 import { IndustryCellInfo } from './components'
 
 export const AllIndustries = () => {
@@ -32,6 +35,13 @@ export const AllIndustries = () => {
         skip: itemPerPage * page - itemPerPage,
         limit: itemPerPage,
     })
+    const [addToFavorite, addToFavoriteResult] = useAddToFavoriteMutation()
+
+    useEffect(() => {
+        if (addToFavoriteResult.isSuccess) {
+        }
+    }, [addToFavoriteResult])
+
     const tableActionOptions: TableActionOption[] = [
         {
             text: 'View',
@@ -39,6 +49,14 @@ export const AllIndustries = () => {
                 router.push(
                     `/portals/sub-admin/users/industries/${industry.id}`
                 )
+            },
+            Icon: FaEye,
+        },
+        {
+            text: 'Favourite',
+            onClick: (industry: Industry) => {
+                console.log('industry', industry)
+                addToFavorite(industry?.id)
             },
             Icon: FaEye,
         },
@@ -94,7 +112,10 @@ export const AllIndustries = () => {
             accessorKey: 'Action',
             cell: ({ row }: any) => {
                 return (
-                    <TableAction options={tableActionOptions} rowItem={row} />
+                    <TableAction
+                        options={tableActionOptions}
+                        rowItem={row.original}
+                    />
                 )
             },
         },

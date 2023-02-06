@@ -140,6 +140,7 @@ export const Actions = ({
                                             appliedIndustryId={
                                                 appliedIndustry?.id
                                             }
+                                            student={student}
                                         />
                                     </div>
                                 )}

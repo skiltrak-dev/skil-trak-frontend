@@ -62,9 +62,6 @@ const RtoStudents: NextPageWithLayout = (props: Props) => {
         }
     }, [])
     // ADD STUDENT JOY RIDE - END
-    useEffect(() => {
-        contextBar.show(false)
-    }, [])
 
     const tabs: TabProps[] = [
         {

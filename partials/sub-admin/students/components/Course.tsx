@@ -59,7 +59,7 @@ export const Course = ({ course }: any) => {
                     <Typography variant={'small'} color={'text-gray-500'}>
                         {course?.code}
                     </Typography>
-                    {badge(status, true)}
+                    {badge(course?.isActive ? 'Active' : 'Not Active', true)}
                     {badge(result?.length ? result : 'Not Assessed')}
                 </div>
                 <Typography variant={'label'}>{course?.title}</Typography>

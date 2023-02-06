@@ -132,7 +132,7 @@ export const IndustryNavbar = () => {
                             </Link>
                         </li>
                         {/* Mails */}
-                        <li>
+                        {/* <li>
                             <Link
                                 legacyBehavior
                                 href="/portals/industry/e-mails"
@@ -153,7 +153,7 @@ export const IndustryNavbar = () => {
                                     </span>
                                 </a>
                             </Link>
-                        </li>
+                        </li> */}
 
                         {/* <li>
           <Link legacyBehavior href="/portals/industry/notifications">

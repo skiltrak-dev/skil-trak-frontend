@@ -1,5 +1,5 @@
 // hooks
-import { Button, Card, Table, Typography } from '@components'
+import { Button, Card, InitialAvatar, Table, Typography } from '@components'
 import { ColumnDef } from '@tanstack/react-table'
 import { inductionProcessData, UploadDoc } from './componnets'
 
@@ -24,8 +24,18 @@ export const InductionProcess = ({
         {
             accessorKey: 'rto',
             header: () => <span>Uploaded File</span>,
-            cell: (info) => {
-                return 'N/A'
+            cell: ({ row }) => {
+                return row.original?.file ? (
+                    <div className="flex">
+                        <InitialAvatar
+                            name={row.original?.docType}
+                            imageUrl={row.original?.file}
+                            large
+                        />
+                    </div>
+                ) : (
+                    'N/A'
+                )
             },
         },
         {

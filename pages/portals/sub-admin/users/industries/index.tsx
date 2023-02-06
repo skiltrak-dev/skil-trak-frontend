@@ -5,17 +5,18 @@ import { NextPageWithLayout } from '@types'
 
 //components
 import {
-    Button, RtoContextBarData,
-    SidebarCalendar, TabNavigation,
-    TabProps
+    Button,
+    RtoContextBarData,
+    SidebarCalendar,
+    TabNavigation,
+    TabProps,
 } from '@components'
 // queries
 import { useContextBar } from '@hooks'
 
-
 import {
     AllIndustries,
-    FavoriteIndustries
+    FavoriteIndustries,
 } from '@partials/sub-admin/indestries'
 
 type Props = {}

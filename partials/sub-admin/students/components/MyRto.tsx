@@ -48,7 +48,11 @@ export const MyRto = ({ myRto }: any) => {
                             pathname.push(
                                 role === 'admin'
                                     ? `/portals/admin/rto//${myRto?.rto?.id}?tab=sectors`
-                                    : `/portals/sub-admin/users/rtos/${myRto?.rto?.id}?tab=overview`
+                                    : role === 'subadmin'
+                                    ? `/portals/sub-admin/users/rtos/${myRto?.rto?.id}?tab=overview`
+                                    : role === 'rto'
+                                    ? '/portals/rto'
+                                    : ''
                             )
                         }}
                     >
