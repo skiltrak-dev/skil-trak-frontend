@@ -36,7 +36,26 @@ import { checkWorkplaceStatus } from '@utils'
 import { ProgressCell, SectorCell } from '@partials/admin/student/components'
 
 export const AllStudents = () => {
+
     const router = useRouter()
+
+    // WORKPLACE JOY RIDE - Start
+    const joyride = useJoyRide()
+
+    useEffect(() => {
+        if (joyride.state.tourActive) {
+            console.log('tour active', joyride.state.tourActive)
+            setTimeout(() => {
+                joyride.setState({ ...joyride.state, run: true, stepIndex: 1 })
+            }, 1200)
+        }
+    }, [router])
+    
+    // STUDENT JOY RIDE - END
+
+
+
+
 
     const [modal, setModal] = useState<ReactElement | null>(null)
 
@@ -48,17 +67,9 @@ export const AllStudents = () => {
         skip: itemPerPage * page - itemPerPage,
         limit: itemPerPage,
     })
-    // WORKPLACE JOY RIDE - Start
-    const joyride = useJoyRide()
 
-    useEffect(() => {
-        if (joyride.state.tourActive) {
-            setTimeout(() => {
-                joyride.setState({ ...joyride.state, run: true, stepIndex: 2 })
-            }, 1200)
-        }
-    }, [])
-    // STUDENT JOY RIDE - END
+
+
 
     const onModalCancelClicked = () => {
         setModal(null)
@@ -96,7 +107,11 @@ export const AllStudents = () => {
             accessorKey: 'user',
             sort: true,
             cell: ({ row }: any) => {
-                return <StudentCellInfo student={row.original} />
+                return (
+                    <div id="student-profile">
+                        <StudentCellInfo student={row.original} />
+                    </div>
+                )
             },
         },
 
@@ -114,6 +129,10 @@ export const AllStudents = () => {
                 )
             },
         },
+
+
+
+
         {
             header: () => 'Industry',
             accessorKey: 'industry',
@@ -165,6 +184,7 @@ export const AllStudents = () => {
             },
         },
     ]
+
     return (
         <div>
             {modal && modal}
@@ -197,9 +217,7 @@ export const AllStudents = () => {
                                             )}
                                         </div>
                                     </div>
-                                    <div id="students-list" className="px-6">
-                                        {table}
-                                    </div>
+                                    <div id="students-list" className="px-6">{table}</div>
                                 </div>
                             )
                         }}

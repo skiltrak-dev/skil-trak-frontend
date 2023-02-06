@@ -141,7 +141,7 @@ const SubAdminDashboard: NextPageWithLayout = () => {
                     disableBeacon: true,
                 },
                 {
-                    target: '#students-list',
+                    target: '#student-profile',
                     content: (
                         <>
                             <div>Click Here</div>
@@ -149,6 +149,7 @@ const SubAdminDashboard: NextPageWithLayout = () => {
                                 Select a single student, it will redirect you to
                                 student profile from there you can add workplace
                                 by clicking &quot;Add Workplace Button&quot;
+                                by clicking "Add Workplace Button"
                             </div>
                         </>
                     ),
@@ -184,6 +185,7 @@ const SubAdminDashboard: NextPageWithLayout = () => {
                             run: false,
                             stepIndex: 1,
                             tourActive: false,
+
                         })
                     }
                 }
@@ -253,7 +255,7 @@ const SubAdminDashboard: NextPageWithLayout = () => {
             link: 'sub-admin/tasks',
             steps: [
                 {
-                    target: '#tasks',
+                    target: '#student',
                     content: (
                         <>
                             <div className="font-semibold">Click here</div>
@@ -263,14 +265,18 @@ const SubAdminDashboard: NextPageWithLayout = () => {
                     disableBeacon: true,
                 },
                 {
-                    target: '#workplace',
+                    target: '#students-list',
                     content: (
                         <>
                             <div>Click Here</div>
-                            <div>You can view placement status here</div>
+                            <div>
+                                Select a single student, it will redirect you to
+                                student profile from there you can see "Placement Status" of a student.
+                            </div>
                         </>
                     ),
                 },
+
                 {
                     target: '#routeB',
                     content: (
@@ -295,8 +301,17 @@ const SubAdminDashboard: NextPageWithLayout = () => {
                             ...prev,
                             run: false,
                         }))
-                        router.push('/portals/sub-admin/tasks')
-                    } else if (action === 'reset' || lifecycle === 'complete') {
+                        router.push('/portals/sub-admin/students?tab=all')
+                    } else if (
+                        type === 'step:after' &&
+                        index === 1 /* or step.target === '#home' */
+                    ) {
+                        joyride.setState((prev: any) => ({
+                            ...prev,
+                            run: false,
+                        }))
+                    }
+                     else if (action === 'reset' || lifecycle === 'complete') {
                         joyride.setState({
                             ...joyride.state,
                             run: false,
@@ -331,7 +346,7 @@ const SubAdminDashboard: NextPageWithLayout = () => {
                     ),
                 },
                 {
-                    target: '#students-list',
+                    target: '#student-profile',
                     content: (
                         <>
                             <div>Click Here</div>
@@ -369,7 +384,7 @@ const SubAdminDashboard: NextPageWithLayout = () => {
                     //         run: false,
                     //     }))
                     //     router.push(
-                    //         '/portals/sub-admin/users/students/9?tab=notes'
+                    //         '/portals/sub-admin/users/students/34?tab=notes'
                     //     )
                     // }
                     else if (action === 'reset' || lifecycle === 'complete') {
