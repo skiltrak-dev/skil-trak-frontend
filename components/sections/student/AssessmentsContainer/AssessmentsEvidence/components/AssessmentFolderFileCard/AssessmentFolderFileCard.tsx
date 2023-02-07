@@ -62,7 +62,7 @@ export const AssessmentFolderFileCard = ({
                         ></div>
                     )}
                     <Typography variant="body" center>
-                        {!filename
+                        {filename
                             ? ellipsisText(filename?.split('_')[0], 11)
                             : ellipsisText(
                                   pathname?.split('/')?.slice(1)[0],
