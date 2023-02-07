@@ -37,21 +37,6 @@ export const Course = ({ course }: any) => {
         )
     }
 
-    const courseStatus = () => {
-        switch (result) {
-            case 'competent':
-                return 'Completed'
-            case 'reOpened':
-                return 'Not Completed'
-            case 'notCompetent':
-                return 'Not Completed'
-            case 'pending':
-                return 'Pending'
-            default:
-                return 'Not Assessed'
-        }
-    }
-    const status = courseStatus()
     return (
         <div className="px-2 py-2.5 flex justify-between items-center bg-gray-50">
             <div className="border-l-4 border-red-500 px-1">

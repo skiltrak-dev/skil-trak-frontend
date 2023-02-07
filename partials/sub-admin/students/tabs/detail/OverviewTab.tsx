@@ -35,15 +35,18 @@ export const OverViewTab = ({ student }: StudentsProfileOverviewProps) => {
             )}
 
             <div className="my-4">
-                <Courses results={student?.result} courses={student?.courses} />
+                <Courses id={student?.id} />
             </div>
 
             <div className="w-full flex justify-between items-stretch gap-x-6 my-4">
                 <div className="w-full">
-                    <MyRto myRto={student} />
+                    <MyRto myRto={student?.rto} />
                 </div>
                 <div className="w-full">
-                    <MyWorkplace myWorkplace={student} />
+                    <MyWorkplace
+                        id={student?.id}
+                        industries={student?.industries}
+                    />
                 </div>
             </div>
 

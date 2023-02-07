@@ -289,13 +289,7 @@ export const RequestType = ({
     return (
         <div className="relative">
             {modal && modal}
-            <div className="hidden">
-                <SignAgreement
-                    student={workplace?.student}
-                    studentId={workplace?.student?.id}
-                    appliedIndustryId={appliedIndustry?.id}
-                />
-            </div>
+
             <ShowErrorNotifications result={interViewResult} />
             <OutsideClickHandler
                 onOutsideClick={() => {

@@ -1,42 +1,34 @@
-import { ReactElement } from 'react'
-import Image from 'next/image'
-import Link from 'next/link'
 import { useRouter } from 'next/router'
+import { ReactElement } from 'react'
 
 // Icons
-import { FaEnvelope, FaEye } from 'react-icons/fa'
+import { FaEye } from 'react-icons/fa'
 
 // components
 import {
     Card,
     EmptyData,
     InitialAvatar,
-    LoadingAnimation,
-    PlacementTableCell,
-    ProgressStep,
-    Table,
+    LoadingAnimation, Table,
     TableAction,
     TableActionOption,
-    Typography,
+    Typography
 } from '@components'
 import { StudentCellInfo } from './components'
 
 import { TechnicalError } from '@components/ActionAnimations/TechnicalError'
+import { useJoyRide } from '@hooks'
 import { useGetSubAdminStudentsQuery } from '@queries'
 import { Student } from '@types'
 import { useEffect, useState } from 'react'
-import { useJoyRide } from '@hooks'
 import { MdBlock } from 'react-icons/md'
 import { AssignStudentModal } from './modals'
 
-import { IndustryCellInfo } from '../indestries/components'
-import { IndustryCell } from '@partials/admin/industry/components'
-import { getActiveIndustry } from '@partials/student/utils'
-import { checkWorkplaceStatus } from '@utils'
 import { ProgressCell, SectorCell } from '@partials/admin/student/components'
+import { checkWorkplaceStatus } from '@utils'
+import { IndustryCellInfo } from '../indestries/components'
 
 export const AllStudents = () => {
-
     const router = useRouter()
 
     // WORKPLACE JOY RIDE - Start
@@ -50,12 +42,8 @@ export const AllStudents = () => {
             }, 1200)
         }
     }, [router])
-    
+
     // STUDENT JOY RIDE - END
-
-
-
-
 
     const [modal, setModal] = useState<ReactElement | null>(null)
 
@@ -67,9 +55,6 @@ export const AllStudents = () => {
         skip: itemPerPage * page - itemPerPage,
         limit: itemPerPage,
     })
-
-
-
 
     const onModalCancelClicked = () => {
         setModal(null)
@@ -129,25 +114,16 @@ export const AllStudents = () => {
                 )
             },
         },
-
-
-
-
         {
-            header: () => 'Industry',
             accessorKey: 'industry',
-            cell({ row }: any) {
-                const { workplace } = row.original
-                const industry = getActiveIndustry(workplace)
+            header: () => <span>Industry</span>,
+            cell: (info: any) => {
+                const industry = info.row.original?.industries
 
-                return (
-                    <div className="flex justify-center">
-                        {industry ? (
-                            <IndustryCell industry={industry} />
-                        ) : (
-                            <div>N/A</div>
-                        )}
-                    </div>
+                return industry && industry?.length > 0 ? (
+                    <IndustryCellInfo industry={industry[0]} />
+                ) : (
+                    <Typography center>N/A</Typography>
                 )
             },
         },
@@ -159,14 +135,16 @@ export const AllStudents = () => {
             },
         },
         {
-            header: () => 'Progress',
             accessorKey: 'progress',
+            header: () => <span>Progress</span>,
             cell: ({ row }: any) => {
                 const workplace = row.original.workplace[0]
                 const steps = checkWorkplaceStatus(workplace?.currentStatus)
+                console.log('steps', row.original?.id === 122 ? steps : null)
+
                 return (
                     <ProgressCell
-                        step={steps > 9 ? 9 : steps < 1 ? 1 : steps}
+                        step={steps > 13 ? 13 : steps < 1 ? 1 : steps}
                     />
                 )
             },
@@ -217,7 +195,9 @@ export const AllStudents = () => {
                                             )}
                                         </div>
                                     </div>
-                                    <div id="students-list" className="px-6">{table}</div>
+                                    <div id="students-list" className="px-6">
+                                        {table}
+                                    </div>
                                 </div>
                             )
                         }}
