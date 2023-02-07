@@ -190,7 +190,13 @@ export const StudentProfile = ({ noTitle }: { noTitle?: boolean }) => {
                     {isSuccess && (
                         <div className="flex flex-col items-end gap-y-2">
                             <div className="pl-4">
-                                <StudentTimer date={new Date('02/25/2023')} />
+                                <StudentTimer
+                                    studentId={data?.user?.id}
+                                    date={
+                                        data?.expiryDate ||
+                                        new Date('02/25/2023')
+                                    }
+                                />
                             </div>
                             {role !== 'rto' && statusBaseActions()}
                         </div>

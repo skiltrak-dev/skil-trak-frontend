@@ -50,7 +50,7 @@ export const EditPassword = ({
         <div>
             <ShowErrorNotifications result={changePasswordResult} />
             <Modal
-                title={'Edit PassWord'}
+                title={'Edit Password'}
                 subtitle={'Edit Password'}
                 onConfirmClick={methods.handleSubmit(onSubmit)}
                 onCancelClick={onCancel}
