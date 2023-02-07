@@ -1,4 +1,4 @@
-import React, { useCallback, useRef } from 'react'
+import { useCallback, useRef } from 'react'
 import { FreeMode, Pagination } from 'swiper'
 import { Swiper, SwiperSlide } from 'swiper/react'
 
@@ -8,15 +8,15 @@ import 'swiper/css/free-mode'
 import 'swiper/css/pagination'
 
 // components
-import { Typography } from '@components/Typography'
+import { LoadingAnimation } from '@components/LoadingAnimation'
 
 // natives
-import { PinedNotesStyles } from './style'
 import { NotesCard } from '../NotesCard'
+import { PinedNotesStyles } from './style'
 
 // query
-import { useGetNotesQuery } from '@queries'
-import { LoadingAnimation } from '@components/LoadingAnimation'
+import { CommonApi } from '@queries'
+
 import { FaChevronCircleLeft, FaChevronCircleRight } from 'react-icons/fa'
 
 export const PinnedNotes = ({ id }: any) => {
@@ -32,7 +32,7 @@ export const PinnedNotes = ({ id }: any) => {
         swiperRef.current.swiper.slideNext()
     }, [])
 
-    const notes = useGetNotesQuery({ id, pinned: true }, { skip: !id })
+    const notes = CommonApi.Notes.usePinned(id, { skip: !id })
     return notes?.isLoading ? (
         <LoadingAnimation />
     ) : notes?.data && notes?.data?.length > 0 ? (

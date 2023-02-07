@@ -38,6 +38,21 @@ export const commonApi = createApi({
 
     // ---------- RTO ENDPOINTS ---------- //
     endpoints: (build) => ({
+        updateExpiryDate: build.mutation<
+            any,
+            {
+                id: number | undefined
+                body: { expiryDate: Date; comment: string }
+            }
+        >({
+            query: ({ id, body }) => ({
+                url: `shared/student/update-expiry/${id}`,
+                method: 'POST',
+                body: body,
+            }),
+            invalidatesTags: ['Notes', 'AllCommunications'],
+        }),
+
         ...rtosEndpoints(build),
         ...notesEndpoints(build),
         ...mailsEndpoints(build),
@@ -50,6 +65,9 @@ export const commonApi = createApi({
 })
 
 const {
+    // ---- EXPIRY DATE ---- //
+    useUpdateExpiryDateMutation,
+
     // ------ Industry ------ //
     useGetAllIndustriesQuery,
 
@@ -87,6 +105,9 @@ const {
 } = commonApi
 
 export const CommonApi = {
+    Expiry: {
+        useExpiryDate: useUpdateExpiryDateMutation,
+    },
     Avatar: {
         useChangeProfile: useChangeProfileMutation,
         useRemoveProfile: useRemoveProfileMutation,

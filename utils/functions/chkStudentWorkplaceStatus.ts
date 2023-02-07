@@ -17,5 +17,5 @@ export const checkWorkplaceStatus = (currentStatus: string) => {
     const step = requestTypeActions.findIndex(
         (status) => status === currentStatus
     )
-    return step > 0 ? (step < 9 ? step + 1 : 9) : 1
+    return step + 1
 }
