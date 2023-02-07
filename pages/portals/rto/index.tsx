@@ -83,7 +83,15 @@ const RTODashboard: NextPageWithLayout = () => {
             joyrideCallback: (joyride: any) => {
                 return (data: CallBackProps) => {
                     const { action, index, lifecycle, type } = data
-                    if (
+                    if (action === 'close') {
+                        joyride.setState({
+                            ...joyride.state,
+                            run: false,
+                            stepIndex: 0,
+                            tourActive: false,
+                        })
+                    }
+                    else if (
                         type === 'step:after' &&
                         index === 0 /* or step.target === '#home' */
                     ) {
@@ -142,7 +150,15 @@ const RTODashboard: NextPageWithLayout = () => {
             joyrideCallback: (joyride: any) => {
                 return (data: CallBackProps) => {
                     const { action, index, lifecycle, type } = data
-                    if (
+                    if (action === 'close') {
+                        joyride.setState({
+                            ...joyride.state,
+                            run: false,
+                            stepIndex: 0,
+                            tourActive: false,
+                        })
+                    }
+                    else if (
                         type === 'step:after' &&
                         index === 0 /* or step.target === '#home' */
                     ) {
@@ -201,7 +217,15 @@ const RTODashboard: NextPageWithLayout = () => {
             joyrideCallback: (joyride: any) => {
                 return (data: CallBackProps) => {
                     const { action, index, lifecycle, type } = data
-                    if (
+                    if (action === 'close') {
+                        joyride.setState({
+                            ...joyride.state,
+                            run: false,
+                            stepIndex: 0,
+                            tourActive: false,
+                        })
+                    }
+                    else if (
                         type === 'step:after' &&
                         index === 0 /* or step.target === '#home' */
                     ) {
@@ -269,7 +293,15 @@ const RTODashboard: NextPageWithLayout = () => {
             joyrideCallback: (joyride: any) => {
                 return (data: CallBackProps) => {
                     const { action, index, lifecycle, type } = data
-                    if (
+                    if (action === 'close') {
+                        joyride.setState({
+                            ...joyride.state,
+                            run: false,
+                            stepIndex: 0,
+                            tourActive: false,
+                        })
+                    }
+                    else if (
                         type === 'step:after' &&
                         index === 0 /* or step.target === '#home' */
                     ) {
@@ -355,7 +387,15 @@ const RTODashboard: NextPageWithLayout = () => {
             joyrideCallback: (joyride: any) => {
                 return (data: CallBackProps) => {
                     const { action, index, lifecycle, type } = data
-                    if (
+                    if (action === 'close') {
+                        joyride.setState({
+                            ...joyride.state,
+                            run: false,
+                            stepIndex: 0,
+                            tourActive: false,
+                        })
+                    }
+                    else if (
                         type === 'step:after' &&
                         index === 0 /* or step.target === '#home' */
                     ) {
@@ -496,7 +536,15 @@ const RTODashboard: NextPageWithLayout = () => {
             joyrideCallback: (joyride: any) => {
                 return (data: CallBackProps) => {
                     const { action, index, lifecycle, type } = data
-                    if (
+                    if (action === 'close') {
+                        joyride.setState({
+                            ...joyride.state,
+                            run: false,
+                            stepIndex: 0,
+                            tourActive: false,
+                        })
+                    }
+                    else if (
                         type === 'step:after' &&
                         index === 0 /* or step.target === '#home' */
                     ) {
@@ -506,7 +554,7 @@ const RTODashboard: NextPageWithLayout = () => {
                         }))
                         router.push('/portals/rto/my-profile')
                     }
-                    
+
                 }
             },
         },
