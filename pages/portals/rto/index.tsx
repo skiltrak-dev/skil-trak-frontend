@@ -301,10 +301,10 @@ const RTODashboard: NextPageWithLayout = () => {
     ]
 
     const TaskQuestions = [
-        {
-            text: `Where can I find students agreement and other documents?`,
-            link: '#',
-        },
+        // {
+        //     text: `Where can I find students agreement and other documents?`,
+        //     link: '#',
+        // },
         {
             text: `I want to book an appointment?`,
             link: '#',
