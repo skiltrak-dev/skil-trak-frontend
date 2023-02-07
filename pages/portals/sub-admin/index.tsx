@@ -44,10 +44,10 @@ const getSectors = (courses: any) => {
     const sectors = {}
     courses.forEach((c: any) => {
         if ((sectors as any)[c.sector.name]) {
-            ;(sectors as any)[c.sector.name].push(c)
+            ; (sectors as any)[c.sector.name].push(c)
         } else {
-            ;(sectors as any)[c.sector.name] = []
-            ;(sectors as any)[c.sector.name].push(c)
+            ; (sectors as any)[c.sector.name] = []
+                ; (sectors as any)[c.sector.name].push(c)
         }
     })
     return sectors
@@ -103,7 +103,15 @@ const SubAdminDashboard: NextPageWithLayout = () => {
             joyrideCallback: (joyride: any) => {
                 return (data: CallBackProps) => {
                     const { action, index, lifecycle, type } = data
-                    if (
+                    if (action === 'close') {
+                        joyride.setState({
+                            ...joyride.state,
+                            run: false,
+                            stepIndex: 0,
+                            tourActive: false,
+                        })
+                    }
+                    else if (
                         type === 'step:after' &&
                         index === 0 /* or step.target === '#home' */
                     ) {
@@ -148,8 +156,8 @@ const SubAdminDashboard: NextPageWithLayout = () => {
                             <div>
                                 Select a single student, it will redirect you to
                                 student profile from there you can add workplace
-                                by clicking &quot;Add Workplace Button&quot;
-                                by clicking "Add Workplace Button"
+                                by clicking &quot;Add Workplace Button&quot; by
+                                clicking &rdquo;Add Workplace Button&rdquo;
                             </div>
                         </>
                     ),
@@ -170,7 +178,15 @@ const SubAdminDashboard: NextPageWithLayout = () => {
             joyrideCallback: (joyride: any) => {
                 return (data: CallBackProps) => {
                     const { action, index, lifecycle, type } = data
-                    if (
+                    if (action === 'close') {
+                        joyride.setState({
+                            ...joyride.state,
+                            run: false,
+                            stepIndex: 0,
+                            tourActive: false,
+                        })
+                    }
+                    else if (
                         type === 'step:after' &&
                         index === 0 /* or step.target === '#home' */
                     ) {
@@ -185,7 +201,6 @@ const SubAdminDashboard: NextPageWithLayout = () => {
                             run: false,
                             stepIndex: 1,
                             tourActive: false,
-
                         })
                     }
                 }
@@ -228,9 +243,18 @@ const SubAdminDashboard: NextPageWithLayout = () => {
                 },
             ],
             joyrideCallback: (joyride: any) => {
+
                 return (data: CallBackProps) => {
                     const { action, index, lifecycle, type } = data
-                    if (
+                    if (action === 'close') {
+                        joyride.setState({
+                            ...joyride.state,
+                            run: false,
+                            stepIndex: 0,
+                            tourActive: false,
+                        })
+                    }
+                    else if (
                         type === 'step:after' &&
                         index === 0 /* or step.target === '#home' */
                     ) {
@@ -271,7 +295,8 @@ const SubAdminDashboard: NextPageWithLayout = () => {
                             <div>Click Here</div>
                             <div>
                                 Select a single student, it will redirect you to
-                                student profile from there you can see "Placement Status" of a student.
+                                student profile from there you can see
+                                &rdquo;Placement Status&rdquo; of a student.
                             </div>
                         </>
                     ),
@@ -293,7 +318,15 @@ const SubAdminDashboard: NextPageWithLayout = () => {
             joyrideCallback: (joyride: any) => {
                 return (data: CallBackProps) => {
                     const { action, index, lifecycle, type } = data
-                    if (
+                    if (action === 'close') {
+                        joyride.setState({
+                            ...joyride.state,
+                            run: false,
+                            stepIndex: 0,
+                            tourActive: false,
+                        })
+                    }
+                    else if (
                         type === 'step:after' &&
                         index === 0 /* or step.target === '#home' */
                     ) {
@@ -311,7 +344,7 @@ const SubAdminDashboard: NextPageWithLayout = () => {
                             run: false,
                         }))
                     }
-                     else if (action === 'reset' || lifecycle === 'complete') {
+                    else if (action === 'reset' || lifecycle === 'complete') {
                         joyride.setState({
                             ...joyride.state,
                             run: false,
@@ -362,7 +395,15 @@ const SubAdminDashboard: NextPageWithLayout = () => {
             joyrideCallback: (joyride: any) => {
                 return (data: CallBackProps) => {
                     const { action, index, lifecycle, type } = data
-                    if (
+                    if (action === 'close') {
+                        joyride.setState({
+                            ...joyride.state,
+                            run: false,
+                            stepIndex: 0,
+                            tourActive: false,
+                        })
+                    }
+                    else if (
                         type === 'step:after' &&
                         index === 0 /* or step.target === '#home' */
                     ) {
@@ -453,7 +494,15 @@ const SubAdminDashboard: NextPageWithLayout = () => {
             joyrideCallback: (joyride: any) => {
                 return (data: CallBackProps) => {
                     const { action, index, lifecycle, type } = data
-                    if (
+                    if (action === 'close') {
+                        joyride.setState({
+                            ...joyride.state,
+                            run: false,
+                            stepIndex: 0,
+                            tourActive: false,
+                        })
+                    }
+                    else if (
                         type === 'step:after' &&
                         index === 0 /* or step.target === '#home' */
                     ) {
@@ -586,7 +635,15 @@ const SubAdminDashboard: NextPageWithLayout = () => {
             joyrideCallback: (joyride: any) => {
                 return (data: CallBackProps) => {
                     const { action, index, lifecycle, type } = data
-                    if (
+                    if (action === 'close') {
+                        joyride.setState({
+                            ...joyride.state,
+                            run: false,
+                            stepIndex: 0,
+                            tourActive: false,
+                        })
+                    }
+                    else if (
                         type === 'step:after' &&
                         index === 0 /* or step.target === '#home' */
                     ) {

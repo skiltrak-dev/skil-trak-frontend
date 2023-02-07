@@ -93,7 +93,7 @@ export const StudentLayout = ({ pageTitle, children }: StudentLayoutProps) => {
                         stepIndex={joyride.state.stepIndex}
                         steps={joyride.state.steps}
                         showSkipButton={true}
-                        hideCloseButton={true}
+                        // hideCloseButton={true}
                         disableOverlayClose={true}
                         hideBackButton={true}
                         locale={{

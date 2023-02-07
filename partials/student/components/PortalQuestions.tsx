@@ -70,9 +70,18 @@ export const PortalQuestions = () => {
                 },
             ],
             joyrideCallback: (joyride: any) => {
+
                 return (data: CallBackProps) => {
                     const { action, index, lifecycle, type } = data
-                    if (
+                    if (action === 'close') {
+                        joyride.setState({
+                            ...joyride.state,
+                            run: false,
+                            stepIndex: 0,
+                            tourActive: false,
+                        })
+                    }
+                    else if (
                         type === 'step:after' &&
                         index === 0 /* or step.target === '#home' */
                     ) {
@@ -151,7 +160,15 @@ export const PortalQuestions = () => {
             joyrideCallback: (joyride: any) => {
                 return (data: CallBackProps) => {
                     const { action, index, lifecycle, type } = data
-                    if (
+                    if (action === 'close') {
+                        joyride.setState({
+                            ...joyride.state,
+                            run: false,
+                            stepIndex: 0,
+                            tourActive: false,
+                        })
+                    }
+                    else if (
                         type === 'step:after' &&
                         index === 0 /* or step.target === '#home' */
                     ) {
@@ -227,7 +244,15 @@ export const PortalQuestions = () => {
             joyrideCallback: (joyride: any) => {
                 return (data: CallBackProps) => {
                     const { action, index, lifecycle, type } = data
-                    if (
+                    if (action === 'close') {
+                        joyride.setState({
+                            ...joyride.state,
+                            run: false,
+                            stepIndex: 0,
+                            tourActive: false,
+                        })
+                    }
+                    else if (
                         type === 'step:after' &&
                         index === 0 /* or step.target === '#home' */
                     ) {
@@ -293,10 +318,18 @@ export const PortalQuestions = () => {
                 },
             ],
             joyrideCallback: (joyride: any) => {
+
                 return (data: CallBackProps) => {
                     const { action, index, lifecycle, type } = data
-                    // console.log("I want to find job", data)
-                    if (
+                    if (action === 'close') {
+                        joyride.setState({
+                            ...joyride.state,
+                            run: false,
+                            stepIndex: 0,
+                            tourActive: false,
+                        })
+                    }
+                    else if (
                         type === 'step:after' &&
                         index === 0  /* or step.target === '#home' */
                     ) {
@@ -314,6 +347,13 @@ export const PortalQuestions = () => {
                             run: false,
                         }))
                         router.push('/portals/student/workplace/jobs')
+
+                        joyride.setState({
+                            ...joyride.state,
+                            run: false,
+                            stepIndex: 0,
+                            tourActive: false,
+                        })
                     } else if (action === 'reset' || lifecycle === 'complete') {
                         joyride.setState({
                             ...joyride.state,
@@ -369,7 +409,15 @@ export const PortalQuestions = () => {
             joyrideCallback: (joyride: any) => {
                 return (data: CallBackProps) => {
                     const { action, index, lifecycle, type } = data
-                    if (
+                    if (action === 'close') {
+                        joyride.setState({
+                            ...joyride.state,
+                            run: false,
+                            stepIndex: 0,
+                            tourActive: false,
+                        })
+                    }
+                    else if (
                         type === 'step:after' &&
                         index === 0 /* or step.target === '#home' */
                     ) {
@@ -430,7 +478,15 @@ export const PortalQuestions = () => {
             joyrideCallback: (joyride: any) => {
                 return (data: CallBackProps) => {
                     const { action, index, lifecycle, type } = data
-                    if (
+                    if (action === 'close') {
+                        joyride.setState({
+                            ...joyride.state,
+                            run: false,
+                            stepIndex: 0,
+                            tourActive: false,
+                        })
+                    }
+                    else if (
                         type === 'step:after' &&
                         index === 0 /* or step.target === '#home' */
                     ) {
@@ -459,7 +515,7 @@ export const PortalQuestions = () => {
                     content: (
                         <>
                             <div className="font-semibold">Click here</div>
-                            <div>You can see E-Sign tab from here</div>
+                            <div>Page is Under Construction...❗❗❗ 🚧👷‍♂️</div>
                         </>
                     ),
                     disableBeacon: true,
@@ -489,8 +545,15 @@ export const PortalQuestions = () => {
             joyrideCallback: (joyride: any) => {
                 return (data: CallBackProps) => {
                     const { action, index, lifecycle, type } = data
-
-                    if (
+                    if (action === 'close') {
+                        joyride.setState({
+                            ...joyride.state,
+                            run: false,
+                            stepIndex: 0,
+                            tourActive: false,
+                        })
+                    }
+                    else if (
                         type === 'step:after' &&
                         index === 0 /* or step.target === '#home' */
                     ) {
