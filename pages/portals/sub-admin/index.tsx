@@ -44,10 +44,10 @@ const getSectors = (courses: any) => {
     const sectors = {}
     courses.forEach((c: any) => {
         if ((sectors as any)[c.sector.name]) {
-            ;(sectors as any)[c.sector.name].push(c)
+            ; (sectors as any)[c.sector.name].push(c)
         } else {
-            ;(sectors as any)[c.sector.name] = []
-            ;(sectors as any)[c.sector.name].push(c)
+            ; (sectors as any)[c.sector.name] = []
+                ; (sectors as any)[c.sector.name].push(c)
         }
     })
     return sectors
@@ -103,7 +103,15 @@ const SubAdminDashboard: NextPageWithLayout = () => {
             joyrideCallback: (joyride: any) => {
                 return (data: CallBackProps) => {
                     const { action, index, lifecycle, type } = data
-                    if (
+                    if (action === 'close') {
+                        joyride.setState({
+                            ...joyride.state,
+                            run: false,
+                            stepIndex: 0,
+                            tourActive: false,
+                        })
+                    }
+                    else if (
                         type === 'step:after' &&
                         index === 0 /* or step.target === '#home' */
                     ) {
@@ -170,7 +178,15 @@ const SubAdminDashboard: NextPageWithLayout = () => {
             joyrideCallback: (joyride: any) => {
                 return (data: CallBackProps) => {
                     const { action, index, lifecycle, type } = data
-                    if (
+                    if (action === 'close') {
+                        joyride.setState({
+                            ...joyride.state,
+                            run: false,
+                            stepIndex: 0,
+                            tourActive: false,
+                        })
+                    }
+                    else if (
                         type === 'step:after' &&
                         index === 0 /* or step.target === '#home' */
                     ) {
@@ -228,9 +244,18 @@ const SubAdminDashboard: NextPageWithLayout = () => {
                 },
             ],
             joyrideCallback: (joyride: any) => {
+
                 return (data: CallBackProps) => {
                     const { action, index, lifecycle, type } = data
-                    if (
+                    if (action === 'close') {
+                        joyride.setState({
+                            ...joyride.state,
+                            run: false,
+                            stepIndex: 0,
+                            tourActive: false,
+                        })
+                    }
+                    else if (
                         type === 'step:after' &&
                         index === 0 /* or step.target === '#home' */
                     ) {
@@ -293,7 +318,15 @@ const SubAdminDashboard: NextPageWithLayout = () => {
             joyrideCallback: (joyride: any) => {
                 return (data: CallBackProps) => {
                     const { action, index, lifecycle, type } = data
-                    if (
+                    if (action === 'close') {
+                        joyride.setState({
+                            ...joyride.state,
+                            run: false,
+                            stepIndex: 0,
+                            tourActive: false,
+                        })
+                    }
+                    else if (
                         type === 'step:after' &&
                         index === 0 /* or step.target === '#home' */
                     ) {
@@ -311,7 +344,7 @@ const SubAdminDashboard: NextPageWithLayout = () => {
                             run: false,
                         }))
                     }
-                     else if (action === 'reset' || lifecycle === 'complete') {
+                    else if (action === 'reset' || lifecycle === 'complete') {
                         joyride.setState({
                             ...joyride.state,
                             run: false,
@@ -362,7 +395,15 @@ const SubAdminDashboard: NextPageWithLayout = () => {
             joyrideCallback: (joyride: any) => {
                 return (data: CallBackProps) => {
                     const { action, index, lifecycle, type } = data
-                    if (
+                    if (action === 'close') {
+                        joyride.setState({
+                            ...joyride.state,
+                            run: false,
+                            stepIndex: 0,
+                            tourActive: false,
+                        })
+                    }
+                    else if (
                         type === 'step:after' &&
                         index === 0 /* or step.target === '#home' */
                     ) {
@@ -453,7 +494,15 @@ const SubAdminDashboard: NextPageWithLayout = () => {
             joyrideCallback: (joyride: any) => {
                 return (data: CallBackProps) => {
                     const { action, index, lifecycle, type } = data
-                    if (
+                    if (action === 'close') {
+                        joyride.setState({
+                            ...joyride.state,
+                            run: false,
+                            stepIndex: 0,
+                            tourActive: false,
+                        })
+                    }
+                    else if (
                         type === 'step:after' &&
                         index === 0 /* or step.target === '#home' */
                     ) {
@@ -586,7 +635,15 @@ const SubAdminDashboard: NextPageWithLayout = () => {
             joyrideCallback: (joyride: any) => {
                 return (data: CallBackProps) => {
                     const { action, index, lifecycle, type } = data
-                    if (
+                    if (action === 'close') {
+                        joyride.setState({
+                            ...joyride.state,
+                            run: false,
+                            stepIndex: 0,
+                            tourActive: false,
+                        })
+                    }
+                    else if (
                         type === 'step:after' &&
                         index === 0 /* or step.target === '#home' */
                     ) {
