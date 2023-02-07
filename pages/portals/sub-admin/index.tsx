@@ -148,8 +148,8 @@ const SubAdminDashboard: NextPageWithLayout = () => {
                             <div>
                                 Select a single student, it will redirect you to
                                 student profile from there you can add workplace
-                                by clicking &quot;Add Workplace Button&quot;
-                                by clicking "Add Workplace Button"
+                                by clicking &quot;Add Workplace Button&quot; by
+                                clicking &rdquo;Add Workplace Button&rdquo;
                             </div>
                         </>
                     ),
@@ -185,7 +185,6 @@ const SubAdminDashboard: NextPageWithLayout = () => {
                             run: false,
                             stepIndex: 1,
                             tourActive: false,
-
                         })
                     }
                 }
@@ -271,7 +270,8 @@ const SubAdminDashboard: NextPageWithLayout = () => {
                             <div>Click Here</div>
                             <div>
                                 Select a single student, it will redirect you to
-                                student profile from there you can see "Placement Status" of a student.
+                                student profile from there you can see
+                                &rdquo;Placement Status&rdquo; of a student.
                             </div>
                         </>
                     ),
@@ -310,8 +310,7 @@ const SubAdminDashboard: NextPageWithLayout = () => {
                             ...prev,
                             run: false,
                         }))
-                    }
-                     else if (action === 'reset' || lifecycle === 'complete') {
+                    } else if (action === 'reset' || lifecycle === 'complete') {
                         joyride.setState({
                             ...joyride.state,
                             run: false,

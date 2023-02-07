@@ -207,7 +207,6 @@ export const Detail = ({
                             </span>
                         </Typography>
                     </div>
-
                     {/*  */}
                     <div className="grid grid-cols-3 h-[450px]">
                         <div className="border border-gray-300 border-r-transparent h-full overflow-hidden">
@@ -271,11 +270,11 @@ export const Detail = ({
                         ?.map((result: any) => result.result)
                         .includes('pending') && (
                             )} */}
+
                     {allCommentsAdded &&
                         (results?.isSubmitted || manualReOpen) && (
                             <Actions result={results} />
                         )}
-
                     {results?.totalSubmission >= 3 &&
                         results?.result !== 'pending' &&
                         !results?.isManualSubmission && (
@@ -298,13 +297,28 @@ export const Detail = ({
                                 />
                             </div>
                         )}
-                    <div className="mt-4">
-                        <Typography variant="muted" color="text-neutral-500">
-                            *You will be able to submit assessment evedence
-                            result after you add a comment to each folder
-                            mentioned above.
+
+                    <div className="px-5 py-3">
+                        <Typography variant={'label'} color={'text-gray-600'}>
+                            Final Comment
+                        </Typography>
+                        <Typography>
+                            {results?.isAssessed ? results?.finalComment : ''}
                         </Typography>
                     </div>
+
+                    {!results?.isSubmitted && (
+                        <div className="mt-4">
+                            <Typography
+                                variant="muted"
+                                color="text-neutral-500"
+                            >
+                                *You will be able to submit assessment evedence
+                                result after you add a comment to each folder
+                                mentioned above.
+                            </Typography>
+                        </div>
+                    )}
                 </div>
             )}
         </div>

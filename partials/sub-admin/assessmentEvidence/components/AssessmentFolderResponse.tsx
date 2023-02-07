@@ -76,7 +76,7 @@ export const AssessmentResponse = ({
                 <div className="bg-white">
                     {getAssessmentResponse.isLoading ||
                     getAssessmentResponse.isFetching ? (
-                        <div className="flex flex-col gap-y-2">
+                        <div className="flex flex-col justify-center items-center gap-y-2">
                             <LoadingAnimation size={50} />
                             <Typography variant="label">
                                 Assessment Files Loading
@@ -84,7 +84,7 @@ export const AssessmentResponse = ({
                         </div>
                     ) : getAssessmentResponse?.data?.files &&
                       getAssessmentResponse?.data?.files?.length > 0 ? (
-                        <div className="grid grid-cols-6 gap-x-2 pt-2">
+                        <div className="p-2 grid grid-cols-6 gap-x-2  overflow-hidden">
                             {getAssessmentResponse?.data?.files.map(
                                 (file: any) => (
                                     <AssessmentFolderFileCard

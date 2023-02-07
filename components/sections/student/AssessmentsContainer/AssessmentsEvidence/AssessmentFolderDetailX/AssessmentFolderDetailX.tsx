@@ -27,26 +27,26 @@ const Loading = () => {
     return <LoadingAnimation size={32} />
 }
 
+export const getDocType = (type: string) => {
+    switch (type) {
+        case 'docs':
+            return ['pdf']
+        case 'images':
+            return ['jpg', 'png', 'jpeg', 'JPG']
+        case 'video':
+            return ['mp4']
+
+        default:
+            return ['pdf', 'jpg', 'png', 'jpeg', 'mp4']
+    }
+}
+
 export const AssessmentFolderDetailX = ({ folder, fileUpload }: Props) => {
     // query
     // fetch files
     const { data, isLoading, isSuccess, isError, isFetching } =
         useGetAssessmentsFolderDetailQuery(folder?.id, { skip: !folder })
     const [uploadDocs, uploadDocsResult] = useUploadFolderDocsMutation()
-
-    const getDocType = () => {
-        switch (folder?.type) {
-            case 'docs':
-                return ['pdf']
-            case 'images':
-                return ['jpg', 'png', 'jpeg']
-            case 'docs':
-                return ['mp4']
-
-            default:
-                return ['pdf', 'jpg', 'png', 'jpeg', 'mp4']
-        }
-    }
 
     return (
         <div className="h-full">
@@ -85,7 +85,7 @@ export const AssessmentFolderDetailX = ({ folder, fileUpload }: Props) => {
                                     folder?.capacity -
                                     (data?.files?.length || 0)
                                 }
-                                acceptTypes={getDocType()}
+                                acceptTypes={getDocType(folder?.type)}
                                 multiple={folder?.capacity > 1}
                             />
                         ) : (
