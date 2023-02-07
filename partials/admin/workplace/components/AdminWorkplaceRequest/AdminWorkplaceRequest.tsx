@@ -24,9 +24,8 @@ export const AdminWorkplaceRequest = ({ workplace }: Props) => {
     return (
         <div>
             <Card>
-                <div className="flex justify-between gap-x-4 items-center pb-2.5 border-b border-dashed">
+                <div className="grid grid-cols-3 gap-x-4 items-center pb-2.5 border-b border-dashed">
                     <AssignWorkplace workplace={workplace} />
-
                     <div className="flex items-center relative">
                         <div className="flex items-center gap-x-2">
                             <InitialAvatar
@@ -55,7 +54,6 @@ export const AdminWorkplaceRequest = ({ workplace }: Props) => {
                             </div>
                         </div>
                     </div>
-
                     {/*  */}
                     <div className="flex items-center relative">
                         <div className="flex items-center gap-x-2">
@@ -71,7 +69,6 @@ export const AdminWorkplaceRequest = ({ workplace }: Props) => {
                             </div>
                         </div>
                     </div>
-
                     {/* Request Type Selection */}
                     {/* <RequestType
                         appliedIndustry={appliedIndustry}

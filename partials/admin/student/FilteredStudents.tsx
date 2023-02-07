@@ -33,6 +33,10 @@ import { IndustryCell } from '../industry/components'
 import { RiLockPasswordFill } from 'react-icons/ri'
 import { useActionModal } from '@hooks'
 
+interface StatusTableActionOption extends TableActionOption {
+    status: string
+}
+
 export const FilteredStudents = ({
     student,
     setPage,
@@ -91,6 +95,15 @@ export const FilteredStudents = ({
         //     color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
         // },
     ]
+    const statusBaseActions: StatusTableActionOption[] = [
+        {
+            status: 'approved',
+            text: 'Block',
+            onClick: (student: Student) => onBlockClicked(student),
+            Icon: MdBlock,
+            color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
+        },
+    ]
 
     const columns: ColumnDef<any>[] = [
         {
@@ -145,22 +158,28 @@ export const FilteredStudents = ({
             cell: ({ row }) => {
                 const workplace = row.original.workplace[0]
                 const steps = checkWorkplaceStatus(workplace?.currentStatus)
-                return <ProgressCell step={1} />
+
+                return <ProgressCell step={steps || 1} />
             },
         },
         {
             accessorKey: 'action',
             header: () => <span>Action</span>,
-            cell: (info) => {
-                return (
-                    <div className="flex gap-x-1 items-center">
-                        <TableAction
-                            options={tableActionOptions}
-                            rowItem={info.row.original}
-                        />
-                    </div>
-                )
-            },
+            cell: (info) => (
+                <div className="flex gap-x-1 items-center">
+                    <TableAction
+                        options={[
+                            ...tableActionOptions,
+                            ...statusBaseActions.filter(
+                                (action) =>
+                                    action.status ===
+                                    info.row.original?.user?.status
+                            ),
+                        ]}
+                        rowItem={info.row.original}
+                    />
+                </div>
+            ),
         },
     ]
 

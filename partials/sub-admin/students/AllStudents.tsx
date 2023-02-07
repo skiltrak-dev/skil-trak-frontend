@@ -9,10 +9,11 @@ import {
     Card,
     EmptyData,
     InitialAvatar,
-    LoadingAnimation, Table,
+    LoadingAnimation,
+    Table,
     TableAction,
     TableActionOption,
-    Typography
+    Typography,
 } from '@components'
 import { StudentCellInfo } from './components'
 
@@ -140,11 +141,10 @@ export const AllStudents = () => {
             cell: ({ row }: any) => {
                 const workplace = row.original.workplace[0]
                 const steps = checkWorkplaceStatus(workplace?.currentStatus)
-                console.log('steps', row.original?.id === 122 ? steps : null)
 
                 return (
                     <ProgressCell
-                        step={steps > 13 ? 13 : steps < 1 ? 1 : steps}
+                        step={steps > 14 ? 14 : steps < 1 ? 1 : steps}
                     />
                 )
             },

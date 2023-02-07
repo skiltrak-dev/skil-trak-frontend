@@ -27,7 +27,7 @@ export const OverViewTab = ({ student }: StudentsProfileOverviewProps) => {
 
             {/* Progress */}
             {student?.workplace?.length > 0 && (
-                <div className="my-4 max-w-[768px] overflow-hidden overflow-x-auto">
+                <div className="my-4  overflow-x-auto  custom-scrollbar">
                     <ProgressStep
                         status={student?.workplace[0]?.currentStatus}
                     />
