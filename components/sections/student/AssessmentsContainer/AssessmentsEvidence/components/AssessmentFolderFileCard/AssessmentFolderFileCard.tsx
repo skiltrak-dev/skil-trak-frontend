@@ -20,6 +20,9 @@ export const AssessmentFolderFileCard = ({
 }: AssessmentFolderFileCardProps) => {
     const file = fileUrl.split('\\').join('/')
 
+    const filePathSplit = fileUrl.split('/')
+    const fileName = filePathSplit[filePathSplit.length - 1]
+
     const pathname = new URL(file).pathname
     const extention = file
         ?.split('/')
@@ -61,14 +64,21 @@ export const AssessmentFolderFileCard = ({
                             }}
                         ></div>
                     )}
-                    <Typography variant="body" center>
+                    {/* <Typography variant="body" center>
                         {filename
                             ? ellipsisText(filename?.split('_')[0], 11)
                             : ellipsisText(
                                   pathname?.split('/')?.slice(1)[0],
                                   7
                               )}
-                    </Typography>
+                    </Typography> */}
+                    <div title={fileName}>
+                        <Typography variant="small" center>
+                            {filename
+                                ? ellipsisText(filename?.split('_')[0], 11)
+                                : `${ellipsisText(fileName, 7)}.${extention}`}
+                        </Typography>
+                    </div>
                 </div>
             )}
         </div>
