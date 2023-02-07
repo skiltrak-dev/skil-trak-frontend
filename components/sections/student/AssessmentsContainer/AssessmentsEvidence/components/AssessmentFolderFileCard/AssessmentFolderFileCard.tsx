@@ -5,6 +5,7 @@ import { VideoPreview } from '@components/VideoPreview'
 import { ellipsisText, FileFormat } from '@utils'
 import Image from 'next/image'
 import { IoMdDocument } from 'react-icons/io'
+import { getDocType } from '../../AssessmentFolderDetailX'
 
 type AssessmentFolderFileCardProps = {
     fileUrl: string
@@ -19,43 +20,42 @@ export const AssessmentFolderFileCard = ({
 }: AssessmentFolderFileCardProps) => {
     const file = fileUrl.split('\\').join('/')
 
-    console.log('file', file)
-    const url = 'http://www.mymainsite.com/somepath/path2/path3/path4'
     const pathname = new URL(file).pathname
-    console.log('pathnamepathname', pathname)
+    const extention = file
+        ?.split('/')
+        ?.reverse()
+        ?.filter((f) => f !== '')[0]
+        ?.split('.')
+        .reverse()[0]
+
+    console.log('extention', extention)
 
     return (
-        <div className="">
+        <div className="h-36">
             {fileUrl && (
                 <div className="relative w-full h-full flex flex-col gap-y-1.5">
                     {/* Video Preview */}
-                    {type === 'video' && (
-                        // Preview Video
-                        <div
-                            className="w-full h-28 bg-center bg-no-repeat bg-cover"
-                            style={{
-                                backgroundImage: `url(${`${file}` || ''})`,
-                            }}
-                        ></div>
-                    )}
-                    {type === 'video' && (
+                    {(type === 'video' ||
+                        getDocType('video')?.includes(extention)) && (
                         // Preview Video
                         <div className="bg-black h-full">
-                            <div className="h-[70%]">
+                            <div className="">
                                 <VideoPreview url={fileUrl} />
                             </div>
                         </div>
                     )}
                     {/* PDF Preview */}
-                    {type === 'docs' && (
-                        <div className="flex justify-center items-center w-full">
+                    {(type === 'docs' ||
+                        getDocType('docs')?.includes(extention)) && (
+                        <div className="h-full flex justify-center items-center w-full">
                             <IoMdDocument className="text-5xl text-gray" />
                         </div>
                     )}
                     {/* Image Preview */}
-                    {type === 'images' && (
+                    {(type === 'images' ||
+                        getDocType('images')?.includes(extention)) && (
                         <div
-                            className="w-full h-28 bg-center bg-no-repeat bg-cover"
+                            className="w-full h-full bg-center bg-no-repeat bg-cover rounded-md"
                             style={{
                                 backgroundImage: `url(${`${file}` || ''})`,
                             }}
