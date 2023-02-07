@@ -6,6 +6,7 @@ import {
     Table,
     TableAction,
     TableActionOption,
+    Typography,
 } from '@components'
 import { PageHeading } from '@components/headings'
 import { ColumnDef } from '@tanstack/react-table'
@@ -42,10 +43,7 @@ export const FilteredIndustry = ({
     }
     const onBlockClicked = (industry: Industry) => {
         setModal(
-            <BlockModal
-                industry={industry}
-                onCancel={() => onModalCancelClicked()}
-            />
+            <BlockModal industry={industry} onCancel={onModalCancelClicked} />
         )
     }
 
@@ -106,7 +104,17 @@ export const FilteredIndustry = ({
                 )
             },
         },
-
+        {
+            accessorKey: 'user.status',
+            header: () => <span>Status</span>,
+            cell: (info) => (
+                <Typography uppercase variant={'badge'}>
+                    <span className="font-bold">
+                        {info.row.original?.user?.status}
+                    </span>
+                </Typography>
+            ),
+        },
         {
             accessorKey: 'addressLine1',
             header: () => <span>Address</span>,

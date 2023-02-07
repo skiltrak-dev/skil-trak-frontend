@@ -17,7 +17,7 @@ import {
 import { getDate, onlyAlphabets } from '@utils'
 import { AuthApi } from '@queries'
 import { Course, Sector } from '@types'
-import { useActionModal } from '@hooks'
+import { useActionModal, useNotification } from '@hooks'
 
 export const StudentProfileForm = ({
     profile,
@@ -28,6 +28,8 @@ export const StudentProfileForm = ({
     result: any
     onSubmit: any
 }) => {
+    const { notification } = useNotification()
+
     const sectorResponse = AuthApi.useSectors({})
     const rtoResponse = AuthApi.useRtos({})
     const [sectorDefaultOptions, setSectorDefaultOptions] = useState<
@@ -38,6 +40,15 @@ export const StudentProfileForm = ({
     const [courseDefaultOptions, setCourseDefaultOptions] = useState([])
 
     const { onUpdatePassword, passwordModal } = useActionModal()
+
+    useEffect(() => {
+        if (result.isSuccess) {
+            notification.success({
+                title: 'Profile Updated',
+                description: 'Profile Updated Successfully',
+            })
+        }
+    }, [result])
 
     const sectorOptions = sectorResponse?.data
         ? sectorResponse.data?.map((sector: any) => ({

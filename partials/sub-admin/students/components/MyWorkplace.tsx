@@ -2,17 +2,15 @@ import { Card } from '@components/cards'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-import React from 'react'
 import { FaMapMarkerAlt } from 'react-icons/fa'
 import { IoBriefcase } from 'react-icons/io5'
-import { MdPermContactCalendar, MdPhone } from 'react-icons/md'
 
 //queries
-import { useGetSubAdminMyRtoQuery } from '@queries'
-import { NoData } from '@components/ActionAnimations'
-import { Button } from '@components/buttons'
-import { AddWorkplace } from './AddWorkplace'
 import { WorkplaceAvatar } from '@components'
+import { ActionButton } from '@components/buttons'
+import { useGetSubAdminMyRtoQuery } from '@queries'
+import { getUserCredentials } from '@utils'
+import { AddWorkplace } from './AddWorkplace'
 
 type Props = {
     myWorkplace: any
@@ -28,6 +26,10 @@ export const MyWorkplace = ({ myWorkplace }: Props) => {
     //     (item: any) => !item.isCancelled
     // )
 
+    console.log('myWorkplace', myWorkplace)
+
+    const role = getUserCredentials()?.role
+
     return (
         <Card fullHeight>
             {/* Card Header */}
@@ -42,15 +44,22 @@ export const MyWorkplace = ({ myWorkplace }: Props) => {
 
                 {/* Action */}
                 <div className="flex justify-between gap-x-4">
-                    {myWorkplace?.industries?.length ? (
-                        <Link legacyBehavior href="#">
-                            <a className="inline-block uppercase text-xs font-medium bg-green-100 text-green-600 px-4 py-2 rounded">
-                                See Details
-                            </a>
-                        </Link>
+                    {role !== 'rto' && myWorkplace?.industries?.length ? (
+                        <ActionButton
+                            variant="success"
+                            onClick={() => {
+                                pathname.push(
+                                    role === 'admin'
+                                        ? `/portals/admin/industry/${myWorkplace?.industries[0]?.id}?tab=sectors`
+                                        : `/portals/sub-admin/users/industries/${myWorkplace?.industries[0]?.id}?tab=overview`
+                                )
+                            }}
+                        >
+                            See Details
+                        </ActionButton>
                     ) : null}
 
-                    {myWorkplace?.industries?.length > 1 ? (
+                    {role !== 'rto' && myWorkplace?.industries?.length > 1 ? (
                         <Link legacyBehavior href="#">
                             <a className="inline-block uppercase text-xs font-medium bg-gray-100 text-gray-500 px-4 py-2 rounded">
                                 VIEW SECOND
@@ -59,7 +68,6 @@ export const MyWorkplace = ({ myWorkplace }: Props) => {
                     ) : null}
                 </div>
             </div>
-
             {/* Card Body */}
             {myWorkplace?.industries?.length > 0 ? (
                 myWorkplace?.industries?.slice(0, 1)?.map((data: any) => (

@@ -18,6 +18,7 @@ import { profileEndpoints } from './profile'
 import { AdminStats } from '@types'
 import { useUpdateSubAdminProfileMutation } from '../sub-admin'
 import { volunteerEndpoints } from './volunteer'
+import { documentsEndpoints } from './documents'
 
 const PREFIX = 'admin'
 export const adminApi = createApi({
@@ -54,6 +55,7 @@ export const adminApi = createApi({
         'Statistics',
         'Workplaces',
         'SMS',
+        'Documents',
     ],
 
     // ---------- RTO ENDPOINTS ---------- //
@@ -87,6 +89,7 @@ export const adminApi = createApi({
         ...messagesEndpoints(build),
         ...profileEndpoints(build),
         ...volunteerEndpoints(build),
+        ...documentsEndpoints(build),
     }),
 })
 
@@ -221,6 +224,10 @@ const {
 
     // ----- SMS ----- //
     useSendSMSMutation,
+
+    // ---- DOCUMENTS ---- //
+    useAddDocumentsMutation,
+    useGetDocumentsQuery,
 } = adminApi
 
 export const AdminApi = {
@@ -361,5 +368,9 @@ export const AdminApi = {
     },
     SMS: {
         sendSMS: useSendSMSMutation,
+    },
+    Documents: {
+        addDocuments: useAddDocumentsMutation,
+        useGetDocuments: useGetDocumentsQuery,
     },
 }

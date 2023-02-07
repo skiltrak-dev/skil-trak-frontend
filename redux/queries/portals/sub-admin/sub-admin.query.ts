@@ -173,8 +173,10 @@ export const {
 
     // --- INDUSTRIES --- //
     useGetSubAdminIndustriesQuery,
+    useGetFavouriteIndustriesQuery,
     useGetSubAdminIndustryStudentsQuery,
     useGetSubAdminIndustriesProfileQuery,
+    useAddToFavoriteMutation,
 } = subAdminApi
 
 export const SubAdminApi = {

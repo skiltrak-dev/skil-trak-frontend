@@ -258,7 +258,7 @@ export const PortalQuestions = () => {
         },
         {
             text: `I want to look for a job`,
-            link: '#',
+            link: '/student/workplace/jobs',
             steps: [
                 {
                     target: '#workplace',
@@ -295,9 +295,10 @@ export const PortalQuestions = () => {
             joyrideCallback: (joyride: any) => {
                 return (data: CallBackProps) => {
                     const { action, index, lifecycle, type } = data
+                    // console.log("I want to find job", data)
                     if (
                         type === 'step:after' &&
-                        index === 0 /* or step.target === '#home' */
+                        index === 0  /* or step.target === '#home' */
                     ) {
                         joyride.setState((prev: any) => ({
                             ...prev,
@@ -488,6 +489,7 @@ export const PortalQuestions = () => {
             joyrideCallback: (joyride: any) => {
                 return (data: CallBackProps) => {
                     const { action, index, lifecycle, type } = data
+
                     if (
                         type === 'step:after' &&
                         index === 0 /* or step.target === '#home' */
@@ -512,11 +514,13 @@ export const PortalQuestions = () => {
 
     const NotificationQuestions = [
         {
-            text: `I have a workplace. What next?`,
+            // text: `I have a workplace. What next?`,
+            text: "",
             link: '#',
         },
         {
-            text: `I don't have a workplace. What should I do?`,
+            // text: `I don't have a workplace. What should I do?`,
+            text: "",
             link: '#',
         },
     ]

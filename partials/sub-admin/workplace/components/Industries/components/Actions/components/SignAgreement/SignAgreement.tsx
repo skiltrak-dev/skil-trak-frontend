@@ -1,23 +1,22 @@
-import { useEffect, useRef } from 'react'
+import { useEffect } from 'react'
 // Icons
 import { ShowErrorNotifications } from '@components'
 
 import { FileUpload } from '@hoc'
 
 // components
-import { Typography } from 'components'
-import { Button } from '@components/buttons'
-import { MdCloudUpload } from 'react-icons/md'
-import { UploadAgreement } from './UploadAgreement'
-import { useAgrementSignMutation } from '@queries'
 import { useNotification } from '@hooks'
+import { useAgrementSignMutation } from '@queries'
+import { UploadAgreement } from './UploadAgreement'
 
 export const SignAgreement = ({
     studentId,
     appliedIndustryId,
+    student,
 }: {
     studentId: any
     appliedIndustryId: any
+    student: any
 }) => {
     const { notification } = useNotification()
     const [agrementSign, agrementSignResult] = useAgrementSignMutation()
@@ -32,6 +31,7 @@ export const SignAgreement = ({
     }, [agrementSignResult])
 
     const UploadAgreementFile = ({ name }: any) => {
+        console.log('name', name)
         return (
             <UploadAgreement
                 name={name}
@@ -39,6 +39,7 @@ export const SignAgreement = ({
             />
         )
     }
+
     return (
         <>
             <ShowErrorNotifications result={agrementSignResult} />
@@ -60,7 +61,7 @@ export const SignAgreement = ({
                         })
                     }
                 }}
-                name={'folder?.name'}
+                name={`${studentId}${appliedIndustryId}${student?.user?.name}`}
                 component={UploadAgreementFile}
                 acceptTypes={['pdf']}
             />

@@ -52,7 +52,6 @@ export const StudentLayout = ({ pageTitle, children }: StudentLayoutProps) => {
             router.push(getRoutePath)
         }
     }, [router])
-
     useEffect(() => {
         if (userData?.status === 'pending') {
             alert.warning({
@@ -93,14 +92,21 @@ export const StudentLayout = ({ pageTitle, children }: StudentLayoutProps) => {
                         run={joyride.state.run}
                         stepIndex={joyride.state.stepIndex}
                         steps={joyride.state.steps}
-                        // styles={{
-                        //     options: {
-                        //         arrowColor: theme.black,
-                        //         backgroundColor: theme.black,
-                        //         primaryColor: theme.colors.purple,
-                        //         textColor: theme.white,
-                        //     },
-                        // }}
+                        showSkipButton={true}
+                        hideCloseButton={true}
+                        disableOverlayClose={true}
+                        hideBackButton={true}
+                        locale={{
+                            skip: "Close Tour"
+                        }}
+                    // styles={{
+                    //     options: {
+                    //         arrowColor: theme.black,
+                    //         backgroundColor: theme.black,
+                    //         primaryColor: theme.colors.purple,
+                    //         textColor: theme.white,
+                    //     },
+                    // }}
                     />
                 )}
             </>

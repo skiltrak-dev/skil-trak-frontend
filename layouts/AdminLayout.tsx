@@ -118,6 +118,11 @@ const routes: Route[] = [
         path: getRoutePath('/sms'),
         Icon: MdSubscriptions,
     },
+    {
+        text: 'Documents',
+        path: getRoutePath('/documents'),
+        Icon: MdSubscriptions,
+    },
 ]
 
 export const AdminLayout = ({ children }: any) => {

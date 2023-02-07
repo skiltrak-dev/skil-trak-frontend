@@ -53,7 +53,7 @@ const Workplace: NextPageWithLayout = (props: Props) => {
 
     const tabs: TabProps[] = [
         {
-            label: 'All Student Provided Workplace',
+            label: 'Student Provided Workplaces',
             href: {
                 pathname: 'workplaces',
                 query: { tab: 'all-student-provided-workplace' },
@@ -61,7 +61,7 @@ const Workplace: NextPageWithLayout = (props: Props) => {
             element: <AllStudentProvidedWorkplace />,
         },
         {
-            label: 'All Requested Workplace',
+            label: 'All Workplace Requests',
             href: {
                 pathname: 'workplaces',
                 query: { tab: 'all-requested-workplace' },
@@ -69,7 +69,7 @@ const Workplace: NextPageWithLayout = (props: Props) => {
             element: <AllRequestedWorkplace />,
         },
         {
-            label: 'Assigned Request',
+            label: 'Assigned Requests',
             href: {
                 pathname: 'workplaces',
                 query: { tab: 'assigned-request' },
@@ -77,7 +77,7 @@ const Workplace: NextPageWithLayout = (props: Props) => {
             element: <AssignedRequest />,
         },
         {
-            label: 'Un Assigned Request',
+            label: 'Un Assigned Requests',
             href: {
                 pathname: 'workplaces',
                 query: { tab: 'un-assigned-request' },

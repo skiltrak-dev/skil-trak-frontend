@@ -88,6 +88,13 @@ export const RtoLayout = ({ pageTitle, children }: RtoLayoutProps) => {
                         run={joyride.state.run}
                         stepIndex={joyride.state.stepIndex}
                         steps={joyride.state.steps}
+                        showSkipButton={true}
+                        hideCloseButton={true}
+                        disableOverlayClose={true}
+                        hideBackButton={true}
+                        locale={{
+                            skip: "Close Tour"
+                        }}
                         // styles={{
                         //     options: {
                         //         arrowColor: theme.black,

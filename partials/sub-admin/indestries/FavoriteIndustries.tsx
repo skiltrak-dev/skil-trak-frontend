@@ -19,7 +19,7 @@ import {
 } from '@components'
 
 import { Industry } from '@types'
-import { useGetSubAdminIndustriesQuery } from '@queries'
+import { useGetFavouriteIndustriesQuery } from '@queries'
 
 export const FavoriteIndustries = () => {
     const [modal, setModal] = useState<ReactElement | null>(null)
@@ -27,8 +27,7 @@ export const FavoriteIndustries = () => {
     const [itemPerPage, setItemPerPage] = useState(50)
     const [page, setPage] = useState(1)
 
-    const { isLoading, data, isError } = useGetSubAdminIndustriesQuery({
-        search: `status:favourite`,
+    const { isLoading, data, isError } = useGetFavouriteIndustriesQuery({
         skip: itemPerPage * page - itemPerPage,
         limit: itemPerPage,
     })
@@ -39,6 +38,15 @@ export const FavoriteIndustries = () => {
                 router.push(
                     `/portals/sub-admin/users/industries/${industry.id}`
                 )
+            },
+            Icon: FaEye,
+        },
+        {
+            text: 'Un-Favourite',
+            onClick: (industry: Industry) => {
+                // router.push(
+                //     `/portals/sub-admin/users/industries/${industry.id}`
+                // )
             },
             Icon: FaEye,
         },

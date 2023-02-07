@@ -19,7 +19,7 @@ export const workplaceRequestApi = createApi({
     endpoints: (builder) => ({
         workPlaceRequest: builder.mutation({
             query: (body) => ({
-                url: `workplace-requests`,
+                url: `students/workplace-requests`,
                 method: 'POST',
                 body,
             }),

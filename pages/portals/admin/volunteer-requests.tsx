@@ -60,7 +60,7 @@ const VolunteerRequests: NextPageWithLayout = (props: Props) => {
         )
     }
     useEffect(() => {
-        navBar.setTitle('Workplace Request')
+        navBar.setTitle('Volunteer Request')
     }, [])
     const tableActionOptions: TableActionOption[] = [
         {

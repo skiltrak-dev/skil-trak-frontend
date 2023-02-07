@@ -72,7 +72,7 @@ export const studentsEndpoints = (
     }),
     subAdminRequestWorkplace: builder.mutation<any, any>({
         query: (body) => ({
-            url: `${PREFIX}/workplace-requests`,
+            url: `students/workplace-requests`,
             method: 'POST',
             body,
         }),
