@@ -13,6 +13,10 @@ type WorkplaceRequestStatus =
     | '7-AgreementPending'
     | '8-AgreementSigned'
     | '9-PlacementStarted'
+    | '10-PlacementCancelled'
+    | '11-PlacementCompleted'
+    | '12-Rejected'
+    | '13-Terminated'
 
 const WorkplaceRequestProgress = {
     '1-NotRequested': {
@@ -69,10 +73,28 @@ const WorkplaceRequestProgress = {
         color: 'text-white',
         image: 'placement-started.png',
     },
-    '10-PlacementStarted': {
+    '10-PlacementCancelled': {
         status: 'Placement Cancelled',
-        description: '',
-        color: 'text-white',
+        description: 'placement-cancelled',
+        color: 'text-error',
+        image: 'placement-cancelled.png',
+    },
+    '11-PlacementCompleted': {
+        status: 'Placement Completed',
+        description: 'placement-completed',
+        color: 'text-green-500',
+        image: 'placement-cancelled.png',
+    },
+    '12-Rejected': {
+        status: 'Rejected',
+        description: 'placement-rejected',
+        color: 'text-error',
+        image: 'placement-cancelled.png',
+    },
+    '13-Terminated': {
+        status: 'Terminated',
+        description: 'placement-terminated',
+        color: 'text-error',
         image: 'placement-cancelled.png',
     },
 }
@@ -82,10 +104,12 @@ export const ProgressCell = ({
     step,
 }: {
     status?: WorkplaceRequestStatus
-    step: 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | number
+    step: 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 | 13 | number
 }) => {
+    console.log('stepssdsdssdsd', step)
     // const currentStatus = WorkplaceRequestProgress[status]
     const currentStatus = Object.values(WorkplaceRequestProgress)[step - 1]
+    console.log('currentStatuscurrentStatuscurrentStatus', currentStatus)
 
     const classes = classNames({
         'px-2 py-1 rounded-md flex items-center gap-x-2 w-full': true,

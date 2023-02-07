@@ -16,7 +16,7 @@ export const notesEndpoints = (
         providesTags: ['Notes', 'AllCommunications'],
     }),
 
-    noteStatusChange: builder.mutation({
+    noteStatusChange: builder.mutation<Note, number>({
         query: (id) => ({
             url: `${PREFIX}/pin/${id}`,
             method: 'PATCH',

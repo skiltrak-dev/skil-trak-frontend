@@ -1,10 +1,24 @@
 import { TimerItem } from './TimerItem'
 import Countdown from 'react-countdown'
 import { Button } from '@components/buttons'
-import { useEffect, useState } from 'react'
+import { ReactElement, useEffect, useState } from 'react'
 import moment from 'moment'
+import { AiFillEdit } from 'react-icons/ai'
+import { EditTimer } from './EditTimer'
 
-export const StudentTimer = ({ date }: { date: Date }) => {
+export const StudentTimer = ({
+    studentId,
+    date,
+}: {
+    studentId: number | undefined
+    date: Date
+}) => {
+    const [modal, setModal] = useState<ReactElement | null>(null)
+    const [mounted, setMounted] = useState(false)
+    useEffect(() => {
+        setMounted(true)
+    }, [])
+
     const countDownRendered = ({
         days,
         hours,
@@ -41,17 +55,40 @@ export const StudentTimer = ({ date }: { date: Date }) => {
         }
     }
 
-    const [mounted, setMounted] = useState(false)
-    useEffect(() => {
-        setMounted(true)
-    }, [])
-    return mounted ? (
-        // <div className='bg-gray-700 text-white py-1 px-2 rounded-md'>
-        <div className="relative group">
-            <Countdown date={date} renderer={countDownRendered} />
-            <div className="group-hover:block hidden text-xs whitespace-nowrap shadow-lg text-gray-100 bg-gray-700 px-2 py-1 rounded-md absolute z-10 right-0">
-                Expires At {moment(date).format('DD MMMM, YYYY')}
-            </div>
-        </div>
-    ) : null
+    const onCancelClicked = () => {
+        setModal(null)
+    }
+
+    const onDateClick = () => {
+        setModal(
+            <EditTimer
+                studentId={studentId}
+                date={date}
+                onCancel={onCancelClicked}
+            />
+        )
+    }
+    return (
+        <>
+            {modal}
+            {mounted ? (
+                // <div className='bg-gray-700 text-white py-1 px-2 rounded-md'>
+                <div className="flex items-center justify-center gap-x-2">
+                    <div className="relative group">
+                        <Countdown date={date} renderer={countDownRendered} />
+                        <div className="group-hover:block hidden text-xs whitespace-nowrap shadow-lg text-gray-100 bg-gray-700 px-2 py-1 rounded-md absolute z-10 right-0">
+                            Expires At {moment(date).format('DD MMMM, YYYY')}
+                        </div>
+                    </div>
+                    <div
+                        className="bg-blue-100 rounded-full p-1"
+                        title={'Edit Expiry Date'}
+                        onClick={onDateClick}
+                    >
+                        <AiFillEdit className="text-blue-400  cursor-pointer" />
+                    </div>
+                </div>
+            ) : null}
+        </>
+    )
 }

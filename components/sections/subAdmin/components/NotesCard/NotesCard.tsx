@@ -3,7 +3,7 @@ import { useEffect } from 'react'
 
 import { ActionButton, LoadingAnimation } from '@components'
 
-import { SubAdminApi } from '@queries'
+import { CommonApi } from '@queries'
 
 // hooks
 import { useNotification } from '@hooks'
@@ -16,9 +16,8 @@ import { PuffLoader } from 'react-spinners'
 export const NotesCard = ({ note, pinnedNote, setEditValues }: any) => {
     const { notification } = useNotification()
 
-    const [changeStatus, changeStatusResult] =
-        SubAdminApi.Notes.useStatusChange()
-    const [deleteNote, deleteNoteResult] = SubAdminApi.Notes.useDelete()
+    const [changeStatus, changeStatusResult] = CommonApi.Notes.useStatusChange()
+    const [deleteNote, deleteNoteResult] = CommonApi.Notes.useRemove()
 
     useEffect(() => {
         if (changeStatusResult?.isSuccess) {
