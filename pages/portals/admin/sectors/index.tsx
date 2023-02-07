@@ -7,12 +7,6 @@ import { Courses, Sectors } from '@partials/admin/sector'
 import { NextPageWithLayout } from '@types'
 
 const SectorList: NextPageWithLayout = () => {
-    const navBar = useNavbar()
-
-    useEffect(() => {
-        navBar.setTitle('Sectors')
-    }, [])
-
     const tabs: TabProps[] = [
         {
             label: 'Sectors',

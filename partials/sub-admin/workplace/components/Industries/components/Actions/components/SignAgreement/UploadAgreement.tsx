@@ -19,7 +19,7 @@ export const UploadAgreement = ({
     return (
         <Button variant={'dark'} loading={loading} disabled={loading}>
             <label htmlFor={`file_id_${name}`} className="cursor-pointer">
-                {loading ? <LoadingAnimation size={20} /> : 'SIGN AGREEMENT'}
+                SIGN AGREEMENT
             </label>
         </Button>
     )

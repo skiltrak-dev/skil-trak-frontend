@@ -63,6 +63,7 @@ export const StudentProfile = ({ noTitle }: { noTitle?: boolean }) => {
         useUpdateAssessmentToolArchiveMutation()
 
     const role = getUserCredentials()?.role
+    const status = getUserCredentials()?.status
 
     const statusBaseActions = () => {
         switch (data?.user?.status) {
@@ -191,7 +192,7 @@ export const StudentProfile = ({ noTitle }: { noTitle?: boolean }) => {
                             <div className="pl-4">
                                 <StudentTimer date={new Date('02/25/2023')} />
                             </div>
-                            {statusBaseActions()}
+                            {role !== 'rto' && statusBaseActions()}
                         </div>
                     )}
                 </div>

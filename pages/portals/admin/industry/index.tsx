@@ -32,7 +32,7 @@ const IndustryList: NextPageWithLayout = () => {
     const [page, setPage] = useState(1)
     const [filter, setFilter] = useState({})
     const filteredIndustries = AdminApi.Industries.useListQuery({
-        search: `status:approved,${JSON.stringify(filter)
+        search: `${JSON.stringify(filter)
             .replaceAll('{', '')
             .replaceAll('}', '')
             .replaceAll('"', '')

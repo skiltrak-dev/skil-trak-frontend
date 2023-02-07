@@ -145,6 +145,7 @@ export const Actions = ({
                     {!appliedIndustry?.AgreementSigned && (
                         <div>
                             <SignAgreement
+                                student={workplace?.student}
                                 studentId={workplace?.student?.id}
                                 appliedIndustryId={appliedIndustry?.id}
                             />

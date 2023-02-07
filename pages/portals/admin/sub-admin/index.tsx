@@ -42,13 +42,13 @@ const SubAdminList: NextPageWithLayout = () => {
 
     useEffect(() => {
         navBar.setTitle('Sub-Admins')
-        contextBar.hide()
+        // contextBar.hide()
         // contextBar.setContent(<UserProfile />)
     }, [])
 
     useEffect(() => {
         navBar.setTitle('Sub-Admins')
-        contextBar.hide()
+        // contextBar.hide()
     }, [])
 
     const tabs: TabProps[] = [
@@ -73,9 +73,10 @@ const SubAdminList: NextPageWithLayout = () => {
     ]
 
     const onAddSubAdmin = () => {
+        console.log('bujja')
+        contextBar.show()
         contextBar.setTitle('Add SubAdmin')
         contextBar.setContent(<AddSubAdminCB />)
-        contextBar.show()
     }
 
     const filteredDataLength = checkFilteredDataLength(filter)

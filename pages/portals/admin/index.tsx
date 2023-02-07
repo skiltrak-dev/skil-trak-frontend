@@ -6,11 +6,18 @@ import { adminApi, AdminApi } from '@queries'
 import { NextPageWithLayout } from '@types'
 import { AuthUtils } from '@utils'
 import { format } from 'date-fns'
+import { useNavbar } from '@hooks'
 
 const AdminDashboard: NextPageWithLayout = () => {
+    const navBar = useNavbar()
+
     const [name, setName] = useState('')
     const credentials = AuthUtils.getUserCredentials()
     const stats = AdminApi.Admin.useCount()
+
+    useEffect(() => {
+        navBar.setTitle('Admin Dashboard')
+    }, [])
 
     useEffect(() => {
         if (name === '') {

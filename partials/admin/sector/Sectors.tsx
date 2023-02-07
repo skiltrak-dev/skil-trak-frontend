@@ -15,7 +15,7 @@ import { PageHeading } from '@components/headings'
 import { ColumnDef } from '@tanstack/react-table'
 import { FaBook, FaEdit, FaFileExport, FaTrash } from 'react-icons/fa'
 
-import { useContextBar } from '@hooks'
+import { useContextBar, useNavbar } from '@hooks'
 import { AdminApi } from '@queries'
 import { Sector } from '@types'
 import { useRouter } from 'next/router'
@@ -26,6 +26,11 @@ export const Sectors = () => {
     const router = useRouter()
     const contextBar = useContextBar()
     const [modal, setModal] = useState<ReactElement | null>(null)
+    const navBar = useNavbar()
+
+    useEffect(() => {
+        navBar.setTitle('Sectors')
+    }, [])
 
     const [filterAction, setFilterAction] = useState(null)
     const [itemPerPage, setItemPerPage] = useState(50)
