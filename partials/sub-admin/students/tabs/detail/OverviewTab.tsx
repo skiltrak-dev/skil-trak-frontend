@@ -15,24 +15,18 @@ type StudentsProfileOverviewProps = {
 }
 
 export const OverViewTab = ({ student }: StudentsProfileOverviewProps) => {
-    const upcommingAppointment = CommonApi.Appointments.useUpcommingAppointment(
-        student?.user?.id,
-        { skip: !student }
-    )
-
     return (
         <div className="w-full mt-6">
             {/* pinned Notes */}
             <PinnedNotes id={student?.user?.id} />
 
             {/* Progress */}
-            {student?.workplace?.length > 0 && (
-                <div className="my-4  overflow-x-auto  custom-scrollbar">
-                    <ProgressStep
-                        status={student?.workplace[0]?.currentStatus}
-                    />
-                </div>
-            )}
+            {/* {student?.workplace?.length > 0 && ( */}
+            {student?.industries[0]?.currentStatus}
+            <div className="my-4  overflow-x-auto  custom-scrollbar">
+                <ProgressStep status={student?.industries[0]?.currentStatus} />
+            </div>
+            {/* )} */}
 
             <div className="my-4">
                 <Courses id={student?.id} />

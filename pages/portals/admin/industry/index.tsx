@@ -10,7 +10,7 @@ import {
 } from '@components'
 import { useContextBar, useNavbar } from '@hooks'
 import { AdminLayout } from '@layouts'
-import { NextPageWithLayout } from '@types'
+import { NextPageWithLayout, UserStatus } from '@types'
 
 import {
     ApprovedIndustry,
@@ -51,7 +51,7 @@ const IndustryList: NextPageWithLayout = () => {
     const tabs: TabProps[] = [
         {
             label: 'Pending',
-            href: { pathname: 'industry', query: { tab: 'pending' } },
+            href: { pathname: 'industry', query: { tab: UserStatus.Pending } },
             badge: {
                 text: data?.pending,
                 loading: isLoading,
@@ -60,7 +60,7 @@ const IndustryList: NextPageWithLayout = () => {
         },
         {
             label: 'Approved',
-            href: { pathname: 'industry', query: { tab: 'approved' } },
+            href: { pathname: 'industry', query: { tab: UserStatus.Approved } },
             badge: {
                 text: data?.approved,
                 loading: isLoading,
@@ -69,7 +69,7 @@ const IndustryList: NextPageWithLayout = () => {
         },
         {
             label: 'Rejected',
-            href: { pathname: 'industry', query: { tab: 'rejected' } },
+            href: { pathname: 'industry', query: { tab: UserStatus.Rejected } },
             badge: {
                 text: data?.rejected,
                 loading: isLoading,
@@ -78,7 +78,7 @@ const IndustryList: NextPageWithLayout = () => {
         },
         {
             label: 'Blocked',
-            href: { pathname: 'industry', query: { tab: 'blocked' } },
+            href: { pathname: 'industry', query: { tab: UserStatus.Blocked } },
             badge: {
                 text: data?.blocked,
                 loading: isLoading,
@@ -87,7 +87,7 @@ const IndustryList: NextPageWithLayout = () => {
         },
         {
             label: 'Archived',
-            href: { pathname: 'industry', query: { tab: 'archived' } },
+            href: { pathname: 'industry', query: { tab: UserStatus.Archived } },
             badge: {
                 text: data?.archived,
                 loading: isLoading,

@@ -31,7 +31,6 @@ export const AssessmentFolderFileCard = ({
         ?.split('.')
         .reverse()[0]
 
-    console.log('extention', extention)
 
     return (
         <div className="h-36">

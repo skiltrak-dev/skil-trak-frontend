@@ -53,7 +53,7 @@ export const StudentLayout = ({ pageTitle, children }: StudentLayoutProps) => {
         }
     }, [router])
     useEffect(() => {
-        if (userData?.status === 'pending') {
+        if (userData?.status === UserStatus.Pending) {
             alert.warning({
                 title: `${userData?.name} is Pending`,
                 description: 'Please wait for admin approval',
@@ -97,16 +97,16 @@ export const StudentLayout = ({ pageTitle, children }: StudentLayoutProps) => {
                         disableOverlayClose={true}
                         hideBackButton={true}
                         locale={{
-                            skip: "Close Tour"
+                            skip: 'Close Tour',
                         }}
-                    // styles={{
-                    //     options: {
-                    //         arrowColor: theme.black,
-                    //         backgroundColor: theme.black,
-                    //         primaryColor: theme.colors.purple,
-                    //         textColor: theme.white,
-                    //     },
-                    // }}
+                        // styles={{
+                        //     options: {
+                        //         arrowColor: theme.black,
+                        //         backgroundColor: theme.black,
+                        //         primaryColor: theme.colors.purple,
+                        //         textColor: theme.white,
+                        //     },
+                        // }}
                     />
                 )}
             </>

@@ -13,7 +13,7 @@ import {
 } from '@components'
 import { PageHeading } from '@components/headings'
 import { ColumnDef } from '@tanstack/react-table'
-import { FaEdit, FaEye, FaFileExport, FaFilter } from 'react-icons/fa'
+import { FaEdit, FaEye, FaFileExport, FaFilter, FaTrash } from 'react-icons/fa'
 
 import { AdminApi } from '@queries'
 import { MdBlock, MdEmail, MdPhoneIphone } from 'react-icons/md'
@@ -25,16 +25,24 @@ import {
     StudentCellInfo,
 } from './components'
 import { RtoCellInfo } from '@partials/admin/rto/components'
-import { Student } from '@types'
-import { BlockModal } from './modals'
+import { Student, UserStatus } from '@types'
+import {
+    AcceptModal,
+    ArchiveModal,
+    BlockModal,
+    DeleteModal,
+    RejectModal,
+    UnblockModal,
+} from './modals'
 import { useRouter } from 'next/router'
 import { checkWorkplaceStatus } from '@utils'
 import { IndustryCell } from '../industry/components'
 import { RiLockPasswordFill } from 'react-icons/ri'
 import { useActionModal } from '@hooks'
+import { CgUnblock } from 'react-icons/cg'
 
 interface StatusTableActionOption extends TableActionOption {
-    status: string
+    status: string[]
 }
 
 export const FilteredStudents = ({
@@ -66,6 +74,38 @@ export const FilteredStudents = ({
         )
     }
 
+    const onUnblockClicked = (student: Student) => {
+        setModal(
+            <UnblockModal
+                item={student}
+                onCancel={() => onModalCancelClicked()}
+            />
+        )
+    }
+    const onAcceptClicked = (item: Student) => {
+        setModal(
+            <AcceptModal item={item} onCancel={() => onModalCancelClicked()} />
+        )
+    }
+    const onRejectClicked = (item: Student) => {
+        setModal(
+            <RejectModal item={item} onCancel={() => onModalCancelClicked()} />
+        )
+    }
+    const onArchivedClicked = (item: Student) => {
+        setModal(
+            <ArchiveModal item={item} onCancel={() => onModalCancelClicked()} />
+        )
+    }
+    const onDeleteClicked = (student: Student) => {
+        setModal(
+            <DeleteModal
+                item={student}
+                onCancel={() => onModalCancelClicked()}
+            />
+        )
+    }
+
     const tableActionOptions: TableActionOption[] = [
         {
             text: 'View',
@@ -88,19 +128,59 @@ export const FilteredStudents = ({
             onClick: (student: Student) => onViewPassword(student),
             Icon: RiLockPasswordFill,
         },
-        // {
-        //     text: 'Block',
-        //     onClick: (student: Student) => onBlockClicked(student),
-        //     Icon: MdBlock,
-        //     color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
-        // },
     ]
     const statusBaseActions: StatusTableActionOption[] = [
         {
-            status: 'approved',
+            status: [UserStatus.Approved],
             text: 'Block',
             onClick: (student: Student) => onBlockClicked(student),
             Icon: MdBlock,
+            color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
+        },
+        {
+            status: [UserStatus.Approved],
+            text: 'Archive',
+            onClick: (student: Student) => onArchivedClicked(student),
+            Icon: MdBlock,
+            color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
+        },
+        {
+            status: [UserStatus.Blocked],
+            text: 'Unblock',
+            onClick: (student: Student) => onUnblockClicked(student),
+            Icon: CgUnblock,
+            color: 'text-orange-500 hover:bg-orange-100 hover:border-orange-200',
+        },
+        {
+            status: [
+                UserStatus.Blocked,
+                UserStatus.Rejected,
+                UserStatus.Archived,
+            ],
+            text: 'Delete',
+            onClick: (student: Student) => onDeleteClicked(student),
+            Icon: FaTrash,
+            color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
+        },
+        {
+            status: [UserStatus.Pending, UserStatus.Rejected],
+            text: 'Accept',
+            onClick: (student: Student) => onAcceptClicked(student),
+            Icon: CgUnblock,
+            color: 'text-orange-500 hover:bg-orange-100 hover:border-orange-200',
+        },
+        {
+            status: [UserStatus.Archived],
+            text: 'Un Archive',
+            onClick: (student: Student) => onAcceptClicked(student),
+            Icon: CgUnblock,
+            color: 'text-orange-500 hover:bg-orange-100 hover:border-orange-200',
+        },
+        {
+            status: [UserStatus.Pending],
+            text: 'Reject',
+            onClick: (student: Student) => onRejectClicked(student),
+            Icon: FaTrash,
             color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
         },
     ]
@@ -170,10 +250,10 @@ export const FilteredStudents = ({
                     <TableAction
                         options={[
                             ...tableActionOptions,
-                            ...statusBaseActions.filter(
-                                (action) =>
-                                    action.status ===
+                            ...statusBaseActions.filter((action) =>
+                                action.status?.includes(
                                     info.row.original?.user?.status
+                                )
                             ),
                         ]}
                         rowItem={info.row.original}

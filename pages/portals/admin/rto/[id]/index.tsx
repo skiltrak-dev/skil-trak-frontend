@@ -9,7 +9,7 @@ import {
 } from '@components'
 import { useContextBar, useNavbar } from '@hooks'
 import { AdminLayout } from '@layouts'
-import { NextPageWithLayout, Rto } from '@types'
+import { NextPageWithLayout, Rto, UserStatus } from '@types'
 import { useRouter } from 'next/router'
 import { ReactElement, useEffect, useState } from 'react'
 import {
@@ -73,7 +73,7 @@ const RtoDetail: NextPageWithLayout = () => {
 
     const statusBaseActions = () => {
         switch (rto.data?.user?.status) {
-            case 'pending':
+            case UserStatus.Pending:
                 return (
                     <div className="flex items-center gap-x-2">
                         <ActionButton
@@ -92,7 +92,7 @@ const RtoDetail: NextPageWithLayout = () => {
                         </ActionButton>
                     </div>
                 )
-            case 'approved':
+            case UserStatus.Approved:
                 return (
                     <div className="flex gap-x-2">
                         <div className="flex items-center gap-x-3">
@@ -166,7 +166,7 @@ const RtoDetail: NextPageWithLayout = () => {
                         </ActionButton>
                     </div>
                 )
-            case 'blocked':
+            case UserStatus.Blocked:
                 return (
                     <div className="flex items-center gap-x-2">
                         <ActionButton
@@ -184,7 +184,7 @@ const RtoDetail: NextPageWithLayout = () => {
                         </ActionButton>
                     </div>
                 )
-            case 'rejected':
+            case UserStatus.Rejected:
                 return (
                     <div className="flex items-center gap-x-2">
                         <ActionButton
@@ -202,7 +202,7 @@ const RtoDetail: NextPageWithLayout = () => {
                         </ActionButton>
                     </div>
                 )
-            case 'archived':
+            case UserStatus.Archived:
                 return (
                     <div className="flex items-center gap-x-2">
                         <ActionButton

@@ -1,40 +1,50 @@
-import { InitialAvatar, Typography } from '@components'
-import { Industry } from '@types'
+import { InitialAvatar } from '@components'
+import { Industry, SubAdmin } from '@types'
 import Link from 'next/link'
-import { FaEnvelope, FaPhoneSquareAlt } from 'react-icons/fa'
+import { AiFillStar } from 'react-icons/ai'
+import { MdEmail, MdPhoneIphone } from 'react-icons/md'
+import { IndustrySubAdmin } from '../AllIndustries'
 
-export const IndustryCellInfo = ({ industry }: { industry: Industry }) => {
+export const IndustryCellInfo = ({
+    industry,
+    isFavorite,
+}: {
+    industry: IndustrySubAdmin
+    isFavorite?: any
+}) => {
     return (
-        <div className="flex items-center relative">
-            <div className="flex items-center gap-x-2">
+        <Link
+            legacyBehavior
+            href={`/portals/sub-admin/users/industries/${industry?.id}?tab=overview`}
+        >
+            <a className="flex items-center gap-x-2">
                 <InitialAvatar
                     name={industry?.user?.name}
                     imageUrl={industry?.user?.avatar}
                 />
-                <Link
-                    legacyBehavior
-                    href={`/portals/sub-admin/users/industries/${industry?.id}?tab=overview`}
-                >
-                    <a>
-                        <Typography color={'black'}>
-                            {' '}
-                            {industry?.user?.name}{' '}
-                        </Typography>
-                        <div className="flex items-center gap-x-2">
-                            <FaPhoneSquareAlt className="text-gray" />
-                            <Typography variant={'muted'}>
-                                {industry?.phoneNumber}
-                            </Typography>
-                        </div>
-                        <div className="flex items-center gap-x-2">
-                            <FaEnvelope />
-                            <Typography variant={'muted'} color={'gray'}>
-                                {industry?.user?.email}
-                            </Typography>
-                        </div>
-                    </a>
-                </Link>
-            </div>
-        </div>
+                <div>
+                    <div className="flex items-center gap-x-1">
+                        <p className="font-semibold">{industry?.user?.name}</p>
+                        {isFavorite(industry?.subAdmin) && (
+                            <AiFillStar className="text-primary" />
+                        )}
+                    </div>
+                    <div className="font-medium text-xs text-gray-500">
+                        <p className="flex items-center gap-x-1">
+                            <span>
+                                <MdEmail />
+                            </span>
+                            {industry?.user?.email}
+                        </p>
+                        <p className="flex items-center gap-x-1">
+                            <span>
+                                <MdPhoneIphone />
+                            </span>
+                            {industry?.phoneNumber}
+                        </p>
+                    </div>
+                </div>
+            </a>
+        </Link>
     )
 }

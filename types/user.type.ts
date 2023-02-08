@@ -77,6 +77,7 @@ export interface SubAdmin extends BaseResponse {
     courses: Course[]
     coordinatorId: string
     address: string
+    createdBy: User
 }
 
 export interface Industry extends BaseResponse {

@@ -30,9 +30,7 @@ export const ForwardModal = ({
     const [missingDocuments, setMissingDocuments] = useState<any | null>(null)
 
     // hooks
-    const { alert } = useAlert()
     const { notification } = useNotification()
-    const { onAccept, changeStatusResult } = useChangeStatus()
 
     // query
     const [forwardToIndustry, forwardToIndustryResult] =

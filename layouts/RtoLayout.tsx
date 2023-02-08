@@ -50,7 +50,7 @@ export const RtoLayout = ({ pageTitle, children }: RtoLayoutProps) => {
     }, [router])
 
     useEffect(() => {
-        if (status === 'pending') {
+        if (status === UserStatus.Pending) {
             alert.warning({
                 title: `Your account is Pending`,
                 description: 'Please wait for admin approval',
@@ -93,9 +93,9 @@ export const RtoLayout = ({ pageTitle, children }: RtoLayoutProps) => {
                         disableOverlayClose={true}
                         hideBackButton={true}
                         locale={{
-                            skip: "Close Tour"
+                            skip: 'Close Tour',
                         }}
-                        
+
                         // styles={{
                         //     options: {
                         //         arrowColor: theme.black,

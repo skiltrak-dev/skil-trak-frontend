@@ -11,7 +11,7 @@ const Jobs: NextPageWithLayout = (props: Props) => {
     return <JobContainer />
 }
 Jobs.getLayout = (page: ReactElement) => {
-    return <StudentLayout pageTitle={{title:"Workplace"}}>{page}</StudentLayout>
+    return <StudentLayout pageTitle={{ title: 'Jobs' }}>{page}</StudentLayout>
 }
 
 export default Jobs

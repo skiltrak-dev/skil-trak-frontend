@@ -49,7 +49,6 @@ export const MyWorkplace = ({
 
     const workplaceIndustry = industries[0]
 
-    console.log('abcdabcd', workplaceIndustries)
     return (
         <Card fullHeight>
             {/* Card Header */}

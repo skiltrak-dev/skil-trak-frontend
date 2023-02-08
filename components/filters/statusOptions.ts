@@ -1,22 +1,24 @@
+import { UserStatus } from '@types'
+
 export const statusOptions = [
     {
         label: 'Approved',
-        value: 'approved',
+        value: UserStatus.Approved,
     },
     {
         label: 'Pending',
-        value: 'pending',
+        value: UserStatus.Pending,
     },
     {
         label: 'Blocked',
-        value: 'blocked',
+        value: UserStatus.Blocked,
     },
     {
         label: 'Rejected',
-        value: 'rejected',
+        value: UserStatus.Rejected,
     },
     {
         label: 'Archived',
-        value: 'archived',
+        value: UserStatus.Archived,
     },
 ]
