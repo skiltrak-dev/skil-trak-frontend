@@ -1,4 +1,5 @@
 import { Card, InitialAvatar, Select, Typography } from '@components'
+import { ProgressCell } from '@partials/admin/student/components'
 import {
     Industries,
     RequestType,
@@ -6,6 +7,7 @@ import {
 } from '@partials/sub-admin/workplace/components'
 
 import { AdminApi } from '@queries'
+import { checkWorkplaceStatus } from '@utils'
 import moment from 'moment'
 import { useEffect, useState } from 'react'
 import { RiBook2Fill } from 'react-icons/ri'
@@ -21,12 +23,13 @@ export const AdminWorkplaceRequest = ({ workplace }: Props) => {
         setAppliedIndustry(workplace.industries?.find((i: any) => i.applied))
     }, [workplace])
 
+    const steps = checkWorkplaceStatus(workplace?.currentStatus)
+
     return (
         <div>
             <Card>
-                <div className="flex justify-between gap-x-4 items-center pb-2.5 border-b border-dashed">
+                <div className="grid grid-cols-4 gap-x-5 items-center pb-2.5 border-b border-dashed">
                     <AssignWorkplace workplace={workplace} />
-
                     <div className="flex items-center relative">
                         <div className="flex items-center gap-x-2">
                             <InitialAvatar
@@ -37,25 +40,27 @@ export const AdminWorkplaceRequest = ({ workplace }: Props) => {
                                 <Typography color={'black'} variant={'small'}>
                                     {workplace?.student?.user?.name}
                                 </Typography>
-                                <div className="flex items-center gap-x-2">
+                                <div className="flex flex-col  gap-x-2">
                                     <Typography
                                         variant={'muted'}
                                         color={'text-gray-400'}
                                     >
-                                        {workplace?.student?.user?.email}
+                                        <span className="break-all">
+                                            {workplace?.student?.user?.email}
+                                        </span>
                                     </Typography>
-                                    <span className="text-gray-400">|</span>
                                     <Typography
                                         variant={'muted'}
                                         color={'text-gray-400'}
                                     >
-                                        {workplace?.student?.phone}
+                                        <span className="break-all">
+                                            {workplace?.student?.phone}
+                                        </span>
                                     </Typography>
                                 </div>
                             </div>
                         </div>
                     </div>
-
                     {/*  */}
                     <div className="flex items-center relative">
                         <div className="flex items-center gap-x-2">
@@ -65,18 +70,21 @@ export const AdminWorkplaceRequest = ({ workplace }: Props) => {
                                     {workplace?.courses[0]?.sector?.name}
                                 </Typography>
                                 <Typography variant={'muted'}>
-                                    {workplace?.courses[0]?.code} -{' '}
-                                    {workplace?.courses[0]?.title}
+                                    <span className="break-all">
+                                        {workplace?.courses[0]?.code}{' '}
+                                    </span>
+                                    -{' '}
+                                    <span className="break-all">
+                                        {workplace?.courses[0]?.title}
+                                    </span>
                                 </Typography>
                             </div>
                         </div>
                     </div>
 
-                    {/* Request Type Selection */}
-                    {/* <RequestType
-                        appliedIndustry={appliedIndustry}
-                        workplace={workplace}
-                    /> */}
+                    <ProgressCell
+                        step={steps > 14 ? 14 : steps < 1 ? 1 : steps}
+                    />
                 </div>
 
                 {/* Student Small Details */}

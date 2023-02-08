@@ -23,7 +23,10 @@ import {
 } from '@partials/sub-admin/students'
 
 // query
-import { useSubAdminFilteredStudentsQuery } from '@queries'
+import {
+    useSubAdminFilteredStudentsQuery,
+    useGetSubAdminStudentsQuery,
+} from '@queries'
 
 // hooks
 import { useContextBar } from '@hooks'
@@ -41,9 +44,9 @@ const Students: NextPageWithLayout = (props: Props) => {
     const [page, setPage] = useState(1)
     const [itemPerPage, setItemPerPage] = useState(50)
 
-    const filteredStudents = useSubAdminFilteredStudentsQuery(
+    const filteredStudents = useGetSubAdminStudentsQuery(
         {
-            search: `status:approved,${JSON.stringify(filter)
+            search: `${JSON.stringify(filter)
                 .replaceAll('{', '')
                 .replaceAll('}', '')
                 .replaceAll('"', '')

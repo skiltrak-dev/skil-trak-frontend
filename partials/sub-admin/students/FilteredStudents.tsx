@@ -20,6 +20,8 @@ import { MdBlock } from 'react-icons/md'
 import { IndustryCellInfo } from '../indestries/components'
 import { StudentCellInfo } from './components'
 import { AssignStudentModal } from './modals'
+import { ProgressCell, SectorCell } from '@partials/admin/student/components'
+import { checkWorkplaceStatus } from '@utils'
 
 export const FilteredStudents = ({
     student,
@@ -39,6 +41,7 @@ export const FilteredStudents = ({
         setModal(null)
     }
     const onAssignStudentClicked = (student: Student) => {
+        console.log('student', student)
         setModal(
             <AssignStudentModal
                 student={student}
@@ -91,26 +94,34 @@ export const FilteredStudents = ({
             accessorKey: 'industry',
             header: () => <span>Industry</span>,
             cell: (info: any) => {
-                const industry =
-                    info.row.original?.workplace[0]?.industries.find(
-                        (i: any) => i.applied
-                    )?.industry
+                const industry = info.row.original?.industries
 
-                return industry ? (
-                    <IndustryCellInfo industry={industry} />
+                return industry && industry?.length > 0 ? (
+                    <IndustryCellInfo industry={industry[0]} />
                 ) : (
                     <Typography center>N/A</Typography>
                 )
             },
         },
         {
-            header: () => 'Progress',
-            accessorKey: 'progress',
+            accessorKey: 'sectors',
+            header: () => <span>Sectors</span>,
             cell: ({ row }: any) => {
+                return <SectorCell student={row.original} />
+            },
+        },
+        {
+            accessorKey: 'progress',
+            header: () => <span>Progress</span>,
+            cell: ({ row }: any) => {
+                const workplace = row.original.workplace[0]
+                const steps = checkWorkplaceStatus(workplace?.currentStatus)
+                console.log('steps', row.original?.id === 122 ? steps : null)
+
                 return (
-                    <div className="flex justify-center">
-                        <PlacementTableCell request={row.original.workplace} />
-                    </div>
+                    <ProgressCell
+                        step={steps > 13 ? 13 : steps < 1 ? 1 : steps}
+                    />
                 )
             },
         },

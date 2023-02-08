@@ -11,6 +11,7 @@ export const checkWorkplaceStatus = (currentStatus: string) => {
         'placementStarted',
         'cancelled',
         'completed',
+        'noResponse',
         'rejected',
         'terminated',
     ]
