@@ -128,11 +128,12 @@ export const ApprovedStudent = () => {
             accessorKey: 'progress',
             header: () => <span>Progress</span>,
             cell: ({ row }) => {
-                const workplace = row?.original?.workplace
+                const workplace = row.original.workplace[0]
                 const steps = checkWorkplaceStatus(workplace?.currentStatus)
+
                 return (
                     <ProgressCell
-                        step={steps > 9 ? 9 : steps < 1 ? 1 : steps}
+                        step={steps > 14 ? 14 : steps < 1 ? 1 : steps}
                     />
                 )
             },

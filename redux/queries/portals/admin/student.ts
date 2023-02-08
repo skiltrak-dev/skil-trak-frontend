@@ -14,7 +14,7 @@ export const studentEndpoints = (
     builder: EndpointBuilder<BaseQueryFn, string, string>
 ) => ({
     studentCount: builder.query<UserCount, void>({
-        query: () => `${PREFIX}student/list/count`,
+        query: () => `${PREFIX}students/list/count`,
         providesTags: ['Students'],
     }),
     students: builder.query<PaginatedResponse<any>, any>({

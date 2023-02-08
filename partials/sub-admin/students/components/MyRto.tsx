@@ -64,13 +64,13 @@ export const MyRto = ({ myRto }: any) => {
             {/* Card Body */}
             <div className="flex items-center gap-x-6 py-4">
                 <div className="flex-shrink-0">
-                    <RtoAvatar imageUrl={myRto?.rto?.user?.avatar} />
+                    <RtoAvatar imageUrl={myRto?.user?.avatar} />
                 </div>
                 <div>
                     <div>
-                        <p className="font-medium">{myRto?.rto?.user?.name}</p>
+                        <p className="font-medium">{myRto?.user?.name}</p>
                         <p className="text-slate-400 text-sm">
-                            {myRto?.rto?.user?.email}
+                            {myRto?.user?.email}
                         </p>
                     </div>
                     <div className="flex gap-x-6 mt-1">
@@ -78,26 +78,14 @@ export const MyRto = ({ myRto }: any) => {
                             <span className="text-gray-400">
                                 <MdPermContactCalendar size={14} />
                             </span>
-                            <span className="text-xs">
-                                {myRto?.emergencyPerson}
-                            </span>
+                            <span className="text-xs">{myRto?.phone}</span>
                         </div>
                         <div className="flex gap-x-6 mt-1">
                             <div className="flex items-center gap-x-2">
                                 <span className="text-gray-400">
-                                    <MdPermContactCalendar size={14} />
-                                </span>
-                                <span className="text-xs">
-                                    {myRto?.emergencyPerson}
-                                </span>
-                            </div>
-                            <div className="flex items-center gap-x-2">
-                                <span className="text-gray-400">
                                     <MdPhone size={14} />
                                 </span>
-                                <span className="text-xs">
-                                    {myRto?.emergencyPersonPhone}
-                                </span>
+                                <span className="text-xs">{myRto?.phone}</span>
                             </div>
                         </div>
                     </div>

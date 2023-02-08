@@ -10,6 +10,12 @@ export const UploadDoc = ({ text, item }: { text: string; item: any }) => {
 
     const [addDocument, addDocumentResult] = AdminApi.Documents.addDocuments()
 
+    console.log(
+        'addDocumentResult',
+        addDocumentResult.isSuccess,
+        addDocumentResult.isLoading
+    )
+
     useEffect(() => {
         if (addDocumentResult.isSuccess) {
             notification.success({

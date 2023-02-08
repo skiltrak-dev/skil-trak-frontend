@@ -17,12 +17,10 @@ export const studentsEndpoints = (
     }),
 
     subAdminFilteredStudents: builder.query<PaginatedResponse<any>, any>({
-        query: (params: any) => {
-            return {
-                url: `${PREFIX}/student-list/filter`,
-                params,
-            }
-        },
+        query: (params: any) => ({
+            url: `${PREFIX}/student-list/filter`,
+            params,
+        }),
         providesTags: ['SubAdminStudents'],
     }),
 
@@ -43,6 +41,11 @@ export const studentsEndpoints = (
         invalidatesTags: ['SubAdminStudents'],
     }),
 
+    getSubAdminStudentCourses: builder.query<any, number>({
+        query: (id) => `${PREFIX}/student/course/list-result/${id}`,
+        providesTags: ['SubAdminStudents'],
+    }),
+
     getSubAdminMyRto: builder.query<any, string>({
         query: (id) => ({
             url: `${PREFIX}/student/view/${id}`,
@@ -51,10 +54,7 @@ export const studentsEndpoints = (
         providesTags: ['SubAdminStudents'],
     }),
     getSubAdminStudentDetail: builder.query<any, number>({
-        query: (id) => ({
-            url: `${PREFIX}/student/view/${id}`,
-            params: { id },
-        }),
+        query: (id) => `${PREFIX}/student/view/${id}`,
         providesTags: ['SubAdminStudents'],
     }),
 

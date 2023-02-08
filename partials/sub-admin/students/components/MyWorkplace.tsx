@@ -8,28 +8,48 @@ import { IoBriefcase } from 'react-icons/io5'
 //queries
 import { WorkplaceAvatar } from '@components'
 import { ActionButton } from '@components/buttons'
-import { useGetSubAdminMyRtoQuery } from '@queries'
+import { useGetSubAdminStudentWorkplaceQuery } from '@queries'
 import { getUserCredentials } from '@utils'
+import { useState, useEffect } from 'react'
 import { AddWorkplace } from './AddWorkplace'
 
-type Props = {
-    myWorkplace: any
-}
-
-export const MyWorkplace = ({ myWorkplace }: Props) => {
+export const MyWorkplace = ({
+    id,
+    industries,
+}: {
+    industries: any
+    id: number
+}) => {
     const pathname = useRouter()
     const profileId = pathname.query.profileId
-    const { data } = useGetSubAdminMyRtoQuery(String(profileId), {
-        skip: !profileId,
-    })
+
+    const [workplaceIndustries, setWorkplaceIndustries] = useState<any>([])
+
+    const workplace = useGetSubAdminStudentWorkplaceQuery(id, { skip: !id })
+
+    useEffect(() => {
+        if (
+            workplace.isSuccess &&
+            workplace?.data &&
+            workplace?.data?.length > 0
+        ) {
+            setWorkplaceIndustries(workplace?.data[0])
+        }
+    }, [workplace])
+
     // const filteredData = myWorkplace?.workplace.filter(
     //     (item: any) => !item.isCancelled
     // )
 
-    console.log('myWorkplace', myWorkplace)
-
     const role = getUserCredentials()?.role
 
+    // const workplaceIndustry = workplaceIndustries?.industries?.find(
+    //     (i: any) => i?.applied
+    // )?.industry
+
+    const workplaceIndustry = industries[0]
+
+    console.log('abcdabcd', workplaceIndustries)
     return (
         <Card fullHeight>
             {/* Card Header */}
@@ -44,14 +64,14 @@ export const MyWorkplace = ({ myWorkplace }: Props) => {
 
                 {/* Action */}
                 <div className="flex justify-between gap-x-4">
-                    {role !== 'rto' && myWorkplace?.industries?.length ? (
+                    {role !== 'rto' && workplaceIndustry ? (
                         <ActionButton
                             variant="success"
                             onClick={() => {
                                 pathname.push(
                                     role === 'admin'
-                                        ? `/portals/admin/industry/${myWorkplace?.industries[0]?.id}?tab=sectors`
-                                        : `/portals/sub-admin/users/industries/${myWorkplace?.industries[0]?.id}?tab=overview`
+                                        ? `/portals/admin/industry/${workplaceIndustry?.id}?tab=sectors`
+                                        : `/portals/sub-admin/users/industries/${workplaceIndustry?.id}?tab=overview`
                                 )
                             }}
                         >
@@ -59,7 +79,8 @@ export const MyWorkplace = ({ myWorkplace }: Props) => {
                         </ActionButton>
                     ) : null}
 
-                    {role !== 'rto' && myWorkplace?.industries?.length > 1 ? (
+                    {role !== 'rto' &&
+                    workplace?.data?.industries?.length > 1 ? (
                         <Link legacyBehavior href="#">
                             <a className="inline-block uppercase text-xs font-medium bg-gray-100 text-gray-500 px-4 py-2 rounded">
                                 VIEW SECOND
@@ -69,70 +90,73 @@ export const MyWorkplace = ({ myWorkplace }: Props) => {
                 </div>
             </div>
             {/* Card Body */}
-            {myWorkplace?.industries?.length > 0 ? (
-                myWorkplace?.industries?.slice(0, 1)?.map((data: any) => (
-                    <div key={data?.id} className="mt-4">
-                        <div className="flex gap-x-6 mb-4">
-                            <div className="flex-shrink-0">
-                                <WorkplaceAvatar />
+            {workplaceIndustry ? (
+                <div key={workplaceIndustry?.id} className="mt-4">
+                    <div className="flex gap-x-6 mb-4">
+                        <div className="flex-shrink-0">
+                            <WorkplaceAvatar />
+                        </div>
+                        <div>
+                            <div>
+                                <p className="font-medium">
+                                    {workplaceIndustry?.user?.name}
+                                </p>
+                                <p className="text-slate-400 text-sm">
+                                    {workplaceIndustry?.user?.email}
+                                </p>
                             </div>
                             <div>
-                                <div>
-                                    <p className="font-medium">
-                                        {data?.user?.name}
-                                    </p>
-                                    <p className="text-slate-400 text-sm">
-                                        {data?.user?.email}
-                                    </p>
-                                </div>
-                                <div>
-                                    {/* <div>
+                                {/* <div>
                                         <p className="font-medium">
                                             {
-                                                data?.industries[0]?.industry
+                                                workplaceIndustry?.industries[0]?.industry
                                                     ?.user?.name
                                             }
                                         </p>
                                         <p className="text-slate-400 text-sm">
                                             {
-                                                data?.industries[0]?.industry
+                                                workplaceIndustry?.industries[0]?.industry
                                                     ?.user?.email
                                             }
                                         </p>
                                     </div> */}
-                                    <div className="flex gap-x-3 mt-1 border-t pt-2">
-                                        <div className="flex items-center gap-x-1">
-                                            <span className="text-gray-400">
-                                                <FaMapMarkerAlt size={14} />
-                                            </span>
-                                            <span className="text-xs">
-                                                {data?.addressLine1},{' '}
-                                                {data?.addressLine2},{' '}
-                                                {data?.state}, {data?.suburb}{' '}
-                                            </span>
-                                        </div>
+                                <div className="flex gap-x-3 mt-1 border-t pt-2">
+                                    <div className="flex items-center gap-x-1">
+                                        <span className="text-gray-400">
+                                            <FaMapMarkerAlt size={14} />
+                                        </span>
+                                        <span className="text-xs">
+                                            {workplaceIndustry?.addressLine1},{' '}
+                                            {workplaceIndustry?.addressLine2},{' '}
+                                            {workplaceIndustry?.state},{' '}
+                                            {workplaceIndustry?.suburb}{' '}
+                                        </span>
                                     </div>
+                                </div>
 
-                                    <div className="mt-2">
-                                        <p className="text-[11px] text-gray-400">
-                                            Contact Person
-                                        </p>
-                                        <div className="flex justify-between gap-x-4">
-                                            <div>
-                                                <p className="font-medium text-sm">
-                                                    {data?.contactPerson}
-                                                </p>
-                                                <p className="text-xs font-medium text-slate-400">
-                                                    {data?.contactPersonNumber}
-                                                </p>
-                                            </div>
+                                <div className="mt-2">
+                                    <p className="text-[11px] text-gray-400">
+                                        Contact Person
+                                    </p>
+                                    <div className="flex justify-between gap-x-4">
+                                        <div>
+                                            <p className="font-medium text-sm">
+                                                {
+                                                    workplaceIndustry?.contactPerson
+                                                }
+                                            </p>
+                                            <p className="text-xs font-medium text-slate-400">
+                                                {
+                                                    workplaceIndustry?.contactPersonNumber
+                                                }
+                                            </p>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                ))
+                </div>
             ) : (
                 <div>
                     {/* <NoData text="No Workplace" /> */}
@@ -151,7 +175,9 @@ export const MyWorkplace = ({ myWorkplace }: Props) => {
                                 You don&apos;t have any workplace yet
                             </p>
                         </div>
-                        <AddWorkplace id={Number(myWorkplace?.id)} />
+                        {role === 'subadmin' && (
+                            <AddWorkplace id={Number(id)} />
+                        )}
                     </div>
                 </div>
             )}

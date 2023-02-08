@@ -137,7 +137,11 @@ export const ActiveSubAdmin = () => {
             header: () => <span>Address</span>,
             cell: (info) => info.getValue(),
         },
-
+        {
+            accessorKey: 'Created By',
+            header: () => <span>Created By</span>,
+            cell: (info) => info.getValue(),
+        },
         {
             accessorKey: 'action',
             header: () => <span>Action</span>,

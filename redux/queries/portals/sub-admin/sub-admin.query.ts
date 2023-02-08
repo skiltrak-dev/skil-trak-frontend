@@ -103,12 +103,13 @@ export const {
     useAddExistingIndustriesMutation,
     useChangeCustomIndustryStatusMutation,
 
-    // -----STUDENTS-------//
+    // ----- STUDENTS-------//
     useGetSubAdminStudentsQuery,
     useSubAdminRequestWorkplaceMutation,
     useSubAdminFilteredStudentsQuery,
     useGetSubAdminStudentWorkplaceQuery,
     useGetSubAdminMyRtoQuery,
+    useGetSubAdminStudentCoursesQuery,
     useGetSubAdminStudentDetailQuery,
     useUpdateSubAdminCourseDurationMutation,
     useGetSubAdminMyStudentsQuery,
@@ -195,6 +196,7 @@ export const SubAdminApi = {
     },
 
     Student: {
+        useCourses: useGetSubAdminStudentCoursesQuery,
         useChangePassword: useChangeStudentPasswordMutation,
         useUpdateDetail: useUpdateStudentDetailMutation,
         changeStatus: useChangeStudentStatusMutation,

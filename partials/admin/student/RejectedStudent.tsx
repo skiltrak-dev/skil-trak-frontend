@@ -19,7 +19,7 @@ import { FaEdit, FaEye, FaFileExport, FaFilter, FaTrash } from 'react-icons/fa'
 import { AdminApi } from '@queries'
 import { MdBlock, MdEmail, MdPhoneIphone } from 'react-icons/md'
 import { ReactElement, useState } from 'react'
-import { SectorCell, StudentCellInfo } from './components'
+import { ProgressCell, SectorCell, StudentCellInfo } from './components'
 import { Student } from '@types'
 import { AcceptModal, DeleteModal } from './modals'
 import { RtoCellInfo } from '../rto/components'
@@ -27,6 +27,7 @@ import { useRouter } from 'next/router'
 import { IndustryCell } from '../industry/components'
 import { RiLockPasswordFill } from 'react-icons/ri'
 import { useActionModal } from '@hooks'
+import { checkWorkplaceStatus } from '@utils'
 
 export const RejectedStudent = () => {
     const router = useRouter()
@@ -132,6 +133,16 @@ export const RejectedStudent = () => {
             header: () => <span>Sectors</span>,
             cell: (info) => {
                 return <SectorCell student={info.row.original} />
+            },
+        },
+        {
+            accessorKey: 'progress',
+            header: () => <span>Progress</span>,
+            cell: ({ row }) => {
+                const workplace = row.original.workplace[0]
+                const steps = checkWorkplaceStatus(workplace?.currentStatus)
+
+                return <ProgressCell step={steps || 1} />
             },
         },
         {

@@ -20,9 +20,10 @@ import { useState } from 'react'
 import { MdUnarchive } from 'react-icons/md'
 import { IndustryCell } from '../industry/components'
 import { RtoCellInfo } from '../rto/components'
-import { SectorCell, StudentCellInfo } from './components'
+import { ProgressCell, SectorCell, StudentCellInfo } from './components'
 import { useActionModal } from '@hooks'
 import { RiLockPasswordFill } from 'react-icons/ri'
+import { checkWorkplaceStatus } from '@utils'
 
 export const ArchivedStudent = () => {
     const router = useRouter()
@@ -109,6 +110,20 @@ export const ArchivedStudent = () => {
             header: () => <span>Sectors</span>,
             cell: (info) => {
                 return <SectorCell student={info.row.original} />
+            },
+        },
+        {
+            accessorKey: 'progress',
+            header: () => <span>Progress</span>,
+            cell: ({ row }) => {
+                const workplace = row.original.workplace[0]
+                const steps = checkWorkplaceStatus(workplace?.currentStatus)
+
+                return (
+                    <ProgressCell
+                        step={steps > 14 ? 14 : steps < 1 ? 1 : steps}
+                    />
+                )
             },
         },
         {

@@ -10,8 +10,8 @@ export const IndustryCell = ({ industry }: { industry: Industry }) => {
             <a className="flex items-center gap-x-2">
                 <div className="shadow-inner-image rounded-full relative">
                     <InitialAvatar
-                        name={industry.user.name}
-                        imageUrl={industry.user?.avatar}
+                        name={industry?.user?.name}
+                        imageUrl={industry?.user?.avatar}
                     />
                     {industry?.studentCapacity ? (
                         <div className="absolute -bottom-1 -right-1 w-5 h-5 flex items-center justify-center bg-green-500 rounded-full text-white">
