@@ -6,20 +6,33 @@ import {
     Table,
     TableAction,
     TableActionOption,
+    Typography,
 } from '@components'
 import { PageHeading } from '@components/headings'
 import { ColumnDef } from '@tanstack/react-table'
-import { FaEdit, FaEye } from 'react-icons/fa'
+import { FaEdit, FaEye, FaTrash } from 'react-icons/fa'
 
 import { useContextBar } from '@hooks'
 import { RtoCellInfo } from '@partials/admin/rto/components'
-import { Rto } from '@types'
+import { Rto, Student, UserStatus } from '@types'
 import { useRouter } from 'next/router'
 import { ReactElement, useState } from 'react'
 import { MdBlock } from 'react-icons/md'
 import { SectorCell } from './components'
 import { ViewSubAdminsCB } from './contextBar'
-import { BlockModal } from './modals'
+import {
+    AcceptModal,
+    ArchiveModal,
+    BlockModal,
+    DeleteModal,
+    RejectModal,
+    UnblockModal,
+} from './modals'
+import { CgUnblock } from 'react-icons/cg'
+
+interface StatusTableActionOption extends TableActionOption {
+    status: string[]
+}
 
 export const FilteredRto = ({
     rto,
@@ -51,6 +64,32 @@ export const FilteredRto = ({
         )
     }
 
+    const onUnblockClicked = (rto: Rto) => {
+        setModal(
+            <UnblockModal rto={rto} onCancel={() => onModalCancelClicked()} />
+        )
+    }
+    const onAcceptClicked = (rto: Rto) => {
+        setModal(
+            <AcceptModal rto={rto} onCancel={() => onModalCancelClicked()} />
+        )
+    }
+    const onRejectClicked = (rto: Rto) => {
+        setModal(
+            <RejectModal rto={rto} onCancel={() => onModalCancelClicked()} />
+        )
+    }
+    const onArchivedClicked = (rto: Rto) => {
+        setModal(
+            <ArchiveModal item={rto} onCancel={() => onModalCancelClicked()} />
+        )
+    }
+    const onDeleteClicked = (rto: Rto) => {
+        setModal(
+            <DeleteModal rto={rto} onCancel={() => onModalCancelClicked()} />
+        )
+    }
+
     const tableActionOptions: TableActionOption[] = [
         {
             text: 'View',
@@ -68,13 +107,63 @@ export const FilteredRto = ({
         },
         {
             text: 'Sub Admins',
-            onClick: (item: any) => onViewSubAdminsClicked(item),
+            onClick: (item: Rto) => onViewSubAdminsClicked(item),
             Icon: FaEdit,
         },
+    ]
+
+    const statusBaseActions: StatusTableActionOption[] = [
         {
+            status: [UserStatus.Approved],
             text: 'Block',
             onClick: (rto: Rto) => onBlockClicked(rto),
             Icon: MdBlock,
+            color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
+        },
+        {
+            status: [UserStatus.Approved],
+            text: 'Archive',
+            onClick: (rto: Rto) => onArchivedClicked(rto),
+            Icon: MdBlock,
+            color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
+        },
+        {
+            status: [UserStatus.Blocked],
+            text: 'Unblock',
+            onClick: (rto: Rto) => onUnblockClicked(rto),
+            Icon: CgUnblock,
+            color: 'text-orange-500 hover:bg-orange-100 hover:border-orange-200',
+        },
+        {
+            status: [
+                UserStatus.Blocked,
+                UserStatus.Rejected,
+                UserStatus.Archived,
+            ],
+            text: 'Delete',
+            onClick: (rto: Rto) => onDeleteClicked(rto),
+            Icon: FaTrash,
+            color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
+        },
+        {
+            status: [UserStatus.Pending, UserStatus.Rejected],
+            text: 'Accept',
+            onClick: (rto: Rto) => onAcceptClicked(rto),
+            Icon: CgUnblock,
+            color: 'text-orange-500 hover:bg-orange-100 hover:border-orange-200',
+        },
+        {
+            status: [UserStatus.Archived],
+            text: 'Un Archive',
+            onClick: (rto: Rto) => onAcceptClicked(rto),
+            Icon: CgUnblock,
+            color: 'text-orange-500 hover:bg-orange-100 hover:border-orange-200',
+        },
+        {
+            status: [UserStatus.Pending],
+            text: 'Reject',
+            onClick: (rto: Rto) => onRejectClicked(rto),
+            Icon: FaTrash,
             color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
         },
     ]
@@ -101,6 +190,17 @@ export const FilteredRto = ({
             cell: (info) => <SectorCell rto={info.row.original} />,
         },
         {
+            accessorKey: 'user.status',
+            header: () => <span>Status</span>,
+            cell: (info) => (
+                <Typography uppercase variant={'badge'}>
+                    <span className="font-bold">
+                        {info.row.original?.user?.status}
+                    </span>
+                </Typography>
+            ),
+        },
+        {
             accessorKey: 'suburb',
             header: () => <span>Address</span>,
             cell: (info) => info.getValue(),
@@ -111,7 +211,14 @@ export const FilteredRto = ({
             cell: ({ row }: any) => (
                 <div className="flex gap-x-1 items-center">
                     <TableAction
-                        options={tableActionOptions}
+                        options={[
+                            ...tableActionOptions,
+                            ...statusBaseActions.filter((action) =>
+                                action.status?.includes(
+                                    row.original?.user?.status
+                                )
+                            ),
+                        ]}
                         rowItem={row.original}
                     />
                 </div>

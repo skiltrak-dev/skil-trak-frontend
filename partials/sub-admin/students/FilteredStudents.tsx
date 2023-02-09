@@ -41,7 +41,6 @@ export const FilteredStudents = ({
         setModal(null)
     }
     const onAssignStudentClicked = (student: Student) => {
-        console.log('student', student)
         setModal(
             <AssignStudentModal
                 student={student}
@@ -116,7 +115,6 @@ export const FilteredStudents = ({
             cell: ({ row }: any) => {
                 const workplace = row.original.workplace[0]
                 const steps = checkWorkplaceStatus(workplace?.currentStatus)
-                console.log('steps', row.original?.id === 122 ? steps : null)
 
                 return (
                     <ProgressCell

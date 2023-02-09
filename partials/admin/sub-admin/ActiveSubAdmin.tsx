@@ -10,6 +10,7 @@ import {
     TableAction,
     TableActionOption,
     TechnicalError,
+    Typography,
 } from '@components'
 import { PageHeading } from '@components/headings'
 import { ColumnDef } from '@tanstack/react-table'
@@ -138,9 +139,11 @@ export const ActiveSubAdmin = () => {
             cell: (info) => info.getValue(),
         },
         {
-            accessorKey: 'Created By',
+            accessorKey: 'createdBy.role',
             header: () => <span>Created By</span>,
-            cell: (info) => info.getValue(),
+            cell: (info) => (
+                <Typography>{info.row.original?.createdBy?.role}</Typography>
+            ),
         },
         {
             accessorKey: 'action',

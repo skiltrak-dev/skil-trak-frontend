@@ -100,12 +100,12 @@ const StudentAssessments: NextPageWithLayout = () => {
                 </div>
 
                 {/* Special Cards */}
-                <div className="w-full flex flex-col justify-center space-y-2">
+                <div className="w-full flex flex-col space-y-2">
                     <AssessmentResultCard
                         status="Not Assessed"
                         assessedBy="Not Assessed"
                     />
-                    <PendingSignatureCard />
+                    {/* <PendingSignatureCard /> */}
                 </div>
             </div>
 

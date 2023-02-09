@@ -1,4 +1,4 @@
-import { StatusType } from '@types'
+import { StatusType, UserStatus } from '@types'
 import { Animations } from '@animations'
 import { LottieAnimation, Typography, Button } from '@components'
 import { AuthUtils } from '@utils'
@@ -53,7 +53,7 @@ export const AccountStatus = ({ status }: AccountStatusProps) => {
     const role = AuthUtils.getUserCredentials().role
 
     switch (status) {
-        case 'pending':
+        case UserStatus.Pending:
             return getStatusComponent({
                 animation: Animations.Auth.SignUp.Waiting,
                 title: `Your Account Request Is Under Review`,
@@ -83,21 +83,21 @@ export const AccountStatus = ({ status }: AccountStatusProps) => {
                 },
             })
 
-        case 'archived':
+        case UserStatus.Archived:
             return getStatusComponent({
                 animation: Animations.Auth.SignUp.Waiting,
                 title: `Your Account Is Archived`,
                 description: `Contact our support team, if you want to un-archive`,
             })
 
-        case 'blocked':
+        case UserStatus.Blocked:
             return getStatusComponent({
                 animation: Animations.Auth.SignUp.Rejected,
                 title: `Your Account Is Blocked`,
                 description: `Contact our support team, if you want to un-block`,
             })
 
-        case 'rejected':
+        case UserStatus.Rejected:
             return getStatusComponent({
                 animation: Animations.Auth.SignUp.Rejected,
                 title: `Your Account Is Rejected`,

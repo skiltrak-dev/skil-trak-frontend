@@ -1,5 +1,5 @@
 import { ContentEditor, Modal, ShowErrorNotifications } from '@components'
-import React, { useEffect, useState } from 'react'
+import React, { ReactElement, useEffect, useState } from 'react'
 
 // queries
 import { AdminApi } from '@queries'
@@ -13,8 +13,6 @@ export const EditorModal = ({
     item,
 }: {
     onCancel: Function
-    // content: string
-    // setContent: Function
     item: any
 }) => {
     const [content, setContent] = useState('')

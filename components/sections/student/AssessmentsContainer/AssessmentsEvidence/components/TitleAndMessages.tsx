@@ -1,5 +1,6 @@
 import { PageTitle } from '@components'
 import { NotificationMessage } from '@components/NotificationMessage'
+import { UserStatus } from '@types'
 import React from 'react'
 
 export const TitleAndMessages = ({ results }: { results: any }) => {
@@ -7,7 +8,7 @@ export const TitleAndMessages = ({ results }: { results: any }) => {
         <div className="flex flex-col md:flex-row gap-2 justify-between  md:items-center mb-6">
             <PageTitle title="Assessment Evidence" backTitle="Assessment" />
             <div>
-                {results?.result === 'pending' &&
+                {results?.result === UserStatus.Pending &&
                     results?.totalSubmission < 3 && (
                         <NotificationMessage
                             title={'Submitted For Approval'}

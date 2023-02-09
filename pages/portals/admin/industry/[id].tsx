@@ -8,7 +8,7 @@ import {
 } from '@components'
 import { useContextBar, useNavbar } from '@hooks'
 import { AdminLayout } from '@layouts'
-import { NextPageWithLayout } from '@types'
+import { NextPageWithLayout, UserStatus } from '@types'
 import { useRouter } from 'next/router'
 import { ReactElement, useEffect, useState } from 'react'
 import { FaArchive, FaBan, FaEdit } from 'react-icons/fa'
@@ -57,7 +57,7 @@ const Detail: NextPageWithLayout = () => {
 
     const statusBaseActions = () => {
         switch (industry.data?.user?.status) {
-            case 'pending':
+            case UserStatus.Pending:
                 return (
                     <div className="flex items-center gap-x-2">
                         <ActionButton
@@ -76,7 +76,7 @@ const Detail: NextPageWithLayout = () => {
                         </ActionButton>
                     </div>
                 )
-            case 'approved':
+            case UserStatus.Approved:
                 return (
                     <div className="flex gap-x-2">
                         <ActionButton
@@ -106,7 +106,7 @@ const Detail: NextPageWithLayout = () => {
                         </ActionButton>
                     </div>
                 )
-            case 'blocked':
+            case UserStatus.Blocked:
                 return (
                     <div className="flex items-center gap-x-2">
                         <ActionButton
@@ -124,7 +124,7 @@ const Detail: NextPageWithLayout = () => {
                         </ActionButton>
                     </div>
                 )
-            case 'rejected':
+            case UserStatus.Rejected:
                 return (
                     <div className="flex items-center gap-x-2">
                         <ActionButton
@@ -142,7 +142,7 @@ const Detail: NextPageWithLayout = () => {
                         </ActionButton>
                     </div>
                 )
-            case 'archived':
+            case UserStatus.Archived:
                 return (
                     <div className="flex items-center gap-x-2">
                         <ActionButton

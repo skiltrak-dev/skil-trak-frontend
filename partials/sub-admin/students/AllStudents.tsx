@@ -37,7 +37,6 @@ export const AllStudents = () => {
 
     useEffect(() => {
         if (joyride.state.tourActive) {
-            console.log('tour active', joyride.state.tourActive)
             setTimeout(() => {
                 joyride.setState({ ...joyride.state, run: true, stepIndex: 1 })
             }, 1200)

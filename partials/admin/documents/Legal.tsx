@@ -55,7 +55,6 @@ export const Legal = ({ legal }: { legal: any }) => {
             accessorKey: 'industry',
             header: () => <span>Actions</span>,
             cell: ({ row }) => {
-                console.log('ddfdfdfd', row.original)
                 return (
                     <Button
                         text={row.original?.content ? 'Update' : 'Add'}
