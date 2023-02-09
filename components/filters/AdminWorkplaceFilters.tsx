@@ -80,6 +80,15 @@ export const AdminWorkplaceFilters = ({
                 }}
             />
 
+            <TextInput
+                name="location"
+                label={'Location'}
+                placeholder={'Search by Location ...'}
+                onChange={(e: any) => {
+                    onFilterChange({ ...filter, location: e.target.value })
+                }}
+            />
+
             <Select
                 label={'Status'}
                 name={'status'}

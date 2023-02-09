@@ -139,16 +139,11 @@ const RTOs: NextPageWithLayout = () => {
         {
             header: () => 'Students',
             accessorKey: 'students',
-            cell: ({ row }: any) => {
-                const { students } = row.original
-                return (
-                    <div className="flex justify-center">
-                        <Typography variant={'muted'} color={'gray'}>
-                            150
-                        </Typography>
-                    </div>
-                )
-            },
+            cell: ({ row }: any) => (
+                <Typography variant={'muted'} color={'gray'}>
+                    {row.original?.students?.length || 0}
+                </Typography>
+            ),
         },
         {
             header: () => 'Courses',

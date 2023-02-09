@@ -46,10 +46,7 @@ export const AddIndustryCB = ({
 
     const [addExistingIndustry, addExistingIndustryResult] =
         useAddExistingIndustriesMutation()
-    const getExistingIndustries = useShowExistingIndustriesQuery({
-        workplaceId,
-        courseId,
-    })
+    const getExistingIndustries = useShowExistingIndustriesQuery()
 
     useEffect(() => {
         if (addExistingIndustryResult.isSuccess) {
@@ -64,10 +61,12 @@ export const AddIndustryCB = ({
 
     useEffect(() => {
         if (getExistingIndustries?.isSuccess) {
-            const options = getExistingIndustries?.data?.map((i: any) => ({
-                label: i?.user?.name,
-                value: i?.id,
-            }))
+            const options = getExistingIndustries?.data?.data?.map(
+                (i: any) => ({
+                    label: i?.user?.name,
+                    value: i?.id,
+                })
+            )
             setCustomIndustriesOptions(options)
         }
     }, [getExistingIndustries])

@@ -190,7 +190,11 @@ export const FilteredStudents = ({
             accessorKey: 'user.name',
             // cell: (info) => 'Saad',
             cell: (info) => {
-                return <StudentCellInfo student={info.row.original} />
+                return info.row.original?.user ? (
+                    <StudentCellInfo student={info.row.original} />
+                ) : (
+                    ''
+                )
             },
             header: () => <span>Student</span>,
         },

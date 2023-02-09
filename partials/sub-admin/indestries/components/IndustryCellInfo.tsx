@@ -25,7 +25,7 @@ export const IndustryCellInfo = ({
                 <div>
                     <div className="flex items-center gap-x-1">
                         <p className="font-semibold">{industry?.user?.name}</p>
-                        {isFavorite(industry?.subAdmin) && (
+                        {isFavorite && isFavorite(industry?.subAdmin) && (
                             <AiFillStar className="text-primary" />
                         )}
                     </div>

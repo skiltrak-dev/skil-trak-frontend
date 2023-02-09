@@ -15,13 +15,11 @@ import {
 import { UserStatus } from '@types'
 
 import { AdminApi } from '@queries'
-import { useRouter } from 'next/router'
 import { AddAssessmentToolCB } from './AddAssessmentToolCB'
 import { useContextBar } from '@hooks'
 import { FaEdit } from 'react-icons/fa'
 
 export const AssessmentTool = ({ rto, actions, setAssessmentView }: any) => {
-    const router = useRouter()
     const [courses, setCourses] = useState<any | null>(null)
     const contextBar = useContextBar()
     // const [archiveAssessmentTool, archiveAssessmentToolResult] =
@@ -47,11 +45,11 @@ export const AssessmentTool = ({ rto, actions, setAssessmentView }: any) => {
     }, [rto])
     const onAddAssessment = () => {
         contextBar.setTitle('Add Assessment')
-        contextBar.setContent(<AddAssessmentToolCB edit={false} />)
+        contextBar.setContent(
+            <AddAssessmentToolCB assessment={rto?.data} edit={false} />
+        )
         contextBar.show()
     }
-
-
 
     return (
         <Card noPadding>
@@ -83,7 +81,9 @@ export const AssessmentTool = ({ rto, actions, setAssessmentView }: any) => {
                         <ActionButton
                             variant={'success'}
                             rounded
-                            onClick={() => { onAddAssessment() }}
+                            onClick={() => {
+                                onAddAssessment()
+                            }}
                             simple
                         >
                             Add Assessment
@@ -111,7 +111,7 @@ export const AssessmentTool = ({ rto, actions, setAssessmentView }: any) => {
                         {getAssessmentTools?.isLoading ? (
                             <LoadingAnimation size={80} />
                         ) : getAssessmentTools?.data &&
-                            getAssessmentTools?.data?.length > 0 ? (
+                          getAssessmentTools?.data?.length > 0 ? (
                             getAssessmentTools?.data?.map((assessment: any) => (
                                 <DownloadableFile
                                     actions={() => actions(assessment)}
