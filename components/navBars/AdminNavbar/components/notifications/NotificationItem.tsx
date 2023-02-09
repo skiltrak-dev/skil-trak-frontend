@@ -1,6 +1,9 @@
 import { Typography } from '@components'
+import { trimString } from '@utils'
+import moment from 'moment'
 import { MouseEventHandler } from 'react'
 import { AiFillBell, AiOutlineMail } from 'react-icons/ai'
+import { HiOutlineMailOpen } from 'react-icons/hi'
 
 interface NotificationItemProps {
     title: string
@@ -8,7 +11,9 @@ interface NotificationItemProps {
     timestamp: string
     icon?: any
     avatar?: string
+    isRead: boolean
     onClick?: MouseEventHandler
+    resultIsReadNotification: any
 }
 
 export const NotificationItem = ({
@@ -17,17 +22,19 @@ export const NotificationItem = ({
     timestamp,
     icon,
     avatar,
+    isRead,
     onClick,
+    resultIsReadNotification,
 }: NotificationItemProps) => {
     const Icon = icon
-
+    // console.log("resultIsReadNotification", resultIsReadNotification)
     return (
         <div
             onClick={onClick}
             className="flex items-center border-b py-2 px-4 hover:bg-secondary cursor-pointer"
         >
             {icon ? (
-                <div className="text-gray-500 bg-gray-300 h-8 w-8 rounded-md flex items-center justify-center text-2xl mr-2">
+                <div className={`${!resultIsReadNotification.isSuccess && !isRead ? "text-blue-400" : "text-gray-500"} bg-gray-300 h-8 w-8 rounded-md flex items-center justify-center text-2xl mr-2`}>
                     <Icon />
                 </div>
             ) : avatar ? (
@@ -37,22 +44,24 @@ export const NotificationItem = ({
                     alt=""
                 />
             ) : (
-                <div className="text-gray-500 bg-gray-300 h-8 w-8 rounded-md flex items-center justify-center text-2xl mr-2">
+                <div className={`${!resultIsReadNotification.isSuccess && !isRead ? "text-blue-400" : "text-gray-500"} bg-gray-300 h-8 w-8 rounded-md flex items-center justify-center text-2xl mr-2`}>
                     <AiFillBell />
                 </div>
             )}
 
             <div className="flex-grow">
-                <Typography variant={'subtitle'}>{title}</Typography>
-                <Typography variant={'muted'} color={'text-muted'}>
-                    {description}
+                <Typography variant={'subtitle'} color={`${!resultIsReadNotification.isSuccess && !isRead ? "text-blue-400" : 'text-muted'}`}>{title.substring(0, 10)}...</Typography>
+                <Typography variant={'muted'} color={`${!resultIsReadNotification.isSuccess && !isRead ? "text-blue-100" : 'text-muted'}`}>
+                    {description.substring(0, 10)}
                 </Typography>
             </div>
             <div className="flex flex-col items-end">
                 <Typography variant={'small'} color={'text-muted'}>
-                    {timestamp}
+                    {moment(new Date(timestamp)).format(
+                        'dddd, MMMM'
+                    )}
                 </Typography>
-                <AiOutlineMail />
+                {!resultIsReadNotification.isSuccess && !isRead ? (<><AiOutlineMail className='text-blue-400' /></>) : (<><HiOutlineMailOpen /></>)}
             </div>
         </div>
     )

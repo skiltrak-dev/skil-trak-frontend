@@ -21,13 +21,18 @@ import { ProfileOptionButton } from './components/profileOption/ProfileOptionBut
 import { DisplayNotifications } from '@components/Notification'
 import { useMediaQuery } from 'react-responsive'
 import { MediaQueries } from '@constants'
-
+import { CommonApi } from '@queries'
 export const DetailNavbar = () => {
     const isMobile = useMediaQuery(MediaQueries.Mobile)
-
+    const { data, error, isLoading } = CommonApi.Notifications.useNotifications()
+    const [isReadNotification, resultIsReadNotification] = CommonApi.Notifications.useIsReadNotification()
+    
     const [messagesExpanded, setMessagesExpanded] = useState(false)
     const [notificationsExpanded, setNotificationsExpanded] = useState(false)
     const [profileOptionsExpanded, setProfileOptionsExpanded] = useState(false)
+    // filter over data to get only unread notifications
+    const unreadNotifications = data?.data?.filter((notification: any) => notification?.isRead === false)
+    const count = unreadNotifications?.length;
 
     return (
         <div className="w-full z-50 px-2 md:px-8 py-2 bg-white border-b border-secondary-dark flex justify-between items-center">
@@ -44,7 +49,7 @@ export const DetailNavbar = () => {
                     <div className="relative">
                         <BadgeButton
                             icon={MdMessage}
-                            count={0}
+                            count={45}
                             max={9}
                             onClick={() => setMessagesExpanded(true)}
                             text={'Messages'}
@@ -62,7 +67,7 @@ export const DetailNavbar = () => {
                     <div className="relative">
                         <BadgeButton
                             icon={IoMdNotifications}
-                            count={0}
+                            count={count || 0}
                             max={9}
                             onClick={() =>
                                 setNotificationsExpanded(!notificationsExpanded)
@@ -72,6 +77,9 @@ export const DetailNavbar = () => {
 
                         <NotificationDropDown
                             expanded={notificationsExpanded}
+                            data={data?.data}
+                            isReadNotification={isReadNotification}
+                            resultIsReadNotification={resultIsReadNotification}
                         />
                     </div>
                 </OutsideClickHandler>

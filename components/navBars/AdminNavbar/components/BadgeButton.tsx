@@ -38,7 +38,8 @@ export const BadgeButton = ({
         } else {
             setItemCount(`${count}`)
         }
-    }, [])
+    }, [count])
+    
     return (
         <div className="relative" onClick={onClick}>
             <div className={classes}>

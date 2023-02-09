@@ -1,13 +1,30 @@
 import { Typography } from '@components'
 import { NotificationItem } from './NotificationItem'
+import { CommonApi } from '@queries'
+import { useRouter } from 'next/router'
 
-export const NotificationDropDown = ({ expanded }: { expanded: boolean }) => {
-    const onNotificationClick = () => {}
+
+interface NotificationDropDown {
+    expanded: boolean
+    data: any
+    isReadNotification: any
+    resultIsReadNotification: any
+}
+export const NotificationDropDown = ({
+    expanded,
+    data,
+    isReadNotification,
+    resultIsReadNotification,
+}: NotificationDropDown) => {
+    // const { data, error, isLoading } = CommonApi.Notifications.useNotifications()
+    // const [isReadNotification, resultIsReadNotification] = CommonApi.Notifications.useIsReadNotification()
+    // console.log(":::: notification data", data)
+    const router = useRouter()
+
     return (
         <div
-            className={`absolute top-10 overflow-scroll -right-5 z-40 bg-white w-80 transition-all rounded-lg remove-scrollbar ${
-                !expanded ? 'max-h-0' : 'max-h-96 shadow-md border'
-            } `}
+            className={`absolute top-10 overflow-scroll -right-5 z-40 bg-white w-80 transition-all rounded-lg remove-scrollbar ${!expanded ? 'max-h-0' : 'max-h-96 shadow-md border'
+                } `}
         >
             <div className="py-2 px-4 border-b flex justify-between items-center">
                 <Typography variant="label">Your Messages</Typography>
@@ -15,13 +32,18 @@ export const NotificationDropDown = ({ expanded }: { expanded: boolean }) => {
                     View All
                 </div>
             </div>
-            {[...Array(20)].fill(null).map((_, i) => (
+            {data?.map((notification: any) => (
                 <NotificationItem
-                    key={i}
-                    title={`Message ${i + 1}`}
-                    description={`Description for Message ${i + 1}`}
-                    timestamp={'Tue 9 Aug'}
-                    onClick={onNotificationClick}
+                    key={notification.id}
+                    title={`${notification?.title}`}
+                    description={`${notification?.description}`}
+                    timestamp={notification?.createdAt}
+                    resultIsReadNotification={resultIsReadNotification}
+                    isRead={notification?.isRead}
+                    onClick={() => {
+                        router.push(`/portals/${notification?.link}`)
+                        isReadNotification(notification?.id)
+                    }}
                 />
             ))}
         </div>
