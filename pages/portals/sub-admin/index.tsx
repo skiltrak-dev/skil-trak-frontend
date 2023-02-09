@@ -30,11 +30,13 @@ import { useRouter } from 'next/router'
 
 const NotificationQuestions = [
     {
-        text: `How to send an email to student from portal?`,
+        // text: `How to send an email to student from portal?`,
+        text:"",
         link: '#',
     },
     {
-        text: `Where can I see student communication?`,
+        // text: `Where can I see student communication?`,
+        text:"",
         link: '#',
     },
 ]

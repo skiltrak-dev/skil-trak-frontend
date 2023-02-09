@@ -9,6 +9,7 @@ import { industriesEndpoints } from './industries'
 import { appointmentsEndpoints } from './appointments'
 import { allCommunicationEndpoints } from './allCommunication'
 import { changeProfileImageEndpoints } from './changeProfileImage'
+import { notificationsEndpoints } from './notifications'
 
 import { AdminStats } from '@types'
 
@@ -34,6 +35,7 @@ export const commonApi = createApi({
         'Industry',
         'Appointments',
         'AllCommunications',
+        'AllNotifications',
     ],
 
     // ---------- RTO ENDPOINTS ---------- //
@@ -61,6 +63,7 @@ export const commonApi = createApi({
         ...appointmentsEndpoints(build),
         ...allCommunicationEndpoints(build),
         ...changeProfileImageEndpoints(build),
+        ...notificationsEndpoints(build),
     }),
 })
 
@@ -102,6 +105,11 @@ const {
     useAllCoordinatorsQuery,
     useCoordinatorAvailablityQuery,
     useGetUpcommingAppointmentQuery,
+
+    // ------ Notifications ------ //
+    useGetNotificationsQuery,
+    useIsReadNotificationMutation,
+    
 } = commonApi
 
 export const CommonApi = {
@@ -141,5 +149,9 @@ export const CommonApi = {
         allCoordinators: useAllCoordinatorsQuery,
         useCoordinatorAvailablity: useCoordinatorAvailablityQuery,
         useUpcommingAppointment: useGetUpcommingAppointmentQuery,
+    },
+    Notifications: {
+        useNotifications: useGetNotificationsQuery,
+        useIsReadNotification: useIsReadNotificationMutation,
     },
 }
