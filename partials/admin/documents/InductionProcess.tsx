@@ -8,7 +8,6 @@ export const InductionProcess = ({
 }: {
     inductionProcess: any
 }) => {
-    console.log('inductionProcess', inductionProcess)
     const data = inductionProcessData?.map((d) => {
         const findData = inductionProcess?.find((f: any) => f?.for === d?.role)
         return findData ? { ...d, file: findData?.file } : d

@@ -26,6 +26,7 @@ export const ContentEditor = ({
     content,
     setContent,
 }: ContentEditor) => {
+    console.log('InnerContent', content)
     let raw = convertToRaw(ContentState.createFromText(''))
     if (htmlToDraft) {
         const blocksFromHtml = htmlToDraft(content || '')

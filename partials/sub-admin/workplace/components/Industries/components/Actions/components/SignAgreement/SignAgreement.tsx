@@ -31,7 +31,6 @@ export const SignAgreement = ({
     }, [agrementSignResult])
 
     const UploadAgreementFile = ({ name }: any) => {
-        console.log('name', name)
         return (
             <UploadAgreement
                 name={name}

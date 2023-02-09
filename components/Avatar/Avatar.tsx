@@ -16,8 +16,8 @@ export const Avatar = ({ avatar, user }: { user?: number; avatar: string }) => {
     useEffect(() => {
         if (changeProfileImageResult.isSuccess) {
             notification.success({
-                title: 'Avatar Updated',
-                description: 'Avatar Updated Successfully',
+                title: 'Profile Updated',
+                description: 'Profile Updated Successfully',
             })
         }
     }, [changeProfileImageResult])

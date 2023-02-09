@@ -10,16 +10,28 @@ import {
 } from '@components'
 import { PageHeading } from '@components/headings'
 import { ColumnDef } from '@tanstack/react-table'
-import { FaEdit, FaEye } from 'react-icons/fa'
+import { FaEdit, FaEye, FaTrash } from 'react-icons/fa'
 
 import { useActionModal, useContextBar } from '@hooks'
-import { Industry } from '@types'
+import { Industry, UserStatus } from '@types'
 import { useRouter } from 'next/router'
 import { ReactElement, useState } from 'react'
 import { MdBlock } from 'react-icons/md'
 import { IndustryCell } from './components'
-import { BlockModal } from './modals'
+import {
+    AcceptModal,
+    ArchiveModal,
+    BlockModal,
+    DeleteModal,
+    RejectModal,
+    UnblockModal,
+} from './modals'
 import { RiLockPasswordFill } from 'react-icons/ri'
+import { CgUnblock } from 'react-icons/cg'
+
+interface StatusTableActionOption extends TableActionOption {
+    status: string[]
+}
 
 export const FilteredIndustry = ({
     industry,
@@ -47,6 +59,44 @@ export const FilteredIndustry = ({
         )
     }
 
+    const onUnblockClicked = (industry: Industry) => {
+        setModal(
+            <UnblockModal
+                industry={industry}
+                onCancel={() => onModalCancelClicked()}
+            />
+        )
+    }
+    const onAcceptClicked = (industry: Industry) => {
+        setModal(
+            <AcceptModal
+                industry={industry}
+                onCancel={() => onModalCancelClicked()}
+            />
+        )
+    }
+    const onRejectClicked = (industry: Industry) => {
+        setModal(
+            <RejectModal
+                industry={industry}
+                onCancel={() => onModalCancelClicked()}
+            />
+        )
+    }
+    const onArchivedClicked = (item: Industry) => {
+        setModal(
+            <ArchiveModal item={item} onCancel={() => onModalCancelClicked()} />
+        )
+    }
+    const onDeleteClicked = (industry: Industry) => {
+        setModal(
+            <DeleteModal
+                industry={industry}
+                onCancel={() => onModalCancelClicked()}
+            />
+        )
+    }
+
     const tableActionOptions: TableActionOption[] = [
         {
             text: 'View',
@@ -69,12 +119,62 @@ export const FilteredIndustry = ({
             onClick: (industry: Industry) => onViewPassword(industry),
             Icon: RiLockPasswordFill,
         },
-        // {
-        //     text: 'Block',
-        //     onClick: (industry: Industry) => onBlockClicked(industry),
-        //     Icon: MdBlock,
-        //     color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
-        // },
+    ]
+
+    const statusBaseActions: StatusTableActionOption[] = [
+        {
+            status: [UserStatus.Approved],
+            text: 'Block',
+            onClick: (industry: Industry) => onBlockClicked(industry),
+            Icon: MdBlock,
+            color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
+        },
+        {
+            status: [UserStatus.Approved],
+            text: 'Archive',
+            onClick: (industry: Industry) => onArchivedClicked(industry),
+            Icon: MdBlock,
+            color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
+        },
+        {
+            status: [UserStatus.Blocked],
+            text: 'Unblock',
+            onClick: (industry: Industry) => onUnblockClicked(industry),
+            Icon: CgUnblock,
+            color: 'text-orange-500 hover:bg-orange-100 hover:border-orange-200',
+        },
+        {
+            status: [
+                UserStatus.Blocked,
+                UserStatus.Rejected,
+                UserStatus.Archived,
+            ],
+            text: 'Delete',
+            onClick: (industry: Industry) => onDeleteClicked(industry),
+            Icon: FaTrash,
+            color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
+        },
+        {
+            status: [UserStatus.Pending, UserStatus.Rejected],
+            text: 'Accept',
+            onClick: (industry: Industry) => onAcceptClicked(industry),
+            Icon: CgUnblock,
+            color: 'text-orange-500 hover:bg-orange-100 hover:border-orange-200',
+        },
+        {
+            status: [UserStatus.Archived],
+            text: 'Un Archive',
+            onClick: (industry: Industry) => onAcceptClicked(industry),
+            Icon: CgUnblock,
+            color: 'text-orange-500 hover:bg-orange-100 hover:border-orange-200',
+        },
+        {
+            status: [UserStatus.Pending],
+            text: 'Reject',
+            onClick: (industry: Industry) => onRejectClicked(industry),
+            Icon: FaTrash,
+            color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
+        },
     ]
 
     const columns: ColumnDef<Industry>[] = [
@@ -128,7 +228,14 @@ export const FilteredIndustry = ({
                 return (
                     <div className="flex gap-x-1 items-center">
                         <TableAction
-                            options={tableActionOptions}
+                            options={[
+                                ...tableActionOptions,
+                                ...statusBaseActions.filter((action) =>
+                                    action.status?.includes(
+                                        info.row.original?.user?.status
+                                    )
+                                ),
+                            ]}
                             rowItem={info.row.original}
                         />
                     </div>

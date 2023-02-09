@@ -73,7 +73,6 @@ const SubAdminList: NextPageWithLayout = () => {
     ]
 
     const onAddSubAdmin = () => {
-        console.log('bujja')
         contextBar.show()
         contextBar.setTitle('Add SubAdmin')
         contextBar.setContent(<AddSubAdminCB />)

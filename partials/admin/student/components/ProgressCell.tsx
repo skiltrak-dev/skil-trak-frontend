@@ -112,10 +112,8 @@ export const ProgressCell = ({
     status?: WorkplaceRequestStatus
     step: 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 | 13 | 14 | number
 }) => {
-    console.log('stepssdsdssdsd', step)
     // const currentStatus = WorkplaceRequestProgress[status]
     const currentStatus = Object.values(WorkplaceRequestProgress)[step - 1]
-    console.log('currentStatuscurrentStatuscurrentStatus', currentStatus)
 
     const classes = classNames({
         'px-2 py-1 rounded-md flex items-center gap-x-2 w-full': true,

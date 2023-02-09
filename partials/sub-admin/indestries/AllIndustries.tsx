@@ -1,29 +1,31 @@
-import { useState, ReactElement, useEffect } from 'react'
 import { useRouter } from 'next/router'
-import Image from 'next/image'
-import Link from 'next/link'
+import { ReactElement, useState } from 'react'
 
 // Icons
-import { FaEye, FaPhoneSquareAlt, FaEnvelope } from 'react-icons/fa'
+import { FaEye } from 'react-icons/fa'
 
 // components
 import {
     Card,
-    TableActionOption,
-    Typography,
-    TableAction,
+    EmptyData,
     LoadingAnimation,
     Table,
-    EmptyData,
+    TableAction,
+    TableActionOption,
     TechnicalError,
+    Typography,
 } from '@components'
 
-import { Industry } from '@types'
-import {
-    useAddToFavoriteMutation,
-    useGetSubAdminIndustriesQuery,
-} from '@queries'
+import { useGetSubAdminIndustriesQuery } from '@queries'
+import { Industry, SubAdmin } from '@types'
 import { IndustryCellInfo } from './components'
+import { AddToFavoriteModal } from './modals'
+import { MdFavorite, MdFavoriteBorder } from 'react-icons/md'
+import { getUserCredentials } from '@utils'
+
+export interface IndustrySubAdmin extends Industry {
+    subAdmin: SubAdmin[]
+}
 
 export const AllIndustries = () => {
     const [modal, setModal] = useState<ReactElement | null>(null)
@@ -35,32 +37,48 @@ export const AllIndustries = () => {
         skip: itemPerPage * page - itemPerPage,
         limit: itemPerPage,
     })
-    const [addToFavorite, addToFavoriteResult] = useAddToFavoriteMutation()
 
-    useEffect(() => {
-        if (addToFavoriteResult.isSuccess) {
-        }
-    }, [addToFavoriteResult])
+    const id = getUserCredentials()?.id
 
-    const tableActionOptions: TableActionOption[] = [
-        {
-            text: 'View',
-            onClick: (industry: Industry) => {
-                router.push(
-                    `/portals/sub-admin/users/industries/${industry.id}`
-                )
+    const onCancelClicked = () => {
+        setModal(null)
+    }
+
+    const onAddToFavoriteClicked = (industry: Industry) => {
+        setModal(
+            <AddToFavoriteModal
+                industry={industry}
+                onCancel={onCancelClicked}
+            />
+        )
+    }
+
+    const isFavorite = (subAdmin: SubAdmin[] | undefined) => {
+        return subAdmin?.find((subadmin: any) => subadmin?.user?.id === id)
+    }
+
+    const tableActionOptions = (industry: IndustrySubAdmin) => {
+        const subAdmin = isFavorite(industry?.subAdmin)
+        console.log('subAdmin', industry)
+        return [
+            {
+                text: 'View',
+                onClick: (industry: Industry) => {
+                    router.push(
+                        `/portals/sub-admin/users/industries/${industry.id}`
+                    )
+                },
+                Icon: FaEye,
             },
-            Icon: FaEye,
-        },
-        {
-            text: 'Favourite',
-            onClick: (industry: Industry) => {
-                console.log('industry', industry)
-                addToFavorite(industry?.id)
+            {
+                text: `${subAdmin ? 'Un Favourite' : 'Add Favourite'}`,
+                color: `${subAdmin ? 'text-error' : 'text-primary'}`,
+                onClick: (industry: Industry) =>
+                    onAddToFavoriteClicked(industry),
+                Icon: subAdmin ? MdFavorite : MdFavoriteBorder,
             },
-            Icon: FaEye,
-        },
-    ]
+        ]
+    }
 
     const Columns = [
         {
@@ -68,7 +86,10 @@ export const AllIndustries = () => {
             accessorKey: 'user',
             sort: true,
             cell: ({ row }: any) => (
-                <IndustryCellInfo industry={row.original} />
+                <IndustryCellInfo
+                    industry={row.original}
+                    isFavorite={isFavorite}
+                />
             ),
         },
         {
@@ -111,54 +132,66 @@ export const AllIndustries = () => {
             header: () => 'Action',
             accessorKey: 'Action',
             cell: ({ row }: any) => {
-                return (
-                    <TableAction
-                        options={tableActionOptions}
-                        rowItem={row.original}
-                    />
+                console.log(
+                    row.original?.subAdmin?.find(
+                        (subadmin: any) => subadmin?.user?.id === id
+                    )
                 )
+                const actions = tableActionOptions(row.original)
+                return <TableAction options={actions} rowItem={row.original} />
             },
         },
     ]
 
     return (
-        <Card noPadding>
-            {isError && <TechnicalError />}
-            {isLoading ? (
-                <LoadingAnimation height="h-[60vh]" />
-            ) : data && data?.data.length ? (
-                <Table
-                    columns={Columns}
-                    data={data.data}
-                    // quickActions={quickActionsElements}
-                    enableRowSelection
-                >
-                    {({ table, pagination, pageSize, quickActions }: any) => {
-                        return (
-                            <div>
-                                <div className="p-6 mb-2 flex justify-between">
-                                    {pageSize(itemPerPage, setItemPerPage)}
-                                    <div className="flex gap-x-2">
-                                        {quickActions}
-                                        {pagination(data?.pagination, setPage)}
+        <>
+            {modal && modal}
+            <Card noPadding>
+                {isError && <TechnicalError />}
+                {isLoading ? (
+                    <LoadingAnimation height="h-[60vh]" />
+                ) : data && data?.data.length ? (
+                    <Table
+                        columns={Columns}
+                        data={data.data}
+                        // quickActions={quickActionsElements}
+                        enableRowSelection
+                    >
+                        {({
+                            table,
+                            pagination,
+                            pageSize,
+                            quickActions,
+                        }: any) => {
+                            return (
+                                <div>
+                                    <div className="p-6 mb-2 flex justify-between">
+                                        {pageSize(itemPerPage, setItemPerPage)}
+                                        <div className="flex gap-x-2">
+                                            {quickActions}
+                                            {pagination(
+                                                data?.pagination,
+                                                setPage
+                                            )}
+                                        </div>
                                     </div>
+                                    <div className="px-6">{table}</div>
                                 </div>
-                                <div className="px-6">{table}</div>
-                            </div>
-                        )
-                    }}
-                </Table>
-            ) : (
-                !isError && (
-                    <EmptyData
-                        title={'No Approved Industry!'}
-                        description={
-                            'You have not approved any Industry request yet'
-                        }
-                        height={'50vh'}
-                    />
-                )
-            )}
-        </Card>
+                            )
+                        }}
+                    </Table>
+                ) : (
+                    !isError && (
+                        <EmptyData
+                            title={'No Approved Industry!'}
+                            description={
+                                'You have not approved any Industry request yet'
+                            }
+                            height={'50vh'}
+                        />
+                    )
+                )}
+            </Card>
+        </>
     )
 }

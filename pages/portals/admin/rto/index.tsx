@@ -19,7 +19,7 @@ import {
     RejectedRto,
 } from '@partials'
 import { AdminApi } from '@queries'
-import { NextPageWithLayout } from '@types'
+import { NextPageWithLayout, UserStatus } from '@types'
 import { checkFilteredDataLength } from '@utils'
 
 const RtoList: NextPageWithLayout = () => {
@@ -47,7 +47,7 @@ const RtoList: NextPageWithLayout = () => {
     const tabs: TabProps[] = [
         {
             label: 'Pending',
-            href: { pathname: 'rto', query: { tab: 'pending' } },
+            href: { pathname: 'rto', query: { tab: UserStatus.Pending } },
             badge: {
                 text: count?.data?.pending,
                 loading: count?.isLoading,
@@ -56,7 +56,7 @@ const RtoList: NextPageWithLayout = () => {
         },
         {
             label: 'Approved',
-            href: { pathname: 'rto', query: { tab: 'approved' } },
+            href: { pathname: 'rto', query: { tab: UserStatus.Approved } },
             badge: {
                 text: count?.data?.approved,
                 loading: count?.isLoading,
@@ -65,7 +65,7 @@ const RtoList: NextPageWithLayout = () => {
         },
         {
             label: 'Rejected',
-            href: { pathname: 'rto', query: { tab: 'rejected' } },
+            href: { pathname: 'rto', query: { tab: UserStatus.Rejected } },
             badge: {
                 text: count?.data?.rejected,
                 loading: count?.isLoading,
@@ -74,7 +74,7 @@ const RtoList: NextPageWithLayout = () => {
         },
         {
             label: 'Blocked',
-            href: { pathname: 'rto', query: { tab: 'blocked' } },
+            href: { pathname: 'rto', query: { tab: UserStatus.Blocked } },
             badge: {
                 text: count?.data?.blocked,
                 loading: count?.isLoading,
@@ -83,7 +83,7 @@ const RtoList: NextPageWithLayout = () => {
         },
         {
             label: 'Archived',
-            href: { pathname: 'rto', query: { tab: 'archived' } },
+            href: { pathname: 'rto', query: { tab: UserStatus.Archived } },
             badge: {
                 text: count?.data?.archived,
                 loading: count?.isLoading,

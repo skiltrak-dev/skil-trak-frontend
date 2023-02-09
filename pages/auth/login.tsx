@@ -14,7 +14,7 @@ import {
 import { Animations } from '@animations'
 import { AuthLayout } from '@layouts'
 import { AuthApi } from '@queries'
-import { LoginCredentials, StatusType } from '@types'
+import { LoginCredentials, StatusType, UserStatus } from '@types'
 import { AuthUtils } from '@utils'
 
 const Login: NextPage = () => {
@@ -50,19 +50,19 @@ const Login: NextPage = () => {
     const onLogin = (status: StatusType) => {
         const role = AuthUtils.getUserCredentials().role
         switch (status) {
-            case 'pending':
+            case UserStatus.Pending:
                 setRequested(true)
                 break
-            case 'archived':
+            case UserStatus.Archived:
                 setArchived(true)
                 break
-            case 'blocked':
+            case UserStatus.Blocked:
                 setBlocked(true)
                 break
-            case 'rejected':
+            case UserStatus.Rejected:
                 setRejected(true)
                 break
-            case 'approved':
+            case UserStatus.Approved:
                 nextDestination(role)
                 break
         }
@@ -83,10 +83,10 @@ const Login: NextPage = () => {
 
     return (
         <AuthLayout type="log-in">
-            {requested && <AccountStatus status={'pending'} />}
-            {rejected && <AccountStatus status={'rejected'} />}
-            {archived && <AccountStatus status={'archived'} />}
-            {blocked && <AccountStatus status={'blocked'} />}
+            {requested && <AccountStatus status={UserStatus.Pending} />}
+            {rejected && <AccountStatus status={UserStatus.Rejected} />}
+            {archived && <AccountStatus status={UserStatus.Archived} />}
+            {blocked && <AccountStatus status={UserStatus.Blocked} />}
 
             {!requested && !rejected && !archived && !blocked && (
                 // <div className="w-4/5 mx-auto flex items-center justify-between">
