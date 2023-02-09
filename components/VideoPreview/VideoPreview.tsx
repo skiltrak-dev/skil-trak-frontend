@@ -9,6 +9,8 @@ import { BsFillPlayCircleFill } from 'react-icons/bs'
 import { isBrowser } from '@utils'
 
 export const VideoPreview = ({ url }: { url: any }) => {
+    const tempUrlSplit = url.split('https://')
+    const tempUrl = `https://www.${tempUrlSplit[1]}`
     const [thumbnail, setThumbnail] = useState('')
 
     const [video, setVideo] = useState({
@@ -36,7 +38,7 @@ export const VideoPreview = ({ url }: { url: any }) => {
 
     useEffect(() => {
         const getVideoThumbnail = async () => {
-            const videoThumbnail: any = await generateVideoThumbnail(url)
+            const videoThumbnail: any = await generateVideoThumbnail(tempUrl)
             setThumbnail(videoThumbnail)
         }
         getVideoThumbnail()
@@ -46,6 +48,7 @@ export const VideoPreview = ({ url }: { url: any }) => {
         return new Promise((resolve) => {
             const canvas = document.createElement('canvas')
             const video = document.createElement('video')
+            video.crossOrigin = '*'
 
             // this is important
             video.autoplay = true
@@ -85,12 +88,11 @@ export const VideoPreview = ({ url }: { url: any }) => {
             {isBrowser() && (
                 <ReactPlayer
                     onReady={onReady}
-                    url={url}
+                    url={tempUrl}
                     width="100%"
                     height="100%"
                     playing={video.playing}
-                    duration={5000}
-                    currenttime={5}
+                    currenttime={1}
                     volume={video.volume}
                     config={{
                         file: { attributes: { controlsList: 'nodownload' } },
@@ -98,7 +100,7 @@ export const VideoPreview = ({ url }: { url: any }) => {
                     controls
                     playIcon={
                         <div className="w-full h-full flex justify-center items-center relative">
-                            <BsFillPlayCircleFill className="text-7xl text-white absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2" />
+                            <BsFillPlayCircleFill className="text-4xl text-white absolute top-12 left-1/2 -translate-x-1/2 -translate-y-1/2" />
 
                             {/* generating thumbnail for video */}
                             {!url?.split('.').includes('youtube') && (

@@ -8,39 +8,54 @@ import { IoMdDocument } from 'react-icons/io'
 import { getDocType } from '../../AssessmentFolderDetailX'
 
 type AssessmentFolderFileCardProps = {
+    file?: any
     fileUrl: string
     filename: string
     type: string
+    selected?: boolean
+    onClick?: (file: any) => void
 }
 
 export const AssessmentFolderFileCard = ({
+    file,
     type,
     fileUrl,
     filename,
+    selected,
+    onClick,
 }: AssessmentFolderFileCardProps) => {
-    const file = fileUrl.split('\\').join('/')
+    let fileName = file.file.split('\\')
+    if (fileName.length === 1) {
+        fileName = file.file.split('/')
 
-    const filePathSplit = fileUrl.split('/')
-    const fileName = filePathSplit[filePathSplit.length - 1]
+        if (fileName.length > 1) {
+            fileName = fileName[fileName.length - 1]
+        }
+    }
 
-    const pathname = new URL(file).pathname
-    const extention = file
-        ?.split('/')
-        ?.reverse()
-        ?.filter((f) => f !== '')[0]
-        ?.split('.')
-        .reverse()[0]
-
+    const extension = fileName?.split('.').reverse()[0]
 
     return (
-        <div className="h-36">
+        <div
+            className={`basis-1/6 border rounded p-2 ${
+                selected ? 'bg-blue-200' : ''
+            }`}
+            onClick={() => {
+                onClick &&
+                    onClick({
+                        ...file,
+                        extension,
+                        type
+                    })
+            }}
+        >
             {fileUrl && (
-                <div className="relative w-full h-full flex flex-col gap-y-1.5">
+                <div className="relative w-full min-h-[40px] flex flex-col gap-y-1.5">
                     {/* Video Preview */}
                     {(type === 'video' ||
-                        getDocType('video')?.includes(extention)) && (
+                        getDocType('video')?.includes(extension)) && (
                         // Preview Video
-                        <div className="bg-black h-full">
+                        <div className="bg-black w-24 h-24 overflow-hidden">
                             <div className="">
                                 <VideoPreview url={fileUrl} />
                             </div>
@@ -48,20 +63,29 @@ export const AssessmentFolderFileCard = ({
                     )}
                     {/* PDF Preview */}
                     {(type === 'docs' ||
-                        getDocType('docs')?.includes(extention)) && (
-                        <div className="h-full flex justify-center items-center w-full">
+                        getDocType('docs')?.includes(extension)) && (
+                        <div className="h-full flex justify-center items-center w-full text-gray-500">
                             <IoMdDocument className="text-5xl text-gray" />
                         </div>
                     )}
                     {/* Image Preview */}
                     {(type === 'images' ||
-                        getDocType('images')?.includes(extention)) && (
-                        <div
-                            className="w-full h-full bg-center bg-no-repeat bg-cover rounded-md"
-                            style={{
-                                backgroundImage: `url(${`${file}` || ''})`,
-                            }}
-                        ></div>
+                        getDocType('images')?.includes(extension)) && (
+                        // <div
+                        //     className="w-full h-[80px] bg-center bg-no-repeat bg-cover rounded-sm"
+                        //     style={{
+                        //         backgroundImage: `url(${`${file.file}` || ''})`,
+                        //     }}
+                        // ></div>
+                        <div className="w-full h-[80px] relative">
+                            <Image
+                                src={file.file}
+                                alt={filename || fileName}
+                                sizes="100vw"
+                                fill
+                                className="bg-cover"
+                            />
+                        </div>
                     )}
                     {/* <Typography variant="body" center>
                         {filename
@@ -75,7 +99,7 @@ export const AssessmentFolderFileCard = ({
                         <Typography variant="small" center>
                             {filename
                                 ? ellipsisText(filename?.split('_')[0], 11)
-                                : `${ellipsisText(fileName, 7)}.${extention}`}
+                                : `${ellipsisText(fileName, 5)}.${extension}`}
                         </Typography>
                     </div>
                 </div>
