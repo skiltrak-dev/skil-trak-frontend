@@ -48,6 +48,8 @@ export const AssessmentFolderDetailX = ({ folder, fileUpload }: Props) => {
         useGetAssessmentsFolderDetailQuery(folder?.id, { skip: !folder })
     const [uploadDocs, uploadDocsResult] = useUploadFolderDocsMutation()
 
+    const [selected, setSelected] = useState<any>(null)
+
     return (
         <div className="h-full">
             {folder && (
@@ -129,6 +131,7 @@ export const AssessmentFolderDetailX = ({ folder, fileUpload }: Props) => {
                                 filename={file.filename}
                                 fileUrl={file.file}
                                 type={folder.type}
+                                selected={selected.id === file.id}
                             />
                         ))}
                     </div>

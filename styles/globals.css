@@ -274,3 +274,8 @@ tr[aria-hidden] td {
     outline: 2px solid transparent;
     outline-offset: 2px;
 }
+
+/* REACT PDF ANNOTATION */
+.react-pdf__Page__annotations {
+    position: absolute !important;
+}
