@@ -91,7 +91,7 @@ export const MyRto = ({ myRto }: any) => {
                     </div>
 
                     <div className="flex justify-between gap-x-2 mt-3">
-                        {myRto?.rto?.subadmin.length && (
+                        {myRto?.rto?.subadmin?.length && (
                             <div>
                                 <p className="text-[11px] text-gray-400">
                                     Coordinators

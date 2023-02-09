@@ -96,6 +96,9 @@ export const AdminNavbar = () => {
 
                         <NotificationDropDown
                             expanded={notificationsExpanded}
+                            data={"data?.data"}
+                            isReadNotification={"isReadNotification"}
+                            resultIsReadNotification={"resultIsReadNotification"}
                         />
                     </div>
                 </OutsideClickHandler>
