@@ -24,15 +24,19 @@ import { MediaQueries } from '@constants'
 import { CommonApi } from '@queries'
 export const DetailNavbar = () => {
     const isMobile = useMediaQuery(MediaQueries.Mobile)
-    const { data, error, isLoading } = CommonApi.Notifications.useNotifications()
-    const [isReadNotification, resultIsReadNotification] = CommonApi.Notifications.useIsReadNotification()
-    
+    const { data, error, isLoading } =
+        CommonApi.Notifications.useNotifications()
+    const [isReadNotification, resultIsReadNotification] =
+        CommonApi.Notifications.useIsReadNotification()
+
     const [messagesExpanded, setMessagesExpanded] = useState(false)
     const [notificationsExpanded, setNotificationsExpanded] = useState(false)
     const [profileOptionsExpanded, setProfileOptionsExpanded] = useState(false)
     // filter over data to get only unread notifications
-    const unreadNotifications = data?.data?.filter((notification: any) => notification?.isRead === false)
-    const count = unreadNotifications?.length;
+    const unreadNotifications = data?.data?.filter(
+        (notification: any) => notification?.isRead === false
+    )
+    const count = unreadNotifications?.length
 
     return (
         <div className="w-full z-50 px-2 md:px-8 py-2 bg-white border-b border-secondary-dark flex justify-between items-center">

@@ -59,7 +59,6 @@ export const AllIndustries = () => {
 
     const tableActionOptions = (industry: IndustrySubAdmin) => {
         const subAdmin = isFavorite(industry?.subAdmin)
-        console.log('subAdmin', industry)
         return [
             {
                 text: 'View',
@@ -132,11 +131,6 @@ export const AllIndustries = () => {
             header: () => 'Action',
             accessorKey: 'Action',
             cell: ({ row }: any) => {
-                console.log(
-                    row.original?.subAdmin?.find(
-                        (subadmin: any) => subadmin?.user?.id === id
-                    )
-                )
                 const actions = tableActionOptions(row.original)
                 return <TableAction options={actions} rowItem={row.original} />
             },

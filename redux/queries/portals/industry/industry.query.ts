@@ -52,7 +52,7 @@ export const industryApi = createApi({
         }),
         updateIndustryProfile: build.mutation<any, any>({
             query: ({ id, body }) => ({
-                url: 'profile/update',
+                url: 'industries/profile/update',
                 method: 'PATCH',
                 params: { industry: id },
                 body,

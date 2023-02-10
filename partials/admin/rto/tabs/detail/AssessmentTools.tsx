@@ -1,6 +1,9 @@
 import { TabNavigation, TabProps, Typography } from '@components'
 import { useContextBar } from '@hooks'
-import { AdminApi, useUpdateSubAdminAssessmentToolArchiveMutation } from '@queries'
+import {
+    AdminApi,
+    useUpdateSubAdminAssessmentToolArchiveMutation,
+} from '@queries'
 import { useState } from 'react'
 import { AssessmentTool, ArchivedAssessmentTool } from '../../components'
 import { FaEdit } from 'react-icons/fa'
@@ -12,7 +15,9 @@ export const AssessmentTools = ({ rto }: any) => {
         AdminApi.Rtos.useArchiveAssessmentTools()
     const onAddAssessment = (tool: any) => {
         contextBar.setTitle('Add Assessment')
-        contextBar.setContent(<AddAssessmentToolCB assessment={tool} edit={true} />)
+        contextBar.setContent(
+            <AddAssessmentToolCB assessment={tool} edit={true} />
+        )
         contextBar.show()
     }
 

@@ -12,6 +12,7 @@ import {
     TextInput,
     Typography,
     Avatar,
+    RadioGroup,
 } from '@components'
 
 // hooks
@@ -39,6 +40,7 @@ export const IndustryProfileFrom = ({
         any | null
     >(null)
     const [sectors, setSectors] = useState<any | null>(null)
+    const [isPartner, setIsPartner] = useState<boolean>(false)
     const [courseOptions, setCourseOptions] = useState([])
     const [courseDefaultOptions, setCourseDefaultOptions] = useState([])
 
@@ -193,8 +195,17 @@ export const IndustryProfileFrom = ({
             for (const key in values) {
                 formMethods.setValue(key, values[key])
             }
+            setIsPartner(profile?.data?.isPartner)
         }
     }, [profile])
+
+    const onFormSubmit = (values: any) => {
+        onSubmit({
+            ...values,
+            isPartner,
+            studentCapacity: isPartner ? values?.studentCapacity : 0,
+        })
+    }
     return (
         <>
             <Avatar avatar={profile?.data?.user?.avatar} />
@@ -210,7 +221,7 @@ export const IndustryProfileFrom = ({
                 <FormProvider {...formMethods}>
                     <form
                         className="flex flex-col gap-y-4"
-                        onSubmit={formMethods.handleSubmit(onSubmit)}
+                        onSubmit={formMethods.handleSubmit(onFormSubmit)}
                     >
                         {/* Personal Information */}
                         <div className="flex gap-x-16 border-t py-4">
@@ -434,6 +445,42 @@ export const IndustryProfileFrom = ({
                                         placeholder={'Zip Code...'}
                                         validationIcons
                                     />
+                                </div>
+                                <div className="w-full md:w-1/2">
+                                    <RadioGroup
+                                        name={'isPartner'}
+                                        label={
+                                            'You want to use as a partner or single'
+                                        }
+                                        value={isPartner ? 'yes' : 'no'}
+                                        options={[
+                                            {
+                                                label: 'single',
+                                                value: 'no',
+                                                // checked: !isPartner,
+                                            },
+                                            {
+                                                label: 'Is Partner',
+                                                value: 'yes',
+                                                // checked: true,
+                                            },
+                                        ]}
+                                        onChange={(e: any) => {
+                                            setIsPartner(
+                                                e?.target?.value === 'yes'
+                                                    ? true
+                                                    : false
+                                            )
+                                        }}
+                                    />
+                                    {isPartner && (
+                                        <TextInput
+                                            onChange={(e: any) => {}}
+                                            name={'studentCapacity'}
+                                            label={'Student Capacity'}
+                                            type={'number'}
+                                        />
+                                    )}
                                 </div>
                             </div>
                         </div>

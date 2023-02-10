@@ -3,7 +3,7 @@ import moment from 'moment'
 // Icons
 import { RiBook2Fill } from 'react-icons/ri'
 // components
-import { Card, Typography, Button, ActionButton } from '@components'
+import { Card, Typography, Button, ActionButton, Select } from '@components'
 
 // utils
 import { ellipsisText, userStatus } from '@utils'
@@ -13,6 +13,7 @@ import { GetFolders } from '../hooks'
 
 // query
 import {
+    SubAdminApi,
     useAssignToSubAdminMutation,
     useCancelWorkplaceStatusMutation,
     useGetWorkplaceFoldersQuery,
@@ -29,6 +30,7 @@ import { SmallDetail } from './smallDetail'
 import { ViewAgreement } from '../contextBar'
 import { RtoDetail } from './RtoDetail'
 import { Availability } from './Availability'
+import { Course } from '@types'
 export const WorkplaceRequest = ({ workplace }: any) => {
     const [appliedIndustry, setAppliedIndustry] = useState<any | null>(null)
     const [course, setCourse] = useState<any | null>(null)
@@ -38,6 +40,8 @@ export const WorkplaceRequest = ({ workplace }: any) => {
     // query
     const [cancelWorkplace, cancelWorkplaceResult] =
         useCancelWorkplaceStatusMutation()
+    const [assignCourse, assignCourseResult] =
+        SubAdminApi.Workplace.assignCourse()
 
     // query
     const workplaceFolders = useGetWorkplaceFoldersQuery(
@@ -55,6 +59,14 @@ export const WorkplaceRequest = ({ workplace }: any) => {
         setAppliedIndustry(workplace.industries?.find((i: any) => i.applied))
         setCourse(workplace?.courses ? workplace?.courses[0] : {})
     }, [workplace])
+
+    const courseOptions =
+        workplace?.student?.courses?.length > 0
+            ? workplace?.student?.courses?.map((course: Course) => ({
+                  label: course?.title,
+                  value: course?.id,
+              }))
+            : []
     return (
         <Card noPadding>
             <div
@@ -71,20 +83,39 @@ export const WorkplaceRequest = ({ workplace }: any) => {
                     <RtoDetail rto={workplace?.student?.rto} />
 
                     {/*  */}
-                    <div className="flex items-center relative">
-                        <div className="flex items-center gap-x-2">
-                            <RiBook2Fill className="text-gray-400 text-2xl" />
-                            <div>
-                                <Typography color={'black'} variant={'xs'}>
-                                    {course?.sector?.name}
-                                </Typography>
-                                <Typography variant={'muted'}>
-                                    {course?.code} -{' '}
-                                    {ellipsisText(course?.title, 15)}
-                                </Typography>
+                    {workplace?.courses?.length > 0 ? (
+                        <div className="flex items-center relative">
+                            <div className="flex items-center gap-x-2">
+                                <RiBook2Fill className="text-gray-400 text-2xl" />
+                                <div>
+                                    <Typography color={'black'} variant={'xs'}>
+                                        {course?.sector?.name}
+                                    </Typography>
+                                    <Typography variant={'muted'}>
+                                        {course?.code} -{' '}
+                                        {ellipsisText(course?.title, 15)}
+                                    </Typography>
+                                </div>
                             </div>
                         </div>
-                    </div>
+                    ) : (
+                        <Select
+                            label={'Course'}
+                            name={'course'}
+                            options={courseOptions}
+                            placeholder={'Select Course...'}
+                            onChange={(e: any) => {
+                                if (e?.value) {
+                                    assignCourse({
+                                        courseId: e?.value,
+                                        workplaceId: workplace?.id,
+                                    })
+                                }
+                            }}
+                            loading={assignCourseResult.isLoading}
+                            disabled={assignCourseResult.isLoading}
+                        />
+                    )}
 
                     {/* Request Type Selection */}
                     <div className="flex items-center gap-x-2">
