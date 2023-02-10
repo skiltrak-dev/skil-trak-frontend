@@ -24,7 +24,7 @@ export const AssessmentFolderFileCard = ({
     selected,
     onClick,
 }: AssessmentFolderFileCardProps) => {
-    let fileName = file.file.split('\\')
+    let fileName = file ? file.file.split('\\') : ''
     if (fileName.length === 1) {
         fileName = file.file.split('/')
 
@@ -45,7 +45,7 @@ export const AssessmentFolderFileCard = ({
                     onClick({
                         ...file,
                         extension,
-                        type
+                        type,
                     })
             }}
         >

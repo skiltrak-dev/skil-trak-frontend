@@ -44,6 +44,7 @@ export * from './ReactTable'
 export * from './sideBars'
 export * from './Portal'
 export * from './CreaetNote'
+export * from './StudentStatusProgressCell'
 
 // Forms
 export * from './forms'

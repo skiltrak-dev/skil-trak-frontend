@@ -6,6 +6,7 @@ import {
     Filter,
     LoadingAnimation,
     RtoFilters,
+    StudentStatusProgressCell,
     Table,
     TableAction,
     TableActionOption,
@@ -27,7 +28,7 @@ import { useRouter } from 'next/router'
 import { IndustryCell } from '../industry/components'
 import { RiLockPasswordFill } from 'react-icons/ri'
 import { useActionModal } from '@hooks'
-import { checkWorkplaceStatus } from '@utils'
+import { checkStudentStatus, checkWorkplaceStatus } from '@utils'
 
 export const RejectedStudent = () => {
     const router = useRouter()
@@ -140,9 +141,17 @@ export const RejectedStudent = () => {
             header: () => <span>Progress</span>,
             cell: ({ row }) => {
                 const workplace = row.original.workplace[0]
+                const industries = row.original?.industries
                 const steps = checkWorkplaceStatus(workplace?.currentStatus)
+                const studentStatus = checkStudentStatus(
+                    row.original?.studentStatus
+                )
 
-                return <ProgressCell step={steps || 1} />
+                return industries?.length > 0 ? (
+                    <StudentStatusProgressCell step={studentStatus} />
+                ) : (
+                    <ProgressCell step={steps || 1} />
+                )
             },
         },
         {

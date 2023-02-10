@@ -3,6 +3,7 @@ import {
     Card,
     EmptyData,
     LoadingAnimation,
+    StudentStatusProgressCell,
     Table,
     TableAction,
     TableActionOption,
@@ -17,7 +18,7 @@ import { FaEdit, FaEye } from 'react-icons/fa'
 import { RtoCellInfo } from '@partials/admin/rto/components'
 import { AdminApi } from '@queries'
 import { Student } from '@types'
-import { checkWorkplaceStatus } from '@utils'
+import { checkStudentStatus, checkWorkplaceStatus } from '@utils'
 import { useRouter } from 'next/router'
 import { ReactElement, useState } from 'react'
 import { MdBlock } from 'react-icons/md'
@@ -125,9 +126,15 @@ export const ApprovedStudent = () => {
             header: () => <span>Progress</span>,
             cell: ({ row }) => {
                 const workplace = row.original.workplace[0]
+                const industries = row.original?.industries
                 const steps = checkWorkplaceStatus(workplace?.currentStatus)
+                const studentStatus = checkStudentStatus(
+                    row.original?.studentStatus
+                )
 
-                return (
+                return industries?.length > 0 ? (
+                    <StudentStatusProgressCell step={studentStatus} />
+                ) : (
                     <ProgressCell
                         step={steps > 14 ? 14 : steps < 1 ? 1 : steps}
                     />
