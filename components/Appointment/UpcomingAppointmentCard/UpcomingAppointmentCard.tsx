@@ -53,7 +53,7 @@ export const UpcomingAppointmentCard = ({
                     <div className="">
                         <Typography variant={'label'} color={'text-[#BCDEFF]'}>
                             {moment(appointment?.date).format(
-                                'dddd, DDD MMMM, YYYY'
+                                'dddd, Do MMMM, YYYY'
                             )}
                         </Typography>
                         <div className="flex gap-x-2 items-center">

@@ -1,20 +1,15 @@
-import { useState, useEffect } from 'react'
 import {
-    Card,
-    NoData,
-    Button,
-    Typography,
-    LoadingAnimation,
-    AssessmentCourse,
-    DownloadableFile,
-    TabNavigation,
-    TabProps,
     ActionButton,
+    AssessmentCourse,
+    Card,
+    DownloadableFile,
+    LoadingAnimation,
+    NoData,
+    Typography,
 } from '@components'
+import { useEffect, useState } from 'react'
 
-import { UserStatus } from '@types'
-
-import { AdminApi, useRemoveSubAdminRTOAssessmentToolsMutation, useUpdateSubAdminAssessmentToolArchiveMutation } from '@queries'
+import { AdminApi } from '@queries'
 import { useRouter } from 'next/router'
 import { MdDelete } from 'react-icons/md'
 
@@ -104,7 +99,7 @@ export const ArchivedAssessmentTool = ({ rto, setAssessmentView }: any) => {
                         <ActionButton
                             variant={'success'}
                             rounded
-                            onClick={() => { }}
+                            onClick={() => {}}
                             simple
                         >
                             Add Assessment
@@ -132,7 +127,7 @@ export const ArchivedAssessmentTool = ({ rto, setAssessmentView }: any) => {
                         {getAssessmentTools?.isLoading ? (
                             <LoadingAnimation size={80} />
                         ) : getAssessmentTools?.data &&
-                            getAssessmentTools?.data?.length > 0 ? (
+                          getAssessmentTools?.data?.length > 0 ? (
                             getAssessmentTools?.data?.map((assessment: any) => (
                                 <DownloadableFile
                                     actions={() => actions(assessment)}

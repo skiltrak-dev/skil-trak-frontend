@@ -119,7 +119,7 @@ export const StudentFilters = ({ onFilterChange, filter }: ItemFilterProps) => {
                 loading={getIndustries.isLoading}
                 disabled={getIndustries.isLoading}
             />
-            <Select
+            {/* <Select
                 label={'Search by Batch/Class'}
                 name={'batchId'}
                 options={[]}
@@ -127,7 +127,7 @@ export const StudentFilters = ({ onFilterChange, filter }: ItemFilterProps) => {
                 onChange={(e: any) => {
                     onFilterChange({ ...filter, batchId: e?.value })
                 }}
-            />
+            /> */}
             <Select
                 label={'Search by Courses'}
                 name={'courseId'}

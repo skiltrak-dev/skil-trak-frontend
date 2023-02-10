@@ -140,13 +140,8 @@ export const workplaceEndpoints = (
         }),
         invalidatesTags: ['SubAdminWorkplace'],
     }),
-    showExistingIndustries: builder.query<
-        any,
-        { workplaceId: number; courseId: number }
-    >({
-        query: ({ workplaceId, courseId }) => ({
-            url: `${PREFIX}course-industries/list/${courseId}/${workplaceId}`,
-        }),
+    showExistingIndustries: builder.query<any, void>({
+        query: () => `${PREFIX}course-industries/list`,
         providesTags: ['SubAdminWorkplace'],
     }),
     addExistingIndustries: builder.mutation<any, any>({
@@ -155,6 +150,13 @@ export const workplaceEndpoints = (
             method: 'POST',
         }),
         invalidatesTags: ['SubAdminWorkplace'],
+    }),
+    assignCourse: builder.mutation<any, any>({
+        query: ({ workplaceId, courseId }) => ({
+            url: `${PREFIX}workplace-request/assign-course/${workplaceId}/${courseId}`,
+            method: 'POST',
+        }),
+        invalidatesTags: ['Workplaces'],
     }),
     addCustomIndustry: builder.mutation<any, any>({
         query: ({ id, body }) => ({

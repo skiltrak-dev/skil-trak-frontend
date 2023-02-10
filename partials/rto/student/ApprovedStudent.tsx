@@ -129,12 +129,15 @@ export const ApprovedStudent = () => {
             header: () => <span>Progress</span>,
             cell: ({ row }) => {
                 const workplace = row.original.workplace[0]
+                const industries = row.original?.industries
                 const steps = checkWorkplaceStatus(workplace?.currentStatus)
 
-                return (
+                return industries?.length > 0 ? (
                     <ProgressCell
                         step={steps > 14 ? 14 : steps < 1 ? 1 : steps}
                     />
+                ) : (
+                    row.original?.studentStatus
                 )
             },
         },

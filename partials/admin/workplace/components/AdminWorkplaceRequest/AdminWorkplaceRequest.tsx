@@ -1,4 +1,11 @@
-import { Card, InitialAvatar, Select, Typography } from '@components'
+import {
+    Card,
+    InitialAvatar,
+    Select,
+    ShowErrorNotifications,
+    Typography,
+} from '@components'
+import { useNotification } from '@hooks'
 import { ProgressCell } from '@partials/admin/student/components'
 import {
     Industries,
@@ -7,6 +14,7 @@ import {
 } from '@partials/sub-admin/workplace/components'
 
 import { AdminApi } from '@queries'
+import { Course } from '@types'
 import { checkWorkplaceStatus } from '@utils'
 import moment from 'moment'
 import { useEffect, useState } from 'react'
@@ -19,14 +27,38 @@ type Props = {
 export const AdminWorkplaceRequest = ({ workplace }: Props) => {
     const [appliedIndustry, setAppliedIndustry] = useState<any | null>(null)
 
+    // notification
+    const { notification } = useNotification()
+
+    // query
+    const [assignCourse, assignCourseResult] = AdminApi.Workplace.assignCourse()
+
     useEffect(() => {
         setAppliedIndustry(workplace.industries?.find((i: any) => i.applied))
     }, [workplace])
 
+    useEffect(() => {
+        if (assignCourseResult.isSuccess) {
+            notification.success({
+                title: 'Course Assigned',
+                description: 'Course Assigned Successfully',
+            })
+        }
+    }, [assignCourseResult])
+
     const steps = checkWorkplaceStatus(workplace?.currentStatus)
+
+    const courseOptions =
+        workplace?.student?.courses?.length > 0
+            ? workplace?.student?.courses?.map((course: Course) => ({
+                  label: course?.title,
+                  value: course?.id,
+              }))
+            : []
 
     return (
         <div>
+            <ShowErrorNotifications result={assignCourseResult} />
             <Card>
                 <div className="grid grid-cols-4 gap-x-5 items-center pb-2.5 border-b border-dashed">
                     <AssignWorkplace workplace={workplace} />
@@ -62,25 +94,44 @@ export const AdminWorkplaceRequest = ({ workplace }: Props) => {
                         </div>
                     </div>
                     {/*  */}
-                    <div className="flex items-center relative">
-                        <div className="flex items-center gap-x-2">
-                            <RiBook2Fill className="text-gray-400 text-2xl" />
-                            <div>
-                                <Typography color={'black'} variant={'xs'}>
-                                    {workplace?.courses[0]?.sector?.name}
-                                </Typography>
-                                <Typography variant={'muted'}>
-                                    <span className="break-all">
-                                        {workplace?.courses[0]?.code}{' '}
-                                    </span>
-                                    -{' '}
-                                    <span className="break-all">
-                                        {workplace?.courses[0]?.title}
-                                    </span>
-                                </Typography>
+                    {workplace?.courses?.length > 0 ? (
+                        <div className="flex items-center relative">
+                            <div className="flex items-center gap-x-2">
+                                <RiBook2Fill className="text-gray-400 text-2xl" />
+                                <div>
+                                    <Typography color={'black'} variant={'xs'}>
+                                        {workplace?.courses[0]?.sector?.name}
+                                    </Typography>
+                                    <Typography variant={'muted'}>
+                                        <span className="break-all">
+                                            {workplace?.courses[0]?.code}{' '}
+                                        </span>
+                                        -{' '}
+                                        <span className="break-all">
+                                            {workplace?.courses[0]?.title}
+                                        </span>
+                                    </Typography>
+                                </div>
                             </div>
                         </div>
-                    </div>
+                    ) : (
+                        <Select
+                            label={'Course'}
+                            name={'course'}
+                            options={courseOptions}
+                            placeholder={'Select Course...'}
+                            onChange={(e: any) => {
+                                if (e?.value) {
+                                    assignCourse({
+                                        courseId: e?.value,
+                                        workplaceId: workplace?.id,
+                                    })
+                                }
+                            }}
+                            loading={assignCourseResult.isLoading}
+                            disabled={assignCourseResult.isLoading}
+                        />
+                    )}
 
                     <ProgressCell
                         step={steps > 14 ? 14 : steps < 1 ? 1 : steps}
