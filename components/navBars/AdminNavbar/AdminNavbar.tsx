@@ -13,8 +13,11 @@ import { useNavbar } from '@hooks'
 import { useRouter } from 'next/router'
 import OutsideClickHandler from 'react-outside-click-handler'
 import { NotificationDropDown } from './components/notifications'
+import { CommonApi } from '@queries'
 
 export const AdminNavbar = () => {
+    const { data, error, isLoading } = CommonApi.Notifications.useNotifications()
+    const [isReadNotification, resultIsReadNotification] = CommonApi.Notifications.useIsReadNotification()
     let router = useRouter()
     const navbar = useNavbar()
 
@@ -33,17 +36,17 @@ export const AdminNavbar = () => {
         const title = paths[paths.length - offset].replace(remove, ' ')
     }
 
+
     // const onMessageButtonClick = () => {
     // 	if (notificationsExpanded) setNotificationsExpanded(false);
     // 	setMessagesExpanded(true);
     // };
-
     // const onNotificationButtonClick = () => {
     // 	if (messagesExpanded) setMessagesExpanded(false);
     // 	setMessagesExpanded(!messagesExpanded);
     // };
-
     // bg-[#F9FAFB]
+
     return (
         <div className="w-full transition-all  z-30 py-2 px-6  flex justify-between items-center">
             <div>
@@ -96,9 +99,9 @@ export const AdminNavbar = () => {
 
                         <NotificationDropDown
                             expanded={notificationsExpanded}
-                            data={"data?.data"}
-                            isReadNotification={"isReadNotification"}
-                            resultIsReadNotification={"resultIsReadNotification"}
+                            data={data?.data}
+                            isReadNotification={isReadNotification}
+                            resultIsReadNotification={resultIsReadNotification}
                         />
                     </div>
                 </OutsideClickHandler>

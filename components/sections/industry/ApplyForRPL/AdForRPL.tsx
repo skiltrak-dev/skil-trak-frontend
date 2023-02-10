@@ -1,13 +1,25 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useRouter } from 'next/router'
 
 // components
 import { Typography, Button, Card } from 'components'
 import { getUserCredentials } from '@utils'
+import { useJoyRide } from '@hooks'
 
 export const AdForRPL = ({ short }: any) => {
     const router = useRouter()
     const status = getUserCredentials()?.status
+
+    // ADD STUDENT JOY RIDE - START
+    const joyride = useJoyRide()
+    useEffect(() => {
+        if (joyride.state.tourActive) {
+            setTimeout(() => {
+                joyride.setState({ ...joyride.state, run: true, stepIndex: 1 })
+            }, 1200)
+        }
+    }, [])
+    // ADD STUDENT JOY RIDE - END
     return (
         <div
             className={`flex ${
@@ -50,7 +62,7 @@ export const AdForRPL = ({ short }: any) => {
                 )}
 
                 {/*  */}
-                <div className={`${short && 'mt-2'}`}>
+                <div id='apply-for-rpl' className={`${short && 'mt-2'}`}>
                     <Button
                         variant={'primary'}
                         onClick={() =>
