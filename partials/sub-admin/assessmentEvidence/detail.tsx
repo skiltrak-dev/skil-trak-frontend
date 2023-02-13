@@ -186,7 +186,11 @@ export const Detail = ({
                     ))}
                 </div>
             ) : (
-                <NoData text={'No Assessment Courses Were Found'} />
+                <NoData
+                    text={
+                        'No Assessment Courses Were Found or No Submission from Student recived yet'
+                    }
+                />
             )}
 
             {/* Assessment Evidence Folders */}

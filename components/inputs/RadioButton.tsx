@@ -55,6 +55,7 @@ export const RadioButton = (
                             onBlur
                         )}
                         {...(value ? { value } : {})}
+                        // checked={defaultChecked}
                         defaultChecked={defaultChecked}
                     />
                 ) : (

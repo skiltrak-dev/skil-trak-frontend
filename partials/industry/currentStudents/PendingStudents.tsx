@@ -18,11 +18,12 @@ import {
 // query
 import { useGetIndustryWorkplaceQuery } from '@queries'
 import { LoadingAnimation } from '@components/LoadingAnimation'
+import { UserStatus } from '@types'
 
 export const PendingStudents = () => {
     // query
     const industryWorkplace = useGetIndustryWorkplaceQuery({
-        search: `status:approved`,
+        search: `status:${UserStatus.Pending}`,
     })
 
     return (
@@ -30,9 +31,10 @@ export const PendingStudents = () => {
             {industryWorkplace.isError && <TechnicalError />}
             {industryWorkplace.isLoading && industryWorkplace.isFetching ? (
                 <LoadingAnimation />
-            ) : industryWorkplace.data && industryWorkplace.data.length > 0 ? (
+            ) : industryWorkplace.data?.data &&
+              industryWorkplace.data?.data?.length > 0 ? (
                 <div className="flex flex-col gap-y-2">
-                    {industryWorkplace?.data?.map((workplace: any) => (
+                    {industryWorkplace?.data?.data?.map((workplace: any) => (
                         <CurrentStudentCard
                             key={workplace.id}
                             workplace={workplace}

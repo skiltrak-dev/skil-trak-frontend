@@ -1,34 +1,28 @@
 import {
     ActionButton,
     BackButton,
-    Button,
     DescriptiveInfo,
-    InitialAvatar,
-    InitialAvatarContainer,
-    Typography,
-    TechnicalError,
     EmptyData,
     LoadingAnimation,
+    TechnicalError,
+    Typography,
 } from '@components'
 import { useContextBar, useNavbar } from '@hooks'
 import { AdminLayout } from '@layouts'
 import { NextPageWithLayout, SubAdmin } from '@types'
 import { useRouter } from 'next/router'
-import { ReactElement, useState, useEffect } from 'react'
+import { ReactElement, useEffect, useState } from 'react'
 import {
-    AiFillCodeSandboxCircle,
     AiOutlineBarcode,
     AiOutlineLogin,
     AiTwotonePhone,
 } from 'react-icons/ai'
 import { BsPatchCheckFill } from 'react-icons/bs'
-import { FaArchive, FaBan, FaPhoneAlt } from 'react-icons/fa'
+import { FaArchive, FaBan } from 'react-icons/fa'
 
-import { AdminApi } from '@queries'
-import { IoLogIn } from 'react-icons/io5'
-import { MdPlace } from 'react-icons/md'
-import Image from 'next/image'
 import { DetailTabs } from '@partials/admin/sub-admin'
+import { AdminApi } from '@queries'
+import { MdPlace } from 'react-icons/md'
 
 import { FigureCard } from '@components/sections/subAdmin/components/Cards/FigureCard'
 import { PinnedNotes } from '@partials'

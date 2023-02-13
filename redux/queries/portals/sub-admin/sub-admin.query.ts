@@ -79,8 +79,9 @@ export const {
     useUpdateNoteMutation,
     useNoteStatusChangeMutation,
 
-    // ------WORKPLACE------ //
+    // ------ WORKPLACE------ //
     useAgrementSignMutation,
+    useAssignCourseMutation,
     useStartPlacementMutation,
     useIndustryResponseMutation,
     useAssignToSubAdminMutation,
@@ -202,6 +203,7 @@ export const SubAdminApi = {
         changeStatus: useChangeStudentStatusMutation,
     },
     Workplace: {
+        assignCourse: useAssignCourseMutation,
         AgreementSign: useAgrementSignMutation,
         useStartPlacementMutation,
         useIndustryResponseMutation,

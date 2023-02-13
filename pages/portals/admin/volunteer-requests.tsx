@@ -11,7 +11,6 @@ import { AdminApi } from '@queries'
 import { PageHeading } from '@components/headings'
 
 import {
-    ActionButton,
     AppointmentTypeFilters,
     Button,
     Card,
@@ -24,7 +23,7 @@ import {
     TechnicalError,
 } from '@components'
 import { useNavbar } from '@hooks'
-import { DeleteModal, RequirementModal } from '@partials/admin/job'
+import { DeleteModal } from '@partials/admin/job'
 import { FaFileExport, FaTrash } from 'react-icons/fa'
 import { MdEmail, MdPhoneIphone } from 'react-icons/md'
 

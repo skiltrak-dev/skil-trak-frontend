@@ -13,6 +13,13 @@ export const workplaceEndpoints = (
         }),
         providesTags: ['Workplaces'],
     }),
+    assignCourse: builder.mutation<any, any>({
+        query: ({ workplaceId, courseId }) => ({
+            url: `${PREFIX}/workplace-request/assign-course/${workplaceId}/${courseId}`,
+            method: 'POST',
+        }),
+        invalidatesTags: ['Workplaces'],
+    }),
     unAssignedSubAdmins: builder.query<any, any>({
         query: (params) => ({
             url: `${PREFIX}/subadmin/list`,

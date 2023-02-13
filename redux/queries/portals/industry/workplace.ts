@@ -12,6 +12,12 @@ export const workplaceEndpoints = (
         }),
         providesTags: ['IndustryWorkplace'],
     }),
+
+    getIndustryWorkplaceDetail: builder.query<any, number>({
+        query: (id) => `${PREFIX}/workplace-request/view/${id}`,
+        providesTags: ['IndustryWorkplace'],
+    }),
+
     getIndustryWorkplaceFolders: builder.query<any, any>({
         query: ({ workplaceId, appliedIndustryId, courseId }) =>
             `${PREFIX}/workplace-request/docs/${workplaceId}/${appliedIndustryId}/${courseId}`,
