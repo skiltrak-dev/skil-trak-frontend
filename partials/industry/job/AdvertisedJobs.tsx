@@ -37,6 +37,7 @@ import { getThemeColors } from '@theme'
 import { DeleteModal } from './modals'
 import { Rto } from '@types'
 import { JobCell } from './components'
+import { useJoyRide } from '@hooks'
 
 const Colors = getThemeColors()
 
@@ -150,12 +151,22 @@ export const AdvertisedJobsContainer = () => {
         type: '',
         status: '',
     }
+    // ADD STUDENT JOY RIDE - START
+    const joyride = useJoyRide()
+    useEffect(() => {
+        if (joyride.state.tourActive) {
+            setTimeout(() => {
+                joyride.setState({ ...joyride.state, run: true, stepIndex: 2 })
+            }, 1200)
+        }
+    }, [])
+    // ADD STUDENT JOY RIDE - END
     return (
         <div>
             {modal}
             <div className="flex flex-col md:flex-row md:justify-between md:items-center pb-4">
                 <BackButton link={'jobs'} text={'Back To Jobs'} />
-                <div className="flex items-center gap-x-2">
+                <div id="advertise-new-job" className="flex items-center gap-x-2">
                     {filterActionButton && filterActionButton}
                     <Button
                         variant={'dark'}

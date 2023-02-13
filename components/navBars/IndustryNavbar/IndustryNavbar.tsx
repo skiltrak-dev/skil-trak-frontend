@@ -57,6 +57,7 @@ export const IndustryNavbar = () => {
                                             ? 'bg-green-100 text-accent-700'
                                             : 'text-slate-700'
                                     } ${defaultClasses} hover:bg-blue-100 hover:text-blue-700`}
+                                    id="tasks"
                                 >
                                     <span>
                                         <HiUsers />
@@ -80,6 +81,7 @@ export const IndustryNavbar = () => {
                                             ? 'bg-orange-100 text-orange-700'
                                             : 'text-slate-700'
                                     } ${defaultClasses} hover:bg-orange-100 hover:text-orange-700`}
+                                    id="students"
                                 >
                                     <span>
                                         <FaClipboardList />
@@ -99,6 +101,7 @@ export const IndustryNavbar = () => {
                                             ? 'bg-green-100 text-green-700'
                                             : 'text-slate-700'
                                     } ${defaultClasses} hover:bg-green-100 hover:text-green-700`}
+                                    id="jobs"
                                 >
                                     <span>
                                         <MdWork />

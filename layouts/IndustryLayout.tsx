@@ -1,6 +1,6 @@
 import { useState, ReactElement, ReactNode, useEffect } from 'react'
 import { useRouter } from 'next/router'
-
+import Joyride, { CallBackProps } from 'react-joyride'
 // components
 import {
     PageTitle,
@@ -16,7 +16,7 @@ import { UserLayout } from './UserLayout'
 
 // utils
 import { AuthUtils } from '@utils'
-import { useAlert } from '@hooks'
+import { useAlert, useJoyRide } from '@hooks'
 import { UserStatus } from '@types'
 
 const getRoutePath = `/portals/industry`
@@ -59,8 +59,18 @@ export const IndustryLayout = ({
 
     // hooks
     const { alert } = useAlert()
-
+    const joyride = useJoyRide()
+    const [mounted, setMounted] = useState(false)
     const [modal, setModal] = useState<ReactElement | null>(null)
+    useEffect(() => {
+        if (
+            token &&
+            redirectUrls.includes(router.pathname) &&
+            status !== UserStatus.Approved
+        ) {
+            router.push(getRoutePath)
+        }
+    }, [router])
 
     useEffect(() => {
         if (
@@ -114,25 +124,56 @@ export const IndustryLayout = ({
         displayAlerts()
     }, [])
 
+    useEffect(() => {
+        setMounted(true)
+    }, [])
+
     return (
         <UserLayout>
-            {modal && modal}
-            <div className="md:px-16 px-2 mb-24">
-                <div className="mb-6">
-                    <IndustryNavbar />
-                    <DisplayAlerts />
-                </div>
-                {pageTitle && pageTitle.title && (
+            <>
+                {modal && modal}
+                <div className="md:px-16 px-2 mb-24">
                     <div className="mb-6">
-                        <PageTitle
-                            title={pageTitle.title}
-                            navigateBack={pageTitle?.navigateBack}
-                            backTitle={pageTitle?.backTitle}
-                        />
+                        <IndustryNavbar />
+                        <DisplayAlerts />
                     </div>
+                    {pageTitle && pageTitle.title && (
+                        <div className="mb-6">
+                            <PageTitle
+                                title={pageTitle.title}
+                                navigateBack={pageTitle?.navigateBack}
+                                backTitle={pageTitle?.backTitle}
+                            />
+                        </div>
+                    )}
+                    <div>{children}</div>
+                </div>
+                {mounted && (
+                    <Joyride
+                        callback={joyride.state.callback}
+                        continuous
+                        run={joyride.state.run}
+                        stepIndex={joyride.state.stepIndex}
+                        steps={joyride.state.steps}
+                        showSkipButton={true}
+                        // hideCloseButton={true}
+                        disableOverlayClose={true}
+                        hideBackButton={true}
+                        locale={{
+                            skip: 'Close Tour',
+                        }}
+
+                    // styles={{
+                    //     options: {
+                    //         arrowColor: theme.black,
+                    //         backgroundColor: theme.black,
+                    //         primaryColor: theme.colors.purple,
+                    //         textColor: theme.white,
+                    //     },
+                    // }}
+                    />
                 )}
-                <div>{children}</div>
-            </div>
+            </>
         </UserLayout>
     )
 }

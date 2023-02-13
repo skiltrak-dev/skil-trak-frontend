@@ -14,7 +14,7 @@ import {
 import { AdForRPL } from '@components/sections'
 
 // hooks
-import { useContextBar } from '@hooks'
+import { useContextBar, useJoyRide } from '@hooks'
 
 export const StudentsPrimaryActions = [
     {
@@ -23,6 +23,7 @@ export const StudentsPrimaryActions = [
         description: 'Some helping text',
         // image: null, //"./images/dashboardbtn3.png",
         animation: Animations.Industry.Students.CurrentStudents,
+        id: 'current-students',
     },
     {
         link: 'students/future-candidates',
@@ -30,6 +31,7 @@ export const StudentsPrimaryActions = [
         description: 'Some helping text',
         // image: null, //"./images/dashboardbtn4.png",
         animation: Animations.Industry.Students.FutureCandidates,
+        id: 'future-candidates',
     },
     {
         link: 'students/request-a-volunteer',
@@ -37,6 +39,7 @@ export const StudentsPrimaryActions = [
         description: 'Some helping text',
         // image: null, //"./images/dashboardbtn4.png",
         animation: Animations.Industry.Jobs.BrowseCandidate,
+        id: 'request-a-volunteer',
     },
     {
         link: 'students/appointments',
@@ -44,6 +47,7 @@ export const StudentsPrimaryActions = [
         description: 'Some helping text',
         // image: null, //"./images/dashboardbtn4.png",
         animation: Animations.Industry.Students.Appointment,
+        id: 'appointments',
     },
 ]
 
@@ -54,6 +58,17 @@ export const StudentsContainer = () => {
     useEffect(() => {
         setContent(null)
     }, [setContent])
+
+     // ADD STUDENT JOY RIDE - START
+     const joyride = useJoyRide()
+     useEffect(() => {
+         if (joyride.state.tourActive) {
+             setTimeout(() => {
+                 joyride.setState({ ...joyride.state, run: true, stepIndex: 1 })
+             }, 1200)
+         }
+     }, [])
+     // ADD STUDENT JOY RIDE - END
 
     return (
         <div>
