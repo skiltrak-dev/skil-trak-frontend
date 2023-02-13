@@ -10,6 +10,7 @@ import {
     TableActionOption,
     StudentFilters,
     Typography,
+    StudentStatusProgressCell,
 } from '@components'
 import { PageHeading } from '@components/headings'
 import { ColumnDef } from '@tanstack/react-table'
@@ -35,7 +36,7 @@ import {
     UnblockModal,
 } from './modals'
 import { useRouter } from 'next/router'
-import { checkWorkplaceStatus } from '@utils'
+import { checkStudentStatus, checkWorkplaceStatus } from '@utils'
 import { IndustryCell } from '../industry/components'
 import { RiLockPasswordFill } from 'react-icons/ri'
 import { useActionModal } from '@hooks'
@@ -241,9 +242,19 @@ export const FilteredStudents = ({
             header: () => <span>Progress</span>,
             cell: ({ row }) => {
                 const workplace = row.original.workplace[0]
+                const industries = row.original?.industries
                 const steps = checkWorkplaceStatus(workplace?.currentStatus)
+                const studentStatus = checkStudentStatus(
+                    row.original?.studentStatus
+                )
 
-                return <ProgressCell step={steps || 1} />
+                return industries?.length > 0 ? (
+                    <StudentStatusProgressCell step={studentStatus} />
+                ) : (
+                    <ProgressCell
+                        step={steps > 14 ? 14 : steps < 1 ? 1 : steps}
+                    />
+                )
             },
         },
         {

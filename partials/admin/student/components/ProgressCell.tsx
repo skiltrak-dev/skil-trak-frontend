@@ -116,7 +116,7 @@ export const ProgressCell = ({
     const currentStatus = Object.values(WorkplaceRequestProgress)[step - 1]
 
     const classes = classNames({
-        'px-2 py-1 rounded-md flex items-center gap-x-2 w-full': true,
+        'px-2 py-1 rounded-md flex items-center gap-x-2 min-w-max': true,
         'bg-white':
             currentStatus.status !==
             WorkplaceRequestProgress['9-PlacementStarted'].status,

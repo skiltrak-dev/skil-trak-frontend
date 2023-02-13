@@ -73,6 +73,8 @@ const AssessmentEvidence: NextPageWithLayout = (props: Props) => {
         (f: any) => f?.studentResponse[0]?.files?.length > 0
     )
 
+    console.log('assessmentsFoldersassessmentsFolders', assessmentsFolders)
+
     return (
         <>
             {/* <AssessmentsEvidence /> */}

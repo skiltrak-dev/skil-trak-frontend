@@ -55,8 +55,8 @@ export const RadioButton = (
                             onBlur
                         )}
                         {...(value ? { value } : {})}
-                        checked={defaultChecked}
-                        // defaultChecked={defaultChecked}
+                        // checked={defaultChecked}
+                        defaultChecked={defaultChecked}
                     />
                 ) : (
                     <div className="w-[22px] h-[22px] flex items-center justify-center">

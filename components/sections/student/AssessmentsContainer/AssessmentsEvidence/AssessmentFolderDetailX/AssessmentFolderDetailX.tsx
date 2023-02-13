@@ -50,6 +50,8 @@ export const AssessmentFolderDetailX = ({ folder, fileUpload }: Props) => {
 
     const [selected, setSelected] = useState<any>(null)
 
+    console.log('getAssessmentResponse', data?.files)
+
     return (
         <div className="h-full">
             {folder && (
@@ -67,13 +69,10 @@ export const AssessmentFolderDetailX = ({ folder, fileUpload }: Props) => {
                                 onChange={(docs: any) => {
                                     const formData = new FormData()
                                     docs.forEach((doc: any) => {
-                                        formData.append(
-                                            `${folder?.name}_${doc.name}`,
-                                            doc
-                                        )
+                                        formData.append(`${folder?.name}`, doc)
                                     })
                                     uploadDocs({
-                                        id: folder?.id,
+                                        id: folder?.id, 
                                         body: formData,
                                     })
                                 }}
@@ -128,10 +127,11 @@ export const AssessmentFolderDetailX = ({ folder, fileUpload }: Props) => {
                         {data?.files.map((file: any) => (
                             <AssessmentFolderFileCard
                                 key={file.id}
+                                file={file}
                                 filename={file.filename}
                                 fileUrl={file.file}
                                 type={folder.type}
-                                selected={selected.id === file.id}
+                                selected={selected?.id === file?.id}
                             />
                         ))}
                     </div>

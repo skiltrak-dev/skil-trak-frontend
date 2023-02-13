@@ -62,6 +62,7 @@ export interface Student extends BaseResponse {
     user: User
     rto: Rto
     location: string
+    studentStatus: string
     courses: Course[]
     assessmentEvidence: any[]
     workplace: any
