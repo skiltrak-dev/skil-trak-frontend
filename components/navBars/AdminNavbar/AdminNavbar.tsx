@@ -13,11 +13,14 @@ import { useNavbar } from '@hooks'
 import { useRouter } from 'next/router'
 import OutsideClickHandler from 'react-outside-click-handler'
 import { NotificationDropDown } from './components/notifications'
+import { CommonApi } from '@queries'
 
 // query
 import { CommonApi } from '@queries'
 
 export const AdminNavbar = () => {
+    const { data, error, isLoading } = CommonApi.Notifications.useNotifications()
+    const [isReadNotification, resultIsReadNotification] = CommonApi.Notifications.useIsReadNotification()
     let router = useRouter()
     const navbar = useNavbar()
 
@@ -39,23 +42,24 @@ export const AdminNavbar = () => {
         const title = paths[paths.length - offset].replace(remove, ' ')
     }
 
+
     // const onMessageButtonClick = () => {
     // 	if (notificationsExpanded) setNotificationsExpanded(false);
     // 	setMessagesExpanded(true);
     // };
-
     // const onNotificationButtonClick = () => {
     // 	if (messagesExpanded) setMessagesExpanded(false);
     // 	setMessagesExpanded(!messagesExpanded);
     // };
-
     // bg-[#F9FAFB]
+
 
     // filter over data to get only unread notifications
     const unreadNotifications = data?.data?.filter(
         (notification: any) => notification?.isRead === false
     )
     const count = unreadNotifications?.length
+
 
     return (
         <div className="w-full transition-all  z-30 py-2 px-6  flex justify-between items-center">
@@ -110,10 +114,9 @@ export const AdminNavbar = () => {
                         <NotificationDropDown
                             expanded={notificationsExpanded}
                             data={data?.data}
-                            isReadNotification={'isReadNotification'}
-                            resultIsReadNotification={
-                                'resultIsReadNotification'
-                            }
+
+                            isReadNotification={isReadNotification}
+                            resultIsReadNotification={resultIsReadNotification}
                         />
                     </div>
                 </OutsideClickHandler>

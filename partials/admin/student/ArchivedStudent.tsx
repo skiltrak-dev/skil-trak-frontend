@@ -3,6 +3,7 @@ import {
     Card,
     EmptyData,
     LoadingAnimation,
+    StudentStatusProgressCell,
     Table,
     TableAction,
     TableActionOption,
@@ -23,7 +24,7 @@ import { RtoCellInfo } from '../rto/components'
 import { ProgressCell, SectorCell, StudentCellInfo } from './components'
 import { useActionModal } from '@hooks'
 import { RiLockPasswordFill } from 'react-icons/ri'
-import { checkWorkplaceStatus } from '@utils'
+import { checkStudentStatus, checkWorkplaceStatus } from '@utils'
 
 export const ArchivedStudent = () => {
     const router = useRouter()
@@ -117,9 +118,15 @@ export const ArchivedStudent = () => {
             header: () => <span>Progress</span>,
             cell: ({ row }) => {
                 const workplace = row.original.workplace[0]
+                const industries = row.original?.industries
                 const steps = checkWorkplaceStatus(workplace?.currentStatus)
+                const studentStatus = checkStudentStatus(
+                    row.original?.studentStatus
+                )
 
-                return (
+                return industries?.length > 0 ? (
+                    <StudentStatusProgressCell step={studentStatus} />
+                ) : (
                     <ProgressCell
                         step={steps > 14 ? 14 : steps < 1 ? 1 : steps}
                     />

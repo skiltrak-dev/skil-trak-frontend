@@ -7,7 +7,7 @@ import {
     CircularProgresbar,
 } from '@components'
 
-import { useContextBar } from 'hooks'
+import { useContextBar, useJoyRide } from 'hooks'
 
 import { Animations } from '@animations'
 import { AdForRPL } from '@components/sections'
@@ -18,12 +18,14 @@ export const JobsPrimaryActions = [
         title: 'Advertise A Job',
         description: 'Some helping text',
         animation: Animations.Industry.Jobs.Advertise,
+        id: 'advertise-a-job',
     },
     {
         link: 'jobs/browse-candidates',
         title: 'Browse For Candidates',
         description: 'Some helping text',
         animation: Animations.Industry.Jobs.BrowseCandidate,
+        id: 'browse-for-candidates',
     },
 ]
 export const JobsContainer = () => {
@@ -36,6 +38,16 @@ export const JobsContainer = () => {
     //     </>
     //   )
     // }, [setContent])
+    // ADD STUDENT JOY RIDE - START
+    const joyride = useJoyRide()
+    useEffect(() => {
+        if (joyride.state.tourActive) {
+            setTimeout(() => {
+                joyride.setState({ ...joyride.state, run: true, stepIndex: 1 })
+            }, 1200)
+        }
+    }, [])
+    // ADD STUDENT JOY RIDE - END
 
     return (
         <div>

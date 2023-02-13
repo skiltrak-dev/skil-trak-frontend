@@ -10,7 +10,7 @@ import {
 } from '@components'
 
 // Context
-import { useContextBar } from 'hooks'
+import { useContextBar, useJoyRide } from 'hooks'
 
 // Colors
 import { Animations } from '@animations'
@@ -23,6 +23,7 @@ export const TaskPrimaryActions = [
         title: 'Documentation Required',
         description: 'Some helping text',
         animation: Animations.Industry.Dashboard.RequiredDocuments,
+        id: 'required-documents',
     },
     {
         link: 'tasks/add-a-schedule',
@@ -30,6 +31,7 @@ export const TaskPrimaryActions = [
         description: 'Some helping text',
         // image: null, //"./images/Schedule.png",
         animation: Animations.Industry.MyTasks.Scheduling,
+        id: 'add-schedule',
     },
     {
         link: 'tasks/available-shifts',
@@ -37,6 +39,7 @@ export const TaskPrimaryActions = [
         description: 'Some helping text',
         // image: null, //"./images/dashboardbtn.png",
         animation: Animations.Industry.MyTasks.AvailableShift,
+        id: 'available-shifts',
     },
 ]
 
@@ -53,6 +56,17 @@ export const TasksContainer = () => {
     useEffect(() => {
         setContent(null)
     }, [setContent])
+
+    // ADD STUDENT JOY RIDE - START
+    const joyride = useJoyRide()
+    useEffect(() => {
+        if (joyride.state.tourActive) {
+            setTimeout(() => {
+                joyride.setState({ ...joyride.state, run: true, stepIndex: 1 })
+            }, 1200)
+        }
+    }, [])
+    // ADD STUDENT JOY RIDE - END
 
     return (
         <div>
@@ -89,9 +103,11 @@ export const TasksContainer = () => {
                 <Typography variant={'title'}>Others</Typography>
 
                 {/*  */}
-                <Card>
-                    <AdForRPL />
-                </Card>
+                <div>
+                    <Card>
+                        <AdForRPL />
+                    </Card>
+                </div>
             </div>
         </div>
     )

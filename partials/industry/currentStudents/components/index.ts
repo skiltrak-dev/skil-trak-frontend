@@ -1,5 +1,6 @@
 export * from './Notes'
 export * from './RequestType'
 export * from './StudentDetail'
+export * from './StudentCellInfo'
 export * from './CurrentStudentCard'
 export * from './StudentAvailability'
