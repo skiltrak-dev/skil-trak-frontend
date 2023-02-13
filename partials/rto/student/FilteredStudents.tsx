@@ -16,7 +16,12 @@ import { Student } from '@types'
 import { useRouter } from 'next/router'
 import { ReactElement, useState } from 'react'
 import { MdBlock } from 'react-icons/md'
-import { ProgressCell, SectorCell, StudentCellInfo } from './components'
+import {
+    IndustryCell,
+    ProgressCell,
+    SectorCell,
+    StudentCellInfo,
+} from './components'
 import { BlockModal } from './modals'
 
 export const FilteredStudents = ({
@@ -83,15 +88,17 @@ export const FilteredStudents = ({
             header: () => <span>Student</span>,
         },
         {
-            accessorKey: 'phone',
-            header: () => <span>Phone</span>,
-            cell: (info) => info.getValue(),
-        },
+            accessorKey: 'industry',
+            header: () => <span>Industry</span>,
+            cell: (info) => {
+                const industry = info.row.original?.industries
 
-        {
-            accessorKey: 'suburb',
-            header: () => <span>Address</span>,
-            cell: (info) => info.getValue(),
+                return industry && industry?.length > 0 ? (
+                    <IndustryCell industry={industry[0]} />
+                ) : (
+                    <Typography center>N/A</Typography>
+                )
+            },
         },
         {
             accessorKey: 'sectors',

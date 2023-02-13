@@ -68,12 +68,14 @@ export const CurrentStudentCard = ({ workplace }: any) => {
                 />
             </div>
 
-            <SmallDetail
-                currentWork={workplace?.currentWork}
-                haveTransport={workplace?.haveTransport}
-                haveDrivingLicense={workplace?.haveDrivingLicense}
-                currentQualification={workplace?.currentQualification}
-            />
+            {workplace?.currentWork && workplace?.currentQualification && (
+                <SmallDetail
+                    currentWork={workplace?.currentWork}
+                    haveTransport={workplace?.haveTransport}
+                    haveDrivingLicense={workplace?.haveDrivingLicense}
+                    currentQualification={workplace?.currentQualification}
+                />
+            )}
 
             {/* Industries and notes */}
             <div className="grid grid-cols-1 gap-y-2 md:grid-cols-2 md:gap-x-3 mt-4">
