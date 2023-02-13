@@ -267,6 +267,7 @@ export const Detail = ({
                                 getAssessmentResponse={getAssessmentResponse}
                                 folder={selectedFolder}
                                 studentId={studentId}
+                                assessmentEvidenceView={true}
                             />
                         </div>
                     </div>
