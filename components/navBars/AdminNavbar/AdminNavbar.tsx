@@ -13,7 +13,6 @@ import { useNavbar } from '@hooks'
 import { useRouter } from 'next/router'
 import OutsideClickHandler from 'react-outside-click-handler'
 import { NotificationDropDown } from './components/notifications'
-import { CommonApi } from '@queries'
 
 // query
 import { CommonApi } from '@queries'
@@ -23,9 +22,6 @@ export const AdminNavbar = () => {
     const [isReadNotification, resultIsReadNotification] = CommonApi.Notifications.useIsReadNotification()
     let router = useRouter()
     const navbar = useNavbar()
-
-    const { data, error, isLoading } =
-        CommonApi.Notifications.useNotifications()
 
     const [messagesExpanded, setMessagesExpanded] = useState(false)
     const [notificationsExpanded, setNotificationsExpanded] = useState(false)
