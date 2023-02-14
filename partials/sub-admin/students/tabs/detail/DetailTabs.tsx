@@ -3,6 +3,7 @@ import { Detail } from '@partials/sub-admin/assessmentEvidence'
 
 import { OverViewTab } from './OverviewTab'
 import { AllCommunicationTab, NotesTab, MailsTab } from '@partials/common'
+import { RequiredDocs } from '@partials/sub-admin/requiredDocs'
 export const DetailTabs = ({
     id,
     student,
@@ -48,6 +49,19 @@ export const DetailTabs = ({
                 query: { tab: 'all-communications' },
             },
             element: <AllCommunicationTab user={student?.user} />,
+        },
+        {
+            label: 'Required Docs',
+            href: {
+                pathname: String(id),
+                query: { tab: 'required-docs' },
+            },
+            element: (
+                <RequiredDocs
+                    studentId={student?.id}
+                    studentUserId={student?.user?.id}
+                />
+            ),
         },
     ]
 
