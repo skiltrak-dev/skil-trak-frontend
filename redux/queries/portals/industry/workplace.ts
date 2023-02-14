@@ -5,17 +5,35 @@ const PREFIX = 'industries'
 export const workplaceEndpoints = (
     builder: EndpointBuilder<BaseQueryFn, string, string>
 ) => ({
-    getIndustryWorkplace: builder.query<any, any>({
-        query: (params) => ({
-            url: `${PREFIX}/workplace-request/list`,
-            params,
-        }),
+    getIndustryPendingWorkplace: builder.query<any, void>({
+        query: () => `${PREFIX}/workplace-request/pending/list`,
         providesTags: ['IndustryWorkplace'],
     }),
-
+    getIndustryWorkplace: builder.query<any, void>({
+        query: () => `${PREFIX}/workplace-request/approved/list`,
+        providesTags: ['IndustryWorkplace'],
+    }),
     getIndustryWorkplaceDetail: builder.query<any, number>({
         query: (id) => `${PREFIX}/workplace-request/view/${id}`,
         providesTags: ['IndustryWorkplace'],
+    }),
+
+    getAssessmentFolders: builder.query<
+        any,
+        { studentId: number; courseId: number }
+    >({
+        query: ({ studentId, courseId }) =>
+            `${PREFIX}/assessment-evidence/view/${studentId}/${courseId}`,
+        providesTags: ['IndustryWorkplace'],
+    }),
+
+    assessmentFolderResponse: builder.query<
+        any,
+        { selectedFolderId: number; studentId: number }
+    >({
+        query: ({ selectedFolderId, studentId }) =>
+            `${PREFIX}/assessment-evidence/response/${selectedFolderId}/${studentId}`,
+        providesTags: ['AssessmentEvidence'],
     }),
 
     getIndustryWorkplaceFolders: builder.query<any, any>({

@@ -10,6 +10,7 @@ import {
     PageTitle,
     Typography,
     Checkbox,
+    Card,
 } from '@components'
 import { Actions, AssessmentFolderCard, AssessmentResponse } from './components'
 
@@ -23,6 +24,7 @@ import {
 import { getUserCredentials } from '@utils'
 import { useAlert, useNotification } from '@hooks'
 import { NotificationMessage } from '@components/NotificationMessage'
+import moment from 'moment'
 
 export const Detail = ({
     studentId,
@@ -106,6 +108,14 @@ export const Detail = ({
                     backTitle="Assessment"
                 />
                 <div>
+                    {!selectedCourse?.results?.length && (
+                        <NotificationMessage
+                            title={`No Submission For ${selectedCourse?.title}`}
+                            subtitle={
+                                'Student didn,t Submitted an assessment request'
+                            }
+                        />
+                    )}
                     {selectedCourse?.results[0]?.result === 'pending' &&
                         results?.totalSubmission === 1 &&
                         !results?.isManualSubmission && (
@@ -267,6 +277,7 @@ export const Detail = ({
                                 getAssessmentResponse={getAssessmentResponse}
                                 folder={selectedFolder}
                                 studentId={studentId}
+                                assessmentEvidenceView={true}
                             />
                         </div>
                     </div>
@@ -302,14 +313,71 @@ export const Detail = ({
                             </div>
                         )}
 
-                    <div className="px-5 py-3">
-                        <Typography variant={'label'} color={'text-gray-600'}>
-                            Final Comment
-                        </Typography>
-                        <Typography>
-                            {results?.isAssessed ? results?.finalComment : ''}
-                        </Typography>
-                    </div>
+                    {results?.isAssessed && (
+                        <div className="mt-5">
+                            <Card>
+                                <div className="flex flex-col gap-y-2 border-b pb-3">
+                                    <Typography variant={'title'}>
+                                        Result - Submission{' '}
+                                        {results?.totalSubmission} for{' '}
+                                        {selectedCourse?.title} -{' '}
+                                        <span className="uppercase">
+                                            {results?.result}
+                                        </span>
+                                    </Typography>
+                                    <Typography variant={'label'}>
+                                        <span className="font-semibold">
+                                            Comment:
+                                        </span>{' '}
+                                        {results?.finalComment}
+                                    </Typography>
+                                    <Typography variant={'label'}>
+                                        <span className="font-semibold">
+                                            Date:
+                                        </span>{' '}
+                                        {moment(results?.updatedAt)?.format(
+                                            'DD-MMM-YY hh:mm a'
+                                        )}
+                                    </Typography>
+                                </div>
+
+                                <div className="flex flex-col gap-y-2">
+                                    {getFolders?.data?.map((folder: any) => {
+                                        console.log(folder)
+                                        return (
+                                            <div className="flex flex-col">
+                                                <Typography
+                                                    variant={'subtitle'}
+                                                >
+                                                    Result for {folder?.name} -
+                                                    <span className="uppercase">
+                                                        {
+                                                            folder
+                                                                ?.studentResponse[0]
+                                                                ?.status
+                                                        }
+                                                    </span>
+                                                </Typography>
+                                                <Typography
+                                                    variant={'small'}
+                                                    color={'text-gray-500'}
+                                                >
+                                                    <span className="font-semibold text-black">
+                                                        Comment:
+                                                    </span>{' '}
+                                                    {
+                                                        folder
+                                                            ?.studentResponse[0]
+                                                            ?.comment
+                                                    }
+                                                </Typography>
+                                            </div>
+                                        )
+                                    })}
+                                </div>
+                            </Card>
+                        </div>
+                    )}
 
                     {!results?.isSubmitted && (
                         <div className="mt-4">

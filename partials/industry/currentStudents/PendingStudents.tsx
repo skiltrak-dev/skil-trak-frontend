@@ -16,15 +16,13 @@ import {
 } from './components'
 
 // query
-import { useGetIndustryWorkplaceQuery } from '@queries'
+import { useGetIndustryWorkplaceQuery, IndustryApi } from '@queries'
 import { LoadingAnimation } from '@components/LoadingAnimation'
 import { UserStatus } from '@types'
 
 export const PendingStudents = () => {
     // query
-    const industryWorkplace = useGetIndustryWorkplaceQuery({
-        search: `status:${UserStatus.Pending}`,
-    })
+    const industryWorkplace = IndustryApi.Workplace.usePendingWorkplaces()
 
     return (
         <>

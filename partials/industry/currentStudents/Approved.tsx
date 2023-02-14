@@ -31,9 +31,7 @@ export const Approved = () => {
     const router = useRouter()
 
     // query
-    const industryWorkplace = useGetIndustryWorkplaceQuery({
-        search: `status:${UserStatus.Approved}`,
-    })
+    const industryWorkplace = useGetIndustryWorkplaceQuery()
 
     const tableActionOptions: TableActionOption[] = [
         {

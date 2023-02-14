@@ -10,6 +10,7 @@ import {
     TableAction,
     TableActionOption,
     TechnicalError,
+    Typography,
 } from '@components'
 import { PageHeading } from '@components/headings'
 import { ColumnDef } from '@tanstack/react-table'
@@ -19,7 +20,7 @@ import { useGetRtoStudentsQuery } from '@queries'
 import { MdBlock, MdEmail, MdPhoneIphone } from 'react-icons/md'
 import { ReactElement, useState } from 'react'
 import { CgUnblock } from 'react-icons/cg'
-import { SectorCell, StudentCellInfo } from './components'
+import { IndustryCell, SectorCell, StudentCellInfo } from './components'
 import { Student } from '@types'
 import { DeleteModal, UnblockModal } from './modals'
 import { useRouter } from 'next/router'
@@ -89,11 +90,25 @@ export const BlockedStudent = () => {
             header: () => <span>Phone</span>,
             cell: (info) => info.getValue(),
         },
-
         {
-            accessorKey: 'suburb',
-            header: () => <span>Address</span>,
-            cell: (info) => info.getValue(),
+            accessorKey: 'industry',
+            header: () => <span>Industry</span>,
+            cell: (info) => {
+                const industry = info.row.original?.industries
+
+                return industry && industry?.length > 0 ? (
+                    <IndustryCell industry={industry[0]} />
+                ) : (
+                    <Typography center>N/A</Typography>
+                )
+            },
+        },
+        {
+            accessorKey: 'sectors',
+            header: () => <span>Sectors</span>,
+            cell: (info) => {
+                return <SectorCell student={info.row.original} />
+            },
         },
         {
             accessorKey: 'action',
