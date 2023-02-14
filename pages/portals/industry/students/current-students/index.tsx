@@ -28,34 +28,6 @@ const CurrentStudents: NextPageWithLayout = () => {
             href: { pathname: 'current-students', query: { tab: 'approved' } },
             element: <Approved />,
         },
-        // {
-        //     label: 'Approved',
-        //     href: { pathname: 'current-students', query: { tab: 'rejected' } },
-        //     element: <Approved />,
-        // },
-        // {
-        //     label: 'Rejected',
-        //     href: { pathname: 'current-students', query: { tab: 'blocked' } },
-        //     element: <Rejected />,
-        // },
-        // {
-        //     label: 'Cancelled',
-        //     href: { pathname: 'current-students', query: { tab: 'cancelled' } },
-        //     element: <Cancelled />,
-        // },
-        // {
-        //     label: 'Terminated',
-        //     href: {
-        //         pathname: 'current-students',
-        //         query: { tab: 'terminated' },
-        //     },
-        //     element: <Terminated />,
-        // },
-        // {
-        //     label: 'Completed',
-        //     href: { pathname: 'current-students', query: { tab: 'completed' } },
-        //     element: <Completed />,
-        // },
     ]
     return (
         <div>

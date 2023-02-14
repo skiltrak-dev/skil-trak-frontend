@@ -14,11 +14,12 @@ import {
 // query
 import { useSubmitAssessmentEvidenceMutation } from '@queries'
 import { useNotification } from '@hooks'
+import { getUserCredentials } from '@utils'
 
 export const Actions = ({ result }: any) => {
     const [selectedResult, setSelectedResult] = useState<string>('')
     const pathname = useRouter()
-    const studentId = pathname.query.studentId
+    const studentId = pathname.query.id
     const { notification } = useNotification()
 
     // query
@@ -29,6 +30,8 @@ export const Actions = ({ result }: any) => {
         mode: 'all',
     })
 
+    const role = getUserCredentials()?.role
+
     useEffect(() => {
         if (submitAssessmentEvidenceResult.isSuccess) {
             notification.success({
@@ -37,33 +40,61 @@ export const Actions = ({ result }: any) => {
             })
             switch (selectedResult) {
                 case 'competent':
-                    pathname.push({
-                        pathname:
-                            '/portals/sub-admin/tasks/assessment-evidence',
-                        query: { tab: 'competent' },
-                    })
+                    pathname.push(
+                        role === 'admin'
+                            ? {
+                                  pathname: `/portals/admin/student/${studentId}`,
+                                  query: { tab: 'assessments' },
+                              }
+                            : {
+                                  pathname:
+                                      '/portals/sub-admin/tasks/assessment-evidence',
+                                  query: { tab: 'competent' },
+                              }
+                    )
                     break
                 case 'notCompetent':
-                    pathname.push({
-                        pathname:
-                            '/portals/sub-admin/tasks/assessment-evidence',
-                        query: { tab: 'non-competent' },
-                    })
+                    pathname.push(
+                        role === 'admin'
+                            ? {
+                                  pathname: `/portals/admin/student/${studentId}`,
+                                  query: { tab: 'assessments' },
+                              }
+                            : {
+                                  pathname:
+                                      '/portals/sub-admin/tasks/assessment-evidence',
+                                  query: { tab: 'non-competent' },
+                              }
+                    )
                     break
                 case 'reOpened':
-                    pathname.push({
-                        pathname:
-                            '/portals/sub-admin/tasks/assessment-evidence',
-                        query: { tab: 're-opened' },
-                    })
+                    pathname.push(
+                        role === 'admin'
+                            ? {
+                                  pathname: `/portals/admin/student/${studentId}`,
+                                  query: { tab: 'assessments' },
+                              }
+                            : {
+                                  pathname:
+                                      '/portals/sub-admin/tasks/assessment-evidence',
+                                  query: { tab: 're-opened' },
+                              }
+                    )
                     break
 
                 default:
-                    pathname.push({
-                        pathname:
-                            '/portals/sub-admin/tasks/assessment-evidence',
-                        query: { tab: 'pending' },
-                    })
+                    pathname.push(
+                        role === 'admin'
+                            ? {
+                                  pathname: `/portals/admin/student/${studentId}`,
+                                  query: { tab: 'assessments' },
+                              }
+                            : {
+                                  pathname:
+                                      '/portals/sub-admin/tasks/assessment-evidence',
+                                  query: { tab: 'pending' },
+                              }
+                    )
                     break
             }
             // pathname.push('/portals/sub-admin/tasks/assessment-evidence')

@@ -3,6 +3,8 @@ import { Detail } from '@partials/sub-admin/assessmentEvidence'
 
 import { NotesTab } from '@partials/common'
 import { OverViewTab } from './OverviewTab'
+import { AssessmentsEvidence } from './AssessmentsEvidence'
+import { QuestionsTab } from './QuestionsTab'
 export const DetailTabs = ({
     id,
     workplace,
@@ -22,15 +24,23 @@ export const DetailTabs = ({
                 pathname: String(id),
                 query: { tab: 'assessments' },
             },
+            element: (
+                <AssessmentsEvidence
+                    studentId={workplace?.student?.id}
+                    studentUserId={workplace?.student?.user?.id}
+                    courses={workplace?.courses}
+                />
+            ),
+        },
+        {
+            label: 'Required Docs',
+            href: { pathname: String(id), query: { tab: 'notes' } },
             element: '',
-            // element: (
-            //     <div className="my-5">
-            //         <Detail
-            //             studentId={student?.id}
-            //             studentUserId={student?.user?.id}
-            //         />
-            //     </div>
-            // ),
+        },
+        {
+            label: 'Questions',
+            href: { pathname: String(id), query: { tab: 'questions' } },
+            element: <QuestionsTab workplace={workplace} />,
         },
         {
             label: 'Notes',

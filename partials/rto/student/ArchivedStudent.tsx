@@ -10,6 +10,7 @@ import {
     TableAction,
     TableActionOption,
     TechnicalError,
+    Typography,
 } from '@components'
 import { PageHeading } from '@components/headings'
 import { ColumnDef } from '@tanstack/react-table'
@@ -26,7 +27,7 @@ import {
 } from 'react-icons/md'
 import { useState, ReactElement } from 'react'
 import { CgUnblock } from 'react-icons/cg'
-import { SectorCell, StudentCellInfo } from './components'
+import { IndustryCell, SectorCell, StudentCellInfo } from './components'
 import { useRouter } from 'next/router'
 import { DeleteModal, AcceptModal } from './modals'
 
@@ -96,11 +97,25 @@ export const ArchivedStudent = () => {
             header: () => <span>Phone</span>,
             cell: (info) => info.getValue(),
         },
-
         {
-            accessorKey: 'suburb',
-            header: () => <span>Address</span>,
-            cell: (info) => info.getValue(),
+            accessorKey: 'industry',
+            header: () => <span>Industry</span>,
+            cell: (info) => {
+                const industry = info.row.original?.industries
+
+                return industry && industry?.length > 0 ? (
+                    <IndustryCell industry={industry[0]} />
+                ) : (
+                    <Typography center>N/A</Typography>
+                )
+            },
+        },
+        {
+            accessorKey: 'sectors',
+            header: () => <span>Sectors</span>,
+            cell: (info) => {
+                return <SectorCell student={info.row.original} />
+            },
         },
         {
             accessorKey: 'action',

@@ -21,9 +21,7 @@ import { LoadingAnimation } from '@components/LoadingAnimation'
 
 export const Cancelled = () => {
     // query
-    const industryWorkplace = useGetIndustryWorkplaceQuery({
-        search: `status:approved`,
-    })
+    const industryWorkplace = useGetIndustryWorkplaceQuery()
 
     return (
         <>

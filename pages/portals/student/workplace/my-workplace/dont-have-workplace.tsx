@@ -1,6 +1,6 @@
 import { ReactElement, useEffect, useState } from 'react'
 
-import { LoadingAnimation, StepIndicator } from '@components'
+import { LoadingAnimation, StepIndicator, TechnicalError } from '@components'
 
 import { StudentLayout } from '@layouts'
 import { NextPageWithLayout } from '@types'
@@ -61,44 +61,51 @@ const DontHaveWorkplace: NextPageWithLayout = (props: Props) => {
         },
     ]
 
-    return workplace.isLoading ? (
-        <LoadingAnimation />
-    ) : (
-        <div className="flex flex-col md:flex-row gap-x-5 w-full">
-            {/* <GoBackButton>Workplace Choice</GoBackButton> */}
+    return (
+        <>
+            {workplace.isError && <TechnicalError />}
+            {workplace.isLoading ? (
+                <LoadingAnimation height={'h-[40vh]'} />
+            ) : (
+                !workplace.isError && (
+                    <div className="flex flex-col md:flex-row gap-x-5 w-full">
+                        {/* <GoBackButton>Workplace Choice</GoBackButton> */}
 
-            {/*  */}
-            <div className="py-4 w-full md:w-[25%]">
-                <StepIndicator
-                    steps={StepIndicatorOptions}
-                    currentStep={StepIndicatorOptions[active - 1]}
-                    vertical={!isMobile}
-                />
-            </div>
+                        {/*  */}
+                        <div className="py-4 w-full md:w-[25%]">
+                            <StepIndicator
+                                steps={StepIndicatorOptions}
+                                currentStep={StepIndicatorOptions[active - 1]}
+                                vertical={!isMobile}
+                            />
+                        </div>
 
-            <div className="w-full md:w-[75%]">
-                {active === 1 && (
-                    <PersonalInfo
-                        setActive={setActive}
-                        setPersonalInfoData={setPersonalInfoData}
-                    />
-                )}
+                        <div className="w-full md:w-[75%]">
+                            {active === 1 && (
+                                <PersonalInfo
+                                    setActive={setActive}
+                                    setPersonalInfoData={setPersonalInfoData}
+                                />
+                            )}
 
-                {active === 2 && (
-                    <Availability
-                        setActive={setActive}
-                        personalInfoData={personalInfoData}
-                    />
-                )}
+                            {active === 2 && (
+                                <Availability
+                                    setActive={setActive}
+                                    personalInfoData={personalInfoData}
+                                />
+                            )}
 
-                {(active === 3 || active === 4) && (
-                    <IndustrySelection
-                        setActive={setActive}
-                        workplace={workplace}
-                    />
-                )}
-            </div>
-        </div>
+                            {(active === 3 || active === 4) && (
+                                <IndustrySelection
+                                    setActive={setActive}
+                                    workplace={workplace}
+                                />
+                            )}
+                        </div>
+                    </div>
+                )
+            )}
+        </>
     )
 }
 DontHaveWorkplace.getLayout = (page: ReactElement) => {
