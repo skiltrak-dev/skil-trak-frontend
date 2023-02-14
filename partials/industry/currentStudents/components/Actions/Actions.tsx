@@ -83,7 +83,6 @@ export const Actions = ({ workplace, industry, student }: any) => {
             />
         )
     }
-    // TODO Cancell still showing in Current Students
 
     return (
         <div className="flex flex-col md:flex-row gap-y-2 md:items-center md:gap-x-2">

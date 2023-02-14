@@ -8,6 +8,8 @@ type Props = {
     coordinator?: string
     isActive: boolean | null
     selectedCourseId: string | null
+    course?: any
+    result?: any
 }
 
 export const CourseCard = ({
@@ -18,6 +20,8 @@ export const CourseCard = ({
     isActive,
     coordinator,
     selectedCourseId,
+    course,
+    result,
 }: Props) => {
     return (
         <>
@@ -35,15 +39,21 @@ export const CourseCard = ({
                             {code}
                         </Typography>
                     </div>
-                    <div
-                        className={`${
-                            isActive ? 'bg-[#686DE0]' : 'bg-rose-400'
-                        } px-1`}
-                    >
-                        <Typography variant="xs" color="text-white">
-                            {isActive ? 'Active' : 'Not Active'}
-                        </Typography>
-                    </div>
+                    {result && (
+                        <div
+                            className={`${
+                                isActive ? 'bg-[#686DE0]' : 'bg-rose-400'
+                            } px-1`}
+                        >
+                            <Typography
+                                variant="xs"
+                                color="text-white"
+                                capitalize
+                            >
+                                {result?.result}
+                            </Typography>
+                        </div>
+                    )}
                 </div>
                 <div>
                     <div>

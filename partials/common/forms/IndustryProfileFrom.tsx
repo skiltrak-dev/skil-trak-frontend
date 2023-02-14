@@ -455,7 +455,7 @@ export const IndustryProfileFrom = ({
                                         value={isPartner ? 'yes' : 'no'}
                                         options={[
                                             {
-                                                label: 'single',
+                                                label: 'use once',
                                                 value: 'no',
                                                 // checked: !isPartner,
                                             },

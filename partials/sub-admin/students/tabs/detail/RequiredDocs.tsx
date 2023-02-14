@@ -1,51 +1,80 @@
-import { CourseCard, LoadingAnimation, NoData, Typography } from '@components'
-import { useNotification } from '@hooks'
-import { AssessmentFolderCard, AssessmentResponse } from '@partials/sub-admin'
+import React from 'react'
+import { useRouter } from 'next/router'
+import { ReactElement, useEffect, useState } from 'react'
+
+//components
+import {
+    CourseCard,
+    LoadingAnimation,
+    NoData,
+    PageTitle,
+    Typography,
+    Checkbox,
+} from '@components'
+
+// queries
 import {
     useStudentAssessmentCoursesQuery,
-    IndustryApi,
     useGetAssessmentResponseQuery,
+    useGetAssessmentEvidenceDetailQuery,
+    useMaulallyReopenSubmissionRequestMutation,
+    SubAdminApi,
 } from '@queries'
 import { getUserCredentials } from '@utils'
-import React, { useEffect, useState } from 'react'
+import { useAlert, useNotification } from '@hooks'
+import { NotificationMessage } from '@components/NotificationMessage'
+import {
+    AssessmentFolderCard,
+    AssessmentResponse,
+} from '@partials/sub-admin/assessmentEvidence'
 
-export const AssessmentsEvidence = ({
+export const RequiredDocs = ({
     studentId,
     studentUserId,
-    courses,
+    industry,
 }: {
     studentId: string | string[] | undefined
     studentUserId: string | string[] | undefined
-    courses: any
+    industry: any
 }) => {
     const [selectedCourse, setSelectedCourse] = useState<any | null>(null)
     const [selectedFolder, setSelectedFolder] = useState<any | null>(null)
 
     const { notification } = useNotification()
 
-    const getFolders = IndustryApi.Workplace.useAssessmentFolders(
-        { courseId: Number(selectedCourse?.id), studentId: Number(studentId) },
+    // query
+    const studentCourses = useStudentAssessmentCoursesQuery(Number(studentId), {
+        skip: !studentId,
+    })
+    const getFolders = SubAdminApi.Docs.useRequiredFolders(
         {
-            skip: !selectedCourse,
+            industryId: industry?.id,
+            courseId: Number(selectedCourse?.id),
+        },
+        {
+            skip: !selectedCourse || !industry,
         }
     )
 
-    const getAssessmentResponse = IndustryApi.Workplace.useFoldersResponse(
+    const getRequiredDocsResponse = SubAdminApi.Docs.useRequiredDocsResponse(
         {
             selectedFolderId: Number(selectedFolder?.id),
             studentId: Number(studentUserId),
         },
         { skip: !selectedFolder || !studentUserId }
     )
+
     useEffect(() => {
-        if (courses) {
+        if (studentCourses.isSuccess) {
             setSelectedCourse(
                 selectedCourse
-                    ? courses?.find((c: any) => c?.id === selectedCourse?.id)
-                    : courses[0]
+                    ? studentCourses?.data?.find(
+                          (c: any) => c?.id === selectedCourse?.id
+                      )
+                    : studentCourses?.data[0]
             )
         }
-    }, [courses])
+    }, [studentCourses])
 
     useEffect(() => {
         if (getFolders.isSuccess) {
@@ -54,10 +83,17 @@ export const AssessmentsEvidence = ({
     }, [getFolders])
 
     return (
-        <div className='mt-5'>
-            {courses && courses?.length > 0 ? (
+        <div className="mb-10 mt-5">
+            {studentCourses?.isLoading ? (
+                <div className="flex flex-col justify-center items-center gap-y-2">
+                    <LoadingAnimation size={60} />
+                    <Typography variant={'label'}>
+                        Required Docs Loading
+                    </Typography>
+                </div>
+            ) : studentCourses?.data && studentCourses?.data?.length > 0 ? (
                 <div className="mb-3 grid grid-cols-3 gap-2">
-                    {courses?.map((course: any) => (
+                    {studentCourses?.data?.map((course: any) => (
                         <CourseCard
                             key={course.id}
                             id={course.id}
@@ -75,29 +111,14 @@ export const AssessmentsEvidence = ({
             ) : (
                 <NoData
                     text={
-                        'No Assessment Courses Were Found or No Submission from Student recived yet'
+                        'No Required Docs Were Found or No Submission from Student recived yet'
                     }
                 />
             )}
 
             {/* Assessment Evidence Folders */}
-            {courses && courses?.length > 0 && (
+            {studentCourses?.data && studentCourses?.data?.length > 0 && (
                 <div>
-                    <div className="flex justify-between items-center">
-                        <Typography variant={'label'} color={'text-gray-700'}>
-                            <span className="font-bold text-black">
-                                Assessment Submission
-                            </span>{' '}
-                            - Submission #
-                            {/* {selectedCourse?.results[0]?.totalSubmission} */}
-                        </Typography>
-                        {/* <Typography variant={'label'} color={'text-gray-500'}>
-                            Assessor:{' '}
-                            <span className="font-semibold text-black">
-                                {getUserCredentials()?.name}
-                            </span>
-                        </Typography> */}
-                    </div>
                     {/*  */}
                     <div className="grid grid-cols-3 h-[450px]">
                         <div className="border border-gray-300 border-r-transparent h-full overflow-hidden">
@@ -109,7 +130,7 @@ export const AssessmentsEvidence = ({
                                     Selected Folder
                                 </Typography>
                                 <Typography variant={'label'}>
-                                    {selectedFolder?.name ||
+                                    {selectedFolder?.folder?.name ||
                                         'No Folder Selected'}
                                 </Typography>
                             </div>
@@ -128,14 +149,11 @@ export const AssessmentsEvidence = ({
                                     getFolders?.data?.map((assessment: any) => (
                                         <AssessmentFolderCard
                                             key={assessment?.id}
-                                            id={assessment?.id}
-                                            name={assessment?.name}
+                                            id={assessment?.folder?.id}
+                                            name={assessment?.folder?.name}
                                             // isActive={folder.isActive}
                                             selectedFolderId={
-                                                selectedFolder?.id
-                                            }
-                                            response={
-                                                assessment?.studentResponse[0]
+                                                selectedFolder?.folder?.id
                                             }
                                             onClick={() => {
                                                 setSelectedFolder(assessment)
@@ -151,10 +169,10 @@ export const AssessmentsEvidence = ({
                         {/* Assessment Response */}
                         <div className="col-span-2 border border-gray-300 overflow-hidden">
                             <AssessmentResponse
+                                getAssessmentResponse={getRequiredDocsResponse}
+                                folder={selectedFolder?.folder}
                                 studentId={studentId}
-                                folder={selectedFolder}
                                 assessmentEvidenceView={false}
-                                getAssessmentResponse={getAssessmentResponse}
                             />
                         </div>
                     </div>

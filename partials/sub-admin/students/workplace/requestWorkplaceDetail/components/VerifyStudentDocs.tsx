@@ -7,7 +7,7 @@ import { UploadDocs } from './UploadDocs'
 // query
 import { LinearProgress } from '@components/LinearProgress'
 import { LoadingAnimation } from '@components/LoadingAnimation'
-import { useGetRequiredDocsQuery } from '@queries'
+import { useGetRequiredDocsQuery, SubAdminApi } from '@queries'
 
 export const VerifyStudentDocs = ({
     id,
@@ -27,7 +27,7 @@ export const VerifyStudentDocs = ({
     const [progressPercent, setProgressPercent] = useState<any | null>(null)
     const [folders, setFolders] = useState<any | null>([])
 
-    const requiredDocs = useGetRequiredDocsQuery(
+    const requiredDocs = SubAdminApi.Docs.useRequiredDocs(
         { id, course: selectedCourses, user: userId },
         { skip: !id || !selectedCourses }
     )

@@ -35,20 +35,15 @@ export const PrimaryActionButton = ({
                         {description}
                     </p>
                 </div>
-                <Desktop>
-                    {image ? (
-                        <img className="h-16" src={image} alt="Info" />
-                    ) : animation ? (
-                        <div>
-                            <LottieAnimation
-                                animation={animation}
-                                height={80}
-                            />
-                        </div>
-                    ) : (
-                        <></>
-                    )}
-                </Desktop>
+                {image ? (
+                    <img className="h-16" src={image} alt="Info" />
+                ) : animation ? (
+                    <div>
+                        <LottieAnimation animation={animation} height={80} />
+                    </div>
+                ) : (
+                    <></>
+                )}
             </a>
         </Link>
     )

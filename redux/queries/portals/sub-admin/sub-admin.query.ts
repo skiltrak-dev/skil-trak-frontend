@@ -118,6 +118,8 @@ export const {
     useSubAdminRequestIndustryWorkplaceMutation,
     useSubAdminCancelStudentWorkplaceRequestMutation,
     useGetRequiredDocsQuery,
+    useGetRequiredFoldersQuery,
+    useGetRequiredDocsResponseQuery,
     useUploadRequiredDocsMutation,
     useFindByAbnWorkplaceMutation,
     useApplyWorkplaceOnExistingIndustryMutation,
@@ -230,5 +232,11 @@ export const SubAdminApi = {
 
     Courses: {
         useStudentCourses: useStudentCoursesQuery,
+    },
+
+    Docs: {
+        useRequiredDocs: useGetRequiredDocsQuery,
+        useRequiredFolders: useGetRequiredFoldersQuery,
+        useRequiredDocsResponse: useGetRequiredDocsResponseQuery,
     },
 }

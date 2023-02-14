@@ -25,7 +25,6 @@ export const DesktopAssessment = ({
     setSelectedFolder: Function
     isFilesUploaded: any
 }) => {
-    console.log('isFilesUploaded', isFilesUploaded)
     return (
         <div>
             <div className="mb-3">

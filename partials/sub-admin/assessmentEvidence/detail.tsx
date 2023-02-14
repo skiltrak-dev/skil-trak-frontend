@@ -12,7 +12,12 @@ import {
     Checkbox,
     Card,
 } from '@components'
-import { Actions, AssessmentFolderCard, AssessmentResponse } from './components'
+import {
+    Actions,
+    AssessmentFolderCard,
+    AssessmentResponse,
+    FinalResult,
+} from './components'
 
 // queries
 import {
@@ -107,7 +112,7 @@ export const Detail = ({
                     title="Assessment Evidence Detail"
                     backTitle="Assessment"
                 />
-                <div>
+                {/* <div>
                     {!selectedCourse?.results?.length && (
                         <NotificationMessage
                             title={`No Submission For ${selectedCourse?.title}`}
@@ -169,7 +174,7 @@ export const Detail = ({
                             subtitle={`You have manually reopend the student request on ${selectedCourse?.title}`}
                         />
                     )}
-                </div>
+                </div> */}
             </div>
             {studentCourses?.isLoading ? (
                 <div className="flex flex-col justify-center items-center gap-y-2">
@@ -189,6 +194,8 @@ export const Detail = ({
                             isActive={course.isActive}
                             coordinator={getUserCredentials()?.name}
                             selectedCourseId={selectedCourse?.id}
+                            course={course}
+                            result={results}
                             onClick={() => {
                                 setSelectedCourse(course)
                             }}
@@ -286,6 +293,13 @@ export const Detail = ({
                         .includes('pending') && (
                             )} */}
 
+                    {results?.finalComment && (
+                        <FinalResult
+                            result={results}
+                            folders={getFolders?.data}
+                            courseName={selectedCourse?.title}
+                        />
+                    )}
                     {allCommentsAdded &&
                         (results?.isSubmitted || manualReOpen) && (
                             <Actions result={results} />
@@ -312,72 +326,6 @@ export const Detail = ({
                                 />
                             </div>
                         )}
-
-                    {results?.isAssessed && (
-                        <div className="mt-5">
-                            <Card>
-                                <div className="flex flex-col gap-y-2 border-b pb-3">
-                                    <Typography variant={'title'}>
-                                        Result - Submission{' '}
-                                        {results?.totalSubmission} for{' '}
-                                        {selectedCourse?.title} -{' '}
-                                        <span className="uppercase">
-                                            {results?.result}
-                                        </span>
-                                    </Typography>
-                                    <Typography variant={'label'}>
-                                        <span className="font-semibold">
-                                            Comment:
-                                        </span>{' '}
-                                        {results?.finalComment}
-                                    </Typography>
-                                    <Typography variant={'label'}>
-                                        <span className="font-semibold">
-                                            Date:
-                                        </span>{' '}
-                                        {moment(results?.updatedAt)?.format(
-                                            'DD-MMM-YY hh:mm a'
-                                        )}
-                                    </Typography>
-                                </div>
-
-                                <div className="flex flex-col gap-y-2">
-                                    {getFolders?.data?.map((folder: any) => {
-                                        console.log(folder)
-                                        return (
-                                            <div className="flex flex-col">
-                                                <Typography
-                                                    variant={'subtitle'}
-                                                >
-                                                    Result for {folder?.name} -
-                                                    <span className="uppercase">
-                                                        {
-                                                            folder
-                                                                ?.studentResponse[0]
-                                                                ?.status
-                                                        }
-                                                    </span>
-                                                </Typography>
-                                                <Typography
-                                                    variant={'small'}
-                                                    color={'text-gray-500'}
-                                                >
-                                                    <span className="font-semibold text-black">
-                                                        Comment:
-                                                    </span>{' '}
-                                                    {
-                                                        folder
-                                                            ?.studentResponse[0]
-                                                            ?.comment
-                                                    }
-                                                </Typography>
-                                            </div>
-                                        )
-                                    })}
-                                </div>
-                            </Card>
-                        </div>
-                    )}
 
                     {!results?.isSubmitted && (
                         <div className="mt-4">

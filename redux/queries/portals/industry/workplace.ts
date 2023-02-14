@@ -36,6 +36,21 @@ export const workplaceEndpoints = (
         providesTags: ['AssessmentEvidence'],
     }),
 
+    getIndustryRequiredDocs: builder.query<any, { courseId: number }>({
+        query: ({ courseId }) =>
+            `${PREFIX}/student/required-document/${courseId}`,
+        providesTags: ['IndustryWorkplace'],
+    }),
+
+    getIndustryRequiredDocsResponse: builder.query<
+        any,
+        { selectedFolderId: number; studentId: number }
+    >({
+        query: ({ selectedFolderId, studentId }) =>
+            `${PREFIX}/student/document-response/${selectedFolderId}/${studentId}`,
+        providesTags: ['IndustryWorkplace'],
+    }),
+
     getIndustryWorkplaceFolders: builder.query<any, any>({
         query: ({ workplaceId, appliedIndustryId, courseId }) =>
             `${PREFIX}/workplace-request/docs/${workplaceId}/${appliedIndustryId}/${courseId}`,

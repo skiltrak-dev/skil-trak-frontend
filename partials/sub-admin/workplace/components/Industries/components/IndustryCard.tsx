@@ -5,6 +5,7 @@ import { BsDot } from 'react-icons/bs'
 // query
 import { useSubAdminApplyStudentWorkplaceMutation } from '@queries'
 import { useNotification } from '@hooks'
+import { PulseLoader } from 'react-spinners'
 
 export const IndustryCard = ({ industry, appliedIndustry, workplace }: any) => {
     const [applyForWorkplace, applyForWorkplaceResult] =
@@ -14,13 +15,15 @@ export const IndustryCard = ({ industry, appliedIndustry, workplace }: any) => {
     const { notification } = useNotification()
 
     useEffect(() => {
-        if (applyForWorkplaceResult.isLoading) {
+        if (applyForWorkplaceResult.isSuccess) {
             notification.success({
                 title: 'Applied to Industry',
                 description: 'Applied to Industry Successfully',
             })
         }
     }, [applyForWorkplaceResult])
+
+    const loading = ''
 
     return (
         <>
@@ -89,13 +92,25 @@ export const IndustryCard = ({ industry, appliedIndustry, workplace }: any) => {
                             <span
                                 className="cursor-pointer"
                                 onClick={() => {
-                                    applyForWorkplace({
-                                        industry: industry?.id,
-                                        id: workplace?.id,
-                                    })
+                                    if (!appliedIndustry) {
+                                        applyForWorkplace({
+                                            industry: industry?.id,
+                                            id: workplace?.id,
+                                        })
+                                    } else {
+                                        notification.error({
+                                            title: 'Already Applied',
+                                            description:
+                                                'Already Applied to another Industry',
+                                        })
+                                    }
                                 }}
                             >
-                                APPLY HERE
+                                {applyForWorkplaceResult.isLoading ? (
+                                    <PulseLoader size={4} />
+                                ) : (
+                                    'APPLY HERE'
+                                )}
                             </span>
                         </Typography>
                     )}

@@ -103,6 +103,24 @@ export const studentsEndpoints = (
         providesTags: ['SubAdminStudents'],
     }),
 
+    getRequiredFolders: builder.query<
+        any,
+        { courseId: number; industryId: number }
+    >({
+        query: ({ courseId, industryId }) =>
+            `${PREFIX}/student/required-document/${courseId}/${industryId}`,
+        providesTags: ['IndustryWorkplace'],
+    }),
+
+    getRequiredDocsResponse: builder.query<
+        any,
+        { selectedFolderId: number; studentId: number }
+    >({
+        query: ({ selectedFolderId, studentId }) =>
+            `${PREFIX}/student/document-response/${selectedFolderId}/${studentId}`,
+        providesTags: ['IndustryWorkplace'],
+    }),
+
     uploadRequiredDocs: builder.mutation<any, any>({
         query: ({ id, workplaceId, user, body }) => ({
             url: `${PREFIX}/student/workplace/response`,
