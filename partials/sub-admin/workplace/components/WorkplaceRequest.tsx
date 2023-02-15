@@ -172,7 +172,7 @@ export const WorkplaceRequest = ({ workplace }: any) => {
                             />
                         )}
 
-                    <div className="flex-shrink-0 flex justify-end w-full">
+                    <div className="flex-shrink-0 flex justify-end ml-auto">
                         <Availability
                             availability={workplace?.generalAvailability}
                         />

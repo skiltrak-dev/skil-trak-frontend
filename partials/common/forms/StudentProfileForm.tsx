@@ -39,8 +39,6 @@ export const StudentProfileForm = ({
     const [courseOptions, setCourseOptions] = useState([])
     const [courseDefaultOptions, setCourseDefaultOptions] = useState([])
 
-    console.log('courseOptionscourseOptionscourseOptions', courseOptions)
-
     const { onUpdatePassword, passwordModal } = useActionModal()
 
     useEffect(() => {

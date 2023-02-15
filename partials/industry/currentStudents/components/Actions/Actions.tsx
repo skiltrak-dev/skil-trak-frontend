@@ -195,7 +195,6 @@ export const Actions = ({ workplace, industry, student }: any) => {
                             {/* <Button text={'Book Appointment'} variant={'info'} /> */}
                         </div>
 
-                        {/* TODO Reject is not working */}
                         <ActionButton
                             variant={'success'}
                             onClick={() => {

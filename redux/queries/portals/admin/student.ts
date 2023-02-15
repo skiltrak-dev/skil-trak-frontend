@@ -24,7 +24,7 @@ export const studentEndpoints = (
                 params,
             }
         },
-        providesTags: ['Students'],
+        providesTags: ['Students', 'Notes', 'AllCommunications'],
     }),
 
     filteredStudents: builder.query<PaginatedResponse<any>, any>({
@@ -39,7 +39,7 @@ export const studentEndpoints = (
 
     studentProfile: builder.query<Student, number>({
         query: (id) => `${PREFIX}students/view/${id}`,
-        providesTags: ['Students'],
+        providesTags: ['Students', 'Notes', 'AllCommunications'],
     }),
 
     studentSectors: builder.query<Course[], number>({
