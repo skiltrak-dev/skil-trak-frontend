@@ -141,4 +141,7 @@ export const RtoApi = {
         useDetail: useGetRtoCoordinatorsDetailQuery,
         useRemove: useRemoveCoordinatorMutation,
     },
+    Courses: {
+        useRtoCourses: useGetRTOCoursesQuery,
+    },
 }

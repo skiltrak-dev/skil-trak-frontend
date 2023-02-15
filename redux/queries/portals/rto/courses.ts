@@ -6,7 +6,7 @@ export const coursesEndpoints = (
     builder: EndpointBuilder<BaseQueryFn, string, string>
 ) => ({
     getRTOCourses: builder.query<any, void>({
-        query: () => 'students/courses/list',
+        query: () => `${PREFIX}/courses/list`,
         providesTags: ['RTOCourses'],
     }),
 })

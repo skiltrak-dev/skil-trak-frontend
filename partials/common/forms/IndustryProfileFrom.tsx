@@ -22,6 +22,7 @@ import { useActionModal, useContextBar, useNotification } from '@hooks'
 import { AuthApi } from '@queries'
 import { Course } from '@types'
 import { onlyAlphabets } from '@utils'
+import { useRouter } from 'next/router'
 
 export const IndustryProfileFrom = ({
     result,
@@ -34,6 +35,8 @@ export const IndustryProfileFrom = ({
 }) => {
     const { notification } = useNotification()
     const contextBar = useContextBar()
+
+    const router = useRouter()
 
     const sectorResponse = AuthApi.useSectors({})
     const [sectorDefaultOptions, setSectorDefaultOptions] = useState<
@@ -94,6 +97,7 @@ export const IndustryProfileFrom = ({
                 title: 'Profile Updated',
                 description: 'Profile Updated Successfully',
             })
+            router.back()
         }
     }, [result])
 

@@ -42,7 +42,10 @@ export const Detail = ({
     const [selectedFolder, setSelectedFolder] = useState<any | null>(null)
     const [manualReOpen, setManualReOpen] = useState<boolean>(false)
 
-    const results = selectedCourse?.results[0]
+    const results = selectedCourse?.results?.reduce(
+        (a: any, b: any) => (a.totalSubmission > b.totalSubmission ? a : b),
+        1
+    )
 
     const { notification } = useNotification()
 
@@ -102,7 +105,7 @@ export const Detail = ({
     )
 
     const onManuallyReopen = (event: any) => {
-        manullyReopenSubmission(selectedCourse?.results[0]?.id)
+        manullyReopenSubmission(results?.id)
     }
 
     return (
@@ -195,7 +198,7 @@ export const Detail = ({
                             coordinator={getUserCredentials()?.name}
                             selectedCourseId={selectedCourse?.id}
                             course={course}
-                            result={results}
+                            result={course?.results[0] || 'Not Submitted'}
                             onClick={() => {
                                 setSelectedCourse(course)
                             }}
@@ -218,8 +221,7 @@ export const Detail = ({
                             <span className="font-bold text-black">
                                 Assessment Submission
                             </span>{' '}
-                            - Submission #
-                            {selectedCourse?.results[0]?.totalSubmission}
+                            - Submission #{results?.totalSubmission}
                         </Typography>
                         <Typography variant={'label'} color={'text-gray-500'}>
                             Assessor:{' '}
@@ -293,13 +295,13 @@ export const Detail = ({
                         .includes('pending') && (
                             )} */}
 
-                    {results?.finalComment && (
-                        <FinalResult
-                            result={results}
-                            folders={getFolders?.data}
-                            courseName={selectedCourse?.title}
-                        />
-                    )}
+                    {/* {results?.finalComment && ( */}
+                    <FinalResult
+                        results={selectedCourse?.results}
+                        folders={getFolders?.data}
+                        courseName={selectedCourse?.title}
+                    />
+                    {/* )} */}
                     {allCommentsAdded &&
                         (results?.isSubmitted || manualReOpen) && (
                             <Actions result={results} />

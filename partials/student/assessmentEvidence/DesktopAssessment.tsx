@@ -7,7 +7,7 @@ import { Actions } from '@components/sections/student/AssessmentsContainer/Asses
 import React from 'react'
 
 export const DesktopAssessment = ({
-    results,
+    result,
     selectedFolder,
     selectedCourse,
     setSelectedCourse,
@@ -16,7 +16,7 @@ export const DesktopAssessment = ({
     assessmentsCourses,
     isFilesUploaded,
 }: {
-    results: any
+    result: any
     selectedFolder: any
     selectedCourse: any
     assessmentsCourses: any
@@ -25,6 +25,9 @@ export const DesktopAssessment = ({
     setSelectedFolder: Function
     isFilesUploaded: any
 }) => {
+    const assessmentActions = () => (
+        <Actions selectedCourseId={selectedCourse?.id} />
+    )
     return (
         <div>
             <div className="mb-3">
@@ -44,6 +47,13 @@ export const DesktopAssessment = ({
                                 id={course?.id}
                                 code={course?.code}
                                 title={course?.title}
+                                result={
+                                    course?.results?.length > 0
+                                        ? course?.results[
+                                              course?.results?.length - 1
+                                          ]
+                                        : { result: 'Not Assessesd' }
+                                }
                                 isActive={course?.isActive}
                                 coordinator={course?.subadmin[0]?.user?.name}
                                 selectedCourseId={selectedCourse?.id}
@@ -64,24 +74,30 @@ export const DesktopAssessment = ({
                             assessmentsFolders={assessmentsFolders}
                             selectedFolder={selectedFolder}
                             setSelectedFolder={setSelectedFolder}
-                            submission={results?.totalSubmission}
+                            submission={result?.totalSubmission}
                         />
-                        {isFilesUploaded ? (
-                            selectedCourse?.results?.length > 0 ? (
-                                (results?.totalSubmission < 3 ||
-                                    results?.isManualSubmission) &&
-                                (results?.result === 'reOpened' ||
-                                    results?.result === 'notCompetent') ? (
-                                    <Actions
-                                        selectedCourseId={selectedCourse?.id}
-                                    />
-                                ) : null
-                            ) : (
-                                <Actions
-                                    selectedCourseId={selectedCourse?.id}
-                                />
-                            )
-                        ) : null}
+                        {/* {isFilesUploaded
+                            ? selectedCourse?.results?.length > 0
+                                ? result?.totalSubmission < 3 ||
+                                  result?.isManualSubmission ||
+                                  result?.result === 'reOpened' ||
+                                  result?.result === 'notCompetent'
+                                    ? assessmentActions()
+                                    : null
+                                : assessmentActions()
+                            : null} */}
+                        {isFilesUploaded &&
+                        assessmentsFolders?.data &&
+                        assessmentsFolders?.data?.length > 0
+                            ? selectedCourse?.results?.length > 0
+                                ? result?.totalSubmission < 3
+                                    ? (result?.result === 'reOpened' ||
+                                          result?.result === 'notCompetent') &&
+                                      assessmentActions()
+                                    : result?.isManualSubmission &&
+                                      assessmentActions()
+                                : assessmentActions()
+                            : null}
 
                         <div className="my-2">
                             <Typography

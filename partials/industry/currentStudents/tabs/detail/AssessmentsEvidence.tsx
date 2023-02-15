@@ -54,7 +54,7 @@ export const AssessmentsEvidence = ({
     }, [getFolders])
 
     return (
-        <div className='mt-5'>
+        <div className="mt-5">
             {courses && courses?.length > 0 ? (
                 <div className="mb-3 grid grid-cols-3 gap-2">
                     {courses?.map((course: any) => (
