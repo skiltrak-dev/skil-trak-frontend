@@ -3,6 +3,7 @@ import {
     Card,
     EmptyData,
     LoadingAnimation,
+    StudentStatusProgressCell,
     Table,
     TableAction,
     TableActionOption,
@@ -23,6 +24,7 @@ import {
     StudentCellInfo,
 } from './components'
 import { BlockModal } from './modals'
+import { checkStudentStatus, checkWorkplaceStatus } from '@utils'
 
 export const FilteredStudents = ({
     student,
@@ -121,8 +123,21 @@ export const FilteredStudents = ({
         {
             accessorKey: 'progress',
             header: () => <span>Progress</span>,
-            cell: (info) => {
-                return <ProgressCell step={1} />
+            cell: ({ row }) => {
+                const workplace = row.original.workplace[0]
+                const industries = row.original?.industries
+                const steps = checkWorkplaceStatus(workplace?.currentStatus)
+                const studentStatus = checkStudentStatus(
+                    row.original?.studentStatus
+                )
+
+                return industries?.length > 0 ? (
+                    <StudentStatusProgressCell step={studentStatus} />
+                ) : (
+                    <ProgressCell
+                        step={steps > 14 ? 14 : steps < 1 ? 1 : steps}
+                    />
+                )
             },
         },
         {

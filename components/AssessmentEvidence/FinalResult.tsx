@@ -22,7 +22,7 @@ export const FinalResult = ({
                             a?.totalSubmission - b?.totalSubmission
                     )
                     ?.map((result: any) => (
-                        <Card>
+                        <Card key={result?.id}>
                             <div className="flex flex-col gap-y-2 border-b pb-3">
                                 <Typography variant={'title'}>
                                     Result - Submission{' '}
@@ -48,7 +48,10 @@ export const FinalResult = ({
                             <div className="flex flex-col gap-y-2">
                                 {folders?.map((folder: any) => {
                                     return (
-                                        <div className="flex flex-col">
+                                        <div
+                                            key={folder?.id}
+                                            className="flex flex-col"
+                                        >
                                             <Typography variant={'subtitle'}>
                                                 Result for {folder?.name} -
                                                 <span className="uppercase">

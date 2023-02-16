@@ -108,6 +108,7 @@ export const {
 
     // ----- STUDENTS-------//
     useGetSubAdminStudentsQuery,
+    useSubAdminStudentCountQuery,
     useSubAdminRequestWorkplaceMutation,
     useSubAdminFilteredStudentsQuery,
     useGetSubAdminStudentWorkplaceQuery,
@@ -130,6 +131,7 @@ export const {
     useChangeStudentPasswordMutation,
     useUpdateStudentDetailMutation,
     useChangeStudentStatusMutation,
+    useChangeStudentCurrentStatusMutation,
 
     // -- COUNT -- //
     useStatisticsQuery,
@@ -201,10 +203,13 @@ export const SubAdminApi = {
     },
 
     Student: {
+        useCount: useSubAdminStudentCountQuery,
+        useList: useGetSubAdminStudentsQuery,
         useCourses: useGetSubAdminStudentCoursesQuery,
         useChangePassword: useChangeStudentPasswordMutation,
         useUpdateDetail: useUpdateStudentDetailMutation,
         changeStatus: useChangeStudentStatusMutation,
+        changeCurrentStatus: useChangeStudentCurrentStatusMutation,
     },
     Workplace: {
         assignCourse: useAssignCourseMutation,

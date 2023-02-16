@@ -1,9 +1,7 @@
-import { Typography, NoData, LoadingAnimation } from '@components'
-import {
-    AssessmentCourseCard,
-    AssessmentsEvidence,
-} from '@components/sections/student/AssessmentsContainer'
+import { Typography, NoData, LoadingAnimation, CourseCard } from '@components'
+import { AssessmentsEvidence } from '@components/sections/student/AssessmentsContainer'
 import { Actions } from '@components/sections/student/AssessmentsContainer/AssessmentsEvidence/components/Actions'
+import { getCourseResult } from '@utils'
 import React from 'react'
 
 export const DesktopAssessment = ({
@@ -42,18 +40,15 @@ export const DesktopAssessment = ({
                   assessmentsCourses?.data?.length > 0 ? (
                     <div className="mb-3 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2">
                         {assessmentsCourses?.data?.map((course: any) => (
-                            <AssessmentCourseCard
+                            <CourseCard
                                 key={course?.id}
                                 id={course?.id}
                                 code={course?.code}
                                 title={course?.title}
-                                result={
-                                    course?.results?.length > 0
-                                        ? course?.results[
-                                              course?.results?.length - 1
-                                          ]
-                                        : { result: 'Not Assessesd' }
-                                }
+                                result={getCourseResult(
+                                    course?.results,
+                                    'Not Assessesd'
+                                )}
                                 isActive={course?.isActive}
                                 coordinator={course?.subadmin[0]?.user?.name}
                                 selectedCourseId={selectedCourse?.id}

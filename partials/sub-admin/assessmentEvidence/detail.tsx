@@ -1,35 +1,28 @@
-import React from 'react'
-import { useRouter } from 'next/router'
-import { ReactElement, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 
 //components
 import {
-    CourseCard,
-    LoadingAnimation,
     NoData,
-    PageTitle,
-    Typography,
     Checkbox,
-    Card,
-} from '@components'
-import {
-    Actions,
-    AssessmentFolderCard,
-    AssessmentResponse,
+    PageTitle,
+    CourseCard,
+    Typography,
     FinalResult,
-} from './components'
+    LoadingAnimation,
+    AssessmentResponse,
+    AssessmentFolderCard,
+} from '@components'
+import { Actions } from './components'
 
 // queries
+import { useNotification } from '@hooks'
 import {
-    useStudentAssessmentCoursesQuery,
-    useGetAssessmentResponseQuery,
     useGetAssessmentEvidenceDetailQuery,
+    useGetAssessmentResponseQuery,
     useMaulallyReopenSubmissionRequestMutation,
+    useStudentAssessmentCoursesQuery,
 } from '@queries'
-import { getUserCredentials } from '@utils'
-import { useAlert, useNotification } from '@hooks'
-import { NotificationMessage } from '@components/NotificationMessage'
-import moment from 'moment'
+import { getCourseResult, getUserCredentials } from '@utils'
 
 export const Detail = ({
     studentId,
@@ -42,10 +35,7 @@ export const Detail = ({
     const [selectedFolder, setSelectedFolder] = useState<any | null>(null)
     const [manualReOpen, setManualReOpen] = useState<boolean>(false)
 
-    const results = selectedCourse?.results?.reduce(
-        (a: any, b: any) => (a.totalSubmission > b.totalSubmission ? a : b),
-        1
-    )
+    const results = getCourseResult(selectedCourse?.results)
 
     const { notification } = useNotification()
 
@@ -198,7 +188,15 @@ export const Detail = ({
                             coordinator={getUserCredentials()?.name}
                             selectedCourseId={selectedCourse?.id}
                             course={course}
-                            result={course?.results[0] || 'Not Submitted'}
+                            result={course?.results?.reduce(
+                                (a: any, b: any) =>
+                                    a.totalSubmission > b.totalSubmission
+                                        ? a
+                                        : b,
+                                {
+                                    result: 'Not Submitted',
+                                }
+                            )}
                             onClick={() => {
                                 setSelectedCourse(course)
                             }}

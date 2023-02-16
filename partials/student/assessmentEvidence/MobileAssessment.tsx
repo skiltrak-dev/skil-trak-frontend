@@ -1,12 +1,13 @@
-import { Typography, NoData, LoadingAnimation } from '@components'
-import { IoIosArrowRoundBack } from 'react-icons/io'
 import {
-    AssessmentCourseCard,
+    CourseCard,
+    LoadingAnimation,
+    NoData,
+    Typography,
     AssessmentFolderCard,
-    AssessmentFolderDetailX,
-    AssessmentsEvidence,
-} from '@components/sections/student/AssessmentsContainer'
+} from '@components'
+import { AssessmentFolderDetailX } from '@components/sections/student/AssessmentsContainer'
 import { Actions } from '@components/sections/student/AssessmentsContainer/AssessmentsEvidence/components/Actions'
+import { IoIosArrowRoundBack } from 'react-icons/io'
 
 export const MobileAssessment = ({
     results,
@@ -42,19 +43,22 @@ export const MobileAssessment = ({
                       assessmentsCourses?.data?.length > 0 ? (
                         <div className="mb-3 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2">
                             {assessmentsCourses?.data?.map((course: any) => (
-                                <AssessmentCourseCard
+                                <CourseCard
                                     key={course?.id}
                                     id={course?.id}
                                     code={course?.code}
                                     title={course?.title}
                                     isActive={course?.isActive}
-                                    result={
-                                        course?.results?.length > 0
-                                            ? course?.results[
-                                                  course?.results?.length - 1
-                                              ]
-                                            : { result: 'Not Assessesd' }
-                                    }
+                                    result={course?.results?.reduce(
+                                        (a: any, b: any) =>
+                                            a.totalSubmission >
+                                            b.totalSubmission
+                                                ? a
+                                                : b,
+                                        {
+                                            result: 'Not Submitted',
+                                        }
+                                    )}
                                     coordinator={
                                         course?.subadmin[0]?.user?.name
                                     }
@@ -143,12 +147,6 @@ export const MobileAssessment = ({
                                                         }
                                                         selectedFolderId={
                                                             selectedFolder?.id
-                                                        }
-                                                        negativeComment={
-                                                            folder.negativeComment
-                                                        }
-                                                        positiveComment={
-                                                            folder.positiveComment
                                                         }
                                                         onClick={() => {
                                                             setSelectedFolder(

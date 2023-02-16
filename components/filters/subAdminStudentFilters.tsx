@@ -57,7 +57,7 @@ export const SubAdminStudentFilters = ({
     }, [getCourses])
 
     return (
-        <div className="grid grid-cols-3 gap-x-3">
+        <div className="grid grid-cols-4 gap-x-3">
             <TextInput
                 name="name"
                 label={'Name'}
@@ -91,15 +91,6 @@ export const SubAdminStudentFilters = ({
                     onFilterChange({ ...filter, studentId: e.target.value })
                 }}
             />
-            {/* <Select
-                label={'Status'}
-                name={'status'}
-                options={statusOptions}
-                placeholder={'Select Sectors...'}
-                onChange={(e: any) => {
-                    onFilterChange({ ...filter, status: e?.value })
-                }}
-            /> */}
             <Select
                 label={'Search By Rto'}
                 name={'rtoId'}
@@ -122,7 +113,7 @@ export const SubAdminStudentFilters = ({
                 loading={getIndustries.isLoading}
                 disabled={getIndustries.isLoading}
             />
-            <Select
+            {/* <Select
                 label={'Search by Batch/Class'}
                 name={'batchId'}
                 options={[{ value: '', label: '' }]}
@@ -130,7 +121,7 @@ export const SubAdminStudentFilters = ({
                 onChange={(e: any) => {
                     onFilterChange({ ...filter, batchId: e?.value })
                 }}
-            />
+            /> */}
             <Select
                 label={'Search by Courses'}
                 name={'courseId'}

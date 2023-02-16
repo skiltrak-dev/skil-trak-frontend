@@ -1,6 +1,12 @@
-import { CourseCard, LoadingAnimation, NoData, Typography } from '@components'
+import {
+    CourseCard,
+    LoadingAnimation,
+    NoData,
+    Typography,
+    AssessmentFolderCard,
+    AssessmentResponse,
+} from '@components'
 import { useNotification } from '@hooks'
-import { AssessmentFolderCard, AssessmentResponse } from '@partials/sub-admin'
 import {
     useStudentAssessmentCoursesQuery,
     IndustryApi,

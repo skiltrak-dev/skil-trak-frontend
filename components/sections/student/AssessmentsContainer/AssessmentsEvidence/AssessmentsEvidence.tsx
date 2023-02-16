@@ -1,23 +1,18 @@
 // components
 import {
-    Button,
-    Checkbox,
-    Typography,
-    Card,
     NoData,
+    Typography,
     LoadingAnimation,
+    AssessmentFolderCard,
 } from '@components'
 
-import { AssessmentFolderCard } from './components'
 import { AssessmentFolderDetailX } from './AssessmentFolderDetailX'
-
 type Props = {
     assessmentsFolders: any
     setSelectedFolder: any
     selectedFolder: any
     submission: number
 }
-
 export const AssessmentsEvidence = ({
     selectedFolder,
     setSelectedFolder,
@@ -79,12 +74,6 @@ export const AssessmentsEvidence = ({
                                                     }
                                                     selectedFolderId={
                                                         selectedFolder?.id
-                                                    }
-                                                    negativeComment={
-                                                        folder.negativeComment
-                                                    }
-                                                    positiveComment={
-                                                        folder.positiveComment
                                                     }
                                                     onClick={() => {
                                                         setSelectedFolder(

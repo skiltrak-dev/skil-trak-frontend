@@ -9,6 +9,7 @@ import {
     TableAction,
     Typography,
     TableActionOption,
+    StudentStatusProgressCell,
 } from '@components'
 import { PageHeading } from '@components/headings'
 import { ColumnDef } from '@tanstack/react-table'
@@ -21,7 +22,7 @@ import { IndustryCellInfo } from '../indestries/components'
 import { StudentCellInfo } from './components'
 import { AssignStudentModal } from './modals'
 import { ProgressCell, SectorCell } from '@partials/admin/student/components'
-import { checkWorkplaceStatus } from '@utils'
+import { checkStudentStatus, checkWorkplaceStatus } from '@utils'
 
 export const FilteredStudents = ({
     student,
@@ -112,16 +113,33 @@ export const FilteredStudents = ({
         {
             accessorKey: 'progress',
             header: () => <span>Progress</span>,
-            cell: ({ row }: any) => {
+            cell: ({ row }) => {
                 const workplace = row.original.workplace[0]
+                const industries = row.original?.industries
                 const steps = checkWorkplaceStatus(workplace?.currentStatus)
+                const studentStatus = checkStudentStatus(
+                    row.original?.studentStatus
+                )
 
-                return (
+                return industries?.length > 0 ? (
+                    <StudentStatusProgressCell step={studentStatus} />
+                ) : (
                     <ProgressCell
-                        step={steps > 13 ? 13 : steps < 1 ? 1 : steps}
+                        step={steps > 14 ? 14 : steps < 1 ? 1 : steps}
                     />
                 )
             },
+        },
+        {
+            accessorKey: 'user.status',
+            header: () => <span>Status</span>,
+            cell: (info) => (
+                <Typography uppercase variant={'badge'}>
+                    <span className="font-bold">
+                        {info.row.original?.user?.status}
+                    </span>
+                </Typography>
+            ),
         },
         {
             header: () => 'Action',

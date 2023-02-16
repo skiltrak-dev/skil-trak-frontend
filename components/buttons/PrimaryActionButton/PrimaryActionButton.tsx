@@ -2,27 +2,31 @@ import { LottieAnimation } from '@components/LottieAnimation'
 import Link from 'next/link'
 
 // components
-import { Desktop } from '@components'
+import { Desktop, Typography } from '@components'
+import { PulseLoader } from 'react-spinners'
 
 export interface PrimaryActionButtonProps {
-    title: string
-    description: string
-    image?: string
-    shadow?: boolean
-    link: string | undefined
-    animation: any
     id?: string
+    title: string
+    badge?: { text: number; loading: boolean }
+    image?: string
+    animation: any
+    shadow?: boolean
+    description: string
+    link: string | undefined
 }
 
 export const PrimaryActionButton = ({
-    title,
-    description,
-    image,
-    shadow = true,
-    link,
-    animation,
     id,
+    link,
+    title,
+    image,
+    animation,
+    description,
+    shadow = true,
+    badge,
 }: PrimaryActionButtonProps) => {
+    console.log('count')
     return (
         <Link legacyBehavior href={`${link}` || '/under-construction'}>
             <a
@@ -35,15 +39,31 @@ export const PrimaryActionButton = ({
                         {description}
                     </p>
                 </div>
-                {image ? (
-                    <img className="h-16" src={image} alt="Info" />
-                ) : animation ? (
-                    <div>
-                        <LottieAnimation animation={animation} height={80} />
-                    </div>
-                ) : (
-                    <></>
-                )}
+                <div className="relative">
+                    {image ? (
+                        <img className="h-16" src={image} alt="Info" />
+                    ) : animation ? (
+                        <div>
+                            <LottieAnimation
+                                animation={animation}
+                                height={80}
+                            />
+                        </div>
+                    ) : (
+                        <></>
+                    )}
+                    {badge && (
+                        <div className="absolute top-0 right-0 bg-blue-500 px-1 text-[11px] ml-2 font-medium min-w-[20px] flex items-center justify-center rounded transition-all duration-500">
+                            <Typography variant={'xs'} color={'text-white'}>
+                                {badge.loading ? (
+                                    <PulseLoader size={3} color={'#ffffff'} />
+                                ) : (
+                                    badge?.text
+                                )}
+                            </Typography>
+                        </div>
+                    )}
+                </div>
             </a>
         </Link>
     )

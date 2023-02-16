@@ -1,7 +1,7 @@
 import { useState } from 'react'
 
 // components
-import { CreateNote, EmptyData, LoadingAnimation } from '@components'
+import { CreateNote, EmptyData, LoadingAnimation, Note } from '@components'
 
 // query
 import { CommonApi } from '@queries'
@@ -23,11 +23,7 @@ export const NotesTab = ({ user }: { user: any }) => {
                     </div>
                 ) : notes.data && notes.data?.length > 0 ? (
                     notes?.data?.map((note: any) => (
-                        <NotesCard
-                            key={note.id}
-                            note={note}
-                            setEditValues={setEditValues}
-                        />
+                        <Note key={note.id} note={note} />
                     ))
                 ) : (
                     <EmptyData

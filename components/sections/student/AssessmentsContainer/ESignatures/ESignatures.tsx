@@ -1,6 +1,4 @@
 import { Button } from '@components/buttons'
-import React from 'react'
-import { AssessmentCourseCard } from '../AssessmentsEvidence'
 import { WorkplaceAgreementDetail } from './components'
 import { ESignTitleCards } from './ESignTitleCards'
 
