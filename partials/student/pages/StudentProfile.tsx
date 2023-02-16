@@ -210,8 +210,8 @@ export const StudentProfile = ({ noTitle }: { noTitle?: boolean }) => {
                         <BackButton
                             link={
                                 role === 'admin'
-                                    ? '/portals/admin/student?tab=approved'
-                                    : '/portals/sub-admin/students?tab=all'
+                                    ? 'portals/admin/student?tab=approved'
+                                    : 'portals/sub-admin/students?tab=all'
                             }
                             text="Students"
                         />
