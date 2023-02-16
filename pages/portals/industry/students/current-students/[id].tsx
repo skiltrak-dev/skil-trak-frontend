@@ -18,13 +18,15 @@ const StudentDetail: NextPageWithLayout = () => {
     )
     return (
         <>
-            <div className="flex justify-end">
-                <Actions
-                    student={detail?.data?.workplace?.student}
-                    workplace={detail?.data}
-                    industry={detail?.data?.industries[0]}
-                />
-            </div>
+            {detail?.isSuccess && (
+                <div className="flex justify-end">
+                    <Actions
+                        student={detail?.data?.workplace?.student}
+                        workplace={detail?.data}
+                        industry={detail?.data?.industries[0]}
+                    />
+                </div>
+            )}
             {detail.isError && <TechnicalError />}
             {detail.isLoading ? (
                 <LoadingAnimation height={'h-[60vh]'} />

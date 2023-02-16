@@ -13,6 +13,7 @@ import { subAdminAppointmentspoints } from './appointments'
 import { subAdminRtoEndpoints } from './rto'
 import { subAdminSettingEndpoints } from './setting'
 import { subAdminIndustriesEndpoints } from './industries'
+import { emptySplitApi } from '../empty.query'
 
 export const subAdminApi = createApi({
     reducerPath: 'subAdminApi',
@@ -64,6 +65,7 @@ export const subAdminApi = createApi({
         ...assessmentEvidenceEndpoints(build),
         ...subAdminIndustriesEndpoints(build),
     }),
+    // overrideExisting: false,
 })
 
 export const {
@@ -118,6 +120,8 @@ export const {
     useSubAdminRequestIndustryWorkplaceMutation,
     useSubAdminCancelStudentWorkplaceRequestMutation,
     useGetRequiredDocsQuery,
+    useGetRequiredFoldersQuery,
+    useGetRequiredDocsResponseQuery,
     useUploadRequiredDocsMutation,
     useFindByAbnWorkplaceMutation,
     useApplyWorkplaceOnExistingIndustryMutation,
@@ -230,5 +234,11 @@ export const SubAdminApi = {
 
     Courses: {
         useStudentCourses: useStudentCoursesQuery,
+    },
+
+    Docs: {
+        useRequiredDocs: useGetRequiredDocsQuery,
+        useRequiredFolders: useGetRequiredFoldersQuery,
+        useRequiredDocsResponse: useGetRequiredDocsResponseQuery,
     },
 }

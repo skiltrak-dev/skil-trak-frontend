@@ -35,6 +35,7 @@ const EditRto: NextPageWithLayout = () => {
                 title: 'Profile Updated',
                 description: 'Profile Updated Successfully',
             })
+            router.back()
         }
     }, [])
     const onSubmit = (values: any) => {

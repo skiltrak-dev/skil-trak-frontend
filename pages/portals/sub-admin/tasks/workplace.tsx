@@ -62,11 +62,6 @@ const Workplace: NextPageWithLayout = (props: Props) => {
             href: { pathname: 'workplace', query: { tab: 'cancelled' } },
             element: <CancelledWorkplaces />,
         },
-        // {
-        //     label: 'No Industries Available Requests',
-        //     href: { pathname: 'workplace', query: { tab: 'cancelled' } },
-        //     element: 'Under Construction',
-        // },
     ]
 
     return (

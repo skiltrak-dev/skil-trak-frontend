@@ -158,14 +158,21 @@ export const WorkplaceRequest = ({ workplace }: any) => {
 
                 {/*  */}
                 <div className="w-full flex justify-between items-center">
-                    <SmallDetail
-                        currentWork={workplace?.currentWork}
-                        haveTransport={workplace?.haveTransport}
-                        haveDrivingLicense={workplace?.haveDrivingLicense}
-                        currentQualification={workplace?.currentQualification}
-                    />
+                    {workplace?.currentWork &&
+                        workplace?.currentQualification && (
+                            <SmallDetail
+                                currentWork={workplace?.currentWork}
+                                haveTransport={workplace?.haveTransport}
+                                haveDrivingLicense={
+                                    workplace?.haveDrivingLicense
+                                }
+                                currentQualification={
+                                    workplace?.currentQualification
+                                }
+                            />
+                        )}
 
-                    <div className="flex-shrink-0">
+                    <div className="flex-shrink-0 flex justify-end ml-auto">
                         <Availability
                             availability={workplace?.generalAvailability}
                         />

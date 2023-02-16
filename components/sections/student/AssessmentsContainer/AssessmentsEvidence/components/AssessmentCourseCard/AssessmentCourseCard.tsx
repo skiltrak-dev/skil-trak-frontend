@@ -8,6 +8,7 @@ type Props = {
     title: string
     coordinator?: string
     isActive: boolean | null
+    result: any
 }
 
 export const AssessmentCourseCard = ({
@@ -17,6 +18,7 @@ export const AssessmentCourseCard = ({
     isActive,
     coordinator,
     selectedCourseId,
+    result,
     onClick,
 }: Props) => {
     return (
@@ -35,15 +37,21 @@ export const AssessmentCourseCard = ({
                             {code}
                         </Typography>
                     </div>
-                    <div
-                        className={`${
-                            isActive ? 'bg-[#686DE0]' : 'bg-rose-400'
-                        } px-1`}
-                    >
-                        <Typography variant="xs" color="text-white">
-                            {isActive ? 'Active' : 'Not Active'}
-                        </Typography>
-                    </div>
+                    {result && (
+                        <div
+                            className={`${
+                                isActive ? 'bg-[#686DE0]' : 'bg-rose-400'
+                            } px-1`}
+                        >
+                            <Typography
+                                variant="xs"
+                                color="text-white"
+                                capitalize
+                            >
+                                {result?.result}
+                            </Typography>
+                        </div>
+                    )}
                 </div>
                 <div>
                     <div>

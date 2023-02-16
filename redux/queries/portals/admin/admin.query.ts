@@ -19,6 +19,7 @@ import { AdminStats } from '@types'
 import { useUpdateSubAdminProfileMutation } from '../sub-admin'
 import { volunteerEndpoints } from './volunteer'
 import { documentsEndpoints } from './documents'
+import { emptySplitApi } from '../empty.query'
 
 const PREFIX = 'admin'
 export const adminApi = createApi({
@@ -91,6 +92,7 @@ export const adminApi = createApi({
         ...volunteerEndpoints(build),
         ...documentsEndpoints(build),
     }),
+    // overrideExisting: false,
 })
 
 const {

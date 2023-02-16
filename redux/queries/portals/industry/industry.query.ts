@@ -1,5 +1,6 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 import { AuthUtils } from '@utils'
+import { emptySplitApi } from '../empty.query'
 import { appointmentsEndpoints } from './appointment'
 
 import { availableShiftsEndpoints } from './availableShifts'
@@ -75,6 +76,7 @@ export const industryApi = createApi({
         ...rplEndpoints(build),
         ...volunteerEndpoints(build),
     }),
+    // overrideExisting: true,
 })
 
 export const {
@@ -126,6 +128,7 @@ export const {
     useAddOrUpdateRequiredDocumentMutation,
 
     // --- STUDENTS ---//
+    useIndustryStudentCountQuery,
     useGetIndustryStudentsQuery,
     useGetFutureCandidatesQuery,
     useGetIndustryStudentProfileQuery,
@@ -143,6 +146,8 @@ export const {
     useGetIndustryPendingWorkplaceQuery,
     useGetAssessmentFoldersQuery,
     useAssessmentFolderResponseQuery,
+    useGetIndustryRequiredDocsQuery,
+    useGetIndustryRequiredDocsResponseQuery,
     useWorkplaceActionsMutation,
     useGetIndustryWorkplaceFoldersQuery,
     useStartPlacementByIndustryMutation,
@@ -237,6 +242,7 @@ export const IndustryApi = {
         useAddOrUpdateRequiredDocumentMutation,
     },
     Students: {
+        useStudentCount: useIndustryStudentCountQuery,
         useGetIndustryStudentsQuery,
         useGetFutureCandidatesQuery,
         useGetIndustryStudentProfileQuery,
@@ -250,6 +256,8 @@ export const IndustryApi = {
         useAddReportMutation,
         useCancelWorkplaceMutation,
         useGetIndustryWorkplaceQuery,
+        useResponse: useGetIndustryRequiredDocsResponseQuery,
+        useRequiredDocs: useGetIndustryRequiredDocsQuery,
         useFoldersResponse: useAssessmentFolderResponseQuery,
         useAssessmentFolders: useGetAssessmentFoldersQuery,
         usePendingWorkplaces: useGetIndustryPendingWorkplaceQuery,

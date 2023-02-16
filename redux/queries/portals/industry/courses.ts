@@ -6,12 +6,10 @@ export const coursesEndpoints = (
     builder: EndpointBuilder<BaseQueryFn, string, string>
 ) => ({
     getAllCourses: builder.query({
-        query: (params) => {
-            return {
-                url: 'admin/course/list',
-                params,
-            }
-        },
+        query: (params) => ({
+            url: 'admin/course/list',
+            params,
+        }),
         providesTags: ['Course'],
     }),
     getCourseDetail: builder.query({

@@ -5,6 +5,10 @@ const PREFIX = 'industries'
 export const studentsEndpoints = (
     builder: EndpointBuilder<BaseQueryFn, string, string>
 ) => ({
+    industryStudentCount: builder.query<any, void>({
+        query: () => `${PREFIX}/students/count`,
+        providesTags: ['Industries'],
+    }),
     getIndustryStudents: builder.query({
         query: (params) => ({
             url: `${PREFIX}/student/list`,

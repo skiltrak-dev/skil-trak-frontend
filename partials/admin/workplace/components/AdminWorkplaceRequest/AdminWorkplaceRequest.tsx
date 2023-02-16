@@ -178,6 +178,7 @@ export const AdminWorkplaceRequest = ({ workplace }: Props) => {
                         appliedIndustry={appliedIndustry}
                         industries={workplace?.industries}
                         workplaceId={workplace?.id}
+                        workplace={workplace}
                         admin
                     />
 

@@ -94,7 +94,6 @@ export const IndustryDashboardContainer = () => {
                 },
             ],
             joyrideCallback: (joyride: any) => {
-                console.log("joyride", joyride)
                 return (data: CallBackProps) => {
                     const { action, index, lifecycle, type } = data
                     if (action === 'close') {
@@ -186,7 +185,6 @@ export const IndustryDashboardContainer = () => {
                 },
             ],
             joyrideCallback: (joyride: any) => {
-                console.log("joyride", joyride)
                 return (data: CallBackProps) => {
                     const { action, index, lifecycle, type } = data
                     if (action === 'close') {
@@ -263,7 +261,6 @@ export const IndustryDashboardContainer = () => {
                 },
             ],
             joyrideCallback: (joyride: any) => {
-                console.log("joyride", joyride)
                 return (data: CallBackProps) => {
                     const { action, index, lifecycle, type } = data
                     if (action === 'close') {
@@ -347,7 +344,6 @@ export const IndustryDashboardContainer = () => {
                 },
             ],
             joyrideCallback: (joyride: any) => {
-                console.log("joyride", joyride)
                 return (data: CallBackProps) => {
                     const { action, index, lifecycle, type } = data
                     if (action === 'close') {
@@ -434,7 +430,6 @@ export const IndustryDashboardContainer = () => {
                 },
             ],
             joyrideCallback: (joyride: any) => {
-                console.log("joyride", joyride)
                 return (data: CallBackProps) => {
                     const { action, index, lifecycle, type } = data
                     if (action === 'close') {
@@ -526,7 +521,6 @@ export const IndustryDashboardContainer = () => {
                 },
             ],
             joyrideCallback: (joyride: any) => {
-                console.log("joyride", joyride)
                 return (data: CallBackProps) => {
                     const { action, index, lifecycle, type } = data
                     if (action === 'close') {
@@ -603,7 +597,6 @@ export const IndustryDashboardContainer = () => {
                 },
             ],
             joyrideCallback: (joyride: any) => {
-                console.log("joyride", joyride)
                 return (data: CallBackProps) => {
                     const { action, index, lifecycle, type } = data
                     if (action === 'close') {
@@ -686,7 +679,6 @@ export const IndustryDashboardContainer = () => {
                 },
             ],
             joyrideCallback: (joyride: any) => {
-                console.log("joyride", joyride)
                 return (data: CallBackProps) => {
                     const { action, index, lifecycle, type } = data
                     if (action === 'close') {
@@ -782,7 +774,6 @@ export const IndustryDashboardContainer = () => {
                 },
             ],
             joyrideCallback: (joyride: any) => {
-                console.log("joyride", joyride)
                 return (data: CallBackProps) => {
                     const { action, index, lifecycle, type } = data
                     if (action === 'close') {

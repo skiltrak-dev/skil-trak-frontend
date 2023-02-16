@@ -48,6 +48,13 @@ export const MobileAssessment = ({
                                     code={course?.code}
                                     title={course?.title}
                                     isActive={course?.isActive}
+                                    result={
+                                        course?.results?.length > 0
+                                            ? course?.results[
+                                                  course?.results?.length - 1
+                                              ]
+                                            : { result: 'Not Assessesd' }
+                                    }
                                     coordinator={
                                         course?.subadmin[0]?.user?.name
                                     }

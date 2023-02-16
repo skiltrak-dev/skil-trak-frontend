@@ -43,18 +43,20 @@ export const AssessmentFolderCard = ({
                     </div>
                     <div>
                         <div className={` px-2 `}>
-                            <Badge
-                                text={
-                                    response?.status === 'approved'
-                                        ? 'Approved'
-                                        : response?.status === 'pending'
-                                        ? 'Pending'
-                                        : response?.status === 'rejected'
-                                        ? 'Rejected'
-                                        : 'Not Assessed'
-                                }
-                                variant="success"
-                            />
+                            {response && (
+                                <Badge
+                                    text={
+                                        response?.status === 'approved'
+                                            ? 'Approved'
+                                            : response?.status === 'pending'
+                                            ? 'Pending'
+                                            : response?.status === 'rejected'
+                                            ? 'Rejected'
+                                            : 'Not Assessed'
+                                    }
+                                    variant="success"
+                                />
+                            )}
                             {/* {isActive ? (
                             ) : (
                                 <Badge text="Not Approved" variant="error" />
@@ -62,20 +64,22 @@ export const AssessmentFolderCard = ({
                         </div>
                     </div>
                 </div>
-                <div>
-                    <Typography
-                        variant="small"
-                        color={
-                            isActive
-                                ? 'text-green-500'
-                                : !isActive
-                                ? 'text-red-500'
-                                : 'text-blue-500'
-                        }
-                    >
-                        {response?.comment}
-                    </Typography>
-                </div>
+                {response && (
+                    <div>
+                        <Typography
+                            variant="small"
+                            color={
+                                isActive
+                                    ? 'text-green-500'
+                                    : !isActive
+                                    ? 'text-red-500'
+                                    : 'text-blue-500'
+                            }
+                        >
+                            {response?.comment}
+                        </Typography>
+                    </div>
+                )}
             </div>
         </>
     )

@@ -142,7 +142,11 @@ export const ActiveSubAdmin = () => {
             accessorKey: 'createdBy.role',
             header: () => <span>Created By</span>,
             cell: (info) => (
-                <Typography>{info.row.original?.createdBy?.role}</Typography>
+                <Typography variant={'small'} uppercase>
+                    <span className="font-semibold">
+                        {info.row.original?.createdBy?.role}
+                    </span>
+                </Typography>
             ),
         },
         {
