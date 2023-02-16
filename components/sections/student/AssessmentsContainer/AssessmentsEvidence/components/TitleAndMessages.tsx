@@ -3,36 +3,33 @@ import { NotificationMessage } from '@components/NotificationMessage'
 import { UserStatus } from '@types'
 import React from 'react'
 
-export const TitleAndMessages = ({ results }: { results: any }) => {
+export const TitleAndMessages = ({ result }: { result: any }) => {
     return (
         <div className="flex flex-col md:flex-row gap-2 justify-between  md:items-center mb-6">
             <PageTitle title="Assessment Evidence" backTitle="Assessment" />
             <div>
-                {results?.result === UserStatus.Pending &&
-                    results?.totalSubmission < 3 && (
+                {result?.result === UserStatus.Pending &&
+                    result?.totalSubmission < 3 && (
                         <NotificationMessage
                             title={'Submitted For Approval'}
                             subtitle={'Wait for Admin review'}
                         />
                     )}
-                {results?.result === 'reOpened' &&
-                    results?.totalSubmission < 3 && (
+                {result?.result === 'reOpened' &&
+                    result?.totalSubmission < 3 && (
                         <NotificationMessage
                             title={'Admin Reopened your request'}
                             subtitle={'You can resubmit your assessment'}
                         />
                     )}
-                {results?.result === 'competent' &&
-                    results?.totalSubmission < 3 && (
-                        <NotificationMessage
-                            title={'Congratulations!'}
-                            subtitle={
-                                'You have successfully passes the Assessment'
-                            }
-                        />
-                    )}
-                {results?.result === 'notCompetent' &&
-                    results?.totalSubmission < 3 && (
+                {result?.result === 'competent' && (
+                    <NotificationMessage
+                        title={'Congratulations!'}
+                        subtitle={'You have successfully passes the Assessment'}
+                    />
+                )}
+                {result?.result === 'notCompetent' &&
+                    result?.totalSubmission < 3 && (
                         <NotificationMessage
                             title={'Failed'}
                             subtitle={
@@ -40,12 +37,20 @@ export const TitleAndMessages = ({ results }: { results: any }) => {
                             }
                         />
                     )}
-                {results?.totalSubmission >= 3 && (
+                {result?.result !== 'competent' &&
+                    result?.totalSubmission >= 3 &&
+                    !result?.isManualSubmission && (
+                        <NotificationMessage
+                            title={'Request manually for reopen'}
+                            subtitle={
+                                'You have failed the assessment on this course, you can request for admin to reopen manullay'
+                            }
+                        />
+                    )}
+                {result?.isManualSubmission && (
                     <NotificationMessage
-                        title={'Request manually for reopen'}
-                        subtitle={
-                            'You have failed the assessment on this course, you can request for admin to reopen manullay'
-                        }
+                        title={'Request manually reOpened'}
+                        subtitle={'Request manually reOpened'}
                     />
                 )}
             </div>

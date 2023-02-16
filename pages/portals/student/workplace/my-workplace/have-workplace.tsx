@@ -47,12 +47,16 @@ const HaveWorkplace: NextPageWithLayout = (props: Props) => {
     const [cancelRequest, cancelRequestResult] =
         useCancelWorkplaceRequestMutation()
 
-    // useEffect(() => {
-    //     if (addWorkplaceResult.isSuccess && addWorkplaceResult.data) {
-    //         // setWorkplaceData(addWorkplaceResult.data?.workplaceRequest)
-    //         setActive((active: number) => active + 1)
-    //     }
-    // }, [addWorkplaceResult])
+    useEffect(() => {
+        if (addWorkplaceResult.isSuccess && addWorkplaceResult.data) {
+            notification.success({
+                title: 'Workplace request sent',
+                description: 'Workplace Request sent to your coordinator',
+            })
+            // setWorkplaceData(addWorkplaceResult.data?.workplaceRequest)
+            setActive((active: number) => active + 1)
+        }
+    }, [addWorkplaceResult])
 
     useEffect(() => {
         if (
@@ -67,12 +71,6 @@ const HaveWorkplace: NextPageWithLayout = (props: Props) => {
 
     useEffect(() => {
         if (!result.data && result.isSuccess) {
-            // notification.error({
-            //     title: 'Industry Not Found',
-            //     description:
-            //         'Your Industry Not found in our record, we are redirecting you to industry signup page, pleae provide the details',
-            // })
-
             setIndustryNotFound(true)
             setTimeout(() => {
                 setActive((active: number) => active + 1)

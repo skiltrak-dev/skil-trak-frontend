@@ -128,7 +128,7 @@ export const StudentProfileForm = ({
         // }
         const courses = profile?.data?.courses?.map((c: Course) => c.title)
         setCourseDefaultOptions(
-            newCourseOptions?.filter((s: any) => courses.includes(s.label))
+            newCourseOptions?.filter((s: any) => courses?.includes(s.label))
         )
         setCourseOptions(newCourseOptions)
     }
@@ -352,7 +352,10 @@ export const StudentProfileForm = ({
                                     <Select
                                         label={'Courses'}
                                         name={'courses'}
-                                        defaultValue={courseDefaultOptions}
+                                        defaultValue={
+                                            courseOptions ||
+                                            courseDefaultOptions
+                                        }
                                         options={courseOptions}
                                         multi
                                         disabled={courseOptions?.length === 0}
@@ -364,6 +367,7 @@ export const StudentProfileForm = ({
                                     <Select
                                         label={'Courses'}
                                         name={'courses'}
+                                        defaultValue={courseOptions}
                                         options={courseOptions}
                                         multi
                                         disabled={courseOptions?.length === 0}

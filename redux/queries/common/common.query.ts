@@ -12,7 +12,9 @@ import { changeProfileImageEndpoints } from './changeProfileImage'
 import { notificationsEndpoints } from './notifications'
 
 import { AdminStats } from '@types'
+import { emptySplitApi } from '@queries/portals/empty.query'
 
+// export const commonApi = emptySplitApi.injectEndpoints({
 export const commonApi = createApi({
     reducerPath: 'commonApi',
     baseQuery: fetchBaseQuery({
@@ -36,6 +38,7 @@ export const commonApi = createApi({
         'Appointments',
         'AllCommunications',
         'AllNotifications',
+        'Students',
     ],
 
     // ---------- RTO ENDPOINTS ---------- //
@@ -52,7 +55,7 @@ export const commonApi = createApi({
                 method: 'POST',
                 body: body,
             }),
-            invalidatesTags: ['Notes', 'AllCommunications'],
+            invalidatesTags: ['Students', 'Notes', 'AllCommunications'],
         }),
 
         ...rtosEndpoints(build),
@@ -65,6 +68,7 @@ export const commonApi = createApi({
         ...changeProfileImageEndpoints(build),
         ...notificationsEndpoints(build),
     }),
+    // overrideExisting: true,
 })
 
 const {
@@ -109,7 +113,6 @@ const {
     // ------ Notifications ------ //
     useGetNotificationsQuery,
     useIsReadNotificationMutation,
-    
 } = commonApi
 
 export const CommonApi = {

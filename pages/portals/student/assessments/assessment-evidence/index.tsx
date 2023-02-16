@@ -36,7 +36,10 @@ const AssessmentEvidence: NextPageWithLayout = (props: Props) => {
     const [selectedCourse, setSelectedCourse] = useState<any | null>(null)
     const [selectedFolder, setSelectedFolder] = useState<any | null>(null)
 
-    const results = selectedCourse?.results[0]
+    const result = selectedCourse?.results?.reduce(
+        (a: any, b: any) => (a.totalSubmission > b.totalSubmission ? a : b),
+        1
+    )
 
     const { notification } = useNotification()
 
@@ -73,15 +76,13 @@ const AssessmentEvidence: NextPageWithLayout = (props: Props) => {
         (f: any) => f?.studentResponse[0]?.files?.length > 0
     )
 
-    console.log('assessmentsFoldersassessmentsFolders', assessmentsFolders)
-
     return (
         <>
             {/* <AssessmentsEvidence /> */}
-            <TitleAndMessages results={results} />
+            <TitleAndMessages result={result} />
             <Desktop>
                 <DesktopAssessment
-                    results={results}
+                    result={result}
                     selectedFolder={selectedFolder}
                     selectedCourse={selectedCourse}
                     setSelectedCourse={setSelectedCourse}
@@ -93,7 +94,7 @@ const AssessmentEvidence: NextPageWithLayout = (props: Props) => {
             </Desktop>
             <Mobile>
                 <MobileAssessment
-                    results={results}
+                    results={result}
                     selectedFolder={selectedFolder}
                     selectedCourse={selectedCourse}
                     setSelectedCourse={setSelectedCourse}

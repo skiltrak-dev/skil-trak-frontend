@@ -12,6 +12,7 @@ import { coursesEndpoints } from './courses'
 import { industriesEndpoints } from './industries'
 import { mouEndpoints } from './mou'
 import { workplaceEndpoints } from './workplace'
+import { emptySplitApi } from '../empty.query'
 
 export const rtoApi = createApi({
     reducerPath: 'rto',
@@ -59,6 +60,7 @@ export const rtoApi = createApi({
         ...contactPersonEndpoints(build),
         ...assessmentToolsEndpoints(build),
     }),
+    // overrideExisting: true,
 })
 
 export const {
@@ -140,5 +142,8 @@ export const RtoApi = {
         useList: useGetRtoCoordinatorsQuery,
         useDetail: useGetRtoCoordinatorsDetailQuery,
         useRemove: useRemoveCoordinatorMutation,
+    },
+    Courses: {
+        useRtoCourses: useGetRTOCoursesQuery,
     },
 }

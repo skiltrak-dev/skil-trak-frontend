@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
 import { FormProvider, useForm } from 'react-hook-form'
+import * as Yup from 'yup'
 
 // components
 import {
@@ -15,6 +16,7 @@ import {
 import { useSubmitAssessmentEvidenceMutation } from '@queries'
 import { useNotification } from '@hooks'
 import { getUserCredentials } from '@utils'
+import { yupResolver } from '@hookform/resolvers/yup'
 
 export const Actions = ({ result }: any) => {
     const [selectedResult, setSelectedResult] = useState<string>('')
@@ -26,8 +28,14 @@ export const Actions = ({ result }: any) => {
     const [submitAssessmentEvidence, submitAssessmentEvidenceResult] =
         useSubmitAssessmentEvidenceMutation()
 
+    const validationSchema = Yup.object({
+        result: Yup.string().required('Result is Required'),
+        finalComment: Yup.string().required('Final Comment is Required'),
+    })
+
     const methods = useForm({
         mode: 'all',
+        resolver: yupResolver(validationSchema),
     })
 
     const role = getUserCredentials()?.role

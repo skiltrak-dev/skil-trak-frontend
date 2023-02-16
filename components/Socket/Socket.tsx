@@ -58,7 +58,6 @@ export const Socket = ({ children }: any) => {
             })
 
             socket?.on('Notification', (notify: any) => { 
-                console.log("notify", notify)
                 // setNotificationList(notify)
                 notification.success({
                     title: notify?.title,

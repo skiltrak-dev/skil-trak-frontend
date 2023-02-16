@@ -1,44 +1,49 @@
+import { useEffect, useState } from 'react'
+
+//components
 import { CourseCard, LoadingAnimation, NoData, Typography } from '@components'
+
+// queries
 import { useNotification } from '@hooks'
 import { AssessmentFolderCard, AssessmentResponse } from '@partials/sub-admin'
 import {
-    useStudentAssessmentCoursesQuery,
+    useGetAssessmentEvidenceDetailQuery,
     IndustryApi,
     useGetAssessmentResponseQuery,
+    useStudentAssessmentCoursesQuery,
 } from '@queries'
 import { getUserCredentials } from '@utils'
-import React, { useEffect, useState } from 'react'
+import { Course } from '@types'
 
-export const AssessmentsEvidence = ({
+export const RequiredDocs = ({
     studentId,
     studentUserId,
     courses,
 }: {
     studentId: string | string[] | undefined
     studentUserId: string | string[] | undefined
-    courses: any
+    courses: Course[]
 }) => {
     const [selectedCourse, setSelectedCourse] = useState<any | null>(null)
     const [selectedFolder, setSelectedFolder] = useState<any | null>(null)
 
-    const { notification } = useNotification()
-
-    const getFolders = IndustryApi.Workplace.useAssessmentFolders(
-        { courseId: Number(selectedCourse?.id), studentId: Number(studentId) },
+    const getRequiredDocs = IndustryApi.Workplace.useRequiredDocs(
+        { courseId: Number(selectedCourse?.id) },
         {
             skip: !selectedCourse,
         }
     )
 
-    const getAssessmentResponse = IndustryApi.Workplace.useFoldersResponse(
+    const getDocsResponse = IndustryApi.Workplace.useResponse(
         {
             selectedFolderId: Number(selectedFolder?.id),
             studentId: Number(studentUserId),
         },
         { skip: !selectedFolder || !studentUserId }
     )
+
     useEffect(() => {
-        if (courses) {
+        if (courses && courses?.length > 0) {
             setSelectedCourse(
                 selectedCourse
                     ? courses?.find((c: any) => c?.id === selectedCourse?.id)
@@ -47,14 +52,15 @@ export const AssessmentsEvidence = ({
         }
     }, [courses])
 
+
     useEffect(() => {
-        if (getFolders.isSuccess) {
-            setSelectedFolder(selectedFolder || getFolders?.data[0])
+        if (getRequiredDocs.isSuccess && getRequiredDocs.data) {
+            setSelectedFolder(selectedFolder || getRequiredDocs?.data[0])
         }
-    }, [getFolders])
+    }, [getRequiredDocs])
 
     return (
-        <div className="mt-5">
+        <div className="mb-10 mt-5">
             {courses && courses?.length > 0 ? (
                 <div className="mb-3 grid grid-cols-3 gap-2">
                     {courses?.map((course: any) => (
@@ -75,7 +81,7 @@ export const AssessmentsEvidence = ({
             ) : (
                 <NoData
                     text={
-                        'No Assessment Courses Were Found or No Submission from Student recived yet'
+                        'No Required Docs Were Found or No Submission from Student recived yet'
                     }
                 />
             )}
@@ -83,21 +89,6 @@ export const AssessmentsEvidence = ({
             {/* Assessment Evidence Folders */}
             {courses && courses?.length > 0 && (
                 <div>
-                    <div className="flex justify-between items-center">
-                        <Typography variant={'label'} color={'text-gray-700'}>
-                            <span className="font-bold text-black">
-                                Assessment Submission
-                            </span>{' '}
-                            - Submission #
-                            {/* {selectedCourse?.results[0]?.totalSubmission} */}
-                        </Typography>
-                        {/* <Typography variant={'label'} color={'text-gray-500'}>
-                            Assessor:{' '}
-                            <span className="font-semibold text-black">
-                                {getUserCredentials()?.name}
-                            </span>
-                        </Typography> */}
-                    </div>
                     {/*  */}
                     <div className="grid grid-cols-3 h-[450px]">
                         <div className="border border-gray-300 border-r-transparent h-full overflow-hidden">
@@ -109,39 +100,40 @@ export const AssessmentsEvidence = ({
                                     Selected Folder
                                 </Typography>
                                 <Typography variant={'label'}>
-                                    {selectedFolder?.name ||
+                                    {selectedFolder?.folder?.name ||
                                         'No Folder Selected'}
                                 </Typography>
                             </div>
 
                             <div className="bg-white h-full overflow-auto">
-                                {getFolders?.isLoading ||
-                                getFolders.isFetching ? (
+                                {getRequiredDocs?.isLoading ||
+                                getRequiredDocs.isFetching ? (
                                     <div className="flex flex-col justify-center items-center gap-y-2 py-5">
                                         <LoadingAnimation size={50} />
                                         <Typography variant={'label'}>
                                             Folders Loading
                                         </Typography>
                                     </div>
-                                ) : getFolders?.data &&
-                                  getFolders?.data?.length > 0 ? (
-                                    getFolders?.data?.map((assessment: any) => (
-                                        <AssessmentFolderCard
-                                            key={assessment?.id}
-                                            id={assessment?.id}
-                                            name={assessment?.name}
-                                            // isActive={folder.isActive}
-                                            selectedFolderId={
-                                                selectedFolder?.id
-                                            }
-                                            response={
-                                                assessment?.studentResponse[0]
-                                            }
-                                            onClick={() => {
-                                                setSelectedFolder(assessment)
-                                            }}
-                                        />
-                                    ))
+                                ) : getRequiredDocs?.data &&
+                                  getRequiredDocs?.data?.length > 0 ? (
+                                    getRequiredDocs?.data?.map(
+                                        (assessment: any) => (
+                                            <AssessmentFolderCard
+                                                key={assessment?.id}
+                                                id={assessment?.id}
+                                                name={assessment?.folder?.name}
+                                                // isActive={folder.isActive}
+                                                selectedFolderId={
+                                                    selectedFolder?.id
+                                                }
+                                                onClick={() => {
+                                                    setSelectedFolder(
+                                                        assessment
+                                                    )
+                                                }}
+                                            />
+                                        )
+                                    )
                                 ) : (
                                     <NoData text={'No Assessment were found'} />
                                 )}
@@ -151,10 +143,10 @@ export const AssessmentsEvidence = ({
                         {/* Assessment Response */}
                         <div className="col-span-2 border border-gray-300 overflow-hidden">
                             <AssessmentResponse
+                                getAssessmentResponse={getDocsResponse}
+                                folder={selectedFolder?.folder}
                                 studentId={studentId}
-                                folder={selectedFolder}
                                 assessmentEvidenceView={false}
-                                getAssessmentResponse={getAssessmentResponse}
                             />
                         </div>
                     </div>

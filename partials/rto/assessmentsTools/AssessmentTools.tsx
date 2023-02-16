@@ -21,6 +21,7 @@ import {
     ShowErrorNotifications,
 } from '@components'
 import {
+    RtoApi,
     useGetRTOCoursesQuery,
     useGetAssessmentToolByCourseQuery,
     useRemoveRTOAssessmentToolsMutation,
@@ -44,7 +45,7 @@ export const AssessmentsToolsContainer = () => {
 
     const contextBar = useContextBar()
 
-    const rtoCourses = useGetRTOCoursesQuery()
+    const rtoCourses = RtoApi.Courses.useRtoCourses()
     const getAssessmentTools = useGetAssessmentToolByCourseQuery(
         {
             id: Number(selectedCourseId),
@@ -66,14 +67,14 @@ export const AssessmentsToolsContainer = () => {
             setSelectedCourseId(
                 selectedCourseId
                     ? rtoCourses?.data?.data?.find(
-                        (c: any) => c?.id === selectedCourseId
-                    )?.id
+                          (c: any) => c?.id === selectedCourseId
+                      )?.id
                     : rtoCourses?.data?.data[0]?.id
             )
         }
     }, [rtoCourses])
 
-    //  ADD ASSESSMENT JOY RIDE 
+    //  ADD ASSESSMENT JOY RIDE
     const joyride = useJoyRide()
     useEffect(() => {
         if (joyride.state.tourActive) {
@@ -82,7 +83,6 @@ export const AssessmentsToolsContainer = () => {
             }, 1200)
         }
     }, [])
-
 
     useEffect(() => {
         if (removeResult.isSuccess) {
@@ -94,7 +94,7 @@ export const AssessmentsToolsContainer = () => {
     }, [removeResult])
 
     //  ADD ASSESSMENT JOY RIDE - END
-    //  ADD ASSESSMENT JOY RIDE 
+    //  ADD ASSESSMENT JOY RIDE
 
     const actions = (assessment: any) => {
         return (
@@ -154,7 +154,7 @@ export const AssessmentsToolsContainer = () => {
                         {rtoCourses?.isLoading || rtoCourses?.isFetching ? (
                             <LoadingAnimation size={85} />
                         ) : rtoCourses?.data?.data &&
-                            rtoCourses?.data?.data?.length > 0 ? (
+                          rtoCourses?.data?.data?.length > 0 ? (
                             rtoCourses?.data?.data?.map((course: any) => (
                                 <AssessmentCourse
                                     code={course?.code}
@@ -204,10 +204,10 @@ export const AssessmentsToolsContainer = () => {
                         </div>
                         <div className="p-2 min-h-[260px]">
                             {getAssessmentTools?.isLoading ||
-                                getAssessmentTools?.isFetching ? (
+                            getAssessmentTools?.isFetching ? (
                                 <LoadingAnimation size={80} />
                             ) : getAssessmentTools?.data &&
-                                getAssessmentTools?.data?.length > 0 ? (
+                              getAssessmentTools?.data?.length > 0 ? (
                                 getAssessmentTools?.data?.map(
                                     (assessment: any) => (
                                         <DownloadableFile

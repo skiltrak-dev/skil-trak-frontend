@@ -34,7 +34,6 @@ export const Industries = ({
     const { setContent, show } = useContextBar()
     const { notification } = useNotification()
 
-
     return (
         <div>
             <div className="flex justify-between">

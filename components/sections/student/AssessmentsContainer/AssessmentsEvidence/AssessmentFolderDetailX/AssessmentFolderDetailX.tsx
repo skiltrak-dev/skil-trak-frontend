@@ -50,7 +50,6 @@ export const AssessmentFolderDetailX = ({ folder, fileUpload }: Props) => {
 
     const [selected, setSelected] = useState<any>(null)
 
-    console.log('getAssessmentResponse', data?.files)
 
     return (
         <div className="h-full">

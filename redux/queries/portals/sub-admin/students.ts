@@ -55,7 +55,7 @@ export const studentsEndpoints = (
     }),
     getSubAdminStudentDetail: builder.query<any, number>({
         query: (id) => `${PREFIX}/student/view/${id}`,
-        providesTags: ['SubAdminStudents'],
+        providesTags: ['SubAdminStudents', 'Notes', 'AllCommunications'],
     }),
 
     getSubAdminStudentWorkplace: builder.query<any, number>({
@@ -101,6 +101,24 @@ export const studentsEndpoints = (
             params: { course, user },
         }),
         providesTags: ['SubAdminStudents'],
+    }),
+
+    getRequiredFolders: builder.query<
+        any,
+        { courseId: number; industryId: number }
+    >({
+        query: ({ courseId, industryId }) =>
+            `${PREFIX}/student/required-document/${courseId}/${industryId}`,
+        providesTags: ['IndustryWorkplace'],
+    }),
+
+    getRequiredDocsResponse: builder.query<
+        any,
+        { selectedFolderId: number; studentId: number }
+    >({
+        query: ({ selectedFolderId, studentId }) =>
+            `${PREFIX}/student/document-response/${selectedFolderId}/${studentId}`,
+        providesTags: ['IndustryWorkplace'],
     }),
 
     uploadRequiredDocs: builder.mutation<any, any>({

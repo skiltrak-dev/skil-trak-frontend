@@ -5,6 +5,7 @@ import { NotesTab } from '@partials/common'
 import { OverViewTab } from './OverviewTab'
 import { AssessmentsEvidence } from './AssessmentsEvidence'
 import { QuestionsTab } from './QuestionsTab'
+import { RequiredDocs } from './RequiredDocs'
 export const DetailTabs = ({
     id,
     workplace,
@@ -34,8 +35,14 @@ export const DetailTabs = ({
         },
         {
             label: 'Required Docs',
-            href: { pathname: String(id), query: { tab: 'notes' } },
-            element: '',
+            href: { pathname: String(id), query: { tab: 'required-docs' } },
+            element: (
+                <RequiredDocs
+                    studentId={workplace?.student?.id}
+                    studentUserId={workplace?.student?.user?.id}
+                    courses={workplace?.courses}
+                />
+            ),
         },
         {
             label: 'Questions',
