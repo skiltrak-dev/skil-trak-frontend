@@ -16,7 +16,7 @@ import { PageHeading } from '@components/headings'
 import { ColumnDef } from '@tanstack/react-table'
 import { FaEdit, FaEye, FaFileExport } from 'react-icons/fa'
 
-import { AdminApi } from '@queries'
+import { AdminApi, commonApi } from '@queries'
 import { SubAdmin } from '@types'
 import { useRouter } from 'next/router'
 import { ReactElement, useState } from 'react'
@@ -45,6 +45,7 @@ export const ActiveSubAdmin = () => {
         skip: itemPerPage * page - itemPerPage,
         limit: itemPerPage,
     })
+    const [bulkAction, resultBulkAction] = commonApi.useBulkStatusMutation()
 
     const onModalCancelClicked = () => {
         setModal(null)
@@ -176,8 +177,14 @@ export const ActiveSubAdmin = () => {
             </div>
         ),
         common: (ids: number[]) => (
-            <ActionButton variant="error" onClick={() => {}}>
-                Reject
+            <ActionButton
+                onClick={() => {
+                    const arrayOfIds = ids.map((id: any) => id?.user.id)
+                    bulkAction({ ids: arrayOfIds, status: 'archived' })
+                }}
+                variant="error"
+            >
+                Archive
             </ActionButton>
         ),
     }

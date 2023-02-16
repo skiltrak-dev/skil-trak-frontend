@@ -15,7 +15,7 @@ import { useRouter } from 'next/router'
 import { FaEdit, FaEye, FaFileExport } from 'react-icons/fa'
 
 import { useContextBar } from '@hooks'
-import { AdminApi } from '@queries'
+import { AdminApi, commonApi } from '@queries'
 import { Rto } from '@types'
 import { ReactElement, useState } from 'react'
 import { RtoCellInfo, SectorCell } from './components'
@@ -34,6 +34,7 @@ export const PendingRto = () => {
         skip: itemPerPage * page - itemPerPage,
         limit: itemPerPage,
     })
+    const [bulkAction, resultBulkAction] = commonApi.useBulkStatusMutation();
 
     const { changeStatusResult } = useChangeStatus()
 
@@ -61,7 +62,7 @@ export const PendingRto = () => {
         },
         {
             text: 'Edit',
-            onClick: () => {},
+            onClick: () => { },
             Icon: FaEdit,
         },
     ]
@@ -122,18 +123,29 @@ export const PendingRto = () => {
         id: 'id',
         individual: (id: number) => (
             <div className="flex gap-x-2">
-                <ActionButton variant="success" onClick={() => {}}>
+                <ActionButton variant="success" onClick={() => { }}>
                     Accept
                 </ActionButton>
-                <ActionButton variant="error" onClick={() => {}}>
+                <ActionButton variant="error" onClick={() => { }}>
                     Reject
                 </ActionButton>
             </div>
         ),
         common: (ids: number[]) => (
-            <ActionButton variant="error" onClick={() => {}}>
-                Reject
-            </ActionButton>
+            <div className="flex gap-x-2">
+                <ActionButton onClick={() => {
+                    const arrayOfIds = ids.map((id: any) => id?.user.id)
+                    bulkAction({ ids: arrayOfIds, status: 'approved' })
+                }} variant="success">
+                    Accept
+                </ActionButton>
+                <ActionButton onClick={() => {
+                    const arrayOfIds = ids.map((id: any) => id?.user.id)
+                    bulkAction({ ids: arrayOfIds, status: 'rejected' })
+                }} variant="error">
+                    Reject
+                </ActionButton>
+            </div>
         ),
     }
 
