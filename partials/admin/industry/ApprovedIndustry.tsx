@@ -13,7 +13,7 @@ import { PageHeading } from '@components/headings'
 import { ColumnDef } from '@tanstack/react-table'
 import { FaEdit, FaEye, FaFileExport } from 'react-icons/fa'
 
-import { AdminApi } from '@queries'
+import { AdminApi, commonApi } from '@queries'
 import { Industry } from '@types'
 import { useRouter } from 'next/router'
 import { ReactElement, useState } from 'react'
@@ -39,6 +39,7 @@ export const ApprovedIndustry = () => {
         skip: itemPerPage * page - itemPerPage,
         limit: itemPerPage,
     })
+    const [bulkAction, resultBulkAction] = commonApi.useBulkStatusMutation();
 
     const onModalCancelClicked = () => {
         setModal(null)
@@ -143,7 +144,10 @@ export const ApprovedIndustry = () => {
             </div>
         ),
         common: (ids: number[]) => (
-            <ActionButton Icon={MdBlock} variant="error">
+            <ActionButton onClick={() => {
+                const arrayOfIds = ids.map((id: any) => id?.user.id)
+                bulkAction({ ids: arrayOfIds, status: 'blocked' })
+            }} Icon={MdBlock} variant="error">
                 Block
             </ActionButton>
         ),

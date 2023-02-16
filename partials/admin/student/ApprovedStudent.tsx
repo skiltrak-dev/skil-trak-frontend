@@ -16,11 +16,11 @@ import { ColumnDef } from '@tanstack/react-table'
 import { FaEdit, FaEye } from 'react-icons/fa'
 
 import { RtoCellInfo } from '@partials/admin/rto/components'
-import { AdminApi } from '@queries'
+import { AdminApi, commonApi } from '@queries'
 import { Student } from '@types'
 import { checkStudentStatus, checkWorkplaceStatus } from '@utils'
 import { useRouter } from 'next/router'
-import { ReactElement, useState } from 'react'
+import { ReactElement, useEffect, useState } from 'react'
 import { MdBlock } from 'react-icons/md'
 import { RiLockPasswordFill } from 'react-icons/ri'
 import { IndustryCell } from '../industry/components'
@@ -29,6 +29,7 @@ import { BlockModal } from './modals'
 
 // hooks
 import { useActionModal } from '@hooks'
+import { ref } from 'yup'
 
 export const ApprovedStudent = () => {
     const router = useRouter()
@@ -40,12 +41,15 @@ export const ApprovedStudent = () => {
     // hooks
     const { passwordModal, onViewPassword } = useActionModal()
 
-    const { isLoading, isFetching, data, isError } =
+    const { isLoading, isFetching, data, isError, refetch } =
         AdminApi.Students.useListQuery({
             search: `status:approved`,
             skip: itemPerPage * page - itemPerPage,
             limit: itemPerPage,
         })
+    const [bulkAction, resultBulkAction] = commonApi.useBulkStatusMutation();
+
+    
 
     const onModalCancelClicked = () => {
         setModal(null)
@@ -169,9 +173,12 @@ export const ApprovedStudent = () => {
             </div>
         ),
         common: (ids: number[]) => (
-            <ActionButton Icon={MdBlock} variant="error">
+            <ActionButton onClick={() => {
+                const arrayOfIds = ids.map((id: any) => id?.user.id)
+                bulkAction({ ids: arrayOfIds, status: 'blocked' })
+            }} Icon={MdBlock} variant="error" >
                 Block
-            </ActionButton>
+            </ActionButton >
         ),
     }
 
