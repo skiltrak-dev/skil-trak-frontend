@@ -38,11 +38,8 @@ export const commonApi = createApi({
         'Appointments',
         'AllCommunications',
         'AllNotifications',
-<<<<<<< Updated upstream
         'Students',
-=======
         'BulkStatus',
->>>>>>> Stashed changes
     ],
 
     // ---------- RTO ENDPOINTS ---------- //
@@ -128,12 +125,9 @@ const {
     // ------ Notifications ------ //
     useGetNotificationsQuery,
     useIsReadNotificationMutation,
-<<<<<<< Updated upstream
-=======
 
     // ------ Bulk Status ------ //
     useBulkStatusMutation,
->>>>>>> Stashed changes
 } = commonApi
 
 export const CommonApi = {
