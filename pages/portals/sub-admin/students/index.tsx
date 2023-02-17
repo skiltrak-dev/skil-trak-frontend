@@ -48,16 +48,6 @@ const Students: NextPageWithLayout = (props: Props) => {
     const count = SubAdminApi.Student.useCount()
     const [studentCount, setStudentCount] = useState<any>({})
 
-    let test = {}
-
-    const arr = [
-        { pending: 0 },
-        { approved: 0 },
-        { archived: 0 },
-        { blocked: 0 },
-        { rejected: 0 },
-    ]
-
     useEffect(() => {
         if (count?.isSuccess && count?.data) {
             count?.data?.forEach((count: any) =>
@@ -105,7 +95,7 @@ const Students: NextPageWithLayout = (props: Props) => {
             element: <PendingStudents />,
         },
         {
-            label: 'Approved',
+            label: 'Active',
             href: { pathname: 'students', query: { tab: 'all' } },
             badge: {
                 text: studentCount?.approved,

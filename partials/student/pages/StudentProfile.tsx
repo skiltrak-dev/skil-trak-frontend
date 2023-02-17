@@ -211,7 +211,11 @@ export const StudentProfile = ({ noTitle }: { noTitle?: boolean }) => {
                             link={
                                 role === 'admin'
                                     ? 'portals/admin/student?tab=approved'
-                                    : 'portals/sub-admin/students?tab=all'
+                                    : role === 'subadmin'
+                                    ? 'portals/sub-admin/students?tab=all'
+                                    : role === 'rto'
+                                    ? 'portals/rto/students?tab=active'
+                                    : ''
                             }
                             text="Students"
                         />

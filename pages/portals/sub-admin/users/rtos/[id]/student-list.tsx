@@ -22,9 +22,9 @@ const RtoStudentLists: NextPageWithLayout = () => {
     const [emailExistList, setEmailExistList] = useState<any | null>(null);
     const [emailFound, setEmailFound] = useState<any>([])
 
-    const rto = AdminApi.Rtos.useDetailQuery(Number(router.query.id), {
-        skip: !router.query?.id,
-    })
+    // const rto = AdminApi.Rtos.useDetailQuery(Number(router.query.id), {
+    //     skip: !router.query?.id,
+    // })
 
     useEffect(() => {
         navBar.setTitle('RTO Detail')
@@ -171,7 +171,7 @@ const RtoStudentLists: NextPageWithLayout = () => {
                                                                             'text-error'
                                                                         }
                                                                     >
-                                                                        {emailExistList.map((item: any) => item.includes(student['email']) ? '- email already exists' : '')}
+                                                                        {emailExistList?.map((item: any) => item.includes(student['email']) ? '- email already exists' : '')}
                                                                     </Typography>
                                                                 </div> // check email exist
                                                             ) : (student[k])}

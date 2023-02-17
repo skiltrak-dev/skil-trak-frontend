@@ -34,7 +34,7 @@ export const ImportStudentForm = ({
         if (checkEmailResult.isSuccess && checkEmailResult?.data) {
             setEmailExistList(checkEmailResult?.data)
         }
-    }, [checkEmailResult])
+    }, [checkEmailResult.isSuccess])
     const onSectorSelect = (options: any) => {
         const currentSelectedSectors = options.map((opt: any) => opt.value)
 
@@ -75,14 +75,14 @@ export const ImportStudentForm = ({
             onStudentFound && onStudentFound(rows, fileData, emailExists)
         }
     }
-
+    console.log("emailExists", checkEmailResult?.data)
     return (
         <FormProvider {...methods}>
             <form
                 className="mt-2 w-full"
                 onSubmit={methods.handleSubmit(onSubmit)}
             >
-                <div className='flex justify-between items-center gap-x-2'>
+                <div className="flex justify-between items-center gap-x-2">
                     <div className={'w-full flex flex-col gap-y-2'}>
                         <div className="grid grid-cols-2 gap-4">
                             <TextInput label={'Batch/Class'} name="batch" />
@@ -94,7 +94,10 @@ export const ImportStudentForm = ({
                         </div>
 
                         <div className="mb-4">
-                            <Typography variant={'muted'} color={'text-gray-400'}>
+                            <Typography
+                                variant={'muted'}
+                                color={'text-gray-400'}
+                            >
                                 Sectors &amp; Courses
                             </Typography>
 
@@ -128,7 +131,6 @@ export const ImportStudentForm = ({
                                 />
                             </div>
                         </div>
-
                     </div>
                     <BinaryFileUpload
                         name="list"
@@ -137,7 +139,7 @@ export const ImportStudentForm = ({
                     />
                 </div>
                 <div className="flex">
-                    {checkEmailResult?.isSuccess && Array.isArray(checkEmailResult?.data) ? (
+                    {checkEmailResult?.data?.length > 0 ? (
                         <Button text="Import" submit disabled />
                     ) : (
                         <Button text="Import" submit />

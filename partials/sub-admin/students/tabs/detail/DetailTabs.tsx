@@ -18,10 +18,10 @@ export const DetailTabs = ({
             element: <OverViewTab student={student} />,
         },
         {
-            label: 'Assessments',
+            label: 'Submissions',
             href: {
                 pathname: String(id),
-                query: { tab: 'assessments' },
+                query: { tab: 'submissions' },
             },
             element: (
                 <div className="my-5">
@@ -33,10 +33,10 @@ export const DetailTabs = ({
             ),
         },
         {
-            label: 'Required Docs',
+            label: 'Industry Checks',
             href: {
                 pathname: String(id),
-                query: { tab: 'required-docs' },
+                query: { tab: 'industry-checks' },
             },
             element: (
                 <RequiredDocs

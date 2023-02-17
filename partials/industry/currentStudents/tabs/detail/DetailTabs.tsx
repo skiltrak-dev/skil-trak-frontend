@@ -20,10 +20,10 @@ export const DetailTabs = ({
             element: <OverViewTab workplace={workplace} />,
         },
         {
-            label: 'Assessments',
+            label: 'Submissions',
             href: {
                 pathname: String(id),
-                query: { tab: 'assessments' },
+                query: { tab: 'submissions' },
             },
             element: (
                 <AssessmentsEvidence
@@ -34,8 +34,8 @@ export const DetailTabs = ({
             ),
         },
         {
-            label: 'Required Docs',
-            href: { pathname: String(id), query: { tab: 'required-docs' } },
+            label: 'Industry Checks',
+            href: { pathname: String(id), query: { tab: 'industry-checks' } },
             element: (
                 <RequiredDocs
                     studentId={workplace?.student?.id}

@@ -1,14 +1,23 @@
-import { EmptyData, TechnicalError, Typography } from '@components'
 import {
-    FigureCard, PinnedNotes
+    EmptyData,
+    TechnicalError,
+    Typography,
+    LoadingAnimation,
+    PageSize,
+    Pagination,
+} from '@components'
+import {
+    FigureCard,
+    PinnedNotes,
 } from '@components/sections/subAdmin/components'
 import { PendingStudents, RecentAppointment } from './components'
 
 // queries
-import { LoadingAnimation } from '@components/LoadingAnimation'
 import {
-    useGetSubAdminRtoAppointmentsQuery, useGetSubAdminRtosStudentsQuery
+    useGetSubAdminRtoAppointmentsQuery,
+    useGetSubAdminRtosStudentsQuery,
 } from '@queries'
+import { useState } from 'react'
 
 type Props = {
     rtoId: any
@@ -17,9 +26,15 @@ type Props = {
 }
 
 export const RtoProfileOverview = ({ userId, rtoId, rtoDetail }: Props) => {
+    const [page, setPage] = useState(1)
+    const [itemPerPage, setItemPerPage] = useState(5)
+
     // pending students
-    const { data, isError, isLoading }: any =
-        useGetSubAdminRtosStudentsQuery(rtoId)
+    const { data, isError, isLoading }: any = useGetSubAdminRtosStudentsQuery({
+        id: rtoId,
+        skip: itemPerPage * page - itemPerPage,
+        limit: itemPerPage,
+    })
     // recent appointments
 
     const rtoRecentAppointment = useGetSubAdminRtoAppointmentsQuery(rtoId)
@@ -91,6 +106,18 @@ export const RtoProfileOverview = ({ userId, rtoId, rtoDetail }: Props) => {
                 <div className="">
                     <div className="grid grid-cols-4 gap-x-4">
                         <div className="flex flex-col col-span-3 gap-y-2">
+                            {data?.data?.length > 0 && (
+                                <div className="flex items-center justify-between">
+                                    <PageSize
+                                        itemPerPage={itemPerPage}
+                                        setItemPerPage={setItemPerPage}
+                                    />
+                                    <Pagination
+                                        pagination={data?.pagination}
+                                        setPage={setPage}
+                                    />
+                                </div>
+                            )}
                             {isError && <TechnicalError />}
                             {isLoading ? (
                                 <LoadingAnimation />

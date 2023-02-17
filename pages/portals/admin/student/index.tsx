@@ -71,8 +71,8 @@ const RtoList: NextPageWithLayout = () => {
             element: <PendingStudent />,
         },
         {
-            label: 'Approved',
-            href: { pathname: 'student', query: { tab: 'approved' } },
+            label: 'Active',
+            href: { pathname: 'student', query: { tab: 'active' } },
             badge: {
                 text: data?.approved,
                 loading: isLoading,

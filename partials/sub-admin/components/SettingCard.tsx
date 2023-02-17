@@ -20,13 +20,17 @@ export const SettingCard = ({ setting, loading }: any) => {
         useSubAdminSettingMutation()
 
     useEffect(() => {
+        setIsEnabled(setting?.status)
+    }, [setting])
+
+    useEffect(() => {
         if (subAdminSettingResult.isError) {
             notification.error({
                 title: 'Network Error',
                 description: 'Network Error',
             })
         }
-    }, [subAdminSettingResult.isError])
+    }, [subAdminSettingResult])
 
     useEffect(() => {
         if (subAdminSettingResult.isSuccess) {
@@ -36,6 +40,8 @@ export const SettingCard = ({ setting, loading }: any) => {
             })
         }
     }, [subAdminSettingResult.isSuccess])
+
+    const isLoading = loading || subAdminSettingResult.isLoading
 
     return (
         <Card shadowType={'hard'}>
@@ -74,10 +80,11 @@ export const SettingCard = ({ setting, loading }: any) => {
                     label={isEnabled || setting.status ? 'Yes' : 'No'}
                     onChange={(e: any) => {
                         setIsEnabled(e.target.checked)
+                        // subAdminSetting(e.target.checked)
                         subAdminSetting(setting.type)
                     }}
-                    defaultChecked={setting.status}
-                    loading={loading}
+                    defaultChecked={isEnabled}
+                    loading={isLoading}
                 />
             </div>
         </Card>
