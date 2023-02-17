@@ -14,7 +14,7 @@ import { ColumnDef } from '@tanstack/react-table'
 import { FaEdit, FaEye, FaFileExport } from 'react-icons/fa'
 
 import { useActionModal, useContextBar } from '@hooks'
-import { AdminApi } from '@queries'
+import { AdminApi, commonApi } from '@queries'
 import { Rto } from '@types'
 import { useRouter } from 'next/router'
 import { ReactElement, useEffect, useState } from 'react'
@@ -39,7 +39,7 @@ export const ApprovedRto = () => {
         skip: itemPerPage * page - itemPerPage,
         limit: itemPerPage,
     })
-
+    const [bulkAction, resultBulkAction] = commonApi.useBulkStatusMutation();
     const onModalCancelClicked = () => {
         setModal(null)
     }
@@ -156,7 +156,10 @@ export const ApprovedRto = () => {
             </div>
         ),
         common: (items: Rto[]) => (
-            <ActionButton Icon={MdBlock} variant="error">
+            <ActionButton onClick={() => {
+                const arrayOfIds = items.map((id: any) => id?.user.id)
+                bulkAction({ ids: arrayOfIds, status: 'blocked' })
+            }} Icon={MdBlock} variant="error">
                 Block
             </ActionButton>
         ),

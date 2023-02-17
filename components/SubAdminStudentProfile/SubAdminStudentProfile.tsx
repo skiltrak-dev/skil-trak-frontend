@@ -45,10 +45,10 @@ export const SubAdminStudentProfile = ({ student }: { student: Student }) => {
                                 role === 'admin'
                                     ? `/portals/admin/student/edit-student/${student?.id}`
                                     : role === 'subadmin'
-                                    ? `/portals/sub-admin/students/${student?.id}/edit-student`
-                                    : role === 'rto'
-                                    ? `/portals/rto/students/${student?.id}/edit-student`
-                                    : ''
+                                        ? `/portals/sub-admin/students/${student?.id}/edit-student`
+                                        : role === 'rto'
+                                            ? `/portals/rto/students/${student?.id}/edit-student`
+                                            : ''
                             )
                         }}
                     >
@@ -109,17 +109,17 @@ export const SubAdminStudentProfile = ({ student }: { student: Student }) => {
                         Batch
                     </div>
                 </div>
+            </div>
+            <div className="p-2 border-b">
 
-                <div className="p-2">
-                    <div className="flex items-center space-x-2">
-                        <span className="text-gray-300">
-                            <MdPhone size={12} />
-                        </span>
-                        <p className="text-xs font-medium">{student?.phone}</p>
-                    </div>
-                    <div className="text-gray-400 text-[11px] -mt-0.5 text-right">
-                        Phone Number
-                    </div>
+                <div className="flex items-center space-x-2">
+                    <span className="text-gray-300">
+                        <MdPhone size={12} />
+                    </span>
+                    <p className="text-xs font-medium">{student?.phone}</p>
+                </div>
+                <div className="text-gray-400 text-[11px] flex justify-start pl-4 -mt-0.5 text-right">
+                    Phone Number
                 </div>
             </div>
             {/* Info Row 2 */}
@@ -212,7 +212,10 @@ export const SubAdminStudentProfile = ({ student }: { student: Student }) => {
             </div>
 
             {/* Status Of Student */}
-            {/* <StudentStatus industries={student?.workplace[0]?.industries} /> */}
+            <StudentStatus
+                id={student?.user?.id}
+                currentStatus={student?.studentStatus}
+            />
 
             {/* Sector & Courses */}
             {/* <div className="mt-4">

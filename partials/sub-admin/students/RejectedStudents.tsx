@@ -20,7 +20,7 @@ import { StudentCellInfo } from './components'
 
 import { TechnicalError } from '@components/ActionAnimations/TechnicalError'
 import { useJoyRide } from '@hooks'
-import { useGetSubAdminStudentsQuery, SubAdminApi } from '@queries'
+import { SubAdminApi } from '@queries'
 import { Student, UserStatus } from '@types'
 import { useEffect, useState } from 'react'
 import { MdBlock } from 'react-icons/md'
@@ -31,28 +31,15 @@ import { checkStudentStatus, checkWorkplaceStatus } from '@utils'
 import { IndustryCellInfo } from '../indestries/components'
 import { ColumnDef } from '@tanstack/react-table'
 
-export const AllStudents = () => {
+export const RejectedStudents = () => {
     const router = useRouter()
-
-    // WORKPLACE JOY RIDE - Start
-    const joyride = useJoyRide()
-
-    useEffect(() => {
-        if (joyride.state.tourActive) {
-            setTimeout(() => {
-                joyride.setState({ ...joyride.state, run: true, stepIndex: 1 })
-            }, 1200)
-        }
-    }, [router])
-
-    // STUDENT JOY RIDE - END
 
     const [modal, setModal] = useState<ReactElement | null>(null)
 
     const [itemPerPage, setItemPerPage] = useState(50)
     const [page, setPage] = useState(1)
     const { isLoading, data, isError } = SubAdminApi.Student.useList({
-        search: `status:${UserStatus.Approved}`,
+        search: `status:${UserStatus.Rejected}`,
         skip: itemPerPage * page - itemPerPage,
         limit: itemPerPage,
     })

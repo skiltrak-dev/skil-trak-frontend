@@ -369,7 +369,7 @@ export const PortalQuestions = () => {
 
     const AssessmentQuestions = [
         {
-            text: `Where can I find assessment evidence?`,
+            text: `how to upload my documents?`,
             link: '#',
             steps: [
                 {

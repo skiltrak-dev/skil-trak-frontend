@@ -11,6 +11,7 @@ import {
     TableActionOption,
     TechnicalError,
     Typography,
+    StudentStatusProgressCell,
 } from '@components'
 import { PageHeading } from '@components/headings'
 import { ColumnDef } from '@tanstack/react-table'
@@ -30,7 +31,7 @@ import { Student } from '@types'
 import { BlockModal, ArchiveModal } from './modals'
 import { useRouter } from 'next/router'
 import { useGetRtoStudentsQuery } from '@queries'
-import { checkWorkplaceStatus } from '@utils'
+import { checkStudentStatus, checkWorkplaceStatus } from '@utils'
 import { IndustryCell } from './components/IndustryCell'
 
 export const ApprovedStudent = () => {
@@ -128,13 +129,16 @@ export const ApprovedStudent = () => {
                 const workplace = row.original.workplace[0]
                 const industries = row.original?.industries
                 const steps = checkWorkplaceStatus(workplace?.currentStatus)
+                const studentStatus = checkStudentStatus(
+                    row.original?.studentStatus
+                )
 
                 return industries?.length > 0 ? (
+                    <StudentStatusProgressCell step={studentStatus} />
+                ) : (
                     <ProgressCell
                         step={steps > 14 ? 14 : steps < 1 ? 1 : steps}
                     />
-                ) : (
-                    row.original?.studentStatus
                 )
             },
         },

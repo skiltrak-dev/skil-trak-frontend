@@ -1,5 +1,5 @@
 import { ReactElement, useEffect, useState } from 'react'
-import { NextPageWithLayout } from '@types'
+import { NextPageWithLayout, UserCount } from '@types'
 
 //components
 import {
@@ -18,15 +18,16 @@ import {
 } from '@components'
 import {
     AllStudents,
+    ArchivedStudents,
+    BlockedStudents,
     FilteredStudents,
     MyStudents,
+    PendingStudents,
+    RejectedStudents,
 } from '@partials/sub-admin/students'
 
 // query
-import {
-    useSubAdminFilteredStudentsQuery,
-    useGetSubAdminStudentsQuery,
-} from '@queries'
+import { SubAdminApi, useGetSubAdminStudentsQuery } from '@queries'
 
 // hooks
 import { useContextBar } from '@hooks'
@@ -43,6 +44,32 @@ const Students: NextPageWithLayout = (props: Props) => {
     const [filter, setFilter] = useState({})
     const [page, setPage] = useState(1)
     const [itemPerPage, setItemPerPage] = useState(50)
+
+    const count = SubAdminApi.Student.useCount()
+    const [studentCount, setStudentCount] = useState<any>({})
+
+    let test = {}
+
+    const arr = [
+        { pending: 0 },
+        { approved: 0 },
+        { archived: 0 },
+        { blocked: 0 },
+        { rejected: 0 },
+    ]
+
+    useEffect(() => {
+        if (count?.isSuccess && count?.data) {
+            count?.data?.forEach((count: any) =>
+                Object.entries(count).map(([key, value]) => {
+                    setStudentCount((preVal: any) => ({
+                        ...preVal,
+                        [key]: value,
+                    }))
+                })
+            )
+        }
+    }, [count])
 
     const filteredStudents = useGetSubAdminStudentsQuery(
         {
@@ -69,14 +96,54 @@ const Students: NextPageWithLayout = (props: Props) => {
 
     const tabs: TabProps[] = [
         {
-            label: 'All Students',
+            label: 'Pending',
+            href: { pathname: 'students', query: { tab: 'pending' } },
+            badge: {
+                text: studentCount?.pending,
+                loading: count.isLoading,
+            },
+            element: <PendingStudents />,
+        },
+        {
+            label: 'Approved',
             href: { pathname: 'students', query: { tab: 'all' } },
+            badge: {
+                text: studentCount?.approved,
+                loading: count.isLoading,
+            },
             element: <AllStudents />,
         },
         {
             label: 'My Students',
             href: { pathname: 'students', query: { tab: 'my-students' } },
             element: <MyStudents />,
+        },
+        {
+            label: 'Rejected',
+            href: { pathname: 'students', query: { tab: 'rejected' } },
+            badge: {
+                text: studentCount?.rejected,
+                loading: count.isLoading,
+            },
+            element: <RejectedStudents />,
+        },
+        {
+            label: 'Blocked',
+            href: { pathname: 'students', query: { tab: 'blocked' } },
+            badge: {
+                text: studentCount?.blocked,
+                loading: count.isLoading,
+            },
+            element: <BlockedStudents />,
+        },
+        {
+            label: 'Archived',
+            href: { pathname: 'students', query: { tab: 'archived' } },
+            badge: {
+                text: studentCount?.archived,
+                loading: count.isLoading,
+            },
+            element: <ArchivedStudents />,
         },
     ]
 

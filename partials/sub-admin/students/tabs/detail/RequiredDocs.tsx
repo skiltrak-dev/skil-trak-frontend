@@ -1,32 +1,19 @@
-import React from 'react'
-import { useRouter } from 'next/router'
-import { ReactElement, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 
 //components
 import {
+    AssessmentFolderCard,
     CourseCard,
     LoadingAnimation,
     NoData,
-    PageTitle,
     Typography,
-    Checkbox,
 } from '@components'
 
 // queries
-import {
-    useStudentAssessmentCoursesQuery,
-    useGetAssessmentResponseQuery,
-    useGetAssessmentEvidenceDetailQuery,
-    useMaulallyReopenSubmissionRequestMutation,
-    SubAdminApi,
-} from '@queries'
+import { useNotification } from '@hooks'
+import { AssessmentResponse } from '@partials/sub-admin/assessmentEvidence'
+import { SubAdminApi, useStudentAssessmentCoursesQuery } from '@queries'
 import { getUserCredentials } from '@utils'
-import { useAlert, useNotification } from '@hooks'
-import { NotificationMessage } from '@components/NotificationMessage'
-import {
-    AssessmentFolderCard,
-    AssessmentResponse,
-} from '@partials/sub-admin/assessmentEvidence'
 
 export const RequiredDocs = ({
     studentId,

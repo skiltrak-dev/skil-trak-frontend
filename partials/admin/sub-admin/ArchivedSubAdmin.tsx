@@ -13,7 +13,7 @@ import {
 } from '@components'
 import { SubAdminCell } from './components'
 import { PageHeading } from '@components/headings'
-import { AdminApi } from '@queries'
+import { AdminApi, commonApi } from '@queries'
 import { ColumnDef } from '@tanstack/react-table'
 import { SubAdmin } from '@types'
 import { useRouter } from 'next/router'
@@ -38,6 +38,7 @@ export const ArchivedSubAdmin = () => {
         skip: itemPerPage * page - itemPerPage,
         limit: itemPerPage,
     })
+    const [bulkAction, resultBulkAction] = commonApi.useBulkStatusMutation()
 
     const onEditSubAdmin = (subAdmin: SubAdmin) => {
         contextBar.setContent(<AddSubAdminCB edit subAdmin={subAdmin} />)
@@ -69,13 +70,13 @@ export const ArchivedSubAdmin = () => {
         },
         {
             text: 'Unarchive',
-            onClick: () => {},
+            onClick: () => { },
             Icon: MdUnarchive,
             color: 'text-orange-500 hover:bg-orange-100 hover:border-orange-200',
         },
         {
             text: 'Delete',
-            onClick: () => {},
+            onClick: () => { },
             Icon: FaTrash,
             color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
         },
@@ -149,7 +150,14 @@ export const ArchivedSubAdmin = () => {
         ),
         common: (ids: number[]) => (
             <div className="flex gap-x-2">
-                <ActionButton Icon={MdUnarchive} variant="warning">
+                <ActionButton
+                    onClick={() => {
+                        const arrayOfIds = ids.map((id: any) => id?.user.id)
+                        bulkAction({ ids: arrayOfIds, status: 'approved' })
+                    }}
+                    Icon={MdUnarchive}
+                    variant="warning"
+                >
                     Unarchive
                 </ActionButton>
                 <ActionButton Icon={FaTrash} variant="error">

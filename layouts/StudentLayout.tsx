@@ -52,6 +52,7 @@ export const StudentLayout = ({ pageTitle, children }: StudentLayoutProps) => {
             router.push(getRoutePath)
         }
     }, [router])
+
     useEffect(() => {
         if (userData?.status === UserStatus.Pending) {
             alert.warning({

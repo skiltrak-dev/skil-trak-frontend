@@ -1,32 +1,20 @@
 import { ReactElement, useEffect, useState } from 'react'
 
-import {
-    LoadingAnimation,
-    NoData,
-    PageTitle,
-    Typography,
-    Desktop,
-    Mobile,
-} from '@components'
-import { AssessmentCourseCard } from '@components/sections/student/AssessmentsContainer'
-import {
-    AssessmentsEvidence,
-    TitleAndMessages,
-} from '@components/sections/student/AssessmentsContainer/AssessmentsEvidence'
+import { Desktop, Mobile } from '@components'
+import { TitleAndMessages } from '@components/sections/student/AssessmentsContainer/AssessmentsEvidence'
 import { StudentLayout } from '@layouts'
 import { NextPageWithLayout } from '@types'
 
 // query
-import { NotificationMessage } from '@components/NotificationMessage'
-import { Actions } from '@components/sections/student/AssessmentsContainer/AssessmentsEvidence/components/Actions'
+import { MediaQueries } from '@constants'
 import { useNotification } from '@hooks'
+import { DesktopAssessment, MobileAssessment } from '@partials/student'
 import {
     useGetAssessmentsCoursesQuery,
     useGetAssessmentsFoldersQuery,
 } from '@queries'
-import { DesktopAssessment, MobileAssessment } from '@partials/student'
 import { useMediaQuery } from 'react-responsive'
-import { MediaQueries } from '@constants'
+import { getCourseResult } from '@utils'
 
 type Props = {}
 
@@ -36,10 +24,7 @@ const AssessmentEvidence: NextPageWithLayout = (props: Props) => {
     const [selectedCourse, setSelectedCourse] = useState<any | null>(null)
     const [selectedFolder, setSelectedFolder] = useState<any | null>(null)
 
-    const result = selectedCourse?.results?.reduce(
-        (a: any, b: any) => (a.totalSubmission > b.totalSubmission ? a : b),
-        1
-    )
+    const result = getCourseResult(selectedCourse?.results)
 
     const { notification } = useNotification()
 

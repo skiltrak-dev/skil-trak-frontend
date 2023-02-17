@@ -1,18 +1,20 @@
 import { BaseQueryFn } from '@reduxjs/toolkit/dist/query/baseQueryTypes'
 import { EndpointBuilder } from '@reduxjs/toolkit/dist/query/endpointDefinitions'
-import { PaginatedResponse, Student, UserStatus } from '@types'
+import { PaginatedResponse, Student, UserCount, UserStatus } from '@types'
 
 const PREFIX = 'subadmin'
 export const studentsEndpoints = (
     builder: EndpointBuilder<BaseQueryFn, string, string>
 ) => ({
+    subAdminStudentCount: builder.query<any, void>({
+        query: () => `${PREFIX}/students/count`,
+        providesTags: ['SubAdminStudents'],
+    }),
     getSubAdminStudents: builder.query<any, any>({
-        query: (params) => {
-            return {
-                url: `${PREFIX}/students/list-all`,
-                params,
-            }
-        },
+        query: (params) => ({
+            url: `${PREFIX}/students/list-all`,
+            params,
+        }),
         providesTags: ['SubAdminStudents'],
     }),
 
@@ -191,7 +193,18 @@ export const studentsEndpoints = (
                 body: { status },
             }
         },
-        invalidatesTags: ['Students'],
+        invalidatesTags: ['Students', 'SubAdminStudents'],
+    }),
+    changeStudentCurrentStatus: builder.mutation<
+        Student,
+        { id: number; status: UserStatus | null }
+    >({
+        query: ({ id, status }) => ({
+            url: `${PREFIX}/student/status/update/${id}`,
+            method: 'POST',
+            body: { status },
+        }),
+        invalidatesTags: ['Students', 'SubAdminStudents'],
     }),
 
     // updateSubAdminRtoStudentStatus: builder.mutation<any, any | null>({

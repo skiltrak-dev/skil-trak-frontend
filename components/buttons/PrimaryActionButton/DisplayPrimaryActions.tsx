@@ -21,6 +21,7 @@ export const DisplayPrimaryActions = ({
                     image={action.image}
                     animation={action.animation}
                     id={action.id}
+                    badge={action?.badge}
                 />
             ))}
         </div>

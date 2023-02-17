@@ -17,9 +17,9 @@ import { PageHeading } from '@components/headings'
 import { ColumnDef } from '@tanstack/react-table'
 import { FaEdit, FaEye, FaFileExport, FaFilter, FaTrash } from 'react-icons/fa'
 
-import { AdminApi } from '@queries'
+import { AdminApi, commonApi } from '@queries'
 import { MdBlock, MdEmail, MdPhoneIphone } from 'react-icons/md'
-import { ReactElement, useState } from 'react'
+import { ReactElement, useState, useEffect } from 'react'
 import { CgUnblock } from 'react-icons/cg'
 import { ProgressCell, SectorCell, StudentCellInfo } from './components'
 import { Student } from '@types'
@@ -42,12 +42,13 @@ export const BlockedStudent = () => {
     // hooks
     const { passwordModal, onViewPassword } = useActionModal()
 
-    const { isLoading, data, isError } = AdminApi.Students.useListQuery({
+    const { isLoading, data, isError, refetch } = AdminApi.Students.useListQuery({
         search: `status:blocked`,
         skip: itemPerPage * page - itemPerPage,
         limit: itemPerPage,
     })
-
+    const [bulkAction, resultBulkAction] = commonApi.useBulkStatusMutation();
+   
     const onModalCancelClicked = () => {
         setModal(null)
     }
@@ -188,7 +189,10 @@ export const BlockedStudent = () => {
         ),
         common: (ids: number[]) => (
             <div className="flex gap-x-2">
-                <ActionButton Icon={CgUnblock} variant="warning">
+                <ActionButton onClick={() => {
+                    const arrayOfIds = ids.map((id: any) => id?.user.id)
+                    bulkAction({ ids: arrayOfIds, status: 'approved' })
+                }} Icon={CgUnblock} variant="warning">
                     Unblock
                 </ActionButton>
                 <ActionButton Icon={FaTrash} variant="error">

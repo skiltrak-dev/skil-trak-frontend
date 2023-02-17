@@ -18,30 +18,9 @@ import { RecentAppointment } from '@partials/common'
 import { useContextBar, useJoyRide } from '@hooks'
 
 // query
+import { SubAdminApi } from '@queries'
 
-const PrimaryLinks = [
-    {
-        title: 'Workplace Requests',
-        description: 'Student Workplace',
-        link: 'tasks/workplace?tab=all',
-        animation: Animations.Student.Appointments.AssessmentTool,
-        id: 'workplace',
-    },
-    {
-        title: 'Appointments',
-        description: 'Appointments',
-        link: 'tasks/appointments',
-        animation: Animations.Student.Appointments.AssessmentTool,
-        id: 'appointments',
-    },
-    {
-        title: 'Assessment Submissions',
-        description: 'Some helping text',
-        link: 'tasks/assessment-evidence?tab=pending',
-        animation: Animations.Student.Appointments.AssessmentEvidence,
-        id: 'assessment-evidence',
-    },
-]
+// query
 
 const RelatedQuestions = [
     {
@@ -83,6 +62,7 @@ const OtherQuestions = [
 
 const SubAdminTasks: NextPageWithLayout = () => {
     const { setContent } = useContextBar()
+    const statistics = SubAdminApi.Count.statistics()
     useEffect(() => {
         setContent(
             <>
@@ -103,6 +83,39 @@ const SubAdminTasks: NextPageWithLayout = () => {
             }, 1200)
         }
     }, [])
+
+    const PrimaryLinks = [
+        {
+            title: 'Workplace Requests',
+            description: 'Student Workplace',
+            link: 'tasks/workplace?tab=all',
+            animation: Animations.Student.Appointments.AssessmentTool,
+            id: 'workplace',
+            badge: {
+                text: statistics?.data?.workplaceRequest,
+                loading: statistics.isLoading,
+            },
+        },
+        {
+            title: 'Appointments',
+            description: 'Appointments',
+            link: 'tasks/appointments',
+            animation: Animations.Student.Appointments.AssessmentTool,
+            id: 'appointments',
+        },
+        {
+            title: 'Assessment Submissions',
+            description: 'Some helping text',
+            link: 'tasks/assessment-evidence?tab=pending',
+            animation: Animations.Student.Appointments.AssessmentEvidence,
+            id: 'assessment-evidence',
+            badge: {
+                text: statistics?.data?.assessmentEvidence,
+                loading: statistics.isLoading,
+            },
+        },
+    ]
+
     // WORKPLACE JOY RIDE - END
     return (
         <div className="flex flex-col">

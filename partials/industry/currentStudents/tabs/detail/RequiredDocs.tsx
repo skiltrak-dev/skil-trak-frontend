@@ -1,11 +1,18 @@
 import { useEffect, useState } from 'react'
 
 //components
-import { CourseCard, LoadingAnimation, NoData, Typography } from '@components'
+import {
+    CourseCard,
+    LoadingAnimation,
+    NoData,
+    Typography,
+    AssessmentFolderCard,
+    AssessmentResponse,
+} from '@components'
 
 // queries
 import { useNotification } from '@hooks'
-import { AssessmentFolderCard, AssessmentResponse } from '@partials/sub-admin'
+
 import {
     useGetAssessmentEvidenceDetailQuery,
     IndustryApi,
@@ -51,7 +58,6 @@ export const RequiredDocs = ({
             )
         }
     }, [courses])
-
 
     useEffect(() => {
         if (getRequiredDocs.isSuccess && getRequiredDocs.data) {

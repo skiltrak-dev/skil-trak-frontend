@@ -62,7 +62,7 @@ export const NotesCard = ({ note, pinnedNote, setEditValues }: any) => {
                 <LoadingAnimation size={90} />
             ) : (
                 <div>
-                    <div className="flex justify-between mb-2">
+                    <div className="flex justify-between mb-2 gap-x-2">
                         <p className="text-sm font-semibold">
                             {pinnedNote
                                 ? ellipsisText(note.title, 15)

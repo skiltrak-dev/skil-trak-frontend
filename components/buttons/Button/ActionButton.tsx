@@ -24,6 +24,7 @@ interface ButtonProps {
     mini?: boolean
     simple?: boolean
     rounded?: boolean
+    submit?: boolean
 }
 
 export const ActionButton = ({
@@ -36,6 +37,7 @@ export const ActionButton = ({
     mini,
     simple,
     rounded,
+    submit,
 }: ButtonProps) => {
     const classes = classNames({
         'text-xs font-medium uppercase transition-all duration-300 focus:outline-none shadow':
@@ -78,11 +80,12 @@ export const ActionButton = ({
     return (
         <button
             disabled={disabled}
-            type={'button'}
+            type={submit ? 'submit' : 'button'}
             className={simple ? simpleClasses : classes}
-            onClick={() => {
-                onClick && onClick()
-            }}
+            // onClick={() => {
+            //     onClick && onClick()
+            // }}
+            {...(!submit ? { onClick: () => onClick && onClick() } : {})}
         >
             <div className="flex items-center justify-center gap-x-2">
                 {mini ? (
