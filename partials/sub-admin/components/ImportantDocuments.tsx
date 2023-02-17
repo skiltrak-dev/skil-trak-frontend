@@ -1,6 +1,10 @@
 import { ImportantDocument } from '@components'
+import { useJoyRide } from '@hooks'
+import { useEffect } from 'react'
 
 export const ImportantDocuments = () => {
+   
+
     return (
         <div>
             <p className="text-sm font-semibold mb-2">Important Documents</p>

@@ -176,7 +176,7 @@ export const rtoEndpoints = (
         },
         invalidatesTags: ['RTOS'],
     }),
-    checkStudentEmail: builder.mutation({
+    checkStudentEmail: builder.mutation<any, any>({
         query: ({ body }: any) => {
             return {
                 url: `${PREFIX}/email/find`,

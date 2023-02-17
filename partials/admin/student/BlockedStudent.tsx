@@ -258,6 +258,7 @@ export const BlockedStudent = () => {
                             />
                         )
                     )}
+                    
                 </Card>
             </div>
         </>
