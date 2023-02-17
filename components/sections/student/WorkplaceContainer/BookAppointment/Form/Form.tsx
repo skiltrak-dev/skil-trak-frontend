@@ -65,7 +65,7 @@ export const Form = ({
             <Typography variant="small" color="text-gray-400">
                 Appointment Information
             </Typography>
-            <div className="flex flex-col md:flex-row md:items-center gap-y-2 gap-x-5 mb-5">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-y-2 gap-x-5 mb-5">
                 <Select
                     name="coordinator"
                     label="WBT Coordinator"
@@ -91,7 +91,10 @@ export const Form = ({
                     onlyValue
                 />
             </div>
-            <div className="flex flex-col md:flex-row md:items-center gap-x-5">
+            <Typography variant={'label'} color={'text-gray-700'}>
+                Workplace Information
+            </Typography>
+            <div className="flex flex-col md:flex-row md:items-center gap-x-5 mt-2">
                 <TextInput
                     name="name"
                     placeholder="Name"

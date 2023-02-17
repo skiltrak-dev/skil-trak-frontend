@@ -5,44 +5,41 @@ import {
     Table,
     TechnicalError,
 } from '@components'
+import { PageHeading } from '@components/headings'
 import { useGetAssessmentEvidenceQuery } from '@queries'
 import { useRouter } from 'next/router'
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { useColumns } from './hooks'
-import { useJoyRide } from '@hooks'
-export const PendingAssessment = () => {
+
+export const FilteredAssessments = ({
+    assessments,
+    setPage,
+    itemPerPage,
+    setItemPerPage,
+}: {
+    assessments: any
+    setPage: any
+    itemPerPage: any
+    setItemPerPage: any
+}) => {
     const columns = useColumns()
     const router = useRouter()
 
-    const [itemPerPage, setItemPerPage] = useState(50)
-    const [page, setPage] = useState(1)
-
-    const { isLoading, isError, data } = useGetAssessmentEvidenceQuery({
-        search: `result:pending`,
-        skip: itemPerPage * page - itemPerPage,
-        limit: itemPerPage,
-    })
-    // WORKPLACE JOY RIDE - Start
-    const joyride = useJoyRide()
-
-    useEffect(() => {
-        if (joyride.state.tourActive) {
-            setTimeout(() => {
-                joyride.setState({ ...joyride.state, run: true, stepIndex: 1 })
-            }, 1200)
-        }
-    }, [])
-
     return (
         <div>
+            <PageHeading
+                title={'Filtered Assessments'}
+                subtitle={'List of Filtered Assessments'}
+            />
+
             <Card noPadding>
-                {isError && <TechnicalError />}
-                {isLoading ? (
+                {assessments.isError && <TechnicalError />}
+                {assessments.isLoading || assessments?.isFetching ? (
                     <LoadingAnimation height="h-[60vh]" />
-                ) : data && data?.data.length ? (
+                ) : assessments.data && assessments.data?.data.length ? (
                     <Table
                         columns={columns}
-                        data={data.data}
+                        data={assessments.data.data}
                         // quickActions={quickActionsElements}
                         enableRowSelection
                     >
@@ -59,18 +56,18 @@ export const PendingAssessment = () => {
                                         <div className="flex gap-x-2">
                                             {quickActions}
                                             {pagination(
-                                                data?.pagination,
+                                                assessments.data?.pagination,
                                                 setPage
                                             )}
                                         </div>
                                     </div>
-                                    <div id='assessment-submission' className="px-6">{table}</div>
+                                    <div className="px-6">{table}</div>
                                 </div>
                             )
                         }}
                     </Table>
                 ) : (
-                    !isError && (
+                    !assessments.isError && (
                         <EmptyData
                             title={'No Pending Assessment Evidence!'}
                             description={

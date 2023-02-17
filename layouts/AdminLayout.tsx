@@ -48,7 +48,7 @@ const routes: Route[] = [
     },
     {
         text: 'Students',
-        path: getRoutePath('/student?tab=approved'),
+        path: getRoutePath('/student?tab=active'),
         Icon: FaUserGraduate,
     },
     {

@@ -21,8 +21,6 @@ export const StudentTimer = ({
         setMounted(true)
     }, [])
 
-    console.log('datedatedatedate', date)
-
     const countDownRendered = ({
         days,
         hours,

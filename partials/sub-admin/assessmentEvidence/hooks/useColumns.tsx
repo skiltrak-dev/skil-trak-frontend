@@ -16,6 +16,7 @@ import {
 // types
 import { Student } from '@types'
 import { AssessmentCellInfo } from '../components'
+import { MdEmail, MdPhoneIphone } from 'react-icons/md'
 
 export const useColumns = () => {
     const router = useRouter()
@@ -73,47 +74,33 @@ export const useColumns = () => {
                 } = row.original?.student?.rto
 
                 return (
-                    <div className="flex items-center relative">
-                        <div className="flex items-center gap-x-2">
-                            <div>
-                                {avatar ? (
-                                    <Image
-                                        className="rounded-full w-7 h-7"
-                                        src={avatar}
-                                        alt={''}
-                                        width={50}
-                                        height={50}
-                                    />
-                                ) : (
-                                    <InitialAvatar name={name} />
-                                )}
+                    <Link
+                        legacyBehavior
+                        href={`/portals/sub-admin/users/rtos/${id}?tab=overview`}
+                    >
+                        <a className="flex items-center gap-x-2">
+                            <div className="shadow-inner-image rounded-full">
+                                <InitialAvatar name={name} imageUrl={avatar} />
                             </div>
-                            <Link legacyBehavior
-                                href={`/portals/sub-admin/users/rtos/${id}?tab=overview`}
-                            >
-                                <a>
-                                    <Typography color={'black'}>
-                                        {name}
-                                    </Typography>
-                                    <div className="flex items-center gap-x-2">
-                                        <FaPhoneSquareAlt className="text-gray" />
-                                        <Typography variant={'muted'}>
-                                            {phone}
-                                        </Typography>
-                                    </div>
-                                    <div className="flex items-center gap-x-2">
-                                        <FaEnvelope />
-                                        <Typography
-                                            variant={'muted'}
-                                            color={'gray'}
-                                        >
-                                            {email}
-                                        </Typography>
-                                    </div>
-                                </a>
-                            </Link>
-                        </div>
-                    </div>
+                            <div>
+                                <p className={'font-semibold'}>{name}</p>
+                                <div className="font-medium text-xs text-gray-500">
+                                    <p className="flex items-center gap-x-1">
+                                        <span>
+                                            <MdEmail />
+                                        </span>
+                                        {email}
+                                    </p>
+                                    <p className="flex items-center gap-x-1">
+                                        <span>
+                                            <MdPhoneIphone />
+                                        </span>
+                                        {phone}
+                                    </p>
+                                </div>
+                            </div>
+                        </a>
+                    </Link>
                 )
             },
         },

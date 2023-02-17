@@ -26,7 +26,6 @@ export const PrimaryActionButton = ({
     shadow = true,
     badge,
 }: PrimaryActionButtonProps) => {
-    console.log('count')
     return (
         <Link legacyBehavior href={`${link}` || '/under-construction'}>
             <a
