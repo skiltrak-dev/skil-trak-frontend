@@ -1,6 +1,8 @@
+import { useEffect } from 'react'
 import classNames from 'classnames'
 import Image from 'next/image'
 import Link from 'next/link'
+import { useJoyRide } from '@hooks'
 export const ImportantDocument = ({
     imageUrl,
     title,
@@ -23,10 +25,19 @@ export const ImportantDocument = ({
         'text-sm text-gray-500 px-2 py-1': detail,
         'text-xs font-semibold drop-shadow text-white px-2 py-1': !detail,
     })
+    // WORKPLACE JOY RIDE - Start
+    const joyride = useJoyRide()
 
+    useEffect(() => {
+        if (joyride.state.tourActive) {
+            setTimeout(() => {
+                joyride.setState({ ...joyride.state, run: true, stepIndex: 0 })
+            }, 1200)
+        }
+    }, [])
     return (
         <Link legacyBehavior href={href ? href : '#'}>
-            <a className="w-full">
+            <a id='important-docs' className="w-full">
                 <div className={detailContainerClasses}>
                     <Image
                         width={detail ? 60 : 200}

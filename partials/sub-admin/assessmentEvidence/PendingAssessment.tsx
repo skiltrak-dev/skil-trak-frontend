@@ -7,9 +7,9 @@ import {
 } from '@components'
 import { useGetAssessmentEvidenceQuery } from '@queries'
 import { useRouter } from 'next/router'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useColumns } from './hooks'
-
+import { useJoyRide } from '@hooks'
 export const PendingAssessment = () => {
     const columns = useColumns()
     const router = useRouter()
@@ -22,6 +22,16 @@ export const PendingAssessment = () => {
         skip: itemPerPage * page - itemPerPage,
         limit: itemPerPage,
     })
+    // WORKPLACE JOY RIDE - Start
+    const joyride = useJoyRide()
+
+    useEffect(() => {
+        if (joyride.state.tourActive) {
+            setTimeout(() => {
+                joyride.setState({ ...joyride.state, run: true, stepIndex: 1 })
+            }, 1200)
+        }
+    }, [])
 
     return (
         <div>
@@ -54,7 +64,7 @@ export const PendingAssessment = () => {
                                             )}
                                         </div>
                                     </div>
-                                    <div className="px-6">{table}</div>
+                                    <div id='assessment-submission' className="px-6">{table}</div>
                                 </div>
                             )
                         }}
