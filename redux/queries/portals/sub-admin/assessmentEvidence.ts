@@ -5,6 +5,10 @@ const PREFIX = 'subadmin'
 export const assessmentEvidenceEndpoints = (
     builder: EndpointBuilder<BaseQueryFn, string, string>
 ) => ({
+    assessmentCount: builder.query<any, void>({
+        query: () => `${PREFIX}/students/assessment-evidence/count`,
+        providesTags: ['AssessmentEvidence'],
+    }),
     getAssessmentEvidence: builder.query<any, any>({
         query: (params) => ({
             url: `${PREFIX}/students/assessment-evidence/list-all`,

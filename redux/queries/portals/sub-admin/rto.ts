@@ -16,10 +16,13 @@ export const subAdminRtoEndpoints = (
         query: (id) => `${PREFIX}/rto/profile/${id}`,
         providesTags: ['SubAdminRtos'],
     }),
-    getSubAdminRtosStudents: builder.query<any, string>({
-        query: (id) => ({
-            url: `${PREFIX}/rto/students/list/${id}`,
-            params: { id },
+    getSubAdminRtosStudents: builder.query<
+        any,
+        { id: number; skip: number; limit: number }
+    >({
+        query: (params) => ({
+            url: `${PREFIX}/rto/students/list/${params.id}`,
+            params,
         }),
         providesTags: ['SubAdminRtos'],
     }),
