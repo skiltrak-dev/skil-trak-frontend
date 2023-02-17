@@ -1,5 +1,3 @@
-export * from './AssessmentFolderResponse'
-export * from './AssessmentFolderCard'
 export * from './Actions'
 export * from './AssessmentCellInfo'
-export * from './FinalResult'
+export * from './AssessmentFolderResponse'

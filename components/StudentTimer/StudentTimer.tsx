@@ -9,15 +9,19 @@ import { EditTimer } from './EditTimer'
 export const StudentTimer = ({
     studentId,
     date,
+    studentStatus,
 }: {
     studentId: number | undefined
     date: Date
+    studentStatus: string
 }) => {
     const [modal, setModal] = useState<ReactElement | null>(null)
     const [mounted, setMounted] = useState(false)
     useEffect(() => {
         setMounted(true)
     }, [])
+
+    console.log('datedatedatedate', date)
 
     const countDownRendered = ({
         days,
@@ -38,7 +42,10 @@ export const StudentTimer = ({
                     <p className="text-sm font-semibold text-red-50">
                         Your account is expired
                     </p>
-                    <button className="text-xs font-medium text-red-200 hover:text-white">
+                    <button
+                        onClick={onDateClick}
+                        className="text-xs font-medium text-red-200 hover:text-white"
+                    >
                         Click To Re-Activate
                     </button>
                 </div>
@@ -81,10 +88,12 @@ export const StudentTimer = ({
                         </div>
                     </div>
                     <div
-                        className="bg-blue-100 rounded-full p-1"
-                        title={'Edit Expiry Date'}
+                        className="bg-blue-100 rounded-full p-1 group"
                         onClick={onDateClick}
                     >
+                        <div className="group-hover:block hidden text-xs whitespace-nowrap shadow-lg text-gray-100 bg-gray-700 px-2 py-1 rounded-md absolute z-10 -top-0.5 right-0">
+                            Edit Expiry Date
+                        </div>
                         <AiFillEdit className="text-blue-400  cursor-pointer" />
                     </div>
                 </div>

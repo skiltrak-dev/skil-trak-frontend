@@ -14,6 +14,7 @@ import { CommonApi } from '@queries'
 import { Note as NoteType } from '@types'
 import { getCommonDates, getDate } from '@utils'
 import moment from 'moment'
+import { NotesCard } from '@components/sections/subAdmin'
 
 export const AllCommunicationTab = ({ user }: { user: any }) => {
     const contextBar = useContextBar()
@@ -67,6 +68,10 @@ export const AllCommunicationTab = ({ user }: { user: any }) => {
                                                                 item?.updatedAt
                                                             }
                                                         >
+                                                            {/* <NotesCard
+                                                                key={item.id}
+                                                                note={item}
+                                                            /> */}
                                                             <Note
                                                                 key={item.id}
                                                                 note={item}

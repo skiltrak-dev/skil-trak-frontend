@@ -4,7 +4,7 @@ import OutsideClickHandler from 'react-outside-click-handler'
 
 //Layouts
 import { SubAdminLayout } from '@layouts'
-import { NextPageWithLayout } from '@types'
+import { NextPageWithLayout, UserStatus } from '@types'
 
 //components
 import {
@@ -25,7 +25,7 @@ import {
     useUpdateAssessmentToolArchiveMutation,
 } from '@queries'
 
-import { useContextBar, useNavbar } from '@hooks'
+import { useAlert, useContextBar, useNavbar } from '@hooks'
 
 import { DetailTabs } from '@partials/sub-admin/students'
 import { AddWorkplace } from '@partials/sub-admin/students'
@@ -38,6 +38,8 @@ export const StudentProfile = ({ noTitle }: { noTitle?: boolean }) => {
     const router = useRouter()
     const { id } = router.query
 
+    const { alert } = useAlert()
+
     const [addWorkplace, setAddWorkplace] = useState<boolean>(false)
     const { data, isLoading, isError, isSuccess, refetch } =
         useGetSubAdminStudentDetailQuery(Number(id), {
@@ -47,15 +49,47 @@ export const StudentProfile = ({ noTitle }: { noTitle?: boolean }) => {
     // hooks
     const navBar = useNavbar()
     const { onAcceptClicked, onRejectClicked, modal } = useActionModals()
-
     useEffect(() => {
-        navBar.setSubTitle(data?.user?.name)
-    }, [data])
-
-    useEffect(() => {
-        if (isSuccess) {
+        if (isSuccess && data) {
             contextBar.setContent(<SubAdminStudentProfile student={data} />)
             contextBar.show(false)
+            navBar.setSubTitle(data?.user?.name)
+            const showAlert = () => {
+                switch (data?.user?.status) {
+                    case UserStatus.Pending:
+                        alert.warning({
+                            title: 'Student is Pending',
+                            description: 'Student is Pending',
+                            autoDismiss: false,
+                        })
+                        break
+                    case UserStatus.Archived:
+                        alert.warning({
+                            title: 'Student is Archived',
+                            description: 'Student is Archived',
+                            autoDismiss: false,
+                        })
+                        break
+                    case UserStatus.Rejected:
+                        alert.error({
+                            title: 'Student is Rejected',
+                            description: 'Student is Rejected',
+                            autoDismiss: false,
+                        })
+                        break
+                    case UserStatus.Blocked:
+                        alert.error({
+                            title: 'Student is Blocked',
+                            description: 'Student is Blocked',
+                            autoDismiss: false,
+                        })
+                        break
+
+                    default:
+                        break
+                }
+            }
+            showAlert()
         }
     }, [data])
 
@@ -176,8 +210,8 @@ export const StudentProfile = ({ noTitle }: { noTitle?: boolean }) => {
                         <BackButton
                             link={
                                 role === 'admin'
-                                    ? '/portals/admin/student?tab=approved'
-                                    : '/portals/sub-admin/students?tab=all'
+                                    ? 'portals/admin/student?tab=approved'
+                                    : 'portals/sub-admin/students?tab=all'
                             }
                             text="Students"
                         />
@@ -187,15 +221,13 @@ export const StudentProfile = ({ noTitle }: { noTitle?: boolean }) => {
                             <div />
                         )}
                     </div>
-                    {isSuccess && (
+                    {isSuccess && data && (
                         <div className="flex flex-col items-end gap-y-2">
                             <div className="pl-4">
                                 <StudentTimer
                                     studentId={data?.user?.id}
-                                    date={
-                                        data?.expiryDate ||
-                                        new Date('02/25/2023')
-                                    }
+                                    date={data?.expiryDate}
+                                    studentStatus={data?.user?.studentStatus}
                                 />
                             </div>
                             {role !== 'rto' && statusBaseActions()}

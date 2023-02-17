@@ -6,6 +6,7 @@ import {
     Filter,
     LoadingAnimation,
     RtoFilters,
+    StudentStatusProgressCell,
     Table,
     TableAction,
     TableActionOption,
@@ -27,9 +28,15 @@ import {
 } from 'react-icons/md'
 import { useState, ReactElement } from 'react'
 import { CgUnblock } from 'react-icons/cg'
-import { IndustryCell, SectorCell, StudentCellInfo } from './components'
+import {
+    IndustryCell,
+    ProgressCell,
+    SectorCell,
+    StudentCellInfo,
+} from './components'
 import { useRouter } from 'next/router'
 import { DeleteModal, AcceptModal } from './modals'
+import { checkStudentStatus, checkWorkplaceStatus } from '@utils'
 
 export const ArchivedStudent = () => {
     const router = useRouter()
@@ -115,6 +122,26 @@ export const ArchivedStudent = () => {
             header: () => <span>Sectors</span>,
             cell: (info) => {
                 return <SectorCell student={info.row.original} />
+            },
+        },
+        {
+            accessorKey: 'progress',
+            header: () => <span>Progress</span>,
+            cell: ({ row }) => {
+                const workplace = row.original.workplace[0]
+                const industries = row.original?.industries
+                const steps = checkWorkplaceStatus(workplace?.currentStatus)
+                const studentStatus = checkStudentStatus(
+                    row.original?.studentStatus
+                )
+
+                return industries?.length > 0 ? (
+                    <StudentStatusProgressCell step={studentStatus} />
+                ) : (
+                    <ProgressCell
+                        step={steps > 14 ? 14 : steps < 1 ? 1 : steps}
+                    />
+                )
             },
         },
         {

@@ -26,7 +26,6 @@ import {
     FaChevronRight,
 } from 'react-icons/fa'
 
-
 export const AssessmentResponse = ({
     folder,
     studentId,
@@ -146,7 +145,7 @@ export const AssessmentResponse = ({
                     </div>
                     <div className="bg-white">
                         {getAssessmentResponse.isLoading ||
-                            getAssessmentResponse.isFetching ? (
+                        getAssessmentResponse.isFetching ? (
                             <div className="flex flex-col justify-center items-center gap-y-2">
                                 <LoadingAnimation size={50} />
                                 <Typography variant="label">
@@ -154,7 +153,7 @@ export const AssessmentResponse = ({
                                 </Typography>
                             </div>
                         ) : getAssessmentResponse?.data?.files &&
-                            getAssessmentResponse?.data?.files?.length > 0 ? (
+                          getAssessmentResponse?.data?.files?.length > 0 ? (
                             // <div className="p-2 grid grid-cols-6 gap-x-2  overflow-hidden">
                             <div className="p-2 flex flex-wrap gap-x-2 gap-y-2 items-end  overflow-hidden">
                                 {getAssessmentResponse?.data?.files.map(
@@ -224,7 +223,7 @@ export const AssessmentResponse = ({
                                 loading={
                                     addCommentResult?.isLoading &&
                                     addCommentResult?.originalArgs?.status ===
-                                    'approved'
+                                        'approved'
                                 }
                                 disabled={addCommentResult?.isLoading}
                             />

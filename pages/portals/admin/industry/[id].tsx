@@ -6,7 +6,7 @@ import {
     LoadingAnimation,
     TechnicalError,
 } from '@components'
-import { useContextBar, useNavbar } from '@hooks'
+import { useAlert, useContextBar, useNavbar } from '@hooks'
 import { AdminLayout } from '@layouts'
 import { NextPageWithLayout, UserStatus } from '@types'
 import { useRouter } from 'next/router'
@@ -26,6 +26,8 @@ const Detail: NextPageWithLayout = () => {
     const router = useRouter()
     const navBar = useNavbar()
     const contextBar = useContextBar()
+
+    const { alert } = useAlert()
 
     const {
         modal,
@@ -50,8 +52,44 @@ const Detail: NextPageWithLayout = () => {
         if (industry.isSuccess) {
             contextBar.setContent(<IndustryProfile data={industry.data} />)
             contextBar.show(false)
+            const showAlert = () => {
+                switch (industry.data?.user?.status) {
+                    case UserStatus.Pending:
+                        alert.warning({
+                            title: 'Industry is Pending',
+                            description: 'Industry is Pending',
+                            autoDismiss: false,
+                        })
+                        break
+                    case UserStatus.Archived:
+                        alert.warning({
+                            title: 'Industry is Archived',
+                            description: 'Industry is Archived',
+                            autoDismiss: false,
+                        })
+                        break
+                    case UserStatus.Rejected:
+                        alert.error({
+                            title: 'Industry is Rejected',
+                            description: 'Industry is Rejected',
+                            autoDismiss: false,
+                        })
+                        break
+                    case UserStatus.Blocked:
+                        alert.error({
+                            title: 'Industry is Blocked',
+                            description: 'Industry is Blocked',
+                            autoDismiss: false,
+                        })
+                        break
+
+                    default:
+                        break
+                }
+            }
+            showAlert()
         }
-    }, [industry.data])
+    }, [industry])
 
     const role = getUserCredentials()?.role
 

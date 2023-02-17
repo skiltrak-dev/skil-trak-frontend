@@ -2,6 +2,7 @@ import { createContext, useContext, useEffect, useState } from 'react'
 
 import { Alert, AlertType, AlertProps } from '@components'
 import { getToken } from '@utils'
+import { useRouter } from 'next/router'
 
 type AlertObjectType = {
     success: (props: AlertProps) => void
@@ -19,6 +20,8 @@ interface AlertContextType {
 const AlertContext = createContext<AlertContextType | null>(null)
 
 export const AlertProvider = ({ children }: { children: React.ReactNode }) => {
+    const router = useRouter()
+
     const [lastId, setLastId] = useState(1)
     const [alerts, setAlerts] = useState<any>([])
 
