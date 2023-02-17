@@ -47,9 +47,7 @@ export const ApprovedStudent = () => {
             skip: itemPerPage * page - itemPerPage,
             limit: itemPerPage,
         })
-    const [bulkAction, resultBulkAction] = commonApi.useBulkStatusMutation();
-
-    
+    const [bulkAction, resultBulkAction] = commonApi.useBulkStatusMutation()
 
     const onModalCancelClicked = () => {
         setModal(null)
@@ -136,9 +134,7 @@ export const ApprovedStudent = () => {
                     row.original?.studentStatus
                 )
 
-                return industries?.length > 0 ? (
-                    <StudentStatusProgressCell step={studentStatus} />
-                ) : (
+                return (
                     <ProgressCell
                         step={steps > 14 ? 14 : steps < 1 ? 1 : steps}
                     />
@@ -173,12 +169,16 @@ export const ApprovedStudent = () => {
             </div>
         ),
         common: (ids: number[]) => (
-            <ActionButton onClick={() => {
-                const arrayOfIds = ids.map((id: any) => id?.user.id)
-                bulkAction({ ids: arrayOfIds, status: 'blocked' })
-            }} Icon={MdBlock} variant="error" >
+            <ActionButton
+                onClick={() => {
+                    const arrayOfIds = ids.map((id: any) => id?.user.id)
+                    bulkAction({ ids: arrayOfIds, status: 'blocked' })
+                }}
+                Icon={MdBlock}
+                variant="error"
+            >
                 Block
-            </ActionButton >
+            </ActionButton>
         ),
     }
 

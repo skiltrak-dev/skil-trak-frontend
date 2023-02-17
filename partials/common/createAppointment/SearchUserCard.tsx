@@ -9,11 +9,14 @@ import {
     LoadingAnimation,
     Button,
     NoData,
+    PageSize,
+    Pagination,
 } from '@components'
 import { SearchedUserCard } from './SearchedUserCard'
 
 // query
-import { useSearchUserQuery } from '@queries'
+import { useSearchSubAdminUsersQuery, useSearchUserQuery } from '@queries'
+import { getUserCredentials } from '@utils'
 
 export const SearchUserCard = ({
     onClick,
@@ -23,23 +26,56 @@ export const SearchUserCard = ({
     selectedPerson,
 }: any) => {
     const [search, setSearch] = useState('')
-    const [searchValue, setSearchValue] = useState('')
+    const [searchValue, setSearchValue] = useState<string>('')
     const [industryNotFound, setIndustryNotFound] = useState(false)
+
+    const [page, setPage] = useState(1)
+    const [itemPerPage, setItemPerPage] = useState(10)
+    const [searchAppointment, setSearchAppointment] = useState<any>({})
 
     useEffect(() => {
         setIndustryNotFound(false)
     }, [selectedAppointment])
 
-    const searchAppointment = useSearchUserQuery(
+    useEffect(() => {
+        setPage(1)
+        setItemPerPage(10)
+    }, [searchValue])
+    console.log('searchValue', searchValue)
+
+    const role = getUserCredentials()?.role
+
+    const subAdminUsers = useSearchSubAdminUsersQuery(
         {
             search,
             role:
                 selectedAppointment === 'Coordinator'
                     ? 'subadmin'
                     : selectedAppointment?.toLowerCase(),
+            skip: itemPerPage * page - itemPerPage,
+            limit: itemPerPage,
         },
-        { skip: !search }
+        { skip: !search || role === 'admin' }
     )
+    const adminUsers = useSearchUserQuery(
+        {
+            search,
+            role:
+                selectedAppointment === 'Coordinator'
+                    ? 'subadmin'
+                    : selectedAppointment?.toLowerCase(),
+            skip: itemPerPage * page - itemPerPage,
+            limit: itemPerPage,
+        },
+        { skip: !search || role === 'subadmin' }
+    )
+
+    useEffect(() => {
+        setSearchAppointment(adminUsers)
+    }, [adminUsers])
+    useEffect(() => {
+        setSearchAppointment(subAdminUsers)
+    }, [subAdminUsers])
 
     const delayedSearchFor = useCallback(
         debounce((values: any) => {
@@ -68,7 +104,7 @@ export const SearchUserCard = ({
                                 placeholder={'Search BY Name/Email...'}
                                 validationIcons
                                 onChange={(e: any) => {
-                                    setSearchValue(searchValue)
+                                    setSearchValue(e.target.value)
                                     onFilterChange(e.target.value)
                                 }}
                                 value={searchValue}
@@ -81,12 +117,27 @@ export const SearchUserCard = ({
                                 text={`There is some network issue, please refresh your browser`}
                             />
                         )}
+                        {searchAppointment.data?.data?.length > 0 && (
+                            <div className="flex items-center justify-between">
+                                <PageSize
+                                    itemPerPage={itemPerPage}
+                                    setItemPerPage={setItemPerPage}
+                                />
+                                <Pagination
+                                    pagination={
+                                        searchAppointment?.data?.pagination
+                                    }
+                                    setPage={setPage}
+                                />
+                            </div>
+                        )}
                         <div className="flex flex-col gap-y-2">
-                            {searchAppointment.isLoading ? (
+                            {searchAppointment.isLoading ||
+                            searchAppointment.isFetching ? (
                                 <LoadingAnimation />
-                            ) : searchAppointment?.data &&
-                              searchAppointment?.data?.length ? (
-                                searchAppointment?.data?.map((s: any) => (
+                            ) : searchAppointment?.data?.data &&
+                              searchAppointment?.data?.data?.length ? (
+                                searchAppointment?.data?.data?.map((s: any) => (
                                     <SearchedUserCard
                                         key={s.id}
                                         data={s}

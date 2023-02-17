@@ -138,6 +138,7 @@ export const {
 
     // --- ASSESSMENT EVIDENCE --- //
     useGetAssessmentEvidenceQuery,
+    useAssessmentCountQuery,
     useGetAssessmentResponseQuery,
     useStudentAssessmentCoursesQuery,
     useAddCommentOnAssessmentMutation,
@@ -158,6 +159,7 @@ export const {
     useSearchUserQuery,
     useSearchUserByIdQuery,
     useAvailabilityListQuery,
+    useSearchSubAdminUsersQuery,
     useUserAvailabilitiesQuery,
     useGetSubAdminAppointmentsQuery,
     useSubAdminCreateAppointmentMutation,

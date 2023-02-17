@@ -30,7 +30,6 @@ import { useGetRtoStudentsQuery } from '@queries'
 type Props = {}
 
 const RtoStudents: NextPageWithLayout = (props: Props) => {
-    // TODO Filters Need to change
     const router = useRouter()
     const contextBar = useContextBar()
 
@@ -70,8 +69,8 @@ const RtoStudents: NextPageWithLayout = (props: Props) => {
             element: <PendingStudent />,
         },
         {
-            label: 'Approved',
-            href: { pathname: 'students', query: { tab: 'approved' } },
+            label: 'Active',
+            href: { pathname: 'students', query: { tab: 'active' } },
             element: <ApprovedStudent />,
         },
         {

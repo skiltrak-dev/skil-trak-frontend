@@ -12,6 +12,13 @@ export const subAdminAppointmentspoints = (
         }),
         providesTags: ['Appointment'],
     }),
+    searchSubAdminUsers: builder.query<any, any | null>({
+        query: (params: any) => ({
+            url: `appointments/sub-admin/user/search`,
+            params,
+        }),
+        providesTags: ['Appointment'],
+    }),
     userAvailabilities: builder.query<any, any | null>({
         query: (params: any) => ({
             url: `subadmin/user/availabilities`,
