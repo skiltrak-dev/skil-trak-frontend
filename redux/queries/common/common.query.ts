@@ -39,6 +39,7 @@ export const commonApi = createApi({
         'AllCommunications',
         'AllNotifications',
         'Students',
+        'BulkStatus',
     ],
 
     // ---------- RTO ENDPOINTS ---------- //
@@ -56,6 +57,17 @@ export const commonApi = createApi({
                 body: body,
             }),
             invalidatesTags: ['Students', 'Notes', 'AllCommunications'],
+        }),
+        bulkStatus: build.mutation({
+            query: ({ ids, status }: any) => {
+                return {
+                    url: `admin/user/status/update`,
+                    method: 'PATCH',
+                    params: { status: status },
+                    body: { ids: ids },
+                }
+            },
+            invalidatesTags: ['BulkStatus'],
         }),
 
         ...rtosEndpoints(build),
@@ -113,6 +125,9 @@ const {
     // ------ Notifications ------ //
     useGetNotificationsQuery,
     useIsReadNotificationMutation,
+
+    // ------ Bulk Status ------ //
+    useBulkStatusMutation,
 } = commonApi
 
 export const CommonApi = {
@@ -157,4 +172,5 @@ export const CommonApi = {
         useNotifications: useGetNotificationsQuery,
         useIsReadNotification: useIsReadNotificationMutation,
     },
+    
 }

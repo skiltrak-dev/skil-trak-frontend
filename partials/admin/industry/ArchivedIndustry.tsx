@@ -15,10 +15,10 @@ import { PageHeading } from '@components/headings'
 import { ColumnDef } from '@tanstack/react-table'
 import { FaEdit, FaEye, FaFileExport, FaTrash } from 'react-icons/fa'
 
-import { AdminApi } from '@queries'
+import { AdminApi, commonApi } from '@queries'
 import { Industry } from '@types'
 import { useRouter } from 'next/router'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { MdUnarchive } from 'react-icons/md'
 import { IndustryCell } from './components'
 
@@ -34,11 +34,13 @@ export const ArchivedIndustry = () => {
     // hooks
     const { passwordModal, onViewPassword } = useActionModal()
 
-    const { isLoading, data, isError } = AdminApi.Industries.useListQuery({
+    const { isLoading, data, isError, refetch } = AdminApi.Industries.useListQuery({
         search: `status:archived`,
         skip: itemPerPage * page - itemPerPage,
         limit: itemPerPage,
     })
+    const [bulkAction, resultBulkAction] = commonApi.useBulkStatusMutation()
+    
 
     const tableActionOptions: TableActionOption[] = [
         {
@@ -64,13 +66,13 @@ export const ArchivedIndustry = () => {
         },
         {
             text: 'Unarchive',
-            onClick: () => {},
+            onClick: () => { },
             Icon: MdUnarchive,
             color: 'text-orange-500 hover:bg-orange-100 hover:border-orange-200',
         },
         {
             text: 'Delete',
-            onClick: () => {},
+            onClick: () => { },
             Icon: FaTrash,
             color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
         },
@@ -140,7 +142,14 @@ export const ArchivedIndustry = () => {
         ),
         common: (ids: number[]) => (
             <div className="flex gap-x-2">
-                <ActionButton Icon={MdUnarchive} variant="warning">
+                <ActionButton
+                    onClick={() => {
+                        const arrayOfIds = ids.map((id: any) => id?.user.id)
+                        bulkAction({ ids: arrayOfIds, status: 'approved' })
+                    }}
+                    Icon={MdUnarchive}
+                    variant="warning"
+                >
                     Unarchive
                 </ActionButton>
                 <ActionButton Icon={FaTrash} variant="error">

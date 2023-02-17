@@ -102,6 +102,17 @@ export const studentEndpoints = (
         },
         invalidatesTags: ['Students'],
     }),
+    // bulkStudents: builder.mutation({
+    //     query: ({ ids, status }: any) => {
+    //         return {
+    //             url: `${PREFIX}user/status/update`,
+    //             method: 'PATCH',
+    //             params: { status: status },
+    //             body: { ids: ids },
+    //         }
+    //     },
+    //     invalidatesTags: ['Students'],
+    // }),
 
     studentsRequiredDocsDetail: builder.query<
         any,

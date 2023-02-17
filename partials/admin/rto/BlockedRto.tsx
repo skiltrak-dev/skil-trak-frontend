@@ -14,7 +14,7 @@ import { ColumnDef } from '@tanstack/react-table'
 import { useRouter } from 'next/router'
 import { FaEdit, FaEye, FaFileExport, FaTrash } from 'react-icons/fa'
 
-import { AdminApi } from '@queries'
+import { AdminApi, commonApi } from '@queries'
 import { Rto } from '@types'
 import { ReactElement, useState } from 'react'
 import { CgUnblock } from 'react-icons/cg'
@@ -33,7 +33,7 @@ export const BlockedRto = () => {
         skip: itemPerPage * page - itemPerPage,
         limit: itemPerPage,
     })
-
+    const [bulkAction, resultBulkAction] = commonApi.useBulkStatusMutation();
     const onModalCancelClicked = () => {
         setModal(null)
     }
@@ -143,7 +143,10 @@ export const BlockedRto = () => {
         ),
         common: (ids: number[]) => (
             <div className="flex gap-x-2">
-                <ActionButton Icon={CgUnblock} variant="warning">
+                <ActionButton onClick={() => {
+                    const arrayOfIds = ids.map((id: any) => id?.user.id)
+                    bulkAction({ ids: arrayOfIds, status: 'approved' })
+                }} Icon={CgUnblock} variant="warning">
                     Unblock
                 </ActionButton>
                 <ActionButton Icon={FaTrash} variant="error">

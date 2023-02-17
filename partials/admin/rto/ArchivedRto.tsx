@@ -14,7 +14,7 @@ import { ColumnDef } from '@tanstack/react-table'
 import { useRouter } from 'next/router'
 import { FaEdit, FaEye, FaFileExport, FaTrash } from 'react-icons/fa'
 
-import { AdminApi } from '@queries'
+import { AdminApi, commonApi } from '@queries'
 import { Rto } from '@types'
 import { ReactElement, useState } from 'react'
 import { MdUnarchive } from 'react-icons/md'
@@ -33,6 +33,7 @@ export const ArchivedRto = () => {
         skip: itemPerPage * page - itemPerPage,
         limit: itemPerPage,
     })
+    const [bulkAction, resultBulkAction] = commonApi.useBulkStatusMutation()
 
     const onModalCancelClicked = () => {
         setModal(null)
@@ -58,7 +59,7 @@ export const ArchivedRto = () => {
         },
         {
             text: 'Edit',
-            onClick: () => {},
+            onClick: () => { },
             Icon: FaEdit,
         },
         {
@@ -134,7 +135,14 @@ export const ArchivedRto = () => {
         ),
         common: (ids: number[]) => (
             <div className="flex gap-x-2">
-                <ActionButton Icon={MdUnarchive} variant="warning">
+                <ActionButton
+                    onClick={() => {
+                        const arrayOfIds = ids.map((id: any) => id?.user.id)
+                        bulkAction({ ids: arrayOfIds, status: 'approved' })
+                    }}
+                    Icon={MdUnarchive}
+                    variant="warning"
+                >
                     Unarchive
                 </ActionButton>
                 <ActionButton Icon={FaTrash} variant="error">
