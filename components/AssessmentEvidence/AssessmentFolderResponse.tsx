@@ -1,37 +1,39 @@
-import React, { useEffect, useState, ChangeEvent } from 'react'
+import { ChangeEvent, useEffect, useState } from 'react'
 
 // components
 import {
-    Typography,
-    NoData,
-    LoadingAnimation,
-    Select,
     Badge,
     FileViewModal,
+    LoadingAnimation,
+    NoData,
     PdfViewModal,
+    Select,
+    Typography,
     VideoPlayModal,
 } from '@components'
 
-import { AssessmentFolderFileCard } from '@components/sections/student/AssessmentsContainer'
-import { TextInput } from '@components/inputs'
 import { Button } from '@components/buttons'
-
-import Image from 'next/image'
+import { TextInput } from '@components/inputs'
+import { AssessmentFolderFileCard } from '@components/sections/student/AssessmentsContainer'
 
 // query
 import { useAddCommentOnAssessmentMutation } from '@queries'
-import {
-    FaChevronCircleRight,
-    FaChevronLeft,
-    FaChevronRight,
-} from 'react-icons/fa'
+import moment from 'moment'
+import { getCourseResult } from '@utils'
 
 export const AssessmentResponse = ({
     folder,
     studentId,
     getAssessmentResponse,
     assessmentEvidenceView,
-}: any) => {
+    result,
+}: {
+    folder?: any
+    studentId?: any
+    getAssessmentResponse?: any
+    assessmentEvidenceView?: any
+    result?: any
+}) => {
     const [comment, setComment] = useState<string>('')
     const [commentType, setCommentType] = useState<string>('')
 
@@ -125,20 +127,16 @@ export const AssessmentResponse = ({
                             </Typography>
                         </div>
                         {assessmentEvidenceView && (
-                            <div>
-                                {false ? (
-                                    <Badge text="Approved" variant="success" />
-                                ) : (
-                                    <Badge
-                                        text="Not Approved"
-                                        variant="error"
-                                    />
-                                )}
+                            <div className="flex flex-col gap-y-1 items-end">
+                                <Badge text={result?.result} variant="info" />
                                 <Typography
-                                    variant="body"
+                                    variant="muted"
                                     color={'text-green-500'}
                                 >
-                                    Assessed On
+                                    Assessed On:{' '}
+                                    {moment(result?.assessor?.createdAt).format(
+                                        'Do MMM YYYY'
+                                    )}
                                 </Typography>
                             </div>
                         )}
@@ -178,58 +176,66 @@ export const AssessmentResponse = ({
                     </div>
                 </div>
 
-                {assessmentEvidenceView && getAssessmentResponse?.data && (
-                    <div className="flex justify-between gap-x-2 mt-3 mx-3">
-                        <div className="grid grid-cols-3 gap-x-2 w-full">
-                            <div className="w-full">
-                                <Select
-                                    name={'type'}
-                                    menuPlacement={'top'}
-                                    options={[
-                                        { label: 'Approve', value: 'approved' },
-                                        { label: 'Reject', value: 'rejected' },
-                                    ]}
-                                    onChange={(e: any) => {
-                                        setCommentType(e?.value)
-                                    }}
-                                />
+                {assessmentEvidenceView &&
+                    getAssessmentResponse?.data &&
+                    result?.result !== 'competent' && (
+                        <div className="flex justify-between gap-x-2 mt-3 mx-3">
+                            <div className="grid grid-cols-3 gap-x-2 w-full">
+                                <div className="w-full">
+                                    <Select
+                                        name={'type'}
+                                        menuPlacement={'top'}
+                                        options={[
+                                            {
+                                                label: 'Approve',
+                                                value: 'approved',
+                                            },
+                                            {
+                                                label: 'Reject',
+                                                value: 'rejected',
+                                            },
+                                        ]}
+                                        onChange={(e: any) => {
+                                            setCommentType(e?.value)
+                                        }}
+                                    />
+                                </div>
+                                <div className="col-span-2">
+                                    <TextInput
+                                        name="comment"
+                                        value={comment}
+                                        placeholder={'Write your comment'}
+                                        onChange={(
+                                            e: ChangeEvent<HTMLInputElement>
+                                        ) => {
+                                            setComment(e.target.value)
+                                        }}
+                                    />
+                                </div>
                             </div>
-                            <div className="col-span-2">
-                                <TextInput
-                                    name="comment"
-                                    value={comment}
-                                    placeholder={'Write your comment'}
-                                    onChange={(
-                                        e: ChangeEvent<HTMLInputElement>
-                                    ) => {
-                                        setComment(e.target.value)
+                            <div>
+                                <Button
+                                    variant={'success'}
+                                    outline
+                                    text={'Submit'}
+                                    onClick={() => {
+                                        addComment({
+                                            id: getAssessmentResponse?.data?.id,
+                                            comment,
+                                            status: commentType,
+                                            std: studentId,
+                                        })
                                     }}
+                                    loading={
+                                        addCommentResult?.isLoading &&
+                                        addCommentResult?.originalArgs
+                                            ?.status === 'approved'
+                                    }
+                                    disabled={addCommentResult?.isLoading}
                                 />
                             </div>
                         </div>
-                        <div>
-                            <Button
-                                variant={'success'}
-                                outline
-                                text={'Submit'}
-                                onClick={() => {
-                                    addComment({
-                                        id: getAssessmentResponse?.data?.id,
-                                        comment,
-                                        status: commentType,
-                                        std: studentId,
-                                    })
-                                }}
-                                loading={
-                                    addCommentResult?.isLoading &&
-                                    addCommentResult?.originalArgs?.status ===
-                                        'approved'
-                                }
-                                disabled={addCommentResult?.isLoading}
-                            />
-                        </div>
-                    </div>
-                )}
+                    )}
             </div>
         </>
     )

@@ -32,12 +32,19 @@ export const UploadRPLDocs = ({
 
     const formContext = useFormContext()
 
+    useEffect(() => {
+        if (formContext) {
+            formContext.setValue(name, values)
+        }
+    }, [values])
+
     const handleRemove = () => {
         setMediaFile({
             file: '',
             type: '',
         })
         setFileName('')
+        setValues(null)
     }
 
     // Uploading Media
@@ -72,11 +79,6 @@ export const UploadRPLDocs = ({
         // for that purposr removed the value
         !isDragging && (event.target.value = '')
     }
-    useEffect(() => {
-        if (formContext && values) {
-            formContext.setValue(name, values)
-        }
-    }, [values])
 
     return (
         <div className="w-full">

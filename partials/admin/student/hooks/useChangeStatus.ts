@@ -1,9 +1,15 @@
-import { AdminApi } from '@queries'
+import { AdminApi, CommonApi } from '@queries'
 import { Student, UserStatus } from '@types'
 
 export const useChangeStatus = () => {
     const [changeStatus, changeStatusResult] =
         AdminApi.Students.useChangeStatusMutation()
+    const [bulkAction, resultBulkAction] =
+        CommonApi.changeUserStatus.useChangeStatus()
+
+    const onBlockMultiStudents = (studentIds: number[]) => {
+        bulkAction({ ids: studentIds, status: UserStatus.Blocked })
+    }
 
     const onAccept = async (student: Student) => {
         await changeStatus({ id: student.id, status: UserStatus.Approved })
@@ -28,5 +34,7 @@ export const useChangeStatus = () => {
         onArchive,
         onBlock,
         changeStatusResult,
+        onBlockMultiStudents,
+        resultBulkAction,
     }
 }

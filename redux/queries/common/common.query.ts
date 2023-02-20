@@ -59,14 +59,12 @@ export const commonApi = createApi({
             invalidatesTags: ['Students', 'Notes', 'AllCommunications'],
         }),
         bulkStatus: build.mutation({
-            query: ({ ids, status }: any) => {
-                return {
-                    url: `admin/user/status/update`,
-                    method: 'PATCH',
-                    params: { status: status },
-                    body: { ids: ids },
-                }
-            },
+            query: ({ ids, status }: any) => ({
+                url: `admin/user/status/update`,
+                method: 'PATCH',
+                params: { status },
+                body: { ids },
+            }),
             invalidatesTags: ['BulkStatus'],
         }),
 
@@ -131,6 +129,9 @@ const {
 } = commonApi
 
 export const CommonApi = {
+    changeUserStatus: {
+        useChangeStatus: useBulkStatusMutation,
+    },
     Expiry: {
         useExpiryDate: useUpdateExpiryDateMutation,
     },
@@ -172,5 +173,4 @@ export const CommonApi = {
         useNotifications: useGetNotificationsQuery,
         useIsReadNotification: useIsReadNotificationMutation,
     },
-    
 }

@@ -42,12 +42,13 @@ export const PendingStudent = () => {
     // hooks
     const { passwordModal, onViewPassword } = useActionModal()
 
-    const { isLoading, data, isError } = AdminApi.Students.useListQuery({
-        search: `status:pending`,
-        skip: itemPerPage * page - itemPerPage,
-        limit: itemPerPage,
-    })
-    const [bulkAction, resultBulkAction] = commonApi.useBulkStatusMutation();
+    const { isLoading, data, isError, isSuccess } =
+        AdminApi.Students.useListQuery({
+            search: `status:pending`,
+            skip: itemPerPage * page - itemPerPage,
+            limit: itemPerPage,
+        })
+    const [bulkAction, resultBulkAction] = commonApi.useBulkStatusMutation()
 
     const { changeStatusResult } = useChangeStatus()
     const onModalCancelClicked = () => {
@@ -145,28 +146,44 @@ export const PendingStudent = () => {
 
     const quickActionsElements = {
         id: 'id',
-        individual: (id: number) => (
+        individual: (student: Student) => (
             <div className="flex gap-x-2">
-                <ActionButton variant="success" onClick={() => { }}>
+                <ActionButton
+                    variant="success"
+                    onClick={() => {
+                        onAcceptClicked(student)
+                    }}
+                >
                     Accept
                 </ActionButton>
-                <ActionButton variant="error" onClick={() => { }}>
+                <ActionButton
+                    variant="error"
+                    onClick={() => {
+                        onRejectClicked(student)
+                    }}
+                >
                     Reject
                 </ActionButton>
             </div>
         ),
         common: (ids: number[]) => (
             <div className="flex gap-x-2">
-                <ActionButton onClick={() => {
-                    const arrayOfIds = ids.map((id: any) => id?.user.id)
-                    bulkAction({ ids: arrayOfIds, status: 'approved' })
-                }} variant="success">
+                <ActionButton
+                    onClick={() => {
+                        const arrayOfIds = ids.map((id: any) => id?.user.id)
+                        bulkAction({ ids: arrayOfIds, status: 'approved' })
+                    }}
+                    variant="success"
+                >
                     Accept
                 </ActionButton>
-                <ActionButton onClick={() => {
-                    const arrayOfIds = ids.map((id: any) => id?.user.id)
-                    bulkAction({ ids: arrayOfIds, status: 'rejected' })
-                }} variant="error">
+                <ActionButton
+                    onClick={() => {
+                        const arrayOfIds = ids.map((id: any) => id?.user.id)
+                        bulkAction({ ids: arrayOfIds, status: 'rejected' })
+                    }}
+                    variant="error"
+                >
                     Reject
                 </ActionButton>
             </div>
@@ -187,7 +204,7 @@ export const PendingStudent = () => {
                     {isError && <TechnicalError />}
                     {isLoading ? (
                         <LoadingAnimation height="h-[60vh]" />
-                    ) : data && data?.data.length ? (
+                    ) : data && data?.data.length && isSuccess ? (
                         <Table
                             columns={columns}
                             data={data.data}

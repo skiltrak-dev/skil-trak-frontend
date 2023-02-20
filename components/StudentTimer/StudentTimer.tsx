@@ -5,6 +5,7 @@ import { ReactElement, useEffect, useState } from 'react'
 import moment from 'moment'
 import { AiFillEdit } from 'react-icons/ai'
 import { EditTimer } from './EditTimer'
+import { Typography } from '@components/Typography'
 
 export const StudentTimer = ({
     studentId,
@@ -46,6 +47,9 @@ export const StudentTimer = ({
                     >
                         Click To Re-Activate
                     </button>
+                    <Typography variant={'small'} color={'text-white'}>
+                        Expired on {moment(date).format('MMM Do YYYY')}
+                    </Typography>
                 </div>
             )
         } else {

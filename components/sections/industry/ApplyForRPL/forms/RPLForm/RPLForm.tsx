@@ -5,17 +5,22 @@ import * as yup from 'yup'
 
 // components
 import {
-    ActionAlert, BackButton, Button, Card,
+    ActionAlert,
+    BackButton,
+    Button,
+    Card,
     Popup,
     TextArea,
-    Typography
-} from 'components'
+    Typography,
+    InputErrorMessage,
+} from '@components'
 import { UploadRPLDocs } from './components'
 
 // hooks
 
 // query
 import { useAddRplMutation } from '@queries'
+import { yupResolver } from '@hookform/resolvers/yup'
 
 export const RPLForm = () => {
     const [addRpl, addRplResult] = useAddRplMutation()
@@ -32,18 +37,18 @@ export const RPLForm = () => {
     }, [iseRPLSaved])
 
     const validationSchema = yup.object().shape({
-        cnic: yup
+        identity: yup
             .mixed()
-            .test('file', 'You need to provide a file', (value) => {
-                if (value) {
+            .test('file', 'You need to provide a Identity', (value) => {
+                if (value || value?.length > 0) {
                     return true
                 }
                 return false
             }),
         resume: yup
             .mixed()
-            .test('file', 'You need to provide a file', (value) => {
-                if (value.length > 0) {
+            .test('file', 'You need to provide a Resume', (value) => {
+                if (value || value?.length > 0) {
                     return true
                 }
                 return false
@@ -51,32 +56,37 @@ export const RPLForm = () => {
         financialEvidence: yup
             .mixed()
             .test('file', 'You need to provide a file', (value) => {
-                if (value.length > 0) {
+                console.log('finanacial', value)
+                if (value || value?.length > 0) {
                     return true
                 }
                 return false
             }),
         academicDocuments: yup
             .mixed()
-            .test('file', 'You need to provide a file', (values) => {
-                values.forEach((file: any) => {
-                    if (file.length > 0) {
+            .test(
+                'file',
+                'You need to provide all Academic Documents',
+                (values) => {
+                    if (values?.every((file: any) => file)) {
                         return true
                     }
                     return false
-                })
-                return false
-            }),
+                }
+            ),
 
         jobDescription: yup.string().required(),
     })
 
     const methods = useForm({
-        // resolver: yupResolver(validationSchema),
+        resolver: yupResolver(validationSchema),
         mode: 'all',
     })
 
+    console.log('methodsmethods', methods)
+
     const onSubmit = async (values: any) => {
+        console.log('values', values)
         const formData = new FormData()
         const { academicDocuments, ...rest } = values
         Object.keys(rest).forEach((file: any) => {
@@ -139,7 +149,7 @@ export const RPLForm = () => {
 
                                 <div className="mt-1.5 max-w-220">
                                     <UploadRPLDocs
-                                        name={'cnic'}
+                                        name={'identity'}
                                         acceptFiles={'application/pdf'}
                                         required
                                     />
@@ -215,6 +225,9 @@ export const RPLForm = () => {
                                             acceptFiles={'application/pdf'}
                                         />
                                     </div>
+                                    <InputErrorMessage
+                                        name={'academicDocuments'}
+                                    />
                                 </div>
 
                                 <div className="flex justify-between items-center">

@@ -43,6 +43,14 @@ export const studentsEndpoints = (
         invalidatesTags: ['SubAdminStudents'],
     }),
 
+    setNotContactable: builder.mutation<any, number>({
+        query: (id) => ({
+            url: `${PREFIX}/student/update-not-contactable/${id}`,
+            method: 'PATCH',
+        }),
+        invalidatesTags: ['SubAdminStudents'],
+    }),
+
     getSubAdminStudentCourses: builder.query<any, number>({
         query: (id) => `${PREFIX}/student/course/list-result/${id}`,
         providesTags: ['SubAdminStudents'],

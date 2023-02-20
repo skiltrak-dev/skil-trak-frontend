@@ -42,10 +42,10 @@ const RTODashboard: NextPageWithLayout = () => {
         const sectors = {}
         courses.forEach((c: any) => {
             if ((sectors as any)[c.sector.name]) {
-                ; (sectors as any)[c.sector.name].push(c)
+                ;(sectors as any)[c.sector.name].push(c)
             } else {
-                ; (sectors as any)[c.sector.name] = []
-                    ; (sectors as any)[c.sector.name].push(c)
+                ;(sectors as any)[c.sector.name] = []
+                ;(sectors as any)[c.sector.name].push(c)
             }
         })
         return sectors
@@ -90,8 +90,7 @@ const RTODashboard: NextPageWithLayout = () => {
                             stepIndex: 0,
                             tourActive: false,
                         })
-                    }
-                    else if (
+                    } else if (
                         type === 'step:after' &&
                         index === 0 /* or step.target === '#home' */
                     ) {
@@ -99,7 +98,7 @@ const RTODashboard: NextPageWithLayout = () => {
                             ...prev,
                             run: false,
                         }))
-                        router.push('/portals/rto/students?tab=approved')
+                        router.push('/portals/rto/students?tab=active')
                     } else if (action === 'reset' || lifecycle === 'complete') {
                         joyride.setState({
                             ...joyride.state,
@@ -157,8 +156,7 @@ const RTODashboard: NextPageWithLayout = () => {
                             stepIndex: 0,
                             tourActive: false,
                         })
-                    }
-                    else if (
+                    } else if (
                         type === 'step:after' &&
                         index === 0 /* or step.target === '#home' */
                     ) {
@@ -166,7 +164,7 @@ const RTODashboard: NextPageWithLayout = () => {
                             ...prev,
                             run: false,
                         }))
-                        router.push('/portals/rto/students?tab=approved')
+                        router.push('/portals/rto/students?tab=active')
                     } else if (action === 'reset' || lifecycle === 'complete') {
                         joyride.setState({
                             ...joyride.state,
@@ -224,8 +222,7 @@ const RTODashboard: NextPageWithLayout = () => {
                             stepIndex: 0,
                             tourActive: false,
                         })
-                    }
-                    else if (
+                    } else if (
                         type === 'step:after' &&
                         index === 0 /* or step.target === '#home' */
                     ) {
@@ -300,8 +297,7 @@ const RTODashboard: NextPageWithLayout = () => {
                             stepIndex: 0,
                             tourActive: false,
                         })
-                    }
-                    else if (
+                    } else if (
                         type === 'step:after' &&
                         index === 0 /* or step.target === '#home' */
                     ) {
@@ -394,8 +390,7 @@ const RTODashboard: NextPageWithLayout = () => {
                             stepIndex: 0,
                             tourActive: false,
                         })
-                    }
-                    else if (
+                    } else if (
                         type === 'step:after' &&
                         index === 0 /* or step.target === '#home' */
                     ) {
@@ -515,7 +510,10 @@ const RTODashboard: NextPageWithLayout = () => {
                     content: (
                         <>
                             <div className="font-semibold">Click here</div>
-                            <div>From Dropdown Click On Profile to Edit Your Profile</div>
+                            <div>
+                                From Dropdown Click On Profile to Edit Your
+                                Profile
+                            </div>
                         </>
                     ),
                     disableBeacon: true,
@@ -543,8 +541,7 @@ const RTODashboard: NextPageWithLayout = () => {
                             stepIndex: 0,
                             tourActive: false,
                         })
-                    }
-                    else if (
+                    } else if (
                         type === 'step:after' &&
                         index === 0 /* or step.target === '#home' */
                     ) {
@@ -554,7 +551,6 @@ const RTODashboard: NextPageWithLayout = () => {
                         }))
                         router.push('/portals/rto/my-profile')
                     }
-
                 }
             },
         },

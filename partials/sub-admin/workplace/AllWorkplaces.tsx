@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
 import {
     TechnicalError,
@@ -6,23 +6,52 @@ import {
     EmptyData,
     PageSize,
     Pagination,
+    Modal,
 } from '@components'
 import { WorkplaceRequest } from './components'
 import { WorkplaceRequest as StudentProvidedWorkplace } from './studentProvidedComponents'
 
 // query
-import { useGetSubAdminWorkplacesQuery } from '@queries'
+import { useGetSubAdminWorkplacesQuery, SubAdminApi } from '@queries'
 
 export const AllWorkplaces = () => {
     const [page, setPage] = useState(1)
     const [itemPerPage, setItemPerPage] = useState(30)
+    const [modal, setModal] = useState<any | null>(null)
+
+    const profile = SubAdminApi.SubAdmin.useProfile()
 
     const subAdminWorkplace = useGetSubAdminWorkplacesQuery({
         skip: itemPerPage * page - itemPerPage,
         limit: itemPerPage,
     })
+
+    const onCancel = () => {
+        setModal(null)
+    }
+    useEffect(() => {
+        if (
+            profile?.isSuccess &&
+            profile.data &&
+            !profile.data?.receiveWorkplaceRequest
+        ) {
+            setModal(
+                <Modal
+                    onConfirmClick={onCancel}
+                    title={'Workplace'}
+                    subtitle={'Workplace'}
+                    onCancelClick={onCancel}
+                >
+                    You need to enable recive workplace from Setting to recive
+                    workplace
+                </Modal>
+            )
+        }
+    }, [profile])
+
     return (
         <div>
+            {modal}
             <div className="flex items-center justify-between">
                 <PageSize
                     itemPerPage={itemPerPage}

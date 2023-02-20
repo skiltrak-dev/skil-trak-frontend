@@ -48,19 +48,20 @@ export const SubAdminLayout = ({
                         steps={joyride.state.steps}
                         showSkipButton={true}
                         // hideCloseButton={true}
+                        disableScrollParentFix
                         disableOverlayClose={true}
                         hideBackButton={true}
                         locale={{
-                            skip: "Close Tour"
+                            skip: 'Close Tour',
                         }}
-                    // styles={{
-                    //     options: {
-                    //         arrowColor: theme.black,
-                    //         backgroundColor: theme.black,
-                    //         primaryColor: theme.colors.purple,
-                    //         textColor: theme.white,
-                    //     },
-                    // }}
+                        // styles={{
+                        //     options: {
+                        //         arrowColor: theme.black,
+                        //         backgroundColor: theme.black,
+                        //         primaryColor: theme.colors.purple,
+                        //         textColor: theme.white,
+                        //     },
+                        // }}
                     />
                 )}
             </>
