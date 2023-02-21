@@ -98,6 +98,8 @@ export const Detail = ({
         manullyReopenSubmission(results?.id)
     }
 
+    const role = getUserCredentials()?.role
+
     return (
         <div className="mb-10">
             <div className="flex justify-between items-center mb-6">
@@ -224,7 +226,7 @@ export const Detail = ({
                         <Typography variant={'label'} color={'text-gray-500'}>
                             Assessor:{' '}
                             <span className="font-semibold text-black">
-                                {getUserCredentials()?.name}
+                                {results?.assessor?.name || 'Not Assessesd'}
                             </span>
                         </Typography>
                     </div>
@@ -285,6 +287,7 @@ export const Detail = ({
                                 folder={selectedFolder}
                                 studentId={studentId}
                                 assessmentEvidenceView={true}
+                                result={results}
                             />
                         </div>
                     </div>
@@ -301,10 +304,12 @@ export const Detail = ({
                     />
                     {/* )} */}
                     {allCommentsAdded &&
-                        (results?.isSubmitted || manualReOpen) && (
-                            <Actions result={results} />
-                        )}
-                    {results?.totalSubmission >= 3 &&
+                        ((results?.result !== 'competent' &&
+                            results?.isSubmitted) ||
+                            manualReOpen) && <Actions result={results} />}
+                    {role === 'admin' &&
+                        results?.result !== 'competent' &&
+                        results?.totalSubmission >= 3 &&
                         results?.result !== 'pending' &&
                         !results?.isManualSubmission && (
                             <div className="mt-5 flex flex-col gap-y-1">

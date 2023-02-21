@@ -1,35 +1,22 @@
-import { ReactElement, useState, useEffect } from 'react'
 import { useRouter } from 'next/router'
-import Link from 'next/link'
+import { ReactElement, useEffect, useState } from 'react'
 //Layouts
 import { SubAdminLayout } from '@layouts'
-import { NextPageWithLayout, Student } from '@types'
+import { NextPageWithLayout } from '@types'
 
-import { TabsView } from '@components/sections/rto'
 //components
 import {
     Card,
-    Table,
-    ReactTable,
-    Typography,
-    EmptyData,
-    TechnicalError,
-    LoadingAnimation,
-    TableActionOption,
-    TableAction,
-    TabProps,
-    TabNavigation,
     Filter,
-    SubAdminAssessmentsFilters,
+    LoadingAnimation,
+    Modal,
     PageTitle,
+    SubAdminAssessmentsFilters,
+    TabNavigation,
+    TabProps,
+    TechnicalError,
 } from '@components'
 // queries
-import {
-    useGetAssessmentEvidenceQuery,
-    useAssessmentCountQuery,
-} from '@queries'
-import { FaEnvelope, FaEye, FaPhoneSquareAlt } from 'react-icons/fa'
-import Image from 'next/image'
 import {
     CompetentAssessment,
     FilteredAssessments,
@@ -37,6 +24,11 @@ import {
     PendingAssessment,
     ReOpenedAssessment,
 } from '@partials/sub-admin'
+import {
+    SubAdminApi,
+    useAssessmentCountQuery,
+    useGetAssessmentEvidenceQuery,
+} from '@queries'
 
 type Props = {}
 
@@ -47,10 +39,12 @@ const AssessmentEvidence: NextPageWithLayout = (props: Props) => {
     const [filter, setFilter] = useState({})
     const [page, setPage] = useState(1)
     const [itemPerPage, setItemPerPage] = useState(50)
+    const [modal, setModal] = useState<any | null>(null)
 
     const [assessMentCount, setAssessMentCount] = useState<any>({})
 
     const count = useAssessmentCountQuery()
+    const profile = SubAdminApi.SubAdmin.useProfile()
     const filteredAssessments = useGetAssessmentEvidenceQuery({
         search: `${JSON.stringify(filter)
             .replaceAll('{', '')
@@ -73,6 +67,30 @@ const AssessmentEvidence: NextPageWithLayout = (props: Props) => {
             )
         }
     }, [count])
+
+    const onCancel = () => {
+        setModal(null)
+    }
+
+    useEffect(() => {
+        if (
+            profile?.isSuccess &&
+            profile.data &&
+            !profile.data?.receiveStudentAssessment
+        ) {
+            setModal(
+                <Modal
+                    onConfirmClick={onCancel}
+                    title={'Student Assessments'}
+                    subtitle={'Student Assessments'}
+                    onCancelClick={onCancel}
+                >
+                    You need to enable Student Assessments from Setting to
+                    recive Student Assessments
+                </Modal>
+            )
+        }
+    }, [profile])
 
     const tabs: TabProps[] = [
         {
@@ -127,6 +145,7 @@ const AssessmentEvidence: NextPageWithLayout = (props: Props) => {
 
     return (
         <>
+            {modal}
             <div className="flex justify-between items-end">
                 <PageTitle
                     title={'Assessment Submissions'}
@@ -158,7 +177,7 @@ const AssessmentEvidence: NextPageWithLayout = (props: Props) => {
                     <FilteredAssessments
                         setPage={setPage}
                         itemPerPage={itemPerPage}
-                    assessments={filteredAssessments}
+                        assessments={filteredAssessments}
                         setItemPerPage={setItemPerPage}
                     />
                 ) : (

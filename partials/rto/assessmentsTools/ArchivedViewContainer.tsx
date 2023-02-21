@@ -17,6 +17,7 @@ import {
 } from '@components'
 import { UserStatus } from '@types'
 import {
+    RtoApi,
     useGetRTOCoursesQuery,
     useGetAssessmentToolByCourseQuery,
     useRemoveRTOAssessmentToolsMutation,
@@ -35,7 +36,7 @@ export const ArchivedViewContainer = ({ role }: ArchivedViewProps) => {
     const [selectedCourseId, setSelectedCourseId] = useState<number | null>(
         null
     )
-    const rtoCourses = useGetRTOCoursesQuery()
+    const rtoCourses = RtoApi.Courses.useRtoCourses()
     const getAssessmentTools = useGetAssessmentToolByCourseQuery(
         {
             id: Number(selectedCourseId),
@@ -106,39 +107,41 @@ export const ArchivedViewContainer = ({ role }: ArchivedViewProps) => {
             </div>
             <Card noPadding>
                 <div className="flex">
-                    <div className="w-[25%] border-r">
+                    <div className="w-[25%]  border-r">
                         <div className={`p-3.5`}>
                             <Typography variant="label" color="text-black">
                                 Select a Course
                             </Typography>
                         </div>
-                        {rtoCourses.isError && (
-                            <NoData
-                                text={
-                                    'There is some Network issues, Refresh your browser'
-                                }
-                            />
-                        )}
-                        {rtoCourses?.isLoading ? (
-                            <LoadingAnimation size={85} />
-                        ) : rtoCourses?.data?.data &&
-                          rtoCourses?.data?.data?.length > 0 ? (
-                            rtoCourses?.data?.data?.map((course: any) => (
-                                <AssessmentCourse
-                                    code={course?.code}
-                                    name={course?.title}
-                                    id={course.id}
-                                    onClick={() =>
-                                        setSelectedCourseId(course.id)
+                        <div className="max-h-96 overflow-auto remove-scrollbar">
+                            {rtoCourses.isError && (
+                                <NoData
+                                    text={
+                                        'There is some Network issues, Refresh your browser'
                                     }
-                                    selectedCourseId={selectedCourseId}
                                 />
-                            ))
-                        ) : (
-                            !rtoCourses.isError && (
-                                <NoData text={'No Courses were Found'} />
-                            )
-                        )}
+                            )}
+                            {rtoCourses?.isLoading ? (
+                                <LoadingAnimation size={85} />
+                            ) : rtoCourses?.data &&
+                              rtoCourses?.data?.length > 0 ? (
+                                rtoCourses?.data?.map((course: any) => (
+                                    <AssessmentCourse
+                                        code={course?.code}
+                                        name={course?.title}
+                                        id={course.id}
+                                        onClick={() =>
+                                            setSelectedCourseId(course.id)
+                                        }
+                                        selectedCourseId={selectedCourseId}
+                                    />
+                                ))
+                            ) : (
+                                !rtoCourses.isError && (
+                                    <NoData text={'No Courses were Found'} />
+                                )
+                            )}
+                        </div>
                     </div>
                     <div className="w-[75%]">
                         {role === 'RTO' && (

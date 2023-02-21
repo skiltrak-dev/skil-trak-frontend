@@ -47,15 +47,7 @@ export const industryEndpoints = (
         query: (id) => `${PREFIX}industries/${id}`,
         providesTags: ['Industries'],
     }),
-    rplRequestList: builder.query<any, any>({
-        query: (params) => {
-            return {
-                url: `${PREFIX}rpl-requests/list`,
-                params,
-            }
-        },
-        providesTags: ['Industries'],
-    }),
+    
 
     industryRemove: builder.mutation({
         query: (id) => ({

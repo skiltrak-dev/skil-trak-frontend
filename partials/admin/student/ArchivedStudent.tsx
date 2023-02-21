@@ -42,7 +42,6 @@ export const ArchivedStudent = () => {
         limit: itemPerPage,
     })
     const [bulkAction, resultBulkAction] = commonApi.useBulkStatusMutation()
-    
 
     const tableActionOptions: TableActionOption[] = [
         {
@@ -68,13 +67,13 @@ export const ArchivedStudent = () => {
         },
         {
             text: 'Unarchive',
-            onClick: () => { },
+            onClick: () => {},
             Icon: MdUnarchive,
             color: 'text-orange-500 hover:bg-orange-100 hover:border-orange-200',
         },
         {
             text: 'Delete',
-            onClick: () => { },
+            onClick: () => {},
             Icon: FaTrash,
             color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
         },
@@ -129,10 +128,15 @@ export const ArchivedStudent = () => {
                 return industries?.length > 0 ? (
                     <StudentStatusProgressCell step={studentStatus} />
                 ) : (
-                    <ProgressCell
-                        step={steps > 14 ? 14 : steps < 1 ? 1 : steps}
-                    />
+                    <StudentStatusProgressCell step={3} />
                 )
+                // return industries?.length > 0 ? (
+                //     <StudentStatusProgressCell step={studentStatus} />
+                // ) : (
+                //     <ProgressCell
+                //         step={steps > 14 ? 14 : steps < 1 ? 1 : steps}
+                //     />
+                // )
             },
         },
         {

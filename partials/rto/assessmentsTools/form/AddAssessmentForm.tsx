@@ -30,14 +30,14 @@ export const AddAssessmentForm = ({ edit, assessment, courses }: Props) => {
     const [create, createResult] = useCreateRtoAssessmentToolsMutation()
     const [update, updateResult] = useUpdateRtoSubAdminAssessmentToolsMutation()
     useEffect(() => {
-        if (courses?.data?.data && courses.isSuccess) {
-            const options = courses?.data?.data?.map((course: any) => ({
+        if (courses?.data && courses.isSuccess) {
+            const options = courses?.data?.map((course: any) => ({
                 label: course.title,
                 value: course.id,
             }))
             setCoursesOptions(options)
         }
-    }, [courses?.data?.data, courses.isSuccess])
+    }, [courses])
 
     useEffect(() => {
         if (createResult.isSuccess) {

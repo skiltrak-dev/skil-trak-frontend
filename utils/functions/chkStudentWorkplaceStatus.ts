@@ -22,7 +22,13 @@ export const checkWorkplaceStatus = (currentStatus: string) => {
 }
 
 export const checkStudentStatus = (studentStatus: string) => {
-    const StudentStatus = ['active', 'completed', 'cancelled', 'terminated']
+    const StudentStatus = [
+        'active',
+        'completed',
+        'expired',
+        'cancelled',
+        'terminated',
+    ]
 
     const step = StudentStatus.findIndex((status) => status === studentStatus)
     return step + 1

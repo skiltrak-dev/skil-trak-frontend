@@ -1,11 +1,8 @@
 import {
     ActionButton,
-    Button,
     Card,
     EmptyData,
-    Filter,
     LoadingAnimation,
-    RtoFilters,
     StudentStatusProgressCell,
     Table,
     TableAction,
@@ -15,20 +12,19 @@ import {
 } from '@components'
 import { PageHeading } from '@components/headings'
 import { ColumnDef } from '@tanstack/react-table'
-import { FaEdit, FaEye, FaFileExport, FaFilter, FaTrash } from 'react-icons/fa'
+import { FaEdit, FaEye, FaTrash } from 'react-icons/fa'
 
-import { AdminApi } from '@queries'
-import { MdBlock, MdEmail, MdPhoneIphone } from 'react-icons/md'
-import { ReactElement, useState } from 'react'
-import { ProgressCell, SectorCell, StudentCellInfo } from './components'
-import { Student } from '@types'
-import { AcceptModal, DeleteModal } from './modals'
-import { RtoCellInfo } from '../rto/components'
-import { useRouter } from 'next/router'
-import { IndustryCell } from '../industry/components'
-import { RiLockPasswordFill } from 'react-icons/ri'
 import { useActionModal } from '@hooks'
+import { AdminApi } from '@queries'
+import { Student } from '@types'
 import { checkStudentStatus, checkWorkplaceStatus } from '@utils'
+import { useRouter } from 'next/router'
+import { ReactElement, useState } from 'react'
+import { RiLockPasswordFill } from 'react-icons/ri'
+import { IndustryCell } from '../industry/components'
+import { RtoCellInfo } from '../rto/components'
+import { ProgressCell, SectorCell, StudentCellInfo } from './components'
+import { AcceptModal, DeleteModal } from './modals'
 
 export const RejectedStudent = () => {
     const router = useRouter()

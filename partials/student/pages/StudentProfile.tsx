@@ -21,11 +21,12 @@ import {
 
 // queries
 import {
+    SubAdminApi,
     useGetSubAdminStudentDetailQuery,
     useUpdateAssessmentToolArchiveMutation,
 } from '@queries'
 
-import { useAlert, useContextBar, useNavbar } from '@hooks'
+import { useAlert, useContextBar, useNavbar, useNotification } from '@hooks'
 
 import { DetailTabs } from '@partials/sub-admin/students'
 import { AddWorkplace } from '@partials/sub-admin/students'
@@ -39,16 +40,29 @@ export const StudentProfile = ({ noTitle }: { noTitle?: boolean }) => {
     const { id } = router.query
 
     const { alert } = useAlert()
+    const { notification } = useNotification()
 
     const [addWorkplace, setAddWorkplace] = useState<boolean>(false)
     const { data, isLoading, isError, isSuccess, refetch } =
         useGetSubAdminStudentDetailQuery(Number(id), {
             skip: !id,
         })
+    const [notContactable, notContactableResult] =
+        SubAdminApi.Student.useNotContactable()
 
     // hooks
     const navBar = useNavbar()
     const { onAcceptClicked, onRejectClicked, modal } = useActionModals()
+
+    useEffect(() => {
+        if (notContactableResult.isSuccess) {
+            notification.success({
+                title: 'Not Contactable',
+                description: 'Not Contactable',
+            })
+        }
+    }, [notContactableResult])
+
     useEffect(() => {
         if (isSuccess && data) {
             contextBar.setContent(<SubAdminStudentProfile student={data} />)
@@ -138,7 +152,15 @@ export const StudentProfile = ({ noTitle }: { noTitle?: boolean }) => {
                             }}
                             disabled={!isSuccess}
                         />
-                        <Button text="More" variant="action" />
+                        <Button
+                            text="Not Contactable"
+                            variant="info"
+                            onClick={() => {
+                                notContactable(data?.id)
+                            }}
+                            loading={notContactableResult.isLoading}
+                            disabled={notContactableResult.isLoading}
+                        />
                     </div>
                 )
             case 'blocked':
@@ -210,12 +232,12 @@ export const StudentProfile = ({ noTitle }: { noTitle?: boolean }) => {
                         <BackButton
                             link={
                                 role === 'admin'
-                                    ? 'portals/admin/student?tab=approved'
+                                    ? 'portals/admin/student?tab=active'
                                     : role === 'subadmin'
                                     ? 'portals/sub-admin/students?tab=all'
                                     : role === 'rto'
                                     ? 'portals/rto/students?tab=active'
-                                    : ''
+                                    : '#'
                             }
                             text="Students"
                         />

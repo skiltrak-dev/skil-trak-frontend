@@ -156,6 +156,7 @@ export const IndustryLayout = ({
                         stepIndex={joyride.state.stepIndex}
                         steps={joyride.state.steps}
                         showSkipButton={true}
+                        disableScrollParentFix
                         // hideCloseButton={true}
                         disableOverlayClose={true}
                         hideBackButton={true}
@@ -163,14 +164,14 @@ export const IndustryLayout = ({
                             skip: 'Close Tour',
                         }}
 
-                    // styles={{
-                    //     options: {
-                    //         arrowColor: theme.black,
-                    //         backgroundColor: theme.black,
-                    //         primaryColor: theme.colors.purple,
-                    //         textColor: theme.white,
-                    //     },
-                    // }}
+                        // styles={{
+                        //     options: {
+                        //         arrowColor: theme.black,
+                        //         backgroundColor: theme.black,
+                        //         primaryColor: theme.colors.purple,
+                        //         textColor: theme.white,
+                        //     },
+                        // }}
                     />
                 )}
             </>

@@ -5,7 +5,9 @@ import { ReactElement, useEffect, useState } from 'react'
 //Layouts
 import { SubAdminLayout } from '@layouts'
 import { Detail } from '@partials/sub-admin'
-import { useNavbar } from '@hooks'
+import { useContextBar, useNavbar } from '@hooks'
+import { useGetSubAdminStudentDetailQuery, SubAdminApi } from '@queries'
+import { Modal, SubAdminStudentProfile } from '@components'
 
 type Props = {}
 
@@ -14,6 +16,21 @@ const AssessmentEvidenceDetails: NextPageWithLayout = (props: Props) => {
     const { studentId, studentUser } = pathname.query
 
     const navBar = useNavbar()
+    const contextBar = useContextBar()
+
+    const student = useGetSubAdminStudentDetailQuery(Number(studentId), {
+        skip: !studentId,
+    })
+
+    useEffect(() => {
+        if (student.isSuccess && student.data) {
+            contextBar.setContent(
+                <SubAdminStudentProfile student={student.data} />
+            )
+            contextBar.show(false)
+            navBar.setSubTitle(student.data?.user?.name)
+        }
+    }, [student])
 
     useEffect(() => {
         setTimeout(() => {
