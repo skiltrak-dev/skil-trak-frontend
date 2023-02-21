@@ -10,8 +10,8 @@ type AllMailsProps = {
   icon?: any
   avatar?: string
   onClick?: MouseEventHandler
-  selectedMessage: any
   id: any
+  
 }
 
 export const AllMails = ({
@@ -21,14 +21,13 @@ export const AllMails = ({
   icon,
   avatar,
   onClick,
-  selectedMessage,
   id,
 }: AllMailsProps) => {
-  
+  // ${id===selectedMessage ? 'bg-blue-200':"bg-white"}
   return (
     <div
       onClick={onClick}
-      className={`${id===selectedMessage ? 'bg-blue-200':"bg-white"} flex items-center border-b py-2 px-4  cursor-pointer border-r`}
+      className={` flex items-center border-b py-2 px-4  cursor-pointer border-r`}
     >
       <div>
         {icon ? (

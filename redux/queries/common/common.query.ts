@@ -111,6 +111,10 @@ const {
     // --- MAILS --- //
     useGetMessagesQuery,
     useSendMessageMutation,
+    useGetAllMailsQuery,
+    useIsSeenMutation,
+    useGetAllConversationsQuery,
+    useGetSingleChatQuery,
 
     // -- APPOINTMENTS -- //
     useCreateAppointmentMutation,
@@ -160,6 +164,10 @@ export const CommonApi = {
     Messages: {
         useMessages: useGetMessagesQuery,
         useSendMessage: useSendMessageMutation,
+        useAllMails: useGetAllMailsQuery,
+        useIsSeen: useIsSeenMutation,
+        useAllConversations: useGetAllConversationsQuery,
+        useSingleChat: useGetSingleChatQuery,
     },
     Appointments: {
         createAppointment: useCreateAppointmentMutation,

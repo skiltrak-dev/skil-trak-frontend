@@ -75,6 +75,25 @@ export const mailsEndpoints = (
         }),
         invalidatesTags: ['Mails'],
     }),
+    getAllMails: builder.query<any, void>({
+        query: () => `${PREFIX}/list/all`,
+        providesTags: ['Mails'],
+    }),
+    isSeen: builder.mutation({
+        query: (id: any) => ({
+            url: `${PREFIX}/seen/${id}`,
+            method: 'PATCH',
+        }),
+        invalidatesTags: ['Mails'],
+    }),
+    getAllConversations: builder.query<any, void>({
+        query: () => `${PREFIX}/conversations/list`,
+        providesTags: ['Mails'],
+    }),
+    getSingleChat: builder.query<any, any>({
+        query: (id: any) => `${PREFIX}/conversation/view/${id}`,
+        providesTags: ['Mails'],
+    }),
 
     // sendMessage: builder.mutation<any, any>({
     //     queryFn: (chatMessageContent: string) => {

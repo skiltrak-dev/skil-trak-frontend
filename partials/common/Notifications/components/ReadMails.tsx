@@ -10,6 +10,7 @@ type AllMailsProps = {
     icon?: any
     avatar?: string
     onClick?: MouseEventHandler
+    id: any
 }
 
 export const ReadMails = ({
@@ -19,6 +20,7 @@ export const ReadMails = ({
     icon,
     avatar,
     onClick,
+    id,
 }: AllMailsProps) => {
 
     return (
