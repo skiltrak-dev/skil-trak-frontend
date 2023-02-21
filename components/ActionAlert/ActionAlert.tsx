@@ -12,6 +12,7 @@ export const ActionAlertType = {
 type SubAction = {
     text: string
     onClick: Function
+    loading?: boolean
 }
 
 const VariantOptions = ['primary', 'info', 'error'] as const

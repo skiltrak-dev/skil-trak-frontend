@@ -3,23 +3,22 @@ import { AuthUtils } from '@utils'
 import { courseEndpoints } from './course'
 import { industryEndpoints } from './industry'
 
+import { AdminStats } from '@types'
+import { appointmentTypeEndpoints } from './appointment-type'
+import { documentsEndpoints } from './documents'
+import { folderEndpoints } from './folder'
+import { jobEndpoints } from './job'
+import { messagesEndpoints } from './messages'
+import { notesEndpoints } from './notes'
+import { profileEndpoints } from './profile'
 import { rtoEndpoints } from './rto'
 import { sectorEndpoints } from './sector'
 import { studentEndpoints } from './student'
 import { subAdminEndpoints } from './sub-admin'
 import { subscriberEndpoints } from './subscribers'
-import { notesEndpoints } from './notes'
-import { folderEndpoints } from './folder'
-import { appointmentTypeEndpoints } from './appointment-type'
-import { jobEndpoints } from './job'
-import { workplaceEndpoints } from './workplace'
-import { messagesEndpoints } from './messages'
-import { profileEndpoints } from './profile'
-import { AdminStats } from '@types'
-import { useUpdateSubAdminProfileMutation } from '../sub-admin'
 import { volunteerEndpoints } from './volunteer'
-import { documentsEndpoints } from './documents'
-import { emptySplitApi } from '../empty.query'
+import { workplaceEndpoints } from './workplace'
+import { industryRplEndpoints } from './industyRpl'
 
 const PREFIX = 'admin'
 export const adminApi = createApi({
@@ -57,6 +56,7 @@ export const adminApi = createApi({
         'Workplaces',
         'SMS',
         'Documents',
+        'RPL',
     ],
 
     // ---------- RTO ENDPOINTS ---------- //
@@ -91,6 +91,7 @@ export const adminApi = createApi({
         ...profileEndpoints(build),
         ...volunteerEndpoints(build),
         ...documentsEndpoints(build),
+        ...industryRplEndpoints(build),
     }),
     // overrideExisting: false,
 })
@@ -134,7 +135,6 @@ const {
     useStudentProfileQuery,
     useStudentStatusChangeMutation,
     useStudentRemoveMutation,
-   
 
     useFilteredStudentsQuery,
 
@@ -152,7 +152,10 @@ const {
     useIndustryStatusChangeMutation,
     useIndustryRemoveMutation,
     useIndustryDetailQuery,
+
+    // ----- RPL ----- //
     useRplRequestListQuery,
+    useRplDeleteMutation,
 
     // ------ SECTOR ------ //
     useSectorsQuery,
@@ -314,10 +317,14 @@ export const AdminApi = {
     Industries: {
         useListQuery: useIndustriesQuery,
         useCount: useIndustryCountQuery,
-        useRplList: useRplRequestListQuery,
         useStatusChange: useIndustryStatusChangeMutation,
         useDetail: useIndustryDetailQuery,
         useRemove: useIndustryRemoveMutation,
+    },
+
+    Rpl: {
+        useRplList: useRplRequestListQuery,
+        useRemoveRpl: useRplDeleteMutation,
     },
 
     Subscribers: {

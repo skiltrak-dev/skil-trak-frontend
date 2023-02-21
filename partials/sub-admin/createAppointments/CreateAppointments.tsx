@@ -8,6 +8,7 @@ import {
     Button,
     TextInput,
     LoadingAnimation,
+    Modal,
 } from '@components'
 import { AppointmentFor, AppointmentWithData } from './components'
 import { AppointmentType } from '@partials/appointmentType'
@@ -20,6 +21,7 @@ import {
     useSubAdminCreateAppointmentMutation,
     useAvailabilityListQuery,
     useGetSubAdminStudentDetailQuery,
+    SubAdminApi,
     CommonApi,
 } from '@queries'
 import { useRouter } from 'next/router'
@@ -35,6 +37,7 @@ export const CreateAppointments = () => {
     })
 
     const [user, setUser] = useState<string>('')
+    const [modal, setModal] = useState<any | null>(null)
 
     const [appointmentWith, setAppointmentWith] = useState<any | null>(null)
 
@@ -104,6 +107,8 @@ export const CreateAppointments = () => {
     //             !slots,
     //     }
     // )
+
+    const profile = SubAdminApi.SubAdmin.useProfile()
     const timeSlots = CommonApi.Appointments.useAppointmentsAvailableSlots(
         {
             id: appointmentTypeId,
@@ -128,6 +133,34 @@ export const CreateAppointments = () => {
             skip: selectedPerson.selectedAppointmentWith !== 'Self',
         }
     )
+
+    const onCancel = () => {
+        setModal(null)
+    }
+
+    const onShowModal = () => {
+        if (
+            profile?.isSuccess &&
+            profile.data &&
+            !profile.data?.canBookAppointments
+        ) {
+            setModal(
+                <Modal
+                    onConfirmClick={onCancel}
+                    title={'Book Appointments'}
+                    subtitle={'Book Appointments'}
+                    onCancelClick={onCancel}
+                >
+                    You need to enable Book/Receive Appointments from Setting to
+                    recive Book/Receive Appointments
+                </Modal>
+            )
+        }
+    }
+
+    useEffect(() => {
+        onShowModal()
+    }, [profile])
 
     useEffect(() => {
         setAppointmentWith(
@@ -165,21 +198,26 @@ export const CreateAppointments = () => {
     }, [appointmentTypeId])
 
     const onSubmit = () => {
-        setSlots(false)
-        let date = selectedDate
-        date?.setDate(date.getDate() + 1)
-        createAppointment({
-            ...selectedTime,
-            date,
-            note,
-            type: appointmentTypeId,
-            appointmentFor: selectedUser.selectedAppointmentForUser,
-            appointmentBy: selectedUser.selectedAppointmentWithUser,
-        })
+        if (profile.data?.canBookAppointments) {
+            setSlots(false)
+            let date = selectedDate
+            date?.setDate(date.getDate() + 1)
+            createAppointment({
+                ...selectedTime,
+                date,
+                note,
+                type: appointmentTypeId,
+                appointmentFor: selectedUser.selectedAppointmentForUser,
+                appointmentBy: selectedUser.selectedAppointmentWithUser,
+            })
+        } else {
+            onShowModal()
+        }
     }
 
     return (
         <>
+            {modal}
             <div className="flex flex-col gap-y-2">
                 <Card>
                     <div className="grid grid-cols-7">
@@ -297,7 +335,6 @@ export const CreateAppointments = () => {
                                 createAppointmentResult.isLoading
                             }
                             loading={createAppointmentResult.isLoading}
-                            // disabled={createAppointmentResult.isLoading}
                         />
                     </div>
                 </Card>

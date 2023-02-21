@@ -1,4 +1,10 @@
-import { createContext, useContext, useEffect, useState } from 'react'
+import {
+    createContext,
+    useCallback,
+    useContext,
+    useEffect,
+    useState,
+} from 'react'
 
 import { Alert, AlertType, AlertProps } from '@components'
 import { getToken } from '@utils'
@@ -35,10 +41,10 @@ export const AlertProvider = ({ children }: { children: React.ReactNode }) => {
     const token = getToken()
 
     useEffect(() => {
-        if (!token) {
-            setAlerts([])
-        }
-    }, [token])
+        setAlerts([])
+    }, [router])
+
+    console.log('alerts', alerts)
 
     const createAlert = ({
         title,

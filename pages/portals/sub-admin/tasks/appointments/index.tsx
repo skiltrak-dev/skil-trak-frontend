@@ -18,6 +18,7 @@ import { useContextBar } from '@hooks'
 import { CommonCB } from '@partials/rto/contextBar'
 import { CommonApi } from '@queries'
 import { UpcommingAppointments, PastAppointments } from '@partials/common'
+import moment from 'moment'
 
 type Props = {}
 
@@ -35,14 +36,33 @@ const Appointments: NextPageWithLayout = (props: Props) => {
         status: 'future',
     })
 
-    const events = futureAppointments?.data?.map((appointment: any) => ({
-        allDay: false,
-        start: new Date(appointment?.date),
-        end: new Date(appointment?.date),
-        title: 'Appointment',
-        priority: 'high',
-        subTitle: 'Go For It',
-    }))
+    const events = futureAppointments?.data?.map((appointment: any) => {
+        const startTime = new Date(appointment?.date)
+        const endTime = new Date(appointment?.date)
+        const startHours = Number(
+            moment(appointment?.startTime, 'hh:mm:ss').format('hh')
+        )
+        const startMinutes = Number(
+            moment(appointment?.startTime, 'hh:mm:ss').format('mm')
+        )
+        const endHours = Number(
+            moment(appointment?.endTime, 'hh:mm:ss').format('hh')
+        )
+        const endMinutes = Number(
+            moment(appointment?.endTime, 'hh:mm:ss').format('mm')
+        )
+        startTime.setHours(startHours, startMinutes)
+        endTime.setHours(endHours, endMinutes)
+
+        return {
+            allDay: false,
+            start: startTime,
+            end: endTime,
+            title: 'Appointment',
+            priority: 'high',
+            subTitle: 'Go For It',
+        }
+    })
 
     return (
         <div>

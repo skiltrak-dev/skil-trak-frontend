@@ -66,10 +66,10 @@ export const AssessmentsToolsContainer = () => {
         if (rtoCourses.isSuccess) {
             setSelectedCourseId(
                 selectedCourseId
-                    ? rtoCourses?.data?.data?.find(
+                    ? rtoCourses?.data?.find(
                           (c: any) => c?.id === selectedCourseId
                       )?.id
-                    : rtoCourses?.data?.data[0]?.id
+                    : rtoCourses?.data[0]?.id
             )
         }
     }, [rtoCourses])
@@ -151,24 +151,27 @@ export const AssessmentsToolsContainer = () => {
                                 Select a Course
                             </Typography>
                         </div>
-                        {rtoCourses?.isLoading || rtoCourses?.isFetching ? (
-                            <LoadingAnimation size={85} />
-                        ) : rtoCourses?.data?.data &&
-                          rtoCourses?.data?.data?.length > 0 ? (
-                            rtoCourses?.data?.data?.map((course: any) => (
-                                <AssessmentCourse
-                                    code={course?.code}
-                                    name={course?.title}
-                                    id={course.id}
-                                    onClick={() =>
-                                        setSelectedCourseId(course?.id)
-                                    }
-                                    selectedCourseId={selectedCourseId}
-                                />
-                            ))
-                        ) : (
-                            <NoData text={'No Courses were Found'} />
-                        )}
+
+                        <div className="max-h-96 overflow-auto remove-scrollbar">
+                            {rtoCourses?.isLoading || rtoCourses?.isFetching ? (
+                                <LoadingAnimation size={85} />
+                            ) : rtoCourses?.data &&
+                              rtoCourses?.data?.length > 0 ? (
+                                rtoCourses?.data?.map((course: any) => (
+                                    <AssessmentCourse
+                                        code={course?.code}
+                                        name={course?.title}
+                                        id={course.id}
+                                        onClick={() =>
+                                            setSelectedCourseId(course?.id)
+                                        }
+                                        selectedCourseId={selectedCourseId}
+                                    />
+                                ))
+                            ) : (
+                                <NoData text={'No Courses were Found'} />
+                            )}
+                        </div>
                     </div>
                     <div className="w-[75%]">
                         <div className="flex justify-end gap-x-2.5 p-4">

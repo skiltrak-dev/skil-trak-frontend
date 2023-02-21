@@ -16,7 +16,7 @@ import { ColumnDef } from '@tanstack/react-table'
 import { FaEdit, FaEye } from 'react-icons/fa'
 
 import { RtoCellInfo } from '@partials/admin/rto/components'
-import { AdminApi, commonApi } from '@queries'
+import { AdminApi } from '@queries'
 import { Student } from '@types'
 import { checkStudentStatus, checkWorkplaceStatus } from '@utils'
 import { useRouter } from 'next/router'
@@ -25,7 +25,7 @@ import { MdBlock } from 'react-icons/md'
 import { RiLockPasswordFill } from 'react-icons/ri'
 import { IndustryCell } from '../industry/components'
 import { ProgressCell, SectorCell, StudentCellInfo } from './components'
-import { BlockModal } from './modals'
+import { BlockModal, BlockMultiStudentsModal } from './modals'
 
 // hooks
 import { useActionModal } from '@hooks'
@@ -47,13 +47,21 @@ export const ApprovedStudent = () => {
             skip: itemPerPage * page - itemPerPage,
             limit: itemPerPage,
         })
-    const [bulkAction, resultBulkAction] = commonApi.useBulkStatusMutation()
 
     const onModalCancelClicked = () => {
         setModal(null)
     }
     const onBlockClicked = (student: Student) => {
         setModal(<BlockModal item={student} onCancel={onModalCancelClicked} />)
+    }
+
+    const onBlockMultiStudents = (student: Student[]) => {
+        setModal(
+            <BlockMultiStudentsModal
+                onCancel={onModalCancelClicked}
+                student={student}
+            />
+        )
     }
 
     const tableActionOptions: TableActionOption[] = [
@@ -134,7 +142,9 @@ export const ApprovedStudent = () => {
                     row.original?.studentStatus
                 )
 
-                return (
+                return industries?.length > 0 ? (
+                    <StudentStatusProgressCell step={studentStatus} />
+                ) : (
                     <ProgressCell
                         step={steps > 14 ? 14 : steps < 1 ? 1 : steps}
                     />
@@ -159,20 +169,42 @@ export const ApprovedStudent = () => {
 
     const quickActionsElements = {
         id: 'id',
-        individual: (id: number) => (
+        individual: (student: Student) => (
             <div className="flex gap-x-2">
-                <ActionButton Icon={FaEdit}>Edit</ActionButton>
-                <ActionButton>Sub Admins</ActionButton>
-                <ActionButton Icon={MdBlock} variant="error">
+                <ActionButton
+                    onClick={() => {
+                        router.push(
+                            `/portals/admin/student/${student?.id}?tab=overview`
+                        )
+                    }}
+                >
+                    View
+                </ActionButton>
+                <ActionButton
+                    Icon={FaEdit}
+                    onClick={() => {
+                        router.push(
+                            `/portals/admin/student/edit-student/${student?.id}`
+                        )
+                    }}
+                >
+                    Edit
+                </ActionButton>
+                <ActionButton
+                    Icon={MdBlock}
+                    variant="error"
+                    onClick={() => {
+                        onBlockClicked(student)
+                    }}
+                >
                     Block
                 </ActionButton>
             </div>
         ),
-        common: (ids: number[]) => (
+        common: (student: Student[]) => (
             <ActionButton
                 onClick={() => {
-                    const arrayOfIds = ids.map((id: any) => id?.user.id)
-                    bulkAction({ ids: arrayOfIds, status: 'blocked' })
+                    onBlockMultiStudents(student)
                 }}
                 Icon={MdBlock}
                 variant="error"

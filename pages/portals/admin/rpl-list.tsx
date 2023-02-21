@@ -25,8 +25,10 @@ import {
     TableActionOption,
     TechnicalError,
 } from '@components'
-import { DeleteModal, RequirementModal } from '@partials/admin/job'
 import { FaEnvelope, FaFileExport, FaPhone, FaTrash } from 'react-icons/fa'
+import Link from 'next/link'
+import { MdEmail, MdPhoneIphone } from 'react-icons/md'
+import { DeleteRplModal } from '@partials/admin/Rpl'
 
 type Props = {}
 
@@ -38,7 +40,7 @@ const RPLList: NextPageWithLayout = (props: Props) => {
     const [itemPerPage, setItemPerPage] = useState(50)
     const [page, setPage] = useState(1)
     const [filter, setFilter] = useState({})
-    const { isLoading, data, isError } = AdminApi.Industries.useRplList({
+    const { isLoading, data, isError } = AdminApi.Rpl.useRplList({
         search: `${JSON.stringify(filter)
             .replaceAll('{', '')
             .replaceAll('}', '')
@@ -51,13 +53,8 @@ const RPLList: NextPageWithLayout = (props: Props) => {
         setModal(null)
     }
 
-    const onDeleteClicked = (appointmentType: AppointmentType) => {
-        setModal(
-            <DeleteModal
-                appointmentType={appointmentType}
-                onCancel={() => onModalCancelClicked()}
-            />
-        )
+    const onDeleteClicked = (rpl: any) => {
+        setModal(<DeleteRplModal rpl={rpl} onCancel={onModalCancelClicked} />)
     }
     useEffect(() => {
         navBar.setTitle('RPL LIST')
@@ -72,20 +69,42 @@ const RPLList: NextPageWithLayout = (props: Props) => {
     ]
 
     const columns: ColumnDef<any>[] = [
-        // {
-        //   header: () => <span>Title</span>,
-        //   accessorKey: '',
-        //   cell: (info) => {
-        //     return (
-        //       <div>
-        //         <p className="font-semibold">
-        //           {info.row.original.id}
-        //         </p>
-
-        //       </div>
-        //     )
-        //   },
-        // },
+        {
+            header: () => <span>Industry</span>,
+            accessorKey: 'name',
+            cell: ({ row }) => {
+                const { industry } = row.original
+                return (
+                    <Link href={`#`} className="flex items-center gap-x-2">
+                        <div className="shadow-inner-image rounded-full relative">
+                            <InitialAvatar
+                                name={industry?.user?.name}
+                                imageUrl={industry?.user?.avatar}
+                            />
+                        </div>
+                        <div>
+                            <p className="font-semibold">
+                                {industry?.user?.name}
+                            </p>
+                            <div className="font-medium text-xs text-gray-500">
+                                <p className="flex items-center gap-x-1">
+                                    <span>
+                                        <MdEmail />
+                                    </span>
+                                    {industry?.user?.email}
+                                </p>
+                                <p className="flex items-center gap-x-1">
+                                    <span>
+                                        <MdPhoneIphone />
+                                    </span>
+                                    {industry?.phoneNumber}
+                                </p>
+                            </div>
+                        </div>
+                    </Link>
+                )
+            },
+        },
         // {
         //   header: () => <span>Description</span>,
         //   accessorKey: '',
@@ -104,59 +123,20 @@ const RPLList: NextPageWithLayout = (props: Props) => {
                 return <div>{info.row.original?.jobDescription}</div>
             },
         },
-        // {
-        //   header: () => <span>Contact Person</span>,
-        //   accessorKey: 'contactPerson',
-        //   cell: (info) => {
-        //     return (
-        //       <div className="flex items-center gap-x-2">
-        //         <InitialAvatar
-        //           name={info.row.original.contactPerson}
-        //           small
-        //         />
-        //         <p>{info.row.original.contactPerson}</p>
-        //       </div>
-        //     )
-        //   },
-        // },
-        // {
-        //   header: () => <span>Address</span>,
-        //   accessorKey: 'suburb',
-        //   cell: (info) => info.getValue(),
-        // },
-        // {
-        //   header: () => <span>Salary</span>,
-        //   accessorKey: 'salaryFrom',
-        //   cell: (info) => {
-        //     return (
-        //       <div>
-        //         <span className="text-gray-400">AUD</span>{' '}
-        //         <span className="text-gray-600 font-semibold">
-        //           {info.row.original.salaryFrom}
-        //         </span>{' '}
-        //         - <span className="text-gray-400">AUD</span>{' '}
-        //         <span className="text-gray-600 font-semibold">
-        //           {info.row.original.salaryTo}
-        //         </span>
-        //       </div>
-        //     )
-        //   },
-        // },
-
-        // {
-        //   accessorKey: 'action',
-        //   header: () => <span>Action</span>,
-        //   cell: (info) => {
-        //     return (
-        //       <div className="flex gap-x-1 items-center">
-        //         <TableAction
-        //           options={tableActionOptions}
-        //           rowItem={info.row.original}
-        //         />
-        //       </div>
-        //     )
-        //   },
-        // },
+        {
+            accessorKey: 'action',
+            header: () => <span>Action</span>,
+            cell: (info: any) => {
+                return (
+                    <div className="flex gap-x-1 items-center">
+                        <TableAction
+                            options={tableActionOptions}
+                            rowItem={info.row.original}
+                        />
+                    </div>
+                )
+            },
+        },
     ]
 
     const quickActionsElements = {
@@ -186,7 +166,7 @@ const RPLList: NextPageWithLayout = (props: Props) => {
                     title={'RPL List'}
                     subtitle={'List of Requested RPL'}
                 >
-                    {filterAction}
+                    {/* {filterAction} */}
                     {data && data?.data.length ? (
                         <Button
                             text="Export"
