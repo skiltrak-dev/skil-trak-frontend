@@ -105,10 +105,7 @@ export const RTOProfileEditForm = ({
 
     const validationSchema = yup.object({
         // Profile Information
-        name: yup
-            .string()
-            .matches(onlyAlphabets(), 'Please enter valid name')
-            .required('Must provide your name'),
+        name: yup.string().required('Must provide your name'),
 
         email: yup
             .string()

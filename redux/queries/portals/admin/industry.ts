@@ -14,6 +14,32 @@ const PREFIX = 'admin/'
 export const industryEndpoints = (
     builder: EndpointBuilder<BaseQueryFn, string, string>
 ) => ({
+    industrySectors: builder.query<Course[], number>({
+        query: (id) => `${PREFIX}industry/courses/${id}`,
+        providesTags: ['Industries'],
+    }),
+    industryAssignCourses: builder.mutation<
+        any,
+        { user: number; courses: number[] }
+    >({
+        query: (body) => ({
+            url: `${PREFIX}industry/course/assign`,
+            method: 'POST',
+            body,
+        }),
+        invalidatesTags: ['Industries'],
+    }),
+    industryUnassignCourse: builder.mutation<
+        any,
+        { courseId: number; industryId: number }
+    >({
+        query: (body) => ({
+            url: `${PREFIX}industry/course/un-assign/${body.courseId}`,
+            params: { industry: body.industryId },
+            method: 'DELETE',
+        }),
+        invalidatesTags: ['Industries'],
+    }),
     industryCount: builder.query<UserCount, void>({
         query: () => `${PREFIX}industries/list/count`,
         providesTags: ['Industries'],
@@ -47,7 +73,6 @@ export const industryEndpoints = (
         query: (id) => `${PREFIX}industries/${id}`,
         providesTags: ['Industries'],
     }),
-    
 
     industryRemove: builder.mutation({
         query: (id) => ({

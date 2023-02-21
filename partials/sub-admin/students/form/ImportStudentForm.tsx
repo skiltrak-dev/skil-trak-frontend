@@ -75,7 +75,6 @@ export const ImportStudentForm = ({
             onStudentFound && onStudentFound(rows, fileData, emailExists)
         }
     }
-    console.log("emailExists", checkEmailResult?.data)
     return (
         <FormProvider {...methods}>
             <form

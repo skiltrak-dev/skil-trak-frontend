@@ -41,7 +41,6 @@ export const SearchUserCard = ({
         setPage(1)
         setItemPerPage(10)
     }, [searchValue])
-    console.log('searchValue', searchValue)
 
     const role = getUserCredentials()?.role
 

@@ -134,14 +134,15 @@ export const ArchivedStudent = () => {
                 const studentStatus = checkStudentStatus(
                     row.original?.studentStatus
                 )
-
-                return industries?.length > 0 ? (
-                    <StudentStatusProgressCell step={studentStatus} />
-                ) : (
-                    <ProgressCell
-                        step={steps > 14 ? 14 : steps < 1 ? 1 : steps}
-                    />
-                )
+                return 'Saad'
+                // return <StudentStatusProgressCell step={studentStatus} />
+                // return industries?.length > 0 ? (
+                //     <StudentStatusProgressCell step={studentStatus} />
+                // ) : (
+                //     <ProgressCell
+                //         step={steps > 14 ? 14 : steps < 1 ? 1 : steps}
+                //     />
+                // )
             },
         },
         {

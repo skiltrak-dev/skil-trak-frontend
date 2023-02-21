@@ -29,6 +29,7 @@ import {
     useAssessmentCountQuery,
     useGetAssessmentEvidenceQuery,
 } from '@queries'
+import { getCountData } from '@utils'
 
 type Props = {}
 
@@ -41,32 +42,22 @@ const AssessmentEvidence: NextPageWithLayout = (props: Props) => {
     const [itemPerPage, setItemPerPage] = useState(50)
     const [modal, setModal] = useState<any | null>(null)
 
-    const [assessMentCount, setAssessMentCount] = useState<any>({})
-
     const count = useAssessmentCountQuery()
-    const profile = SubAdminApi.SubAdmin.useProfile()
-    const filteredAssessments = useGetAssessmentEvidenceQuery({
-        search: `${JSON.stringify(filter)
-            .replaceAll('{', '')
-            .replaceAll('}', '')
-            .replaceAll('"', '')
-            .trim()}`,
-        skip: itemPerPage * page - itemPerPage,
-        limit: itemPerPage,
+    const profile = SubAdminApi.SubAdmin.useProfile(undefined, {
+        refetchOnMountOrArgChange: true,
     })
-
-    useEffect(() => {
-        if (count?.isSuccess && count?.data) {
-            count?.data?.forEach((count: any) =>
-                Object.entries(count).map(([key, value]) => {
-                    setAssessMentCount((preVal: any) => ({
-                        ...preVal,
-                        [key]: value,
-                    }))
-                })
-            )
-        }
-    }, [count])
+    const filteredAssessments = useGetAssessmentEvidenceQuery(
+        {
+            search: `${JSON.stringify(filter)
+                .replaceAll('{', '')
+                .replaceAll('}', '')
+                .replaceAll('"', '')
+                .trim()}`,
+            skip: itemPerPage * page - itemPerPage,
+            limit: itemPerPage,
+        },
+        { refetchOnMountOrArgChange: true }
+    )
 
     const onCancel = () => {
         setModal(null)
@@ -91,6 +82,8 @@ const AssessmentEvidence: NextPageWithLayout = (props: Props) => {
             )
         }
     }, [profile])
+
+    const assessMentCount = getCountData(count?.data)
 
     const tabs: TabProps[] = [
         {

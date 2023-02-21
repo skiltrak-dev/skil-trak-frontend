@@ -70,10 +70,7 @@ export const StudentSignUpForm = ({ onSubmit }: { onSubmit: any }) => {
 
     const validationSchema = yup.object({
         // Profile Information
-        name: yup
-            .string()
-            .matches(onlyAlphabets(), 'Please enter valid name')
-            .required('Must provide your name'),
+        name: yup.string().required('Must provide your name'),
 
         email: yup
             .string()
@@ -326,8 +323,8 @@ export const StudentSignUpForm = ({ onSubmit }: { onSubmit: any }) => {
                                 label={'Sector'}
                                 {...(storedData
                                     ? {
-                                        defaultValue: storedData.sectors,
-                                    }
+                                          defaultValue: storedData.sectors,
+                                      }
                                     : {})}
                                 name={'sectors'}
                                 options={sectorOptions}
@@ -456,7 +453,10 @@ export const StudentSignUpForm = ({ onSubmit }: { onSubmit: any }) => {
                             label={
                                 <>
                                     I agree with{' '}
-                                    <Link legacyBehavior href="/terms-and-conditions">
+                                    <Link
+                                        legacyBehavior
+                                        href="/terms-and-conditions"
+                                    >
                                         <a className="text-link">Terms</a>
                                     </Link>{' '}
                                     {'&'}{' '}

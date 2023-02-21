@@ -19,17 +19,17 @@ export const EventWrapper = <T extends object>(event: any) => {
     })
 
     const textClasses = classNames({
-      'text-xs font-medium': true,
-      'text-indigo-700': event.event.priority === 'high',
-      'text-blue-700': event.event.priority === 'medium',
-      'text-green-700': event.event.priority === 'low',
-  })
+        'text-xs font-medium': true,
+        'text-indigo-700': event.event.priority === 'high',
+        'text-blue-700': event.event.priority === 'medium',
+        'text-green-700': event.event.priority === 'low',
+    })
 
     return (
         <div
             style={{
                 top: `${event.style?.top}%`,
-                height: `${event.style?.height}%`,
+                // height: `${event.style?.height}%`,
                 width: `${event.style?.width}%`,
                 left: `${event.style?.xOffset}%`,
             }}

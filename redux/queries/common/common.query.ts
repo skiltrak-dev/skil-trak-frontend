@@ -40,6 +40,7 @@ export const commonApi = createApi({
         'AllNotifications',
         'Students',
         'BulkStatus',
+        'Documents',
     ],
 
     // ---------- RTO ENDPOINTS ---------- //
@@ -66,6 +67,10 @@ export const commonApi = createApi({
                 body: { ids },
             }),
             invalidatesTags: ['BulkStatus'],
+        }),
+        getDocuments: build.query<any, void>({
+            query: () => `admin/documents/list`,
+            providesTags: ['Documents'],
         }),
 
         ...rtosEndpoints(build),
@@ -126,6 +131,9 @@ const {
 
     // ------ Bulk Status ------ //
     useBulkStatusMutation,
+
+    // ---- DOCUMENTS ---- //
+    useGetDocumentsQuery,
 } = commonApi
 
 export const CommonApi = {
@@ -172,5 +180,8 @@ export const CommonApi = {
     Notifications: {
         useNotifications: useGetNotificationsQuery,
         useIsReadNotification: useIsReadNotificationMutation,
+    },
+    Documents: {
+        useList: useGetDocumentsQuery,
     },
 }

@@ -9,17 +9,13 @@ import { Card, HelpQuestionSet, LottieAnimation, Typography } from '@components'
 import { Animations } from '@animations'
 import { Desktop, Mobile } from '@components/Responsive'
 import { AdForRPL } from '@components/sections/industry'
-import { ImportantDocuments } from '@partials/industry'
+// import { ImportantDocuments } from '@partials/industry'
+import { ImportantDocuments } from '@partials/student/components'
 import { ViewProfileCB } from '@partials/industry/contextBar'
 import { AuthUtils } from '@utils'
 import { useContextBar } from 'hooks'
 import { useRouter } from 'next/router'
 import { CallBackProps } from 'react-joyride'
-
-
-
-
-
 
 export const PrimaryActions = [
     {
@@ -41,10 +37,10 @@ const getSectors = (courses: any) => {
     const sectors = {}
     courses.forEach((c: any) => {
         if ((sectors as any)[c.sector.name]) {
-            ; (sectors as any)[c.sector.name].push(c)
+            ;(sectors as any)[c.sector.name].push(c)
         } else {
-            ; (sectors as any)[c.sector.name] = []
-                ; (sectors as any)[c.sector.name].push(c)
+            ;(sectors as any)[c.sector.name] = []
+            ;(sectors as any)[c.sector.name].push(c)
         }
     })
     return sectors
@@ -103,8 +99,7 @@ export const IndustryDashboardContainer = () => {
                             stepIndex: 0,
                             tourActive: false,
                         })
-                    }
-                    else if (
+                    } else if (
                         type === 'step:after' &&
                         index === 0 /* or step.target === '#home' */
                     ) {
@@ -194,8 +189,7 @@ export const IndustryDashboardContainer = () => {
                             stepIndex: 0,
                             tourActive: false,
                         })
-                    }
-                    else if (
+                    } else if (
                         type === 'step:after' &&
                         index === 0 /* or step.target === '#home' */
                     ) {
@@ -270,8 +264,7 @@ export const IndustryDashboardContainer = () => {
                             stepIndex: 0,
                             tourActive: false,
                         })
-                    }
-                    else if (
+                    } else if (
                         type === 'step:after' &&
                         index === 0 /* or step.target === '#home' */
                     ) {
@@ -315,7 +308,10 @@ export const IndustryDashboardContainer = () => {
                     content: (
                         <>
                             <div className="font-semibold">Click here</div>
-                            <div>You can find students cv and other related docs from here</div>
+                            <div>
+                                You can find students cv and other related docs
+                                from here
+                            </div>
                         </>
                     ),
                     disableBeacon: true,
@@ -353,8 +349,7 @@ export const IndustryDashboardContainer = () => {
                             stepIndex: 0,
                             tourActive: false,
                         })
-                    }
-                    else if (
+                    } else if (
                         type === 'step:after' &&
                         index === 0 /* or step.target === '#home' */
                     ) {
@@ -389,7 +384,6 @@ export const IndustryDashboardContainer = () => {
                 }
             },
         },
-
     ]
     //============================================================
     const AssessmentQuestions = [
@@ -439,8 +433,7 @@ export const IndustryDashboardContainer = () => {
                             stepIndex: 0,
                             tourActive: false,
                         })
-                    }
-                    else if (
+                    } else if (
                         type === 'step:after' &&
                         index === 0 /* or step.target === '#home' */
                     ) {
@@ -457,7 +450,9 @@ export const IndustryDashboardContainer = () => {
                             ...prev,
                             run: false,
                         }))
-                        router.push('/portals/industry/students/current-students?tab=pending')
+                        router.push(
+                            '/portals/industry/students/current-students?tab=pending'
+                        )
                         joyride.setState({
                             ...joyride.state,
                             run: false,
@@ -530,8 +525,7 @@ export const IndustryDashboardContainer = () => {
                             stepIndex: 0,
                             tourActive: false,
                         })
-                    }
-                    else if (
+                    } else if (
                         type === 'step:after' &&
                         index === 0 /* or step.target === '#home' */
                     ) {
@@ -569,7 +563,9 @@ export const IndustryDashboardContainer = () => {
                     content: (
                         <>
                             <div className="font-semibold">Click here</div>
-                            <div>You Find Request a volunteer tab from here</div>
+                            <div>
+                                You Find Request a volunteer tab from here
+                            </div>
                         </>
                     ),
                     disableBeacon: true,
@@ -606,8 +602,7 @@ export const IndustryDashboardContainer = () => {
                             stepIndex: 0,
                             tourActive: false,
                         })
-                    }
-                    else if (
+                    } else if (
                         type === 'step:after' &&
                         index === 0 /* or step.target === '#home' */
                     ) {
@@ -624,7 +619,9 @@ export const IndustryDashboardContainer = () => {
                             ...prev,
                             run: false,
                         }))
-                        router.push('/portals/industry/students/request-a-volunteer')
+                        router.push(
+                            '/portals/industry/students/request-a-volunteer'
+                        )
                         joyride.setState({
                             ...joyride.state,
                             run: false,
@@ -688,8 +685,7 @@ export const IndustryDashboardContainer = () => {
                             stepIndex: 0,
                             tourActive: false,
                         })
-                    }
-                    else if (
+                    } else if (
                         type === 'step:after' &&
                         index === 0 /* or step.target === '#home' */
                     ) {
@@ -706,7 +702,9 @@ export const IndustryDashboardContainer = () => {
                             ...prev,
                             run: false,
                         }))
-                        router.push('/portals/industry/students/current-students?tab=pending')
+                        router.push(
+                            '/portals/industry/students/current-students?tab=pending'
+                        )
                         joyride.setState({
                             ...joyride.state,
                             run: false,
@@ -724,7 +722,6 @@ export const IndustryDashboardContainer = () => {
                 }
             },
         },
-
     ]
     //=================================================
     const NotificationQuestions = [
@@ -737,7 +734,9 @@ export const IndustryDashboardContainer = () => {
                     content: (
                         <>
                             <div className="font-semibold">Click here</div>
-                            <div>You can find advertise a job tab from here</div>
+                            <div>
+                                You can find advertise a job tab from here
+                            </div>
                         </>
                     ),
                     disableBeacon: true,
@@ -783,8 +782,7 @@ export const IndustryDashboardContainer = () => {
                             stepIndex: 0,
                             tourActive: false,
                         })
-                    }
-                    else if (
+                    } else if (
                         type === 'step:after' &&
                         index === 0 /* or step.target === '#home' */
                     ) {
@@ -847,8 +845,6 @@ export const IndustryDashboardContainer = () => {
             }
         }
     }, [credentials])
-
-
 
     return (
         <div className="flex flex-col gap-y-6">

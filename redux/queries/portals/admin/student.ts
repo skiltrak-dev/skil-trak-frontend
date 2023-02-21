@@ -55,13 +55,11 @@ export const studentEndpoints = (
     }),
 
     studentAssignCourses: builder.mutation({
-        query: (body) => {
-            return {
-                url: `${PREFIX}student/course/assign`,
-                method: 'POST',
-                body,
-            }
-        },
+        query: (body) => ({
+            url: `${PREFIX}student/course/assign`,
+            method: 'POST',
+            body,
+        }),
         invalidatesTags: ['Students'],
     }),
 

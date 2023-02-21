@@ -124,12 +124,12 @@ export const ArchivedStudent = () => {
                 const studentStatus = checkStudentStatus(
                     row.original?.studentStatus
                 )
-
-                return industries?.length > 0 ? (
-                    <StudentStatusProgressCell step={studentStatus} />
-                ) : (
-                    <StudentStatusProgressCell step={3} />
-                )
+                return <StudentStatusProgressCell step={studentStatus} />
+                // return industries?.length > 0 ? (
+                //     <StudentStatusProgressCell step={studentStatus} />
+                // ) : (
+                //     <StudentStatusProgressCell step={3} />
+                // )
                 // return industries?.length > 0 ? (
                 //     <StudentStatusProgressCell step={studentStatus} />
                 // ) : (

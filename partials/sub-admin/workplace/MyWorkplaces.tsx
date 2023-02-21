@@ -17,10 +17,13 @@ export const MyWorkplaces = () => {
     const [page, setPage] = useState(1)
     const [itemPerPage, setItemPerPage] = useState(30)
 
-    const subAdminWorkplace = useGetMyStudentsWorkplacesQuery({
-        skip: itemPerPage * page - itemPerPage,
-        limit: itemPerPage,
-    })
+    const subAdminWorkplace = useGetMyStudentsWorkplacesQuery(
+        {
+            skip: itemPerPage * page - itemPerPage,
+            limit: itemPerPage,
+        },
+        { refetchOnMountOrArgChange: true }
+    )
     return (
         <div>
             <div className="flex items-center justify-between">
