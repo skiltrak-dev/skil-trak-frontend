@@ -5,38 +5,43 @@ import { SubAdminLayout } from '@layouts'
 import { NextPageWithLayout } from '@types'
 import { AllMails, MailDetail, ReadMails, UnReadMails } from '@partials/common'
 import { Button, MailForm, TabNavigation, TabProps } from '@components'
-import { useSendMessageMutation } from '@queries'
+import { CommonApi, useSendMessageMutation } from '@queries'
 import { useContextBar } from '@hooks'
 
 const SubAdminNotifications: NextPageWithLayout = () => {
     const onMessageClick = () => { }
-    const [selectedMessage, setSelectedMessage] = useState(null)
+    const [selectedMessage, setSelectedMessage] = useState(0)
     const [showForm, setShowForm] = useState(false)
     const contextBar = useContextBar()
+    const { data, isLoading } = CommonApi.Messages.useAllConversations()
+    const { data: singleChat } = CommonApi.Messages.useSingleChat(selectedMessage,
+        {
+            skip: !selectedMessage,
+        })
+    console.log("data", data)
     const tabs: TabProps[] = [
         {
             label: 'All',
             href: { pathname: 'notifications', query: { tab: 'all-mails' } },
             badge: {
-                text: 2,
+                text: data?.length,
                 loading: false,
             },
             element: (
                 <div className="flex">
                     <div>
-                        {[...Array(10)].fill(null).map((_, i:any) => (
+                        {data?.map((message: any) => (
                             <AllMails
-                                key={i}
-                                title={`Message`}
-                                description={`janedoe@gmail.com`}
-                                timestamp={'Tue 9 Aug'}
-                                selectedMessage={selectedMessage}
-                                id={i}
-                                onClick={()=> setSelectedMessage(i)}
+                                key={message?.id}
+                                title={message.name}
+                                description={message.email}
+                                timestamp={message.createdAt}
+                                id={message.id}
+                                onClick={() => setSelectedMessage(message.id)}
                             />
                         ))}
                     </div>
-                    <MailDetail />
+                    <MailDetail message={singleChat} />
                 </div>
             ),
         },
@@ -44,23 +49,25 @@ const SubAdminNotifications: NextPageWithLayout = () => {
             label: 'Unread',
             href: { pathname: 'notifications', query: { tab: 'unread-mails' } },
             badge: {
-                text: 10,
-                loading: false,
+                text: data?.length,
+                loading: isLoading,
             },
             element: (
                 <div className="flex">
                     <div>
-                        {[...Array(8)].fill(null).map((_, i) => (
+                        {data?.map((message: any, i: any) => (
                             <UnReadMails
-                                key={i}
-                                title={`Message`}
-                                description={`Description for Message`}
-                                timestamp={'Tue 9 Aug'}
-                                onClick={onMessageClick}
+                                key={message?.id}
+                                title={message.name}
+                                description={message.email}
+                                timestamp={message.createdAt}
+                                // selectedMessage={message}
+                                id={message.id}
+                                onClick={() => setSelectedMessage(message.id)}
                             />
                         ))}
                     </div>
-                    <MailDetail />
+                    <MailDetail message={singleChat} />
                 </div>
             ),
         },
@@ -68,40 +75,31 @@ const SubAdminNotifications: NextPageWithLayout = () => {
             label: 'Read',
             href: { pathname: 'notifications', query: { tab: 'read-mails' } },
             badge: {
-                text: 10,
-                loading: false,
+                text: data?.length,
+                loading: isLoading,
             },
             element: (
                 <div className="flex">
                     <div>
-                        {[...Array(5)].fill(null).map((_, i) => (
+                        {data?.map((message: any) => (
                             <ReadMails
-                                key={i}
-                                title={`Message`}
-                                description={`janedoe@gmail.com`}
-                                timestamp={'Tue 9 Aug'}
-                                onClick={onMessageClick}
+                                key={message?.id}
+                                title={message.name}
+                                description={message.email}
+                                timestamp={message.createdAt}
+                                // selectedMessage={message}
+                                id={message.id}
+                                onClick={() => setSelectedMessage(message.id)}
+
                             />
                         ))}
                     </div>
-                    <MailDetail />
+                    <MailDetail message={singleChat} />
                 </div>
             ),
         },
     ]
-    {
-        /* <>
-                    {[...Array(10)].fill(null).map((_, i) => (
-                        <AllMails
-                            key={i}
-                            title={`Message`}
-                            description={`Description for Message`}
-                            timestamp={'Tue 9 Aug'}
-                            onClick={onMessageClick}
-                        />
-                    ))}
-                </> */
-    }
+
     return (
         <div>
             <TabNavigation tabs={tabs}>

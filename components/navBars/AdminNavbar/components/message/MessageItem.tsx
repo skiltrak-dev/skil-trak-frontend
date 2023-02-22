@@ -1,6 +1,8 @@
 import { Typography } from '@components'
+import moment from 'moment'
 import { MouseEventHandler } from 'react'
 import { AiFillBell, AiOutlineMail } from 'react-icons/ai'
+import { HiOutlineMailOpen } from 'react-icons/hi'
 
 interface MessageItemProps {
     title: string
@@ -9,6 +11,8 @@ interface MessageItemProps {
     icon?: any
     avatar?: string
     onClick?: MouseEventHandler
+    isSeen: boolean
+    resultSeenMessage: any
 }
 
 export const MessageItem = ({
@@ -18,6 +22,10 @@ export const MessageItem = ({
     icon,
     avatar,
     onClick,
+    isSeen,
+
+    resultSeenMessage,
+
 }: MessageItemProps) => {
     const Icon = icon
 
@@ -27,7 +35,7 @@ export const MessageItem = ({
             className="flex items-center border-b py-2 px-4 hover:bg-secondary cursor-pointer"
         >
             {icon ? (
-                <div className="text-gray-500 bg-gray-300 h-8 w-8 rounded-md flex items-center justify-center text-2xl mr-2">
+                <div className={`${!resultSeenMessage.isSuccess && !isSeen ? "text-blue-400" : "text-gray-500"}  bg-gray-300 h-8 w-8 rounded-md flex items-center justify-center text-2xl mr-2`}>
                     <Icon />
                 </div>
             ) : avatar ? (
@@ -37,22 +45,24 @@ export const MessageItem = ({
                     alt=""
                 />
             ) : (
-                <div className="text-gray-500 bg-gray-300 h-8 w-8 rounded-md flex items-center justify-center text-2xl mr-2">
+                <div className={`${!resultSeenMessage.isSuccess && !isSeen ? "text-blue-400 bg-blue-200" : "text-gray-500 bg-gray-300"} h-8 w-8 rounded-md flex items-center justify-center text-2xl mr-2`}>
                     <AiFillBell />
                 </div>
             )}
 
             <div className="flex-grow">
-                <Typography variant={'subtitle'}>{title}</Typography>
+                <Typography variant={'subtitle'} color={`${!resultSeenMessage.isSuccess && !isSeen ? "text-blue-400" : 'text-muted'}`} >{title}</Typography>
                 <Typography variant={'muted'} color={'text-muted'}>
-                    {description}
+                    {description.substring(0, 10)}...
                 </Typography>
             </div>
             <div className="flex flex-col items-end">
                 <Typography variant={'small'} color={'text-muted'}>
-                    {timestamp}
+                    {moment(new Date(timestamp)).format(
+                        'dddd, MMMM'
+                    )}
                 </Typography>
-                <AiOutlineMail />
+                {!resultSeenMessage.isSuccess && !isSeen ? (<><AiOutlineMail className='text-blue-400' /></>) : (<><HiOutlineMailOpen /></>)}
             </div>
         </div>
     )
