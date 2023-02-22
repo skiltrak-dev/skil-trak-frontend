@@ -20,7 +20,7 @@ import { Industry } from '@types'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import { MdUnarchive } from 'react-icons/md'
-import { IndustryCell } from './components'
+import { IndustryCell, SectorCell } from './components'
 
 // hooks
 import { useActionModal } from '@hooks'
@@ -34,13 +34,13 @@ export const ArchivedIndustry = () => {
     // hooks
     const { passwordModal, onViewPassword } = useActionModal()
 
-    const { isLoading, data, isError, refetch } = AdminApi.Industries.useListQuery({
-        search: `status:archived`,
-        skip: itemPerPage * page - itemPerPage,
-        limit: itemPerPage,
-    })
+    const { isLoading, data, isError, refetch } =
+        AdminApi.Industries.useListQuery({
+            search: `status:archived`,
+            skip: itemPerPage * page - itemPerPage,
+            limit: itemPerPage,
+        })
     const [bulkAction, resultBulkAction] = commonApi.useBulkStatusMutation()
-    
 
     const tableActionOptions: TableActionOption[] = [
         {
@@ -66,13 +66,13 @@ export const ArchivedIndustry = () => {
         },
         {
             text: 'Unarchive',
-            onClick: () => { },
+            onClick: () => {},
             Icon: MdUnarchive,
             color: 'text-orange-500 hover:bg-orange-100 hover:border-orange-200',
         },
         {
             text: 'Delete',
-            onClick: () => { },
+            onClick: () => {},
             Icon: FaTrash,
             color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
         },
@@ -105,7 +105,13 @@ export const ArchivedIndustry = () => {
                 )
             },
         },
-
+        {
+            accessorKey: 'sectors',
+            header: () => <span>Sectors</span>,
+            cell: (info) => {
+                return <SectorCell industry={info.row.original} />
+            },
+        },
         {
             accessorKey: 'suburb',
             header: () => <span>Address</span>,

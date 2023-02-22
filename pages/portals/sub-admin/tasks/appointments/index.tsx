@@ -34,20 +34,19 @@ const Appointments: NextPageWithLayout = (props: Props) => {
 
     // query
     const futureAppointments = CommonApi.Appointments.useBookedAppointments({
-        status: 'future',
+        status: undefined,
     })
-
     const events = futureAppointments?.data?.map((appointment: any) => {
         const startTime = new Date(appointment?.date)
         const endTime = new Date(appointment?.date)
         const startHours = Number(
-            moment(appointment?.startTime, 'hh:mm:ss').format('hh')
+            moment(appointment?.startTime, 'hh:mm:ss').format('HH')
         )
         const startMinutes = Number(
             moment(appointment?.startTime, 'hh:mm:ss').format('mm')
         )
         const endHours = Number(
-            moment(appointment?.endTime, 'hh:mm:ss').format('hh')
+            moment(appointment?.endTime, 'hh:mm:ss').format('HH')
         )
         const endMinutes = Number(
             moment(appointment?.endTime, 'hh:mm:ss').format('mm')
@@ -55,40 +54,31 @@ const Appointments: NextPageWithLayout = (props: Props) => {
         startTime.setHours(startHours, startMinutes)
         endTime.setHours(endHours, endMinutes)
 
-        const id = getUserCredentials()?.id
-        const appointmentWith =
-            appointment?.appointmentBy?.id === id
-                ? 'appointmentFor'
-                : 'appointmentBy'
-
-        const appointmentUser = appointment[appointmentWith]
-
-        const appointmentWithUser =
-            appointmentUser[
-                appointmentUser['role'] === 'subadmin'
-                    ? 'coordinator'
-                    : appointmentUser['role']
-            ]
+        const appointmentUser = appointment['appointmentFor']
 
         const getPriority = () => {
-            switch (appointmentUser['role']) {
-                case 'student':
-                    return 'high'
-                case 'rto':
-                    return 'medium'
-                case 'industry':
-                    return 'low'
-
-                default:
-                    return
+            if (appointmentUser) {
+                switch (appointmentUser['role']) {
+                    case 'student':
+                        return 'high'
+                    case 'rto':
+                        return 'medium'
+                    case 'industry':
+                        return 'low'
+                    default:
+                        return
+                }
             }
+            return 'high'
         }
 
         return {
             allDay: false,
             start: startTime,
             end: endTime,
-            title: ` ${appointmentUser?.name}, ${appointment?.type?.title}`,
+            title: ` ${appointmentUser?.name || ''}, ${
+                appointment?.type?.title
+            }`,
             priority: getPriority(),
             subTitle: 'Go For It',
         }
@@ -132,7 +122,10 @@ const Appointments: NextPageWithLayout = (props: Props) => {
 
             <div className="mb-4">
                 <Card>
-                    <BigCalendar events={events} />
+                    <BigCalendar
+                        events={events}
+                        loading={futureAppointments.isLoading}
+                    />
                 </Card>
             </div>
 

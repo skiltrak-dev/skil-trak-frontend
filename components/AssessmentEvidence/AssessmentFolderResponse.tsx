@@ -2,6 +2,7 @@ import { ChangeEvent, useEffect, useState } from 'react'
 
 // components
 import {
+    AssessmentFolderFileCard,
     Badge,
     FileViewModal,
     LoadingAnimation,
@@ -14,7 +15,6 @@ import {
 
 import { Button } from '@components/buttons'
 import { TextInput } from '@components/inputs'
-import { AssessmentFolderFileCard } from '@components/sections/student/AssessmentsContainer'
 
 // query
 import { useAddCommentOnAssessmentMutation } from '@queries'
@@ -36,8 +36,8 @@ export const AssessmentResponse = ({
     header?: boolean
     result?: any
 }) => {
-    // const [comment, setComment] = useState<string>('')
-    // const [commentType, setCommentType] = useState<string>('')
+    const [comment, setComment] = useState<string>('')
+    const [commentType, setCommentType] = useState<string>('')
 
     const [selected, setSelected] = useState<any>(null)
 
@@ -83,35 +83,35 @@ export const AssessmentResponse = ({
         }
     }
 
-    // useEffect(() => {
-    //     setComment('')
-    // }, [folder, getAssessmentResponse])
+    useEffect(() => {
+        setComment('')
+    }, [folder, getAssessmentResponse])
 
-    // useEffect(() => {
-    //     if (getAssessmentResponse?.data) {
-    //         if (getAssessmentResponse?.data?.comment) {
-    //             setComment(getAssessmentResponse?.data?.comment)
-    //         }
-    //         if (commentType === 'approved') {
-    //             setComment(
-    //                 getAssessmentResponse?.data?.assessmentFolder
-    //                     ?.positiveComment
-    //             )
-    //         } else if (commentType === 'rejected') {
-    //             setComment(
-    //                 getAssessmentResponse?.data?.assessmentFolder
-    //                     ?.negativeComment
-    //             )
-    //         }
-    //     }
-    // }, [getAssessmentResponse, commentType])
+    useEffect(() => {
+        if (getAssessmentResponse?.data) {
+            if (getAssessmentResponse?.data?.comment) {
+                setComment(getAssessmentResponse?.data?.comment)
+            }
+            if (commentType === 'approved') {
+                setComment(
+                    getAssessmentResponse?.data?.assessmentFolder
+                        ?.positiveComment
+                )
+            } else if (commentType === 'rejected') {
+                setComment(
+                    getAssessmentResponse?.data?.assessmentFolder
+                        ?.negativeComment
+                )
+            }
+        }
+    }, [getAssessmentResponse, commentType])
 
     // query
-    // const [addComment, addCommentResult] = useAddCommentOnAssessmentMutation()
+    const [addComment, addCommentResult] = useAddCommentOnAssessmentMutation()
     return (
         <>
             {modal && modal}
-            <div className=" bg-white flex flex-col justify-between">
+            <div className="h-full bg-white flex flex-col justify-between">
                 <div className="h-full overflow-scroll remove-scrollbar">
                     {header && (
                         <div className="w-full bg-slate-50 border-b px-2 py-2 flex justify-between items-center">
@@ -132,7 +132,7 @@ export const AssessmentResponse = ({
                             {assessmentEvidenceView && (
                                 <div className="flex flex-col gap-y-1 items-end">
                                     <Badge
-                                        text={result?.result}
+                                        text={result?.result?.toUpperCase()}
                                         variant="info"
                                     />
                                     {result?.assessor && (
@@ -185,7 +185,7 @@ export const AssessmentResponse = ({
                     </div>
                 </div>
 
-                {/* {assessmentEvidenceView &&
+                {assessmentEvidenceView &&
                     getAssessmentResponse?.data &&
                     result?.result !== 'competent' && (
                         <div className="flex justify-between gap-x-2 mt-3 mx-3">
@@ -244,7 +244,7 @@ export const AssessmentResponse = ({
                                 />
                             </div>
                         </div>
-                    )} */}
+                    )}
             </div>
         </>
     )

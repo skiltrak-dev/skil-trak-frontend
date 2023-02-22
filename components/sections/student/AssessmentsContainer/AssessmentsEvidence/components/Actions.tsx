@@ -46,10 +46,7 @@ export const Actions = ({ selectedCourseId }: { selectedCourseId: number }) => {
                         name="notifyCoordinator"
                         label="Notify Coordinator"
                     />
-                    <Checkbox
-                        name="notifyCoordinator"
-                        label="Notify Coordinator"
-                    />
+                    <Checkbox name="notifyCoordinator" label="Notify RTO" />
                 </div>
             </div>
         </>

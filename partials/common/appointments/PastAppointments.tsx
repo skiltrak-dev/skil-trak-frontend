@@ -5,14 +5,22 @@ import {
     Typography,
     Switch,
     NoData,
+    PageSize,
+    Pagination,
 } from '@components'
 
 // queries
 import { CommonApi } from '@queries'
+import { useState } from 'react'
 
 export const PastAppointments = () => {
+    const [page, setPage] = useState(1)
+    const [itemPerPage, setItemPerPage] = useState(25)
+
     const pastAppointments = CommonApi.Appointments.useBookedAppointments({
         status: 'past',
+        skip: itemPerPage * page - itemPerPage,
+        limit: itemPerPage,
     })
 
     return (
@@ -21,19 +29,32 @@ export const PastAppointments = () => {
                 <Typography variant={'label'} color={'text-black'}>
                     Past Appointments
                 </Typography>
-                {!pastAppointments.isLoading && (
+                {/* {!pastAppointments.isLoading && (
                     <Switch name="Cancelled Appointments" />
-                )}
+                )} */}
             </div>
+            {pastAppointments.isSuccess && (
+                <div className="flex items-center justify-between">
+                    <PageSize
+                        itemPerPage={itemPerPage}
+                        setItemPerPage={setItemPerPage}
+                    />
+                    <Pagination
+                        pagination={pastAppointments?.data?.pagination}
+                        setPage={setPage}
+                    />
+                </div>
+            )}
             <div>
                 {pastAppointments.isError && (
                     <NoData text={'Some Network issue, Try Reload'} />
                 )}
                 {pastAppointments.isLoading ? (
                     <LoadingAnimation size={90} />
-                ) : pastAppointments?.data && pastAppointments?.data?.length ? (
-                    <div className=''>
-                        {pastAppointments?.data?.map(
+                ) : pastAppointments.data?.data &&
+                  pastAppointments.data?.data?.length ? (
+                    <div className="">
+                        {pastAppointments.data?.data?.map(
                             (pastAppointment: any, index: number) => (
                                 <PastAppointmentCard
                                     key={index}

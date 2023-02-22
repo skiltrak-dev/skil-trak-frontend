@@ -30,6 +30,7 @@ import { FileUpload } from '@hoc'
 type Props = {
     folder: any
     fileUpload?: any
+    result?: any
 }
 
 const Loading = () => {
@@ -50,7 +51,11 @@ export const getDocType = (type: string) => {
     }
 }
 
-export const AssessmentFolderDetailX = ({ folder, fileUpload }: Props) => {
+export const AssessmentFolderDetailX = ({
+    result,
+    folder,
+    fileUpload,
+}: Props) => {
     // query
     // fetch files
     const getAssessmentResponse = useGetAssessmentsFolderDetailQuery(
@@ -207,6 +212,7 @@ export const AssessmentFolderDetailX = ({ folder, fileUpload }: Props) => {
                                         type={folder.type}
                                         selected={selected?.id === file?.id}
                                         onClick={onFileClicked}
+                                        result={result}
                                     />
                                 )
                             )}

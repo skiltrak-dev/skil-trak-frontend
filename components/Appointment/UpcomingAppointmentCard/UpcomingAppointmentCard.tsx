@@ -49,6 +49,8 @@ export const UpcomingAppointmentCard = ({
             ? appointmentWithUser[0]
             : appointmentWithUser
 
+    console.log('checkrole', checkrole)
+
     return (
         <>
             <div className="w-full bg-gradient-to-r from-[#3883F3] to-[#5D1BE0] rounded-2xl p-4">
@@ -78,10 +80,14 @@ export const UpcomingAppointmentCard = ({
                                 {totalMinutes} Minutes
                             </Typography>
                         </div>
-                        <Typography variant={'label'} color={'text-[#BCDEFF]'}>
-                            {checkrole?.addressLine1},{' '}
-                            {checkrole?.addressLine2 || ''}
-                        </Typography>
+                        {checkrole && (
+                            <Typography
+                                variant={'label'}
+                                color={'text-[#BCDEFF]'}
+                            >
+                                {`${checkrole?.addressLine1}, ${checkrole?.addressLine2},`}
+                            </Typography>
+                        )}
                     </div>
                     <div>
                         <Button text="Upcoming" variant="action" />
@@ -89,7 +95,7 @@ export const UpcomingAppointmentCard = ({
                 </div>
                 <div className="w-full flex justify-between items-center mt-8">
                     <div>
-                        {coordinator ? (
+                        {coordinator && appointment?.appointmentFor ? (
                             <div>
                                 <Typography
                                     variant={'muted'}
@@ -123,12 +129,12 @@ export const UpcomingAppointmentCard = ({
                         <p className="text-[#BCDEFF]">{type}</p>
                     </div>
                     <div>
-                        <Image
+                        {/* <Image
                             src={imageUrl || ''}
                             width={50}
                             height={50}
                             alt=""
-                        />
+                        /> */}
                     </div>
                 </div>
             </div>

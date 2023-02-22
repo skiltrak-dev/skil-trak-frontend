@@ -21,8 +21,9 @@ export const SectorCell = ({ industry }: { industry: Industry }) => {
                     onClick={() => onViewSectorClicked(industry)}
                     simple
                 >
-                    View / Edit
+                    <span className="whitespace-pre">View / Edit</span>
                 </ActionButton>
+
                 <div className="flex gap-x-1">
                     {industry?.courses.map((c: Course) => (
                         <CourseDot key={c?.id} course={c} />

@@ -290,12 +290,12 @@ export const Detail = ({
                                 result={results}
                             />
 
-                            <AddFolderComment
+                            {/* <AddFolderComment
                                 getAssessmentResponse={getAssessmentResponse}
                                 folder={selectedFolder}
                                 studentId={Number(studentId)}
                                 result={results}
-                            />
+                            /> */}
                         </div>
                     </div>
                     {/* {selectedCourse?.results

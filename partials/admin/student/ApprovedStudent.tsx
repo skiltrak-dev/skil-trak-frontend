@@ -25,7 +25,11 @@ import { MdBlock } from 'react-icons/md'
 import { RiLockPasswordFill } from 'react-icons/ri'
 import { IndustryCell } from '../industry/components'
 import { ProgressCell, SectorCell, StudentCellInfo } from './components'
-import { BlockModal, BlockMultiStudentsModal } from './modals'
+import {
+    BlockModal,
+    BlockMultiStudentsModal,
+    ChangeStatusModal,
+} from './modals'
 
 // hooks
 import { useActionModal } from '@hooks'
@@ -64,6 +68,15 @@ export const ApprovedStudent = () => {
         )
     }
 
+    const onChangeStatus = (student: Student) => {
+        setModal(
+            <ChangeStatusModal
+                student={student}
+                onCancel={onModalCancelClicked}
+            />
+        )
+    }
+
     const tableActionOptions: TableActionOption[] = [
         {
             text: 'View',
@@ -80,6 +93,13 @@ export const ApprovedStudent = () => {
                 router.push(
                     `/portals/admin/student/edit-student/${student?.id}`
                 )
+            },
+            Icon: FaEdit,
+        },
+        {
+            text: 'Change Status',
+            onClick: (student: Student) => {
+                onChangeStatus(student)
             },
             Icon: FaEdit,
         },
