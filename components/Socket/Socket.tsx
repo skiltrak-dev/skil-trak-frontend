@@ -57,6 +57,7 @@ export const Socket = ({ children }: any) => {
                 }
             })
 
+
             socket?.on('Notification', (notify: any) => { 
                 // setNotificationList(notify)
                 notification.success({

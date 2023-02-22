@@ -34,8 +34,8 @@ export const NotificationDropDown = ({
             {data?.map((notification: any) => (
                 <NotificationItem
                     key={notification.id}
-                    title={`${notification?.title}`}
-                    description={`${notification?.description}`}
+                    title={notification?.title}
+                    description={notification?.description}
                     timestamp={notification?.createdAt}
                     resultIsReadNotification={resultIsReadNotification}
                     isRead={notification?.isRead}

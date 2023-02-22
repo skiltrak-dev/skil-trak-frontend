@@ -11,6 +11,7 @@ interface FormProps {
     edit?: boolean
     initialValues?: Course
     result: any
+    sectorsWithCourses: any
 }
 
 export const AssignSectorForm = ({
@@ -18,6 +19,7 @@ export const AssignSectorForm = ({
     edit,
     initialValues,
     result,
+    sectorsWithCourses,
 }: FormProps) => {
     const sectors = AdminApi.Sectors.useListQuery({})
 
@@ -37,7 +39,21 @@ export const AssignSectorForm = ({
                 currentSelectableCourses.push(...currentCourses)
         })
 
-        setSelectableCourses(currentSelectableCourses)
+        const getAssignedCourses = Object.values(sectorsWithCourses)
+            ?.flat()
+            ?.map((c: any) => c?.title)
+
+        setSelectableCourses(
+            currentSelectableCourses?.filter(
+                (f) => !getAssignedCourses?.includes(f?.title)
+            )
+        )
+    }
+
+    const removeAddedSectors = () => {
+        return sectors.data?.data?.filter(
+            (f) => f?.courses?.length !== sectorsWithCourses[f.name]?.length
+        )
     }
 
     const validationSchema = yup.object({})
@@ -65,7 +81,7 @@ export const AssignSectorForm = ({
                         options={
                             sectors.isLoading
                                 ? []
-                                : sectors.data?.data.map((s) => ({
+                                : removeAddedSectors()?.map((s) => ({
                                       label: s.name,
                                       value: s.id,
                                   }))

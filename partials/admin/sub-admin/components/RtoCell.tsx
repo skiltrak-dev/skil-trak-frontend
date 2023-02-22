@@ -23,7 +23,7 @@ export const RtoCell = ({ subAdmin }: { subAdmin: SubAdmin }) => {
                     onClick={() => onViewClicked(subAdmin)}
                     simple
                 >
-                    View
+                    View / Edit
                 </ActionButton>
             </div>
         </div>

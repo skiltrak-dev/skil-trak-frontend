@@ -1,15 +1,15 @@
 import { ActionButton } from '@components'
 import { useContextBar } from '@hooks'
-import { Course, Rto, Student } from '@types'
+import { Course, Industry, Rto, Student } from '@types'
 import { ViewSectorsCB } from '../contextBar'
 import { CourseDot } from './CourseDot'
 
-export const SectorCell = ({ student }: { student: Student }) => {
+export const SectorCell = ({ industry }: { industry: Industry }) => {
     const contextBar = useContextBar()
 
-    const onViewSectorClicked = (student: Student) => {
+    const onViewSectorClicked = (industry: Industry) => {
         contextBar.setTitle('Sectors & Courses')
-        contextBar.setContent(<ViewSectorsCB student={student} />)
+        contextBar.setContent(<ViewSectorsCB industry={industry} />)
         contextBar.show()
     }
 
@@ -18,13 +18,13 @@ export const SectorCell = ({ student }: { student: Student }) => {
             <div className="flex flex-col items-center">
                 <ActionButton
                     variant="link"
-                    onClick={() => onViewSectorClicked(student)}
+                    onClick={() => onViewSectorClicked(industry)}
                     simple
                 >
-                    View
+                    View / Edit
                 </ActionButton>
                 <div className="flex gap-x-1">
-                    {student.courses.map((c: Course) => (
+                    {industry?.courses.map((c: Course) => (
                         <CourseDot key={c?.id} course={c} />
                     ))}
                 </div>

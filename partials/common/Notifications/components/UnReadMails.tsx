@@ -10,6 +10,7 @@ type AllMailsProps = {
     icon?: any
     avatar?: string
     onClick?: MouseEventHandler
+    id: any
 }
 
 export const UnReadMails = ({

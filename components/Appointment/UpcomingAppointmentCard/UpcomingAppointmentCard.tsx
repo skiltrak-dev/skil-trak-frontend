@@ -1,4 +1,5 @@
 import { Button, Typography } from '@components'
+import { User } from '@types'
 import { getUserCredentials } from '@utils'
 import moment from 'moment'
 import Image from 'next/image'
@@ -13,6 +14,7 @@ type AppointmentCardProps = {
     type?: string // REactElement ReactNode
     role: string
     appointment: any
+    coordinator: User
 }
 
 export const UpcomingAppointmentCard = ({
@@ -25,6 +27,7 @@ export const UpcomingAppointmentCard = ({
     type,
     role,
     appointment,
+    coordinator,
 }: AppointmentCardProps) => {
     const id = getUserCredentials()?.id
     const appointmentWith =
@@ -86,9 +89,37 @@ export const UpcomingAppointmentCard = ({
                 </div>
                 <div className="w-full flex justify-between items-center mt-8">
                     <div>
-                        <h1 className="font-medium text-[16px] text-white">
-                            {appointmentUser?.name} ({appointmentUser?.role})
-                        </h1>
+                        {coordinator ? (
+                            <div>
+                                <Typography
+                                    variant={'muted'}
+                                    color={'text-white'}
+                                >
+                                    Between
+                                </Typography>
+                                <div className="flex items-center flex-wrap gap-x-1">
+                                    <h1 className="font-medium text-[16px] text-white whitespace-pre">
+                                        {appointment?.appointmentFor?.name} (
+                                        {appointment?.appointmentFor?.role})
+                                    </h1>
+                                    <Typography
+                                        variant={'muted'}
+                                        color={'text-white'}
+                                    >
+                                        And
+                                    </Typography>
+                                    <h1 className="font-medium text-[16px] text-white whitespace-pre">
+                                        {appointment?.appointmentBy?.name} (
+                                        {appointment?.appointmentBy?.role})
+                                    </h1>
+                                </div>
+                            </div>
+                        ) : (
+                            <h1 className="font-medium text-[16px] text-white">
+                                {appointmentUser?.name} ({appointmentUser?.role}
+                                )
+                            </h1>
+                        )}
                         <p className="text-[#BCDEFF]">{type}</p>
                     </div>
                     <div>

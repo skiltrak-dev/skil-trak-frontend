@@ -90,6 +90,7 @@ export interface Industry extends BaseResponse {
     contactPerson: string
     contactPersonNumber: string
     studentCapacity: number | null
+    courses: Course[]
 
     addressLine1: string
     addressLine2: string

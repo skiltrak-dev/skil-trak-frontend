@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, MouseEventHandler } from 'react'
 import classNames from 'classnames'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -8,11 +8,13 @@ export const ImportantDocument = ({
     title,
     href,
     detail,
+    onClick,
 }: {
     imageUrl: string
     title: string
     href?: string
     detail?: boolean
+    onClick?: MouseEventHandler<HTMLDivElement>
 }) => {
     const detailContainerClasses = classNames({
         'flex items-center rounded-md bg-white cursor-pointer transition-all duration-300 shadow scale-100 hover:shadow-xl hover:scale-105':
@@ -35,9 +37,9 @@ export const ImportantDocument = ({
             }, 1200)
         }
     }, [])
-    return (
+    return href ? (
         <Link legacyBehavior href={href ? href : '#'}>
-            <a id='important-docs' className="w-full">
+            <a id="important-docs" className="w-full">
                 <div className={detailContainerClasses}>
                     <Image
                         width={detail ? 60 : 200}
@@ -50,5 +52,18 @@ export const ImportantDocument = ({
                 </div>
             </a>
         </Link>
+    ) : (
+        <div id="important-docs" className="w-full" onClick={onClick}>
+            <div className={detailContainerClasses}>
+                <Image
+                    width={detail ? 60 : 200}
+                    height={detail ? 50 : 150}
+                    src={imageUrl}
+                    alt={title}
+                    className="rounded-t w-full"
+                />
+                <p className={titleClasses}>{title}</p>
+            </div>
+        </div>
     )
 }

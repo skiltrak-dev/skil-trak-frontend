@@ -21,7 +21,7 @@ export const SectorCell = ({ student }: { student: Student }) => {
                     onClick={() => onViewSectorClicked(student)}
                     simple
                 >
-                    View
+                    View / Edit
                 </ActionButton>
                 <div className="flex gap-x-1">
                     {student.courses.map((c: Course) => (

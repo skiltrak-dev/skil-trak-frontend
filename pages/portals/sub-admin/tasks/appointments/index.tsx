@@ -19,6 +19,7 @@ import { CommonCB } from '@partials/rto/contextBar'
 import { CommonApi } from '@queries'
 import { UpcommingAppointments, PastAppointments } from '@partials/common'
 import moment from 'moment'
+import { getUserCredentials } from '@utils'
 
 type Props = {}
 
@@ -54,12 +55,41 @@ const Appointments: NextPageWithLayout = (props: Props) => {
         startTime.setHours(startHours, startMinutes)
         endTime.setHours(endHours, endMinutes)
 
+        const id = getUserCredentials()?.id
+        const appointmentWith =
+            appointment?.appointmentBy?.id === id
+                ? 'appointmentFor'
+                : 'appointmentBy'
+
+        const appointmentUser = appointment[appointmentWith]
+
+        const appointmentWithUser =
+            appointmentUser[
+                appointmentUser['role'] === 'subadmin'
+                    ? 'coordinator'
+                    : appointmentUser['role']
+            ]
+
+        const getPriority = () => {
+            switch (appointmentUser['role']) {
+                case 'student':
+                    return 'high'
+                case 'rto':
+                    return 'medium'
+                case 'industry':
+                    return 'low'
+
+                default:
+                    return
+            }
+        }
+
         return {
             allDay: false,
             start: startTime,
             end: endTime,
-            title: 'Appointment',
-            priority: 'high',
+            title: ` ${appointmentUser?.name}, ${appointment?.type?.title}`,
+            priority: getPriority(),
             subTitle: 'Go For It',
         }
     })

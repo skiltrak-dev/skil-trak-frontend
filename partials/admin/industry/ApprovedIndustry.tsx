@@ -18,7 +18,7 @@ import { Industry } from '@types'
 import { useRouter } from 'next/router'
 import { ReactElement, useState } from 'react'
 import { MdBlock } from 'react-icons/md'
-import { IndustryCell } from './components'
+import { IndustryCell, SectorCell } from './components'
 import { BlockModal } from './modals'
 
 // hooks
@@ -39,7 +39,7 @@ export const ApprovedIndustry = () => {
         skip: itemPerPage * page - itemPerPage,
         limit: itemPerPage,
     })
-    const [bulkAction, resultBulkAction] = commonApi.useBulkStatusMutation();
+    const [bulkAction, resultBulkAction] = commonApi.useBulkStatusMutation()
 
     const onModalCancelClicked = () => {
         setModal(null)
@@ -92,11 +92,6 @@ export const ApprovedIndustry = () => {
             header: () => <span>Industry</span>,
         },
         {
-            accessorKey: 'abn',
-            header: () => <span>ABN</span>,
-            cell: (info) => info.getValue(),
-        },
-        {
             accessorKey: 'contactPerson',
             header: () => <span>Contact Person</span>,
             cell: (info) => {
@@ -110,7 +105,13 @@ export const ApprovedIndustry = () => {
                 )
             },
         },
-
+        {
+            accessorKey: 'sectors',
+            header: () => <span>Sectors</span>,
+            cell: (info) => {
+                return <SectorCell industry={info.row.original} />
+            },
+        },
         {
             accessorKey: 'suburb',
             header: () => <span>Address</span>,
@@ -144,10 +145,14 @@ export const ApprovedIndustry = () => {
             </div>
         ),
         common: (ids: number[]) => (
-            <ActionButton onClick={() => {
-                const arrayOfIds = ids.map((id: any) => id?.user.id)
-                bulkAction({ ids: arrayOfIds, status: 'blocked' })
-            }} Icon={MdBlock} variant="error">
+            <ActionButton
+                onClick={() => {
+                    const arrayOfIds = ids.map((id: any) => id?.user.id)
+                    bulkAction({ ids: arrayOfIds, status: 'blocked' })
+                }}
+                Icon={MdBlock}
+                variant="error"
+            >
                 Block
             </ActionButton>
         ),

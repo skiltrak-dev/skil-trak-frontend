@@ -3,41 +3,46 @@ import { CommonApi } from '@queries'
 import React, { useState } from 'react'
 
 type Props = {
-    user?: any
+    message: any
 }
 
-export const MailDetail = ({ user }: Props) => {
+export const MailDetail = ({ message }: Props) => {
 
-    const messages = CommonApi.Messages.useMessages(user?.id, {
-        skip: !user?.id,
-    })
+    // const message = CommonApi.Message.useMessage(user?.id, {
+    //     skip: !user?.id,
+    // })
+    console.log("message", message)
     return (
         <div className='w-full'>
             <div className="px-4 py-2 flex justify-between items-center w-full border-r">
                 <div>
-                    <Typography variant={'subtitle'}>Subject Here</Typography>
+                    <Typography variant={'subtitle'}>
+                        {/* {message[0]?.subject} */}
+                        Subject
+                    </Typography>
                     <Typography variant={'muted'} color={'text-muted'}>
-                        {' '}
-                        Fri 24 June, 2022 - 01:00 PM
+                        {/* {message[0]?.createdAt} */}
+                        12/12/2021
                     </Typography>
                 </div>
                 <div className="flex items-center gap-x-2">
                     <InitialAvatar name={'Sub Admin'} />
                     <Typography variant={'subtitle'}>
-                        janedoe@gmail.com
+                        {/* {message[0]?.sender?.email} */}
+                        admin@gmail.com
                     </Typography>
                 </div>
             </div>
             <div className='h-screen border p-4'>
                 <div className={`w-full bg-gray-50 rounded-lg p-2`}>
-                    {messages.isError && <TechnicalError />}
+                    {message?.isError && <TechnicalError />}
                     <div className={`flex flex-col gap-y-2.5 h-full `}>
-                        {messages?.isLoading || messages?.isFetching ? (
+                        {message?.isLoading || message?.isFetching ? (
                             <div className="flex justify-center items-center h-full">
                                 <LoadingAnimation />
                             </div>
-                        ) : !messages.isError && messages?.data?.length > 0 ? (
-                            messages?.data?.map(
+                        ) : !message?.isError && message?.length > 0 ? (
+                            message?.map(
                                 (message: any, i: number) =>
                                     message && (
                                         <Mail
@@ -51,7 +56,7 @@ export const MailDetail = ({ user }: Props) => {
                                     )
                             )
                         ) : (
-                            !messages.isError && (
+                            !message?.isError && (
                                 <EmptyData
                                     imageUrl="/images/icons/common/mails.png"
                                     title={'No Mails'}

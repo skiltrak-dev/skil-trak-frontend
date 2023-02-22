@@ -34,6 +34,7 @@ import { useContextBar } from '@hooks'
 
 //Layouts
 import { SubAdminLayout } from '@layouts'
+import { getCountData } from '@utils'
 
 type Props = {}
 
@@ -46,20 +47,6 @@ const Students: NextPageWithLayout = (props: Props) => {
     const [itemPerPage, setItemPerPage] = useState(50)
 
     const count = SubAdminApi.Student.useCount()
-    const [studentCount, setStudentCount] = useState<any>({})
-
-    useEffect(() => {
-        if (count?.isSuccess && count?.data) {
-            count?.data?.forEach((count: any) =>
-                Object.entries(count).map(([key, value]) => {
-                    setStudentCount((preVal: any) => ({
-                        ...preVal,
-                        [key]: value,
-                    }))
-                })
-            )
-        }
-    }, [count])
 
     const filteredStudents = useGetSubAdminStudentsQuery(
         {
@@ -83,6 +70,8 @@ const Students: NextPageWithLayout = (props: Props) => {
             </>
         )
     }, [setContent])
+
+    const studentCount = getCountData(count?.data)
 
     const tabs: TabProps[] = [
         {

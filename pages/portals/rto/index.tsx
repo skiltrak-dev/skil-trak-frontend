@@ -26,7 +26,7 @@ import { AuthUtils } from '@utils'
 import { AuthApi, RtoApi } from '@queries'
 import { CheckStatus } from '@partials/auth'
 import { ViewProfileCB } from '@partials/rto/contextBar'
-import { ImportantDocuments } from '@partials/rto/components'
+import { ImportantDocuments } from '@partials/student/components'
 import { FigureCard } from '@components/sections/subAdmin'
 import { CallBackProps } from 'react-joyride'
 import { useRouter } from 'next/router'
@@ -580,21 +580,25 @@ const RTODashboard: NextPageWithLayout = () => {
                         imageUrl="/images/icons/students.png"
                         count={count?.data?.currentStudent}
                         title={'Current Students'}
+                        link={'/portals/rto/students?tab=active'}
                     />
                     <FigureCard
                         imageUrl="/images/icons/pending-student.png"
                         count={count?.data?.pendingStudent}
                         title={'Pending Students'}
+                        link={'/portals/rto/students?tab=pending'}
                     />
                     <FigureCard
                         imageUrl="/images/icons/industry.png"
                         count={count?.data?.workplaceRequest}
                         title={'Workplace Requests'}
+                        link={'portals/rto/industries/workplaces'}
                     />
                     <FigureCard
                         imageUrl="/images/icons/job.png"
                         count={count?.data?.pendingResult}
                         title={'Pending Result'}
+                        link={'/portals/rto/students/2426?tab=submissions'}
                     />
                 </div>
             </div>
@@ -650,7 +654,7 @@ const RTODashboard: NextPageWithLayout = () => {
                     </div>
                 </div>
             </section>
-            {/* TODO Link to be added */}
+
             <div>
                 <ImportantDocuments />
             </div>

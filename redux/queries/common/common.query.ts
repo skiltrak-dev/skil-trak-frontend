@@ -40,6 +40,7 @@ export const commonApi = createApi({
         'AllNotifications',
         'Students',
         'BulkStatus',
+        'Documents',
     ],
 
     // ---------- RTO ENDPOINTS ---------- //
@@ -66,6 +67,10 @@ export const commonApi = createApi({
                 body: { ids },
             }),
             invalidatesTags: ['BulkStatus'],
+        }),
+        getDocuments: build.query<any, void>({
+            query: () => `admin/documents/list`,
+            providesTags: ['Documents'],
         }),
 
         ...rtosEndpoints(build),
@@ -111,6 +116,10 @@ const {
     // --- MAILS --- //
     useGetMessagesQuery,
     useSendMessageMutation,
+    useGetAllMailsQuery,
+    useIsSeenMutation,
+    useGetAllConversationsQuery,
+    useGetSingleChatQuery,
 
     // -- APPOINTMENTS -- //
     useCreateAppointmentMutation,
@@ -126,6 +135,9 @@ const {
 
     // ------ Bulk Status ------ //
     useBulkStatusMutation,
+
+    // ---- DOCUMENTS ---- //
+    useGetDocumentsQuery,
 } = commonApi
 
 export const CommonApi = {
@@ -160,6 +172,10 @@ export const CommonApi = {
     Messages: {
         useMessages: useGetMessagesQuery,
         useSendMessage: useSendMessageMutation,
+        useAllMails: useGetAllMailsQuery,
+        useIsSeen: useIsSeenMutation,
+        useAllConversations: useGetAllConversationsQuery,
+        useSingleChat: useGetSingleChatQuery,
     },
     Appointments: {
         createAppointment: useCreateAppointmentMutation,
@@ -172,5 +188,8 @@ export const CommonApi = {
     Notifications: {
         useNotifications: useGetNotificationsQuery,
         useIsReadNotification: useIsReadNotificationMutation,
+    },
+    Documents: {
+        useList: useGetDocumentsQuery,
     },
 }

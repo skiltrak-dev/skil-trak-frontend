@@ -25,7 +25,8 @@ import {
 } from '@partials/rto/student'
 import { useRouter } from 'next/router'
 import { FaChevronDown, FaFileImport, FaUserGraduate } from 'react-icons/fa'
-import { useGetRtoStudentsQuery } from '@queries'
+import { useGetRtoStudentsQuery, RtoApi } from '@queries'
+import { getCountData } from '@utils'
 
 type Props = {}
 
@@ -38,6 +39,7 @@ const RtoStudents: NextPageWithLayout = (props: Props) => {
     const [page, setPage] = useState(1)
     const [itemPerPage, setItemPerPage] = useState(50)
 
+    const count = RtoApi.Students.useCount()
     const filteredStudents = useGetRtoStudentsQuery(
         {
             search: `${JSON.stringify(filter)
@@ -50,6 +52,8 @@ const RtoStudents: NextPageWithLayout = (props: Props) => {
         },
         { skip: !Object.keys(filter).length }
     )
+
+    const studentCount = getCountData(count?.data)
 
     // ADD STUDENT JOY RIDE - START
     const joyride = useJoyRide()
@@ -66,25 +70,45 @@ const RtoStudents: NextPageWithLayout = (props: Props) => {
         {
             label: 'Pending',
             href: { pathname: 'students', query: { tab: 'pending' } },
+            badge: {
+                text: studentCount?.pending,
+                loading: count.isLoading,
+            },
             element: <PendingStudent />,
         },
         {
             label: 'Active',
+            badge: {
+                text: studentCount?.approved,
+                loading: count.isLoading,
+            },
             href: { pathname: 'students', query: { tab: 'active' } },
             element: <ApprovedStudent />,
         },
         {
             label: 'Rejected',
+            badge: {
+                text: studentCount?.rejected,
+                loading: count.isLoading,
+            },
             href: { pathname: 'students', query: { tab: 'rejected' } },
             element: <RejectedStudent />,
         },
         {
             label: 'Blocked',
+            badge: {
+                text: studentCount?.blocked,
+                loading: count.isLoading,
+            },
             href: { pathname: 'students', query: { tab: 'blocked' } },
             element: <BlockedStudent />,
         },
         {
             label: 'Archived',
+            badge: {
+                text: studentCount?.archived,
+                loading: count.isLoading,
+            },
             href: { pathname: 'students', query: { tab: 'archived' } },
             element: <ArchivedStudent />,
         },

@@ -18,8 +18,10 @@ import { NotificationDropDown } from './components/notifications'
 import { CommonApi } from '@queries'
 
 export const AdminNavbar = () => {
-    const { data, error, isLoading } = CommonApi.Notifications.useNotifications()
-    const [isReadNotification, resultIsReadNotification] = CommonApi.Notifications.useIsReadNotification()
+    const { data, error, isLoading } =
+        CommonApi.Notifications.useNotifications()
+    const [isReadNotification, resultIsReadNotification] =
+        CommonApi.Notifications.useIsReadNotification()
     let router = useRouter()
     const navbar = useNavbar()
 
@@ -38,7 +40,6 @@ export const AdminNavbar = () => {
         const title = paths[paths.length - offset].replace(remove, ' ')
     }
 
-
     // const onMessageButtonClick = () => {
     // 	if (notificationsExpanded) setNotificationsExpanded(false);
     // 	setMessagesExpanded(true);
@@ -49,14 +50,14 @@ export const AdminNavbar = () => {
     // };
     // bg-[#F9FAFB]
 
-
     // filter over data to get only unread notifications
     const unreadNotifications = data?.data?.filter(
         (notification: any) => notification?.isRead === false
     )
     const count = unreadNotifications?.length
 
-
+    const { data: allMails } = CommonApi.Messages.useAllMails()
+    const [seenMessage, resultSeenMessage] = CommonApi.Messages.useIsSeen()
     return (
         <div className="w-full transition-all  z-30 py-2 px-6  flex justify-between items-center">
             <div>
@@ -87,7 +88,12 @@ export const AdminNavbar = () => {
                             text={'Messages'}
                         />
 
-                        <MessageDropDown expanded={messagesExpanded} />
+                        <MessageDropDown
+                            data={allMails}
+                            expanded={messagesExpanded}
+                            resultSeenMessage={resultSeenMessage}
+                            seenMessage={seenMessage}
+                        />
                     </div>
                 </OutsideClickHandler>
 
@@ -110,7 +116,6 @@ export const AdminNavbar = () => {
                         <NotificationDropDown
                             expanded={notificationsExpanded}
                             data={data?.data}
-
                             isReadNotification={isReadNotification}
                             resultIsReadNotification={resultIsReadNotification}
                         />

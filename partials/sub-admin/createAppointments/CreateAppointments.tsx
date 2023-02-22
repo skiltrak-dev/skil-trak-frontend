@@ -9,6 +9,7 @@ import {
     TextInput,
     LoadingAnimation,
     Modal,
+    ShowErrorNotifications,
 } from '@components'
 import { AppointmentFor, AppointmentWithData } from './components'
 import { AppointmentType } from '@partials/appointmentType'
@@ -108,7 +109,9 @@ export const CreateAppointments = () => {
     //     }
     // )
 
-    const profile = SubAdminApi.SubAdmin.useProfile()
+    const profile = SubAdminApi.SubAdmin.useProfile(undefined, {
+        refetchOnMountOrArgChange: true,
+    })
     const timeSlots = CommonApi.Appointments.useAppointmentsAvailableSlots(
         {
             id: appointmentTypeId,
@@ -218,6 +221,7 @@ export const CreateAppointments = () => {
     return (
         <>
             {modal}
+            <ShowErrorNotifications result={createAppointmentResult} />
             <div className="flex flex-col gap-y-2">
                 <Card>
                     <div className="grid grid-cols-7">
