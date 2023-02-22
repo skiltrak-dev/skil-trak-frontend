@@ -12,7 +12,7 @@ import {
     AssessmentResponse,
     AssessmentFolderCard,
 } from '@components'
-import { Actions } from './components'
+import { Actions, AddFolderComment } from './components'
 
 // queries
 import { useNotification } from '@hooks'
@@ -281,12 +281,19 @@ export const Detail = ({
                         </div>
 
                         {/* Assessment Response */}
-                        <div className="col-span-2 border border-gray-300 overflow-hidden">
+                        <div className="col-span-2 bg-white border border-gray-300 overflow-auto">
                             <AssessmentResponse
                                 getAssessmentResponse={getAssessmentResponse}
                                 folder={selectedFolder}
                                 studentId={studentId}
                                 assessmentEvidenceView={true}
+                                result={results}
+                            />
+
+                            <AddFolderComment
+                                getAssessmentResponse={getAssessmentResponse}
+                                folder={selectedFolder}
+                                studentId={Number(studentId)}
                                 result={results}
                             />
                         </div>

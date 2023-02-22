@@ -27,6 +27,11 @@ export const subAdminApi = createApi({
             return headers
         },
     }),
+
+    // keepUnusedDataFor: 200,
+    // refetchOnMountOrArgChange: true,
+    // refetchOnReconnect: true,
+
     tagTypes: [
         'Notes',
         'Setting',

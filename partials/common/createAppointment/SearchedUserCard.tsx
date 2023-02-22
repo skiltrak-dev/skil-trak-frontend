@@ -16,8 +16,6 @@ export const SearchedUserCard = ({
 }: any) => {
     const person = data[selectedPerson.toLocaleLowerCase()]
 
-    console.log('selectedPerson', selectedPerson)
-
     return (
         <div
             className={`bg-gray-100 px-6 py-4 rounded-lg grid ${

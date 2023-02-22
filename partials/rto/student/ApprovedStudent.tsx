@@ -20,12 +20,7 @@ import { FaEdit, FaEye, FaFileExport, FaFilter } from 'react-icons/fa'
 import { AdminApi } from '@queries'
 import { MdBlock, MdEmail, MdPhoneIphone } from 'react-icons/md'
 import { ReactElement, useState } from 'react'
-import {
-    CourseDot,
-    ProgressCell,
-    SectorCell,
-    StudentCellInfo,
-} from './components'
+import { CourseDot, SectorCell, StudentCellInfo } from './components'
 import { RtoCellInfo } from '@partials/admin/rto/components'
 import { Student } from '@types'
 import { BlockModal, ArchiveModal } from './modals'
@@ -33,6 +28,7 @@ import { useRouter } from 'next/router'
 import { useGetRtoStudentsQuery } from '@queries'
 import { checkStudentStatus, checkWorkplaceStatus } from '@utils'
 import { IndustryCell } from './components/IndustryCell'
+import { ProgressCell } from '@partials/admin/student/components'
 
 export const ApprovedStudent = () => {
     const router = useRouter()
@@ -137,7 +133,7 @@ export const ApprovedStudent = () => {
                     <StudentStatusProgressCell step={studentStatus} />
                 ) : (
                     <ProgressCell
-                        step={steps > 14 ? 14 : steps < 1 ? 1 : steps}
+                        step={steps > 14 ? 1 : steps < 1 ? 1 : steps}
                     />
                 )
             },

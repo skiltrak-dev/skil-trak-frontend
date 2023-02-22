@@ -44,8 +44,6 @@ export const AlertProvider = ({ children }: { children: React.ReactNode }) => {
         setAlerts([])
     }, [router])
 
-    console.log('alerts', alerts)
-
     const createAlert = ({
         title,
         description,

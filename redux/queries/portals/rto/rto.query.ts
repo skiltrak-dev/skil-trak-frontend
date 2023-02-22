@@ -76,6 +76,7 @@ export const {
     useUpdateContactPersonMutation,
 
     // ------ STUDENT ------ //
+    useStudentsCountQuery,
     useStudentsImportMutation,
     useAddStudentMutation,
 
@@ -134,6 +135,7 @@ export const RtoApi = {
         useUpdateContactPerson: useUpdateContactPersonMutation,
     },
     Students: {
+        useCount: useStudentsCountQuery,
         useImportStudents: useStudentsImportMutation,
         useAddStudent: useAddStudentMutation,
     },

@@ -56,7 +56,6 @@ export const RPLForm = () => {
         financialEvidence: yup
             .mixed()
             .test('file', 'You need to provide a file', (value) => {
-                console.log('finanacial', value)
                 if (value || value?.length > 0) {
                     return true
                 }
@@ -83,10 +82,7 @@ export const RPLForm = () => {
         mode: 'all',
     })
 
-    console.log('methodsmethods', methods)
-
     const onSubmit = async (values: any) => {
-        console.log('values', values)
         const formData = new FormData()
         const { academicDocuments, ...rest } = values
         Object.keys(rest).forEach((file: any) => {

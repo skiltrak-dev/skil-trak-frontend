@@ -147,11 +147,14 @@ const {
     useStudentUpcomingAppointmentsQuery,
 
     // ------ INDUSTRY ------ //
-    useIndustryCountQuery,
     useIndustriesQuery,
-    useIndustryStatusChangeMutation,
-    useIndustryRemoveMutation,
+    useIndustryCountQuery,
     useIndustryDetailQuery,
+    useIndustrySectorsQuery,
+    useIndustryRemoveMutation,
+    useIndustryStatusChangeMutation,
+    useIndustryAssignCoursesMutation,
+    useIndustryUnassignCourseMutation,
 
     // ----- RPL ----- //
     useRplRequestListQuery,
@@ -315,7 +318,10 @@ export const AdminApi = {
     },
 
     Industries: {
+        useIndustrySectors: useIndustrySectorsQuery,
         useListQuery: useIndustriesQuery,
+        useAssignCourses: useIndustryAssignCoursesMutation,
+        useUnassignCourses: useIndustryUnassignCourseMutation,
         useCount: useIndustryCountQuery,
         useStatusChange: useIndustryStatusChangeMutation,
         useDetail: useIndustryDetailQuery,

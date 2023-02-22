@@ -67,7 +67,6 @@ export const BigCalendar = ({ events }: { events: any }) => {
     //     },
     // ]
 
-
     const today = new Date()
     const min = new Date(
         today.getFullYear(),

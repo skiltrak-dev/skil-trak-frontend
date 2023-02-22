@@ -20,7 +20,7 @@ export const SectorCell = ({ subAdmin }: { subAdmin: SubAdmin }) => {
                     onClick={() => onViewSectorClicked(subAdmin)}
                     simple
                 >
-                    View
+                    View / Edit
                 </ActionButton>
                 <div className="flex gap-x-1">
                     {subAdmin.courses.map((c: Course) => (

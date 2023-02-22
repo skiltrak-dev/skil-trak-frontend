@@ -1,8 +1,8 @@
 import { ContextBarLoading, NoData, Typography } from '@components'
-import { useNotification } from '@hooks'
+import { useContextBar, useNotification } from '@hooks'
 import { AdminApi } from '@queries'
 
-import { Course, Rto, Student } from '@types'
+import { Course, Rto, Student, Industry } from '@types'
 import { useEffect } from 'react'
 import { AssignedCourse } from '../components'
 import { AssignSectorForm } from '../form'
@@ -21,26 +21,29 @@ const getSectors = (courses: any) => {
     return sectors
 }
 
-export const ViewSectorsCB = ({ student }: { student: Student }) => {
+export const ViewSectorsCB = ({ industry }: { industry: Industry }) => {
     const { notification } = useNotification()
-    const courses = AdminApi.Students.useSectors(student.id)
+    const contextBar = useContextBar()
+
+    const courses = AdminApi.Industries.useIndustrySectors(industry?.id)
+    const [assignCourses, assignCoursesResult] =
+        AdminApi.Industries.useAssignCourses()
+    const [unassignCourse, unassignCourseResult] =
+        AdminApi.Industries.useUnassignCourses()
+
     const sectorsWithCourses = getSectors(courses.data)
 
-    const [assignCourses, assignCoursesResult] =
-        AdminApi.Students.useAssignCourses()
     const onSubmit = async (values: any) => {
         const { courses } = values
         await assignCourses({
-            user: student.id,
+            user: industry.id,
             courses: courses.map((c: any) => c.value),
         })
     }
 
-    const [unassignCourse, unassignCourseResult] =
-        AdminApi.Students.useUnassignCourses()
     const onCourseRemove = async (course: Course) => {
         await unassignCourse({
-            id: student.id,
+            industryId: industry.id,
             courseId: course.id,
         })
     }
@@ -51,6 +54,9 @@ export const ViewSectorsCB = ({ student }: { student: Student }) => {
                 title: 'Courses Assigned',
                 description: 'Courses have been assigned to Student',
             })
+            contextBar.setContent(null)
+            contextBar.hide()
+            contextBar.setTitle('')
         }
 
         if (assignCoursesResult.isError) {
@@ -83,12 +89,15 @@ export const ViewSectorsCB = ({ student }: { student: Student }) => {
                 <Typography variant={'muted'} color={'text-gray-400'}>
                     Sectors &amp; Courses Of:
                 </Typography>
-                <Typography variant={'label'}>{student.user.name}</Typography>
+                <Typography variant={'label'}>
+                    {industry?.user?.name}
+                </Typography>
             </div>
 
             <AssignSectorForm
                 onSubmit={onSubmit}
                 result={assignCoursesResult}
+                sectorsWithCourses={sectorsWithCourses}
             />
 
             <div className={'flex flex-col gap-y-2'}>

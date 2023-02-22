@@ -13,6 +13,10 @@ const PREFIX = 'rtos'
 export const studentEndpoints = (
     builder: EndpointBuilder<BaseQueryFn, string, string>
 ) => ({
+    studentsCount: builder.query<any, void>({
+        query: () => `${PREFIX}/students/count`,
+        providesTags: ['Rto-Students'],
+    }),
     studentsImport: builder.mutation<any, any>({
         query: (body) => ({
             url: `${PREFIX}/students/import`,
