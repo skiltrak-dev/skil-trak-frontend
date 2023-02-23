@@ -24,9 +24,16 @@ export const MailsTab = ({ user }: { user: any }) => {
     )
 
     // query
-    const messages = CommonApi.Messages.useMessages(user?.id, {
-        skip: !user?.id,
-    })
+    const messages = CommonApi.Messages.useMessages(
+        {
+            id: user?.id,
+            skip: 0,
+            limit: 50,
+        },
+        {
+            skip: !user?.id,
+        }
+    )
 
     useEffect(() => {
         setApprovedUser(user?.user?.status === 'approved')

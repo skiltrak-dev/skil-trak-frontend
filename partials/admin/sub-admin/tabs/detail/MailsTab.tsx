@@ -33,9 +33,12 @@ export const MailsTab = ({ subAdmin }: any) => {
     }, [subAdmin])
 
     // query
-    const messages = AdminApi.Messages.useList(subAdmin?.id, {
-        skip: !subAdmin?.id,
-    })
+    const messages = AdminApi.Messages.useList(
+        { id: subAdmin?.id },
+        {
+            skip: !subAdmin?.id,
+        }
+    )
 
     // useEffect(() => {
     //     messages?.refetch()

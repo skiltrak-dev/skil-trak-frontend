@@ -25,9 +25,12 @@ export const MailsTab = ({ industry }: any) => {
     )
 
     // query
-    const messages = AdminApi.Messages.useList(industry?.user?.id, {
-        skip: !industry?.user?.id,
-    })
+    const messages = AdminApi.Messages.useList(
+        { id: industry?.user?.id },
+        {
+            skip: !industry?.user?.id,
+        }
+    )
 
     useEffect(() => {
         setApprovedUser(industry?.user?.status === 'approved')

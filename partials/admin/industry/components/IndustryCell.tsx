@@ -13,7 +13,7 @@ export const IndustryCell = ({ industry }: { industry: Industry }) => {
                         name={industry?.user?.name}
                         imageUrl={industry?.user?.avatar}
                     />
-                    {industry?.studentCapacity ? (
+                    {industry?.isPartner ? (
                         <div className="absolute -bottom-1 -right-1 w-5 h-5 flex items-center justify-center bg-green-500 rounded-full text-white">
                             <FaHandshake size={14} />
                         </div>

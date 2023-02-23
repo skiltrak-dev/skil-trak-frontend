@@ -6,7 +6,14 @@ export const messagesEndpoints = (
     builder: EndpointBuilder<BaseQueryFn, string, string>
 ) => ({
     getAdminMessages: builder.query<any, any>({
-        query: (id) => `${PREFIX}/mail/list/${id}`,
+        // query: (id) => `${PREFIX}/mail/list/${id}`,
+        query: (params: any) => {
+            console.log("::: PARAMS", params)
+            return {
+                url: `${PREFIX}/mail/list/${params.id}`,
+                params,
+            }
+        },
         async onCacheEntryAdded(
             arg,
             { updateCachedData, cacheDataLoaded, cacheEntryRemoved }

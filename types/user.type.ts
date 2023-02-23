@@ -89,6 +89,7 @@ export interface Industry extends BaseResponse {
     dob: Date
     contactPerson: string
     contactPersonNumber: string
+    isPartner: boolean
     studentCapacity: number | null
     courses: Course[]
 
