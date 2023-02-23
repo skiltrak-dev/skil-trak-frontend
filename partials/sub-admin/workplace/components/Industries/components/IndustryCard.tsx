@@ -30,18 +30,18 @@ export const IndustryCard = ({ industry, appliedIndustry, workplace }: any) => {
             <ShowErrorNotifications result={applyForWorkplaceResult} />
             <div className="bg-secondary py-1 px-2 rounded-lg flex justify-between items-center">
                 <div className="flex items-center gap-x-2">
-                    {industry?.industry?.user && (
+                    {industry?.industry?.businessName && (
                         <InitialAvatar
-                            name={industry?.industry?.user?.name}
+                            name={industry?.industry?.businessName}
                             imageUrl={industry?.industry?.user?.avatar}
                         />
                     )}
                     <div>
                         <div className="flex items-center gap-x-0.5">
                             <Typography variant={'label'}>
-                                {industry?.industry?.user?.name}
+                                {industry?.industry?.businessName}
                             </Typography>
-                            <BsDot />
+                            {/* <BsDot /> */}
                             {/* <Typography variant={'xs'} color={'text-gray-400'}>
                             5km away
                         </Typography> */}
