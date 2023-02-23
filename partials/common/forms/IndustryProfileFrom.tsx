@@ -209,7 +209,10 @@ export const IndustryProfileFrom = ({
     }
     return (
         <>
-            <Avatar avatar={profile?.data?.user?.avatar} />
+            <Avatar
+                avatar={profile?.data?.user?.avatar}
+                user={profile?.data?.user?.id}
+            />
             <Card>
                 {passwordModal && passwordModal}
                 <ShowErrorNotifications result={result} />

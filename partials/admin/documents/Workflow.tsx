@@ -10,12 +10,6 @@ export const Workflow = ({ workflow }: { workflow: any }) => {
         return findData ? { ...d, file: findData?.file } : d
     })
 
-    const [first, setfirst] = useState('')
-
-    const abc = (text: any) => {
-        setfirst(text)
-    }
-
     const columns: ColumnDef<any>[] = [
         {
             accessorKey: 'name',
@@ -57,7 +51,6 @@ export const Workflow = ({ workflow }: { workflow: any }) => {
         <div className="p-4">
             <Card>
                 <Typography variant={'h4'}>Work FLow</Typography>
-                {first}
                 <Table columns={columns} data={data}>
                     {({ table }: any) => {
                         return (

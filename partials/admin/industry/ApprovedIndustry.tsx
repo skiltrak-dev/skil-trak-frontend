@@ -92,6 +92,10 @@ export const ApprovedIndustry = () => {
             header: () => <span>Industry</span>,
         },
         {
+            accessorKey: 'abn',
+            header: () => <span>ABN</span>,
+        },
+        {
             accessorKey: 'contactPerson',
             header: () => <span>Contact Person</span>,
             cell: (info) => {

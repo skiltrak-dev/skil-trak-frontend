@@ -17,7 +17,10 @@ export const appointmentsEndpoints = (
         query: (body) => ({ url: `${PREFIX}`, method: 'POST', body }),
         invalidatesTags: ['Appointments'],
     }),
-    getBookedAppointmnts: builder.query<any, any>({
+    getBookedAppointmnts: builder.query<
+        any,
+        { status?: string | undefined; skip?: number; limit?: number }
+    >({
         query: (params) => ({
             url: `${PREFIX}/my-appointments/view`,
             params,

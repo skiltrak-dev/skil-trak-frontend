@@ -23,7 +23,7 @@ export const RtoCell = ({ subAdmin }: { subAdmin: SubAdmin }) => {
                     onClick={() => onViewClicked(subAdmin)}
                     simple
                 >
-                    View / Edit
+                    <span className="whitespace-pre">View / Edit</span>
                 </ActionButton>
             </div>
         </div>

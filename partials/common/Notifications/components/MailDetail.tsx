@@ -1,39 +1,39 @@
 import { EmptyData, InitialAvatar, LoadingAnimation, Mail, TechnicalError, Typography } from '@components'
 import { CommonApi } from '@queries'
+import moment from 'moment'
 import React, { useState } from 'react'
 
 type Props = {
     message: any
+    selectedMessage: any
 }
 
-export const MailDetail = ({ message }: Props) => {
+export const MailDetail = ({ message, selectedMessage }: Props) => {
 
     // const message = CommonApi.Message.useMessage(user?.id, {
     //     skip: !user?.id,
     // })
-    console.log("message", message)
     return (
         <div className='w-full'>
-            <div className="px-4 py-2 flex justify-between items-center w-full border-r">
+            <div className="px-4 border-b py-2 flex justify-between items-center w-full">
                 <div>
                     <Typography variant={'subtitle'}>
-                        {/* {message[0]?.subject} */}
-                        Subject
+                        {selectedMessage?.name}
                     </Typography>
                     <Typography variant={'muted'} color={'text-muted'}>
-                        {/* {message[0]?.createdAt} */}
-                        12/12/2021
+                        {moment(new Date(selectedMessage?.createdAt)).format(
+                            'LL'
+                        )}
                     </Typography>
                 </div>
                 <div className="flex items-center gap-x-2">
-                    <InitialAvatar name={'Sub Admin'} />
+                    <InitialAvatar name={selectedMessage?.name || " "} />
                     <Typography variant={'subtitle'}>
-                        {/* {message[0]?.sender?.email} */}
-                        admin@gmail.com
+                        {selectedMessage?.email}
                     </Typography>
                 </div>
             </div>
-            <div className='h-screen border p-4'>
+            <div className='h-screen overflow-y-scroll remove-scrollbar p-4'>
                 <div className={`w-full bg-gray-50 rounded-lg p-2`}>
                     {message?.isError && <TechnicalError />}
                     <div className={`flex flex-col gap-y-2.5 h-full `}>
@@ -41,8 +41,8 @@ export const MailDetail = ({ message }: Props) => {
                             <div className="flex justify-center items-center h-full">
                                 <LoadingAnimation />
                             </div>
-                        ) : !message?.isError && message?.length > 0 ? (
-                            message?.map(
+                        ) : !message?.isError && message?.data?.length > 0 ? (
+                            message?.data?.map(
                                 (message: any, i: number) =>
                                     message && (
                                         <Mail

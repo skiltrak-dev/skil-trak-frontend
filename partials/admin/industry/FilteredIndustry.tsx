@@ -17,7 +17,7 @@ import { Industry, UserStatus } from '@types'
 import { useRouter } from 'next/router'
 import { ReactElement, useState } from 'react'
 import { MdBlock } from 'react-icons/md'
-import { IndustryCell } from './components'
+import { IndustryCell, SectorCell } from './components'
 import {
     AcceptModal,
     ArchiveModal,
@@ -202,6 +202,13 @@ export const FilteredIndustry = ({
                         </p>
                     </div>
                 )
+            },
+        },
+        {
+            accessorKey: 'sectors',
+            header: () => <span>Sectors</span>,
+            cell: (info) => {
+                return <SectorCell industry={info.row.original} />
             },
         },
         {

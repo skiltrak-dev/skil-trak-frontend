@@ -11,13 +11,13 @@ type Props = {
     assessmentsFolders: any
     setSelectedFolder: any
     selectedFolder: any
-    submission: number
+    result: any
 }
 export const AssessmentsEvidence = ({
     selectedFolder,
     setSelectedFolder,
     assessmentsFolders,
-    submission,
+    result,
 }: Props) => {
     return (
         <>
@@ -28,7 +28,8 @@ export const AssessmentsEvidence = ({
                             Assessment Submission -
                         </Typography>
                         <Typography variant="muted" color="text-gray-500">
-                            Submission #{submission ? submission + 1 : 1}
+                            Submission #
+                            {result ? result?.totalSubmission + 1 : 1}
                         </Typography>
                     </div>
                     <div className="bg-white border-r min-h-[400px]">
@@ -98,6 +99,7 @@ export const AssessmentsEvidence = ({
                     <AssessmentFolderDetailX
                         fileUpload
                         folder={selectedFolder}
+                        result={result}
                     />
                 </div>
             </div>

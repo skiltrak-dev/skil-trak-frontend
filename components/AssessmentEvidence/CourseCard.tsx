@@ -23,6 +23,7 @@ export const CourseCard = ({
     course,
     result,
 }: Props) => {
+    console.log('result', result)
     return (
         <>
             <div
@@ -50,7 +51,9 @@ export const CourseCard = ({
                                 color="text-white"
                                 capitalize
                             >
-                                {result?.result}
+                                {result?.result === 'pending'
+                                    ? 'Submitted'
+                                    : result?.result}
                             </Typography>
                         </div>
                     )}

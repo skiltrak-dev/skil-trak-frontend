@@ -1,6 +1,6 @@
 import { ReactElement, useEffect, useState } from 'react'
 
-import { Desktop, Mobile } from '@components'
+import { Desktop, Mobile, PageTitle } from '@components'
 import { TitleAndMessages } from '@components/sections/student/AssessmentsContainer/AssessmentsEvidence'
 import { StudentLayout } from '@layouts'
 import { NextPageWithLayout } from '@types'
@@ -64,7 +64,8 @@ const AssessmentEvidence: NextPageWithLayout = (props: Props) => {
     return (
         <>
             {/* <AssessmentsEvidence /> */}
-            <TitleAndMessages result={result} />
+            <PageTitle title="Assessment Evidence" backTitle="Assessment" />
+            {/* <TitleAndMessages result={result} /> */}
             <Desktop>
                 <DesktopAssessment
                     result={result}

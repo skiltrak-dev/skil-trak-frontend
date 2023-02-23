@@ -23,6 +23,7 @@ import {
 } from '@partials/sub-admin/workplace/modals'
 import { SignAgreement } from '@partials/sub-admin/workplace/components/Industries/components/Actions/components'
 import { UserStatus } from '@types'
+import { StudentProvidedForwardModal } from '@partials/sub-admin/workplace/modals/StudentProvidedForwardModal'
 
 export const Actions = ({
     appliedIndustry,
@@ -66,11 +67,10 @@ export const Actions = ({
 
     const onForwardClicked = (industry: any) => {
         setModal(
-            <ForwardModal
+            <StudentProvidedForwardModal
                 industry={industry}
                 workplaceId={workplaceId}
-                folders={folders}
-                onCancel={() => onModalCancelClicked()}
+                onCancel={onModalCancelClicked}
             />
         )
     }
@@ -92,6 +92,14 @@ export const Actions = ({
             <ShowErrorNotifications result={updateStatusResult} />
             <ShowErrorNotifications result={industryResponseResult} />
             <ShowErrorNotifications result={changeCustomIndustryStatusResult} />
+
+            {workplace?.byExistingAbn &&
+                workplace?.approvalStatus === UserStatus.Pending && (
+                    <Button
+                        text={'Forward to industry'}
+                        onClick={() => onForwardClicked(appliedIndustry)}
+                    />
+                )}
 
             {workplace?.industryStatus === 'pending' ? (
                 <div className="flex items-center gap-x-2">

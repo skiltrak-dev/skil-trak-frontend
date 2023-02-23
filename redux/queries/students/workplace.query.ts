@@ -82,6 +82,22 @@ export const workplaceRequestApi = createApi({
             }),
             invalidatesTags: ['Workplace'],
         }),
+        updateFindAbn: builder.mutation({
+            query: (body: any) => ({
+                url: `industry/find-abn`,
+                method: 'POST',
+                body,
+            }),
+            invalidatesTags: ['Workplace'],
+        }),
+        addWorkplace: builder.mutation({
+            query: (body: any) => ({
+                url: `add/work-place`,
+                method: 'POST',
+                body,
+            }),
+            invalidatesTags: ['Workplace'],
+        }),
     }),
 })
 
@@ -94,5 +110,7 @@ export const {
     useUploadAgreementMutation,
     useCancelWorkplaceRequestMutation,
     useApplyForWorkplaceMutation,
+    useUpdateFindAbnMutation,
+    useAddWorkplaceMutation,
     useApplyWorkplaceWithAbnIndustryMutation,
 } = workplaceRequestApi
