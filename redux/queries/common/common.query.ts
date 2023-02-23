@@ -41,6 +41,8 @@ export const commonApi = createApi({
         'Students',
         'BulkStatus',
         'Documents',
+        'MailCount',
+        'MailsRecent',
     ],
 
     // ---------- RTO ENDPOINTS ---------- //
@@ -118,8 +120,10 @@ const {
     useSendMessageMutation,
     useGetAllMailsQuery,
     useIsSeenMutation,
+    useGetRecentMailsQuery,
     useGetAllConversationsQuery,
     useGetSingleChatQuery,
+    useCountUnreadMessageQuery,
 
     // -- APPOINTMENTS -- //
     useCreateAppointmentMutation,
@@ -173,9 +177,11 @@ export const CommonApi = {
         useMessages: useGetMessagesQuery,
         useSendMessage: useSendMessageMutation,
         useAllMails: useGetAllMailsQuery,
+        useMailCount: useCountUnreadMessageQuery,
         useIsSeen: useIsSeenMutation,
         useAllConversations: useGetAllConversationsQuery,
         useSingleChat: useGetSingleChatQuery,
+        useRecentMails: useGetRecentMailsQuery,
     },
     Appointments: {
         createAppointment: useCreateAppointmentMutation,

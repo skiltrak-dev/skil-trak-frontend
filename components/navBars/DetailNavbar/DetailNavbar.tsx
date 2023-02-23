@@ -26,7 +26,10 @@ export const DetailNavbar = () => {
     const isMobile = useMediaQuery(MediaQueries.Mobile)
     const { data, error, isLoading } =
         CommonApi.Notifications.useNotifications()
-    const { data: allMails } = CommonApi.Messages.useAllMails()
+
+    const { data: mailCount } = CommonApi.Messages.useMailCount()
+    const { data: allMails } = CommonApi.Messages.useRecentMails()
+
     const [isReadNotification, resultIsReadNotification] =
         CommonApi.Notifications.useIsReadNotification()
     const [seenMessage, resultSeenMessage] = CommonApi.Messages.useIsSeen()
@@ -39,7 +42,7 @@ export const DetailNavbar = () => {
         (notification: any) => notification?.isRead === false
     )
     const count = unreadNotifications?.length
-  
+
     return (
         <div className="w-full z-50 px-2 md:px-8 py-2 bg-white border-b border-secondary-dark flex justify-between items-center">
             <div className="flex justify-between items-center">
@@ -55,7 +58,7 @@ export const DetailNavbar = () => {
                     <div className="relative">
                         <BadgeButton
                             icon={MdMessage}
-                            count={allMails?.length || 0}
+                            count={mailCount?.count || 0}
                             max={9}
                             onClick={() => setMessagesExpanded(true)}
                             text={'Messages'}

@@ -25,7 +25,6 @@ export const MessageItem = ({
     isSeen,
 
     resultSeenMessage,
-
 }: MessageItemProps) => {
     const Icon = icon
 
@@ -35,7 +34,13 @@ export const MessageItem = ({
             className="flex items-center border-b py-2 px-4 hover:bg-secondary cursor-pointer"
         >
             {icon ? (
-                <div className={`${!resultSeenMessage.isSuccess && !isSeen ? "text-blue-400" : "text-gray-500"}  bg-gray-300 h-8 w-8 rounded-md flex items-center justify-center text-2xl mr-2`}>
+                <div
+                    className={`${
+                        !resultSeenMessage.isSuccess && !isSeen
+                            ? 'text-blue-400'
+                            : 'text-gray-500'
+                    }  bg-gray-300 h-8 w-8 rounded-md flex items-center justify-center text-2xl mr-2`}
+                >
                     <Icon />
                 </div>
             ) : avatar ? (
@@ -45,24 +50,45 @@ export const MessageItem = ({
                     alt=""
                 />
             ) : (
-                <div className={`${!resultSeenMessage.isSuccess && !isSeen ? "text-blue-400 bg-blue-200" : "text-gray-500 bg-gray-300"} h-8 w-8 rounded-md flex items-center justify-center text-2xl mr-2`}>
+                <div
+                    className={`${
+                        !resultSeenMessage.isSuccess && !isSeen
+                            ? 'text-blue-400 bg-blue-200'
+                            : 'text-gray-500 bg-gray-300'
+                    } h-8 w-8 rounded-md flex items-center justify-center text-2xl mr-2`}
+                >
                     <AiFillBell />
                 </div>
             )}
 
             <div className="flex-grow">
-                <Typography variant={'subtitle'} color={`${!resultSeenMessage.isSuccess && !isSeen ? "text-blue-400" : 'text-muted'}`} >{title.substring(0, 10)}...</Typography>
-                <Typography variant={'muted'} color={'text-muted'}>
-                    {description.substring(0, 10)}...
+                <Typography
+                    variant={'muted'}
+                    color={`${
+                        !resultSeenMessage.isSuccess && !isSeen
+                            ? 'text-blue-400'
+                            : 'text-muted'
+                    }`}
+                >
+                    {title.substring(0, 30)}...
+                </Typography>
+                <Typography variant={'small'} color={'text-muted'}>
+                    {description.substring(0, 30)}...
                 </Typography>
             </div>
             <div className="flex flex-col items-end">
-                <Typography variant={'small'} color={'text-muted'}>
-                    {moment(new Date(timestamp)).format(
-                        'dddd, MMMM'
-                    )}
-                </Typography>
-                {!resultSeenMessage.isSuccess && !isSeen ? (<><AiOutlineMail className='text-blue-400' /></>) : (<><HiOutlineMailOpen /></>)}
+                <p className="text-[11px] text-gray-400">
+                    {moment(new Date(timestamp)).format('ddd, MMM')}
+                </p>
+                {!resultSeenMessage.isSuccess && !isSeen ? (
+                    <>
+                        <AiOutlineMail className="text-blue-400" />
+                    </>
+                ) : (
+                    <>
+                        <HiOutlineMailOpen />
+                    </>
+                )}
             </div>
         </div>
     )

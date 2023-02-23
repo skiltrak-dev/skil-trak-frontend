@@ -39,7 +39,7 @@ export const ApprovedRto = () => {
         skip: itemPerPage * page - itemPerPage,
         limit: itemPerPage,
     })
-    const [bulkAction, resultBulkAction] = commonApi.useBulkStatusMutation();
+    const [bulkAction, resultBulkAction] = commonApi.useBulkStatusMutation()
     const onModalCancelClicked = () => {
         setModal(null)
     }
@@ -114,7 +114,7 @@ export const ApprovedRto = () => {
         {
             accessorKey: 'students',
             header: () => <span>Students</span>,
-            cell: (info) => info?.row?.original?.students?.length,
+            cell: (info) => info?.row?.original?.students,
         },
         {
             accessorKey: 'sectors',
@@ -124,7 +124,8 @@ export const ApprovedRto = () => {
         {
             accessorKey: 'suburb',
             header: () => <span>Address</span>,
-            cell: (info) => info.getValue(),
+            cell: (info) =>
+                `${info.row?.original?.addressLine1}, ${info?.row?.original?.suburb}`,
         },
         {
             accessorKey: 'action',
@@ -156,10 +157,14 @@ export const ApprovedRto = () => {
             </div>
         ),
         common: (items: Rto[]) => (
-            <ActionButton onClick={() => {
-                const arrayOfIds = items.map((id: any) => id?.user.id)
-                bulkAction({ ids: arrayOfIds, status: 'blocked' })
-            }} Icon={MdBlock} variant="error">
+            <ActionButton
+                onClick={() => {
+                    const arrayOfIds = items.map((id: any) => id?.user.id)
+                    bulkAction({ ids: arrayOfIds, status: 'blocked' })
+                }}
+                Icon={MdBlock}
+                variant="error"
+            >
                 Block
             </ActionButton>
         ),
@@ -203,7 +208,8 @@ export const ApprovedRto = () => {
                                         <div className="p-6 mb-2 flex justify-between">
                                             {pageSize(
                                                 itemPerPage,
-                                                setItemPerPage
+                                                setItemPerPage,
+                                                data.data.length
                                             )}
                                             <div className="flex gap-x-2">
                                                 {quickActions}

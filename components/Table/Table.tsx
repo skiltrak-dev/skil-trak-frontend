@@ -168,11 +168,12 @@ export const Table = <Type,>({
     return children({
         quickActions: selectedRowActions,
         pageSize: pageSize
-            ? (itemPerPage: number, setItemPerPage: Function) => (
+            ? (itemPerPage: number, setItemPerPage: Function, records?: number) => (
                   <PageSize
                       table={table}
                       itemPerPage={itemPerPage}
                       setItemPerPage={setItemPerPage}
+                      records={records}
                   />
               )
             : null,
