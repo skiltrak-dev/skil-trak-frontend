@@ -51,7 +51,7 @@ export const MessageItem = ({
             )}
 
             <div className="flex-grow">
-                <Typography variant={'subtitle'} color={`${!resultSeenMessage.isSuccess && !isSeen ? "text-blue-400" : 'text-muted'}`} >{title}</Typography>
+                <Typography variant={'subtitle'} color={`${!resultSeenMessage.isSuccess && !isSeen ? "text-blue-400" : 'text-muted'}`} >{title.substring(0, 10)}...</Typography>
                 <Typography variant={'muted'} color={'text-muted'}>
                     {description.substring(0, 10)}...
                 </Typography>

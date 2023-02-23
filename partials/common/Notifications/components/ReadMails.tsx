@@ -11,6 +11,7 @@ type AllMailsProps = {
     avatar?: string
     onClick?: MouseEventHandler
     id: any
+    selectedMessageId:any
 }
 
 export const ReadMails = ({
@@ -21,12 +22,13 @@ export const ReadMails = ({
     avatar,
     onClick,
     id,
+    selectedMessageId,
 }: AllMailsProps) => {
 
     return (
         <div
             onClick={onClick}
-            className="flex items-center border-b py-2 px-4 hover:bg-secondary cursor-pointer border-r"
+            className={`${selectedMessageId === id && "bg-blue-100"} flex items-center border-b py-2 px-4 hover:bg-secondary cursor-pointer border-r`}
         >
             <div>
                 {icon ? (
@@ -38,7 +40,7 @@ export const ReadMails = ({
                         height={50}
                     />
                 ) : (
-                    <InitialAvatar name={"Sub Admin"} />
+                    <InitialAvatar name={title || " "} />
                 )}
             </div>
 
