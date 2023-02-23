@@ -4,15 +4,17 @@ interface PageSizeProps {
     table?: Table<any>
     itemPerPage?: 5 | 10 | 20 | 30 | 40 | 50 | number
     setItemPerPage?: Function
+    records?: number
 }
 
 export const PageSize = ({
     table,
     itemPerPage,
     setItemPerPage,
+    records,
 }: PageSizeProps) => {
     return (
-        <div>
+        <div className="flex items-center gap-x-4">
             <div className="text-sm font-medium flex items-center gap-x-2">
                 <span className="">Show:</span>
                 <span>
@@ -41,6 +43,11 @@ export const PageSize = ({
                     </select>
                 </span>
             </div>
+            {records && (
+                <div className="text-sm font-medium flex items-center gap-x-2 text-gray-500">
+                    {records} Records
+                </div>
+            )}
         </div>
     )
 }

@@ -79,6 +79,14 @@ export const mailsEndpoints = (
         query: () => `${PREFIX}/list/all`,
         providesTags: ['Mails'],
     }),
+    getRecentMails: builder.query<any, void>({
+        query: () => `${PREFIX}/list/recent`,
+        providesTags: ['MailsRecent'],
+    }),
+    countUnreadMessage: builder.query<any, void>({
+        query: () => `${PREFIX}/unread/count`,
+        providesTags: ['MailCount'],
+    }),
     isSeen: builder.mutation({
         query: (id: any) => ({
             url: `${PREFIX}/seen/${id}`,

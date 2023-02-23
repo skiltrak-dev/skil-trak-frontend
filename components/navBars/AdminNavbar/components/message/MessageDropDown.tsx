@@ -25,7 +25,7 @@ export const MessageDropDown = ({
         >
             <div className="py-2 px-4 border-b flex justify-between items-center">
                 <Typography variant="label">Your Messages</Typography>
-                <div className="text-sm text-primary font-semibold cursor-pointer">
+                <div className="text-xs text-primary cursor-pointer">
                     View All
                 </div>
             </div>

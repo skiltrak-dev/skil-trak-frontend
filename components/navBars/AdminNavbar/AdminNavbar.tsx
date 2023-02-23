@@ -56,7 +56,8 @@ export const AdminNavbar = () => {
     )
     const count = unreadNotifications?.length
 
-    const { data: allMails } = CommonApi.Messages.useAllMails()
+    const { data: mailCount } = CommonApi.Messages.useMailCount()
+    const { data: allMails } = CommonApi.Messages.useRecentMails()
     const [seenMessage, resultSeenMessage] = CommonApi.Messages.useIsSeen()
     return (
         <div className="w-full transition-all  z-30 py-2 px-6  flex justify-between items-center">
@@ -80,7 +81,7 @@ export const AdminNavbar = () => {
                     <div className="relative">
                         <BadgeButton
                             icon={MdMessage}
-                            count={0}
+                            count={mailCount?.count || 0}
                             max={9}
                             onClick={() =>
                                 setMessagesExpanded(!messagesExpanded)
