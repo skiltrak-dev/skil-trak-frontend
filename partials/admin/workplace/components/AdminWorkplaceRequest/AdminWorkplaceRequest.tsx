@@ -64,10 +64,10 @@ export const AdminWorkplaceRequest = ({ workplace }: Props) => {
                     <AssignWorkplace workplace={workplace} />
                     <div className="flex items-center relative">
                         <div className="flex items-center gap-x-2">
-                            <InitialAvatar
-                                name={workplace?.student?.user?.name}
-                                imageUrl={workplace?.student?.user?.avatar}
-                            />
+                                <InitialAvatar
+                                    name={workplace?.student?.user?.name}
+                                    imageUrl={workplace?.student?.user?.avatar}
+                                />
                             <div>
                                 <Typography color={'black'} variant={'small'}>
                                     {workplace?.student?.user?.name}
