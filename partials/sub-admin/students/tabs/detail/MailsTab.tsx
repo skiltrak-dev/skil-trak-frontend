@@ -24,9 +24,12 @@ export const MailsTab = ({ student }: any) => {
     )
 
     // query
-    const messages = AdminApi.Messages.useList(student?.user?.id, {
-        skip: !student?.user?.id,
-    })
+    const messages = AdminApi.Messages.useList(
+        { id: student?.user?.id },
+        {
+            skip: !student?.user?.id,
+        }
+    )
 
     useEffect(() => {
         setApprovedUser(student?.user?.status === 'approved')

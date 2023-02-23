@@ -33,9 +33,13 @@ export const MailsTab = ({ rto }: any) => {
     }, [rto])
 
     // query
-    const messages = AdminApi.Messages.useList(rto?.id, {
-        skip: !rto?.id,
-    })
+    console.log("::: RTO ID", rto.id)
+    const messages = AdminApi.Messages.useList(
+        { id: rto?.id, limit: 50, skip: 0 },
+        {
+            skip: !rto?.id,
+        }
+    )
 
     // useEffect(() => {
     //     messages?.refetch()

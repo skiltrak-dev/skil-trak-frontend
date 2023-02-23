@@ -33,9 +33,12 @@ export const MailsTab = ({ student }: any) => {
     }, [student])
 
     // query
-    const messages = AdminApi.Messages.useList(student?.id, {
-        skip: !student?.id,
-    })
+    const messages = AdminApi.Messages.useList(
+        { id: student?.id },
+        {
+            skip: !student?.id,
+        }
+    )
 
     // useEffect(() => {
     //     messages?.refetch()

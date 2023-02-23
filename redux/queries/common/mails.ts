@@ -25,8 +25,14 @@ const PREFIX = 'messaging'
 export const mailsEndpoints = (
     builder: EndpointBuilder<BaseQueryFn, string, string>
 ) => ({
-    getMessages: builder.query<any, number>({
-        query: (id) => `${PREFIX}/mail/list/${id}`,
+    getMessages: builder.query<any, any>({
+        // query: (id) => `${PREFIX}/mail/list/${id}`,
+        query: (params: any) => {
+            return {
+                url: `admin/mail/list/${params.id}`,
+                params,
+            }
+        },
         async onCacheEntryAdded(
             photoId,
             { cacheDataLoaded, cacheEntryRemoved, updateCachedData }
