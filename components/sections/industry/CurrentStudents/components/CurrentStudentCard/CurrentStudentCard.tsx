@@ -7,7 +7,6 @@ import { Notes } from '../Notes'
 import { StudentDetail } from '../StudentDetail'
 import moment from 'moment'
 import { Actions } from '../Actions'
-import { RtoDetail } from '../RtoDetail'
 import { StudentAvailability } from '@partials/common'
 
 export const CurrentStudentCard = ({ workplace }: any) => {

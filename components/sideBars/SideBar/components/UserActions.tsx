@@ -62,7 +62,6 @@ export const UserActions = () => {
                         width={32}
                         height={36}
                         className="rounded-md"
-                        layout="fixed"
                     />
                 </div>
                 <div>

@@ -9,7 +9,7 @@ export const StudentDetail = ({ student }: any) => {
             <div className="flex items-center gap-x-2">
                 <img
                     className="w-16 h-16 rounded-full"
-                    src="https://picsum.photos/200/200"
+                    src=""
                     alt=""
                 />
                 <div>

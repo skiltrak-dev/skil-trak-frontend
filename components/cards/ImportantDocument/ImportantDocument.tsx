@@ -31,7 +31,6 @@ export const ImportantDocumentCard = ({
                     <Image
                         src={imageUrl || ' '}
                         alt="work flow"
-                        layout="responsive"
                         width={90}
                         height={80}
                         className="w-full h-full rounded-lg"

@@ -37,6 +37,7 @@ export const SideBar = ({ routes, portalType }: any) => {
                         alt="Skiltrak 2.0 Logo"
                         width={150}
                         height={45}
+                        priority
                     />
                     <PortalTypeBadge type={portalType} />
                 </div>

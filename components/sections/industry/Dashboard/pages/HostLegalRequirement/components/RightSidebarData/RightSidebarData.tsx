@@ -15,7 +15,7 @@ export const RightSidebarData = () => {
     <div className="flex flex-col items-start gap-y-4">
       <img
         className="w-full h-[180px] object-cover rounded-lg"
-        src="https://picsum.photos/800/800"
+        src=""
         alt="Sidebar"
       />
       {/* <Button

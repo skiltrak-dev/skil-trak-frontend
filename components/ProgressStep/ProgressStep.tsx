@@ -89,7 +89,6 @@ export const ProgressStep = ({ status }: Props) => {
                                         src={item.imageUrl}
                                         width={48}
                                         height={48}
-                                        layout="fixed"
                                         alt={item.title}
                                     />
                                 </div>
