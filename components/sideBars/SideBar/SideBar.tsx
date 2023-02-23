@@ -31,12 +31,14 @@ export const SideBar = ({ routes, portalType }: any) => {
                 legacyBehavior
                 href={`/portals/${role === 'subadmin' ? 'sub-admin' : role}`}
             >
-                <div className="relative w-fit mx-auto pt-2">
+                <div className="relative w-fit mx-auto pt-2 mb-2">
                     <Image
-                        src={`/images/skiltrak_logo.svg`}
+                        src={'/images/skiltrak_logo.svg'}
                         alt="Skiltrak 2.0 Logo"
-                        width={150}
-                        height={45}
+                        width="0"
+                        height={'0'}
+                        sizes="100vw"
+                        className="w-32"
                         priority
                     />
                     <PortalTypeBadge type={portalType} />
