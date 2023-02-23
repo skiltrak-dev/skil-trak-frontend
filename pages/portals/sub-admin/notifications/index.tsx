@@ -28,7 +28,7 @@ const SubAdminNotifications: NextPageWithLayout = () => {
         skip: !selectedMessageId,
     })
     const [seenMessage, resultSeenMessage] = CommonApi.Messages.useIsSeen()
-    
+
     const tabs: TabProps[] = [
         {
             label: 'All',
@@ -93,18 +93,41 @@ const SubAdminNotifications: NextPageWithLayout = () => {
             },
             element: (
                 <div className="flex">
-                    <div>
-                        {data?.map((message: any, i: any) => (
-                            <UnReadMails
-                                key={message?.id}
-                                title={message.name}
-                                description={message.email}
-                                timestamp={message.createdAt}
-                                selectedMessageId={selectedMessageId}
-                                id={message.id}
-                                onClick={() => setSelectedMessageId(message.id)}
-                            />
-                        ))}
+                    {isError && <TechnicalError />}
+                    <div className="h-screen border-r overflow-y-scroll remove-scrollbar">
+                        {isLoading || isFetching ? (
+                            <div className="flex justify-center items-center h-full">
+                                <LoadingAnimation />
+                            </div>
+                        ) : !isError && data?.length > 0 ? (
+                            <>
+                                {data?.map((message: any) => (
+                                    <UnReadMails
+                                        key={message?.id}
+                                        title={message.name}
+                                        description={message.email}
+                                        timestamp={message.createdAt}
+                                        id={message.id}
+                                        selectedMessageId={selectedMessageId}
+                                        onClick={() => {
+                                            setSelectedMessageId(message.id)
+                                            setSelectedMessage(message)
+                                        }}
+                                    />
+                                ))}
+                            </>
+                        ) : (
+                            !isError && (
+                                <EmptyData
+                                    imageUrl="/images/icons/common/mails.png"
+                                    title={'No Mails'}
+                                    description={
+                                        'You have not sent/received any mail yet'
+                                    }
+                                    height={'40vh'}
+                                />
+                            )
+                        )}
                     </div>
                     <MailDetail
                         selectedMessage={selectedMessage}
@@ -122,18 +145,41 @@ const SubAdminNotifications: NextPageWithLayout = () => {
             },
             element: (
                 <div className="flex">
-                    <div>
-                        {data?.map((message: any) => (
-                            <ReadMails
-                                key={message?.id}
-                                title={message.name}
-                                description={message.email}
-                                timestamp={message.createdAt}
-                                selectedMessageId={selectedMessageId}
-                                id={message.id}
-                                onClick={() => setSelectedMessageId(message.id)}
-                            />
-                        ))}
+                    {isError && <TechnicalError />}
+                    <div className="h-screen border-r overflow-y-scroll remove-scrollbar">
+                        {isLoading || isFetching ? (
+                            <div className="flex justify-center items-center h-full">
+                                <LoadingAnimation />
+                            </div>
+                        ) : !isError && data?.length > 0 ? (
+                            <>
+                                {data?.map((message: any) => (
+                                    <ReadMails
+                                        key={message?.id}
+                                        title={message.name}
+                                        description={message.email}
+                                        timestamp={message.createdAt}
+                                        id={message.id}
+                                        selectedMessageId={selectedMessageId}
+                                        onClick={() => {
+                                            setSelectedMessageId(message.id)
+                                            setSelectedMessage(message)
+                                        }}
+                                    />
+                                ))}
+                            </>
+                        ) : (
+                            !isError && (
+                                <EmptyData
+                                    imageUrl="/images/icons/common/mails.png"
+                                    title={'No Mails'}
+                                    description={
+                                        'You have not sent/received any mail yet'
+                                    }
+                                    height={'40vh'}
+                                />
+                            )
+                        )}
                     </div>
                     <MailDetail
                         selectedMessage={selectedMessage}
