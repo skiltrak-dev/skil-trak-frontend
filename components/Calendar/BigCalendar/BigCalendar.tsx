@@ -7,6 +7,7 @@ import { WeekHeaderWrapper } from './WeekHeaderWrapper'
 import { CalendarStyles } from './style'
 import { TimeSlotWrapper } from './TimeSlotWrapper'
 import { EventWrapper } from './EventWrapper'
+import { LoadingAnimation } from '@components/LoadingAnimation'
 
 const localizer = momentLocalizer(moment)
 
@@ -20,53 +21,13 @@ export interface CalendarEvent {
     allDay?: boolean
 }
 
-export const BigCalendar = ({ events }: { events: any }) => {
-    // const events: CalendarEvent[] = [
-    //     {
-    //         allDay: false,
-    //         start: new Date('2022-12-26T02:00:15.221Z'),
-    //         end: new Date('2022-12-27T02:00:15.221Z'),
-    //         title: 'Appointment',
-    //         priority: 'high',
-    //         subTitle: 'Go For It',
-    //     },
-    //     {
-    //         allDay: false,
-    //         end: new Date('2022-11-29T05:00:00.000Z'),
-    //         start: new Date('2022-11-29T07:00:00.000Z'),
-    //         title: 'test larger',
-    //         priority: 'low',
-    //     },
-    //     {
-    //         allDay: false,
-    //         end: new Date('2022-11-29T18:00:00.000Z'),
-    //         start: new Date('2022-11-29T10:00:00.000Z'),
-    //         title: 'test larger',
-    //         priority: 'medium',
-    //     },
-    //     {
-    //         allDay: true,
-    //         end: new Date('2022-11-29T19:00:00.000Z'),
-    //         start: new Date('2022-11-28T19:00:00.000Z'),
-    //         title: 'test all day',
-    //         priority: 'high',
-    //     },
-    //     {
-    //         allDay: true,
-    //         end: new Date('2022-11-30T19:00:00.000Z'),
-    //         start: new Date('2022-11-28T19:00:00.000Z'),
-    //         title: 'test 2 days',
-    //         priority: 'high',
-    //     },
-    //     {
-    //         allDay: false,
-    //         end: new Date('2022-12-02T10:48:15.222Z'),
-    //         start: new Date('2022-11-29T10:48:15.222Z'),
-    //         title: 'test multi-day',
-    //         priority: 'high',
-    //     },
-    // ]
-
+export const BigCalendar = ({
+    events,
+    loading,
+}: {
+    events: any
+    loading?: boolean
+}) => {
     const today = new Date()
     const min = new Date(
         today.getFullYear(),
@@ -82,7 +43,13 @@ export const BigCalendar = ({ events }: { events: any }) => {
     )
 
     return (
+        // <div className="relative">
         <CalendarStyles>
+            {loading && (
+                <div className="absolute w-full h-full flex items-center justify-center bg-[#ffffff95] z-50">
+                    <LoadingAnimation />
+                </div>
+            )}
             <Calendar
                 localizer={localizer}
                 events={events || []}
@@ -100,5 +67,6 @@ export const BigCalendar = ({ events }: { events: any }) => {
                 max={max}
             />
         </CalendarStyles>
+        // </div>
     )
 }

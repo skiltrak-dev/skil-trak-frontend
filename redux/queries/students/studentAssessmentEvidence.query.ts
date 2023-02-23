@@ -38,6 +38,13 @@ export const studentAssessmentEvidenceApi = createApi({
             }),
             invalidatesTags: ['StudentAssessmentEvidence'],
         }),
+        archiveAssessmentFiles: builder.mutation<any, string | null>({
+            query: (id: string | null) => ({
+                url: `assessment-evidence/file/archive/${id}`,
+                method: 'PATCH',
+            }),
+            invalidatesTags: ['StudentAssessmentEvidence'],
+        }),
         submitStudentAssessment: builder.mutation({
             query: (id) => ({
                 url: `assessment-evidence/submit/${id}`,
@@ -51,7 +58,8 @@ export const studentAssessmentEvidenceApi = createApi({
 export const {
     useGetAssessmentsCoursesQuery,
     useGetAssessmentsFoldersQuery,
-    useGetAssessmentsFolderDetailQuery,
     useUploadFolderDocsMutation,
+    useArchiveAssessmentFilesMutation,
+    useGetAssessmentsFolderDetailQuery,
     useSubmitStudentAssessmentMutation,
 } = studentAssessmentEvidenceApi

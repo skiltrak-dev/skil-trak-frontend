@@ -18,7 +18,7 @@ import { FaEdit, FaEye, FaFileExport } from 'react-icons/fa'
 import { AdminApi, commonApi } from '@queries'
 import { Industry } from '@types'
 import { ReactElement, useState } from 'react'
-import { IndustryCell } from './components'
+import { IndustryCell, SectorCell } from './components'
 import { useChangeStatus } from './hooks'
 import { AcceptModal, RejectModal } from './modals'
 import { useRouter } from 'next/router'
@@ -40,7 +40,7 @@ export const PendingIndustry = () => {
         skip: itemPerPage * page - itemPerPage,
         limit: itemPerPage,
     })
-    const [bulkAction, resultBulkAction] = commonApi.useBulkStatusMutation();
+    const [bulkAction, resultBulkAction] = commonApi.useBulkStatusMutation()
     const { changeStatusResult } = useChangeStatus()
     const onModalCancelClicked = () => {
         setModal(null)
@@ -113,7 +113,13 @@ export const PendingIndustry = () => {
                 )
             },
         },
-
+        {
+            accessorKey: 'sectors',
+            header: () => <span>Sectors</span>,
+            cell: (info) => {
+                return <SectorCell industry={info.row.original} />
+            },
+        },
         {
             accessorKey: 'suburb',
             header: () => <span>Address</span>,
@@ -157,26 +163,32 @@ export const PendingIndustry = () => {
         id: 'id',
         individual: (id: number) => (
             <div className="flex gap-x-2">
-                <ActionButton variant="success" onClick={() => { }}>
+                <ActionButton variant="success" onClick={() => {}}>
                     Accept
                 </ActionButton>
-                <ActionButton variant="error" onClick={() => { }}>
+                <ActionButton variant="error" onClick={() => {}}>
                     Reject
                 </ActionButton>
             </div>
         ),
         common: (ids: number[]) => (
             <div className="flex gap-x-2">
-                <ActionButton onClick={() => {
-                    const arrayOfIds = ids.map((id: any) => id?.user.id)
-                    bulkAction({ ids: arrayOfIds, status: 'approved' })
-                }} variant="success">
+                <ActionButton
+                    onClick={() => {
+                        const arrayOfIds = ids.map((id: any) => id?.user.id)
+                        bulkAction({ ids: arrayOfIds, status: 'approved' })
+                    }}
+                    variant="success"
+                >
                     Accept
                 </ActionButton>
-                <ActionButton onClick={() => {
-                    const arrayOfIds = ids.map((id: any) => id?.user.id)
-                    bulkAction({ ids: arrayOfIds, status: 'rejected' })
-                }} variant="error">
+                <ActionButton
+                    onClick={() => {
+                        const arrayOfIds = ids.map((id: any) => id?.user.id)
+                        bulkAction({ ids: arrayOfIds, status: 'rejected' })
+                    }}
+                    variant="error"
+                >
                     Reject
                 </ActionButton>
             </div>

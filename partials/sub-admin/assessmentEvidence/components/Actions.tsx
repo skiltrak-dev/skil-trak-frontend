@@ -52,7 +52,7 @@ export const Actions = ({ result }: any) => {
                         role === 'admin'
                             ? {
                                   pathname: `/portals/admin/student/${studentId}`,
-                                  query: { tab: 'assessments' },
+                                  query: { tab: 'submissions' },
                               }
                             : {
                                   pathname:
@@ -66,7 +66,7 @@ export const Actions = ({ result }: any) => {
                         role === 'admin'
                             ? {
                                   pathname: `/portals/admin/student/${studentId}`,
-                                  query: { tab: 'assessments' },
+                                  query: { tab: 'submissions' },
                               }
                             : {
                                   pathname:
@@ -80,7 +80,7 @@ export const Actions = ({ result }: any) => {
                         role === 'admin'
                             ? {
                                   pathname: `/portals/admin/student/${studentId}`,
-                                  query: { tab: 'assessments' },
+                                  query: { tab: 'submissions' },
                               }
                             : {
                                   pathname:
@@ -95,7 +95,7 @@ export const Actions = ({ result }: any) => {
                         role === 'admin'
                             ? {
                                   pathname: `/portals/admin/student/${studentId}`,
-                                  query: { tab: 'assessments' },
+                                  query: { tab: 'submissions' },
                               }
                             : {
                                   pathname:
@@ -164,10 +164,6 @@ export const Actions = ({ result }: any) => {
                             />
                         </div>
                         <div className="flex items-center gap-x-2">
-                            <Checkbox
-                                name="notifyCoordinator"
-                                label="Notify Coordinator"
-                            />
                             <Checkbox
                                 name="notifyCoordinator"
                                 label="Notify Coordinator"

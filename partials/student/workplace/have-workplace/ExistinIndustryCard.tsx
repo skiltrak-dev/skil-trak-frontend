@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { Typography, Button, Card } from '@components'
+import { Typography, Button, Card, InitialAvatar } from '@components'
 
 // query
 import { useApplyWorkplaceWithAbnIndustryMutation } from '@queries'
@@ -14,7 +14,7 @@ export const ExistingIndustryCard = ({
 
     useEffect(() => {
         if (applyForWorkplaceResult.isSuccess) {
-            setWorkplaceData(applyForWorkplaceResult?.data?.workplaceRequest)
+            // setWorkplaceData(applyForWorkplaceResult?.data?.workplaceRequest)
             setActive((active: number) => active + 1)
         }
     }, [applyForWorkplaceResult])
@@ -32,13 +32,15 @@ export const ExistingIndustryCard = ({
                     </p>
                 </div>
 
-                <p className='font-medium text-xs text-gray-500 mb-1'>You can carry on by clicking &apos;Apply Here&apos; button</p>
-                <div className="bg-gray-100 py-2 px-2 rounded-lg flex justify-between items-center">
+                <p className="font-medium text-xs text-gray-500 mb-1">
+                    You can carry on by clicking &apos;Apply Here&apos; button
+                </p>
+                <div className="bg-gray-100 py-2 px-4 rounded-lg flex justify-between items-center">
                     <div className="flex items-center gap-x-2">
-                        <img
-                            className="w-12 h-12 rounded-md"
-                            src={`https://picsum.photos/100/10${industry?.id}`}
-                            alt=""
+                        <InitialAvatar
+                            name={industry?.user?.name}
+                            imageUrl={industry?.user?.avatar}
+                            large
                         />
                         <div>
                             {/* <Typography variant={'muted'} color={'gray'}>
@@ -56,11 +58,11 @@ export const ExistingIndustryCard = ({
                     <Button
                         variant={'primary'}
                         text={'Apply Here'}
-                        // disabled={industries?.map((i: any) => i.applied).includes(true)}
                         onClick={async () => {
                             await applyForWorkplace(industry?.id)
                         }}
                         loading={applyForWorkplaceResult.isLoading}
+                        disabled={applyForWorkplaceResult.isLoading}
                     />
                 </div>
             </Card>

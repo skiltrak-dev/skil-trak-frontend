@@ -36,7 +36,7 @@ const HaveWorkplace: NextPageWithLayout = (props: Props) => {
 
     const [industryNotFound, setIndustryNotFound] = useState(false)
 
-    const [workplaceData, setWorkplaceData] = useState<any | null>(null)
+    const [workplaceData, setWorkplaceData] = useState<any | null>({})
     const { notification } = useNotification()
 
     // query
@@ -148,10 +148,12 @@ const HaveWorkplace: NextPageWithLayout = (props: Props) => {
         })
     }
 
+    console.log(workplaceData?.industries)
+
     return (
         <>
             <ShowErrorNotifications result={addWorkplaceResult} />
-            {workplace?.isLoading ? (
+            {workplace?.isLoading || workplace?.isLoading ? (
                 <LoadingAnimation />
             ) : (
                 <div className="flex flex-col md:flex-row gap-x-5 w-full">
@@ -211,10 +213,11 @@ const HaveWorkplace: NextPageWithLayout = (props: Props) => {
 
                         {active === 3 && (
                             <>
-                                {workplaceData?.industryStatus ===
+                                {(workplaceData?.industryStatus ===
                                     UserStatus.Approved &&
-                                workplaceData?.approvalStatus ===
-                                    UserStatus.Approved ? (
+                                    workplaceData?.approvalStatus ===
+                                        UserStatus.Approved) ||
+                                workplaceData?.byExistingAbn ? (
                                     <AppliedIndustry
                                         workplaceCancelRequest={
                                             workplaceCancelRequest
@@ -243,7 +246,7 @@ const HaveWorkplace: NextPageWithLayout = (props: Props) => {
                                         </div>
                                         {workplaceCancelRequest()}
                                     </Card>
-                                ) : (
+                                ) : workplaceData?.studentProvidedWorkplace ? (
                                     <Card>
                                         <div className="px-5 py-16 border-2 border-dashed border-gray-600 flex justify-center">
                                             <Typography
@@ -260,7 +263,7 @@ const HaveWorkplace: NextPageWithLayout = (props: Props) => {
                                         </div>
                                         {workplaceCancelRequest()}
                                     </Card>
-                                )}
+                                ) : null}
                             </>
                         )}
 

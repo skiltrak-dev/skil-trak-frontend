@@ -19,7 +19,7 @@ import { AdminApi } from '@queries'
 import { Industry } from '@types'
 import { useRouter } from 'next/router'
 import { ReactElement, useState } from 'react'
-import { IndustryCell } from './components'
+import { IndustryCell, SectorCell } from './components'
 import { AcceptModal, DeleteModal } from './modals'
 import { useActionModal } from '@hooks'
 import { RiLockPasswordFill } from 'react-icons/ri'
@@ -133,7 +133,13 @@ export const RejectedIndustry = () => {
             header: () => <span>Address</span>,
             cell: (info) => info.getValue(),
         },
-
+        {
+            accessorKey: 'sectors',
+            header: () => <span>Sectors</span>,
+            cell: (info) => {
+                return <SectorCell industry={info.row.original} />
+            },
+        },
         {
             accessorKey: 'action',
             header: () => <span>Action</span>,

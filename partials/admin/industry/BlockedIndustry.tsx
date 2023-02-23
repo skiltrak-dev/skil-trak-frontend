@@ -19,7 +19,7 @@ import { AdminApi, commonApi } from '@queries'
 import { Industry } from '@types'
 import { ReactElement, useState } from 'react'
 import { CgUnblock } from 'react-icons/cg'
-import { IndustryCell } from './components'
+import { IndustryCell, SectorCell } from './components'
 import { DeleteModal, UnblockModal } from './modals'
 import { useRouter } from 'next/router'
 
@@ -42,7 +42,7 @@ export const BlockedIndustry = () => {
         skip: itemPerPage * page - itemPerPage,
         limit: itemPerPage,
     })
-    const [bulkAction, resultBulkAction] = commonApi.useBulkStatusMutation();
+    const [bulkAction, resultBulkAction] = commonApi.useBulkStatusMutation()
 
     const onModalCancelClicked = () => {
         setModal(null)
@@ -127,7 +127,13 @@ export const BlockedIndustry = () => {
                 )
             },
         },
-
+        {
+            accessorKey: 'sectors',
+            header: () => <span>Sectors</span>,
+            cell: (info) => {
+                return <SectorCell industry={info.row.original} />
+            },
+        },
         {
             accessorKey: 'suburb',
             header: () => <span>Address</span>,
@@ -165,10 +171,14 @@ export const BlockedIndustry = () => {
         ),
         common: (ids: number[]) => (
             <div className="flex gap-x-2">
-                <ActionButton onClick={() => {
-                    const arrayOfIds = ids.map((id: any) => id?.user.id)
-                    bulkAction({ ids: arrayOfIds, status: 'approved' })
-                }} Icon={CgUnblock} variant="warning">
+                <ActionButton
+                    onClick={() => {
+                        const arrayOfIds = ids.map((id: any) => id?.user.id)
+                        bulkAction({ ids: arrayOfIds, status: 'approved' })
+                    }}
+                    Icon={CgUnblock}
+                    variant="warning"
+                >
                     Unblock
                 </ActionButton>
                 <ActionButton Icon={FaTrash} variant="error">

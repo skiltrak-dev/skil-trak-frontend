@@ -55,13 +55,6 @@ export const FutureAppointments = ({ appointments }: { appointments: any }) => {
                     className="mySwiper static"
                 >
                     {appointments?.map((appointment: any, index: number) => {
-                        const ap =
-                            appointment?.appointmentFor[
-                                appointment?.appointmentFor['role'] ===
-                                'subadmin'
-                                    ? 'coordinator'
-                                    : appointment?.appointmentFor['role']
-                            ]
                         return (
                             <SwiperSlide key={appointment.id}>
                                 <UpcomingAppointmentCard
@@ -69,7 +62,6 @@ export const FutureAppointments = ({ appointments }: { appointments: any }) => {
                                     date={appointment?.date}
                                     time={appointment?.startTime}
                                     totalMinutes={appointment?.type?.duration}
-                                    address={`${ap?.addressLine1}, ${ap?.addressLine2}`}
                                     name={appointment?.appointmentFor?.name}
                                     imageUrl={
                                         '/images/card-images/video-icon.png'
