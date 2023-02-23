@@ -36,7 +36,7 @@ export const TableAction = ({ text, options, rowItem }: TableActionProps) => {
                 <ul
                     className={`bg-white rounded-xl shadow-xl w-32 ${
                         isOverButton || isOverList ? 'block' : 'hidden'
-                    } absolute z-10`}
+                    } absolute right-0 z-10`}
                     onMouseEnter={() => {
                         setIsOverList(true)
                     }}
