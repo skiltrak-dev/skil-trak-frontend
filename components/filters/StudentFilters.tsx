@@ -5,6 +5,7 @@ import { Select, TextInput } from '@components/inputs'
 import { CommonApi } from '@queries'
 
 import { statusOptions } from './statusOptions'
+import { AuthUtils } from '@utils'
 
 interface ItemFilterProps {
     onFilterChange: Function
@@ -19,7 +20,8 @@ export const StudentFilters = ({ onFilterChange, filter }: ItemFilterProps) => {
     const getIndustries = CommonApi.Filter.useIndustries()
     const getRtos = CommonApi.Filter.useRtos()
     const getCourses = CommonApi.Filter.useCourses()
-
+    const getUserRole = AuthUtils.getUserCredentials()
+    
     useEffect(() => {
         if (getIndustries.isSuccess) {
             setIndustryOptions(
@@ -97,17 +99,19 @@ export const StudentFilters = ({ onFilterChange, filter }: ItemFilterProps) => {
                     onFilterChange({ ...filter, status: e?.value })
                 }}
             />
-            <Select
-                label={'Search By Rto'}
-                name={'rtoId'}
-                options={rtoOptions}
-                placeholder={'Select Search By Rto...'}
-                onChange={(e: any) => {
-                    onFilterChange({ ...filter, rtoId: e?.value })
-                }}
-                loading={getRtos.isLoading}
-                disabled={getRtos.isLoading}
-            />
+            {getUserRole?.role !== 'rto' && (
+                <Select
+                    label={'Search By Rto'}
+                    name={'rtoId'}
+                    options={rtoOptions}
+                    placeholder={'Select Search By Rto...'}
+                    onChange={(e: any) => {
+                        onFilterChange({ ...filter, rtoId: e?.value })
+                    }}
+                    loading={getRtos.isLoading}
+                    disabled={getRtos.isLoading}
+                />
+            )}
             <Select
                 label={'Search by Industry'}
                 name={'industryId'}
