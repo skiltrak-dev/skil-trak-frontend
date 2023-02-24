@@ -4,11 +4,11 @@ import { EventWrapperProps } from 'react-big-calendar'
 // export const EventWrapper = <T extends object>(event: EventWrapperProps<T>) => {
 export const EventWrapper = <T extends object>(event: any) => {
     const classes = classNames({
-        'flex flex-col flex-wrap items-start overflow-hidden absolute max-h-full min-h-[20px] rounded-md border-l-2 px-1 py-1':
+        'flex flex-col bg-green-200/50 flex-wrap items-start overflow-hidden absolute max-h-full min-h-[20px] rounded-md border-l-2 px-1 py-1':
             true,
-        'bg-indigo-200/50 border-indigo-400': event.event.priority === 'high',
-        'bg-blue-200/50 border-blue-400': event.event.priority === 'medium',
-        'bg-green-200/50 border-green-600': event.event.priority === 'low',
+        // 'bg-indigo-200/50 border-indigo-400': event.event.priority === 'high',
+        // 'bg-blue-200/50 border-blue-400': event.event.priority === 'medium',
+        // 'bg-green-200/50 border-green-600': event.event.priority === 'low',
     })
 
     const labelClasses = classNames({
@@ -29,7 +29,7 @@ export const EventWrapper = <T extends object>(event: any) => {
         <div
             style={{
                 top: `${event.style?.top}%`,
-                // height: `${event.style?.height}%`,
+                height: `${event.style?.height}%`,
                 width: `${event.style?.width}%`,
                 left: `${event.style?.xOffset}%`,
             }}

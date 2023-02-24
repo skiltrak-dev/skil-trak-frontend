@@ -48,19 +48,21 @@ export const AssessmentFolderFileCard = ({
                 selected ? 'bg-blue-200' : ''
             }`}
         >
-            {!result?.isSubmitted && archiveFileResult.isLoading ? (
-                <div className="bg-red-500 px-1 rounded-md absolute top-1 right-1 z-30">
-                    <PulseLoader size={3} color={'white'} />
-                </div>
-            ) : (
-                <AiFillDelete
-                    className="absolute top-1 right-1 text-red-600 cursor-pointer z-20"
-                    onClick={() => {
-                        archiveFile(file?.id)
-                        // alert('Saad')
-                    }}
-                />
-            )}
+            {!result?.isSubmitted ? (
+                archiveFileResult.isLoading ? (
+                    <div className="bg-red-500 px-1 rounded-md absolute top-1 right-1 z-30">
+                        <PulseLoader size={3} color={'white'} />
+                    </div>
+                ) : (
+                    <AiFillDelete
+                        className="absolute top-1 right-1 text-red-600 cursor-pointer z-20"
+                        onClick={() => {
+                            archiveFile(file?.id)
+                            // alert('Saad')
+                        }}
+                    />
+                )
+            ) : null}
             <div
                 onClick={() => {
                     onClick &&

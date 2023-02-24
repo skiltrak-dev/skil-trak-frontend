@@ -80,11 +80,10 @@ const RtoWorkplaces: NextPageWithLayout = (props: Props) => {
             accessorKey: 'name',
             cell: ({ row }: any) => {
                 const {
-                    industry: {
-                        phoneNumber,
-                        user: { name, email, avatar },
-                    },
+                    phoneNumber,
+                    user: { name, email, avatar },
                 } = row.original
+                console.log('namename', name)
 
                 return (
                     <Link
@@ -119,22 +118,23 @@ const RtoWorkplaces: NextPageWithLayout = (props: Props) => {
         },
         {
             header: () => 'Abn',
-            accessorKey: 'industry.abn',
+            accessorKey: 'abn',
         },
         {
             header: () => 'Student',
             accessorKey: 'workplaceRequest.student.user.name',
-            cell: ({ row }: any) => (
-                <StudentCellInfo
-                    student={row.original?.workplaceRequest?.student}
-                />
-            ),
+            cell: ({ row }: any) => row.original?.students?.length,
+            // cell: ({ row }: any) => (
+            //     <StudentCellInfo
+            //         student={row.original?.workplaceRequest?.student}
+            //     />
+            // ),
         },
         {
             header: () => 'Address',
             accessorKey: 'address',
             cell: ({ row }) => {
-                const { addressLine1, addressLine2 } = row.original.industry
+                const { addressLine1, addressLine2 } = row.original
                 return `${addressLine1} ${addressLine2}`
             },
         },

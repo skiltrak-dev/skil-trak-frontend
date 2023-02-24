@@ -16,7 +16,7 @@ import {
 import { PageHeading } from '@components/headings'
 import { ColumnDef } from '@tanstack/react-table'
 import { FaEdit, FaEye, FaFileExport, FaFilter, FaTrash } from 'react-icons/fa'
-import { Student } from '@types'
+import { Student, UserStatus } from '@types'
 
 import { useGetRtoStudentsQuery } from '@queries'
 import {
@@ -45,7 +45,7 @@ export const ArchivedStudent = () => {
     const [page, setPage] = useState(1)
 
     const { isLoading, data, isError } = useGetRtoStudentsQuery({
-        search: `status:archived`,
+        search: `status:${UserStatus.Archived}`,
         skip: itemPerPage * page - itemPerPage,
         limit: itemPerPage,
     })

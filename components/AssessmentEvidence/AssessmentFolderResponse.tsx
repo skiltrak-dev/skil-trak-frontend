@@ -132,7 +132,11 @@ export const AssessmentResponse = ({
                             {assessmentEvidenceView && (
                                 <div className="flex flex-col gap-y-1 items-end">
                                     <Badge
-                                        text={result?.result?.toUpperCase()}
+                                        text={
+                                            result?.result === 'pending'
+                                                ? 'SUBMITTED'
+                                                : result?.result?.toUpperCase()
+                                        }
                                         variant="info"
                                     />
                                     {result?.assessor && (

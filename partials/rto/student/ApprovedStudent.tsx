@@ -22,7 +22,7 @@ import { MdBlock, MdEmail, MdPhoneIphone } from 'react-icons/md'
 import { ReactElement, useState } from 'react'
 import { CourseDot, SectorCell, StudentCellInfo } from './components'
 import { RtoCellInfo } from '@partials/admin/rto/components'
-import { Student } from '@types'
+import { Student, UserStatus } from '@types'
 import { BlockModal, ArchiveModal } from './modals'
 import { useRouter } from 'next/router'
 import { useGetRtoStudentsQuery } from '@queries'
@@ -37,7 +37,7 @@ export const ApprovedStudent = () => {
     const [itemPerPage, setItemPerPage] = useState(50)
     const [page, setPage] = useState(1)
     const { isLoading, data, isError } = useGetRtoStudentsQuery({
-        search: `status:approved`,
+        search: `status:${UserStatus.Approved}`,
         skip: itemPerPage * page - itemPerPage,
         limit: itemPerPage,
     })
