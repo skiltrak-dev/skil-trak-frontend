@@ -18,7 +18,9 @@ export const CurrentStudentCard = ({ workplace }: any) => {
 
     useEffect(() => {
         if (workplace.industries) {
-            setIndustry(workplace.industries[0])
+            setIndustry(
+                workplace.industries?.find((industry: any) => industry?.applied)
+            )
         }
     }, [workplace])
 

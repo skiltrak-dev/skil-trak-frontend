@@ -39,8 +39,6 @@ export const JobDetail = (props: Props) => {
                             <div className="flex gap-x-6 items-center w-full">
                                 <div className="w-28 h-full relative">
                                     <Image
-                                        layout="fill"
-                                        objectFit="cover"
                                         className="w-full h-full"
                                         src={
                                             data?.avatar ||

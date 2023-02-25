@@ -58,7 +58,7 @@ const IndustrySignUp: NextPage = () => {
 
                 <div>
                     <Typography variant={'h3'}>
-                        Create Your RTO Account
+                        Create Your Industry Account
                     </Typography>
                     <AuthBreadCrumb
                         breadcrumbs={[

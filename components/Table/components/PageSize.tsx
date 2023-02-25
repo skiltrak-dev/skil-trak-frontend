@@ -44,7 +44,7 @@ export const PageSize = ({
                 </span>
             </div>
             {records && (
-                <div className="text-sm font-medium flex items-center gap-x-2 text-gray-500">
+                <div className="text-xs flex items-center gap-x-2 text-gray-400">
                     {records} Records
                 </div>
             )}

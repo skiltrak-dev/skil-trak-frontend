@@ -15,11 +15,12 @@ export const HeaderLogo = () => {
         <Link legacyBehavior href="/">
             <a className="flex-shrink-0">
                 {/* <Image
-                    className={'w-8 mx-auto'}
+                    className={'w-24 md:w-32 mx-auto'}
                     src={`/images/skiltrak_logo.svg`}
                     alt="Logo"
                     height={40}
                     width={width}
+                    priority
                 /> */}
                 <img
                     className={'w-24 md:w-32 mx-auto'}

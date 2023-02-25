@@ -19,7 +19,7 @@ import { useGetRtoStudentsQuery } from '@queries'
 import { MdEmail, MdPhoneIphone } from 'react-icons/md'
 import { ReactElement, useEffect, useState } from 'react'
 import { useContextBar } from '@hooks'
-import { Rto, Student } from '@types'
+import { Rto, Student, UserStatus } from '@types'
 import { SectorCell, StudentCellInfo } from './components'
 import { RtoCellInfo } from '@partials/admin/rto/components'
 import { AcceptModal, RejectModal } from './modals'
@@ -34,7 +34,7 @@ export const PendingStudent = () => {
     const [itemPerPage, setItemPerPage] = useState(50)
     const [page, setPage] = useState(1)
     const { isLoading, data, isError } = useGetRtoStudentsQuery({
-        search: `status:pending`,
+        search: `status:${UserStatus.Pending}`,
         skip: itemPerPage * page - itemPerPage,
         limit: itemPerPage,
     })

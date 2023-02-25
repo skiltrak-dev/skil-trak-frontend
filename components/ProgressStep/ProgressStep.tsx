@@ -10,13 +10,15 @@ export const ProgressStep = ({ status }: Props) => {
         []
     )
 
+    console.log('statusstatusstatus', status)
+
     // src={`/images/icons/placement-progress/checklist.png`}
     const progressStep = [
         {
             id: 1,
             title: 'Industry Checks',
             imageUrl: `/images/icons/placement-progress/checklist.png`,
-            statusEnum: 'industryCheck',
+            statusEnum: 'applied',
         },
         {
             id: 2,
@@ -49,6 +51,12 @@ export const ProgressStep = ({ status }: Props) => {
             statusEnum: 'awaitingAgreementSigned',
         },
         {
+            id: 6,
+            title: 'Agreement Signed',
+            imageUrl: `/images/icons/placement-progress/contract.png`,
+            statusEnum: 'AgreementSigned',
+        },
+        {
             id: 7,
             title: 'Placement Started',
             imageUrl: `/images/icons/placement-progress/goal.png`,
@@ -69,7 +77,7 @@ export const ProgressStep = ({ status }: Props) => {
     return (
         <>
             <div className="flex flex-col">
-                <div className="mb-3 flex justify-between items-start">
+                <div className="mb-3 flex justify-between items-start gap-x-2">
                     {progressStep.map((item, index) => (
                         <React.Fragment key={item.id}>
                             <div className="flex flex-col items-center gap-y-1">
@@ -89,12 +97,17 @@ export const ProgressStep = ({ status }: Props) => {
                                         src={item.imageUrl}
                                         width={48}
                                         height={48}
-                                        layout="fixed"
                                         alt={item.title}
                                     />
                                 </div>
 
-                                <p className="text-[11px] text-center text-gray-400 w-[120px]">
+                                <p
+                                    className={`${
+                                        index <= currentStatus
+                                            ? 'font-semibold text-gray-600'
+                                            : 'text-gray-400'
+                                    } text-[11px] text-center  w-[120px]`}
+                                >
                                     {item?.title}
                                 </p>
                             </div>

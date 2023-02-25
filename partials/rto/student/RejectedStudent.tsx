@@ -26,7 +26,7 @@ import {
     SectorCell,
     StudentCellInfo,
 } from './components'
-import { Student } from '@types'
+import { Student, UserStatus } from '@types'
 import { AcceptModal, DeleteModal } from './modals'
 import { useRouter } from 'next/router'
 import { checkStudentStatus, checkWorkplaceStatus } from '@utils'
@@ -39,7 +39,7 @@ export const RejectedStudent = () => {
     const [page, setPage] = useState(1)
 
     const { isLoading, data, isError } = useGetRtoStudentsQuery({
-        search: `status:rejected`,
+        search: `status:${UserStatus.Rejected}`,
         skip: itemPerPage * page - itemPerPage,
         limit: itemPerPage,
     })

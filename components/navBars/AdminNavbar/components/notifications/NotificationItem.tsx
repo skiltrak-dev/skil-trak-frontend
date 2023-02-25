@@ -39,7 +39,7 @@ export const NotificationItem = ({
             ) : avatar ? (
                 <img
                     className="h-8 w-8 rounded-md flex items-center justify-center mr-2"
-                    src="https://picsum.photos/128/128"
+                    src={avatar}
                     alt=""
                 />
             ) : (

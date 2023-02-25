@@ -52,45 +52,50 @@ export const UserActions = () => {
     return credentials ? (
         <div className="hover:bg-gray-100 rounded-md p-2">
             <div
-                className="flex justify-between items-center gap-x-2 cursor-pointer"
+                className="flex justify-between items-center cursor-pointer"
                 onClick={() => setShowOptions(!showOptions)}
             >
-                <div>
-                    <Image
-                        src={credentials.avatar || 'https://picsum.photos/80'}
-                        alt="User Name Here"
-                        width={32}
-                        height={36}
-                        className="rounded-md"
-                        layout="fixed"
-                    />
-                </div>
-                <div>
-                    <p className="text-sm font-medium">
-                        {credentials.name ? (
-                            <span title={credentials.name}>
-                                {credentials.name.length > 13
-                                    ? `${credentials.name.substring(0, 13)}`
-                                    : credentials.name}
-                            </span>
-                        ) : (
-                            'Not Provided'
-                        )}
-                    </p>
-                    <Typography variant={'small'} color={'text-muted'}>
-                        {credentials.username ? (
-                            <span title={credentials.username}>
-                                {credentials.username > 17
-                                    ? `${credentials.username.substring(
-                                          0,
-                                          17
-                                      )}...`
-                                    : credentials.username}
-                            </span>
-                        ) : (
-                            'Not Provided'
-                        )}
-                    </Typography>
+                <div className="flex items-center gap-x-2">
+                    <div className="flex-shrink-0">
+                        <Image
+                            src={
+                                credentials.avatar ||
+                                'https://hivedinn.s3.amazonaws.com/upload/photos/d-avatar.jpg'
+                            }
+                            alt={credentials.name}
+                            width="0"
+                            height={'0'}
+                            sizes="100vw"
+                            className="w-8 rounded-md"
+                        />
+                    </div>
+                    <div>
+                        <p className="text-sm font-medium">
+                            {credentials.name ? (
+                                <span title={credentials.name}>
+                                    {credentials.name.length > 13
+                                        ? `${credentials.name.substring(0, 13)}`
+                                        : credentials.name}
+                                </span>
+                            ) : (
+                                'Not Provided'
+                            )}
+                        </p>
+                        <Typography variant={'small'} color={'text-muted'}>
+                            {credentials.email ? (
+                                <span title={credentials.email}>
+                                    {credentials.email.length > 17
+                                        ? `${credentials.email.substring(
+                                              0,
+                                              17
+                                          )}...`
+                                        : credentials.email}
+                                </span>
+                            ) : (
+                                'Not Provided'
+                            )}
+                        </Typography>
+                    </div>
                 </div>
                 <MdKeyboardArrowDown
                     className={`text-2xl text-gray transition-all ${

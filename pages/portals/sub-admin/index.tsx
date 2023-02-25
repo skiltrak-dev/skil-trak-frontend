@@ -23,7 +23,7 @@ import { FigureCard } from '@components/sections/subAdmin/components/Cards/Figur
 
 import { AuthUtils } from '@utils'
 
-import { ImportantDocuments } from '@partials/sub-admin/components'
+import { ImportantDocuments } from '@partials/student/components'
 import { SubAdminApi } from '@queries'
 import { CallBackProps } from 'react-joyride'
 import { useRouter } from 'next/router'
@@ -31,12 +31,12 @@ import { useRouter } from 'next/router'
 const NotificationQuestions = [
     {
         // text: `How to send an email to student from portal?`,
-        text: "",
+        text: '',
         link: '#',
     },
     {
         // text: `Where can I see student communication?`,
-        text: "",
+        text: '',
         link: '#',
     },
 ]
@@ -445,7 +445,9 @@ const SubAdminDashboard: NextPageWithLayout = () => {
                     content: (
                         <>
                             <div className="font-semibold">Click here</div>
-                            <div>You can find industry checks for students here</div>
+                            <div>
+                                You can find industry checks for students here
+                            </div>
                         </>
                     ),
                     disableBeacon: true,
@@ -547,9 +549,7 @@ const SubAdminDashboard: NextPageWithLayout = () => {
                     content: (
                         <>
                             <div>Click Here</div>
-                            <div>
-                                You can view student assessment from here
-                            </div>
+                            <div>You can view student assessment from here</div>
                         </>
                     ),
                 },
@@ -559,7 +559,8 @@ const SubAdminDashboard: NextPageWithLayout = () => {
                         <>
                             <div>Click Here</div>
                             <div>
-                                You can select a single student in the following list, to view their assessment submission
+                                You can select a single student in the following
+                                list, to view their assessment submission
                             </div>
                         </>
                     ),
@@ -604,7 +605,9 @@ const SubAdminDashboard: NextPageWithLayout = () => {
                             ...prev,
                             run: false,
                         }))
-                        router.push('/portals/sub-admin/tasks/assessment-evidence?tab=pending')
+                        router.push(
+                            '/portals/sub-admin/tasks/assessment-evidence?tab=pending'
+                        )
                         joyride.setState({
                             ...joyride.state,
                             run: false,
@@ -660,8 +663,7 @@ const SubAdminDashboard: NextPageWithLayout = () => {
                             stepIndex: 0,
                             tourActive: false,
                         })
-                    }
-                    else if (action === 'reset' || lifecycle === 'complete') {
+                    } else if (action === 'reset' || lifecycle === 'complete') {
                         joyride.setState({
                             ...joyride.state,
                             run: false,

@@ -67,7 +67,7 @@ export const FutureCandidatesContainer = () => {
                         <div className="flex items-center gap-x-2">
                             <img
                                 className="rounded-full w-7 h-7"
-                                src={image || 'https://picsum.photos/400/400'}
+                                src={image}
                                 alt={name}
                             />
                             <div>
@@ -108,7 +108,7 @@ export const FutureCandidatesContainer = () => {
                         <div className="flex items-center gap-x-2">
                             <img
                                 className="rounded-full w-7 h-7"
-                                src={image || 'https://picsum.photos/400/400'}
+                                src={image}
                                 alt={name}
                             />
                             <div>

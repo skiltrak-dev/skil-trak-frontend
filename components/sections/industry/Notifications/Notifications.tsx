@@ -94,14 +94,6 @@ export const Notifications = () => {
                                         // } w-full flex items-center gap-x-4 rounded-md border-b border-secondary px-2 py-1.5 cursor-pointer hover:bg-secondary transition-all`}
                                     >
                                         <div className="w-12 h-11 relative">
-                                            {/* <img
-                        src={
-                          notification.avatar ||
-                          `https://picsum.photos/80/${80 + i}`
-                        }
-                        alt="Notify"
-                        className="w-full h-full rounded-full"
-                      /> */}
                                             <div className="p-0.5 rounded-full bg-gray-800 absolute bottom-0 right-0">
                                                 <IoNotifications className="text-white text-xs" />
                                             </div>

@@ -80,7 +80,6 @@ export const JobCard = ({
                                         alt="industry"
                                         width={100}
                                         height={100}
-                                        layout="responsive"
                                     />
                                 </div>
                                 <Typography

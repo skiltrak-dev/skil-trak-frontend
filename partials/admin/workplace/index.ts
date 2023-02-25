@@ -1,6 +1,7 @@
 export * from './components'
 export * from './AssignedRequest'
 export * from './UnAssignedRequest'
+export * from './CancelledRequests'
 export * from './AllRequestedWorkplace'
 export * from './AdminFilteredWorkplace'
 export * from './AllStudentProvidedWorkplace'

@@ -1,5 +1,5 @@
 import { ContextBarLoading, NoData, Typography } from '@components'
-import { useNotification } from '@hooks'
+import { useContextBar, useNotification } from '@hooks'
 import { AdminApi } from '@queries'
 
 import { Rto, SubAdmin } from '@types'
@@ -8,6 +8,7 @@ import { AssignedRto } from '../components'
 import { AssignRtoForm } from '../form'
 
 export const ViewRtosCB = ({ subAdmin }: { subAdmin: SubAdmin }) => {
+    const contextBar = useContextBar()
     const { notification } = useNotification()
     const rtoList = AdminApi.SubAdmins.useRtos(subAdmin.id)
 
@@ -26,6 +27,8 @@ export const ViewRtosCB = ({ subAdmin }: { subAdmin: SubAdmin }) => {
                 title: 'RTO Assigned',
                 description: 'RTO have been assigned to sub admin',
             })
+            contextBar.hide()
+            contextBar.setContent(null)
         }
 
         if (assignRtoResult.isError) {

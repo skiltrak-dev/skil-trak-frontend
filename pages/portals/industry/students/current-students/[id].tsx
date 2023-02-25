@@ -23,7 +23,9 @@ const StudentDetail: NextPageWithLayout = () => {
                     <Actions
                         student={detail?.data?.workplace?.student}
                         workplace={detail?.data}
-                        industry={detail?.data?.industries[0]}
+                        industry={detail?.data?.industries?.find(
+                            (industry: any) => industry?.applied
+                        )}
                     />
                 </div>
             )}

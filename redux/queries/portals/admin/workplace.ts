@@ -48,6 +48,13 @@ export const workplaceEndpoints = (
         }),
         providesTags: ['Workplaces'],
     }),
+    cancelledWorkplaces: builder.query<any, any>({
+        query: (params) => ({
+            url: `${PREFIX}/workplace-request/list/cancelled`,
+            params,
+        }),
+        providesTags: ['Workplaces'],
+    }),
     assignedRequestList: builder.query<any, any>({
         query: (params) => ({
             url: `${PREFIX}/workplace-request/assigned/list`,
