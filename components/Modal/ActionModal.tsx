@@ -71,7 +71,7 @@ export const ActionModal = ({
                     </p>
                 </div>
 
-                {input && (
+                {/* {input && (
                     <div className="w-full">
                         <TextInput
                             name="question"
@@ -84,7 +84,7 @@ export const ActionModal = ({
                             }}
                         />
                     </div>
-                )}
+                )} */}
                 <div className="flex gap-x-4 items-center">
                     <Button
                         text="Cancel"
@@ -96,7 +96,7 @@ export const ActionModal = ({
                     <Button
                         text={confirmText || 'Confirm'}
                         variant={variant}
-                        disabled={(input && !keyMatched) || loading}
+                        // disabled={(input && !keyMatched) || loading}
                         onClick={() => {
                             onConfirm && onConfirm(actionObject)
                         }}

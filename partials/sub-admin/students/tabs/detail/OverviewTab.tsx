@@ -5,7 +5,7 @@ import { Courses } from '../../components/Courses'
 import { MyRto } from '../../components/MyRto'
 import { MyWorkplace } from '../../components/MyWorkplace'
 
-import { CommonApi } from '@queries'
+import { CommonApi, useGetSubAdminStudentWorkplaceQuery } from '@queries'
 
 //
 import { RecentAppointment } from '@partials/common'
@@ -15,6 +15,9 @@ type StudentsProfileOverviewProps = {
 }
 
 export const OverViewTab = ({ student }: StudentsProfileOverviewProps) => {
+    const workplace = useGetSubAdminStudentWorkplaceQuery(student?.id, {
+        skip: !student?.id,
+    })
     return (
         <div className="w-full mt-6">
             {/* pinned Notes */}
@@ -22,9 +25,16 @@ export const OverViewTab = ({ student }: StudentsProfileOverviewProps) => {
 
             {/* Progress */}
             {/* {student?.workplace?.length > 0 && ( */}
-            {student?.industries[0]?.currentStatus}
             <div className="my-4  overflow-x-auto  custom-scrollbar">
-                <ProgressStep status={student?.industries[0]?.currentStatus} />
+                <ProgressStep
+                    status={
+                        workplace?.data && workplace?.data?.length > 0
+                            ? workplace?.data[0]?.currentStatus
+                            : student?.industries?.length > 0
+                            ? 'placementStarted'
+                            : 'industryCheck'
+                    }
+                />
             </div>
             {/* )} */}
 

@@ -1,0 +1,60 @@
+import { useState } from 'react'
+// components
+import {
+    TechnicalError,
+    LoadingAnimation,
+    EmptyData,
+    PageSize,
+    Pagination,
+} from '@components'
+
+// queries
+import { AdminApi } from '@queries'
+import { AdminWorkplaceRequest } from './components'
+
+export const CancelledRequests = () => {
+    const [page, setPage] = useState(1)
+    const [itemPerPage, setItemPerPage] = useState(30)
+
+    const cancelledWorkplaces = AdminApi.Workplace.cancelledWorkplaces({
+        skip: itemPerPage * page - itemPerPage,
+        limit: itemPerPage,
+    })
+    return (
+        <div className="p-4">
+            <div className="flex items-center justify-between">
+                <PageSize
+                    itemPerPage={itemPerPage}
+                    setItemPerPage={setItemPerPage}
+                />
+                <Pagination
+                    pagination={cancelledWorkplaces?.data?.pagination}
+                    setPage={setPage}
+                />
+            </div>
+            {cancelledWorkplaces.isError && <TechnicalError />}
+            {cancelledWorkplaces.isLoading && cancelledWorkplaces.isFetching ? (
+                <LoadingAnimation />
+            ) : cancelledWorkplaces.data?.data &&
+              cancelledWorkplaces.data?.data?.length > 0 ? (
+                <div className="flex flex-col gap-y-2">
+                    {cancelledWorkplaces?.data?.data?.map((workplace: any) => (
+                        <AdminWorkplaceRequest
+                            key={workplace?.id}
+                            workplace={workplace}
+                        />
+                    ))}
+                </div>
+            ) : (
+                !cancelledWorkplaces.isError && (
+                    <EmptyData
+                        title={'No Un-Assigned Workplace Request'}
+                        description={
+                            'No Un-Assigned Workplace Request were found'
+                        }
+                    />
+                )
+            )}
+        </div>
+    )
+}

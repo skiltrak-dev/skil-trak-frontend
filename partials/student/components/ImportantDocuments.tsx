@@ -10,9 +10,12 @@ import classNames from 'classnames'
 // query
 import { CommonApi } from '@queries'
 import { ReactElement, useState } from 'react'
+import { useNotification } from '@hooks'
 
 export const ImportantDocuments = ({ sidebar }: { sidebar?: boolean }) => {
     const [modal, setModal] = useState<ReactElement | null>(null)
+
+    const { notification } = useNotification()
 
     const documents = CommonApi.Documents.useList()
 
@@ -53,40 +56,51 @@ export const ImportantDocuments = ({ sidebar }: { sidebar?: boolean }) => {
         // })
         console.log('document', document)
 
-        setModal(
-            <Modal
-                title=""
-                subtitle=""
-                onCancelClick={onCancel}
-                onConfirmClick={onCancel}
-            >
-                {document?.fileType === 'file' ? (
-                    ['jpg', 'jpeg', 'png'].includes(extension.toLowerCase()) ? (
-                        <img
-                            src={document?.file}
-                            alt=""
-                            className="max-w-lg max-h-[500px] object-cover"
+        if (document) {
+            setModal(
+                <Modal
+                    title=""
+                    subtitle=""
+                    onCancelClick={onCancel}
+                    onConfirmClick={onCancel}
+                >
+                    {document?.fileType === 'file' ? (
+                        ['jpg', 'jpeg', 'png'].includes(
+                            extension.toLowerCase()
+                        ) ? (
+                            <img
+                                src={document?.file}
+                                alt=""
+                                className="max-w-lg max-h-[500px] object-cover"
+                            />
+                        ) : ['mp4', 'mkv', 'avi', 'mpeg'].includes(
+                              extension.toLowerCase()
+                          ) ? (
+                            <VideoPlayModal
+                                url={document?.file}
+                                onCancelButtonClick={onCancel}
+                            />
+                        ) : ['pdf'].includes(extension.toLowerCase()) ? (
+                            <PdfViewModal
+                                url={document?.file}
+                                onCancelButtonClick={onModalCancel}
+                            />
+                        ) : null
+                    ) : (
+                        <div
+                            dangerouslySetInnerHTML={{
+                                __html: document?.content,
+                            }}
                         />
-                    ) : ['mp4', 'mkv', 'avi', 'mpeg'].includes(
-                          extension.toLowerCase()
-                      ) ? (
-                        <VideoPlayModal
-                            url={document?.file}
-                            onCancelButtonClick={onCancel}
-                        />
-                    ) : ['pdf'].includes(extension.toLowerCase()) ? (
-                        <PdfViewModal
-                            url={document?.file}
-                            onCancelButtonClick={onModalCancel}
-                        />
-                    ) : null
-                ) : (
-                    <div
-                        dangerouslySetInnerHTML={{ __html: document?.content }}
-                    />
-                )}
-            </Modal>
-        )
+                    )}
+                </Modal>
+            )
+        } else {
+            notification.error({
+                title: 'No Document Provided',
+                description: 'No Document provided from Admin',
+            })
+        }
     }
     return (
         <div>

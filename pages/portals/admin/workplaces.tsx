@@ -22,6 +22,7 @@ import {
     AllRequestedWorkplace,
     AllStudentProvidedWorkplace,
     AssignedRequest,
+    CancelledRequests,
     UnAssignedRequest,
 } from '@partials'
 
@@ -83,6 +84,14 @@ const Workplace: NextPageWithLayout = (props: Props) => {
                 query: { tab: 'un-assigned-request' },
             },
             element: <UnAssignedRequest />,
+        },
+        {
+            label: 'Cancelled Workplaces',
+            href: {
+                pathname: 'workplaces',
+                query: { tab: 'cancelled-workplace' },
+            },
+            element: <CancelledRequests />,
         },
     ]
 

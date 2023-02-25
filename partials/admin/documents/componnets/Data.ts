@@ -31,6 +31,12 @@ export const legalData = [
         docType: DocumentType.Legal,
         role: UserRoles.INDUSTRY,
     },
+    {
+        name: 'SubAdmin',
+        type: FileType.Editor,
+        docType: DocumentType.Legal,
+        role: UserRoles.SUBADMIN,
+    },
 ]
 export const placementInfoData = [
     {
@@ -50,6 +56,12 @@ export const placementInfoData = [
         type: FileType.Editor,
         docType: DocumentType.PlacementInfo,
         role: UserRoles.INDUSTRY,
+    },
+    {
+        name: 'SubAdmin',
+        type: FileType.Editor,
+        docType: DocumentType.PlacementInfo,
+        role: UserRoles.SUBADMIN,
     },
 ]
 export const workflowData = [
@@ -71,6 +83,12 @@ export const workflowData = [
         type: FileType.File,
         role: UserRoles.INDUSTRY,
     },
+    {
+        docType: DocumentType.WorkFlow,
+        name: 'SubAdmin',
+        type: FileType.File,
+        role: UserRoles.SUBADMIN,
+    },
 ]
 export const inductionProcessData = [
     {
@@ -90,5 +108,11 @@ export const inductionProcessData = [
         type: FileType.File,
         docType: DocumentType.InductionProcess,
         role: UserRoles.INDUSTRY,
+    },
+    {
+        name: 'SubAdmin',
+        type: FileType.File,
+        docType: DocumentType.InductionProcess,
+        role: UserRoles.SUBADMIN,
     },
 ]

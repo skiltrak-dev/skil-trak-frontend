@@ -17,8 +17,8 @@ import { FaEdit, FaEye } from 'react-icons/fa'
 
 import { RtoCellInfo } from '@partials/admin/rto/components'
 import { AdminApi } from '@queries'
-import { Student } from '@types'
-import { checkStudentStatus, checkWorkplaceStatus } from '@utils'
+import { Student, UserStatus } from '@types'
+import { checkStudentStatus, checkWorkplaceStatus, isBrowser } from '@utils'
 import { useRouter } from 'next/router'
 import { ReactElement, useEffect, useState } from 'react'
 import { MdBlock } from 'react-icons/md'
@@ -39,18 +39,22 @@ export const ApprovedStudent = () => {
     const router = useRouter()
     const [modal, setModal] = useState<ReactElement | null>(null)
 
-    const [itemPerPage, setItemPerPage] = useState(50)
+    // TODO need to change 5 to 50 itemPerPage
+    const [itemPerPage, setItemPerPage] = useState(5)
     const [page, setPage] = useState(1)
 
     // hooks
     const { passwordModal, onViewPassword } = useActionModal()
 
     const { isLoading, isFetching, data, isError, refetch } =
-        AdminApi.Students.useListQuery({
-            search: `status:approved`,
-            skip: itemPerPage * page - itemPerPage,
-            limit: itemPerPage,
-        })
+        AdminApi.Students.useListQuery(
+            {
+                search: `status:${UserStatus.Approved}`,
+                skip: itemPerPage * page - itemPerPage,
+                limit: itemPerPage,
+            },
+            { refetchOnMountOrArgChange: true }
+        )
 
     const onModalCancelClicked = () => {
         setModal(null)

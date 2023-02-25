@@ -199,6 +199,7 @@ const {
     //------ WORKPLACE -----//
     useAssignCourseMutation,
     useFilteredWorkplacesQuery,
+    useCancelledWorkplacesQuery,
     useUnAssignedSubAdminsQuery,
     useAssignedRequestListQuery,
     useAssignedWorkplaceMutation,
@@ -309,6 +310,7 @@ export const AdminApi = {
     Workplace: {
         assignCourse: useAssignCourseMutation,
         useListQuery: useUnAssignedSubAdminsQuery,
+        cancelledWorkplaces: useCancelledWorkplacesQuery,
         useUnAssignedWorkplace: useUnAssignedWorkplaceListQuery,
         useWorkplaceMutation: useAssignedWorkplaceMutation,
         useAssignedWorkplace: useAssignedRequestListQuery,
