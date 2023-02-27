@@ -44,21 +44,21 @@ const routes: Route[] = [
     {
         text: 'RTOs',
         Icon: FaUniversity,
-        path: getRoutePath('/rto?tab=approved'),
+        path: getRoutePath('/rto?tab=approved&page=1&pageSize=50'),
     },
     {
         text: 'Students',
-        path: getRoutePath('/student?tab=active'),
+        path: getRoutePath('/student?tab=active&page=1&pageSize=50'),
         Icon: FaUserGraduate,
     },
     {
         text: 'Industry',
-        path: getRoutePath('/industry?tab=approved'),
+        path: getRoutePath('/industry?tab=approved&page=1&pageSize=50'),
         Icon: IoMdBriefcase,
     },
     {
         text: 'Sub-Admin',
-        path: getRoutePath('/sub-admin?tab=active'),
+        path: getRoutePath('/sub-admin?tab=active&page=1&pageSize=50'),
         Icon: RiShieldUserFill,
     },
     {

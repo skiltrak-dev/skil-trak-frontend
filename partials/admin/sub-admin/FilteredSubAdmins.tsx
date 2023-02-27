@@ -130,7 +130,13 @@ export const FilteredSubAdmins = ({
         {
             accessorKey: 'Created By',
             header: () => <span>Created By</span>,
-            cell: (info) => info.getValue(),
+            cell: (info) => (
+                <Typography variant={'small'} uppercase>
+                    <span className="font-semibold">
+                        {info.row.original?.createdBy?.role}
+                    </span>
+                </Typography>
+            ),
         },
         {
             accessorKey: 'action',

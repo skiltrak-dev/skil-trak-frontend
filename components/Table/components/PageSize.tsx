@@ -1,4 +1,6 @@
 import { Table } from '@tanstack/react-table'
+import { useRouter } from 'next/router'
+import { useEffect, useState } from 'react'
 
 interface PageSizeProps {
     table?: Table<any>
@@ -13,6 +15,19 @@ export const PageSize = ({
     setItemPerPage,
     records,
 }: PageSizeProps) => {
+    const router = useRouter()
+    const [defaultValue, setDefaultValue] = useState(50)
+
+    useEffect(() => {
+        setDefaultValue(
+            Number(
+                itemPerPage
+                    ? itemPerPage
+                    : table?.getState().pagination.pageSize
+            )
+        )
+    }, [itemPerPage, table])
+
     return (
         <div className="flex items-center gap-x-4">
             <div className="text-sm font-medium flex items-center gap-x-2">
@@ -24,12 +39,14 @@ export const PageSize = ({
                         //         ? itemPerPage
                         //         : table.getState().pagination.pageSize
                         //   }
-                        defaultValue={
-                            itemPerPage
-                                ? itemPerPage
-                                : table?.getState().pagination.pageSize
-                        }
+                        value={defaultValue}
+                        defaultValue={defaultValue}
                         onChange={(e) => {
+                            const tabs = Object.entries(router.query)
+                            router.push(
+                                `${router?.pathname}?${tabs[0][0]}=${tabs[0][1]}&page=1&pageSize=${e.target.value}`
+                            )
+                            setDefaultValue(Number(e.target.value))
                             table?.setPageSize(Number(e.target.value))
                             if (setItemPerPage) setItemPerPage(e.target.value)
                         }}

@@ -10,7 +10,6 @@ export const ProgressStep = ({ status }: Props) => {
         []
     )
 
-    console.log('statusstatusstatus', status)
 
     // src={`/images/icons/placement-progress/checklist.png`}
     const progressStep = [

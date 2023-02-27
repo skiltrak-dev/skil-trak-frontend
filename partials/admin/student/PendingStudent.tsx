@@ -20,7 +20,7 @@ import { AdminApi, commonApi } from '@queries'
 import { MdEmail, MdPhoneIphone } from 'react-icons/md'
 import { ReactElement, useEffect, useState } from 'react'
 import { useActionModal, useContextBar } from '@hooks'
-import { Rto, Student } from '@types'
+import { Rto, Student, UserStatus } from '@types'
 import { SectorCell, StudentCellInfo } from './components'
 import { RtoCellInfo } from '@partials/admin/rto/components'
 import { AcceptModal, RejectModal } from './modals'
@@ -39,12 +39,17 @@ export const PendingStudent = () => {
     const [page, setPage] = useState(1)
     const [filter, setFilter] = useState({})
 
+    useEffect(() => {
+        setPage(Number(router.query.page))
+        setItemPerPage(Number(router.query.pageSize))
+    }, [router])
+
     // hooks
     const { passwordModal, onViewPassword } = useActionModal()
 
     const { isLoading, data, isError, isSuccess } =
         AdminApi.Students.useListQuery({
-            search: `status:pending`,
+            search: `status:${UserStatus.Pending}`,
             skip: itemPerPage * page - itemPerPage,
             limit: itemPerPage,
         })
@@ -222,7 +227,8 @@ export const PendingStudent = () => {
                                         <div className="p-6 mb-2 flex justify-between">
                                             {pageSize(
                                                 itemPerPage,
-                                                setItemPerPage
+                                                setItemPerPage,
+                                                data?.data?.length
                                             )}
                                             <div className="flex gap-x-2">
                                                 {quickActions}

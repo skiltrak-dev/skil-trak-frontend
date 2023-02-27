@@ -19,7 +19,7 @@ import { FaEdit, FaEye, FaFileExport } from 'react-icons/fa'
 import { AdminApi, commonApi } from '@queries'
 import { SubAdmin } from '@types'
 import { useRouter } from 'next/router'
-import { ReactElement, useState } from 'react'
+import { ReactElement, useEffect, useState } from 'react'
 import { RtoCell, SectorCell, SubAdminCell } from './components'
 import { useChangeStatus } from './hooks'
 import { AcceptModal, ArchiveModal, RejectModal } from './modals'
@@ -36,6 +36,10 @@ export const ActiveSubAdmin = () => {
 
     const [itemPerPage, setItemPerPage] = useState(50)
     const [page, setPage] = useState(1)
+
+    useEffect(() => {
+        setPage(Number(router.query.page))
+    }, [router])
 
     // hooks
     const { passwordModal, onViewPassword } = useActionModal()

@@ -232,7 +232,7 @@ export const StudentProfile = ({ noTitle }: { noTitle?: boolean }) => {
                         <BackButton
                             link={
                                 role === 'admin'
-                                    ? 'portals/admin/student?tab=active'
+                                    ? sessionStorage.getItem('student')
                                     : role === 'subadmin'
                                     ? 'portals/sub-admin/students?tab=all'
                                     : role === 'rto'

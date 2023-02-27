@@ -16,8 +16,8 @@ import { FaEdit, FaEye, FaFileExport } from 'react-icons/fa'
 
 import { useContextBar } from '@hooks'
 import { AdminApi, commonApi } from '@queries'
-import { Rto } from '@types'
-import { ReactElement, useState } from 'react'
+import { Rto, UserStatus } from '@types'
+import { ReactElement, useEffect, useState } from 'react'
 import { RtoCellInfo, SectorCell } from './components'
 import { useChangeStatus } from './hooks'
 import { AcceptModal, RejectModal } from './modals'
@@ -29,12 +29,19 @@ export const PendingRto = () => {
 
     const [itemPerPage, setItemPerPage] = useState(50)
     const [page, setPage] = useState(1)
+
+    useEffect(() => {
+        setPage(Number(router.query.page))
+        setItemPerPage(Number(router.query.pageSize))
+    }, [router])
+
     const { isLoading, data, isError } = AdminApi.Rtos.useListQuery({
-        search: `status:pending`,
+        search: `status:${UserStatus.Pending}`,
         skip: itemPerPage * page - itemPerPage,
         limit: itemPerPage,
     })
-    const [bulkAction, resultBulkAction] = commonApi.useBulkStatusMutation();
+
+    const [bulkAction, resultBulkAction] = commonApi.useBulkStatusMutation()
 
     const { changeStatusResult } = useChangeStatus()
 
@@ -62,7 +69,7 @@ export const PendingRto = () => {
         },
         {
             text: 'Edit',
-            onClick: () => { },
+            onClick: () => {},
             Icon: FaEdit,
         },
     ]
@@ -123,26 +130,32 @@ export const PendingRto = () => {
         id: 'id',
         individual: (id: number) => (
             <div className="flex gap-x-2">
-                <ActionButton variant="success" onClick={() => { }}>
+                <ActionButton variant="success" onClick={() => {}}>
                     Accept
                 </ActionButton>
-                <ActionButton variant="error" onClick={() => { }}>
+                <ActionButton variant="error" onClick={() => {}}>
                     Reject
                 </ActionButton>
             </div>
         ),
         common: (ids: number[]) => (
             <div className="flex gap-x-2">
-                <ActionButton onClick={() => {
-                    const arrayOfIds = ids.map((id: any) => id?.user.id)
-                    bulkAction({ ids: arrayOfIds, status: 'approved' })
-                }} variant="success">
+                <ActionButton
+                    onClick={() => {
+                        const arrayOfIds = ids.map((id: any) => id?.user.id)
+                        bulkAction({ ids: arrayOfIds, status: 'approved' })
+                    }}
+                    variant="success"
+                >
                     Accept
                 </ActionButton>
-                <ActionButton onClick={() => {
-                    const arrayOfIds = ids.map((id: any) => id?.user.id)
-                    bulkAction({ ids: arrayOfIds, status: 'rejected' })
-                }} variant="error">
+                <ActionButton
+                    onClick={() => {
+                        const arrayOfIds = ids.map((id: any) => id?.user.id)
+                        bulkAction({ ids: arrayOfIds, status: 'rejected' })
+                    }}
+                    variant="error"
+                >
                     Reject
                 </ActionButton>
             </div>

@@ -1,5 +1,6 @@
 import { Table } from '@tanstack/react-table'
 import { Paginate } from '@types'
+import { useRouter } from 'next/router'
 import { FaChevronLeft, FaChevronRight } from 'react-icons/fa'
 import ReactPaginate from 'react-paginate'
 
@@ -9,7 +10,14 @@ interface PaginationProps {
     setPage?: Function
 }
 export const Pagination = ({ table, pagination, setPage }: PaginationProps) => {
+    const router = useRouter()
     const handlePageClick = ({ selected }: any) => {
+        const tabs = Object.entries(router.query)
+        router.push(
+            `${router?.pathname}?${tabs[0][0]}=${tabs[0][1]}&page=${
+                !pagination ? selected : selected + 1
+            }&${tabs[2][0]}=${tabs[2][1]}`
+        )
         if (!pagination) table?.setPageIndex(selected)
         else if (setPage) setPage(selected + 1)
     }
@@ -35,7 +43,9 @@ export const Pagination = ({ table, pagination, setPage }: PaginationProps) => {
                 selectedPageRel={null}
                 pageRangeDisplayed={3}
                 forcePage={
-                    pagination ? 0 : table?.getState().pagination.pageIndex
+                    pagination
+                        ? pagination?.currentPage - 1
+                        : table?.getState().pagination.pageIndex
                 }
                 marginPagesDisplayed={3}
                 nextClassName={`${

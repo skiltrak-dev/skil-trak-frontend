@@ -1,11 +1,13 @@
-import { useEffect, useState } from 'react'
 import { Select, TextInput } from '@components/inputs'
+import { useEffect, useState } from 'react'
 
 // query
 import { CommonApi } from '@queries'
 
-import { statusOptions } from './statusOptions'
 import { AuthUtils } from '@utils'
+import { statusOptions } from './statusOptions'
+import { SelectOption } from './types'
+import { SetQueryFilters } from './SetQueryFilters'
 
 interface ItemFilterProps {
     onFilterChange: Function
@@ -21,7 +23,7 @@ export const StudentFilters = ({ onFilterChange, filter }: ItemFilterProps) => {
     const getRtos = CommonApi.Filter.useRtos()
     const getCourses = CommonApi.Filter.useCourses()
     const getUserRole = AuthUtils.getUserCredentials()
-    
+
     useEffect(() => {
         if (getIndustries.isSuccess) {
             setIndustryOptions(
@@ -55,75 +57,101 @@ export const StudentFilters = ({ onFilterChange, filter }: ItemFilterProps) => {
         }
     }, [getCourses])
 
+
     return (
-        <div className="grid grid-cols-3 gap-x-3">
-            <TextInput
-                name="name"
-                label={'Name'}
-                placeholder={'Search by Student Name ...'}
-                onChange={(e: any) => {
-                    onFilterChange({ ...filter, name: e.target.value })
-                }}
-            />
-            <TextInput
-                name="email"
-                label={'Email'}
-                placeholder={'Search by Student Email ...'}
-                type={'email'}
-                onChange={(e: any) => {
-                    onFilterChange({ ...filter, email: e.target.value })
-                }}
-            />
-            <TextInput
-                name="phone"
-                label={'Phone'}
-                placeholder={'Search by Student Phone ...'}
-                onChange={(e: any) => {
-                    onFilterChange({ ...filter, phone: e.target.value })
-                }}
-            />
-            <TextInput
-                name="studentId"
-                label={'Student Id'}
-                placeholder={'Search by Student Id Email ...'}
-                onChange={(e: any) => {
-                    onFilterChange({ ...filter, studentId: e.target.value })
-                }}
-            />
-            <Select
-                label={'Status'}
-                name={'status'}
-                options={statusOptions}
-                placeholder={'Select Sectors...'}
-                onChange={(e: any) => {
-                    onFilterChange({ ...filter, status: e?.value })
-                }}
-            />
-            {getUserRole?.role !== 'rto' && (
-                <Select
-                    label={'Search By Rto'}
-                    name={'rtoId'}
-                    options={rtoOptions}
-                    placeholder={'Select Search By Rto...'}
+        <>
+            <SetQueryFilters filter={filter} />
+            <div className="grid grid-cols-3 gap-x-3">
+                <TextInput
+                    name="name"
+                    label={'Name'}
+                    placeholder={'Search by Student Name ...'}
+                    value={filter?.name}
                     onChange={(e: any) => {
-                        onFilterChange({ ...filter, rtoId: e?.value })
+                        // router.push({
+                        //     pathname: '/portals/admin/student',
+                        //     query: {
+                        //         tab: 'active',
+                        //         page: 1,
+                        //         pageSize: 50,
+                        //         name: e.target.value,
+                        //     },
+                        // })
+                        onFilterChange({ ...filter, name: e.target.value })
                     }}
-                    loading={getRtos.isLoading}
-                    disabled={getRtos.isLoading}
                 />
-            )}
-            <Select
-                label={'Search by Industry'}
-                name={'industryId'}
-                options={industryOptions}
-                placeholder={'Select Industry...'}
-                onChange={(e: any) => {
-                    onFilterChange({ ...filter, industryId: e?.value })
-                }}
-                loading={getIndustries.isLoading}
-                disabled={getIndustries.isLoading}
-            />
-            {/* <Select
+                <TextInput
+                    name="email"
+                    label={'Email'}
+                    placeholder={'Search by Student Email ...'}
+                    type={'email'}
+                    value={filter?.email}
+                    onChange={(e: any) => {
+                        onFilterChange({ ...filter, email: e.target.value })
+                    }}
+                />
+                <TextInput
+                    name="phone"
+                    label={'Phone'}
+                    value={filter?.phone}
+                    placeholder={'Search by Student Phone ...'}
+                    onChange={(e: any) => {
+                        onFilterChange({ ...filter, phone: e.target.value })
+                    }}
+                />
+                <TextInput
+                    name="studentId"
+                    label={'Student Id'}
+                    value={filter?.studentId}
+                    placeholder={'Search by Student Id Email ...'}
+                    onChange={(e: any) => {
+                        onFilterChange({ ...filter, studentId: e.target.value })
+                    }}
+                />
+                <Select
+                    label={'Status'}
+                    name={'status'}
+                    defaultValue={statusOptions.find(
+                        (status) => status.value === filter?.status
+                    )}
+                    options={statusOptions}
+                    placeholder={'Select Sectors...'}
+                    onChange={(e: any) => {
+                        onFilterChange({ ...filter, status: e?.value })
+                    }}
+                />
+                {getUserRole?.role !== 'rto' && (
+                    <Select
+                        label={'Search By Rto'}
+                        name={'rtoId'}
+                        defaultValue={rtoOptions?.find(
+                            (rto: SelectOption) => rto.value === filter?.rtoId
+                        )}
+                        options={rtoOptions}
+                        placeholder={'Select Search By Rto...'}
+                        onChange={(e: any) => {
+                            onFilterChange({ ...filter, rtoId: e?.value })
+                        }}
+                        loading={getRtos.isLoading}
+                        disabled={getRtos.isLoading}
+                    />
+                )}
+                <Select
+                    label={'Search by Industry'}
+                    name={'industryId'}
+                    options={industryOptions}
+                    placeholder={'Select Industry...'}
+                    defaultValue={industryOptions?.find(
+                        (industry: SelectOption) =>
+                            industry.value === filter?.industryId
+                    )}
+                    onChange={(e: any) => {
+                        onFilterChange({ ...filter, industryId: e?.value })
+                    }}
+                    loading={getIndustries.isLoading}
+                    disabled={getIndustries.isLoading}
+                />
+                {/* <Select
                 label={'Search by Batch/Class'}
                 name={'batchId'}
                 options={[]}
@@ -132,17 +160,22 @@ export const StudentFilters = ({ onFilterChange, filter }: ItemFilterProps) => {
                     onFilterChange({ ...filter, batchId: e?.value })
                 }}
             /> */}
-            <Select
-                label={'Search by Courses'}
-                name={'courseId'}
-                options={coursesOptions}
-                placeholder={'Select Courses...'}
-                onChange={(e: any) => {
-                    onFilterChange({ ...filter, courseId: e?.value })
-                }}
-                loading={getCourses.isLoading}
-                disabled={getCourses.isLoading}
-            />
-        </div>
+                <Select
+                    label={'Search by Courses'}
+                    name={'courseId'}
+                    options={coursesOptions}
+                    placeholder={'Select Courses...'}
+                    defaultValue={coursesOptions?.find(
+                        (course: SelectOption) =>
+                            course.value === filter?.courseId
+                    )}
+                    onChange={(e: any) => {
+                        onFilterChange({ ...filter, courseId: e?.value })
+                    }}
+                    loading={getCourses.isLoading}
+                    disabled={getCourses.isLoading}
+                />
+            </div>
+        </>
     )
 }

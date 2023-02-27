@@ -31,6 +31,11 @@ export const ArchivedIndustry = () => {
     const [itemPerPage, setItemPerPage] = useState(50)
     const [page, setPage] = useState(1)
 
+    useEffect(() => {
+        setPage(Number(router.query.page))
+        setItemPerPage(Number(router.query.pageSize))
+    }, [router])
+
     // hooks
     const { passwordModal, onViewPassword } = useActionModal()
 
@@ -206,7 +211,8 @@ export const ArchivedIndustry = () => {
                                         <div className="p-6 mb-2 flex justify-between">
                                             {pageSize(
                                                 itemPerPage,
-                                                setItemPerPage
+                                                setItemPerPage,
+                                                data?.data?.length
                                             )}
                                             <div className="flex gap-x-2">
                                                 {quickActions}

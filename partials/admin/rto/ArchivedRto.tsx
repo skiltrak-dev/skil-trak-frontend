@@ -15,8 +15,8 @@ import { useRouter } from 'next/router'
 import { FaEdit, FaEye, FaFileExport, FaTrash } from 'react-icons/fa'
 
 import { AdminApi, commonApi } from '@queries'
-import { Rto } from '@types'
-import { ReactElement, useState } from 'react'
+import { Rto, UserStatus } from '@types'
+import { ReactElement, useEffect, useState } from 'react'
 import { MdUnarchive } from 'react-icons/md'
 import { RtoCellInfo, SectorCell } from './components'
 import { DeleteModal } from './modals'
@@ -28,8 +28,13 @@ export const ArchivedRto = () => {
     const [itemPerPage, setItemPerPage] = useState(50)
     const [page, setPage] = useState(1)
 
+    useEffect(() => {
+        setPage(Number(router.query.page))
+        setItemPerPage(Number(router.query.pageSize))
+    }, [router])
+
     const { isLoading, data, isError } = AdminApi.Rtos.useListQuery({
-        search: `status:archived`,
+        search: `status:${UserStatus.Archived}`,
         skip: itemPerPage * page - itemPerPage,
         limit: itemPerPage,
     })
@@ -59,7 +64,7 @@ export const ArchivedRto = () => {
         },
         {
             text: 'Edit',
-            onClick: () => { },
+            onClick: () => {},
             Icon: FaEdit,
         },
         {

@@ -83,7 +83,6 @@ const RtoWorkplaces: NextPageWithLayout = (props: Props) => {
                     phoneNumber,
                     user: { name, email, avatar },
                 } = row.original
-                console.log('namename', name)
 
                 return (
                     <Link

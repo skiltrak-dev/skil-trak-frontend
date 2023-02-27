@@ -34,14 +34,14 @@ const Detail: NextPageWithLayout = () => {
         <Card>
             {isError && <TechnicalError />}
             {isLoading ? (
-                <LoadingAnimation />
+                <LoadingAnimation height={'h-[60vh]'} />
             ) : !data ? (
                 !isError &&
                 isSuccess && (
                     <EmptyData
                         title={'No Workplace Found'}
                         description={'No Workplace Detail were found'}
-                        height={'50vh'}
+                        height={'60vh'}
                     />
                 )
             ) : (
