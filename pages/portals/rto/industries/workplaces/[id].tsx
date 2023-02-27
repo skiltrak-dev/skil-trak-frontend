@@ -29,7 +29,6 @@ const Detail: NextPageWithLayout = () => {
         navBar.setTitle('Workplace Detail')
         contextBar.hide()
     }, [])
-
     return (
         <Card>
             {isError && <TechnicalError />}
@@ -47,7 +46,7 @@ const Detail: NextPageWithLayout = () => {
             ) : (
                 <>
                     <div className="border-b border-secondary-dark pb-1">
-                        <Typography variant={'muted'} color={'gray'}>
+                        <Typography variant={'subtitle'} color={'text-gray-400'}>
                             Workplace Details
                         </Typography>
                     </div>
@@ -56,111 +55,119 @@ const Detail: NextPageWithLayout = () => {
                     <div className="grid grid-cols-2 gap-y-4 py-4">
                         {/* ID */}
                         <div className="flex flex-col gap-y-1">
-                            <Typography variant={'muted'} color={'gray'}>
+                            <Typography variant={'subtitle'} color={'text-gray-400'}>
                                 Industry Id
                             </Typography>
-                            <Typography color={'black'} capitalize>
+                            <Typography color={'text-orange-400'} capitalize>
                                 {data?.id}
+                            </Typography>
+                            <Typography variant={'subtitle'} color={'text-gray-400'}>
+                                ABN
+                            </Typography>
+                            <Typography color={'text-orange-400'} capitalize>
+                                {data?.abn}
                             </Typography>
                         </div>
 
                         {/* Job Title */}
                         <div className="flex flex-col gap-y-1">
-                            <Typography variant={'muted'} color={'gray'}>
+                            <Typography variant={'subtitle'} color={'text-gray-400'}>
                                 Industry Name
                             </Typography>
-                            <Typography color={'black'} capitalize>
-                                {data?.industry?.user?.name}
+                            <Typography color={'text-orange-400'} capitalize>
+                                {data?.user?.name}
                             </Typography>
                         </div>
 
                         {/* Employment Type */}
                         <div className="flex flex-col gap-y-1">
-                            <Typography variant={'muted'} color={'gray'}>
+                            <Typography variant={'subtitle'} color={'text-gray-400'}>
                                 Email
                             </Typography>
-                            <Typography color={'black'}>
-                                {data?.industry?.user?.email}
+                            <Typography color={'text-orange-400'}>
+                                {data?.user?.email}
                             </Typography>
                         </div>
 
                         {/*  Salary */}
                         <div className="flex flex-col gap-y-1">
-                            <Typography variant={'muted'} color={'gray'}>
+                            <Typography variant={'muted'} color={'text-gray-400'}>
                                 Phone
                             </Typography>
-                            <Typography color={'black'}>
-                                {data?.industry?.phoneNumber}
+                            <Typography color={'text-orange-400'}>
+                                {data?.phoneNumber}
                             </Typography>
                         </div>
 
                         <div className="flex flex-col gap-y-1">
-                            <Typography variant={'muted'} color={'gray'}>
+                            <Typography variant={'muted'} color={'text-gray-400'}>
                                 Address
                             </Typography>
-                            <Typography color={'black'}>
-                                {`${data?.industry?.addressLine1}, ${data?.industry?.addressLine2}`}
+                            <Typography color={'text-orange-400'}>
+                                {data?.addressLine1 || "N/A"}
                             </Typography>
                         </div>
                     </div>
 
                     <div className="border-b border-secondary-dark pb-1">
-                        <Typography variant={'muted'} color={'gray'}>
+                        <Typography variant={'muted'} color={'text-gray-400'}>
                             Student
                         </Typography>
                     </div>
 
                     {/* Appointment Details */}
-                    <div className="grid grid-cols-2 gap-y-4 py-4">
-                        {/* ID */}
-                        <div className="flex flex-col gap-y-1">
-                            <Typography variant={'muted'} color={'gray'}>
-                                Student Id
-                            </Typography>
-                            <Typography color={'black'} capitalize>
-                                {data?.workplaceRequest?.student?.id}
-                            </Typography>
-                        </div>
+                    {data?.students?.length > 0 && data.students.map((student: any) => (
+                        <div key={data?.id} className="border-b grid grid-cols-2 gap-y-4 py-4">
+                            {/* ID */}
+                            <div className="flex flex-col gap-y-1">
+                                <Typography variant={'subtitle'} color={'text-gray-400'}>
+                                    Student Id
+                                </Typography>
+                                <Typography color={'text-orange-400'} capitalize>
+                                    {student?.id}
+                                </Typography>
+                            </div>
 
-                        {/* Job Title */}
-                        <div className="flex flex-col gap-y-1">
-                            <Typography variant={'muted'} color={'gray'}>
-                                Student Name
-                            </Typography>
-                            <Typography color={'black'} capitalize>
-                                {data?.workplaceRequest?.student?.user?.name}
-                            </Typography>
-                        </div>
+                            {/* Job Title */}
+                            <div className="flex flex-col gap-y-1">
+                                <Typography variant={'subtitle'} color={'text-gray-400'}>
+                                    Student Name
+                                </Typography>
+                                <Typography color={'text-orange-400'} capitalize>
+                                    {student?.user?.name}
+                                </Typography>
+                            </div>
 
-                        {/* Employment Type */}
-                        <div className="flex flex-col gap-y-1">
-                            <Typography variant={'muted'} color={'gray'}>
-                                Student Email
-                            </Typography>
-                            <Typography color={'black'}>
-                                {data?.workplaceRequest?.student?.user?.email}
-                            </Typography>
-                        </div>
+                            {/* Employment Type */}
+                            <div className="flex flex-col gap-y-1">
+                                <Typography variant={'subtitle'} color={'text-gray-400'}>
+                                    Student Email
+                                </Typography>
+                                <Typography color={'text-orange-400'}>
+                                    {student?.user?.email}
+                                </Typography>
+                            </div>
 
-                        {/*  Salary */}
-                        <div className="flex flex-col gap-y-1">
-                            <Typography variant={'muted'} color={'gray'}>
-                                Student Phone
-                            </Typography>
-                            <Typography color={'black'}>
-                                {data?.workplaceRequest?.student?.phone}
-                            </Typography>
-                        </div>
+                            {/*  Salary */}
+                            <div className="flex flex-col gap-y-1">
+                                <Typography variant={'subtitle'} color={'text-gray-400'}>
+                                    Student Phone
+                                </Typography>
+                                <Typography color={'text-orange-400'}>
+                                    {student?.phone}
+                                </Typography>
+                            </div>
 
-                        <div className="flex flex-col gap-y-1">
-                            <Typography variant={'muted'} color={'gray'}>
-                                Address
-                            </Typography>
-                            <Typography color={'black'}>
-                                {`${data?.workplaceRequest?.student?.addressLine1}, ${data?.workplaceRequest?.student?.addressLine2}`}
-                            </Typography>
+                            <div className="flex flex-col gap-y-1">
+                                <Typography variant={'subtitle'} color={'text-gray-400'}>
+                                    Address
+                                </Typography>
+                                <Typography color={'text-orange-400'}>
+                                    {student?.addressLine1 || "N/A"}
+                                </Typography>
+                            </div>
                         </div>
-                    </div>
+                    ))}
                 </>
             )}
         </Card>

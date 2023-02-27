@@ -122,19 +122,19 @@ const SubAdminUsers: NextPageWithLayout = () => {
                             imageUrl="/images/icons/rto.png"
                             count={statistics?.data?.rto}
                             title={'RTOs'}
-                            link={'sub-admin/users/rtos'}
+                            link={'/portals/sub-admin/users/rtos'}
                         />
                         <FigureCard
                             imageUrl="/images/icons/students.png"
                             count={statistics?.data?.student}
                             title={'Students'}
-                            link={'sub-admin/students?tab=all'}
+                            link={'/portals/sub-admin/students?tab=all'}
                         />
                         <FigureCard
                             imageUrl="/images/icons/industry.png"
                             count={statistics?.data?.industry}
                             title={'Industries'}
-                            link={'sub-admin/users/industries?tab=all'}
+                            link={'/portals/sub-admin/users/industries?tab=all'}
                         />
                     </div>
 

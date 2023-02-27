@@ -1,10 +1,12 @@
 import { Card } from '@components/cards'
 import { Typography } from '@components/Typography'
 import { RecentActivityLinks } from '../../RecentActivityLinks'
-
+import { CommonApi } from '@queries'
 type Props = {}
 
 export const AppointmentCard = (props: Props) => {
+    const { data } = CommonApi.RecentActivities.useRecentActivities()
+    
     const recentActivityLinks = [
         {
             title: 'Student Allocated',
@@ -36,6 +38,18 @@ export const AppointmentCard = (props: Props) => {
             color: 'text-blue-500',
             bgColor: 'bg-blue-100',
         },
+    ]
+    const bgColor = [
+        'bg-blue-100',
+        'bg-orange-100',
+        'bg-green-100',
+        'bg-red-100',
+    ]
+    const textColor = [
+        'text-blue-500',
+        'text-orange-500',
+        'text-green-500',
+        'text-red-500',
     ]
     const recentActivityDescription = [
         {
@@ -114,45 +128,50 @@ export const AppointmentCard = (props: Props) => {
                         View All
                     </Typography>
                 </div>
-                <div className="flex items-center gap-x-2">
-                    <div className="flex items-center flex-col">
-                        <div className="bg-neutral-300 p-1.5 rounded-full"></div>
-                        <div className="bg-neutral-300 h-4 w-[1px]"></div>
-                        <div className="bg-neutral-300 p-1.5 rounded-full"></div>
-                        <div className="bg-neutral-300 h-4 w-[1px]"></div>
-                        <div className="bg-neutral-300 p-1.5 rounded-full"></div>
-                        <div className="bg-neutral-300 h-4 w-[1px]"></div>
-                        <div className="bg-neutral-300 p-1.5 rounded-full"></div>
-                        <div className="bg-neutral-300 h-4 w-[1px]"></div>
-                        <div className="bg-neutral-300 p-1.5 rounded-full"></div>
-                        <div className="bg-neutral-300 h-4 w-[1px]"></div>
-                        <div className="bg-neutral-300 p-1.5 rounded-full"></div>
-                    </div>
-                    <div className="flex flex-col gap-y-3">
-                        {recentActivityLinks.map((item, index) => {
-                            return (
+                <div className="flex gap-x-2">
+                    <div className="flex flex-col">
+                        {data?.map((item: any, index: any) => (
+                            <div key={item?.id} className="flex gap-x-2">
+                                <div className="flex items-center flex-col">
+                                    <div className="bg-neutral-300 p-1.5 rounded-full"></div>
+                                    <div className="bg-neutral-300 h-4 w-[1px]"></div>
+                                </div>
+
                                 <RecentActivityLinks
-                                    key={index}
-                                    title={item.title}
-                                    color={item.color}
-                                    bgColor={item.bgColor}
+                                    title={item?.title}
+                                    color={textColor[index]}
+                                    bgColor={bgColor[index]}
                                 />
-                            )
-                        })}
+                                <div className="flex flex-col">
+                                    <div className={`${index === 0 && 'py-0'} py-1.5`}>
+                                        <Typography
+                                            key={index}
+                                            variant={'muted'}
+                                            color={'text-gray-500'}
+                                        >
+                                            {item.description}
+                                        </Typography>
+                                    </div>
+                                </div>
+                            </div>
+
+                        ))}
                     </div>
-                    <div className="flex flex-col gap-y-2">
-                        {recentActivityDescription.map((item, index) => {
+                    {/* <div className="flex flex-col">
+                        {data?.map((item: any, index: any) => {
                             return (
-                                <Typography
-                                    key={index}
-                                    variant={'muted'}
-                                    color={'text-gray-500'}
-                                >
-                                    {item.text}
-                                </Typography>
+                                <div className={`${index === 0 && 'py-0'} py-1.5`}>
+                                    <Typography
+                                        key={index}
+                                        variant={'muted'}
+                                        color={'text-gray-500'}
+                                    >
+                                        {item.description}
+                                    </Typography>
+                                </div>
                             )
                         })}
-                    </div>
+                    </div> */}
                 </div>
             </Card>
         </div>

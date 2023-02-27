@@ -46,10 +46,10 @@ const getSectors = (courses: any) => {
     const sectors = {}
     courses.forEach((c: any) => {
         if ((sectors as any)[c.sector.name]) {
-            ;(sectors as any)[c.sector.name].push(c)
+            ; (sectors as any)[c.sector.name].push(c)
         } else {
-            ;(sectors as any)[c.sector.name] = []
-            ;(sectors as any)[c.sector.name].push(c)
+            ; (sectors as any)[c.sector.name] = []
+                ; (sectors as any)[c.sector.name].push(c)
         }
     })
     return sectors
@@ -121,6 +121,12 @@ const SubAdminDashboard: NextPageWithLayout = () => {
                             run: false,
                         }))
                         router.push('/portals/sub-admin/students?tab=all')
+                        joyride.setState({
+                            ...joyride.state,
+                            run: false,
+                            stepIndex: 0,
+                            tourActive: false,
+                        })
                     } else if (action === 'reset' || lifecycle === 'complete') {
                         joyride.setState({
                             ...joyride.state,
@@ -195,6 +201,12 @@ const SubAdminDashboard: NextPageWithLayout = () => {
                             run: false,
                         }))
                         router.push('/portals/sub-admin/students?tab=all')
+                        joyride.setState({
+                            ...joyride.state,
+                            run: false,
+                            stepIndex: 1,
+                            tourActive: false,
+                        })
                     } else if (action === 'reset' || lifecycle === 'complete') {
                         joyride.setState({
                             ...joyride.state,
@@ -332,15 +344,23 @@ const SubAdminDashboard: NextPageWithLayout = () => {
                             run: false,
                         }))
                         router.push('/portals/sub-admin/students?tab=all')
-                    } else if (
-                        type === 'step:after' &&
-                        index === 1 /* or step.target === '#home' */
-                    ) {
-                        joyride.setState((prev: any) => ({
-                            ...prev,
+                        joyride.setState({
+                            ...joyride.state,
                             run: false,
-                        }))
-                    } else if (action === 'reset' || lifecycle === 'complete') {
+                            stepIndex: 0,
+                            tourActive: false,
+                        })
+                    }
+                    // else if (
+                    //     type === 'step:after' &&
+                    //     index === 1 /* or step.target === '#home' */
+                    // ) {
+                    //     joyride.setState((prev: any) => ({
+                    //         ...prev,
+                    //         run: false,
+                    //     }))
+                    // }
+                    else if (action === 'reset' || lifecycle === 'complete') {
                         joyride.setState({
                             ...joyride.state,
                             run: false,
@@ -407,13 +427,20 @@ const SubAdminDashboard: NextPageWithLayout = () => {
                             run: false,
                         }))
                         router.push('/portals/sub-admin/students?tab=all')
-                    } else if (type === 'step:after' && index === 1) {
-                        joyride.setState((prev: any) => ({
-                            ...prev,
+                        joyride.setState({
+                            ...joyride.state,
                             run: false,
-                        }))
-                        router.push('/portals/sub-admin/users/students?tab=all')
+                            stepIndex: 0,
+                            tourActive: false,
+                        })
                     }
+                    // else if (type === 'step:after' && index === 1) {
+                    //     joyride.setState((prev: any) => ({
+                    //         ...prev,
+                    //         run: false,
+                    //     }))
+                    //     router.push('/portals/sub-admin/students?tab=all')
+                    // }
                     // else if (type === 'step:after' && index === 2) {
                     //     joyride.setState((prev: any) => ({
                     //         ...prev,

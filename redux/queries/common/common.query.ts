@@ -43,6 +43,7 @@ export const commonApi = createApi({
         'Documents',
         'MailCount',
         'MailsRecent',
+        'RecentActivities',
     ],
 
     // ---------- RTO ENDPOINTS ---------- //
@@ -73,6 +74,10 @@ export const commonApi = createApi({
         getDocuments: build.query<any, void>({
             query: () => `admin/documents/list`,
             providesTags: ['Documents'],
+        }),
+        getRecentActivities: build.query<any, void>({
+            query: () => `activity-logger`,
+            providesTags: ['RecentActivities'],
         }),
 
         ...rtosEndpoints(build),
@@ -139,6 +144,8 @@ const {
 
     // ------ Bulk Status ------ //
     useBulkStatusMutation,
+    // ------ Recent Activities ------ //
+    useGetRecentActivitiesQuery,
 
     // ---- DOCUMENTS ---- //
     useGetDocumentsQuery,
@@ -197,5 +204,8 @@ export const CommonApi = {
     },
     Documents: {
         useList: useGetDocumentsQuery,
+    },
+    RecentActivities: {
+        useRecentActivities: useGetRecentActivitiesQuery,
     },
 }
