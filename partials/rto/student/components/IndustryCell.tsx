@@ -6,7 +6,7 @@ import { MdEmail, MdPhoneIphone } from 'react-icons/md'
 
 export const IndustryCell = ({ industry }: { industry: Industry }) => {
     return (
-        <Link legacyBehavior href={`industry/${industry?.id}?tab=sectors`}>
+        <Link legacyBehavior href={`/portals/rto/industries/mous`}>
             <a className="flex items-center gap-x-2">
                 <div className="shadow-inner-image rounded-full relative">
                     {/* TODO Send industry User here */}

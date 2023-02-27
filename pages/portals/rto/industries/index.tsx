@@ -82,11 +82,13 @@ const RtoIndustries: NextPageWithLayout = () => {
                                 imageUrl="/images/icons/students.png"
                                 count={count?.data?.currentStudent}
                                 title={'Current Students'}
+                                link={'/portals/rto/students?tab=active'}
                             />
                             <FigureCard
                                 imageUrl="/images/icons/pending-student.png"
                                 count={count?.data?.pendingStudent}
                                 title={'Pending Students'}
+                                link={'/portals/rto/students?tab=pending'}
                             />
                         </div>
                     </div>
