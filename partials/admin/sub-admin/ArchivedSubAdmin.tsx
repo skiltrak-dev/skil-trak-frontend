@@ -17,7 +17,7 @@ import { AdminApi, commonApi } from '@queries'
 import { ColumnDef } from '@tanstack/react-table'
 import { SubAdmin } from '@types'
 import { useRouter } from 'next/router'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { FaEdit, FaEye, FaFileExport, FaTrash } from 'react-icons/fa'
 import { MdUnarchive } from 'react-icons/md'
 import { useActionModal, useContextBar } from '@hooks'
@@ -29,6 +29,10 @@ export const ArchivedSubAdmin = () => {
     const contextBar = useContextBar()
     const [itemPerPage, setItemPerPage] = useState(50)
     const [page, setPage] = useState(1)
+
+    useEffect(() => {
+        setPage(Number(router.query.page))
+    }, [router])
 
     // hooks
     const { passwordModal, onViewPassword } = useActionModal()
@@ -70,13 +74,13 @@ export const ArchivedSubAdmin = () => {
         },
         {
             text: 'Unarchive',
-            onClick: () => { },
+            onClick: () => {},
             Icon: MdUnarchive,
             color: 'text-orange-500 hover:bg-orange-100 hover:border-orange-200',
         },
         {
             text: 'Delete',
-            onClick: () => { },
+            onClick: () => {},
             Icon: FaTrash,
             color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
         },

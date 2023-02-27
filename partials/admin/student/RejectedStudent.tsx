@@ -16,10 +16,10 @@ import { FaEdit, FaEye, FaTrash } from 'react-icons/fa'
 
 import { useActionModal } from '@hooks'
 import { AdminApi } from '@queries'
-import { Student } from '@types'
+import { Student, UserStatus } from '@types'
 import { checkStudentStatus, checkWorkplaceStatus } from '@utils'
 import { useRouter } from 'next/router'
-import { ReactElement, useState } from 'react'
+import { ReactElement, useEffect, useState } from 'react'
 import { RiLockPasswordFill } from 'react-icons/ri'
 import { IndustryCell } from '../industry/components'
 import { RtoCellInfo } from '../rto/components'
@@ -30,16 +30,19 @@ export const RejectedStudent = () => {
     const router = useRouter()
     const [modal, setModal] = useState<ReactElement | null>(null)
 
-    const [filterAction, setFilterAction] = useState(null)
     const [itemPerPage, setItemPerPage] = useState(50)
     const [page, setPage] = useState(1)
-    const [filter, setFilter] = useState({})
+
+    useEffect(() => {
+        setPage(Number(router.query.page))
+        setItemPerPage(Number(router.query.pageSize))
+    }, [router])
 
     // hooks
     const { passwordModal, onViewPassword } = useActionModal()
 
     const { isLoading, data, isError } = AdminApi.Students.useListQuery({
-        search: `status:rejected`,
+        search: `status:${UserStatus.Rejected}`,
         skip: itemPerPage * page - itemPerPage,
         limit: itemPerPage,
     })
@@ -219,7 +222,8 @@ export const RejectedStudent = () => {
                                         <div className="p-6 mb-2 flex justify-between">
                                             {pageSize(
                                                 itemPerPage,
-                                                setItemPerPage
+                                                setItemPerPage,
+                                                data?.data?.length
                                             )}
                                             <div className="flex gap-x-2">
                                                 {quickActions}

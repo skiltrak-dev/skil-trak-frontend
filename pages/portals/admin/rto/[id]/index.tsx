@@ -231,7 +231,7 @@ const RtoDetail: NextPageWithLayout = () => {
             {modal && modal}
             {rto.isError && <TechnicalError />}
             {rto?.isLoading ? (
-                <LoadingAnimation />
+                <LoadingAnimation height={'h-[70vh]'} />
             ) : rto.data ? (
                 <div className="p-6 mb-32 flex flex-col gap-y-6">
                     {/* Action Bar */}

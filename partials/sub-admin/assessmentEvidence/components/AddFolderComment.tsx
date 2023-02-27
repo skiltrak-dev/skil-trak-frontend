@@ -59,7 +59,6 @@ export const AddFolderComment = ({
         })
     }
 
-    console.log('getAssessmentResponse', getAssessmentResponse?.data)
     return (
         <div>
             {getAssessmentResponse?.data && result?.result !== 'competent' && (

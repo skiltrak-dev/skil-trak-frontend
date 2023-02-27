@@ -1,20 +1,25 @@
 import { InitialAvatar } from '@components'
 import { Student } from '@types'
+import { queryToUrl } from '@utils'
 import Link from 'next/link'
+import { useRouter } from 'next/router'
 import { MdEmail, MdPhoneIphone } from 'react-icons/md'
 
 export const StudentCellInfo = ({ student }: { student: Student }) => {
+    const router = useRouter()
+    const query = queryToUrl(router.query)
     return (
         <Link legacyBehavior href={`student/${student.id}?tab=overview`}>
-            <a className="flex items-center gap-x-2">
+            <a
+                onClick={() => {
+                    sessionStorage.setItem(
+                        'student',
+                        `${router.pathname}?${query}`
+                    )
+                }}
+                className="flex items-center gap-x-2"
+            >
                 <div className="">
-                    {/* <img
-                        src={
-                            student.user.avatar ||
-                            `https://picsum.photos/64/${64 + student.id}`
-                        }
-                        className="w-8 h-8 rounded-full"
-                    /> */}
                     <InitialAvatar
                         name={student?.user?.name}
                         imageUrl={student?.user?.avatar}

@@ -15,7 +15,7 @@ import { FaEdit, FaEye, FaFileExport } from 'react-icons/fa'
 
 import { useActionModal, useContextBar } from '@hooks'
 import { AdminApi, commonApi } from '@queries'
-import { Rto } from '@types'
+import { Rto, UserStatus } from '@types'
 import { useRouter } from 'next/router'
 import { ReactElement, useEffect, useState } from 'react'
 import { MdBlock } from 'react-icons/md'
@@ -31,11 +31,16 @@ export const ApprovedRto = () => {
     const [itemPerPage, setItemPerPage] = useState(50)
     const [page, setPage] = useState(1)
 
+    useEffect(() => {
+        setPage(Number(router.query.page))
+        setItemPerPage(Number(router.query.pageSize))
+    }, [router])
+
     // hooks
     const { passwordModal, onViewPassword } = useActionModal()
 
     const { isLoading, data, isError } = AdminApi.Rtos.useListQuery({
-        search: `status:approved`,
+        search: `status:${UserStatus.Approved}`,
         skip: itemPerPage * page - itemPerPage,
         limit: itemPerPage,
     })

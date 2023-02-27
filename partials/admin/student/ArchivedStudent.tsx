@@ -15,9 +15,9 @@ import { ColumnDef } from '@tanstack/react-table'
 import { FaEdit, FaEye, FaTrash } from 'react-icons/fa'
 
 import { AdminApi, commonApi } from '@queries'
-import { Student } from '@types'
+import { Student, UserStatus } from '@types'
 import { useRouter } from 'next/router'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { MdUnarchive } from 'react-icons/md'
 import { IndustryCell } from '../industry/components'
 import { RtoCellInfo } from '../rto/components'
@@ -33,11 +33,16 @@ export const ArchivedStudent = () => {
     const [page, setPage] = useState(1)
     const [filter, setFilter] = useState({})
 
+    useEffect(() => {
+        setPage(Number(router.query.page))
+        setItemPerPage(Number(router.query.pageSize))
+    }, [router])
+
     // hooks
     const { passwordModal, onViewPassword } = useActionModal()
 
     const { isLoading, data, isError } = AdminApi.Students.useListQuery({
-        search: `status:archived`,
+        search: `status:${UserStatus.Archived}`,
         skip: itemPerPage * page - itemPerPage,
         limit: itemPerPage,
     })
@@ -218,7 +223,8 @@ export const ArchivedStudent = () => {
                                         <div className="p-6 mb-2 flex justify-between">
                                             {pageSize(
                                                 itemPerPage,
-                                                setItemPerPage
+                                                setItemPerPage,
+                                                data?.data?.length
                                             )}
                                             <div className="flex gap-x-2">
                                                 {quickActions}

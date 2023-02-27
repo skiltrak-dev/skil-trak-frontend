@@ -49,7 +49,6 @@ export const UpcomingAppointmentCard = ({
             ? appointmentWithUser[0]
             : appointmentWithUser
 
-    console.log('checkrole', checkrole)
 
     return (
         <>

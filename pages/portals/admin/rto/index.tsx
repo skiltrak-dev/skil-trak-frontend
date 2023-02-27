@@ -20,15 +20,26 @@ import {
 } from '@partials'
 import { AdminApi } from '@queries'
 import { NextPageWithLayout, UserStatus } from '@types'
-import { checkFilteredDataLength } from '@utils'
+import { checkFilteredDataLength, getFilterQuery } from '@utils'
+import { useRouter } from 'next/router'
+
+const filterKeys = ['name', 'email', 'code', 'status', 'courseId']
 
 const RtoList: NextPageWithLayout = () => {
+    const router = useRouter()
+
     const navBar = useNavbar()
 
     const [filterAction, setFilterAction] = useState(null)
     const [itemPerPage, setItemPerPage] = useState(50)
     const [page, setPage] = useState(1)
     const [filter, setFilter] = useState({})
+
+    useEffect(() => {
+        const query = getFilterQuery({ router, filterKeys })
+        setFilter(query)
+    }, [router])
+
     const filteredRtos = AdminApi.Rtos.useListQuery({
         search: `${JSON.stringify(filter)
             .replaceAll('{', '')
@@ -47,7 +58,10 @@ const RtoList: NextPageWithLayout = () => {
     const tabs: TabProps[] = [
         {
             label: 'Pending',
-            href: { pathname: 'rto', query: { tab: UserStatus.Pending } },
+            href: {
+                pathname: 'rto',
+                query: { tab: UserStatus.Pending, page: 1, pageSize: 50 },
+            },
             badge: {
                 text: count?.data?.pending,
                 loading: count?.isLoading,
@@ -56,7 +70,10 @@ const RtoList: NextPageWithLayout = () => {
         },
         {
             label: 'Approved',
-            href: { pathname: 'rto', query: { tab: UserStatus.Approved } },
+            href: {
+                pathname: 'rto',
+                query: { tab: UserStatus.Approved, page: 1, pageSize: 50 },
+            },
             badge: {
                 text: count?.data?.approved,
                 loading: count?.isLoading,
@@ -65,7 +82,10 @@ const RtoList: NextPageWithLayout = () => {
         },
         {
             label: 'Rejected',
-            href: { pathname: 'rto', query: { tab: UserStatus.Rejected } },
+            href: {
+                pathname: 'rto',
+                query: { tab: UserStatus.Rejected, page: 1, pageSize: 50 },
+            },
             badge: {
                 text: count?.data?.rejected,
                 loading: count?.isLoading,
@@ -74,7 +94,10 @@ const RtoList: NextPageWithLayout = () => {
         },
         {
             label: 'Blocked',
-            href: { pathname: 'rto', query: { tab: UserStatus.Blocked } },
+            href: {
+                pathname: 'rto',
+                query: { tab: UserStatus.Blocked, page: 1, pageSize: 50 },
+            },
             badge: {
                 text: count?.data?.blocked,
                 loading: count?.isLoading,
@@ -83,7 +106,10 @@ const RtoList: NextPageWithLayout = () => {
         },
         {
             label: 'Archived',
-            href: { pathname: 'rto', query: { tab: UserStatus.Archived } },
+            href: {
+                pathname: 'rto',
+                query: { tab: UserStatus.Archived, page: 1, pageSize: 50 },
+            },
             badge: {
                 text: count?.data?.archived,
                 loading: count?.isLoading,

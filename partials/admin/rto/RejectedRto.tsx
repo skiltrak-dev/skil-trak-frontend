@@ -16,9 +16,9 @@ import { ColumnDef } from '@tanstack/react-table'
 import { FaEdit, FaEye, FaFileExport, FaTrash } from 'react-icons/fa'
 
 import { AdminApi } from '@queries'
-import { Rto } from '@types'
+import { Rto, UserStatus } from '@types'
 import { useRouter } from 'next/router'
-import { ReactElement, useState } from 'react'
+import { ReactElement, useEffect, useState } from 'react'
 import { RtoCellInfo } from './components'
 import { AcceptModal, DeleteModal } from './modals'
 
@@ -31,12 +31,13 @@ export const RejectedRto = () => {
     const [page, setPage] = useState(1)
     const [filter, setFilter] = useState({})
 
+    useEffect(() => {
+        setPage(Number(router.query.page))
+        setItemPerPage(Number(router.query.pageSize))
+    }, [router])
+
     const { isLoading, data, isError } = AdminApi.Rtos.useListQuery({
-        search: `status:rejected,${JSON.stringify(filter)
-            .replaceAll('{', '')
-            .replaceAll('}', '')
-            .replaceAll('"', '')
-            .trim()}`,
+        search: `status:${UserStatus.Rejected}`,
         skip: itemPerPage * page - itemPerPage,
         limit: itemPerPage,
     })
