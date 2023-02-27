@@ -1,16 +1,28 @@
 import { InitialAvatar } from '@components'
 import { Industry, SubAdmin } from '@types'
+import { queryToUrl } from '@utils'
 import Link from 'next/link'
+import { useRouter } from 'next/router'
 import { FaHandshake } from 'react-icons/fa'
 import { MdEmail, MdPhoneIphone } from 'react-icons/md'
 
 export const SubAdminCell = ({ subAdmin }: { subAdmin: SubAdmin }) => {
+    const router = useRouter()
+    const query = queryToUrl(router.query)
     return (
         <Link
             legacyBehavior
             href={`/portals/admin/sub-admin/${subAdmin?.id}?tab=notes`}
         >
-            <a className="flex items-center gap-x-2">
+            <a
+                onClick={() => {
+                    sessionStorage.setItem(
+                        'subadmin',
+                        `${router.pathname}?${query}`
+                    )
+                }}
+                className="flex items-center gap-x-2"
+            >
                 <div className="shadow-inner-image rounded-full relative">
                     <InitialAvatar
                         name={subAdmin.user.name}

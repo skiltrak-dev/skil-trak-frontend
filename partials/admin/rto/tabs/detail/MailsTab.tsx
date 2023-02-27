@@ -33,7 +33,6 @@ export const MailsTab = ({ rto }: any) => {
     }, [rto])
 
     // query
-    console.log("::: RTO ID", rto.id)
     const messages = AdminApi.Messages.useList(
         { id: rto?.id, limit: 50, skip: 0 },
         {

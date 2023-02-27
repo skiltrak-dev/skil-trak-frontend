@@ -82,7 +82,10 @@ const SubAdminDetail: NextPageWithLayout = () => {
                 <div className="p-6 flex flex-col gap-y-4 pb-32">
                     {/* Action Bar */}
                     <div className="flex items-center justify-between">
-                        <BackButton text="RTOs" />
+                        <BackButton
+                            text="Sub Admin"
+                            link={sessionStorage.getItem('subadmin')}
+                        />
                         <div className="flex gap-x-2">
                             <ActionButton
                                 Icon={FaArchive}

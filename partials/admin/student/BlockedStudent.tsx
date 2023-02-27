@@ -22,7 +22,7 @@ import { MdBlock, MdEmail, MdPhoneIphone } from 'react-icons/md'
 import { ReactElement, useState, useEffect } from 'react'
 import { CgUnblock } from 'react-icons/cg'
 import { ProgressCell, SectorCell, StudentCellInfo } from './components'
-import { Student } from '@types'
+import { Student, UserStatus } from '@types'
 import { DeleteModal, UnblockModal } from './modals'
 import { RtoCellInfo } from '../rto/components'
 import { useRouter } from 'next/router'
@@ -39,16 +39,22 @@ export const BlockedStudent = () => {
     const [page, setPage] = useState(1)
     const [filter, setFilter] = useState({})
 
+    useEffect(() => {
+        setPage(Number(router.query.page))
+        setItemPerPage(Number(router.query.pageSize))
+    }, [router])
+
     // hooks
     const { passwordModal, onViewPassword } = useActionModal()
 
-    const { isLoading, data, isError, refetch } = AdminApi.Students.useListQuery({
-        search: `status:blocked`,
-        skip: itemPerPage * page - itemPerPage,
-        limit: itemPerPage,
-    })
-    const [bulkAction, resultBulkAction] = commonApi.useBulkStatusMutation();
-   
+    const { isLoading, data, isError, refetch } =
+        AdminApi.Students.useListQuery({
+            search: `status:${UserStatus.Blocked}`,
+            skip: itemPerPage * page - itemPerPage,
+            limit: itemPerPage,
+        })
+    const [bulkAction, resultBulkAction] = commonApi.useBulkStatusMutation()
+
     const onModalCancelClicked = () => {
         setModal(null)
     }
@@ -189,10 +195,14 @@ export const BlockedStudent = () => {
         ),
         common: (ids: number[]) => (
             <div className="flex gap-x-2">
-                <ActionButton onClick={() => {
-                    const arrayOfIds = ids.map((id: any) => id?.user.id)
-                    bulkAction({ ids: arrayOfIds, status: 'approved' })
-                }} Icon={CgUnblock} variant="warning">
+                <ActionButton
+                    onClick={() => {
+                        const arrayOfIds = ids.map((id: any) => id?.user.id)
+                        bulkAction({ ids: arrayOfIds, status: 'approved' })
+                    }}
+                    Icon={CgUnblock}
+                    variant="warning"
+                >
                     Unblock
                 </ActionButton>
                 <ActionButton Icon={FaTrash} variant="error">
@@ -234,7 +244,8 @@ export const BlockedStudent = () => {
                                         <div className="p-6 mb-2 flex justify-between">
                                             {pageSize(
                                                 itemPerPage,
-                                                setItemPerPage
+                                                setItemPerPage,
+                                                data?.data?.length
                                             )}
                                             <div className="flex gap-x-2">
                                                 {quickActions}
@@ -258,7 +269,6 @@ export const BlockedStudent = () => {
                             />
                         )
                     )}
-                    
                 </Card>
             </div>
         </>

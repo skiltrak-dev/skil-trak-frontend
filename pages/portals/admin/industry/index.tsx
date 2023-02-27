@@ -7,6 +7,7 @@ import {
     LoadingAnimation,
     TabNavigation,
     TabProps,
+    TechnicalError,
 } from '@components'
 import { useContextBar, useNavbar } from '@hooks'
 import { AdminLayout } from '@layouts'
@@ -21,9 +22,14 @@ import {
     RejectedIndustry,
 } from '@partials/admin/industry'
 import { AdminApi } from '@queries'
-import { checkFilteredDataLength } from '@utils'
+import { checkFilteredDataLength, getFilterQuery } from '@utils'
+import { useRouter } from 'next/router'
+
+const filterKeys = ['name', 'email', 'status', 'industryId', 'courseId']
 
 const IndustryList: NextPageWithLayout = () => {
+    const router = useRouter()
+
     const navBar = useNavbar()
     const contextBar = useContextBar()
 
@@ -31,6 +37,12 @@ const IndustryList: NextPageWithLayout = () => {
     const [itemPerPage, setItemPerPage] = useState(50)
     const [page, setPage] = useState(1)
     const [filter, setFilter] = useState({})
+
+    useEffect(() => {
+        const query = getFilterQuery({ router, filterKeys })
+        setFilter(query)
+    }, [router])
+
     const filteredIndustries = AdminApi.Industries.useListQuery({
         search: `${JSON.stringify(filter)
             .replaceAll('{', '')
@@ -51,7 +63,10 @@ const IndustryList: NextPageWithLayout = () => {
     const tabs: TabProps[] = [
         {
             label: 'Pending',
-            href: { pathname: 'industry', query: { tab: UserStatus.Pending } },
+            href: {
+                pathname: 'industry',
+                query: { tab: UserStatus.Pending, page: 1, pageSize: 50 },
+            },
             badge: {
                 text: data?.pending,
                 loading: isLoading,
@@ -60,7 +75,10 @@ const IndustryList: NextPageWithLayout = () => {
         },
         {
             label: 'Approved',
-            href: { pathname: 'industry', query: { tab: UserStatus.Approved } },
+            href: {
+                pathname: 'industry',
+                query: { tab: UserStatus.Approved, page: 1, pageSize: 50 },
+            },
             badge: {
                 text: data?.approved,
                 loading: isLoading,
@@ -69,7 +87,10 @@ const IndustryList: NextPageWithLayout = () => {
         },
         {
             label: 'Rejected',
-            href: { pathname: 'industry', query: { tab: UserStatus.Rejected } },
+            href: {
+                pathname: 'industry',
+                query: { tab: UserStatus.Rejected, page: 1, pageSize: 50 },
+            },
             badge: {
                 text: data?.rejected,
                 loading: isLoading,
@@ -78,7 +99,10 @@ const IndustryList: NextPageWithLayout = () => {
         },
         {
             label: 'Blocked',
-            href: { pathname: 'industry', query: { tab: UserStatus.Blocked } },
+            href: {
+                pathname: 'industry',
+                query: { tab: UserStatus.Blocked, page: 1, pageSize: 50 },
+            },
             badge: {
                 text: data?.blocked,
                 loading: isLoading,
@@ -87,7 +111,10 @@ const IndustryList: NextPageWithLayout = () => {
         },
         {
             label: 'Archived',
-            href: { pathname: 'industry', query: { tab: UserStatus.Archived } },
+            href: {
+                pathname: 'industry',
+                query: { tab: UserStatus.Archived, page: 1, pageSize: 50 },
+            },
             badge: {
                 text: data?.archived,
                 loading: isLoading,
@@ -107,15 +134,23 @@ const IndustryList: NextPageWithLayout = () => {
                     initialValues={{}}
                     setFilterAction={setFilterAction}
                     setFilter={setFilter}
+                    filterKeys={filterKeys}
                 />
             </div>
-            {filteredDataLength && filteredIndustries.isSuccess ? (
-                <FilteredIndustry
-                    setPage={setPage}
-                    itemPerPage={itemPerPage}
-                    industry={filteredIndustries}
-                    setItemPerPage={setItemPerPage}
-                />
+            {filteredIndustries.isError && <TechnicalError />}
+            {filteredDataLength ? (
+                filteredIndustries.isLoading ? (
+                    <LoadingAnimation />
+                ) : (
+                    filteredIndustries.isSuccess && (
+                        <FilteredIndustry
+                            setPage={setPage}
+                            itemPerPage={itemPerPage}
+                            industry={filteredIndustries}
+                            setItemPerPage={setItemPerPage}
+                        />
+                    )
+                )
             ) : null}
             {!filteredDataLength && (
                 <TabNavigation tabs={tabs}>

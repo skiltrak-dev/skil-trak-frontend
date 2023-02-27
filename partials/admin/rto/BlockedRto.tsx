@@ -15,8 +15,8 @@ import { useRouter } from 'next/router'
 import { FaEdit, FaEye, FaFileExport, FaTrash } from 'react-icons/fa'
 
 import { AdminApi, commonApi } from '@queries'
-import { Rto } from '@types'
-import { ReactElement, useState } from 'react'
+import { Rto, UserStatus } from '@types'
+import { ReactElement, useEffect, useState } from 'react'
 import { CgUnblock } from 'react-icons/cg'
 import { RtoCellInfo, SectorCell } from './components'
 import { DeleteModal, UnblockModal } from './modals'
@@ -28,12 +28,17 @@ export const BlockedRto = () => {
     const [itemPerPage, setItemPerPage] = useState(50)
     const [page, setPage] = useState(1)
 
+    useEffect(() => {
+        setPage(Number(router.query.page))
+        setItemPerPage(Number(router.query.pageSize))
+    }, [router])
+
     const { isLoading, data, isError } = AdminApi.Rtos.useListQuery({
-        search: `status:blocked`,
+        search: `status:${UserStatus.Blocked}`,
         skip: itemPerPage * page - itemPerPage,
         limit: itemPerPage,
     })
-    const [bulkAction, resultBulkAction] = commonApi.useBulkStatusMutation();
+    const [bulkAction, resultBulkAction] = commonApi.useBulkStatusMutation()
     const onModalCancelClicked = () => {
         setModal(null)
     }
@@ -143,10 +148,14 @@ export const BlockedRto = () => {
         ),
         common: (ids: number[]) => (
             <div className="flex gap-x-2">
-                <ActionButton onClick={() => {
-                    const arrayOfIds = ids.map((id: any) => id?.user.id)
-                    bulkAction({ ids: arrayOfIds, status: 'approved' })
-                }} Icon={CgUnblock} variant="warning">
+                <ActionButton
+                    onClick={() => {
+                        const arrayOfIds = ids.map((id: any) => id?.user.id)
+                        bulkAction({ ids: arrayOfIds, status: 'approved' })
+                    }}
+                    Icon={CgUnblock}
+                    variant="warning"
+                >
                     Unblock
                 </ActionButton>
                 <ActionButton Icon={FaTrash} variant="error">

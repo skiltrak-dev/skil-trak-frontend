@@ -208,7 +208,7 @@ const Detail: NextPageWithLayout = () => {
         <>
             {industry.isError && <TechnicalError />}
             {industry.isLoading ? (
-                <LoadingAnimation height={'60vh'} />
+                <LoadingAnimation height={'h-[70vh]'} />
             ) : industry.data ? (
                 <div className="p-6 flex flex-col gap-y-4">
                     {modal && modal}

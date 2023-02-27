@@ -7,6 +7,7 @@ import {
     TabProps,
     Card,
     LoadingAnimation,
+    TechnicalError,
 } from '@components'
 import { useContextBar, useNavbar } from '@hooks'
 import { AdminLayout } from '@layouts'
@@ -20,16 +21,35 @@ import {
 } from '@partials/admin/student'
 import { AdminApi } from '@queries'
 import { NextPageWithLayout } from '@types'
-import { checkFilteredDataLength } from '@utils'
+import { checkFilteredDataLength, getFilterQuery } from '@utils'
+import { useRouter } from 'next/router'
+
+const filterKeys = [
+    'name',
+    'email',
+    'phone',
+    'studentId',
+    'status',
+    'rtoId',
+    'industryId',
+    'courseId',
+]
 
 const RtoList: NextPageWithLayout = () => {
     const navBar = useNavbar()
     const contextBar = useContextBar()
 
+    const router = useRouter()
+
     const [filterAction, setFilterAction] = useState(null)
     const [filter, setFilter] = useState({})
     const [page, setPage] = useState(1)
     const [itemPerPage, setItemPerPage] = useState(50)
+
+    useEffect(() => {
+        const query = getFilterQuery({ router, filterKeys })
+        setFilter(query)
+    }, [router])
 
     const { isLoading, data } = AdminApi.Students.useCountQuery()
     const filteredStudents = AdminApi.Students.useListQuery({
@@ -41,18 +61,6 @@ const RtoList: NextPageWithLayout = () => {
         skip: itemPerPage * page - itemPerPage,
         limit: itemPerPage,
     })
-    // const filteredStudents = AdminApi.Students.useFilteredStudents(
-    //     {
-    //         search: `${JSON.stringify(filter)
-    //             .replaceAll('{', '')
-    //             .replaceAll('}', '')
-    //             .replaceAll('"', '')
-    //             .trim()}`,
-    //         skip: itemPerPage * page - itemPerPage,
-    //         limit: itemPerPage,
-    //     },
-    //     { skip: !Object.keys(filter).length }
-    // )
 
     useEffect(() => {
         navBar.setTitle('Students')
@@ -63,7 +71,10 @@ const RtoList: NextPageWithLayout = () => {
     const tabs: TabProps[] = [
         {
             label: 'Pending',
-            href: { pathname: 'student', query: { tab: 'pending' } },
+            href: {
+                pathname: 'student',
+                query: { tab: 'pending', page: 1, pageSize: 50 },
+            },
             badge: {
                 text: data?.pending,
                 loading: isLoading,
@@ -72,7 +83,10 @@ const RtoList: NextPageWithLayout = () => {
         },
         {
             label: 'Active',
-            href: { pathname: 'student', query: { tab: 'active' } },
+            href: {
+                pathname: 'student',
+                query: { tab: 'active', page: 1, pageSize: 50 },
+            },
             badge: {
                 text: data?.approved,
                 loading: isLoading,
@@ -81,7 +95,10 @@ const RtoList: NextPageWithLayout = () => {
         },
         {
             label: 'Rejected',
-            href: { pathname: 'student', query: { tab: 'rejected' } },
+            href: {
+                pathname: 'student',
+                query: { tab: 'rejected', page: 1, pageSize: 50 },
+            },
             badge: {
                 text: data?.rejected,
                 loading: isLoading,
@@ -90,7 +107,10 @@ const RtoList: NextPageWithLayout = () => {
         },
         {
             label: 'Blocked',
-            href: { pathname: 'student', query: { tab: 'blocked' } },
+            href: {
+                pathname: 'student',
+                query: { tab: 'blocked', page: 1, pageSize: 50 },
+            },
             badge: {
                 text: data?.blocked,
                 loading: isLoading,
@@ -99,7 +119,10 @@ const RtoList: NextPageWithLayout = () => {
         },
         {
             label: 'Archived',
-            href: { pathname: 'student', query: { tab: 'archived' } },
+            href: {
+                pathname: 'student',
+                query: { tab: 'archived', page: 1, pageSize: 50 },
+            },
             badge: {
                 text: data?.archived,
                 loading: isLoading,
@@ -115,20 +138,29 @@ const RtoList: NextPageWithLayout = () => {
             <div className="px-4">
                 <div className="flex justify-end mb-2">{filterAction}</div>
                 <Filter
-                    component={StudentFilters}
-                    initialValues={{}}
-                    setFilterAction={setFilterAction}
                     setFilter={setFilter}
+                    initialValues={filter}
+                    filterKeys={filterKeys}
+                    component={StudentFilters}
+                    setFilterAction={setFilterAction}
                 />
             </div>
-            {filteredDataLength && filteredStudents.isSuccess ? (
-                <FilteredStudents
-                    setPage={setPage}
-                    itemPerPage={itemPerPage}
-                    student={filteredStudents}
-                    setItemPerPage={setItemPerPage}
-                />
+            {filteredStudents.isError && <TechnicalError />}
+            {filteredDataLength ? (
+                filteredStudents.isLoading ? (
+                    <LoadingAnimation />
+                ) : (
+                    filteredStudents.isSuccess && (
+                        <FilteredStudents
+                            setPage={setPage}
+                            itemPerPage={itemPerPage}
+                            student={filteredStudents}
+                            setItemPerPage={setItemPerPage}
+                        />
+                    )
+                )
             ) : null}
+
             {!filteredDataLength && (
                 <TabNavigation tabs={tabs}>
                     {({ header, element }: any) => {

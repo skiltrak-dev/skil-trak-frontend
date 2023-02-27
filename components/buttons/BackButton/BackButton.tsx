@@ -6,7 +6,7 @@ import { IoIosArrowRoundBack } from 'react-icons/io'
 
 interface BackButtonProps {
     text?: string
-    link?: string
+    link?: string | null
 }
 
 export const BackButton = ({ text, link }: BackButtonProps) => {

@@ -148,8 +148,6 @@ const HaveWorkplace: NextPageWithLayout = (props: Props) => {
         })
     }
 
-    console.log(workplaceData?.industries)
-
     return (
         <>
             <ShowErrorNotifications result={addWorkplaceResult} />

@@ -2,8 +2,8 @@ import { Typography } from '@components/Typography'
 
 type Props = {
     title: string
-    color: string
-    bgColor: string
+    color: any
+    bgColor: any
 }
 
 export const RecentActivityLinks = ({ title, color, bgColor }: Props) => {

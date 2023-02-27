@@ -1,13 +1,25 @@
 import { InitialAvatar } from '@components'
 import { Industry } from '@types'
+import { queryToUrl } from '@utils'
 import Link from 'next/link'
+import { useRouter } from 'next/router'
 import { FaHandshake } from 'react-icons/fa'
 import { MdEmail, MdPhoneIphone } from 'react-icons/md'
 
 export const IndustryCell = ({ industry }: { industry: Industry }) => {
+    const router = useRouter()
+    const query = queryToUrl(router.query)
     return (
         <Link legacyBehavior href={`industry/${industry?.id}?tab=sectors`}>
-            <a className="flex items-center gap-x-2">
+            <a
+                onClick={() => {
+                    sessionStorage.setItem(
+                        'industry',
+                        `${router.pathname}?${query}`
+                    )
+                }}
+                className="flex items-center gap-x-2"
+            >
                 <div className="shadow-inner-image rounded-full relative">
                     <InitialAvatar
                         name={industry?.user?.name}
