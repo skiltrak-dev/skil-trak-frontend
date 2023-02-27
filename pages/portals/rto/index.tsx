@@ -592,7 +592,7 @@ const RTODashboard: NextPageWithLayout = () => {
                         imageUrl="/images/icons/industry.png"
                         count={count?.data?.workplaceRequest}
                         title={'Workplace Requests'}
-                        link={'portals/rto/industries/workplaces'}
+                        link={'/portals/rto/industries/workplaces'}
                     />
                     <FigureCard
                         imageUrl="/images/icons/job.png"
