@@ -44,22 +44,14 @@ export const RtoProfileOverview = ({ userId, rtoId, rtoDetail }: Props) => {
             count: rtoDetail?.subadmin?.length,
             title: 'RTOs',
             imagUrl: '/images/figure-card/school.png',
+            link: `/portals/sub-admin/users/rtos`,
         },
         {
             count: rtoDetail?.students?.length,
             title: 'Students',
             imagUrl: '/images/figure-card/school.png',
+            link: `/portals/sub-admin/students?tab=all`,
         },
-        // {
-        //     count: 98,
-        //     title: 'Industries',
-        //     imagUrl: '/images/figure-card/school.png',
-        // },
-        // {
-        //     count: 98,
-        //     title: 'Pending Students',
-        //     imageUrl: '/images/figure-card/school.png',
-        // },
     ]
 
     const recentAppointments = [
@@ -89,6 +81,7 @@ export const RtoProfileOverview = ({ userId, rtoId, rtoDetail }: Props) => {
                             imageUrl={data?.imageUrl}
                             count={data.count}
                             title={data.title}
+                            link={data?.link}
                         />
                     ))}
                 </div>

@@ -34,6 +34,7 @@ import { FaEnvelope, FaPhoneSquareAlt } from 'react-icons/fa'
 
 import { Rto } from '@types'
 import { MdEmail, MdPhoneIphone } from 'react-icons/md'
+import { SectorCell } from '@partials/admin/sub-admin'
 
 const RTOs: NextPageWithLayout = () => {
     const { setContent } = useContextBar()
@@ -59,8 +60,8 @@ const RTOs: NextPageWithLayout = () => {
     const tableActionOptions: TableActionOption[] = [
         {
             text: 'View',
-            onClick: (rto: Rto) => {
-                router.push(`/portals/sub-admin/users/rtos/${rto.id}`)
+            onClick: (rto: any) => {
+                router.push(`/portals/sub-admin/users/rtos/${rto.original.id}?tab=overview`)
             },
             Icon: FaEye,
         },
@@ -113,6 +114,7 @@ const RTOs: NextPageWithLayout = () => {
             accessorKey: 'package',
             cell: ({ row }: any) => {
                 // const {package}:any = row.original
+                console.log("data", row.original)
                 return (
                     <div className="flex justify-center">
                         <Typography variant={'muted'} color={'gray'}>
@@ -148,15 +150,20 @@ const RTOs: NextPageWithLayout = () => {
         {
             header: () => 'Courses',
             accessorKey: 'courses',
-            cell: ({ row }: any) => {
-                return (
-                    <div className="flex justify-center">
-                        <Typography variant={'muted'} color="text-blue-400">
-                            View
-                        </Typography>
-                    </div>
-                )
+            cell: (info: any) => {
+                return <SectorCell subAdmin={info.row.original} />
             },
+            // cell: ({ row }: any) => {
+            //     console.log("row", row?.original.courses)
+            //     return (
+            //         <div className="flex justify-center">
+            //             <Typography variant={'muted'} color="text-blue-400">
+            //                 View
+            //             </Typography>
+            //         </div>
+            //     )
+            // },
+
         },
         {
             header: () => 'Address',

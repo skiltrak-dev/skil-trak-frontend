@@ -283,7 +283,7 @@ export const RtoProfileSidebar = ({ loading, data, rto }: any) => {
                                 variant={'small'}
                                 color={'text-gray-500'}
                             >
-                                Eligible Sectors
+                                Eligible Sectors...
                             </Typography>
 
                             {sectorsWithCourses ? (
@@ -313,49 +313,7 @@ export const RtoProfileSidebar = ({ loading, data, rto }: any) => {
                                 <NoData text={'No Sectors Assigned'} />
                             )}
                         </div>
-                        {/* <div className='mt-4'>
-                    <Typography variant={'small'} color={"text-gray-500"}>
-                      Eligible Sectors
-                    </Typography>
-                    <Typography variant={'label'} color={"text-black"}>
-                      Commercial Cookery & Hospitality
-                    </Typography>
-                    <div className='mt-2 flex items-center gap-x-2'>
-                      <div className='flex flex-col items-center'>
-                        <div className='bg-blue-400 p-2 rounded-full'></div>
-                        <div className='bg-blue-400 w-[1px] h-10'></div>
-                        <div className='bg-blue-400 p-2 rounded-full'></div>
-                        <div className='bg-blue-400 w-[1px] h-10'></div>
-                        <div className='bg-blue-400 p-2 rounded-full'></div>
-                      </div>
-                      <div className='flex flex-col gap-y-4'>
-                        <div className=''>
-                          <Typography variant={'small'} color={"text-gray-500"}>
-                            SITHCCC020
-                          </Typography>
-                          <Typography variant={'small'} color={"text-gray-800"}>
-                            Work Effectively As Cook
-                          </Typography>
-                        </div>
-                        <div className=''>
-                          <Typography variant={'small'} color={"text-gray-500"}>
-                            SITHKOP005
-                          </Typography>
-                          <Typography variant={'small'} color={"text-gray-800"}>
-                            Coordinate Cooking Operations
-                          </Typography>
-                        </div>
-                        <div className=''>
-                          <Typography variant={'small'} color={"text-gray-500"}>
-                            SITHIND004
-                          </Typography>
-                          <Typography variant={'small'} color={"text-gray-800"}>
-                            Work Effectively In Hospitality Service
-                          </Typography>
-                        </div>
-                      </div>
-                    </div>
-                  </div> */}
+                        
                     </div>
                 )
             )}
