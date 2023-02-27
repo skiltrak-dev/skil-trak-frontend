@@ -23,7 +23,6 @@ export const CourseCard = ({
     course,
     result,
 }: Props) => {
-    console.log('result', result)
     return (
         <>
             <div

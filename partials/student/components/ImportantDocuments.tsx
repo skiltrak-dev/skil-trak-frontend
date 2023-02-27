@@ -54,7 +54,6 @@ export const ImportantDocuments = ({ sidebar }: { sidebar?: boolean }) => {
         //     file: document,
         //     extension,
         // })
-        console.log('document', document)
 
         if (document) {
             setModal(

@@ -17,7 +17,7 @@ import { FaEdit, FaEye, FaFileExport } from 'react-icons/fa'
 
 import { AdminApi, commonApi } from '@queries'
 import { Industry } from '@types'
-import { ReactElement, useState } from 'react'
+import { ReactElement, useEffect, useState } from 'react'
 import { IndustryCell, SectorCell } from './components'
 import { useChangeStatus } from './hooks'
 import { AcceptModal, RejectModal } from './modals'
@@ -31,6 +31,11 @@ export const PendingIndustry = () => {
 
     const [itemPerPage, setItemPerPage] = useState(50)
     const [page, setPage] = useState(1)
+
+    useEffect(() => {
+        setPage(Number(router.query.page))
+        setItemPerPage(Number(router.query.pageSize))
+    }, [router])
 
     // hooks
     const { passwordModal, onViewPassword } = useActionModal()
@@ -237,7 +242,8 @@ export const PendingIndustry = () => {
                                         <div className="p-6 mb-2 flex justify-between">
                                             {pageSize(
                                                 itemPerPage,
-                                                setItemPerPage
+                                                setItemPerPage,
+                                                data?.data?.length
                                             )}
                                             <div className="flex gap-x-2">
                                                 {quickActions}

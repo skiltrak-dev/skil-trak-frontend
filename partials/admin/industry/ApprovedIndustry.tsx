@@ -16,7 +16,7 @@ import { FaEdit, FaEye, FaFileExport } from 'react-icons/fa'
 import { AdminApi, commonApi } from '@queries'
 import { Industry } from '@types'
 import { useRouter } from 'next/router'
-import { ReactElement, useState } from 'react'
+import { ReactElement, useEffect, useState } from 'react'
 import { MdBlock } from 'react-icons/md'
 import { IndustryCell, SectorCell } from './components'
 import { BlockModal } from './modals'
@@ -33,6 +33,11 @@ export const ApprovedIndustry = () => {
 
     // hooks
     const { passwordModal, onViewPassword } = useActionModal()
+
+    useEffect(() => {
+        setPage(Number(router.query.page))
+        setItemPerPage(Number(router.query.pageSize))
+    }, [router])
 
     const { isLoading, data, isError } = AdminApi.Industries.useListQuery({
         search: `status:approved`,
@@ -202,7 +207,8 @@ export const ApprovedIndustry = () => {
                                         <div className="p-6 mb-2 flex justify-between">
                                             {pageSize(
                                                 itemPerPage,
-                                                setItemPerPage
+                                                setItemPerPage,
+                                                data?.data?.length
                                             )}
                                             <div className="flex gap-x-2">
                                                 {quickActions}

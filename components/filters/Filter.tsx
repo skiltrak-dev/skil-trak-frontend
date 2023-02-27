@@ -1,6 +1,8 @@
 import { Button } from '@components'
 import { Card } from '@components/cards'
+import { setFilterValues } from '@utils'
 import debounce from 'lodash/debounce'
+import { useRouter } from 'next/router'
 import { useCallback, useEffect, useState } from 'react'
 import { FaFilter } from 'react-icons/fa'
 import { IoClose } from 'react-icons/io5'
@@ -11,17 +13,39 @@ interface FilterProps {
     initialValues: any
     setFilterAction: Function
     setFilter: Function
+    filterKeys?: string[] | undefined
 }
 export const Filter = ({
     component,
     initialValues,
     setFilterAction,
     setFilter,
+    filterKeys,
 }: FilterProps) => {
+    const router = useRouter()
+
     const [expanded, setExpanded] = useState(false)
     const [filters, setFilters] = useState(initialValues)
 
+    // on Clear Filter
+    const query = { ...router.query }
+    const queryKeys = Object.keys(router.query)
+    const filteredData = queryKeys.filter((key) => filterKeys?.includes(key))
+    filteredData.forEach((q) => {
+        delete query[q]
+    })
+    const clearFilterUrl = Object.entries(query)
+        .map(([key, value]) => `${key}=${value}`)
+        .join('&')
+
     const Component = component
+
+    useEffect(() => {
+        if (Object.values(initialValues)?.length > 0) {
+            setExpanded(true)
+            setFilters(initialValues)
+        }
+    }, [initialValues])
 
     useEffect(() => {
         setFilterAction(
@@ -48,8 +72,8 @@ export const Filter = ({
     }
 
     const onFilterClear = () => {
-        setFilters(initialValues)
-        setFilter(initialValues)
+        setFilters({})
+        setFilter({})
     }
 
     const onRemoveFilter = (key: string) => {
@@ -60,6 +84,7 @@ export const Filter = ({
         if (expanded) {
             onFilterClear()
             setExpanded(false)
+            router.push(`${router.pathname}?${clearFilterUrl}`)
         } else {
             setExpanded(true)
         }
