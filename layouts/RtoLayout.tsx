@@ -90,7 +90,6 @@ export const RtoLayout = ({ pageTitle, children }: RtoLayoutProps) => {
                         steps={joyride.state.steps}
                         showSkipButton={true}
                         disableScrollParentFix
-                        // hideCloseButton={true}
                         disableOverlayClose={true}
                         hideBackButton={true}
                         locale={{
