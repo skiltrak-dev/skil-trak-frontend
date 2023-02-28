@@ -238,7 +238,10 @@ const RtoDetail: NextPageWithLayout = () => {
                     <div className="flex items-center justify-between">
                         <BackButton
                             text="RTOs"
-                            link="/portals/admin/rto?tab=approved"
+                            link={
+                                sessionStorage.getItem('rto') ||
+                                '/portals/admin/rto?tab=approved&page=1&pageSize=50'
+                            }
                         />
                         {statusBaseActions()}
                     </div>

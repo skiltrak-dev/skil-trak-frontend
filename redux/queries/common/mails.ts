@@ -75,12 +75,28 @@ export const mailsEndpoints = (
     }),
     sendMessage: builder.mutation({
         query: (body) => ({
-            url: `${PREFIX}/email`,
+            url: `${PREFIX}/send`,
             method: 'POST',
             body: body,
         }),
         invalidatesTags: ['Mails'],
     }),
+    sendCustomEmail: builder.mutation({
+        query: (body) => ({
+            url: `${PREFIX}/mail/send`,
+            method: 'POST',
+            body: body,
+        }),
+        invalidatesTags: ['Mails'],
+    }),
+    // sendMessage: builder.mutation({
+    //     query: (body) => ({
+    //         url: `${PREFIX}/email`,
+    //         method: 'POST',
+    //         body: body,
+    //     }),
+    //     invalidatesTags: ['Mails'],
+    // }),
     getAllMails: builder.query<any, void>({
         query: () => `${PREFIX}/list/all`,
         providesTags: ['Mails'],
@@ -100,8 +116,14 @@ export const mailsEndpoints = (
         }),
         invalidatesTags: ['Mails'],
     }),
-    getAllConversations: builder.query<any, void>({
-        query: () => `${PREFIX}/conversations/list`,
+    getAllConversations: builder.query<
+        any,
+        { status?: string | undefined; skip: number; limit: number }
+    >({
+        query: (params) => ({
+            url: `${PREFIX}/conversations/list`,
+            params,
+        }),
         providesTags: ['Mails'],
     }),
     getSingleChat: builder.query<any, any>({
