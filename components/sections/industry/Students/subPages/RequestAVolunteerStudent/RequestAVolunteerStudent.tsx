@@ -54,7 +54,7 @@ export const RequestAVolunteerStudent = () => {
                 </Card>
             ) : (
                 <>
-                    <BackButton text={'Back To Dashboard'} />
+                    <BackButton link={'/portals/industry/students'} text={'Back To Dashboard'} />
 
                     {/* Data */}
                     <DocumentView title={'Request A Volunteer Student'}>
