@@ -1,23 +1,79 @@
+import { useEffect, useState } from 'react'
+
 import {
     EmptyData,
     InitialAvatar,
     LoadingAnimation,
     Mail,
+    NoData,
     TechnicalError,
     Typography,
 } from '@components'
+
 import { CommonApi } from '@queries'
 import moment from 'moment'
-import React, { useState } from 'react'
-
+import InfiniteScroll from 'react-infinite-scroller'
+import { PulseLoader } from 'react-spinners'
 type Props = {
     selectedMessage: any
 }
 
 export const MailDetail = ({ selectedMessage }: Props) => {
-    const message = CommonApi.Messages.useSingleChat(selectedMessage?.id, {
-        skip: !selectedMessage?.id,
-    })
+    const [itemPerPage, setItemPerPage] = useState(20)
+    const [page, setPage] = useState(1)
+    const [hasNext, setHasNext] = useState(false)
+
+    const [mailDetail, setMailDetail] = useState<any>([])
+
+    const message = CommonApi.Messages.useSingleChat(
+        {
+            id: selectedMessage?.id,
+            skip: itemPerPage * page - itemPerPage,
+            limit: itemPerPage,
+        },
+        {
+            skip: !selectedMessage?.id,
+        }
+    )
+
+    useEffect(() => {
+        if (selectedMessage) {
+            setHasNext(true)
+        }
+    }, [selectedMessage])
+
+    useEffect(() => {
+        if (message.data?.pagination && message.isSuccess) {
+            setHasNext(message.data?.pagination?.hasNext)
+        }
+        if (message?.isError) {
+            setHasNext(false)
+        }
+    }, [message])
+
+    useEffect(() => {
+        if (
+            !message?.isFetching &&
+            !message?.isLoading &&
+            message?.isSuccess &&
+            message?.data?.data &&
+            message?.data?.data?.length > 0
+        ) {
+            console.log('Inner', message?.data?.data)
+            setMailDetail([...mailDetail, ...message?.data?.data])
+        }
+    }, [message])
+
+    const fetchMoreData = () => {
+        setTimeout(() => {
+            setPage(
+                mailDetail?.length > 0
+                    ? Math.floor(mailDetail?.length / itemPerPage) + 1
+                    : 1
+            )
+        }, 1500)
+        console.log('data', 'AAAA')
+    }
 
     return (
         <div className="w-full">
@@ -43,50 +99,60 @@ export const MailDetail = ({ selectedMessage }: Props) => {
             )}
             <div className="h-screen overflow-y-scroll remove-scrollbar p-4">
                 <div className={`w-full bg-gray-50 rounded-lg p-2`}>
-                    {message?.isError && <TechnicalError />}
-                    <div className={`flex flex-col gap-y-2.5 h-full `}>
-                        {message?.isLoading || message?.isFetching ? (
-                            <div className="flex justify-center items-center h-full">
-                                <LoadingAnimation />
+                    <InfiniteScroll
+                        pageStart={0}
+                        loadMore={fetchMoreData}
+                        hasMore={hasNext}
+                        useWindow={false}
+                        loader={
+                            <div className="py-6 flex items-center justify-center">
+                                <PulseLoader size={10} />
                             </div>
-                        ) : !message?.isError && message?.data?.length > 0 ? (
-                            message?.data?.map(
-                                (message: any, i: number) =>
-                                    message && (
-                                        <Mail
-                                            key={i}
-                                            sender={
-                                                message?.sender?.role ===
-                                                'admin'
-                                            }
-                                            message={message}
-                                            index={i}
-                                        />
-                                    )
-                            )
-                        ) : (
-                            !message?.isError &&
-                            (selectedMessage ? (
-                                <EmptyData
-                                    imageUrl="/images/icons/common/mails.png"
-                                    title={'No Mails'}
-                                    description={
-                                        'You have not sent/received any mail yet'
+                        }
+                    >
+                        <div className={`flex flex-col gap-y-2.5 h-full `}>
+                            {mailDetail && mailDetail?.length > 0
+                                ? mailDetail?.map((mail: any, i: number) => (
+                                      <Mail
+                                          key={mail?.id}
+                                          sender={
+                                              mail?.sender?.role === 'admin'
+                                          }
+                                          message={mail}
+                                          index={i}
+                                      />
+                                  ))
+                                : !message?.isError &&
+                                  !hasNext &&
+                                  (selectedMessage ? (
+                                      <EmptyData
+                                          imageUrl="/images/icons/common/mails.png"
+                                          title={'No Mails'}
+                                          description={
+                                              'You have not sent/received any mail yet'
+                                          }
+                                          height={'40vh'}
+                                      />
+                                  ) : (
+                                      <EmptyData
+                                          imageUrl="/images/icons/common/mails.png"
+                                          title={'No Mails Selected'}
+                                          description={
+                                              'You did not select any mail yet'
+                                          }
+                                          height={'40vh'}
+                                      />
+                                  ))}
+
+                            {message?.isError && (
+                                <NoData
+                                    text={
+                                        'There is some network issue,Data cant load, try to refresh the browser'
                                     }
-                                    height={'40vh'}
                                 />
-                            ) : (
-                                <EmptyData
-                                    imageUrl="/images/icons/common/mails.png"
-                                    title={'No Mails Selected'}
-                                    description={
-                                        'You did not select any mail yet'
-                                    }
-                                    height={'40vh'}
-                                />
-                            ))
-                        )}
-                    </div>
+                            )}
+                        </div>
+                    </InfiniteScroll>
                 </div>
             </div>
         </div>

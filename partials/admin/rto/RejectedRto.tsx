@@ -169,7 +169,7 @@ export const RejectedRto = () => {
 
                 <Filter
                     component={RtoFilters}
-                    initialValues={{ name: '', email: '', rtoCode: '' }}
+                    initialValues={filter}
                     setFilterAction={setFilterAction}
                     setFilter={setFilter}
                 />

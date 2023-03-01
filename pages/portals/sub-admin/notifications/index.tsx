@@ -29,34 +29,34 @@ const SubAdminNotifications: NextPageWithLayout = () => {
                 />
             ),
         },
-        {
-            label: 'Unread',
-            href: { pathname: 'notifications', query: { tab: 'unread-mails' } },
-            // badge: {
-            //     text: data?.length,
-            //     loading: isLoading,
-            // },
-            element: (
-                <UnReadMail
-                    selectedMessage={selectedMessage}
-                    setSelectedMessage={setSelectedMessage}
-                />
-            ),
-        },
-        {
-            label: 'Read',
-            href: { pathname: 'notifications', query: { tab: 'read-mails' } },
-            // badge: {
-            //     text: data?.length,
-            //     loading: isLoading,
-            // },
-            element: (
-                <ReadMail
-                    selectedMessage={selectedMessage}
-                    setSelectedMessage={setSelectedMessage}
-                />
-            ),
-        },
+        // {
+        //     label: 'Unread',
+        //     href: { pathname: 'notifications', query: { tab: 'unread-mails' } },
+        //     // badge: {
+        //     //     text: data?.length,
+        //     //     loading: isLoading,
+        //     // },
+        //     element: (
+        //         <UnReadMail
+        //             selectedMessage={selectedMessage}
+        //             setSelectedMessage={setSelectedMessage}
+        //         />
+        //     ),
+        // },
+        // {
+        //     label: 'Read',
+        //     href: { pathname: 'notifications', query: { tab: 'read-mails' } },
+        //     // badge: {
+        //     //     text: data?.length,
+        //     //     loading: isLoading,
+        //     // },
+        //     element: (
+        //         <ReadMail
+        //             selectedMessage={selectedMessage}
+        //             setSelectedMessage={setSelectedMessage}
+        //         />
+        //     ),
+        // },
     ]
 
     return (

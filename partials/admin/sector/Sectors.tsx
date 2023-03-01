@@ -21,6 +21,9 @@ import { Sector } from '@types'
 import { useRouter } from 'next/router'
 import { ReactElement, useEffect, useState } from 'react'
 import { DeleteModal } from './modals'
+import { getFilterQuery } from '@utils'
+
+const filterKeys = ['code', 'name']
 
 export const Sectors = () => {
     const router = useRouter()
@@ -36,6 +39,12 @@ export const Sectors = () => {
     const [itemPerPage, setItemPerPage] = useState(50)
     const [page, setPage] = useState(1)
     const [filter, setFilter] = useState({})
+
+    useEffect(() => {
+        const query = getFilterQuery({ router, filterKeys })
+        setFilter(query)
+    }, [router])
+
     const { isLoading, data, isError } = AdminApi.Sectors.useListQuery({
         search: `${JSON.stringify(filter)
             .replaceAll('{', '')
@@ -204,9 +213,10 @@ export const Sectors = () => {
 
                 <Filter
                     component={SectorFilters}
-                    initialValues={{ name: '', email: '', rtoCode: '' }}
+                    initialValues={filter}
                     setFilterAction={setFilterAction}
                     setFilter={setFilter}
+                    filterKeys={filterKeys}
                 />
 
                 <Card noPadding>

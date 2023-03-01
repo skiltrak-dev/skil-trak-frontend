@@ -137,7 +137,7 @@ const Students: NextPageWithLayout = (props: Props) => {
             <div className="py-4">
                 <Filter
                     component={SubAdminStudentFilters}
-                    initialValues={{}}
+                    initialValues={filter}
                     setFilterAction={setFilterAction}
                     setFilter={setFilter}
                 />

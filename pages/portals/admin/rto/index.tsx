@@ -126,7 +126,7 @@ const RtoList: NextPageWithLayout = () => {
                 <div className="flex justify-end mb-2">{filterAction}</div>
                 <Filter
                     component={RtoFilters}
-                    initialValues={{}}
+                    initialValues={filter}
                     setFilterAction={setFilterAction}
                     setFilter={setFilter}
                 />

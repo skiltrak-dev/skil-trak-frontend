@@ -126,8 +126,14 @@ export const mailsEndpoints = (
         }),
         providesTags: ['Mails'],
     }),
-    getSingleChat: builder.query<any, any>({
-        query: (id: any) => `${PREFIX}/conversation/view/${id}`,
+    getSingleChat: builder.query<
+        any,
+        { id: number; limit: number; skip: number }
+    >({
+        query: ({ id, ...params }: any) => ({
+            url: `${PREFIX}/conversation/view/${id}`,
+            params,
+        }),
         providesTags: ['Mails'],
     }),
 
