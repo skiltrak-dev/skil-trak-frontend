@@ -114,7 +114,6 @@ const RTOs: NextPageWithLayout = () => {
             accessorKey: 'package',
             cell: ({ row }: any) => {
                 // const {package}:any = row.original
-                console.log("data", row.original)
                 return (
                     <div className="flex justify-center">
                         <Typography variant={'muted'} color={'gray'}>
@@ -154,7 +153,6 @@ const RTOs: NextPageWithLayout = () => {
                 return <SectorCell subAdmin={info.row.original} />
             },
             // cell: ({ row }: any) => {
-            //     console.log("row", row?.original.courses)
             //     return (
             //         <div className="flex justify-center">
             //             <Typography variant={'muted'} color="text-blue-400">

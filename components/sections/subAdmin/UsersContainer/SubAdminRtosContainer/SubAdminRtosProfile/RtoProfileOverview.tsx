@@ -40,12 +40,12 @@ export const RtoProfileOverview = ({ userId, rtoId, rtoDetail }: Props) => {
     const rtoRecentAppointment = useGetSubAdminRtoAppointmentsQuery(rtoId)
 
     const FigureCardData = [
-        {
-            count: rtoDetail?.subadmin?.length,
-            title: 'RTOs',
-            imagUrl: '/images/figure-card/school.png',
-            link: `/portals/sub-admin/users/rtos`,
-        },
+        // {
+        //     count: rtoDetail?.subadmin?.length,
+        //     title: 'Subadmin',
+        //     imagUrl: '/images/figure-card/school.png',
+        //     link: `/portals/sub-admin/users/rtos`,
+        // },
         {
             count: rtoDetail?.students?.length,
             title: 'Students',

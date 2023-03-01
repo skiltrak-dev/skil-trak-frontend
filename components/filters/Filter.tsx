@@ -28,11 +28,11 @@ export const Filter = ({
     const [filters, setFilters] = useState(initialValues)
 
     // on Clear Filter
-    const query = { ...router.query }
+    const query = { ...router.query, page: 1, pageSize: 50 }
     const queryKeys = Object.keys(router.query)
     const filteredData = queryKeys.filter((key) => filterKeys?.includes(key))
     filteredData.forEach((q) => {
-        delete query[q]
+        delete query[q as keyof typeof query]
     })
     const clearFilterUrl = Object.entries(query)
         .map(([key, value]) => `${key}=${value}`)

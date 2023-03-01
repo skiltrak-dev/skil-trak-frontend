@@ -2,11 +2,14 @@ import { Card } from '@components/cards'
 import { Typography } from '@components/Typography'
 import { RecentActivityLinks } from '../../RecentActivityLinks'
 import { CommonApi } from '@queries'
+import { LoadingAnimation } from '@components/LoadingAnimation'
+import { ShowErrorNotifications } from '@components/ShowErrorNotifications'
+import { NoData, TechnicalError } from '@components/ActionAnimations'
 type Props = {}
 
 export const AppointmentCard = (props: Props) => {
-    const { data } = CommonApi.RecentActivities.useRecentActivities()
-    
+    const { data, isError, isLoading } = CommonApi.RecentActivities.useRecentActivities()
+
     const recentActivityLinks = [
         {
             title: 'Student Allocated',
@@ -130,11 +133,13 @@ export const AppointmentCard = (props: Props) => {
                 </div>
                 <div className="flex gap-x-2">
                     <div className="flex flex-col">
-                        {data?.map((item: any, index: any) => (
+                        {/* {isError && <TechnicalError />} */}
+                        {isLoading && <LoadingAnimation />}
+                        {data?.length > 0 ? (data?.map((item: any, index: any) => (
                             <div key={item?.id} className="flex gap-x-2">
                                 <div className="flex items-center flex-col">
                                     <div className="bg-neutral-300 p-1.5 rounded-full"></div>
-                                    <div className="bg-neutral-300 h-4 w-[1px]"></div>
+                                    <div className={`${index === data?.length - 1 && "hidden"} bg-neutral-300 h-5 w-[1px]`}></div>
                                 </div>
 
                                 <RecentActivityLinks
@@ -143,7 +148,7 @@ export const AppointmentCard = (props: Props) => {
                                     bgColor={bgColor[index]}
                                 />
                                 <div className="flex flex-col">
-                                    <div className={`${index === 0 && 'py-0'} py-1.5`}>
+                                    <div className={`pb-1`}>
                                         <Typography
                                             key={index}
                                             variant={'muted'}
@@ -155,23 +160,8 @@ export const AppointmentCard = (props: Props) => {
                                 </div>
                             </div>
 
-                        ))}
+                        ))) : (<NoData text={'No Recent Activities were found'} />)}
                     </div>
-                    {/* <div className="flex flex-col">
-                        {data?.map((item: any, index: any) => {
-                            return (
-                                <div className={`${index === 0 && 'py-0'} py-1.5`}>
-                                    <Typography
-                                        key={index}
-                                        variant={'muted'}
-                                        color={'text-gray-500'}
-                                    >
-                                        {item.description}
-                                    </Typography>
-                                </div>
-                            )
-                        })}
-                    </div> */}
                 </div>
             </Card>
         </div>

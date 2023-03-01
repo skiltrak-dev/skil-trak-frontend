@@ -42,10 +42,10 @@ const RTODashboard: NextPageWithLayout = () => {
         const sectors = {}
         courses.forEach((c: any) => {
             if ((sectors as any)[c.sector.name]) {
-                ;(sectors as any)[c.sector.name].push(c)
+                ; (sectors as any)[c.sector.name].push(c)
             } else {
-                ;(sectors as any)[c.sector.name] = []
-                ;(sectors as any)[c.sector.name].push(c)
+                ; (sectors as any)[c.sector.name] = []
+                    ; (sectors as any)[c.sector.name].push(c)
             }
         })
         return sectors
@@ -99,6 +99,12 @@ const RTODashboard: NextPageWithLayout = () => {
                             run: false,
                         }))
                         router.push('/portals/rto/students?tab=active')
+                        joyride.setState({
+                            ...joyride.state,
+                            run: false,
+                            stepIndex: 0,
+                            tourActive: false,
+                        })
                     } else if (action === 'reset' || lifecycle === 'complete') {
                         joyride.setState({
                             ...joyride.state,
@@ -550,6 +556,12 @@ const RTODashboard: NextPageWithLayout = () => {
                             run: false,
                         }))
                         router.push('/portals/rto/my-profile')
+                        joyride.setState({
+                            ...joyride.state,
+                            run: false,
+                            stepIndex: 0,
+                            tourActive: false,
+                        })
                     }
                 }
             },

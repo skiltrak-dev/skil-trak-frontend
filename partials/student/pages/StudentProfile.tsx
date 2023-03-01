@@ -137,7 +137,7 @@ export const StudentProfile = ({ noTitle }: { noTitle?: boolean }) => {
             case 'approved':
                 return (
                     <div className="flex items-end gap-x-2">
-                        <AddWorkplace id={data?.id} />
+                        {role === 'subadmin' && <AddWorkplace id={data?.id} />}
                         <Button
                             text="Book Appointment"
                             variant="info"
