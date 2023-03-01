@@ -10,7 +10,6 @@ export const ProgressStep = ({ status }: Props) => {
         []
     )
 
-
     // src={`/images/icons/placement-progress/checklist.png`}
     const progressStep = [
         {
@@ -117,7 +116,9 @@ export const ProgressStep = ({ status }: Props) => {
                                             ? 'border-orange-400'
                                             : 'border-gray-500'
                                     } w-full h-[1px] border border-dashed flex-shrink mt-4`}
-                                />
+                                >
+                                    <div className="w-3" />
+                                </div>
                             )}
                         </React.Fragment>
                     ))}
