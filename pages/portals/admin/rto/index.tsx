@@ -7,6 +7,7 @@ import {
     TabNavigation,
     TabProps,
     RtoFilters,
+    TechnicalError,
 } from '@components'
 import { useNavbar } from '@hooks'
 import { AdminLayout } from '@layouts'
@@ -131,6 +132,7 @@ const RtoList: NextPageWithLayout = () => {
                     setFilter={setFilter}
                 />
             </div>
+            {filteredDataLength && filteredRtos.isError && <TechnicalError />}
             {filteredDataLength && filteredRtos.isSuccess ? (
                 <FilteredRto
                     setPage={setPage}

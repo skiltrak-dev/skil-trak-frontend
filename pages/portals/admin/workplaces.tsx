@@ -25,6 +25,7 @@ import {
     CancelledRequests,
     UnAssignedRequest,
 } from '@partials'
+import { checkFilteredDataLength } from '@utils'
 
 type Props = {}
 
@@ -95,6 +96,8 @@ const Workplace: NextPageWithLayout = (props: Props) => {
         },
     ]
 
+    const filteredDataLength = checkFilteredDataLength(filter)
+
     return (
         <div className="p-3">
             <div>
@@ -106,13 +109,16 @@ const Workplace: NextPageWithLayout = (props: Props) => {
                     setFilter={setFilter}
                 />
             </div>
+            {filteredDataLength && filteredWorkplaces.isError && (
+                <TechnicalError />
+            )}
             {filteredWorkplaces.isLoading || filteredWorkplaces.isFetching ? (
                 <div className="mt-5">
                     <Card>
                         <LoadingAnimation />
                     </Card>
                 </div>
-            ) : Object.keys(filter).length && filteredWorkplaces.isSuccess ? (
+            ) : filteredDataLength && filteredWorkplaces.isSuccess ? (
                 <AdminFilteredWorkplace
                     setPage={setPage}
                     setItemPerPage={setItemPerPage}
@@ -120,16 +126,18 @@ const Workplace: NextPageWithLayout = (props: Props) => {
                     itemPerPage={itemPerPage}
                 />
             ) : (
-                <TabNavigation tabs={tabs}>
-                    {({ header, element }: any) => {
-                        return (
-                            <div>
-                                <div>{header}</div>
-                                <div className="mt-3">{element}</div>
-                            </div>
-                        )
-                    }}
-                </TabNavigation>
+                !filteredDataLength && (
+                    <TabNavigation tabs={tabs}>
+                        {({ header, element }: any) => {
+                            return (
+                                <div>
+                                    <div>{header}</div>
+                                    <div className="mt-3">{element}</div>
+                                </div>
+                            )
+                        }}
+                    </TabNavigation>
+                )
             )}
         </div>
     )
