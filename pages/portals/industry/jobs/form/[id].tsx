@@ -67,7 +67,7 @@ const EditJob: NextPageWithLayout = () => {
         <>
             <ShowErrorNotifications result={updateResult} />
 
-            <BackButton link={'jobs'} text={'Back To Jobs'} />
+            <BackButton link={'/portals/industry/jobs'} text={'Back To Jobs'} />
 
             <Card>
                 {isLoading && (
