@@ -14,7 +14,7 @@ const IndustryConsultation: NextPageWithLayout = () => {
     const router = useRouter()
     return (
         <div className="flex flex-col gap-y-2">
-            <BackButton text={'Back To Dashboard'} />
+            <BackButton link={'/portals/industry/general-information'} text={'Back To Dashboard'} />
 
             {/* Data */}
             <DocumentView

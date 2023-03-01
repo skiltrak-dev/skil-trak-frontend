@@ -170,11 +170,7 @@ const Subscribers: NextPageWithLayout = () => {
                 {data && data?.data.length ? (
                     <Filter
                         component={SubscriberFilters}
-                        initialValues={{
-                            isSubscribed: '',
-                            unsubscribedBy: '',
-                            email: '',
-                        }}
+                        initialValues={filter}
                         setFilterAction={setFilterAction}
                         setFilter={setFilter}
                     />

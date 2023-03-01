@@ -75,7 +75,7 @@ const routes: Route[] = [
     },
     {
         text: 'Sectors',
-        path: getRoutePath('/sectors?tab=sectors'),
+        path: getRoutePath('/sectors?tab=sectors&page=1&pageSize=50'),
         Icon: FaClipboardList,
     },
     {

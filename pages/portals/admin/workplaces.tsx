@@ -101,7 +101,7 @@ const Workplace: NextPageWithLayout = (props: Props) => {
                 <div className="flex justify-end mb-2">{filterAction}</div>
                 <Filter
                     component={AdminWorkplaceFilters}
-                    initialValues={{}}
+                    initialValues={filter}
                     setFilterAction={setFilterAction}
                     setFilter={setFilter}
                 />

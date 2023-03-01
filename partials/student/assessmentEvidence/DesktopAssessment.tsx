@@ -1,9 +1,8 @@
-import { Typography, NoData, LoadingAnimation, CourseCard } from '@components'
+import { CourseCard, LoadingAnimation, NoData, Typography } from '@components'
 import { NotificationMessage } from '@components/NotificationMessage'
 import { AssessmentsEvidence } from '@components/sections/student/AssessmentsContainer'
 import { Actions } from '@components/sections/student/AssessmentsContainer/AssessmentsEvidence/components/Actions'
 import { getCourseResult } from '@utils'
-import React from 'react'
 
 export const DesktopAssessment = ({
     result,
@@ -48,7 +47,7 @@ export const DesktopAssessment = ({
                                 title={course?.title}
                                 result={getCourseResult(
                                     course?.results,
-                                    'Not Assessesd'
+                                    'Not Assessed'
                                 )}
                                 isActive={course?.isActive}
                                 coordinator={course?.subadmin[0]?.user?.name}
@@ -98,15 +97,12 @@ export const DesktopAssessment = ({
                                 assessmentActions()
                             )
                         ) : (
-                            <div className="my-2">
-                                <Typography
-                                    variant="muted"
-                                    color="text-neutral-500"
-                                >
+                            <div className="mt-4">
+                                <p className="text-xs text-orange-500 bg-orange-200 py-2 px-4">
                                     *You will be able to submit assessment
                                     request after you upload at least one
                                     attachment to each folder mentioned above.
-                                </Typography>
+                                </p>
                             </div>
                         )}
                     </>

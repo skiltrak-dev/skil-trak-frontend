@@ -221,7 +221,7 @@ const VolunteerRequests: NextPageWithLayout = (props: Props) => {
 
                 <Filter
                     component={AppointmentTypeFilters}
-                    initialValues={{ title: '', appointmentFor: '' }}
+                    initialValues={filter}
                     setFilterAction={setFilterAction}
                     setFilter={setFilter}
                 />

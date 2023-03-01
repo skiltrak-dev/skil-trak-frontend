@@ -165,8 +165,10 @@ export const AdvertisedJobsContainer = () => {
         <div>
             {modal}
             <div className="flex flex-col md:flex-row md:justify-between md:items-center pb-4">
-                <BackButton link={'jobs'} text={'Back To Jobs'} />
+
+                <BackButton link={'/portals/industry/jobs'} text={'Back To Jobs'} />
                 <div id="advertise-new-job" className="flex items-center gap-x-2">
+                
                     {filterActionButton && filterActionButton}
                     <Button
                         variant={'dark'}
@@ -183,7 +185,7 @@ export const AdvertisedJobsContainer = () => {
                 component={JobsFilter}
                 setFilter={setFilter}
                 setFilterAction={setFilterActionButton}
-                initialValues={filterInitialValues}
+                initialValues={filter}
             />
 
             {/* Showing Alert on Any Action */}

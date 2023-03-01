@@ -2,7 +2,7 @@ import { Button, Typography } from '@components'
 import { User } from '@types'
 import { getUserCredentials } from '@utils'
 import moment from 'moment'
-import Image from 'next/image'
+import { useState } from 'react'
 
 type AppointmentCardProps = {
     date?: string
@@ -15,20 +15,18 @@ type AppointmentCardProps = {
     role: string
     appointment: any
     coordinator: User
+    onAppointmentClicked: any
 }
 
 export const UpcomingAppointmentCard = ({
-    date,
-    time,
     totalMinutes,
-    address,
-    name,
-    imageUrl,
     type,
-    role,
     appointment,
     coordinator,
+    onAppointmentClicked,
 }: AppointmentCardProps) => {
+    const [modal, setModal] = useState(null)
+
     const id = getUserCredentials()?.id
     const appointmentWith =
         appointment?.appointmentBy?.id === id
@@ -44,24 +42,27 @@ export const UpcomingAppointmentCard = ({
                 : appointmentUser['role']
         ]
 
-    const checkrole =
+    const appointmentWithUserProfile =
         appointmentUser['role'] === 'subadmin'
             ? appointmentWithUser[0]
             : appointmentWithUser
 
-
     return (
         <>
-            <div className="w-full bg-gradient-to-r from-[#3883F3] to-[#5D1BE0] rounded-2xl p-4">
+            {modal && modal}
+            <div
+                className="w-full bg-gradient-to-r from-[#3883F3] to-[#5D1BE0] rounded-2xl p-4"
+                onClick={() => onAppointmentClicked(appointment)}
+            >
                 <div className="flex justify-between gap-x-4">
                     <div className="">
-                        <Typography variant={'label'} color={'text-[#BCDEFF]'}>
+                        <Typography variant={'label'} color={'text-blue-100'}>
                             {moment(appointment?.date).format(
                                 'dddd, Do MMMM, YYYY'
                             )}
                         </Typography>
                         <div className="flex gap-x-2 items-center">
-                            <Typography variant={'body'} color={'text-white'}>
+                            <p className="text-xl font-bold text-white">
                                 {moment(
                                     appointment?.startTime,
                                     'hh:mm:ss'
@@ -71,20 +72,23 @@ export const UpcomingAppointmentCard = ({
                                     appointment?.endTime,
                                     'hh:mm:ss'
                                 ).format('hh:mm a')}
-                            </Typography>
+                            </p>
                             <Typography
                                 variant={'muted'}
-                                color={'text-[#BCDEFF]'}
+                                color={'text-blue-300'}
                             >
-                                {totalMinutes} Minutes
+                                ~{totalMinutes} Minutes
                             </Typography>
                         </div>
-                        {checkrole && (
+                        {appointmentWithUserProfile && (
                             <Typography
                                 variant={'label'}
-                                color={'text-[#BCDEFF]'}
+                                color={'text-blue-200'}
                             >
-                                {`${checkrole?.addressLine1}, ${checkrole?.addressLine2},`}
+                                {`${
+                                    appointmentWithUserProfile?.addressLine1 ||
+                                    'Address Not Provided'
+                                }`}
                             </Typography>
                         )}
                     </div>

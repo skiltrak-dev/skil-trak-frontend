@@ -1,7 +1,5 @@
 import classNames from 'classnames'
 import { PulseLoader } from 'react-spinners'
-import PuffLoader from 'react-spinners/PuffLoader'
-import { getTheme } from './theme'
 
 const VariantOptions = [
     'success',
@@ -25,6 +23,7 @@ interface ButtonProps {
     simple?: boolean
     rounded?: boolean
     submit?: boolean
+    title?: string
 }
 
 export const ActionButton = ({
@@ -38,6 +37,7 @@ export const ActionButton = ({
     simple,
     rounded,
     submit,
+    title,
 }: ButtonProps) => {
     const classes = classNames({
         'text-xs font-medium uppercase transition-all duration-300 focus:outline-none shadow':
@@ -81,7 +81,7 @@ export const ActionButton = ({
         <button
             disabled={disabled}
             type={submit ? 'submit' : 'button'}
-            className={simple ? simpleClasses : classes}
+            className={`${simple ? simpleClasses : classes} relative group`}
             // onClick={() => {
             //     onClick && onClick()
             // }}
@@ -99,6 +99,11 @@ export const ActionButton = ({
                     </>
                 )}
             </div>
+            {title && (
+                <div className="hidden group-hover:block absolute whitespace-nowrap right-0 z-50 bg-gray-700 mt-4 text-xs text-white px-3 py-1 rounded">
+                    {title}
+                </div>
+            )}
         </button>
     )
 }

@@ -1,16 +1,15 @@
-import { useEffect, useState } from 'react'
-import { Select, TextArea, TextInput } from '@components/inputs'
+import { Select, TextInput } from '@components/inputs'
 import { Typography } from '@components/Typography'
+import { useEffect, useState } from 'react'
 
 import { AppointmentType } from '@partials/appointmentType'
-import Image from 'next/image'
 
 // query
 import {
-    useGetStudentCoursesQuery,
     useGetCoordinatorsForStudentQuery,
+    useGetStudentCoursesQuery,
 } from '@queries'
-import { Button } from '@components/buttons'
+import { Card } from '@components/cards'
 
 type Props = {
     setType: Function
@@ -61,65 +60,80 @@ export const Form = ({
 
     return (
         <div>
-            <AppointmentType setAppointmentTypeId={setType} />
-            <Typography variant="small" color="text-gray-400">
-                Appointment Information
-            </Typography>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-y-2 gap-x-5 mb-5">
-                <Select
-                    name="coordinator"
-                    label="WBT Coordinator"
-                    placeholder="Select Your Choice"
-                    options={coordinatorsOptions}
-                    loading={coordinators.isLoading}
-                    disabled={!coordinatorsOptions || coordinators.isLoading}
-                    onChange={(e: any) => {
-                        setSelectedCoordinator(e)
-                    }}
-                    value={selectedCoordinator}
-                />
-                <Select
-                    name="course"
-                    label="Course(s)"
-                    placeholder="Select Your Choice"
-                    options={coursesOptions}
-                    loading={studentCourses.isLoading}
-                    disabled={studentCourses.isLoading}
-                    onChange={(e: any) => {
-                        setSelectedCourse(e)
-                    }}
-                    onlyValue
-                />
-            </div>
-            <Typography variant={'label'} color={'text-gray-700'}>
-                Workplace Information
-            </Typography>
-            <div className="flex flex-col md:flex-row md:items-center gap-x-5 mt-2">
+            <Card>
+                <AppointmentType setAppointmentTypeId={setType} />
+            </Card>
+
+            <div className="my-2" />
+
+            <Card>
+                <Typography variant={'label'} color={'text-gray-700'}>
+                    Appointment Information
+                </Typography>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-y-2 gap-x-5 mb-5">
+                    <Select
+                        name="coordinator"
+                        label="WBT Coordinator"
+                        placeholder="Select Your Choice"
+                        options={coordinatorsOptions}
+                        loading={coordinators.isLoading}
+                        disabled={
+                            !coordinatorsOptions || coordinators.isLoading
+                        }
+                        onChange={(e: any) => {
+                            setSelectedCoordinator(e)
+                        }}
+                        value={selectedCoordinator}
+                    />
+                    <Select
+                        name="course"
+                        label="Course(s)"
+                        placeholder="Select Your Choice"
+                        options={coursesOptions}
+                        loading={studentCourses.isLoading}
+                        disabled={studentCourses.isLoading}
+                        onChange={(e: any) => {
+                            setSelectedCourse(e)
+                        }}
+                        onlyValue
+                    />
+                </div>
+            </Card>
+
+            <div className="my-2" />
+
+            <Card>
+                <Typography variant={'label'} color={'text-gray-700'}>
+                    Workplace Information
+                </Typography>
+                <div className="flex flex-col md:flex-row md:items-center gap-x-5 mt-2">
+                    <TextInput
+                        name="name"
+                        placeholder="Name"
+                        label="Name"
+                        id="name"
+                    />
+                    <TextInput
+                        name="email"
+                        placeholder="Email"
+                        label="Email"
+                        id="email"
+                    />
+                    <TextInput
+                        name="phone"
+                        placeholder="Phone"
+                        label="Phone"
+                        id="phone"
+                    />
+                </div>
+
                 <TextInput
-                    name="name"
-                    placeholder="Name"
-                    label="Name"
-                    id="name"
+                    name="address"
+                    placeholder="Address"
+                    label="Address"
+                    id="address"
                 />
-                <TextInput
-                    name="email"
-                    placeholder="Email"
-                    label="Email"
-                    id="email"
-                />
-                <TextInput
-                    name="phone"
-                    placeholder="Phone"
-                    label="Phone"
-                    id="phone"
-                />
-            </div>
-            <TextInput
-                name="address"
-                placeholder="Address"
-                label="Address"
-                id="address"
-            />
+            </Card>
         </div>
     )
 }

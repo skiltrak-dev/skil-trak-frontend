@@ -298,7 +298,7 @@ export const MoUContainer = () => {
                 component={MOUFilter}
                 setFilter={setFilter}
                 setFilterAction={setFilterActionButton}
-                initialValues={filterInitialValues}
+                initialValues={filter}
             />
 
             {/* Data */}

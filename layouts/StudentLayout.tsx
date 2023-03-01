@@ -1,17 +1,17 @@
 import {
-    Alert,
     DisplayAlerts,
     PageTitle,
     PageTitleProps,
-    StudentNavbar,
+    StudentNavbar
 } from '@components'
-import { ReactNode, useEffect, useState } from 'react'
-import { UserLayout } from './UserLayout'
 import { useAlert, useJoyRide } from '@hooks'
+import { StudentContextBar } from '@partials/student/components'
+import { UserStatus } from '@types'
 import { AuthUtils, getUserCredentials } from '@utils'
 import { useRouter } from 'next/router'
-import Joyride, { CallBackProps } from 'react-joyride'
-import { UserStatus } from '@types'
+import { ReactNode, useEffect, useState } from 'react'
+import Joyride from 'react-joyride'
+import { UserLayout } from './UserLayout'
 
 interface StudentLayoutProps {
     pageTitle?: PageTitleProps
@@ -70,6 +70,7 @@ export const StudentLayout = ({ pageTitle, children }: StudentLayoutProps) => {
     return (
         <UserLayout>
             <>
+                <StudentContextBar />
                 <div className="px-4 mb-32 md:px-16">
                     <div className="mb-6">
                         <StudentNavbar />

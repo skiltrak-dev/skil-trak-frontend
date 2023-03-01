@@ -29,7 +29,9 @@ export const AssessmentsEvidence = ({
                         </Typography>
                         <Typography variant="muted" color="text-gray-500">
                             Submission #
-                            {result ? result?.totalSubmission + 1 : 1}
+                            {result?.totalSubmission
+                                ? result?.totalSubmission + 1
+                                : 1}
                         </Typography>
                     </div>
                     <div className="bg-white border-r min-h-[400px]">

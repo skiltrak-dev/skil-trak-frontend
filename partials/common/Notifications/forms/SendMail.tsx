@@ -37,8 +37,8 @@ export const SendMail = () => {
                 title: 'Email Sent',
                 description: 'Email Sent Successfully',
             })
-            contextBar.setContent(null)
-            contextBar.hide()
+            // contextBar.setContent(null)
+            // contextBar.hide()
         }
     }, [sendMessageResult])
 

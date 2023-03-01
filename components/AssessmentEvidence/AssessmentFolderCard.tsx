@@ -22,6 +22,23 @@ export const AssessmentFolderCard = ({
         : !isActive
         ? 'bg-red-100'
         : 'bg-blue-100'
+
+    const getStatusBadge = () => {
+        switch (response?.status) {
+            case 'approved':
+                return (
+                    <Badge text={'Approved'} variant="success" shape="pill" />
+                )
+            case 'pending':
+                return <Badge text={'Pending'} variant="warning" shape="pill" />
+            case 'rejected':
+                return <Badge text={'Rejected'} variant="error" shape="pill" />
+            default:
+                return (
+                    <Badge text={'Not Assessed'} variant="muted" shape="pill" />
+                )
+        }
+    }
     return (
         <>
             <div
@@ -43,20 +60,7 @@ export const AssessmentFolderCard = ({
                     </div>
                     <div>
                         <div className={` px-2 `}>
-                            {response && (
-                                <Badge
-                                    text={
-                                        response?.status === 'approved'
-                                            ? 'Approved'
-                                            : response?.status === 'pending'
-                                            ? 'Pending'
-                                            : response?.status === 'rejected'
-                                            ? 'Rejected'
-                                            : 'Not Assessed'
-                                    }
-                                    variant="success"
-                                />
-                            )}
+                            {response && getStatusBadge()}
                             {/* {isActive ? (
                             ) : (
                                 <Badge text="Not Approved" variant="error" />

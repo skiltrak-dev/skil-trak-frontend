@@ -131,7 +131,7 @@ const IndustryList: NextPageWithLayout = () => {
                 <div className="flex justify-end mb-2">{filterAction}</div>
                 <Filter
                     component={IndustryFilters}
-                    initialValues={{}}
+                    initialValues={filter}
                     setFilterAction={setFilterAction}
                     setFilter={setFilter}
                     filterKeys={filterKeys}

@@ -133,7 +133,7 @@ export const FutureCandidatesContainer = () => {
     }
     return (
         <div>
-            <BackButton link={'Back To Students'} />
+            <BackButton link={'/portals/industry/students'} />
             <div className="flex md:gap-x-2 gap-x-4 justify-between items-center py-4">
                 <div>
                     <Typography variant={'title'}>

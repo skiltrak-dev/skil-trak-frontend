@@ -1,24 +1,23 @@
-import { ReactElement, useEffect, useState } from 'react'
-import { useRouter } from 'next/router'
 import moment from 'moment'
+import { useRouter } from 'next/router'
+import { ReactElement, useEffect, useState } from 'react'
 
+import { Button, TextArea, Card } from '@components'
+import { Form, TimeSlots } from '@components/sections'
 import { StudentLayout } from '@layouts'
 import { NextPageWithLayout } from '@types'
-import { Form, TimeSlots } from '@components/sections'
-import { Button, TextArea } from '@components'
-import { useForm, FormProvider } from 'react-hook-form'
+import { FormProvider, useForm } from 'react-hook-form'
 
 // query
 import {
-    useGetStudentTimeSlotesQuery,
-    useCreateAppointmentMutation,
-    useGetWorkplaceIndustriesQuery,
     CommonApi,
     useGetCoordinatorsAvailabilityQuery,
+    useGetWorkplaceIndustriesQuery,
 } from '@queries'
 
 // hooks
 import { useNotification } from '@hooks'
+import { FaExclamationTriangle } from 'react-icons/fa'
 
 type Props = {}
 
@@ -34,7 +33,7 @@ const BookAppointment: NextPageWithLayout = (props: Props) => {
         label: string
         value: number
     } | null>(null)
-    const [selectedDate, setSelectedDate] = useState<Date | null>(null)
+    const [selectedDate, setSelectedDate] = useState<Date | null>(new Date())
     const [selectedTime, setSelectedTime] = useState<any | null>(null)
 
     // query
@@ -118,26 +117,61 @@ const BookAppointment: NextPageWithLayout = (props: Props) => {
                         selectedCoordinator={selectedCoordinator}
                         setSelectedCoordinator={setSelectedCoordinator}
                     />
-                    <TimeSlots
-                        setSelectedDate={setSelectedDate}
-                        selectedDate={selectedDate}
-                        setSelectedTime={setSelectedTime}
-                        selectedTime={selectedTime}
-                        appointmentAvailability={
-                            coordinatorAvailability.data?.availabilities[0]
-                                ?.availability
-                        }
-                        userAvailabilities={studentTimeSlotes?.data}
-                        loading={
-                            studentTimeSlotes?.isLoading ||
-                            studentTimeSlotes?.isFetching
-                        }
-                        bookedAppointment={coordinatorAvailability.data?.booked}
-                    />
 
-                    <div className="mt-5">
-                        <TextArea name={'note'} />
-                    </div>
+                    <div className="my-2" />
+
+                    <Card>
+                        {!selectedCoordinator ? (
+                            <div className="bg-orange-100 text-orange-600 flex gap-x-2 items-center px-4 py-2 rounded-md mb-3">
+                                <span className="bg-orange-600 p-2 text-orange-100 rounded-md">
+                                    <FaExclamationTriangle />
+                                </span>
+                                <p>
+                                    Please select a <em>WBT Coordinator</em> to
+                                    view availabilities
+                                </p>
+                            </div>
+                        ) : (
+                            <div>
+                                <p className="text-sm text-gray-400 mb-2">
+                                    * If you still not able to see
+                                    availabilities try to change{' '}
+                                    <em>Appointment Type</em>
+                                </p>
+                            </div>
+                        )}
+
+                        <TimeSlots
+                            setSelectedDate={setSelectedDate}
+                            selectedDate={selectedDate}
+                            setSelectedTime={setSelectedTime}
+                            selectedTime={selectedTime}
+                            appointmentAvailability={
+                                coordinatorAvailability.data?.availabilities[0]
+                                    ?.availability
+                            }
+                            userAvailabilities={studentTimeSlotes?.data}
+                            loading={
+                                studentTimeSlotes?.isLoading ||
+                                studentTimeSlotes?.isFetching
+                            }
+                            bookedAppointment={
+                                coordinatorAvailability.data?.booked
+                            }
+                        />
+                    </Card>
+
+                    <div className="my-2" />
+
+                    <Card>
+                        <TextArea
+                            name={'note'}
+                            label={'Note'}
+                            placeholder={'Your note for appointment'}
+                        />
+                    </Card>
+
+                    <div className="my-4" />
 
                     <Button
                         submit

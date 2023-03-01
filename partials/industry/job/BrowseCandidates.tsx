@@ -40,7 +40,7 @@ export const BrowseCandidatesContainer = () => {
     // TODO Error in filters
     return (
         <div className="flex flex-col gap-y-4">
-            <BackButton link={'jobs'} text={'Back To Jobs'} />
+            <BackButton link={'/portals/industry/jobs'} text={'Back To Jobs'} />
 
             {/*  */}
             <Card>

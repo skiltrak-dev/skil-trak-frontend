@@ -18,7 +18,7 @@ const PlacementWorkflow: NextPageWithLayout = () => {
 
     return (
         <div>
-            <BackButton text={'Back To Dashboard'} />
+            <BackButton link={'/portals/industry/general-information'} text={'Back To Dashboard'} />
 
             {/* Data */}
             <DocumentView
