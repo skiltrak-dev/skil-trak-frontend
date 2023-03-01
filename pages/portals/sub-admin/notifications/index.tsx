@@ -1,98 +1,122 @@
-import { ReactElement, useState } from 'react'
+import { ReactElement, useEffect } from 'react'
 // Layouts
 import { SubAdminLayout } from '@layouts'
 // Types
-import { Button, TabNavigation, TabProps } from '@components'
-import { useContextBar } from '@hooks'
-import { AllMails, ReadMail, SendMail, UnReadMail } from '@partials/common'
-import { CommonApi } from '@queries'
 import { NextPageWithLayout } from '@types'
+// Animations
+import { Animations } from '@animations'
+// Components
+import {
+    Button,
+    DisplayPrimaryActions,
+    HelpQuestionSet,
+    RtoContextBarData,
+    SidebarCalendar,
+} from '@components'
+import { RecentAppointment } from '@partials/common'
+// Hooks
+import { useContextBar, useJoyRide } from '@hooks'
 
-const SubAdminNotifications: NextPageWithLayout = () => {
-    const [selectedMessage, setSelectedMessage] = useState<any>(null)
-    const contextBar = useContextBar()
 
-    const [seenMessage, resultSeenMessage] = CommonApi.Messages.useIsSeen()
+const Notifications: NextPageWithLayout = () => {
+    const { setContent } = useContextBar()
 
-    const tabs: TabProps[] = [
+    useEffect(() => {
+        setContent(
+            <>
+                <Button variant={'dark'} text={'My Schedule'} />
+                <SidebarCalendar />
+                <RtoContextBarData />
+            </>
+        )
+    }, [setContent])
+
+    // WORKPLACE JOY RIDE - Start
+    // const joyride = useJoyRide()
+
+    // useEffect(() => {
+    //     if (joyride.state.tourActive) {
+    //         setTimeout(() => {
+    //             joyride.setState({ ...joyride.state, run: true, stepIndex: 1 })
+    //         }, 1200)
+    //     }
+    // }, [])
+
+    const PrimaryLinks = [
         {
-            label: 'All',
-            href: { pathname: 'notifications', query: { tab: 'all-mails' } },
+            title: 'Emails',
+            description: 'All Emails',
+            link: 'notifications/e-mails?tab=all-mails',
+            animation: Animations.Student.Appointments.AssessmentTool,
+            // id: 'workplace',
             // badge: {
-            //     text: data?.length,
-            //     loading: isLoading,
+            //     text: statistics?.data?.workplaceRequest,
+            //     loading: statistics.isLoading,
             // },
-            element: (
-                <AllMails
-                    selectedMessage={selectedMessage}
-                    setSelectedMessage={setSelectedMessage}
-                />
-            ),
         },
-        // {
-        //     label: 'Unread',
-        //     href: { pathname: 'notifications', query: { tab: 'unread-mails' } },
-        //     // badge: {
-        //     //     text: data?.length,
-        //     //     loading: isLoading,
-        //     // },
-        //     element: (
-        //         <UnReadMail
-        //             selectedMessage={selectedMessage}
-        //             setSelectedMessage={setSelectedMessage}
-        //         />
-        //     ),
-        // },
-        // {
-        //     label: 'Read',
-        //     href: { pathname: 'notifications', query: { tab: 'read-mails' } },
-        //     // badge: {
-        //     //     text: data?.length,
-        //     //     loading: isLoading,
-        //     // },
-        //     element: (
-        //         <ReadMail
-        //             selectedMessage={selectedMessage}
-        //             setSelectedMessage={setSelectedMessage}
-        //         />
-        //     ),
-        // },
+        {
+            title: 'Discussions',
+            description: 'Discussions',
+            link: 'notifications/e-mails?tab=all-mails',
+            animation: Animations.Student.Appointments.AssessmentEvidence,
+            // id: 'assessment-evidence',
+            // badge: {
+            //     text: statistics?.data?.assessmentEvidence,
+            //     loading: statistics.isLoading,
+            // },
+        },
+        {
+            title: 'All Notifications',
+            description: 'All Notifications',
+            link: 'notifications/all-notifications',
+            animation: Animations.Student.Appointments.AssessmentEvidence,
+            // id: 'assessment-evidence',
+            // badge: {
+            //     text: statistics?.data?.assessmentEvidence,
+            //     loading: statistics.isLoading,
+            // },
+        },
     ]
 
+    // WORKPLACE JOY RIDE - END
     return (
-        <div>
-            <TabNavigation tabs={tabs}>
-                {({ header, element }: any) => {
-                    return (
-                        <div>
-                            <div className="flex justify-between items-center">
-                                <div>{header}</div>
-                                <div>
-                                    <Button
-                                        onClick={() => {
-                                            contextBar.setTitle('Compose Mail')
-                                            contextBar.setContent(<SendMail />)
-                                            contextBar.show()
-                                        }}
-                                        text="Compose"
-                                    />
-                                </div>
-                            </div>
-                            <div className="p-4">{element}</div>
-                        </div>
-                    )
-                }}
-            </TabNavigation>
+        <div className="flex flex-col">
+            <div className="flex gap-x-6">
+                {/* Primary Actions */}
+                <div className="bg-white p-4 rounded-2xl shadow-xl flex-shrink-0">
+                    <DisplayPrimaryActions actions={PrimaryLinks} />
+                </div>
+
+                {/* Special Cards */}
+                <div className="w-full flex flex-col justify-center space-y-2">
+                    {/* <PlacementProgressCard
+                        placementProgress={'Query'}
+                    /> */}
+                    <RecentAppointment
+                        link={'/portals/sub-admin/tasks/appointments'}
+                    />
+                </div>
+            </div>
+
+            {/* <div className="mt-6 flex justify-between">
+                <HelpQuestionSet
+                    title={'What you want to do here?'}
+                    questions={RelatedQuestions}
+                />
+
+                <HelpQuestionSet
+                    title={'What else you want to do?'}
+                    questions={OtherQuestions}
+                />
+            </div> */}
         </div>
     )
 }
 
-SubAdminNotifications.getLayout = (page: ReactElement) => {
+Notifications.getLayout = (page: ReactElement) => {
     return (
-        <SubAdminLayout pageTitle={{ title: 'Notifications' }}>
-            {page}
-        </SubAdminLayout>
+        <SubAdminLayout pageTitle={{ title: 'Tasks' }}>{page}</SubAdminLayout>
     )
 }
 
-export default SubAdminNotifications
+export default Notifications

@@ -13,7 +13,7 @@ const Routes = {
     Users: '/portals/sub-admin/users',
     Tasks: '/portals/sub-admin/tasks',
     ESignature: '/portals/sub-admin/e-signature',
-    Notification: '/portals/sub-admin/notifications?tab=all-mails',
+    Notification: '/portals/sub-admin/notifications',
     Settings: '/portals/sub-admin/setting',
 }
 export const SubAdminNavbar = () => {

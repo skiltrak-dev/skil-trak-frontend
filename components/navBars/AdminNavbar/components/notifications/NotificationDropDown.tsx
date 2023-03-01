@@ -2,6 +2,7 @@ import { Typography } from '@components'
 import { NotificationItem } from './NotificationItem'
 import { CommonApi } from '@queries'
 import { useRouter } from 'next/router'
+import Link from 'next/link'
 
 
 interface NotificationDropDown {
@@ -27,9 +28,11 @@ export const NotificationDropDown = ({
         >
             <div className="py-2 px-4 border-b flex justify-between items-center">
                 <Typography variant="label">Your Messages</Typography>
-                <div className="text-sm text-primary font-semibold cursor-pointer">
-                    View All
-                </div>
+                <Link legacyBehavior href="/portals/sub-admin/notifications/all-notifications">
+                    <a className="text-sm text-primary font-semibold cursor-pointer">
+                        View All
+                    </a>
+                </Link>
             </div>
             {data?.map((notification: any) => (
                 <NotificationItem
