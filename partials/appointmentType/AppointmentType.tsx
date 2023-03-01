@@ -1,11 +1,11 @@
-import { useState } from 'react'
 import { Typography } from '@components/Typography'
+import { useEffect, useState } from 'react'
 import { AppointmentTypeCard } from './AppointmentTypeCard'
 
 // query
-import { useGetAppointmentsTypesQuery } from '@queries'
-import { LoadingAnimation } from '@components/LoadingAnimation'
 import { NoData } from '@components'
+import { LoadingAnimation } from '@components/LoadingAnimation'
+import { useGetAppointmentsTypesQuery } from '@queries'
 
 type Props = {
     setAppointmentTypeId: Function
@@ -15,10 +15,16 @@ export const AppointmentType = ({ setAppointmentTypeId }: Props) => {
     const [selected, setSelected] = useState<string | null>(null)
     const appointmentTypes = useGetAppointmentsTypesQuery()
 
+    useEffect(() => {
+        if (appointmentTypes?.data && appointmentTypes?.data.length) {
+            setSelected(appointmentTypes?.data[0].title)
+        }
+    }, [appointmentTypes?.data])
+
     return (
-        <div className="mb-5">
-            <Typography variant="body" color="text-black">
-                What kind of appointment you want to book?
+        <div>
+            <Typography variant={'label'} color={'text-gray-700'}>
+                Please select type of appointment you want to book?
             </Typography>
             <div className="flex flex-wrap gap-y-2 gap-x-4 items-center mt-1">
                 {appointmentTypes.isError && (

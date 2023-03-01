@@ -1,13 +1,10 @@
-import { LoadingAnimation, SidebarCalendar } from '@components'
+import { LoadingAnimation, Paginate, SidebarCalendar } from '@components'
 import { Typography } from '@components/Typography'
-import { Paginate } from '@components'
-import { useCallback, useEffect, useMemo, useState } from 'react'
-import { GrFormNext, GrFormPrevious } from 'react-icons/gr'
 import moment from 'moment'
+import { useEffect, useState } from 'react'
 
 // queries
-import { useGetCoordinatorsAvailabilityQuery } from '@queries'
-import { RiErrorWarningFill, RiRestTimeLine } from 'react-icons/ri'
+import { RiRestTimeLine } from 'react-icons/ri'
 
 type Props = {
     subAdmin?: boolean
@@ -91,8 +88,8 @@ export const TimeSlots = ({
     }, [appointmentAvailability, appointmentWith])
 
     return (
-        <div className="mt-5">
-            <Typography variant="small" color="text-gray-400">
+        <div className="">
+            <Typography variant={'label'} color={'text-gray-700'}>
                 Select Time Slot
             </Typography>
             <div className="flex flex-col md:flex-row justify-center gap-y-4 gap-x-16 mt-1">
@@ -121,9 +118,11 @@ export const TimeSlots = ({
                                 />
                             )}
                     </div>
-                    <Typography variant="muted" color="text-gray-400">
-                        Please select one of time slot from below given list
-                    </Typography>
+                    <div>
+                        <Typography variant="muted" color="text-gray-400">
+                            Please select one of time slot from below given list
+                        </Typography>
+                    </div>
                     {loading ? (
                         <LoadingAnimation size={80} />
                     ) : currentItems && currentItems?.length > 0 ? (

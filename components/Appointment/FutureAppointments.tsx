@@ -5,7 +5,10 @@ import { Swiper, SwiperSlide } from 'swiper/react'
 import { HeroSliderContainer } from './style'
 import { UpcomingAppointmentCard } from './UpcomingAppointmentCard'
 
-export const FutureAppointments = ({ appointments }: { appointments: any }) => {
+export const FutureAppointments = ({
+    appointments,
+    onAppointmentClicked,
+}: any) => {
     const navigationPrevRef = useRef(null)
     const navigationNextRef = useRef(null)
     const [iconClasses] = useState(
@@ -70,6 +73,7 @@ export const FutureAppointments = ({ appointments }: { appointments: any }) => {
                                     role={appointment?.appointmentFor?.role}
                                     appointment={appointment}
                                     coordinator={appointment?.coordinator}
+                                    onAppointmentClicked={onAppointmentClicked}
                                 />
                             </SwiperSlide>
                         )

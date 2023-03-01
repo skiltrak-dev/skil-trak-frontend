@@ -11,6 +11,21 @@ type AppointmentTypeCardProps = {
     selected: string | null
 }
 
+export const getAppointmentTypeIcon = (title: any) => {
+    switch (title?.toLowerCase()) {
+        case 'video conference':
+            return '/images/icons/appointment-type/video.png'
+        case 'phone consultation':
+            return '/images/icons/appointment-type/phone.png'
+        case 'student observation':
+            return '/images/icons/appointment-type/observation.png'
+        case 'workplace visit':
+            return '/images/icons/appointment-type/workplace.png'
+        default:
+            return '/images/card-images/box-icon.png'
+    }
+}
+
 export const AppointmentTypeCard = ({
     title,
     imageUrl,
@@ -18,24 +33,7 @@ export const AppointmentTypeCard = ({
     onClick,
     selected,
 }: AppointmentTypeCardProps) => {
-    const AppointmentType = () => {
-        switch (title) {
-            case 'video Conference':
-                return {
-                    imageUrl: '/images/card-images/video-icon.png',
-                    selectedImageUrl: '/images/card-images/video-image.png',
-                    post: 'Video Conference',
-                }
-
-            default:
-                return {
-                    imageUrl: '/images/card-images/box-icon.png',
-                    selectedImageUrl: '/images/card-images/box-image.png',
-                    post: 'Work Place Visit',
-                }
-        }
-    }
-    const typeData = AppointmentType()
+    const imageIcon = getAppointmentTypeIcon(title)
     return (
         <div
             className="cursor-pointer"
@@ -51,20 +49,14 @@ export const AppointmentTypeCard = ({
                 } rounded-lg py-2 px-5`}
             >
                 <div className="flex flex-col gap-y-1 items-center">
-                    {/* <Image
-                        src={
-                            selected === title
-                                ? typeData.selectedImageUrl
-                                : typeData.imageUrl
-                        }
-                        width={100}
-                        height={100}
+                    <Image
+                        src={imageIcon}
+                        width={60}
+                        height={60}
                         alt="appointment type"
-                    /> */}
-                    <div className="whitespace-pre">
-                        <Typography variant="body" color="text-black">
-                            {title}
-                        </Typography>
+                    />
+                    <div className="whitespace-pre mt-2">
+                        <p className="text-sm font-medium">{title}</p>
                     </div>
                 </div>
             </div>

@@ -5,15 +5,27 @@ import {
     NoData,
     Typography,
 } from '@components'
+import { AppointmentViewModal } from '@components/Appointment/AppointmentModal'
 import { CommonApi } from '@queries'
-import React from 'react'
+import React, { useState } from 'react'
 
 export const UpcomingAppointments = () => {
     const futureAppointments = CommonApi.Appointments.useBookedAppointments({
         status: 'future',
     })
+
+    const [modal, setModal] = useState<any>(null)
+    const onAppointmentClicked = (appointment: any) => {
+        setModal(
+            <AppointmentViewModal
+                appointment={appointment}
+                onCancel={() => setModal(null)}
+            />
+        )
+    }
     return (
         <>
+            {modal && modal}
             <div className="pb-1">
                 <Typography variant={'label'} color={'text-black'}>
                     Your Upcoming Appointments
@@ -25,7 +37,10 @@ export const UpcomingAppointments = () => {
             {futureAppointments.isLoading ? (
                 <LoadingAnimation size={90} />
             ) : futureAppointments?.data && futureAppointments?.data?.length ? (
-                <FutureAppointments appointments={futureAppointments?.data} />
+                <FutureAppointments
+                    appointments={futureAppointments?.data}
+                    onAppointmentClicked={onAppointmentClicked}
+                />
             ) : (
                 !futureAppointments.isError && (
                     <EmptyData

@@ -9,13 +9,21 @@ export const SidebarCalendar = ({ enabledDays, setSelectedDate }: any) => {
     const [isDateChange, setIsDateChange] = useState(false)
     const [date, setDate] = useState(new Date())
 
+    const [mounted, setMounted] = useState(false)
+
     useEffect(() => {
         if (setSelectedDate && isDateChange) {
             setSelectedDate(date)
         }
     }, [date, isDateChange])
 
-    return (
+    useEffect(() => {
+        if (!mounted) {
+            setMounted(true)
+        }
+    }, [])
+
+    return mounted ? (
         <CalendarStyles>
             <Calendar
                 {...(enabledDays
@@ -32,5 +40,5 @@ export const SidebarCalendar = ({ enabledDays, setSelectedDate }: any) => {
                 value={date}
             />
         </CalendarStyles>
-    )
+    ) : null
 }
