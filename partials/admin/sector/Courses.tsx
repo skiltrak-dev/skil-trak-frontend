@@ -23,6 +23,9 @@ import { useRouter } from 'next/router'
 import { ReactElement, useEffect, useState } from 'react'
 import { CourseView } from './contextBar'
 import { DeleteCourseModal, RequirementModal } from './modals'
+import { getFilterQuery } from '@utils'
+
+const filterKeys = ['code', 'title']
 
 export const Courses = () => {
     const router = useRouter()
@@ -35,6 +38,11 @@ export const Courses = () => {
     const [itemPerPage, setItemPerPage] = useState(50)
     const [page, setPage] = useState(1)
     const [filter, setFilter] = useState({})
+
+    useEffect(() => {
+        const query = getFilterQuery({ router, filterKeys })
+        setFilter(query)
+    }, [router])
 
     useEffect(() => {
         navBar.setTitle('Courses')
@@ -232,9 +240,10 @@ export const Courses = () => {
 
                 <Filter
                     component={CourseFilters}
-                    initialValues={{ name: '', email: '', rtoCode: '' }}
+                    initialValues={filter}
                     setFilterAction={setFilterAction}
                     setFilter={setFilter}
+                    filterKeys={filterKeys}
                 />
 
                 <Card noPadding>

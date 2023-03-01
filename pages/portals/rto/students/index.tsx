@@ -199,7 +199,7 @@ const RtoStudents: NextPageWithLayout = (props: Props) => {
                         </div>
                         <Filter
                             component={StudentFilters}
-                            initialValues={{}}
+                            initialValues={filter}
                             setFilterAction={setFilterAction}
                             setFilter={setFilter}
                         />

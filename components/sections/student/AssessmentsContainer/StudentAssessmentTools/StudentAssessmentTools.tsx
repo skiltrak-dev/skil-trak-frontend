@@ -1,22 +1,17 @@
-import React, { useState, useEffect } from 'react'
-import Link from 'next/link'
 import { useRouter } from 'next/router'
+import { useEffect, useState } from 'react'
 import { IoIosArrowRoundBack } from 'react-icons/io'
 // components
 import {
     Button,
-    Card,
-    Typography,
-    Desktop,
-    Mobile,
-    NoData,
-    LoadingAnimation,
+    Card, Desktop, LoadingAnimation, Mobile,
+    NoData, Typography
 } from '@components'
 import { AssessmentCourse, DownloadableFile } from '..'
 // queries
 import {
     useGetStudentAssessmentToolQuery,
-    useGetStudentCoursesQuery,
+    useGetStudentCoursesQuery
 } from '@queries'
 
 type Props = {
@@ -281,7 +276,7 @@ export const StudentAssessmentTools = ({ role, actions }: Props) => {
                     </>
                 )}
             </Mobile>
-            <div className="mt-6">
+            {/* <div className="mt-6">
                 <Typography variant="label" color="text-black">
                     What you want to do here?
                 </Typography>
@@ -292,7 +287,7 @@ export const StudentAssessmentTools = ({ role, actions }: Props) => {
                         I want to access my assessment tool for enrolled course
                     </Link>
                 </Typography>
-            </div>
+            </div> */}
         </div>
     )
 }

@@ -240,7 +240,7 @@ export const Jobs = () => {
 
                 <Filter
                     component={AppointmentTypeFilters}
-                    initialValues={{ title: '', appointmentFor: '' }}
+                    initialValues={filter}
                     setFilterAction={setFilterAction}
                     setFilter={setFilter}
                 />

@@ -151,7 +151,7 @@ const AssessmentEvidence: NextPageWithLayout = (props: Props) => {
             <div className="py-4">
                 <Filter
                     component={SubAdminAssessmentsFilters}
-                    initialValues={{}}
+                    initialValues={filter}
                     setFilterAction={setFilterAction}
                     setFilter={setFilter}
                 />

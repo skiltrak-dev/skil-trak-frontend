@@ -1,15 +1,13 @@
 import { ReactElement, useEffect } from 'react'
 
-import { StudentLayout } from '@layouts'
-import { NextPageWithLayout } from '@types'
 import { Animations } from '@animations'
 import {
     AssessmentResultCard,
-    DisplayPrimaryActions,
-    HelpQuestionSet,
-    PendingSignatureCard,
+    DisplayPrimaryActions
 } from '@components'
 import { useJoyRide } from '@hooks'
+import { StudentLayout } from '@layouts'
+import { NextPageWithLayout } from '@types'
 
 const PrimaryLinks = [
     {
@@ -90,6 +88,7 @@ const StudentAssessments: NextPageWithLayout = () => {
             }, 1200)
         }
     }, [])
+
     // WORKPLACE JOY RIDE - END
     return (
         <div className="flex flex-col">
@@ -109,19 +108,17 @@ const StudentAssessments: NextPageWithLayout = () => {
                 </div>
             </div>
 
-            <div className="mt-6 flex flex-col md:flex-row gap-y-3 justify-between">
-                {/* Related Questions */}
+            {/* <div className="mt-6 flex flex-col md:flex-row gap-y-3 justify-between">
                 <HelpQuestionSet
                     title={'What you want to do here?'}
                     questions={RelatedQuestions}
                 />
 
-                {/* Other Questions */}
                 <HelpQuestionSet
                     title={'What else you want to do?'}
                     questions={OtherQuestions}
                 />
-            </div>
+            </div> */}
         </div>
     )
 }

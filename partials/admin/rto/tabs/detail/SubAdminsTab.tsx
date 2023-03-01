@@ -144,7 +144,7 @@ export const SubAdminsTab = ({ rto }: any) => {
                 {data && data?.data.length ? (
                     <Filter
                         component={RtoFilters}
-                        initialValues={{ name: '', email: '', rtoCode: '' }}
+                        initialValues={filter}
                         setFilterAction={setFilterAction}
                         setFilter={setFilter}
                     />

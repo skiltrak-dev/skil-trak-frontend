@@ -8,7 +8,7 @@ import {
 import { CommonApi } from '@queries'
 import React from 'react'
 
-export const UpcommingAppointments = () => {
+export const UpcomingAppointments = () => {
     const futureAppointments = CommonApi.Appointments.useBookedAppointments({
         status: 'future',
     })
@@ -29,8 +29,10 @@ export const UpcommingAppointments = () => {
             ) : (
                 !futureAppointments.isError && (
                     <EmptyData
+                        imageUrl="/images/icons/appointment.png"
                         title={'No Upcomming Appointments'}
                         description={'No Upcomming Appointments'}
+                        height="30vh"
                     />
                 )
             )}

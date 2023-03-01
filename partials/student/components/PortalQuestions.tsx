@@ -624,11 +624,11 @@ export const PortalQuestions = () => {
                     />
 
                     <div className="mt-2">
-                        <HelpQuestionSet
+                        {/* <HelpQuestionSet
                             title="Notifications"
                             questions={NotificationQuestions}
                             smallHeading
-                        />
+                        /> */}
                     </div>
                 </div>
             </div>

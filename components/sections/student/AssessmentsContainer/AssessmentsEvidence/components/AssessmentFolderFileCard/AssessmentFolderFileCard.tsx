@@ -1,9 +1,7 @@
-import { FileMimeTypes } from '@components/inputs'
-import { PdfViewer } from '@components/PdfViewer'
 import { Typography } from '@components/Typography'
 import { VideoPreview } from '@components/VideoPreview'
 import { useArchiveAssessmentFilesMutation } from '@queries'
-import { ellipsisText, FileFormat } from '@utils'
+import { ellipsisText } from '@utils'
 import Image from 'next/image'
 import { AiFillDelete } from 'react-icons/ai'
 import { IoMdDocument } from 'react-icons/io'
@@ -40,11 +38,11 @@ export const AssessmentFolderFileCard = ({
         }
     }
 
-    const extension = fileName?.split('.').reverse()[0]
+    const extension = fileName?.split('.').reverse()[0].toLowerCase()
 
     return (
         <div
-            className={`relative basis-1/6 border rounded p-2 ${
+            className={`relative basis-1/6 border rounded p-2 cursor-pointer ${
                 selected ? 'bg-blue-200' : ''
             }`}
         >

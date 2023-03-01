@@ -4,10 +4,8 @@ import { ReactElement, useEffect } from 'react'
 import { RtoLayout } from '@layouts'
 import { NextPageWithLayout } from '@types'
 
-import {
-    Button, Typography
-} from '@components'
-import { PastAppointments, UpcommingAppointments } from '@partials/common'
+import { Button, Typography } from '@components'
+import { PastAppointments, UpcomingAppointments } from '@partials/common'
 import { useJoyRide } from '@hooks'
 
 type Props = {}
@@ -26,7 +24,7 @@ const RtoAppointments: NextPageWithLayout = (props: Props) => {
         <>
             <div className="flex items-center justify-between">
                 <Typography>Rto Appointments</Typography>
-                <div id='create-appointment'>
+                <div id="create-appointment">
                     <Button
                         text={'Create Appointment'}
                         variant={'info'}
@@ -40,7 +38,7 @@ const RtoAppointments: NextPageWithLayout = (props: Props) => {
             </div>
 
             {/* TODO Not getting the appointments */}
-            <UpcommingAppointments />
+            <UpcomingAppointments />
             <PastAppointments />
         </>
     )

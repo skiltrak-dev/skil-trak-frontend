@@ -1,7 +1,6 @@
 import { ReactElement, useEffect, useState } from 'react'
 
 import { Desktop, Mobile, PageTitle } from '@components'
-import { TitleAndMessages } from '@components/sections/student/AssessmentsContainer/AssessmentsEvidence'
 import { StudentLayout } from '@layouts'
 import { NextPageWithLayout } from '@types'
 
@@ -11,10 +10,10 @@ import { useNotification } from '@hooks'
 import { DesktopAssessment, MobileAssessment } from '@partials/student'
 import {
     useGetAssessmentsCoursesQuery,
-    useGetAssessmentsFoldersQuery,
+    useGetAssessmentsFoldersQuery
 } from '@queries'
-import { useMediaQuery } from 'react-responsive'
 import { getCourseResult } from '@utils'
+import { useMediaQuery } from 'react-responsive'
 
 type Props = {}
 
@@ -64,7 +63,9 @@ const AssessmentEvidence: NextPageWithLayout = (props: Props) => {
     return (
         <>
             {/* <AssessmentsEvidence /> */}
-            <PageTitle title="Assessment Evidence" backTitle="Assessment" />
+            <div className="mb-4">
+                <PageTitle title="Assessment Evidence" backTitle="Assessment" />
+            </div>
             {/* <TitleAndMessages result={result} /> */}
             <Desktop>
                 <DesktopAssessment

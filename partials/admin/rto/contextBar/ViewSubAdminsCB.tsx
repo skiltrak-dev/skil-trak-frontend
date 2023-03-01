@@ -83,6 +83,7 @@ export const ViewSubAdminsCB = ({ rto }: { rto: Rto }) => {
                                 subAdmin={subAdmin}
                                 onRemove={onSubAdminClicked}
                                 result={unassignSubAdminResult}
+                                key={subAdmin.id}
                             />
                         ))
                     ) : (
