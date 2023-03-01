@@ -10,12 +10,18 @@ const SectorList: NextPageWithLayout = () => {
     const tabs: TabProps[] = [
         {
             label: 'Sectors',
-            href: { pathname: 'sectors', query: { tab: 'sectors' } },
+            href: {
+                pathname: 'sectors',
+                query: { tab: 'sectors', page: 1, pageSize: 50 },
+            },
             element: <Sectors />,
         },
         {
             label: 'Courses',
-            href: { pathname: 'sectors', query: { tab: 'courses' } },
+            href: {
+                pathname: 'sectors',
+                query: { tab: 'courses', page: 1, pageSize: 50 },
+            },
             element: <Courses />,
         },
     ]

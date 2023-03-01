@@ -15,6 +15,7 @@ export const AllMails = ({
 }) => {
     const [itemPerPage, setItemPerPage] = useState(20)
     const [page, setPage] = useState(1)
+    const [hasNext, setHasNext] = useState(true)
 
     const [allMails, setAllMails] = useState<any>([])
 
@@ -26,8 +27,25 @@ export const AllMails = ({
         })
 
     useEffect(() => {
-        if (isSuccess && data?.data && data?.data?.length > 0) {
-            setAllMails((mails: any) => [...mails, ...data?.data])
+        if (data?.pagination && isSuccess) {
+            setHasNext(data?.pagination?.hasNext)
+        }
+        if (isError) {
+            setHasNext(false)
+        }
+    }, [data, isSuccess, isError])
+
+    console.log('hasNext', hasNext)
+    useEffect(() => {
+        if (
+            !isFetching &&
+            !isLoading &&
+            isSuccess &&
+            data?.data &&
+            data?.data?.length > 0
+        ) {
+            console.log('Inner', data?.data)
+            setAllMails([...allMails, ...data?.data])
         }
     }, [data, isSuccess])
 
@@ -49,17 +67,10 @@ export const AllMails = ({
     }
     return (
         <Messaging selectedMessage={selectedMessage}>
-            {isError && (
-                <NoData
-                    text={
-                        'There is some network issue, try to refresh the browser'
-                    }
-                />
-            )}
             <InfiniteScroll
                 pageStart={0}
                 loadMore={fetchMoreData}
-                hasMore={true}
+                hasMore={hasNext}
                 useWindow={false}
                 loader={
                     <div className="py-6 flex items-center justify-center">
@@ -80,6 +91,13 @@ export const AllMails = ({
                       ))
                     : !isError &&
                       isSuccess && <NoData text={'There is no mails'} />}
+                {isError && (
+                    <NoData
+                        text={
+                            'There is some network issue,Data cant load, try to refresh the browser'
+                        }
+                    />
+                )}
             </InfiniteScroll>
         </Messaging>
     )

@@ -276,7 +276,7 @@ export const AppointmentTypes = () => {
                 {data && data?.data.length ? (
                     <Filter
                         component={AppointmentTypeFilters}
-                        initialValues={{ title: '', appointmentFor: '' }}
+                        initialValues={filter}
                         setFilterAction={setFilterAction}
                         setFilter={setFilter}
                     />
