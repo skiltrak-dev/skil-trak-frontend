@@ -17,7 +17,7 @@ import {
 import { useContextBar } from '@hooks'
 import { CommonCB } from '@partials/rto/contextBar'
 import { CommonApi } from '@queries'
-import { UpcommingAppointments, PastAppointments } from '@partials/common'
+import { UpcomingAppointments, PastAppointments } from '@partials/common'
 import moment from 'moment'
 import { getUserCredentials } from '@utils'
 
@@ -129,7 +129,7 @@ const Appointments: NextPageWithLayout = (props: Props) => {
                 </Card>
             </div>
 
-            <UpcommingAppointments />
+            <UpcomingAppointments />
             <PastAppointments />
         </div>
     )

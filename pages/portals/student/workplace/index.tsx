@@ -2,20 +2,17 @@ import { ReactElement, useEffect } from 'react'
 
 import { Animations } from '@animations'
 import {
-    DisplayPrimaryActions,
-    HelpQuestionSet,
-    Button,
-    SidebarCalendar,
+    DisplayPrimaryActions
 } from '@components'
-import { StudentLayout } from '@layouts'
-import { NextPageWithLayout } from '@types'
 import { PlacementProgressCard } from '@components/specialCards/PlacementProgress'
-import { useContextBar, useJoyRide } from 'hooks'
+import { StudentLayout } from '@layouts'
+import { RecentAppointment } from '@partials/common'
 import {
     useGetPlacementProgressQuery,
-    useGetStudentPastAppointmentsQuery,
+    useGetStudentPastAppointmentsQuery
 } from '@queries'
-import { RecentAppointment } from '@partials/common'
+import { NextPageWithLayout } from '@types'
+import { useJoyRide } from 'hooks'
 
 const PrimaryLinks = [
     {
@@ -83,15 +80,20 @@ const StudentWorkplace: NextPageWithLayout = () => {
     const { data: getPlacementProgress } = useGetPlacementProgressQuery()
     const { data: recentAppointments } = useGetStudentPastAppointmentsQuery()
 
-    const { setContent } = useContextBar()
-    useEffect(() => {
-        setContent(
-            <>
-                <Button variant={'dark'} text={'My Schedule'} />
-                <SidebarCalendar />
-            </>
-        )
-    }, [setContent])
+    // const contextBar = useContextBar()
+    // const [mounted, setMounted] = useState(false)
+    // useEffect(() => {
+    //     setMounted(true)
+    // }, [])
+    // useEffect(() => {
+    //     contextBar.setContent(
+    //         <>
+    //             <Button variant={'dark'} text={'My Schedule'} />
+    //             <SidebarCalendar />
+    //         </>
+    //     )
+    //     contextBar.show(false)
+    // }, [mounted])
 
     // WORKPLACE JOY RIDE - start
     const joyride = useJoyRide()
@@ -103,6 +105,7 @@ const StudentWorkplace: NextPageWithLayout = () => {
         }
     }, [])
     // WORKPLACE JOY RIDE - END
+
     return (
         <div className="flex flex-col">
             <div className="flex flex-col md:flex-row gap-y-2 gap-x-6">

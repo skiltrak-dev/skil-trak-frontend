@@ -1,5 +1,5 @@
 import Image from 'next/image'
-import { ReactElement, useEffect } from 'react'
+import { ReactElement } from 'react'
 
 import { StudentLayout } from '@layouts'
 import { Course, NextPageWithLayout, SubAdmin } from '@types'
@@ -9,7 +9,7 @@ import {
     ContextBarLoading,
     InitialAvatar,
     InitialAvatarContainer,
-    NoData,
+    NoData
 } from '@components'
 
 import { FaBriefcase, FaMapMarkerAlt, FaSchool } from 'react-icons/fa'
@@ -19,16 +19,15 @@ import { MdPermContactCalendar, MdPhone } from 'react-icons/md'
 import { useContextBar } from '@hooks'
 import {
     ImportantDocuments,
-    PortalQuestions,
+    PortalQuestions
 } from '@partials/student/components'
-import { ViewProfileCB } from '@partials/student/contextBar'
 
 import { useGetStudentProfileDetailQuery } from '@queries'
 
+import { Desktop, Mobile } from '@components/Responsive'
+import { MediaQueries } from '@constants'
 import { getSectors } from '@utils'
 import { useMediaQuery } from 'react-responsive'
-import { MediaQueries } from '@constants'
-import { Desktop, Mobile } from '@components/Responsive'
 
 const StudentDashboard: NextPageWithLayout = () => {
     const contextBar = useContextBar()
@@ -49,19 +48,24 @@ const StudentDashboard: NextPageWithLayout = () => {
     const { data, isLoading } = useGetStudentProfileDetailQuery()
     const sectorsWithCourses = getSectors(data?.courses)
 
-    useEffect(() => {
-        if (!isMobile) {
-            contextBar.setContent(<ViewProfileCB />)
-            contextBar.show(false)
-        }
+    // const [mounted, setMounted] = useState(false)
+    // useEffect(() => {
+    //     setMounted(true)
+    // }, [])
+    // useEffect(() => {
+    //     if (mounted && !isMobile && !contextBar.isVisible) {
+    //         contextBar.setContent(<ViewProfileCB />)
+    //         contextBar.show(false)
+    //     }
 
-        return () => {
-            contextBar.hide()
-        }
-    }, [isMobile])
+    //     return () => {
+    //         contextBar.hide()
+    //     }
+    // }, [isMobile, mounted])
 
     return (
         <div className="flex flex-col gap-y-6 pb-8">
+            {/* <StudentContextBar /> */}
             {/* Question Section */}
             <PortalQuestions />
 
@@ -245,35 +249,35 @@ const StudentDashboard: NextPageWithLayout = () => {
                                             1,
                                             data?.rto?.subadmin?.length
                                         ).length > 0 && (
-                                                <InitialAvatarContainer show={2}>
-                                                    {data?.rto.subadmin
-                                                        .slice(
-                                                            1,
-                                                            data?.rto?.subadmin
-                                                                .length
+                                            <InitialAvatarContainer show={2}>
+                                                {data?.rto.subadmin
+                                                    .slice(
+                                                        1,
+                                                        data?.rto?.subadmin
+                                                            .length
+                                                    )
+                                                    .map(
+                                                        (
+                                                            subAdmin: SubAdmin,
+                                                            idx: number
+                                                        ) => (
+                                                            <InitialAvatar
+                                                                key={
+                                                                    subAdmin.id
+                                                                }
+                                                                name={
+                                                                    subAdmin
+                                                                        ?.user
+                                                                        ?.name
+                                                                }
+                                                                first={
+                                                                    idx === 0
+                                                                }
+                                                            />
                                                         )
-                                                        .map(
-                                                            (
-                                                                subAdmin: SubAdmin,
-                                                                idx: number
-                                                            ) => (
-                                                                <InitialAvatar
-                                                                    key={
-                                                                        subAdmin.id
-                                                                    }
-                                                                    name={
-                                                                        subAdmin
-                                                                            ?.user
-                                                                            ?.name
-                                                                    }
-                                                                    first={
-                                                                        idx === 0
-                                                                    }
-                                                                />
-                                                            )
-                                                        )}
-                                                </InitialAvatarContainer>
-                                            )}
+                                                    )}
+                                            </InitialAvatarContainer>
+                                        )}
                                     </div>
                                 </div>
                             </div>
@@ -308,170 +312,120 @@ const StudentDashboard: NextPageWithLayout = () => {
                     </div>
 
                     {/* Card Body */}
-                    {data?.workplace?.length > 0 ? (
+                    {data?.industries?.length > 0 ? (
                         <div className="mt-4">
-                            {data?.workplace[0]?.industries?.map(
-                                (workplace: any) => {
-                                    return (
-                                        workplace?.applied && (
-                                            <>
-                                                <div
-                                                    key={
-                                                        data?.workplace?.[0]?.id
-                                                    }
-                                                >
-                                                    <div className="flex items-center gap-x-6 mb-4">
-                                                        <div className="hidden md:block">
-                                                            <div className="flex-shrink-0">
-                                                                {workplace
-                                                                    ?.industry
-                                                                    ?.avatar ? (
-                                                                    <Image
-                                                                        src={
-                                                                            data
-                                                                                ?.rto
-                                                                                ?.user
-                                                                                ?.avatar
-                                                                        }
-                                                                        width={
-                                                                            100
-                                                                        }
-                                                                        height={
-                                                                            100
-                                                                        }
-                                                                        alt=""
-                                                                        className="hidden md:block rounded-full shadow-inner-image"
-                                                                    />
-                                                                ) : (
-                                                                    <div className="h-24 w-24 flex items-center justify-center bg-gray-100 rounded-full">
-                                                                        <span className="text-4xl text-gray-300">
-                                                                            <FaBriefcase />
-                                                                        </span>
-                                                                    </div>
-                                                                )}
-                                                            </div>
+                            {data?.industries?.map((workplace: any) => {
+                                return (
+                                    <div key={workplace.id}>
+                                        <div className="flex items-center gap-x-6 mb-4">
+                                            <div className="hidden md:block">
+                                                <div className="flex-shrink-0">
+                                                    {workplace?.user?.avatar ? (
+                                                        <Image
+                                                            src={
+                                                                workplace?.user
+                                                                    ?.avatar
+                                                            }
+                                                            width={100}
+                                                            height={100}
+                                                            alt=""
+                                                            className="hidden md:block rounded-full shadow-inner-image"
+                                                        />
+                                                    ) : (
+                                                        <div className="h-24 w-24 flex items-center justify-center bg-gray-100 rounded-full">
+                                                            <span className="text-4xl text-gray-300">
+                                                                <FaBriefcase />
+                                                            </span>
                                                         </div>
+                                                    )}
+                                                </div>
+                                            </div>
 
-                                                        <div>
-                                                            <div>
-                                                                <div className="flex items-center gap-x-1">
-                                                                    <div className="h-8 w-8 flex items-center justify-center bg-gray-100 rounded-full">
-                                                                        <FaBriefcase
-                                                                            size={
-                                                                                16
-                                                                            }
-                                                                        />
-                                                                    </div>
-                                                                    <p className="font-medium">
-                                                                        {
-                                                                            workplace
-                                                                                ?.industry
-                                                                                ?.user
-                                                                                ?.name
-                                                                        }
-                                                                    </p>
-                                                                </div>
-                                                                <p className="text-slate-400 text-sm">
-                                                                    {
-                                                                        workplace
-                                                                            ?.industry
-                                                                            ?.user
-                                                                            ?.email
-                                                                    }
-                                                                </p>
-                                                            </div>
-
-                                                            <div className="flex gap-x-3 mt-1 border-t pt-2">
-                                                                <div className="flex items-center gap-x-1">
-                                                                    <span className="text-gray-400">
-                                                                        <MdPermContactCalendar
-                                                                            size={
-                                                                                14
-                                                                            }
-                                                                        />
-                                                                    </span>
-                                                                    <span className="text-xs">
-                                                                        {
-                                                                            workplace
-                                                                                ?.industry
-                                                                                ?.user
-                                                                                ?.name
-                                                                        }
-                                                                    </span>
-                                                                </div>
-                                                                <div className="flex items-center gap-x-1">
-                                                                    <span className="text-gray-400">
-                                                                        <MdPhone
-                                                                            size={
-                                                                                14
-                                                                            }
-                                                                        />
-                                                                    </span>
-                                                                    <span className="text-xs">
-                                                                        {
-                                                                            workplace
-                                                                                ?.industry
-                                                                                ?.phoneNumber
-                                                                        }
-                                                                    </span>
-                                                                </div>
-                                                            </div>
-
-                                                            <div className="mt-2">
-                                                                <p className="text-[11px] text-gray-400">
-                                                                    Contact
-                                                                    Person
-                                                                </p>
-                                                                <div className="flex justify-between gap-x-4">
-                                                                    <div>
-                                                                        <p className="font-medium text-sm">
-                                                                            {workplace
-                                                                                ?.industry
-                                                                                ?.contactPerson ||
-                                                                                'N/A'}
-                                                                        </p>
-                                                                        <p className="text-xs font-medium text-slate-400">
-                                                                            {workplace
-                                                                                ?.industry
-                                                                                ?.contactPersonNumber ||
-                                                                                'N/A'}
-                                                                        </p>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
+                                            <div>
+                                                <div>
+                                                    <div className="flex items-center gap-x-1">
+                                                        <div className="h-8 w-8 flex items-center justify-center bg-gray-100 rounded-full">
+                                                            <FaBriefcase
+                                                                size={16}
+                                                            />
                                                         </div>
+                                                        <p className="font-medium">
+                                                            {
+                                                                workplace?.user
+                                                                    ?.name
+                                                            }
+                                                        </p>
                                                     </div>
+                                                    <p className="text-slate-400 text-sm">
+                                                        {workplace?.user?.email}
+                                                    </p>
+                                                </div>
 
-                                                    <div className="flex gap-x-3 mt-1 border-t pt-2">
-                                                        <div className="flex items-center gap-x-1">
-                                                            <span className="text-gray-400">
-                                                                <FaMapMarkerAlt
-                                                                    size={14}
-                                                                />
-                                                            </span>
-                                                            <span className="text-xs">
-                                                                {
-                                                                    workplace
-                                                                        ?.industry
-                                                                        ?.addressLine1
-                                                                },{" "}
-                                                                {
-                                                                    workplace
-                                                                        ?.industry
-                                                                        ?.addressLine2 || "N/A"
-                                                                }, {" "}
-                                                                {
-                                                                    workplace?.industry?.suburb || 'N/A'
-                                                                }
-                                                            </span>
+                                                <div className="flex gap-x-3 mt-1 border-t pt-2">
+                                                    <div className="flex items-center gap-x-1">
+                                                        <span className="text-gray-400">
+                                                            <MdPermContactCalendar
+                                                                size={14}
+                                                            />
+                                                        </span>
+                                                        <span className="text-xs">
+                                                            {
+                                                                workplace?.user
+                                                                    ?.name
+                                                            }
+                                                        </span>
+                                                    </div>
+                                                    <div className="flex items-center gap-x-1">
+                                                        <span className="text-gray-400">
+                                                            <MdPhone
+                                                                size={14}
+                                                            />
+                                                        </span>
+                                                        <span className="text-xs">
+                                                            {
+                                                                workplace?.phoneNumber
+                                                            }
+                                                        </span>
+                                                    </div>
+                                                </div>
+
+                                                <div className="mt-2">
+                                                    <p className="text-[11px] text-gray-400">
+                                                        Contact Person
+                                                    </p>
+                                                    <div className="flex justify-between gap-x-4">
+                                                        <div>
+                                                            <p className="font-medium text-sm">
+                                                                {workplace?.contactPerson ||
+                                                                    'N/A'}
+                                                            </p>
+                                                            <p className="text-xs font-medium text-slate-400">
+                                                                {workplace?.contactPersonNumber ||
+                                                                    'N/A'}
+                                                            </p>
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </>
-                                        )
-                                    )
-                                }
-                            )}
+                                            </div>
+                                        </div>
+
+                                        <div className="flex gap-x-3 mt-1 border-t pt-2">
+                                            <div className="flex items-center gap-x-1">
+                                                <span className="text-gray-400">
+                                                    <FaMapMarkerAlt size={14} />
+                                                </span>
+                                                <span className="text-xs">
+                                                    {workplace?.addressLine1},{' '}
+                                                    {workplace?.addressLine2 ||
+                                                        'N/A'}
+                                                    ,{' '}
+                                                    {workplace?.suburb || 'N/A'}
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                )
+                            })}
                         </div>
                     ) : (
                         <div className="mt-6">

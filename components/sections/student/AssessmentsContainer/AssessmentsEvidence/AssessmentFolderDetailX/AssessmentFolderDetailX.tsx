@@ -1,27 +1,18 @@
 import moment from 'moment'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 
 // Icons
-import { MdCloudUpload } from 'react-icons/md'
 
 // components
 import {
-    LoadingAnimation,
-    Typography,
-    NoData,
-    Badge,
-    AssessmentResponse,
-    VideoPlayModal,
-    PdfViewModal,
-    FileViewModal,
+    Badge, FileViewModal, LoadingAnimation, NoData, PdfViewModal, Typography, VideoPlayModal
 } from '@components'
 import { AssessmentFolderFileCard } from '../components'
 import { UploadFile } from './UploadFile'
 
 // query
 import {
-    useUploadFolderDocsMutation,
-    useGetAssessmentsFolderDetailQuery,
+    useGetAssessmentsFolderDetailQuery, useUploadFolderDocsMutation
 } from '@queries'
 
 // hoc
@@ -113,7 +104,7 @@ export const AssessmentFolderDetailX = ({
             {modal}
             <div className="h-full">
                 {folder && (
-                    <div className="flex justify-between items-center p-2">
+                    <div className="flex justify-between items-center p-2 border-b">
                         <div className="px-4">
                             <Typography variant="title">
                                 {folder?.name}

@@ -1,9 +1,7 @@
 import React, {
     ReactElement,
     ReactNode,
-    useContext,
-    useEffect,
-    useState,
+    useContext, useState
 } from 'react'
 
 // utils
@@ -40,20 +38,20 @@ export const ContextBarProvider = ({
     const token = getToken()
     const route = useRouter()
 
-    useEffect(() => {
-        if (!token) {
-            setContent(null)
-            setTitle('')
-            setVisible(false)
-        }
-    }, [token])
+    // useEffect(() => {
+    //     if (!token) {
+    //         setContent(null)
+    //         setTitle('')
+    //         setVisible(false)
+    //     }
+    // }, [token])
 
-    useEffect(() => {
-        setTitle('')
-        setFixed(false)
-        setContent(null)
-        setVisible(false)
-    }, [route])
+    // useEffect(() => {
+    //     setTitle('')
+    //     setFixed(false)
+    //     setContent(null)
+    //     setVisible(false)
+    // }, [route])
 
     const value = {
         content,
@@ -62,7 +60,9 @@ export const ContextBarProvider = ({
             setVisible(true)
             setFixed(fixed)
         },
-        hide: () => setVisible(false),
+        hide: () => {
+            setVisible(false)
+        },
         isVisible,
         fixed,
         switchOff: (value: boolean) => setOff(value),

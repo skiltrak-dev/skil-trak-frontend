@@ -1,12 +1,9 @@
 import {
     EmptyData,
-    LoadingAnimation,
-    PastAppointmentCard,
-    Typography,
-    Switch,
-    NoData,
+    LoadingAnimation, NoData,
     PageSize,
-    Pagination,
+    Pagination, PastAppointmentCard,
+    Typography
 } from '@components'
 
 // queries
@@ -53,7 +50,7 @@ export const PastAppointments = () => {
                     <LoadingAnimation size={90} />
                 ) : pastAppointments.data?.data &&
                   pastAppointments.data?.data?.length ? (
-                    <div className="">
+                    <div className=" flex gap-x-2">
                         {pastAppointments.data?.data?.map(
                             (pastAppointment: any, index: number) => (
                                 <PastAppointmentCard
@@ -76,8 +73,10 @@ export const PastAppointments = () => {
                 ) : (
                     !pastAppointments.isError && (
                         <EmptyData
+                            imageUrl="/images/icons/common/appointment-past.png"
                             title={'No Past appointments'}
                             description={'No Past appointments'}
+                            height="30vh"
                         />
                     )
                 )}

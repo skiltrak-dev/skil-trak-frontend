@@ -1,24 +1,18 @@
-import Image from 'next/image'
+import { ActionButton, ContextBarLoading, StudentAvatar } from '@components'
+import { useGetStudentProfileDetailQuery } from '@queries'
+import moment from 'moment'
+import { AiFillEdit } from 'react-icons/ai'
+import { BsUnlockFill } from 'react-icons/bs'
 import {
     FaAddressCard,
     FaBirthdayCake,
-    FaUserCircle,
-    FaUserGraduate,
+    FaUserCircle
 } from 'react-icons/fa'
 import { IoLocation } from 'react-icons/io5'
 import {
-    MdPhone,
-    MdBatchPrediction,
-    MdGroup,
-    MdGroups,
-    MdVerified,
+    MdBatchPrediction, MdPhone, MdVerified
 } from 'react-icons/md'
-import { useGetStudentProfileDetailQuery } from '@queries'
-import moment from 'moment'
-import { StudentAvatar } from '@components'
 import { getGender } from 'utils/functions/getGender'
-import { AiFillEdit } from 'react-icons/ai'
-import { BsUnlockFill } from 'react-icons/bs'
 
 // hooks
 import { useActionModal } from '@hooks'
@@ -26,35 +20,42 @@ import { useRouter } from 'next/router'
 export const ViewProfileCB = () => {
     const router = useRouter()
 
-    const { data } = useGetStudentProfileDetailQuery()
-
+    const { data, isLoading } = useGetStudentProfileDetailQuery()
     const { onUpdatePassword, passwordModal } = useActionModal()
-    return (
+
+    return isLoading ? (
+        <div className="h-[70vh] flex items-center justify-center">
+            <ContextBarLoading />
+        </div>
+    ) : (
         <div>
             {passwordModal && passwordModal}
             {/* Profile */}
             <div>
                 <div className="relative flex flex-col items-center">
                     <div className="flex justify-end gap-x-2 absolute top-0 right-0">
-                        <div className="bg-blue-100 rounded-full p-1">
-                            <AiFillEdit
-                                className="text-blue-400  cursor-pointer"
-                                onClick={() =>
-                                    router.push('/portals/student/my-profile')
-                                }
-                            />
-                        </div>
-                        <div
-                            className="bg-blue-100 rounded-full p-1"
+                        <ActionButton
+                            rounded
+                            Icon={AiFillEdit}
+                            variant={'info'}
+                            onClick={() =>
+                                router.push('/portals/student/my-profile')
+                            }
+                            title="Edit Profile"
+                        />
+
+                        <ActionButton
+                            rounded
+                            Icon={BsUnlockFill}
+                            variant={'neutral'}
                             onClick={() => onUpdatePassword(data)}
-                        >
-                            <BsUnlockFill className="text-blue-400  cursor-pointer" />
-                        </div>
+                            title="Edit Password"
+                        />
                     </div>
                     <StudentAvatar
                         name={data?.user?.name}
                         imageUrl={data?.user.avatar}
-                        gender={data?.gender}
+                        gender={data?.user.gender}
                     />
 
                     <div className="flex flex-col items-center">
@@ -169,8 +170,8 @@ export const ViewProfileCB = () => {
 
             {/* Important Documents */}
             {/* <div className="mt-4">
-                <ImportantDocuments sidebar />
-            </div> */}
+            <ImportantDocuments sidebar />
+        </div> */}
         </div>
     )
 }
