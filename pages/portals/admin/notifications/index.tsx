@@ -1,6 +1,6 @@
 import { ReactElement, useEffect } from 'react'
 // Layouts
-import { StudentLayout } from '@layouts'
+import { AdminLayout } from '@layouts'
 // Types
 import { NextPageWithLayout } from '@types'
 // Animations
@@ -16,7 +16,6 @@ import {
 import { EmailsCard, RecentAppointment } from '@partials/common'
 // Hooks
 import { useContextBar, useJoyRide } from '@hooks'
-
 
 const Notifications: NextPageWithLayout = () => {
     const { setContent } = useContextBar()
@@ -80,16 +79,18 @@ const Notifications: NextPageWithLayout = () => {
 
     // WORKPLACE JOY RIDE - END
     return (
-        <div className="flex flex-col">
-            <div className="flex gap-x-6">
-                {/* Primary Actions */}
-                <div className="bg-white p-4 rounded-2xl shadow-xl flex-shrink-0">
-                    <DisplayPrimaryActions actions={PrimaryLinks} />
-                </div>
+        <div className="px-4 mt-4">
+            <div className="flex flex-col">
+                <div className="flex gap-x-6">
+                    {/* Primary Actions */}
+                    <div className="bg-white p-4 rounded-2xl shadow-xl flex-shrink-0">
+                        <DisplayPrimaryActions actions={PrimaryLinks} />
+                    </div>
 
-                {/* Special Cards */}
-                <div className="w-full flex flex-col justify-center space-y-2">
-                    <EmailsCard />
+                    {/* Special Cards */}
+                    <div className="w-full flex flex-col justify-center space-y-2">
+                        <EmailsCard />
+                    </div>
                 </div>
             </div>
         </div>
@@ -97,9 +98,7 @@ const Notifications: NextPageWithLayout = () => {
 }
 
 Notifications.getLayout = (page: ReactElement) => {
-    return (
-        <StudentLayout pageTitle={{ title: 'Tasks' }}>{page}</StudentLayout>
-    )
+    return <AdminLayout>{page}</AdminLayout>
 }
 
 export default Notifications

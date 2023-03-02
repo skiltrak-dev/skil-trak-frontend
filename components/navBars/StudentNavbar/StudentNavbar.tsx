@@ -24,11 +24,10 @@ export const StudentNavbar = () => {
                     <li>
                         <Link legacyBehavior href="/portals/student">
                             <a
-                                className={`${
-                                    router.pathname == '/student'
+                                className={`${router.pathname == '/student'
                                         ? 'bg-indigo-100 text-indigo-700'
                                         : 'text-slate-700'
-                                } ${defaultClasses} hover:bg-indigo-100 hover:text-indigo-700`}
+                                    } ${defaultClasses} hover:bg-indigo-100 hover:text-indigo-700`}
                             >
                                 <span>
                                     <MdSpaceDashboard />
@@ -42,12 +41,11 @@ export const StudentNavbar = () => {
                     <li>
                         <Link legacyBehavior href="/portals/student/workplace">
                             <a
-                                className={`${
-                                    router.pathname ==
-                                    '/portals/student/workplace'
+                                className={`${router.pathname ==
+                                        '/portals/student/workplace'
                                         ? 'bg-green-100 text-green-700'
                                         : 'text-slate-700'
-                                } ${defaultClasses} hover:bg-green-100 hover:text-green-700`}
+                                    } ${defaultClasses} hover:bg-green-100 hover:text-green-700`}
                                 id="workplace"
                             >
                                 <span>
@@ -65,12 +63,11 @@ export const StudentNavbar = () => {
                             href="/portals/student/assessments"
                         >
                             <a
-                                className={`${
-                                    router.pathname ==
-                                    '/portals/student/assessments'
+                                className={`${router.pathname ==
+                                        '/portals/student/assessments'
                                         ? 'bg-orange-100 text-orange-700'
                                         : 'text-slate-700'
-                                } ${defaultClasses} hover:bg-orange-100 hover:text-orange-700`}
+                                    } ${defaultClasses} hover:bg-orange-100 hover:text-orange-700`}
                                 id="assessments"
                             >
                                 <span>
@@ -82,24 +79,23 @@ export const StudentNavbar = () => {
                             </a>
                         </Link>
                     </li>
-                    {/* <li>
-                <Link legacyBehavior href="/portals/student/notifications">
-                    <a
-                        className={`${
-                            router.pathname == '/portals/student/notifications'
-                                ? 'bg-blue-100 text-blue-700'
-                                : 'text-slate-700'
-                        } ${defaultClasses} hover:bg-blue-100 hover:text-blue-700`}
-                    >
-                        <span>
-                            <MdNotifications />
-                        </span>
-                        <span className="text-sm font-semibold">
-                            Notifications
-                        </span>
-                    </a>
-                </Link>
-            </li> */}{' '}
+                    <li>
+                        <Link legacyBehavior href="/portals/student/notifications">
+                            <a
+                                className={`${router.pathname == '/portals/student/notifications'
+                                        ? 'bg-blue-100 text-blue-700'
+                                        : 'text-slate-700'
+                                    } ${defaultClasses} hover:bg-blue-100 hover:text-blue-700`}
+                            >
+                                <span>
+                                    <MdNotifications />
+                                </span>
+                                <span className="text-sm font-semibold">
+                                    Notifications
+                                </span>
+                            </a>
+                        </Link>
+                    </li>{' '}
                 </ul>
             </Desktop>
 
@@ -113,11 +109,10 @@ export const StudentNavbar = () => {
                     <li>
                         <Link legacyBehavior href="/portals/student">
                             <a
-                                className={`${
-                                    router.pathname == '/student'
+                                className={`${router.pathname == '/student'
                                         ? 'bg-indigo-100 text-indigo-700'
                                         : 'text-slate-700'
-                                } ${defaultClasses} hover:bg-indigo-100 hover:text-indigo-700`}
+                                    } ${defaultClasses} hover:bg-indigo-100 hover:text-indigo-700`}
                             >
                                 <div>
                                     <MdSpaceDashboard size={24} />
@@ -132,12 +127,11 @@ export const StudentNavbar = () => {
                     <li>
                         <Link legacyBehavior href="/portals/student/workplace">
                             <a
-                                className={`${
-                                    router.pathname ==
-                                    '/portals/student/workplace'
+                                className={`${router.pathname ==
+                                        '/portals/student/workplace'
                                         ? 'bg-green-100 text-green-700'
                                         : 'text-slate-700'
-                                } ${defaultClasses} hover:bg-green-100 hover:text-green-700`}
+                                    } ${defaultClasses} hover:bg-green-100 hover:text-green-700`}
                                 id="workplace"
                             >
                                 <span>
@@ -156,12 +150,11 @@ export const StudentNavbar = () => {
                             href="/portals/student/assessments"
                         >
                             <a
-                                className={`${
-                                    router.pathname ==
-                                    '/portals/student/assessments'
+                                className={`${router.pathname ==
+                                        '/portals/student/assessments'
                                         ? 'bg-orange-100 text-orange-700'
                                         : 'text-slate-700'
-                                } ${defaultClasses} hover:bg-orange-100 hover:text-orange-700`}
+                                    } ${defaultClasses} hover:bg-orange-100 hover:text-orange-700`}
                                 id="assessments"
                             >
                                 <span>
