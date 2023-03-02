@@ -1,6 +1,6 @@
 import { ReactElement, useState } from 'react'
 // Layouts
-import { SubAdminLayout } from '@layouts'
+import { StudentLayout } from '@layouts'
 // Types
 import { NextPageWithLayout } from '@types'
 import { Card, EmptyData, LoadingAnimation, Pagination, TechnicalError, Typography } from '@components'
@@ -14,7 +14,7 @@ import { ellipsisText } from '@utils'
 const SubAdminAllNotifications: NextPageWithLayout = () => {
     const { data: notifications, isError, isLoading } =
         CommonApi.Notifications.useNotifications()
-        const [readNotifications, resultReadNotifications] =
+    const [readNotifications, resultReadNotifications] =
         CommonApi.Notifications.useIsReadNotification()
 
     return (
@@ -32,7 +32,7 @@ const SubAdminAllNotifications: NextPageWithLayout = () => {
                                         currentPage={currentPage}
                                     /> */}
                                 </div>
-                                {notifications?.map((notification:any, i:any) => (
+                                {notifications?.map((notification: any, i: any) => (
                                     <div
                                         key={notification.id}
                                         onClick={() =>
@@ -115,9 +115,9 @@ const SubAdminAllNotifications: NextPageWithLayout = () => {
 
 SubAdminAllNotifications.getLayout = (page: ReactElement) => {
     return (
-        <SubAdminLayout pageTitle={{ title: 'All Notifications' }}>
+        <StudentLayout pageTitle={{ title: 'All Notifications' }}>
             {page}
-        </SubAdminLayout>
+        </StudentLayout>
     )
 }
 

@@ -652,55 +652,55 @@ const SubAdminDashboard: NextPageWithLayout = () => {
                 }
             },
         },
-        {
-            // text: `Where can I add or view assessment requirements?`,
-            text: `Where can I find required documents?`,
-            link: '#',
-            steps: [
-                {
-                    target: '#important-docs',
-                    content: (
-                        <>
-                            <div className="font-semibold">Click here</div>
-                            <div>You can find Important documents here </div>
-                        </>
-                    ),
-                    disableBeacon: true,
-                },
-                {
-                    target: '#routeB',
-                    content: (
-                        <>
-                            <div>This is Route B</div>
-                            <div>
-                                Yet another loader simulation and now we reached
-                                the last step in our tour!
-                            </div>
-                        </>
-                    ),
-                },
-            ],
-            joyrideCallback: (joyride: any) => {
-                return (data: CallBackProps) => {
-                    const { action, index, lifecycle, type } = data
-                    if (action === 'close') {
-                        joyride.setState({
-                            ...joyride.state,
-                            run: false,
-                            stepIndex: 0,
-                            tourActive: false,
-                        })
-                    } else if (action === 'reset' || lifecycle === 'complete') {
-                        joyride.setState({
-                            ...joyride.state,
-                            run: false,
-                            stepIndex: 0,
-                            tourActive: false,
-                        })
-                    }
-                }
-            },
-        },
+        // {
+        //     // text: `Where can I add or view assessment requirements?`,
+        //     text: `Where can I find required documents?`,
+        //     link: '#',
+        //     steps: [
+        //         {
+        //             target: '#important-docs',
+        //             content: (
+        //                 <>
+        //                     <div className="font-semibold">Click here</div>
+        //                     <div>You can find Important documents here </div>
+        //                 </>
+        //             ),
+        //             disableBeacon: true,
+        //         },
+        //         {
+        //             target: '#routeB',
+        //             content: (
+        //                 <>
+        //                     <div>This is Route B</div>
+        //                     <div>
+        //                         Yet another loader simulation and now we reached
+        //                         the last step in our tour!
+        //                     </div>
+        //                 </>
+        //             ),
+        //         },
+        //     ],
+        //     joyrideCallback: (joyride: any) => {
+        //         return (data: CallBackProps) => {
+        //             const { action, index, lifecycle, type } = data
+        //             if (action === 'close') {
+        //                 joyride.setState({
+        //                     ...joyride.state,
+        //                     run: false,
+        //                     stepIndex: 0,
+        //                     tourActive: false,
+        //                 })
+        //             } else if (action === 'reset' || lifecycle === 'complete') {
+        //                 joyride.setState({
+        //                     ...joyride.state,
+        //                     run: false,
+        //                     stepIndex: 0,
+        //                     tourActive: false,
+        //                 })
+        //             }
+        //         }
+        //     },
+        // },
     ]
     useEffect(() => {
         contextBar.setContent(<ViewProfileCB />)

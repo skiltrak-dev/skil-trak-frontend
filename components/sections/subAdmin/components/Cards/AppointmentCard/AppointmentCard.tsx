@@ -127,19 +127,19 @@ export const AppointmentCard = (props: Props) => {
                     <Typography variant={'muted'} color={'text-gray-500'}>
                         Recent Activity
                     </Typography>
-                    <Typography variant={'muted'} color={'text-blue-400'}>
+                    {/* <Typography variant={'muted'} color={'text-blue-400'}>
                         View All
-                    </Typography>
+                    </Typography> */}
                 </div>
                 <div className="flex gap-x-2">
                     <div className="flex flex-col">
                         {/* {isError && <TechnicalError />} */}
                         {isLoading && <LoadingAnimation />}
-                        {data?.length > 0 ? (data?.map((item: any, index: any) => (
+                        {data?.length > 0 ? (data?.slice(0, 4).map((item: any, index: any) => (
                             <div key={item?.id} className="flex gap-x-2">
                                 <div className="flex items-center flex-col">
                                     <div className="bg-neutral-300 p-1.5 rounded-full"></div>
-                                    <div className={`${index === data?.length - 1 && "hidden"} bg-neutral-300 h-5 w-[1px]`}></div>
+                                    <div className={`${index === 3 && "hidden"} bg-neutral-300 min-h-[20px] h-full w-[1px]`}></div>
                                 </div>
 
                                 <RecentActivityLinks

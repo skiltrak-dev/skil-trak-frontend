@@ -13,7 +13,7 @@ import {
     RtoContextBarData,
     SidebarCalendar,
 } from '@components'
-import { RecentAppointment } from '@partials/common'
+import { EmailsCard, RecentAppointment } from '@partials/common'
 // Hooks
 import { useContextBar, useJoyRide } from '@hooks'
 
@@ -54,17 +54,17 @@ const Notifications: NextPageWithLayout = () => {
             //     loading: statistics.isLoading,
             // },
         },
-        {
-            title: 'Discussions',
-            description: 'Discussions',
-            link: 'notifications/e-mails?tab=all-mails',
-            animation: Animations.Student.Appointments.AssessmentEvidence,
-            // id: 'assessment-evidence',
-            // badge: {
-            //     text: statistics?.data?.assessmentEvidence,
-            //     loading: statistics.isLoading,
-            // },
-        },
+        // {
+        //     title: 'Discussions',
+        //     description: 'Discussions',
+        //     link: 'notifications/e-mails?tab=all-mails',
+        //     animation: Animations.Student.Appointments.AssessmentEvidence,
+        //     // id: 'assessment-evidence',
+        //     // badge: {
+        //     //     text: statistics?.data?.assessmentEvidence,
+        //     //     loading: statistics.isLoading,
+        //     // },
+        // },
         {
             title: 'All Notifications',
             description: 'All Notifications',
@@ -89,26 +89,9 @@ const Notifications: NextPageWithLayout = () => {
 
                 {/* Special Cards */}
                 <div className="w-full flex flex-col justify-center space-y-2">
-                    {/* <PlacementProgressCard
-                        placementProgress={'Query'}
-                    /> */}
-                    <RecentAppointment
-                        link={'/portals/sub-admin/tasks/appointments'}
-                    />
+                    <EmailsCard />
                 </div>
             </div>
-
-            {/* <div className="mt-6 flex justify-between">
-                <HelpQuestionSet
-                    title={'What you want to do here?'}
-                    questions={RelatedQuestions}
-                />
-
-                <HelpQuestionSet
-                    title={'What else you want to do?'}
-                    questions={OtherQuestions}
-                />
-            </div> */}
         </div>
     )
 }
