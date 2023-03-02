@@ -110,7 +110,9 @@ const SubAdminList: NextPageWithLayout = () => {
                 />
             </div>
 
-            {filteredSubAdmins.isError && <TechnicalError />}
+            {filteredDataLength && filteredSubAdmins.isError && (
+                <TechnicalError />
+            )}
             {filteredDataLength ? (
                 filteredSubAdmins.isLoading ? (
                     <LoadingAnimation />

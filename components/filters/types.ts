@@ -1,4 +1,4 @@
 export interface SelectOption {
     label: string
-    value: number
+    value: number | string | boolean
 }

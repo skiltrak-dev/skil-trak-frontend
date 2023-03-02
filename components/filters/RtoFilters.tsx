@@ -3,6 +3,7 @@ import { CommonApi } from '@queries'
 import { useEffect, useState } from 'react'
 import { SetQueryFilters } from './SetQueryFilters'
 import { statusOptions } from './statusOptions'
+import { SelectOption } from './types'
 
 interface ItemFilterProps {
     onFilterChange: Function
@@ -32,6 +33,7 @@ export const RtoFilters = ({ onFilterChange, filter }: ItemFilterProps) => {
                     name="name"
                     label={'Name'}
                     placeholder={'Search by RTO Name ...'}
+                    value={filter?.name}
                     onChange={(e: any) => {
                         onFilterChange({ ...filter, name: e.target.value })
                     }}
@@ -41,6 +43,7 @@ export const RtoFilters = ({ onFilterChange, filter }: ItemFilterProps) => {
                     label={'Email'}
                     placeholder={'Search by RTO Email ...'}
                     type={'email'}
+                    value={filter?.email}
                     onChange={(e: any) => {
                         onFilterChange({ ...filter, email: e.target.value })
                     }}
@@ -49,6 +52,7 @@ export const RtoFilters = ({ onFilterChange, filter }: ItemFilterProps) => {
                     name="rtoCode"
                     label={'Code'}
                     placeholder={'Search by RTO Code ...'}
+                    value={filter?.rtoCode}
                     onChange={(e: any) => {
                         onFilterChange({ ...filter, rtoCode: e.target.value })
                     }}
@@ -58,6 +62,9 @@ export const RtoFilters = ({ onFilterChange, filter }: ItemFilterProps) => {
                     name={'status'}
                     options={statusOptions}
                     placeholder={'Select Status...'}
+                    defaultValue={statusOptions.find(
+                        (status) => status.value === filter?.status
+                    )}
                     onChange={(e: any) => {
                         onFilterChange({ ...filter, status: e?.value })
                     }}
@@ -67,6 +74,10 @@ export const RtoFilters = ({ onFilterChange, filter }: ItemFilterProps) => {
                     name={'courseId'}
                     options={coursesOptions}
                     placeholder={'Select Courses...'}
+                    defaultValue={coursesOptions?.find(
+                        (course: SelectOption) =>
+                            course.value === filter?.courseId
+                    )}
                     onChange={(e: any) => {
                         onFilterChange({ ...filter, courseId: e?.value })
                     }}

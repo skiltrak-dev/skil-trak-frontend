@@ -42,6 +42,11 @@ export const workplaceRequestApi = createApi({
             },
             providesTags: ['Workplace'],
         }),
+        getStudentIndustries: builder.query<any, void>({
+            query: () => `industries/list`,
+            providesTags: ['Workplace'],
+        }),
+
         uploadDocuments: builder.mutation({
             query: ({ id, body, workplaceId }) => {
                 return {
@@ -102,6 +107,7 @@ export const workplaceRequestApi = createApi({
 })
 
 export const {
+    useGetStudentIndustriesQuery,
     useGetCourseDocumentsQuery,
     useGetWorkplaceIndustriesQuery,
     useGetPlacementProgressQuery,
