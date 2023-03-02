@@ -1,25 +1,17 @@
 import { useRouter } from 'next/router'
 
-import { ReactElement, useEffect } from 'react'
+import { ReactElement, useEffect, useState } from 'react'
 
-import { StudentLayout, SubAdminLayout } from '@layouts'
+import { SubAdminLayout } from '@layouts'
 import { NextPageWithLayout } from '@types'
 
-import {
-    Typography,
-    Button,
-    BigCalendar,
-    Card,
-    PageTitle,
-    CalendarEvent,
-} from '@components'
+import { BigCalendar, Button, Card, PageTitle } from '@components'
 
 import { useContextBar } from '@hooks'
+import { PastAppointments, UpcomingAppointments } from '@partials/common'
 import { CommonCB } from '@partials/rto/contextBar'
 import { CommonApi } from '@queries'
-import { UpcomingAppointments, PastAppointments } from '@partials/common'
 import moment from 'moment'
-import { getUserCredentials } from '@utils'
 
 type Props = {}
 
@@ -30,6 +22,13 @@ const Appointments: NextPageWithLayout = (props: Props) => {
     useEffect(() => {
         contextBar.setContent(<CommonCB />)
         contextBar.show(false)
+    }, [])
+
+    const [mount, setMount] = useState(false)
+    useEffect(() => {
+        if (!mount) {
+            setMount(true)
+        }
     }, [])
 
     // query
@@ -54,7 +53,8 @@ const Appointments: NextPageWithLayout = (props: Props) => {
         startTime.setHours(startHours, startMinutes)
         endTime.setHours(endHours, endMinutes)
 
-        const appointmentUser = appointment['appointmentFor']
+        const appointmentUser =
+            appointment['appointmentFor'] || appointment['appointmentBy']
 
         const getPriority = () => {
             if (appointmentUser) {
@@ -66,9 +66,10 @@ const Appointments: NextPageWithLayout = (props: Props) => {
                     case 'industry':
                         return 'low'
                     default:
-                        return
+                        return 'high'
                 }
             }
+
             return 'high'
         }
 
@@ -76,11 +77,11 @@ const Appointments: NextPageWithLayout = (props: Props) => {
             allDay: false,
             start: startTime,
             end: endTime,
-            title: ` ${appointmentUser?.name || ''}, ${
-                appointment?.type?.title
-            }`,
+            title: appointment?.type?.title,
             priority: getPriority(),
-            subTitle: 'Go For It',
+            subTitle:
+                appointment.appointmentFor?.name ||
+                appointment.appointmentBy?.name,
         }
     })
 
@@ -122,10 +123,12 @@ const Appointments: NextPageWithLayout = (props: Props) => {
 
             <div className="mb-4">
                 <Card>
-                    <BigCalendar
-                        events={events}
-                        loading={futureAppointments.isLoading}
-                    />
+                    {mount && (
+                        <BigCalendar
+                            events={events}
+                            loading={futureAppointments.isLoading}
+                        />
+                    )}
                 </Card>
             </div>
 

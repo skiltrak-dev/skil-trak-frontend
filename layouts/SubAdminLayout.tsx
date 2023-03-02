@@ -1,8 +1,7 @@
-import { DisplayAlerts, PageTitle, PageTitleProps } from '@components'
-import { SubAdminNavbar } from '@components'
+import { DisplayAlerts, PageTitle, PageTitleProps, SubAdminNavbar } from '@components'
 import { useJoyRide } from '@hooks'
 import { ReactNode, useEffect, useState } from 'react'
-import Joyride, { CallBackProps } from 'react-joyride'
+import Joyride from 'react-joyride'
 import { UserLayout } from './UserLayout'
 
 interface SubAdminLayoutProps {
@@ -23,7 +22,7 @@ export const SubAdminLayout = ({
     return (
         <UserLayout>
             <>
-                <div className="px-16">
+                <div className="px-8">
                     <div className="mb-6">
                         <SubAdminNavbar />
                         <DisplayAlerts />
