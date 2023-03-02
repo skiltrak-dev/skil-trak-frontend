@@ -136,19 +136,17 @@ const SubAdminTasks: NextPageWithLayout = () => {
                 </div>
             </div>
 
-            <div className="mt-6 flex justify-between">
-                {/* Related Questions */}
+            {/* <div className="mt-6 flex justify-between">
                 <HelpQuestionSet
                     title={'What you want to do here?'}
                     questions={RelatedQuestions}
                 />
 
-                {/* Other Questions */}
                 <HelpQuestionSet
                     title={'What else you want to do?'}
                     questions={OtherQuestions}
                 />
-            </div>
+            </div> */}
         </div>
     )
 }

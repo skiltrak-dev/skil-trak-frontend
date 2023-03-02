@@ -18,7 +18,7 @@ import { NotificationDropDown } from './components/notifications'
 import { CommonApi } from '@queries'
 
 export const AdminNavbar = () => {
-    const { data, error, isLoading } =
+    const data =
         CommonApi.Notifications.useNotifications()
     const [isReadNotification, resultIsReadNotification] =
         CommonApi.Notifications.useIsReadNotification()
@@ -51,13 +51,13 @@ export const AdminNavbar = () => {
     // bg-[#F9FAFB]
 
     // filter over data to get only unread notifications
-    const unreadNotifications = data?.data?.filter(
+    const unreadNotifications = data?.data?.data?.filter(
         (notification: any) => notification?.isRead === false
     )
     const count = unreadNotifications?.length
 
     const { data: mailCount } = CommonApi.Messages.useMailCount()
-    const { data: allMails } = CommonApi.Messages.useRecentMails()
+    const allMails = CommonApi.Messages.useRecentMails()
     const [seenMessage, resultSeenMessage] = CommonApi.Messages.useIsSeen()
     return (
         <div className="w-full transition-all  z-30 py-2 px-6  flex justify-between items-center">

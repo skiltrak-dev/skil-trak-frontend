@@ -18,6 +18,7 @@ import {
     MdVolunteerActivism,
 } from 'react-icons/md'
 import { RiShieldUserFill, RiVoiceRecognitionLine } from 'react-icons/ri'
+import { MdNotificationsActive } from 'react-icons/md'
 
 type Route = {
     type?: 'title' | 'divider'
@@ -122,6 +123,11 @@ const routes: Route[] = [
         text: 'Documents',
         path: getRoutePath('/documents'),
         Icon: MdSubscriptions,
+    },
+    {
+        text: 'Notifications',
+        path: getRoutePath('/notifications'),
+        Icon: MdNotificationsActive,
     },
 ]
 
