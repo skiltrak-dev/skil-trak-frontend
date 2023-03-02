@@ -1,4 +1,5 @@
-import { ReactElement, useEffect, useState } from 'react'
+import { ReactElement, useCallback, useEffect, useState } from 'react'
+import debounce from 'lodash/debounce'
 
 import {
     Filter,
@@ -8,6 +9,7 @@ import {
     Card,
     LoadingAnimation,
     TechnicalError,
+    TextInput,
 } from '@components'
 import { useContextBar, useNavbar } from '@hooks'
 import { AdminLayout } from '@layouts'
@@ -35,13 +37,15 @@ const filterKeys = [
     'courseId',
 ]
 
-const RtoList: NextPageWithLayout = () => {
+const StudentList: NextPageWithLayout = () => {
     const navBar = useNavbar()
     const contextBar = useContextBar()
 
     const router = useRouter()
 
     const [filterAction, setFilterAction] = useState(null)
+    const [studentId, setStudentId] = useState<any | null>(null)
+    const [studentIdValue, setStudentIdValue] = useState<string>('')
     const [filter, setFilter] = useState({})
     const [page, setPage] = useState(1)
     const [itemPerPage, setItemPerPage] = useState(50)
@@ -51,9 +55,11 @@ const RtoList: NextPageWithLayout = () => {
         setFilter(query)
     }, [router])
 
+    console.log('studentIdValue', studentIdValue, studentId)
+
     const { isLoading, data } = AdminApi.Students.useCountQuery()
     const filteredStudents = AdminApi.Students.useListQuery({
-        search: `${JSON.stringify(filter)
+        search: `${JSON.stringify({ ...filter, ...studentId })
             .replaceAll('{', '')
             .replaceAll('}', '')
             .replaceAll('"', '')
@@ -131,21 +137,49 @@ const RtoList: NextPageWithLayout = () => {
         },
     ]
 
-    const filteredDataLength = checkFilteredDataLength(filter)
+    const delayedSearch = useCallback(
+        debounce((value) => {
+            setStudentId({ studentId: value })
+        }, 700),
+        []
+    )
+
+    const filteredDataLength = checkFilteredDataLength({
+        ...filter,
+        ...(studentId?.studentId ? studentId : {}),
+    })
 
     return (
         <div>
             <div className="px-4">
-                <div className="flex justify-end mb-2">{filterAction}</div>
+                <div className="flex justify-end gap-x-2 mb-2">
+                    <div>
+                        <TextInput
+                            name={'studentId'}
+                            placeholder={'Search by Student Id'}
+                            value={studentIdValue}
+                            onChange={(e: any) => {
+                                setStudentIdValue(e.target.value)
+                                delayedSearch(e.target.value)
+                            }}
+                        />
+                    </div>
+                    <div className="flex-shrink-0">{filterAction}</div>
+                </div>
                 <Filter
-                    setFilter={setFilter}
+                    setFilter={(f: any) => {
+                        setStudentId(null)
+                        setFilter(f)
+                    }}
                     initialValues={filter}
                     filterKeys={filterKeys}
                     component={StudentFilters}
                     setFilterAction={setFilterAction}
                 />
             </div>
-            {filteredStudents.isError && <TechnicalError />}
+            {filteredDataLength && filteredStudents.isError && (
+                <TechnicalError />
+            )}
             {filteredDataLength ? (
                 filteredStudents.isLoading ? (
                     <LoadingAnimation />
@@ -177,8 +211,8 @@ const RtoList: NextPageWithLayout = () => {
     )
 }
 
-RtoList.getLayout = (page: ReactElement) => {
+StudentList.getLayout = (page: ReactElement) => {
     return <AdminLayout>{page}</AdminLayout>
 }
 
-export default RtoList
+export default StudentList

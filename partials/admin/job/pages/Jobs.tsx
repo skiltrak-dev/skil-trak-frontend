@@ -228,7 +228,7 @@ export const Jobs = () => {
             {modal && modal}
             <div className="flex flex-col gap-y-4 mb-32">
                 <PageHeading title={'Jobs'} subtitle={'List of All Jobs'}>
-                    {filterAction}
+                    {/* {filterAction} */}
                     {data && data?.data.length ? (
                         <Button
                             text="Export"

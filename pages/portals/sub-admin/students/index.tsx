@@ -15,6 +15,7 @@ import {
     SubAdminStudentFilters,
     TabNavigation,
     TabProps,
+    TextInput,
 } from '@components'
 import {
     AllStudents,
@@ -34,23 +35,41 @@ import { useContextBar } from '@hooks'
 
 //Layouts
 import { SubAdminLayout } from '@layouts'
-import { getCountData } from '@utils'
+import { getCountData, getFilterQuery } from '@utils'
+import { useRouter } from 'next/router'
 
 type Props = {}
 
+const filterKeys = [
+    'name',
+    'email',
+    'phone',
+    'studentId',
+    'rtoId',
+    'industryId',
+    'courseId',
+]
+
 const Students: NextPageWithLayout = (props: Props) => {
+    const router = useRouter()
     const { setContent } = useContextBar()
 
     const [filterAction, setFilterAction] = useState(null)
     const [filter, setFilter] = useState({})
+    const [studentId, setStudentId] = useState<any | null>(null)
     const [page, setPage] = useState(1)
     const [itemPerPage, setItemPerPage] = useState(50)
+
+    useEffect(() => {
+        const query = getFilterQuery({ router, filterKeys })
+        setFilter(query)
+    }, [router])
 
     const count = SubAdminApi.Student.useCount()
 
     const filteredStudents = useGetSubAdminStudentsQuery(
         {
-            search: `${JSON.stringify(filter)
+            search: `${JSON.stringify({ ...filter, ...studentId })
                 .replaceAll('{', '')
                 .replaceAll('}', '')
                 .replaceAll('"', '')
@@ -58,7 +77,7 @@ const Students: NextPageWithLayout = (props: Props) => {
             skip: itemPerPage * page - itemPerPage,
             limit: itemPerPage,
         },
-        { skip: !Object.keys(filter).length }
+        { skip: !Object.keys({ ...filter, ...studentId }).length }
     )
 
     useEffect(() => {
@@ -131,15 +150,28 @@ const Students: NextPageWithLayout = (props: Props) => {
             <div className="flex justify-between items-end">
                 <PageTitle title={'Students'} backTitle={'Users'} />
 
-                <div className="">{filterAction}</div>
+                <div className="flex gap-x-2">
+                    <TextInput
+                        name={'studentId'}
+                        placeholder={'Search by student id'}
+                        onChange={(e: any) => {
+                            setStudentId({ studentId: e.target.value })
+                        }}
+                    />
+                    <div className="flex-shrink-0">{filterAction}</div>
+                </div>
             </div>
 
             <div className="py-4">
                 <Filter
-                    component={SubAdminStudentFilters}
+                    setFilter={(f: any) => {
+                        setStudentId(null)
+                        setFilter(f)
+                    }}
                     initialValues={filter}
+                    filterKeys={filterKeys}
                     setFilterAction={setFilterAction}
-                    setFilter={setFilter}
+                    component={SubAdminStudentFilters}
                 />
             </div>
 

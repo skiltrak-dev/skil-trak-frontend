@@ -35,6 +35,7 @@ import { FaEnvelope, FaPhoneSquareAlt } from 'react-icons/fa'
 import { Rto } from '@types'
 import { MdEmail, MdPhoneIphone } from 'react-icons/md'
 import { SectorCell } from '@partials/admin/sub-admin'
+import { getFilterQuery } from '@utils'
 
 const RTOs: NextPageWithLayout = () => {
     const { setContent } = useContextBar()
@@ -43,6 +44,12 @@ const RTOs: NextPageWithLayout = () => {
     const [itemPerPage, setItemPerPage] = useState(50)
     const [page, setPage] = useState(1)
     const [filter, setFilter] = useState({})
+
+    useEffect(() => {
+        const query = getFilterQuery({ router, filterKeys: [] })
+        setFilter(query)
+    }, [router])
+
     const { isLoading, data, isError } = useGetSubAdminRtosQuery({
         skip: itemPerPage * page - itemPerPage,
         limit: itemPerPage,
@@ -61,7 +68,9 @@ const RTOs: NextPageWithLayout = () => {
         {
             text: 'View',
             onClick: (rto: any) => {
-                router.push(`/portals/sub-admin/users/rtos/${rto.original.id}?tab=overview`)
+                router.push(
+                    `/portals/sub-admin/users/rtos/${rto.original.id}?tab=overview`
+                )
             },
             Icon: FaEye,
         },
@@ -161,7 +170,6 @@ const RTOs: NextPageWithLayout = () => {
             //         </div>
             //     )
             // },
-
         },
         {
             header: () => 'Address',
