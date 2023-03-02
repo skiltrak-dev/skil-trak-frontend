@@ -50,7 +50,7 @@ export const PastAppointments = () => {
                     <LoadingAnimation size={90} />
                 ) : pastAppointments.data?.data &&
                   pastAppointments.data?.data?.length ? (
-                    <div className=" flex flex-wrap gap-x-2">
+                    <div className="flex flex-wrap justify-start gap-x-2 gap-y-2">
                         {pastAppointments.data?.data?.map(
                             (pastAppointment: any, index: number) => (
                                 <PastAppointmentCard

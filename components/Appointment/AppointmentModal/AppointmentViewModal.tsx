@@ -1,13 +1,10 @@
-import { Card } from '@components/cards'
-import moment from 'moment'
-import { BsDot } from 'react-icons/bs'
-import { FaDotCircle, FaMapMarkerAlt, FaTimes } from 'react-icons/fa'
-import { GoPrimitiveDot } from 'react-icons/go'
-import Image from 'next/image'
 import { getAppointmentTypeIcon } from '@partials/appointmentType/AppointmentTypeCard'
+import moment from 'moment'
+import Image from 'next/image'
+import { FaExclamationTriangle, FaMapMarkerAlt, FaTimes } from 'react-icons/fa'
+import { GoPrimitiveDot } from 'react-icons/go'
 
 export const AppointmentViewModal = ({ appointment, onCancel }: any) => {
-    console.log('::: APPOINTMENT', appointment)
     return (
         <div className="fixed w-full h-screen bg-black/50 top-0 left-0 z-50 flex items-center justify-center">
             <div className="bg-white shadow-lg rounded-md min-w-[500px]">
@@ -68,10 +65,12 @@ export const AppointmentViewModal = ({ appointment, onCancel }: any) => {
                             {/* Date & Time */}
                             <div>
                                 <p className="text-md font-semibold">
-                                    {appointment.appointmentFor.name}
+                                    {appointment.appointmentFor?.name ||
+                                        appointment.appointmentBy?.name}
                                 </p>
                                 <p className="text-sm font-medium text-slate-600">
-                                    {appointment.appointmentFor.email}
+                                    {appointment.appointmentFor?.email ||
+                                        appointment.appointmentBy?.email}
                                 </p>
                             </div>
                         </div>
@@ -149,21 +148,29 @@ export const AppointmentViewModal = ({ appointment, onCancel }: any) => {
                             <p className="text-xs font-medium text-slate-400">
                                 Course
                             </p>
-                            <div className="">
-                                <p className="text-sm">
-                                    {appointment.course.code}
+                            {appointment.course ? (
+                                <div className="">
+                                    <p className="text-sm">
+                                        {appointment.course.code}
+                                    </p>
+                                    <p className="text-md font-medium">
+                                        {appointment.course.title}
+                                    </p>
+                                </div>
+                            ) : (
+                                <p className="text-orange-500 text-xs font-medium flex items-center gap-x-2">
+                                    <span>
+                                        <FaExclamationTriangle />
+                                    </span>
+                                    <span>No Course Was Selected</span>
                                 </p>
-                                <p className="text-md font-medium">
-                                    {appointment.course.title}
-                                </p>
-                            </div>
+                            )}
                         </div>
                     </div>
                 </div>
 
                 {/* Body */}
                 <div className="p-4">
-
                     <div>
                         <p className="text-xs font-medium text-slate-500">
                             Attached Note

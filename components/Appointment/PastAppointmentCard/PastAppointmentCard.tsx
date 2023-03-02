@@ -1,6 +1,10 @@
-import { Typography } from '@components/Typography'
 import moment from 'moment'
-import { FaClock, FaIdCardAlt, FaMapMarkerAlt } from 'react-icons/fa'
+import {
+    FaCalendarDay,
+    FaClock,
+    FaIdCardAlt,
+    FaMapMarkerAlt
+} from 'react-icons/fa'
 
 type PastAppointmentProps = {
     name?: string
@@ -17,8 +21,8 @@ type PastAppointmentProps = {
 export const PastAppointmentCard = ({ appointment }: PastAppointmentProps) => {
     return (
         <>
-            <div className="flex justify-between items-center bg-white border rounded-2xl mt-1 overflow-hidden">
-                <div className="border-r h-full py-2 px-4 bg-indigo-500 text-white">
+            <div className="flex flex-col rounded-xl overflow-hidden bg-white border w-fit">
+                <div className="h-full py-2 px-4 bg-indigo-500 text-white">
                     <p className="text-lg font-semibold">
                         {appointment.type.title}
                     </p>
@@ -54,34 +58,47 @@ export const PastAppointmentCard = ({ appointment }: PastAppointmentProps) => {
                     </div>
                 </div>
 
-                <div className="py-2 px-4">
-                    <div className="flex gap-x-2">
-                        <span className="text-indigo-400 mt-2 text-sm">
-                            <FaClock />
-                        </span>
-                        <div>
-                            <div className="flex items-center gap-x-2">
-                                <p className="text-lg font-bold ">
-                                    {moment(
-                                        new Date(
-                                            `01-01-2023 ${appointment.startTime}`
-                                        )
-                                    ).format('hh:mm a')}{' '}
-                                    -{' '}
-                                    {moment(
-                                        new Date(
-                                            `01-01-2023 ${appointment.endTime}`
-                                        )
-                                    ).format('hh:mm a')}
-                                </p>
-                                <Typography
-                                    variant="small"
-                                    color="text-gray-400"
-                                >
-                                    ~ {appointment.type.duration} Minutes
-                                </Typography>
+                <div className="">
+                    <div className='px-4 py-2'>
+                        <div className="flex items-start gap-x-2">
+                            <span className="text-indigo-400 mt-2 text-sm">
+                                <FaClock />
+                            </span>
+                            <div>
+                                <div className="items-center gap-x-2">
+                                    <p className="text-lg font-bold ">
+                                        {moment(
+                                            new Date(
+                                                `01-01-2023 ${appointment.startTime}`
+                                            )
+                                        ).format('hh:mm a')}{' '}
+                                        -{' '}
+                                        {moment(
+                                            new Date(
+                                                `01-01-2023 ${appointment.endTime}`
+                                            )
+                                        ).format('hh:mm a')}
+                                    </p>
+                                    <div className="flex items-center gap-x-4">
+                                        <p className="text-xs text-gray-400 -mt-1">
+                                            ~ {appointment.type.duration}{' '}
+                                            Minutes
+                                        </p>
+
+                                        <p className="text-xs text-gray-400 -mt-1">
+                                            {appointment.type.breakDuration}{' '}
+                                            Minutes Break
+                                        </p>
+                                    </div>
+                                </div>
                             </div>
-                            <p className="font-medium -mt-1 text-gray-500">
+                        </div>
+
+                        <div className="flex items-center gap-x-2">
+                            <span className="text-slate-300 mt-1 text-sm">
+                                <FaCalendarDay />
+                            </span>
+                            <p className="font-medium text-gray-500 mt-2">
                                 {moment(new Date(appointment.date)).format(
                                     'DD MMM, YYYY'
                                 )}
@@ -89,13 +106,13 @@ export const PastAppointmentCard = ({ appointment }: PastAppointmentProps) => {
                         </div>
                     </div>
 
-                    <div className="flex gap-x-2 w-72 mt-2">
+                    <div className="flex gap-x-2 max-w-[280px] mt-2 border-t px-4 py-2">
                         <span className="text-indigo-400 text-sm mt-1">
                             <FaMapMarkerAlt />
                         </span>
-                        <Typography variant="label" color="text-gray-400">
-                            {appointment.address}
-                        </Typography>
+                        <p className="text-sm text-gray-400">
+                            {appointment.address || 'Not Provided'}
+                        </p>
                     </div>
                 </div>
 
