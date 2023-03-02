@@ -6,15 +6,18 @@ import { useState } from 'react'
 
 import { Document, Page } from 'react-pdf'
 import { FaChevronLeft, FaChevronRight } from 'react-icons/fa'
+import { Typography } from '@components/Typography'
 
 interface PdfViewModalProps {
     url: string
     onCancelButtonClick?: () => void
+    downloadUrl: string
 }
 
 export const PdfViewModal = ({
     url,
     onCancelButtonClick,
+    downloadUrl,
 }: PdfViewModalProps) => {
     const [totalPages, setTotalPages] = useState(0)
     const [currentPage, setCurrentPage] = useState(1)
@@ -46,12 +49,22 @@ export const PdfViewModal = ({
                 <div className="min-w-[595px] min-h-[842px] relative">
                     <div>
                         <div className="px-4 flex justify-between">
-                            <p className="text-sm">
-                                <span className="text-gray-500">Page</span>{' '}
-                                <span className="font-semibold">
-                                    {currentPage}/{totalPages}
-                                </span>
-                            </p>
+                            <div>
+                                <div>
+                                    <a
+                                        href={downloadUrl}
+                                        className="text-sm font-semibold text-info"
+                                    >
+                                        Download
+                                    </a>
+                                </div>
+                                <p className="text-sm">
+                                    <span className="text-gray-500">Page</span>{' '}
+                                    <span className="font-semibold">
+                                        {currentPage}/{totalPages}
+                                    </span>
+                                </p>
+                            </div>
 
                             <div className="flex items-center gap-x-8 text-xs font-semibold">
                                 <button
@@ -77,9 +90,13 @@ export const PdfViewModal = ({
                             onLoadSuccess={({ numPages }) => {
                                 setTotalPages(numPages)
                             }}
-                            loading={<div className='min-w-[595px] min-h-[842px]'>
-                                <p className='text-center font-semibold text-gray-500 mt-16'>Loading PDF...</p>
-                            </div>}
+                            loading={
+                                <div className="min-w-[595px] min-h-[842px]">
+                                    <p className="text-center font-semibold text-gray-500 mt-16">
+                                        Loading PDF...
+                                    </p>
+                                </div>
+                            }
                         >
                             <Page pageNumber={currentPage} />
                         </Document>

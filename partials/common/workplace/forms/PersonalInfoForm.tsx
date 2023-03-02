@@ -17,6 +17,8 @@ type PersonalInfoProps = {
     courses: any
 }
 export const PersonalInfoForm = ({ onSubmit, courses }: PersonalInfoProps) => {
+    const [work, setWork] = useState<string>('')
+    const [qualification, setQualification] = useState<string>('')
     const coursesOptions = courses?.data?.map((course: any) => ({
         label: course.title,
         value: course.id,
@@ -43,10 +45,11 @@ export const PersonalInfoForm = ({ onSubmit, courses }: PersonalInfoProps) => {
 
     const validationSchema = yup.object({
         courses: yup.string().required('Must provide course'),
-        currentQualification: yup
+        qualification: yup
             .string()
+            .nullable(true)
             .required('Must provide currentQualification'),
-        currentWork: yup.string().required('Must provide currentWork'),
+        work: yup.string().nullable(true).required('Must provide currentWork'),
         haveTransport: yup
             .string()
             .nullable(true)
@@ -64,7 +67,6 @@ export const PersonalInfoForm = ({ onSubmit, courses }: PersonalInfoProps) => {
         mode: 'all',
         resolver: yupResolver(validationSchema),
     })
-
     return (
         <div>
             <Typography variant={'label'} capitalize>
@@ -85,17 +87,54 @@ export const PersonalInfoForm = ({ onSubmit, courses }: PersonalInfoProps) => {
                                 onlyValue
                             />
                         </div>
-                        <div className="flex flex-col md:flex-row  gap-x-2 mt-4">
-                            <TextInput
-                                name="currentQualification"
-                                label="Current Qualification"
-                                placeholder="Current Qualification"
-                            />
-                            <TextInput
-                                name="currentWork"
-                                label="Current Work"
-                                placeholder="Current Work"
-                            />
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-x-2 mt-4">
+                            {/*
+                             */}
+                            <div>
+                                <RadioGroup
+                                    gridColumns="2"
+                                    layout="grid"
+                                    // value={'yes'}
+                                    name="qualification"
+                                    label="Have you completed any qualification?"
+                                    options={[
+                                        { value: 'yes', label: 'Yes' },
+                                        { value: 'no', label: 'No' },
+                                    ]}
+                                    onChange={(e: any) => {
+                                        setQualification(e?.target?.value)
+                                    }}
+                                />
+                                {qualification === 'yes' && (
+                                    <TextInput
+                                        name="currentQualification"
+                                        // label="Current Qualification"
+                                        placeholder="Provide detail"
+                                    />
+                                )}
+                            </div>
+                            <div>
+                                <RadioGroup
+                                    gridColumns="2"
+                                    layout="grid"
+                                    name="work"
+                                    label="Are you currently working?"
+                                    options={[
+                                        { value: 'yes', label: 'Yes' },
+                                        { value: 'no', label: 'No' },
+                                    ]}
+                                    onChange={(e: any) => {
+                                        setWork(e?.target?.value)
+                                    }}
+                                />
+                                {work === 'yes' && (
+                                    <TextInput
+                                        name="currentWork"
+                                        // label="Current Work"
+                                        placeholder="Provide Detail"
+                                    />
+                                )}
+                            </div>
                         </div>
                         <div className="flex flex-col md:flex-row gap-y-3 mb-5">
                             <RadioGroup
@@ -123,8 +162,8 @@ export const PersonalInfoForm = ({ onSubmit, courses }: PersonalInfoProps) => {
                         <div>
                             <TextInput
                                 name="preferableLocation"
-                                label="Preferable Location"
-                                placeholder="Preferable Location"
+                                label="Where would you want to locate your self? (Suburb)"
+                                placeholder="Where would you want to locate your self? (Suburb)"
                             />
                         </div>
                         <Button text={'Continue'} submit />

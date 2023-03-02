@@ -1,5 +1,6 @@
-import { ReactElement, useEffect, useState } from 'react'
+import { ReactElement, useCallback, useEffect, useState } from 'react'
 import { NextPageWithLayout, UserCount } from '@types'
+import debounce from 'lodash/debounce'
 
 //components
 import {
@@ -35,7 +36,7 @@ import { useContextBar } from '@hooks'
 
 //Layouts
 import { SubAdminLayout } from '@layouts'
-import { getCountData, getFilterQuery } from '@utils'
+import { checkFilteredDataLength, getCountData, getFilterQuery } from '@utils'
 import { useRouter } from 'next/router'
 
 type Props = {}
@@ -57,6 +58,7 @@ const Students: NextPageWithLayout = (props: Props) => {
     const [filterAction, setFilterAction] = useState(null)
     const [filter, setFilter] = useState({})
     const [studentId, setStudentId] = useState<any | null>(null)
+    const [studentIdValue, setStudentIdValue] = useState<string>('')
     const [page, setPage] = useState(1)
     const [itemPerPage, setItemPerPage] = useState(50)
 
@@ -77,7 +79,12 @@ const Students: NextPageWithLayout = (props: Props) => {
             skip: itemPerPage * page - itemPerPage,
             limit: itemPerPage,
         },
-        { skip: !Object.keys({ ...filter, ...studentId }).length }
+        {
+            skip: !Object.keys({
+                ...filter,
+                ...(studentId?.studentId ? studentId : {}),
+            }).length,
+        }
     )
 
     useEffect(() => {
@@ -145,19 +152,35 @@ const Students: NextPageWithLayout = (props: Props) => {
         },
     ]
 
+    const delayedSearch = useCallback(
+        debounce((value) => {
+            setStudentId({ studentId: value })
+        }, 700),
+        []
+    )
+
+    const filteredDataLength = checkFilteredDataLength({
+        ...filter,
+        ...(studentId?.studentId ? studentId : {}),
+    })
+
     return (
         <>
             <div className="flex justify-between items-end">
                 <PageTitle title={'Students'} backTitle={'Users'} />
 
                 <div className="flex gap-x-2">
-                    <TextInput
-                        name={'studentId'}
-                        placeholder={'Search by student id'}
-                        onChange={(e: any) => {
-                            setStudentId({ studentId: e.target.value })
-                        }}
-                    />
+                    <div>
+                        <TextInput
+                            name={'studentId'}
+                            placeholder={'Search by Student Id'}
+                            value={studentIdValue}
+                            onChange={(e: any) => {
+                                setStudentIdValue(e.target.value)
+                                delayedSearch(e.target.value)
+                            }}
+                        />
+                    </div>
                     <div className="flex-shrink-0">{filterAction}</div>
                 </div>
             </div>
@@ -175,7 +198,38 @@ const Students: NextPageWithLayout = (props: Props) => {
                 />
             </div>
 
-            <div>
+            {filteredDataLength && filteredStudents.isError && (
+                <TechnicalError />
+            )}
+            {filteredDataLength ? (
+                filteredStudents.isLoading ? (
+                    <LoadingAnimation />
+                ) : (
+                    filteredStudents.isSuccess && (
+                        <FilteredStudents
+                            setPage={setPage}
+                            itemPerPage={itemPerPage}
+                            student={filteredStudents}
+                            setItemPerPage={setItemPerPage}
+                        />
+                    )
+                )
+            ) : null}
+
+            {!filteredDataLength && (
+                <TabNavigation tabs={tabs}>
+                    {({ header, element }: any) => {
+                        return (
+                            <div>
+                                <div>{header}</div>
+                                <div className="p-4">{element}</div>
+                            </div>
+                        )
+                    }}
+                </TabNavigation>
+            )}
+
+            {/* <div>
                 {filteredStudents.isError && <TechnicalError />}
                 {filteredStudents.isLoading ? (
                     <div className="px-4 mt-4">
@@ -203,8 +257,8 @@ const Students: NextPageWithLayout = (props: Props) => {
                             }}
                         </TabNavigation>
                     )
-                )}
-            </div>
+                )} */}
+            {/* </div> */}
         </>
     )
 }

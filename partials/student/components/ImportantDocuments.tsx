@@ -12,7 +12,13 @@ import { CommonApi } from '@queries'
 import { ReactElement, useState } from 'react'
 import { useNotification } from '@hooks'
 
-export const ImportantDocuments = ({ sidebar }: { sidebar?: boolean }) => {
+export const ImportantDocuments = ({
+    sidebar,
+    coureseRequirementsLink,
+}: {
+    coureseRequirementsLink: string
+    sidebar?: boolean
+}) => {
     const [modal, setModal] = useState<ReactElement | null>(null)
 
     const { notification } = useNotification()
@@ -76,11 +82,13 @@ export const ImportantDocuments = ({ sidebar }: { sidebar?: boolean }) => {
                               extension.toLowerCase()
                           ) ? (
                             <VideoPlayModal
+                                downloadUrl={document?.file}
                                 url={document?.file}
                                 onCancelButtonClick={onCancel}
                             />
                         ) : ['pdf'].includes(extension.toLowerCase()) ? (
                             <PdfViewModal
+                                downloadUrl={document?.file}
                                 url={document?.file}
                                 onCancelButtonClick={onModalCancel}
                             />
@@ -118,6 +126,7 @@ export const ImportantDocuments = ({ sidebar }: { sidebar?: boolean }) => {
                 <ImportantDocument
                     imageUrl={'/images/documents/requirements.webp'}
                     title={'Course Requirement'}
+                    href={coureseRequirementsLink}
                     detail={sidebar}
                 />
 

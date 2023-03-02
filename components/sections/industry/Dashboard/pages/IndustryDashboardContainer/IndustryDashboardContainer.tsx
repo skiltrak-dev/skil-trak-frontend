@@ -37,10 +37,10 @@ const getSectors = (courses: any) => {
     const sectors = {}
     courses.forEach((c: any) => {
         if ((sectors as any)[c.sector.name]) {
-            ; (sectors as any)[c.sector.name].push(c)
+            ;(sectors as any)[c.sector.name].push(c)
         } else {
-            ; (sectors as any)[c.sector.name] = []
-                ; (sectors as any)[c.sector.name].push(c)
+            ;(sectors as any)[c.sector.name] = []
+            ;(sectors as any)[c.sector.name].push(c)
         }
     })
     return sectors
@@ -909,7 +909,11 @@ export const IndustryDashboardContainer = () => {
 
             {/* <ImportantDocuments /> */}
             <Desktop>
-                <ImportantDocuments />
+                <ImportantDocuments
+                    coureseRequirementsLink={
+                        '/portals/industry/course-requirements'
+                    }
+                />
             </Desktop>
 
             {/* Others */}
@@ -922,7 +926,11 @@ export const IndustryDashboardContainer = () => {
                 </Card>
             </div>
             <Mobile>
-                <ImportantDocuments />
+                <ImportantDocuments
+                    coureseRequirementsLink={
+                        '/portals/industry/course-requirements'
+                    }
+                />
             </Mobile>
         </div>
     )

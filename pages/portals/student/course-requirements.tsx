@@ -1,7 +1,7 @@
 import { ReactElement } from 'react'
 
-import { RtoLayout } from '@layouts'
-import { RtoApi } from '@queries'
+import { RtoLayout, StudentLayout } from '@layouts'
+import { RtoApi, useGetStudentCoursesQuery } from '@queries'
 import { NextPageWithLayout } from '@types'
 
 import { EmptyData, LoadingAnimation, TechnicalError } from '@components'
@@ -10,33 +10,34 @@ import { CourseRequirementsDetail } from '@partials/common'
 const getSectors = (courses: any) => {
     if (!courses) return {}
     const sectors = {}
-    courses.forEach((c: any) => {
-        if ((sectors as any)[c.sector.name]) {
-            ;(sectors as any)[c.sector.name].push(c)
+    courses?.forEach((c: any) => {
+        if ((sectors as any)[c?.sector?.name]) {
+            ;(sectors as any)[c?.sector?.name].push(c)
         } else {
-            ;(sectors as any)[c.sector.name] = []
-            ;(sectors as any)[c.sector.name].push(c)
+            ;(sectors as any)[c?.sector?.name] = []
+            ;(sectors as any)[c?.sector?.name].push(c)
         }
     })
     return sectors
 }
 
 const CourseRequirements: NextPageWithLayout = () => {
-    const { data: rto, isLoading, isError } = RtoApi.Rto.useProfile()
-    const sectorsWithCourses = getSectors(rto?.courses)
+    // const { data: rto, isLoading } = RtoApi.Rto.useProfile()
+    const courses = useGetStudentCoursesQuery()
+    const sectorsWithCourses = getSectors(courses?.data)
 
     return (
         <>
-            {isError && <TechnicalError />}
-            {isLoading ? (
+            {courses.isError && <TechnicalError />}
+            {courses?.isLoading ? (
                 <LoadingAnimation />
-            ) : rto?.courses && rto?.courses?.length > 0 ? (
+            ) : courses?.data && courses?.data?.length > 0 ? (
                 <CourseRequirementsDetail
                     sectorsWithCourses={sectorsWithCourses}
-                    loading={isLoading}
+                    loading={courses?.isLoading}
                 />
             ) : (
-                !isError && (
+                !courses.isError && (
                     <EmptyData
                         title={'No Courses were found'}
                         description={'You have no courses assigned'}
@@ -49,9 +50,9 @@ const CourseRequirements: NextPageWithLayout = () => {
 
 CourseRequirements.getLayout = (page: ReactElement) => {
     return (
-        <RtoLayout pageTitle={{ title: 'Course Requirements' }}>
+        <StudentLayout pageTitle={{ title: 'Course Requirements' }}>
             {page}
-        </RtoLayout>
+        </StudentLayout>
     )
 }
 

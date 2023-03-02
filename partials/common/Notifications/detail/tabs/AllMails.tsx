@@ -35,7 +35,6 @@ export const AllMails = ({
         }
     }, [data, isSuccess, isError])
 
-    console.log('hasNext', hasNext)
     useEffect(() => {
         if (
             !isFetching &&
@@ -44,12 +43,10 @@ export const AllMails = ({
             data?.data &&
             data?.data?.length > 0
         ) {
-            console.log('Inner', data?.data)
             setAllMails([...allMails, ...data?.data])
         }
     }, [data, isSuccess])
 
-    console.log('allMails', allMails)
 
     const fetchMoreData = () => {
         setTimeout(() => {
@@ -63,7 +60,6 @@ export const AllMails = ({
             )
         }, 1500)
         // setLimit(40)
-        console.log('data', 'AAAA')
     }
     return (
         <Messaging selectedMessage={selectedMessage}>

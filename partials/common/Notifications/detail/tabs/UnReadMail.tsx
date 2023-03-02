@@ -54,7 +54,6 @@ export const UnReadMail = ({
             )
         }, 1500)
         // setLimit(40)
-        console.log('data', 'AAAA')
     }
 
     // const emails = allMails?.map((m: any) => m?.email)

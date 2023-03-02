@@ -12,6 +12,8 @@ import { useGetSubAdminStudentWorkplaceQuery } from '@queries'
 import { getUserCredentials } from '@utils'
 import { useState, useEffect } from 'react'
 import { AddWorkplace } from './AddWorkplace'
+import { useContextBar } from '@hooks'
+import { AddSecondWPCB } from '../contextBar'
 
 export const MyWorkplace = ({
     id,
@@ -24,8 +26,18 @@ export const MyWorkplace = ({
     const profileId = pathname.query.profileId
 
     const [workplaceIndustries, setWorkplaceIndustries] = useState<any>([])
+    const [isSecondWorkplaceView, setSsSecondWorkplaceView] =
+        useState<boolean>(false)
+    const [industry, setIndustry] = useState<any>({})
 
     const workplace = useGetSubAdminStudentWorkplaceQuery(id, { skip: !id })
+    const contextBar = useContextBar()
+
+    useEffect(() => {
+        if (industries && industries?.length > 0) {
+            setIndustry(industries[0])
+        }
+    }, [industries])
 
     useEffect(() => {
         if (
@@ -43,12 +55,6 @@ export const MyWorkplace = ({
 
     const role = getUserCredentials()?.role
 
-    // const workplaceIndustry = workplaceIndustries?.industries?.find(
-    //     (i: any) => i?.applied
-    // )?.industry
-
-    const workplaceIndustry = industries[0]
-
     return (
         <Card fullHeight>
             {/* Card Header */}
@@ -63,14 +69,14 @@ export const MyWorkplace = ({
 
                 {/* Action */}
                 <div className="flex justify-between gap-x-4">
-                    {role !== 'rto' && workplaceIndustry ? (
+                    {role !== 'rto' && industry ? (
                         <ActionButton
                             variant="success"
                             onClick={() => {
                                 pathname.push(
                                     role === 'admin'
-                                        ? `/portals/admin/industry/${workplaceIndustry?.id}?tab=sectors`
-                                        : `/portals/sub-admin/users/industries/${workplaceIndustry?.id}?tab=overview`
+                                        ? `/portals/admin/industry/${industry?.id}?tab=sectors`
+                                        : `/portals/sub-admin/users/industries/${industry?.id}?tab=overview`
                                 )
                             }}
                         >
@@ -78,19 +84,39 @@ export const MyWorkplace = ({
                         </ActionButton>
                     ) : null}
 
-                    {role !== 'rto' &&
-                    workplace?.data?.industries?.length > 1 ? (
-                        <Link legacyBehavior href="#">
-                            <a className="inline-block uppercase text-xs font-medium bg-gray-100 text-gray-500 px-4 py-2 rounded">
-                                VIEW SECOND
-                            </a>
-                        </Link>
+                    {role !== 'rto' && industries?.length > 1 ? (
+                        <ActionButton
+                            variant={'link'}
+                            onClick={() => {
+                                isSecondWorkplaceView
+                                    ? setIndustry(industries[0])
+                                    : setIndustry(industries[1])
+                                setSsSecondWorkplaceView(!isSecondWorkplaceView)
+                            }}
+                        >
+                            {isSecondWorkplaceView
+                                ? 'View First'
+                                : 'View Second'}
+                        </ActionButton>
+                    ) : null}
+                    {role !== 'rto' && industries?.length === 1 ? (
+                        <ActionButton
+                            variant={'link'}
+                            onClick={() => {
+                                contextBar.setContent(
+                                    <AddSecondWPCB studentId={id} />
+                                )
+                                contextBar.show(false)
+                            }}
+                        >
+                            Add Second
+                        </ActionButton>
                     ) : null}
                 </div>
             </div>
             {/* Card Body */}
-            {workplaceIndustry ? (
-                <div key={workplaceIndustry?.id} className="mt-4">
+            {industry ? (
+                <div key={industry?.id} className="mt-4">
                     <div className="flex gap-x-6 mb-4">
                         <div className="flex-shrink-0">
                             <WorkplaceAvatar />
@@ -98,23 +124,23 @@ export const MyWorkplace = ({
                         <div>
                             <div>
                                 <p className="font-medium">
-                                    {workplaceIndustry?.user?.name}
+                                    {industry?.user?.name}
                                 </p>
                                 <p className="text-slate-400 text-sm">
-                                    {workplaceIndustry?.user?.email}
+                                    {industry?.user?.email}
                                 </p>
                             </div>
                             <div>
                                 {/* <div>
                                         <p className="font-medium">
                                             {
-                                                workplaceIndustry?.industries[0]?.industry
+                                                industry?.industries[0]?.industry
                                                     ?.user?.name
                                             }
                                         </p>
                                         <p className="text-slate-400 text-sm">
                                             {
-                                                workplaceIndustry?.industries[0]?.industry
+                                                industry?.industries[0]?.industry
                                                     ?.user?.email
                                             }
                                         </p>
@@ -125,10 +151,10 @@ export const MyWorkplace = ({
                                             <FaMapMarkerAlt size={14} />
                                         </span>
                                         <span className="text-xs">
-                                            {workplaceIndustry?.addressLine1},{' '}
-                                            {workplaceIndustry?.addressLine2},{' '}
-                                            {workplaceIndustry?.state},{' '}
-                                            {workplaceIndustry?.suburb}{' '}
+                                            {industry?.addressLine1},{' '}
+                                            {industry?.addressLine2},{' '}
+                                            {industry?.state},{' '}
+                                            {industry?.suburb}{' '}
                                         </span>
                                     </div>
                                 </div>
@@ -140,14 +166,10 @@ export const MyWorkplace = ({
                                     <div className="flex justify-between gap-x-4">
                                         <div>
                                             <p className="font-medium text-sm">
-                                                {
-                                                    workplaceIndustry?.contactPerson
-                                                }
+                                                {industry?.contactPerson}
                                             </p>
                                             <p className="text-xs font-medium text-slate-400">
-                                                {
-                                                    workplaceIndustry?.contactPersonNumber
-                                                }
+                                                {industry?.contactPersonNumber}
                                             </p>
                                         </div>
                                     </div>

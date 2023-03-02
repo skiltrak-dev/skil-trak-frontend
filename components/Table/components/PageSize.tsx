@@ -42,10 +42,19 @@ export const PageSize = ({
                         value={defaultValue}
                         defaultValue={defaultValue}
                         onChange={(e) => {
-                            const tabs = Object.entries(router.query)
-                            router.push(
-                                `${router?.pathname}?${tabs[0][0]}=${tabs[0][1]}&page=1&pageSize=${e.target.value}`
-                            )
+                            // const tabs = Object.entries(router.query)
+                            const tabs = Object.entries({
+                                ...router.query,
+                                pageSize: e.target.value,
+                            })
+                                .map(([key, value]) => `${key}=${value}`)
+                                .join('&')
+                            router.push(`${router?.pathname}?${tabs}`)
+                            // tabs &&
+                            //     tabs?.length > 0 &&
+                            //     router.push(
+                            //         `${router?.pathname}?${tabs[0][0]}=${tabs[0][1]}&page=1&pageSize=${e.target.value}`
+                            //     )
                             setDefaultValue(Number(e.target.value))
                             table?.setPageSize(Number(e.target.value))
                             if (setItemPerPage) setItemPerPage(e.target.value)

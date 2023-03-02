@@ -11,6 +11,7 @@ interface FileViewModalProps {
     children: any
     loading?: boolean
     onCancelButtonClick?: () => void
+    url: string
 }
 
 export const FileViewModal = ({
@@ -18,18 +19,27 @@ export const FileViewModal = ({
     title,
     subtitle,
     loading,
+    url,
     onCancelButtonClick,
 }: FileViewModalProps) => {
     return (
         <div className="bg-[#00000050] w-full h-screen flex items-start justify-center fixed top-0 left-0 z-40 overflow-scroll py-16">
             <div className="bg-white rounded-2xl flex flex-col justify-between shadow-md min-w-[450px] overflow-hidden">
-                <div className="px-2 py-1 flex justify-end items-center">
+                <div className="px-2 py-1 flex justify-between items-center">
                     {/* <div>
                         <Typography variant={'title'}>{title}</Typography>
                         <Typography variant={'subtitle'} color={'text-muted'}>
                             {subtitle}
                         </Typography>
                     </div> */}
+                    <div>
+                        <a
+                            href={url}
+                            className="text-sm font-semibold text-info"
+                        >
+                            Download
+                        </a>
+                    </div>
                     <MdCancel
                         onClick={onCancelButtonClick}
                         className="transition-all duration-300 text-gray-400 hover:text-black text-2xl cursor-pointer"

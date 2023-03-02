@@ -59,7 +59,6 @@ export const MailDetail = ({ selectedMessage }: Props) => {
             message?.data?.data &&
             message?.data?.data?.length > 0
         ) {
-            console.log('Inner', message?.data?.data)
             setMailDetail([...mailDetail, ...message?.data?.data])
         }
     }, [message])
@@ -72,7 +71,6 @@ export const MailDetail = ({ selectedMessage }: Props) => {
                     : 1
             )
         }, 1500)
-        console.log('data', 'AAAA')
     }
 
     return (
