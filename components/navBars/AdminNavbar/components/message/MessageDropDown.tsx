@@ -1,3 +1,4 @@
+import Link from 'next/link'
 import { Typography } from '@components/Typography'
 import { useRouter } from 'next/router'
 import { Md10Mp } from 'react-icons/md'
@@ -25,26 +26,20 @@ export const MessageDropDown = ({
         >
             <div className="py-2 px-4 border-b flex justify-between items-center">
                 <Typography variant="label">Your Messages</Typography>
-                <div className="text-xs text-primary cursor-pointer">
-                    View All
-                </div>
+                <Link legacyBehavior href="/portals/sub-admin/notifications/e-mails?tab=all-mails">
+                    <a className="text-sm text-primary font-semibold cursor-pointer">
+                        View All
+                    </a>
+                </Link>
             </div>
-            {/* {[...Array(20)].fill(null).map((_, i) => (
-                <MessageItem
-                    key={i}
-                    title={`Message ${i + 1}`}
-                    description={`Description for Message ${i + 1}`}
-                    timestamp={'Tue 9 Aug'}
-                    onClick={onMessageClick}
-                />
-            ))} */}
+
             {data?.map((message: any) => (
                 <MessageItem
                     key={message?.id}
                     title={message?.sender?.name}
                     description={message?.message}
                     timestamp={message?.createdAt}
-                    onClick={()=>{
+                    onClick={() => {
                         router.push(`/portals/sub-admin/notifications?tab=read-mails`)
                         seenMessage(message?.id)
                     }}
