@@ -52,10 +52,11 @@ export const AssessmentResponse = ({
             <FileViewModal
                 title=""
                 subtitle=""
+                url={file?.file}
                 onCancelButtonClick={onModalCancel}
             >
                 <div className="max-w-[650px] relative">
-                    <img src={file.file} alt="" className="max-w-full" />
+                    <img src={file?.file} alt="" className="max-w-full" />
                 </div>
             </FileViewModal>
         )
@@ -70,7 +71,11 @@ export const AssessmentResponse = ({
             const fileSplit = file.file.split('https://')
             const url = `https://www.${fileSplit[1]}`
             setModal(
-                <PdfViewModal url={url} onCancelButtonClick={onModalCancel} />
+                <PdfViewModal
+                    url={url}
+                    downloadUrl={file?.file}
+                    onCancelButtonClick={onModalCancel}
+                />
             )
         } else if (
             ['mp4', 'mkv', 'avi', 'mpeg'].includes(file.extension.toLowerCase())
@@ -78,7 +83,11 @@ export const AssessmentResponse = ({
             const fileSplit = file.file.split('https://')
             const url = `https://www.${fileSplit[1]}`
             setModal(
-                <VideoPlayModal url={url} onCancelButtonClick={onModalCancel} />
+                <VideoPlayModal
+                    url={url}
+                    downloadUrl={file?.file}
+                    onCancelButtonClick={onModalCancel}
+                />
             )
         }
     }

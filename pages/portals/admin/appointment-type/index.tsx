@@ -6,21 +6,21 @@ import { NextPageWithLayout } from '@types'
 import { AppointmentTypes } from '@partials/admin/appointment-type'
 
 const AppointmentTypesList: NextPageWithLayout = () => {
-  const navBar = useNavbar()
+    const navBar = useNavbar()
 
-  useEffect(() => {
-    navBar.setTitle('Appointment Types')
-  }, [])
+    useEffect(() => {
+        navBar.setTitle('Appointment Types')
+    }, [])
 
-  return (
-    <div className='p-6'>
-      <AppointmentTypes />
-    </div>
-  )
+    return (
+        <div className="p-6">
+            <AppointmentTypes />
+        </div>
+    )
 }
 
 AppointmentTypesList.getLayout = (page: ReactElement) => {
-  return <AdminLayout>{page}</AdminLayout>
+    return <AdminLayout>{page}</AdminLayout>
 }
 
 export default AppointmentTypesList

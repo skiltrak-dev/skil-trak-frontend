@@ -1,7 +1,7 @@
 import { ReactElement } from 'react'
 
-import { RtoLayout } from '@layouts'
-import { RtoApi } from '@queries'
+import { IndustryLayout } from '@layouts'
+import { SubAdminApi, useIndustryProfileQuery } from '@queries'
 import { NextPageWithLayout } from '@types'
 
 import { EmptyData, LoadingAnimation, TechnicalError } from '@components'
@@ -10,27 +10,28 @@ import { CourseRequirementsDetail } from '@partials/common'
 const getSectors = (courses: any) => {
     if (!courses) return {}
     const sectors = {}
-    courses.forEach((c: any) => {
-        if ((sectors as any)[c.sector.name]) {
-            ;(sectors as any)[c.sector.name].push(c)
+    courses?.forEach((c: any) => {
+        if ((sectors as any)[c?.sector?.name]) {
+            ;(sectors as any)[c?.sector?.name].push(c)
         } else {
-            ;(sectors as any)[c.sector.name] = []
-            ;(sectors as any)[c.sector.name].push(c)
+            ;(sectors as any)[c?.sector?.name] = []
+            ;(sectors as any)[c?.sector?.name].push(c)
         }
     })
     return sectors
 }
 
 const CourseRequirements: NextPageWithLayout = () => {
-    const { data: rto, isLoading, isError } = RtoApi.Rto.useProfile()
-    const sectorsWithCourses = getSectors(rto?.courses)
+    const { data, isSuccess, isLoading, isError } = useIndustryProfileQuery()
+
+    const sectorsWithCourses = getSectors(data?.courses)
 
     return (
         <>
             {isError && <TechnicalError />}
             {isLoading ? (
                 <LoadingAnimation />
-            ) : rto?.courses && rto?.courses?.length > 0 ? (
+            ) : data?.courses && data?.courses?.length > 0 ? (
                 <CourseRequirementsDetail
                     sectorsWithCourses={sectorsWithCourses}
                     loading={isLoading}
@@ -49,9 +50,9 @@ const CourseRequirements: NextPageWithLayout = () => {
 
 CourseRequirements.getLayout = (page: ReactElement) => {
     return (
-        <RtoLayout pageTitle={{ title: 'Course Requirements' }}>
+        <IndustryLayout pageTitle={{ title: 'Course Requirements' }}>
             {page}
-        </RtoLayout>
+        </IndustryLayout>
     )
 }
 

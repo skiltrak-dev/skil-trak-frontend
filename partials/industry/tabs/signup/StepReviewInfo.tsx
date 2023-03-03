@@ -240,18 +240,6 @@ export const StepReviewInfo = () => {
                                     variant={'muted'}
                                     color={'text-gray-500'}
                                 >
-                                    Address Line 2
-                                </Typography>
-                                <Typography variant={'label'}>
-                                    {formData.addressLine2 || '-'}
-                                </Typography>
-                            </div>
-
-                            <div>
-                                <Typography
-                                    variant={'muted'}
-                                    color={'text-gray-500'}
-                                >
                                     State
                                 </Typography>
                                 <Typography variant={'label'}>

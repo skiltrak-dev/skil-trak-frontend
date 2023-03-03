@@ -55,7 +55,6 @@ const StudentList: NextPageWithLayout = () => {
         setFilter(query)
     }, [router])
 
-    console.log('studentIdValue', studentIdValue, studentId)
 
     const { isLoading, data } = AdminApi.Students.useCountQuery()
     const filteredStudents = AdminApi.Students.useListQuery({

@@ -16,9 +16,11 @@ import { isBrowser } from '@utils'
 interface VideoPlayModalProps {
     url: string
     onCancelButtonClick?: () => void
+    downloadUrl: string
 }
 
 export const VideoPlayModal = ({
+    downloadUrl,
     url,
     onCancelButtonClick,
 }: VideoPlayModalProps) => {
@@ -59,6 +61,14 @@ export const VideoPlayModal = ({
                         onClick={onCancelButtonClick}
                         className="transition-all duration-300 text-gray-400 hover:text-black text-2xl cursor-pointer"
                     />
+                </div>
+                <div>
+                    <a
+                        href={downloadUrl}
+                        className="text-sm font-semibold text-info"
+                    >
+                        Download
+                    </a>
                 </div>
 
                 <div className="w-full relative">

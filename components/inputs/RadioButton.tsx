@@ -38,12 +38,13 @@ export const RadioButton = (
     return (
         <>
             <label
-                htmlFor={`id_${name}`}
+                htmlFor={`id_${name}${value}`}
                 className="flex items-center gap-x-2.5 text-sm"
             >
                 {!loading ? (
                     <input
-                        {...(id ? { id } : {})}
+                        // {...(id ? { id } : {})}
+                        id={`id_${name}${value}`}
                         name={name}
                         type={'radio'}
                         disabled={disabled}

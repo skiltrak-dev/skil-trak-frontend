@@ -12,12 +12,19 @@ interface PaginationProps {
 export const Pagination = ({ table, pagination, setPage }: PaginationProps) => {
     const router = useRouter()
     const handlePageClick = ({ selected }: any) => {
-        const tabs = Object.entries(router.query)
-        router.push(
-            `${router?.pathname}?${tabs[0][0]}=${tabs[0][1]}&page=${
-                !pagination ? selected : selected + 1
-            }&${tabs[2][0]}=${tabs[2][1]}`
-        )
+        // const tabs = Object.entries(router.query)
+        const tabs = Object.entries({
+            ...router.query,
+            page: !pagination ? selected : selected + 1,
+        })
+            .map(([key, value]) => `${key}=${value}`)
+            .join('&')
+        router.push(`${router?.pathname}?${tabs}`)
+        // router.push(
+        //     `${router?.pathname}?${tabs[0][0]}=${tabs[0][1]}&page=${
+        //         !pagination ? selected : selected + 1
+        //     }&${tabs[2][0]}=${tabs[2][1]}`
+        // )
         if (!pagination) table?.setPageIndex(selected)
         else if (setPage) setPage(selected + 1)
     }

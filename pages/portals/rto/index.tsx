@@ -42,10 +42,10 @@ const RTODashboard: NextPageWithLayout = () => {
         const sectors = {}
         courses.forEach((c: any) => {
             if ((sectors as any)[c.sector.name]) {
-                ; (sectors as any)[c.sector.name].push(c)
+                ;(sectors as any)[c.sector.name].push(c)
             } else {
-                ; (sectors as any)[c.sector.name] = []
-                    ; (sectors as any)[c.sector.name].push(c)
+                ;(sectors as any)[c.sector.name] = []
+                ;(sectors as any)[c.sector.name].push(c)
             }
         })
         return sectors
@@ -668,7 +668,9 @@ const RTODashboard: NextPageWithLayout = () => {
             </section>
 
             <div>
-                <ImportantDocuments />
+                <ImportantDocuments
+                    coureseRequirementsLink={'/portals/rto/course-requirements'}
+                />
             </div>
             <Card>
                 {/* Card Header */}

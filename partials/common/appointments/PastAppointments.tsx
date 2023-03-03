@@ -1,9 +1,11 @@
 import {
     EmptyData,
-    LoadingAnimation, NoData,
+    LoadingAnimation,
+    NoData,
     PageSize,
-    Pagination, PastAppointmentCard,
-    Typography
+    Pagination,
+    PastAppointmentCard,
+    Typography,
 } from '@components'
 
 // queries
@@ -12,7 +14,7 @@ import { useState } from 'react'
 
 export const PastAppointments = () => {
     const [page, setPage] = useState(1)
-    const [itemPerPage, setItemPerPage] = useState(25)
+    const [itemPerPage, setItemPerPage] = useState(20)
 
     const pastAppointments = CommonApi.Appointments.useBookedAppointments({
         status: 'past',
