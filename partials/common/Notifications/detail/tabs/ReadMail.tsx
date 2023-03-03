@@ -49,7 +49,6 @@ export const ReadMail = ({
             )
         }, 1500)
         // setLimit(40)
-        console.log('data', 'AAAA')
     }
     return (
         <Messaging selectedMessage={selectedMessage}>

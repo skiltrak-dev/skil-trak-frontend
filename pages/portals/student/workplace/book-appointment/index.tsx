@@ -2,7 +2,7 @@ import moment from 'moment'
 import { useRouter } from 'next/router'
 import { ReactElement, useEffect, useState } from 'react'
 
-import { Button, TextArea, Card } from '@components'
+import { Button, TextArea, Card, ShowErrorNotifications } from '@components'
 import { Form, TimeSlots } from '@components/sections'
 import { StudentLayout } from '@layouts'
 import { NextPageWithLayout } from '@types'
@@ -108,6 +108,7 @@ const BookAppointment: NextPageWithLayout = (props: Props) => {
 
     return (
         <>
+            <ShowErrorNotifications result={createAppointmentResult} />
             <FormProvider {...formMethods}>
                 <form onSubmit={formMethods.handleSubmit(onSubmit)}>
                     <Form

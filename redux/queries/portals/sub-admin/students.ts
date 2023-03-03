@@ -214,6 +214,25 @@ export const studentsEndpoints = (
         }),
         invalidatesTags: ['Students', 'SubAdminStudents'],
     }),
+    addSecondWorkplace: builder.mutation<
+        any,
+        { industryId: number; courseId: number; studentId: number }
+    >({
+        query: ({ industryId, courseId, studentId }) => ({
+            url: `students/workplace-requests/add/another/${industryId}`,
+            method: 'POST',
+            body: { course: courseId, studentId },
+        }),
+        invalidatesTags: ['Students', 'SubAdminStudents'],
+    }),
+    addCustomSecondWorkplace: builder.mutation<any, any>({
+        query: ({ studentId, ...body }) => ({
+            url: `subadmin/add-another/workplace/${studentId}`,
+            method: 'POST',
+            body,
+        }),
+        invalidatesTags: ['Students', 'SubAdminStudents'],
+    }),
 
     // updateSubAdminRtoStudentStatus: builder.mutation<any, any | null>({
     //     query: ({id, status}:any) => {

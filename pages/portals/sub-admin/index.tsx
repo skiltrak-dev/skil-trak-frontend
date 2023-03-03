@@ -46,10 +46,10 @@ const getSectors = (courses: any) => {
     const sectors = {}
     courses.forEach((c: any) => {
         if ((sectors as any)[c.sector.name]) {
-            ; (sectors as any)[c.sector.name].push(c)
+            ;(sectors as any)[c.sector.name].push(c)
         } else {
-            ; (sectors as any)[c.sector.name] = []
-                ; (sectors as any)[c.sector.name].push(c)
+            ;(sectors as any)[c.sector.name] = []
+            ;(sectors as any)[c.sector.name].push(c)
         }
     })
     return sectors
@@ -813,7 +813,11 @@ const SubAdminDashboard: NextPageWithLayout = () => {
                 </div>
             </section>
 
-            <ImportantDocuments />
+            <ImportantDocuments
+                coureseRequirementsLink={
+                    '/portals/sub-admin/course-requirements'
+                }
+            />
 
             {/* Sector Card */}
             <Card>

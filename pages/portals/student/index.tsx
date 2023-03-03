@@ -9,7 +9,7 @@ import {
     ContextBarLoading,
     InitialAvatar,
     InitialAvatarContainer,
-    NoData
+    NoData,
 } from '@components'
 
 import { FaBriefcase, FaMapMarkerAlt, FaSchool } from 'react-icons/fa'
@@ -19,7 +19,7 @@ import { MdPermContactCalendar, MdPhone } from 'react-icons/md'
 import { useContextBar } from '@hooks'
 import {
     ImportantDocuments,
-    PortalQuestions
+    PortalQuestions,
 } from '@partials/student/components'
 
 import { useGetStudentProfileDetailQuery } from '@queries'
@@ -71,7 +71,11 @@ const StudentDashboard: NextPageWithLayout = () => {
 
             {/* Documents Section */}
             <Desktop>
-                <ImportantDocuments />
+                <ImportantDocuments
+                    coureseRequirementsLink={
+                        '/portals/student/course-requirements'
+                    }
+                />
             </Desktop>
 
             {/* Sector Card */}
@@ -437,7 +441,11 @@ const StudentDashboard: NextPageWithLayout = () => {
             </div>
 
             <Mobile>
-                <ImportantDocuments />
+                <ImportantDocuments
+                    coureseRequirementsLink={
+                        '/portals/student/course-requirements'
+                    }
+                />
             </Mobile>
         </div>
     )

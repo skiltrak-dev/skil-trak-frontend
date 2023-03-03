@@ -5,14 +5,21 @@ import { useState } from 'react'
 
 // components
 import {
-    Badge, FileViewModal, LoadingAnimation, NoData, PdfViewModal, Typography, VideoPlayModal
+    Badge,
+    FileViewModal,
+    LoadingAnimation,
+    NoData,
+    PdfViewModal,
+    Typography,
+    VideoPlayModal,
 } from '@components'
 import { AssessmentFolderFileCard } from '../components'
 import { UploadFile } from './UploadFile'
 
 // query
 import {
-    useGetAssessmentsFolderDetailQuery, useUploadFolderDocsMutation
+    useGetAssessmentsFolderDetailQuery,
+    useUploadFolderDocsMutation,
 } from '@queries'
 
 // hoc
@@ -68,6 +75,7 @@ export const AssessmentFolderDetailX = ({
             <FileViewModal
                 title=""
                 subtitle=""
+                url={file?.file}
                 onCancelButtonClick={onModalCancel}
             >
                 <div className="max-w-[650px] relative">
@@ -86,7 +94,11 @@ export const AssessmentFolderDetailX = ({
             const fileSplit = file.file.split('https://')
             const url = `https://www.${fileSplit[1]}`
             setModal(
-                <PdfViewModal url={url} onCancelButtonClick={onModalCancel} />
+                <PdfViewModal
+                    downloadUrl={file.file}
+                    url={url}
+                    onCancelButtonClick={onModalCancel}
+                />
             )
         } else if (
             ['mp4', 'mkv', 'avi', 'mpeg'].includes(file.extension.toLowerCase())
@@ -94,7 +106,11 @@ export const AssessmentFolderDetailX = ({
             const fileSplit = file.file.split('https://')
             const url = `https://www.${fileSplit[1]}`
             setModal(
-                <VideoPlayModal url={url} onCancelButtonClick={onModalCancel} />
+                <VideoPlayModal
+                    url={url}
+                    downloadUrl={file?.file}
+                    onCancelButtonClick={onModalCancel}
+                />
             )
         }
     }

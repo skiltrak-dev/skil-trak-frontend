@@ -67,8 +67,12 @@ export const PendingStudents = () => {
             Icon: FaEye,
         },
         {
-            text: 'Assign to me',
-            onClick: (student: Student) => onAssignStudentClicked(student),
+            text: 'Approve',
+            onClick: (student: Student) => {},
+        },
+        {
+            text: 'Reject',
+            onClick: (student: Student) => {},
             Icon: MdBlock,
             color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
         },
@@ -106,26 +110,6 @@ export const PendingStudents = () => {
             header: () => <span>Sectors</span>,
             cell: ({ row }: any) => {
                 return <SectorCell student={row.original} />
-            },
-        },
-        {
-            accessorKey: 'progress',
-            header: () => <span>Progress</span>,
-            cell: ({ row }) => {
-                const workplace = row.original.workplace[0]
-                const industries = row.original?.industries
-                const steps = checkWorkplaceStatus(workplace?.currentStatus)
-                const studentStatus = checkStudentStatus(
-                    row.original?.studentStatus
-                )
-
-                return industries?.length > 0 ? (
-                    <StudentStatusProgressCell step={studentStatus} />
-                ) : (
-                    <ProgressCell
-                        step={steps > 14 ? 14 : steps < 1 ? 1 : steps}
-                    />
-                )
             },
         },
         {
