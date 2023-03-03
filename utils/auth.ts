@@ -41,7 +41,8 @@ export const isAuthenticated = () => {
 
 export const logout = (router: any) => {
     if (isBrowser()) {
-        localStorage.removeItem(KEYS.TOKEN)
+        localStorage.clear()
+        // localStorage.removeItem(KEYS.TOKEN)
 
         if (router) {
             router.push('/auth/login')

@@ -3,6 +3,8 @@ import moment from 'moment'
 import Image from 'next/image'
 import { FaExclamationTriangle, FaMapMarkerAlt, FaTimes } from 'react-icons/fa'
 import { GoPrimitiveDot } from 'react-icons/go'
+import { UserRoles } from '@constants'
+import { Typography } from '@components/Typography'
 
 export const AppointmentViewModal = ({ appointment, onCancel }: any) => {
     return (
@@ -166,6 +168,28 @@ export const AppointmentViewModal = ({ appointment, onCancel }: any) => {
                                 </p>
                             )}
                         </div>
+                    </div>
+                    <div className="p-3">
+                        {(appointment.appointmentBy?.role ===
+                            UserRoles.STUDENT ||
+                            appointment.appointmentBy?.role ===
+                                UserRoles.STUDENT) && (
+                            <div>
+                                <Typography variant={'title'}>RTO</Typography>
+                                <Typography variant={'subtitle'}>
+                                    {appointment.appointmentFor?.student?.rto
+                                        ?.user?.name ||
+                                        appointment.appointmentBy?.student?.rto
+                                            ?.user?.name}
+                                </Typography>
+                                <Typography variant={'label'} color={"text-gray-500"}>
+                                    {appointment.appointmentFor?.student?.rto
+                                        ?.user?.email ||
+                                        appointment.appointmentBy?.student?.rto
+                                            ?.user?.email}
+                                </Typography>
+                            </div>
+                        )}
                     </div>
                 </div>
 

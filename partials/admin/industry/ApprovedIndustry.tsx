@@ -35,8 +35,8 @@ export const ApprovedIndustry = () => {
     const { passwordModal, onViewPassword } = useActionModal()
 
     useEffect(() => {
-        setPage(Number(router.query.page))
-        setItemPerPage(Number(router.query.pageSize))
+        setPage(Number(router.query.page || 1))
+        setItemPerPage(Number(router.query.pageSize || 50))
     }, [router])
 
     const { isLoading, data, isError } = AdminApi.Industries.useListQuery({

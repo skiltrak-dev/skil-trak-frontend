@@ -45,6 +45,7 @@ export * from './sideBars'
 export * from './Portal'
 export * from './CreaetNote'
 export * from './StudentStatusProgressCell'
+export * from './ProtectedRoute'
 
 // Forms
 export * from './forms'

@@ -113,7 +113,6 @@ export const AddSecondWorkplaceForm = ({
     })
 
     const onSubmit = (values: any) => {
-        console.log('aaaa', values?.course)
         addWorkplaceIndustry({
             ...values,
             courses: [values?.course],
