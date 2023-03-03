@@ -34,16 +34,22 @@ import { ColumnDef } from '@tanstack/react-table'
 export const AllStudents = () => {
     const router = useRouter()
 
+    const [mount, setMount] = useState(false)
+    useEffect(() => {
+        if (!mount) {
+            setMount(true)
+        }
+    }, [])
+    
     // WORKPLACE JOY RIDE - Start
     const joyride = useJoyRide()
-
     useEffect(() => {
-        if (joyride.state.tourActive) {
+        if (joyride.state.tourActive && mount) {
             setTimeout(() => {
                 joyride.setState({ ...joyride.state, run: true, stepIndex: 1 })
             }, 1200)
         }
-    }, [router])
+    }, [mount])
 
     // STUDENT JOY RIDE - END
 
@@ -93,13 +99,10 @@ export const AllStudents = () => {
             accessorKey: 'user',
             cell: ({ row }: any) => {
                 return (
-                    <div id="student-profile">
                         <StudentCellInfo student={row.original} />
-                    </div>
                 )
             },
         },
-
         {
             header: () => 'RTO',
             accessorKey: 'rto',
@@ -199,7 +202,7 @@ export const AllStudents = () => {
                                             )}
                                         </div>
                                     </div>
-                                    <div id="students-list" className="px-6">
+                                    <div id="student-profile" className="px-6">
                                         {table}
                                     </div>
                                 </div>

@@ -1,6 +1,6 @@
 import { ReactElement, useState } from 'react'
 // Layouts
-import { StudentLayout } from '@layouts'
+import { IndustryLayout } from '@layouts'
 // Types
 import { NextPageWithLayout } from '@types'
 import { Card, EmptyData, LoadingAnimation, Pagination, TechnicalError, Typography } from '@components'
@@ -11,7 +11,7 @@ import { CommonApi } from '@queries'
 import { ellipsisText } from '@utils'
 
 
-const SubAdminAllNotifications: NextPageWithLayout = () => {
+const IndustryAllNotifications: NextPageWithLayout = () => {
     const [page, setPage] = useState(1)
     const [itemPerPage, setItemPerPage] = useState(50)
     const { data: notifications, isError, isLoading } =
@@ -118,12 +118,12 @@ const SubAdminAllNotifications: NextPageWithLayout = () => {
     )
 }
 
-SubAdminAllNotifications.getLayout = (page: ReactElement) => {
+IndustryAllNotifications.getLayout = (page: ReactElement) => {
     return (
-        <StudentLayout pageTitle={{ title: 'All Notifications' }}>
+        <IndustryLayout pageTitle={{ title: 'All Notifications' }}>
             {page}
-        </StudentLayout>
+        </IndustryLayout>
     )
 }
 
-export default SubAdminAllNotifications
+export default IndustryAllNotifications

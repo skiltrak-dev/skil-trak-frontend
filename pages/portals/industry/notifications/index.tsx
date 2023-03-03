@@ -1,6 +1,6 @@
 import { ReactElement, useEffect } from 'react'
 // Layouts
-import { RtoLayout } from '@layouts'
+import { IndustryLayout } from '@layouts'
 // Types
 import { NextPageWithLayout } from '@types'
 // Animations
@@ -98,7 +98,7 @@ const Notifications: NextPageWithLayout = () => {
 
 Notifications.getLayout = (page: ReactElement) => {
     return (
-        <RtoLayout pageTitle={{ title: 'Tasks' }}>{page}</RtoLayout>
+        <IndustryLayout pageTitle={{ title: 'Tasks' }}>{page}</IndustryLayout>
     )
 }
 

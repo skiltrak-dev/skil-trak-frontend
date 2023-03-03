@@ -25,10 +25,13 @@ import { CommonApi } from '@queries'
 export const DetailNavbar = () => {
     const isMobile = useMediaQuery(MediaQueries.Mobile)
     const data =
-        CommonApi.Notifications.useNotifications()
+        CommonApi.Notifications.useNotifications({
+            skip: undefined,
+            limit: undefined,
+        })
 
     const { data: mailCount } = CommonApi.Messages.useMailCount()
-    const  allMails  = CommonApi.Messages.useRecentMails()
+    const allMails = CommonApi.Messages.useRecentMails()
 
     const [isReadNotification, resultIsReadNotification] =
         CommonApi.Notifications.useIsReadNotification()

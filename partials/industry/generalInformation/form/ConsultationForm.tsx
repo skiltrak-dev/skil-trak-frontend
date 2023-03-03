@@ -74,15 +74,15 @@ export const ConsultationContainer = () => {
                                 options={[
                                     {
                                         value: 'chocolate',
-                                        label: 'Chocolate',
+                                        label: '',
                                     },
                                     {
                                         value: 'strawberry',
-                                        label: 'Strawberry',
+                                        label: '',
                                     },
                                     {
                                         value: 'vanilla',
-                                        label: 'Vanilla',
+                                        label: '',
                                     },
                                 ]}
                             />

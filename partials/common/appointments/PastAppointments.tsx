@@ -21,6 +21,7 @@ export const PastAppointments = () => {
         skip: itemPerPage * page - itemPerPage,
         limit: itemPerPage,
     })
+    // console.log('pastAppointments', pastAppointments)
 
     return (
         <div className="mt-6">

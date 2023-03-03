@@ -156,6 +156,7 @@ const SubAdminDashboard: NextPageWithLayout = () => {
                     disableBeacon: true,
                 },
                 {
+
                     target: '#student-profile',
                     content: (
                         <>
@@ -201,13 +202,8 @@ const SubAdminDashboard: NextPageWithLayout = () => {
                             run: false,
                         }))
                         router.push('/portals/sub-admin/students?tab=all')
-                        joyride.setState({
-                            ...joyride.state,
-                            run: false,
-                            stepIndex: 1,
-                            tourActive: false,
-                        })
-                    } else if (action === 'reset' || lifecycle === 'complete') {
+                    }
+                     else if (action === 'reset' || lifecycle === 'complete') {
                         joyride.setState({
                             ...joyride.state,
                             run: false,
@@ -299,7 +295,7 @@ const SubAdminDashboard: NextPageWithLayout = () => {
                     disableBeacon: true,
                 },
                 {
-                    target: '#students-list',
+                    target: '#student-profile',
                     content: (
                         <>
                             <div>Click Here</div>
@@ -344,12 +340,6 @@ const SubAdminDashboard: NextPageWithLayout = () => {
                             run: false,
                         }))
                         router.push('/portals/sub-admin/students?tab=all')
-                        joyride.setState({
-                            ...joyride.state,
-                            run: false,
-                            stepIndex: 0,
-                            tourActive: false,
-                        })
                     }
                     // else if (
                     //     type === 'step:after' &&
@@ -364,7 +354,7 @@ const SubAdminDashboard: NextPageWithLayout = () => {
                         joyride.setState({
                             ...joyride.state,
                             run: false,
-                            stepIndex: 0,
+                            stepIndex: 1,
                             tourActive: false,
                         })
                     }

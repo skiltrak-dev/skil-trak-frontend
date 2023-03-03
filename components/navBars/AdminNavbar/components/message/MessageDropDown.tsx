@@ -23,7 +23,7 @@ export const MessageDropDown = ({
     const onMessageClick = () => { }
     const router = useRouter()
     const getRole = getUserCredentials();
-    const role = (userRole:any) => {
+    const role = (userRole: any) => {
         switch (userRole) {
             case 'subadmin':
                 return 'sub-admin'
@@ -60,7 +60,7 @@ export const MessageDropDown = ({
                     description={message?.message}
                     timestamp={message?.createdAt}
                     onClick={() => {
-                        router.push(`/portals/sub-admin/notifications?tab=read-mails`)
+                        router.push(`/portals/${role(getRole?.role)}/notifications/e-mails?tab=all-mails`)
                         seenMessage(message?.id)
                     }}
                     resultSeenMessage={resultSeenMessage}
