@@ -6,6 +6,7 @@ import { FaEye } from 'react-icons/fa'
 
 // components
 import {
+    ActionButton,
     Card,
     EmptyData,
     InitialAvatar,
@@ -24,7 +25,7 @@ import { SubAdminApi } from '@queries'
 import { Student, UserStatus } from '@types'
 import { useEffect, useState } from 'react'
 import { MdBlock } from 'react-icons/md'
-import { AssignStudentModal } from './modals'
+import { AcceptModal, RejectModal, AssignStudentModal } from './modals'
 
 import { ProgressCell, SectorCell } from '@partials/admin/student/components'
 import { checkStudentStatus, checkWorkplaceStatus } from '@utils'
@@ -38,6 +39,11 @@ export const PendingStudents = () => {
 
     const [itemPerPage, setItemPerPage] = useState(50)
     const [page, setPage] = useState(1)
+    useEffect(() => {
+        setPage(Number(router.query.page || 1))
+        setItemPerPage(Number(router.query.pageSize || 50))
+    }, [router])
+
     const { isLoading, data, isError } = SubAdminApi.Student.useList({
         search: `status:${UserStatus.Pending}`,
         skip: itemPerPage * page - itemPerPage,
@@ -56,6 +62,17 @@ export const PendingStudents = () => {
         )
     }
 
+    const onAcceptClicked = (item: Student) => {
+        setModal(
+            <AcceptModal item={item} onCancel={() => onModalCancelClicked()} />
+        )
+    }
+    const onRejectClicked = (item: Student) => {
+        setModal(
+            <RejectModal item={item} onCancel={() => onModalCancelClicked()} />
+        )
+    }
+
     const tableActionOptions: TableActionOption[] = [
         {
             text: 'View',
@@ -68,11 +85,11 @@ export const PendingStudents = () => {
         },
         {
             text: 'Approve',
-            onClick: (student: Student) => {},
+            onClick: (student: Student) => onAcceptClicked(student),
         },
         {
             text: 'Reject',
-            onClick: (student: Student) => {},
+            onClick: (student: Student) => onRejectClicked(student),
             Icon: MdBlock,
             color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
         },
@@ -108,19 +125,32 @@ export const PendingStudents = () => {
         {
             accessorKey: 'sectors',
             header: () => <span>Sectors</span>,
-            cell: ({ row }: any) => {
-                return <SectorCell student={row.original} />
-            },
+            cell: ({ row }: any) => <SectorCell student={row.original} />,
         },
         {
             header: () => 'Action',
             accessorKey: 'Action',
             cell: ({ row }: any) => {
                 return (
-                    <TableAction
-                        options={tableActionOptions}
-                        rowItem={row.original}
-                    />
+                    <div className="flex gap-x-1 items-center">
+                        <ActionButton
+                            variant="success"
+                            onClick={() => onAcceptClicked(row.original)}
+                        >
+                            Accept
+                        </ActionButton>
+                        <ActionButton
+                            variant="error"
+                            onClick={() => onRejectClicked(row.original)}
+                        >
+                            Reject
+                        </ActionButton>
+
+                        <TableAction
+                            options={tableActionOptions}
+                            rowItem={row.original}
+                        />
+                    </div>
                 )
             },
         },

@@ -1,4 +1,10 @@
-import { DisplayAlerts, PageTitle, PageTitleProps, SubAdminNavbar } from '@components'
+import {
+    DisplayAlerts,
+    PageTitle,
+    PageTitleProps,
+    ProtectedRoute,
+    SubAdminNavbar,
+} from '@components'
 import { useJoyRide } from '@hooks'
 import { ReactNode, useEffect, useState } from 'react'
 import Joyride from 'react-joyride'

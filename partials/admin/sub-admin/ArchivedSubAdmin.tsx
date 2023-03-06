@@ -31,7 +31,8 @@ export const ArchivedSubAdmin = () => {
     const [page, setPage] = useState(1)
 
     useEffect(() => {
-        setPage(Number(router.query.page))
+        setPage(Number(router.query?.page || 1))
+        setItemPerPage(Number(router.query?.pageSize || 50))
     }, [router])
 
     // hooks
