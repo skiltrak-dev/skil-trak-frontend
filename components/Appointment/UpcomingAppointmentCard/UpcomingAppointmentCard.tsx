@@ -35,17 +35,20 @@ export const UpcomingAppointmentCard = ({
 
     const appointmentUser = appointment[appointmentWith]
 
-    const appointmentWithUser =
-        appointmentUser[
-            appointmentUser['role'] === 'subadmin'
-                ? 'coordinator'
-                : appointmentUser['role']
-        ]
+    const appointmentWithUser = appointmentUser
+        ? appointmentUser[
+              appointmentUser['role'] === 'subadmin'
+                  ? 'coordinator'
+                  : appointmentUser['role']
+          ]
+        : {}
 
-    const appointmentWithUserProfile =
-        appointmentUser['role'] === 'subadmin'
+    const appointmentWithUserProfile = appointmentUser
+        ? appointmentUser['role'] === 'subadmin'
             ? appointmentWithUser[0]
             : appointmentWithUser
+        : appointment?.coordinator
+
 
     return (
         <>

@@ -76,7 +76,7 @@ export const ImportantDocuments = ({
                             <img
                                 src={document?.file}
                                 alt=""
-                                className="max-w-lg max-h-[500px] object-cover"
+                                className="min-w-[650px] max-h-[500px] object-cover"
                             />
                         ) : ['mp4', 'mkv', 'avi', 'mpeg'].includes(
                               extension.toLowerCase()

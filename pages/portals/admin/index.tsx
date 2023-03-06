@@ -7,6 +7,7 @@ import { NextPageWithLayout } from '@types'
 import { AuthUtils } from '@utils'
 import { format } from 'date-fns'
 import { useNavbar } from '@hooks'
+import Link from 'next/link'
 
 const AdminDashboard: NextPageWithLayout = () => {
     const navBar = useNavbar()
@@ -72,21 +73,21 @@ const AdminDashboard: NextPageWithLayout = () => {
                         count={stats.data?.users.rto || 0}
                         title={'RTOs'}
                         loading={stats.isLoading}
-                        link="admin/rto?tab=approved"
+                        link="admin/rto?tab=approved&page=1&pageSize=50"
                     />
                     <FigureCard
                         imageUrl="/images/icons/students.png"
                         count={stats.data?.users.student || 0}
                         title={'Students'}
                         loading={stats.isLoading}
-                        link="admin/student?tab=approved"
+                        link="admin/student?tab=active&page=1&pageSize=50"
                     />
                     <FigureCard
                         imageUrl="/images/icons/industry.png"
                         count={stats.data?.users.industry || 0}
                         title={'Industries'}
                         loading={stats.isLoading}
-                        link="admin/industry?tab=approved"
+                        link="admin/industry?tab=approved&page=1&pageSize=50"
                     />
                     <FigureCard
                         imageUrl="/images/icons/job.png"

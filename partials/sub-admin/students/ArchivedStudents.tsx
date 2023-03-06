@@ -1,5 +1,5 @@
 import { useRouter } from 'next/router'
-import { ReactElement } from 'react'
+import { ReactElement, useEffect, useState } from 'react'
 
 // Icons
 import { FaEye } from 'react-icons/fa'
@@ -22,7 +22,6 @@ import { TechnicalError } from '@components/ActionAnimations/TechnicalError'
 import { useJoyRide } from '@hooks'
 import { SubAdminApi } from '@queries'
 import { Student, UserStatus } from '@types'
-import { useEffect, useState } from 'react'
 import { MdBlock } from 'react-icons/md'
 import { AssignStudentModal } from './modals'
 
@@ -38,6 +37,12 @@ export const ArchivedStudents = () => {
 
     const [itemPerPage, setItemPerPage] = useState(50)
     const [page, setPage] = useState(1)
+
+    useEffect(() => {
+        setPage(Number(router.query.page || 1))
+        setItemPerPage(Number(router.query.pageSize || 50))
+    }, [router])
+
     const { isLoading, data, isError } = SubAdminApi.Student.useList({
         search: `status:${UserStatus.Archived}`,
         skip: itemPerPage * page - itemPerPage,
@@ -186,7 +191,10 @@ export const ArchivedStudents = () => {
                                             )}
                                         </div>
                                     </div>
-                                    <div id="students-list" className="px-6">
+                                    <div
+                                        id="students-list"
+                                        className="px-6 overflow-auto"
+                                    >
                                         {table}
                                     </div>
                                 </div>
