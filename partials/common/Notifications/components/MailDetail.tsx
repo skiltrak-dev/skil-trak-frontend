@@ -37,6 +37,11 @@ export const MailDetail = ({ selectedMessage }: Props) => {
     )
 
     useEffect(() => {
+        setPage(1)
+        setMailDetail([])
+    }, [selectedMessage])
+
+    useEffect(() => {
         if (selectedMessage) {
             setHasNext(true)
         }
@@ -64,17 +69,22 @@ export const MailDetail = ({ selectedMessage }: Props) => {
     }, [message])
 
     const fetchMoreData = () => {
-        setTimeout(() => {
-            setPage(
-                mailDetail?.length > 0
-                    ? Math.floor(mailDetail?.length / itemPerPage) + 1
-                    : 1
-            )
-        }, 1500)
+        setPage(
+            mailDetail?.length > 0
+                ? Math.floor(mailDetail?.length / itemPerPage) + 1
+                : 1
+        )
+        // setTimeout(() => {
+        //     setPage(
+        //         mailDetail?.length > 0
+        //             ? Math.floor(mailDetail?.length / itemPerPage) + 1
+        //             : 1
+        //     )
+        // }, 1500)
     }
 
     return (
-        <div className="w-full">
+        <div className="w-full h-full">
             {selectedMessage && (
                 <div className="px-4 border-b py-2 flex justify-between items-center w-full">
                     <div>
@@ -95,8 +105,10 @@ export const MailDetail = ({ selectedMessage }: Props) => {
                     </div>
                 </div>
             )}
-            <div className="h-screen overflow-y-scroll remove-scrollbar p-4">
-                <div className={`w-full bg-gray-50 rounded-lg p-2`}>
+            <div className="p-4 h-full">
+                <div
+                    className={`w-full bg-gray-50 rounded-lg p-2 h-[calc(100%-50px)] overflow-y-auto remove-scrollbar`}
+                >
                     <InfiniteScroll
                         pageStart={0}
                         loadMore={fetchMoreData}
@@ -108,7 +120,7 @@ export const MailDetail = ({ selectedMessage }: Props) => {
                             </div>
                         }
                     >
-                        <div className={`flex flex-col gap-y-2.5 h-full `}>
+                        <div className={`flex flex-col gap-y-2.5 `}>
                             {mailDetail && mailDetail?.length > 0
                                 ? mailDetail?.map((mail: any, i: number) => (
                                       <Mail

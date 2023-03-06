@@ -72,7 +72,7 @@ export const ViewRtosCB = ({ subAdmin }: { subAdmin: SubAdmin }) => {
                 <Typography variant={'label'}>{subAdmin.user.name}</Typography>
             </div>
 
-            <AssignRtoForm onSubmit={onSubmit} result={assignRtoResult} />
+            <AssignRtoForm onSubmit={onSubmit} result={assignRtoResult} assignedRtos={rtoList.data} />
 
             <div className={'flex flex-col gap-y-2'}>
                 <Typography variant={'muted'} color={'text-gray-400'}>
