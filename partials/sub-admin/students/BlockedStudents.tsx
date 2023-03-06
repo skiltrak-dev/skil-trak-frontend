@@ -38,6 +38,12 @@ export const BlockedStudents = () => {
 
     const [itemPerPage, setItemPerPage] = useState(50)
     const [page, setPage] = useState(1)
+
+    useEffect(() => {
+        setPage(Number(router.query.page || 1))
+        setItemPerPage(Number(router.query.pageSize || 50))
+    }, [router])
+
     const { isLoading, data, isError } = SubAdminApi.Student.useList({
         search: `status:${UserStatus.Blocked}`,
         skip: itemPerPage * page - itemPerPage,
@@ -185,7 +191,10 @@ export const BlockedStudents = () => {
                                             )}
                                         </div>
                                     </div>
-                                    <div id="students-list" className="px-6">
+                                    <div
+                                        id="students-list"
+                                        className="px-6 overflow-auto"
+                                    >
                                         {table}
                                     </div>
                                 </div>

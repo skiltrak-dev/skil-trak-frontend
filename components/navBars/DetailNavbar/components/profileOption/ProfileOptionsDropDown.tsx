@@ -6,9 +6,23 @@ import { MdLogout } from 'react-icons/md'
 import { useRouter } from 'next/router'
 import { useDispatch } from 'react-redux'
 
-import { subAdminApi, rtoApi, commonApi, industryApi } from '@queries'
+import {
+    subAdminApi,
+    rtoApi,
+    commonApi,
+    industryApi,
+    studentCoursesApi,
+    studentAppointmentsApi,
+    studentAssessmentApi,
+    studentAssessmentEvidenceApi,
+    studentJobsApi,
+    studentProfileApi,
+    studentSignUpApi,
+    workplaceRequestApi,
+} from '@queries'
 import { useJoyRide } from '@hooks'
 import { useEffect } from 'react'
+import { UserRoles } from '@constants'
 
 export const ProfileOptionsDropDown = ({
     expanded,
@@ -45,7 +59,7 @@ export const ProfileOptionsDropDown = ({
                     onClick={() => {
                         router.push(
                             `/portals/${
-                                role === 'subadmin' ? 'sub-admin' : role
+                                role === UserRoles.SUBADMIN ? 'sub-admin' : role
                             }/my-profile`
                         )
                         setExpanded(false)
@@ -64,6 +78,16 @@ export const ProfileOptionsDropDown = ({
                         dispatch(rtoApi.util.resetApiState())
                         dispatch(industryApi.util.resetApiState())
                         dispatch(commonApi.util.resetApiState())
+                        dispatch(studentCoursesApi.util.resetApiState())
+                        dispatch(studentAppointmentsApi.util.resetApiState())
+                        dispatch(studentAssessmentApi.util.resetApiState())
+                        dispatch(
+                            studentAssessmentEvidenceApi.util.resetApiState()
+                        )
+                        dispatch(studentJobsApi.util.resetApiState())
+                        dispatch(studentProfileApi.util.resetApiState())
+                        dispatch(studentSignUpApi.util.resetApiState())
+                        dispatch(workplaceRequestApi.util.resetApiState())
                     }}
                     className="flex items-center gap-x-4 px-4 py-2 hover:bg-red-100 cursor-pointer group"
                 >

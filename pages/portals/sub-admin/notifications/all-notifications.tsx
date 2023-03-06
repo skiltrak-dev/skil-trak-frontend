@@ -12,9 +12,14 @@ import { ellipsisText } from '@utils'
 
 
 const SubAdminAllNotifications: NextPageWithLayout = () => {
+    const [page, setPage] = useState(1)
+    const [itemPerPage, setItemPerPage] = useState(50)
     const { data: notifications, isError, isLoading } =
-        CommonApi.Notifications.useNotifications()
-        const [readNotifications, resultReadNotifications] =
+        CommonApi.Notifications.useNotifications({
+            skip: itemPerPage * page - itemPerPage,
+            limit: itemPerPage,
+        })
+    const [readNotifications, resultReadNotifications] =
         CommonApi.Notifications.useIsReadNotification()
 
     return (
@@ -32,7 +37,7 @@ const SubAdminAllNotifications: NextPageWithLayout = () => {
                                         currentPage={currentPage}
                                     /> */}
                                 </div>
-                                {notifications?.map((notification:any, i:any) => (
+                                {notifications?.map((notification: any, i: any) => (
                                     <div
                                         key={notification.id}
                                         onClick={() =>

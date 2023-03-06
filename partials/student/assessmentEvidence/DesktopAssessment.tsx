@@ -112,7 +112,9 @@ export const DesktopAssessment = ({
                     result?.totalSubmission < 3 && (
                         <NotificationMessage
                             title={'Submitted For Approval'}
-                            subtitle={'Wait for Admin review'}
+                            subtitle={
+                                'You have submitted assessment request, wait for the response from your coordinator. Thanku'
+                            }
                         />
                     )}
                 {result?.result === 'reOpened' &&

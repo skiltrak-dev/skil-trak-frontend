@@ -214,7 +214,9 @@ export const FilteredStudents = ({
                                                 )}
                                             </div>
                                         </div>
-                                        <div className="px-6">{table}</div>
+                                        <div className="px-6 overflow-auto">
+                                            {table}
+                                        </div>
                                     </div>
                                 )
                             }}

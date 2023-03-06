@@ -17,7 +17,7 @@ import { FaEdit, FaEye, FaFileExport, FaTrash } from 'react-icons/fa'
 
 import { AdminApi } from '@queries'
 import { Industry, SubAdmin } from '@types'
-import { ReactElement, useState } from 'react'
+import { ReactElement, useState, useEffect } from 'react'
 import { SubAdminCell } from './components'
 import { AcceptModal, DeleteModal } from './modals'
 import { useRouter } from 'next/router'
@@ -32,6 +32,11 @@ export const RejectedSubAdmin = () => {
     const [itemPerPage, setItemPerPage] = useState(50)
     const [page, setPage] = useState(1)
     const [filter, setFilter] = useState({})
+
+    useEffect(() => {
+        setPage(Number(router.query.page || 1))
+        setItemPerPage(Number(router.query.pageSize || 50))
+    }, [router])
 
     // hooks
     const { passwordModal, onViewPassword } = useActionModal()

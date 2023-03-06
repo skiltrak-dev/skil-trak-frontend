@@ -8,7 +8,8 @@ import { NoData, TechnicalError } from '@components/ActionAnimations'
 type Props = {}
 
 export const AppointmentCard = (props: Props) => {
-    const { data, isError, isLoading } = CommonApi.RecentActivities.useRecentActivities()
+    const { data, isError, isLoading } =
+        CommonApi.RecentActivities.useRecentActivities()
 
     const recentActivityLinks = [
         {
@@ -134,33 +135,41 @@ export const AppointmentCard = (props: Props) => {
                 <div className="flex gap-x-2">
                     <div className="flex flex-col">
                         {/* {isError && <TechnicalError />} */}
-                        {isLoading && <LoadingAnimation />}
-                        {data?.length > 0 ? (data?.slice(0, 4).map((item: any, index: any) => (
-                            <div key={item?.id} className="flex gap-x-2">
-                                <div className="flex items-center flex-col">
-                                    <div className="bg-neutral-300 p-1.5 rounded-full"></div>
-                                    <div className={`${index === 3 && "hidden"} bg-neutral-300 min-h-[20px] h-full w-[1px]`}></div>
-                                </div>
+                        {isLoading ? (
+                            <LoadingAnimation />
+                        ) : data?.length > 0 ? (
+                            data?.slice(0, 4).map((item: any, index: any) => (
+                                <div key={item?.id} className="flex gap-x-2">
+                                    <div className="flex items-center flex-col">
+                                        <div className="bg-neutral-300 p-1.5 rounded-full"></div>
+                                        <div
+                                            className={`${
+                                                index === 3 && 'hidden'
+                                            } bg-neutral-300 min-h-[20px] h-full w-[1px]`}
+                                        ></div>
+                                    </div>
 
-                                <RecentActivityLinks
-                                    title={item?.title}
-                                    color={textColor[index]}
-                                    bgColor={bgColor[index]}
-                                />
-                                <div className="flex flex-col">
-                                    <div className={`pb-1`}>
-                                        <Typography
-                                            key={index}
-                                            variant={'muted'}
-                                            color={'text-gray-500'}
-                                        >
-                                            {item.description}
-                                        </Typography>
+                                    <RecentActivityLinks
+                                        title={item?.title}
+                                        color={textColor[index]}
+                                        bgColor={bgColor[index]}
+                                    />
+                                    <div className="flex flex-col">
+                                        <div className={`pb-1`}>
+                                            <Typography
+                                                key={index}
+                                                variant={'muted'}
+                                                color={'text-gray-500'}
+                                            >
+                                                {item.description}
+                                            </Typography>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-
-                        ))) : (<NoData text={'No Recent Activities were found'} />)}
+                            ))
+                        ) : (
+                            <NoData text={'No Recent Activities were found'} />
+                        )}
                     </div>
                 </div>
             </Card>

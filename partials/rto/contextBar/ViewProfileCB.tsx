@@ -291,7 +291,7 @@ export const ViewProfileCB = () => {
                             </div>
 
                             {rto?.subadmin.length && (
-                                <InitialAvatarContainer show={3}>
+                                <InitialAvatarContainer show={1}>
                                     {rto?.subadmin.map((coordinator: any) => (
                                         <>
                                             <InitialAvatar

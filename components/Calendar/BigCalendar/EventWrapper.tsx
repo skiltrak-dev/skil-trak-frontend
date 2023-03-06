@@ -4,7 +4,8 @@ import { EventWrapperProps } from 'react-big-calendar'
 // export const EventWrapper = <T extends object>(event: EventWrapperProps<T>) => {
 export const EventWrapper = <T extends object>(event: any) => {
     const classes = classNames({
-        'absolute max-h-full min-h-[20px] hover:min-h-[80px] border-l-2 px-1 py-1 overflow-hidden transition-all': true,
+        'absolute max-h-full min-h-[20px] hover:min-h-[80px] border-l-2 px-1 py-1 overflow-hidden transition-all':
+            true,
         'bg-indigo-200/50 border-indigo-400': event.event.priority === 'high',
         'bg-blue-200/50 border-blue-400': event.event.priority === 'medium',
         'bg-green-200/50 border-green-600': event.event.priority === 'low',
@@ -43,7 +44,9 @@ export const EventWrapper = <T extends object>(event: any) => {
         >
             <p className={labelClasses}>{event.label}</p>
             <p className={textClasses}>{event.event.title}</p>
-            <p className={subtitleClasses}>{event.event.subTitle || 'Unknown'}</p>
+            <p className={subtitleClasses}>
+                {event.event.subTitle || 'Unknown'}
+            </p>
         </div>
     )
 }
