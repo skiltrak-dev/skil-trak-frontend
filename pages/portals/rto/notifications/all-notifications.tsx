@@ -1,9 +1,9 @@
 import { ReactElement, useState } from 'react'
 // Layouts
-import { StudentLayout } from '@layouts'
+import { RtoLayout } from '@layouts'
 // Types
 import { NextPageWithLayout } from '@types'
-import { Card, EmptyData, LoadingAnimation, Pagination, TechnicalError, Typography } from '@components'
+import { Card, EmptyData, InitialAvatar, LoadingAnimation, PageSize, Pagination, TechnicalError, Typography } from '@components'
 import { IoNotifications } from 'react-icons/io5'
 import moment from 'moment'
 import { GoPrimitiveDot } from 'react-icons/go'
@@ -11,7 +11,7 @@ import { CommonApi } from '@queries'
 import { ellipsisText } from '@utils'
 
 
-const SubAdminAllNotifications: NextPageWithLayout = () => {
+const RtoAllNotifications: NextPageWithLayout = () => {
     const [page, setPage] = useState(1)
     const [itemPerPage, setItemPerPage] = useState(50)
     const { data: notifications, isError, isLoading } =
@@ -19,8 +19,7 @@ const SubAdminAllNotifications: NextPageWithLayout = () => {
             skip: itemPerPage * page - itemPerPage,
             limit: itemPerPage,
         })
-    const [readNotifications, resultReadNotifications] =
-        CommonApi.Notifications.useIsReadNotification()
+    const [readNotifications, resultReadNotifications] = CommonApi.Notifications.useIsReadNotification()
 
     return (
         <Card>
@@ -28,16 +27,19 @@ const SubAdminAllNotifications: NextPageWithLayout = () => {
             {!isLoading ? (
                 <>
                     <div className="flex flex-col">
-                        {notifications?.length > 0 || notifications?.length > 0 ? (
+                        {notifications?.data?.length > 0 || notifications?.data?.length > 0 ? (
                             <>
-                                <div className="flex justify-end mb-4">
-                                    {/* <Pagination
-                                        pageCount={data?.pagination?.totalPage}
-                                        setCurrentPage={setCurrentPage}
-                                        currentPage={currentPage}
-                                    /> */}
+                                <div className="flex items-center justify-between mb-4">
+                                    <PageSize
+                                        itemPerPage={itemPerPage}
+                                        setItemPerPage={setItemPerPage}
+                                    />
+                                    <Pagination
+                                        pagination={notifications?.pagination}
+                                        setPage={setPage}
+                                    />
                                 </div>
-                                {notifications?.map((notification: any, i: any) => (
+                                {notifications?.data?.map((notification: any, i: any) => (
                                     <div
                                         key={notification.id}
                                         onClick={() =>
@@ -49,18 +51,19 @@ const SubAdminAllNotifications: NextPageWithLayout = () => {
                                             } w-full flex items-center gap-x-4 rounded-md border-b border-secondary px-2 py-1.5 cursor-pointer hover:bg-secondary transition-all`}
                                     >
                                         <div className="w-12 h-11 relative">
-                                            <img
-                                                src={
-                                                    notification.avatar ||
-                                                    `https://picsum.photos/80/${80 + i
-                                                    }`
-                                                }
-                                                alt="Notify"
-                                                className="w-full h-full rounded-full"
-                                            />
-                                            <div className="p-0.5 rounded-full bg-gray-800 absolute bottom-0 right-0">
-                                                <IoNotifications className="text-white text-xs" />
-                                            </div>
+                                            {notification.avatar ? (
+                                                <>
+                                                    <img
+                                                        src={notification?.avatar}
+                                                        alt="Notify"
+                                                        className="w-full h-full rounded-full"
+                                                    />
+                                                    <div className="p-0.5 rounded-full bg-gray-800 absolute bottom-0 right-0">
+                                                        <IoNotifications className="text-white text-xs" />
+                                                    </div>
+                                                </>
+
+                                            ) : (<InitialAvatar name={notification?.title || " "} />)}
                                         </div>
                                         <div className="flex justify-between items-center w-full">
                                             <div>
@@ -118,12 +121,12 @@ const SubAdminAllNotifications: NextPageWithLayout = () => {
     )
 }
 
-SubAdminAllNotifications.getLayout = (page: ReactElement) => {
+RtoAllNotifications.getLayout = (page: ReactElement) => {
     return (
-        <StudentLayout pageTitle={{ title: 'All Notifications' }}>
+        <RtoLayout pageTitle={{ title: 'All Notifications' }}>
             {page}
-        </StudentLayout>
+        </RtoLayout>
     )
 }
 
-export default SubAdminAllNotifications
+export default RtoAllNotifications

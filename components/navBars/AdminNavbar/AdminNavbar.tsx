@@ -18,8 +18,12 @@ import { NotificationDropDown } from './components/notifications'
 import { CommonApi } from '@queries'
 
 export const AdminNavbar = () => {
+    
     const data =
-        CommonApi.Notifications.useNotifications()
+        CommonApi.Notifications.useNotifications({
+            skip: undefined,
+            limit: undefined,
+        })
     const [isReadNotification, resultIsReadNotification] =
         CommonApi.Notifications.useIsReadNotification()
     let router = useRouter()
