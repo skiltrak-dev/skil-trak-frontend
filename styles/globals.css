@@ -5,6 +5,7 @@
 @tailwind utilities;
 
 @import './animations.css';
+@import './site.css';
 
 html {
     font-family: 'Poppins', sans-serif, monospace;
