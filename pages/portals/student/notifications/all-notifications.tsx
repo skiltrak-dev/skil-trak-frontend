@@ -3,7 +3,7 @@ import { ReactElement, useState } from 'react'
 import { StudentLayout } from '@layouts'
 // Types
 import { NextPageWithLayout } from '@types'
-import { Card, EmptyData, LoadingAnimation, Pagination, TechnicalError, Typography } from '@components'
+import { Card, EmptyData, LoadingAnimation, PageSize, Pagination, TechnicalError, Typography } from '@components'
 import { IoNotifications } from 'react-icons/io5'
 import moment from 'moment'
 import { GoPrimitiveDot } from 'react-icons/go'
@@ -30,12 +30,15 @@ const SubAdminAllNotifications: NextPageWithLayout = () => {
                     <div className="flex flex-col">
                         {notifications?.length > 0 || notifications?.length > 0 ? (
                             <>
-                                <div className="flex justify-end mb-4">
-                                    {/* <Pagination
-                                        pageCount={data?.pagination?.totalPage}
-                                        setCurrentPage={setCurrentPage}
-                                        currentPage={currentPage}
-                                    /> */}
+                                <div className="flex items-center justify-between mb-4">
+                                    <PageSize
+                                        itemPerPage={itemPerPage}
+                                        setItemPerPage={setItemPerPage}
+                                    />
+                                    <Pagination
+                                        pagination={notifications?.pagination}
+                                        setPage={setPage}
+                                    />
                                 </div>
                                 {notifications?.map((notification: any, i: any) => (
                                     <div

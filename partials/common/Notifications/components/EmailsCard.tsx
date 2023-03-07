@@ -14,7 +14,7 @@ export const EmailsCard = () => {
             <div className="mt-2 flex justify-between">
                 {isLoading ? (
                     <PulseLoader color={'#fff'} size={10} />
-                ) : data.length > 0 ? (
+                ) : data?.length > 0 ? (
                     <div className="flex flex-col gap-y-2">
                         <div className="border border-white rounded-2xl p-2">
                             <Typography
