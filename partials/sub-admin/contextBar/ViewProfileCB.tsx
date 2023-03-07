@@ -1,4 +1,4 @@
-import { NoData, Typography } from '@components'
+import { ActionButton, NoData, Typography } from '@components'
 import { SubAdminApi } from '@queries'
 import { useRouter } from 'next/router'
 import { Course } from '@types'
@@ -23,10 +23,10 @@ export const ViewProfileCB = () => {
         const sectors = {}
         courses.forEach((c: any) => {
             if ((sectors as any)[c.sector.name]) {
-                ; (sectors as any)[c.sector.name].push(c)
+                ;(sectors as any)[c.sector.name].push(c)
             } else {
-                ; (sectors as any)[c.sector.name] = []
-                    ; (sectors as any)[c.sector.name].push(c)
+                ;(sectors as any)[c.sector.name] = []
+                ;(sectors as any)[c.sector.name].push(c)
             }
         })
         return sectors
@@ -38,7 +38,24 @@ export const ViewProfileCB = () => {
             <div className="flex flex-col">
                 <div className="relative flex flex-col items-center">
                     <div className="flex justify-end gap-x-2 absolute top-0 right-0">
-                        <div className="bg-blue-100 rounded-full p-1">
+                        <ActionButton
+                            rounded
+                            Icon={AiFillEdit}
+                            variant={'info'}
+                            onClick={() =>
+                                router.push('/portals/sub-admin/my-profile')
+                            }
+                            title="Edit Profile"
+                        />
+
+                        <ActionButton
+                            rounded
+                            Icon={BsUnlockFill}
+                            variant={'neutral'}
+                            onClick={() => onUpdatePassword(data)}
+                            title="Edit Password"
+                        />
+                        {/* <div className="bg-blue-100 rounded-full p-1">
                             <AiFillEdit
                                 className="text-blue-400  cursor-pointer"
                                 onClick={() =>
@@ -51,7 +68,7 @@ export const ViewProfileCB = () => {
                             onClick={() => onUpdatePassword(data)}
                         >
                             <BsUnlockFill className="text-blue-400  cursor-pointer" />
-                        </div>
+                        </div> */}
                     </div>
                     {data?.user.avatar ? (
                         <Image
@@ -69,10 +86,11 @@ export const ViewProfileCB = () => {
                         </div>
                     )}
                     <div
-                        className={`${data?.user.avatar
+                        className={`${
+                            data?.user.avatar
                                 ? 'w-[100px] h-[100px]'
                                 : 'w-24 h-24'
-                            } absolute top-0 w-[100px] h-[100px] bg-transparent rounded-full shadow-inner-image`}
+                        } absolute top-0 w-[100px] h-[100px] bg-transparent rounded-full shadow-inner-image`}
                     ></div>
                 </div>
 
@@ -227,7 +245,7 @@ export const ViewProfileCB = () => {
                 ) : (
                     <NoData text={'No Sectors Assigned'} />
                 )}
-            </div> */}      
+            </div> */}
         </div>
     )
 }

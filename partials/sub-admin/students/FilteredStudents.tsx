@@ -22,7 +22,7 @@ import { IndustryCellInfo } from '../indestries/components'
 import { StudentCellInfo } from './components'
 import { AssignStudentModal } from './modals'
 import { ProgressCell, SectorCell } from '@partials/admin/student/components'
-import { checkStudentStatus, checkWorkplaceStatus } from '@utils'
+import { checkStudentStatus, checkWorkplaceStatus, setLink } from '@utils'
 
 export const FilteredStudents = ({
     student,
@@ -57,6 +57,7 @@ export const FilteredStudents = ({
                 router.push(
                     `/portals/sub-admin/students/${student.id}?tab=overview`
                 )
+                setLink('subadmin-student', router)
             },
             Icon: FaEye,
         },

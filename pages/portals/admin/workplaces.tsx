@@ -26,19 +26,27 @@ import {
     UnAssignedRequest,
 } from '@partials'
 import { checkFilteredDataLength } from '@utils'
+import { useRouter } from 'next/router'
 
 type Props = {}
 
 const Workplace: NextPageWithLayout = (props: Props) => {
+    const router = useRouter()
+
     const [filterAction, setFilterAction] = useState(null)
     const [filter, setFilter] = useState({})
     const [page, setPage] = useState(1)
-    const [itemPerPage, setItemPerPage] = useState(8)
+    const [itemPerPage, setItemPerPage] = useState(30)
     const navBar = useNavbar()
 
     useEffect(() => {
         navBar.setTitle('Workplace Request')
     }, [])
+
+    useEffect(() => {
+        setPage(Number(router.query.page || 1))
+        setItemPerPage(Number(router.query.pageSize || 30))
+    }, [router])
 
     const filteredWorkplaces = AdminApi.Workplace.useFilteredWorkplaces(
         {

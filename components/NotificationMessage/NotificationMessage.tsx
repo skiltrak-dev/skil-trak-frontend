@@ -8,6 +8,7 @@ export const NotificationMessage = ({
     title: string
     subtitle: string
 }) => {
+    console.log('subtitleleeran', subtitle)
     return (
         <div className="flex gap-x-2 items-center w-full md:w-96 border-b-8 border-gray-400 bg-white p-3">
             <MdOutlineEditNotifications size={30} />

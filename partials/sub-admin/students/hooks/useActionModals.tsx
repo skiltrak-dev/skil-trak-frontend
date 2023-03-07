@@ -9,6 +9,7 @@ import {
     UnblockModal,
     DeleteModal,
     BlockModal,
+    UnArchiveModal,
 } from '../modals'
 
 export const useActionModals = () => {
@@ -28,6 +29,12 @@ export const useActionModals = () => {
     const onArchiveClicked = (student: Student) => {
         setModal(
             <ArchiveModal item={student} onCancel={onModalCancelClicked} />
+        )
+    }
+
+    const onUnArchiveClicked = (student: Student) => {
+        setModal(
+            <UnArchiveModal student={student} onCancel={onModalCancelClicked} />
         )
     }
 
@@ -52,5 +59,6 @@ export const useActionModals = () => {
         onDeleteClicked,
         onUnblockClicked,
         onArchiveClicked,
+        onUnArchiveClicked,
     }
 }

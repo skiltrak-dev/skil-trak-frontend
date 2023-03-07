@@ -8,6 +8,7 @@ export const getFilterQuery = ({
     const query = { ...router.query }
     const queryKeys = Object.keys(router.query)
     const filteredData = queryKeys.filter((key) => !filterKeys.includes(key))
+
     filteredData.forEach((q) => {
         delete query[q]
     })

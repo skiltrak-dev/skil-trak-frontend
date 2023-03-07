@@ -49,13 +49,13 @@ export const ProgressStep = ({ status }: Props) => {
             statusEnum: 'awaitingAgreementSigned',
         },
         {
-            id: 6,
+            id: 7,
             title: 'Agreement Signed',
             imageUrl: `/images/icons/placement-progress/contract.png`,
             statusEnum: 'AgreementSigned',
         },
         {
-            id: 7,
+            id: 8,
             title: 'Placement Started',
             imageUrl: `/images/icons/placement-progress/goal.png`,
             statusEnum: 'placementStarted',
@@ -74,7 +74,7 @@ export const ProgressStep = ({ status }: Props) => {
 
     return (
         <>
-            <div className="flex flex-col">
+            <div className="flex flex-col overflow-x-auto custom-scrollbar">
                 <div className="mb-3 flex justify-between items-start gap-x-2">
                     {progressStep.map((item, index) => (
                         <React.Fragment key={item.id}>

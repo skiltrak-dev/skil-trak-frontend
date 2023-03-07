@@ -153,6 +153,7 @@ export const {
     useGetAssessmentEvidenceDetailQuery,
     useSubmitAssessmentEvidenceMutation,
     useMaulallyReopenSubmissionRequestMutation,
+    useUploadAssessmentDocsMutation,
 
     // --- SET SCHEDULE --- //
     useSetScheduleMutation,
@@ -258,5 +259,8 @@ export const SubAdminApi = {
         useRequiredDocs: useGetRequiredDocsQuery,
         useRequiredFolders: useGetRequiredFoldersQuery,
         useRequiredDocsResponse: useGetRequiredDocsResponseQuery,
+    },
+    AssessmentEvidence: {
+        uploadDocs: useUploadAssessmentDocsMutation,
     },
 }

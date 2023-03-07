@@ -11,6 +11,7 @@ import classNames from 'classnames'
 import { CommonApi } from '@queries'
 import { ReactElement, useState } from 'react'
 import { useNotification } from '@hooks'
+import { ellipsisText } from '@utils'
 
 export const ImportantDocuments = ({
     sidebar,
@@ -94,11 +95,13 @@ export const ImportantDocuments = ({
                             />
                         ) : null
                     ) : (
-                        <div
-                            dangerouslySetInnerHTML={{
-                                __html: document?.content,
-                            }}
-                        />
+                        <div className="px-5 min-w-full md:min-w-[600px] max-w-4xl min-h-[40vh] max-h-[calc(100vh-250px)] overflow-auto custom-scrollbar">
+                            <div
+                                dangerouslySetInnerHTML={{
+                                    __html: document?.content,
+                                }}
+                            />
+                        </div>
                     )}
                 </Modal>
             )

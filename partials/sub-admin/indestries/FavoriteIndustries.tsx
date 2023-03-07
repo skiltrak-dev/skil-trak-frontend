@@ -23,6 +23,7 @@ import { useGetFavouriteIndustriesQuery } from '@queries'
 import { AddToFavoriteModal } from './modals'
 import { MdFavorite } from 'react-icons/md'
 import { IndustryCellInfo } from './components'
+import { setLink } from '@utils'
 
 export const FavoriteIndustries = () => {
     const [modal, setModal] = useState<ReactElement | null>(null)
@@ -55,6 +56,7 @@ export const FavoriteIndustries = () => {
                 router.push(
                     `/portals/sub-admin/users/industries/${industry.id}`
                 )
+                setLink('subadmin-industries', router)
             },
             Icon: FaEye,
         },

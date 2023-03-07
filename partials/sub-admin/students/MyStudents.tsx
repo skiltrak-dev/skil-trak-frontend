@@ -30,7 +30,7 @@ import { getActiveIndustry } from '@partials/student/utils'
 import { IndustryCell } from '@partials/admin/industry/components'
 import { IndustryCellInfo } from '../indestries/components'
 import { ProgressCell, SectorCell } from '@partials/admin/student/components'
-import { checkWorkplaceStatus } from '@utils'
+import { checkWorkplaceStatus, setLink } from '@utils'
 
 export const MyStudents = () => {
     const router = useRouter()
@@ -69,6 +69,7 @@ export const MyStudents = () => {
                 router.push(
                     `/portals/sub-admin/students/${student.id}?tab=overview`
                 )
+                setLink('subadmin-student', router)
             },
             Icon: FaEye,
         },

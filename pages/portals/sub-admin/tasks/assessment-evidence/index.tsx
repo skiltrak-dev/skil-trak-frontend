@@ -81,6 +81,9 @@ const AssessmentEvidence: NextPageWithLayout = (props: Props) => {
                 </Modal>
             )
         }
+        return () => {
+            setModal(null)
+        }
     }, [profile])
 
     const assessMentCount = getCountData(count?.data)

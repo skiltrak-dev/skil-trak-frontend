@@ -18,7 +18,13 @@ import { FaEdit, FaEye } from 'react-icons/fa'
 import { RtoCellInfo } from '@partials/admin/rto/components'
 import { AdminApi } from '@queries'
 import { Student, UserStatus } from '@types'
-import { checkStudentStatus, checkWorkplaceStatus, isBrowser } from '@utils'
+import {
+    checkStudentStatus,
+    checkWorkplaceStatus,
+    isBrowser,
+    queryToUrl,
+    setLink,
+} from '@utils'
 import { useRouter } from 'next/router'
 import { ReactElement, useEffect, useState } from 'react'
 import { MdBlock } from 'react-icons/md'
@@ -26,6 +32,7 @@ import { RiLockPasswordFill } from 'react-icons/ri'
 import { IndustryCell } from '../industry/components'
 import { ProgressCell, SectorCell, StudentCellInfo } from './components'
 import {
+    ArchiveModal,
     BlockModal,
     BlockMultiStudentsModal,
     ChangeStatusModal,
@@ -76,6 +83,12 @@ export const ApprovedStudent = () => {
         )
     }
 
+    const onArchiveClicked = (student: Student) => {
+        setModal(
+            <ArchiveModal item={student} onCancel={onModalCancelClicked} />
+        )
+    }
+
     const onChangeStatus = (student: Student) => {
         setModal(
             <ChangeStatusModal
@@ -92,6 +105,7 @@ export const ApprovedStudent = () => {
                 router.push(
                     `/portals/admin/student/${student?.id}?tab=overview`
                 )
+                setLink('student', router)
             },
             Icon: FaEye,
         },
@@ -121,6 +135,12 @@ export const ApprovedStudent = () => {
             onClick: (student: Student) => onBlockClicked(student),
             Icon: MdBlock,
             color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
+        },
+        {
+            text: 'Archive',
+            onClick: (student: Student) => onArchiveClicked(student),
+            Icon: MdBlock,
+            color: 'text-red-400 hover:bg-red-100 hover:border-red-200',
         },
     ]
 

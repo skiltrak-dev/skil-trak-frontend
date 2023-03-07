@@ -68,6 +68,9 @@ const Workplace: NextPageWithLayout = (props: Props) => {
                 </Modal>
             )
         }
+        return () => {
+            setModal(null)
+        }
     }, [profile])
 
     const tabs: TabProps[] = [

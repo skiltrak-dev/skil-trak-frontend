@@ -31,6 +31,7 @@ import { AssessmentToolsSubAdmin } from '@components/sections/subAdmin/UsersCont
 import { MailsTab } from '@components/sections/subAdmin/UsersContainer/SubAdminRtosContainer/SubAdminRtosProfile/components/MailsTab'
 import { AllCommunicationTab, NotesTab } from '@partials/common'
 import { useGetSubAdminRTODetailQuery } from '@queries'
+import { getLink } from '@utils'
 
 type Props = {}
 
@@ -154,7 +155,10 @@ const RtoProfile: NextPageWithLayout = (props: Props) => {
                 <div>
                     <BackButton
                         text={'RTOs'}
-                        link={'/portals/sub-admin/users/rtos'}
+                        link={`${
+                            getLink('subadmin-rtos') ||
+                            '/portals/sub-admin/users/rtos'
+                        }`}
                     />
                     <PageTitle title="RTO Profile" />
                 </div>

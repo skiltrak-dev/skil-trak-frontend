@@ -33,6 +33,8 @@ export const MyWorkplace = ({
     const workplace = useGetSubAdminStudentWorkplaceQuery(id, { skip: !id })
     const contextBar = useContextBar()
 
+    console.log('industry', Object.keys(industry)?.length > 0)
+
     useEffect(() => {
         if (industries && industries?.length > 0) {
             setIndustry(industries[0])
@@ -69,7 +71,7 @@ export const MyWorkplace = ({
 
                 {/* Action */}
                 <div className="flex justify-between gap-x-4">
-                    {role !== 'rto' && industry ? (
+                    {role !== 'rto' && Object.keys(industry)?.length > 0 ? (
                         <ActionButton
                             variant="success"
                             onClick={() => {
@@ -115,7 +117,7 @@ export const MyWorkplace = ({
                 </div>
             </div>
             {/* Card Body */}
-            {industry ? (
+            {Object.keys(industry)?.length > 0 ? (
                 <div key={industry?.id} className="mt-4">
                     <div className="flex gap-x-6 mb-4">
                         <div className="flex-shrink-0">
