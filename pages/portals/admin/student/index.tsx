@@ -50,11 +50,10 @@ const StudentList: NextPageWithLayout = () => {
     const [page, setPage] = useState(1)
     const [itemPerPage, setItemPerPage] = useState(50)
 
+    const query = getFilterQuery({ router, filterKeys })
     useEffect(() => {
-        const query = getFilterQuery({ router, filterKeys })
         setFilter(query)
     }, [router])
-
 
     const { isLoading, data } = AdminApi.Students.useCountQuery()
     const filteredStudents = AdminApi.Students.useListQuery({

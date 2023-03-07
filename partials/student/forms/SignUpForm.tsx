@@ -15,6 +15,7 @@ import {
     Checkbox,
     PhoneInputWithCountry,
     Select,
+    SelectOption,
     TextInput,
     Typography,
 } from '@components'
@@ -32,7 +33,7 @@ export const StudentSignUpForm = ({ onSubmit }: { onSubmit: any }) => {
 
     const [checkEmailExists, emailCheckResult] = AuthApi.useEmailCheck()
 
-    const [courseOptions, setCourseOptions] = useState([])
+    const [courseOptions, setCourseOptions] = useState<SelectOption[]>([])
     const [courseLoading, setCourseLoading] = useState(false)
 
     const sectorOptions = sectorResponse.data?.length
@@ -129,7 +130,7 @@ export const StudentSignUpForm = ({ onSubmit }: { onSubmit: any }) => {
             .required('Must provide Emergency Person Phone'),
 
         rto: yup.number().required('Must provide RTO'),
-        dob: yup.date().required('Must provide Date of Birth'),
+        dob: yup.date().nullable(true).required('Must provide Date of Birth'),
 
         phone: yup
             .string()
@@ -192,6 +193,12 @@ export const StudentSignUpForm = ({ onSubmit }: { onSubmit: any }) => {
             : {},
         resolver: yupResolver(validationSchema),
     })
+
+    useEffect(() => {
+        if (courseOptions && courseOptions?.length > 0) {
+            formMethods.setValue('courses', courseOptions)
+        }
+    }, [courseOptions])
 
     return (
         <FormProvider {...formMethods}>
@@ -341,8 +348,12 @@ export const StudentSignUpForm = ({ onSubmit }: { onSubmit: any }) => {
                                 label={'Courses'}
                                 name={'courses'}
                                 defaultValue={courseOptions}
+                                value={courseOptions}
                                 options={courseOptions}
                                 multi
+                                onChange={(e: SelectOption[]) => {
+                                    setCourseOptions(e)
+                                }}
                                 loading={courseLoading}
                                 disabled={
                                     storedData

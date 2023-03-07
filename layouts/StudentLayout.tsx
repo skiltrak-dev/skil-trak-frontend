@@ -2,7 +2,8 @@ import {
     DisplayAlerts,
     PageTitle,
     PageTitleProps,
-    StudentNavbar
+    RedirectUnApprovedUsers,
+    StudentNavbar,
 } from '@components'
 import { useAlert, useJoyRide } from '@hooks'
 import { StudentContextBar } from '@partials/student/components'
@@ -20,38 +21,27 @@ interface StudentLayoutProps {
 
 const getRoutePath = `/portals/student`
 const redirectUrls = [
-    `${getRoutePath}/my-workplace`,
-    `${getRoutePath}/have-workplace`,
-    `${getRoutePath}/dont-have-workplace`,
-    `${getRoutePath}/appointments`,
-    `${getRoutePath}/book-appointment`,
-    `${getRoutePath}/assessment-evidence`,
-    `${getRoutePath}/assessment-tools`,
-    `${getRoutePath}/schedule`,
-    `${getRoutePath}/jobs`,
+    `${getRoutePath}/workplace/my-workplace`,
+    `${getRoutePath}/workplace/my-workplace/have-workplace`,
+    `${getRoutePath}/workplace/my-workplace/dont-have-workplace`,
+    `${getRoutePath}/workplace/appointments`,
+    `${getRoutePath}/workplace/book-appointment`,
+    `${getRoutePath}/assessments/assessment-evidence`,
+    `${getRoutePath}/assessments/assessment-tools`,
+    `${getRoutePath}/assessments/schedule`,
+    `${getRoutePath}/assessments/schedule/add-schedule`,
+    `${getRoutePath}/workplace/jobs`,
+    `${getRoutePath}/notifications/e-mails`,
+    `${getRoutePath}/notifications/all-notifications`,
 ]
 
 export const StudentLayout = ({ pageTitle, children }: StudentLayoutProps) => {
     const [mounted, setMounted] = useState(false)
     const router = useRouter()
 
-    const { alert } = useAlert()
+    const { alert, setAlerts } = useAlert()
     const userData = getUserCredentials()
-    const token = AuthUtils.getToken()
-
     const joyride = useJoyRide()
-
-    const path = router.pathname?.split('/')?.reverse()[0]
-
-    useEffect(() => {
-        if (
-            token &&
-            redirectUrls.includes(router.pathname) &&
-            userData?.status !== UserStatus.Approved
-        ) {
-            router.push(getRoutePath)
-        }
-    }, [router])
 
     useEffect(() => {
         if (userData?.status === UserStatus.Pending) {
@@ -61,6 +51,9 @@ export const StudentLayout = ({ pageTitle, children }: StudentLayoutProps) => {
                 autoDismiss: false,
             })
         }
+        return () => {
+            setAlerts([])
+        }
     }, [])
 
     useEffect(() => {
@@ -68,51 +61,56 @@ export const StudentLayout = ({ pageTitle, children }: StudentLayoutProps) => {
     }, [])
 
     return (
-        <UserLayout>
-            <>
-                <StudentContextBar />
-                <div className="px-4 mb-32 md:px-16">
-                    <div className="mb-6">
-                        <StudentNavbar />
-                        <DisplayAlerts />
-                    </div>
-                    {pageTitle && pageTitle.title && (
+        <RedirectUnApprovedUsers
+            getRoutePath={getRoutePath}
+            redirectUrls={redirectUrls}
+        >
+            <UserLayout>
+                <>
+                    <StudentContextBar />
+                    <div className="px-4 mb-32 md:px-16">
                         <div className="mb-6">
-                            <PageTitle
-                                title={pageTitle.title}
-                                navigateBack={pageTitle?.navigateBack}
-                                backTitle={pageTitle?.backTitle}
-                            />
+                            <StudentNavbar />
+                            <DisplayAlerts />
                         </div>
+                        {pageTitle && pageTitle.title && (
+                            <div className="mb-6">
+                                <PageTitle
+                                    title={pageTitle.title}
+                                    navigateBack={pageTitle?.navigateBack}
+                                    backTitle={pageTitle?.backTitle}
+                                />
+                            </div>
+                        )}
+                        <div>{children}</div>
+                    </div>
+                    {mounted && (
+                        <Joyride
+                            callback={joyride.state.callback}
+                            continuous
+                            run={joyride.state.run}
+                            stepIndex={joyride.state.stepIndex}
+                            steps={joyride.state.steps}
+                            showSkipButton={true}
+                            disableScrollParentFix
+                            // hideCloseButton={true}
+                            disableOverlayClose={true}
+                            hideBackButton={true}
+                            locale={{
+                                skip: 'Close Tour',
+                            }}
+                            // styles={{
+                            //     options: {
+                            //         arrowColor: theme.black,
+                            //         backgroundColor: theme.black,
+                            //         primaryColor: theme.colors.purple,
+                            //         textColor: theme.white,
+                            //     },
+                            // }}
+                        />
                     )}
-                    <div>{children}</div>
-                </div>
-                {mounted && (
-                    <Joyride
-                        callback={joyride.state.callback}
-                        continuous
-                        run={joyride.state.run}
-                        stepIndex={joyride.state.stepIndex}
-                        steps={joyride.state.steps}
-                        showSkipButton={true}
-                        disableScrollParentFix
-                        // hideCloseButton={true}
-                        disableOverlayClose={true}
-                        hideBackButton={true}
-                        locale={{
-                            skip: 'Close Tour',
-                        }}
-                        // styles={{
-                        //     options: {
-                        //         arrowColor: theme.black,
-                        //         backgroundColor: theme.black,
-                        //         primaryColor: theme.colors.purple,
-                        //         textColor: theme.white,
-                        //     },
-                        // }}
-                    />
-                )}
-            </>
-        </UserLayout>
+                </>
+            </UserLayout>
+        </RedirectUnApprovedUsers>
     )
 }

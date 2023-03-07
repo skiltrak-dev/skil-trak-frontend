@@ -9,6 +9,7 @@ import {
     PageTitleProps,
     Typography,
     DisplayAlerts,
+    RedirectUnApprovedUsers,
 } from '@components'
 
 // layout
@@ -58,19 +59,10 @@ export const IndustryLayout = ({
     const status = AuthUtils.getUserCredentials()?.status
 
     // hooks
-    const { alert } = useAlert()
+    const { alert, setAlerts } = useAlert()
     const joyride = useJoyRide()
     const [mounted, setMounted] = useState(false)
     const [modal, setModal] = useState<ReactElement | null>(null)
-    useEffect(() => {
-        if (
-            token &&
-            redirectUrls.includes(router.pathname) &&
-            status !== UserStatus.Approved
-        ) {
-            router.push(getRoutePath)
-        }
-    }, [router])
 
     useEffect(() => {
         if (
@@ -122,6 +114,10 @@ export const IndustryLayout = ({
             }
         }
         displayAlerts()
+
+        return () => {
+            setAlerts([])
+        }
     }, [])
 
     useEffect(() => {
@@ -129,52 +125,57 @@ export const IndustryLayout = ({
     }, [])
 
     return (
-        <UserLayout>
-            <>
-                {modal && modal}
-                <div className="md:px-16 px-2 mb-24">
-                    <div className="mb-6">
-                        <IndustryNavbar />
-                        <DisplayAlerts />
-                    </div>
-                    {pageTitle && pageTitle.title && (
+        <RedirectUnApprovedUsers
+            getRoutePath={getRoutePath}
+            redirectUrls={redirectUrls}
+        >
+            <UserLayout>
+                <>
+                    {modal && modal}
+                    <div className="md:px-16 px-2 mb-24">
                         <div className="mb-6">
-                            <PageTitle
-                                title={pageTitle.title}
-                                navigateBack={pageTitle?.navigateBack}
-                                backTitle={pageTitle?.backTitle}
-                            />
+                            <IndustryNavbar />
+                            <DisplayAlerts />
                         </div>
-                    )}
-                    <div>{children}</div>
-                </div>
-                {mounted && (
-                    <Joyride
-                        callback={joyride.state.callback}
-                        continuous
-                        run={joyride.state.run}
-                        stepIndex={joyride.state.stepIndex}
-                        steps={joyride.state.steps}
-                        showSkipButton={true}
-                        disableScrollParentFix
-                        // hideCloseButton={true}
-                        disableOverlayClose={true}
-                        hideBackButton={true}
-                        locale={{
-                            skip: 'Close Tour',
-                        }}
+                        {pageTitle && pageTitle.title && (
+                            <div className="mb-6">
+                                <PageTitle
+                                    title={pageTitle.title}
+                                    navigateBack={pageTitle?.navigateBack}
+                                    backTitle={pageTitle?.backTitle}
+                                />
+                            </div>
+                        )}
+                        <div>{children}</div>
+                    </div>
+                    {mounted && (
+                        <Joyride
+                            callback={joyride.state.callback}
+                            continuous
+                            run={joyride.state.run}
+                            stepIndex={joyride.state.stepIndex}
+                            steps={joyride.state.steps}
+                            showSkipButton={true}
+                            disableScrollParentFix
+                            // hideCloseButton={true}
+                            disableOverlayClose={true}
+                            hideBackButton={true}
+                            locale={{
+                                skip: 'Close Tour',
+                            }}
 
-                        // styles={{
-                        //     options: {
-                        //         arrowColor: theme.black,
-                        //         backgroundColor: theme.black,
-                        //         primaryColor: theme.colors.purple,
-                        //         textColor: theme.white,
-                        //     },
-                        // }}
-                    />
-                )}
-            </>
-        </UserLayout>
+                            // styles={{
+                            //     options: {
+                            //         arrowColor: theme.black,
+                            //         backgroundColor: theme.black,
+                            //         primaryColor: theme.colors.purple,
+                            //         textColor: theme.white,
+                            //     },
+                            // }}
+                        />
+                    )}
+                </>
+            </UserLayout>
+        </RedirectUnApprovedUsers>
     )
 }

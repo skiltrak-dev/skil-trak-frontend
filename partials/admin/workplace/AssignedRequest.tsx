@@ -9,10 +9,13 @@ import {
 
 // queries
 import { AdminApi } from '@queries'
-import { useState } from 'react'
+import { useRouter } from 'next/router'
+import { useEffect, useState } from 'react'
 import { AdminWorkplaceRequest } from './components'
 
 export const AssignedRequest = () => {
+    const router = useRouter()
+
     const [page, setPage] = useState(1)
     const [itemPerPage, setItemPerPage] = useState(30)
 
@@ -20,6 +23,11 @@ export const AssignedRequest = () => {
         skip: itemPerPage * page - itemPerPage,
         limit: itemPerPage,
     })
+    useEffect(() => {
+        setPage(Number(router.query.page || 1))
+        setItemPerPage(Number(router.query.pageSize || 50))
+    }, [router])
+
     return (
         <div className="p-4">
             <div className="flex items-center justify-between">

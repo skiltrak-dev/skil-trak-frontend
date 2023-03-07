@@ -11,6 +11,7 @@ interface FormProps {
     edit?: boolean
     result: any
     initialValues?: Course
+    assignedRtos: any
 }
 
 export const AssignRtoForm = ({
@@ -18,16 +19,28 @@ export const AssignRtoForm = ({
     onSubmit,
     edit,
     initialValues,
+    assignedRtos,
 }: FormProps) => {
     const rtos = AdminApi.Rtos.useApprovedList()
 
     const validationSchema = yup.object({})
+
+    console.log('assignedRtosassignedRtos', assignedRtos)
 
     const methods = useForm({
         resolver: yupResolver(validationSchema),
         defaultValues: initialValues,
         mode: 'all',
     })
+
+    const assignedRtoIds = assignedRtos?.map((rto: Rto) => rto.id)
+
+    const rtoOptions = rtos.data
+        ?.filter((rto: Rto) => !assignedRtoIds?.includes(rto?.id))
+        ?.map((s: Rto) => ({
+            label: s.user.name,
+            value: s.id,
+        }))
 
     return (
         <FormProvider {...methods}>
@@ -43,14 +56,7 @@ export const AssignRtoForm = ({
                     <Select
                         name={'rto'}
                         label={'RTOs'}
-                        options={
-                            rtos.isLoading
-                                ? []
-                                : rtos.data?.map((s: Rto) => ({
-                                      label: s.user.name,
-                                      value: s.id,
-                                  }))
-                        }
+                        options={rtos.isLoading ? [] : rtoOptions}
                         loading={rtos.isLoading}
                     />
 

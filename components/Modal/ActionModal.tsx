@@ -101,6 +101,7 @@ export const ActionModal = ({
                             onConfirm && onConfirm(actionObject)
                         }}
                         loading={loading}
+                        disabled={loading}
                     />
                 </div>
             </div>
