@@ -39,7 +39,7 @@ export const StudentProfile = ({ noTitle }: { noTitle?: boolean }) => {
     const router = useRouter()
     const { id } = router.query
 
-    const { alert } = useAlert()
+    const { alert, setAlerts } = useAlert()
     const { notification } = useNotification()
 
     const [addWorkplace, setAddWorkplace] = useState<boolean>(false)
@@ -104,6 +104,9 @@ export const StudentProfile = ({ noTitle }: { noTitle?: boolean }) => {
                 }
             }
             showAlert()
+        }
+        return () => {
+            setAlerts([])
         }
     }, [data])
 

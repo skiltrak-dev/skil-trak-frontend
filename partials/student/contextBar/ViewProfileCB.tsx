@@ -3,15 +3,9 @@ import { useGetStudentProfileDetailQuery } from '@queries'
 import moment from 'moment'
 import { AiFillEdit } from 'react-icons/ai'
 import { BsUnlockFill } from 'react-icons/bs'
-import {
-    FaAddressCard,
-    FaBirthdayCake,
-    FaUserCircle
-} from 'react-icons/fa'
+import { FaAddressCard, FaBirthdayCake, FaUserCircle } from 'react-icons/fa'
 import { IoLocation } from 'react-icons/io5'
-import {
-    MdBatchPrediction, MdPhone, MdVerified
-} from 'react-icons/md'
+import { MdBatchPrediction, MdPhone, MdVerified } from 'react-icons/md'
 import { getGender } from 'utils/functions/getGender'
 
 // hooks

@@ -3,7 +3,7 @@ import { useState } from 'react'
 // Icons
 
 // components
-import { Button, LoadingAnimation } from '@components'
+import { Button, LoadingAnimation, NoData } from '@components'
 import { PackageItem, PackageView } from '@partials/rto/components'
 import { AuthApi } from '@queries'
 import { Packages } from '@types'
@@ -50,22 +50,31 @@ export const StepPackageSelection = () => {
 
             <div className="flex gap-x-6 w-full relative mt-8">
                 <div className="border-r pr-6 w-1/3 flex flex-col gap-y-4">
+                    {packages.isError && (
+                        <NoData
+                            text={
+                                'There is some Network issue, try reload browser'
+                            }
+                        />
+                    )}
                     {packages?.isLoading ? (
                         <LoadingAnimation size={60} />
+                    ) : packages?.data && packages?.data?.length > 0 ? (
+                        packages?.data?.map((pkg: Packages) => (
+                            <PackageItem
+                                key={pkg.id}
+                                pkg={pkg}
+                                selected={
+                                    selectedPackage &&
+                                    selectedPackage.id === pkg.id
+                                }
+                                onClick={() => onPackageClicked(pkg)}
+                            />
+                        ))
                     ) : (
-                        packages?.data?.map((pkg: Packages) => {
-                            return (
-                                <PackageItem
-                                    key={pkg.id}
-                                    pkg={pkg}
-                                    selected={
-                                        selectedPackage &&
-                                        selectedPackage.id === pkg.id
-                                    }
-                                    onClick={() => onPackageClicked(pkg)}
-                                />
-                            )
-                        })
+                        !packages.isError && (
+                            <NoData text={'No Package added by admin'} />
+                        )
                     )}
                 </div>
                 <div className="w-2/3">

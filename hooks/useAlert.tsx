@@ -21,6 +21,7 @@ interface AlertContextType {
     alert: AlertObjectType
     alerts: Object[]
     dismiss: Function
+    setAlerts: Function
 }
 
 const AlertContext = createContext<AlertContextType | null>(null)
@@ -40,9 +41,9 @@ export const AlertProvider = ({ children }: { children: React.ReactNode }) => {
 
     const token = getToken()
 
-    useEffect(() => {
-        setAlerts([])
-    }, [router])
+    // useEffect(() => {
+    //     setAlerts([])
+    // }, [router])
 
     const createAlert = ({
         title,
@@ -89,6 +90,7 @@ export const AlertProvider = ({ children }: { children: React.ReactNode }) => {
         alert,
         alerts,
         dismiss,
+        setAlerts,
     }
 
     return (

@@ -137,7 +137,9 @@ const IndustryList: NextPageWithLayout = () => {
                     filterKeys={filterKeys}
                 />
             </div>
-            {filteredDataLength && filteredIndustries.isError && <TechnicalError />}
+            {filteredDataLength && filteredIndustries.isError && (
+                <TechnicalError />
+            )}
             {filteredDataLength ? (
                 filteredIndustries.isLoading ? (
                     <LoadingAnimation />

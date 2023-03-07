@@ -57,7 +57,6 @@ export const StudentFilters = ({ onFilterChange, filter }: ItemFilterProps) => {
         }
     }, [getCourses])
 
-
     return (
         <>
             <SetQueryFilters filter={filter} />
@@ -116,7 +115,7 @@ export const StudentFilters = ({ onFilterChange, filter }: ItemFilterProps) => {
                     )}
                     options={statusOptions}
                     placeholder={'Select Sectors...'}
-                    onChange={(e: any) => {
+                    onChange={(e: SelectOption) => {
                         onFilterChange({ ...filter, status: e?.value })
                     }}
                 />
@@ -129,7 +128,7 @@ export const StudentFilters = ({ onFilterChange, filter }: ItemFilterProps) => {
                         )}
                         options={rtoOptions}
                         placeholder={'Select Search By Rto...'}
-                        onChange={(e: any) => {
+                        onChange={(e: SelectOption) => {
                             onFilterChange({ ...filter, rtoId: e?.value })
                         }}
                         loading={getRtos.isLoading}

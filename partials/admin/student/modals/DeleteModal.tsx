@@ -18,7 +18,7 @@ export const DeleteModal = ({
     const [remove, removeResult] = AdminApi.Students.useRemove()
 
     const onConfirmUClicked = async (item: Student) => {
-        await remove(item.id)
+        await remove(item?.user?.id)
     }
 
     useEffect(() => {
