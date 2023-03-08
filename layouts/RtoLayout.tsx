@@ -49,7 +49,6 @@ export const RtoLayout = ({ pageTitle, children }: RtoLayoutProps) => {
     //     }
     // }, [router])
 
-    console.log('status', status)
 
     useEffect(() => {
         if (status === UserStatus.Pending) {

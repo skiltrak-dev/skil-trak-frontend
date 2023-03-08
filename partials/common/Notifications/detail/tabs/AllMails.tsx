@@ -17,8 +17,6 @@ export const AllMails = ({
     const [page, setPage] = useState(1)
     const [hasNext, setHasNext] = useState(true)
 
-    console.log('hasNexthasNext', hasNext)
-
     const [allMails, setAllMails] = useState<any>([])
 
     const { data, isLoading, isError, isFetching, isSuccess } =

@@ -16,7 +16,6 @@ export const JobSlider = () => {
                 setJobList(res.data)
             })
             .catch((err) => {
-                console.log(err)
             })
     }, [])
 

@@ -116,14 +116,11 @@ export const Detail = ({
 
     const role = getUserCredentials()?.role
 
-    console.log('resultskaka', results)
-
     const AddFileButton = ({ name }: { name: string }) => {
         return <UploadFile name={name} loading={uploadDocsResult.isLoading} />
     }
 
     const onUploadDocs = (docs: any) => {
-        console.log('docs', docs)
         const formData = new FormData()
         docs.forEach((doc: any) => {
             formData.append(`${selectedFolder?.name}`, doc)

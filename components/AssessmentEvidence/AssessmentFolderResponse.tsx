@@ -118,7 +118,6 @@ export const AssessmentResponse = ({
     // query
     const [addComment, addCommentResult] = useAddCommentOnAssessmentMutation()
 
-    console.log('result', result)
     return (
         <>
             {modal && modal}

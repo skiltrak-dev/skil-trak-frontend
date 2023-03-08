@@ -11,7 +11,6 @@ export const DetailTabs = ({
     id: number | string | string[] | undefined
     student: any
 }) => {
-    console.log('studentstudent', student)
     const tabs: TabProps[] = [
         {
             label: 'Overview',

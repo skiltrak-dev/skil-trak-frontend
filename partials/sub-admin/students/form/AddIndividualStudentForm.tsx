@@ -26,11 +26,6 @@ export const AddIndividualStudentForm = () => {
     // auth api to get sectors
     const sectorResponse = AuthApi.useSectors({})
 
-    useEffect(() => {
-        if (addStudentResult.isSuccess) {
-            setIsSuccess(addStudentResult.isSuccess)
-        }
-    }, [addStudentResult.isSuccess])
     // get sectors
     const onSectorChanged = (sectors: any) => {
         setCourseLoading(true)
@@ -90,11 +85,12 @@ export const AddIndividualStudentForm = () => {
             .required('Must provide email'),
         expiryDate: yup.date().required('Must provide Expiry Date'),
         // sector and courses
-        sectors: yup.array().min(1, 'Must select at least 1 sector'),
         courses: yup.array().min(1, 'Must select at least 1 course'),
 
         // Address Information
         addressLine1: yup.string().required('Must provide address'),
+        gender: yup.string().required('Must provide Gender'),
+
         state: yup.string().required('Must provide name of state'),
         suburb: yup.string().required('Must provide suburb name'),
         zipCode: yup.string().required('Must provide zip code for your state'),
@@ -102,8 +98,15 @@ export const AddIndividualStudentForm = () => {
 
     const formMethods = useForm({
         mode: 'all',
-        // resolver: yupResolver(validationSchema),
+        resolver: yupResolver(validationSchema),
     })
+
+    useEffect(() => {
+        if (addStudentResult.isSuccess) {
+            setIsSuccess(addStudentResult.isSuccess)
+            formMethods.reset()
+        }
+    }, [addStudentResult.isSuccess])
 
     const onSubmitForm = (values: any) => {
         // if (onSubmit) {
@@ -112,9 +115,15 @@ export const AddIndividualStudentForm = () => {
         addStudent({
             // ...values,
             id: Number(router.query.id),
-            body: values,
-            courses: values?.courses?.map((course: any) => course.value),
-            sectors: values?.sectors?.map((sector: any) => sector.value),
+            body: {
+                ...values,
+                courses: values?.courses?.map((course: any) => course.value),
+                role: UserRoles.STUDENT,
+                dob: 'N/A',
+                familyName: 'N/A',
+                emergencyPerson: 'N/A',
+                emergencyPersonPhone: 'N/A',
+            },
         })
     }
 
@@ -171,6 +180,13 @@ export const AddIndividualStudentForm = () => {
                             />
 
                             <TextInput
+                                label={'Gender'}
+                                name={'gender'}
+                                placeholder={'Gender...'}
+                                validationIcons
+                                required
+                            />
+                            <TextInput
                                 label={'Password'}
                                 name={'password'}
                                 type={'password'}
@@ -182,8 +198,8 @@ export const AddIndividualStudentForm = () => {
                                 label={'Sector'}
                                 {...(storedData
                                     ? {
-                                        defaultValue: storedData.sectors,
-                                    }
+                                          defaultValue: storedData.sectors,
+                                      }
                                     : {})}
                                 name={'sectors'}
                                 options={sectorOptions}
@@ -228,25 +244,22 @@ export const AddIndividualStudentForm = () => {
                             <TextInput
                                 label={'Address Line 1'}
                                 name={'addressLine1'}
+                                required
                                 placeholder={'Your Address Line 1...'}
                                 validationIcons
                             />
 
                             <TextInput
-                                label={'Address Line 2'}
-                                name={'addressLine2'}
-                                placeholder={'Your Address Line 2...'}
-                                validationIcons
-                            />
-                            <TextInput
                                 label={'Suburb'}
                                 name={'suburb'}
+                                required
                                 placeholder={'Suburb...'}
                                 validationIcons
                             />
                             <TextInput
                                 label={'State'}
                                 name={'state'}
+                                required
                                 placeholder={'State...'}
                                 validationIcons
                             />
@@ -254,6 +267,7 @@ export const AddIndividualStudentForm = () => {
                             <TextInput
                                 label={'Zip Code'}
                                 name={'zipCode'}
+                                required
                                 placeholder={'Zip Code...'}
                                 validationIcons
                             />

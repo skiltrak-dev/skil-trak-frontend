@@ -92,7 +92,6 @@ const Page: NextPage = () => {
                 }
             })
             .catch((err) => {
-                console.log(err)
             })
     }, [])
 

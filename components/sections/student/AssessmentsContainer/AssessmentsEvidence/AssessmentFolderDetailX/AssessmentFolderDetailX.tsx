@@ -85,7 +85,6 @@ export const AssessmentFolderDetailX = ({
         )
     }
 
-    console.log('leeran da bujjs', result)
 
     const onFileClicked = (file: any) => {
         setSelected(file)
