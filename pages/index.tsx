@@ -129,8 +129,9 @@ const Page: NextPage = () => {
                             Experience Digitally
                         </h2>
                         <p className="text-theme-primary text-3xl mt-8">
-                            SkilTrak&apos;s philosophy is a reflection of the values
-                            established by over 15 years of industry experience.
+                            SkilTrak&apos;s philosophy is a reflection of the
+                            values established by over 15 years of industry
+                            experience.
                         </p>
                         <p className="mt-9 text-2xl text-gray-500">
                             These values are simple: we rely on genuine
