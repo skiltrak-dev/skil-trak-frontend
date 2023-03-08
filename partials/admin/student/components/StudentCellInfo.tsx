@@ -7,12 +7,23 @@ import { MdEmail } from 'react-icons/md'
 
 export const StudentCellInfo = ({ student }: { student: Student }) => {
     const router = useRouter()
+<<<<<<< Updated upstream
 
+=======
+    const query = queryToUrl(router?.query)
+>>>>>>> Stashed changes
     return (
-        <Link legacyBehavior href={`student/${student.id}?tab=overview`}>
+        <Link legacyBehavior href={`student/${student?.id}?tab=overview`}>
             <a
                 onClick={() => {
+<<<<<<< Updated upstream
                     setLink('student', router)
+=======
+                    sessionStorage.setItem(
+                        'student',
+                        `${router?.pathname}?${query}`
+                    )
+>>>>>>> Stashed changes
                 }}
                 className="flex items-center gap-x-2"
             >

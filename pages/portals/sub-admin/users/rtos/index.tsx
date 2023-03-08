@@ -15,10 +15,12 @@ import {
     Button,
     Card,
     EmptyData,
+    Filter,
     InitialAvatar,
     LoadingAnimation,
     RtoContextBarData,
     SidebarCalendar,
+    SubAdminRtoFilter,
     Table,
     TableAction,
     TableActionOption,
@@ -31,28 +33,47 @@ import { useGetSubAdminRtosQuery } from '@queries'
 import { useContextBar } from '@hooks'
 
 import { SectorCell } from '@partials/admin/sub-admin'
+<<<<<<< Updated upstream
 import { getFilterQuery, setLink } from '@utils'
 import { MdEmail, MdPhoneIphone } from 'react-icons/md'
+=======
+import { checkFilteredDataLength, getFilterQuery } from '@utils'
+>>>>>>> Stashed changes
 
 const RTOs: NextPageWithLayout = () => {
     const { setContent } = useContextBar()
     const router = useRouter()
+
+    //filters
+    const filterKeys = ['name', 'email', 'phone', 'abn', 'courseId']
     const [filterAction, setFilterAction] = useState(null)
     const [itemPerPage, setItemPerPage] = useState(50)
     const [page, setPage] = useState(1)
     const [filter, setFilter] = useState({})
+
+    const filteredDataLength = checkFilteredDataLength(filter)
+    //filters
 
     useEffect(() => {
         const query = getFilterQuery({ router, filterKeys: [] })
         setFilter(query)
     }, [router])
 
+<<<<<<< Updated upstream
     useEffect(() => {
         setPage(Number(router.query.page || 1))
         setItemPerPage(Number(router.query.pageSize || 50))
     }, [router])
 
     const { isLoading, data, isError } = useGetSubAdminRtosQuery({
+=======
+    const { isLoading, data, isError, isFetching } = useGetSubAdminRtosQuery({
+        search: `${JSON.stringify(filter)
+            .replaceAll('{', '')
+            .replaceAll('}', '')
+            .replaceAll('"', '')
+            .trim()}`,
+>>>>>>> Stashed changes
         skip: itemPerPage * page - itemPerPage,
         limit: itemPerPage,
     })
@@ -203,11 +224,23 @@ const RTOs: NextPageWithLayout = () => {
         },
     ]
 
+
+
     return (
-        <>
+        <div className='mb-6'>
+            <div className="px-4 mb-12">
+                <div className="flex justify-end mb-2">{filterAction}</div>
+                <Filter
+                    component={SubAdminRtoFilter}
+                    initialValues={filter}
+                    setFilterAction={setFilterAction}
+                    setFilter={setFilter}
+                    filterKeys={filterKeys}
+                />
+            </div>
             <Card noPadding>
                 {isError && <TechnicalError />}
-                {isLoading ? (
+                {isLoading || isFetching ? (
                     <LoadingAnimation height="h-[60vh]" />
                 ) : data && data?.data.length ? (
                     <Table
@@ -249,7 +282,7 @@ const RTOs: NextPageWithLayout = () => {
                     )
                 )}
             </Card>
-        </>
+        </div>
     )
 }
 RTOs.getLayout = (page: ReactElement) => {

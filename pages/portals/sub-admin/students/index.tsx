@@ -211,8 +211,9 @@ const Students: NextPageWithLayout = (props: Props) => {
                             itemPerPage={itemPerPage}
                             student={filteredStudents}
                             setItemPerPage={setItemPerPage}
-                            
+
                         />
+                    
                     )
                 )
             ) : null}
