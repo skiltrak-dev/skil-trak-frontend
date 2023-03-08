@@ -1,3 +1,4 @@
+import { Badge } from '@components/Badge'
 import { Typography } from '@components/Typography'
 
 type Props = {
@@ -39,23 +40,37 @@ export const CourseCard = ({
                             {code}
                         </Typography>
                     </div>
-                    {result && (
-                        <div
-                            className={`${
-                                isActive ? 'bg-[#686DE0]' : 'bg-rose-400'
-                            } px-1`}
-                        >
-                            <Typography
-                                variant="xs"
-                                color="text-white"
-                                capitalize
-                            >
-                                {result?.result === 'pending'
-                                    ? 'Submitted'
-                                    : result?.result}
-                            </Typography>
-                        </div>
-                    )}
+                    {
+                        result &&
+                            (result?.result === 'pending' ? (
+                                <Badge
+                                    text="Submitted"
+                                    size="xs"
+                                    variant="info"
+                                />
+                            ) : (
+                                <Badge
+                                    text={result?.result}
+                                    size="xs"
+                                    variant="muted"
+                                />
+                            ))
+                        // <div
+                        //     className={`${
+                        //         isActive ? 'bg-[#686DE0]' : 'bg-rose-400'
+                        //     } px-1`}
+                        // >
+                        //     <Typography
+                        //         variant="xs"
+                        //         color="text-white"
+                        //         capitalize
+                        //     >
+                        //         {result?.result === 'pending'
+                        //             ? 'Submitted'
+                        //             : result?.result}
+                        //     </Typography>
+                        // </div>
+                    }
                 </div>
                 <div>
                     <div>

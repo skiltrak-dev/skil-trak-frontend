@@ -256,6 +256,12 @@ export const Detail = ({
                             </span>{' '}
                             - Submission #{results?.totalSubmission}
                         </Typography>
+                        <Typography variant={'label'} color={'text-gray-500'}>
+                            Assessor:{' '}
+                            <span className="font-semibold text-black">
+                                {results?.assessor?.name || 'Not Assessesd'}
+                            </span>
+                        </Typography>
                         <div className="flex items-center gap-x-2 mb-1">
                             <div>
                                 {selectedFolder &&
@@ -285,15 +291,6 @@ export const Detail = ({
                                         />
                                     )}
                             </div>
-                            <Typography
-                                variant={'label'}
-                                color={'text-gray-500'}
-                            >
-                                Assessor:{' '}
-                                <span className="font-semibold text-black">
-                                    {results?.assessor?.name || 'Not Assessesd'}
-                                </span>
-                            </Typography>
                         </div>
                     </div>
                     {/*  */}
@@ -388,7 +385,7 @@ export const Detail = ({
                         !results?.isManualSubmission && (
                             <div className="mt-5 flex flex-col gap-y-1">
                                 <Typography variant={'small'}>
-                                    Student Has Subitted 3 times, now you can
+                                    Student Has Submitted 3 times, now you can
                                     manually reopen the submit request on
                                     request on Student
                                 </Typography>

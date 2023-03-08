@@ -143,25 +143,27 @@ export const AssessmentResponse = ({
                             </div>
                             {assessmentEvidenceView && (
                                 <div className="flex flex-col gap-y-1 items-end">
-                                    <Badge
-                                        text={
-                                            result?.result === 'pending'
-                                                ? 'SUBMITTED'
-                                                : result?.result?.toUpperCase()
-                                        }
-                                        variant="info"
-                                    />
-                                    {result?.assessor && (
-                                        <Typography
+                                    {result?.result === 'pending' ? (
+                                        <Badge
+                                            text={'Submitted'}
+                                            variant="info"
+                                        />
+                                    ) : (
+                                        <Badge
+                                            text={result?.result?.toUpperCase()}
                                             variant="muted"
-                                            color={'text-green-500'}
-                                        >
-                                            Assessed On:{' '}
-                                            {moment(
-                                                result?.assessor?.createdAt
-                                            ).format('Do MMM YYYY')}
-                                        </Typography>
+                                        />
                                     )}
+
+                                    {result?.assessor &&
+                                        result?.assessor?.createdAt && (
+                                            <p className="text-xs text-gray-500">
+                                                Assessed On:{' '}
+                                                {moment(
+                                                    result?.assessor?.createdAt
+                                                ).format('Do MMM YYYY')}
+                                            </p>
+                                        )}
                                 </div>
                             )}
                         </div>
