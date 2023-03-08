@@ -12,7 +12,7 @@ interface BadgeProps {
         | 'error'
         | 'warning'
         | 'muted'
-    size?: 'sm' | 'md' | 'lg'
+    size?: 'xs' | 'sm' | 'md' | 'lg'
     shape?: 'rounded' | 'pill' | 'flat'
     disabled?: boolean
     loading?: boolean
@@ -37,11 +37,12 @@ export const Badge = ({
     loading,
 }: BadgeProps) => {
     const classes = classNames({
-        'px-2 py-0.5 inline-block': true,
+        'px-2 py-0.5 inline-block uppercase': true,
         rounded: shape === 'rounded',
         'rounded-full': shape === 'pill',
         'text-sm font-medium': size === 'md',
         'text-xs font-medium': size === 'sm',
+        'text-[10px]': size === 'xs',
         'text-normal': size === 'lg',
 
         // Colors
@@ -52,7 +53,7 @@ export const Badge = ({
         'bg-blue-100 text-blue-500': !disabled && variant === 'info',
         'bg-red-100 text-red-500': !disabled && variant === 'error',
         'bg-amber-100 text-amber-500': !disabled && variant === 'warning',
-        'bg-slate-100 text-slate-500': !disabled && variant === 'muted',
+        'bg-slate-200 text-slate-500': !disabled && variant === 'muted',
         'bg-gray-100 text-gray-500': disabled,
     })
     return (

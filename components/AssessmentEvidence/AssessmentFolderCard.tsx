@@ -8,6 +8,7 @@ type AssessmentFolderCardProps = {
 }
 import { Badge } from '@components'
 import { Typography } from '@components/Typography'
+import classNames from 'classnames'
 import { FaFolder } from 'react-icons/fa'
 export const AssessmentFolderCard = ({
     name,
@@ -27,18 +28,49 @@ export const AssessmentFolderCard = ({
         switch (response?.status) {
             case 'approved':
                 return (
-                    <Badge text={'Approved'} variant="success" shape="pill" />
+                    <Badge
+                        text={'Approved'}
+                        variant="success"
+                        shape="pill"
+                        size="xs"
+                    />
                 )
             case 'pending':
-                return <Badge text={'Pending'} variant="warning" shape="pill" />
+                return (
+                    <Badge
+                        text={'Pending'}
+                        variant="warning"
+                        shape="pill"
+                        size="xs"
+                    />
+                )
             case 'rejected':
-                return <Badge text={'Rejected'} variant="error" shape="pill" />
+                return (
+                    <Badge
+                        text={'Rejected'}
+                        variant="error"
+                        shape="pill"
+                        size="xs"
+                    />
+                )
             default:
                 return (
-                    <Badge text={'Not Assessed'} variant="muted" shape="pill" />
+                    <Badge
+                        text={'Not Assessed'}
+                        variant="muted"
+                        shape="pill"
+                        size="xs"
+                    />
                 )
         }
     }
+
+    const commentClasses = classNames({
+        'text-xs': true,
+        'text-gray-500': response?.status === 'pending',
+        'text-green-700': response?.status === 'approved',
+        'text-red-700': response?.status === 'rejected',
+    })
     return (
         <>
             <div
@@ -70,18 +102,7 @@ export const AssessmentFolderCard = ({
                 </div>
                 {response && (
                     <div>
-                        <Typography
-                            variant="small"
-                            color={
-                                isActive
-                                    ? 'text-green-500'
-                                    : !isActive
-                                    ? 'text-red-500'
-                                    : 'text-blue-500'
-                            }
-                        >
-                            {response?.comment}
-                        </Typography>
+                        <p className={commentClasses}>{response?.comment}</p>
                     </div>
                 )}
             </div>
