@@ -13,6 +13,7 @@ const nextConfig = {
             'www.skiltrak.com.au',
             'skiltrak-dev.s3.ap-southeast-2.amazonaws.com',
             'hivedinn.s3.amazonaws.com',
+            'skiltrak.org',
         ],
     },
 }
