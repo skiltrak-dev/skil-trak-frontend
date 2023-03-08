@@ -156,13 +156,7 @@ export const ApprovedStudent = () => {
             accessorKey: 'rto',
             header: () => <span>RTO</span>,
             cell: (info) => {
-<<<<<<< Updated upstream
-                return info.row.original.rto ? (
-                    <RtoCellInfo rto={info.row.original.rto} short />
-                ) : null
-=======
                 return <RtoCellInfo rto={info?.row?.original?.rto} short />
->>>>>>> Stashed changes
             },
         },
         {

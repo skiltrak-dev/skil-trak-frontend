@@ -33,19 +33,15 @@ import { useGetSubAdminRtosQuery } from '@queries'
 import { useContextBar } from '@hooks'
 
 import { SectorCell } from '@partials/admin/sub-admin'
-<<<<<<< Updated upstream
-import { getFilterQuery, setLink } from '@utils'
+import { checkFilteredDataLength, getFilterQuery, setLink } from '@utils'
 import { MdEmail, MdPhoneIphone } from 'react-icons/md'
-=======
-import { checkFilteredDataLength, getFilterQuery } from '@utils'
->>>>>>> Stashed changes
 
 const RTOs: NextPageWithLayout = () => {
     const { setContent } = useContextBar()
     const router = useRouter()
 
     //filters
-    const filterKeys = ['name', 'email', 'phone', 'abn', 'courseId']
+    const filterKeys = ['name', 'email', 'phone', 'code', 'courseId']
     const [filterAction, setFilterAction] = useState(null)
     const [itemPerPage, setItemPerPage] = useState(50)
     const [page, setPage] = useState(1)
@@ -59,21 +55,12 @@ const RTOs: NextPageWithLayout = () => {
         setFilter(query)
     }, [router])
 
-<<<<<<< Updated upstream
-    useEffect(() => {
-        setPage(Number(router.query.page || 1))
-        setItemPerPage(Number(router.query.pageSize || 50))
-    }, [router])
-
-    const { isLoading, data, isError } = useGetSubAdminRtosQuery({
-=======
     const { isLoading, data, isError, isFetching } = useGetSubAdminRtosQuery({
         search: `${JSON.stringify(filter)
             .replaceAll('{', '')
             .replaceAll('}', '')
             .replaceAll('"', '')
             .trim()}`,
->>>>>>> Stashed changes
         skip: itemPerPage * page - itemPerPage,
         limit: itemPerPage,
     })
