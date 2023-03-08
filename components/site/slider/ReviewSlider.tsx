@@ -17,7 +17,6 @@ export const ReviewSlider = () => {
                 setReviewList(res.data)
             })
             .catch((err) => {
-                console.log(err)
             })
     }, [])
 

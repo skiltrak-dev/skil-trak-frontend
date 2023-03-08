@@ -115,6 +115,8 @@ export const StudentProfile = ({ noTitle }: { noTitle?: boolean }) => {
         }
         return () => {
             setAlerts([])
+            contextBar.setContent(null)
+            contextBar.hide()
         }
     }, [data])
 

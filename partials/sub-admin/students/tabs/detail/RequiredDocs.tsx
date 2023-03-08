@@ -104,7 +104,6 @@ export const RequiredDocs = ({
     }
 
     const onUploadDocs = (docs: any) => {
-        console.log('docs', docs)
         const formData = new FormData()
         docs.forEach((doc: any) => {
             formData.append(`${selectedFolder?.folder?.name}`, doc)

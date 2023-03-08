@@ -42,6 +42,7 @@ export const isAuthenticated = () => {
 export const logout = (router: any) => {
     if (isBrowser()) {
         localStorage.clear()
+        sessionStorage.clear()
         // localStorage.removeItem(KEYS.TOKEN)
 
         if (router) {

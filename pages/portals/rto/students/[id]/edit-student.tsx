@@ -1,11 +1,16 @@
 import { useContextBar, useNavbar } from '@hooks'
 import { AdminLayout, RtoLayout } from '@layouts'
-import { NextPageWithLayout } from '@types'
+import { Course, NextPageWithLayout } from '@types'
 import { useRouter } from 'next/router'
 import { ReactElement, useEffect } from 'react'
 
 import { StudentProfileForm } from '@partials/common'
-import { AdminApi, useUpdateStudentProfileMutation } from '@queries'
+import {
+    AdminApi,
+    SubAdminApi,
+    useUpdateStudentProfileMutation,
+} from '@queries'
+import { EmptyData, LoadingAnimation, TechnicalError } from '@components'
 
 const EditStudent: NextPageWithLayout = () => {
     const router = useRouter()
@@ -16,6 +21,9 @@ const EditStudent: NextPageWithLayout = () => {
     const student = AdminApi.Students.useProfile(Number(router.query.id), {
         skip: !router.query.id,
     })
+    const courses = SubAdminApi.Student.useCourses(Number(router.query.id), {
+        skip: !router.query.id,
+    })
 
     const [updateProfile, updateProfileResult] =
         useUpdateStudentProfileMutation()
@@ -23,7 +31,11 @@ const EditStudent: NextPageWithLayout = () => {
     const onSubmit = (values: any) => {
         updateProfile({
             id: student?.data?.user?.id,
-            body: { ...values, courses: values?.courses || [] },
+            body: {
+                ...values,
+                courses:
+                    values?.courses?.map((course: any) => course?.value) || [],
+            },
         })
     }
 
@@ -34,11 +46,19 @@ const EditStudent: NextPageWithLayout = () => {
 
     return (
         <div className="px-4">
-            <StudentProfileForm
-                onSubmit={onSubmit}
-                profile={student}
-                result={updateProfileResult}
-            />
+            {student.isError && <TechnicalError />}
+            {student.isLoading ? (
+                <LoadingAnimation height={'h-[70vh]'} />
+            ) : student.data && student.isSuccess ? (
+                <StudentProfileForm
+                    onSubmit={onSubmit}
+                    profile={student}
+                    result={updateProfileResult}
+                    courses={courses}
+                />
+            ) : (
+                !student.isError && student.isSuccess && <EmptyData />
+            )}
         </div>
     )
 }
