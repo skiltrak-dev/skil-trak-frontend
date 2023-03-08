@@ -20,6 +20,7 @@ import { getUserCredentials } from '@utils'
 import { useRouter } from 'next/router'
 import { useState } from 'react'
 import { StudentStatus } from './StudentStatus'
+import { ActionButton } from '@components/buttons'
 
 const getGender = (gender: string | undefined) => {
     if (!gender) return 'N/A'
@@ -38,28 +39,31 @@ export const SubAdminStudentProfile = ({ student }: { student: Student }) => {
             {passwordModal && passwordModal}
             <div className="relative flex flex-col items-center">
                 <div className="flex items-center gap-x-2 absolute top-0 right-0">
-                    <div
-                        className="bg-blue-100 rounded-full p-1"
-                        onClick={() => {
+                    <ActionButton
+                        rounded
+                        Icon={AiFillEdit}
+                        variant={'info'}
+                        onClick={() =>
                             router.push(
                                 role === 'admin'
                                     ? `/portals/admin/student/edit-student/${student?.id}`
                                     : role === 'subadmin'
-                                        ? `/portals/sub-admin/students/${student?.id}/edit-student`
-                                        : role === 'rto'
-                                            ? `/portals/rto/students/${student?.id}/edit-student`
-                                            : ''
+                                    ? `/portals/sub-admin/students/${student?.id}/edit-student`
+                                    : role === 'rto'
+                                    ? `/portals/rto/students/${student?.id}/edit-student`
+                                    : ''
                             )
-                        }}
-                    >
-                        <AiFillEdit className="text-blue-400  cursor-pointer" />
-                    </div>
-                    <div
-                        className="bg-blue-100 rounded-full p-1"
+                        }
+                        title="Edit Profile"
+                    />
+
+                    <ActionButton
+                        rounded
+                        Icon={BsUnlockFill}
+                        variant={'neutral'}
                         onClick={() => onUpdatePassword(student)}
-                    >
-                        <BsUnlockFill className="text-blue-400  cursor-pointer" />
-                    </div>
+                        title="Edit Password"
+                    />
                 </div>
                 <StudentAvatar
                     name={student?.user.name}
@@ -111,7 +115,6 @@ export const SubAdminStudentProfile = ({ student }: { student: Student }) => {
                 </div>
             </div>
             <div className="p-2 border-b">
-
                 <div className="flex items-center space-x-2">
                     <span className="text-gray-300">
                         <MdPhone size={12} />

@@ -27,7 +27,7 @@ import { MdBlock } from 'react-icons/md'
 import { AssignStudentModal } from './modals'
 
 import { ProgressCell, SectorCell } from '@partials/admin/student/components'
-import { checkStudentStatus, checkWorkplaceStatus } from '@utils'
+import { checkStudentStatus, checkWorkplaceStatus, setLink } from '@utils'
 import { IndustryCellInfo } from '../indestries/components'
 import { ColumnDef } from '@tanstack/react-table'
 
@@ -40,7 +40,7 @@ export const AllStudents = () => {
             setMount(true)
         }
     }, [])
-    
+
     // WORKPLACE JOY RIDE - Start
     const joyride = useJoyRide()
     useEffect(() => {
@@ -88,6 +88,7 @@ export const AllStudents = () => {
                 router.push(
                     `/portals/sub-admin/students/${student.id}?tab=overview`
                 )
+                setLink('subadmin-student', router)
             },
             Icon: FaEye,
         },
@@ -104,9 +105,7 @@ export const AllStudents = () => {
             header: () => 'Name',
             accessorKey: 'user',
             cell: ({ row }: any) => {
-                return (
-                        <StudentCellInfo student={row.original} />
-                )
+                return <StudentCellInfo student={row.original} />
             },
         },
         {
@@ -211,7 +210,7 @@ export const AllStudents = () => {
 
                                     <div
                                         id="students-list"
-                                        className="px-6 overflow-auto"
+                                        className="px-6 overflow-auto custom-scrollbar"
                                     >
                                         {table}
                                     </div>

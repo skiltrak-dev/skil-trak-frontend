@@ -26,7 +26,7 @@ export const AllStudentProvidedWorkplace = () => {
 
     useEffect(() => {
         setPage(Number(router.query.page || 1))
-        setItemPerPage(Number(router.query.pageSize || 50))
+        setItemPerPage(Number(router.query.pageSize || 30))
     }, [router])
 
     return (

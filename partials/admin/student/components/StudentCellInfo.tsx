@@ -1,21 +1,18 @@
 import { InitialAvatar } from '@components'
 import { Student } from '@types'
-import { queryToUrl } from '@utils'
+import { setLink } from '@utils'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-import { MdEmail, MdPhoneIphone } from 'react-icons/md'
+import { MdEmail } from 'react-icons/md'
 
 export const StudentCellInfo = ({ student }: { student: Student }) => {
     const router = useRouter()
-    const query = queryToUrl(router.query)
+
     return (
         <Link legacyBehavior href={`student/${student.id}?tab=overview`}>
             <a
                 onClick={() => {
-                    sessionStorage.setItem(
-                        'student',
-                        `${router.pathname}?${query}`
-                    )
+                    setLink('student', router)
                 }}
                 className="flex items-center gap-x-2"
             >

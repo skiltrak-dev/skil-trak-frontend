@@ -4,7 +4,6 @@ import { ReactElement, useEffect, useState } from 'react'
 // Link
 import Link from 'next/link'
 // image
-import Image from 'next/image'
 //Layouts
 import { SubAdminLayout } from '@layouts'
 import { NextPageWithLayout } from '@types'
@@ -30,12 +29,10 @@ import {
 import { useGetSubAdminRtosQuery } from '@queries'
 // icons
 import { useContextBar } from '@hooks'
-import { FaEnvelope, FaPhoneSquareAlt } from 'react-icons/fa'
 
-import { Rto } from '@types'
-import { MdEmail, MdPhoneIphone } from 'react-icons/md'
 import { SectorCell } from '@partials/admin/sub-admin'
-import { getFilterQuery } from '@utils'
+import { getFilterQuery, setLink } from '@utils'
+import { MdEmail, MdPhoneIphone } from 'react-icons/md'
 
 const RTOs: NextPageWithLayout = () => {
     const { setContent } = useContextBar()
@@ -48,6 +45,11 @@ const RTOs: NextPageWithLayout = () => {
     useEffect(() => {
         const query = getFilterQuery({ router, filterKeys: [] })
         setFilter(query)
+    }, [router])
+
+    useEffect(() => {
+        setPage(Number(router.query.page || 1))
+        setItemPerPage(Number(router.query.pageSize || 50))
     }, [router])
 
     const { isLoading, data, isError } = useGetSubAdminRtosQuery({
@@ -71,6 +73,7 @@ const RTOs: NextPageWithLayout = () => {
                 router.push(
                     `/portals/sub-admin/users/rtos/${rto.original.id}?tab=overview`
                 )
+                setLink('subadmin-rtos', router)
             },
             Icon: FaEye,
         },
@@ -92,7 +95,12 @@ const RTOs: NextPageWithLayout = () => {
                         legacyBehavior
                         href={`/portals/sub-admin/users/rtos/${row.original.id}?tab=overview`}
                     >
-                        <a className="flex items-center gap-x-2">
+                        <a
+                            className="flex items-center gap-x-2"
+                            onClick={() => {
+                                setLink('subadmin-rtos', router)
+                            }}
+                        >
                             <div className="shadow-inner-image rounded-full">
                                 <InitialAvatar name={name} imageUrl={avatar} />
                             </div>

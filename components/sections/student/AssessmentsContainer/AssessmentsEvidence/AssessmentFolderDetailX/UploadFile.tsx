@@ -17,9 +17,15 @@ export const UploadFile = ({
     fileObject,
     handleRemove,
     invalidSelection,
+    loading,
 }: any) => {
     return (
-        <Button variant={'info'} Icon={MdCloudUpload}>
+        <Button
+            loading={loading}
+            disabled={loading}
+            variant={'info'}
+            Icon={MdCloudUpload}
+        >
             <label htmlFor={`file_id_${name}`} className="cursor-pointer">
                 Add File
             </label>

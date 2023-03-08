@@ -30,9 +30,10 @@ import { useAlert, useContextBar, useNavbar, useNotification } from '@hooks'
 
 import { DetailTabs } from '@partials/sub-admin/students'
 import { AddWorkplace } from '@partials/sub-admin/students'
-import { getUserCredentials } from '@utils'
+import { getLink, getUserCredentials, isBrowser } from '@utils'
 import { FaArchive, FaBan } from 'react-icons/fa'
 import { useActionModals } from '@partials/sub-admin/students/hooks/useActionModals'
+import moment from 'moment'
 
 export const StudentProfile = ({ noTitle }: { noTitle?: boolean }) => {
     const contextBar = useContextBar()
@@ -52,7 +53,14 @@ export const StudentProfile = ({ noTitle }: { noTitle?: boolean }) => {
 
     // hooks
     const navBar = useNavbar()
-    const { onAcceptClicked, onRejectClicked, modal } = useActionModals()
+    const {
+        onAcceptClicked,
+        onRejectClicked,
+        onUnArchiveClicked,
+        onDeleteClicked,
+        onUnblockClicked,
+        modal,
+    } = useActionModals()
 
     useEffect(() => {
         if (notContactableResult.isSuccess) {
@@ -118,7 +126,7 @@ export const StudentProfile = ({ noTitle }: { noTitle?: boolean }) => {
 
     const statusBaseActions = () => {
         switch (data?.user?.status) {
-            case 'pending':
+            case UserStatus.Pending:
                 return (
                     <div className="flex items-center gap-x-2">
                         <ActionButton
@@ -137,7 +145,7 @@ export const StudentProfile = ({ noTitle }: { noTitle?: boolean }) => {
                         </ActionButton>
                     </div>
                 )
-            case 'approved':
+            case UserStatus.Approved:
                 return (
                     <div className="flex items-end gap-x-2">
                         {role === 'subadmin' && <AddWorkplace id={data?.id} />}
@@ -166,55 +174,55 @@ export const StudentProfile = ({ noTitle }: { noTitle?: boolean }) => {
                         />
                     </div>
                 )
-            case 'blocked':
+            case UserStatus.Blocked:
                 return (
                     <div className="flex items-center gap-x-2">
                         <ActionButton
                             Icon={FaArchive}
-                            // onClick={() => onArchiveClicked(rto?.data)}
+                            onClick={() => onUnblockClicked(data)}
                         >
                             Un Block
                         </ActionButton>
                         <ActionButton
                             Icon={FaBan}
                             variant={'error'}
-                            // onClick={() => onBlockClicked(rto?.data)}
+                            onClick={() => onDeleteClicked(data)}
                         >
                             Delete
                         </ActionButton>
                     </div>
                 )
-            case 'rejected':
+            case UserStatus.Rejected:
                 return (
                     <div className="flex items-center gap-x-2">
                         <ActionButton
                             Icon={FaArchive}
-                            // onClick={() => onArchiveClicked(rto?.data)}
+                            onClick={() => onAcceptClicked(data)}
                         >
                             Accept
                         </ActionButton>
                         <ActionButton
                             Icon={FaBan}
                             variant={'error'}
-                            // onClick={() => onBlockClicked(rto?.data)}
+                            onClick={() => onDeleteClicked(data)}
                         >
                             Delete
                         </ActionButton>
                     </div>
                 )
-            case 'archived':
+            case UserStatus.Archived:
                 return (
                     <div className="flex items-center gap-x-2">
                         <ActionButton
                             Icon={FaArchive}
-                            // onClick={() => onArchiveClicked(rto?.data)}
+                            onClick={() => onUnArchiveClicked(data)}
                         >
                             Un Archive
                         </ActionButton>
                         <ActionButton
                             Icon={FaBan}
                             variant={'error'}
-                            // onClick={() => onBlockClicked(rto?.data)}
+                            onClick={() => onDeleteClicked(data)}
                         >
                             Delete
                         </ActionButton>
@@ -235,10 +243,11 @@ export const StudentProfile = ({ noTitle }: { noTitle?: boolean }) => {
                         <BackButton
                             link={
                                 role === 'admin'
-                                    ? sessionStorage.getItem('student') ||
-                                      '/portals/admin/student?tab=active&page=1&pageSize=50'
+                                    ? getLink('student') ||
+                                      'portals/admin/student?tab=active&page=1&pageSize=50'
                                     : role === 'subadmin'
-                                    ? 'portals/sub-admin/students?tab=all'
+                                    ? getLink('subadmin-student') ||
+                                      'portals/sub-admin/students?tab=all'
                                     : role === 'rto'
                                     ? 'portals/rto/students?tab=active'
                                     : '#'
@@ -253,12 +262,16 @@ export const StudentProfile = ({ noTitle }: { noTitle?: boolean }) => {
                     </div>
                     {isSuccess && data && (
                         <div className="flex flex-col items-end gap-y-2">
-                            <div className="pl-4">
-                                <StudentTimer
-                                    studentId={data?.user?.id}
-                                    date={data?.expiryDate}
-                                    studentStatus={data?.user?.studentStatus}
-                                />
+                            <div className="flex items-center gap-x-1">
+                                <div className="pl-4">
+                                    <StudentTimer
+                                        studentId={data?.user?.id}
+                                        date={data?.expiryDate}
+                                        studentStatus={
+                                            data?.user?.studentStatus
+                                        }
+                                    />
+                                </div>
                             </div>
                             {role !== 'rto' && statusBaseActions()}
                         </div>

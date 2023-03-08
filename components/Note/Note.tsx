@@ -77,7 +77,14 @@ export const Note = ({ note }: { note: NoteType }) => {
                         </button>
                     </div>
 
-                    <div className="text-sm">{note.body}</div>
+                    <div className="text-sm">
+                        <span
+                            className="break-all block mr-6"
+                            dangerouslySetInnerHTML={{
+                                __html: note?.body,
+                            }}
+                        ></span>
+                    </div>
                 </div>
 
                 <div className="flex justify-between">

@@ -6,14 +6,24 @@ import {
     CourseCard,
     LoadingAnimation,
     NoData,
+    ShowErrorNotifications,
     Typography,
 } from '@components'
 
 // queries
 import { useNotification } from '@hooks'
-import { AssessmentResponse } from '@partials/sub-admin/assessmentEvidence'
-import { SubAdminApi, useStudentAssessmentCoursesQuery } from '@queries'
+import { AssessmentResponse } from '@components'
+import {
+    SubAdminApi,
+    useStudentAssessmentCoursesQuery,
+    useUploadRequiredDocsMutation,
+    useGetSubAdminStudentWorkplaceQuery,
+} from '@queries'
 import { getUserCredentials } from '@utils'
+import { FileUpload } from '@hoc'
+import { UploadFile } from '@components/sections/student/AssessmentsContainer/AssessmentsEvidence/AssessmentFolderDetailX/UploadFile'
+import { getDocType } from '@components/sections/student/AssessmentsContainer'
+import { useRouter } from 'next/router'
 
 export const RequiredDocs = ({
     studentId,
@@ -30,6 +40,9 @@ export const RequiredDocs = ({
     const { notification } = useNotification()
 
     // query
+    const workplace = useGetSubAdminStudentWorkplaceQuery(Number(studentId), {
+        skip: !studentId,
+    })
     const studentCourses = useStudentAssessmentCoursesQuery(Number(studentId), {
         skip: !studentId,
     })
@@ -51,6 +64,9 @@ export const RequiredDocs = ({
         { skip: !selectedFolder || !studentUserId }
     )
 
+    const [uploadIndustryChecks, uploadIndustryChecksResult] =
+        useUploadRequiredDocsMutation()
+
     useEffect(() => {
         if (studentCourses.isSuccess) {
             setSelectedCourse(
@@ -69,8 +85,41 @@ export const RequiredDocs = ({
         }
     }, [getFolders])
 
+    useEffect(() => {
+        if (uploadIndustryChecksResult.isSuccess) {
+            notification.success({
+                title: 'Files Uploded',
+                description: 'Files uploaded successfully',
+            })
+        }
+    }, [uploadIndustryChecksResult])
+
+    const AddFileButton = ({ name }: { name: string }) => {
+        return (
+            <UploadFile
+                name={name}
+                loading={uploadIndustryChecksResult.isLoading}
+            />
+        )
+    }
+
+    const onUploadDocs = (docs: any) => {
+        console.log('docs', docs)
+        const formData = new FormData()
+        docs.forEach((doc: any) => {
+            formData.append(`${selectedFolder?.folder?.name}`, doc)
+        })
+
+        uploadIndustryChecks({
+            id: selectedFolder?.id,
+            workplaceId: workplace?.data[0]?.id,
+            body: formData,
+        })
+    }
+
     return (
         <div className="mb-10 mt-5">
+            <ShowErrorNotifications result={uploadIndustryChecksResult} />
             {studentCourses?.isLoading ? (
                 <div className="flex flex-col justify-center items-center gap-y-2">
                     <LoadingAnimation size={60} />
@@ -152,9 +201,25 @@ export const RequiredDocs = ({
                                 )}
                             </div>
                         </div>
-
                         {/* Assessment Response */}
+                        {/* <div> */}
                         <div className="col-span-2 border border-gray-300 overflow-hidden">
+                            <div className="flex justify-end m-2">
+                                <div>
+                                    <FileUpload
+                                        onChange={onUploadDocs}
+                                        name={'folder?.name'}
+                                        component={AddFileButton}
+                                        multiple
+                                        limit={Number(
+                                            selectedFolder?.folder?.capacity
+                                        )}
+                                        acceptTypes={getDocType(
+                                            selectedFolder?.type
+                                        )}
+                                    />
+                                </div>
+                            </div>
                             <AssessmentResponse
                                 getAssessmentResponse={getRequiredDocsResponse}
                                 folder={selectedFolder?.folder}
@@ -162,6 +227,7 @@ export const RequiredDocs = ({
                                 assessmentEvidenceView={false}
                             />
                         </div>
+                        {/* </div> */}
                     </div>
                 </div>
             )}

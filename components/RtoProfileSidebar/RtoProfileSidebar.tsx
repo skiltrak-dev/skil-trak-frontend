@@ -1,4 +1,9 @@
-import { LoadingAnimation, RtoAvatar, Typography } from '@components'
+import {
+    ActionButton,
+    LoadingAnimation,
+    RtoAvatar,
+    Typography,
+} from '@components'
 import { NoData } from '@components/ActionAnimations'
 import { useActionModal } from '@hooks'
 import { CourseList } from '@partials/common'
@@ -61,26 +66,29 @@ export const RtoProfileSidebar = ({ loading, data, rto }: any) => {
                         <div className="flex flex-col items-center">
                             <div className="relative flex items-center justify-center w-full">
                                 <div className="flex items-center gap-x-2 absolute top-0 right-0">
-                                    <div
-                                        className="bg-blue-100 rounded-full p-1"
-                                        onClick={() => {
+                                    <ActionButton
+                                        rounded
+                                        Icon={AiFillEdit}
+                                        variant={'info'}
+                                        onClick={() =>
                                             pathname.push(
                                                 role === 'admin'
                                                     ? `/portals/admin/rto/${rto?.data?.id}/edit-profile`
                                                     : `/portals/sub-admin/users/rtos/${rto?.data?.id}/edit-profile`
                                             )
-                                        }}
-                                    >
-                                        <AiFillEdit className="text-blue-400  cursor-pointer" />
-                                    </div>
-                                    <div
-                                        className="bg-blue-100 rounded-full p-1"
+                                        }
+                                        title="Edit Profile"
+                                    />
+
+                                    <ActionButton
+                                        rounded
+                                        Icon={BsUnlockFill}
+                                        variant={'neutral'}
                                         onClick={() =>
                                             onUpdatePassword(rto?.data)
                                         }
-                                    >
-                                        <BsUnlockFill className="text-blue-400  cursor-pointer" />
-                                    </div>
+                                        title="Edit Password"
+                                    />
                                 </div>
                                 <RtoAvatar
                                     imageUrl={rto?.data?.user?.avatar}
@@ -313,7 +321,6 @@ export const RtoProfileSidebar = ({ loading, data, rto }: any) => {
                                 <NoData text={'No Sectors Assigned'} />
                             )}
                         </div>
-                        
                     </div>
                 )
             )}

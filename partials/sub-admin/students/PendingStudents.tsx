@@ -10,27 +10,22 @@ import {
     Card,
     EmptyData,
     InitialAvatar,
-    LoadingAnimation,
-    StudentStatusProgressCell,
-    Table,
+    LoadingAnimation, Table,
     TableAction,
-    TableActionOption,
-    Typography,
+    TableActionOption
 } from '@components'
 import { StudentCellInfo } from './components'
 
 import { TechnicalError } from '@components/ActionAnimations/TechnicalError'
-import { useJoyRide } from '@hooks'
 import { SubAdminApi } from '@queries'
 import { Student, UserStatus } from '@types'
 import { useEffect, useState } from 'react'
 import { MdBlock } from 'react-icons/md'
-import { AcceptModal, RejectModal, AssignStudentModal } from './modals'
+import { AcceptModal, RejectModal } from './modals'
 
-import { ProgressCell, SectorCell } from '@partials/admin/student/components'
-import { checkStudentStatus, checkWorkplaceStatus } from '@utils'
-import { IndustryCellInfo } from '../indestries/components'
+import { SectorCell } from '@partials/admin/student/components'
 import { ColumnDef } from '@tanstack/react-table'
+import { setLink } from '@utils'
 
 export const PendingStudents = () => {
     const router = useRouter()
@@ -53,14 +48,6 @@ export const PendingStudents = () => {
     const onModalCancelClicked = () => {
         setModal(null)
     }
-    const onAssignStudentClicked = (student: Student) => {
-        setModal(
-            <AssignStudentModal
-                student={student}
-                onCancel={() => onModalCancelClicked()}
-            />
-        )
-    }
 
     const onAcceptClicked = (item: Student) => {
         setModal(
@@ -80,6 +67,7 @@ export const PendingStudents = () => {
                 router.push(
                     `/portals/sub-admin/students/${student.id}?tab=overview`
                 )
+                setLink('subadmin-student', router)
             },
             Icon: FaEye,
         },

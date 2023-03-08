@@ -27,7 +27,7 @@ const Detail: NextPageWithLayout = () => {
     const navBar = useNavbar()
     const contextBar = useContextBar()
 
-    const { alert } = useAlert()
+    const { alert, setAlerts } = useAlert()
 
     const {
         modal,
@@ -88,6 +88,11 @@ const Detail: NextPageWithLayout = () => {
                 }
             }
             showAlert()
+        }
+        return () => {
+            setAlerts([])
+            contextBar.setContent(null)
+            contextBar.hide()
         }
     }, [industry])
 

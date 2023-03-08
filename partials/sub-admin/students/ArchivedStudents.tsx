@@ -26,7 +26,7 @@ import { MdBlock } from 'react-icons/md'
 import { AssignStudentModal } from './modals'
 
 import { ProgressCell, SectorCell } from '@partials/admin/student/components'
-import { checkStudentStatus, checkWorkplaceStatus } from '@utils'
+import { checkStudentStatus, checkWorkplaceStatus, setLink } from '@utils'
 import { IndustryCellInfo } from '../indestries/components'
 import { ColumnDef } from '@tanstack/react-table'
 
@@ -68,6 +68,7 @@ export const ArchivedStudents = () => {
                 router.push(
                     `/portals/sub-admin/students/${student.id}?tab=overview`
                 )
+                setLink('subadmin-student', router)
             },
             Icon: FaEye,
         },
@@ -193,7 +194,7 @@ export const ArchivedStudents = () => {
                                     </div>
                                     <div
                                         id="students-list"
-                                        className="px-6 overflow-auto"
+                                        className="px-6 overflow-auto custom-scrollbar"
                                     >
                                         {table}
                                     </div>

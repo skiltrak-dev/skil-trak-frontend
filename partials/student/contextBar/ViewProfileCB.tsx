@@ -1,4 +1,9 @@
-import { ActionButton, ContextBarLoading, StudentAvatar } from '@components'
+import {
+    ActionButton,
+    ContextBarLoading,
+    StudentAvatar,
+    Typography,
+} from '@components'
 import { useGetStudentProfileDetailQuery } from '@queries'
 import moment from 'moment'
 import { AiFillEdit } from 'react-icons/ai'
@@ -160,6 +165,14 @@ export const ViewProfileCB = () => {
                         </div>
                     </div>
                 </div>
+            </div>
+            <div className="flex flex-col gap-y-1">
+                <Typography variant={'muted'} color={'text-gray-500'}>
+                    Expires on
+                </Typography>
+                <Typography variant={'label'}>
+                    {moment(data?.expiryDate).format('Do MMMM YYYY')}
+                </Typography>
             </div>
 
             {/* Important Documents */}
