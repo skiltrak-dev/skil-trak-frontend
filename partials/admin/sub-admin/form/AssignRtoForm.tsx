@@ -25,7 +25,6 @@ export const AssignRtoForm = ({
 
     const validationSchema = yup.object({})
 
-    console.log('assignedRtosassignedRtos', assignedRtos)
 
     const methods = useForm({
         resolver: yupResolver(validationSchema),

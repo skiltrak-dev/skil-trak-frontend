@@ -33,8 +33,6 @@ export const MyWorkplace = ({
     const workplace = useGetSubAdminStudentWorkplaceQuery(id, { skip: !id })
     const contextBar = useContextBar()
 
-    console.log('industry', Object.keys(industry)?.length > 0)
-
     useEffect(() => {
         if (industries && industries?.length > 0) {
             setIndustry(industries[0])

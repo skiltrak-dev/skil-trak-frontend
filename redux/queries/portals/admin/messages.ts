@@ -8,7 +8,6 @@ export const messagesEndpoints = (
     getAdminMessages: builder.query<any, any>({
         // query: (id) => `${PREFIX}/mail/list/${id}`,
         query: (params: any) => {
-            console.log("::: PARAMS", params)
             return {
                 url: `${PREFIX}/mail/list/${params.id}`,
                 params,

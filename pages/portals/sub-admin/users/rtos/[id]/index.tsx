@@ -203,7 +203,7 @@ const RtoProfile: NextPageWithLayout = (props: Props) => {
                                         <button
                                             onClick={() => {
                                                 pathname.push(
-                                                    `${rtoDetail.data.user.id}/add-individual-student`
+                                                    `${rtoDetail?.data?.id}/add-individual-student`
                                                 )
                                             }}
                                             className="w-full flex items-center gap-x-2 text-sm px-2 py-2 hover:bg-gray-200"

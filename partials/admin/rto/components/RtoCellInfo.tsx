@@ -18,8 +18,8 @@ export const RtoCellInfo = ({ rto, short }: { rto: Rto; short?: boolean }) => {
             >
                 <div className="shadow-inner-image rounded-full">
                     <InitialAvatar
-                        name={rto.user.name}
-                        imageUrl={rto.user?.avatar}
+                        name={rto?.user?.name}
+                        imageUrl={rto?.user?.avatar}
                     />
                 </div>
                 <div>

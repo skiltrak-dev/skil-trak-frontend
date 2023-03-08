@@ -21,7 +21,6 @@ const Page = () => {
                 setTeamList(res.data)
             })
             .catch((err) => {
-                console.log(err)
             })
     }, [])
 

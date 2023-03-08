@@ -13,6 +13,7 @@ import {
 import { StudentProfileForm } from '@partials/common'
 
 import { useRouter } from 'next/router'
+import { EmptyData, LoadingAnimation, TechnicalError } from '@components'
 
 const MyProfile: NextPageWithLayout = () => {
     const router = useRouter()
@@ -25,11 +26,24 @@ const MyProfile: NextPageWithLayout = () => {
     }
 
     return (
-        <StudentProfileForm
-            onSubmit={onSubmit}
-            profile={profile}
-            result={updateProfileResult}
-        />
+        <div className="px-4">
+            {profile.isError && <TechnicalError />}
+            {profile.isLoading ? (
+                <LoadingAnimation height={'h-[70vh]'} />
+            ) : profile.data && profile.isSuccess ? (
+                <StudentProfileForm
+                    onSubmit={onSubmit}
+                    profile={profile}
+                    result={updateProfileResult}
+                    courses={{
+                        ...profile,
+                        data: [...profile?.data?.courses],
+                    }}
+                />
+            ) : (
+                !profile.isError && profile.isSuccess && <EmptyData />
+            )}
+        </div>
     )
 }
 

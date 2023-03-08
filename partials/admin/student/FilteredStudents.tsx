@@ -203,7 +203,7 @@ export const FilteredStudents = ({
             accessorKey: 'rto',
             header: () => <span>RTO</span>,
             cell: (info) => {
-                return <RtoCellInfo rto={info.row.original?.rto} short />
+                return info.row.original?.rto?.user?.name
             },
         },
         {

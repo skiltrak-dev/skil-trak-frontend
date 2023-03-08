@@ -5,7 +5,12 @@ import { useRouter } from 'next/router'
 import { ReactElement, useEffect } from 'react'
 
 import { StudentProfileForm } from '@partials/common'
-import { AdminApi, useUpdateStudentProfileMutation } from '@queries'
+import {
+    AdminApi,
+    SubAdminApi,
+    useUpdateStudentProfileMutation,
+} from '@queries'
+import { EmptyData, LoadingAnimation, TechnicalError } from '@components'
 
 const EditStudent: NextPageWithLayout = () => {
     const router = useRouter()
@@ -16,14 +21,24 @@ const EditStudent: NextPageWithLayout = () => {
     const student = AdminApi.Students.useProfile(editStudentId, {
         skip: !editStudentId,
     })
+    const courses = SubAdminApi.Student.useCourses(editStudentId, {
+        skip: !editStudentId,
+    })
 
     const [updateProfile, updateProfileResult] =
         useUpdateStudentProfileMutation()
 
     const onSubmit = (values: any) => {
+        console.log('before', values)
+        if (!values?.courses) {
+            delete values?.courses
+        }
+        console.log('after', values)
         updateProfile({
             id: student?.data?.user?.id,
-            body: { ...values, courses: values?.courses || [] },
+            body: {
+                ...values,
+            },
         })
     }
 
@@ -34,11 +49,19 @@ const EditStudent: NextPageWithLayout = () => {
 
     return (
         <div className="px-4">
-            <StudentProfileForm
-                onSubmit={onSubmit}
-                profile={student}
-                result={updateProfileResult}
-            />
+            {student.isError && <TechnicalError />}
+            {student.isLoading ? (
+                <LoadingAnimation height={'h-[70vh]'} />
+            ) : student.data && student.isSuccess ? (
+                <StudentProfileForm
+                    onSubmit={onSubmit}
+                    profile={student}
+                    result={updateProfileResult}
+                    courses={courses}
+                />
+            ) : (
+                !student.isError && student.isSuccess && <EmptyData />
+            )}
         </div>
     )
 }

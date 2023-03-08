@@ -23,10 +23,12 @@ export const StudentProfileForm = ({
     profile,
     result,
     onSubmit,
+    courses,
 }: {
     profile: any
     result: any
     onSubmit: any
+    courses: any
 }) => {
     const { notification } = useNotification()
 
@@ -71,16 +73,16 @@ export const StudentProfileForm = ({
         : {}
 
     useEffect(() => {
-        if (profile?.data) {
+        if (courses?.data?.length > 0 && courses?.isSuccess) {
             setSectors([
                 ...new Map(
-                    profile?.data?.courses
+                    courses?.data
                         ?.map((c: any) => c.sector)
                         ?.map((v: any) => [v.id, v])
                 ).values(),
             ])
         }
-    }, [profile?.data])
+    }, [courses])
 
     useEffect(() => {
         if (sectors && sectors?.length > 0) {
@@ -92,7 +94,6 @@ export const StudentProfileForm = ({
             )
         }
     }, [sectors])
-
     useEffect(() => {
         if (sectorDefaultOptions && sectorDefaultOptions?.length > 0) {
             onSectorChanged(sectorDefaultOptions, true)
@@ -126,9 +127,11 @@ export const StudentProfileForm = ({
         //         courses.includes(s.label)
         //     )
         // }
-        const courses = profile?.data?.courses?.map((c: Course) => c.title)
+        const coursesTitle = courses?.data?.map((c: Course) => c.title)
         setCourseDefaultOptions(
-            newCourseOptions?.filter((s: any) => courses?.includes(s.label))
+            newCourseOptions?.filter((s: any) =>
+                coursesTitle?.includes(s.label)
+            )
         )
         setCourseOptions(newCourseOptions)
     }
