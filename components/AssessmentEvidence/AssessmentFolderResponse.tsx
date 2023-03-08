@@ -68,8 +68,9 @@ export const AssessmentResponse = ({
         if (['jpg', 'jpeg', 'png'].includes(file.extension.toLowerCase())) {
             setModal(getImageViewModal(file))
         } else if (['pdf'].includes(file.extension.toLowerCase())) {
-            const fileSplit = file.file.split('https://')
-            const url = `https://www.${fileSplit[1]}`
+            // const fileSplit = file.file.split('https://')
+            // const url = `https://www.${fileSplit[1]}`
+            const url = `${file?.file}`
             setModal(
                 <PdfViewModal
                     url={url}
@@ -80,11 +81,12 @@ export const AssessmentResponse = ({
         } else if (
             ['mp4', 'mkv', 'avi', 'mpeg'].includes(file.extension.toLowerCase())
         ) {
-            const fileSplit = file.file.split('https://')
-            const url = `https://www.${fileSplit[1]}`
+            // const fileSplit = file.file.split('https://')
+            // const url = `https://www.${fileSplit[1]}`
             setModal(
                 <VideoPlayModal
-                    url={url}
+                    // url={url}
+                    url={file?.file}
                     downloadUrl={file?.file}
                     onCancelButtonClick={onModalCancel}
                 />
