@@ -141,6 +141,16 @@ export const studentsEndpoints = (
         invalidatesTags: ['SubAdminStudents'],
     }),
 
+    // uploadIndustryChecks: builder.mutation<any, any>({
+    //     query: ({ id, workplaceId, user, body }) => ({
+    //         url: `${PREFIX}/workplace/response`,
+    //         method: 'POST',
+    //         params: { docs: [id], wpId: workplaceId, user },
+    //         body,
+    //     }),
+    //     invalidatesTags: ['SubAdminStudents'],
+    // }),
+
     findByAbnWorkplace: builder.mutation<any, any>({
         query: (body) => ({
             url: `${PREFIX}/student/industry/find-by-abn`,

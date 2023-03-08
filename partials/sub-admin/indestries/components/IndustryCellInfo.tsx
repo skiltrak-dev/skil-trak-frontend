@@ -1,6 +1,8 @@
 import { InitialAvatar } from '@components'
 import { Industry, SubAdmin } from '@types'
+import { setLink } from '@utils'
 import Link from 'next/link'
+import { useRouter } from 'next/router'
 import { AiFillStar } from 'react-icons/ai'
 import { MdEmail, MdPhoneIphone } from 'react-icons/md'
 import { IndustrySubAdmin } from '../AllIndustries'
@@ -12,12 +14,18 @@ export const IndustryCellInfo = ({
     industry: IndustrySubAdmin
     isFavorite?: any
 }) => {
+    const router = useRouter()
     return (
         <Link
             legacyBehavior
             href={`/portals/sub-admin/users/industries/${industry?.id}?tab=overview`}
         >
-            <a className="flex items-center gap-x-2">
+            <a
+                className="flex items-center gap-x-2"
+                onClick={() => {
+                    setLink('subadmin-industries', router)
+                }}
+            >
                 <InitialAvatar
                     name={industry?.user?.name}
                     imageUrl={industry?.user?.avatar}

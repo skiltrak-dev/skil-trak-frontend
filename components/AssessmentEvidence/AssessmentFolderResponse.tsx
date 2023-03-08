@@ -117,6 +117,8 @@ export const AssessmentResponse = ({
 
     // query
     const [addComment, addCommentResult] = useAddCommentOnAssessmentMutation()
+
+    console.log('result', result)
     return (
         <>
             {modal && modal}
@@ -197,8 +199,8 @@ export const AssessmentResponse = ({
                         )}
                     </div>
                 </div>
-
-                {assessmentEvidenceView &&
+                {result?.result !== 'Not Submitted' &&
+                    assessmentEvidenceView &&
                     getAssessmentResponse?.data &&
                     result?.result !== 'competent' && (
                         <div className="flex justify-between gap-x-2 mt-3 mx-3">

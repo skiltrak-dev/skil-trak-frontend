@@ -6,6 +6,7 @@ import {
     Pagination,
     PageSize,
 } from '@components'
+import { PageHeading } from '@components/headings'
 
 // queries
 import { AdminApi } from '@queries'
@@ -24,6 +25,10 @@ export const AdminFilteredWorkplace = ({
 }) => {
     return (
         <div className="p-4">
+            <PageHeading
+                title={'Filtered Workplaces'}
+                subtitle={'List of Filtered Workplaces'}
+            />
             <div className="flex items-center justify-between">
                 <PageSize
                     itemPerPage={itemPerPage}

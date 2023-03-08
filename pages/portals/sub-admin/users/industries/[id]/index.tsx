@@ -19,6 +19,7 @@ import {
     BigCalendar,
     Card,
     CalendarEvent,
+    BackButton,
 } from '@components'
 import { IndustryProfile } from '@components/IndustryProfile'
 import {
@@ -36,6 +37,7 @@ import {
 } from '@queries'
 import { AllCommunicationTab, NotesTab } from '@partials/common'
 import { Students } from '@partials/sub-admin/indestries'
+import { getLink } from '@utils'
 
 type Props = {}
 
@@ -77,11 +79,7 @@ const IndustriesProfile: NextPageWithLayout = (props: Props) => {
 
     useEffect(() => {
         if (isSuccess && data) {
-            setContent(
-                <>
-                    <IndustryProfile data={data} />
-                </>
-            )
+            setContent(<IndustryProfile data={data} />)
             show(false)
         }
     }, [data, isSuccess, setContent])
@@ -136,7 +134,16 @@ const IndustriesProfile: NextPageWithLayout = (props: Props) => {
     return (
         <>
             <div className="flex justify-between items-end mb-4">
-                <PageTitle title="Industry Profile" backTitle="Industry" />
+                <div>
+                    <BackButton
+                        text={'Industry'}
+                        link={`${
+                            getLink('subadmin-industries') ||
+                            'portals/sub-admin/users/industries?tab=all'
+                        }`}
+                    />
+                    <PageTitle title="Industry Profile" />
+                </div>
                 <div className="flex items-center gap-x-2">
                     <Button
                         text="Book Appointment"

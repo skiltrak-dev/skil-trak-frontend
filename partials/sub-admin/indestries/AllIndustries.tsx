@@ -21,7 +21,7 @@ import { Industry, SubAdmin } from '@types'
 import { IndustryCellInfo } from './components'
 import { AddToFavoriteModal } from './modals'
 import { MdFavorite, MdFavoriteBorder } from 'react-icons/md'
-import { getUserCredentials } from '@utils'
+import { getUserCredentials, setLink } from '@utils'
 
 export interface IndustrySubAdmin extends Industry {
     subAdmin: SubAdmin[]
@@ -66,6 +66,7 @@ export const AllIndustries = () => {
                     router.push(
                         `/portals/sub-admin/users/industries/${industry.id}`
                     )
+                    setLink('subadmin-industries', router)
                 },
                 Icon: FaEye,
             },

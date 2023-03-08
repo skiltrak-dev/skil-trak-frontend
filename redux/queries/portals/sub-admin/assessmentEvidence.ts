@@ -59,4 +59,12 @@ export const assessmentEvidenceEndpoints = (
         }),
         invalidatesTags: ['AssessmentEvidence'],
     }),
+    uploadAssessmentDocs: builder.mutation<any, any>({
+        query: ({ folderId, studentId, body }) => ({
+            url: `subadmin/assessment-evidence/response/${folderId}/${studentId}`,
+            method: 'POST',
+            body,
+        }),
+        invalidatesTags: ['AssessmentEvidence'],
+    }),
 })

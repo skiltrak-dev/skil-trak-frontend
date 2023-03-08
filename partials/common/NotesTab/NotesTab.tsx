@@ -34,15 +34,13 @@ export const NotesTab = ({ user }: { user: any }) => {
                     />
                 )}
             </div>
-            {user?.status === 'approved' && (
-                <div className={`w-3/5 flex-shrink`}>
-                    <CreateNote
-                        receiverId={Number(user?.id)}
-                        editValues={editValues}
-                        setEditValues={setEditValues}
-                    />
-                </div>
-            )}
+            <div className={`w-3/5 flex-shrink`}>
+                <CreateNote
+                    receiverId={Number(user?.id)}
+                    editValues={editValues}
+                    setEditValues={setEditValues}
+                />
+            </div>
         </div>
     )
 }

@@ -11,6 +11,7 @@ import {
     LoadingAnimation,
     AssessmentResponse,
     AssessmentFolderCard,
+    Button,
 } from '@components'
 import { Actions, AddFolderComment } from './components'
 
@@ -21,8 +22,12 @@ import {
     useGetAssessmentResponseQuery,
     useMaulallyReopenSubmissionRequestMutation,
     useStudentAssessmentCoursesQuery,
+    SubAdminApi,
 } from '@queries'
 import { getCourseResult, getUserCredentials } from '@utils'
+import { FileUpload } from '@hoc'
+import { UploadFile } from '@components/sections/student/AssessmentsContainer/AssessmentsEvidence/AssessmentFolderDetailX/UploadFile'
+import { getDocType } from '@components/sections/student/AssessmentsContainer'
 
 export const Detail = ({
     studentId,
@@ -49,6 +54,8 @@ export const Detail = ({
             skip: !selectedCourse,
         }
     )
+    const [uploadDocs, uploadDocsResult] =
+        SubAdminApi.AssessmentEvidence.uploadDocs()
 
     const getAssessmentResponse = useGetAssessmentResponseQuery(
         {
@@ -90,6 +97,15 @@ export const Detail = ({
         }
     }, [manuallyReopenSubmissionResult])
 
+    useEffect(() => {
+        if (uploadDocsResult.isSuccess) {
+            notification.success({
+                title: 'Document Uploaded',
+                description: 'Document Uploaded Successfully',
+            })
+        }
+    }, [uploadDocsResult])
+
     const allCommentsAdded = getFolders?.data?.every(
         (f: any) => f?.studentResponse[0]?.comment
     )
@@ -99,6 +115,26 @@ export const Detail = ({
     }
 
     const role = getUserCredentials()?.role
+
+    console.log('resultskaka', results)
+
+    const AddFileButton = ({ name }: { name: string }) => {
+        return <UploadFile name={name} loading={uploadDocsResult.isLoading} />
+    }
+
+    const onUploadDocs = (docs: any) => {
+        console.log('docs', docs)
+        const formData = new FormData()
+        docs.forEach((doc: any) => {
+            formData.append(`${selectedFolder?.name}`, doc)
+        })
+
+        uploadDocs({
+            studentId,
+            body: formData,
+            folderId: selectedFolder?.id,
+        })
+    }
 
     return (
         <div className="mb-10">
@@ -223,12 +259,45 @@ export const Detail = ({
                             </span>{' '}
                             - Submission #{results?.totalSubmission}
                         </Typography>
-                        <Typography variant={'label'} color={'text-gray-500'}>
-                            Assessor:{' '}
-                            <span className="font-semibold text-black">
-                                {results?.assessor?.name || 'Not Assessesd'}
-                            </span>
-                        </Typography>
+                        <div className="flex items-center gap-x-2 mb-1">
+                            <div>
+                                {selectedFolder &&
+                                    results !== 'Not Submitted' && (
+                                        <FileUpload
+                                            onChange={onUploadDocs}
+                                            name={'folder?.name'}
+                                            component={AddFileButton}
+                                            multiple
+                                            limit={
+                                                Number(
+                                                    selectedFolder?.capacity
+                                                ) -
+                                                Number(
+                                                    selectedFolder
+                                                        ?.studentResponse
+                                                        ?.length > 0
+                                                        ? selectedFolder
+                                                              ?.studentResponse[0]
+                                                              ?.files?.length
+                                                        : 0
+                                                )
+                                            }
+                                            acceptTypes={getDocType(
+                                                selectedFolder?.type
+                                            )}
+                                        />
+                                    )}
+                            </div>
+                            <Typography
+                                variant={'label'}
+                                color={'text-gray-500'}
+                            >
+                                Assessor:{' '}
+                                <span className="font-semibold text-black">
+                                    {results?.assessor?.name || 'Not Assessesd'}
+                                </span>
+                            </Typography>
+                        </div>
                     </div>
                     {/*  */}
                     <div className="grid grid-cols-3 h-[450px]">
@@ -314,6 +383,7 @@ export const Detail = ({
                         ((results?.result !== 'competent' &&
                             results?.isSubmitted) ||
                             manualReOpen) && <Actions result={results} />}
+                    {/* <Actions result={results} /> */}
                     {role === 'admin' &&
                         results?.result !== 'competent' &&
                         results?.totalSubmission >= 3 &&

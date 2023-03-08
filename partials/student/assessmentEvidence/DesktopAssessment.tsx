@@ -2,7 +2,7 @@ import { CourseCard, LoadingAnimation, NoData, Typography } from '@components'
 import { NotificationMessage } from '@components/NotificationMessage'
 import { AssessmentsEvidence } from '@components/sections/student/AssessmentsContainer'
 import { Actions } from '@components/sections/student/AssessmentsContainer/AssessmentsEvidence/components/Actions'
-import { getCourseResult } from '@utils'
+import { getCourseResult, getUserCredentials } from '@utils'
 
 export const DesktopAssessment = ({
     result,
@@ -112,9 +112,9 @@ export const DesktopAssessment = ({
                     result?.totalSubmission < 3 && (
                         <NotificationMessage
                             title={'Submitted For Approval'}
-                            subtitle={
-                                'You have submitted assessment request, wait for the response from your coordinator. Thanku'
-                            }
+                            subtitle={`You have submitted assessment request, wait for the response from your coordinator. Thanku ${
+                                getUserCredentials()?.name
+                            }`}
                         />
                     )}
                 {result?.result === 'reOpened' &&

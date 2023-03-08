@@ -85,6 +85,8 @@ export const AssessmentFolderDetailX = ({
         )
     }
 
+    console.log('leeran da bujjs', result)
+
     const onFileClicked = (file: any) => {
         setSelected(file)
 
@@ -134,34 +136,36 @@ export const AssessmentFolderDetailX = ({
                         </div>
                         <div className="ml-auto">
                             {fileUpload ? (
-                                <FileUpload
-                                    onChange={(docs: any) => {
-                                        const formData = new FormData()
-                                        docs.forEach((doc: any) => {
-                                            formData.append(
-                                                `${folder?.name}`,
-                                                doc
-                                            )
-                                        })
-                                        uploadDocs({
-                                            id: folder?.id,
-                                            body: formData,
-                                        })
-                                    }}
-                                    name={folder?.name}
-                                    component={
-                                        uploadDocsResult.isLoading
-                                            ? Loading
-                                            : UploadFile
-                                    }
-                                    limit={
-                                        folder?.capacity -
-                                        (getAssessmentResponse?.data?.files
-                                            ?.length || 0)
-                                    }
-                                    acceptTypes={getDocType(folder?.type)}
-                                    multiple={folder?.capacity > 1}
-                                />
+                                result?.result !== 'competent' ? (
+                                    <FileUpload
+                                        onChange={(docs: any) => {
+                                            const formData = new FormData()
+                                            docs.forEach((doc: any) => {
+                                                formData.append(
+                                                    `${folder?.name}`,
+                                                    doc
+                                                )
+                                            })
+                                            uploadDocs({
+                                                id: folder?.id,
+                                                body: formData,
+                                            })
+                                        }}
+                                        name={folder?.name}
+                                        component={
+                                            uploadDocsResult.isLoading
+                                                ? Loading
+                                                : UploadFile
+                                        }
+                                        limit={
+                                            folder?.capacity -
+                                            (getAssessmentResponse?.data?.files
+                                                ?.length || 0)
+                                        }
+                                        acceptTypes={getDocType(folder?.type)}
+                                        multiple={folder?.capacity > 1}
+                                    />
+                                ) : null
                             ) : (
                                 <div>
                                     {folder.isActive ? (
