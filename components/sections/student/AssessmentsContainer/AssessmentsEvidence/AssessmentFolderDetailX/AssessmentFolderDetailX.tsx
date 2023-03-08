@@ -94,7 +94,8 @@ export const AssessmentFolderDetailX = ({
             setModal(getImageViewModal(file))
         } else if (['pdf'].includes(file.extension.toLowerCase())) {
             const fileSplit = file.file.split('https://')
-            const url = `https://www.${fileSplit[1]}`
+            // const url = `https://www.${fileSplit[1]}`
+            const url = file.file
             setModal(
                 <PdfViewModal
                     downloadUrl={file.file}
@@ -106,7 +107,8 @@ export const AssessmentFolderDetailX = ({
             ['mp4', 'mkv', 'avi', 'mpeg'].includes(file.extension.toLowerCase())
         ) {
             const fileSplit = file.file.split('https://')
-            const url = `https://www.${fileSplit[1]}`
+            // const url = `https://www.${fileSplit[1]}`
+            const url = file.file
             setModal(
                 <VideoPlayModal
                     url={url}
