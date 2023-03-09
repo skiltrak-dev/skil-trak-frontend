@@ -12,7 +12,7 @@ import {
 } from 'react-icons/md'
 import { useIndustryProfileQuery } from '@queries'
 import moment from 'moment'
-import { LoadingAnimation, NoData, Typography } from '@components'
+import { ActionButton, LoadingAnimation, NoData, Typography } from '@components'
 import { Course } from '@types'
 import { BiRename } from 'react-icons/bi'
 import { FcCollaboration } from 'react-icons/fc'
@@ -52,20 +52,23 @@ export const ViewProfileCB = () => {
                 <div>
                     {/* Edit and update button */}
                     <div className="flex justify-end gap-x-2">
-                        <div
-                            className="bg-blue-100 rounded-full p-1"
+                        <ActionButton
+                            rounded
+                            Icon={AiFillEdit}
+                            variant={'info'}
                             onClick={() => {
                                 router.push('/portals/industry/my-profile')
                             }}
-                        >
-                            <AiFillEdit className="text-blue-400  cursor-pointer " />
-                        </div>
-                        <div
-                            className="bg-blue-100 rounded-full p-1"
+                            title="Edit Profile"
+                        />
+
+                        <ActionButton
+                            rounded
+                            Icon={BsUnlockFill}
+                            variant={'neutral'}
                             onClick={() => onUpdatePassword(data)}
-                        >
-                            <BsUnlockFill className="text-blue-400  cursor-pointer" />
-                        </div>
+                            title="Edit Password"
+                        />
                     </div>
                     {/* Avatar, Name and Email */}
                     <div className="flex flex-col items-center">
