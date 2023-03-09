@@ -25,6 +25,8 @@ import { ProgressCell, SectorCell, StudentCellInfo } from './components'
 import { useActionModal } from '@hooks'
 import { RiLockPasswordFill } from 'react-icons/ri'
 import { checkStudentStatus, checkWorkplaceStatus } from '@utils'
+import { ChangeStatusModal, DeleteModal } from './modals'
+import { EditTimer } from '@components/StudentTimer/EditTimer'
 
 export const ArchivedStudent = () => {
     const router = useRouter()
@@ -32,6 +34,7 @@ export const ArchivedStudent = () => {
     const [itemPerPage, setItemPerPage] = useState(50)
     const [page, setPage] = useState(1)
     const [filter, setFilter] = useState({})
+    const [modal, setModal] = useState<any | null>(null)
 
     useEffect(() => {
         setPage(Number(router.query.page))
@@ -47,6 +50,35 @@ export const ArchivedStudent = () => {
         limit: itemPerPage,
     })
     const [bulkAction, resultBulkAction] = commonApi.useBulkStatusMutation()
+
+    const onModalCancelClicked = () => {
+        setModal(null)
+    }
+
+    const onDeleteClicked = (item: Student) => {
+        setModal(
+            <DeleteModal item={item} onCancel={() => onModalCancelClicked()} />
+        )
+    }
+
+    const onChangeStatus = (student: Student) => {
+        setModal(
+            <ChangeStatusModal
+                student={student}
+                onCancel={onModalCancelClicked}
+            />
+        )
+    }
+
+    const onDateClick = (student: Student) => {
+        setModal(
+            <EditTimer
+                studentId={student?.user?.id}
+                date={student?.expiryDate}
+                onCancel={onModalCancelClicked}
+            />
+        )
+    }
 
     const tableActionOptions: TableActionOption[] = [
         {
@@ -71,6 +103,18 @@ export const ArchivedStudent = () => {
             Icon: RiLockPasswordFill,
         },
         {
+            text: 'Change Expiry',
+            onClick: (student: Student) => onDateClick(student),
+            Icon: FaEdit,
+        },
+        {
+            text: 'Change Status',
+            onClick: (student: Student) => {
+                onChangeStatus(student)
+            },
+            Icon: FaEdit,
+        },
+        {
             text: 'Unarchive',
             onClick: () => {},
             Icon: MdUnarchive,
@@ -78,7 +122,7 @@ export const ArchivedStudent = () => {
         },
         {
             text: 'Delete',
-            onClick: () => {},
+            onClick: (student: Student) => onDeleteClicked(student),
             Icon: FaTrash,
             color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
         },
@@ -194,6 +238,7 @@ export const ArchivedStudent = () => {
 
     return (
         <>
+            {modal}
             {passwordModal && passwordModal}
             <div className="flex flex-col gap-y-4 mb-32">
                 <PageHeading
@@ -234,7 +279,9 @@ export const ArchivedStudent = () => {
                                                 )}
                                             </div>
                                         </div>
-                                        <div className="px-6">{table}</div>
+                                        <div className="px-6 overflow-x-auto custom-scrollbar">
+                                            {table}
+                                        </div>
                                     </div>
                                 )
                             }}

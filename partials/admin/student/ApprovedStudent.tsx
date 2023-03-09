@@ -41,6 +41,7 @@ import {
 // hooks
 import { useActionModal } from '@hooks'
 import { ref } from 'yup'
+import { EditTimer } from '@components/StudentTimer/EditTimer'
 
 export const ApprovedStudent = () => {
     const router = useRouter()
@@ -98,6 +99,16 @@ export const ApprovedStudent = () => {
         )
     }
 
+    const onDateClick = (student: Student) => {
+        setModal(
+            <EditTimer
+                studentId={student?.user?.id}
+                date={student?.expiryDate}
+                onCancel={onModalCancelClicked}
+            />
+        )
+    }
+
     const tableActionOptions: TableActionOption[] = [
         {
             text: 'View',
@@ -120,9 +131,12 @@ export const ApprovedStudent = () => {
         },
         {
             text: 'Change Status',
-            onClick: (student: Student) => {
-                onChangeStatus(student)
-            },
+            onClick: (student: Student) => onChangeStatus(student),
+            Icon: FaEdit,
+        },
+        {
+            text: 'Change Expiry',
+            onClick: (student: Student) => onDateClick(student),
             Icon: FaEdit,
         },
         {

@@ -118,6 +118,7 @@ export const RtoProfileOverview = ({ userId, rtoId, rtoDetail }: Props) => {
                                 data?.data?.map((data: any) => (
                                     <PendingStudents
                                         key={data.id}
+                                        student={data}
                                         name={data.user.name}
                                         email={data.user.email}
                                         phoneNumber={data.phone}

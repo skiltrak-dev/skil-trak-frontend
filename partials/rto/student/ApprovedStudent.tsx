@@ -29,6 +29,8 @@ import { useGetRtoStudentsQuery } from '@queries'
 import { checkStudentStatus, checkWorkplaceStatus } from '@utils'
 import { IndustryCell } from './components/IndustryCell'
 import { ProgressCell } from '@partials/admin/student/components'
+import { ChangeStudentStatusModal } from '@partials/sub-admin/students/modals'
+import { EditTimer } from '@components/StudentTimer/EditTimer'
 
 export const ApprovedStudent = () => {
     const router = useRouter()
@@ -63,6 +65,25 @@ export const ApprovedStudent = () => {
         )
     }
 
+    const onChangeStatus = (student: Student) => {
+        setModal(
+            <ChangeStudentStatusModal
+                student={student}
+                onCancel={onModalCancelClicked}
+            />
+        )
+    }
+
+    const onDateClick = (student: Student) => {
+        setModal(
+            <EditTimer
+                studentId={student?.user?.id}
+                date={student?.expiryDate}
+                onCancel={onModalCancelClicked}
+            />
+        )
+    }
+
     const tableActionOptions: TableActionOption[] = [
         {
             text: 'View',
@@ -82,6 +103,16 @@ export const ApprovedStudent = () => {
             onClick: (student: Student) => onBlockClicked(student),
             Icon: MdBlock,
             color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
+        },
+        {
+            text: 'Change Status',
+            onClick: (student: Student) => onChangeStatus(student),
+            Icon: FaEdit,
+        },
+        {
+            text: 'Change Expiry',
+            onClick: (student: Student) => onDateClick(student),
+            Icon: FaEdit,
         },
     ]
 
@@ -223,7 +254,9 @@ export const ApprovedStudent = () => {
                                                 )}
                                             </div>
                                         </div>
-                                        <div className="px-6 overflow-auto">{table}</div>
+                                        <div className="px-6 overflow-auto">
+                                            {table}
+                                        </div>
                                     </div>
                                 )
                             }}

@@ -18,6 +18,7 @@ import {
     Filter,
     InitialAvatar,
     LoadingAnimation,
+    PageTitle,
     RtoContextBarData,
     SidebarCalendar,
     SubAdminRtoFilter,
@@ -211,12 +212,13 @@ const RTOs: NextPageWithLayout = () => {
         },
     ]
 
-
-
     return (
-        <div className='mb-6'>
+        <div className="mb-6">
             <div className="px-4 mb-12">
-                <div className="flex justify-end mb-2">{filterAction}</div>
+                <div className='flex justify-between items-center'>
+                    <PageTitle title={'RTOs'} backTitle={'Users'} />
+                    <div className="flex justify-end mb-2">{filterAction}</div>
+                </div>
                 <Filter
                     component={SubAdminRtoFilter}
                     initialValues={filter}
@@ -273,11 +275,7 @@ const RTOs: NextPageWithLayout = () => {
     )
 }
 RTOs.getLayout = (page: ReactElement) => {
-    return (
-        <SubAdminLayout pageTitle={{ title: 'RTOs', backTitle: 'Users' }}>
-            {page}
-        </SubAdminLayout>
-    )
+    return <SubAdminLayout>{page}</SubAdminLayout>
 }
 
 export default RTOs
