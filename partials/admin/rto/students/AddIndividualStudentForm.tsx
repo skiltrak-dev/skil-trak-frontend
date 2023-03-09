@@ -5,6 +5,7 @@ import {
     ActionAlert,
     ShowErrorNotifications,
     Select,
+    Typography,
 } from '@components'
 import { useRouter } from 'next/router'
 import { UserRoles } from '@constants'
@@ -22,8 +23,12 @@ export const AddIndividualStudentForm = () => {
     const [courseOptions, setCourseOptions] = useState([])
     const [courseLoading, setCourseLoading] = useState(false)
     const [storedData, setStoredData] = useState<any>(null)
+
     const [addStudent, addStudentResult] = AdminApi.Rtos.useRtoAddStudent()
-    // auth api to get sectors
+    const rto = AdminApi.Rtos.useDetailQuery(Number(router.query.id), {
+        skip: !router.query?.id,
+        refetchOnMountOrArgChange: true,
+    })
     const sectorResponse = AuthApi.useSectors({})
 
     // get sectors
@@ -78,7 +83,7 @@ export const AddIndividualStudentForm = () => {
             .required('Must provide your name'),
         studentId: yup.string().required('Must provide your student Id'),
         phone: yup.string().required('Must provide your phone number'),
-        gender: yup.string().required('Must provide gender'),
+        // gender: yup.string().required('Must provide gender'),
 
         email: yup
             .string()
@@ -90,11 +95,11 @@ export const AddIndividualStudentForm = () => {
         courses: yup.array().min(1, 'Must select at least 1 course'),
 
         // Address Information
-        addressLine1: yup.string().required('Must provide address'),
+        // addressLine1: yup.string().required('Must provide address'),
 
-        state: yup.string().required('Must provide name of state'),
-        suburb: yup.string().required('Must provide suburb name'),
-        zipCode: yup.string().required('Must provide zip code for your state'),
+        // state: yup.string().required('Must provide name of state'),
+        // suburb: yup.string().required('Must provide suburb name'),
+        // zipCode: yup.string().required('Must provide zip code for your state'),
     })
 
     const formMethods = useForm({
@@ -125,6 +130,12 @@ export const AddIndividualStudentForm = () => {
                 familyName: 'N/A',
                 emergencyPerson: 'N/A',
                 emergencyPersonPhone: 'N/A',
+                gender: 'NA',
+                addressLine1: 'NA',
+                state: 'NA',
+                suburb: 'NA',
+                zipCode: 'NA',
+                password: 'NA',
             },
         })
     }
@@ -181,21 +192,13 @@ export const AddIndividualStudentForm = () => {
                                 required
                             />
 
-                            <TextInput
-                                label={'Gender'}
-                                name={'gender'}
-                                placeholder={'Gender...'}
-                                validationIcons
-                                required
-                            />
-                            <TextInput
-                                label={'Password'}
-                                name={'password'}
-                                type={'password'}
-                                placeholder={'Password...'}
-                                validationIcons
-                                required
-                            />
+                            <div className="flex flex-col gap-y-2">
+                                <Typography variant={'label'}>RTO</Typography>
+                                <Typography variant={'subtitle'}>
+                                    {rto?.data?.user?.name}
+                                </Typography>
+                            </div>
+
                             <Select
                                 label={'Sector'}
                                 {...(storedData
@@ -243,7 +246,7 @@ export const AddIndividualStudentForm = () => {
                                 validationIcons
                                 required
                             />
-                            <TextInput
+                            {/* <TextInput
                                 label={'Address Line 1'}
                                 name={'addressLine1'}
                                 placeholder={'Your Address Line 1...'}
@@ -272,7 +275,7 @@ export const AddIndividualStudentForm = () => {
                                 placeholder={'Zip Code...'}
                                 validationIcons
                                 required
-                            />
+                            /> */}
                         </div>
                         <Button
                             submit

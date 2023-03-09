@@ -5,11 +5,17 @@ import {
     ActionAlert,
     ShowErrorNotifications,
     Select,
+    Typography,
 } from '@components'
 import { useRouter } from 'next/router'
 import { UserRoles } from '@constants'
 import { yupResolver } from '@hookform/resolvers/yup'
-import { RtoApi, AuthApi, AdminApi } from '@queries'
+import {
+    RtoApi,
+    AuthApi,
+    AdminApi,
+    useGetSubAdminRTODetailQuery,
+} from '@queries'
 import { onlyAlphabets, SignUpUtils } from '@utils'
 import { FormProvider, useForm } from 'react-hook-form'
 import * as yup from 'yup'
@@ -22,6 +28,11 @@ export const AddIndividualStudentForm = () => {
     const [courseOptions, setCourseOptions] = useState([])
     const [courseLoading, setCourseLoading] = useState(false)
     const [storedData, setStoredData] = useState<any>(null)
+
+    const rtoDetail = useGetSubAdminRTODetailQuery(String(router?.query?.id), {
+        skip: !router?.query?.id,
+        refetchOnMountOrArgChange: true,
+    })
     const [addStudent, addStudentResult] = AdminApi.Rtos.useRtoAddStudent()
     // auth api to get sectors
     const sectorResponse = AuthApi.useSectors({})
@@ -86,14 +97,6 @@ export const AddIndividualStudentForm = () => {
         expiryDate: yup.date().required('Must provide Expiry Date'),
         // sector and courses
         courses: yup.array().min(1, 'Must select at least 1 course'),
-
-        // Address Information
-        addressLine1: yup.string().required('Must provide address'),
-        gender: yup.string().required('Must provide Gender'),
-
-        state: yup.string().required('Must provide name of state'),
-        suburb: yup.string().required('Must provide suburb name'),
-        zipCode: yup.string().required('Must provide zip code for your state'),
     })
 
     const formMethods = useForm({
@@ -123,6 +126,12 @@ export const AddIndividualStudentForm = () => {
                 familyName: 'N/A',
                 emergencyPerson: 'N/A',
                 emergencyPersonPhone: 'N/A',
+                gender: 'NA',
+                addressLine1: 'NA',
+                state: 'NA',
+                suburb: 'NA',
+                zipCode: 'NA',
+                password: 'NA',
             },
         })
     }
@@ -179,21 +188,13 @@ export const AddIndividualStudentForm = () => {
                                 required
                             />
 
-                            <TextInput
-                                label={'Gender'}
-                                name={'gender'}
-                                placeholder={'Gender...'}
-                                validationIcons
-                                required
-                            />
-                            <TextInput
-                                label={'Password'}
-                                name={'password'}
-                                type={'password'}
-                                placeholder={'Password...'}
-                                validationIcons
-                                required
-                            />
+                            <div className="flex flex-col gap-y-2">
+                                <Typography variant={'label'}>RTO</Typography>
+                                <Typography variant={'subtitle'}>
+                                    {rtoDetail?.data?.user?.name}
+                                </Typography>
+                            </div>
+
                             <Select
                                 label={'Sector'}
                                 {...(storedData
@@ -240,36 +241,6 @@ export const AddIndividualStudentForm = () => {
                                 placeholder={'Email...'}
                                 validationIcons
                                 required
-                            />
-                            <TextInput
-                                label={'Address Line 1'}
-                                name={'addressLine1'}
-                                required
-                                placeholder={'Your Address Line 1...'}
-                                validationIcons
-                            />
-
-                            <TextInput
-                                label={'Suburb'}
-                                name={'suburb'}
-                                required
-                                placeholder={'Suburb...'}
-                                validationIcons
-                            />
-                            <TextInput
-                                label={'State'}
-                                name={'state'}
-                                required
-                                placeholder={'State...'}
-                                validationIcons
-                            />
-
-                            <TextInput
-                                label={'Zip Code'}
-                                name={'zipCode'}
-                                required
-                                placeholder={'Zip Code...'}
-                                validationIcons
                             />
                         </div>
                         <Button

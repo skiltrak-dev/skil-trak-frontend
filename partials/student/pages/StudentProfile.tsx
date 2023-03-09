@@ -215,12 +215,12 @@ export const StudentProfile = ({ noTitle }: { noTitle?: boolean }) => {
             case UserStatus.Archived:
                 return (
                     <div className="flex items-center gap-x-2">
-                        <ActionButton
+                        {/* <ActionButton
                             Icon={FaArchive}
                             onClick={() => onUnArchiveClicked(data)}
                         >
                             Un Archive
-                        </ActionButton>
+                        </ActionButton> */}
                         <ActionButton
                             Icon={FaBan}
                             variant={'error'}

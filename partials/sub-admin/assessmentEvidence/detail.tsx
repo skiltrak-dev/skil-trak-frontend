@@ -12,6 +12,7 @@ import {
     AssessmentResponse,
     AssessmentFolderCard,
     Button,
+    ShowErrorNotifications,
 } from '@components'
 import { Actions, AddFolderComment } from './components'
 
@@ -66,6 +67,15 @@ export const Detail = ({
     )
     const [manullyReopenSubmission, manuallyReopenSubmissionResult] =
         useMaulallyReopenSubmissionRequestMutation()
+    const [downloadFiles, downloadFilesResult] =
+        SubAdminApi.AssessmentEvidence.downloadFiles()
+
+    console.log(downloadFilesResult)
+    useEffect(() => {
+        if (downloadFilesResult.isSuccess) {
+            window.open(downloadFilesResult?.data?.url)
+        }
+    }, [downloadFilesResult])
 
     useEffect(() => {
         if (
@@ -133,8 +143,16 @@ export const Detail = ({
         })
     }
 
+    const onDownloadFiles = () => {
+        downloadFiles({
+            studentId: Number(studentId),
+            courseId: selectedCourse?.id,
+        })
+    }
+
     return (
         <div className="mb-10">
+            <ShowErrorNotifications result={downloadFilesResult} />
             <div className="flex justify-between items-center mb-6">
                 <PageTitle
                     title="Assessment Evidence Detail"
@@ -256,40 +274,53 @@ export const Detail = ({
                             </span>{' '}
                             - Submission #{results?.totalSubmission}
                         </Typography>
-                        <Typography variant={'label'} color={'text-gray-500'}>
-                            Assessor:{' '}
-                            <span className="font-semibold text-black">
-                                {results?.assessor?.name || 'Not Assessesd'}
-                            </span>
-                        </Typography>
-                        <div className="flex items-center gap-x-2 mb-1">
-                            <div>
-                                {selectedFolder &&
-                                    results !== 'Not Submitted' && (
-                                        <FileUpload
-                                            onChange={onUploadDocs}
-                                            name={'folder?.name'}
-                                            component={AddFileButton}
-                                            multiple
-                                            limit={
-                                                Number(
-                                                    selectedFolder?.capacity
-                                                ) -
-                                                Number(
-                                                    selectedFolder
-                                                        ?.studentResponse
-                                                        ?.length > 0
-                                                        ? selectedFolder
-                                                              ?.studentResponse[0]
-                                                              ?.files?.length
-                                                        : 0
-                                                )
-                                            }
-                                            acceptTypes={getDocType(
-                                                selectedFolder?.type
-                                            )}
-                                        />
-                                    )}
+                        <div className="flex items-center gap-x-1">
+                            <Typography
+                                variant={'label'}
+                                color={'text-gray-500'}
+                            >
+                                Assessor:{' '}
+                                <span className="font-semibold text-black">
+                                    {results?.assessor?.name || 'Not Assessesd'}
+                                </span>
+                            </Typography>
+                            <Button
+                                text={'Download All Files'}
+                                variant={'info'}
+                                onClick={onDownloadFiles}
+                                loading={downloadFilesResult.isLoading}
+                                disabled={downloadFilesResult.isLoading}
+                            />
+                            <div className="flex items-center gap-x-2 mb-1">
+                                <div>
+                                    {selectedFolder &&
+                                        results !== 'Not Submitted' && (
+                                            <FileUpload
+                                                onChange={onUploadDocs}
+                                                name={'folder?.name'}
+                                                component={AddFileButton}
+                                                multiple
+                                                limit={
+                                                    Number(
+                                                        selectedFolder?.capacity
+                                                    ) -
+                                                    Number(
+                                                        selectedFolder
+                                                            ?.studentResponse
+                                                            ?.length > 0
+                                                            ? selectedFolder
+                                                                  ?.studentResponse[0]
+                                                                  ?.files
+                                                                  ?.length
+                                                            : 0
+                                                    )
+                                                }
+                                                acceptTypes={getDocType(
+                                                    selectedFolder?.type
+                                                )}
+                                            />
+                                        )}
+                                </div>
                             </div>
                         </div>
                     </div>

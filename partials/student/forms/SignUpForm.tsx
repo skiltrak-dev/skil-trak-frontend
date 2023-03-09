@@ -2,6 +2,7 @@ import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import 'react-phone-number-input/style.css'
+import { Country, State, City } from 'country-state-city'
 
 import _debounce from 'lodash/debounce'
 import * as yup from 'yup'
@@ -200,6 +201,11 @@ export const StudentSignUpForm = ({ onSubmit }: { onSubmit: any }) => {
         }
     }, [courseOptions])
 
+    const stateOptions = State.getStatesOfCountry('AU')?.map(({ name }) => ({
+        label: name,
+        value: name,
+    }))
+
     return (
         <FormProvider {...formMethods}>
             <form
@@ -348,7 +354,6 @@ export const StudentSignUpForm = ({ onSubmit }: { onSubmit: any }) => {
                                 label={'Courses'}
                                 name={'courses'}
                                 defaultValue={courseOptions}
-                                value={courseOptions}
                                 options={courseOptions}
                                 multi
                                 onChange={(e: SelectOption[]) => {
@@ -447,12 +452,20 @@ export const StudentSignUpForm = ({ onSubmit }: { onSubmit: any }) => {
                                 validationIcons
                             />
 
-                            <TextInput
+                            <Select
+                                options={stateOptions}
+                                label={'State'}
+                                name={'state'}
+                                validationIcons
+                                onlyValue
+                            />
+
+                            {/* <TextInput
                                 label={'State'}
                                 name={'state'}
                                 placeholder={'State...'}
                                 validationIcons
-                            />
+                            /> */}
 
                             <TextInput
                                 label={'Zip Code'}

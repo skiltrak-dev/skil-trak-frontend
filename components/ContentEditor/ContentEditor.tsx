@@ -20,11 +20,13 @@ interface ContentEditor {
     label?: string
     content?: any
     setContent?: Function
+    result?: any
 }
 export const ContentEditor = ({
     label,
     content,
     setContent,
+    result,
 }: ContentEditor) => {
     let raw = convertToRaw(ContentState.createFromText(''))
     if (htmlToDraft) {
@@ -38,7 +40,7 @@ export const ContentEditor = ({
         raw = convertToRaw(existingContentState)
     }
 
-    const [editorState, setEditorState] = useState(raw)
+    const [editorState, setEditorState] = useState<any>(raw)
     const [contentState, setContentState] = useState(EditorState.createEmpty())
     const [contentChange, setContentChange] = useState(false)
 
@@ -54,6 +56,13 @@ export const ContentEditor = ({
         }
     }, [contentState])
 
+    useEffect(() => {
+        if (result.isSuccess) {
+            setEditorState(null)
+            setContentState(EditorState.createEmpty())
+        }
+    }, [result])
+
     const onEditorStateChange = (editorState: any) => {
         setEditorState(editorState)
         setContentState(editorState)
@@ -67,7 +76,7 @@ export const ContentEditor = ({
                 defaultContentState={editorState}
                 // toolbarStyle={{ border: 'none', borderRadius: '16px' }}
                 wrapperClassName="border rounded-md"
-                editorClassName="min-h-[128px] px-2 remove-scrollbar"
+                editorClassName="min-h-[128px] max-h-[250px] overflow-y-auto  px-2 custom-scrollbar"
                 editorStyle={{ fontSize: '14px' }}
                 onEditorStateChange={onEditorStateChange}
                 placeholder="Write your requirements here"

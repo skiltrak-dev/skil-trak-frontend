@@ -17,7 +17,7 @@ import { Button } from '@components/buttons'
 import { TextInput } from '@components/inputs'
 
 // query
-import { useAddCommentOnAssessmentMutation } from '@queries'
+import { useAddCommentOnAssessmentMutation, SubAdminApi } from '@queries'
 import moment from 'moment'
 import { getCourseResult } from '@utils'
 
@@ -42,6 +42,9 @@ export const AssessmentResponse = ({
     const [selected, setSelected] = useState<any>(null)
 
     const [modal, setModal] = useState<any>(null)
+
+    // query
+    const [addComment, addCommentResult] = useAddCommentOnAssessmentMutation()
 
     const onModalCancel = () => {
         setModal(null)
@@ -118,7 +121,6 @@ export const AssessmentResponse = ({
     }, [getAssessmentResponse, commentType])
 
     // query
-    const [addComment, addCommentResult] = useAddCommentOnAssessmentMutation()
 
     return (
         <>

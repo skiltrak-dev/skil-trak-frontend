@@ -24,13 +24,8 @@ export const useColumns = () => {
         {
             text: 'View',
             onClick: (student: Student) => {
-                const {
-                    courses,
-                    id,
-                    user: { id: userId },
-                } = student
                 router.push(
-                    `/portals/sub-admin/tasks/assessment-evidence/${id}/${userId}`
+                    `/portals/sub-admin/tasks/assessment-evidence/${student?.id}/${student?.user?.id}`
                 )
             },
             Icon: FaEye,
@@ -118,7 +113,10 @@ export const useColumns = () => {
             accessorKey: 'Action',
             cell: ({ row }: any) => {
                 return (
-                    <TableAction options={tableActionOptions} rowItem={row} />
+                    <TableAction
+                        options={tableActionOptions}
+                        rowItem={row.original?.student}
+                    />
                 )
             },
         },

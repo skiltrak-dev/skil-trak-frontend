@@ -6,7 +6,9 @@ import {
     Button,
     Card,
     Checkbox,
+    ContentEditor,
     Select,
+    ShowErrorNotifications,
     TextArea,
     TextInput,
 } from '@components'
@@ -25,6 +27,8 @@ export const CreateNote = ({
 }: any) => {
     const { isVisible } = useContextBar()
     const { notification } = useNotification()
+    const [noteContent, setNoteContent] = useState<any>(null)
+
     // query
     const [createNote, createNoteResult] = CommonApi.Notes.useCreate()
 
@@ -44,6 +48,7 @@ export const CreateNote = ({
                 title: 'Note Attached',
                 description: 'Note attached successfully',
             })
+            setNoteContent(null)
             methods.reset()
         }
     }, [createNoteResult.isSuccess])
@@ -102,9 +107,7 @@ export const CreateNote = ({
 
     return (
         <>
-            {/* <ShowErrorNotifications
-                result={editing ? updateNoteResult : createNoteResult}
-            /> */}
+            <ShowErrorNotifications result={createNoteResult} />
             <div className={`sticky top-4`}>
                 <Card>
                     <FormProvider {...methods}>
@@ -126,6 +129,14 @@ export const CreateNote = ({
                                     placeholder={'Note Message ...'}
                                     rows={5}
                                 />
+                                {/* <div>
+                                    <ContentEditor
+                                        label="Message"
+                                        content={noteContent}
+                                        setContent={setNoteContent}
+                                        result={createNoteResult}
+                                    />
+                                </div> */}
 
                                 <Select
                                     name={'templates'}

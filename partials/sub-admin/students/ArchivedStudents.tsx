@@ -2,7 +2,7 @@ import { useRouter } from 'next/router'
 import { ReactElement, useEffect, useState } from 'react'
 
 // Icons
-import { FaEye } from 'react-icons/fa'
+import { FaEdit, FaEye } from 'react-icons/fa'
 
 // components
 import {
@@ -23,12 +23,13 @@ import { useJoyRide } from '@hooks'
 import { SubAdminApi } from '@queries'
 import { Student, UserStatus } from '@types'
 import { MdBlock } from 'react-icons/md'
-import { AssignStudentModal } from './modals'
+import { AssignStudentModal, ChangeStudentStatusModal } from './modals'
 
 import { ProgressCell, SectorCell } from '@partials/admin/student/components'
 import { checkStudentStatus, checkWorkplaceStatus, setLink } from '@utils'
 import { IndustryCellInfo } from '../indestries/components'
 import { ColumnDef } from '@tanstack/react-table'
+import { EditTimer } from '@components/StudentTimer/EditTimer'
 
 export const ArchivedStudents = () => {
     const router = useRouter()
@@ -52,11 +53,22 @@ export const ArchivedStudents = () => {
     const onModalCancelClicked = () => {
         setModal(null)
     }
-    const onAssignStudentClicked = (student: Student) => {
+
+    const onChangeStatus = (student: Student) => {
         setModal(
-            <AssignStudentModal
+            <ChangeStudentStatusModal
                 student={student}
-                onCancel={() => onModalCancelClicked()}
+                onCancel={onModalCancelClicked}
+            />
+        )
+    }
+
+    const onDateClick = (student: Student) => {
+        setModal(
+            <EditTimer
+                studentId={student?.user?.id}
+                date={student?.expiryDate}
+                onCancel={onModalCancelClicked}
             />
         )
     }
@@ -73,10 +85,14 @@ export const ArchivedStudents = () => {
             Icon: FaEye,
         },
         {
-            text: 'Assign to me',
-            onClick: (student: Student) => onAssignStudentClicked(student),
-            Icon: MdBlock,
-            color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
+            text: 'Change Status',
+            onClick: (student: Student) => onChangeStatus(student),
+            Icon: FaEdit,
+        },
+        {
+            text: 'Change Expiry',
+            onClick: (student: Student) => onDateClick(student),
+            Icon: FaEdit,
         },
     ]
 
