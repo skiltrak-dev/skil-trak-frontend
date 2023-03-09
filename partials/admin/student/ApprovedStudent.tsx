@@ -148,7 +148,7 @@ export const ApprovedStudent = () => {
         {
             accessorKey: 'user.name',
             cell: (info) => {
-                return <StudentCellInfo student={info.row.original} />
+                return <StudentCellInfo student={info?.row?.original} />
             },
             header: () => <span>Student</span>,
         },
@@ -156,9 +156,7 @@ export const ApprovedStudent = () => {
             accessorKey: 'rto',
             header: () => <span>RTO</span>,
             cell: (info) => {
-                return info.row.original.rto ? (
-                    <RtoCellInfo rto={info.row.original.rto} short />
-                ) : null
+                return <RtoCellInfo rto={info?.row?.original?.rto} short />
             },
         },
         {

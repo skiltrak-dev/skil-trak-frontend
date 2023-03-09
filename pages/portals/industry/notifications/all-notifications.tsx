@@ -28,7 +28,7 @@ const IndustryAllNotifications: NextPageWithLayout = () => {
             {!isLoading ? (
                 <>
                     <div className="flex flex-col">
-                        {notifications?.length > 0 || notifications?.length > 0 ? (
+                        {notifications?.data?.length > 0 || notifications?.data?.length > 0 ? (
                             <>
                                 <div className="flex items-center justify-between mb-4">
                                     <PageSize
@@ -40,7 +40,7 @@ const IndustryAllNotifications: NextPageWithLayout = () => {
                                         setPage={setPage}
                                     />
                                 </div>
-                                {notifications?.map((notification: any, i: any) => (
+                                {notifications?.data?.map((notification: any, i: any) => (
                                     <div
                                         key={notification.id}
                                         onClick={() =>
