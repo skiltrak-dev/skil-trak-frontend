@@ -26,11 +26,13 @@ export const StudentProfileForm = ({
     result,
     onSubmit,
     courses,
+    studentId,
 }: {
     profile: any
     result: any
     onSubmit: any
     courses: any
+    studentId?: boolean
 }) => {
     const { notification } = useNotification()
     const router = useRouter()
@@ -259,7 +261,7 @@ export const StudentProfileForm = ({
                                         placeholder={'Student ID...'}
                                         validationIcons
                                         required
-                                        disabled
+                                        disabled={studentId}
                                     />
                                     <TextInput
                                         label={'Date of Birth'}

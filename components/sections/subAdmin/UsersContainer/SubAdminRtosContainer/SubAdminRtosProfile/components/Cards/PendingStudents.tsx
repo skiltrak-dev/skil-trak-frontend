@@ -1,11 +1,13 @@
-import { Button } from '@components/buttons'
+import { ActionButton, Button } from '@components/buttons'
 import { Card } from '@components/cards'
 import { Typography } from '@components/Typography'
 import Image from 'next/image'
-import React from 'react'
 
 // queries
 import { useUpdateSubAdminRtoStudentStatusMutation } from '@queries'
+import { Student, UserStatus } from '@types'
+import { useEffect, useState } from 'react'
+import { useNotification } from '@hooks'
 
 type PendingStudentsProps = {
     studentId: number
@@ -13,6 +15,7 @@ type PendingStudentsProps = {
     name: string
     email: string
     imageUrl: string
+    student: Student
 }
 
 export const PendingStudents = ({
@@ -21,8 +24,31 @@ export const PendingStudents = ({
     name,
     email,
     imageUrl,
+    student,
 }: PendingStudentsProps) => {
-    const [pendingStudentsStatus] = useUpdateSubAdminRtoStudentStatusMutation()
+    const [studentStatus, setStudentStatus] = useState('')
+
+    const { notification } = useNotification()
+
+    const [pendingStudentsStatus, pendingStudentsStatusResult] =
+        useUpdateSubAdminRtoStudentStatusMutation()
+
+    useEffect(() => {
+        if (pendingStudentsStatusResult.isSuccess) {
+            if (studentStatus === UserStatus.Approved) {
+                notification.success({
+                    title: 'Student Approved',
+                    description: 'Student Approved Successfully',
+                })
+            }
+            if (studentStatus === UserStatus.Rejected) {
+                notification.error({
+                    title: 'Student Rejected',
+                    description: 'Student Rejected Successfully',
+                })
+            }
+        }
+    }, [pendingStudentsStatusResult])
 
     return (
         <>
@@ -52,28 +78,40 @@ export const PendingStudents = ({
                         {phoneNumber}
                     </Typography>
                     <div className="flex gap-x-2 items-center">
-                        <Button
-                            onClick={() =>
+                        <ActionButton
+                            onClick={() => {
+                                setStudentStatus(UserStatus.Approved)
                                 pendingStudentsStatus({
                                     id: studentId,
-                                    status: 'approved',
+                                    status: UserStatus.Approved,
                                 })
+                            }}
+                            variant={'success'}
+                            loading={
+                                pendingStudentsStatusResult.isLoading &&
+                                studentStatus === UserStatus.Approved
                             }
-                            variant={'secondary'}
+                            disabled={pendingStudentsStatusResult.isLoading}
                         >
-                            <span className="text-green-500">ACCEPT</span>
-                        </Button>
-                        <Button
-                            onClick={() =>
+                            ACCEPT
+                        </ActionButton>
+                        <ActionButton
+                            onClick={() => {
+                                setStudentStatus(UserStatus.Rejected)
                                 pendingStudentsStatus({
                                     id: studentId,
-                                    status: 'rejected',
+                                    status: UserStatus.Rejected,
                                 })
+                            }}
+                            variant={'error'}
+                            loading={
+                                pendingStudentsStatusResult.isLoading &&
+                                studentStatus === UserStatus.Rejected
                             }
-                            variant={'secondary'}
+                            disabled={pendingStudentsStatusResult.isLoading}
                         >
-                            <span className="text-red-500">REJECT</span>
-                        </Button>
+                            Reject
+                        </ActionButton>
                     </div>
                 </div>
             </Card>

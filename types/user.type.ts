@@ -54,6 +54,7 @@ export interface Student extends BaseResponse {
     emergencyPerson: string
     emergencyPersonPhone: string
     industries: any
+    expiryDate: Date
     addressLine1: string
     addressLine2: string
     suburb: string

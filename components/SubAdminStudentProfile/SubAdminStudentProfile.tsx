@@ -133,7 +133,9 @@ export const SubAdminStudentProfile = ({ student }: { student: Student }) => {
                             <FaBirthdayCake size={12} />
                         </span>
                         <p className="text-xs font-medium">
-                            {moment(student?.dob).format('DD MMM, YYYY')}
+                            {student?.dob
+                                ? moment(student?.dob).format('DD MMM, YYYY')
+                                : 'Not Provided'}
                         </p>
                     </div>
                     <div className="text-gray-400 text-[11px] -mt-0.5 text-right">

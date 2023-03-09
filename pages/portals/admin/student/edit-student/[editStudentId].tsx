@@ -29,11 +29,9 @@ const EditStudent: NextPageWithLayout = () => {
         useUpdateStudentProfileMutation()
 
     const onSubmit = (values: any) => {
-        console.log('before', values)
         if (!values?.courses) {
             delete values?.courses
         }
-        console.log('after', values)
         updateProfile({
             id: student?.data?.user?.id,
             body: {

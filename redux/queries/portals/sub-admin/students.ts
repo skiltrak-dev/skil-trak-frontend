@@ -178,9 +178,7 @@ export const studentsEndpoints = (
         invalidatesTags: ['SubAdminStudents'],
     }),
     studentCourses: builder.query<any, any>({
-        query: (id) => ({
-            url: `${PREFIX}/student/course/list/${id}`,
-        }),
+        query: (id) => `${PREFIX}/student/course/list/${id}`,
         providesTags: ['SubAdminStudents'],
     }),
     changeStudentPassword: builder.mutation<any, any>({
@@ -240,6 +238,16 @@ export const studentsEndpoints = (
             url: `subadmin/add-another/workplace/${studentId}`,
             method: 'POST',
             body,
+        }),
+        invalidatesTags: ['Students', 'SubAdminStudents'],
+    }),
+    downloadAllCourseFiles: builder.mutation<
+        any,
+        { studentId: number; courseId: number }
+    >({
+        query: ({ studentId, courseId }) => ({
+            url: `shared/files/download/${studentId}/${courseId}`,
+            method: 'POST',
         }),
         invalidatesTags: ['Students', 'SubAdminStudents'],
     }),

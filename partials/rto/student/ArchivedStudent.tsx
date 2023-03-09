@@ -37,6 +37,8 @@ import {
 import { useRouter } from 'next/router'
 import { DeleteModal, AcceptModal } from './modals'
 import { checkStudentStatus, checkWorkplaceStatus } from '@utils'
+import { ChangeStudentStatusModal } from '@partials/sub-admin/students/modals'
+import { EditTimer } from '@components/StudentTimer/EditTimer'
 
 export const ArchivedStudent = () => {
     const router = useRouter()
@@ -63,9 +65,22 @@ export const ArchivedStudent = () => {
         )
     }
 
-    const onUnArchiveClicked = (item: Student) => {
+    const onChangeStatus = (student: Student) => {
         setModal(
-            <AcceptModal item={item} onCancel={() => onModalCancelClicked()} />
+            <ChangeStudentStatusModal
+                student={student}
+                onCancel={onModalCancelClicked}
+            />
+        )
+    }
+
+    const onDateClick = (student: Student) => {
+        setModal(
+            <EditTimer
+                studentId={student?.user?.id}
+                date={student?.expiryDate}
+                onCancel={onModalCancelClicked}
+            />
         )
     }
 
@@ -78,10 +93,14 @@ export const ArchivedStudent = () => {
             Icon: FaEye,
         },
         {
-            text: 'Unarchive',
-            onClick: (student: Student) => onUnArchiveClicked(student),
-            Icon: MdUnarchive,
-            color: 'text-orange-500 hover:bg-orange-100 hover:border-orange-200',
+            text: 'Change Status',
+            onClick: (student: Student) => onChangeStatus(student),
+            Icon: FaEdit,
+        },
+        {
+            text: 'Change Expiry',
+            onClick: (student: Student) => onDateClick(student),
+            Icon: FaEdit,
         },
         {
             text: 'Delete',

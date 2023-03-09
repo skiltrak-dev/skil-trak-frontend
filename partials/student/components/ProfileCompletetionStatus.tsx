@@ -12,7 +12,6 @@ import { getThemeColors } from '@theme'
 const colors = getThemeColors()
 
 export const ProfileCompletetionStatus = ({ profile }: any) => {
-    console.log('profile', profile)
     // const values = {
     //     name: profile?.user?.name,
     //     email: profile?.user?.email,
@@ -53,7 +52,6 @@ export const ProfileCompletetionStatus = ({ profile }: any) => {
     let filledValues = 0
     keys.forEach((key) => {
         const keyValue = values[key as keyof typeof values]
-        console.log('values[key as keyof typeof values]', keyValue)
         if (keyValue && keyValue != 'NA' && !Array.isArray(keyValue)) {
             filledValues++
         } else if (Array.isArray(keyValue) && keyValue?.length > 0) {
@@ -62,7 +60,6 @@ export const ProfileCompletetionStatus = ({ profile }: any) => {
     })
 
     const profileCompletion = Math.floor((filledValues / totalValues) * 100)
-    console.log('filledValues', totalValues, filledValues)
     return (
         <>
             <div className="flex justify-center items-center w-full">

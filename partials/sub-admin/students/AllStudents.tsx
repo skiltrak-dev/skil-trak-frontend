@@ -2,7 +2,7 @@ import { useRouter } from 'next/router'
 import { ReactElement } from 'react'
 
 // Icons
-import { FaEye } from 'react-icons/fa'
+import { FaEdit, FaEye } from 'react-icons/fa'
 
 // components
 import {
@@ -24,12 +24,13 @@ import { useGetSubAdminStudentsQuery, SubAdminApi } from '@queries'
 import { Student, UserStatus } from '@types'
 import { useEffect, useState } from 'react'
 import { MdBlock } from 'react-icons/md'
-import { AssignStudentModal } from './modals'
+import { AssignStudentModal, ChangeStudentStatusModal } from './modals'
 
 import { ProgressCell, SectorCell } from '@partials/admin/student/components'
 import { checkStudentStatus, checkWorkplaceStatus, setLink } from '@utils'
 import { IndustryCellInfo } from '../indestries/components'
 import { ColumnDef } from '@tanstack/react-table'
+import { EditTimer } from '@components/StudentTimer/EditTimer'
 
 export const AllStudents = () => {
     const router = useRouter()
@@ -81,6 +82,25 @@ export const AllStudents = () => {
         )
     }
 
+    const onChangeStatus = (student: Student) => {
+        setModal(
+            <ChangeStudentStatusModal
+                student={student}
+                onCancel={onModalCancelClicked}
+            />
+        )
+    }
+
+    const onDateClick = (student: Student) => {
+        setModal(
+            <EditTimer
+                studentId={student?.user?.id}
+                date={student?.expiryDate}
+                onCancel={onModalCancelClicked}
+            />
+        )
+    }
+
     const tableActionOptions: TableActionOption[] = [
         {
             text: 'View',
@@ -97,6 +117,16 @@ export const AllStudents = () => {
             onClick: (student: Student) => onAssignStudentClicked(student),
             Icon: MdBlock,
             color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
+        },
+        {
+            text: 'Change Status',
+            onClick: (student: Student) => onChangeStatus(student),
+            Icon: FaEdit,
+        },
+        {
+            text: 'Change Expiry',
+            onClick: (student: Student) => onDateClick(student),
+            Icon: FaEdit,
         },
     ]
 
