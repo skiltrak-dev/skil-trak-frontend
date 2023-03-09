@@ -10,6 +10,7 @@ import {
     InitialAvatar,
     InitialAvatarContainer,
     NoData,
+    Typography,
 } from '@components'
 
 import { FaBriefcase, FaMapMarkerAlt, FaSchool } from 'react-icons/fa'
@@ -20,6 +21,7 @@ import { useContextBar } from '@hooks'
 import {
     ImportantDocuments,
     PortalQuestions,
+    ProfileCompletetionStatus,
 } from '@partials/student/components'
 
 import { useGetStudentProfileDetailQuery } from '@queries'
@@ -69,6 +71,84 @@ const StudentDashboard: NextPageWithLayout = () => {
             {/* Question Section */}
             <PortalQuestions />
 
+            {/* Sector Card */}
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-3">
+                <div className="md:col-span-2">
+                    <Card>
+                        {/* Card Header */}
+                        <div className="flex justify-between items-center">
+                            {/* Icon Title */}
+                            <div className="flex items-center gap-x-2">
+                                <div className="w-8 h-8 bg-indigo-100 text-indigo-600 rounded-full flex justify-center items-center">
+                                    <FaSchool size={16} />
+                                </div>
+                                <p className="text-sm font-semibold">
+                                    My Sector &amp; Courses
+                                </p>
+                            </div>
+
+                            {/* Action */}
+                            {/* <Link legacyBehavior href="#">
+                        <a className="inline-block uppercase text-xs font-medium bg-indigo-100 text-indigo-600 px-4 py-2 rounded">
+                            See Details
+                        </a>
+                    </Link> */}
+                        </div>
+
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-3 mt-4">
+                            {isLoading ? (
+                                <ContextBarLoading />
+                            ) : data?.courses.length ? (
+                                Object.keys(sectorsWithCourses).map(
+                                    (sector, i) => {
+                                        return (
+                                            <div className="" key={i}>
+                                                <div>
+                                                    <p className="text-xs font-medium text-gray-400">
+                                                        Sector
+                                                    </p>
+                                                    <p className="text-sm font-semibold">
+                                                        {sector}
+                                                    </p>
+                                                </div>
+
+                                                {(sectorsWithCourses as any)[
+                                                    sector
+                                                ].map((c: Course) => (
+                                                    <div
+                                                        className="flex flex-col gap-y-4 ml-4"
+                                                        key={c.id}
+                                                    >
+                                                        <div className="border-l-4 border-green-600 px-2 py-1">
+                                                            <div>
+                                                                <p className="text-xs font-medium text-gray-400">
+                                                                    {c.code}
+                                                                </p>
+                                                                <p className="text-sm">
+                                                                    {c.title}
+                                                                </p>
+                                                            </div>
+
+                                                            {/* <Badge text="Active" /> */}
+                                                        </div>
+                                                    </div>
+                                                ))}
+                                            </div>
+                                        )
+                                    }
+                                )
+                            ) : (
+                                <NoData text={'No Courses Assigned'} />
+                            )}
+                        </div>
+                    </Card>
+                </div>
+                <Card>
+                    <Typography>Profile completed</Typography>
+                    <ProfileCompletetionStatus profile={data} />
+                </Card>
+            </div>
+
             {/* Documents Section */}
             <Desktop>
                 <ImportantDocuments
@@ -77,74 +157,6 @@ const StudentDashboard: NextPageWithLayout = () => {
                     }
                 />
             </Desktop>
-
-            {/* Sector Card */}
-            <Card>
-                {/* Card Header */}
-                <div className="flex justify-between items-center">
-                    {/* Icon Title */}
-                    <div className="flex items-center gap-x-2">
-                        <div className="w-8 h-8 bg-indigo-100 text-indigo-600 rounded-full flex justify-center items-center">
-                            <FaSchool size={16} />
-                        </div>
-                        <p className="text-sm font-semibold">
-                            My Sector &amp; Courses
-                        </p>
-                    </div>
-
-                    {/* Action */}
-                    {/* <Link legacyBehavior href="#">
-                        <a className="inline-block uppercase text-xs font-medium bg-indigo-100 text-indigo-600 px-4 py-2 rounded">
-                            See Details
-                        </a>
-                    </Link> */}
-                </div>
-
-                <div className="flex items-center gap-x-6 mt-4">
-                    {isLoading ? (
-                        <ContextBarLoading />
-                    ) : data?.courses.length ? (
-                        Object.keys(sectorsWithCourses).map((sector, i) => {
-                            return (
-                                <div className="" key={i}>
-                                    <div>
-                                        <p className="text-xs font-medium text-gray-400">
-                                            Sector
-                                        </p>
-                                        <p className="text-sm font-semibold">
-                                            {sector}
-                                        </p>
-                                    </div>
-
-                                    {(sectorsWithCourses as any)[sector].map(
-                                        (c: Course) => (
-                                            <div
-                                                className="flex flex-col gap-y-4 ml-4"
-                                                key={c.id}
-                                            >
-                                                <div className="border-l-4 border-green-600 px-2">
-                                                    <div>
-                                                        <p className="text-xs font-medium text-gray-400">
-                                                            {c.code}
-                                                        </p>
-                                                        <p className="text-sm">
-                                                            {c.title}
-                                                        </p>
-                                                    </div>
-
-                                                    {/* <Badge text="Active" /> */}
-                                                </div>
-                                            </div>
-                                        )
-                                    )}
-                                </div>
-                            )
-                        })
-                    ) : (
-                        <NoData text={'No Courses Assigned'} />
-                    )}
-                </div>
-            </Card>
 
             <div className="flex flex-col gap-y-4 md:flex-row md:gap-x-6">
                 {/* RTO Card */}

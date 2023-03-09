@@ -11,6 +11,7 @@ import {
     Typography,
     Select,
     Avatar,
+    ShowErrorNotifications,
 } from '@components'
 
 // utils
@@ -18,6 +19,7 @@ import { getDate, onlyAlphabets } from '@utils'
 import { AuthApi } from '@queries'
 import { Course, Sector } from '@types'
 import { useActionModal, useNotification } from '@hooks'
+import { useRouter } from 'next/router'
 
 export const StudentProfileForm = ({
     profile,
@@ -31,6 +33,7 @@ export const StudentProfileForm = ({
     courses: any
 }) => {
     const { notification } = useNotification()
+    const router = useRouter()
 
     const sectorResponse = AuthApi.useSectors({})
     const rtoResponse = AuthApi.useRtos({})
@@ -42,15 +45,6 @@ export const StudentProfileForm = ({
     const [courseDefaultOptions, setCourseDefaultOptions] = useState([])
 
     const { onUpdatePassword, passwordModal } = useActionModal()
-
-    useEffect(() => {
-        if (result.isSuccess) {
-            notification.success({
-                title: 'Profile Updated',
-                description: 'Profile Updated Successfully',
-            })
-        }
-    }, [result])
 
     const sectorOptions = sectorResponse?.data
         ? sectorResponse.data?.map((sector: any) => ({
@@ -99,6 +93,16 @@ export const StudentProfileForm = ({
             onSectorChanged(sectorDefaultOptions, true)
         }
     }, [sectorDefaultOptions, sectorResponse])
+
+    useEffect(() => {
+        if (result.isSuccess) {
+            notification.success({
+                title: 'Profile Updated',
+                description: 'Profile Updated Successfully',
+            })
+            router.back()
+        }
+    }, [result])
 
     const onSectorChanged = (sectors: any, chkDefaultOptions?: boolean) => {
         const filteredCourses = sectors.map((selectedSector: any) => {
@@ -192,6 +196,7 @@ export const StudentProfileForm = ({
     }, [profile])
     return (
         <>
+            <ShowErrorNotifications result={result} />
             <Avatar
                 avatar={profile?.data?.user?.avatar}
                 user={profile?.data?.user?.id}
@@ -352,10 +357,7 @@ export const StudentProfileForm = ({
                                     <Select
                                         label={'Courses'}
                                         name={'courses'}
-                                        defaultValue={
-                                            courseOptions ||
-                                            courseDefaultOptions
-                                        }
+                                        defaultValue={courseDefaultOptions}
                                         options={courseOptions}
                                         multi
                                         disabled={courseOptions?.length === 0}
@@ -367,7 +369,6 @@ export const StudentProfileForm = ({
                                     <Select
                                         label={'Courses'}
                                         name={'courses'}
-                                        defaultValue={courseOptions}
                                         options={courseOptions}
                                         multi
                                         disabled={courseOptions?.length === 0}

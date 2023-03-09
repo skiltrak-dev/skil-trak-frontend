@@ -20,6 +20,7 @@ import {
     LoadingAnimation,
     NoData,
     RtoAvatar,
+    ActionButton,
 } from '@components'
 import { BiPackage, BiRename } from 'react-icons/bi'
 import { useRouter } from 'next/router'
@@ -67,20 +68,23 @@ export const ViewProfileCB = () => {
             ) : (
                 <div>
                     <div className="flex justify-end gap-x-2">
-                        <div className="bg-blue-100 rounded-full p-1">
-                            <AiFillEdit
-                                className="text-blue-400  cursor-pointer"
-                                onClick={() =>
-                                    router.push('/portals/rto/my-profile')
-                                }
-                            />
-                        </div>
-                        <div
-                            className="bg-blue-100 rounded-full p-1"
+                        <ActionButton
+                            rounded
+                            Icon={AiFillEdit}
+                            variant={'info'}
+                            onClick={() =>
+                                router.push('/portals/rto/my-profile')
+                            }
+                            title="Edit Profile"
+                        />
+
+                        <ActionButton
+                            rounded
+                            Icon={BsUnlockFill}
+                            variant={'neutral'}
                             onClick={() => onUpdatePassword(rto)}
-                        >
-                            <BsUnlockFill className="text-blue-400  cursor-pointer" />
-                        </div>
+                            title="Edit Password"
+                        />
                     </div>
                     <div className="flex flex-col items-center">
                         <RtoAvatar

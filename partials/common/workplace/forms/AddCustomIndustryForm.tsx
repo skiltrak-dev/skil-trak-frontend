@@ -81,17 +81,6 @@ export const AddCustomIndustryForm = ({
             .string()
             .email('Invalid Email')
             .required('Must provide email'),
-        password: yup
-            .string()
-            // .matches(
-            // 	strongPassword(),
-            // 	"Must Contain 8 Characters, One Uppercase, One Lowercase, One Number and One Special Case Character"
-            // )
-            .required('Must provide password'),
-        confirmPassword: yup
-            .string()
-            .oneOf([yup.ref('password'), null], 'Passwords must match')
-            .required('Must confirm entered password'),
 
         // Business Information
         abn: yup.string().required('Must provide ABN'),
@@ -244,8 +233,8 @@ export const AddCustomIndustryForm = ({
                                 label={'Sector'}
                                 {...(storedData
                                     ? {
-                                        defaultValue: storedData.sectors,
-                                    }
+                                          defaultValue: storedData.sectors,
+                                      }
                                     : {})}
                                 name={'sectors'}
                                 options={sectorOptions}
@@ -283,26 +272,6 @@ export const AddCustomIndustryForm = ({
                                 onBlur={onEmailChange}
                                 loading={emailCheckResult.isLoading}
                             />
-
-                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-8">
-                                <TextInput
-                                    label={'Password'}
-                                    name={'password'}
-                                    type={'password'}
-                                    placeholder={'Password...'}
-                                    validationIcons
-                                    required
-                                />
-
-                                <TextInput
-                                    label={'Confirm Password'}
-                                    name={'confirmPassword'}
-                                    type={'password'}
-                                    placeholder={'Confirm Password...'}
-                                    validationIcons
-                                    required
-                                />
-                            </div>
                         </div>
 
                         {/* Address Information */}
@@ -348,13 +317,19 @@ export const AddCustomIndustryForm = ({
                                     label={
                                         <>
                                             I agree with{' '}
-                                            <Link legacyBehavior href="/terms-and-conditions">
+                                            <Link
+                                                legacyBehavior
+                                                href="/terms-and-conditions"
+                                            >
                                                 <a className="text-link">
                                                     Terms
                                                 </a>
                                             </Link>{' '}
                                             {'&'}{' '}
-                                            <Link legacyBehavior href="/privacy-policy">
+                                            <Link
+                                                legacyBehavior
+                                                href="/privacy-policy"
+                                            >
                                                 <a className="text-link">
                                                     Privacy Policy
                                                 </a>
