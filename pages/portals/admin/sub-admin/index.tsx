@@ -49,7 +49,9 @@ const SubAdminList: NextPageWithLayout = () => {
         skip: itemPerPage * page - itemPerPage,
         limit: itemPerPage,
     })
-    const { isLoading, data } = AdminApi.SubAdmins.useCountQuery()
+    const { isLoading, data } = AdminApi.SubAdmins.useCountQuery(undefined, {
+        refetchOnFocus: true,
+    })
 
     useEffect(() => {
         navBar.setTitle('Sub-Admins')

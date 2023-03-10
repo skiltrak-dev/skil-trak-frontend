@@ -1,16 +1,15 @@
-import { AdminApi } from '@queries'
-import { SubAdmin, UserStatus } from '@types'
+import { CommonApi } from '@queries'
+import { SubAdmin, User, UserStatus } from '@types'
 
 export const useChangeStatus = () => {
-    const [changeStatus, changeStatusResult] =
-        AdminApi.Industries.useStatusChange()
+    const [changeStatus, changeStatusResult] = CommonApi.User.changeUserStatus()
 
-    const onAccept = async (subAdmin: SubAdmin) => {
-        await changeStatus({ id: subAdmin.id, status: UserStatus.Approved })
+    const onAccept = async (user: User) => {
+        await changeStatus({ id: user?.id, status: UserStatus.Approved })
     }
 
-    const onArchive = async (subAdmin: SubAdmin) => {
-        await changeStatus({ id: subAdmin.id, status: UserStatus.Archived })
+    const onArchive = async (user: User) => {
+        await changeStatus({ id: user?.id, status: UserStatus.Archived })
     }
 
     const onReject = async (subAdmin: SubAdmin) => {

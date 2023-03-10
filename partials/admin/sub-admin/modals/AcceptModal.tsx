@@ -19,7 +19,7 @@ export const AcceptModal = ({
     const { onAccept, changeStatusResult } = useChangeStatus()
 
     const onConfirmUClicked = async (subAdmin: SubAdmin) => {
-        await onAccept(subAdmin)
+        await onAccept(subAdmin?.user)
     }
 
     useEffect(() => {

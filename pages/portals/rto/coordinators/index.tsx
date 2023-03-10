@@ -31,6 +31,7 @@ import { DeleteModal } from '@partials/admin/sub-admin/modals'
 type Props = {}
 
 const RtoCoordinators: NextPageWithLayout = (props: Props) => {
+    const [changeStatusResult, setChangeStatusResult] = useState<any>({})
     const [modal, setModal] = useState<ReactElement | null>(null)
     const { notification } = useNotification()
 
@@ -111,6 +112,7 @@ const RtoCoordinators: NextPageWithLayout = (props: Props) => {
             <DeleteModal
                 subAdmin={subAdmin}
                 onCancel={() => onModalCancelClicked()}
+                setChangeStatusResult={setChangeStatusResult}
             />
         )
     }
@@ -146,7 +148,7 @@ const RtoCoordinators: NextPageWithLayout = (props: Props) => {
                         href={`/portals/rto/coordinators/${row.original.id}`}
                         className="flex items-center gap-x-2 relative"
                     >
-                        <a className='flex items-center gap-x-1'>
+                        <a className="flex items-center gap-x-1">
                             <InitialAvatar name={name} imageUrl={avatar} />
                             <div>
                                 <Typography color={'black'}>

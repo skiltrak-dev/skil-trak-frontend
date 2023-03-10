@@ -10,17 +10,23 @@ import { useChangeStatus } from '../hooks'
 export const ArchiveModal = ({
     item,
     onCancel,
+    setChangeStatusResult,
 }: {
     item: SubAdmin | undefined
     onCancel: Function
+    setChangeStatusResult: any
 }) => {
     const { alert } = useAlert()
     const { notification } = useNotification()
     const { onArchive, changeStatusResult } = useChangeStatus()
 
     const onConfirmClicked = async (item: SubAdmin) => {
-        await onArchive(item)
+        await onArchive(item?.user)
     }
+
+    useEffect(() => {
+        setChangeStatusResult(changeStatusResult)
+    }, [changeStatusResult])
 
     useEffect(() => {
         if (changeStatusResult.isSuccess) {
