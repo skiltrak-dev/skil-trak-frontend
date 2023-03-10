@@ -106,4 +106,11 @@ export const subAdminEndpoints = (
         query: (id) => `${PREFIX}/summary-report/generate/${id}`,
         providesTags: ['SubAdmins'],
     }),
+    subadminRemove: builder.mutation({
+        query: (id) => ({
+            url: `${PREFIX}/subadmin/remove/${id}`,
+            method: 'DELETE',
+        }),
+        invalidatesTags: ['SubAdmins'],
+    }),
 })

@@ -47,6 +47,7 @@ export const StudentProfile = ({ noTitle }: { noTitle?: boolean }) => {
     const { data, isLoading, isError, isSuccess, refetch } =
         useGetSubAdminStudentDetailQuery(Number(id), {
             skip: !id,
+            refetchOnMountOrArgChange: true,
         })
     const [notContactable, notContactableResult] =
         SubAdminApi.Student.useNotContactable()

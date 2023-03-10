@@ -29,18 +29,17 @@ import { PinnedNotes } from '@partials'
 import { ArchiveModal, BlockModal } from '@partials/admin/sub-admin/modals'
 
 const SubAdminDetail: NextPageWithLayout = () => {
+    const [changeStatusResult, setChangeStatusResult] = useState<any>({})
     const router = useRouter()
     const navBar = useNavbar()
     const contextBar = useContextBar()
 
     const [modal, setModal] = useState<ReactElement | null>(null)
 
-    const { data, isLoading, isError } = AdminApi.SubAdmins.useRtoProfile(
-        Number(router.query.id),
-        {
+    const { data, isLoading, isError, refetch } =
+        AdminApi.SubAdmins.useRtoProfile(Number(router.query.id), {
             skip: !router.query?.id,
-        }
-    )
+        })
     const count = AdminApi.SubAdmins.useProfileCount(Number(data?.user?.id), {
         skip: !data,
     })
@@ -51,6 +50,12 @@ const SubAdminDetail: NextPageWithLayout = () => {
         contextBar.hide()
     }, [data])
 
+    useEffect(() => {
+        if (changeStatusResult.isSuccess) {
+            refetch()
+        }
+    }, [changeStatusResult])
+
     const onModalCancelClicked = () => {
         setModal(null)
     }
@@ -59,6 +64,7 @@ const SubAdminDetail: NextPageWithLayout = () => {
             <ArchiveModal
                 item={subAdmin}
                 onCancel={() => onModalCancelClicked()}
+                setChangeStatusResult={setChangeStatusResult}
             />
         )
     }

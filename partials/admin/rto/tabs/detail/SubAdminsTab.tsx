@@ -16,7 +16,7 @@ import { FaEdit, FaEye, FaFileExport } from 'react-icons/fa'
 
 import { AdminApi } from '@queries'
 import { MdBlock, MdEmail, MdPhoneIphone } from 'react-icons/md'
-import { ReactElement, useState } from 'react'
+import { ReactElement, useEffect, useState } from 'react'
 
 import { Rto, SubAdmin } from '@types'
 import { useContextBar } from '@hooks'
@@ -25,6 +25,7 @@ import { SubAdminCell } from '@partials/admin/sub-admin'
 import { DeleteModal } from '@partials/admin/sub-admin/modals'
 
 export const SubAdminsTab = ({ rto }: any) => {
+    const [changeStatusResult, setChangeStatusResult] = useState<any>({})
     const router = useRouter()
 
     const [modal, setModal] = useState<ReactElement | null>(null)
@@ -33,11 +34,17 @@ export const SubAdminsTab = ({ rto }: any) => {
     const [itemPerPage, setItemPerPage] = useState(50)
     const [page, setPage] = useState(1)
     const [filter, setFilter] = useState({})
-    const { isLoading, data } = AdminApi.Rtos.useRtoProfileSubAdmins({
+    const { isLoading, data, refetch } = AdminApi.Rtos.useRtoProfileSubAdmins({
         id: rto?.data?.user?.id,
         skip: itemPerPage * page - itemPerPage,
         limit: itemPerPage,
     })
+
+    useEffect(() => {
+        if (changeStatusResult.isSuccess) {
+            refetch()
+        }
+    }, [changeStatusResult])
 
     const onModalCancelClicked = () => {
         setModal(null)
@@ -45,6 +52,7 @@ export const SubAdminsTab = ({ rto }: any) => {
     const onDeleteClicked = (subAdmin: SubAdmin) => {
         setModal(
             <DeleteModal
+                setChangeStatusResult={setChangeStatusResult}
                 subAdmin={subAdmin}
                 onCancel={() => onModalCancelClicked()}
             />

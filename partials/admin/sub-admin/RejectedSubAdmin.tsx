@@ -16,7 +16,7 @@ import { ColumnDef } from '@tanstack/react-table'
 import { FaEdit, FaEye, FaFileExport, FaTrash } from 'react-icons/fa'
 
 import { AdminApi } from '@queries'
-import { Industry, SubAdmin } from '@types'
+import { Industry, SubAdmin, UserStatus } from '@types'
 import { ReactElement, useState, useEffect } from 'react'
 import { SubAdminCell } from './components'
 import { AcceptModal, DeleteModal } from './modals'
@@ -26,6 +26,7 @@ import { RiLockPasswordFill } from 'react-icons/ri'
 
 export const RejectedSubAdmin = () => {
     const router = useRouter()
+    const [changeStatusResult, setChangeStatusResult] = useState<any>({})
     const [modal, setModal] = useState<ReactElement | null>(null)
 
     const [filterAction, setFilterAction] = useState(null)
@@ -41,15 +42,21 @@ export const RejectedSubAdmin = () => {
     // hooks
     const { passwordModal, onViewPassword } = useActionModal()
 
-    const { isLoading, data, isError } = AdminApi.SubAdmins.useListQuery({
-        search: `status:rejected,${JSON.stringify(filter)
-            .replaceAll('{', '')
-            .replaceAll('}', '')
-            .replaceAll('"', '')
-            .trim()}`,
-        skip: itemPerPage * page - itemPerPage,
-        limit: itemPerPage,
-    })
+    const { isLoading, data, isError, refetch } =
+        AdminApi.SubAdmins.useListQuery({
+            search: `status:${UserStatus.Rejected},${JSON.stringify(filter)
+                .replaceAll('{', '')
+                .replaceAll('}', '')
+                .replaceAll('"', '')
+                .trim()}`,
+            skip: itemPerPage * page - itemPerPage,
+            limit: itemPerPage,
+        })
+    useEffect(() => {
+        if (changeStatusResult.isSuccess) {
+            refetch()
+        }
+    }, [changeStatusResult])
 
     const onModalCancelClicked = () => {
         setModal(null)
@@ -65,6 +72,7 @@ export const RejectedSubAdmin = () => {
     const onDeleteClicked = (subAdmin: SubAdmin) => {
         setModal(
             <DeleteModal
+                setChangeStatusResult={setChangeStatusResult}
                 subAdmin={subAdmin}
                 onCancel={() => onModalCancelClicked()}
             />

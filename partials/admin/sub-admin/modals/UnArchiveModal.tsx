@@ -5,33 +5,39 @@ import { useEffect } from 'react'
 import { CgUnblock } from 'react-icons/cg'
 import { useChangeStatus } from '../hooks'
 
-export const UnblockModal = ({
-    subAdmin,
+export const UnArchiveModal = ({
+    subadmin,
     onCancel,
+    setChangeStatusResult,
 }: {
-    subAdmin: SubAdmin
+    subadmin: SubAdmin | undefined | null
     onCancel: Function
+    setChangeStatusResult: any
 }) => {
     const { alert } = useAlert()
     const { notification } = useNotification()
     const { onAccept, changeStatusResult } = useChangeStatus()
 
-    const onConfirmClicked = async (subAdmin: SubAdmin) => {
-        await onAccept(subAdmin?.user)
+    const onConfirmClicked = async (subadmin: SubAdmin) => {
+        await onAccept(subadmin?.user)
     }
+
+    useEffect(() => {
+        setChangeStatusResult(changeStatusResult)
+    }, [changeStatusResult])
 
     useEffect(() => {
         if (changeStatusResult.isSuccess) {
             alert.warning({
-                title: `subAdmin Unblocked`,
-                description: `subAdmin "${subAdmin.user.name}" has been unblocked.`,
+                title: `Subadmin Un Archived`,
+                description: `Subadmin "${subadmin?.user?.name}" has been UnArchived.`,
             })
             onCancel()
         }
         if (changeStatusResult.isError) {
             notification.error({
                 title: 'Request Failed',
-                description: `Your request for unblocking subAdmin was failed`,
+                description: `Your request for UnArchived Subadmin was failed`,
             })
         }
     }, [changeStatusResult])
@@ -41,12 +47,12 @@ export const UnblockModal = ({
             Icon={CgUnblock}
             variant="primary"
             title="Are you sure!"
-            description={`You are about to unblock <em>"${subAdmin.user.name}"</em>. Do you wish to continue?`}
+            description={`You are about to UnArchived <em>"${subadmin?.user?.name}"</em>. Do you wish to continue?`}
             onConfirm={onConfirmClicked}
             onCancel={onCancel}
             input
-            inputKey={subAdmin.user.email}
-            actionObject={subAdmin}
+            inputKey={subadmin?.user?.email}
+            actionObject={subadmin}
             loading={changeStatusResult.isLoading}
         />
     )

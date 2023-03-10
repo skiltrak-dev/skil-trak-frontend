@@ -181,12 +181,13 @@ const {
 
     // ------ SUB ADMINS ------ //
     useSubAdminsQuery,
+    useViewSummaryQuery,
     useSubAdminCountQuery,
-    useSubAdminProfileCountQuery,
     useSubAdminProfileQuery,
+    useSubadminRemoveMutation,
     useCreateSubAdminMutation,
     useUpdateSubAdminMutation,
-    useViewSummaryQuery,
+    useSubAdminProfileCountQuery,
 
     useSubAdminCoursesQuery,
     useSubAdminAssignCoursesMutation,
@@ -297,6 +298,7 @@ export const AdminApi = {
         createSubAmin: useCreateSubAdminMutation,
         useRtoProfile: useSubAdminProfileQuery,
         useUpdate: useUpdateSubAdminMutation,
+        useRemove: useSubadminRemoveMutation,
 
         useCourses: useSubAdminCoursesQuery,
         useAssignCourses: useSubAdminAssignCoursesMutation,

@@ -15,16 +15,19 @@ import { SubAdminCell } from './components'
 import { PageHeading } from '@components/headings'
 import { AdminApi, commonApi } from '@queries'
 import { ColumnDef } from '@tanstack/react-table'
-import { SubAdmin } from '@types'
+import { SubAdmin, UserStatus } from '@types'
 import { useRouter } from 'next/router'
-import { useEffect, useState } from 'react'
+import { ReactElement, useEffect, useState } from 'react'
 import { FaEdit, FaEye, FaFileExport, FaTrash } from 'react-icons/fa'
 import { MdUnarchive } from 'react-icons/md'
 import { useActionModal, useContextBar } from '@hooks'
 import { AddSubAdminCB } from './contextBar'
 import { RiLockPasswordFill } from 'react-icons/ri'
+import { DeleteModal, UnArchiveModal } from './modals'
 
 export const ArchivedSubAdmin = () => {
+    const [modal, setModal] = useState<ReactElement | null>(null)
+    const [changeStatusResult, setChangeStatusResult] = useState<any>({})
     const router = useRouter()
     const contextBar = useContextBar()
     const [itemPerPage, setItemPerPage] = useState(50)
@@ -38,17 +41,48 @@ export const ArchivedSubAdmin = () => {
     // hooks
     const { passwordModal, onViewPassword } = useActionModal()
 
-    const { isLoading, data, isError } = AdminApi.SubAdmins.useListQuery({
-        search: `status:archived`,
-        skip: itemPerPage * page - itemPerPage,
-        limit: itemPerPage,
-    })
+    const { isLoading, data, isError, refetch } =
+        AdminApi.SubAdmins.useListQuery({
+            search: `status:${UserStatus.Archived}`,
+            skip: itemPerPage * page - itemPerPage,
+            limit: itemPerPage,
+        })
     const [bulkAction, resultBulkAction] = commonApi.useBulkStatusMutation()
+
+    useEffect(() => {
+        if (changeStatusResult.isSuccess) {
+            refetch()
+        }
+    }, [changeStatusResult])
 
     const onEditSubAdmin = (subAdmin: SubAdmin) => {
         contextBar.setContent(<AddSubAdminCB edit subAdmin={subAdmin} />)
         contextBar.setTitle('Edit SubAdmin')
         contextBar.show()
+    }
+
+    const onModalCancelClicked = () => {
+        setModal(null)
+    }
+
+    const onUnArchivedClicked = (subAdmin: SubAdmin) => {
+        setModal(
+            <UnArchiveModal
+                subadmin={subAdmin}
+                onCancel={onModalCancelClicked}
+                setChangeStatusResult={setChangeStatusResult}
+            />
+        )
+    }
+
+    const onDeleteClicked = (subAdmin: SubAdmin) => {
+        setModal(
+            <DeleteModal
+                subAdmin={subAdmin}
+                onCancel={onModalCancelClicked}
+                setChangeStatusResult={setChangeStatusResult}
+            />
+        )
     }
 
     const tableActionOptions: TableActionOption[] = [
@@ -75,13 +109,13 @@ export const ArchivedSubAdmin = () => {
         },
         {
             text: 'Unarchive',
-            onClick: () => {},
+            onClick: (subadmin: SubAdmin) => onUnArchivedClicked(subadmin),
             Icon: MdUnarchive,
             color: 'text-orange-500 hover:bg-orange-100 hover:border-orange-200',
         },
         {
             text: 'Delete',
-            onClick: () => {},
+            onClick: (subadmin: SubAdmin) => onDeleteClicked(subadmin),
             Icon: FaTrash,
             color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
         },
@@ -173,66 +207,72 @@ export const ArchivedSubAdmin = () => {
     }
 
     return (
-        <div className="flex flex-col gap-y-4 mb-32">
-            <PageHeading
-                title={'Archived Sub Admin'}
-                subtitle={'List of Archived Sub Admin'}
-            >
-                {data && data?.data.length ? (
-                    <Button
-                        text="Export"
-                        variant="action"
-                        Icon={FaFileExport}
-                    />
-                ) : null}
-            </PageHeading>
-
-            <Card noPadding>
-                {isError && <TechnicalError />}
-                {isLoading ? (
-                    <LoadingAnimation height="h-[60vh]" />
-                ) : data && data?.data.length ? (
-                    <Table
-                        columns={columns}
-                        data={data.data}
-                        quickActions={quickActionsElements}
-                        enableRowSelection
-                    >
-                        {({
-                            table,
-                            pagination,
-                            pageSize,
-                            quickActions,
-                        }: any) => {
-                            return (
-                                <div>
-                                    <div className="p-6 mb-2 flex justify-between">
-                                        {pageSize(itemPerPage, setItemPerPage)}
-                                        <div className="flex gap-x-2">
-                                            {quickActions}
-                                            {pagination(
-                                                data?.pagination,
-                                                setPage
-                                            )}
-                                        </div>
-                                    </div>
-                                    <div className="px-6">{table}</div>
-                                </div>
-                            )
-                        }}
-                    </Table>
-                ) : (
-                    !isError && (
-                        <EmptyData
-                            title={'No Archived SubAdmin!'}
-                            description={
-                                'You have not archived any SubAdmin request yet'
-                            }
-                            height={'50vh'}
+        <>
+            {modal}
+            <div className="flex flex-col gap-y-4 mb-32">
+                <PageHeading
+                    title={'Archived Sub Admin'}
+                    subtitle={'List of Archived Sub Admin'}
+                >
+                    {data && data?.data.length ? (
+                        <Button
+                            text="Export"
+                            variant="action"
+                            Icon={FaFileExport}
                         />
-                    )
-                )}
-            </Card>
-        </div>
+                    ) : null}
+                </PageHeading>
+
+                <Card noPadding>
+                    {isError && <TechnicalError />}
+                    {isLoading ? (
+                        <LoadingAnimation height="h-[60vh]" />
+                    ) : data && data?.data.length ? (
+                        <Table
+                            columns={columns}
+                            data={data.data}
+                            quickActions={quickActionsElements}
+                            enableRowSelection
+                        >
+                            {({
+                                table,
+                                pagination,
+                                pageSize,
+                                quickActions,
+                            }: any) => {
+                                return (
+                                    <div>
+                                        <div className="p-6 mb-2 flex justify-between">
+                                            {pageSize(
+                                                itemPerPage,
+                                                setItemPerPage
+                                            )}
+                                            <div className="flex gap-x-2">
+                                                {quickActions}
+                                                {pagination(
+                                                    data?.pagination,
+                                                    setPage
+                                                )}
+                                            </div>
+                                        </div>
+                                        <div className="px-6">{table}</div>
+                                    </div>
+                                )
+                            }}
+                        </Table>
+                    ) : (
+                        !isError && (
+                            <EmptyData
+                                title={'No Archived SubAdmin!'}
+                                description={
+                                    'You have not archived any SubAdmin request yet'
+                                }
+                                height={'50vh'}
+                            />
+                        )
+                    )}
+                </Card>
+            </div>
+        </>
     )
 }
