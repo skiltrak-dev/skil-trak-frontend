@@ -2,6 +2,14 @@ import { Course } from '@types'
 import { BaseResponse } from './base.type'
 import { Note } from './note.type'
 
+export enum StudentStatusEnum {
+    ACTIVE = 'active',
+    TERMINATED = 'terminated',
+    COMPLETED = 'completed',
+    CANCELLED = 'cancelled',
+    EXPIRED = 'expired',
+}
+
 export enum UserStatus {
     Pending = 'pending',
     Approved = 'approved',
@@ -63,7 +71,7 @@ export interface Student extends BaseResponse {
     user: User
     rto: Rto
     location: string
-    studentStatus: string
+    studentStatus: StudentStatusEnum
     courses: Course[]
     assessmentEvidence: any[]
     workplace: any

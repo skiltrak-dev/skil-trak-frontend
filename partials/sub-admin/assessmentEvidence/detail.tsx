@@ -29,6 +29,7 @@ import { getCourseResult, getUserCredentials } from '@utils'
 import { FileUpload } from '@hoc'
 import { UploadFile } from '@components/sections/student/AssessmentsContainer/AssessmentsEvidence/AssessmentFolderDetailX/UploadFile'
 import { getDocType } from '@components/sections/student/AssessmentsContainer'
+import { useRouter } from 'next/router'
 
 export const Detail = ({
     studentId,
@@ -37,6 +38,8 @@ export const Detail = ({
     studentId: string | string[] | undefined
     studentUserId: string | string[] | undefined
 }) => {
+    const router = useRouter()
+
     const [selectedCourse, setSelectedCourse] = useState<any | null>(null)
     const [selectedFolder, setSelectedFolder] = useState<any | null>(null)
     const [manualReOpen, setManualReOpen] = useState<boolean>(false)
@@ -73,7 +76,11 @@ export const Detail = ({
     console.log(downloadFilesResult)
     useEffect(() => {
         if (downloadFilesResult.isSuccess) {
-            window.open(downloadFilesResult?.data?.url)
+            console.log(
+                "downloadFilesResult?.data?.url, '_blank' SUCCESS",
+                downloadFilesResult.isSuccess
+            )
+            router.push(downloadFilesResult?.data?.url)
         }
     }, [downloadFilesResult])
 

@@ -97,7 +97,15 @@ export const Alert = ({
                 <div className={`${theme[variant].text}`}>
                     <p className="font-semibold">{title}</p>
                 </div>
-                <p className="text-sm">{description}</p>
+                <span
+                    className="break-all block mr-6"
+                    dangerouslySetInnerHTML={{
+                        __html: description,
+                    }}
+                >
+                    {/* {message?.message} */}
+                </span>
+                {/* <p className="text-sm">{description}</p> */}
             </div>
 
             {dismiss && (
