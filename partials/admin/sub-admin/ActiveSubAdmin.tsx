@@ -17,7 +17,7 @@ import { ColumnDef } from '@tanstack/react-table'
 import { FaEdit, FaEye, FaFileExport } from 'react-icons/fa'
 
 import { AdminApi, commonApi } from '@queries'
-import { SubAdmin } from '@types'
+import { SubAdmin, UserStatus } from '@types'
 import { useRouter } from 'next/router'
 import { ReactElement, useEffect, useState } from 'react'
 import { RtoCell, SectorCell, SubAdminCell } from './components'
@@ -30,6 +30,7 @@ import { RiLockPasswordFill } from 'react-icons/ri'
 
 export const ActiveSubAdmin = () => {
     const [modal, setModal] = useState<ReactElement | null>(null)
+    const [changeStatusResult, setChangeStatusResult] = useState<any>({})
     const router = useRouter()
 
     const contextBar = useContextBar()
@@ -45,12 +46,24 @@ export const ActiveSubAdmin = () => {
     // hooks
     const { passwordModal, onViewPassword } = useActionModal()
 
-    const { isLoading, data, isError } = AdminApi.SubAdmins.useListQuery({
-        search: `status:approved`,
-        skip: itemPerPage * page - itemPerPage,
-        limit: itemPerPage,
-    })
+    const { isLoading, data, isError, refetch } =
+        AdminApi.SubAdmins.useListQuery(
+            {
+                search: `status:${UserStatus.Approved}`,
+                skip: itemPerPage * page - itemPerPage,
+                limit: itemPerPage,
+            },
+            {
+                refetchOnMountOrArgChange: true,
+            }
+        )
     const [bulkAction, resultBulkAction] = commonApi.useBulkStatusMutation()
+
+    useEffect(() => {
+        if (changeStatusResult.isSuccess) {
+            refetch()
+        }
+    }, [changeStatusResult])
 
     const onModalCancelClicked = () => {
         setModal(null)
@@ -60,6 +73,7 @@ export const ActiveSubAdmin = () => {
             <ArchiveModal
                 item={subAdmin}
                 onCancel={() => onModalCancelClicked()}
+                setChangeStatusResult={setChangeStatusResult}
             />
         )
     }

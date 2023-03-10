@@ -11,7 +11,7 @@ import { allCommunicationEndpoints } from './allCommunication'
 import { changeProfileImageEndpoints } from './changeProfileImage'
 import { notificationsEndpoints } from './notifications'
 
-import { AdminStats } from '@types'
+import { AdminStats, UserStatus } from '@types'
 import { emptySplitApi } from '@queries/portals/empty.query'
 
 // export const commonApi = emptySplitApi.injectEndpoints({
@@ -44,6 +44,7 @@ export const commonApi = createApi({
         'MailCount',
         'MailsRecent',
         'RecentActivities',
+        'User',
     ],
 
     // ---------- RTO ENDPOINTS ---------- //
@@ -80,15 +81,28 @@ export const commonApi = createApi({
             providesTags: ['RecentActivities'],
         }),
 
+        changeUserStatus: build.mutation<
+            any,
+            { id: number; status: UserStatus }
+        >({
+            query: ({ id, status }) => ({
+                url: `shared/user/status/update`,
+                method: 'PATCH',
+                params: { id },
+                body: { status },
+            }),
+            invalidatesTags: ['User'],
+        }),
+
         ...rtosEndpoints(build),
         ...notesEndpoints(build),
         ...mailsEndpoints(build),
         ...coursesEndpoints(build),
         ...industriesEndpoints(build),
         ...appointmentsEndpoints(build),
+        ...notificationsEndpoints(build),
         ...allCommunicationEndpoints(build),
         ...changeProfileImageEndpoints(build),
-        ...notificationsEndpoints(build),
     }),
     // overrideExisting: true,
 })
@@ -150,6 +164,9 @@ const {
 
     // ---- DOCUMENTS ---- //
     useGetDocumentsQuery,
+
+    // ---- USER ---- //
+    useChangeUserStatusMutation,
 } = commonApi
 
 export const CommonApi = {
@@ -209,5 +226,8 @@ export const CommonApi = {
     },
     RecentActivities: {
         useRecentActivities: useGetRecentActivitiesQuery,
+    },
+    User: {
+        changeUserStatus: useChangeUserStatusMutation,
     },
 }

@@ -58,14 +58,12 @@ export const industryEndpoints = (
         any,
         { id: number; status: UserStatus }
     >({
-        query: ({ id, status }) => {
-            return {
-                url: `${PREFIX}industries/status`,
-                method: 'PATCH',
-                params: { id },
-                body: { status },
-            }
-        },
+        query: ({ id, status }) => ({
+            url: `${PREFIX}industries/status`,
+            method: 'PATCH',
+            params: { id },
+            body: { status },
+        }),
         invalidatesTags: ['Industries'],
     }),
 
