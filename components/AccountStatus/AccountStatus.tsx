@@ -53,9 +53,6 @@ export const AccountStatus = ({ status }: AccountStatusProps) => {
     const router = useRouter()
     const role = AuthUtils.getUserCredentials().role
 
-    // const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
-    // let stripePromise: Promise<Stripe | null>;
-    // const stripe = await loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!);
     const [checkoutSession, checkoutSessionResult] =
         useCreateCheckoutSessionMutation()
 
@@ -145,6 +142,14 @@ export const AccountStatus = ({ status }: AccountStatusProps) => {
                         <div>
                             <div className="my-2">
                                 <Button
+                                    disabled={
+                                        checkoutSessionResult.isLoading ||
+                                        checkoutSessionResult.isSuccess
+                                    }
+                                    loading={
+                                        checkoutSessionResult.isLoading ||
+                                        checkoutSessionResult.isSuccess
+                                    }
                                     text={'Agree & Continue'}
                                     onClick={() => onAgreeAndContinueClicked()}
                                 />
