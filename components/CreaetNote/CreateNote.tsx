@@ -1,5 +1,26 @@
+import { Controller, FormProvider, useForm } from 'react-hook-form'
+import dynamic from 'next/dynamic'
 import { useEffect, useState } from 'react'
-import { FormProvider, useForm } from 'react-hook-form'
+
+import { EditorProps } from 'react-draft-wysiwyg'
+const Editor = dynamic<EditorProps>(
+    () => import('react-draft-wysiwyg').then((mod) => mod.Editor),
+    {
+        ssr: false,
+    }
+)
+
+const htmlToDraft =
+    typeof window === 'object' && require('html-to-draftjs').default
+
+import {
+    ContentState,
+    convertFromHTML,
+    convertToRaw,
+    EditorState,
+} from 'draft-js'
+import draftToHtml from 'draftjs-to-html'
+import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css'
 
 // components
 import {
@@ -17,6 +38,7 @@ import { useContextBar } from '@hooks'
 // query
 import { CommonApi } from '@queries'
 import { useNotification } from 'hooks'
+import { NoteEditor } from './NoteEditor'
 
 export const CreateNote = ({
     action,
@@ -65,10 +87,11 @@ export const CreateNote = ({
     // }, [updateNoteResult.isSuccess])
 
     const onSubmit = (values: any) => {
+        const body = draftToHtml(convertToRaw(values?.body.getCurrentContent()))
         if (editing) {
             // updateNote({ ...values, postedFor: receiverId, id: editValues?.id })
         } else {
-            createNote({ ...values, postedFor: receiverId })
+            createNote({ ...values, body, postedFor: receiverId })
         }
 
         // setTesting(resetForm);
@@ -123,20 +146,12 @@ export const CreateNote = ({
                                     validationIcons
                                 />
 
-                                <TextArea
-                                    label={'Message'}
-                                    name={'body'}
-                                    placeholder={'Note Message ...'}
-                                    rows={5}
-                                />
-                                {/* <div>
-                                    <ContentEditor
-                                        label="Message"
-                                        content={noteContent}
-                                        setContent={setNoteContent}
-                                        result={createNoteResult}
+                                <div className="mb-3">
+                                    <NoteEditor
+                                        name={'body'}
+                                        label={'Message'}
                                     />
-                                </div> */}
+                                </div>
 
                                 <Select
                                     name={'templates'}

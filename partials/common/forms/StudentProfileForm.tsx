@@ -15,7 +15,7 @@ import {
 } from '@components'
 
 // utils
-import { getDate, onlyAlphabets } from '@utils'
+import { getDate, isBrowser, onlyAlphabets } from '@utils'
 import { AuthApi } from '@queries'
 import { Course, Sector } from '@types'
 import { useActionModal, useNotification } from '@hooks'
@@ -95,6 +95,8 @@ export const StudentProfileForm = ({
             onSectorChanged(sectorDefaultOptions, true)
         }
     }, [sectorDefaultOptions, sectorResponse])
+
+    // console.log('document.referrerdocument.referrer', document.referrer)
 
     useEffect(() => {
         if (result.isSuccess) {

@@ -120,6 +120,10 @@ const Students: NextPageWithLayout = (props: Props) => {
         },
         {
             label: 'My Students',
+            badge: {
+                text: studentCount?.myStudents,
+                loading: count.isLoading,
+            },
             href: { pathname: 'students', query: { tab: 'my-students' } },
             element: <MyStudents />,
         },
@@ -211,9 +215,7 @@ const Students: NextPageWithLayout = (props: Props) => {
                             itemPerPage={itemPerPage}
                             student={filteredStudents}
                             setItemPerPage={setItemPerPage}
-
                         />
-                    
                     )
                 )
             ) : null}

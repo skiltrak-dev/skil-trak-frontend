@@ -355,16 +355,13 @@ export const StudentSignUpForm = ({ onSubmit }: { onSubmit: any }) => {
                                 name={'courses'}
                                 defaultValue={courseOptions}
                                 options={courseOptions}
-                                multi
-                                onChange={(e: SelectOption[]) => {
-                                    setCourseOptions(e)
-                                }}
                                 loading={courseLoading}
                                 disabled={
                                     storedData
                                         ? storedData?.courses?.length === 0
                                         : courseOptions?.length === 0
                                 }
+                                multi
                                 validationIcons
                             />
                         </div>

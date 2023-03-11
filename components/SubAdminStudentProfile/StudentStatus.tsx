@@ -11,7 +11,7 @@ import {
     useCancelWorkplaceStatusMutation,
     SubAdminApi,
 } from '@queries'
-import { UserStatus } from '@types'
+import { StudentStatusEnum, UserStatus } from '@types'
 import { Typography } from '@components/Typography'
 import { useNotification } from '@hooks'
 import { FormProvider, useForm } from 'react-hook-form'
@@ -23,7 +23,7 @@ export const StudentStatus = ({
     currentStatus,
 }: {
     id: number
-    currentStatus: string
+    currentStatus: StudentStatusEnum
 }) => {
     const [edit, setEdit] = useState(false)
 
@@ -84,6 +84,23 @@ export const StudentStatus = ({
         terminateResult?.isLoading ||
         completeResult?.isLoading ||
         cancelResult?.isLoading
+
+    const statusColor = () => {
+        switch (currentStatus) {
+            case StudentStatusEnum.ACTIVE:
+                return 'text-blue-500'
+            case StudentStatusEnum.COMPLETED:
+                return 'text-success'
+            case StudentStatusEnum.CANCELLED:
+                return 'text-error'
+            case StudentStatusEnum.EXPIRED:
+                return 'text-error'
+            case StudentStatusEnum.TERMINATED:
+                return 'text-error'
+            default:
+                return
+        }
+    }
 
     return (
         <>
@@ -178,12 +195,12 @@ export const StudentStatus = ({
                         </div>
                     ) : (
                         <div className="flex items-center justify-between w-full mt-2">
-                            <div className="text-indigo-500 text-sm font-semibold">
+                            {/* <div className="text-indigo-500 text-sm font-semibold">
                                 Current Status
-                            </div>
+                            </div> */}
                             <Typography
                                 variant={'label'}
-                                color={'text-gray-500'}
+                                color={statusColor()}
                                 capitalize
                             >
                                 {currentStatus}

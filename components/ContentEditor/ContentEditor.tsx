@@ -12,7 +12,12 @@ const Editor = dynamic<EditorProps>(
 const htmlToDraft =
     typeof window === 'object' && require('html-to-draftjs').default
 
-import { ContentState, convertToRaw, EditorState } from 'draft-js'
+import {
+    ContentState,
+    convertFromHTML,
+    convertToRaw,
+    EditorState,
+} from 'draft-js'
 import draftToHtml from 'draftjs-to-html'
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css'
 
@@ -44,6 +49,22 @@ export const ContentEditor = ({
     const [contentState, setContentState] = useState(EditorState.createEmpty())
     const [contentChange, setContentChange] = useState(false)
 
+    console.log('editorStateeditorState', editorState)
+    useEffect(() => {
+        if (result.isSuccess) {
+            console.log('Success')
+            // const editState = EditorState.push(
+            //     editorState,
+            //     ContentState.createFromText(''),
+            //     'remove-range'
+            // )
+            setEditorState(convertToRaw(ContentState.createFromText('')))
+            // setContentState(convertToRaw(ContentState.createFromText('')))
+            // setEditorState(editState)
+            // setContentState(editState)
+        }
+    }, [result])
+
     useEffect(() => {
         if (setContent) {
             setContent(
@@ -56,12 +77,12 @@ export const ContentEditor = ({
         }
     }, [contentState])
 
-    useEffect(() => {
-        if (result.isSuccess) {
-            setEditorState(null)
-            setContentState(EditorState.createEmpty())
-        }
-    }, [result])
+    // useEffect(() => {
+    //     if (result.isSuccess) {
+    //         setEditorState(null)
+    //         setContentState(EditorState.createEmpty())
+    //     }
+    // }, [result])
 
     const onEditorStateChange = (editorState: any) => {
         setEditorState(editorState)
