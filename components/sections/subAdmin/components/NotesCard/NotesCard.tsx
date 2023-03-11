@@ -99,7 +99,13 @@ export const NotesCard = ({ note, pinnedNote, setEditValues }: any) => {
                     </div> */}
 
                     <div className="text-sm">
-                        {pinnedNote ? ellipsisText(note.body, 160) : note.body}
+                        <div
+                            dangerouslySetInnerHTML={{
+                                __html: pinnedNote
+                                    ? ellipsisText(note.body, 120)
+                                    : note.body,
+                            }}
+                        />
                     </div>
 
                     {/*  */}

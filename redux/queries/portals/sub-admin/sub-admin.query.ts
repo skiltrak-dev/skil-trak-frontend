@@ -87,6 +87,7 @@ export const {
     useNoteStatusChangeMutation,
 
     // ------ WORKPLACE------ //
+    useWorkplaceCountQuery,
     useAgrementSignMutation,
     useAssignCourseMutation,
     useStartPlacementMutation,
@@ -227,6 +228,7 @@ export const SubAdminApi = {
         useAddCustomWorkplace: useAddCustomSecondWorkplaceMutation,
     },
     Workplace: {
+        count: useWorkplaceCountQuery,
         assignCourse: useAssignCourseMutation,
         AgreementSign: useAgrementSignMutation,
         useStartPlacementMutation,

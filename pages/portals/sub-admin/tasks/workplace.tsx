@@ -33,6 +33,7 @@ const Workplace: NextPageWithLayout = (props: Props) => {
     const [itemPerPage, setItemPerPage] = useState(30)
     const [modal, setModal] = useState<any | null>(null)
 
+    const count = SubAdminApi.Workplace.count()
     const profile = SubAdminApi.SubAdmin.useProfile(undefined, {
         refetchOnMountOrArgChange: true,
     })
@@ -77,20 +78,36 @@ const Workplace: NextPageWithLayout = (props: Props) => {
         {
             label: 'All Requests',
             href: { pathname: 'workplace', query: { tab: 'all' } },
+            badge: {
+                text: count?.data?.all,
+                loading: count?.isLoading,
+            },
             element: <AllWorkplaces />,
         },
         {
             label: 'My Requests',
+            badge: {
+                text: count?.data?.myWorkplace,
+                loading: count?.isLoading,
+            },
             href: { pathname: 'workplace', query: { tab: 'my-workplaces' } },
             element: <MyWorkplaces />,
         },
         {
             label: 'Student Provided Workplace',
+            badge: {
+                text: count?.data?.studentProvided,
+                loading: count?.isLoading,
+            },
             href: { pathname: 'workplace', query: { tab: 'student-added' } },
             element: <StudentAddedWorkplaces />,
         },
         {
             label: 'Cancelled Requests',
+            badge: {
+                text: count?.data?.cancelled,
+                loading: count?.isLoading,
+            },
             href: { pathname: 'workplace', query: { tab: 'cancelled' } },
             element: <CancelledWorkplaces />,
         },
