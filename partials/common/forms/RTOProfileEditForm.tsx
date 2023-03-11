@@ -20,6 +20,8 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import { FormProvider, useForm } from 'react-hook-form'
 import { Course, Sector } from '@types'
 import { AuthApi } from '@queries'
+import { useNotification } from '@hooks'
+import { useRouter } from 'next/router'
 
 export const RTOProfileEditForm = ({
     onSubmit,
@@ -30,6 +32,8 @@ export const RTOProfileEditForm = ({
     profile: any
     result: any
 }) => {
+    const router = useRouter()
+
     const sectorResponse = AuthApi.useSectors({})
     const [sectorDefaultOptions, setSectorDefaultOptions] = useState<
         any | null
@@ -37,6 +41,8 @@ export const RTOProfileEditForm = ({
     const [sectors, setSectors] = useState<any | null>(null)
     const [courseOptions, setCourseOptions] = useState([])
     const [courseDefaultOptions, setCourseDefaultOptions] = useState([])
+
+    const { notification } = useNotification()
 
     const sectorOptions = sectorResponse?.data
         ? sectorResponse.data?.map((sector: any) => ({
@@ -67,6 +73,16 @@ export const RTOProfileEditForm = ({
             )
         }
     }, [sectors])
+
+    useEffect(() => {
+        if (result.isSuccess) {
+            notification.success({
+                title: 'Profile updated',
+                description: 'Profile Updated Successfully',
+            })
+            router.back()
+        }
+    }, [result])
 
     useEffect(() => {
         if (sectorDefaultOptions && sectorDefaultOptions?.length > 0) {

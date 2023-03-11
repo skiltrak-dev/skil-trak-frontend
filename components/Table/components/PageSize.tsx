@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react'
 
 interface PageSizeProps {
     table?: Table<any>
-    itemPerPage?: 5 | 10 | 20 | 30 | 40 | 50 | number
+    itemPerPage?: 1 | 5 | 10 | 20 | 30 | 40 | 50 | number
     setItemPerPage?: Function
     records?: number
 }

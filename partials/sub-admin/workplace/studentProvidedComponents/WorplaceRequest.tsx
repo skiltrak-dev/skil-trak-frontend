@@ -4,7 +4,13 @@ import moment from 'moment'
 import { RiBook2Fill } from 'react-icons/ri'
 
 // components
-import { Card, Typography, Button, ActionButton } from '@components'
+import {
+    Card,
+    Typography,
+    Button,
+    ActionButton,
+    InitialAvatar,
+} from '@components'
 
 // utils
 import { ellipsisText, userStatus } from '@utils'
@@ -88,10 +94,9 @@ export const WorkplaceRequest = ({ workplace }: any) => {
 
                     <div className="flex items-center relative">
                         <div className="flex items-center gap-x-2">
-                            <img
-                                className="rounded-full w-8 h-8"
-                                src={'https://picsum.photos/100/100'}
-                                alt={''}
+                            <InitialAvatar
+                                name={workplace?.student?.rto?.user?.name}
+                                imageUrl={workplace?.student?.rto?.user?.avatar}
                             />
                             <div>
                                 <Typography color={'black'} variant={'small'}>

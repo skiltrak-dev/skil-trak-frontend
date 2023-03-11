@@ -5,6 +5,10 @@ const PREFIX = 'subadmin/'
 export const workplaceEndpoints = (
     builder: EndpointBuilder<BaseQueryFn, string, string>
 ) => ({
+    workplaceCount: builder.query<any, void>({
+        query: () => `${PREFIX}workplace-request/count`,
+        providesTags: ['SubAdminWorkplace'],
+    }),
     getSubAdminWorkplaces: builder.query<any, any>({
         query: (params) => ({
             url: `${PREFIX}workplace-request/list`,
