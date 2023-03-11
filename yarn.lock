@@ -512,6 +512,11 @@
   resolved "https://registry.yarnpkg.com/@socket.io/component-emitter/-/component-emitter-3.1.0.tgz#96116f2a912e0c02817345b3c10751069920d553"
   integrity sha512-+9jVqKhRSpsc591z5vX+X5Yyw+he/HCB4iQ/RYxw35CEPaY1gnsNE43nf9n9AaYjAQrTiI/mOwKUKdUs9vf7Xg==
 
+"@stripe/stripe-js@^1.48.0":
+  version "1.48.0"
+  resolved "https://registry.yarnpkg.com/@stripe/stripe-js/-/stripe-js-1.48.0.tgz#53d07ebc32da03ee3d76eb6aebf4447c160807fd"
+  integrity sha512-Kw2BRXk6z/wnTU9m2IJOhxJNrx9xzmpFSbk6D/Z0x6LJntMafiHeHFag2PvSF30O2quMb1UUdWsnZqGVDruZww==
+
 "@swc/helpers@0.4.14":
   version "0.4.14"
   resolved "https://registry.yarnpkg.com/@swc/helpers/-/helpers-0.4.14.tgz#1352ac6d95e3617ccb7c1498ff019654f1e12a74"

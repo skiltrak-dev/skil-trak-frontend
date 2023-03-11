@@ -78,6 +78,8 @@ import student from './students/student.json'
 
 import consultation from './jobs/consultation.json'
 
+export const ANIM_ERROR = error
+export const ANIM_PAGE_NOT_FOUND = pageNotFound
 export const Animations = {
     Common: {
         NoConnection: noInternetConnection,

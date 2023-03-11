@@ -1,7 +1,8 @@
-import { StatusType, UserStatus } from '@types'
 import { Animations } from '@animations'
-import { LottieAnimation, Typography, Button } from '@components'
-import { AuthUtils } from '@utils'
+import { Button, LottieAnimation } from '@components'
+import { useCreateCheckoutSessionMutation } from '@queries'
+import { StatusType, UserStatus } from '@types'
+import { AuthUtils, getStripe } from '@utils'
 import { useRouter } from 'next/router'
 
 interface AccountStatusProps {
@@ -52,6 +53,29 @@ export const AccountStatus = ({ status }: AccountStatusProps) => {
     const router = useRouter()
     const role = AuthUtils.getUserCredentials().role
 
+    // const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
+    // let stripePromise: Promise<Stripe | null>;
+    // const stripe = await loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!);
+    const [checkoutSession, checkoutSessionResult] =
+        useCreateCheckoutSessionMutation()
+
+    const onAgreeAndContinueClicked = async () => {
+        await checkoutSession()
+            .then(async (res: any) => {
+                if (res.data?.id) {
+                    const stripe = await getStripe()
+                    const { error } = await stripe!.redirectToCheckout({
+                        // Make the id field from the Checkout Session creation API response
+                        // available to this file, so you can provide it as parameter here
+                        // instead of the {{CHECKOUT_SESSION_ID}} placeholder.
+                        sessionId: res.data.id,
+                    })
+                    console.warn(error.message)
+                }
+            })
+            .catch((err) => {})
+    }
+
     switch (status) {
         case UserStatus.Pending:
             return getStatusComponent({
@@ -84,11 +108,51 @@ export const AccountStatus = ({ status }: AccountStatusProps) => {
             })
 
         case UserStatus.Archived:
-            return getStatusComponent({
-                animation: Animations.Auth.SignUp.Waiting,
-                title: `Your Account Is Archived`,
-                description: `Contact our support team, if you want to un-archive`,
-            })
+            return (
+                <div>
+                    {getStatusComponent({
+                        animation: Animations.Auth.SignUp.Waiting,
+                        title: `Your Account Is Archived`,
+                        description: `To reactivate your account, Please follow the prompt below.`,
+                    })}
+                    <div className="border rounded-md border-dashed px-8 py-4 mt-4">
+                        <p className="font-semibold mb-2">
+                            Terms &amp; Conditions
+                        </p>
+                        <ul className="list-disc text-sm">
+                            <li>
+                                I understand that my Skiltrak account will be
+                                reactivated for one month from the date of
+                                payment. Please note there will be no
+                                reimbursement if WBT is completed prior to this
+                                new timeline end date.
+                            </li>
+                            <li>
+                                I understand that this timeline extension
+                                request is applicable to my Skiltrak account
+                                (only) and not applicable to any course
+                                extension.
+                            </li>
+                            <li>
+                                I understand that if I am an international
+                                student, I will need to contact my school to
+                                ensure that I am in accordance with my COE end
+                                date prior to proceeding with th WBT course
+                                extension timeline.
+                            </li>
+                        </ul>
+
+                        <div>
+                            <div className="my-2">
+                                <Button
+                                    text={'Agree & Continue'}
+                                    onClick={() => onAgreeAndContinueClicked()}
+                                />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            )
 
         case UserStatus.Blocked:
             return getStatusComponent({
