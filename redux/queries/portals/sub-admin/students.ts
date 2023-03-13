@@ -135,7 +135,7 @@ export const studentsEndpoints = (
         query: ({ id, workplaceId, user, body }) => ({
             url: `${PREFIX}/student/workplace/response`,
             method: 'POST',
-            params: { docs: [id], wpId: workplaceId, user },
+            params: { docs: [id], wpId: workplaceId, student: user },
             body,
         }),
         invalidatesTags: ['SubAdminStudents'],
@@ -162,7 +162,7 @@ export const studentsEndpoints = (
 
     applyWorkplaceOnExistingIndustry: builder.mutation<any, any>({
         query: ({ studentId, IndustryId }) => ({
-            url: `${PREFIX}/student/workplcae/existing-industry/${IndustryId}`,
+            url: `${PREFIX}/student/workplace/existing-industry/${IndustryId}`,
             method: 'POST',
             params: { student: studentId },
         }),

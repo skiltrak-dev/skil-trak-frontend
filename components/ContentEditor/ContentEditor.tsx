@@ -48,11 +48,8 @@ export const ContentEditor = ({
     const [editorState, setEditorState] = useState<any>(raw)
     const [contentState, setContentState] = useState(EditorState.createEmpty())
     const [contentChange, setContentChange] = useState(false)
-
-    console.log('editorStateeditorState', editorState)
     useEffect(() => {
         if (result.isSuccess) {
-            console.log('Success')
             // const editState = EditorState.push(
             //     editorState,
             //     ContentState.createFromText(''),

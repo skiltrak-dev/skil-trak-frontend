@@ -72,7 +72,10 @@ export const IndustryFilters = ({
                     value={filter?.address}
                     placeholder={'Select Industry Address...'}
                     onChange={(e: any) => {
-                        onFilterChange({ ...filter, address: e.value })
+                        onFilterChange({
+                            ...filter,
+                            address: e.target.value,
+                        })
                     }}
                 />
                 <Select

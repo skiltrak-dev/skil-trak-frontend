@@ -65,7 +65,7 @@ export const RequiredDocsCard = ({
                         )}
                         <Typography variant={'label'}>
                             {' '}
-                            <span className='whitespace-pre'>{name}</span>{' '}
+                            <span className="whitespace-pre">{name}</span>{' '}
                         </Typography>
                     </div>
                     <Typography variant={'small'} color={'text-gray-500'}>
@@ -76,6 +76,7 @@ export const RequiredDocsCard = ({
                     {(fileList || invalidSelection) && (
                         <Typography variant={'label'}>-</Typography>
                     )}
+
                     <div className="overflow-scroll remove-scrollbar">
                         {fileList && (
                             <>
@@ -93,6 +94,7 @@ export const RequiredDocsCard = ({
                             </>
                         )}
                     </div>
+
                     {invalidSelection && (
                         <Typography variant={'xs'} color={'text-error'}>
                             Invalid File Format is selected

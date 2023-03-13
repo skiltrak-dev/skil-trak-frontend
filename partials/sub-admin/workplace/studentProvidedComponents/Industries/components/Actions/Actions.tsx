@@ -97,7 +97,17 @@ export const Actions = ({
                 workplace?.approvalStatus === UserStatus.Pending && (
                     <Button
                         text={'Forward to industry'}
-                        onClick={() => onForwardClicked(appliedIndustry)}
+                        onClick={() => {
+                            if (workplace?.assignedTo) {
+                                onForwardClicked(appliedIndustry)
+                            } else {
+                                notification.error({
+                                    title: 'Assign workplace',
+                                    description:
+                                        'You need to assign workplace before forward to industry',
+                                })
+                            }
+                        }}
                     />
                 )}
 

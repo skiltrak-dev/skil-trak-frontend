@@ -32,7 +32,7 @@ export const studentAssessmentEvidenceApi = createApi({
         }),
         uploadFolderDocs: builder.mutation({
             query: ({ id, body }) => ({
-                url: `assessmentevidence/response/${id}`,
+                url: `assessment-evidence/response/${id}`,
                 method: 'POST',
                 body,
             }),

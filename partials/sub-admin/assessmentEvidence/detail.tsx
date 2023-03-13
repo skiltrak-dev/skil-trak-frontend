@@ -73,13 +73,8 @@ export const Detail = ({
     const [downloadFiles, downloadFilesResult] =
         SubAdminApi.AssessmentEvidence.downloadFiles()
 
-    console.log(downloadFilesResult)
     useEffect(() => {
         if (downloadFilesResult.isSuccess) {
-            console.log(
-                "downloadFilesResult?.data?.url, '_blank' SUCCESS",
-                downloadFilesResult.isSuccess
-            )
             router.push(downloadFilesResult?.data?.url)
         }
     }, [downloadFilesResult])
