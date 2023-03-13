@@ -12,10 +12,13 @@ import { useEffect, useState } from 'react'
 import { AdminApi } from '@queries'
 import { useRouter } from 'next/router'
 import { MdDelete } from 'react-icons/md'
+import { useNotification } from '@hooks'
 
 export const ArchivedAssessmentTool = ({ rto, setAssessmentView }: any) => {
-    const router = useRouter()
+    const [selectedTool, setSelectedTool] = useState<number>(-1)
     const [courses, setCourses] = useState<any | null>(null)
+
+    const { notification } = useNotification()
 
     const [selectedCourseId, setSelectedCourseId] = useState<number | null>(
         null
@@ -31,6 +34,7 @@ export const ArchivedAssessmentTool = ({ rto, setAssessmentView }: any) => {
         {
             rto: Number(rto?.data?.id),
             course: Number(selectedCourseId),
+            status: 'archived',
         },
         { skip: !selectedCourseId }
     )
@@ -39,9 +43,18 @@ export const ArchivedAssessmentTool = ({ rto, setAssessmentView }: any) => {
         setSelectedCourseId(rto?.data?.courses[0]?.id)
     }, [rto])
 
+    useEffect(() => {
+        if (removeResult.isSuccess) {
+            notification.error({
+                title: 'Assessment Tool Deleted',
+                description: 'Assessment Tool Deleted Successfully',
+            })
+        }
+    }, [removeResult])
+
     const actions = (assessment: any) => {
         return (
-            <div className="flex gap-x-2 ">
+            <div className="flex items-center gap-x-2 ">
                 <a href={assessment?.file} target="blank" rel="noreferrer">
                     <Typography variant="tableCell" color="text-blue-600">
                         Download
@@ -55,16 +68,22 @@ export const ArchivedAssessmentTool = ({ rto, setAssessmentView }: any) => {
                     }}
                 >
                     <Typography variant="tableCell" color="text-[#7081A0]">
-                        Archive
+                        Un Archive
                     </Typography>
                 </div>
-                <div
+                <ActionButton
+                    Icon={MdDelete}
+                    loading={
+                        removeResult.isLoading &&
+                        selectedTool === assessment?.id
+                    }
                     onClick={() => {
+                        setSelectedTool(assessment?.id)
                         remove(assessment?.id)
                     }}
-                >
-                    <MdDelete className="text-red-400 cursor-pointer" />
-                </div>
+                    variant={'error'}
+                    simple
+                ></ActionButton>
             </div>
         )
     }

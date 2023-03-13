@@ -16,7 +16,7 @@ import { FaEdit, FaEye, FaFileExport } from 'react-icons/fa'
 import { AdminApi, commonApi } from '@queries'
 import { Industry } from '@types'
 import { useRouter } from 'next/router'
-import { ReactElement, useEffect, useState } from 'react'
+import { ReactElement, useEffect, useRef, useState } from 'react'
 import { MdBlock } from 'react-icons/md'
 import { IndustryCell, SectorCell } from './components'
 import { BlockModal } from './modals'
@@ -26,6 +26,8 @@ import { useActionModal } from '@hooks'
 import { RiLockPasswordFill } from 'react-icons/ri'
 
 export const ApprovedIndustry = () => {
+    const selectInputRef = useRef()
+
     const [modal, setModal] = useState<ReactElement | null>(null)
     const router = useRouter()
     const [itemPerPage, setItemPerPage] = useState(50)

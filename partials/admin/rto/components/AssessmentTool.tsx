@@ -36,6 +36,7 @@ export const AssessmentTool = ({ rto, actions, setAssessmentView }: any) => {
         {
             rto: Number(rto?.data?.id),
             course: Number(selectedCourseId),
+            status: 'approved',
         },
         { skip: !selectedCourseId }
     )

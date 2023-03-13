@@ -63,6 +63,7 @@ export const AppliedIndustry = ({
                 ) : null
         }
     }
+
     return (
         <div>
             <Typography variant={'label'}>
@@ -77,10 +78,12 @@ export const AppliedIndustry = ({
                     <div className="py-2 px-4 rounded-lg flex justify-between items-start">
                         <div>
                             <div className="flex items-center gap-x-2">
-                                <img
-                                    className="w-16 h-16 rounded-md"
-                                    src={`https://picsum.photos/100/10${appliedIndustry?.id}`}
-                                    alt=""
+                                <InitialAvatar
+                                    name={appliedIndustry?.industry?.user?.name}
+                                    imageUrl={
+                                        appliedIndustry?.industry?.user?.avatar
+                                    }
+                                    large
                                 />
                                 <div>
                                     {/* <Typography variant={'muted'} color={'gray'}>

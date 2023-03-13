@@ -1,5 +1,5 @@
 import React from 'react'
-import { Typography, Button, ActionButton } from '@components'
+import { Typography, Button, ActionButton, InitialAvatar } from '@components'
 
 // query
 import { useSubAdminRequestIndustryWorkplaceMutation } from '@queries'
@@ -22,11 +22,11 @@ export const ApplyForWorkplace = ({
         <div
             className={`${BACKGROUNDS[index]} p-2 rounded-lg flex justify-between items-center`}
         >
-            <div className="flex items-center gap-x-2">
-                <img
-                    className="w-12 h-12 rounded-md"
-                    src={`https://picsum.photos/100/10${industry?.id}`}
-                    alt=""
+            <div className="flex items-center gap-x-2 px-3">
+                <InitialAvatar
+                    name={industry?.industry?.user?.name}
+                    imageUrl={industry?.industry?.user?.avatar}
+                    large
                 />
                 <div>
                     {/* <Typography variant={'muted'} color={'gray'}>
