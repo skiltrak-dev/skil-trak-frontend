@@ -96,7 +96,6 @@ export const StudentProfileForm = ({
         }
     }, [sectorDefaultOptions, sectorResponse])
 
-    // console.log('document.referrerdocument.referrer', document.referrer)
 
     useEffect(() => {
         if (result.isSuccess) {

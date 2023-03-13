@@ -12,6 +12,7 @@ import { FileUpload } from '@hoc'
 import { useGetSubAdminRTOCoursesQuery, AdminApi } from '@queries'
 import { useRouter } from 'next/router'
 import { UploadFile } from '@components/inputs/UploadFile'
+import { useContextBar, useNotification } from '@hooks'
 type Props = {
     edit?: boolean
     assessment?: any
@@ -20,6 +21,8 @@ export const AddAssessmentToolCB = ({ edit, assessment }: Props) => {
     const [coursesOptions, setCoursesOptions] = useState<any | null>([])
     const [fileData, setFileData] = useState<any | null>([])
 
+    const { notification } = useNotification()
+    const contextBar = useContextBar()
 
     const router = useRouter()
     const rtoId = router.query.id
@@ -34,7 +37,18 @@ export const AddAssessmentToolCB = ({ edit, assessment }: Props) => {
             }))
             setCoursesOptions(options)
         }
-    }, [rtoCourses?.data, rtoCourses.isSuccess])
+    }, [rtoCourses])
+
+    useEffect(() => {
+        if (createResult.isSuccess) {
+            notification.success({
+                title: 'Assessment Tools Added',
+                description: 'Assessment Tool Added Successfully',
+            })
+            contextBar.setContent(null)
+            contextBar.hide()
+        }
+    }, [createResult])
 
     const methods = useForm({
         mode: 'all',

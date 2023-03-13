@@ -1,5 +1,5 @@
 import { Animations } from '@animations'
-import { Button, LottieAnimation } from '@components'
+import { Button, LottieAnimation, ShowErrorNotifications } from '@components'
 import { useCreateCheckoutSessionMutation } from '@queries'
 import { StatusType, UserStatus } from '@types'
 import { AuthUtils, getStripe } from '@utils'
@@ -107,6 +107,7 @@ export const AccountStatus = ({ status }: AccountStatusProps) => {
         case UserStatus.Archived:
             return (
                 <div>
+                    <ShowErrorNotifications result={checkoutSessionResult} />
                     {getStatusComponent({
                         animation: Animations.Auth.SignUp.Waiting,
                         title: `Your Account Is Archived`,

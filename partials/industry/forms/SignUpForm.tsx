@@ -1,4 +1,5 @@
 import Link from 'next/link'
+
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 
@@ -22,7 +23,7 @@ export const IndustrySignUpForm = ({ onSubmit }: { onSubmit: any }) => {
 
     const [checkEmailExists, emailCheckResult] = AuthApi.useEmailCheck()
 
-    const [sectorOptions, setSectorOptions] = useState([])
+    const [sectorOptions, setSectorOptions] = useState<any>([])
     const [courseOptions, setCourseOptions] = useState([])
     const [courseLoading, setCourseLoading] = useState(false)
 

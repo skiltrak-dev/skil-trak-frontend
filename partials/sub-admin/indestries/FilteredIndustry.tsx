@@ -11,7 +11,7 @@ import { Industry, SubAdmin } from '@types'
 import { useRouter } from 'next/router'
 import React, { ReactElement, useState } from 'react'
 import { IndustryCellInfo } from './components'
-//icons 
+//icons
 import { MdFavorite, MdFavoriteBorder } from 'react-icons/md'
 import { FaEye } from 'react-icons/fa'
 import { AddToFavoriteModal } from './modals'
@@ -95,13 +95,13 @@ export const FilteredIndustry = ({
             },
         },
         {
-            header: () => 'Student Capacity',
-            accessorKey: 'studentCapacity',
+            header: () => 'Enrolled Students',
+            accessorKey: 'enrolledStudents',
             cell: ({ row }: any) => {
-                const { studentCapacity } = row.original
+                const { enrolledStudents } = row.original
                 return (
                     <Typography variant={'muted'} color={'gray'}>
-                        {studentCapacity}
+                        {enrolledStudents}
                     </Typography>
                 )
             },

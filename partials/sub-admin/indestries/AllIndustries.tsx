@@ -105,13 +105,13 @@ export const AllIndustries = () => {
             },
         },
         {
-            header: () => 'Student Capacity',
-            accessorKey: 'studentCapacity',
+            header: () => 'Enrolled Students',
+            accessorKey: 'enrolledStudents',
             cell: ({ row }: any) => {
-                const { studentCapacity } = row.original
+                const { enrolledStudents } = row.original
                 return (
                     <Typography variant={'muted'} color={'gray'}>
-                        {studentCapacity}
+                        {enrolledStudents}
                     </Typography>
                 )
             },

@@ -1,5 +1,10 @@
 import React, { useEffect } from 'react'
-import { Typography, Button, ShowErrorNotifications } from '@components'
+import {
+    Typography,
+    Button,
+    ShowErrorNotifications,
+    InitialAvatar,
+} from '@components'
 
 // query
 import { useApplyWorkplaceOnExistingIndustryMutation } from '@queries'
@@ -23,12 +28,15 @@ export const ExistinIndustryCard = ({
     return (
         <>
             <ShowErrorNotifications result={applyForWorkplaceResult} />
-            <div className="bg-secondary-dark py-2 px-4 rounded-lg flex justify-between items-center">
+            <Typography variant={'label'}>
+                Following is the Industry in our record find by your typed abn
+            </Typography>
+            <div className="mt-2 bg-secondary-dark py-2 px-4 rounded-lg flex justify-between items-center">
                 <div className="flex items-center gap-x-2">
-                    <img
-                        className="w-12 h-12"
-                        src={`https://picsum.photos/100/10${industry?.id}`}
-                        alt=""
+                    <InitialAvatar
+                        name={industry?.user?.name}
+                        imageUrl={industry?.user?.avatar}
+                        large
                     />
                     <div>
                         {/* <Typography variant={'muted'} color={'gray'}>

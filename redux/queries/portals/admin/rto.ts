@@ -36,9 +36,13 @@ export const rtoEndpoints = (
         providesTags: ['RTOS'],
     }),
 
-    rtoAssessmentTools: builder.query<any, { rto: number; course: number }>({
-        query: ({ rto, course }) => ({
+    rtoAssessmentTools: builder.query<
+        any,
+        { rto: number; course: number; status: string }
+    >({
+        query: ({ rto, course, status }) => ({
             url: `${PREFIX}/assessment-tool/${course}/${rto}`,
+            params: { status },
         }),
         providesTags: ['RTOS'],
     }),

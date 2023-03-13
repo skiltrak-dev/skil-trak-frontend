@@ -279,7 +279,7 @@ export const ArchivedStudent = () => {
                                                 )}
                                             </div>
                                         </div>
-                                        <div className="px-6 overflow-x-auto custom-scrollbar">
+                                        <div className="px-6 overflow-x-auto remove-scrollbar">
                                             {table}
                                         </div>
                                     </div>
