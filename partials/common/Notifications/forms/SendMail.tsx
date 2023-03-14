@@ -163,9 +163,6 @@ export const SendMail = () => {
                                     component={onFileUpload}
                                     multiple
                                     limit={Number(1111111111)}
-                                    // acceptTypes={getDocType(
-                                    //     selectedFolder?.type
-                                    // )}
                                 />
 
                                 <div className="flex justify-between items-center gap-x-4 mt-2">

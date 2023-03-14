@@ -48,19 +48,6 @@ export const ContentEditor = ({
     const [editorState, setEditorState] = useState<any>(raw)
     const [contentState, setContentState] = useState(EditorState.createEmpty())
     const [contentChange, setContentChange] = useState(false)
-    useEffect(() => {
-        if (result.isSuccess) {
-            // const editState = EditorState.push(
-            //     editorState,
-            //     ContentState.createFromText(''),
-            //     'remove-range'
-            // )
-            setEditorState(convertToRaw(ContentState.createFromText('')))
-            // setContentState(convertToRaw(ContentState.createFromText('')))
-            // setEditorState(editState)
-            // setContentState(editState)
-        }
-    }, [result])
 
     useEffect(() => {
         if (setContent) {
@@ -73,13 +60,6 @@ export const ContentEditor = ({
             )
         }
     }, [contentState])
-
-    // useEffect(() => {
-    //     if (result.isSuccess) {
-    //         setEditorState(null)
-    //         setContentState(EditorState.createEmpty())
-    //     }
-    // }, [result])
 
     const onEditorStateChange = (editorState: any) => {
         setEditorState(editorState)
