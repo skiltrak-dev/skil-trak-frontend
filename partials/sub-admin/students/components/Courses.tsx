@@ -9,7 +9,10 @@ import { SubAdminApi } from '@queries'
 import { LoadingAnimation, NoData } from '@components'
 
 export const Courses = ({ id }: { id: number }) => {
-    const courses = SubAdminApi.Student.useCourses(id, { skip: !id })
+    const courses = SubAdminApi.Student.useCourses(id, {
+        skip: !id,
+        refetchOnMountOrArgChange: true,
+    })
 
     return (
         <>

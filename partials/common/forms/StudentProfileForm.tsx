@@ -39,12 +39,15 @@ export const StudentProfileForm = ({
 
     const sectorResponse = AuthApi.useSectors({})
     const rtoResponse = AuthApi.useRtos({})
-    const [sectorDefaultOptions, setSectorDefaultOptions] = useState<
-        any | null
-    >(null)
+    const [sectorDefaultOptions, setSectorDefaultOptions] = useState<any>([])
+
+    const [courseValues, setCourseValues] = useState<any>([])
     const [sectors, setSectors] = useState<any | null>(null)
     const [courseOptions, setCourseOptions] = useState([])
     const [courseDefaultOptions, setCourseDefaultOptions] = useState([])
+    const [sectorsValue, setSectorsValue] = useState<any>([
+        ...sectorDefaultOptions,
+    ])
 
     const { onUpdatePassword, passwordModal } = useActionModal()
 
@@ -69,6 +72,17 @@ export const StudentProfileForm = ({
         : {}
 
     useEffect(() => {
+        if (courses.isSuccess && courses?.data?.length > 0) {
+            const courseAddedOptions = courses?.data?.map((course: any) => ({
+                label: course?.title,
+                value: course?.id,
+            }))
+            setCourseValues(courseAddedOptions)
+            setCourseOptions(courseAddedOptions)
+        }
+    }, [courses])
+
+    useEffect(() => {
         if (courses?.data?.length > 0 && courses?.isSuccess) {
             setSectors([
                 ...new Map(
@@ -82,17 +96,17 @@ export const StudentProfileForm = ({
 
     useEffect(() => {
         if (sectors && sectors?.length > 0) {
-            setSectorDefaultOptions(
-                sectors?.map((sector: any) => ({
-                    label: sector?.name,
-                    value: sector?.id,
-                }))
-            )
+            const defaultSectors = sectors?.map((sector: any) => ({
+                label: sector?.name,
+                value: sector?.id,
+            }))
+            setSectorDefaultOptions(defaultSectors)
+            setSectorsValue(defaultSectors)
         }
     }, [sectors])
     useEffect(() => {
         if (sectorDefaultOptions && sectorDefaultOptions?.length > 0) {
-            onSectorChanged(sectorDefaultOptions, true)
+            onSectorChanged(sectorDefaultOptions, false)
         }
     }, [sectorDefaultOptions, sectorResponse, courses])
 
@@ -106,7 +120,10 @@ export const StudentProfileForm = ({
         }
     }, [result])
 
-    const onSectorChanged = (sectors: any, chkDefaultOptions?: boolean) => {
+    const onSectorChanged = (
+        sectors: any,
+        chkDefaultOptions: boolean = true
+    ) => {
         const filteredCourses = sectors.map((selectedSector: any) => {
             const sectorExisting = sectorResponse.data?.find(
                 (sector: any) => sector?.id === selectedSector?.value
@@ -139,7 +156,14 @@ export const StudentProfileForm = ({
                 coursesTitle?.includes(s.label)
             )
         )
+        // setCourseValues(
+        //     newCourseOptions?.filter((s: any) =>
+        //         coursesTitle?.includes(s.label)
+        //     )
+        // )
+
         setCourseOptions(newCourseOptions)
+        chkDefaultOptions && setCourseValues(newCourseOptions)
     }
     const validationSchema = yup.object({
         // Profile Information
@@ -196,6 +220,12 @@ export const StudentProfileForm = ({
             }
         }
     }, [profile])
+
+    useEffect(() => {
+        if (courseValues && courseValues?.length > 0) {
+            formMethods.setValue('courses', courseValues)
+        }
+    }, [courseValues])
     return (
         <>
             <ShowErrorNotifications result={result} />
@@ -295,6 +325,7 @@ export const StudentProfileForm = ({
                         )?.length > 0 && (
                             <Select
                                 label={'RTO'}
+                                // value={sectorsValue}
                                 {...(Object.values(rtoDefaultOptions)?.filter(
                                     (f) => f !== undefined
                                 )?.length > 0 && {
@@ -313,6 +344,7 @@ export const StudentProfileForm = ({
                                 label={'RTO'}
                                 name={'rto'}
                                 options={rtoOptions}
+                                // value={sectorsValue}
                                 placeholder={'Select RTO...'}
                                 onlyValue
                                 loading={rtoResponse.isLoading}
@@ -327,6 +359,7 @@ export const StudentProfileForm = ({
                                         sectorDefaultOptions?.length > 0 && (
                                             <Select
                                                 label={'Sector'}
+                                                value={sectorsValue}
                                                 {...(sectorDefaultOptions &&
                                                     sectorDefaultOptions?.length >
                                                         0 && {
@@ -342,7 +375,10 @@ export const StudentProfileForm = ({
                                                 loading={
                                                     sectorResponse.isLoading
                                                 }
-                                                onChange={onSectorChanged}
+                                                onChange={(e: any) => {
+                                                    onSectorChanged(e)
+                                                    setSectorsValue(e)
+                                                }}
                                                 validationIcons
                                             />
                                         )}
@@ -350,11 +386,15 @@ export const StudentProfileForm = ({
                                         <Select
                                             label={'Sector'}
                                             name={'sectors'}
+                                            value={sectorsValue}
                                             options={sectorOptions}
                                             placeholder={'Select Sectors...'}
                                             multi
                                             loading={sectorResponse.isLoading}
-                                            onChange={onSectorChanged}
+                                            onChange={(e: any) => {
+                                                onSectorChanged(e)
+                                                setSectorsValue(e)
+                                            }}
                                             validationIcons
                                         />
                                     )}
@@ -365,16 +405,20 @@ export const StudentProfileForm = ({
                                             <Select
                                                 label={'Courses'}
                                                 name={'courses'}
+                                                value={courseValues}
                                                 defaultValue={
                                                     courseDefaultOptions
                                                 }
                                                 options={courseOptions}
                                                 multi
-                                                disabled={
-                                                    courseOptions?.length === 0
-                                                }
+                                                // disabled={
+                                                //     courseOptions?.length === 0
+                                                // }
                                                 validationIcons
-                                                onlyValue
+                                                onChange={(e: any) => {
+                                                    setCourseValues(e)
+                                                }}
+                                                // onlyValue
                                             />
                                         )}
                                     {!courseOptions?.length && (
@@ -382,12 +426,16 @@ export const StudentProfileForm = ({
                                             label={'Courses'}
                                             name={'courses'}
                                             options={courseOptions}
+                                            value={courseValues}
                                             multi
-                                            disabled={
-                                                courseOptions?.length === 0
-                                            }
+                                            // disabled={
+                                            //     courseOptions?.length === 0
+                                            // }
+                                            onChange={(e: any) => {
+                                                setCourseValues(e)
+                                            }}
                                             validationIcons
-                                            onlyValue
+                                            // onlyValue
                                         />
                                     )}
                                 </div>
