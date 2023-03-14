@@ -2,7 +2,12 @@ import { ReactElement, useEffect } from 'react'
 import { useRouter } from 'next/router'
 
 // components
-import { ShowErrorNotifications } from '@components'
+import {
+    EmptyData,
+    LoadingAnimation,
+    ShowErrorNotifications,
+    TechnicalError,
+} from '@components'
 
 //Layouts
 import { SubAdminLayout } from '@layouts'
@@ -13,7 +18,12 @@ import { UpdateDetails } from '@partials/sub-admin/students/form/UpdateDetails'
 import { useContextBar, useNotification } from '@hooks'
 
 // queries
-import { SubAdminApi } from '@queries'
+import {
+    SubAdminApi,
+    useGetSubAdminStudentDetailQuery,
+    useUpdateStudentProfileMutation,
+} from '@queries'
+import { StudentProfileForm } from '@partials/common'
 
 const EditStudentDetail: NextPageWithLayout = () => {
     const contextBar = useContextBar()
@@ -22,27 +32,20 @@ const EditStudentDetail: NextPageWithLayout = () => {
     const router = useRouter()
     const { id } = router.query
 
+    const student = useGetSubAdminStudentDetailQuery(Number(id), {
+        skip: !id,
+        refetchOnMountOrArgChange: true,
+    })
+    const courses = SubAdminApi.Student.useCourses(Number(id), {
+        skip: !id,
+        refetchOnMountOrArgChange: true,
+    })
+    const [updateDetail, updateDetailResult] = useUpdateStudentProfileMutation()
+
     useEffect(() => {
         contextBar.setContent(null)
         contextBar.hide()
     }, [])
-
-    // query
-    const [updateDetail, updateDetailResult] =
-        SubAdminApi.Student.useUpdateDetail()
-
-    useEffect(() => {
-        if (updateDetailResult.isSuccess) {
-            notification.success({
-                title: 'Detail Updated',
-                description: 'Student Detail Updated Successfully',
-            })
-            router.push({
-                pathname: `/portals/sub-admin/students/${id}`,
-                query: { tab: 'overview' },
-            })
-        }
-    }, [updateDetailResult])
 
     const onSubmit = (values: any) => {
         updateDetail({ id: values?.id, body: values })
@@ -50,7 +53,22 @@ const EditStudentDetail: NextPageWithLayout = () => {
     return (
         <>
             <ShowErrorNotifications result={updateDetailResult} />
-            <UpdateDetails onSubmit={onSubmit} result={updateDetailResult} />
+            {/* <UpdateDetails onSubmit={onSubmit} result={updateDetailResult} /> */}
+            <div className="px-4">
+                {student.isError && <TechnicalError />}
+                {student.isLoading ? (
+                    <LoadingAnimation height={'h-[70vh]'} />
+                ) : student.data && student.isSuccess ? (
+                    <StudentProfileForm
+                        onSubmit={onSubmit}
+                        profile={student}
+                        result={updateDetailResult}
+                        courses={courses}
+                    />
+                ) : (
+                    !student.isError && student.isSuccess && <EmptyData />
+                )}
+            </div>
         </>
     )
 }

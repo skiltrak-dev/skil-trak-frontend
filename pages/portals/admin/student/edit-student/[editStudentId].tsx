@@ -20,9 +20,11 @@ const EditStudent: NextPageWithLayout = () => {
 
     const student = AdminApi.Students.useProfile(editStudentId, {
         skip: !editStudentId,
+        refetchOnMountOrArgChange: true,
     })
     const courses = SubAdminApi.Student.useCourses(editStudentId, {
         skip: !editStudentId,
+        refetchOnMountOrArgChange: true,
     })
 
     const [updateProfile, updateProfileResult] =

@@ -17,7 +17,9 @@ import { EmptyData, LoadingAnimation, TechnicalError } from '@components'
 
 const MyProfile: NextPageWithLayout = () => {
     const router = useRouter()
-    const profile = useGetStudentProfileDetailQuery()
+    const profile = useGetStudentProfileDetailQuery(undefined, {
+        refetchOnMountOrArgChange: true,
+    })
     const [updateProfile, updateProfileResult] =
         useUpdateStudentProfileMutation()
 
