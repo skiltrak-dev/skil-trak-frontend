@@ -20,11 +20,10 @@ export const Attachment = ({
                 <HiLink />
             </label>
 
-            {/* <div className="flex items-center flex-wrap gap-2"> */}
             {fileList?.map((file: File) => (
                 <div className="bg-gray-300 rounded-full px-2 py-0.5 flex items-center gap-x-2">
                     <Typography variant={'small'}>
-                        {ellipsisText(file?.name, 15)}
+                        {ellipsisText(file?.name, 12)}
                     </Typography>
                     <FaTimes
                         className="text-sm text-gray-600 cursor-pointer"
@@ -34,7 +33,6 @@ export const Attachment = ({
                     />
                 </div>
             ))}
-            {/* </div> */}
         </div>
     )
 }
