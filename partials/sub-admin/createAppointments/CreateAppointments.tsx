@@ -163,6 +163,9 @@ export const CreateAppointments = () => {
 
     useEffect(() => {
         onShowModal()
+        return () => {
+            setModal(null)
+        }
     }, [profile])
 
     useEffect(() => {

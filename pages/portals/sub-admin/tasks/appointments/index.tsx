@@ -82,6 +82,7 @@ const Appointments: NextPageWithLayout = (props: Props) => {
             subTitle:
                 appointment.appointmentFor?.name ||
                 appointment.appointmentBy?.name,
+            appointment,
         }
     })
 

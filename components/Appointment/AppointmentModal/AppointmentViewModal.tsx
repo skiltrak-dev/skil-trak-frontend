@@ -46,12 +46,12 @@ export const AppointmentViewModal = ({ appointment, onCancel }: any) => {
                                     />
                                 </div>
                                 <p className="text-lg font-semibold">
-                                    {appointment.type.title}
+                                    {appointment?.type?.title}
                                 </p>
                                 <div
                                     className={`w-4 h-4 rounded-full`}
                                     style={{
-                                        backgroundColor: `${appointment.type.color}`,
+                                        backgroundColor: `${appointment?.type?.color}`,
                                     }}
                                 />
                             </div>
@@ -67,12 +67,12 @@ export const AppointmentViewModal = ({ appointment, onCancel }: any) => {
                             {/* Date & Time */}
                             <div>
                                 <p className="text-md font-semibold">
-                                    {appointment.appointmentFor?.name ||
-                                        appointment.appointmentBy?.name}
+                                    {appointment?.appointmentFor?.name ||
+                                        appointment?.appointmentBy?.name}
                                 </p>
                                 <p className="text-sm font-medium text-slate-600">
-                                    {appointment.appointmentFor?.email ||
-                                        appointment.appointmentBy?.email}
+                                    {appointment?.appointmentFor?.email ||
+                                        appointment?.appointmentBy?.email}
                                 </p>
                             </div>
                         </div>
@@ -172,7 +172,7 @@ export const AppointmentViewModal = ({ appointment, onCancel }: any) => {
                     <div className="p-3">
                         {(appointment.appointmentBy?.role ===
                             UserRoles.STUDENT ||
-                            appointment.appointmentBy?.role ===
+                            appointment.appointmentFor?.role ===
                                 UserRoles.STUDENT) && (
                             <div>
                                 <Typography variant={'title'}>RTO</Typography>
@@ -182,7 +182,10 @@ export const AppointmentViewModal = ({ appointment, onCancel }: any) => {
                                         appointment.appointmentBy?.student?.rto
                                             ?.user?.name}
                                 </Typography>
-                                <Typography variant={'label'} color={"text-gray-500"}>
+                                <Typography
+                                    variant={'label'}
+                                    color={'text-gray-500'}
+                                >
                                     {appointment.appointmentFor?.student?.rto
                                         ?.user?.email ||
                                         appointment.appointmentBy?.student?.rto

@@ -153,11 +153,12 @@ export const FileUpload = ({
             } else {
                 setInvalidSelection(true)
             }
-        } else {
-            setInvalidSelection(false)
-            setFile(fileData[0])
-            setFileObject(URL.createObjectURL(fileData[0]))
         }
+        // else {
+        //     setInvalidSelection(false)
+        //     setFile(fileData[0])
+        //     setFileObject(URL.createObjectURL(fileData[0]))
+        // }
 
         // reader.readAsDataURL(fileData)
 

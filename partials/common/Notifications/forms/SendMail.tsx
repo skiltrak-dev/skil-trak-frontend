@@ -18,12 +18,14 @@ import {
 // import { useMessage } from 'hooks'
 
 // functions
-import { CommonApi } from '@queries'
-import { AuthUtils } from '@utils'
+import { FileUpload } from '@hoc'
 import { useContextBar, useNotification } from '@hooks'
+import { CommonApi } from '@queries'
+import { Attachment } from './Attachment'
 
 export const SendMail = () => {
     const [cc, setCc] = useState(false)
+    const [attachmentFiles, setAttachmentFiles] = useState<any>([])
 
     const { notification } = useNotification()
     const contextBar = useContextBar()
@@ -32,15 +34,43 @@ export const SendMail = () => {
         CommonApi.Messages.sendCustomEmail()
 
     useEffect(() => {
+        if (attachmentFiles) {
+            methods.setValue('attachment', attachmentFiles)
+        }
+    }, [attachmentFiles])
+
+    useEffect(() => {
         if (sendMessageResult.isSuccess) {
             notification.success({
                 title: 'Email Sent',
                 description: 'Email Sent Successfully',
             })
-            // contextBar.setContent(null)
-            // contextBar.hide()
+            contextBar.setContent(null)
+            contextBar.hide()
         }
     }, [sendMessageResult])
+
+    const onRemoveFile = (fileId: number) => {
+        setAttachmentFiles((preVal: any) => [
+            ...preVal?.filter((file: File) => file?.lastModified !== fileId),
+        ])
+    }
+
+    const onFileUpload = ({
+        name,
+        fileList,
+    }: {
+        name: string
+        fileList: any
+    }) => {
+        return (
+            <Attachment
+                name={name}
+                fileList={attachmentFiles}
+                onRemoveFile={onRemoveFile}
+            />
+        )
+    }
 
     const validationSchema = yup.object({
         receiver: yup.string().email().required('Must provide Receiver Email'),
@@ -54,7 +84,20 @@ export const SendMail = () => {
     })
 
     const onSubmit = (values: any) => {
-        sendMessage({ ...values, type: 'email' })
+        const formData = new FormData()
+
+        const { attachment, ...rest } = values
+
+        Object.entries(rest)?.forEach(([key, value]: any) => {
+            formData.append(key, value)
+        })
+
+        attachment?.forEach((attched: File) => {
+            formData.append('attachment', attched)
+        })
+        formData.append('type', 'email')
+
+        sendMessage(formData)
     }
 
     return (
@@ -107,6 +150,22 @@ export const SendMail = () => {
                                     name={'message'}
                                     rows={4}
                                     placeholder={'Your Message ...'}
+                                />
+
+                                <FileUpload
+                                    onChange={(docs: FileList) => {
+                                        setAttachmentFiles((preVal: any) => [
+                                            ...preVal,
+                                            ...docs,
+                                        ])
+                                    }}
+                                    name={'attachment'}
+                                    component={onFileUpload}
+                                    multiple
+                                    limit={Number(1111111111)}
+                                    // acceptTypes={getDocType(
+                                    //     selectedFolder?.type
+                                    // )}
                                 />
 
                                 <div className="flex justify-between items-center gap-x-4 mt-2">
