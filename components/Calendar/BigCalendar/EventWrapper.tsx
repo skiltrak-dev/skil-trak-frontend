@@ -1,10 +1,13 @@
+import { AppointmentViewModal } from '@components/Appointment/AppointmentModal'
 import classNames from 'classnames'
+import { ReactElement, useState } from 'react'
 import { EventWrapperProps } from 'react-big-calendar'
 
 // export const EventWrapper = <T extends object>(event: EventWrapperProps<T>) => {
 export const EventWrapper = <T extends object>(event: any) => {
+    const [modal, setModal] = useState<ReactElement | null>(null)
     const classes = classNames({
-        'absolute max-h-full min-h-[20px] hover:min-h-[80px] border-l-2 px-1 py-1 overflow-hidden transition-all':
+        'absolute max-h-full min-h-[20px] hover:min-h-[80px] border-l-2 px-1 py-1 overflow-hidden transition-all cursor-pointer':
             true,
         'bg-indigo-200/50 border-indigo-400': event.event.priority === 'high',
         'bg-blue-200/50 border-blue-400': event.event.priority === 'medium',
@@ -32,21 +35,40 @@ export const EventWrapper = <T extends object>(event: any) => {
         'text-green-800': event.event.priority === 'low',
     })
 
+    const onModalCancelled = () => {
+        setModal(null)
+    }
+
+    const onClicked = (appointment: any) => {
+        setModal(
+            <AppointmentViewModal
+                appointment={appointment}
+                onCancel={onModalCancelled}
+            />
+        )
+    }
+
     return (
-        <div
-            style={{
-                top: `${event.style?.top}%`,
-                height: `${event.style?.height}%`,
-                width: `${event.style?.width}%`,
-                left: `${event.style?.xOffset}%`,
-            }}
-            className={classes}
-        >
-            <p className={labelClasses}>{event.label}</p>
-            <p className={textClasses}>{event.event.title}</p>
-            <p className={subtitleClasses}>
-                {event.event.subTitle || 'Unknown'}
-            </p>
-        </div>
+        <>
+            {modal}
+            <div
+                style={{
+                    top: `${event.style?.top}%`,
+                    height: `${event.style?.height}%`,
+                    width: `${event.style?.width}%`,
+                    left: `${event.style?.xOffset}%`,
+                }}
+                className={classes}
+                onClick={() => {
+                    onClicked(event.event?.appointment)
+                }}
+            >
+                <p className={labelClasses}>{event.label}</p>
+                <p className={textClasses}>{event.event.title}</p>
+                <p className={subtitleClasses}>
+                    {event.event.subTitle || 'Unknown'}
+                </p>
+            </div>
+        </>
     )
 }
