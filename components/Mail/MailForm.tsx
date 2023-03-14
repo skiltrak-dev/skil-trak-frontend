@@ -9,6 +9,7 @@ import { MdOutlineCancel } from 'react-icons/md'
 
 // components
 import { Card, TextInput, Select, Button, TextArea } from '@components'
+import { FileUpload } from '@hoc'
 
 import { useContextBar } from 'hooks'
 import { ellipsisText } from '@utils'
@@ -18,12 +19,14 @@ import { ellipsisText } from '@utils'
 // functions
 import { AuthUtils, userStatus } from '@utils'
 import { CommonApi } from '@queries'
+import { Attachment } from '@partials/common'
 
 export const MailForm = ({ action, receiverId, sender }: any) => {
     // const { replyMessage, setReplyMessage, setMessage } = useMessage()
     // query
     const [to, setTo] = useState(false)
     const [cc, setCc] = useState(false)
+    const [attachmentFiles, setAttachmentFiles] = useState<any>([])
 
     const [actionData, actionDataResult] = action()
     const [sendMessage, sendMessageResult] = CommonApi.Messages.useSendMessage()
@@ -37,11 +40,40 @@ export const MailForm = ({ action, receiverId, sender }: any) => {
         resolver: yupResolver(validationSchema),
         mode: 'all',
     })
+
+    useEffect(() => {
+        if (attachmentFiles) {
+            methods.setValue('attachment', attachmentFiles)
+        }
+    }, [attachmentFiles])
+
     useEffect(() => {
         if (sendMessageResult.isSuccess) {
             methods.reset()
         }
     }, [sendMessageResult])
+
+    const onRemoveFile = (fileId: number) => {
+        setAttachmentFiles((preVal: any) => [
+            ...preVal?.filter((file: File) => file?.lastModified !== fileId),
+        ])
+    }
+
+    const onFileUpload = ({
+        name,
+        fileList,
+    }: {
+        name: string
+        fileList: any
+    }) => {
+        return (
+            <Attachment
+                name={name}
+                fileList={attachmentFiles}
+                onRemoveFile={onRemoveFile}
+            />
+        )
+    }
 
     const onSubmit = (values: any) => {
         const userCredentials = AuthUtils.getUserCredentials()
@@ -137,6 +169,19 @@ export const MailForm = ({ action, receiverId, sender }: any) => {
                                     name={'message'}
                                     rows={4}
                                     placeholder={'Your Message ...'}
+                                />
+
+                                <FileUpload
+                                    onChange={(docs: FileList) => {
+                                        setAttachmentFiles((preVal: any) => [
+                                            ...preVal,
+                                            ...docs,
+                                        ])
+                                    }}
+                                    name={'attachment'}
+                                    component={onFileUpload}
+                                    multiple
+                                    limit={Number(1111111111)}
                                 />
 
                                 {/* <Select
