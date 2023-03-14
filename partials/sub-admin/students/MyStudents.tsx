@@ -109,13 +109,10 @@ export const MyStudents = () => {
             accessorKey: 'industry',
             header: () => <span>Industry</span>,
             cell: (info: any) => {
-                const industry =
-                    info.row.original?.workplace[0]?.industries?.find(
-                        (i: any) => i.applied
-                    )?.industry
+                const industry = info.row.original?.industries
 
-                return industry ? (
-                    <IndustryCellInfo industry={industry} />
+                return industry && industry?.length > 0 ? (
+                    <IndustryCellInfo industry={industry[0]} />
                 ) : (
                     <Typography center>N/A</Typography>
                 )

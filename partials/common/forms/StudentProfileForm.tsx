@@ -94,8 +94,7 @@ export const StudentProfileForm = ({
         if (sectorDefaultOptions && sectorDefaultOptions?.length > 0) {
             onSectorChanged(sectorDefaultOptions, true)
         }
-    }, [sectorDefaultOptions, sectorResponse])
-
+    }, [sectorDefaultOptions, sectorResponse, courses])
 
     useEffect(() => {
         if (result.isSuccess) {
@@ -321,18 +320,35 @@ export const StudentProfileForm = ({
                             />
                         )}
 
-                        <div className="w-4/6 grid grid-cols-1 gap-y-4">
-                            <div>
-                                {sectorDefaultOptions &&
-                                    sectorDefaultOptions?.length > 0 && (
+                        {courses.isSuccess && (
+                            <div className="w-4/6 grid grid-cols-1 gap-y-4">
+                                <div>
+                                    {sectorDefaultOptions &&
+                                        sectorDefaultOptions?.length > 0 && (
+                                            <Select
+                                                label={'Sector'}
+                                                {...(sectorDefaultOptions &&
+                                                    sectorDefaultOptions?.length >
+                                                        0 && {
+                                                        defaultValue:
+                                                            sectorDefaultOptions,
+                                                    })}
+                                                name={'sectors'}
+                                                options={sectorOptions}
+                                                placeholder={
+                                                    'Select Sectors...'
+                                                }
+                                                multi
+                                                loading={
+                                                    sectorResponse.isLoading
+                                                }
+                                                onChange={onSectorChanged}
+                                                validationIcons
+                                            />
+                                        )}
+                                    {!sectorDefaultOptions?.length && (
                                         <Select
                                             label={'Sector'}
-                                            {...(sectorDefaultOptions &&
-                                                sectorDefaultOptions?.length >
-                                                    0 && {
-                                                    defaultValue:
-                                                        sectorDefaultOptions,
-                                                })}
                                             name={'sectors'}
                                             options={sectorOptions}
                                             placeholder={'Select Sectors...'}
@@ -342,45 +358,41 @@ export const StudentProfileForm = ({
                                             validationIcons
                                         />
                                     )}
-                                {!sectorDefaultOptions?.length && (
-                                    <Select
-                                        label={'Sector'}
-                                        name={'sectors'}
-                                        options={sectorOptions}
-                                        placeholder={'Select Sectors...'}
-                                        multi
-                                        loading={sectorResponse.isLoading}
-                                        onChange={onSectorChanged}
-                                        validationIcons
-                                    />
-                                )}
+                                </div>
+                                <div>
+                                    {courseOptions &&
+                                        courseOptions?.length > 0 && (
+                                            <Select
+                                                label={'Courses'}
+                                                name={'courses'}
+                                                defaultValue={
+                                                    courseDefaultOptions
+                                                }
+                                                options={courseOptions}
+                                                multi
+                                                disabled={
+                                                    courseOptions?.length === 0
+                                                }
+                                                validationIcons
+                                                onlyValue
+                                            />
+                                        )}
+                                    {!courseOptions?.length && (
+                                        <Select
+                                            label={'Courses'}
+                                            name={'courses'}
+                                            options={courseOptions}
+                                            multi
+                                            disabled={
+                                                courseOptions?.length === 0
+                                            }
+                                            validationIcons
+                                            onlyValue
+                                        />
+                                    )}
+                                </div>
                             </div>
-                            <div>
-                                {courseOptions && courseOptions?.length > 0 && (
-                                    <Select
-                                        label={'Courses'}
-                                        name={'courses'}
-                                        defaultValue={courseDefaultOptions}
-                                        options={courseOptions}
-                                        multi
-                                        disabled={courseOptions?.length === 0}
-                                        validationIcons
-                                        onlyValue
-                                    />
-                                )}
-                                {!courseOptions?.length && (
-                                    <Select
-                                        label={'Courses'}
-                                        name={'courses'}
-                                        options={courseOptions}
-                                        multi
-                                        disabled={courseOptions?.length === 0}
-                                        validationIcons
-                                        onlyValue
-                                    />
-                                )}
-                            </div>
-                        </div>
+                        )}
 
                         {/* Profile Information */}
                         <div className="flex gap-x-16 border-t py-4">
