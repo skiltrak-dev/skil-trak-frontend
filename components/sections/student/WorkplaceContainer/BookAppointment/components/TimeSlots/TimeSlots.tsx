@@ -17,6 +17,7 @@ type Props = {
     bookedAppointment: any
     userAvailabilities?: any
     loading: boolean
+    removeAvailableSlots?: object
 }
 
 const days = [
@@ -61,15 +62,15 @@ export const TimeSlots = ({
     bookedAppointment,
     userAvailabilities,
     appointmentAvailability,
+    removeAvailableSlots,
 }: Props) => {
     const [currentItems, setCurrentItems] = useState(Array())
-    const [slotsTime, setSlotsTime] = useState(Array())
     const [timeAvailability, setTimeAvailability] = useState(Array())
     const [daysAvailability, setDaysAvailability] = useState(Array())
 
     useEffect(() => {
-        setSlotsTime([])
-    }, [appointmentAvailability])
+        setCurrentItems([])
+    }, [appointmentAvailability, selectedDate])
 
     useEffect(() => {
         const available = appointmentAvailability?.map((a: any) => a?.name)

@@ -18,6 +18,7 @@ export const AppointmentType = ({ setAppointmentTypeId }: Props) => {
     useEffect(() => {
         if (appointmentTypes?.data && appointmentTypes?.data.length) {
             setSelected(appointmentTypes?.data[0].title)
+            setAppointmentTypeId(appointmentTypes?.data[0]?.id)
         }
     }, [appointmentTypes?.data])
 

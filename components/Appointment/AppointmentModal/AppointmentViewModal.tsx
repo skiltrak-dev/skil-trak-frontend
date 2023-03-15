@@ -61,19 +61,24 @@ export const AppointmentViewModal = ({ appointment, onCancel }: any) => {
 
                         <div>
                             <p className="text-xs font-medium text-slate-400">
-                                Appointment With
+                                Appointment Between
                             </p>
 
                             {/* Date & Time */}
                             <div>
                                 <p className="text-md font-semibold">
-                                    {appointment?.appointmentFor?.name ||
-                                        appointment?.appointmentBy?.name}
+                                    {appointment?.appointmentFor?.name}(
+                                    {appointment?.appointmentFor?.role})
                                 </p>
-                                <p className="text-sm font-medium text-slate-600">
+                                <p className="text-sm text-gray-600 font-semibold">and</p>
+                                <p className="text-md font-semibold">
+                                    {appointment?.appointmentBy?.name}(
+                                    {appointment?.appointmentBy?.role})
+                                </p>
+                                {/* <p className="text-sm font-medium text-slate-600">
                                     {appointment?.appointmentFor?.email ||
                                         appointment?.appointmentBy?.email}
-                                </p>
+                                </p> */}
                             </div>
                         </div>
                     </div>
