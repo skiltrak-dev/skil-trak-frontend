@@ -119,17 +119,6 @@ export const AddCustomIndustryForm = ({ workplaceId }: any) => {
             .string()
             .email('Invalid Email')
             .required('Must provide email'),
-        password: yup
-            .string()
-            // .matches(
-            // 	strongPassword(),
-            // 	"Must Contain 8 Characters, One Uppercase, One Lowercase, One Number and One Special Case Character"
-            // )
-            .required('Must provide password'),
-        confirmPassword: yup
-            .string()
-            .oneOf([yup.ref('password'), null], 'Passwords must match')
-            .required('Must confirm entered password'),
 
         // Business Information
         abn: yup.string().required('Must provide ABN'),
@@ -211,10 +200,10 @@ export const AddCustomIndustryForm = ({ workplaceId }: any) => {
             id: workplaceId,
             body: {
                 ...values,
+                password: 'N/A',
+                role: UserRoles.INDUSTRY,
                 courses: [values.courses],
                 sectors: [values.sectors.value],
-                // package: formData.package.id,
-                role: UserRoles.INDUSTRY,
             },
         })
     }
@@ -312,24 +301,6 @@ export const AddCustomIndustryForm = ({ workplaceId }: any) => {
                         required
                         onBlur={onEmailChange}
                         loading={emailCheckResult.isLoading}
-                    />
-
-                    <TextInput
-                        label={'Password'}
-                        name={'password'}
-                        type={'password'}
-                        placeholder={'Password...'}
-                        validationIcons
-                        required
-                    />
-
-                    <TextInput
-                        label={'Confirm Password'}
-                        name={'confirmPassword'}
-                        type={'password'}
-                        placeholder={'Confirm Password...'}
-                        validationIcons
-                        required
                     />
 
                     {/* Address Information */}

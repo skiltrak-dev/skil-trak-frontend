@@ -8,7 +8,8 @@ import { BsFillFileEarmarkPdfFill } from 'react-icons/bs'
 import { AiFillPlusCircle, AiFillDelete } from 'react-icons/ai'
 
 // components
-import { InputErrorMessage, Typography, VideoPreview } from '@components'
+import { Typography, VideoPreview } from '@components'
+import { InputErrorMessage } from '@components/inputs/components'
 import { getMethodsForInput, getMimeTypes } from '@utils'
 // import { elipiciseText } from '@utills'
 

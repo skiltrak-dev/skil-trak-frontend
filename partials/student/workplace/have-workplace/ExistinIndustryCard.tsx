@@ -23,19 +23,19 @@ export const ExistingIndustryCard = ({
         <div>
             <Card>
                 <div className="mb-4">
-                    <h2 className="font-semibold">
+                    <Typography variant={'subtitle'}>
                         We found following industry
-                    </h2>
-                    <p className="text-xs text-gray-400">
+                    </Typography>
+                    <Typography variant={'small'} color={'text-gray-400'}>
                         This is result of ABN number you have provided{' '}
                         <i>{industry.abn}</i>
-                    </p>
+                    </Typography>
                 </div>
 
-                <p className="font-medium text-xs text-gray-500 mb-1">
+                <Typography variant={'small'} color={'text-gray-500'}>
                     You can carry on by clicking &apos;Apply Here&apos; button
-                </p>
-                <div className="bg-gray-100 py-2 px-4 rounded-lg flex justify-between items-center">
+                </Typography>
+                <div className="mt-1 bg-gray-100 py-2 px-4 rounded-lg flex justify-between items-center">
                     <div className="flex items-center gap-x-2">
                         <InitialAvatar
                             name={industry?.user?.name}

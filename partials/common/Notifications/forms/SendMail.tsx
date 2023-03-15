@@ -151,21 +151,22 @@ export const SendMail = () => {
                                     rows={4}
                                     placeholder={'Your Message ...'}
                                 />
-
-                                <FileUpload
-                                    onChange={(docs: FileList) => {
-                                        setAttachmentFiles((preVal: any) => [
-                                            ...preVal,
-                                            ...docs,
-                                        ])
-                                    }}
-                                    name={'attachment'}
-                                    component={onFileUpload}
-                                    multiple
-                                    limit={Number(1111111111)}
-                                />
-
                                 <div className="flex justify-between items-center gap-x-4 mt-2">
+                                    <FileUpload
+                                        onChange={(docs: FileList) => {
+                                            setAttachmentFiles(
+                                                (preVal: any) => [
+                                                    ...preVal,
+                                                    ...docs,
+                                                ]
+                                            )
+                                        }}
+                                        name={'attachment'}
+                                        component={onFileUpload}
+                                        multiple
+                                        limit={Number(1111111111)}
+                                    />
+
                                     <Button
                                         submit
                                         loading={sendMessageResult?.isLoading}

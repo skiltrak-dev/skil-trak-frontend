@@ -9,7 +9,14 @@ import { useNotification } from '@hooks'
 import { AuthApi } from '@queries'
 import { isEmailValid, onlyAlphabets, SignUpUtils } from '@utils'
 
-import { Button, Checkbox, Select, TextInput, Typography } from '@components'
+import {
+    Button,
+    Checkbox,
+    Select,
+    SelectOption,
+    TextInput,
+    Typography,
+} from '@components'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { FormProvider, useForm } from 'react-hook-form'
 
@@ -24,6 +31,8 @@ export const RtoSignUpForm = ({ onSubmit }: { onSubmit: any }) => {
     const [sectorOptions, setSectorOptions] = useState([])
     const [courseOptions, setCourseOptions] = useState([])
     const [courseLoading, setCourseLoading] = useState(false)
+
+    const [courseValues, setCourseValues] = useState<SelectOption[]>([])
 
     const [storedData, setStoredData] = useState<any>(null)
 
@@ -51,6 +60,27 @@ export const RtoSignUpForm = ({ onSubmit }: { onSubmit: any }) => {
             }
         })
 
+        const abc =
+            sectors?.length > 0
+                ? sectorResponse.data
+                      .find(
+                          (sector: any) =>
+                              sector.id === sectors[sectors?.length - 1].value
+                      )
+                      ?.courses?.map((c: any) => ({
+                          label: c?.title,
+                          value: c?.id,
+                      }))
+                : []
+        console.log('abc', abc)
+
+        const abcIds = abc?.map((a: any) => a?.value)
+
+        // setCourseValues((preVal: any) => [
+        //     ...preVal?.filter((p: any) => !abcIds?.includes(p?.id)),
+        //     ...abc,
+        // ])
+
         const newCourseOptions: any = []
         filteredCourses.map((courseList: any) => {
             if (courseList && courseList.length) {
@@ -64,6 +94,7 @@ export const RtoSignUpForm = ({ onSubmit }: { onSubmit: any }) => {
         })
 
         setCourseOptions(newCourseOptions)
+        setCourseValues(newCourseOptions)
         setCourseLoading(false)
     }
 
@@ -284,9 +315,13 @@ export const RtoSignUpForm = ({ onSubmit }: { onSubmit: any }) => {
                                 label={'Courses'}
                                 name={'courses'}
                                 defaultValue={courseOptions}
+                                value={courseValues}
                                 options={courseOptions}
                                 multi
                                 loading={courseLoading}
+                                onChange={(e: any) => {
+                                    setCourseValues(e)
+                                }}
                                 disabled={
                                     storedData
                                         ? storedData?.courses?.length === 0

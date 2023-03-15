@@ -6,14 +6,21 @@ import {
     TechnicalError,
 } from '@components'
 import { useGetAssessmentEvidenceQuery } from '@queries'
-import { useState } from 'react'
+import { useRouter } from 'next/router'
+import { useEffect, useState } from 'react'
 import { useColumns } from './hooks'
 
 export const ReOpenedAssessment = () => {
     const columns = useColumns()
+    const router = useRouter()
 
     const [itemPerPage, setItemPerPage] = useState(50)
     const [page, setPage] = useState(1)
+
+    useEffect(() => {
+        setPage(Number(router.query.page || 1))
+        setItemPerPage(Number(router.query.pageSize || 50))
+    }, [router])
 
     const { isLoading, isError, data } = useGetAssessmentEvidenceQuery({
         search: `result:reOpened`,

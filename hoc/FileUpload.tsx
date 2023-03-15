@@ -1,4 +1,4 @@
-import { useEffect, useState, ReactElement } from 'react'
+import { useEffect, useState } from 'react'
 import { FileDrop } from 'react-file-drop'
 
 // Icons
@@ -6,24 +6,19 @@ import { FileDrop } from 'react-file-drop'
 // components
 import {
     HelpText,
-    PdfViewer,
     RequiredStar,
     Tooltip,
-    Typography,
-    VideoPreview,
-} from '@components'
-import { FileData } from '@types'
+} from '../components/inputs/components'
+import { Typography } from '@components'
+
+import { InputProps } from '@components/inputs/InputPropType'
 import {
-    FileFormat,
-    getFileExtension,
     getMimeTypes,
     SupportedDocumentFormats,
     SupportedImageFormats,
     SupportedVideoFormats,
 } from '@utils'
 import { useFormContext } from 'react-hook-form'
-import { IoMdDocument } from 'react-icons/io'
-import { InputProps } from '@components/inputs/InputPropType'
 
 export const FileMimeTypes = {
     video: SupportedVideoFormats,

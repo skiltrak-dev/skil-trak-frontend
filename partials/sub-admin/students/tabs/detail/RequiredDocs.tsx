@@ -45,6 +45,7 @@ export const RequiredDocs = ({
     })
     const studentCourses = useStudentAssessmentCoursesQuery(Number(studentId), {
         skip: !studentId,
+        refetchOnMountOrArgChange: true,
     })
     const getFolders = SubAdminApi.Docs.useRequiredFolders(
         {

@@ -67,4 +67,11 @@ export const assessmentEvidenceEndpoints = (
         }),
         invalidatesTags: ['AssessmentEvidence'],
     }),
+    archiveUploadedFile: builder.mutation<any, number>({
+        query: (fileId) => ({
+            url: `subadmin/assessment-evidence/file/archive/${fileId}`,
+            method: 'PATCH',
+        }),
+        invalidatesTags: ['AssessmentEvidence'],
+    }),
 })

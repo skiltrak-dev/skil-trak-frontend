@@ -8,6 +8,7 @@ import { isEmailValid } from '@utils'
 import { AuthApi, SubAdminApi } from '@queries'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useNotification } from '@hooks'
+import { UserRoles } from '@constants'
 
 export const AddSecondWorkplaceForm = ({
     studentId,
@@ -90,12 +91,6 @@ export const AddSecondWorkplaceForm = ({
         // sectors: yup.object().nullable(true).required(),
         course: yup.number().required(),
 
-        password: yup.string().required('Must provide password'),
-        confirmPassword: yup
-            .string()
-            .oneOf([yup.ref('password'), null], 'Passwords must match')
-            .required('Must confirm entered password'),
-
         // Contact Person Information
         contactPersonName: yup.string().required(),
         contactPersonEmail: yup.string().email('Must be a valid email'),
@@ -109,15 +104,16 @@ export const AddSecondWorkplaceForm = ({
     })
     const formMethods = useForm({
         mode: 'all',
-        resolver: yupResolver(validationSchema),
+        // resolver: yupResolver(validationSchema),
     })
 
     const onSubmit = (values: any) => {
         addWorkplaceIndustry({
             ...values,
             courses: [values?.course],
-            role: 'industry',
+            role: UserRoles.INDUSTRY,
             studentId,
+            password: 'N/A',
         })
     }
     return (
@@ -213,24 +209,6 @@ export const AddSecondWorkplaceForm = ({
                         required
                         onBlur={onEmailChange}
                         loading={emailCheckResult.isLoading}
-                    />
-
-                    <TextInput
-                        label={'Password'}
-                        name={'password'}
-                        type={'password'}
-                        placeholder={'Password...'}
-                        validationIcons
-                        required
-                    />
-
-                    <TextInput
-                        label={'Confirm Password'}
-                        name={'confirmPassword'}
-                        type={'password'}
-                        placeholder={'Confirm Password...'}
-                        validationIcons
-                        required
                     />
 
                     {/* Address Information */}

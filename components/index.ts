@@ -25,6 +25,7 @@ export * from './Avatar'
 export * from './ViewUserPassword'
 export * from './RedirectUser'
 export * from './EditPassword'
+export * from './Tooltip'
 
 // export * from './Pagination'
 export * from './PopUp'
