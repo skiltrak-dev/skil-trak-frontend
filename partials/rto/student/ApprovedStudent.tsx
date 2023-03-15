@@ -231,7 +231,7 @@ export const ApprovedStudent = () => {
                             columns={columns}
                             data={data.data}
                             quickActions={quickActionsElements}
-                            enableRowSelection
+                            // enableRowSelection
                         >
                             {({
                                 table,
