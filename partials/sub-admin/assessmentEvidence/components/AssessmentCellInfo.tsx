@@ -10,20 +10,14 @@ export const AssessmentCellInfo = ({ student }: { student: Student }) => {
         <div className="flex items-center relative">
             <div className="flex items-center gap-x-2">
                 <div>
-                    {student?.user?.avatar ? (
-                        <Image
-                            className="rounded-full w-7 h-7"
-                            src={student?.user?.avatar}
-                            alt={''}
-                            width={50}
-                            height={50}
-                        />
-                    ) : (
-                        <InitialAvatar name={student?.user?.name} />
-                    )}
+                    <InitialAvatar
+                        name={student?.user?.name}
+                        imageUrl={student?.user?.avatar}
+                    />
                 </div>
 
-                <Link legacyBehavior
+                <Link
+                    legacyBehavior
                     href={`/portals/sub-admin/tasks/assessment-evidence/${student?.id}/${student?.user?.id}`}
                 >
                     <a>

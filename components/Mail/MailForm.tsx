@@ -182,19 +182,6 @@ export const MailForm = ({ action, receiverId, sender }: any) => {
                                     placeholder={'Your Message ...'}
                                 />
 
-                                <FileUpload
-                                    onChange={(docs: FileList) => {
-                                        setAttachmentFiles((preVal: any) => [
-                                            ...preVal,
-                                            ...docs,
-                                        ])
-                                    }}
-                                    name={'attachment'}
-                                    component={onFileUpload}
-                                    multiple
-                                    limit={Number(1111111111)}
-                                />
-
                                 {/* <Select
                                     label={'Templates'}
                                     name={'templates'}
@@ -212,6 +199,20 @@ export const MailForm = ({ action, receiverId, sender }: any) => {
                                         touched={touched}
                                         fileupload={setFieldValue}
                                     /> */}
+                                    <FileUpload
+                                        onChange={(docs: FileList) => {
+                                            setAttachmentFiles(
+                                                (preVal: any) => [
+                                                    ...preVal,
+                                                    ...docs,
+                                                ]
+                                            )
+                                        }}
+                                        name={'attachment'}
+                                        component={onFileUpload}
+                                        multiple
+                                        limit={Number(1111111111)}
+                                    />
                                     <Button
                                         submit
                                         loading={sendMessageResult?.isLoading}

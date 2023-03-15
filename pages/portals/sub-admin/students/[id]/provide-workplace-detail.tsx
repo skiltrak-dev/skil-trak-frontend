@@ -170,7 +170,7 @@ const ProvideWorkplaceDetail: NextPageWithLayout = (props: Props) => {
                 backTitle="Student Detail"
             />
             <div className="mt-10">
-                {workplace?.isLoading ? (
+                {workplace?.isLoading || workplace?.isFetching ? (
                     <LoadingAnimation />
                 ) : (
                     <div className="flex gap-x-5 w-full">

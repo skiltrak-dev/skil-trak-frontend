@@ -6,9 +6,10 @@ import {
     LoadingSpinner,
     RequiredStar,
     Tooltip,
-    Typography,
     ValidationIcon,
-} from '@components'
+} from './components'
+import { Typography } from '@components'
+
 import { getMethodsForInput } from '@utils'
 
 import { InputErrorMessage, PasswordView } from './components'

@@ -9,7 +9,7 @@ import { Typography } from '@components/Typography'
 export const AppointmentViewModal = ({ appointment, onCancel }: any) => {
     return (
         <div className="fixed w-full h-screen bg-black/50 top-0 left-0 z-50 flex items-center justify-center">
-            <div className="bg-white shadow-lg rounded-md min-w-[500px]">
+            <div className="bg-white shadow-lg rounded-md min-w-[500px] ">
                 <div className="pl-4 py-2 flex justify-between items-center border-b">
                     <div>
                         <p className="text-md font-semibold">
@@ -70,7 +70,9 @@ export const AppointmentViewModal = ({ appointment, onCancel }: any) => {
                                     {appointment?.appointmentFor?.name}(
                                     {appointment?.appointmentFor?.role})
                                 </p>
-                                <p className="text-sm text-gray-600 font-semibold">and</p>
+                                <p className="text-sm text-gray-600 font-semibold">
+                                    and
+                                </p>
                                 <p className="text-md font-semibold">
                                     {appointment?.appointmentBy?.name}(
                                     {appointment?.appointmentBy?.role})

@@ -195,12 +195,12 @@ export const StudentProfileForm = ({
         mode: 'all',
         resolver: yupResolver(validationSchema),
     })
-
     useEffect(() => {
         if (profile?.data && profile.isSuccess) {
             const {
                 courses,
                 result,
+                cv,
                 rto,
                 savedJobs,
                 user,
@@ -209,11 +209,17 @@ export const StudentProfileForm = ({
                 createdAt,
                 ...rest
             } = profile?.data
+
+            const userValues = {
+                name: user?.name,
+                email: user?.email,
+            }
+
             const values = {
                 courses: courses?.map((c: Course) => c.id),
                 rto: rto?.id,
                 ...rest,
-                ...user,
+                ...userValues,
             }
             for (const key in values) {
                 formMethods.setValue(key, values[key])

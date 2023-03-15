@@ -2,6 +2,7 @@ import styled from 'styled-components'
 
 export const CalendarStyles = styled.div`
     position: relative;
+    // z-index: 10;
     .rbc-time-view {
         border: none !important;
     }

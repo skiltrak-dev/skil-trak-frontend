@@ -145,6 +145,7 @@ const HaveWorkplace: NextPageWithLayout = (props: Props) => {
             ...values,
             courses: [values?.courses?.value],
             role: 'industry',
+            password: 'NA',
         })
     }
 

@@ -35,7 +35,10 @@ export const ContextBar = () => {
                         </Typography>
                         <button
                             className="text-lg"
-                            onClick={() => contextBar.hide()}
+                            onClick={() => {
+                                contextBar.hide()
+                                contextBar.setContent(null)
+                            }}
                         >
                             <FaTimes />
                         </button>

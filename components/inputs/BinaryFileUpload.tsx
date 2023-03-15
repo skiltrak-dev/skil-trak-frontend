@@ -4,14 +4,9 @@ import { FileDrop } from 'react-file-drop'
 // Icons
 
 // components
-import {
-    HelpText,
-    PdfViewer,
-    RequiredStar,
-    Tooltip,
-    Typography,
-    VideoPreview,
-} from '@components'
+import { PdfViewer, Typography, VideoPreview } from '@components'
+import { HelpText, RequiredStar, Tooltip } from './components'
+
 import { FileData } from '@types'
 import {
     FileFormat,

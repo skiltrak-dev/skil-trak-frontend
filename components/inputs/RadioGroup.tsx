@@ -3,8 +3,9 @@ import {
     InputErrorMessage,
     RequiredStar,
     Tooltip,
-    Typography,
-} from '@components'
+} from './components'
+import { Typography } from '@components'
+
 import { OptionType } from '@types'
 import { InputProps } from './InputPropType'
 import { RadioButton } from './RadioButton'

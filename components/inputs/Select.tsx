@@ -4,11 +4,11 @@ import { default as ReactSelect, MenuPlacement } from 'react-select'
 import {
     Tooltip,
     HelpText,
-    Typography,
     RequiredStar,
     ValidationIcon,
     InputErrorMessage,
-} from '@components'
+} from './components'
+import { Typography } from '@components'
 
 // Colors
 

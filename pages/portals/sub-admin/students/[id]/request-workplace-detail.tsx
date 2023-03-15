@@ -83,7 +83,7 @@ const RequestWorkplaceDetail: NextPageWithLayout = (props: Props) => {
             />
             <div className="mt-10">
                 {workplace.isError && <TechnicalError />}
-                {workplace.isLoading ? (
+                {workplace.isLoading || workplace?.isFetching ? (
                     <LoadingAnimation />
                 ) : (
                     !workplace?.isError && (

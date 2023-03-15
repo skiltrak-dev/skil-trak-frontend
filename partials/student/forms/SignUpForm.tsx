@@ -25,7 +25,6 @@ import { FormProvider, useForm } from 'react-hook-form'
 
 export const StudentSignUpForm = ({ onSubmit }: { onSubmit: any }) => {
     const router = useRouter()
-    const [phoneValue, setPhoneValue] = useState()
 
     const { notification } = useNotification()
 
@@ -36,6 +35,8 @@ export const StudentSignUpForm = ({ onSubmit }: { onSubmit: any }) => {
 
     const [courseOptions, setCourseOptions] = useState<SelectOption[]>([])
     const [courseLoading, setCourseLoading] = useState(false)
+
+    const [courseValues, setCourseValues] = useState<SelectOption[]>([])
 
     const sectorOptions = sectorResponse.data?.length
         ? sectorResponse.data?.map((sector: any) => ({
@@ -90,6 +91,7 @@ export const StudentSignUpForm = ({ onSubmit }: { onSubmit: any }) => {
         })
 
         setCourseOptions(newCourseOptions)
+        setCourseValues(newCourseOptions)
         setCourseLoading(false)
     }
     // const onRtoChange = (rto: any) => {
@@ -354,6 +356,7 @@ export const StudentSignUpForm = ({ onSubmit }: { onSubmit: any }) => {
                                 label={'Courses'}
                                 name={'courses'}
                                 defaultValue={courseOptions}
+                                value={courseValues}
                                 options={courseOptions}
                                 loading={courseLoading}
                                 disabled={
@@ -361,6 +364,9 @@ export const StudentSignUpForm = ({ onSubmit }: { onSubmit: any }) => {
                                         ? storedData?.courses?.length === 0
                                         : courseOptions?.length === 0
                                 }
+                                onChange={(e: any) => {
+                                    setCourseValues(e)
+                                }}
                                 multi
                                 validationIcons
                             />
