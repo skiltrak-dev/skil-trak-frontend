@@ -118,7 +118,8 @@ export const Actions = ({
                         onClick={() => {
                             if (workplace?.assignedTo) {
                                 changeCustomIndustryStatus({
-                                    id: appliedIndustry?.industry?.user?.id,
+                                    industryId:
+                                        appliedIndustry?.industry?.user?.id,
                                     workplaceId,
                                     status: userStatus.APPROVED,
                                 })

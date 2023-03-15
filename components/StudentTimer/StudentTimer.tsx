@@ -1,6 +1,6 @@
 import { TimerItem } from './TimerItem'
 import Countdown from 'react-countdown'
-import { Button } from '@components/buttons'
+import { ActionButton, Button } from '@components/buttons'
 import { ReactElement, useEffect, useState } from 'react'
 import moment from 'moment'
 import { AiFillEdit } from 'react-icons/ai'
@@ -89,21 +89,21 @@ export const StudentTimer = ({
                             Expires At {moment(date).format('DD MMMM, YYYY')}
                         </div>
                     </div>
-                    <div className='flex flex-col gap-y-1'>
-                        <Typography variant={'muted'} color={"text-gray-500"}>Expires on</Typography>
+                    <div className="flex flex-col gap-y-1">
+                        <Typography variant={'muted'} color={'text-gray-500'}>
+                            Expires on
+                        </Typography>
                         <Typography variant={'label'}>
                             {moment(date).format('Do MMM YYYY')}
                         </Typography>
                     </div>
-                    <div
-                        className="bg-blue-100 rounded-full p-1 group"
+                    <ActionButton
+                        rounded
+                        Icon={AiFillEdit}
+                        variant={'info'}
+                        title="Edit Expiry Date"
                         onClick={onDateClick}
-                    >
-                        <div className="group-hover:block hidden text-xs whitespace-nowrap shadow-lg text-gray-100 bg-gray-700 px-2 py-1 rounded-md absolute z-10 -top-0.5 right-0">
-                            Edit Expiry Date
-                        </div>
-                        <AiFillEdit className="text-blue-400  cursor-pointer" />
-                    </div>
+                    />
                 </div>
             ) : null}
         </>

@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { PulseLoader } from 'react-spinners'
 
 //components
 import {
@@ -13,6 +14,7 @@ import {
     AssessmentFolderCard,
     Button,
     ShowErrorNotifications,
+    ActionButton,
 } from '@components'
 import { Actions, AddFolderComment } from './components'
 
@@ -30,6 +32,7 @@ import { FileUpload } from '@hoc'
 import { UploadFile } from '@components/sections/student/AssessmentsContainer/AssessmentsEvidence/AssessmentFolderDetailX/UploadFile'
 import { getDocType } from '@components/sections/student/AssessmentsContainer'
 import { useRouter } from 'next/router'
+import { AiFillDelete } from 'react-icons/ai'
 
 export const Detail = ({
     studentId,
@@ -51,6 +54,7 @@ export const Detail = ({
     // query
     const studentCourses = useStudentAssessmentCoursesQuery(Number(studentId), {
         skip: !studentId,
+        refetchOnMountOrArgChange: true,
     })
     const getFolders = useGetAssessmentEvidenceDetailQuery(
         { courseId: Number(selectedCourse?.id), studentId: Number(studentId) },
@@ -152,9 +156,40 @@ export const Detail = ({
         })
     }
 
+    const [archiveFile, archiveFileResult] =
+        SubAdminApi.AssessmentEvidence.archiveUploadedFile()
+
+    useEffect(() => {
+        if (archiveFileResult.isSuccess) {
+            notification.success({
+                title: 'File Removed',
+                description: 'File Removed Successfully',
+            })
+        }
+    }, [archiveFileResult])
+
+    const deleteUploadedFileAction = (fileId: number) => {
+        return (
+            <div
+                className="bg-white p-1 rounded-full shadow-md cursor-pointer"
+                onClick={() => {
+                    archiveFile(fileId)
+                }}
+            >
+                {archiveFileResult?.isLoading &&
+                archiveFileResult?.originalArgs === fileId ? (
+                    <PulseLoader size={3} />
+                ) : (
+                    <AiFillDelete className="text-red-500 text-sm" />
+                )}
+            </div>
+        )
+    }
+
     return (
         <div className="mb-10">
             <ShowErrorNotifications result={downloadFilesResult} />
+            <ShowErrorNotifications result={archiveFileResult} />
             <div className="flex justify-between items-center mb-6">
                 <PageTitle
                     title="Assessment Evidence Detail"
@@ -384,6 +419,7 @@ export const Detail = ({
                                 studentId={studentId}
                                 assessmentEvidenceView={true}
                                 result={results}
+                                deleteAction={deleteUploadedFileAction}
                             />
 
                             {/* <AddFolderComment

@@ -3,9 +3,10 @@ import {
     LoadingSpinner,
     RequiredStar,
     Tooltip,
-    Typography,
     ValidationIcon,
-} from '@components'
+} from './components'
+import { Typography } from '@components'
+
 import { getMethodsForInput } from '@utils'
 import { useFormContext } from 'react-hook-form'
 import { InputErrorMessage } from './components/InputErrorMessage'

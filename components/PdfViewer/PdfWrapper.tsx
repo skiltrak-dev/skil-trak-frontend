@@ -1,5 +1,5 @@
 // ------------------------
-import { LoadingSpinner } from '@components'
+import { LoadingSpinner } from '@components/inputs/components'
 import { useState } from 'react'
 // import { Document, Page } from "react-pdf";
 import { Document, Page, pdfjs } from 'react-pdf'

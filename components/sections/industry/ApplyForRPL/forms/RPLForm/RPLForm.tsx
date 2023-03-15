@@ -12,8 +12,9 @@ import {
     Popup,
     TextArea,
     Typography,
-    InputErrorMessage,
 } from '@components'
+import { InputErrorMessage } from '@components/inputs/components'
+
 import { UploadRPLDocs } from './components'
 
 // hooks

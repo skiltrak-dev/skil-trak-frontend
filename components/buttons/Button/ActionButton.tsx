@@ -1,3 +1,4 @@
+import { Tooltip } from '@components/Tooltip'
 import classNames from 'classnames'
 import { PulseLoader } from 'react-spinners'
 
@@ -99,11 +100,7 @@ export const ActionButton = ({
                     </>
                 )}
             </div>
-            {title && (
-                <div className="hidden group-hover:block absolute whitespace-nowrap right-0 z-50 bg-gray-700 mt-4 text-xs text-white px-3 py-1 rounded">
-                    {title}
-                </div>
-            )}
+            {title && <Tooltip>{title}</Tooltip>}
         </button>
     )
 }

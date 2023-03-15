@@ -28,6 +28,7 @@ export const AssessmentResponse = ({
     assessmentEvidenceView,
     result,
     header = true,
+    deleteAction,
 }: {
     folder?: any
     studentId?: any
@@ -35,6 +36,7 @@ export const AssessmentResponse = ({
     assessmentEvidenceView?: boolean
     header?: boolean
     result?: any
+    deleteAction?: any
 }) => {
     const [comment, setComment] = useState<string>('')
     const [commentType, setCommentType] = useState<string>('')
@@ -193,6 +195,7 @@ export const AssessmentResponse = ({
                                             type={folder?.type}
                                             selected={selected?.id === file.id}
                                             onClick={onFileClicked}
+                                            deleteAction={deleteAction}
                                         />
                                     )
                                 )}

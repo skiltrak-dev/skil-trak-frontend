@@ -22,6 +22,12 @@ export const PendingAssessment = () => {
         skip: itemPerPage * page - itemPerPage,
         limit: itemPerPage,
     })
+
+    useEffect(() => {
+        setPage(Number(router.query.page || 1))
+        setItemPerPage(Number(router.query.pageSize || 50))
+    }, [router])
+
     // WORKPLACE JOY RIDE - Start
     const joyride = useJoyRide()
 
@@ -64,7 +70,12 @@ export const PendingAssessment = () => {
                                             )}
                                         </div>
                                     </div>
-                                    <div id='assessment-submission' className="px-6">{table}</div>
+                                    <div
+                                        id="assessment-submission"
+                                        className="px-6"
+                                    >
+                                        {table}
+                                    </div>
                                 </div>
                             )
                         }}
