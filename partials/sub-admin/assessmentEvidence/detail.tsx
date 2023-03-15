@@ -25,7 +25,7 @@ import {
     useStudentAssessmentCoursesQuery,
     SubAdminApi,
 } from '@queries'
-import { getCourseResult, getUserCredentials } from '@utils'
+import { ellipsisText, getCourseResult, getUserCredentials } from '@utils'
 import { FileUpload } from '@hoc'
 import { UploadFile } from '@components/sections/student/AssessmentsContainer/AssessmentsEvidence/AssessmentFolderDetailX/UploadFile'
 import { getDocType } from '@components/sections/student/AssessmentsContainer'
@@ -103,8 +103,8 @@ export const Detail = ({
     useEffect(() => {
         if (manuallyReopenSubmissionResult.isSuccess) {
             notification.success({
-                title: 'Successfully Opened Request Manullay',
-                description: 'Successfully Opened Request Manullay',
+                title: 'Successfully Opened Request Manually',
+                description: 'Successfully Opened Request Manually',
             })
         }
     }, [manuallyReopenSubmissionResult])
@@ -261,7 +261,7 @@ export const Detail = ({
             ) : (
                 <NoData
                     text={
-                        'No Assessment Courses Were Found or No Submission from Student recived yet'
+                        'No Assessment Courses Were Found or No Submission from Student received yet'
                     }
                 />
             )}
@@ -334,11 +334,13 @@ export const Detail = ({
                                     variant={'small'}
                                     color={'text-gray-700'}
                                 >
-                                    Selected Folder
+                                    Selected Course
                                 </Typography>
                                 <Typography variant={'label'}>
-                                    {selectedFolder?.name ||
-                                        'No Folder Selected'}
+                                    {/* {selectedFolder?.name ||
+                                        'No Folder Selected'} */}
+                                    {ellipsisText(selectedCourse?.title, 30) ||
+                                        'None Selected'}
                                 </Typography>
                             </div>
 

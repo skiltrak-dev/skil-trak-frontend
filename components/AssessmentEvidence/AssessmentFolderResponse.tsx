@@ -10,16 +10,16 @@ import {
     PdfViewModal,
     Select,
     Typography,
-    VideoPlayModal,
+    VideoPlayModal
 } from '@components'
 
 import { Button } from '@components/buttons'
 import { TextInput } from '@components/inputs'
 
 // query
-import { useAddCommentOnAssessmentMutation, SubAdminApi } from '@queries'
+import { Result } from '@constants'
+import { useAddCommentOnAssessmentMutation } from '@queries'
 import moment from 'moment'
-import { getCourseResult } from '@utils'
 
 export const AssessmentResponse = ({
     folder,
@@ -97,6 +97,22 @@ export const AssessmentResponse = ({
         }
     }
 
+    const getResultBadge = () => {
+        switch (result?.result) {
+            case Result.Competent:
+                return <Badge text="Competent" variant="success" />
+
+            case Result.NotCompetent:
+                return <Badge text="Not Competent" variant="error" />
+            case Result.ReOpened:
+                return <Badge text="Re-Opened" variant="info" />
+            case Result.Pending:
+                return <Badge text="Submitted" variant="info" />
+            default:
+                return <Badge text={result?.result} variant="muted" />
+        }
+    }
+
     useEffect(() => {
         setComment('')
     }, [folder, getAssessmentResponse])
@@ -145,17 +161,7 @@ export const AssessmentResponse = ({
                             </div>
                             {assessmentEvidenceView && (
                                 <div className="flex flex-col gap-y-1 items-end">
-                                    {result?.result === 'pending' ? (
-                                        <Badge
-                                            text={'Submitted'}
-                                            variant="info"
-                                        />
-                                    ) : (
-                                        <Badge
-                                            text={result?.result?.toUpperCase()}
-                                            variant="muted"
-                                        />
-                                    )}
+                                    {result && getResultBadge()}
 
                                     {result?.assessor &&
                                         result?.assessor?.createdAt && (
