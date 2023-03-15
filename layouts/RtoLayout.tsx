@@ -75,7 +75,7 @@ export const RtoLayout = ({ pageTitle, children }: RtoLayoutProps) => {
         >
             <UserLayout>
                 <>
-                    <div className="px-16">
+                    <div className="px-8">
                         <div className="mb-4">
                             <RtoNavbar />
                             <DisplayAlerts />

@@ -693,13 +693,13 @@ const RTODashboard: NextPageWithLayout = () => {
                     </Link> */}
                 </div>
 
-                <div className="mt-4">
+                <div className="mt-4 flex flex-wrap gap-x-2 gap-y-2">
                     {isLoading ? (
                         <ContextBarLoading />
                     ) : rto?.courses.length ? (
                         Object.keys(sectorsWithCourses).map((sector: any) => {
                             return (
-                                <div className="mt-4" key={sector?.id}>
+                                <div className="border rounded p-2" key={sector?.id}>
                                     <div>
                                         {/* <p className="text-xs font-medium text-gray-400">
                                             Sector
@@ -712,7 +712,7 @@ const RTODashboard: NextPageWithLayout = () => {
                                     {(sectorsWithCourses as any)[sector].map(
                                         (c: Course, i: number) => (
                                             <div
-                                                className="flex flex-col gap-y-4 ml-4"
+                                                className="flex flex-col gap-y-4 ml-4 mb-2"
                                                 key={i}
                                             >
                                                 <div className="border-l-4 border-green-600 px-2">
@@ -720,9 +720,11 @@ const RTODashboard: NextPageWithLayout = () => {
                                                         <p className="text-xs font-medium text-gray-400">
                                                             {c.code}
                                                         </p>
-                                                        <p className="text-sm">
-                                                            {c.title}
-                                                        </p>
+                                                        <div>
+                                                            <p className="text-sm">
+                                                                {c.title}
+                                                            </p>
+                                                        </div>
                                                     </div>
 
                                                     {/* <Badge text="Active" /> */}

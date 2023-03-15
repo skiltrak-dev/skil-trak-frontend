@@ -1,5 +1,6 @@
 import { Badge } from '@components/Badge'
 import { Typography } from '@components/Typography'
+import { Result } from '@constants'
 
 type Props = {
     id?: string
@@ -24,6 +25,22 @@ export const CourseCard = ({
     course,
     result,
 }: Props) => {
+    const getResultBadge = () => {
+        switch (result?.result) {
+            case Result.Competent:
+                return <Badge text="Competent" size="xs" variant="success" />
+
+            case Result.NotCompetent:
+                return <Badge text="Not Competent" size="xs" variant="error" />
+            case Result.ReOpened:
+                return <Badge text="Re-Opened" size="xs" variant="info" />
+            case Result.Pending:
+                return <Badge text="Submitted" size="xs" variant="info" />
+            default:
+                return <Badge text={result?.result} size="xs" variant="muted" />
+        }
+    }
+
     return (
         <>
             <div
@@ -40,37 +57,7 @@ export const CourseCard = ({
                             {code}
                         </Typography>
                     </div>
-                    {
-                        result &&
-                            (result?.result === 'pending' ? (
-                                <Badge
-                                    text="Submitted"
-                                    size="xs"
-                                    variant="info"
-                                />
-                            ) : (
-                                <Badge
-                                    text={result?.result}
-                                    size="xs"
-                                    variant="muted"
-                                />
-                            ))
-                        // <div
-                        //     className={`${
-                        //         isActive ? 'bg-[#686DE0]' : 'bg-rose-400'
-                        //     } px-1`}
-                        // >
-                        //     <Typography
-                        //         variant="xs"
-                        //         color="text-white"
-                        //         capitalize
-                        //     >
-                        //         {result?.result === 'pending'
-                        //             ? 'Submitted'
-                        //             : result?.result}
-                        //     </Typography>
-                        // </div>
-                    }
+                    {result && getResultBadge()}
                 </div>
                 <div>
                     <div>

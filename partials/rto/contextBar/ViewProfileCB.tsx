@@ -92,30 +92,6 @@ export const ViewProfileCB = () => {
                             canEdit
                             setIsAvatarUpdated={setIsAvatarUpdated}
                         />
-                        {/* <div className="relative">
-                            {rto?.user.avatar ? (
-                                <Image
-                                    src={rto?.user.avatar}
-                                    width={100}
-                                    height={100}
-                                    alt=""
-                                    className="rounded-full shadow-inner-image"
-                                />
-                            ) : (
-                                <div className="h-24 w-24 flex items-center justify-center bg-gray-100 rounded-full">
-                                    <span className="text-4xl text-gray-300">
-                                        <FaSchool />
-                                    </span>
-                                </div>
-                            )}
-                            <div
-                                className={`${
-                                    rto?.user.avatar
-                                        ? 'w-[100px] h-[100px]'
-                                        : 'w-24 h-24'
-                                } absolute top-0 left-0 bg-transparent rounded-full shadow-inner-image`}
-                            ></div>
-                        </div> */}
 
                         <div className="flex flex-col items-center mt-2">
                             <p className="text-md font-semibold">
@@ -161,7 +137,7 @@ export const ViewProfileCB = () => {
                                 Phone Number
                             </div>
                         </div>
-                        <div className="p-1">
+                        {/* <div className="p-1">
                             <div className="flex items-center space-x-2">
                                 <span className="text-gray-300">
                                     <GiBackwardTime />
@@ -171,7 +147,7 @@ export const ViewProfileCB = () => {
                             <div className="text-gray-400 text-[11px] -mt-0.5 text-center">
                                 Last Login
                             </div>
-                        </div>
+                        </div> */}
                     </div>
 
                     {/* Info Row 3 */}
@@ -253,15 +229,27 @@ export const ViewProfileCB = () => {
                                     Package Name
                                 </Typography>
                             </div>
-                            <Typography variant={'small'} color={'text-black'}>
-                                {rto?.package?.name || 'N/A'}
-                            </Typography>
-                            <Typography variant={'small'} color={'text-black'}>
-                                {ellipsisText(
-                                    rto?.package?.shortDescription,
-                                    15
-                                ) || 'N/A'}
-                            </Typography>
+                            {rto?.package?.name ? (
+                                <>
+                                    <Typography
+                                        variant={'small'}
+                                        color={'text-black'}
+                                    >
+                                        {rto?.package?.name || 'N/A'}
+                                    </Typography>
+                                    <Typography
+                                        variant={'small'}
+                                        color={'text-black'}
+                                    >
+                                        {ellipsisText(
+                                            rto?.package?.shortDescription,
+                                            15
+                                        ) || 'N/A'}
+                                    </Typography>
+                                </>
+                            ) : (
+                                <p className="text-xs">Not Selected</p>
+                            )}
                         </div>
                         <div className="p-2">
                             <div className="flex items-center gap-x-2">
@@ -297,12 +285,10 @@ export const ViewProfileCB = () => {
                             {rto?.subadmin.length && (
                                 <InitialAvatarContainer show={1}>
                                     {rto?.subadmin.map((coordinator: any) => (
-                                        <>
-                                            <InitialAvatar
-                                                name={coordinator?.user?.name}
-                                                first
-                                            />
-                                        </>
+                                        <InitialAvatar
+                                            name={coordinator?.user?.name}
+                                            first
+                                        />
                                     ))}
                                 </InitialAvatarContainer>
                             )}

@@ -5,6 +5,7 @@ export const InitialAvatarContainer = ({
     children: any
     show: number
 }) => {
+    console.log('::: CHILD', children)
     return (
         <div className="relative flex items-center">
             {children?.length > 0

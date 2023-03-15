@@ -1,6 +1,14 @@
 import { Card, Typography } from '@components'
+import { Result } from '@constants'
+import { UserStatus } from '@types'
 import moment from 'moment'
 import React from 'react'
+import {
+    MdCancel,
+    MdOutlinePendingActions,
+    MdOutlineVerified,
+    MdVerified,
+} from 'react-icons/md'
 
 export const FinalResult = ({
     results,
@@ -11,6 +19,40 @@ export const FinalResult = ({
     folders: any
     courseName: string
 }) => {
+    const getResultBadge = (result: string) => {
+        switch (result) {
+            case Result.Competent:
+                return (
+                    <div className="flex items-center gap-x-2 text-green-500 font-medium">
+                        <MdVerified />
+                        <span className="uppercase">Competent</span>
+                    </div>
+                )
+        }
+    }
+
+    const getFolderStatusBadge = (status: string) => {
+        switch (status) {
+            case UserStatus.Approved:
+                return (
+                    <span className="text-green-400">
+                        <MdOutlineVerified />
+                    </span>
+                )
+            case UserStatus.Rejected:
+                return (
+                    <span className="text-red-400">
+                        <MdCancel />
+                    </span>
+                )
+            default:
+                return (
+                    <span>
+                        <MdOutlinePendingActions />
+                    </span>
+                )
+        }
+    }
     return (
         <div className="mt-5 flex flex-col gap-y-2">
             {results &&
@@ -24,51 +66,67 @@ export const FinalResult = ({
                     ?.map((result: any) => (
                         <Card key={result?.id}>
                             <div className="flex flex-col gap-y-2 border-b pb-3">
-                                <Typography variant={'title'}>
-                                    Result - Submission{' '}
-                                    {result?.totalSubmission} for {courseName} -{' '}
-                                    <span className="uppercase">
-                                        {result?.result}
-                                    </span>
-                                </Typography>
-                                <Typography variant={'label'}>
-                                    <span className="font-semibold">
-                                        Comment:
-                                    </span>{' '}
+                                <div className="flex justify-between">
+                                    <div>
+                                        <p className="font-medium text-slate-400">
+                                            Result For Submission{'#'}
+                                            {result?.totalSubmission}
+                                        </p>
+                                        <Typography variant={'title'}>
+                                            {courseName}
+                                        </Typography>
+                                    </div>
+
+                                    <div className="flex flex-col items-end">
+                                        <Typography
+                                            variant={'muted'}
+                                            color={'text-gray-400'}
+                                        >
+                                            <span className="font-semibold">
+                                                Dated:
+                                            </span>{' '}
+                                            {moment(result?.updatedAt)?.format(
+                                                'DD MMM YYYY, hh:mm a'
+                                            )}
+                                        </Typography>
+                                        {getResultBadge(result?.result)}
+                                    </div>
+                                </div>
+
+                                <Typography
+                                    variant={'body'}
+                                    color={'text-slate-600'}
+                                >
                                     {result?.finalComment}
-                                </Typography>
-                                <Typography variant={'label'}>
-                                    <span className="font-semibold">Date:</span>{' '}
-                                    {moment(result?.updatedAt)?.format(
-                                        'DD-MMM-YY hh:mm a'
-                                    )}
                                 </Typography>
                             </div>
 
+                            <p className="mt-4 text-sm font-medium">
+                                Folder Results
+                            </p>
                             <div className="flex flex-col gap-y-2">
                                 {folders?.map((folder: any) => {
                                     return (
                                         <div
                                             key={folder?.id}
-                                            className="flex flex-col"
+                                            className="flex items-center border-b py-1"
                                         >
-                                            <Typography variant={'subtitle'}>
-                                                Result for {folder?.name} -
-                                                <span className="uppercase">
-                                                    {
-                                                        folder
-                                                            ?.studentResponse[0]
-                                                            ?.status
-                                                    }
-                                                </span>
-                                            </Typography>
+                                            <span className="w-6">
+                                                {getFolderStatusBadge(
+                                                    folder?.studentResponse[0]
+                                                        ?.status
+                                                )}
+                                            </span>
+                                            <span className="w-2/6">
+                                                <p className="font-medium text-sm">
+                                                    {folder?.name}
+                                                </p>
+                                            </span>
+
                                             <Typography
                                                 variant={'small'}
                                                 color={'text-gray-500'}
                                             >
-                                                <span className="font-semibold text-black">
-                                                    Comment:
-                                                </span>{' '}
                                                 {
                                                     folder?.studentResponse[0]
                                                         ?.comment
