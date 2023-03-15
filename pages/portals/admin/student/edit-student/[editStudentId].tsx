@@ -38,6 +38,13 @@ const EditStudent: NextPageWithLayout = () => {
             id: student?.data?.user?.id,
             body: {
                 ...values,
+                ...(values?.courses
+                    ? {
+                          courses: values?.courses?.map(
+                              (course: any) => course?.value
+                          ),
+                      }
+                    : {}),
             },
         })
     }
@@ -50,7 +57,7 @@ const EditStudent: NextPageWithLayout = () => {
     return (
         <div className="px-4">
             {student.isError && <TechnicalError />}
-            {student.isLoading ? (
+            {student.isLoading || student.isFetching ? (
                 <LoadingAnimation height={'h-[70vh]'} />
             ) : student.data && student.isSuccess ? (
                 <StudentProfileForm

@@ -27,6 +27,7 @@ import {
 } from '@queries'
 import { useRouter } from 'next/router'
 import { Arrow, CreateAppointmentCard, SearchUser } from '@partials/common'
+import { UserRoles } from '@constants'
 
 export const CreateAppointments = () => {
     const router = useRouter()
@@ -68,19 +69,22 @@ export const CreateAppointments = () => {
 
     const { notification } = useNotification()
 
+    const roles = [UserRoles.INDUSTRY, UserRoles.RTO, UserRoles.STUDENT]
+
+    const queryUser = Object.keys(router?.query)[0]
     useEffect(() => {
-        if (query) {
-            const user = Object.keys(router?.query)[0]
-            setUser(user)
+        if (query && roles.includes(queryUser)) {
+            setUser(queryUser)
             const appointmentFor = AppointmentFor?.find(
-                (appointment) => appointment?.text?.toLocaleLowerCase() === user
+                (appointment) =>
+                    appointment?.text?.toLocaleLowerCase() === queryUser
             )?.text
             setSelectedPerson({
                 ...selectedPerson,
                 selectedAppointmentFor: appointmentFor,
             })
         }
-    }, [router, query])
+    }, [router, query, queryUser])
 
     useEffect(() => {
         if (selectedPerson.selectedAppointmentWith === 'Self') {
@@ -91,6 +95,24 @@ export const CreateAppointments = () => {
             })
         }
     }, [selectedPerson.selectedAppointmentWith])
+
+    // useEffect(() => {
+    //     setSelectedUser({
+    //         ...selectedUser,
+    //         selectedAppointmentWithUser: '',
+    //     })
+    // }, [selectedPerson.selectedAppointmentWith])
+
+    // useEffect(() => {
+    //     setSelectedUser({
+    //         ...selectedUser,
+    //         selectedAppointmentForUser: '',
+    //     })
+    // }, [selectedPerson.selectedAppointmentFor])
+
+    useEffect(() => {
+        setSelectedTime(null)
+    }, [selectedPerson, selectedUser])
 
     // const userAvailabilities = useUserAvailabilitiesQuery(
     //     {
@@ -134,6 +156,7 @@ export const CreateAppointments = () => {
         {},
         {
             skip: selectedPerson.selectedAppointmentWith !== 'Self',
+            refetchOnMountOrArgChange: true,
         }
     )
 
@@ -309,6 +332,10 @@ export const CreateAppointments = () => {
                             selectedTime={selectedTime}
                             appointmentAvailability={availabilityList?.data}
                             userAvailabilities={timeSlots?.data}
+                            removeAvailableSlots={{
+                                selectedPerson,
+                                selectedUser,
+                            }}
                             loading={
                                 timeSlots?.isLoading || timeSlots?.isFetching
                             }
@@ -339,6 +366,7 @@ export const CreateAppointments = () => {
                                 !selectedUser.selectedAppointmentForUser ||
                                 !selectedUser.selectedAppointmentWithUser ||
                                 !appointmentTypeId ||
+                                !selectedTime ||
                                 createAppointmentResult.isLoading
                             }
                             loading={createAppointmentResult.isLoading}

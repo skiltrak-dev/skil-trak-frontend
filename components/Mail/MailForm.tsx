@@ -80,15 +80,26 @@ export const MailForm = ({ action, receiverId, sender }: any) => {
         const date = new Date()
         const parent = -1
         // const parent = replyMessage?.id
-        sendMessage({
-            // parent,
+        const formData = new FormData()
+
+        const { attachment, ...rest } = values
+        const data = {
             subject: values.subject,
             message: values.message,
             type: 'email',
             sender: userCredentials?.id,
             receiver: receiverId,
             // receiver: receiverId || 64,
+        }
+
+        Object.entries(data)?.forEach(([key, value]: any) => {
+            formData.append(key, value)
         })
+
+        attachment?.forEach((attached: File) => {
+            formData.append('attachment', attached)
+        })
+        sendMessage(formData)
         // setReplyMessage(null)
     }
 
