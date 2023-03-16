@@ -29,6 +29,13 @@ export const AssignSubAdminForm = ({
         mode: 'all',
     })
 
+    const subAdminOptions = subAdmins?.isSuccess
+        ? subAdmins.data?.data.map((s: SubAdmin) => ({
+              label: s?.user?.name,
+              value: s?.id,
+          }))
+        : []
+
     return (
         <FormProvider {...methods}>
             <form
@@ -43,14 +50,7 @@ export const AssignSubAdminForm = ({
                     <Select
                         name={'subAdmins'}
                         label={'Sub Admins'}
-                        options={
-                            subAdmins.isLoading
-                                ? []
-                                : subAdmins.data?.data.map((s: SubAdmin) => ({
-                                      label: s.user.name,
-                                      value: s.id,
-                                  }))
-                        }
+                        options={subAdminOptions}
                         loading={subAdmins.isLoading}
                         multi
                     />

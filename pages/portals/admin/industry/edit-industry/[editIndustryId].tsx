@@ -18,6 +18,7 @@ const EditRto: NextPageWithLayout = () => {
 
     const industry = AdminApi.Industries.useDetail(editIndustryId, {
         skip: !editIndustryId,
+        refetchOnMountOrArgChange: true,
     })
 
     const { notification } = useNotification()

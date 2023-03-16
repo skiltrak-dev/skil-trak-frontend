@@ -42,6 +42,7 @@ const Detail: NextPageWithLayout = () => {
 
     const industry = AdminApi.Industries.useDetail(Number(router.query.id), {
         skip: !router.query?.id,
+        refetchOnMountOrArgChange: true,
     })
 
     useEffect(() => {
