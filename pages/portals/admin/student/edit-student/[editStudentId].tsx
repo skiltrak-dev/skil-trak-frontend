@@ -34,17 +34,23 @@ const EditStudent: NextPageWithLayout = () => {
         if (!values?.courses) {
             delete values?.courses
         }
+        const { name, email, ...rest } = values
         updateProfile({
-            id: student?.data?.user?.id,
+            id: student?.data?.id,
             body: {
-                ...values,
-                ...(values?.courses
+                ...rest,
+                ...(rest?.courses
                     ? {
-                          courses: values?.courses?.map(
-                              (course: any) => course?.value
-                          ),
+                          courses: rest?.courses?.map((course: any) => ({
+                              id: course?.value,
+                          })),
                       }
                     : {}),
+                user: {
+                    id: student?.data?.user?.id,
+                    name,
+                    email,
+                },
             },
         })
     }

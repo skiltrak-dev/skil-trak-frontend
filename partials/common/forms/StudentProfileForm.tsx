@@ -177,6 +177,7 @@ export const StudentProfileForm = ({
         dob: yup.date().required('Must provide Date of Birth'),
 
         phone: yup.string().required('Must provide phone number'),
+        rto: yup.number().required('RTO is required'),
 
         // Contact Person Information
         emergencyPerson: yup
@@ -205,6 +206,14 @@ export const StudentProfileForm = ({
                 savedJobs,
                 user,
                 workplace,
+                location,
+                industries,
+                studentStatus,
+                skiltrakId,
+                nonContactable,
+                isActive,
+                expiryDate,
+                batch,
                 updatedAt,
                 createdAt,
                 ...rest
@@ -268,19 +277,11 @@ export const StudentProfileForm = ({
                             </div>
 
                             <div className="w-4/6">
-                                <TextInput
-                                    label={'Name'}
-                                    name={'name'}
-                                    placeholder={'Student Name...'}
-                                    validationIcons
-                                    required
-                                />
-
                                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-8">
                                     <TextInput
-                                        label={'Phone Number'}
-                                        name={'phone'}
-                                        placeholder={'Your phone number...'}
+                                        label={'Name'}
+                                        name={'name'}
+                                        placeholder={'Student Name...'}
                                         validationIcons
                                         required
                                     />
@@ -291,6 +292,14 @@ export const StudentProfileForm = ({
                                         validationIcons
                                         required
                                     />
+                                    <TextInput
+                                        label={'Phone Number'}
+                                        name={'phone'}
+                                        placeholder={'Your phone number...'}
+                                        validationIcons
+                                        required
+                                    />
+
                                     <TextInput
                                         label={'Student ID'}
                                         name={'studentId'}
@@ -308,6 +317,8 @@ export const StudentProfileForm = ({
                                         validationIcons
                                         required
                                     />
+                                </div>
+                                <div className="grid grid-cols-2 gap-x-8">
                                     <TextInput
                                         label={'Emergency Person'}
                                         name={'emergencyPerson'}

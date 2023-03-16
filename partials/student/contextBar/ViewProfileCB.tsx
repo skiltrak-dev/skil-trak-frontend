@@ -59,7 +59,7 @@ export const ViewProfileCB = () => {
 
                     <div className="flex flex-col items-center">
                         <p className="text-lg font-semibold">
-                            {data?.user?.name}
+                            {data?.user?.name} {data?.familyName}
                         </p>
                         <div className="flex items-center gap-x-2">
                             <p className="text-sm text-gray-400">

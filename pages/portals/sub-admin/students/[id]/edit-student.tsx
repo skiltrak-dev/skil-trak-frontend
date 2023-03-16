@@ -48,7 +48,28 @@ const EditStudentDetail: NextPageWithLayout = () => {
     }, [])
 
     const onSubmit = (values: any) => {
-        updateDetail({ id: values?.id, body: values })
+        if (!values?.courses) {
+            delete values?.courses
+        }
+        const { name, email, ...rest } = values
+        updateDetail({
+            id: student?.data?.id,
+            body: {
+                ...rest,
+                ...(rest?.courses
+                    ? {
+                          courses: rest?.courses?.map((course: any) => ({
+                              id: course?.value,
+                          })),
+                      }
+                    : {}),
+                user: {
+                    id: student?.data?.user?.id,
+                    name,
+                    email,
+                },
+            },
+        })
     }
     return (
         <>
@@ -56,7 +77,7 @@ const EditStudentDetail: NextPageWithLayout = () => {
             {/* <UpdateDetails onSubmit={onSubmit} result={updateDetailResult} /> */}
             <div className="px-4">
                 {student.isError && <TechnicalError />}
-                {student.isLoading ? (
+                {student.isLoading || student.isFetching ? (
                     <LoadingAnimation height={'h-[70vh]'} />
                 ) : student.data && student.isSuccess ? (
                     <StudentProfileForm

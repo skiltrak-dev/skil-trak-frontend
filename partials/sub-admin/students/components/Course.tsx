@@ -10,6 +10,7 @@ import { IoClose } from 'react-icons/io5'
 // queries
 import { useUpdateSubAdminCourseDurationMutation } from '@queries'
 import { useRouter } from 'next/router'
+import { getCourseResult } from '@utils'
 
 export const Course = ({ course }: any) => {
     const [timeDuration] = useUpdateSubAdminCourseDurationMutation()
@@ -21,7 +22,7 @@ export const Course = ({ course }: any) => {
         endTime: '',
     })
 
-    const result = course?.results ? course?.results[0]?.result : []
+    const result = getCourseResult(course?.results)
 
     const badge = (text: string, outline?: boolean) => {
         return (
@@ -45,7 +46,7 @@ export const Course = ({ course }: any) => {
                         {course?.code}
                     </Typography>
                     {/* {badge(course?.isActive ? 'Active' : 'Not Active', true)} */}
-                    {badge(result?.length ? result : 'Not Assessed')}
+                    {badge(result?.result || 'Not Assessed')}
                 </div>
                 <Typography variant={'label'}>{course?.title}</Typography>
             </div>

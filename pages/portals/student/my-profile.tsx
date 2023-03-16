@@ -13,7 +13,12 @@ import {
 import { StudentProfileForm } from '@partials/common'
 
 import { useRouter } from 'next/router'
-import { EmptyData, LoadingAnimation, TechnicalError } from '@components'
+import {
+    EmptyData,
+    LoadingAnimation,
+    SelectOption,
+    TechnicalError,
+} from '@components'
 
 const MyProfile: NextPageWithLayout = () => {
     const router = useRouter()
@@ -24,7 +29,27 @@ const MyProfile: NextPageWithLayout = () => {
         useUpdateStudentProfileMutation()
 
     const onSubmit = (values: any) => {
-        updateProfile({ body: values })
+        if (!values?.courses) {
+            delete values?.courses
+        }
+        const { name, email, ...rest } = values
+        updateProfile({
+            id: profile?.data?.id,
+            body: {
+                ...rest,
+                ...(rest?.courses
+                    ? {
+                          courses: rest?.courses?.map((course: any) => ({
+                              id: course?.value,
+                          })),
+                      }
+                    : {}),
+                user: {
+                    name,
+                    email,
+                },
+            },
+        })
     }
 
     return (
