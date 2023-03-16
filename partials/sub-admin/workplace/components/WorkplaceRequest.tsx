@@ -35,6 +35,8 @@ export const WorkplaceRequest = ({ workplace }: any) => {
     const [appliedIndustry, setAppliedIndustry] = useState<any | null>(null)
     const [course, setCourse] = useState<any | null>(null)
 
+    console.log('workplace WOWOWOWOWOW', workplace)
+
     const { setContent, show } = useContextBar()
 
     // query
@@ -201,7 +203,7 @@ export const WorkplaceRequest = ({ workplace }: any) => {
                                         variant={'error'}
                                         onClick={async () => {
                                             await cancelWorkplace(
-                                                Number(appliedIndustry?.id)
+                                                Number(workplace?.id)
                                             )
                                         }}
                                         loading={

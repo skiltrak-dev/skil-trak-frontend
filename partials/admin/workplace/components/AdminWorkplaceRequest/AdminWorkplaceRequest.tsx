@@ -6,11 +6,14 @@ import {
     Typography,
 } from '@components'
 import { useNotification } from '@hooks'
-import { ProgressCell } from '@partials/admin/student/components'
+import { RtoCellInfo } from '@partials/admin/rto/components'
+import {
+    ProgressCell,
+    StudentCellInfo,
+} from '@partials/admin/student/components'
 import {
     Industries,
     RequestType,
-    StudentDetail,
 } from '@partials/sub-admin/workplace/components'
 
 import { AdminApi } from '@queries'
@@ -20,6 +23,7 @@ import moment from 'moment'
 import { useEffect, useState } from 'react'
 import { RiBook2Fill } from 'react-icons/ri'
 import { AssignWorkplace } from '../AssignWorkplace'
+import { StudentDetail } from '../StudentDetail'
 type Props = {
     workplace: any
 }
@@ -48,6 +52,8 @@ export const AdminWorkplaceRequest = ({ workplace }: Props) => {
 
     const steps = checkWorkplaceStatus(workplace?.currentStatus)
 
+    console.log('soooo', workplace)
+
     const courseOptions =
         workplace?.student?.courses?.length > 0
             ? workplace?.student?.courses?.map((course: Course) => ({
@@ -64,33 +70,9 @@ export const AdminWorkplaceRequest = ({ workplace }: Props) => {
                     <AssignWorkplace workplace={workplace} />
                     <div className="flex items-center relative">
                         <div className="flex items-center gap-x-2">
-                            <InitialAvatar
-                                name={workplace?.student?.user?.name}
-                                imageUrl={workplace?.student?.user?.avatar}
-                            />
-                            <div>
-                                <Typography color={'black'} variant={'small'}>
-                                    {workplace?.student?.user?.name}
-                                </Typography>
-                                <div className="flex flex-col  gap-x-2">
-                                    <Typography
-                                        variant={'muted'}
-                                        color={'text-gray-400'}
-                                    >
-                                        <span className="break-all">
-                                            {workplace?.student?.user?.email}
-                                        </span>
-                                    </Typography>
-                                    <Typography
-                                        variant={'muted'}
-                                        color={'text-gray-400'}
-                                    >
-                                        <span className="break-all">
-                                            {workplace?.student?.phone}
-                                        </span>
-                                    </Typography>
-                                </div>
-                            </div>
+                            {workplace?.student?.rto?.user && (
+                                <RtoCellInfo rto={workplace?.student?.rto} />
+                            )}
                         </div>
                     </div>
                     {/*  */}
