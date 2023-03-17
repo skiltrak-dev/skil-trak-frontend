@@ -115,12 +115,6 @@ export const ArchivedStudent = () => {
             Icon: FaEdit,
         },
         {
-            text: 'Unarchive',
-            onClick: () => {},
-            Icon: MdUnarchive,
-            color: 'text-orange-500 hover:bg-orange-100 hover:border-orange-200',
-        },
-        {
             text: 'Delete',
             onClick: (student: Student) => onDeleteClicked(student),
             Icon: FaTrash,
@@ -206,30 +200,30 @@ export const ArchivedStudent = () => {
 
     const quickActionsElements = {
         id: 'id',
-        individual: (id: number) => (
+        individual: (student: Student) => (
             <div className="flex gap-x-2">
-                <ActionButton>Sub Admins</ActionButton>
-                <ActionButton Icon={MdUnarchive} variant="warning">
-                    Unarchive
+                <ActionButton
+                    onClick={() => {
+                        onDateClick(student)
+                    }}
+                >
+                    Change Expiry
                 </ActionButton>
-                <ActionButton Icon={FaTrash} variant="error">
+
+                <ActionButton
+                    Icon={FaTrash}
+                    variant="error"
+                    onClick={() => {
+                        onDeleteClicked(student)
+                    }}
+                >
                     Delete
                 </ActionButton>
             </div>
         ),
         common: (ids: number[]) => (
             <div className="flex gap-x-2">
-                <ActionButton
-                    onClick={() => {
-                        const arrayOfIds = ids.map((id: any) => id?.user.id)
-                        bulkAction({ ids: arrayOfIds, status: 'approved' })
-                    }}
-                    Icon={MdUnarchive}
-                    variant="warning"
-                >
-                    Unarchive
-                </ActionButton>
-                <ActionButton Icon={FaTrash} variant="error">
+                <ActionButton Icon={FaTrash} variant="error" disabled>
                     Delete
                 </ActionButton>
             </div>

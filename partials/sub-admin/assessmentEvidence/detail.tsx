@@ -450,7 +450,6 @@ export const Detail = ({
                             manualReOpen) && <Actions result={results} />}
                     {/* <Actions result={results} /> */}
                     {role === 'admin' &&
-                        results?.result !== 'competent' &&
                         results?.totalSubmission >= 3 &&
                         results?.result !== 'pending' &&
                         !results?.isManualSubmission && (

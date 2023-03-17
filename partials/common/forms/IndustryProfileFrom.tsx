@@ -13,6 +13,7 @@ import {
     Typography,
     Avatar,
     RadioGroup,
+    SelectOption,
 } from '@components'
 
 // hooks
@@ -42,6 +43,7 @@ export const IndustryProfileFrom = ({
     const [sectorDefaultOptions, setSectorDefaultOptions] = useState<
         any | null
     >(null)
+    const [courseValues, setCourseValues] = useState<SelectOption[]>([])
     const [sectors, setSectors] = useState<any | null>(null)
     const [isPartner, setIsPartner] = useState<boolean>(false)
     const [courseOptions, setCourseOptions] = useState([])
@@ -55,6 +57,19 @@ export const IndustryProfileFrom = ({
               value: sector.id,
           }))
         : []
+
+    useEffect(() => {
+        if (profile.isSuccess && profile?.data?.courses?.length > 0) {
+            const courseAddedOptions = profile?.data?.courses?.map(
+                (course: any) => ({
+                    label: course?.title,
+                    value: course?.id,
+                })
+            )
+            setCourseValues(courseAddedOptions)
+            setCourseOptions(courseAddedOptions)
+        }
+    }, [profile])
 
     // remove duplicate Sectors
     useEffect(() => {
@@ -82,7 +97,7 @@ export const IndustryProfileFrom = ({
 
     useEffect(() => {
         if (sectorDefaultOptions && sectorDefaultOptions?.length > 0) {
-            onSectorChanged(sectorDefaultOptions)
+            onSectorChanged(sectorDefaultOptions, false)
         }
     }, [sectorDefaultOptions, sectorResponse])
 
@@ -101,7 +116,10 @@ export const IndustryProfileFrom = ({
         }
     }, [result])
 
-    const onSectorChanged = (sectors: any) => {
+    const onSectorChanged = (
+        sectors: any,
+        chkDefaultOptions: boolean = true
+    ) => {
         const filteredCourses = sectors.map((selectedSector: any) => {
             const sectorExisting = sectorResponse.data?.find(
                 (sector: any) => sector.id === selectedSector.value
@@ -128,6 +146,7 @@ export const IndustryProfileFrom = ({
             newCourseOptions?.filter((s: any) => courses.includes(s.label))
         )
         setCourseOptions(newCourseOptions)
+        chkDefaultOptions && setCourseValues(newCourseOptions)
     }
 
     const validationSchema = yup.object({
@@ -144,9 +163,7 @@ export const IndustryProfileFrom = ({
         phoneNumber: yup.string().required('Must provide phone number'),
 
         // Contact Person Information
-        contactPersonName: yup
-            .string()
-            .matches(onlyAlphabets(), 'Must be a valid name'),
+        contactPerson: yup.string().required(),
         contactPersonEmail: yup.string().email('Must be a valid email'),
         contactPersonNumber: yup.string(),
 
@@ -167,6 +184,10 @@ export const IndustryProfileFrom = ({
             const {
                 id,
                 courses,
+                createdByStudent,
+                location,
+                isPartner,
+                stripeCustomerId,
                 user,
                 isActive,
                 skiltrakId,
@@ -185,6 +206,7 @@ export const IndustryProfileFrom = ({
                 password,
                 refreshToken,
                 skiltrakId: userSkiltrakId,
+                role,
                 id: { userId },
                 ...userRest
             } = user
@@ -199,6 +221,12 @@ export const IndustryProfileFrom = ({
             setIsPartner(profile?.data?.isPartner)
         }
     }, [profile])
+
+    useEffect(() => {
+        if (courseValues && courseValues?.length > 0) {
+            formMethods.setValue('courses', courseValues)
+        }
+    }, [courseValues])
 
     const onFormSubmit = (values: any) => {
         onSubmit({
@@ -305,7 +333,7 @@ export const IndustryProfileFrom = ({
                                     />
                                     <TextInput
                                         label={'Contact Person Name'}
-                                        name={'contactPersonName'}
+                                        name={'contactPerson'}
                                         placeholder={'Contact Person Name...'}
                                         validationIcons
                                         required
@@ -355,10 +383,13 @@ export const IndustryProfileFrom = ({
                                         name={'courses'}
                                         defaultValue={courseDefaultOptions}
                                         options={courseOptions}
+                                        value={courseValues}
                                         multi
                                         disabled={courseOptions?.length === 0}
                                         validationIcons
-                                        onlyValue
+                                        onChange={(e: any) => {
+                                            setCourseValues(e)
+                                        }}
                                     />
                                 )}
                                 {!courseOptions?.length && (
@@ -366,10 +397,13 @@ export const IndustryProfileFrom = ({
                                         label={'Courses'}
                                         name={'courses'}
                                         options={courseOptions}
+                                        value={courseValues}
                                         multi
                                         disabled={courseOptions?.length === 0}
                                         validationIcons
-                                        onlyValue
+                                        onChange={(e: any) => {
+                                            setCourseValues(e)
+                                        }}
                                     />
                                 )}
                             </div>

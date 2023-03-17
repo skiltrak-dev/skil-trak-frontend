@@ -67,7 +67,10 @@ const IndustriesProfile: NextPageWithLayout = (props: Props) => {
     const navBar = useNavbar()
 
     const { data, isLoading, isError, isSuccess } =
-        useGetSubAdminIndustriesProfileQuery(Number(id), { skip: !id })
+        useGetSubAdminIndustriesProfileQuery(Number(id), {
+            skip: !id,
+            refetchOnMountOrArgChange: true,
+        })
     const studentList = useGetSubAdminIndustryStudentsQuery(String(id), {
         skip: !id,
     })

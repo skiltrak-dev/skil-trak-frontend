@@ -78,6 +78,8 @@ export const Industries = ({
                     <IndustryCard
                         industry={appliedIndustry}
                         workplace={workplace}
+                        applied
+                        courseId={courseId}
                     />
                 )}
 

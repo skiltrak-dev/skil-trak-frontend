@@ -11,10 +11,12 @@ export const StudentTimer = ({
     studentId,
     date,
     studentStatus,
+    changeExpiryData,
 }: {
     studentId: number | undefined
     date: Date
     studentStatus: string
+    changeExpiryData?: any
 }) => {
     const [modal, setModal] = useState<ReactElement | null>(null)
     const [mounted, setMounted] = useState(false)
@@ -74,6 +76,7 @@ export const StudentTimer = ({
                 studentId={studentId}
                 date={date}
                 onCancel={onCancelClicked}
+                changeExpiryData={changeExpiryData}
             />
         )
     }
