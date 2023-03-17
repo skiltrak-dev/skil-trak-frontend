@@ -35,8 +35,6 @@ export const WorkplaceRequest = ({ workplace }: any) => {
     const [appliedIndustry, setAppliedIndustry] = useState<any | null>(null)
     const [course, setCourse] = useState<any | null>(null)
 
-    console.log('workplace WOWOWOWOWOW', workplace)
-
     const { setContent, show } = useContextBar()
 
     // query

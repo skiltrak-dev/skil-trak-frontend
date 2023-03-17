@@ -72,8 +72,6 @@ export const RtoSignUpForm = ({ onSubmit }: { onSubmit: any }) => {
                           value: c?.id,
                       }))
                 : []
-        console.log('abc', abc)
-
         const abcIds = abc?.map((a: any) => a?.value)
 
         // setCourseValues((preVal: any) => [

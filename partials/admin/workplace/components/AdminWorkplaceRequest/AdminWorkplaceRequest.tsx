@@ -52,8 +52,6 @@ export const AdminWorkplaceRequest = ({ workplace }: Props) => {
 
     const steps = checkWorkplaceStatus(workplace?.currentStatus)
 
-    console.log('soooo', workplace)
-
     const courseOptions =
         workplace?.student?.courses?.length > 0
             ? workplace?.student?.courses?.map((course: Course) => ({
