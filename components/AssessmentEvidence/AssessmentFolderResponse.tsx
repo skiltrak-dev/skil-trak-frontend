@@ -9,8 +9,9 @@ import {
     NoData,
     PdfViewModal,
     Select,
+    SelectOption,
     Typography,
-    VideoPlayModal
+    VideoPlayModal,
 } from '@components'
 
 import { Button } from '@components/buttons'
@@ -39,7 +40,7 @@ export const AssessmentResponse = ({
     deleteAction?: any
 }) => {
     const [comment, setComment] = useState<string>('')
-    const [commentType, setCommentType] = useState<string>('')
+    const [commentType, setCommentType] = useState<SelectOption | null>(null)
 
     const [selected, setSelected] = useState<any>(null)
 
@@ -124,12 +125,12 @@ export const AssessmentResponse = ({
             if (getAssessmentResponse?.data?.comment) {
                 setComment(getAssessmentResponse?.data?.comment)
             }
-            if (commentType === 'approved') {
+            if (commentType?.value === 'approved') {
                 setComment(
                     getAssessmentResponse?.data?.assessmentFolder
                         ?.positiveComment
                 )
-            } else if (commentType === 'rejected') {
+            } else if (commentType?.value === 'rejected') {
                 setComment(
                     getAssessmentResponse?.data?.assessmentFolder
                         ?.negativeComment
@@ -137,6 +138,13 @@ export const AssessmentResponse = ({
             }
         }
     }, [getAssessmentResponse, commentType])
+
+    useEffect(() => {
+        if (addCommentResult.isSuccess) {
+            setComment('')
+            setCommentType(null)
+        }
+    }, [addCommentResult])
 
     // query
 
@@ -233,8 +241,9 @@ export const AssessmentResponse = ({
                                                 value: 'rejected',
                                             },
                                         ]}
+                                        value={commentType}
                                         onChange={(e: any) => {
-                                            setCommentType(e?.value)
+                                            setCommentType(e)
                                         }}
                                     />
                                 </div>
@@ -260,7 +269,7 @@ export const AssessmentResponse = ({
                                         addComment({
                                             id: getAssessmentResponse?.data?.id,
                                             comment,
-                                            status: commentType,
+                                            status: commentType?.value,
                                             std: studentId,
                                         })
                                     }}

@@ -28,8 +28,6 @@ const RequestWorkplaceDetail: NextPageWithLayout = (props: Props) => {
     const [active, setActive] = useState(1)
     const [personalInfoData, setPersonalInfoData] = useState({})
 
-    console.log('activemmmm', active)
-
     const router = useRouter()
     const { id } = router.query
 
