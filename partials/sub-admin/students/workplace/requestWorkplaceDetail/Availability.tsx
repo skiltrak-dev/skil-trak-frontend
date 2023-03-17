@@ -1,3 +1,5 @@
+import { ShowErrorNotifications } from '@components'
+import { useNotification } from '@hooks'
 import { AvailabilityForm } from '@partials/common'
 import {
     useSubAdminRequestWorkplaceMutation,
@@ -21,13 +23,18 @@ export const Availability = ({
         useSubAdminRequestWorkplaceMutation()
 
     const router = useRouter()
-    const { id } = router.query
+
+    const { notification } = useNotification()
 
     useEffect(() => {
         if (workplaceRequestResult.isSuccess) {
             setActive((active: number) => active + 1)
         }
-    }, [workplaceRequestResult.isSuccess])
+        if (workplaceRequestResult.isError) {
+            setActive(1)
+            console.log('Saad Khan')
+        }
+    }, [workplaceRequestResult])
 
     const onSubmit = async (daysAvailability: any) => {
         await workplaceRequest({
@@ -39,6 +46,7 @@ export const Availability = ({
 
     return (
         <div>
+            <ShowErrorNotifications result={workplaceRequestResult} />
             <AvailabilityForm
                 setActive={setActive}
                 onSubmit={onSubmit}
