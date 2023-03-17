@@ -7,6 +7,7 @@ import { ReactElement, useEffect } from 'react'
 import { IndustryProfileFrom } from '@partials/common'
 import { AdminApi, RtoApi, useUpdateIndustryProfileMutation } from '@queries'
 import { useState } from 'react'
+import { EmptyData, LoadingAnimation, SelectOption, ShowErrorNotifications, TechnicalError } from '@components'
 
 const EditRto: NextPageWithLayout = () => {
     const [formData, setFormData] = useState<any>('')
@@ -42,18 +43,35 @@ const EditRto: NextPageWithLayout = () => {
     const onSubmit = (values: any) => {
         updateProfile({
             id: industry?.data?.user?.id,
-            body: { ...values, courses: values?.courses || [] },
+            body: {
+                ...values,
+                courses: values?.courses?.map((course: SelectOption) => ({
+                    id: course?.value,
+                })),
+            },
         })
     }
 
     return (
-        <div className="px-4">
-            <IndustryProfileFrom
-                onSubmit={onSubmit}
-                profile={industry}
-                result={updateProfileResult}
-            />
-        </div>
+        <>
+            <ShowErrorNotifications result={updateProfileResult} />
+            <div className="px-4">
+                {industry.isError && <TechnicalError />}
+                {industry.isLoading || industry.isFetching ? (
+                    <LoadingAnimation height={'h-[70vh]'} />
+                ) : industry.data && industry.isSuccess ? (
+                    <div className="px-4">
+                        <IndustryProfileFrom
+                            onSubmit={onSubmit}
+                            profile={industry}
+                            result={updateProfileResult}
+                        />
+                    </div>
+                ) : (
+                    !industry.isError && industry.isSuccess && <EmptyData />
+                )}
+            </div>
+        </>
     )
 }
 

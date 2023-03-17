@@ -10,34 +10,52 @@ import {
     useUpdateIndustryProfileMutation,
 } from '@queries'
 import { useNotification } from '@hooks'
+import {
+    EmptyData,
+    LoadingAnimation,
+    SelectOption,
+    ShowErrorNotifications,
+    TechnicalError,
+} from '@components'
 
 const MyProfile: NextPageWithLayout = () => {
     const { notification } = useNotification()
-    const profile = useIndustryProfileQuery()
+    const profile = useIndustryProfileQuery(undefined, {
+        refetchOnMountOrArgChange: true,
+    })
     const [updateProfile, updateProfileResult] =
         useUpdateIndustryProfileMutation()
 
-    useEffect(() => {
-        if (updateProfileResult.isSuccess) {
-            notification.success({
-                title: 'Profile Updated',
-                description: 'Profile Updated Successfully',
-            })
-        }
-    }, [updateProfileResult])
-
-    // TODO Updating Error
     const onSubmit = (values: any) => {
         delete values?.sectors
-        updateProfile({ body: values })
+        updateProfile({
+            body: {
+                ...values,
+                courses: values?.courses?.map((course: SelectOption) => ({
+                    id: course?.value,
+                })),
+            },
+        })
     }
 
     return (
-        <IndustryProfileFrom
-            onSubmit={onSubmit}
-            profile={profile}
-            result={updateProfileResult}
-        />
+        <>
+            <ShowErrorNotifications result={updateProfileResult} />
+            <div className="px-4">
+                {profile.isError && <TechnicalError />}
+                {profile.isLoading || profile.isFetching ? (
+                    <LoadingAnimation height={'h-[70vh]'} />
+                ) : profile.data && profile.isSuccess ? (
+                    <IndustryProfileFrom
+                        onSubmit={onSubmit}
+                        profile={profile}
+                        result={updateProfileResult}
+                    />
+                ) : (
+                    !profile.isError && profile.isSuccess && <EmptyData />
+                )}
+            </div>
+        </>
     )
 }
 
