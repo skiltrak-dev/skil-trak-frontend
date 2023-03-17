@@ -61,12 +61,10 @@ export const AddIndustryCB = ({
 
     useEffect(() => {
         if (getExistingIndustries?.isSuccess) {
-            const options = getExistingIndustries?.data?.data?.map(
-                (i: any) => ({
-                    label: i?.user?.name,
-                    value: i?.id,
-                })
-            )
+            const options = getExistingIndustries?.data?.map((i: any) => ({
+                label: i?.user?.name,
+                value: i?.id,
+            }))
             setCustomIndustriesOptions(options)
         }
     }, [getExistingIndustries])

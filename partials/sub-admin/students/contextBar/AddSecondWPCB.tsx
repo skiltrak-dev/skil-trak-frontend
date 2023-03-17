@@ -44,12 +44,10 @@ export const AddSecondWPCB = ({ studentId }: { studentId: number }) => {
         label: c?.title,
     }))
 
-    const industryOptions = getExistingIndustries?.data?.data?.map(
-        (i: any) => ({
-            label: i?.user?.name,
-            value: i?.id,
-        })
-    )
+    const industryOptions = getExistingIndustries?.data?.map((i: any) => ({
+        label: i?.user?.name,
+        value: i?.id,
+    }))
 
     const onChange = (e: any, name: string) => {
         setSelectedValues((preVal) => ({
