@@ -1,8 +1,12 @@
 import { InitialAvatar, Typography } from '@components'
+import Link from 'next/link'
 
 export const RtoDetail = ({ rto }: { rto: any }) => {
     return (
-        <div className="flex items-center relative">
+        <Link
+            href={`/portals/sub-admin/users/rtos/${rto?.id}?tab=overview`}
+            className="flex items-center relative"
+        >
             <div className="flex items-center gap-x-2">
                 <InitialAvatar
                     name={rto?.user?.name}
@@ -22,6 +26,6 @@ export const RtoDetail = ({ rto }: { rto: any }) => {
                     </div>
                 </div>
             </div>
-        </div>
+        </Link>
     )
 }

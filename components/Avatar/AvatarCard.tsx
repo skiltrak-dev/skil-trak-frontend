@@ -56,7 +56,6 @@ export const AvatarCard = ({
         removeProfile()
     }
 
-    // TODO: Make it rectangular
     return (
         <div className="border-t pt-2">
             <p className="text-sm font-medium text-gray-600">Your Avatar</p>

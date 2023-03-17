@@ -28,6 +28,8 @@ const RequestWorkplaceDetail: NextPageWithLayout = (props: Props) => {
     const [active, setActive] = useState(1)
     const [personalInfoData, setPersonalInfoData] = useState({})
 
+    console.log('activemmmm', active)
+
     const router = useRouter()
     const { id } = router.query
 
@@ -49,8 +51,10 @@ const RequestWorkplaceDetail: NextPageWithLayout = (props: Props) => {
             if (workplace?.data[0]?.currentStatus === 'placementStarted')
                 setActive(4)
             else setActive(3)
+        } else if (!workplace?.data?.length) {
+            setActive(1)
         }
-    }, [workplace.data, workplace.isSuccess])
+    }, [workplace])
 
     const StepIndicatorOptions = [
         {
@@ -81,6 +85,7 @@ const RequestWorkplaceDetail: NextPageWithLayout = (props: Props) => {
                 title="Request Workplace Detial"
                 backTitle="Student Detail"
             />
+
             <div className="mt-10">
                 {workplace.isError && <TechnicalError />}
                 {workplace.isLoading || workplace?.isFetching ? (

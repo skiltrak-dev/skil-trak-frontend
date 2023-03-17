@@ -9,7 +9,7 @@ import * as yup from 'yup'
 import { Avatar, Button, Card, TextInput } from '@components'
 
 // utils
-import { onlyAlphabets } from '@utils'
+import { getUserCredentials, onlyAlphabets } from '@utils'
 
 // hooks
 import { useActionModal, useContextBar, useNotification } from '@hooks'
@@ -124,7 +124,6 @@ export const SubAdminProfileForm = ({
                                     placeholder={'Your Email...'}
                                     validationIcons
                                     required
-                                    disabled
                                 />
                             </div>
                             <TextInput

@@ -245,7 +245,6 @@ export const RTOProfileEditForm = ({
                                             placeholder={'Your Email...'}
                                             validationIcons
                                             required
-                                            disabled
                                         />
                                     </div>
 

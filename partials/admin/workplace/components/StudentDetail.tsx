@@ -1,5 +1,7 @@
+import { InitialAvatar } from '@components'
 import { Typography } from '@components/Typography'
-import { StudentCellInfo } from '@partials/sub-admin/students'
+import { StudentCellInfo } from '@partials/admin/student/components'
+import React from 'react'
 import { FaPhoneSquareAlt } from 'react-icons/fa'
 import { MdLocationOn } from 'react-icons/md'
 

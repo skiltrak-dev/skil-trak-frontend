@@ -482,7 +482,6 @@ export const StudentProfileForm = ({
                                     placeholder={'Your Email...'}
                                     validationIcons
                                     required
-                                    disabled
                                 />
                             </div>
                         </div>
