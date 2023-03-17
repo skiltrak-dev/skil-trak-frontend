@@ -168,7 +168,7 @@ export const Actions = ({ result }: any) => {
                                 name="notifyStudent"
                                 label="Notify Student"
                             />
-                            <Checkbox name="notifyrto" label="Notify RTO" />
+                            <Checkbox name="notifyRto" label="Notify RTO" />
                         </div>
                     </div>
                 </form>

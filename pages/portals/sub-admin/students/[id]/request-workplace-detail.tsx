@@ -49,9 +49,10 @@ const RequestWorkplaceDetail: NextPageWithLayout = (props: Props) => {
             if (workplace?.data[0]?.currentStatus === 'placementStarted')
                 setActive(4)
             else setActive(3)
-        } else if (!workplace?.data?.length) {
-            setActive(1)
         }
+        // else if (!workplace?.data?.length) {
+        //     setActive(1)
+        // }
     }, [workplace])
 
     const StepIndicatorOptions = [
