@@ -37,6 +37,9 @@ export const MyWorkplace = ({
         if (industries && industries?.length > 0) {
             setIndustry(industries[0])
         }
+        if (!industries?.length) {
+            setIndustry({})
+        }
     }, [industries])
 
     useEffect(() => {

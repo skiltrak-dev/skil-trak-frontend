@@ -5,11 +5,13 @@ import { FaExclamationTriangle, FaMapMarkerAlt, FaTimes } from 'react-icons/fa'
 import { GoPrimitiveDot } from 'react-icons/go'
 import { UserRoles } from '@constants'
 import { Typography } from '@components/Typography'
+import { UserCellInfo } from './UserCellInfo'
 
 export const AppointmentViewModal = ({ appointment, onCancel }: any) => {
+    console.log('appointment Inner', appointment)
     return (
-        <div className="fixed w-full h-screen bg-black/50 top-0 left-0 z-50 flex items-center justify-center">
-            <div className="bg-white shadow-lg rounded-md min-w-[500px] ">
+        <div className="fixed w-full h-screen bg-black/50 top-0 left-0 z-[1000] flex items-center justify-center">
+            <div className="bg-white shadow-lg rounded-md min-w-[500px]">
                 <div className="pl-4 py-2 flex justify-between items-center border-b">
                     <div>
                         <p className="text-md font-semibold">
@@ -60,13 +62,22 @@ export const AppointmentViewModal = ({ appointment, onCancel }: any) => {
                         <div className="my-4" />
 
                         <div>
-                            <p className="text-xs font-medium text-slate-400">
+                            <p className="text-xs font-medium text-slate-600">
                                 Appointment Between
                             </p>
 
                             {/* Date & Time */}
                             <div>
-                                <p className="text-md font-semibold">
+                                <UserCellInfo
+                                    user={appointment?.appointmentFor}
+                                />
+                                <p className="text-sm text-gray-700 font-semibold">
+                                    and
+                                </p>
+                                <UserCellInfo
+                                    user={appointment?.appointmentBy}
+                                />
+                                {/* <p className="text-md font-semibold">
                                     {appointment?.appointmentFor?.name}(
                                     {appointment?.appointmentFor?.role})
                                 </p>
@@ -76,7 +87,7 @@ export const AppointmentViewModal = ({ appointment, onCancel }: any) => {
                                 <p className="text-md font-semibold">
                                     {appointment?.appointmentBy?.name}(
                                     {appointment?.appointmentBy?.role})
-                                </p>
+                                </p> */}
                                 {/* <p className="text-sm font-medium text-slate-600">
                                     {appointment?.appointmentFor?.email ||
                                         appointment?.appointmentBy?.email}
@@ -137,14 +148,14 @@ export const AppointmentViewModal = ({ appointment, onCancel }: any) => {
                                     )}
                                 </p>
 
-                                <div className="mt-2 flex items-center gap-x-2">
+                                {/* <div className="mt-2 flex items-center gap-x-2">
                                     <span className="text-slate-300 text-sm">
                                         <FaMapMarkerAlt />
                                     </span>
                                     <p className="text-sm text-slate-400">
                                         Address Not Provided
                                     </p>
-                                </div>
+                                </div> */}
                             </div>
                         </div>
                     </div>

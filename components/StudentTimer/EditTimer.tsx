@@ -14,10 +14,12 @@ export const EditTimer = ({
     studentId,
     onCancel,
     date,
+    changeExpiryData,
 }: {
     studentId: number | undefined
     date: any
     onCancel: Function
+    changeExpiryData?: any
 }) => {
     const { notification } = useNotification()
 
@@ -31,6 +33,7 @@ export const EditTimer = ({
                 description: 'Expiry Date Updated Successfully',
             })
             onCancel()
+            changeExpiryData(updateExpiryDateResult.isSuccess)
         }
     }, [updateExpiryDateResult])
 

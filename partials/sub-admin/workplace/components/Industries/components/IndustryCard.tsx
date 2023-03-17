@@ -1,16 +1,36 @@
-import { Typography, ShowErrorNotifications, InitialAvatar } from '@components'
-import React, { useEffect } from 'react'
-import { BsDot } from 'react-icons/bs'
+import {
+    Typography,
+    ShowErrorNotifications,
+    InitialAvatar,
+    ActionButton,
+} from '@components'
+import React, { useEffect, useState } from 'react'
+import { BsDot, BsUnlockFill } from 'react-icons/bs'
 
 // query
 import { useSubAdminApplyStudentWorkplaceMutation } from '@queries'
-import { useNotification } from '@hooks'
+import { useContextBar, useNotification } from '@hooks'
 import { PulseLoader } from 'react-spinners'
 import Link from 'next/link'
+import { AiFillEdit } from 'react-icons/ai'
+import { FaRemoveFormat } from 'react-icons/fa'
+import { MdDelete } from 'react-icons/md'
 
-export const IndustryCard = ({ industry, appliedIndustry, workplace }: any) => {
+import { AddIndustryCB } from '@partials/sub-admin/workplace/contextBar'
+import { RemoveIndustryModal } from '@partials/sub-admin/workplace/modals'
+
+export const IndustryCard = ({
+    industry,
+    appliedIndustry,
+    workplace,
+    applied,
+    courseId,
+}: any) => {
+    const [modal, setModal] = useState<any | null>(null)
     const [applyForWorkplace, applyForWorkplaceResult] =
         useSubAdminApplyStudentWorkplaceMutation()
+
+    const contextBar = useContextBar()
 
     // hooks
     const { notification } = useNotification()
@@ -24,23 +44,47 @@ export const IndustryCard = ({ industry, appliedIndustry, workplace }: any) => {
         }
     }, [applyForWorkplaceResult])
 
-    const loading = ''
+    const onEditIndustry = () => {
+        contextBar.setContent(
+            <AddIndustryCB
+                studentId={workplace?.student?.id}
+                workplaceId={workplace?.id}
+                courseId={courseId}
+            />
+        )
+        contextBar.show()
+    }
+
+    const onCancelClicked = () => {
+        setModal(null)
+    }
+
+    const onDeleteIndustry = (industry: any) => {
+        setModal(
+            <RemoveIndustryModal
+                industry={industry}
+                onCancel={onCancelClicked}
+                studentId={workplace?.student?.id}
+            />
+        )
+    }
 
     return (
         <>
+            {modal}
             <ShowErrorNotifications result={applyForWorkplaceResult} />
             <div className="bg-secondary py-1 px-2 rounded-lg flex justify-between items-center">
                 <Link href={''} className="flex items-center gap-x-2">
-                    {industry?.industry?.name && (
+                    {industry?.industry?.user && (
                         <InitialAvatar
-                            name={industry?.industry?.name}
+                            name={industry?.industry?.user?.name}
                             imageUrl={industry?.industry?.user?.avatar}
                         />
                     )}
                     <div>
                         <div className="flex items-center gap-x-0.5">
                             <Typography variant={'label'}>
-                                {industry?.industry?.name}
+                                {industry?.industry?.user?.name}
                             </Typography>
                             {/* <BsDot /> */}
                             {/* <Typography variant={'xs'} color={'text-gray-400'}>
@@ -53,72 +97,101 @@ export const IndustryCard = ({ industry, appliedIndustry, workplace }: any) => {
                         </Typography>
                     </div>
                 </Link>
-
-                {industry.applied &&
-                    industry.industryResponse !== 'noResponse' &&
-                    industry.industryResponse !== 'rejected' && (
-                        <Typography
-                            variant={'xs'}
-                            color={'text-red-800'}
-                            center
-                        >
-                            APPLIED
-                        </Typography>
-                    )}
-                {industry.industryResponse === 'noResponse' && (
-                    <Typography variant={'xs'} color={'text-red-500'} center>
-                        No Response
-                    </Typography>
-                )}
-                {industry.industryResponse === 'rejected' && (
-                    <Typography variant={'xs'} color={'text-red-500'} center>
-                        Rejected
-                    </Typography>
-                )}
-                {industry.applied &&
-                    industry.industryResponse === 'approved' && (
-                        <Typography variant={'xs'}>
-                            <span className="bg-success px-2 py-0.5 text-white rounded-full">
-                                Approved
-                            </span>
-                        </Typography>
-                    )}
-                {!appliedIndustry &&
-                    !industry.applied &&
-                    industry.industryResponse !== 'noResponse' &&
-                    industry.industryResponse !== 'rejected' && (
-                        <Typography
-                            variant={'xs'}
-                            color={'text-red-800'}
-                            center
-                        >
-                            <span
-                                className="cursor-pointer"
+                <div className="flex items-center gap-x-2">
+                    {applied && (
+                        <div className="flex justify-end gap-x-2 top-0 right-0">
+                            {/* <ActionButton
+                                rounded
+                                Icon={AiFillEdit}
+                                variant={'info'}
                                 onClick={() => {
-                                    if (!appliedIndustry) {
-                                        applyForWorkplace({
-                                            industry: industry?.id,
-                                            id: workplace?.id,
-                                        })
-                                    } else {
-                                        notification.error({
-                                            title: 'Already Applied',
-                                            description:
-                                                'Already Applied to another Industry',
-                                        })
-                                    }
+                                    onEditIndustry()
                                 }}
+                                title="Edit Industry"
+                            /> */}
+                            <ActionButton
+                                rounded
+                                Icon={MdDelete}
+                                variant={'error'}
+                                onClick={() =>
+                                    onDeleteIndustry(industry?.industry)
+                                }
+                                title="Delete Industry"
+                            />
+                        </div>
+                    )}
+                    {industry.applied &&
+                        industry.industryResponse !== 'noResponse' &&
+                        industry.industryResponse !== 'rejected' && (
+                            <Typography
+                                variant={'xs'}
+                                color={'text-red-800'}
+                                center
                             >
-                                {applyForWorkplaceResult.isLoading ? (
-                                    <PulseLoader size={4} />
-                                ) : (
-                                    'APPLY HERE'
-                                )}
-                            </span>
+                                APPLIED
+                            </Typography>
+                        )}
+                    {industry.industryResponse === 'noResponse' && (
+                        <Typography
+                            variant={'xs'}
+                            color={'text-red-500'}
+                            center
+                        >
+                            No Response
                         </Typography>
                     )}
-
-                {/* {industry.industryResponse !== 'approved' && industry.applied ? (
+                    {industry.industryResponse === 'rejected' && (
+                        <Typography
+                            variant={'xs'}
+                            color={'text-red-500'}
+                            center
+                        >
+                            Rejected
+                        </Typography>
+                    )}
+                    {industry.applied &&
+                        industry.industryResponse === 'approved' && (
+                            <Typography variant={'xs'}>
+                                <span className="bg-success px-2 py-0.5 text-white rounded-full">
+                                    Approved
+                                </span>
+                            </Typography>
+                        )}
+                    {!appliedIndustry &&
+                        !industry.applied &&
+                        industry.industryResponse !== 'noResponse' &&
+                        industry.industryResponse !== 'rejected' && (
+                            <Typography
+                                variant={'xs'}
+                                color={'text-red-800'}
+                                center
+                            >
+                                <span
+                                    className="cursor-pointer"
+                                    onClick={() => {
+                                        if (!appliedIndustry) {
+                                            applyForWorkplace({
+                                                industry: industry?.id,
+                                                id: workplace?.id,
+                                            })
+                                        } else {
+                                            notification.error({
+                                                title: 'Already Applied',
+                                                description:
+                                                    'Already Applied to another Industry',
+                                            })
+                                        }
+                                    }}
+                                >
+                                    {applyForWorkplaceResult.isLoading ? (
+                                        <PulseLoader size={4} />
+                                    ) : (
+                                        'APPLY HERE'
+                                    )}
+                                </span>
+                            </Typography>
+                        )}
+                    {/* {industry.industryResponse !== 'approved' && industry.applied ? (
             <Typography variant={'xs'} color={'text-red-800'} center>
                APPLIED
             </Typography>
@@ -148,6 +221,7 @@ export const IndustryCard = ({ industry, appliedIndustry, workplace }: any) => {
                </Typography>
             )
          )} */}
+                </div>
             </div>
         </>
     )

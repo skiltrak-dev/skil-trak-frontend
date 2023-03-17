@@ -1,4 +1,5 @@
 import { AppointmentViewModal } from '@components/Appointment/AppointmentModal'
+import { Portal } from '@components/Portal'
 import classNames from 'classnames'
 import { ReactElement, useState } from 'react'
 import { EventWrapperProps } from 'react-big-calendar'
@@ -41,10 +42,12 @@ export const EventWrapper = <T extends object>(event: any) => {
 
     const onClicked = (appointment: any) => {
         setModal(
-            <AppointmentViewModal
-                appointment={appointment}
-                onCancel={onModalCancelled}
-            />
+            <Portal>
+                <AppointmentViewModal
+                    appointment={appointment}
+                    onCancel={onModalCancelled}
+                />
+            </Portal>
         )
     }
 

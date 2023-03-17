@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import * as Yup from 'yup'
 
 import { Student } from '@types'
@@ -8,6 +8,7 @@ import { yupResolver } from '@hookform/resolvers/yup'
 
 // @queries
 import { SubAdminApi } from '@queries'
+import { useNotification } from '@hooks'
 
 export const ChangeStatusModal = ({
     student,
@@ -18,6 +19,18 @@ export const ChangeStatusModal = ({
 }) => {
     const [changeCurrentStatus, changeCurrentStatusResult] =
         SubAdminApi.Student.changeCurrentStatus()
+
+    const { notification } = useNotification()
+
+    useEffect(() => {
+        if (changeCurrentStatusResult.isSuccess) {
+            notification.success({
+                title: 'Status Changes',
+                description: 'Status Changed Successfully',
+            })
+            onCancel()
+        }
+    }, [changeCurrentStatusResult])
 
     const validationSchema = Yup.object({
         status: Yup.string().required('Status is required!'),
@@ -31,6 +44,7 @@ export const ChangeStatusModal = ({
     const onStatusChange = (values: any) => {
         changeCurrentStatus({ ...values, id: student?.user?.id })
     }
+
     return (
         <div>
             <Modal

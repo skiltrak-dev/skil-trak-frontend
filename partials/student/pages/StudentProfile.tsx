@@ -36,6 +36,10 @@ import { useActionModals } from '@partials/sub-admin/students/hooks/useActionMod
 import moment from 'moment'
 
 export const StudentProfile = ({ noTitle }: { noTitle?: boolean }) => {
+    const [studentExpiryDate, setStudentExpiryDate] = useState<boolean>(false)
+
+    console.log('studentExpiryDateSaad Khan', studentExpiryDate)
+
     const contextBar = useContextBar()
     const router = useRouter()
     const { id } = router.query
@@ -51,6 +55,12 @@ export const StudentProfile = ({ noTitle }: { noTitle?: boolean }) => {
         })
     const [notContactable, notContactableResult] =
         SubAdminApi.Student.useNotContactable()
+
+    useEffect(() => {
+        if (studentExpiryDate) {
+            refetch()
+        }
+    }, [studentExpiryDate])
 
     // hooks
     const navBar = useNavbar()
@@ -273,6 +283,7 @@ export const StudentProfile = ({ noTitle }: { noTitle?: boolean }) => {
                                         studentStatus={
                                             data?.user?.studentStatus
                                         }
+                                        changeExpiryData={setStudentExpiryDate}
                                     />
                                 </div>
                             </div>
