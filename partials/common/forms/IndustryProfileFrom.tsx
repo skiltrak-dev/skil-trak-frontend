@@ -398,7 +398,6 @@ export const IndustryProfileFrom = ({
                                     placeholder={'Your Email...'}
                                     validationIcons
                                     required
-                                    disabled
                                 />
                             </div>
                         </div>

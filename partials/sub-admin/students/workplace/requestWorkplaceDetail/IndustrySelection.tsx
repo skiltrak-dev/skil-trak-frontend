@@ -23,6 +23,7 @@ export const IndustrySelection = ({
     userId: number
     workplace: any
 }) => {
+    console.log('workplaceworkplaceworkplace', workplace?.data[0])
     const [industries, setIndustries] = useState<any | null>([])
     const [noRespondedIndustries, setNoRespondedIndustries] = useState<
         any | null
@@ -69,17 +70,21 @@ export const IndustrySelection = ({
 
     useEffect(() => {
         if (cancelRequestResult.isSuccess) {
+            console.log('Success')
             setActive(1)
         }
-    }, [cancelRequestResult.isSuccess])
+    }, [cancelRequestResult])
+
+    const onCancelWorkplace = () => {
+        cancelRequest(workplace?.data[0]?.id)
+    }
+    console.log(cancelRequestResult)
     const workplaceCancelRequest = (simple: boolean = false) => {
         return (
             <div className="mt-3">
                 <ActionButton
                     variant={'error'}
-                    onClick={async () => {
-                        await cancelRequest(workplace?.data[0]?.id)
-                    }}
+                    onClick={onCancelWorkplace}
                     loading={cancelRequestResult.isLoading}
                     disabled={cancelRequestResult.isLoading}
                     simple={simple}
@@ -93,15 +98,13 @@ export const IndustrySelection = ({
     return !industrySelection ? (
         <div className="flex flex-col gap-y-3">
             {appliedIndustry && (
-                <>
-                    <AppliedIndustry
-                        workplaceCancelRequest={workplaceCancelRequest}
-                        appliedIndustry={appliedIndustry}
-                        setIndustrySelection={setIndustrySelection}
-                        status={workplaceIndustries?.currentStatus}
-                        workplaceRequest={workplaceIndustries}
-                    />
-                </>
+                <AppliedIndustry
+                    workplaceCancelRequest={workplaceCancelRequest}
+                    appliedIndustry={appliedIndustry}
+                    setIndustrySelection={setIndustrySelection}
+                    status={workplaceIndustries?.currentStatus}
+                    workplaceRequest={workplaceIndustries}
+                />
             )}
 
             {/*  */}

@@ -165,9 +165,10 @@ export const Actions = ({ result }: any) => {
                         </div>
                         <div className="flex items-center gap-x-2">
                             <Checkbox
-                                name="notifyCoordinator"
-                                label="Notify Coordinator"
+                                name="notifyStudent"
+                                label="Notify Student"
                             />
+                            <Checkbox name="notifyrto" label="Notify RTO" />
                         </div>
                     </div>
                 </form>

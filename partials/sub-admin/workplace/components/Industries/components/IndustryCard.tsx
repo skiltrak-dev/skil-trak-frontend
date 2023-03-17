@@ -6,6 +6,7 @@ import { BsDot } from 'react-icons/bs'
 import { useSubAdminApplyStudentWorkplaceMutation } from '@queries'
 import { useNotification } from '@hooks'
 import { PulseLoader } from 'react-spinners'
+import Link from 'next/link'
 
 export const IndustryCard = ({ industry, appliedIndustry, workplace }: any) => {
     const [applyForWorkplace, applyForWorkplaceResult] =
@@ -29,17 +30,17 @@ export const IndustryCard = ({ industry, appliedIndustry, workplace }: any) => {
         <>
             <ShowErrorNotifications result={applyForWorkplaceResult} />
             <div className="bg-secondary py-1 px-2 rounded-lg flex justify-between items-center">
-                <div className="flex items-center gap-x-2">
-                    {industry?.industry?.businessName && (
+                <Link href={''} className="flex items-center gap-x-2">
+                    {industry?.industry?.name && (
                         <InitialAvatar
-                            name={industry?.industry?.businessName}
+                            name={industry?.industry?.name}
                             imageUrl={industry?.industry?.user?.avatar}
                         />
                     )}
                     <div>
                         <div className="flex items-center gap-x-0.5">
                             <Typography variant={'label'}>
-                                {industry?.industry?.businessName}
+                                {industry?.industry?.name}
                             </Typography>
                             {/* <BsDot /> */}
                             {/* <Typography variant={'xs'} color={'text-gray-400'}>
@@ -51,7 +52,7 @@ export const IndustryCard = ({ industry, appliedIndustry, workplace }: any) => {
                             {industry?.industry?.addressLine2}
                         </Typography>
                     </div>
-                </div>
+                </Link>
 
                 {industry.applied &&
                     industry.industryResponse !== 'noResponse' &&
