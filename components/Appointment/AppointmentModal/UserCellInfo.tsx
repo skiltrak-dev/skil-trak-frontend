@@ -1,5 +1,6 @@
 import { InitialAvatar } from '@components/InitialAvatar'
 import { Typography } from '@components/Typography'
+import { UserRoles } from '@constants'
 import Link from 'next/link'
 import React from 'react'
 import {
@@ -10,7 +11,20 @@ import {
 } from 'react-icons/fa'
 
 export const UserCellInfo = ({ user }: any) => {
-    const profile = user ? user[user?.role] : {}
+    const profile = user
+        ? user[user['role'] === 'subadmin' ? 'coordinator' : user?.role]
+        : {}
+
+    console.log('profileprofileprofile', profile)
+
+    // const userProfile = {}
+
+    const userProfile = user
+        ? user?.role === UserRoles.SUBADMIN
+            ? profile[0]
+            : profile
+        : {}
+
     return (
         <div className="flex items-center relative">
             <div className="flex items-center gap-x-2">
@@ -41,13 +55,13 @@ export const UserCellInfo = ({ user }: any) => {
                     <div className="flex items-center gap-x-2 text-sm">
                         <FaPhone className="text-gray-400" />
                         <Typography variant={'label'} color={'text-gray-500'}>
-                            {profile?.phone || profile?.phoneNumber}
+                            {userProfile?.phone || userProfile?.phoneNumber}
                         </Typography>
                     </div>
                     <div className="flex items-center gap-x-2 text-sm">
                         <FaMapMarkerAlt className="text-gray-400" />
                         <Typography variant={'label'} color={'text-gray-500'}>
-                            {profile?.addressLine1}
+                            {userProfile?.addressLine1}
                         </Typography>
                     </div>
                 </div>

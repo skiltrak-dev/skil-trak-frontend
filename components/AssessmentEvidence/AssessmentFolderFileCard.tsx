@@ -15,10 +15,12 @@ type AssessmentFolderFileCardProps = {
     selected?: boolean
     onClick?: (file: any) => void
     deleteAction?: any
+    index?: any
 }
 
 export const AssessmentFolderFileCard = ({
     file,
+    index,
     type,
     fileUrl,
     filename,
@@ -38,7 +40,7 @@ export const AssessmentFolderFileCard = ({
     const extension = fileName?.split('.').reverse()[0]
 
     return (
-        <div className="relative">
+        <div className="relative w-24">
             {deleteAction && (
                 <div className="absolute top-1 right-1 z-20">
                     {deleteAction(file?.id)}
@@ -104,13 +106,18 @@ export const AssessmentFolderFileCard = ({
                               )}
                     </Typography> */}
                         <div title={fileName}>
-                            <Typography variant="small" center>
+                            {/* <Typography variant="small" center>
                                 {filename
                                     ? ellipsisText(filename?.split('_')[0], 11)
                                     : `${ellipsisText(
                                           fileName,
                                           5
                                       )}.${extension}`}
+                            </Typography> */}
+
+                            <Typography variant="small" center>
+                                {/* TODO check index type */}
+                                {index + 1}
                             </Typography>
                         </div>
                     </div>

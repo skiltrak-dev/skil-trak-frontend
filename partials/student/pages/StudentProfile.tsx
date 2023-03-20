@@ -38,8 +38,6 @@ import moment from 'moment'
 export const StudentProfile = ({ noTitle }: { noTitle?: boolean }) => {
     const [studentExpiryDate, setStudentExpiryDate] = useState<boolean>(false)
 
-    console.log('studentExpiryDateSaad Khan', studentExpiryDate)
-
     const contextBar = useContextBar()
     const router = useRouter()
     const { id } = router.query

@@ -18,7 +18,7 @@ export const UpcomingAppointments = () => {
     const onAppointmentClicked = (appointment: any) => {
         setModal(
             <AppointmentViewModal
-                appointment={appointment}
+                id={appointment?.id}
                 onCancel={() => setModal(null)}
             />
         )

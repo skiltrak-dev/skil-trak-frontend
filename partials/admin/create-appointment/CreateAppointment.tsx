@@ -2,6 +2,8 @@ import {
     Button,
     Card,
     LoadingAnimation,
+    SelectOption,
+    ShowErrorNotifications,
     TextInput,
     Typography,
 } from '@components'
@@ -25,7 +27,7 @@ import {
 import { getUserCredentials } from '@utils'
 import { useRouter } from 'next/router'
 import React, { useEffect, useState } from 'react'
-import { AppointmentFor, AppointmentWithData } from './components'
+import { AppointmentFor, AppointmentWithData, Courses } from './components'
 
 export const CreateAppointmentContainer = () => {
     const router = useRouter()
@@ -38,6 +40,8 @@ export const CreateAppointmentContainer = () => {
 
     const [user, setUser] = useState<string>('')
     const [slots, setSlots] = useState(true)
+
+    const [selectedCourse, setSelectedCourse] = useState<number | null>(null)
 
     const [appointmentWith, setAppointmentWith] = useState<any | null>(null)
 
@@ -144,6 +148,7 @@ export const CreateAppointmentContainer = () => {
         createAppointment({
             date,
             note,
+            course: selectedCourse,
             ...selectedTime,
             type: appointmentTypeId,
             appointmentFor: selectedUser.selectedAppointmentForUser,
@@ -152,6 +157,7 @@ export const CreateAppointmentContainer = () => {
     }
     return (
         <>
+            <ShowErrorNotifications result={createAppointmentResult} />
             <div className="flex flex-col gap-y-2">
                 <Card>
                     <div className="grid grid-cols-7">
@@ -209,6 +215,10 @@ export const CreateAppointmentContainer = () => {
                             </div>
                         </div>
                     </div>
+                </Card>
+
+                <Card>
+                    <Courses setSelectedCourse={setSelectedCourse} />
                 </Card>
 
                 <SearchUser

@@ -11,7 +11,7 @@ import {
     Modal,
     ShowErrorNotifications,
 } from '@components'
-import { AppointmentFor, AppointmentWithData } from './components'
+import { AppointmentFor, AppointmentWithData, Courses } from './components'
 import { AppointmentType } from '@partials/appointmentType'
 import { getUserCredentials } from '@utils'
 import { useNotification } from '@hooks'
@@ -40,6 +40,8 @@ export const CreateAppointments = () => {
 
     const [user, setUser] = useState<string>('')
     const [modal, setModal] = useState<any | null>(null)
+
+    const [selectedCourse, setSelectedCourse] = useState<number | null>(null)
 
     const [appointmentWith, setAppointmentWith] = useState<any | null>(null)
 
@@ -236,6 +238,7 @@ export const CreateAppointments = () => {
                 date,
                 note,
                 type: appointmentTypeId,
+                course: selectedCourse,
                 appointmentFor: selectedUser.selectedAppointmentForUser,
                 appointmentBy: selectedUser.selectedAppointmentWithUser,
             })
@@ -307,6 +310,10 @@ export const CreateAppointments = () => {
                     </div>
                 </Card>
 
+                <Card>
+                    <Courses setSelectedCourse={setSelectedCourse} />
+                </Card>
+
                 <SearchUser
                     user={user}
                     query={query}
@@ -367,6 +374,7 @@ export const CreateAppointments = () => {
                                 !selectedUser.selectedAppointmentWithUser ||
                                 !appointmentTypeId ||
                                 !selectedTime ||
+                                !selectedCourse ||
                                 createAppointmentResult.isLoading
                             }
                             loading={createAppointmentResult.isLoading}

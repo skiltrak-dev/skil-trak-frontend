@@ -32,7 +32,6 @@ export const Availability = ({
         }
         if (workplaceRequestResult.isError) {
             setActive(1)
-            console.log('Saad Khan')
         }
     }, [workplaceRequestResult])
 

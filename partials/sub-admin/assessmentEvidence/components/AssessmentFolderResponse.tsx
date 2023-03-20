@@ -31,6 +31,7 @@ export const AssessmentResponse = ({
     studentId,
     getAssessmentResponse,
     assessmentEvidenceView,
+    result,
 }: any) => {
     const [comment, setComment] = useState<string>('')
     const [commentType, setCommentType] = useState<string>('')
@@ -225,10 +226,15 @@ export const AssessmentResponse = ({
                                 text={'Submit'}
                                 onClick={() => {
                                     addComment({
-                                        id: getAssessmentResponse?.data?.id,
+                                        folderId:
+                                            getAssessmentResponse?.data?.id,
+                                        assessmentFolderId:
+                                            getAssessmentResponse?.data
+                                                ?.assessmentFolder?.id,
                                         comment,
                                         status: commentType,
                                         std: studentId,
+                                        resultId: result?.id,
                                     })
                                 }}
                                 loading={
