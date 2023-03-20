@@ -89,10 +89,20 @@ export const ActionButton = ({
             {...(!submit ? { onClick: () => onClick && onClick() } : {})}
         >
             <div className="flex items-center justify-center gap-x-2">
-                {mini ? (
+                {/* {mini ? (
                     Icon && <Icon />
                 ) : loading ? (
                     <PulseLoader size={8} />
+                ) : (
+                    <>
+                        {Icon && <Icon />}
+                        {children}
+                    </>
+                )} */}
+                {loading ? (
+                    <PulseLoader size={6} />
+                ) : mini ? (
+                    Icon && <Icon />
                 ) : (
                     <>
                         {Icon && <Icon />}

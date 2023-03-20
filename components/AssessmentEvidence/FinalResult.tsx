@@ -3,6 +3,7 @@ import { Result } from '@constants'
 import { UserStatus } from '@types'
 import moment from 'moment'
 import React from 'react'
+import { BiErrorAlt } from 'react-icons/bi'
 import {
     MdCancel,
     MdOutlinePendingActions,
@@ -26,6 +27,20 @@ export const FinalResult = ({
                     <div className="flex items-center gap-x-2 text-green-500 font-medium">
                         <MdVerified />
                         <span className="uppercase">Competent</span>
+                    </div>
+                )
+            case Result.NotCompetent:
+                return (
+                    <div className="flex items-center gap-x-2 text-red-500 font-medium">
+                        <BiErrorAlt />
+                        <span className="uppercase">Not Competent</span>
+                    </div>
+                )
+            case Result.ReOpened:
+                return (
+                    <div className="flex items-center gap-x-2 text-red-500 font-medium">
+                        <BiErrorAlt />
+                        <span className="uppercase">Re Opened</span>
                     </div>
                 )
         }
@@ -105,21 +120,24 @@ export const FinalResult = ({
                                 Folder Results
                             </p>
                             <div className="flex flex-col gap-y-2">
-                                {folders?.map((folder: any) => {
+                                {result?.comments?.map((comment: any) => {
                                     return (
                                         <div
-                                            key={folder?.id}
+                                            key={comment?.id}
                                             className="flex items-center border-b py-1"
                                         >
                                             <span className="w-6">
-                                                {getFolderStatusBadge(
+                                                {/* {getFolderStatusBadge(
                                                     folder?.studentResponse[0]
                                                         ?.status
+                                                )} */}
+                                                {getFolderStatusBadge(
+                                                    comment?.status
                                                 )}
                                             </span>
                                             <span className="w-2/6">
                                                 <p className="font-medium text-sm">
-                                                    {folder?.name}
+                                                    {comment?.folder?.name}
                                                 </p>
                                             </span>
 
@@ -127,10 +145,7 @@ export const FinalResult = ({
                                                 variant={'small'}
                                                 color={'text-gray-500'}
                                             >
-                                                {
-                                                    folder?.studentResponse[0]
-                                                        ?.comment
-                                                }
+                                                {comment?.comment}
                                             </Typography>
                                         </div>
                                     )

@@ -1,4 +1,20 @@
-export const checkWorkplaceStatus = (currentStatus: string) => {
+export enum WorkplaceCurrentStatus {
+    NotRequested = 'notRequested',
+    Applied = 'applied',
+    CaseOfficerAssigned = 'caseOfficerAssigned',
+    Interview = 'interview',
+    AwaitingWorkplaceResponse = 'awaitingWorkplaceResponse',
+    AppointmentBooked = 'appointmentBooked',
+    AwaitingAgreementSigned = 'awaitingAgreementSigned',
+    AgreementSigned = 'AgreementSigned',
+    PlacementStarted = 'placementStarted',
+    Cancelled = 'cancelled',
+    Completed = 'completed',
+    NoResponse = 'noResponse',
+    Rejected = 'rejected',
+    Terminated = 'terminated',
+}
+export const checkWorkplaceStatus = (currentStatus: WorkplaceCurrentStatus) => {
     const requestTypeActions = [
         'notRequested',
         'applied',

@@ -148,6 +148,8 @@ const {
     // -- APPOINTMENTS -- //
     useCreateAppointmentMutation,
     useGetBookedAppointmntsQuery,
+    useAppointmentDetailQuery,
+    useCancellAppointmentMutation,
     useGetAppointmentsAvailableSlotsQuery,
     useAllCoordinatorsQuery,
     useCoordinatorAvailablityQuery,
@@ -212,6 +214,8 @@ export const CommonApi = {
     Appointments: {
         createAppointment: useCreateAppointmentMutation,
         useAppointmentsAvailableSlots: useGetAppointmentsAvailableSlotsQuery,
+        appointmentDetail: useAppointmentDetailQuery,
+        cancellAppointment: useCancellAppointmentMutation,
         useBookedAppointments: useGetBookedAppointmntsQuery,
         allCoordinators: useAllCoordinatorsQuery,
         useCoordinatorAvailablity: useCoordinatorAvailablityQuery,

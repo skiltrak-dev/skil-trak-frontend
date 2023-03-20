@@ -36,7 +36,11 @@ import {
     UnblockModal,
 } from './modals'
 import { useRouter } from 'next/router'
-import { checkStudentStatus, checkWorkplaceStatus } from '@utils'
+import {
+    checkStudentStatus,
+    checkWorkplaceStatus,
+    WorkplaceCurrentStatus,
+} from '@utils'
 import { IndustryCell } from '../industry/components'
 import { RiLockPasswordFill } from 'react-icons/ri'
 import { useActionModal } from '@hooks'
@@ -241,9 +245,27 @@ export const FilteredStudents = ({
             accessorKey: 'progress',
             header: () => <span>Progress</span>,
             cell: ({ row }) => {
-                const workplace = row.original.workplace[0]
+                // const workplace = row.original.workplace?.find(
+                //     (workplace: any) =>
+                //         workplace?.currentStatus !==
+                //         WorkplaceCurrentStatus.Cancelled
+                // )
+                // const workplace = row.original.workplace[0]
+                let earliestWorkplace = row.original.workplace[0]
+                const workplace = row.original.workplace?.forEach(
+                    (workplace: any) => {
+                        if (
+                            workplace?.createdAt > earliestWorkplace?.createdAt
+                        ) {
+                            earliestWorkplace = workplace
+                        }
+                    }
+                )
+                
                 const industries = row.original?.industries
-                const steps = checkWorkplaceStatus(workplace?.currentStatus)
+                const steps = checkWorkplaceStatus(
+                    earliestWorkplace?.currentStatus
+                )
                 const studentStatus = checkStudentStatus(
                     row.original?.studentStatus
                 )

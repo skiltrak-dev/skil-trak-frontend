@@ -10,10 +10,12 @@ import { WorkplaceAvatar } from '@components'
 import { ActionButton } from '@components/buttons'
 import { useGetSubAdminStudentWorkplaceQuery } from '@queries'
 import { getUserCredentials } from '@utils'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, ReactElement } from 'react'
 import { AddWorkplace } from './AddWorkplace'
 import { useContextBar } from '@hooks'
 import { AddSecondWPCB } from '../contextBar'
+import { MdDelete } from 'react-icons/md'
+import { RemoveIndustryModal } from '@partials/sub-admin/workplace/modals'
 
 export const MyWorkplace = ({
     id,
@@ -22,6 +24,7 @@ export const MyWorkplace = ({
     industries: any
     id: number
 }) => {
+    const [modal, setModal] = useState<ReactElement | null>(null)
     const pathname = useRouter()
     const profileId = pathname.query.profileId
 
@@ -58,8 +61,23 @@ export const MyWorkplace = ({
 
     const role = getUserCredentials()?.role
 
+    const onCancelClicked = () => {
+        setModal(null)
+    }
+
+    const onDeleteIndustry = (industry: any) => {
+        setModal(
+            <RemoveIndustryModal
+                industry={industry}
+                onCancel={onCancelClicked}
+                studentId={id}
+            />
+        )
+    }
+
     return (
         <Card fullHeight>
+            {modal}
             {/* Card Header */}
             <div className="flex justify-between items-center mb-4">
                 {/* Icon Title */}
@@ -71,7 +89,18 @@ export const MyWorkplace = ({
                 </div>
 
                 {/* Action */}
-                <div className="flex justify-between gap-x-4">
+                <div className="flex justify-between gap-x-1">
+                    {Object.keys(industry)?.length > 0 && (
+                        <ActionButton
+                            mini
+                            Icon={MdDelete}
+                            variant={'error'}
+                            title={'Delete Industry'}
+                            onClick={() => {
+                                onDeleteIndustry(industry)
+                            }}
+                        />
+                    )}
                     {role !== 'rto' && Object.keys(industry)?.length > 0 ? (
                         <ActionButton
                             variant="success"
