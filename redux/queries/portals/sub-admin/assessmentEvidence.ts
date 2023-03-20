@@ -32,9 +32,26 @@ export const assessmentEvidenceEndpoints = (
             `${PREFIX}/student/assessment-evidence/response/${selectedFolder}/${student}`,
         providesTags: ['AssessmentEvidence'],
     }),
-    addCommentOnAssessment: builder.mutation<any, any | null>({
-        query: ({ id, comment, status, std }: any) => ({
-            url: `${PREFIX}/student/assessment-evidence/comment/${id}/${std}`,
+    addCommentOnAssessment: builder.mutation<
+        any,
+        {
+            folderId: number
+            resultId: number
+            comment: string
+            status: any
+            std: number
+            assessmentFolderId: number
+        }
+    >({
+        query: ({
+            folderId,
+            resultId,
+            comment,
+            status,
+            std,
+            assessmentFolderId,
+        }) => ({
+            url: `${PREFIX}/student/assessment-evidence/comment/${folderId}/${std}/${resultId}/${assessmentFolderId}`,
             method: 'PATCH',
             body: { status, comment },
         }),

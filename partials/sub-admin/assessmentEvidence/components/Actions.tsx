@@ -17,11 +17,17 @@ import { useSubmitAssessmentEvidenceMutation } from '@queries'
 import { useNotification } from '@hooks'
 import { getUserCredentials } from '@utils'
 import { yupResolver } from '@hookform/resolvers/yup'
+import { UserRoles } from '@constants'
 
-export const Actions = ({ result }: any) => {
+export const Actions = ({
+    result,
+    studentId,
+}: {
+    studentId: string | string[] | undefined
+    result: any
+}) => {
     const [selectedResult, setSelectedResult] = useState<string>('')
     const pathname = useRouter()
-    const studentId = pathname.query.id
     const { notification } = useNotification()
 
     // query
@@ -42,72 +48,90 @@ export const Actions = ({ result }: any) => {
 
     useEffect(() => {
         if (submitAssessmentEvidenceResult.isSuccess) {
-            notification.success({
-                title: 'Result Submitted Successfully',
-                description: 'Result Submitted Successfully',
-            })
-            switch (selectedResult) {
-                case 'competent':
-                    pathname.push(
-                        role === 'admin'
-                            ? {
-                                  pathname: `/portals/admin/student/${studentId}`,
-                                  query: { tab: 'submissions' },
-                              }
-                            : {
-                                  pathname:
-                                      '/portals/sub-admin/tasks/assessment-evidence',
-                                  query: { tab: 'competent' },
-                              }
-                    )
-                    break
-                case 'notCompetent':
-                    pathname.push(
-                        role === 'admin'
-                            ? {
-                                  pathname: `/portals/admin/student/${studentId}`,
-                                  query: { tab: 'submissions' },
-                              }
-                            : {
-                                  pathname:
-                                      '/portals/sub-admin/tasks/assessment-evidence',
-                                  query: { tab: 'non-competent' },
-                              }
-                    )
-                    break
-                case 'reOpened':
-                    pathname.push(
-                        role === 'admin'
-                            ? {
-                                  pathname: `/portals/admin/student/${studentId}`,
-                                  query: { tab: 'submissions' },
-                              }
-                            : {
-                                  pathname:
-                                      '/portals/sub-admin/tasks/assessment-evidence',
-                                  query: { tab: 're-opened' },
-                              }
-                    )
-                    break
-
-                default:
-                    pathname.push(
-                        role === 'admin'
-                            ? {
-                                  pathname: `/portals/admin/student/${studentId}`,
-                                  query: { tab: 'submissions' },
-                              }
-                            : {
-                                  pathname:
-                                      '/portals/sub-admin/tasks/assessment-evidence',
-                                  query: { tab: 'pending' },
-                              }
-                    )
-                    break
-            }
-            // pathname.push('/portals/sub-admin/tasks/assessment-evidence')
+            pathname.push(
+                role === UserRoles.ADMIN
+                    ? {
+                          pathname: `/portals/admin/student/${studentId}`,
+                          query: { tab: 'submissions' },
+                      }
+                    : role === UserRoles.SUBADMIN
+                    ? {
+                          pathname: `/portals/sub-admin/students/${studentId}`,
+                          query: { tab: 'submissions' },
+                      }
+                    : '#'
+            )
         }
     }, [submitAssessmentEvidenceResult])
+
+    // useEffect(() => {
+    //     if (submitAssessmentEvidenceResult.isSuccess) {
+    //         notification.success({
+    //             title: 'Result Submitted Successfully',
+    //             description: 'Result Submitted Successfully',
+    //         })
+    //         switch (selectedResult) {
+    //             case 'competent':
+    //                 pathname.push(
+    //                     role === 'admin'
+    //                         ? {
+    //                               pathname: `/portals/admin/student/${studentId}`,
+    //                               query: { tab: 'submissions' },
+    //                           }
+    //                         : {
+    //                               pathname:
+    //                                   '/portals/sub-admin/tasks/assessment-evidence',
+    //                               query: { tab: 'competent' },
+    //                           }
+    //                 )
+    //                 break
+    //             case 'notCompetent':
+    //                 pathname.push(
+    //                     role === 'admin'
+    //                         ? {
+    //                               pathname: `/portals/admin/student/${studentId}`,
+    //                               query: { tab: 'submissions' },
+    //                           }
+    //                         : {
+    //                               pathname:
+    //                                   '/portals/sub-admin/tasks/assessment-evidence',
+    //                               query: { tab: 'non-competent' },
+    //                           }
+    //                 )
+    //                 break
+    //             case 'reOpened':
+    //                 pathname.push(
+    //                     role === 'admin'
+    //                         ? {
+    //                               pathname: `/portals/admin/student/${studentId}`,
+    //                               query: { tab: 'submissions' },
+    //                           }
+    //                         : {
+    //                               pathname:
+    //                                   '/portals/sub-admin/tasks/assessment-evidence',
+    //                               query: { tab: 're-opened' },
+    //                           }
+    //                 )
+    //                 break
+
+    //             default:
+    //                 pathname.push(
+    //                     role === 'admin'
+    //                         ? {
+    //                               pathname: `/portals/admin/student/${studentId}`,
+    //                               query: { tab: 'submissions' },
+    //                           }
+    //                         : {
+    //                               pathname:
+    //                                   '/portals/sub-admin/tasks/assessment-evidence',
+    //                               query: { tab: 'pending' },
+    //                           }
+    //                 )
+    //                 break
+    //         }
+    //         // pathname.push('/portals/sub-admin/tasks/assessment-evidence')
+    //     }
+    // }, [submitAssessmentEvidenceResult])
 
     const onSubmit = (values: any) => {
         submitAssessmentEvidence({ id: result?.id, body: values })

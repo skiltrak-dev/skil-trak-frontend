@@ -27,6 +27,18 @@ export const appointmentsEndpoints = (
         }),
         providesTags: ['Appointments'],
     }),
+
+    appointmentDetail: builder.query<any, number>({
+        query: (id) => `${PREFIX}/view/${id}`,
+        providesTags: ['Appointments'],
+    }),
+    cancellAppointment: builder.mutation<any, number>({
+        query: (id) => ({
+            url: `${PREFIX}/cancel/${id}`,
+            method: 'PATCH',
+        }),
+        invalidatesTags: ['Appointments'],
+    }),
     getAppointmentsAvailableSlots: builder.query<any, any>({
         query: (params) => ({
             url: `${PREFIX}/coordinator/available/slots`,

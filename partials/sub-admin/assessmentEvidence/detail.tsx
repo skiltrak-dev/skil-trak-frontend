@@ -16,7 +16,7 @@ import {
     ShowErrorNotifications,
     ActionButton,
 } from '@components'
-import { Actions, AddFolderComment } from './components'
+import { Actions } from './components'
 
 // queries
 import { useNotification } from '@hooks'
@@ -362,24 +362,20 @@ export const Detail = ({
                         </div>
                     </div>
                     {/*  */}
-                    <div className="grid grid-cols-3 h-[450px]">
-                        <div className="border border-gray-300 border-r-transparent h-full overflow-hidden">
-                            <div className="p-2">
-                                <Typography
-                                    variant={'small'}
-                                    color={'text-gray-700'}
-                                >
-                                    Selected Course
-                                </Typography>
-                                <Typography variant={'label'}>
-                                    {/* {selectedFolder?.name ||
+                    <div className="p-2">
+                        <Typography variant={'small'} color={'text-gray-700'}>
+                            Selected Course
+                        </Typography>
+                        <Typography variant={'label'}>
+                            {/* {selectedFolder?.name ||
                                         'No Folder Selected'} */}
-                                    {ellipsisText(selectedCourse?.title, 30) ||
-                                        'None Selected'}
-                                </Typography>
-                            </div>
-
-                            <div className="bg-white h-full overflow-auto">
+                            {ellipsisText(selectedCourse?.title, 30) ||
+                                'None Selected'}
+                        </Typography>
+                    </div>
+                    <div className="grid grid-cols-3 h-[450px]">
+                        <div className="border border-gray-300 border-r-transparent h-[inherit] overflow-hidden">
+                            <div className="bg-white h-[inherit] overflow-y-scroll custom-scrollbar">
                                 {getFolders?.isLoading ||
                                 getFolders.isFetching ? (
                                     <div className="flex flex-col justify-center items-center gap-y-2 py-5">
@@ -447,7 +443,9 @@ export const Detail = ({
                     {allCommentsAdded &&
                         ((results?.result !== 'competent' &&
                             results?.isSubmitted) ||
-                            manualReOpen) && <Actions result={results} />}
+                            manualReOpen) && (
+                            <Actions studentId={studentId} result={results} />
+                        )}
                     {/* <Actions result={results} /> */}
                     {role === 'admin' &&
                         results?.totalSubmission >= 3 &&

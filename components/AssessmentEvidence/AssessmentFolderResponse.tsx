@@ -200,10 +200,11 @@ export const AssessmentResponse = ({
                             // <div className="p-2 grid grid-cols-6 gap-x-2  overflow-hidden">
                             <div className="p-2 flex flex-wrap gap-x-2 gap-y-2 items-end  overflow-hidden">
                                 {getAssessmentResponse?.data?.files.map(
-                                    (file: any) => (
+                                    (file: any, i: number) => (
                                         <AssessmentFolderFileCard
                                             key={file.id}
                                             file={file}
+                                            index={i}
                                             filename={file.filename}
                                             fileUrl={file.file}
                                             type={folder?.type}
@@ -267,9 +268,14 @@ export const AssessmentResponse = ({
                                     text={'Submit'}
                                     onClick={() => {
                                         addComment({
-                                            id: getAssessmentResponse?.data?.id,
+                                            folderId:
+                                                getAssessmentResponse?.data?.id,
                                             comment,
+                                            resultId: result?.id,
                                             status: commentType?.value,
+                                            assessmentFolderId:
+                                                getAssessmentResponse?.data
+                                                    ?.assessmentFolder?.id,
                                             std: studentId,
                                         })
                                     }}

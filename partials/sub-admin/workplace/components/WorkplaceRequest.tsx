@@ -19,7 +19,7 @@ import {
     useGetWorkplaceFoldersQuery,
 } from '@queries'
 import { useEffect, useState } from 'react'
-import { useContextBar } from '@hooks'
+import { useContextBar, useNotification } from '@hooks'
 import { AssignToMe } from './AssignToMe'
 import { RequestType } from './RequestType'
 import { StudentDetail } from './StudentDetail'
@@ -36,6 +36,7 @@ export const WorkplaceRequest = ({ workplace }: any) => {
     const [course, setCourse] = useState<any | null>(null)
 
     const { setContent, show } = useContextBar()
+    const { notification } = useNotification()
 
     // query
     const [cancelWorkplace, cancelWorkplaceResult] =
@@ -59,6 +60,15 @@ export const WorkplaceRequest = ({ workplace }: any) => {
         setAppliedIndustry(workplace.industries?.find((i: any) => i.applied))
         setCourse(workplace?.courses ? workplace?.courses[0] : {})
     }, [workplace])
+
+    useEffect(() => {
+        if (cancelWorkplaceResult.isSuccess) {
+            notification.error({
+                title: 'Workplace Cancelled',
+                description: 'Workplace Cancelled Successfully',
+            })
+        }
+    }, [cancelWorkplaceResult])
 
     const courseOptions =
         workplace?.student?.courses?.length > 0

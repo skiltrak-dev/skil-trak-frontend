@@ -6,34 +6,63 @@ import { EventWrapperProps } from 'react-big-calendar'
 
 // export const EventWrapper = <T extends object>(event: EventWrapperProps<T>) => {
 export const EventWrapper = <T extends object>(event: any) => {
+    console.log('event.event.priority', event.event.priority)
     const [modal, setModal] = useState<ReactElement | null>(null)
     const classes = classNames({
         'absolute max-h-full min-h-[20px] hover:min-h-[80px] border-l-2 px-1 py-1 overflow-hidden transition-all cursor-pointer':
             true,
-        'bg-indigo-200/50 border-indigo-400': event.event.priority === 'high',
-        'bg-blue-200/50 border-blue-400': event.event.priority === 'medium',
-        'bg-green-200/50 border-green-600': event.event.priority === 'low',
+        'bg-indigo-200/50 border-indigo-400':
+            event.event.priority === 'high' &&
+            !event.event?.appointment?.isCancelled,
+        'bg-blue-200/50 border-blue-400':
+            event.event.priority === 'medium' &&
+            !event.event?.appointment?.isCancelled,
+        'bg-green-200/50 border-green-600':
+            event.event.priority === 'low' &&
+            !event.event?.appointment?.isCancelled,
+        'bg-red-600 border-green-600': event.event?.appointment?.isCancelled,
     })
 
     const labelClasses = classNames({
         'text-xs font-medium': true,
-        'text-indigo-600': event.event.priority === 'high',
-        'text-blue-500': event.event.priority === 'medium',
-        'text-green-600': event.event.priority === 'low',
+        'text-indigo-600':
+            event.event.priority === 'high' &&
+            !event.event?.appointment?.isCancelled,
+        'text-blue-500':
+            event.event.priority === 'medium' &&
+            !event.event?.appointment?.isCancelled,
+        'text-green-600':
+            event.event.priority === 'low' &&
+            !event.event?.appointment?.isCancelled,
+        'text-white': event.event?.appointment?.isCancelled,
     })
 
     const textClasses = classNames({
         'text-[11px] font-semibold': true,
-        'text-indigo-800': event.event.priority === 'high',
-        'text-blue-800': event.event.priority === 'medium',
-        'text-green-800': event.event.priority === 'low',
+        'text-indigo-800':
+            event.event.priority === 'high' &&
+            !event.event?.appointment?.isCancelled,
+        'text-blue-800':
+            event.event.priority === 'medium' &&
+            !event.event?.appointment?.isCancelled,
+        'text-green-800':
+            event.event.priority === 'low' &&
+            !event.event?.appointment?.isCancelled,
+        'text-white': event.event?.appointment?.isCancelled,
     })
 
     const subtitleClasses = classNames({
         'text-[11px]': true,
-        'text-indigo-800': event.event.priority === 'high',
-        'text-blue-800': event.event.priority === 'medium',
-        'text-green-800': event.event.priority === 'low',
+        'text-indigo-800':
+            event.event.priority === 'high' &&
+            !event.event?.appointment?.isCancelled,
+        'text-blue-800':
+            event.event.priority === 'medium' &&
+            !event.event?.appointment?.isCancelled,
+        'text-green-800':
+            event.event.priority === 'low' &&
+            !event.event?.appointment?.isCancelled,
+        'text-white': event.event?.appointment?.isCancelled,
     })
 
     const onModalCancelled = () => {
@@ -44,7 +73,7 @@ export const EventWrapper = <T extends object>(event: any) => {
         setModal(
             <Portal>
                 <AppointmentViewModal
-                    appointment={appointment}
+                    id={appointment?.id}
                     onCancel={onModalCancelled}
                 />
             </Portal>

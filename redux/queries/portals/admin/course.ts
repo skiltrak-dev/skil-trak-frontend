@@ -14,13 +14,11 @@ const PREFIX = 'admin'
 export const courseEndpoints = (
     builder: EndpointBuilder<BaseQueryFn, string, string>
 ) => ({
-    courses: builder.query<PaginatedResponse<Course>, any>({
-        query: (params: any) => {
-            return {
-                url: `${PREFIX}/course/list`,
-                params,
-            }
-        },
+    courses: builder.query<PaginatedResponse<Course>, any | undefined>({
+        query: (params) => ({
+            url: `${PREFIX}/course/list`,
+            params,
+        }),
         providesTags: ['Courses'],
     }),
 
