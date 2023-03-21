@@ -18,6 +18,7 @@ import {
 // hooks
 import { useNotification } from '@hooks'
 import { FaExclamationTriangle } from 'react-icons/fa'
+import { getUserCredentials } from '@utils'
 
 type Props = {}
 
@@ -48,6 +49,7 @@ const BookAppointment: NextPageWithLayout = (props: Props) => {
                 id: type,
                 date: selectedDate?.toISOString(),
                 byUser: selectedCoordinator?.value,
+                forUser: getUserCredentials()?.id,
             },
             { skip: !type || !selectedDate || !selectedCoordinator }
         )

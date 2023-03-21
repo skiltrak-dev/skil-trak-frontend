@@ -6,7 +6,6 @@ import { EventWrapperProps } from 'react-big-calendar'
 
 // export const EventWrapper = <T extends object>(event: EventWrapperProps<T>) => {
 export const EventWrapper = <T extends object>(event: any) => {
-    console.log('event.event.priority', event.event.priority)
     const [modal, setModal] = useState<ReactElement | null>(null)
     const classes = classNames({
         'absolute max-h-full min-h-[20px] hover:min-h-[80px] border-l-2 px-1 py-1 overflow-hidden transition-all cursor-pointer':

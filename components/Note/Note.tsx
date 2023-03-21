@@ -79,7 +79,7 @@ export const Note = ({ note }: { note: NoteType }) => {
 
                     <div className="text-sm">
                         <span
-                            className="break-all block mr-6"
+                            className="block mr-6"
                             dangerouslySetInnerHTML={{
                                 __html: note?.body,
                             }}
