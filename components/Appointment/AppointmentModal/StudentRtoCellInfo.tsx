@@ -49,7 +49,7 @@ export const StudentRtoCellInfo = ({ rto }: { rto: Rto }) => {
                                 variant={'label'}
                                 color={'text-gray-500'}
                             >
-                                {rto?.addressLine1}
+                                {rto?.addressLine1} {rto?.suburb}, {rto?.state}
                             </Typography>
                         </div>
                     </div>

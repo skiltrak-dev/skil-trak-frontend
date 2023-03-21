@@ -61,7 +61,8 @@ export const UserCellInfo = ({ user }: any) => {
                     <div className="flex items-center gap-x-2 text-sm">
                         <FaMapMarkerAlt className="text-gray-400" />
                         <Typography variant={'label'} color={'text-gray-500'}>
-                            {userProfile?.addressLine1}
+                            {userProfile?.addressLine1}, {userProfile?.suburb},{' '}
+                            {userProfile?.state}
                         </Typography>
                     </div>
                 </div>
