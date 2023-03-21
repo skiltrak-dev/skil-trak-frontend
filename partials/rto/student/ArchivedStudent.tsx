@@ -26,7 +26,7 @@ import {
     MdRestore,
     MdUnarchive,
 } from 'react-icons/md'
-import { useState, ReactElement } from 'react'
+import { useState, ReactElement, useEffect } from 'react'
 import { CgUnblock } from 'react-icons/cg'
 import {
     IndustryCell,
@@ -45,12 +45,19 @@ export const ArchivedStudent = () => {
     const [modal, setModal] = useState<ReactElement | null>(null)
     const [itemPerPage, setItemPerPage] = useState(50)
     const [page, setPage] = useState(1)
+    const [changeExpiryData, setChangeExpiryData] = useState(false)
 
-    const { isLoading, data, isError } = useGetRtoStudentsQuery({
+    const { isLoading, data, isError, refetch } = useGetRtoStudentsQuery({
         search: `status:${UserStatus.Archived}`,
         skip: itemPerPage * page - itemPerPage,
         limit: itemPerPage,
     })
+
+    useEffect(() => {
+        if (changeExpiryData) {
+            refetch()
+        }
+    }, [changeExpiryData])
 
     const onModalCancelClicked = () => {
         setModal(null)
@@ -80,6 +87,7 @@ export const ArchivedStudent = () => {
                 studentId={student?.user?.id}
                 date={student?.expiryDate}
                 onCancel={onModalCancelClicked}
+                changeExpiryData={setChangeExpiryData}
             />
         )
     }

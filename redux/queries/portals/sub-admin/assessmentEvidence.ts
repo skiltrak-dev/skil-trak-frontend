@@ -55,7 +55,7 @@ export const assessmentEvidenceEndpoints = (
             method: 'PATCH',
             body: { status, comment },
         }),
-        invalidatesTags: ['AssessmentEvidence'],
+        invalidatesTags: ['AssessmentEvidence', 'SubAdminStudents'],
     }),
     submitAssessmentEvidence: builder.mutation<any, any | null>({
         query: ({ id, body }: any) => ({
@@ -63,18 +63,18 @@ export const assessmentEvidenceEndpoints = (
             method: 'PATCH',
             body,
         }),
-        invalidatesTags: ['AssessmentEvidence'],
+        invalidatesTags: ['AssessmentEvidence', 'SubAdminStudents'],
     }),
     studentAssessmentCourses: builder.query<any, number>({
         query: (id) => `${PREFIX}/student/course/${id}`,
-        providesTags: ['AssessmentEvidence'],
+        providesTags: ['AssessmentEvidence', 'SubAdminStudents'],
     }),
     maulallyReopenSubmissionRequest: builder.mutation<any, number>({
         query: (id) => ({
             url: `${PREFIX}/student/assessment-evidence/allow-submission/${id}`,
             method: 'PATCH',
         }),
-        invalidatesTags: ['AssessmentEvidence'],
+        invalidatesTags: ['AssessmentEvidence', 'SubAdminStudents'],
     }),
     uploadAssessmentDocs: builder.mutation<any, any>({
         query: ({ folderId, studentId, body }) => ({
@@ -82,7 +82,7 @@ export const assessmentEvidenceEndpoints = (
             method: 'POST',
             body,
         }),
-        invalidatesTags: ['AssessmentEvidence'],
+        invalidatesTags: ['AssessmentEvidence', 'SubAdminStudents'],
     }),
     archiveUploadedFile: builder.mutation<any, number>({
         query: (fileId) => ({

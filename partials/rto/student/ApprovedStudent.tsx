@@ -19,7 +19,7 @@ import { FaEdit, FaEye, FaFileExport, FaFilter } from 'react-icons/fa'
 
 import { AdminApi } from '@queries'
 import { MdBlock, MdEmail, MdPhoneIphone } from 'react-icons/md'
-import { ReactElement, useState } from 'react'
+import { ReactElement, useEffect, useState } from 'react'
 import { CourseDot, SectorCell, StudentCellInfo } from './components'
 import { RtoCellInfo } from '@partials/admin/rto/components'
 import { Student, UserStatus } from '@types'
@@ -35,14 +35,21 @@ import { EditTimer } from '@components/StudentTimer/EditTimer'
 export const ApprovedStudent = () => {
     const router = useRouter()
     const [modal, setModal] = useState<ReactElement | null>(null)
+    const [changeExpiryData, setChangeExpiryData] = useState(false)
 
     const [itemPerPage, setItemPerPage] = useState(50)
     const [page, setPage] = useState(1)
-    const { isLoading, data, isError } = useGetRtoStudentsQuery({
+    const { isLoading, data, isError, refetch } = useGetRtoStudentsQuery({
         search: `status:${UserStatus.Approved}`,
         skip: itemPerPage * page - itemPerPage,
         limit: itemPerPage,
     })
+
+    useEffect(() => {
+        if (changeExpiryData) {
+            refetch()
+        }
+    }, [changeExpiryData])
 
     const onModalCancelClicked = () => {
         setModal(null)
@@ -80,6 +87,7 @@ export const ApprovedStudent = () => {
                 studentId={student?.user?.id}
                 date={student?.expiryDate}
                 onCancel={onModalCancelClicked}
+                changeExpiryData={setChangeExpiryData}
             />
         )
     }
