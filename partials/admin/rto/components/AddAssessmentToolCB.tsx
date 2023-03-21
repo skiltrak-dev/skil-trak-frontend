@@ -24,6 +24,8 @@ export const AddAssessmentToolCB = ({ edit, assessment }: Props) => {
     const { notification } = useNotification()
     const contextBar = useContextBar()
 
+    console.log('assessment', assessment)
+
     const router = useRouter()
     const rtoId = router.query.id
     const rtoCourses = useGetSubAdminRTOCoursesQuery(String(rtoId))
@@ -48,7 +50,15 @@ export const AddAssessmentToolCB = ({ edit, assessment }: Props) => {
             contextBar.setContent(null)
             contextBar.hide()
         }
-    }, [createResult])
+        if (updateResult.isSuccess) {
+            notification.info({
+                title: 'Assessment Tools Updated',
+                description: 'Assessment Tool Updated Successfully',
+            })
+            contextBar.setContent(null)
+            contextBar.hide()
+        }
+    }, [createResult, updateResult])
 
     const methods = useForm({
         mode: 'all',
@@ -63,13 +73,13 @@ export const AddAssessmentToolCB = ({ edit, assessment }: Props) => {
             formData.append(key, values[key])
         })
         edit
-            ? update({ body: values.title, assessment: assessment?.id })
+            ? update({ body: formData, assessment: assessment?.id })
             : create({ body: formData, id: String(rtoId) })
     }
     return (
         <div>
             <Typography variant={'small'} color={'text-gray-500'}>
-                Add Assessment To:
+                {edit ? 'Edit' : 'Add'} Assessment To:
             </Typography>
             <Typography variant={'label'}>{assessment?.user?.name}</Typography>
             <FormProvider {...methods}>
@@ -78,15 +88,32 @@ export const AddAssessmentToolCB = ({ edit, assessment }: Props) => {
                     onSubmit={methods.handleSubmit(onSubmit)}
                 >
                     <div className="">
-                        <Select
-                            name="course"
-                            label="Course(s)"
-                            placeholder="Select Your Choice"
-                            options={coursesOptions}
-                            loading={rtoCourses.isLoading}
-                            disabled={rtoCourses.isLoading}
-                            onlyValue
-                        />
+                        {edit ? (
+                            <>
+                                <Typography
+                                    variant={'small'}
+                                    color={'text-gray-600'}
+                                >
+                                    Course
+                                </Typography>
+                                <Typography
+                                    variant={'label'}
+                                    color={'text-gray-800'}
+                                >
+                                    {assessment?.course?.title}
+                                </Typography>
+                            </>
+                        ) : (
+                            <Select
+                                name="course"
+                                label="Course(s)"
+                                placeholder="Select Your Choice"
+                                options={coursesOptions}
+                                loading={rtoCourses.isLoading}
+                                disabled={rtoCourses.isLoading}
+                                onlyValue
+                            />
+                        )}
                         <TextInput
                             label={'Title'}
                             name={'title'}
@@ -124,8 +151,14 @@ export const AddAssessmentToolCB = ({ edit, assessment }: Props) => {
                         ) : (
                             <Button
                                 submit
-                                disabled={createResult.isLoading}
-                                loading={createResult.isLoading}
+                                disabled={
+                                    createResult.isLoading ||
+                                    updateResult?.isLoading
+                                }
+                                loading={
+                                    createResult.isLoading ||
+                                    updateResult?.isLoading
+                                }
                             >
                                 Add Assessment
                             </Button>

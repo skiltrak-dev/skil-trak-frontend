@@ -112,6 +112,8 @@ export const FileUpload = ({
                 : alert('Limit Exceed')
             setFileList(multipleFiles)
         } else {
+            setFile(fileData[0])
+            setFileObject(fileData[0])
             onChange && onChange(fileData[0])
         }
 
@@ -163,6 +165,8 @@ export const FileUpload = ({
     }
 
     const Components = component
+
+    console.log('fileObjectfileObjectfileObjectfileObject', fileObject)
 
     return (
         <div className="w-full">

@@ -21,6 +21,7 @@ import {
     RtoApi,
     CommonApi,
 } from '@queries'
+import { getUserCredentials } from '@utils'
 
 type Props = {}
 
@@ -53,6 +54,7 @@ const CreateAppointments: NextPageWithLayout = (props: Props) => {
             id: type,
             date: selectedDate?.toISOString(),
             byUser: selectedCoordinator,
+            forUser: getUserCredentials()?.id,
         },
         { skip: !type || !selectedDate || !selectedCoordinator }
     )
