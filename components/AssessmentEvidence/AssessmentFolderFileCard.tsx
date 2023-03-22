@@ -47,7 +47,7 @@ export const AssessmentFolderFileCard = ({
                 </div>
             )}
             <div
-                className={` basis-1/6 border rounded p-2 ${
+                className={` basis-1/6 border rounded py-2 ${
                     selected ? 'bg-blue-200' : ''
                 }`}
                 onClick={() => {
@@ -66,7 +66,7 @@ export const AssessmentFolderFileCard = ({
                             getDocType('video')?.includes(extension)) && (
                             // Preview Video
                             <div className="bg-black w-24 h-24 overflow-hidden">
-                                <div className="">
+                                <div className="w-full h-full">
                                     <VideoPreview url={fileUrl} />
                                 </div>
                             </div>
@@ -74,7 +74,7 @@ export const AssessmentFolderFileCard = ({
                         {/* PDF Preview */}
                         {(type === 'docs' ||
                             getDocType('docs')?.includes(extension)) && (
-                            <div className="h-full flex justify-center items-center w-full text-gray-500">
+                            <div className=" h-full flex justify-center items-center w-full text-gray-500">
                                 <IoMdDocument className="text-5xl text-gray" />
                             </div>
                         )}

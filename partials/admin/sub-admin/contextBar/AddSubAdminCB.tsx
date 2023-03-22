@@ -27,23 +27,33 @@ export const AddSubAdminCB = ({
                 title: 'SubAdmin Added',
                 description: 'SubAdmin Added Successfully',
             })
+            contextBar.setContent(null)
             contextBar.hide()
         }
+    }, [createSubAminResult])
+
+    useEffect(() => {
         if (updateResult.isSuccess) {
             notification.info({
                 title: 'SubAdmin Updated',
                 description: 'SubAdmin Updated Successfully',
             })
+            contextBar.setContent(null)
             contextBar.hide()
         }
-    }, [createSubAminResult, updateResult])
+    }, [updateResult])
 
     const onSubmit = (values: any) => {
         if (edit) {
-            delete values.password
-            update({ id: subAdmin?.user?.id, body: values })
+            // delete values.password
+
+            update({ id: subAdmin?.id, body: values })
         } else {
-            createSubAmin({ role: UserRoles.SUBADMIN, ...values })
+            createSubAmin({
+                role: UserRoles.SUBADMIN,
+                ...values,
+                password: 'NA',
+            })
         }
     }
 

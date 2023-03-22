@@ -94,7 +94,7 @@ export const SubAdminForm = ({
                         validationIcons
                         required
                     />
-                    {!edit && (
+                    {/* {!edit && (
                         <TextInput
                             label={'Password'}
                             name={'password'}
@@ -103,7 +103,7 @@ export const SubAdminForm = ({
                             validationIcons
                             required
                         />
-                    )}
+                    )} */}
                     <TextInput
                         label={'Email'}
                         type={'email'}

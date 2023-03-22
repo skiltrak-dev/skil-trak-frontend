@@ -45,6 +45,7 @@ import { IndustryCell } from '../industry/components'
 import { RiLockPasswordFill } from 'react-icons/ri'
 import { useActionModal } from '@hooks'
 import { CgUnblock } from 'react-icons/cg'
+import moment from 'moment'
 
 interface StatusTableActionOption extends TableActionOption {
     status: string[]
@@ -223,17 +224,7 @@ export const FilteredStudents = ({
                 )
             },
         },
-        {
-            accessorKey: 'user.status',
-            header: () => <span>Status</span>,
-            cell: (info) => (
-                <Typography uppercase variant={'badge'}>
-                    <span className="font-bold">
-                        {info.row.original?.user?.status}
-                    </span>
-                </Typography>
-            ),
-        },
+
         {
             accessorKey: 'sectors',
             header: () => <span>Sectors</span>,
@@ -261,7 +252,7 @@ export const FilteredStudents = ({
                         }
                     }
                 )
-                
+
                 const industries = row.original?.industries
                 const steps = checkWorkplaceStatus(
                     earliestWorkplace?.currentStatus
@@ -276,6 +267,41 @@ export const FilteredStudents = ({
                     <ProgressCell
                         step={steps > 14 ? 14 : steps < 1 ? 1 : steps}
                     />
+                )
+            },
+        },
+        {
+            accessorKey: 'user.status',
+            header: () => <span>Status</span>,
+            cell: (info) => (
+                <Typography uppercase variant={'badge'}>
+                    <span className="font-bold">
+                        {info.row.original?.user?.status}
+                    </span>
+                </Typography>
+            ),
+        },
+        {
+            accessorKey: 'createdAt',
+            header: () => <span>Created At</span>,
+            cell: (info) => {
+                return (
+                    <>
+                        <Typography variant={'small'} color={'text-gray-600'}>
+                            <span className="font-semibold">
+                                {moment(info?.row?.original?.createdAt).format(
+                                    'Do MMM YYYY'
+                                )}
+                            </span>
+                        </Typography>
+                        <Typography variant={'small'} color={'text-gray-600'}>
+                            <span className="font-semibold">
+                                {moment(info?.row?.original?.createdAt).format(
+                                    'hh:mm:ss a'
+                                )}
+                            </span>
+                        </Typography>
+                    </>
                 )
             },
         },

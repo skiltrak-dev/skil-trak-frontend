@@ -67,7 +67,7 @@ export const CourseCard = ({
                     </div>
                     <div className="">
                         <Typography variant="label" color="text-gray-400">
-                            {coordinator}
+                            {result?.assessor?.name}
                         </Typography>
                     </div>
                 </div>
