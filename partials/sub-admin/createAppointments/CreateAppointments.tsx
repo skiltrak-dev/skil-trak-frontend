@@ -1,33 +1,25 @@
-import { useEffect, useState, useCallback } from 'react'
+import { useRouter } from 'next/router'
+import { useEffect, useState } from 'react'
 
 // components
-import { TimeSlots } from '@components/sections/student'
 import {
-    Card,
-    Typography,
     Button,
-    TextInput,
-    LoadingAnimation,
+    Card,
     Modal,
     ShowErrorNotifications,
+    TextInput,
+    Typography,
 } from '@components'
-import { AppointmentFor, AppointmentWithData, Courses } from './components'
+import { TimeSlots } from '@components/sections/student'
+import { useNotification } from '@hooks'
 import { AppointmentType } from '@partials/appointmentType'
 import { getUserCredentials } from '@utils'
-import { useNotification } from '@hooks'
+import { AppointmentFor, AppointmentWithData, Courses } from './components'
 
 // query
-import {
-    useUserAvailabilitiesQuery,
-    useSubAdminCreateAppointmentMutation,
-    useAvailabilityListQuery,
-    useGetSubAdminStudentDetailQuery,
-    SubAdminApi,
-    CommonApi,
-} from '@queries'
-import { useRouter } from 'next/router'
-import { Arrow, CreateAppointmentCard, SearchUser } from '@partials/common'
 import { UserRoles } from '@constants'
+import { Arrow, CreateAppointmentCard, SearchUser } from '@partials/common'
+import { CommonApi, SubAdminApi, useAvailabilityListQuery } from '@queries'
 
 export const CreateAppointments = () => {
     const router = useRouter()
@@ -327,6 +319,7 @@ export const CreateAppointments = () => {
                     <div className="flex justify-between items-center gap-x-3 w-5/12">
                         <AppointmentType
                             setAppointmentTypeId={setAppointmentTypeId}
+                            appointmentFor={selectedPerson.selectedAppointmentFor?.toLocaleLowerCase()}
                         />
                     </div>
 

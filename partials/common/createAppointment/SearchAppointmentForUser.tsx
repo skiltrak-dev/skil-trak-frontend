@@ -1,4 +1,4 @@
-import { Card, LoadingAnimation, Typography } from '@components'
+import { Button, Card, LoadingAnimation, Typography } from '@components'
 import { useSearchUserByIdQuery } from '@queries'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
@@ -22,8 +22,10 @@ export const SearchAppointmentForUser = ({
     setStudentIndustry: Function
     setSelectedPerson: Function
 }) => {
+    const [selectedUserData, setSelectedUserData] = useState<any>(null)
     const [isAppointmentTypeChange, setIsAppointmentTypeChange] =
         useState<boolean>(false)
+
     const router = useRouter()
     const userData = useSearchUserByIdQuery(
         {
@@ -34,6 +36,10 @@ export const SearchAppointmentForUser = ({
     )
     const industry =
         userData?.data?.student?.workplace[0]?.industries[0]?.industry?.user?.id
+
+    useEffect(() => {
+        setSelectedUserData(null)
+    }, [selectedPerson, setSelectedUser])
 
     useEffect(() => {
         if (selectedPerson?.selectedAppointmentFor?.toLowerCase() === user) {
@@ -123,39 +129,81 @@ export const SearchAppointmentForUser = ({
                                     Found
                                 </Typography>
                             )}
-                        <SearchUserCard
-                            selectedAppointment={
-                                selectedPerson?.selectedAppointmentFor
-                            }
-                            onClick={(s: any) => {
-                                setSelectedUser({
-                                    ...selectedUser,
-                                    selectedAppointmentForUser: s.id,
-                                })
-                                if (
-                                    selectedPerson?.selectedAppointmentFor ===
-                                        'Student' &&
-                                    s?.student?.workplace?.length
-                                ) {
-                                    // send student workplace Industry id
-                                    setStudentIndustry(
-                                        s?.student?.workplace[0]?.industries[0]
-                                            ?.industry?.user?.id
-                                    )
-                                    setSelectedPerson({
-                                        ...selectedPerson,
-                                        selectedAppointmentWith: 'Industry',
-                                    })
+                        {selectedUserData ? (
+                            <Card>
+                                <div className="flex items-center justify-between mb-2">
+                                    <Typography>
+                                        Appointment For {selectedUserData?.name}{' '}
+                                        <span className="text-sm">
+                                            (
+                                            {
+                                                selectedPerson?.selectedAppointmentFor
+                                            }
+                                            )
+                                        </span>
+                                    </Typography>
+                                    <Button
+                                        variant={'info'}
+                                        text={`Search Another ${selectedPerson?.selectedAppointmentFor}`}
+                                        onClick={() => {
+                                            setSelectedUserData(null)
+                                        }}
+                                    />
+                                </div>
+                                <SearchedUserCard
+                                    data={selectedUserData}
+                                    onClick={() => {
+                                        setSelectedUser({
+                                            ...selectedUser,
+                                            selectedAppointmentForUser:
+                                                selectedUserData?.id,
+                                        })
+                                    }}
+                                    selected={
+                                        selectedUser.selectedAppointmentForUser
+                                    }
+                                    selectedPerson={
+                                        selectedPerson?.selectedAppointmentFor
+                                    }
+                                />
+                            </Card>
+                        ) : (
+                            <SearchUserCard
+                                selectedAppointment={
+                                    selectedPerson?.selectedAppointmentFor
                                 }
-                            }}
-                            selectedUser={
-                                selectedUser.selectedAppointmentForUser
-                            }
-                            type={'For'}
-                            selectedPerson={
-                                selectedPerson?.selectedAppointmentFor
-                            }
-                        />
+                                onClick={(s: any) => {
+                                    setSelectedUser({
+                                        ...selectedUser,
+                                        selectedAppointmentForUser: s.id,
+                                    })
+                                    setSelectedUserData(s)
+                                    if (
+                                        selectedPerson?.selectedAppointmentFor ===
+                                            'Student' &&
+                                        s?.student?.workplace?.length
+                                    ) {
+                                        // send student workplace Industry id
+                                        setStudentIndustry(
+                                            s?.student?.workplace[0]
+                                                ?.industries[0]?.industry?.user
+                                                ?.id
+                                        )
+                                        setSelectedPerson({
+                                            ...selectedPerson,
+                                            selectedAppointmentWith: 'Industry',
+                                        })
+                                    }
+                                }}
+                                selectedUser={
+                                    selectedUser.selectedAppointmentForUser
+                                }
+                                type={'For'}
+                                selectedPerson={
+                                    selectedPerson?.selectedAppointmentFor
+                                }
+                            />
+                        )}
                     </>
                 ))}
         </div>

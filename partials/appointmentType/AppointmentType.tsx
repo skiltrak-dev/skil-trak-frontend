@@ -5,15 +5,22 @@ import { AppointmentTypeCard } from './AppointmentTypeCard'
 // query
 import { NoData } from '@components'
 import { LoadingAnimation } from '@components/LoadingAnimation'
-import { useGetAppointmentsTypesQuery } from '@queries'
+import { CommonApi } from '@queries'
 
 type Props = {
     setAppointmentTypeId: Function
+    appointmentFor: string
 }
 
-export const AppointmentType = ({ setAppointmentTypeId }: Props) => {
+export const AppointmentType = ({
+    setAppointmentTypeId,
+    appointmentFor,
+}: Props) => {
     const [selected, setSelected] = useState<string | null>(null)
-    const appointmentTypes = useGetAppointmentsTypesQuery()
+    const appointmentTypes = CommonApi.Appointments.appointmentType(
+        appointmentFor,
+        { skip: !appointmentFor }
+    )
 
     useEffect(() => {
         if (appointmentTypes?.data && appointmentTypes?.data.length) {

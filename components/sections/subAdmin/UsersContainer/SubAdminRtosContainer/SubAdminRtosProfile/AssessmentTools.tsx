@@ -22,6 +22,7 @@ import { AddAssessmentToolCB } from './contextBar'
 import { UserStatus } from '@types'
 export const AssessmentTools = ({
     id,
+    rto,
     courses,
     actions,
     setAssessmentView,
@@ -31,6 +32,7 @@ export const AssessmentTools = ({
     const getAssessmentTools = useGetRTOAssessmentToolsQuery(
         {
             id: Number(selectedCourseId),
+            rtoId: rto.id,
             status: UserStatus.Approved,
         },
         { skip: !selectedCourseId }
@@ -74,6 +76,13 @@ export const AssessmentTools = ({
                                 />
                             </>
                         ))}
+                        <AssessmentCourse
+                            code={"-"}
+                            name={"Miscellaneous"}
+                            id={-1}
+                            onClick={() => setSelectedCourseId(-1)}
+                            selectedCourseId={selectedCourseId}
+                        />
                     </div>
                     <div className="w-[75%]">
                         <div className="flex justify-end gap-x-2.5 p-4">

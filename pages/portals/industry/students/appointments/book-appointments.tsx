@@ -21,6 +21,7 @@ import {
     useGetCoordinatorsForStudentQuery,
 } from '@queries'
 import { getUserCredentials } from '@utils'
+import { UserRoles } from '@constants'
 
 type Props = {}
 
@@ -100,7 +101,10 @@ const BookAppointment: NextPageWithLayout = (props: Props) => {
         <>
             <FormProvider {...formMethods}>
                 <form onSubmit={formMethods.handleSubmit(onSubmit)}>
-                    <AppointmentType setAppointmentTypeId={setType} />
+                    <AppointmentType
+                        setAppointmentTypeId={setType}
+                        appointmentFor={UserRoles.INDUSTRY}
+                    />
                     {/* TODO Not getting coordinators */}
                     <Select
                         name="appointmentFor"

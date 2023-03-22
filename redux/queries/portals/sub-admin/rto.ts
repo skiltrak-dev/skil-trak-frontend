@@ -42,9 +42,13 @@ export const subAdminRtoEndpoints = (
         }),
         invalidatesTags: ['SubAdminRtos'],
     }),
-    getRTOAssessmentTools: builder.query<any, { id: number; status: string }>({
-        query: ({ id, status }) => ({
-            url: `${PREFIX}/rto/assessment-tool/list/${id}`,
+    getRTOAssessmentTools: builder.query<
+        any,
+        { id: number; rtoId: number; status: string }
+    >({
+        query: ({ id, rtoId, status }) => ({
+            // url: `${PREFIX}/rto/assessment-tool/list/${id}`,
+            url: `${PREFIX}/rto/assessment-tool/list/${rtoId}/${id}`,
             params: { status },
         }),
         providesTags: ['SubAdminRtos'],
