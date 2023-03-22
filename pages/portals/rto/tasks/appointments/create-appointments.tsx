@@ -22,6 +22,7 @@ import {
     CommonApi,
 } from '@queries'
 import { getUserCredentials } from '@utils'
+import { UserRoles } from '@constants'
 
 type Props = {}
 
@@ -117,7 +118,10 @@ const CreateAppointments: NextPageWithLayout = (props: Props) => {
             <ShowErrorNotifications result={createAppointmentResult} />
             <FormProvider {...formMethods}>
                 <form onSubmit={formMethods.handleSubmit(onSubmit)}>
-                    <AppointmentType setAppointmentTypeId={setType} />
+                    <AppointmentType
+                        setAppointmentTypeId={setType}
+                        appointmentFor={UserRoles.RTO}
+                    />
                     <div className="grid grid-cols-3 items-center gap-x-5 mb-5">
                         <Select
                             name="appointmentFor"

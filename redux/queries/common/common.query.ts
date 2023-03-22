@@ -146,6 +146,7 @@ const {
     useCountUnreadMessageQuery,
 
     // -- APPOINTMENTS -- //
+    useGetAppointmentsTypesQuery,
     useCreateAppointmentMutation,
     useGetBookedAppointmntsQuery,
     useAppointmentDetailQuery,
@@ -212,6 +213,7 @@ export const CommonApi = {
         useRecentMails: useGetRecentMailsQuery,
     },
     Appointments: {
+        appointmentType: useGetAppointmentsTypesQuery,
         createAppointment: useCreateAppointmentMutation,
         useAppointmentsAvailableSlots: useGetAppointmentsAvailableSlotsQuery,
         appointmentDetail: useAppointmentDetailQuery,

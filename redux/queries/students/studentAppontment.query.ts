@@ -19,10 +19,6 @@ export const studentAppointmentsApi = createApi({
     }),
     tagTypes: ['StudentAppointments'],
     endpoints: (builder) => ({
-        getAppointmentsTypes: builder.query<StudentJobType[], void>({
-            query: () => 'appointmenttype/list',
-            providesTags: ['StudentAppointments'],
-        }),
         getStudentPastAppointments: builder.query<any, void>({
             query: () => 'pastappointments/list',
             providesTags: ['StudentAppointments'],
@@ -81,7 +77,7 @@ export const {
     useGetStudentTimeSlotesQuery,
     useGetStudentAppointmentsQuery,
     useCreateAppointmentMutation,
-    useGetAppointmentsTypesQuery,
+
     useGetCoordinatorsForStudentQuery,
     useGetStudentPastAppointmentsQuery,
     useGetCoordinatorsAvailabilityQuery,

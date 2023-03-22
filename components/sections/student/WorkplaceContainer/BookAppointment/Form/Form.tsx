@@ -10,6 +10,7 @@ import {
     useGetStudentCoursesQuery,
 } from '@queries'
 import { Card } from '@components/cards'
+import { UserRoles } from '@constants'
 
 type Props = {
     setType: Function
@@ -61,7 +62,10 @@ export const Form = ({
     return (
         <div>
             <Card>
-                <AppointmentType setAppointmentTypeId={setType} />
+                <AppointmentType
+                    setAppointmentTypeId={setType}
+                    appointmentFor={UserRoles.STUDENT}
+                />
             </Card>
 
             <div className="my-2" />
