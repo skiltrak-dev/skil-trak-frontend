@@ -35,6 +35,7 @@ export const ArchivedStudents = () => {
     const router = useRouter()
 
     const [modal, setModal] = useState<ReactElement | null>(null)
+    const [changeExpiryData, setChangeExpiryData] = useState(false)
 
     const [itemPerPage, setItemPerPage] = useState(50)
     const [page, setPage] = useState(1)
@@ -44,11 +45,17 @@ export const ArchivedStudents = () => {
         setItemPerPage(Number(router.query.pageSize || 50))
     }, [router])
 
-    const { isLoading, data, isError } = SubAdminApi.Student.useList({
+    const { isLoading, data, isError, refetch } = SubAdminApi.Student.useList({
         search: `status:${UserStatus.Archived}`,
         skip: itemPerPage * page - itemPerPage,
         limit: itemPerPage,
     })
+
+    useEffect(() => {
+        if (changeExpiryData) {
+            refetch()
+        }
+    }, [changeExpiryData])
 
     const onModalCancelClicked = () => {
         setModal(null)
@@ -69,6 +76,7 @@ export const ArchivedStudents = () => {
                 studentId={student?.user?.id}
                 date={student?.expiryDate}
                 onCancel={onModalCancelClicked}
+                changeExpiryData={setChangeExpiryData}
             />
         )
     }
