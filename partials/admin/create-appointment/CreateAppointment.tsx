@@ -234,6 +234,7 @@ export const CreateAppointmentContainer = () => {
                     <div className="flex justify-between items-center gap-x-3 w-5/12">
                         <AppointmentType
                             setAppointmentTypeId={setAppointmentTypeId}
+                            appointmentFor={selectedPerson?.selectedAppointmentFor?.toLocaleLowerCase()}
                         />
                     </div>
 
