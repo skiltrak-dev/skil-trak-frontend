@@ -8,7 +8,7 @@ export const studentsEndpoints = (
 ) => ({
     subAdminStudentCount: builder.query<any, void>({
         query: () => `${PREFIX}/students/count`,
-        providesTags: ['SubAdminStudents'],
+        providesTags: ['SubAdminStudents', 'SubAdminWorkplace'],
     }),
     getSubAdminStudents: builder.query<any, any>({
         query: (params) => ({
@@ -40,7 +40,7 @@ export const studentsEndpoints = (
             method: 'POST',
             body,
         }),
-        invalidatesTags: ['SubAdminStudents'],
+        invalidatesTags: ['SubAdminStudents', 'SubAdminWorkplace'],
     }),
 
     setNotContactable: builder.mutation<any, number>({
@@ -48,12 +48,12 @@ export const studentsEndpoints = (
             url: `${PREFIX}/student/update-not-contactable/${id}`,
             method: 'PATCH',
         }),
-        invalidatesTags: ['SubAdminStudents'],
+        invalidatesTags: ['SubAdminStudents', 'SubAdminWorkplace'],
     }),
 
     getSubAdminStudentCourses: builder.query<any, number>({
         query: (id) => `${PREFIX}/student/course/list-result/${id}`,
-        providesTags: ['SubAdminStudents'],
+        providesTags: ['SubAdminStudents', 'SubAdminWorkplace'],
     }),
 
     getSubAdminMyRto: builder.query<any, string>({
@@ -61,7 +61,7 @@ export const studentsEndpoints = (
             url: `${PREFIX}/student/view/${id}`,
             params: { id },
         }),
-        providesTags: ['SubAdminStudents'],
+        providesTags: ['SubAdminStudents', 'SubAdminWorkplace'],
     }),
     getSubAdminStudentDetail: builder.query<any, number>({
         query: (id) => `${PREFIX}/student/view/${id}`,
@@ -70,12 +70,13 @@ export const studentsEndpoints = (
             'Notes',
             'AllCommunications',
             'AssessmentEvidence',
+            'SubAdminWorkplace',
         ],
     }),
 
     getSubAdminStudentWorkplace: builder.query<any, number>({
         query: (id) => `${PREFIX}/student/workplace-request/${id}`,
-        providesTags: ['SubAdminStudents'],
+        providesTags: ['SubAdminStudents', 'SubAdminWorkplace'],
     }),
 
     assignStudentsToSubAdmin: builder.mutation<any, number>({
@@ -99,7 +100,7 @@ export const studentsEndpoints = (
             url: `${PREFIX}/student/workplace-request/apply/${id}`,
             method: 'PATCH',
         }),
-        invalidatesTags: ['SubAdminStudents'],
+        invalidatesTags: ['SubAdminStudents', 'SubAdminWorkplace'],
     }),
 
     subAdminCancelStudentWorkplaceRequest: builder.mutation<any, any>({
@@ -115,7 +116,7 @@ export const studentsEndpoints = (
             url: `${PREFIX}/student/required-document/${id}`,
             params: { course, user },
         }),
-        providesTags: ['SubAdminStudents'],
+        providesTags: ['SubAdminStudents', 'SubAdminWorkplace'],
     }),
 
     getRequiredFolders: builder.query<
@@ -124,7 +125,11 @@ export const studentsEndpoints = (
     >({
         query: ({ courseId, industryId }) =>
             `${PREFIX}/student/required-document/${courseId}/${industryId}`,
-        providesTags: ['IndustryWorkplace'],
+        providesTags: [
+            'SubAdminStudents',
+            'IndustryWorkplace',
+            'SubAdminWorkplace',
+        ],
     }),
 
     getRequiredDocsResponse: builder.query<
@@ -133,7 +138,11 @@ export const studentsEndpoints = (
     >({
         query: ({ selectedFolderId, studentId }) =>
             `${PREFIX}/student/document-response/${selectedFolderId}/${studentId}`,
-        providesTags: ['IndustryWorkplace'],
+        providesTags: [
+            'SubAdminStudents',
+            'IndustryWorkplace',
+            'SubAdminWorkplace',
+        ],
     }),
 
     uploadRequiredDocs: builder.mutation<any, any>({

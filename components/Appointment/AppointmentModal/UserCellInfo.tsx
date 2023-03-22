@@ -15,15 +15,17 @@ export const UserCellInfo = ({ user }: any) => {
         ? user[user['role'] === 'subadmin' ? 'coordinator' : user?.role]
         : {}
 
-    console.log('profileprofileprofile', profile)
-
-    // const userProfile = {}
-
     const userProfile = user
         ? user?.role === UserRoles.SUBADMIN
             ? profile[0]
             : profile
         : {}
+
+    console.log(
+        'userProfileuserProfile',
+        userProfile?.studentId,
+        profile?.studentId
+    )
 
     return (
         <div className="flex items-center relative">
