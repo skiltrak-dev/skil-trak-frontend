@@ -44,6 +44,7 @@ export const AssessmentTool = ({ rto, actions, setAssessmentView }: any) => {
     useEffect(() => {
         setSelectedCourseId(rto?.data?.courses[0]?.id)
     }, [rto])
+
     const onAddAssessment = () => {
         contextBar.setTitle('Add Assessment')
         contextBar.setContent(
@@ -58,23 +59,34 @@ export const AssessmentTool = ({ rto, actions, setAssessmentView }: any) => {
                 <div className="w-[25%] border-r">
                     <div className={`p-3.5`}>
                         <Typography variant="label" color="text-black">
-                            Select a Course
+                            Select a Folder
                         </Typography>
                     </div>
                     {rto?.isLoading ? (
                         <LoadingAnimation size={85} />
                     ) : courses && courses?.length > 0 ? (
-                        courses?.map((course: any) => (
+                        <>
+                            {courses?.map((course: any) => (
+                                <AssessmentCourse
+                                    code={course?.code}
+                                    name={course?.title}
+                                    id={course.id}
+                                    onClick={() =>
+                                        setSelectedCourseId(course.id)
+                                    }
+                                    selectedCourseId={selectedCourseId}
+                                />
+                            ))}
                             <AssessmentCourse
-                                code={course?.code}
-                                name={course?.title}
-                                id={course.id}
-                                onClick={() => setSelectedCourseId(course.id)}
+                                code={'-'}
+                                name={'Miscellaneous'}
+                                id={0}
+                                onClick={() => setSelectedCourseId(-1)}
                                 selectedCourseId={selectedCourseId}
                             />
-                        ))
+                        </>
                     ) : (
-                        <NoData text={'No Courses were Found'} />
+                        <></>
                     )}
                 </div>
                 <div className="w-[75%]">

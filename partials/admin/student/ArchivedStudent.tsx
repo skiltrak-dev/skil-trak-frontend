@@ -35,6 +35,7 @@ export const ArchivedStudent = () => {
     const [page, setPage] = useState(1)
     const [filter, setFilter] = useState({})
     const [modal, setModal] = useState<any | null>(null)
+    const [changeExpiryData, setChangeExpiryData] = useState(false)
 
     useEffect(() => {
         setPage(Number(router.query.page))
@@ -44,11 +45,19 @@ export const ArchivedStudent = () => {
     // hooks
     const { passwordModal, onViewPassword } = useActionModal()
 
-    const { isLoading, data, isError } = AdminApi.Students.useListQuery({
-        search: `status:${UserStatus.Archived}`,
-        skip: itemPerPage * page - itemPerPage,
-        limit: itemPerPage,
-    })
+    const { isLoading, data, isError, refetch } =
+        AdminApi.Students.useListQuery({
+            search: `status:${UserStatus.Archived}`,
+            skip: itemPerPage * page - itemPerPage,
+            limit: itemPerPage,
+        })
+
+    useEffect(() => {
+        if (changeExpiryData) {
+            refetch()
+        }
+    }, [changeExpiryData])
+
     const [bulkAction, resultBulkAction] = commonApi.useBulkStatusMutation()
 
     const onModalCancelClicked = () => {
@@ -76,6 +85,7 @@ export const ArchivedStudent = () => {
                 studentId={student?.user?.id}
                 date={student?.expiryDate}
                 onCancel={onModalCancelClicked}
+                changeExpiryData={setChangeExpiryData}
             />
         )
     }

@@ -33,7 +33,8 @@ export const EditTimer = ({
                 description: 'Expiry Date Updated Successfully',
             })
             onCancel()
-            changeExpiryData(updateExpiryDateResult.isSuccess)
+            changeExpiryData &&
+                changeExpiryData(updateExpiryDateResult.isSuccess)
         }
     }, [updateExpiryDateResult])
 

@@ -31,7 +31,7 @@ export const DeleteModal = ({
                 description: `Student "${item.user.name}" has been deleted.`,
             })
             onCancel()
-            router.push('/portals/admin/student?tab=approved')
+            router.push('/portals/admin/student?tab=active')
         }
         if (removeResult.isError) {
             notification.error({

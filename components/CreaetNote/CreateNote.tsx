@@ -87,11 +87,20 @@ export const CreateNote = ({
     // }, [updateNoteResult.isSuccess])
 
     const onSubmit = (values: any) => {
-        const body = draftToHtml(convertToRaw(values?.body.getCurrentContent()))
         if (editing) {
             // updateNote({ ...values, postedFor: receiverId, id: editValues?.id })
         } else {
-            createNote({ ...values, body, postedFor: receiverId })
+            if (values?.body) {
+                const body = draftToHtml(
+                    convertToRaw(values?.body.getCurrentContent())
+                )
+                createNote({ ...values, body, postedFor: receiverId })
+            } else {
+                notification.error({
+                    title: 'Message is Required',
+                    description: 'Message is Required',
+                })
+            }
         }
 
         // setTesting(resetForm);
@@ -131,7 +140,7 @@ export const CreateNote = ({
     return (
         <>
             <ShowErrorNotifications result={createNoteResult} />
-            <div className={`sticky top-4`}>
+            <div className={`sticky -4 -top-40`}>
                 <Card>
                     <FormProvider {...methods}>
                         <form

@@ -36,6 +36,8 @@ export const AllStudents = () => {
     const router = useRouter()
 
     const [mount, setMount] = useState(false)
+    const [changeExpiryData, setChangeExpiryData] = useState(false)
+
     useEffect(() => {
         if (!mount) {
             setMount(true)
@@ -64,11 +66,17 @@ export const AllStudents = () => {
         setItemPerPage(Number(router.query.pageSize || 50))
     }, [router])
 
-    const { isLoading, data, isError } = SubAdminApi.Student.useList({
+    const { isLoading, data, isError, refetch } = SubAdminApi.Student.useList({
         search: `status:${UserStatus.Approved}`,
         skip: itemPerPage * page - itemPerPage,
         limit: itemPerPage,
     })
+
+    useEffect(() => {
+        if (changeExpiryData) {
+            refetch()
+        }
+    }, [changeExpiryData])
 
     const onModalCancelClicked = () => {
         setModal(null)
@@ -97,6 +105,7 @@ export const AllStudents = () => {
                 studentId={student?.user?.id}
                 date={student?.expiryDate}
                 onCancel={onModalCancelClicked}
+                changeExpiryData={setChangeExpiryData}
             />
         )
     }
