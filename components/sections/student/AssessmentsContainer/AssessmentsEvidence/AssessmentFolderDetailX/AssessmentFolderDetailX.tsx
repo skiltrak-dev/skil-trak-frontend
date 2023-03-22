@@ -42,7 +42,7 @@ export const getDocType = (type: string) => {
         case 'images':
             return ['jpg', 'png', 'jpeg', 'JPG']
         case 'video':
-            return ['mp4']
+            return ['mp4', 'mkv', 'avi', 'mpeg', 'quicktime']
 
         default:
             return ['pdf', 'jpg', 'png', 'jpeg', 'mp4']
@@ -84,7 +84,6 @@ export const AssessmentFolderDetailX = ({
             </FileViewModal>
         )
     }
-
 
     const onFileClicked = (file: any) => {
         setSelected(file)
