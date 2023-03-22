@@ -16,6 +16,8 @@ import { MdAvTimer } from 'react-icons/md'
 
 // functions
 import { ellipsisText, userStatus } from '@utils'
+import Image from 'next/image'
+import { Attachments } from './Attachments'
 
 export const Mail = ({ message, sender, index }: any) => {
     const [showOptions, setShowOptions] = useState(false)
@@ -142,6 +144,16 @@ export const Mail = ({ message, sender, index }: any) => {
                             >
                                 {/* {message?.message} */}
                             </span>
+
+                            <div className="mt-3">
+                                <Typography
+                                    variant={'label'}
+                                    color={'text-gray-700'}
+                                >
+                                    Attachments
+                                </Typography>
+                            </div>
+                            <Attachments attachments={message?.attachments} />
                         </p>
 
                         {/* show message status icons */}

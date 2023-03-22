@@ -9,7 +9,7 @@ export const appointmentTypeEndpoints = (
   appointmentTypes: builder.query<PaginatedResponse<AppointmentType>, any>({
     query: (params) => {
       return {
-        url: `${PREFIX}appointmenttype/list`,
+        url: `${PREFIX}appointment-type/list`,
         params,
       }
     },
@@ -17,13 +17,13 @@ export const appointmentTypeEndpoints = (
   }),
 
   appointmentTypeDetail: builder.query<AppointmentType, number>({
-    query: (id) => `${PREFIX}appointmenttype/view/${id}`,
+    query: (id) => `${PREFIX}appointment-type/view/${id}`,
     providesTags: ['AppointmentTypes'],
   }),
 
   appointmentTypeAdd: builder.mutation({
     query: (body) => ({
-      url: `${PREFIX}appointmenttype/add`,
+      url: `${PREFIX}appointment-type/add`,
       method: 'POST',
       body: body,
     }),
@@ -32,7 +32,7 @@ export const appointmentTypeEndpoints = (
 
   appointmentTypeUpdate: builder.mutation({
     query: (body: any) => ({
-      url: `${PREFIX}appointmenttype/update/${body.id}`,
+      url: `${PREFIX}appointment-type/update/${body.id}`,
       method: 'PATCH',
       body: body,
     }),
@@ -41,7 +41,7 @@ export const appointmentTypeEndpoints = (
 
   appointmentTypeRemove: builder.mutation({
     query: (id) => ({
-      url: `${PREFIX}appointmenttype/remove/${id}`,
+      url: `${PREFIX}appointment-type/remove/${id}`,
       method: 'DELETE',
     }),
     invalidatesTags: ['AppointmentTypes'],
