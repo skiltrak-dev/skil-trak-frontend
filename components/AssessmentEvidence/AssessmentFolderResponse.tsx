@@ -85,7 +85,9 @@ export const AssessmentResponse = ({
                 />
             )
         } else if (
-            ['mp4', 'mkv', 'avi', 'mpeg'].includes(file.extension.toLowerCase())
+            ['mp4', 'mkv', 'avi', 'mpeg', 'quicktime'].includes(
+                file.extension.toLowerCase()
+            )
         ) {
             // const fileSplit = file.file.split('https://')
             // const url = `https://www.${fileSplit[1]}`

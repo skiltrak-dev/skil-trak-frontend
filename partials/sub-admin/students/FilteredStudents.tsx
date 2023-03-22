@@ -218,7 +218,7 @@ export const FilteredStudents = ({
                                                 )}
                                             </div>
                                         </div>
-                                        <div className="px-6 overflow-auto">
+                                        <div className="px-6 overflow-auto remove-scrollbar">
                                             {table}
                                         </div>
                                     </div>

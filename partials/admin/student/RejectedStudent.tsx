@@ -25,6 +25,7 @@ import { IndustryCell } from '../industry/components'
 import { RtoCellInfo } from '../rto/components'
 import { ProgressCell, SectorCell, StudentCellInfo } from './components'
 import { AcceptModal, DeleteModal } from './modals'
+import moment from 'moment'
 
 export const RejectedStudent = () => {
     const router = useRouter()
@@ -150,6 +151,30 @@ export const RejectedStudent = () => {
                     <StudentStatusProgressCell step={studentStatus} />
                 ) : (
                     <ProgressCell step={steps || 1} />
+                )
+            },
+        },
+        {
+            accessorKey: 'createdAt',
+            header: () => <span>Created At</span>,
+            cell: (info) => {
+                return (
+                    <>
+                        <Typography variant={'small'} color={'text-gray-600'}>
+                            <span className="font-semibold">
+                                {moment(info?.row?.original?.createdAt).format(
+                                    'Do MMM YYYY'
+                                )}
+                            </span>
+                        </Typography>
+                        <Typography variant={'small'} color={'text-gray-600'}>
+                            <span className="font-semibold">
+                                {moment(info?.row?.original?.createdAt).format(
+                                    'hh:mm:ss a'
+                                )}
+                            </span>
+                        </Typography>
+                    </>
                 )
             },
         },

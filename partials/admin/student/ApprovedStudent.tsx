@@ -42,6 +42,7 @@ import {
 import { useActionModal } from '@hooks'
 import { ref } from 'yup'
 import { EditTimer } from '@components/StudentTimer/EditTimer'
+import moment from 'moment'
 
 export const ApprovedStudent = () => {
     const router = useRouter()
@@ -218,6 +219,30 @@ export const ApprovedStudent = () => {
                     <ProgressCell
                         step={steps > 14 ? 14 : steps < 1 ? 1 : steps}
                     />
+                )
+            },
+        },
+        {
+            accessorKey: 'createdAt',
+            header: () => <span>Created At</span>,
+            cell: (info) => {
+                return (
+                    <>
+                        <Typography variant={'small'} color={'text-gray-600'}>
+                            <span className="font-semibold">
+                                {moment(info?.row?.original?.createdAt).format(
+                                    'Do MMM YYYY'
+                                )}
+                            </span>
+                        </Typography>
+                        <Typography variant={'small'} color={'text-gray-600'}>
+                            <span className="font-semibold">
+                                {moment(info?.row?.original?.createdAt).format(
+                                    'hh:mm:ss a'
+                                )}
+                            </span>
+                        </Typography>
+                    </>
                 )
             },
         },

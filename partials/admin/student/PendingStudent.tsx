@@ -28,6 +28,7 @@ import { useChangeStatus } from './hooks'
 import { useRouter } from 'next/router'
 import { IndustryCell } from '../industry/components'
 import { RiLockPasswordFill } from 'react-icons/ri'
+import moment from 'moment'
 
 export const PendingStudent = () => {
     const router = useRouter()
@@ -114,6 +115,30 @@ export const PendingStudent = () => {
             header: () => <span>Sectors</span>,
             cell: (info) => {
                 return <SectorCell student={info.row.original} />
+            },
+        },
+        {
+            accessorKey: 'createdAt',
+            header: () => <span>Created At</span>,
+            cell: (info) => {
+                return (
+                    <>
+                        <Typography variant={'small'} color={'text-gray-600'}>
+                            <span className="font-semibold">
+                                {moment(info?.row?.original?.createdAt).format(
+                                    'Do MMM YYYY'
+                                )}
+                            </span>
+                        </Typography>
+                        <Typography variant={'small'} color={'text-gray-600'}>
+                            <span className="font-semibold">
+                                {moment(info?.row?.original?.createdAt).format(
+                                    'hh:mm:ss a'
+                                )}
+                            </span>
+                        </Typography>
+                    </>
+                )
             },
         },
         {
