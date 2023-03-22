@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { LoadingAnimation, NoData } from '@components'
+import { LoadingAnimation, NoData, Typography } from '@components'
 import { Button } from '@components/buttons'
 import { getUserCredentials } from '@utils'
 import moment from 'moment'
@@ -10,6 +10,7 @@ import { IoLocationSharp, IoTime } from 'react-icons/io5'
 
 // query
 import { CommonApi } from '@queries'
+import { RiShieldUserFill } from 'react-icons/ri'
 
 type Props = {}
 
@@ -32,10 +33,14 @@ export const RecentAppointment = ({
     const { data: appointment, isLoading } =
         CommonApi.Appointments.useUpcommingAppointment(userId)
 
+    console.log('userId', userId)
+
     const appointmentWith = appointment
-        ? appointment?.appointmentBy?.id === id
+        ? appointment?.appointmentFor?.id === userId
             ? 'appointmentFor'
-            : 'appointmentBy'
+            : appointment?.appointmentFor?.id === id
+            ? 'appointmentBy'
+            : 'appointmentFor'
         : ''
 
     const appointmentUser = appointment ? appointment[appointmentWith] : {}
@@ -48,11 +53,13 @@ export const RecentAppointment = ({
           ]
         : {}
 
-    const checkrole = appointment
+    const profile = appointment
         ? appointmentUser['role'] === 'subadmin'
             ? appointmentWithUser[0]
             : appointmentWithUser
         : {}
+
+    console.log(userId)
 
     return (
         <div className="w-full">
@@ -94,8 +101,18 @@ export const RecentAppointment = ({
                                         {appointmentUser?.role})
                                     </p>
                                 </div>
-                                <div>
-                                    <div className="flex items-center gap-x-2.5 mb-2">
+                                <div className="flex flex-col gap-y-2">
+                                    {profile?.studentId && (
+                                        <div className="flex items-center gap-x-2.5 font-semibold ">
+                                            <RiShieldUserFill className="text-[#E3F2FF]" />
+                                            <Typography
+                                                color={'text-[#E3F2FF]'}
+                                            >
+                                                {profile?.studentId}
+                                            </Typography>
+                                        </div>
+                                    )}
+                                    <div className="flex items-center gap-x-2.5">
                                         <IoTime className="text-[#E3F2FF]" />
                                         <p className="text-[#E3F2FF] font-bold text-sm">
                                             {moment(
@@ -109,7 +126,7 @@ export const RecentAppointment = ({
                                             ).format('hh:mm a')}
                                         </p>
                                     </div>
-                                    <div className="flex items-center gap-x-2.5 mb-2">
+                                    <div className="flex items-center gap-x-2.5">
                                         <BsCalendarDateFill className="text-[#E3F2FF]" />
                                         <p className="text-[#E3F2FF] font-bold text-sm">
                                             {moment(appointment?.date).format(
@@ -117,11 +134,11 @@ export const RecentAppointment = ({
                                             )}
                                         </p>
                                     </div>
-                                    <div className="flex items-center gap-x-2.5 mb-2">
+                                    <div className="flex items-center gap-x-2.5">
                                         <IoLocationSharp className="text-[#E3F2FF]" />
                                         <p className="text-[#E3F2FF] font-bold text-sm">
-                                            {`${checkrole?.addressLine1}, ${
-                                                checkrole?.addressLine2 || ''
+                                            {`${profile?.addressLine1}, ${
+                                                profile?.addressLine2 || ''
                                             }`}
                                         </p>
                                     </div>
