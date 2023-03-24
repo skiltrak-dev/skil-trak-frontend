@@ -280,9 +280,7 @@ export const Detail = ({
                             course={course}
                             result={course?.results?.reduce(
                                 (a: any, b: any) =>
-                                    a.totalSubmission > b.totalSubmission
-                                        ? a
-                                        : b,
+                                    a?.createdAt > b?.createdAt ? a : b,
                                 {
                                     result: 'Not Submitted',
                                 }

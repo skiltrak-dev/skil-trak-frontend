@@ -22,7 +22,7 @@ const ReactDateRanges = () => {
         endDate: new Date(),
         key: 'selection',
     }
-    console.log('monthsmonths', months)
+
     const [isDropDown, setIsDropDown] = useState<boolean>(false)
     return (
         <>
@@ -93,7 +93,6 @@ const ReactDateRanges = () => {
                                 editableDateInputs={true}
                                 onChange={(item) => {
                                     setSelectedDate([item.selection])
-                                    console.log(item)
                                 }}
                                 // showSelectionPreview={true}
                                 // moveRangeOnFirstSelection={false}

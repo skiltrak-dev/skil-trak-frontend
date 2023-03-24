@@ -1,4 +1,5 @@
 import { Button, Card, LoadingAnimation, Typography } from '@components'
+import { RequiredStar } from '@components/inputs/components'
 import { useSearchUserByIdQuery } from '@queries'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
@@ -79,14 +80,21 @@ export const SearchAppointmentForUser = ({
                     <Card>
                         {
                             <>
-                                <Typography>
-                                    Appointment For {userData?.data?.name}{' '}
-                                    <span className="text-sm">
-                                        (
-                                        {selectedPerson?.selectedAppointmentFor}
-                                        )
-                                    </span>
-                                </Typography>
+                                <div className="flex gap-x-1">
+                                    <Typography>
+                                        Appointment For {userData?.data?.name}{' '}
+                                        <span className="text-sm">
+                                            (
+                                            {
+                                                selectedPerson?.selectedAppointmentFor
+                                            }
+                                            )
+                                        </span>
+                                    </Typography>
+                                    <div className="-mt-1">
+                                        <RequiredStar />
+                                    </div>
+                                </div>
                                 <SearchedUserCard
                                     data={userData?.data}
                                     onClick={() => {
@@ -132,16 +140,22 @@ export const SearchAppointmentForUser = ({
                         {selectedUserData ? (
                             <Card>
                                 <div className="flex items-center justify-between mb-2">
-                                    <Typography>
-                                        Appointment For {selectedUserData?.name}{' '}
-                                        <span className="text-sm">
-                                            (
-                                            {
-                                                selectedPerson?.selectedAppointmentFor
-                                            }
-                                            )
-                                        </span>
-                                    </Typography>
+                                    <div className="flex gap-x-1">
+                                        <Typography>
+                                            Appointment For{' '}
+                                            {selectedUserData?.name}{' '}
+                                            <span className="text-sm">
+                                                (
+                                                {
+                                                    selectedPerson?.selectedAppointmentFor
+                                                }
+                                                )
+                                            </span>
+                                        </Typography>
+                                        <div className="-mt-1">
+                                            <RequiredStar />
+                                        </div>
+                                    </div>
                                     <Button
                                         variant={'info'}
                                         text={`Search Another ${selectedPerson?.selectedAppointmentFor}`}

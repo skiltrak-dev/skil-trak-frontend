@@ -71,7 +71,11 @@ export const AssessmentResponse = ({
     const onFileClicked = (file: any) => {
         setSelected(file)
 
-        if (['jpg', 'jpeg', 'png'].includes(file.extension.toLowerCase())) {
+        if (
+            ['jpg', 'jpeg', 'png', 'jfif'].includes(
+                file.extension.toLowerCase()
+            )
+        ) {
             setModal(getImageViewModal(file))
         } else if (['pdf'].includes(file.extension.toLowerCase())) {
             // const fileSplit = file.file.split('https://')
@@ -85,7 +89,7 @@ export const AssessmentResponse = ({
                 />
             )
         } else if (
-            ['mp4', 'mkv', 'avi', 'mpeg', 'quicktime'].includes(
+            ['mp4', 'mkv', 'avi', 'mpeg', 'quicktime', 'mov'].includes(
                 file.extension.toLowerCase()
             )
         ) {

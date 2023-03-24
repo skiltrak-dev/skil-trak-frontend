@@ -18,6 +18,7 @@ import { MdAvTimer } from 'react-icons/md'
 import { ellipsisText, userStatus } from '@utils'
 import Image from 'next/image'
 import { Attachments } from './Attachments'
+import { InitialAvatar } from '@components/InitialAvatar'
 
 export const Mail = ({ message, sender, index }: any) => {
     const [showOptions, setShowOptions] = useState(false)
@@ -53,10 +54,15 @@ export const Mail = ({ message, sender, index }: any) => {
                 myMessages ? 'flex-row-reverse' : ''
             } group`}
         >
-            <img
-                className="w-10 h-10 rounded-full border-2 border-white"
-                src={message?.sender?.avatar || '/images/avatar.png'}
-                alt=""
+            <InitialAvatar
+                name={
+                    myMessages ? message?.sender?.name : message?.receiver?.name
+                }
+                imageUrl={
+                    myMessages
+                        ? message?.sender?.avatar
+                        : message?.receiver?.avatar
+                }
             />
             <div
                 className={`flex items-center gap-x-2 ${

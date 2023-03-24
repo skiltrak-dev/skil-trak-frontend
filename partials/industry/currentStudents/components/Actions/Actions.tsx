@@ -1,7 +1,12 @@
 import moment from 'moment'
 
 // components
-import { ActionButton, Button, Typography } from '@components'
+import {
+    ActionButton,
+    Button,
+    ShowErrorNotifications,
+    Typography,
+} from '@components'
 
 // query
 import {
@@ -85,9 +90,11 @@ export const Actions = ({ workplace, industry, student }: any) => {
     }
 
     return (
-        <div className="flex flex-col md:flex-row gap-y-2 md:items-center md:gap-x-2">
-            {modal && modal}
-            {/* {industry?.industryResponseDate && (
+        <>
+            <ShowErrorNotifications result={workplaceActionsResult} />
+            <div className="flex flex-col md:flex-row gap-y-2 md:items-center md:gap-x-2">
+                {modal && modal}
+                {/* {industry?.industryResponseDate && (
                 <Typography variant={'xs'} color={'text-success'}>
                     Student was APPROVED on{' '}
                     {moment(industry?.industryResponseDate).format(
@@ -95,135 +102,145 @@ export const Actions = ({ workplace, industry, student }: any) => {
                     )}
                 </Typography>
             )} */}
-            {industry?.AgreementSigned && (
-                <Button
-                    variant={'info'}
-                    text={'View Agreement'}
-                    onClick={() => {
-                        setContent(
-                            <ViewAgreement
-                                agreement={workplace?.student?.agreement}
-                            />
-                        )
-                        show()
-                    }}
-                />
-            )}
-            {workplace?.isCancelled && (
-                <Typography variant={'small'} color={'text-red-800'}>
-                    <span className="bg-secondary px-3 py-0.5 rounded-full">
-                        CANCELLED
-                    </span>
-                </Typography>
-            )}
-            {industry?.industryResponse === 'rejected' && (
-                <Typography variant={'small'} color={'text-red-800'}>
-                    <span className="bg-secondary px-3 py-0.5 rounded-full">
-                        REJECTED
-                    </span>
-                </Typography>
-            )}
-            {industry?.industryResponse === 'noResponse' && (
-                <Typography variant={'small'} color={'text-red-800'}>
-                    <span className="bg-secondary px-3 py-0.5 rounded-full">
-                        No Response
-                    </span>
-                </Typography>
-            )}
-            {industry?.industryResponse === 'approved' &&
-            !workplace?.isCancelled ? (
-                !industry?.terminated &&
-                !industry?.isCompleted &&
-                !workplace?.isCancelled &&
-                !industry?.placementStarted ? (
-                    <>
-                        {industry?.industryResponseDate && (
-                            <Typography variant={'xs'} color={'text-success'}>
-                                Student was APPROVED on{' '}
-                                {moment(industry?.industryResponseDate).format(
-                                    'Do MMM, YYYY'
-                                )}
-                            </Typography>
-                        )}
-                        {!industry.placementStarted && (
+                {industry?.AgreementSigned && (
+                    <Button
+                        variant={'info'}
+                        text={'View Agreement'}
+                        onClick={() => {
+                            setContent(
+                                <ViewAgreement
+                                    agreement={workplace?.student?.agreement}
+                                />
+                            )
+                            show()
+                        }}
+                    />
+                )}
+                {workplace?.isCancelled && (
+                    <Typography variant={'small'} color={'text-red-800'}>
+                        <span className="bg-secondary px-3 py-0.5 rounded-full">
+                            CANCELLED
+                        </span>
+                    </Typography>
+                )}
+                {industry?.industryResponse === 'rejected' && (
+                    <Typography variant={'small'} color={'text-red-800'}>
+                        <span className="bg-secondary px-3 py-0.5 rounded-full">
+                            REJECTED
+                        </span>
+                    </Typography>
+                )}
+                {industry?.industryResponse === 'noResponse' && (
+                    <Typography variant={'small'} color={'text-red-800'}>
+                        <span className="bg-secondary px-3 py-0.5 rounded-full">
+                            No Response
+                        </span>
+                    </Typography>
+                )}
+                {industry?.industryResponse === 'approved' &&
+                !workplace?.isCancelled ? (
+                    !industry?.terminated &&
+                    !industry?.isCompleted &&
+                    !workplace?.isCancelled &&
+                    !industry?.placementStarted ? (
+                        <>
+                            {industry?.industryResponseDate && (
+                                <Typography
+                                    variant={'xs'}
+                                    color={'text-success'}
+                                >
+                                    Student was APPROVED on{' '}
+                                    {moment(
+                                        industry?.industryResponseDate
+                                    ).format('Do MMM, YYYY')}
+                                </Typography>
+                            )}
+                            {!industry.placementStarted && (
+                                <Button
+                                    variant={'primary'}
+                                    text={'Start Placement'}
+                                    onClick={() => {
+                                        onStartPlacementClicked(industry.id)
+                                    }}
+                                />
+                            )}
                             <Button
-                                variant={'primary'}
-                                text={'Start Placement'}
-                                onClick={() => {
-                                    onStartPlacementClicked(industry.id)
-                                }}
+                                variant={'dark'}
+                                text={'ADD SCHEDULE'}
+                                disabled
                             />
-                        )}
-                        <Button
-                            variant={'dark'}
-                            text={'ADD SCHEDULE'}
-                            disabled
-                        />
-                    </>
-                ) : industry?.isCompleted ? (
-                    <Typography variant={'small'} color={'text-white'}>
-                        <span className="bg-success-dark px-3 py-0.5 rounded-full">
-                            COMPLETED
-                        </span>
-                    </Typography>
-                ) : industry?.terminated ? (
-                    <Typography variant={'small'} color={'text-white'}>
-                        <span className="bg-success-dark px-3 py-0.5 rounded-full">
-                            TERMINATED
-                        </span>
-                    </Typography>
+                        </>
+                    ) : industry?.isCompleted ? (
+                        <Typography variant={'small'} color={'text-white'}>
+                            <span className="bg-success-dark px-3 py-0.5 rounded-full">
+                                COMPLETED
+                            </span>
+                        </Typography>
+                    ) : industry?.terminated ? (
+                        <Typography variant={'small'} color={'text-white'}>
+                            <span className="bg-success-dark px-3 py-0.5 rounded-full">
+                                TERMINATED
+                            </span>
+                        </Typography>
+                    ) : (
+                        <>
+                            <ChangeStatusAction
+                                industry={industry}
+                                workplace={workplace}
+                            />
+                            <Button
+                                variant={'action'}
+                                onClick={onFeedBackClicked}
+                            >
+                                <span className="text-gray-800">FEEDBACK</span>
+                            </Button>
+                            <Button
+                                variant={'action'}
+                                onClick={onReportClicked}
+                            >
+                                <span className="text-error">REPORT</span>
+                            </Button>
+                        </>
+                    )
                 ) : (
-                    <>
-                        <ChangeStatusAction
-                            industry={industry}
-                            workplace={workplace}
-                        />
-                        <Button variant={'action'} onClick={onFeedBackClicked}>
-                            <span className="text-gray-800">FEEDBACK</span>
-                        </Button>
-                        <Button variant={'action'} onClick={onReportClicked}>
-                            <span className="text-error">REPORT</span>
-                        </Button>
-                    </>
-                )
-            ) : (
-                !workplace?.isCancelled &&
-                industry?.industryResponse !== 'rejected' &&
-                industry?.industryResponse !== 'noResponse' && (
-                    <div className="flex items-center gap-x-2">
-                        <div className="whitespace-nowrap">
-                            {/* <Button text={'Book Appointment'} variant={'info'} /> */}
-                        </div>
+                    !workplace?.isCancelled &&
+                    industry?.industryResponse !== 'rejected' &&
+                    industry?.industryResponse !== 'noResponse' && (
+                        <div className="flex items-center gap-x-2">
+                            <div className="whitespace-nowrap">
+                                {/* <Button text={'Book Appointment'} variant={'info'} /> */}
+                            </div>
 
-                        <ActionButton
-                            variant={'success'}
-                            onClick={() => {
-                                workplaceActions({
-                                    id: industry.id,
-                                    status: UserStatus.Approved,
-                                })
-                            }}
-                            loading={workplaceActionsResult?.isLoading}
-                            disabled={workplaceActionsResult?.isLoading}
-                        >
-                            Approve
-                        </ActionButton>
-                        <ActionButton
-                            variant={'error'}
-                            onClick={() => {
-                                workplaceActions({
-                                    id: industry.id,
-                                    status: UserStatus.Rejected,
-                                })
-                            }}
-                            loading={workplaceActionsResult?.isLoading}
-                            disabled={workplaceActionsResult?.isLoading}
-                        >
-                            Reject
-                        </ActionButton>
-                    </div>
-                )
-            )}
-        </div>
+                            <ActionButton
+                                variant={'success'}
+                                onClick={() => {
+                                    workplaceActions({
+                                        id: industry.id,
+                                        status: UserStatus.Approved,
+                                    })
+                                }}
+                                loading={workplaceActionsResult?.isLoading}
+                                disabled={workplaceActionsResult?.isLoading}
+                            >
+                                Approve
+                            </ActionButton>
+                            <ActionButton
+                                variant={'error'}
+                                onClick={() => {
+                                    workplaceActions({
+                                        id: industry.id,
+                                        status: UserStatus.Rejected,
+                                    })
+                                }}
+                                loading={workplaceActionsResult?.isLoading}
+                                disabled={workplaceActionsResult?.isLoading}
+                            >
+                                Reject
+                            </ActionButton>
+                        </div>
+                    )
+                )}
+            </div>
+        </>
     )
 }

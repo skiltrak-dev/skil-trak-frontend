@@ -166,8 +166,6 @@ export const FileUpload = ({
 
     const Components = component
 
-    console.log('fileObjectfileObjectfileObjectfileObject', fileObject)
-
     return (
         <div className="w-full">
             {label && (

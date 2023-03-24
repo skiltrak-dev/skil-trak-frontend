@@ -20,6 +20,7 @@ import { AppointmentFor, AppointmentWithData, Courses } from './components'
 import { UserRoles } from '@constants'
 import { Arrow, CreateAppointmentCard, SearchUser } from '@partials/common'
 import { CommonApi, SubAdminApi, useAvailabilityListQuery } from '@queries'
+import { RequiredStar } from '@components/inputs/components'
 
 export const CreateAppointments = () => {
     const router = useRouter()
@@ -243,16 +244,26 @@ export const CreateAppointments = () => {
         <>
             {modal}
             <ShowErrorNotifications result={createAppointmentResult} />
+            <div className="bg-blue-400 rounded-lg px-2 py-2 mb-2">
+                <Typography color={'text-white'} variant={'label'}>
+                    Staric (*) fields are required
+                </Typography>
+            </div>
             <div className="flex flex-col gap-y-2">
                 <Card>
                     <div className="grid grid-cols-7">
                         <div className="col-span-3">
-                            <Typography
-                                variant={'small'}
-                                color={'text-gray-500'}
-                            >
-                                Book Appointment For
-                            </Typography>
+                            <div className="flex gap-x-1">
+                                <Typography
+                                    variant={'small'}
+                                    color={'text-gray-500'}
+                                >
+                                    Book Appointment For
+                                </Typography>
+                                <div className="-mt-1">
+                                    <RequiredStar />
+                                </div>
+                            </div>
                             <div className="flex justify-between items-center gap-x-3">
                                 {AppointmentFor.map(({ text, icon }) => (
                                     <CreateAppointmentCard
@@ -274,12 +285,17 @@ export const CreateAppointments = () => {
                         </div>
                         <Arrow />
                         <div className="col-span-3">
-                            <Typography
-                                variant={'small'}
-                                color={'text-gray-500'}
-                            >
-                                Book Appointment With
-                            </Typography>
+                            <div className="flex gap-x-1">
+                                <Typography
+                                    variant={'small'}
+                                    color={'text-gray-500'}
+                                >
+                                    Book Appointment With
+                                </Typography>
+                                <div className="-mt-1">
+                                    <RequiredStar />
+                                </div>
+                            </div>
                             <div className="flex justify-between items-center gap-x-3">
                                 {appointmentWith?.map(({ text, icon }: any) => (
                                     <CreateAppointmentCard
