@@ -17,6 +17,7 @@ import { SearchedUserCard } from './SearchedUserCard'
 // query
 import { useSearchSubAdminUsersQuery, useSearchUserQuery } from '@queries'
 import { getUserCredentials } from '@utils'
+import { RequiredStar } from '@components/inputs/components'
 
 export const SearchUserCard = ({
     onClick,
@@ -102,6 +103,7 @@ export const SearchUserCard = ({
                                 name={'name'}
                                 placeholder={'Search BY Name/Email...'}
                                 validationIcons
+                                required
                                 onChange={(e: any) => {
                                     setSearchValue(e.target.value)
                                     onFilterChange(e.target.value)

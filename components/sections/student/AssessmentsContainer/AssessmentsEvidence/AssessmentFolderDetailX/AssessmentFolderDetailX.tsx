@@ -40,9 +40,9 @@ export const getDocType = (type: string) => {
         case 'docs':
             return ['pdf']
         case 'images':
-            return ['jpg', 'png', 'jpeg', 'JPG']
+            return ['jpg', 'png', 'jpeg', 'JPG', 'jfif']
         case 'video':
-            return ['mp4', 'mkv', 'avi', 'mpeg', 'quicktime']
+            return ['mp4', 'mkv', 'avi', 'mpeg', 'quicktime', 'mov']
 
         default:
             return ['pdf', 'jpg', 'png', 'jpeg', 'mp4']

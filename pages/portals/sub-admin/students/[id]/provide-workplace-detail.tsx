@@ -30,7 +30,10 @@ import { IndustryForm } from '@components/sections/student/WorkplaceContainer/My
 import { useNotification } from '@hooks'
 import { AppliedIndustry } from '@components/sections/student/WorkplaceContainer/MyWorkPlace/components/IndustrySelection/AppliedIndustry'
 import { AddCustomIndustryForm, FindWorkplaceForm } from '@partials/common'
-import { ExistinIndustryCard } from '@partials/sub-admin/students'
+import {
+    ExistinIndustryCard,
+    IndustrySelection,
+} from '@partials/sub-admin/students'
 
 type Props = {}
 
@@ -218,18 +221,10 @@ const ProvideWorkplaceDetail: NextPageWithLayout = (props: Props) => {
                                 <>
                                     {workplaceData[0]?.industryStatus ===
                                     'approved' ? (
-                                        <AppliedIndustry
-                                            workplaceCancelRequest={
-                                                workplaceCancelRequest
-                                            }
-                                            appliedIndustry={
-                                                workplaceData[0]?.industries[0]
-                                            }
-                                            status={
-                                                workplaceData[0]?.currentStatus
-                                            }
-                                            workplaceRequest={workplaceData}
-                                            studentAdded
+                                        <IndustrySelection
+                                            setActive={setActive}
+                                            workplace={workplace}
+                                            userId={data?.user?.id}
                                         />
                                     ) : workplaceData[0]?.industryStatus ===
                                       'rejected' ? (

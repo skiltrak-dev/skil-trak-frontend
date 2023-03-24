@@ -52,7 +52,7 @@ export const Approved = () => {
             cell: (info) => (
                 <StudentCellInfo
                     id={info.row.original?.id}
-                    student={info.row.original}
+                    student={info.row.original?.student}
                 />
             ),
             header: () => <span>Student</span>,
@@ -61,15 +61,14 @@ export const Approved = () => {
             accessorKey: 'rto',
             header: () => <span>RTO</span>,
             cell: (info) => {
-                const rto = info.row.original?.rto
+                const rto = info.row.original?.student?.rto
                 return (
                     <div className="flex items-center gap-x-2">
                         <div className="shadow-inner-image rounded-full">
                             <InitialAvatar
-                                name={rto?.user?.name || " "}
-                                imageUrl={rto?.user?.avatar || ""}
+                                name={rto?.user?.name || ''}
+                                imageUrl={rto?.user?.avatar || ''}
                             />
-
                         </div>
                         <div>
                             <p className={`font-medium`}>{rto?.user?.name}</p>
@@ -92,10 +91,10 @@ export const Approved = () => {
             cell: (info) => (
                 <div>
                     <Typography variant={'xs'} color={'text-gray-500'}>
-                        {info.row.original?.industries[0]?.courses[0]?.code || "N/A"}
+                        {info.row.original?.courses[0]?.code || 'N/A'}
                     </Typography>
                     <Typography variant={'label'} color={'text-gray-700'}>
-                        {info.row.original?.industries[0]?.courses[0]?.title || "N/A"}
+                        {info.row.original?.courses[0]?.title || 'N/A'}
                     </Typography>
                 </div>
             ),
@@ -144,7 +143,7 @@ export const Approved = () => {
                     {industryWorkplace.isLoading ? (
                         <LoadingAnimation height="h-[60vh]" />
                     ) : industryWorkplace.data &&
-                        industryWorkplace.data?.data.length ? (
+                      industryWorkplace.data?.data.length ? (
                         <Table
                             columns={columns}
                             data={industryWorkplace.data.data}

@@ -1,4 +1,5 @@
 import { Button, Card, LoadingAnimation, Typography } from '@components'
+import { RequiredStar } from '@components/inputs/components'
 import { UserRoles } from '@constants'
 import { useSearchUserByIdQuery } from '@queries'
 import React, { useEffect, useState } from 'react'
@@ -46,7 +47,6 @@ export const SearchAppointmentWithUser = ({
         }
     }, [userData])
 
-    console.log('industry', industry)
     return (
         <div>
             {selectedPerson.selectedAppointmentWith &&
@@ -59,16 +59,21 @@ export const SearchAppointmentWithUser = ({
                     <Card>
                         <>
                             <div className="flex items-center justify-between mb-2">
-                                <Typography>
-                                    Appointment With {industry?.name}{' '}
-                                    <span className="text-sm">
-                                        (
-                                        {
-                                            selectedPerson?.selectedAppointmentWith
-                                        }
-                                        )
-                                    </span>
-                                </Typography>
+                                <div className="flex gap-x-1">
+                                    <Typography>
+                                        Appointment With {industry?.name}{' '}
+                                        <span className="text-sm">
+                                            (
+                                            {
+                                                selectedPerson?.selectedAppointmentWith
+                                            }
+                                            )
+                                        </span>
+                                    </Typography>
+                                    <div className="-mt-1">
+                                        <RequiredStar />
+                                    </div>
+                                </div>
                                 {industry?.role === UserRoles.INDUSTRY && (
                                     <Button
                                         variant={'info'}
@@ -109,17 +114,22 @@ export const SearchAppointmentWithUser = ({
                         {selectedUserData ? (
                             <Card>
                                 <div className="flex items-center justify-between mb-2">
-                                    <Typography>
-                                        Appointment With{' '}
-                                        {selectedUserData?.name}{' '}
-                                        <span className="text-sm">
-                                            (
-                                            {
-                                                selectedPerson?.selectedAppointmentWith
-                                            }
-                                            )
-                                        </span>
-                                    </Typography>
+                                    <div className="flex gap-x-1">
+                                        <Typography>
+                                            Appointment With{' '}
+                                            {selectedUserData?.name}{' '}
+                                            <span className="text-sm">
+                                                (
+                                                {
+                                                    selectedPerson?.selectedAppointmentWith
+                                                }
+                                                )
+                                            </span>
+                                        </Typography>
+                                        <div className="-mt-1">
+                                            <RequiredStar />
+                                        </div>
+                                    </div>
                                     <Button
                                         variant={'info'}
                                         text={`Search Another ${selectedPerson?.selectedAppointmentWith}`}

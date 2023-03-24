@@ -21,12 +21,6 @@ export const UserCellInfo = ({ user }: any) => {
             : profile
         : {}
 
-    console.log(
-        'userProfileuserProfile',
-        userProfile?.studentId,
-        profile?.studentId
-    )
-
     return (
         <div className="flex items-center relative">
             <div className="flex items-center gap-x-2">

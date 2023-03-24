@@ -18,7 +18,7 @@ const StudentDetail: NextPageWithLayout = () => {
     )
     return (
         <>
-            {detail?.isSuccess && (
+            {detail?.isSuccess && detail.data && (
                 <div className="flex justify-end">
                     <Actions
                         student={detail?.data?.workplace?.student}
