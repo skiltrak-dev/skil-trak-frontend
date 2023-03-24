@@ -33,8 +33,6 @@ export const RecentAppointment = ({
     const { data: appointment, isLoading } =
         CommonApi.Appointments.useUpcommingAppointment(userId)
 
-    console.log('userId', userId)
-
     const appointmentWith = appointment
         ? appointment?.appointmentFor?.id === userId
             ? 'appointmentFor'
@@ -58,8 +56,6 @@ export const RecentAppointment = ({
             ? appointmentWithUser[0]
             : appointmentWithUser
         : {}
-
-    console.log(userId)
 
     return (
         <div className="w-full">

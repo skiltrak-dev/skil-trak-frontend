@@ -1,8 +1,8 @@
-import { ContextBarLoading, NoData, Typography } from '@components'
-import { useNotification } from '@hooks'
+import { NoData, Typography } from '@components'
+import { useContextBar, useNotification } from '@hooks'
 import { AdminApi } from '@queries'
 
-import { Course, Rto, SubAdmin } from '@types'
+import { Course, SubAdmin } from '@types'
 import { useEffect } from 'react'
 import { AssignedCourse } from '../components'
 import { AssignSectorForm } from '../form'
@@ -23,6 +23,8 @@ const getSectors = (courses: any) => {
 
 export const ViewSectorsCB = ({ subAdmin }: { subAdmin: SubAdmin }) => {
     const { notification } = useNotification()
+    const contextBar = useContextBar()
+
     const courses = AdminApi.SubAdmins.useCourses(subAdmin.id)
     const sectorsWithCourses = getSectors(courses.data)
     //  const courses = subAdmin.courses
@@ -52,6 +54,8 @@ export const ViewSectorsCB = ({ subAdmin }: { subAdmin: SubAdmin }) => {
                 title: 'Courses Assigned',
                 description: 'Courses have been assigned to Sub Admin',
             })
+            contextBar.setContent(null)
+            contextBar.hide()
         }
 
         if (assignCoursesResult.isError) {

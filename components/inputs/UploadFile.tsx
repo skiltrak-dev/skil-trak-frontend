@@ -13,7 +13,6 @@ export const UploadFile = ({
     handleRemove,
     invalidSelection,
 }: any) => {
-    console.log('FileMimeTypes', fileObject)
     return (
         <div
             className={`w-full h-40 border border-dashed  rounded-lg overflow-hidden ${

@@ -50,6 +50,7 @@ export const MailForm = ({ action, receiverId, sender }: any) => {
     useEffect(() => {
         if (sendMessageResult.isSuccess) {
             methods.reset()
+            methods.setValue('attachment', null)
         }
     }, [sendMessageResult])
 
@@ -76,6 +77,7 @@ export const MailForm = ({ action, receiverId, sender }: any) => {
     }
 
     const onSubmit = (values: any) => {
+        console.log('Daad')
         const userCredentials = AuthUtils.getUserCredentials()
         const date = new Date()
         const parent = -1
@@ -96,9 +98,10 @@ export const MailForm = ({ action, receiverId, sender }: any) => {
             formData.append(key, value)
         })
 
-        attachment?.forEach((attached: File) => {
-            formData.append('attachment', attached)
-        })
+        attachment &&
+            attachment?.forEach((attached: File) => {
+                formData.append('attachment', attached)
+            })
         sendMessage(formData)
         // setReplyMessage(null)
     }
@@ -178,6 +181,7 @@ export const MailForm = ({ action, receiverId, sender }: any) => {
                                 <TextArea
                                     label={'Message'}
                                     name={'message'}
+                                    required
                                     rows={4}
                                     placeholder={'Your Message ...'}
                                 />

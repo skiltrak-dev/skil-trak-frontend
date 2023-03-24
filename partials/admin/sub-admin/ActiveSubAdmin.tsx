@@ -141,18 +141,13 @@ export const ActiveSubAdmin = () => {
         {
             accessorKey: 'sector',
             header: () => <span>Sectors</span>,
-            cell: (info) => {
-                return <SectorCell subAdmin={info.row.original} />
-            },
+            cell: (info) => <SectorCell subAdmin={info.row.original} />,
         },
         {
             accessorKey: 'rto',
             header: () => <span>RTOs</span>,
-            cell: (info) => {
-                return <RtoCell subAdmin={info.row.original} />
-            },
+            cell: (info) => <RtoCell subAdmin={info.row.original} />,
         },
-
         {
             accessorKey: 'addressLine1',
             header: () => <span>Address</span>,

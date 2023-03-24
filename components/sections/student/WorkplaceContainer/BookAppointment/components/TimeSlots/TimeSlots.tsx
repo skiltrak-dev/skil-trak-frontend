@@ -1,4 +1,5 @@
 import { LoadingAnimation, Paginate, SidebarCalendar } from '@components'
+import { RequiredStar } from '@components/inputs/components'
 import { Typography } from '@components/Typography'
 import moment from 'moment'
 import { useEffect, useState } from 'react'
@@ -90,9 +91,14 @@ export const TimeSlots = ({
 
     return (
         <div className="">
-            <Typography variant={'label'} color={'text-gray-700'}>
-                Select Time Slot
-            </Typography>
+            <div className='flex gap-x-1'>
+                <Typography variant={'label'} color={'text-gray-700'}>
+                    Select Time Slot
+                </Typography>
+                <div className="-mt-1">
+                    <RequiredStar />
+                </div>
+            </div>
             <div className="flex flex-col md:flex-row justify-center gap-y-4 gap-x-16 mt-1">
                 <div className="w-full md:w-2/6">
                     <SidebarCalendar

@@ -24,8 +24,6 @@ export const AddAssessmentToolCB = ({ edit, assessment }: Props) => {
     const { notification } = useNotification()
     const contextBar = useContextBar()
 
-    console.log('assessment', assessment)
-
     const router = useRouter()
     const rtoId = router.query.id
     const rtoCourses = useGetSubAdminRTOCoursesQuery(String(rtoId))

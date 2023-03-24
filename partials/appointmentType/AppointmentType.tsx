@@ -6,6 +6,7 @@ import { AppointmentTypeCard } from './AppointmentTypeCard'
 import { NoData } from '@components'
 import { LoadingAnimation } from '@components/LoadingAnimation'
 import { CommonApi } from '@queries'
+import { RequiredStar } from '@components/inputs/components'
 
 type Props = {
     setAppointmentTypeId: Function
@@ -31,9 +32,14 @@ export const AppointmentType = ({
 
     return (
         <div>
-            <Typography variant={'label'} color={'text-gray-700'}>
-                Please select type of appointment you want to book?
-            </Typography>
+            <div className='flex gap-x-1'>
+                <Typography variant={'label'} color={'text-gray-700'}>
+                    Please select type of appointment you want to book?
+                </Typography>
+                <div className="-mt-1">
+                    <RequiredStar />
+                </div>
+            </div>
             <div className="flex flex-wrap gap-y-2 gap-x-4 items-center mt-1">
                 {appointmentTypes.isError && (
                     <NoData

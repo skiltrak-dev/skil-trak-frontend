@@ -24,6 +24,7 @@ export const Courses = ({
         <div className="max-w-md">
             <Select
                 name={'course'}
+                required
                 options={courseOptions}
                 label={'Select Course'}
                 onlyValue

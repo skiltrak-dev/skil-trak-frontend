@@ -2,6 +2,7 @@ import React from 'react'
 
 // components
 import { Typography } from '@components'
+import { RequiredStar } from '@components/inputs/components'
 
 export const CreateAppointmentCard = ({
     text,
