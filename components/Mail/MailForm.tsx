@@ -77,7 +77,6 @@ export const MailForm = ({ action, receiverId, sender }: any) => {
     }
 
     const onSubmit = (values: any) => {
-        console.log('Daad')
         const userCredentials = AuthUtils.getUserCredentials()
         const date = new Date()
         const parent = -1
