@@ -193,6 +193,11 @@ export const AssessmentResponse = ({
                         </div>
                     )}
                     <div className="bg-white">
+                        {getAssessmentResponse.isError && (
+                            <NoData
+                                text={'There is some network issue, Try reload'}
+                            />
+                        )}
                         {getAssessmentResponse.isLoading ||
                         getAssessmentResponse.isFetching ? (
                             <div className="flex flex-col justify-center items-center gap-y-2">
@@ -202,7 +207,8 @@ export const AssessmentResponse = ({
                                 </Typography>
                             </div>
                         ) : getAssessmentResponse?.data?.files &&
-                          getAssessmentResponse?.data?.files?.length > 0 ? (
+                          getAssessmentResponse?.data?.files?.length > 0 &&
+                          !getAssessmentResponse.isError ? (
                             // <div className="p-2 grid grid-cols-6 gap-x-2  overflow-hidden">
                             <div className="p-2 flex flex-wrap gap-x-2 gap-y-2 items-end  overflow-hidden">
                                 {getAssessmentResponse?.data?.files.map(
@@ -222,16 +228,21 @@ export const AssessmentResponse = ({
                                 )}
                             </div>
                         ) : (
-                            <div className="p-3">
-                                <NoData text={'No Uploaded Files were found'} />
-                            </div>
+                            !getAssessmentResponse.isError && (
+                                <div className="p-3">
+                                    <NoData
+                                        text={'No Uploaded Files were found'}
+                                    />
+                                </div>
+                            )
                         )}
                     </div>
                 </div>
                 {result?.result !== 'Not Submitted' &&
                     assessmentEvidenceView &&
                     getAssessmentResponse?.data &&
-                    result?.result !== 'competent' && (
+                    result?.result !== 'competent' &&
+                    !getAssessmentResponse.isError && (
                         <div className="flex justify-between gap-x-2 mt-3 mx-3">
                             <div className="grid grid-cols-3 gap-x-2 w-full">
                                 <div className="w-full">
