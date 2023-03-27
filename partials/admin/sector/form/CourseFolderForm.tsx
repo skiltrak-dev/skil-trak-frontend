@@ -56,6 +56,7 @@ export const CourseFolderForm = ({
                         <Select
                             name="type"
                             label={'Type'}
+                            required
                             defaultValue={initialValues?.type}
                             options={[
                                 { label: 'Documents', value: 'docs' },

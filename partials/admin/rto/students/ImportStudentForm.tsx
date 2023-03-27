@@ -14,8 +14,10 @@ interface FormProps {
     initialValues?: any
     onStudentFound: Function
     setEmailExistList: Function
+    result: any
 }
 export const ImportStudentForm = ({
+    result,
     onSubmit,
     edit,
     initialValues,
@@ -104,9 +106,9 @@ export const ImportStudentForm = ({
                                     sectors.isLoading
                                         ? []
                                         : sectors.data?.data.map((s) => ({
-                                            label: s.name,
-                                            value: s.id,
-                                        }))
+                                              label: s.name,
+                                              value: s.id,
+                                          }))
                                 }
                                 onChange={(option: any) =>
                                     onSectorSelect(option)
@@ -137,7 +139,12 @@ export const ImportStudentForm = ({
                         {checkEmailResult?.data?.length > 0 ? (
                             <Button text="Import" submit disabled />
                         ) : (
-                            <Button text="Import" submit />
+                            <Button
+                                text="Import"
+                                submit
+                                loading={result.isLoading}
+                                disabled={result.isLoading}
+                            />
                         )}
                     </div>
                 </div>

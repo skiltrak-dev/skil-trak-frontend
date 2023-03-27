@@ -143,7 +143,7 @@ export const Mail = ({ message, sender, index }: any) => {
                     <div className="flex justify-between gap-x-2 relative mt-3">
                         <p className="text-sm">
                             <span
-                                className="break-all block mr-6"
+                                className="block mr-6"
                                 dangerouslySetInnerHTML={{
                                     __html: message?.message,
                                 }}
