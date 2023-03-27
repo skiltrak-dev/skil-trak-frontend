@@ -96,38 +96,6 @@ export const RtoSignUpForm = ({ onSubmit }: { onSubmit: any }) => {
         setCourseLoading(false)
     }
 
-    const initialValues = {
-        // Profile Information
-        name: '',
-        email: '',
-        password: '',
-        confirmPassword: '',
-
-        // Business Information
-        businessName: '',
-        abn: '',
-        phoneNumber: '',
-        // studentCapacity: 0,
-
-        // Sector Information
-        sectors: [],
-        courses: [],
-
-        // Address Information
-        addressLine1: '',
-        addressLine2: '',
-        state: '',
-        suburb: '',
-        zipCode: '',
-
-        // Contact Person
-        contactPersonName: '',
-        contactPersonEmail: '',
-        contactPersonNumber: '',
-
-        agreedWithPrivacyPolicy: false,
-    }
-
     const validationSchema = yup.object({
         // Profile Information
         name: yup
@@ -217,6 +185,12 @@ export const RtoSignUpForm = ({ onSubmit }: { onSubmit: any }) => {
         mode: 'all',
         resolver: yupResolver(validationSchema),
     })
+
+    useEffect(() => {
+        if (courseValues && courseValues?.length > 0) {
+            formMethods.setValue('courses', courseValues)
+        }
+    }, [courseValues])
 
     return (
         <FormProvider {...formMethods}>
