@@ -108,7 +108,7 @@ export const subAdminEndpoints = (
     }),
     subadminRemove: builder.mutation({
         query: (id) => ({
-            url: `${PREFIX}/subadmin/remove/${id}`,
+            url: `${PREFIX}/user/remove/${id}`,
             method: 'DELETE',
         }),
         invalidatesTags: ['SubAdmins'],

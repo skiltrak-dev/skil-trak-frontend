@@ -124,14 +124,14 @@ export const PendingStudent = () => {
                 return (
                     <>
                         <Typography variant={'small'} color={'text-gray-600'}>
-                            <span className="font-semibold">
+                            <span className="font-semibold whitespace-pre">
                                 {moment(info?.row?.original?.createdAt).format(
                                     'Do MMM YYYY'
                                 )}
                             </span>
                         </Typography>
                         <Typography variant={'small'} color={'text-gray-600'}>
-                            <span className="font-semibold">
+                            <span className="font-semibold whitespace-pre">
                                 {moment(info?.row?.original?.createdAt).format(
                                     'hh:mm:ss a'
                                 )}

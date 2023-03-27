@@ -50,7 +50,7 @@ export const rtoEndpoints = (
     rtoRemove: builder.mutation({
         query: (id: any) => ({
             // url: `${PREFIX}/rto/remove/${id}`,
-            url: `${PREFIX}/users/remove/${id}`,
+            url: `${PREFIX}/user/remove/${id}`,
             method: 'DELETE',
         }),
         invalidatesTags: ['RTOS'],
