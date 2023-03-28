@@ -20,9 +20,11 @@ import { FaEdit, FaEye } from 'react-icons/fa'
 import { MdBlock } from 'react-icons/md'
 import { IndustryCellInfo } from '../indestries/components'
 import { StudentCellInfo } from './components'
-import { AssignStudentModal } from './modals'
+import { AssignStudentModal, ChangeStudentStatusModal } from './modals'
 import { ProgressCell, SectorCell } from '@partials/admin/student/components'
 import { checkStudentStatus, checkWorkplaceStatus, setLink } from '@utils'
+import { useActionModal } from '@hooks'
+import { RiLockPasswordFill } from 'react-icons/ri'
 
 export const FilteredStudents = ({
     student,
@@ -38,6 +40,9 @@ export const FilteredStudents = ({
     const router = useRouter()
     const [modal, setModal] = useState<ReactElement | null>(null)
 
+    // hooks
+    const { passwordModal, onViewPassword } = useActionModal()
+
     const onModalCancelClicked = () => {
         setModal(null)
     }
@@ -46,6 +51,15 @@ export const FilteredStudents = ({
             <AssignStudentModal
                 student={student}
                 onCancel={() => onModalCancelClicked()}
+            />
+        )
+    }
+
+    const onChangeStatus = (student: Student) => {
+        setModal(
+            <ChangeStudentStatusModal
+                student={student}
+                onCancel={onModalCancelClicked}
             />
         )
     }
@@ -60,6 +74,16 @@ export const FilteredStudents = ({
                 setLink('subadmin-student', router)
             },
             Icon: FaEye,
+        },
+        {
+            text: 'View Password',
+            onClick: (student: Student) => onViewPassword(student),
+            Icon: RiLockPasswordFill,
+        },
+        {
+            text: 'Change Status',
+            onClick: (student: Student) => onChangeStatus(student),
+            Icon: FaEdit,
         },
         {
             text: 'Assign to me',
@@ -181,6 +205,7 @@ export const FilteredStudents = ({
     return (
         <>
             {modal && modal}
+            {passwordModal}
             <div className="flex flex-col gap-y-4 p-4">
                 <PageHeading
                     title={'Filtered Students'}
