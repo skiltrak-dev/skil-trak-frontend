@@ -23,7 +23,7 @@ import { Student } from '@types'
 import { useState, ReactElement, useEffect } from 'react'
 import { useGetSubAdminMyStudentsQuery } from '@queries'
 import { TechnicalError } from '@components/ActionAnimations/TechnicalError'
-import { UnAssignStudentModal } from './modals'
+import { BlockModal, UnAssignStudentModal } from './modals'
 import { MdBlock } from 'react-icons/md'
 
 import { getActiveIndustry } from '@partials/student/utils'
@@ -58,6 +58,11 @@ export const MyStudents = () => {
     const onModalCancelClicked = () => {
         setModal(null)
     }
+
+    const onBlockClicked = (student: Student) => {
+        setModal(<BlockModal item={student} onCancel={onModalCancelClicked} />)
+    }
+
     const onAssignStudentClicked = (student: Student) => {
         setModal(
             <UnAssignStudentModal
@@ -82,6 +87,12 @@ export const MyStudents = () => {
             text: 'View Password',
             onClick: (student: Student) => onViewPassword(student),
             Icon: RiLockPasswordFill,
+        },
+        {
+            text: 'Block',
+            onClick: (student: Student) => onBlockClicked(student),
+            Icon: MdBlock,
+            color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
         },
         {
             text: 'Un Assign',
