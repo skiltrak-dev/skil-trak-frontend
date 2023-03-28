@@ -31,6 +31,7 @@ import {
     AcceptModal,
     ArchiveModal,
     BlockModal,
+    ChangeStatusModal,
     DeleteModal,
     RejectModal,
     UnblockModal,
@@ -56,11 +57,13 @@ export const FilteredStudents = ({
     setPage,
     itemPerPage,
     setItemPerPage,
+    setStatusSuccessResult,
 }: {
     student: any
     setPage: any
     itemPerPage: any
     setItemPerPage: any
+    setStatusSuccessResult: any
 }) => {
     const router = useRouter()
     const [modal, setModal] = useState<ReactElement | null>(null)
@@ -112,6 +115,16 @@ export const FilteredStudents = ({
         )
     }
 
+    const onChangeStatus = (student: Student) => {
+        setModal(
+            <ChangeStatusModal
+                setStatusSuccessResult={setStatusSuccessResult}
+                student={student}
+                onCancel={onModalCancelClicked}
+            />
+        )
+    }
+
     const tableActionOptions: TableActionOption[] = [
         {
             text: 'View',
@@ -136,6 +149,12 @@ export const FilteredStudents = ({
         },
     ]
     const statusBaseActions: StatusTableActionOption[] = [
+        {
+            status: [UserStatus.Approved, UserStatus.Archived],
+            text: 'Change Status',
+            onClick: (student: Student) => onChangeStatus(student),
+            Icon: FaEdit,
+        },
         {
             status: [UserStatus.Approved],
             text: 'Block',

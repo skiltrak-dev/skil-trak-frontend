@@ -20,7 +20,11 @@ import { FaEdit, FaEye } from 'react-icons/fa'
 import { MdBlock } from 'react-icons/md'
 import { IndustryCellInfo } from '../indestries/components'
 import { StudentCellInfo } from './components'
-import { AssignStudentModal, ChangeStudentStatusModal } from './modals'
+import {
+    AssignStudentModal,
+    BlockModal,
+    ChangeStudentStatusModal,
+} from './modals'
 import { ProgressCell, SectorCell } from '@partials/admin/student/components'
 import { checkStudentStatus, checkWorkplaceStatus, setLink } from '@utils'
 import { useActionModal } from '@hooks'
@@ -55,6 +59,10 @@ export const FilteredStudents = ({
         )
     }
 
+    const onBlockClicked = (student: Student) => {
+        setModal(<BlockModal item={student} onCancel={onModalCancelClicked} />)
+    }
+
     const onChangeStatus = (student: Student) => {
         setModal(
             <ChangeStudentStatusModal
@@ -84,6 +92,12 @@ export const FilteredStudents = ({
             text: 'Change Status',
             onClick: (student: Student) => onChangeStatus(student),
             Icon: FaEdit,
+        },
+        {
+            text: 'Block',
+            onClick: (student: Student) => onBlockClicked(student),
+            Icon: MdBlock,
+            color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
         },
         {
             text: 'Assign to me',

@@ -95,7 +95,9 @@ export const AssessmentFolderCard = ({
                     </div>
                     <div>
                         <div className={` px-2 `}>
-                            {response && getStatusBadge()}
+                            {response && response?.files?.length > 0
+                                ? getStatusBadge()
+                                : null}
                             {/* {isActive ? (
                             ) : (
                                 <Badge text="Not Approved" variant="error" />

@@ -22,7 +22,7 @@ import { SubAdminApi } from '@queries'
 import { Student, UserStatus } from '@types'
 import { useEffect, useState } from 'react'
 import { MdBlock } from 'react-icons/md'
-import { AcceptModal, RejectModal } from './modals'
+import { AcceptModal, BlockModal, RejectModal } from './modals'
 
 import { SectorCell } from '@partials/admin/student/components'
 import { ColumnDef } from '@tanstack/react-table'
@@ -61,10 +61,15 @@ export const PendingStudents = () => {
             <AcceptModal item={item} onCancel={() => onModalCancelClicked()} />
         )
     }
+
     const onRejectClicked = (item: Student) => {
         setModal(
             <RejectModal item={item} onCancel={() => onModalCancelClicked()} />
         )
+    }
+
+    const onBlockClicked = (student: Student) => {
+        setModal(<BlockModal item={student} onCancel={onModalCancelClicked} />)
     }
 
     const tableActionOptions: TableActionOption[] = [
@@ -90,6 +95,12 @@ export const PendingStudents = () => {
         {
             text: 'Reject',
             onClick: (student: Student) => onRejectClicked(student),
+            Icon: MdBlock,
+            color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
+        },
+        {
+            text: 'Block',
+            onClick: (student: Student) => onBlockClicked(student),
             Icon: MdBlock,
             color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
         },

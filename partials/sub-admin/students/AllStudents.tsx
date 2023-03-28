@@ -24,7 +24,7 @@ import { useGetSubAdminStudentsQuery, SubAdminApi } from '@queries'
 import { Student, UserStatus } from '@types'
 import { useEffect, useState } from 'react'
 import { MdBlock } from 'react-icons/md'
-import { AssignStudentModal, ChangeStudentStatusModal } from './modals'
+import { AssignStudentModal, BlockModal, ChangeStudentStatusModal } from './modals'
 
 import { ProgressCell, SectorCell } from '@partials/admin/student/components'
 import { checkStudentStatus, checkWorkplaceStatus, setLink } from '@utils'
@@ -114,6 +114,10 @@ export const AllStudents = () => {
         )
     }
 
+    const onBlockClicked = (student: Student) => {
+        setModal(<BlockModal item={student} onCancel={onModalCancelClicked} />)
+    }
+
     const tableActionOptions: TableActionOption[] = [
         {
             text: 'View',
@@ -140,6 +144,12 @@ export const AllStudents = () => {
             text: 'View Password',
             onClick: (student: Student) => onViewPassword(student),
             Icon: RiLockPasswordFill,
+        },
+        {
+            text: 'Block',
+            onClick: (student: Student) => onBlockClicked(student),
+            Icon: MdBlock,
+            color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
         },
         {
             text: 'Change Expiry',

@@ -28,7 +28,7 @@ import { checkFilteredDataLength } from '@utils'
 import { useGetSubAdminIndustriesQuery } from '@queries'
 
 type Props = {}
-const filterKeys = ['name', 'email', 'phone', 'abn', 'courseId']
+const filterKeys = ['name', 'email', 'phone', 'address', 'abn', 'courseId']
 const Industries: NextPageWithLayout = (props: Props) => {
     const { setContent } = useContextBar()
     const [filterAction, setFilterAction] = useState(null)
