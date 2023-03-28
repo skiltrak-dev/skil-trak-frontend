@@ -37,6 +37,8 @@ export const ArchivedStudent = () => {
     const [filter, setFilter] = useState({})
     const [modal, setModal] = useState<any | null>(null)
     const [changeExpiryData, setChangeExpiryData] = useState(false)
+    const [statusSuccessResult, setStatusSuccessResult] =
+        useState<boolean>(false)
 
     useEffect(() => {
         setPage(Number(router.query.page))
@@ -54,10 +56,10 @@ export const ArchivedStudent = () => {
         })
 
     useEffect(() => {
-        if (changeExpiryData) {
+        if (changeExpiryData || statusSuccessResult) {
             refetch()
         }
-    }, [changeExpiryData])
+    }, [changeExpiryData, statusSuccessResult])
 
     const [bulkAction, resultBulkAction] = commonApi.useBulkStatusMutation()
 
@@ -74,6 +76,7 @@ export const ArchivedStudent = () => {
     const onChangeStatus = (student: Student) => {
         setModal(
             <ChangeStatusModal
+                setStatusSuccessResult={setStatusSuccessResult}
                 student={student}
                 onCancel={onModalCancelClicked}
             />

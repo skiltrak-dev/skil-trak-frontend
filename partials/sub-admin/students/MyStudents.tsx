@@ -31,6 +31,8 @@ import { IndustryCell } from '@partials/admin/industry/components'
 import { IndustryCellInfo } from '../indestries/components'
 import { ProgressCell, SectorCell } from '@partials/admin/student/components'
 import { checkWorkplaceStatus, setLink } from '@utils'
+import { RiLockPasswordFill } from 'react-icons/ri'
+import { useActionModal } from '@hooks'
 
 export const MyStudents = () => {
     const router = useRouter()
@@ -39,6 +41,9 @@ export const MyStudents = () => {
 
     const [itemPerPage, setItemPerPage] = useState(50)
     const [page, setPage] = useState(1)
+
+    // hooks
+    const { passwordModal, onViewPassword } = useActionModal()
 
     useEffect(() => {
         setPage(Number(router.query.page || 1))
@@ -72,6 +77,11 @@ export const MyStudents = () => {
                 setLink('subadmin-student', router)
             },
             Icon: FaEye,
+        },
+        {
+            text: 'View Password',
+            onClick: (student: Student) => onViewPassword(student),
+            Icon: RiLockPasswordFill,
         },
         {
             text: 'Un Assign',
@@ -154,6 +164,7 @@ export const MyStudents = () => {
     return (
         <div>
             {modal && modal}
+            {passwordModal}
             <Card noPadding>
                 {isError && <TechnicalError />}
                 {isLoading ? (

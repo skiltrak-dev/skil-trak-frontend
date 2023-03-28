@@ -51,6 +51,8 @@ export const ApprovedStudent = () => {
     const [itemPerPage, setItemPerPage] = useState(50)
     const [page, setPage] = useState(1)
     const [changeExpiryData, setChangeExpiryData] = useState(false)
+    const [statusSuccessResult, setStatusSuccessResult] =
+        useState<boolean>(false)
 
     useEffect(() => {
         setPage(Number(router.query.page || 1))
@@ -71,10 +73,10 @@ export const ApprovedStudent = () => {
         )
 
     useEffect(() => {
-        if (changeExpiryData) {
+        if (changeExpiryData || statusSuccessResult) {
             refetch()
         }
-    }, [changeExpiryData])
+    }, [changeExpiryData, statusSuccessResult])
 
     const onModalCancelClicked = () => {
         setModal(null)
@@ -101,6 +103,7 @@ export const ApprovedStudent = () => {
     const onChangeStatus = (student: Student) => {
         setModal(
             <ChangeStatusModal
+                setStatusSuccessResult={setStatusSuccessResult}
                 student={student}
                 onCancel={onModalCancelClicked}
             />

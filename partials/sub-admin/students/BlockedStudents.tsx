@@ -19,7 +19,7 @@ import {
 import { StudentCellInfo } from './components'
 
 import { TechnicalError } from '@components/ActionAnimations/TechnicalError'
-import { useJoyRide } from '@hooks'
+import { useActionModal, useJoyRide } from '@hooks'
 import { SubAdminApi } from '@queries'
 import { Student, UserStatus } from '@types'
 import { useEffect, useState } from 'react'
@@ -30,6 +30,7 @@ import { ProgressCell, SectorCell } from '@partials/admin/student/components'
 import { checkStudentStatus, checkWorkplaceStatus, setLink } from '@utils'
 import { IndustryCellInfo } from '../indestries/components'
 import { ColumnDef } from '@tanstack/react-table'
+import { RiLockPasswordFill } from 'react-icons/ri'
 
 export const BlockedStudents = () => {
     const router = useRouter()
@@ -38,6 +39,9 @@ export const BlockedStudents = () => {
 
     const [itemPerPage, setItemPerPage] = useState(50)
     const [page, setPage] = useState(1)
+
+    // hooks
+    const { passwordModal, onViewPassword } = useActionModal()
 
     useEffect(() => {
         setPage(Number(router.query.page || 1))
@@ -72,6 +76,11 @@ export const BlockedStudents = () => {
                 setLink('subadmin-student', router)
             },
             Icon: FaEye,
+        },
+        {
+            text: 'View Password',
+            onClick: (student: Student) => onViewPassword(student),
+            Icon: RiLockPasswordFill,
         },
         {
             text: 'Assign to me',
@@ -164,6 +173,7 @@ export const BlockedStudents = () => {
     return (
         <div>
             {modal && modal}
+            {passwordModal}
             {isError && <TechnicalError />}
             <Card noPadding>
                 {isLoading ? (

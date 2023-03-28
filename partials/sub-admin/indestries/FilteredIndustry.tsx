@@ -17,6 +17,8 @@ import { FaEye } from 'react-icons/fa'
 import { AddToFavoriteModal } from './modals'
 import { getUserCredentials } from '@utils'
 import { IndustrySubAdmin } from './AllIndustries'
+import { RiLockPasswordFill } from 'react-icons/ri'
+import { useActionModal } from '@hooks'
 // export interface IndustrySubAdmin extends Industry {
 //     subAdmin: SubAdmin[]
 // }
@@ -33,6 +35,10 @@ export const FilteredIndustry = ({
     setItemPerPage: any
 }) => {
     const [modal, setModal] = useState<ReactElement | null>(null)
+
+    // hooks
+    const { passwordModal, onViewPassword } = useActionModal()
+
     const router = useRouter()
     const id = getUserCredentials()?.id
     const isFavorite = (subAdmin: SubAdmin[] | undefined) => {
@@ -67,6 +73,11 @@ export const FilteredIndustry = ({
                 onClick: (industry: Industry) =>
                     onAddToFavoriteClicked(industry),
                 Icon: subAdmin ? MdFavorite : MdFavoriteBorder,
+            },
+            {
+                text: 'View Password',
+                onClick: (industry: Industry) => onViewPassword(industry),
+                Icon: RiLockPasswordFill,
             },
         ]
     }
@@ -129,6 +140,7 @@ export const FilteredIndustry = ({
     ]
     return (
         <>
+            {passwordModal}
             <div className="flex flex-col gap-y-4 p-4">
                 <PageHeading
                     title={'Filtered Industries'}
