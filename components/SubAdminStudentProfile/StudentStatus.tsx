@@ -102,6 +102,25 @@ export const StudentStatus = ({
         }
     }
 
+    const studentStatusOptions = [
+        {
+            label: 'Completed',
+            value: StudentStatusEnum.COMPLETED,
+        },
+        {
+            label: 'Active',
+            value: StudentStatusEnum.ACTIVE,
+        },
+        {
+            label: 'Terminated',
+            value: StudentStatusEnum.TERMINATED,
+        },
+        {
+            label: 'Cancelled',
+            value: StudentStatusEnum.CANCELLED,
+        },
+    ]
+
     return (
         <>
             <ShowErrorNotifications result={changeCurrentStatusResult} />
@@ -145,20 +164,7 @@ export const StudentStatus = ({
                                     <div className="flex-grow w-full mb-3">
                                         <Select
                                             name="status"
-                                            options={[
-                                                {
-                                                    label: 'Completed',
-                                                    value: 'completed',
-                                                },
-                                                {
-                                                    label: 'Terminated',
-                                                    value: 'terminated',
-                                                },
-                                                {
-                                                    label: 'Cancelled',
-                                                    value: 'cancelled',
-                                                },
-                                            ]}
+                                            options={studentStatusOptions}
                                             onlyValue
                                             disabled={
                                                 changeCurrentStatusResult.isLoading

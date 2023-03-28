@@ -10,9 +10,10 @@ import {
     Card,
     EmptyData,
     InitialAvatar,
-    LoadingAnimation, Table,
+    LoadingAnimation,
+    Table,
     TableAction,
-    TableActionOption
+    TableActionOption,
 } from '@components'
 import { StudentCellInfo } from './components'
 
@@ -26,6 +27,8 @@ import { AcceptModal, RejectModal } from './modals'
 import { SectorCell } from '@partials/admin/student/components'
 import { ColumnDef } from '@tanstack/react-table'
 import { setLink } from '@utils'
+import { RiLockPasswordFill } from 'react-icons/ri'
+import { useActionModal } from '@hooks'
 
 export const PendingStudents = () => {
     const router = useRouter()
@@ -34,6 +37,10 @@ export const PendingStudents = () => {
 
     const [itemPerPage, setItemPerPage] = useState(50)
     const [page, setPage] = useState(1)
+
+    // hooks
+    const { passwordModal, onViewPassword } = useActionModal()
+
     useEffect(() => {
         setPage(Number(router.query.page || 1))
         setItemPerPage(Number(router.query.pageSize || 50))
@@ -70,6 +77,11 @@ export const PendingStudents = () => {
                 setLink('subadmin-student', router)
             },
             Icon: FaEye,
+        },
+        {
+            text: 'View Password',
+            onClick: (student: Student) => onViewPassword(student),
+            Icon: RiLockPasswordFill,
         },
         {
             text: 'Approve',
@@ -147,6 +159,7 @@ export const PendingStudents = () => {
     return (
         <div>
             {modal && modal}
+            {passwordModal}
             {isError && <TechnicalError />}
             <Card noPadding>
                 {isLoading ? (

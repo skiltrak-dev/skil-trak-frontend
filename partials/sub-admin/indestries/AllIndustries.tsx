@@ -22,6 +22,8 @@ import { IndustryCellInfo } from './components'
 import { AddToFavoriteModal } from './modals'
 import { MdFavorite, MdFavoriteBorder } from 'react-icons/md'
 import { getUserCredentials, setLink } from '@utils'
+import { RiLockPasswordFill } from 'react-icons/ri'
+import { useActionModal } from '@hooks'
 
 export interface IndustrySubAdmin extends Industry {
     subAdmin: SubAdmin[]
@@ -32,6 +34,9 @@ export const AllIndustries = () => {
     const router = useRouter()
     const [itemPerPage, setItemPerPage] = useState(50)
     const [page, setPage] = useState(1)
+
+    // hooks
+    const { passwordModal, onViewPassword } = useActionModal()
 
     const { isLoading, data, isError } = useGetSubAdminIndustriesQuery({
         skip: itemPerPage * page - itemPerPage,
@@ -76,6 +81,11 @@ export const AllIndustries = () => {
                 onClick: (industry: Industry) =>
                     onAddToFavoriteClicked(industry),
                 Icon: subAdmin ? MdFavorite : MdFavoriteBorder,
+            },
+            {
+                text: 'View Password',
+                onClick: (industry: Industry) => onViewPassword(industry),
+                Icon: RiLockPasswordFill,
             },
         ]
     }
@@ -141,6 +151,7 @@ export const AllIndustries = () => {
     return (
         <>
             {modal && modal}
+            {passwordModal}
             <Card noPadding>
                 {isError && <TechnicalError />}
                 {isLoading ? (

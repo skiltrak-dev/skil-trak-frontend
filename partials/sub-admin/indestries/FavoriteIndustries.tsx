@@ -24,12 +24,17 @@ import { AddToFavoriteModal } from './modals'
 import { MdFavorite } from 'react-icons/md'
 import { IndustryCellInfo } from './components'
 import { setLink } from '@utils'
+import { RiLockPasswordFill } from 'react-icons/ri'
+import { useActionModal } from '@hooks'
 
 export const FavoriteIndustries = () => {
     const [modal, setModal] = useState<ReactElement | null>(null)
     const router = useRouter()
     const [itemPerPage, setItemPerPage] = useState(50)
     const [page, setPage] = useState(1)
+
+    // hooks
+    const { passwordModal, onViewPassword } = useActionModal()
 
     const { isLoading, data, isError } = useGetFavouriteIndustriesQuery({
         skip: itemPerPage * page - itemPerPage,
@@ -65,6 +70,11 @@ export const FavoriteIndustries = () => {
             onClick: (industry: Industry) => onAddToFavoriteClicked(industry),
             color: 'text-error',
             Icon: MdFavorite,
+        },
+        {
+            text: 'View Password',
+            onClick: (industry: Industry) => onViewPassword(industry),
+            Icon: RiLockPasswordFill,
         },
     ]
 
@@ -153,6 +163,7 @@ export const FavoriteIndustries = () => {
     return (
         <>
             {modal && modal}
+            {passwordModal}
             <Card noPadding>
                 {isError && <TechnicalError />}
                 {isLoading ? (
