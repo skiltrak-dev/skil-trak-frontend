@@ -20,7 +20,7 @@ import { FaEdit, FaEye } from 'react-icons/fa'
 import { MdBlock } from 'react-icons/md'
 import { IndustryCellInfo } from '../indestries/components'
 import { StudentCellInfo } from './components'
-import { AssignStudentModal } from './modals'
+import { AssignStudentModal, ChangeStudentStatusModal } from './modals'
 import { ProgressCell, SectorCell } from '@partials/admin/student/components'
 import { checkStudentStatus, checkWorkplaceStatus, setLink } from '@utils'
 import { useActionModal } from '@hooks'
@@ -55,6 +55,15 @@ export const FilteredStudents = ({
         )
     }
 
+    const onChangeStatus = (student: Student) => {
+        setModal(
+            <ChangeStudentStatusModal
+                student={student}
+                onCancel={onModalCancelClicked}
+            />
+        )
+    }
+
     const tableActionOptions: TableActionOption[] = [
         {
             text: 'View',
@@ -70,6 +79,11 @@ export const FilteredStudents = ({
             text: 'View Password',
             onClick: (student: Student) => onViewPassword(student),
             Icon: RiLockPasswordFill,
+        },
+        {
+            text: 'Change Status',
+            onClick: (student: Student) => onChangeStatus(student),
+            Icon: FaEdit,
         },
         {
             text: 'Assign to me',
