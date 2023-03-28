@@ -1,13 +1,15 @@
-import { ActionButton, Button, Typography } from '@components'
+import { ActionButton, Button, Portal, Typography } from '@components'
 import { User } from '@types'
 import { getUserCredentials } from '@utils'
 import moment from 'moment'
-import { useEffect, useState } from 'react'
+import { ReactElement, useEffect, useState } from 'react'
 import { FaTimes } from 'react-icons/fa'
 
 // query
 import { CommonApi } from '@queries'
 import { useNotification } from '@hooks'
+import { TbCalendarTime } from 'react-icons/tb'
+import { RescheduleAppointmentModal } from './RescheduleAppointmentModal'
 
 type AppointmentCardProps = {
     date?: string
@@ -30,7 +32,7 @@ export const UpcomingAppointmentCard = ({
     coordinator,
     onAppointmentClicked,
 }: AppointmentCardProps) => {
-    const [modal, setModal] = useState(null)
+    const [modal, setModal] = useState<ReactElement | null>(null)
 
     const { notification } = useNotification()
 
@@ -68,11 +70,34 @@ export const UpcomingAppointmentCard = ({
         }
     }, [cancellAppointmentResult])
 
+    const onCancelClicked = () => {
+        setModal(null)
+    }
+
+    const onRescheduleClicked = () => {
+        setModal(
+            <Portal>
+                <RescheduleAppointmentModal onCancel={onCancelClicked} appointment={appointment} />
+            </Portal>
+        )
+    }
+
     return (
         <>
             {modal && modal}
             <div className={'relative'}>
-                <div className="absolute top-3 right-3">
+                <div className="absolute top-3 right-3 flex items-center gap-x-1">
+                    <ActionButton
+                        Icon={TbCalendarTime}
+                        mini
+                        title={'Reschedule Appointment'}
+                        variant={'info'}
+                        onClick={(e: any) => {
+                            onRescheduleClicked()
+                        }}
+                        loading={cancellAppointmentResult?.isLoading}
+                        disabled={cancellAppointmentResult?.isLoading}
+                    />
                     <ActionButton
                         Icon={FaTimes}
                         mini

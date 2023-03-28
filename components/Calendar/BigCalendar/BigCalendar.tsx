@@ -39,7 +39,7 @@ export const BigCalendar = ({
         today.getFullYear(),
         today.getMonth(),
         today.getDate(),
-        17
+        19
     )
 
     return (

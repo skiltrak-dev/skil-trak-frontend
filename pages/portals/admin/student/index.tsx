@@ -66,6 +66,9 @@ const StudentList: NextPageWithLayout = () => {
         limit: itemPerPage,
     })
 
+    const [statusSuccessResult, setStatusSuccessResult] =
+        useState<boolean>(false)
+
     useEffect(() => {
         navBar.setTitle('Students')
         contextBar.hide()
@@ -184,6 +187,7 @@ const StudentList: NextPageWithLayout = () => {
                 ) : (
                     filteredStudents.isSuccess && (
                         <FilteredStudents
+                            setStatusSuccessResult={setStatusSuccessResult}
                             setPage={setPage}
                             itemPerPage={itemPerPage}
                             student={filteredStudents}

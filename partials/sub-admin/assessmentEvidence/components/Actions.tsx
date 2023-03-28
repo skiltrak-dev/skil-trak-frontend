@@ -22,9 +22,11 @@ import { UserRoles } from '@constants'
 export const Actions = ({
     result,
     studentId,
+    setEditAssessment,
 }: {
     studentId: string | string[] | undefined
     result: any
+    setEditAssessment: any
 }) => {
     const [selectedResult, setSelectedResult] = useState<string>('')
     const pathname = useRouter()
@@ -61,6 +63,7 @@ export const Actions = ({
                       }
                     : '#'
             )
+            setEditAssessment(false)
         }
     }, [submitAssessmentEvidenceResult])
 

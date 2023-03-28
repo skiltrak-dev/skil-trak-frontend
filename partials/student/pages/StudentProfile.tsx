@@ -85,6 +85,7 @@ export const StudentProfile = ({ noTitle }: { noTitle?: boolean }) => {
             contextBar.setContent(<SubAdminStudentProfile student={data} />)
             contextBar.show(false)
             navBar.setSubTitle(data?.user?.name)
+
             const showAlert = () => {
                 switch (data?.user?.status) {
                     case UserStatus.Pending:

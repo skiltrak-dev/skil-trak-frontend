@@ -64,7 +64,9 @@ export const ArchivedRto = () => {
         },
         {
             text: 'Edit',
-            onClick: () => {},
+            onClick: (rto: Rto) => {
+                router.push(`/portals/admin/rto/${rto.id}/edit-profile`)
+            },
             Icon: FaEdit,
         },
         {
