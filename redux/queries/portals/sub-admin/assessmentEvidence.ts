@@ -24,12 +24,51 @@ export const assessmentEvidenceEndpoints = (
             `${PREFIX}/student/assessment-evidence/${courseId}/${studentId}`,
         providesTags: ['AssessmentEvidence'],
     }),
+    getArchivedAssessmentEvidenceDetail: builder.query<
+        any,
+        { courseId: number; studentId: number }
+    >({
+        query: ({ courseId, studentId }) =>
+            `${PREFIX}/student/assessment-evidence-archived/${courseId}/${studentId}`,
+        providesTags: ['AssessmentEvidence'],
+    }),
     getAssessmentResponse: builder.query<
         any,
         { selectedFolder: number; student: number }
     >({
         query: ({ selectedFolder, student }) =>
             `${PREFIX}/student/assessment-evidence/response/${selectedFolder}/${student}`,
+        providesTags: ['AssessmentEvidence'],
+    }),
+
+    downloadAllCourseFiles: builder.mutation<
+        any,
+        { studentId: number; courseId: number }
+    >({
+        query: ({ studentId, courseId }) => ({
+            url: `shared/files/download/${studentId}/${courseId}`,
+            method: 'POST',
+        }),
+        invalidatesTags: ['Students', 'SubAdminStudents'],
+    }),
+
+    downloadArhiveCourseFiles: builder.mutation<
+        any,
+        { studentId: number; courseId: number }
+    >({
+        query: ({ studentId, courseId }) => ({
+            url: `shared/archived-files/download/${studentId}/${courseId}`,
+            method: 'POST',
+        }),
+        invalidatesTags: ['Students', 'SubAdminStudents'],
+    }),
+
+    getArchivedAssessmentResponse: builder.query<
+        any,
+        { selectedFolder: number; student: number }
+    >({
+        query: ({ selectedFolder, student }) =>
+            `${PREFIX}/student/archived-assessment-evidence/response/${selectedFolder}/${student}`,
         providesTags: ['AssessmentEvidence'],
     }),
     addCommentOnAssessment: builder.mutation<
