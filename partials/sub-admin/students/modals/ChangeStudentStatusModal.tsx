@@ -1,7 +1,7 @@
 import React from 'react'
 import * as Yup from 'yup'
 
-import { Student } from '@types'
+import { Student, StudentStatusEnum } from '@types'
 import { Modal, Select, TextInput } from '@components'
 import { FormProvider, useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
@@ -31,6 +31,26 @@ export const ChangeStudentStatusModal = ({
     const onStatusChange = (values: any) => {
         changeCurrentStatus({ ...values, id: student?.user?.id })
     }
+
+    const studentStatusOptions = [
+        {
+            label: 'Completed',
+            value: StudentStatusEnum.COMPLETED,
+        },
+        {
+            label: 'Active',
+            value: StudentStatusEnum.ACTIVE,
+        },
+        {
+            label: 'Terminated',
+            value: StudentStatusEnum.TERMINATED,
+        },
+        {
+            label: 'Cancelled',
+            value: StudentStatusEnum.CANCELLED,
+        },
+    ]
+
     return (
         <div>
             <Modal
@@ -45,20 +65,7 @@ export const ChangeStudentStatusModal = ({
                         <div className="flex-grow w-full mb-3">
                             <Select
                                 name="status"
-                                options={[
-                                    {
-                                        label: 'Completed',
-                                        value: 'completed',
-                                    },
-                                    {
-                                        label: 'Terminated',
-                                        value: 'terminated',
-                                    },
-                                    {
-                                        label: 'Cancelled',
-                                        value: 'cancelled',
-                                    },
-                                ]}
+                                options={studentStatusOptions}
                                 onlyValue
                                 disabled={changeCurrentStatusResult.isLoading}
                             />

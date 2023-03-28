@@ -62,14 +62,16 @@ export const PendingRto = () => {
     const tableActionOptions: TableActionOption[] = [
         {
             text: 'View',
-            onClick: (rto: any) => {
+            onClick: (rto: Rto) => {
                 router.push(`/portals/admin/rto/${rto.id}?tab=sectors`)
             },
             Icon: FaEye,
         },
         {
             text: 'Edit',
-            onClick: () => {},
+            onClick: (rto: Rto) => {
+                router.push(`/portals/admin/rto/${rto.id}/edit-profile`)
+            },
             Icon: FaEdit,
         },
     ]

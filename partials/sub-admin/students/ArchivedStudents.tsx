@@ -19,17 +19,22 @@ import {
 import { StudentCellInfo } from './components'
 
 import { TechnicalError } from '@components/ActionAnimations/TechnicalError'
-import { useJoyRide } from '@hooks'
+import { useActionModal, useJoyRide } from '@hooks'
 import { SubAdminApi } from '@queries'
 import { Student, UserStatus } from '@types'
 import { MdBlock } from 'react-icons/md'
-import { AssignStudentModal, ChangeStudentStatusModal } from './modals'
+import {
+    AssignStudentModal,
+    BlockModal,
+    ChangeStudentStatusModal,
+} from './modals'
 
 import { ProgressCell, SectorCell } from '@partials/admin/student/components'
 import { checkStudentStatus, checkWorkplaceStatus, setLink } from '@utils'
 import { IndustryCellInfo } from '../indestries/components'
 import { ColumnDef } from '@tanstack/react-table'
 import { EditTimer } from '@components/StudentTimer/EditTimer'
+import { RiLockPasswordFill } from 'react-icons/ri'
 
 export const ArchivedStudents = () => {
     const router = useRouter()
@@ -39,6 +44,9 @@ export const ArchivedStudents = () => {
 
     const [itemPerPage, setItemPerPage] = useState(50)
     const [page, setPage] = useState(1)
+
+    // hooks
+    const { passwordModal, onViewPassword } = useActionModal()
 
     useEffect(() => {
         setPage(Number(router.query.page || 1))
@@ -70,6 +78,10 @@ export const ArchivedStudents = () => {
         )
     }
 
+    const onBlockClicked = (student: Student) => {
+        setModal(<BlockModal item={student} onCancel={onModalCancelClicked} />)
+    }
+
     const onDateClick = (student: Student) => {
         setModal(
             <EditTimer
@@ -96,6 +108,17 @@ export const ArchivedStudents = () => {
             text: 'Change Status',
             onClick: (student: Student) => onChangeStatus(student),
             Icon: FaEdit,
+        },
+        {
+            text: 'View Password',
+            onClick: (student: Student) => onViewPassword(student),
+            Icon: RiLockPasswordFill,
+        },
+        {
+            text: 'Block',
+            onClick: (student: Student) => onBlockClicked(student),
+            Icon: MdBlock,
+            color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
         },
         {
             text: 'Change Expiry',
@@ -188,6 +211,7 @@ export const ArchivedStudents = () => {
     return (
         <div>
             {modal && modal}
+            {passwordModal}
             {isError && <TechnicalError />}
             <Card noPadding>
                 {isLoading ? (

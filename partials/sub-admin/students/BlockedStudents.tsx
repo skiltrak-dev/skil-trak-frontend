@@ -19,17 +19,19 @@ import {
 import { StudentCellInfo } from './components'
 
 import { TechnicalError } from '@components/ActionAnimations/TechnicalError'
-import { useJoyRide } from '@hooks'
+import { useActionModal, useJoyRide } from '@hooks'
 import { SubAdminApi } from '@queries'
 import { Student, UserStatus } from '@types'
 import { useEffect, useState } from 'react'
 import { MdBlock } from 'react-icons/md'
-import { AssignStudentModal } from './modals'
+import { AcceptModal, AssignStudentModal } from './modals'
 
 import { ProgressCell, SectorCell } from '@partials/admin/student/components'
 import { checkStudentStatus, checkWorkplaceStatus, setLink } from '@utils'
 import { IndustryCellInfo } from '../indestries/components'
 import { ColumnDef } from '@tanstack/react-table'
+import { RiLockPasswordFill } from 'react-icons/ri'
+import { AiFillCheckCircle } from 'react-icons/ai'
 
 export const BlockedStudents = () => {
     const router = useRouter()
@@ -38,6 +40,9 @@ export const BlockedStudents = () => {
 
     const [itemPerPage, setItemPerPage] = useState(50)
     const [page, setPage] = useState(1)
+
+    // hooks
+    const { passwordModal, onViewPassword } = useActionModal()
 
     useEffect(() => {
         setPage(Number(router.query.page || 1))
@@ -53,6 +58,11 @@ export const BlockedStudents = () => {
     const onModalCancelClicked = () => {
         setModal(null)
     }
+
+    const onAcceptClicked = (student: Student) => {
+        setModal(<AcceptModal item={student} onCancel={onModalCancelClicked} />)
+    }
+
     const onAssignStudentClicked = (student: Student) => {
         setModal(
             <AssignStudentModal
@@ -74,6 +84,17 @@ export const BlockedStudents = () => {
             Icon: FaEye,
         },
         {
+            text: 'View Password',
+            onClick: (student: Student) => onViewPassword(student),
+            Icon: RiLockPasswordFill,
+        },
+        {
+            text: 'Accept',
+            onClick: (student: Student) => onAcceptClicked(student),
+            Icon: AiFillCheckCircle,
+            color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
+        },
+        {
             text: 'Assign to me',
             onClick: (student: Student) => onAssignStudentClicked(student),
             Icon: MdBlock,
@@ -85,13 +106,11 @@ export const BlockedStudents = () => {
         {
             header: () => 'Name',
             accessorKey: 'user',
-            cell: ({ row }: any) => {
-                return (
-                    <div id="student-profile">
-                        <StudentCellInfo student={row.original} />
-                    </div>
-                )
-            },
+            cell: ({ row }: any) => (
+                <div id="student-profile">
+                    <StudentCellInfo student={row.original} />
+                </div>
+            ),
         },
         {
             header: () => 'RTO',
@@ -164,6 +183,7 @@ export const BlockedStudents = () => {
     return (
         <div>
             {modal && modal}
+            {passwordModal}
             {isError && <TechnicalError />}
             <Card noPadding>
                 {isLoading ? (
@@ -194,7 +214,7 @@ export const BlockedStudents = () => {
                                     </div>
                                     <div
                                         id="students-list"
-                                        className="px-6 overflow-auto"
+                                        className="px-6 overflow-auto remove-scrollbar"
                                     >
                                         {table}
                                     </div>

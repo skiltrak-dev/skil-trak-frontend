@@ -23,7 +23,7 @@ import { Student } from '@types'
 import { useState, ReactElement, useEffect } from 'react'
 import { useGetSubAdminMyStudentsQuery } from '@queries'
 import { TechnicalError } from '@components/ActionAnimations/TechnicalError'
-import { UnAssignStudentModal } from './modals'
+import { BlockModal, UnAssignStudentModal } from './modals'
 import { MdBlock } from 'react-icons/md'
 
 import { getActiveIndustry } from '@partials/student/utils'
@@ -31,6 +31,8 @@ import { IndustryCell } from '@partials/admin/industry/components'
 import { IndustryCellInfo } from '../indestries/components'
 import { ProgressCell, SectorCell } from '@partials/admin/student/components'
 import { checkWorkplaceStatus, setLink } from '@utils'
+import { RiLockPasswordFill } from 'react-icons/ri'
+import { useActionModal } from '@hooks'
 
 export const MyStudents = () => {
     const router = useRouter()
@@ -39,6 +41,9 @@ export const MyStudents = () => {
 
     const [itemPerPage, setItemPerPage] = useState(50)
     const [page, setPage] = useState(1)
+
+    // hooks
+    const { passwordModal, onViewPassword } = useActionModal()
 
     useEffect(() => {
         setPage(Number(router.query.page || 1))
@@ -53,6 +58,11 @@ export const MyStudents = () => {
     const onModalCancelClicked = () => {
         setModal(null)
     }
+
+    const onBlockClicked = (student: Student) => {
+        setModal(<BlockModal item={student} onCancel={onModalCancelClicked} />)
+    }
+
     const onAssignStudentClicked = (student: Student) => {
         setModal(
             <UnAssignStudentModal
@@ -72,6 +82,17 @@ export const MyStudents = () => {
                 setLink('subadmin-student', router)
             },
             Icon: FaEye,
+        },
+        {
+            text: 'View Password',
+            onClick: (student: Student) => onViewPassword(student),
+            Icon: RiLockPasswordFill,
+        },
+        {
+            text: 'Block',
+            onClick: (student: Student) => onBlockClicked(student),
+            Icon: MdBlock,
+            color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
         },
         {
             text: 'Un Assign',
@@ -154,6 +175,7 @@ export const MyStudents = () => {
     return (
         <div>
             {modal && modal}
+            {passwordModal}
             <Card noPadding>
                 {isError && <TechnicalError />}
                 {isLoading ? (

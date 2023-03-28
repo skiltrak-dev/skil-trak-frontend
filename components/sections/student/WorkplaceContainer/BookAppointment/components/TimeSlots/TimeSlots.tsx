@@ -15,7 +15,7 @@ type Props = {
     setSelectedTime: Function
     selectedTime: any
     appointmentAvailability: any
-    bookedAppointment: any
+    bookedAppointment?: any
     userAvailabilities?: any
     loading: boolean
     removeAvailableSlots?: object
@@ -84,14 +84,16 @@ export const TimeSlots = ({
                 ? appointmentWith === 'Self'
                     ? daysId
                     : [1, 2, 3, 4, 5, 6]
-                : daysId
+                : daysId?.length > 0 && daysId
+                ? daysId
+                : [1, 2, 3, 4, 5, 6]
         )
         setTimeAvailability(appointmentAvailability)
     }, [appointmentAvailability, appointmentWith])
 
     return (
         <div className="">
-            <div className='flex gap-x-1'>
+            <div className="flex gap-x-1">
                 <Typography variant={'label'} color={'text-gray-700'}>
                     Select Time Slot
                 </Typography>

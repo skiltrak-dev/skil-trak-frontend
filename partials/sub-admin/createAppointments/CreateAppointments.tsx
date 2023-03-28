@@ -332,7 +332,7 @@ export const CreateAppointments = () => {
                 />
 
                 <Card>
-                    <div className="flex justify-between items-center gap-x-3 w-5/12">
+                    <div className="flex justify-between items-center gap-x-3 w-full">
                         <AppointmentType
                             setAppointmentTypeId={setAppointmentTypeId}
                             appointmentFor={selectedPerson.selectedAppointmentFor?.toLocaleLowerCase()}

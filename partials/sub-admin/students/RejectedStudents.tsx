@@ -19,17 +19,19 @@ import {
 import { StudentCellInfo } from './components'
 
 import { TechnicalError } from '@components/ActionAnimations/TechnicalError'
-import { useJoyRide } from '@hooks'
+import { useActionModal, useJoyRide } from '@hooks'
 import { SubAdminApi } from '@queries'
 import { Student, UserStatus } from '@types'
 import { useEffect, useState } from 'react'
 import { MdBlock } from 'react-icons/md'
-import { AssignStudentModal } from './modals'
+import { AcceptModal, AssignStudentModal, BlockModal } from './modals'
 
 import { ProgressCell, SectorCell } from '@partials/admin/student/components'
 import { checkStudentStatus, checkWorkplaceStatus, setLink } from '@utils'
 import { IndustryCellInfo } from '../indestries/components'
 import { ColumnDef } from '@tanstack/react-table'
+import { RiLockPasswordFill } from 'react-icons/ri'
+import { AiFillCheckCircle } from 'react-icons/ai'
 
 export const RejectedStudents = () => {
     const router = useRouter()
@@ -38,6 +40,9 @@ export const RejectedStudents = () => {
 
     const [itemPerPage, setItemPerPage] = useState(50)
     const [page, setPage] = useState(1)
+
+    // hooks
+    const { passwordModal, onViewPassword } = useActionModal()
 
     useEffect(() => {
         setPage(Number(router.query.page || 1))
@@ -53,6 +58,15 @@ export const RejectedStudents = () => {
     const onModalCancelClicked = () => {
         setModal(null)
     }
+
+    const onBlockClicked = (student: Student) => {
+        setModal(<BlockModal item={student} onCancel={onModalCancelClicked} />)
+    }
+
+    const onAcceptClicked = (student: Student) => {
+        setModal(<AcceptModal item={student} onCancel={onModalCancelClicked} />)
+    }
+
     const onAssignStudentClicked = (student: Student) => {
         setModal(
             <AssignStudentModal
@@ -72,6 +86,23 @@ export const RejectedStudents = () => {
                 setLink('subadmin-student', router)
             },
             Icon: FaEye,
+        },
+        {
+            text: 'View Password',
+            onClick: (student: Student) => onViewPassword(student),
+            Icon: RiLockPasswordFill,
+        },
+        {
+            text: 'Block',
+            onClick: (student: Student) => onBlockClicked(student),
+            Icon: MdBlock,
+            color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
+        },
+        {
+            text: 'Accept',
+            onClick: (student: Student) => onAcceptClicked(student),
+            Icon: AiFillCheckCircle,
+            color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
         },
         {
             text: 'Assign to me',
@@ -165,6 +196,7 @@ export const RejectedStudents = () => {
     return (
         <div>
             {modal && modal}
+            {passwordModal}
             {isError && <TechnicalError />}
             <Card noPadding>
                 {isLoading ? (

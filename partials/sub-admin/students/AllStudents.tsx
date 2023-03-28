@@ -19,24 +19,28 @@ import {
 import { StudentCellInfo } from './components'
 
 import { TechnicalError } from '@components/ActionAnimations/TechnicalError'
-import { useJoyRide } from '@hooks'
+import { useActionModal, useJoyRide } from '@hooks'
 import { useGetSubAdminStudentsQuery, SubAdminApi } from '@queries'
 import { Student, UserStatus } from '@types'
 import { useEffect, useState } from 'react'
 import { MdBlock } from 'react-icons/md'
-import { AssignStudentModal, ChangeStudentStatusModal } from './modals'
+import { AssignStudentModal, BlockModal, ChangeStudentStatusModal } from './modals'
 
 import { ProgressCell, SectorCell } from '@partials/admin/student/components'
 import { checkStudentStatus, checkWorkplaceStatus, setLink } from '@utils'
 import { IndustryCellInfo } from '../indestries/components'
 import { ColumnDef } from '@tanstack/react-table'
 import { EditTimer } from '@components/StudentTimer/EditTimer'
+import { RiLockPasswordFill } from 'react-icons/ri'
 
 export const AllStudents = () => {
     const router = useRouter()
 
     const [mount, setMount] = useState(false)
     const [changeExpiryData, setChangeExpiryData] = useState(false)
+
+    // hooks
+    const { passwordModal, onViewPassword } = useActionModal()
 
     useEffect(() => {
         if (!mount) {
@@ -110,6 +114,10 @@ export const AllStudents = () => {
         )
     }
 
+    const onBlockClicked = (student: Student) => {
+        setModal(<BlockModal item={student} onCancel={onModalCancelClicked} />)
+    }
+
     const tableActionOptions: TableActionOption[] = [
         {
             text: 'View',
@@ -131,6 +139,17 @@ export const AllStudents = () => {
             text: 'Change Status',
             onClick: (student: Student) => onChangeStatus(student),
             Icon: FaEdit,
+        },
+        {
+            text: 'View Password',
+            onClick: (student: Student) => onViewPassword(student),
+            Icon: RiLockPasswordFill,
+        },
+        {
+            text: 'Block',
+            onClick: (student: Student) => onBlockClicked(student),
+            Icon: MdBlock,
+            color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
         },
         {
             text: 'Change Expiry',
@@ -218,6 +237,7 @@ export const AllStudents = () => {
     return (
         <div>
             {modal && modal}
+            {passwordModal}
             {isError && <TechnicalError />}
             <Card noPadding>
                 {isLoading ? (

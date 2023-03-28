@@ -60,7 +60,7 @@ export const SubAdminIndustryFilter = ({
                     value={filter?.phone}
                     placeholder={'Search Industry Phone...'}
                     onChange={(e: any) => {
-                        onFilterChange({ ...filter, phone: e.value })
+                        onFilterChange({ ...filter, phone: e.target.value })
                     }}
                 />
                 <TextInput
@@ -69,7 +69,16 @@ export const SubAdminIndustryFilter = ({
                     value={filter?.abn}
                     placeholder={'Search Industry ABN...'}
                     onChange={(e: any) => {
-                        onFilterChange({ ...filter, abn: e.value })
+                        onFilterChange({ ...filter, abn: e.target.value })
+                    }}
+                />
+                <TextInput
+                    label={'Address'}
+                    name={'address'}
+                    value={filter?.address}
+                    placeholder={'Search By Address...'}
+                    onChange={(e: any) => {
+                        onFilterChange({ ...filter, address: e.target.value })
                     }}
                 />
                 <Select

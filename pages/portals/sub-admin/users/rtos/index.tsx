@@ -6,7 +6,7 @@ import Link from 'next/link'
 // image
 //Layouts
 import { SubAdminLayout } from '@layouts'
-import { NextPageWithLayout } from '@types'
+import { NextPageWithLayout, Rto } from '@types'
 
 import { FaEye } from 'react-icons/fa'
 
@@ -31,15 +31,19 @@ import {
 // queries
 import { useGetSubAdminRtosQuery } from '@queries'
 // icons
-import { useContextBar } from '@hooks'
+import { useActionModal, useContextBar } from '@hooks'
 
 import { SectorCell } from '@partials/admin/sub-admin'
 import { checkFilteredDataLength, getFilterQuery, setLink } from '@utils'
 import { MdEmail, MdPhoneIphone } from 'react-icons/md'
+import { RiLockPasswordFill } from 'react-icons/ri'
 
 const RTOs: NextPageWithLayout = () => {
     const { setContent } = useContextBar()
     const router = useRouter()
+
+    // hooks
+    const { passwordModal, onViewPassword } = useActionModal()
 
     //filters
     const filterKeys = ['name', 'email', 'phone', 'code', 'courseId']
@@ -85,6 +89,11 @@ const RTOs: NextPageWithLayout = () => {
                 setLink('subadmin-rtos', router)
             },
             Icon: FaEye,
+        },
+        {
+            text: 'View Password',
+            onClick: (rto: Rto) => onViewPassword(rto),
+            Icon: RiLockPasswordFill,
         },
     ]
 
@@ -206,72 +215,83 @@ const RTOs: NextPageWithLayout = () => {
             accessorKey: 'Action',
             cell: ({ row }: any) => {
                 return (
-                    <TableAction options={tableActionOptions} rowItem={row} />
+                    <TableAction
+                        options={tableActionOptions}
+                        rowItem={row.original}
+                    />
                 )
             },
         },
     ]
 
     return (
-        <div className="mb-6">
-            <div className="px-4 mb-12">
-                <div className='flex justify-between items-center'>
-                    <PageTitle title={'RTOs'} backTitle={'Users'} />
-                    <div className="flex justify-end mb-2">{filterAction}</div>
+        <>
+            {passwordModal}
+            <div className="mb-6">
+                <div className="px-4 mb-12">
+                    <div className="flex justify-between items-center">
+                        <PageTitle title={'RTOs'} backTitle={'Users'} />
+                        <div className="flex justify-end mb-2">
+                            {filterAction}
+                        </div>
+                    </div>
+                    <Filter
+                        component={SubAdminRtoFilter}
+                        initialValues={filter}
+                        setFilterAction={setFilterAction}
+                        setFilter={setFilter}
+                        filterKeys={filterKeys}
+                    />
                 </div>
-                <Filter
-                    component={SubAdminRtoFilter}
-                    initialValues={filter}
-                    setFilterAction={setFilterAction}
-                    setFilter={setFilter}
-                    filterKeys={filterKeys}
-                />
-            </div>
-            <Card noPadding>
-                {isError && <TechnicalError />}
-                {isLoading || isFetching ? (
-                    <LoadingAnimation height="h-[60vh]" />
-                ) : data && data?.data.length ? (
-                    <Table
-                        columns={Columns}
-                        data={data.data}
-                        // quickActions={quickActionsElements}
-                        enableRowSelection
-                    >
-                        {({
-                            table,
-                            pagination,
-                            pageSize,
-                            quickActions,
-                        }: any) => {
-                            return (
-                                <div>
-                                    <div className="p-6 mb-2 flex justify-between">
-                                        {pageSize(itemPerPage, setItemPerPage)}
-                                        <div className="flex gap-x-2">
-                                            {quickActions}
-                                            {pagination(
-                                                data?.pagination,
-                                                setPage
+                <Card noPadding>
+                    {isError && <TechnicalError />}
+                    {isLoading || isFetching ? (
+                        <LoadingAnimation height="h-[60vh]" />
+                    ) : data && data?.data.length ? (
+                        <Table
+                            columns={Columns}
+                            data={data.data}
+                            // quickActions={quickActionsElements}
+                            enableRowSelection
+                        >
+                            {({
+                                table,
+                                pagination,
+                                pageSize,
+                                quickActions,
+                            }: any) => {
+                                return (
+                                    <div>
+                                        <div className="p-6 mb-2 flex justify-between">
+                                            {pageSize(
+                                                itemPerPage,
+                                                setItemPerPage
                                             )}
+                                            <div className="flex gap-x-2">
+                                                {quickActions}
+                                                {pagination(
+                                                    data?.pagination,
+                                                    setPage
+                                                )}
+                                            </div>
                                         </div>
+                                        <div className="px-6">{table}</div>
                                     </div>
-                                    <div className="px-6">{table}</div>
-                                </div>
-                            )
-                        }}
-                    </Table>
-                ) : (
-                    !isError && (
-                        <EmptyData
-                            title={'No RTO were found!'}
-                            description={'You have not any rto yet'}
-                            height={'50vh'}
-                        />
-                    )
-                )}
-            </Card>
-        </div>
+                                )
+                            }}
+                        </Table>
+                    ) : (
+                        !isError && (
+                            <EmptyData
+                                title={'No RTO were found!'}
+                                description={'You have not any rto yet'}
+                                height={'50vh'}
+                            />
+                        )
+                    )}
+                </Card>
+            </div>
+        </>
     )
 }
 RTOs.getLayout = (page: ReactElement) => {

@@ -30,6 +30,7 @@ export const AssessmentResponse = ({
     result,
     header = true,
     deleteAction,
+    activeAssessment,
 }: {
     folder?: any
     studentId?: any
@@ -38,6 +39,7 @@ export const AssessmentResponse = ({
     header?: boolean
     result?: any
     deleteAction?: any
+    activeAssessment?: boolean
 }) => {
     const [comment, setComment] = useState<string>('')
     const [commentType, setCommentType] = useState<SelectOption | null>(null)
@@ -238,7 +240,8 @@ export const AssessmentResponse = ({
                         )}
                     </div>
                 </div>
-                {result?.result !== 'Not Submitted' &&
+                {activeAssessment &&
+                    result?.result !== 'Not Submitted' &&
                     assessmentEvidenceView &&
                     getAssessmentResponse?.data &&
                     result?.result !== 'competent' &&

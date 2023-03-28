@@ -10,9 +10,10 @@ import {
     Card,
     EmptyData,
     InitialAvatar,
-    LoadingAnimation, Table,
+    LoadingAnimation,
+    Table,
     TableAction,
-    TableActionOption
+    TableActionOption,
 } from '@components'
 import { StudentCellInfo } from './components'
 
@@ -21,11 +22,13 @@ import { SubAdminApi } from '@queries'
 import { Student, UserStatus } from '@types'
 import { useEffect, useState } from 'react'
 import { MdBlock } from 'react-icons/md'
-import { AcceptModal, RejectModal } from './modals'
+import { AcceptModal, BlockModal, RejectModal } from './modals'
 
 import { SectorCell } from '@partials/admin/student/components'
 import { ColumnDef } from '@tanstack/react-table'
 import { setLink } from '@utils'
+import { RiLockPasswordFill } from 'react-icons/ri'
+import { useActionModal } from '@hooks'
 
 export const PendingStudents = () => {
     const router = useRouter()
@@ -34,6 +37,10 @@ export const PendingStudents = () => {
 
     const [itemPerPage, setItemPerPage] = useState(50)
     const [page, setPage] = useState(1)
+
+    // hooks
+    const { passwordModal, onViewPassword } = useActionModal()
+
     useEffect(() => {
         setPage(Number(router.query.page || 1))
         setItemPerPage(Number(router.query.pageSize || 50))
@@ -54,10 +61,15 @@ export const PendingStudents = () => {
             <AcceptModal item={item} onCancel={() => onModalCancelClicked()} />
         )
     }
+
     const onRejectClicked = (item: Student) => {
         setModal(
             <RejectModal item={item} onCancel={() => onModalCancelClicked()} />
         )
+    }
+
+    const onBlockClicked = (student: Student) => {
+        setModal(<BlockModal item={student} onCancel={onModalCancelClicked} />)
     }
 
     const tableActionOptions: TableActionOption[] = [
@@ -72,12 +84,23 @@ export const PendingStudents = () => {
             Icon: FaEye,
         },
         {
+            text: 'View Password',
+            onClick: (student: Student) => onViewPassword(student),
+            Icon: RiLockPasswordFill,
+        },
+        {
             text: 'Approve',
             onClick: (student: Student) => onAcceptClicked(student),
         },
         {
             text: 'Reject',
             onClick: (student: Student) => onRejectClicked(student),
+            Icon: MdBlock,
+            color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
+        },
+        {
+            text: 'Block',
+            onClick: (student: Student) => onBlockClicked(student),
             Icon: MdBlock,
             color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
         },
@@ -147,6 +170,7 @@ export const PendingStudents = () => {
     return (
         <div>
             {modal && modal}
+            {passwordModal}
             {isError && <TechnicalError />}
             <Card noPadding>
                 {isLoading ? (
