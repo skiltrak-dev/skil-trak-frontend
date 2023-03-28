@@ -4,6 +4,7 @@ import { useCreateCheckoutSessionMutation } from '@queries'
 import { StatusType, UserStatus } from '@types'
 import { AuthUtils, getStripe } from '@utils'
 import { useRouter } from 'next/router'
+import { uuid } from 'uuidv4'
 
 interface AccountStatusProps {
     status: StatusType
@@ -57,7 +58,8 @@ export const AccountStatus = ({ status }: AccountStatusProps) => {
         useCreateCheckoutSessionMutation()
 
     const onAgreeAndContinueClicked = async () => {
-        await checkoutSession()
+        const idempotency = uuid()
+        await checkoutSession({ idempotency })
             .then(async (res: any) => {
                 if (res.data?.id) {
                     const stripe = await getStripe()

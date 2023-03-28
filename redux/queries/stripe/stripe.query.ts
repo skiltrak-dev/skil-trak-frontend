@@ -17,7 +17,7 @@ export const stripeApi = createApi({
     }),
     tagTypes: ['Stripe'],
     endpoints: (builder) => ({
-        createCheckoutSession: builder.mutation<any, void>({
+        createCheckoutSession: builder.mutation<any, any>({
             query: (body: any) => {
                 return {
                     url: 'checkout',
