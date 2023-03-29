@@ -21,8 +21,8 @@ import { Actions } from './components'
 // queries
 import { useNotification } from '@hooks'
 import {
-    useGetAssessmentEvidenceDetailQuery,
-    useGetAssessmentResponseQuery,
+    useGetArchivedAssessmentEvidenceDetailQuery,
+    useGetArchivedAssessmentResponseQuery,
     useMaulallyReopenSubmissionRequestMutation,
     useStudentAssessmentCoursesQuery,
     SubAdminApi,
@@ -58,7 +58,7 @@ export const ArchivedAssessmentDetail = ({
         skip: !studentId,
         refetchOnMountOrArgChange: true,
     })
-    const getFolders = useGetAssessmentEvidenceDetailQuery(
+    const getFolders = useGetArchivedAssessmentEvidenceDetailQuery(
         { courseId: Number(selectedCourse?.id), studentId: Number(studentId) },
         {
             skip: !selectedCourse,
@@ -67,7 +67,7 @@ export const ArchivedAssessmentDetail = ({
     const [uploadDocs, uploadDocsResult] =
         SubAdminApi.AssessmentEvidence.uploadDocs()
 
-    const getAssessmentResponse = useGetAssessmentResponseQuery(
+    const getArchivedAssessmentResponse = useGetArchivedAssessmentResponseQuery(
         {
             selectedFolder: Number(selectedFolder?.id),
             student: Number(studentUserId),
@@ -77,13 +77,15 @@ export const ArchivedAssessmentDetail = ({
     const [manullyReopenSubmission, manuallyReopenSubmissionResult] =
         useMaulallyReopenSubmissionRequestMutation()
     const [downloadFiles, downloadFilesResult] =
-        SubAdminApi.AssessmentEvidence.downloadFiles()
+        SubAdminApi.AssessmentEvidence.downloadArchiveFiles()
 
     useEffect(() => {
-        if (downloadFilesResult.isSuccess) {
-            router.push(downloadFilesResult?.data?.url)
+        if (downloadFilesResult.data) {
+            window.open(downloadFilesResult?.data?.url)
         }
     }, [downloadFilesResult])
+
+    console.log('downloadFilesResult', downloadFilesResult?.data)
 
     useEffect(() => {
         if (
@@ -253,7 +255,7 @@ export const ArchivedAssessmentDetail = ({
                                 </span>
                             </Typography>
                             <Button
-                                text={'Download All Files'}
+                                text={'Download Archived Files'}
                                 variant={'info'}
                                 onClick={onDownloadFiles}
                                 loading={downloadFilesResult.isLoading}
@@ -312,7 +314,9 @@ export const ArchivedAssessmentDetail = ({
                         {/* Assessment Response */}
                         <div className="col-span-2 bg-white border border-gray-300 overflow-auto">
                             <AssessmentResponse
-                                getAssessmentResponse={getAssessmentResponse}
+                                getAssessmentResponse={
+                                    getArchivedAssessmentResponse
+                                }
                                 folder={selectedFolder}
                                 studentId={studentId}
                                 assessmentEvidenceView={true}
