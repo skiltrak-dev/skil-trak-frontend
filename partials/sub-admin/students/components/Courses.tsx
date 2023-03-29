@@ -52,7 +52,11 @@ export const Courses = ({ id }: { id: number }) => {
 
                                 {/*  */}
                                 <div className="mt-2 flex flex-col gap-y-1">
-                                    <Course key={course.id} course={course} />
+                                    <Course
+                                        key={course.id}
+                                        studentId={id}
+                                        course={course}
+                                    />
                                 </div>
                             </div>
                         ))

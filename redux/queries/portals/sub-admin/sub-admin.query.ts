@@ -142,6 +142,7 @@ export const {
     useChangeStudentCurrentStatusMutation,
     useAddSecondWorkplaceMutation,
     useAddCustomSecondWorkplaceMutation,
+    useAddCourseStartEndDateMutation,
 
     // -- COUNT -- //
     useStatisticsQuery,
@@ -231,6 +232,7 @@ export const SubAdminApi = {
         changeCurrentStatus: useChangeStudentCurrentStatusMutation,
         useAddSecondWorkplace: useAddSecondWorkplaceMutation,
         useAddCustomWorkplace: useAddCustomSecondWorkplaceMutation,
+        addCourseStartEndDate: useAddCourseStartEndDateMutation,
     },
     Workplace: {
         count: useWorkplaceCountQuery,
