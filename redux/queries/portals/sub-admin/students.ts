@@ -255,16 +255,6 @@ export const studentsEndpoints = (
         }),
         invalidatesTags: ['Students', 'SubAdminStudents'],
     }),
-    downloadAllCourseFiles: builder.mutation<
-        any,
-        { studentId: number; courseId: number }
-    >({
-        query: ({ studentId, courseId }) => ({
-            url: `shared/files/download/${studentId}/${courseId}`,
-            method: 'POST',
-        }),
-        invalidatesTags: ['Students', 'SubAdminStudents'],
-    }),
 
     // updateSubAdminRtoStudentStatus: builder.mutation<any, any | null>({
     //     query: ({id, status}:any) => {

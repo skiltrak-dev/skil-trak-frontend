@@ -150,13 +150,16 @@ export const {
     useGetAssessmentEvidenceQuery,
     useAssessmentCountQuery,
     useGetAssessmentResponseQuery,
+    useGetArchivedAssessmentResponseQuery,
     useStudentAssessmentCoursesQuery,
     useAddCommentOnAssessmentMutation,
     useGetAssessmentEvidenceDetailQuery,
+    useGetArchivedAssessmentEvidenceDetailQuery,
     useSubmitAssessmentEvidenceMutation,
     useMaulallyReopenSubmissionRequestMutation,
     useUploadAssessmentDocsMutation,
     useDownloadAllCourseFilesMutation,
+    useDownloadArhiveCourseFilesMutation,
     useArchiveUploadedFileMutation,
 
     // --- SET SCHEDULE --- //
@@ -270,5 +273,6 @@ export const SubAdminApi = {
         uploadDocs: useUploadAssessmentDocsMutation,
         archiveUploadedFile: useArchiveUploadedFileMutation,
         downloadFiles: useDownloadAllCourseFilesMutation,
+        downloadArchiveFiles: useDownloadArhiveCourseFilesMutation,
     },
 }

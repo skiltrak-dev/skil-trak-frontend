@@ -431,25 +431,18 @@ export const ActiveAssessmentDetail = ({
                             )} */}
 
                     {/* {results?.finalComment && ( */}
-                    <FinalResult
-                        results={selectedCourse?.results}
-                        folders={getFolders?.data}
-                        courseName={selectedCourse?.title}
-                    />
-                    {/* )} */}
-
                     {results?.isAssessed && !editAssessment && (
-                        <div className="flex justify-end my-3">
-                            <ActionButton
-                                variant={'info'}
-                                Icon={MdEdit}
+                        <div className="flex my-3">
+                            <Button
+                                text={'Change Result'}
                                 onClick={() => {
                                     setEditAssessment(true)
                                 }}
-                                title={'Edit Assessment'}
+                                variant={'info'}
                             />
                         </div>
                     )}
+
                     {((allCommentsAdded &&
                         ((results?.result !== 'competent' &&
                             results?.isSubmitted) ||
@@ -461,6 +454,11 @@ export const ActiveAssessmentDetail = ({
                             setEditAssessment={setEditAssessment}
                         />
                     )}
+                    <FinalResult
+                        results={selectedCourse?.results}
+                        folders={getFolders?.data}
+                        courseName={selectedCourse?.title}
+                    />
                     {/* <Actions result={results} /> */}
                     {role === 'admin' &&
                         results?.totalSubmission >= 3 &&
