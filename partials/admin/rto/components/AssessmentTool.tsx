@@ -77,13 +77,14 @@ export const AssessmentTool = ({ rto, actions, setAssessmentView }: any) => {
                                     selectedCourseId={selectedCourseId}
                                 />
                             ))}
-                            <AssessmentCourse
+                            
+                            {/* <AssessmentCourse
                                 code={'-'}
                                 name={'Miscellaneous'}
                                 id={0}
                                 onClick={() => setSelectedCourseId(-1)}
                                 selectedCourseId={selectedCourseId}
-                            />
+                            /> */}
                         </>
                     ) : (
                         <></>
@@ -121,7 +122,8 @@ export const AssessmentTool = ({ rto, actions, setAssessmentView }: any) => {
                         </div>
                     </div>
                     <div className="p-2 min-h-[260px]">
-                        {getAssessmentTools?.isLoading ? (
+                        {getAssessmentTools?.isLoading ||
+                        getAssessmentTools?.isFetching ? (
                             <LoadingAnimation size={80} />
                         ) : getAssessmentTools?.data &&
                           getAssessmentTools?.data?.length > 0 ? (
