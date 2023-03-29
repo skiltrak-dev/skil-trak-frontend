@@ -41,15 +41,20 @@ const RtoList: NextPageWithLayout = () => {
         setFilter(query)
     }, [router])
 
-    const filteredRtos = AdminApi.Rtos.useListQuery({
-        search: `${JSON.stringify(filter)
-            .replaceAll('{', '')
-            .replaceAll('}', '')
-            .replaceAll('"', '')
-            .trim()}`,
-        skip: itemPerPage * page - itemPerPage,
-        limit: itemPerPage,
-    })
+    const filteredRtos = AdminApi.Rtos.useListQuery(
+        {
+            search: `${JSON.stringify(filter)
+                .replaceAll('{', '')
+                .replaceAll('}', '')
+                .replaceAll('"', '')
+                .trim()}`,
+            skip: itemPerPage * page - itemPerPage,
+            limit: itemPerPage,
+        },
+        {
+            refetchOnMountOrArgChange: true,
+        }
+    )
     const count = AdminApi.Rtos.useCountQuery()
 
     useEffect(() => {

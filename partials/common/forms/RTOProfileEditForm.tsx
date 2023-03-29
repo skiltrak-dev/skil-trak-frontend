@@ -80,6 +80,7 @@ export const RTOProfileEditForm = ({
                 title: 'Profile updated',
                 description: 'Profile Updated Successfully',
             })
+            profile.refetch()
             router.back()
         }
     }, [result])

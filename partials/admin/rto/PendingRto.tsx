@@ -35,11 +35,16 @@ export const PendingRto = () => {
         setItemPerPage(Number(router.query.pageSize || 50))
     }, [router])
 
-    const { isLoading, data, isError } = AdminApi.Rtos.useListQuery({
-        search: `status:${UserStatus.Pending}`,
-        skip: itemPerPage * page - itemPerPage,
-        limit: itemPerPage,
-    })
+    const { isLoading, data, isError } = AdminApi.Rtos.useListQuery(
+        {
+            search: `status:${UserStatus.Pending}`,
+            skip: itemPerPage * page - itemPerPage,
+            limit: itemPerPage,
+        },
+        {
+            refetchOnMountOrArgChange: true,
+        }
+    )
 
     const [bulkAction, resultBulkAction] = commonApi.useBulkStatusMutation()
 

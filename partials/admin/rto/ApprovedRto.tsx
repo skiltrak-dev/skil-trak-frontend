@@ -39,11 +39,16 @@ export const ApprovedRto = () => {
     // hooks
     const { passwordModal, onViewPassword } = useActionModal()
 
-    const { isLoading, data, isError } = AdminApi.Rtos.useListQuery({
-        search: `status:${UserStatus.Approved}`,
-        skip: itemPerPage * page - itemPerPage,
-        limit: itemPerPage,
-    })
+    const { isLoading, data, isError } = AdminApi.Rtos.useListQuery(
+        {
+            search: `status:${UserStatus.Approved}`,
+            skip: itemPerPage * page - itemPerPage,
+            limit: itemPerPage,
+        },
+        {
+            refetchOnMountOrArgChange: true,
+        }
+    )
     const [bulkAction, resultBulkAction] = commonApi.useBulkStatusMutation()
     const onModalCancelClicked = () => {
         setModal(null)

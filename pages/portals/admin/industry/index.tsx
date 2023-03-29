@@ -25,7 +25,14 @@ import { AdminApi } from '@queries'
 import { checkFilteredDataLength, getFilterQuery } from '@utils'
 import { useRouter } from 'next/router'
 
-const filterKeys = ['name', 'email', 'status', 'industryId', 'courseId']
+const filterKeys = [
+    'name',
+    'email',
+    'status',
+    'phoneNumber',
+    'industryId',
+    'courseId',
+]
 
 const IndustryList: NextPageWithLayout = () => {
     const router = useRouter()
