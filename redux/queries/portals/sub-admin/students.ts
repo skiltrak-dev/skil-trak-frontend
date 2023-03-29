@@ -18,6 +18,27 @@ export const studentsEndpoints = (
         providesTags: ['SubAdminStudents'],
     }),
 
+    subadminStudentAssignCourses: builder.mutation({
+        query: (body) => ({
+            url: `admin/student/course/assign`,
+            method: 'POST',
+            body,
+        }),
+        invalidatesTags: ['SubAdminStudents'],
+    }),
+
+    subadminStudentUnassignCourses: builder.mutation<
+        any,
+        { id: number; courseId: number }
+    >({
+        query: (body) => ({
+            url: `admin/student/course/delete/${body.courseId}`,
+            params: { student: body.id },
+            method: 'DELETE',
+        }),
+        invalidatesTags: ['SubAdminStudents'],
+    }),
+
     subAdminFilteredStudents: builder.query<PaginatedResponse<any>, any>({
         query: (params: any) => ({
             url: `${PREFIX}/student-list/filter`,

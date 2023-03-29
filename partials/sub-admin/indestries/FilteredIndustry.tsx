@@ -94,6 +94,10 @@ export const FilteredIndustry = ({
             ),
         },
         {
+            accessorKey: 'abn',
+            header: () => <span>ABN</span>,
+        },
+        {
             header: () => 'Address',
             accessorKey: 'address',
             cell: ({ row }: any) => {
