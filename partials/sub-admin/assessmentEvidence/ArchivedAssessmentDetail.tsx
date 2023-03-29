@@ -85,8 +85,6 @@ export const ArchivedAssessmentDetail = ({
         }
     }, [downloadFilesResult])
 
-    console.log('downloadFilesResult', downloadFilesResult?.data)
-
     useEffect(() => {
         if (
             studentCourses.isSuccess ||

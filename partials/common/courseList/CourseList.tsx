@@ -16,8 +16,12 @@ export const CourseList = ({ courses }: { courses: Course[] }) => {
                             {c?.code}
                         </Typography>
                         <Typography variant={'small'} color={'text-gray-800'}>
+<<<<<<< Updated upstream
                             {/* TODO CHECK */}
                             {c?.name || c?.title}
+=======
+                            {c?.title}
+>>>>>>> Stashed changes
                         </Typography>
                     </div>
                 </div>

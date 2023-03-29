@@ -1,4 +1,5 @@
 import { ReactElement, useEffect } from 'react'
+import { useRouter } from 'next/router'
 
 // hooks
 //Layouts
@@ -6,7 +7,7 @@ import { SubAdminLayout } from '@layouts'
 import { NextPageWithLayout } from '@types'
 import { RTOProfileEditForm } from '@partials/common'
 import { useContextBar, useNotification } from '@hooks'
-import { RtoApi } from '@queries'
+import { RtoApi, useGetSubAdminRTODetailQuery } from '@queries'
 
 //components
 
@@ -16,9 +17,14 @@ import { RtoApi } from '@queries'
 type Props = {}
 
 const EditRTOProfile: NextPageWithLayout = (props: Props) => {
+    const pathname = useRouter()
+    const { id } = pathname.query
     const contextBar = useContextBar()
     const { notification } = useNotification()
-    const profile = RtoApi.Rto.useProfile()
+    const profile = useGetSubAdminRTODetailQuery(String(id), {
+        skip: !id,
+        refetchOnMountOrArgChange: true,
+    })
     const [updateProfile, updateProfileResult] = RtoApi.Rto.useUpdateProfile()
 
     useEffect(() => {
@@ -36,7 +42,13 @@ const EditRTOProfile: NextPageWithLayout = (props: Props) => {
         }
     }, [])
     const onSubmit = (values: any) => {
-        updateProfile({ id: profile?.data?.user?.id, body: values })
+        updateProfile({
+            id: profile?.data?.user?.id,
+            body: {
+                ...values,
+                courses: values?.courses?.map((id: number) => ({ id })) || [],
+            },
+        })
     }
     return (
         <>

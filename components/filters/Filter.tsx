@@ -1,6 +1,6 @@
 import { Button } from '@components'
 import { Card } from '@components/cards'
-import { setFilterValues } from '@utils'
+import { removeEmptyValues, setFilterValues } from '@utils'
 import debounce from 'lodash/debounce'
 import { useRouter } from 'next/router'
 import { useCallback, useEffect, useState } from 'react'
@@ -62,7 +62,7 @@ export const Filter = ({
     }, [expanded, filters, setFilterAction])
 
     const delayedSearch = useCallback(
-        debounce((values) => setFilter(values), 700),
+        debounce((values) => setFilter(removeEmptyValues(values)), 700),
         []
     )
 

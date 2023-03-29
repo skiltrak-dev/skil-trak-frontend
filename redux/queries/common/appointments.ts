@@ -64,4 +64,15 @@ export const appointmentsEndpoints = (
         }),
         providesTags: ['Appointments'],
     }),
+    rescheduleAppointment: builder.mutation<
+        any,
+        { id: number; body: { selectedTime: Date; date: Date } }
+    >({
+        query: ({ id, body }) => ({
+            url: `${PREFIX}/${id}`,
+            method: 'PATCH',
+            body,
+        }),
+        invalidatesTags: ['Appointments'],
+    }),
 })

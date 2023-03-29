@@ -42,7 +42,7 @@ export const ViewFoldersCB = ({ folders }: any) => {
                                                 </span>
                                             </Typography>
                                             <div className="flex items-center gap">
-                                                <a
+                                                {/* <a
                                                     href={uploaded?.file}
                                                     target="_blank"
                                                 >
@@ -53,7 +53,7 @@ export const ViewFoldersCB = ({ folders }: any) => {
                                                     >
                                                         View
                                                     </ActionButton>
-                                                </a>
+                                                </a> */}
                                                 <a
                                                     href={uploaded?.file}
                                                     target="_blank"

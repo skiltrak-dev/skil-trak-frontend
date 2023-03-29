@@ -2,7 +2,7 @@ import { useContextBar, useNotification } from '@hooks'
 import { AdminLayout } from '@layouts'
 import { RTOProfileEditForm } from '@partials/common'
 import { AdminApi, RtoApi } from '@queries'
-import { NextPageWithLayout } from '@types'
+import { Course, NextPageWithLayout } from '@types'
 import { useRouter } from 'next/router'
 import { ReactElement, useEffect } from 'react'
 
@@ -21,20 +21,23 @@ const EditRtoProfile: NextPageWithLayout = () => {
         contextBar.hide()
     }, [])
 
-    useEffect(() => {
-        if (updateProfileResult.isSuccess) {
-            notification.success({
-                title: 'Profile Updated',
-                description: 'Profile Updated Successfully',
-            })
-            profile.refetch()
-            router.back()
-        }
-    }, [updateProfileResult])
+    // useEffect(() => {
+    //     if (updateProfileResult.isSuccess) {
+    //         notification.success({
+    //             title: 'Profile Updated',
+    //             description: 'Profile Updated Successfully',
+    //         })
+    //         profile.refetch()
+    //         router.back()
+    //     }
+    // }, [updateProfileResult])
     const onSubmit = (values: any) => {
         updateProfile({
             id: profile?.data?.user?.id,
-            body: { ...values, courses: values?.courses || [] },
+            body: {
+                ...values,
+                courses: values?.courses?.map((id: number) => ({ id })) || [],
+            },
         })
     }
     return (

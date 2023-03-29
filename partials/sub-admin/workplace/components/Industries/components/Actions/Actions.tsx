@@ -133,6 +133,24 @@ export const Actions = ({
                                 </Typography>
                             </div>
                             <div className="flex items-center gap-2">
+                                <div className="flex-shrink-0">
+                                    {!student?.user?.appointmentFor?.length && (
+                                        <Button
+                                            text={'Book Appointment'}
+                                            variant={'info'}
+                                            onClick={() => {
+                                                router.push({
+                                                    pathname:
+                                                        '/portals/sub-admin/tasks/appointments/create-appointment',
+                                                    query: {
+                                                        student:
+                                                            student?.user?.id,
+                                                    },
+                                                })
+                                            }}
+                                        />
+                                    )}
+                                </div>
                                 {!appliedIndustry?.AgreementSigned && (
                                     <div className="flex">
                                         <SignAgreement
@@ -164,25 +182,6 @@ export const Actions = ({
                                         />
                                     </div>
                                 )}
-
-                                <div className="flex-shrink-0">
-                                    {!student?.user?.appointmentFor?.length && (
-                                        <Button
-                                            text={'Book Appointment'}
-                                            variant={'info'}
-                                            onClick={() => {
-                                                router.push({
-                                                    pathname:
-                                                        '/portals/sub-admin/tasks/appointments/create-appointment',
-                                                    query: {
-                                                        student:
-                                                            student?.user?.id,
-                                                    },
-                                                })
-                                            }}
-                                        />
-                                    )}
-                                </div>
                             </div>
                         </div>
                     )}

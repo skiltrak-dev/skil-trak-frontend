@@ -54,6 +54,15 @@ export const IndustryFilters = ({
                         onFilterChange({ ...filter, email: e.target.value })
                     }}
                 />
+                <TextInput
+                    name="phone"
+                    label={'Phone No'}
+                    placeholder={'Search by Industry Email ...'}
+                    value={filter?.phone}
+                    onChange={(e: any) => {
+                        onFilterChange({ ...filter, phone: e.target.value })
+                    }}
+                />
                 <Select
                     label={'Status'}
                     name={'status'}

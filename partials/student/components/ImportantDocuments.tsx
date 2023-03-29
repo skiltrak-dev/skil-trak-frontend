@@ -74,11 +74,13 @@ export const ImportantDocuments = ({
                         ['jpg', 'jpeg', 'png'].includes(
                             extension.toLowerCase()
                         ) ? (
-                            <img
-                                src={document?.file}
-                                alt=""
-                                className="min-w-[650px] max-h-[500px] object-cover"
-                            />
+                            <div className="min-w-[650px] max-w-[70vw] max-h-[500px] overflow-auto">
+                                <img
+                                    src={document?.file}
+                                    alt=""
+                                    className="w-[inherit] h-full object-contain"
+                                />
+                            </div>
                         ) : ['mp4', 'mkv', 'avi', 'mpeg'].includes(
                               extension.toLowerCase()
                           ) ? (

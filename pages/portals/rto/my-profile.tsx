@@ -32,9 +32,14 @@ const MyProfile: NextPageWithLayout = () => {
             router.push(`/portals/rto`)
         }
     }, [updateProfileResult])
-    
+
     const onSubmit = (values: any) => {
-        updateProfile({ body: values })
+        updateProfile({
+            body: {
+                ...values,
+                courses: values?.courses?.map((id: number) => ({ id })),
+            },
+        })
     }
     return (
         <>
