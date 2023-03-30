@@ -88,18 +88,8 @@ export const FavoriteIndustries = () => {
             ),
         },
         {
-            header: () => 'Phone',
-            accessorKey: 'phoneNumber',
-            cell: ({ row }: any) => {
-                const { phoneNumber } = row.original
-                return (
-                    <div className="flex justify-center">
-                        <Typography variant={'muted'} color={'gray'}>
-                            {phoneNumber}
-                        </Typography>
-                    </div>
-                )
-            },
+            accessorKey: 'abn',
+            header: () => <span>ABN</span>,
         },
         {
             header: () => 'Address',

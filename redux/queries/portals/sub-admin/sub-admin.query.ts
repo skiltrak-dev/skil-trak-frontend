@@ -119,6 +119,8 @@ export const {
     useSubAdminStudentCountQuery,
     useSubAdminRequestWorkplaceMutation,
     useSubAdminFilteredStudentsQuery,
+    useSubadminStudentAssignCoursesMutation,
+    useSubadminStudentUnassignCoursesMutation,
     useGetSubAdminStudentWorkplaceQuery,
     useGetSubAdminMyRtoQuery,
     useGetSubAdminStudentCoursesQuery,
@@ -224,6 +226,9 @@ export const SubAdminApi = {
     Student: {
         useCount: useSubAdminStudentCountQuery,
         useList: useGetSubAdminStudentsQuery,
+        assignCourse: useSubadminStudentAssignCoursesMutation,
+        subadminStudentUnassignCourses:
+            useSubadminStudentUnassignCoursesMutation,
         useNotContactable: useSetNotContactableMutation,
         useCourses: useGetSubAdminStudentCoursesQuery,
         useChangePassword: useChangeStudentPasswordMutation,
