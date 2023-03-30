@@ -12,11 +12,12 @@ import {
 import { CommonApi } from '@queries'
 import { useState } from 'react'
 
-export const PastAppointments = () => {
+export const PastAppointments = ({ userId }: { userId?: any }) => {
     const [page, setPage] = useState(1)
     const [itemPerPage, setItemPerPage] = useState(20)
 
     const pastAppointments = CommonApi.Appointments.useBookedAppointments({
+        userId,
         status: 'past',
         skip: itemPerPage * page - itemPerPage,
         limit: itemPerPage,

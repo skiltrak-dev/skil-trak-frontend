@@ -28,8 +28,12 @@ import {
 import { FaChevronDown, FaFileImport, FaUserGraduate } from 'react-icons/fa'
 // queries
 import { AssessmentToolsSubAdmin } from '@components/sections/subAdmin/UsersContainer/SubAdminRtosContainer/SubAdminRtosProfile'
-import { MailsTab } from '@components/sections/subAdmin/UsersContainer/SubAdminRtosContainer/SubAdminRtosProfile/components/MailsTab'
-import { AllCommunicationTab, NotesTab } from '@partials/common'
+import {
+    AllCommunicationTab,
+    AppointmentTab,
+    MailsTab,
+    NotesTab,
+} from '@partials/common'
 import { useGetSubAdminRTODetailQuery } from '@queries'
 import { getLink } from '@utils'
 
@@ -123,16 +127,13 @@ const RtoProfile: NextPageWithLayout = (props: Props) => {
         },
         {
             label: 'Appointments',
-            href: {
-                pathname: String(id),
-                query: { tab: 'appointments' },
-            },
-            element: <AppointmentProfile />,
+            href: { pathname: String(id), query: { tab: 'appointments' } },
+            element: <AppointmentTab userId={rtoDetail?.data?.user?.id} />,
         },
         {
             label: 'Mails',
             href: { pathname: String(id), query: { tab: 'mails' } },
-            element: <MailsTab rto={rtoDetail?.data} />,
+            element: <MailsTab user={rtoDetail?.data?.user} />,
         },
         {
             label: 'Notes',

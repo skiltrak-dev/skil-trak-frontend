@@ -25,7 +25,6 @@ import { IndustryProfile } from '@components/IndustryProfile'
 import {
     AppointmentProfile,
     IndustryProfileOverview,
-    MailsTab,
 } from '@components/sections/subAdmin/UsersContainer'
 
 // icons
@@ -35,7 +34,12 @@ import {
     useGetSubAdminIndustriesProfileQuery,
     useGetSubAdminIndustryStudentsQuery,
 } from '@queries'
-import { AllCommunicationTab, NotesTab } from '@partials/common'
+import {
+    AllCommunicationTab,
+    AppointmentTab,
+    MailsTab,
+    NotesTab,
+} from '@partials/common'
 import { Students } from '@partials/sub-admin/indestries'
 import { getLink } from '@utils'
 
@@ -102,11 +106,8 @@ const IndustriesProfile: NextPageWithLayout = (props: Props) => {
         },
         {
             label: 'Appointments',
-            href: {
-                pathname: String(id),
-                query: { tab: 'appointments' },
-            },
-            element: <AppointmentProfile />,
+            href: { pathname: String(id), query: { tab: 'appointments' } },
+            element: <AppointmentTab userId={data?.user?.id} />,
         },
         {
             label: 'Schedule',
@@ -120,7 +121,7 @@ const IndustriesProfile: NextPageWithLayout = (props: Props) => {
         {
             label: 'Mails',
             href: { pathname: String(id), query: { tab: 'mails' } },
-            element: <MailsTab industry={data} />,
+            element: <MailsTab user={data?.user} />,
         },
         {
             label: 'Notes',

@@ -62,17 +62,34 @@ export const CourseForm = ({
                             </Typography>
                         </div>
 
-                        <div>
-                            <Select
-                                name="sector"
-                                label={'Course Sector'}
-                                options={data?.data.map((sector) => ({
-                                    label: sector.name,
-                                    value: sector.id,
-                                }))}
-                                loading={isLoading}
-                            />
-                        </div>
+                        {edit ? (
+                            <>
+                                <Typography
+                                    variant={'small'}
+                                    color={'text-gray-400'}
+                                >
+                                    Sector
+                                </Typography>
+                                <Typography
+                                    variant={'label'}
+                                    color={'text-gray-600'}
+                                >
+                                    {initialValues?.sector?.name}
+                                </Typography>
+                            </>
+                        ) : (
+                            <div>
+                                <Select
+                                    name="sector"
+                                    label={'Course Sector'}
+                                    options={data?.data.map((sector) => ({
+                                        label: sector.name,
+                                        value: sector.id,
+                                    }))}
+                                    loading={isLoading}
+                                />
+                            </div>
+                        )}
                     </div>
 
                     <div className="mb-2">

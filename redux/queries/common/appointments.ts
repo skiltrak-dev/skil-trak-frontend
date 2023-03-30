@@ -26,7 +26,12 @@ export const appointmentsEndpoints = (
     }),
     getBookedAppointmnts: builder.query<
         any,
-        { status?: string | undefined; skip?: number; limit?: number }
+        {
+            userId?: number
+            status?: string | undefined
+            skip?: number
+            limit?: number
+        }
     >({
         query: (params) => ({
             url: `${PREFIX}/my-appointments/view`,

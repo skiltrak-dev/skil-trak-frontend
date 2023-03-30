@@ -20,12 +20,12 @@ export const Detail = ({
                     backTitle="Assessment"
                 />
                 <Button
+                    variant={isArchivedView ? 'primary' : 'info'}
                     text={
                         isArchivedView
                             ? 'View Active Assessment'
                             : 'View Archive Assessment'
                     }
-                    variant={'info'}
                     onClick={() => {
                         setIsArchivedView(!isArchivedView)
                     }}

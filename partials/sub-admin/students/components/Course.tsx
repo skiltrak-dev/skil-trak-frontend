@@ -72,11 +72,6 @@ export const Course = ({
         )
     }
 
-    const date = course?.students[0]?.courseTiming?.find(
-        (c: any) => c?.id === course?.id
-    )
-    console.log('date', date)
-
     return (
         <>
             <ShowErrorNotifications result={addCourseStartEndDateResult} />

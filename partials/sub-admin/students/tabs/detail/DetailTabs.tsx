@@ -2,7 +2,12 @@ import { TabNavigation, TabProps } from '@components'
 import { Detail } from '@partials/sub-admin/assessmentEvidence'
 
 import { OverViewTab } from './OverviewTab'
-import { AllCommunicationTab, NotesTab, MailsTab } from '@partials/common'
+import {
+    AllCommunicationTab,
+    NotesTab,
+    MailsTab,
+    AppointmentTab,
+} from '@partials/common'
 import { RequiredDocs } from './RequiredDocs'
 export const DetailTabs = ({
     id,
@@ -45,6 +50,11 @@ export const DetailTabs = ({
                     industry={student?.industries[0]}
                 />
             ),
+        },
+        {
+            label: 'Appointments',
+            href: { pathname: String(id), query: { tab: 'appointments' } },
+            element: <AppointmentTab userId={student?.user?.id} />,
         },
         {
             label: 'Mails',

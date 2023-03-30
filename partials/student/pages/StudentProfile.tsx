@@ -297,7 +297,8 @@ export const StudentProfile = ({ noTitle }: { noTitle?: boolean }) => {
                 ) : data ? (
                     <DetailTabs student={data} id={data?.id} />
                 ) : (
-                    !isError && (
+                    !isError &&
+                    data?.isSuccess && (
                         <EmptyData
                             title={'Student Not found'}
                             description={'Student Does not exist!'}

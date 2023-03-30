@@ -228,7 +228,8 @@ const Detail: NextPageWithLayout = () => {
                     <PinnedNotes id={industry?.data?.user?.id} />
                 </div>
             ) : (
-                !industry.isError && (
+                !industry.isError &&
+                industry.isSuccess && (
                     <EmptyData
                         title={'No Industry Found'}
                         description={'No Industry Found on your request'}
