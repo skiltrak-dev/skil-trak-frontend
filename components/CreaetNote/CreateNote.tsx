@@ -56,11 +56,18 @@ export const CreateNote = ({
 
     const [editing, setEditing] = useState(false)
 
+    const [bodyData, setBodyData] = useState<any>(EditorState.createEmpty())
+    const [template, setTemplate] = useState<any | null>(null)
+
     useEffect(() => {
         if (editValues) {
             setEditing(true)
         }
     }, [editValues])
+
+    const templateValue = template
+        ? '<p><strong>Requirements for SITHCCC020 (work effectively as a cook)</strong></p>    <p></p>    <p>This unit describes the performance outcomes, skills and knowledge required to work as a cook. It incorporates all aspects of organising, preparing and cooking a variety of food items across different service periods and menu types; using a range of cooking methods and team coordination skills. The unit integrates key technical and organisational skills required by a qualified commercial cook. It brings together the skills and knowledge covered in individual units and focuses on the way they must be applied in a commercial kitchen.</p>   <p>During your placement, you will be covering unit SITHCC020 Work effectively as a cook, which requires the following: Prepare, cook and present multiple items for a minimum of 48 food service periods (shifts), including</p>    <p>Breakfast, Lunch, dinner and Special functions. (each service a minimum of 4 hours)</p>    <p><strong>Prepare, cook and present multiple items for food service periods (shifts) including:</strong></p>    <p><span style="color: rgb(0,0,0);background-color: rgb(255,255,255);font-size: 14px;font-family: Poppins, sans-serif, monospace;">• Breakfast </span></p>'
+        : ''
 
     useEffect(() => {
         if (createNoteResult.isSuccess) {
@@ -91,6 +98,7 @@ export const CreateNote = ({
             // updateNote({ ...values, postedFor: receiverId, id: editValues?.id })
         } else {
             if (values?.body) {
+                console.log('values?.body', values?.body)
                 const body = draftToHtml(
                     convertToRaw(values?.body.getCurrentContent())
                 )
@@ -132,14 +140,36 @@ export const CreateNote = ({
         },
     ]
 
+    const sa = 'Saad Khan'
+
+    useEffect(() => {
+        setBodyData(
+            EditorState.createWithContent(ContentState.createFromText(sa))
+        )
+    }, [])
+
     const methods = useForm({
         mode: 'all',
-        defaultValues: editValues,
+        defaultValues: { ...editValues, body: bodyData },
     })
+
+    useEffect(() => {
+        if (templateValue) {
+            const blocksFromHTML = convertFromHTML(templateValue)
+            const bodyValue = EditorState.createWithContent(
+                ContentState.createFromBlockArray(
+                    blocksFromHTML.contentBlocks,
+                    blocksFromHTML.entityMap
+                )
+            )
+            methods.setValue('body', bodyValue)
+        }
+    }, [templateValue, template])
 
     return (
         <>
             <ShowErrorNotifications result={createNoteResult} />
+
             <div className={`sticky -4 -top-40`}>
                 <Card>
                     <FormProvider {...methods}>
@@ -165,6 +195,9 @@ export const CreateNote = ({
                                 <Select
                                     name={'templates'}
                                     options={templates}
+                                    onChange={(e: any) => {
+                                        setTemplate(e?.value)
+                                    }}
                                 />
 
                                 <div className="mt-2 mb-4">

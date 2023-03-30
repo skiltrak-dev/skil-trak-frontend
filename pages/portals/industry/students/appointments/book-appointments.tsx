@@ -1,32 +1,37 @@
-import { ReactElement, useEffect, useState } from 'react'
-import { useRouter } from 'next/router'
 import moment from 'moment'
+import { useRouter } from 'next/router'
+import { ReactElement, useEffect, useState } from 'react'
 
 import { IndustryLayout } from '@layouts'
-import { NextPageWithLayout } from '@types'
+import { Course, NextPageWithLayout } from '@types'
 
-import { Form, TimeSlots } from '@components/sections'
+import { Button, Select, ShowErrorNotifications, TextArea } from '@components'
+import { TimeSlots } from '@components/sections'
 import { AppointmentType } from '@partials/appointmentType'
-import { Button, TextArea, Select } from '@components'
-import { useForm, FormProvider } from 'react-hook-form'
+import { FormProvider, useForm } from 'react-hook-form'
 
 // hooks
 import { useNotification } from '@hooks'
 
 // query
-import {
-    CommonApi,
-    useCreateIndustryAppointmentMutation,
-    useIndustryCoordinatorAvailabilityQuery,
-    useGetCoordinatorsForStudentQuery,
-} from '@queries'
-import { getUserCredentials } from '@utils'
 import { UserRoles } from '@constants'
+import { CommonApi, useIndustryProfileQuery } from '@queries'
+import { getUserCredentials } from '@utils'
 
 type Props = {}
 
 const BookAppointment: NextPageWithLayout = (props: Props) => {
     const router = useRouter()
+    const { data, isSuccess, isLoading } = useIndustryProfileQuery()
+    console.log('data', data?.courses)
+
+    const coursesOptions =
+        data?.courses && data?.courses?.length > 0
+            ? data?.courses?.map((course: Course) => ({
+                  label: course?.title,
+                  value: course?.id,
+              }))
+            : []
 
     const [type, setType] = useState<number | null>(null)
     const [selectedCoordinator, setSelectedCoordinator] = useState<
@@ -35,8 +40,12 @@ const BookAppointment: NextPageWithLayout = (props: Props) => {
     const [coordinatorsOptions, setCoordinatorsOptions] = useState<any | null>(
         []
     )
-    const [selectedDate, setSelectedDate] = useState<Date | null>(null)
+    const [selectedDate, setSelectedDate] = useState<Date | null>(new Date())
     const [selectedTime, setSelectedTime] = useState<any | null>(null)
+    const [selectedCourse, setSelectedCourse] = useState<{
+        label: string
+        value: number
+    } | null>(null)
 
     // query
     const coordinatorAvailability =
@@ -99,27 +108,42 @@ const BookAppointment: NextPageWithLayout = (props: Props) => {
 
     return (
         <>
+            <ShowErrorNotifications result={createAppointmentResult} />
             <FormProvider {...formMethods}>
                 <form onSubmit={formMethods.handleSubmit(onSubmit)}>
                     <AppointmentType
                         setAppointmentTypeId={setType}
                         appointmentFor={UserRoles.INDUSTRY}
                     />
-                    {/* TODO Not getting coordinators */}
-                    <Select
-                        name="appointmentFor"
-                        label="WBT Coordinator"
-                        placeholder="Select Your Choice"
-                        options={coordinatorsOptions}
-                        loading={coordinators.isLoading}
-                        disabled={
-                            !coordinatorsOptions || coordinators.isLoading
-                        }
-                        onChange={(e: any) => {
-                            setSelectedCoordinator(e)
-                        }}
-                        onlyValue
-                    />
+
+                    <div className="grid grid-cols-3 items-center gap-x-5 mb-5">
+                        <Select
+                            name="appointmentFor"
+                            label="WBT Coordinator"
+                            placeholder="Select Your Choice"
+                            options={coordinatorsOptions}
+                            loading={coordinators.isLoading}
+                            disabled={
+                                !coordinatorsOptions || coordinators.isLoading
+                            }
+                            onChange={(e: any) => {
+                                setSelectedCoordinator(e)
+                            }}
+                            onlyValue
+                        />
+                        <Select
+                            name="course"
+                            label="Course(s)"
+                            placeholder="Select Your Choice"
+                            options={coursesOptions}
+                            loading={isLoading}
+                            disabled={isLoading}
+                            onChange={(e: any) => {
+                                setSelectedCourse(e)
+                            }}
+                            onlyValue
+                        />
+                    </div>
                     <TimeSlots
                         setSelectedDate={setSelectedDate}
                         selectedDate={selectedDate}

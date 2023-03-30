@@ -4,7 +4,12 @@ import { AssessmentTools } from './AssessmentTools'
 import { TabNavigation, TabProps } from '@components'
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/router'
-import { AllCommunicationTab, NotesTab, MailsTab } from '@partials/common'
+import {
+    AllCommunicationTab,
+    NotesTab,
+    MailsTab,
+    AppointmentTab,
+} from '@partials/common'
 
 export const DetailTabs = ({
     id,
@@ -45,6 +50,11 @@ export const DetailTabs = ({
             label: 'Sub Admins',
             href: { query: { tab: 'sub-admin', id } },
             element: <SubAdminsTab rto={rto} />,
+        },
+        {
+            label: 'Appointments',
+            href: { pathname: String(id), query: { tab: 'appointments' } },
+            element: <AppointmentTab userId={rto?.data?.user?.id} />,
         },
         {
             label: 'Mails',

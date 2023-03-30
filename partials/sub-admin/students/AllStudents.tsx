@@ -24,7 +24,11 @@ import { useGetSubAdminStudentsQuery, SubAdminApi } from '@queries'
 import { Student, UserStatus } from '@types'
 import { useEffect, useState } from 'react'
 import { MdBlock } from 'react-icons/md'
-import { AssignStudentModal, BlockModal, ChangeStudentStatusModal } from './modals'
+import {
+    AssignStudentModal,
+    BlockModal,
+    ChangeStudentStatusModal,
+} from './modals'
 
 import { ProgressCell, SectorCell } from '@partials/admin/student/components'
 import { checkStudentStatus, checkWorkplaceStatus, setLink } from '@utils'
@@ -269,7 +273,7 @@ export const AllStudents = () => {
 
                                     <div
                                         id="students-list"
-                                        className="px-6 overflow-auto custom-scrollbar"
+                                        className="px-6 overflow-auto remove-scrollbar"
                                     >
                                         {table}
                                     </div>

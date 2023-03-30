@@ -9,8 +9,9 @@ import { AppointmentViewModal } from '@components/Appointment/AppointmentModal'
 import { CommonApi } from '@queries'
 import React, { useState } from 'react'
 
-export const UpcomingAppointments = () => {
+export const UpcomingAppointments = ({ userId }: { userId?: number }) => {
     const futureAppointments = CommonApi.Appointments.useBookedAppointments({
+        userId,
         status: 'future',
     })
 
