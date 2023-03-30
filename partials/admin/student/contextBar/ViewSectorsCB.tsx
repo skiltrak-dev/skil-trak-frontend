@@ -30,6 +30,7 @@ export const ViewSectorsCB = ({ student }: { student: Student }) => {
 
     const [assignCourses, assignCoursesResult] =
         AdminApi.Students.useAssignCourses()
+
     const onSubmit = async (values: any) => {
         const { courses } = values
         await assignCourses({

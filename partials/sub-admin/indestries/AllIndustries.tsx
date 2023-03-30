@@ -103,6 +103,10 @@ export const AllIndustries = () => {
             ),
         },
         {
+            accessorKey: 'abn',
+            header: () => <span>ABN</span>,
+        },
+        {
             header: () => 'Address',
             accessorKey: 'address',
             cell: ({ row }: any) => {
