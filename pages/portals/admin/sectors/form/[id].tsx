@@ -65,8 +65,8 @@ const SectorEditPage: NextPageWithLayout = () => {
                         />
                     ) : (
                         <SectorForm
+                            edit
                             onSubmit={onSubmit}
-                            edit={true}
                             initialValues={data}
                         />
                     )

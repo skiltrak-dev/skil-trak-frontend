@@ -18,12 +18,6 @@ import { useContextBar } from 'hooks'
 // import { useMessage } from 'hooks'
 
 export const MailsTab = ({ user }: { user: any }) => {
-    const [messagesList, setMessagesList] = useState([])
-    const [approvedUser, setApprovedUser] = useState(
-        user?.user?.status === 'approved'
-    )
-
-    // query
     const messages = CommonApi.Messages.useMessages(
         {
             id: user?.id,
@@ -34,14 +28,6 @@ export const MailsTab = ({ user }: { user: any }) => {
             skip: !user?.id,
         }
     )
-
-    useEffect(() => {
-        setApprovedUser(user?.user?.status === 'approved')
-    }, [user])
-
-    // useEffect(() => {
-    //     messages.refetch()
-    // }, [messages.refetch])
 
     return (
         <div

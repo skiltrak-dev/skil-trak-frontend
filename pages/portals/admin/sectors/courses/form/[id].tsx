@@ -73,7 +73,7 @@ const CourseEditPage: NextPageWithLayout = () => {
                         />
                     ) : (
                         <CourseForm
-                            edit={true}
+                            edit
                             onSubmit={onSubmit}
                             initialValues={data}
                             result={updateResult}

@@ -40,6 +40,7 @@ export const NoteEditor = ({
                 name={name}
                 control={methods.control}
                 render={({ field }) => {
+                    console.log('field', field.value)
                     return (
                         <Editor
                             editorStyle={{
