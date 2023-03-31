@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { DocsCheckbox } from '../DocsCheckbox'
-import { Button, TextInput, Select, Switch } from '@components'
+import { Button, TextInput, Select, Switch, ActionButton } from '@components'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { FormProvider, useForm } from 'react-hook-form'
 import {
@@ -186,21 +186,24 @@ export const CustomDocInput = ({
                         {type}
                     </div>
                     <div className="w-1/5 flex items-center justify-center gap-x-2">
-                        <Button
+                        <ActionButton
                             Icon={MdEdit}
                             variant={'info'}
                             onClick={() => {
                                 setEditing(true)
                             }}
+                            title={'Edit Custom Docs'}
                         />
 
-                        <Button
+                        <ActionButton
                             Icon={AiFillDelete}
                             variant={'error'}
                             onClick={() => {
                                 !deleteResult.isLoading && onDelete()
+                                onConfirmDelete()
                             }}
                             loading={deleteResult.isLoading}
+                            title={'Delete Custom Docs'}
                         />
                     </div>
                 </div>

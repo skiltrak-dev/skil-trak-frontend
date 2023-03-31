@@ -96,9 +96,7 @@ export const MyWorkplace = ({
                             Icon={MdDelete}
                             variant={'error'}
                             title={'Delete Industry'}
-                            onClick={() => {
-                                onDeleteIndustry(industry)
-                            }}
+                            onClick={() => onDeleteIndustry(industry)}
                         />
                     )}
                     {role !== 'rto' && Object.keys(industry)?.length > 0 ? (

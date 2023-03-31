@@ -47,7 +47,7 @@ export const StudentAssessmentTools = ({ role, actions }: Props) => {
                     ? coursesData?.find(
                           (c: any) => c?.id === selectedCourseId?.id
                       )?.id
-                    : coursesData[0]
+                    : coursesData[0]?.id
             )
         }
     }, [coursesData, isSuccess])

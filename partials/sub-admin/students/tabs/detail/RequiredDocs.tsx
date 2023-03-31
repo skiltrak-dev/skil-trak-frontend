@@ -113,6 +113,7 @@ export const RequiredDocs = ({
         uploadIndustryChecks({
             id: selectedFolder?.id,
             workplaceId: workplace?.data[0]?.id,
+            user: studentUserId,
             body: formData,
         })
     }
@@ -191,6 +192,9 @@ export const RequiredDocs = ({
                                             selectedFolderId={
                                                 selectedFolder?.folder?.id
                                             }
+                                            response={{
+                                                files: assessment?.response,
+                                            }}
                                             onClick={() => {
                                                 setSelectedFolder(assessment)
                                             }}
