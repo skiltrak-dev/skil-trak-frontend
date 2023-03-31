@@ -166,6 +166,7 @@ export const FileUpload = ({
 
     const Components = component
 
+
     return (
         <div className="w-full">
             {label && (

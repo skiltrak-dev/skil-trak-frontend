@@ -1,12 +1,14 @@
 import { ReactElement, useState } from 'react'
 // Layouts
-import { SubAdminLayout } from '@layouts'
+import { AdminLayout } from '@layouts'
 // Types
 import { Button, TabNavigation, TabProps } from '@components'
 import { useContextBar } from '@hooks'
-import { AllMails, ReadMail, SendMail, UnReadMail } from '@partials/common'
+
 import { CommonApi } from '@queries'
 import { NextPageWithLayout } from '@types'
+import { AllMailsList, ReadMailsList, SentMails, UnReadMailsList } from '@partials/common/AdminEmails/detail'
+import { SendMail } from '@partials/common'
 import { useRouter } from 'next/router'
 
 const SubAdminEmailsNotifications: NextPageWithLayout = () => {
@@ -25,54 +27,68 @@ const SubAdminEmailsNotifications: NextPageWithLayout = () => {
             //     loading: isLoading,
             // },
             element: (
-                <AllMails
+                <AllMailsList
                     selectedMessage={selectedMessage}
                     setSelectedMessage={setSelectedMessage}
                 />
             ),
         },
-        // {
-        //     label: 'Unread',
-        //     href: { pathname: 'emails', query: { tab: 'unread-mails' } },
-        //     // badge: {
-        //     //     text: data?.length,
-        //     //     loading: isLoading,
-        //     // },
-        //     element: (
-        //         <UnReadMail
-        //             selectedMessage={selectedMessage}
-        //             setSelectedMessage={setSelectedMessage}
-        //         />
-        //     ),
-        // },
-        // {
-        //     label: 'Read',
-        //     href: { pathname: 'e-mails', query: { tab: 'read-mails' } },
-        //     // badge: {
-        //     //     text: data?.length,
-        //     //     loading: isLoading,
-        //     // },
-        //     element: (
-        //         <ReadMail
-        //             selectedMessage={selectedMessage}
-        //             setSelectedMessage={setSelectedMessage}
-        //         />
-        //     ),
-        // },
+        {
+            label: 'Unread',
+            href: { pathname: 'e-mails', query: { tab: 'unread-mails' } },
+            // badge: {
+            //     text: data?.length,
+            //     loading: isLoading,
+            // },
+            element: (
+                <UnReadMailsList
+                    selectedMessage={selectedMessage}
+                    setSelectedMessage={setSelectedMessage}
+                />
+            ),
+        },
+        {
+            label: 'Read',
+            href: { pathname: 'e-mails', query: { tab: 'read-mails' } },
+            // badge: {
+            //     text: data?.length,
+            //     loading: isLoading,
+            // },
+            element: (
+                <ReadMailsList
+                    selectedMessage={selectedMessage}
+                    setSelectedMessage={setSelectedMessage}
+                />
+            ),
+        },
+        {
+            label: 'Sent Mails',
+            href: { pathname: 'e-mails', query: { tab: 'sent-mails' } },
+            // badge: {
+            //     text: data?.length,
+            //     loading: isLoading,
+            // },
+            element: (
+                <SentMails
+                    selectedMessage={selectedMessage}
+                    setSelectedMessage={setSelectedMessage}
+                />
+            ),
+        },
     ]
 
     return (
-        <div>
+        <div className="px-4">
             <TabNavigation tabs={tabs}>
                 {({ header, element }: any) => {
                     return (
                         <div>
                             <div className="flex justify-between items-center">
                                 <div>{header}</div>
-                                <div className="flex items-center gap-x-2">
+                                <div className='flex items-center gap-x-2'>
                                     <Button
                                         onClick={() => {
-                                            router.push('/portals/sub-admin/notifications/bulk-email')
+                                            router.push('/portals/admin/bulk-email')
                                         }}
                                         text="Bulk Email"
                                         variant='info'
@@ -97,11 +113,7 @@ const SubAdminEmailsNotifications: NextPageWithLayout = () => {
 }
 
 SubAdminEmailsNotifications.getLayout = (page: ReactElement) => {
-    return (
-        <SubAdminLayout pageTitle={{ title: 'Notifications' }}>
-            {page}
-        </SubAdminLayout>
-    )
+    return <AdminLayout>{page}</AdminLayout>
 }
 
 export default SubAdminEmailsNotifications

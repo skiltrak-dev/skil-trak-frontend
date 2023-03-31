@@ -113,9 +113,11 @@ const {
 
     // ------ Industry ------ //
     useGetAllIndustriesQuery,
+    useGetIndustriesListQuery,
 
     useGetAllRtosQuery,
     useGetSubAdminRtosQuery,
+    useGetRtosListQuery,
 
     useGetAllCoursesQuery,
 
@@ -144,6 +146,12 @@ const {
     useGetAllConversationsQuery,
     useGetSingleChatQuery,
     useCountUnreadMessageQuery,
+    useGetAllMailsListQuery,
+    useGetAllSentMailsListQuery,
+    useGetMailsByStatusQuery,
+    useGetAllTemplatesQuery,
+    useSendBulkMailMutation,
+    useSearchBulkMailStudentsQuery,
 
     // -- APPOINTMENTS -- //
     useGetAppointmentsTypesQuery,
@@ -171,6 +179,8 @@ const {
 
     // ---- USER ---- //
     useChangeUserStatusMutation,
+    // ---- COURSE ---- //
+    useGetCoursesListQuery,
 } = commonApi
 
 export const CommonApi = {
@@ -189,6 +199,15 @@ export const CommonApi = {
         useRtos: useGetAllRtosQuery,
         useCourses: useGetAllCoursesQuery,
         useSubAdminRtos: useGetSubAdminRtosQuery,
+    },
+    Rtos: {
+        useRtosList: useGetRtosListQuery,
+    },
+    Industries: {
+        useIndustriesList: useGetIndustriesListQuery,
+    },
+    Courses: {
+        useCoursesList: useGetCoursesListQuery,
     },
 
     Notes: {
@@ -212,6 +231,12 @@ export const CommonApi = {
         sendCustomEmail: useSendCustomEmailMutation,
         useSingleChat: useGetSingleChatQuery,
         useRecentMails: useGetRecentMailsQuery,
+        useAllMailsList: useGetAllMailsListQuery,
+        useAllSentMails: useGetAllSentMailsListQuery,
+        useMailsByStatus: useGetMailsByStatusQuery,
+        useAllTemplates: useGetAllTemplatesQuery,
+        useSendBulkMail: useSendBulkMailMutation,
+        useSearchBulkMailStudents: useSearchBulkMailStudentsQuery,
     },
     Appointments: {
         appointmentType: useGetAppointmentsTypesQuery,

@@ -18,105 +18,107 @@ type Props = {
     selectedMessage: any
 }
 
-export const MailDetail = ({ selectedMessage }: Props) => {
+export const ReceivedMailDetail = ({ selectedMessage }: Props) => {
     const [itemPerPage, setItemPerPage] = useState(20)
     const [page, setPage] = useState(1)
     const [hasNext, setHasNext] = useState(false)
 
     const [mailDetail, setMailDetail] = useState<any>([])
 
-    const message = CommonApi.Messages.useSingleChat(
-        {
-            id: selectedMessage?.id,
-            skip: itemPerPage * page - itemPerPage,
-            limit: itemPerPage,
-        },
-        {
-            skip: !selectedMessage?.id,
-        }
-    )
+    // const message = CommonApi.Messages.useSingleChat(
+    //     {
+    //         id: selectedMessage?.id,
+    //         skip: itemPerPage * page - itemPerPage,
+    //         limit: itemPerPage,
+    //     },
+    //     {
+    //         skip: !selectedMessage?.id,
+    //     }
+    // )
 
-    useEffect(() => {
-        setPage(1)
-        setMailDetail([])
-    }, [selectedMessage])
 
-    useEffect(() => {
-        if (selectedMessage) {
-            setHasNext(true)
-        }
-    }, [selectedMessage])
-
-    useEffect(() => {
-        if (message.data?.pagination && message.isSuccess) {
-            setHasNext(message.data?.pagination?.hasNext)
-        }
-        if (message?.isError) {
-            setHasNext(false)
-        }
-    }, [message])
-
-    useEffect(() => {
-        if (
-            !message?.isFetching &&
-            !message?.isLoading &&
-            message?.isSuccess &&
-            message?.data?.data &&
-            message?.data?.data?.length > 0
-        ) {
-            setMailDetail([...mailDetail, ...message?.data?.data])
-        }
-    }, [message])
-
-    const fetchMoreData = () => {
-        setPage(
-            mailDetail?.length > 0
-                ? Math.floor(mailDetail?.length / itemPerPage) + 1
-                : 1
-        )
-        // setTimeout(() => {
-        //     setPage(
-        //         mailDetail?.length > 0
-        //             ? Math.floor(mailDetail?.length / itemPerPage) + 1
-        //             : 1
-        //     )
-        // }, 1500)
-    }
-    const [seenMessage, resultSeenMessage] = CommonApi.Messages.useIsSeen()
     // useEffect(() => {
-    //     if (selectedMessage?.id) {
-    //         mailDetail?.map((item: any) => {
-    //             if (item?.isSeen === false) {
-    //                 seenMessage(item?.id)
-    //             }
-    //         })
+    //     setPage(1)
+    //     setMailDetail([])
+    // }, [selectedMessage])
+
+    // useEffect(() => {
+    //     if (selectedMessage) {
+    //         setHasNext(true)
     //     }
     // }, [selectedMessage])
 
+    // useEffect(() => {
+    //     if (message.data?.pagination && message.isSuccess) {
+    //         setHasNext(message.data?.pagination?.hasNext)
+    //     }
+    //     if (message?.isError) {
+    //         setHasNext(false)
+    //     }
+    // }, [message])
 
+    // useEffect(() => {
+    //     if (
+    //         !message?.isFetching &&
+    //         !message?.isLoading &&
+    //         message?.isSuccess &&
+    //         message?.data?.data &&
+    //         message?.data?.data?.length > 0
+    //     ) {
+    //         setMailDetail([...mailDetail, ...message?.data?.data])
+    //     }
+    // }, [message])
+
+    // const fetchMoreData = () => {
+    //     setPage(
+    //         mailDetail?.length > 0
+    //             ? Math.floor(mailDetail?.length / itemPerPage) + 1
+    //             : 1
+    //     )
+    //     // setTimeout(() => {
+    //     //     setPage(
+    //     //         mailDetail?.length > 0
+    //     //             ? Math.floor(mailDetail?.length / itemPerPage) + 1
+    //     //             : 1
+    //     //     )
+    //     // }, 1500)
+    // }
+    const [seenMessage, resultSeenMessage] = CommonApi.Messages.useIsSeen()
+    useEffect(() => {
+        if (selectedMessage?.id) {
+                if (selectedMessage?.isSeen === false) {
+                    seenMessage(selectedMessage?.id)
+                }
+        }
+    }, [selectedMessage])
     return (
         <div className="w-full h-full">
             {selectedMessage && (
-                <div className="px-4 border-b py-2 flex justify-between items-center w-full">
-                    <div>
-                        <Typography variant={'subtitle'}>
-                            {selectedMessage?.name}
-                        </Typography>
-                        <Typography variant={'muted'} color={'text-muted'}>
-                            {moment(
-                                new Date(selectedMessage?.createdAt)
-                            ).format('LL')}
-                        </Typography>
+                <>
+                    <div className="px-4 border-b py-2 flex justify-between items-center w-full">
+                        <div>
+                            <Typography variant={'subtitle'}>
+                                {selectedMessage?.sender?.name}
+                            </Typography>
+                            <Typography variant={'muted'} color={'text-muted'}>
+                                {moment(
+                                    new Date(selectedMessage?.createdAt)
+                                ).format('LL')}
+                            </Typography>
+                        </div>
+                        <div className="flex items-center gap-x-2">
+                            <InitialAvatar name={selectedMessage?.sender?.name || ""} />
+                            <Typography variant={'subtitle'}>
+                                {selectedMessage?.email}
+                            </Typography>
+                        </div>
                     </div>
-                    <div className="flex items-center gap-x-2">
-                        <InitialAvatar name={selectedMessage?.name || ' '} />
-                        <Typography variant={'subtitle'}>
-                            {selectedMessage?.email}
-                        </Typography>
+                    <div className='px-4 py-2'>
+                        {selectedMessage?.message}
                     </div>
-                </div>
+                </>
             )}
-            <div className="p-4 h-full">
+            {/* <div className="p-4 h-full">
                 <div
                     className={`w-full bg-gray-50 rounded-lg p-2 h-[calc(100%-50px)] overflow-y-auto remove-scrollbar`}
                 >
@@ -175,7 +177,7 @@ export const MailDetail = ({ selectedMessage }: Props) => {
                         </div>
                     </InfiniteScroll>
                 </div>
-            </div>
+            </div> */}
         </div>
     )
 }

@@ -7,7 +7,7 @@ type Props = {
   onColumnsChange: (columns: any) => void
 }
 
-export const SpecifyColumns = ({  initialValues,onColumnsChange }: Props) => {
+export const SpecifyColumns = ({ initialValues, onColumnsChange }: Props) => {
 
   const onSubmit = (data: any) => {
     onColumnsChange(data)
@@ -19,9 +19,9 @@ export const SpecifyColumns = ({  initialValues,onColumnsChange }: Props) => {
 
   return (
     <Card>
-     <p className="text-sm font-medium text-gray-500">
-                            Specify Column Names
-                        </p>
+      <p className="text-sm font-medium text-gray-500">
+        Specify Column Names
+      </p>
       <FormProvider {...formMethods}>
         <form
           className="flex flex-col gap-y-4"

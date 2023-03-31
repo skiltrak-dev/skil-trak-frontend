@@ -4,9 +4,9 @@ import { CommonApi } from '@queries'
 import { useEffect, useState } from 'react'
 import InfiniteScroll from 'react-infinite-scroller'
 import { PulseLoader } from 'react-spinners'
-import { MailListCard, Messaging } from '../../components'
+import { AllSentMailsListCard, SentMessaging } from '../../components'
 
-export const AllMails = ({
+export const SentMails = ({
     setSelectedMessage,
     selectedMessage,
 }: {
@@ -20,11 +20,10 @@ export const AllMails = ({
     const [allMails, setAllMails] = useState<any>([])
 
     const { data, isLoading, isError, isFetching, isSuccess } =
-        CommonApi.Messages.useAllConversations({
+        CommonApi.Messages.useAllSentMails({
             skip: itemPerPage * page - itemPerPage,
             limit: itemPerPage,
         })
-
     useEffect(() => {
         if (data?.pagination && isSuccess) {
             setHasNext(data?.pagination?.hasNext)
@@ -33,7 +32,6 @@ export const AllMails = ({
             setHasNext(false)
         }
     }, [data, isSuccess, isError])
-
     useEffect(() => {
         if (
             !isFetching &&
@@ -59,8 +57,9 @@ export const AllMails = ({
         }, 1500)
         // setLimit(40)
     }
+
     return (
-        <Messaging selectedMessage={selectedMessage}>
+        <SentMessaging selectedMessage={selectedMessage}>
             <InfiniteScroll
                 pageStart={0}
                 loadMore={fetchMoreData}
@@ -74,7 +73,7 @@ export const AllMails = ({
             >
                 {allMails && allMails?.length > 0
                     ? allMails?.map((message: any) => (
-                        <MailListCard
+                        <AllSentMailsListCard
                             key={message?.id}
                             message={message}
                             selectedMessageId={selectedMessage?.id}
@@ -93,6 +92,6 @@ export const AllMails = ({
                     />
                 )}
             </InfiniteScroll>
-        </Messaging>
+        </SentMessaging>
     )
 }

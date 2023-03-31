@@ -1,6 +1,6 @@
 import { BaseQueryFn } from '@reduxjs/toolkit/dist/query/baseQueryTypes'
 import { EndpointBuilder } from '@reduxjs/toolkit/dist/query/endpointDefinitions'
-import { Note } from '@types'
+import { Note, PaginatedResponse } from '@types'
 import { io } from 'socket.io-client'
 
 enum ChatEvent {
@@ -81,6 +81,15 @@ export const mailsEndpoints = (
         }),
         invalidatesTags: ['Mails'],
     }),
+    sendBulkMail: builder.mutation<any, any>({
+        query: (body) => ({
+            url: `shared/bulk/send`,
+            method: 'POST',
+            body,
+        }),
+        invalidatesTags: ['Mails'],
+    }),
+
     sendCustomEmail: builder.mutation({
         query: (body) => ({
             url: `${PREFIX}/mail/send`,
@@ -132,6 +141,46 @@ export const mailsEndpoints = (
     >({
         query: ({ id, ...params }: any) => ({
             url: `${PREFIX}/conversation/view/${id}`,
+            params,
+        }),
+        providesTags: ['Mails'],
+    }),
+    getAllMailsList: builder.query<
+        any,
+        { status?: string | undefined; skip: number; limit: number }
+    >({
+        query: (params) => ({
+            url: `${PREFIX}`,
+            params,
+        }),
+        providesTags: ['Mails'],
+    }),
+    getAllSentMailsList: builder.query<
+        any,
+        { status?: string | undefined; skip: number; limit: number }
+    >({
+        query: (params) => ({
+            url: `${PREFIX}/list/sended`,
+            params,
+        }),
+        providesTags: ['Mails'],
+    }),
+    getMailsByStatus: builder.query<PaginatedResponse<any>, any>({
+        query: (params) => {
+            return {
+                url: `${PREFIX}/list/by-status`,
+                params,
+            }
+        },
+        providesTags: ['Mails'],
+    }),
+    getAllTemplates: builder.query<any, void>({
+        query: () => `templates`,
+        providesTags: ['Mails'],
+    }),
+    searchBulkMailStudents: builder.query<any, any>({
+        query: (params) => ({
+            url: `shared/students/list`,
             params,
         }),
         providesTags: ['Mails'],

@@ -12,4 +12,8 @@ export const rtosEndpoints = (
         query: () => `subadmin/rtos/list/all`,
         providesTags: ['RTO'],
     }),
+    getRtosList: builder.query<any, void>({
+        query: () => `shared/rtos/list`,
+        providesTags: ['RTO'],
+    }),
 })
