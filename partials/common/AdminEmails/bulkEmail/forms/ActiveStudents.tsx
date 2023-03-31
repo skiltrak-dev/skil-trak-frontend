@@ -148,12 +148,13 @@ export const ActiveStudents = ({
         : []
 
     const getStudentIds = selectAll?.map((student: any) => student?.value)
-    const studentsIds = getStudentIds?.map((studentId: any) => {
-        const student = bulkMailStudentsResponse?.data?.find(
-            (student: any) => student.id === studentId
-        )
-        return student?.user?.id
-    })
+    const studentsIds =
+        getStudentIds?.map((studentId: any) => {
+            const student = bulkMailStudentsResponse?.data?.find(
+                (student: any) => student.id === studentId
+            )
+            return student?.user?.id
+        }) || null
 
     const toStudent = [
         {
@@ -195,9 +196,12 @@ export const ActiveStudents = ({
         )
     }
     const onSubmit = (data: any) => {
-        const content = draftToHtml(
-            convertToRaw(data?.message.getCurrentContent())
-        )
+        let content = ''
+        if (data?.message) {
+            content = draftToHtml(
+                convertToRaw(data?.message?.getCurrentContent())
+            )
+        }
         console.log('datadatadata', data)
         // sent the above data to the api using form data
         const formData = new FormData()
@@ -216,13 +220,14 @@ export const ActiveStudents = ({
             formData.append(key, value)
         })
 
-        attachment?.forEach((attached: File) => {
-            formData.append('attachment', attached)
-        })
+        attachment &&
+            attachment?.length > 0 &&
+            attachment?.forEach((attached: File) => {
+                formData.append('attachment', attached)
+            })
         formData.append('users', studentsIds)
         formData.append('template', templateId)
         formData.append('message', content)
-        formData.append('subject', templateSubject)
 
         sendBulkEmail(formData)
         // sendBulk({ users: studentsIds, template: templateId })
@@ -426,7 +431,7 @@ export const ActiveStudents = ({
                         label={'Message'}
                         content={templateBody}
                     />
-                    <div className="mb-4 flex justify-between items-center">
+                    <div className="my-4 flex justify-between items-center">
                         <FileUpload
                             onChange={(docs: FileList) => {
                                 setAttachmentFiles((preVal: any) => [
