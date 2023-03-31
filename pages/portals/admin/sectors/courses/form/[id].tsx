@@ -17,7 +17,7 @@ const CourseEditPage: NextPageWithLayout = () => {
     const id = Number(router.query?.id || -1)
 
     const [update, updateResult] = AdminApi.Courses.useUpdateMutation()
-    const { data, isLoading } = AdminApi.Courses.useDetailQuery(id, {
+    const { data, isLoading, isSuccess } = AdminApi.Courses.useDetailQuery(id, {
         skip: !id,
     })
 
@@ -26,6 +26,12 @@ const CourseEditPage: NextPageWithLayout = () => {
     useEffect(() => {
         navBar.setTitle('Edit Course')
     }, [])
+
+    useEffect(() => {
+        if (isSuccess && data) {
+            setRequirementFile(data?.requirements)
+        }
+    }, [data, isSuccess])
 
     const onSubmit = async (values: any) => {
         const body = {
@@ -77,7 +83,9 @@ const CourseEditPage: NextPageWithLayout = () => {
                             onSubmit={onSubmit}
                             initialValues={data}
                             result={updateResult}
-                            requirementFile={requirementFile}
+                            requirementFile={
+                                requirementFile || data?.requirements
+                            }
                             setRequirementFile={setRequirementFile}
                         />
                     )

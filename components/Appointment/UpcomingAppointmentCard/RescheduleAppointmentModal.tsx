@@ -22,6 +22,10 @@ export const RescheduleAppointmentModal = ({
 
     const [slots, setSlots] = useState(true)
 
+    useEffect(() => {
+        setSelectedTime(null)
+    }, [selectedDate])
+
     const [rescheduleAppointment, rescheduleAppointmentResult] =
         CommonApi.Appointments.rescheduleAppointment()
 
@@ -63,6 +67,8 @@ export const RescheduleAppointmentModal = ({
             },
         })
     }
+
+    console.log('selectedDate', selectedTime)
 
     return (
         <>
@@ -147,7 +153,15 @@ export const RescheduleAppointmentModal = ({
                             text={'Submit'}
                             onClick={onSubmit}
                             loading={rescheduleAppointmentResult.isLoading}
-                            disabled={rescheduleAppointmentResult.isLoading}
+                            disabled={
+                                rescheduleAppointmentResult.isLoading ||
+                                !selectedDate ||
+                                !appointment?.type?.id ||
+                                !appointment?.appointmentFor?.id ||
+                                !appointment?.appointmentBy?.id ||
+                                !selectedTime ||
+                                !slots
+                            }
                         />
                     </div>
                 </div>

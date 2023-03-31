@@ -35,7 +35,8 @@ const Setting: NextPageWithLayout = () => {
         },
         {
             title: 'Book/Receive Appointments',
-            description: 'You will not able to book or conduct any appointment',
+            description:
+                'You will not be able to book or conduct any appointment',
             img: '/images/icons/behavior.png',
             type: 'appointment',
             status: getSettingData?.data?.canBookAppointments,
