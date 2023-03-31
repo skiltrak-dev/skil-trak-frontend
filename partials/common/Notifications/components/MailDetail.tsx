@@ -82,6 +82,17 @@ export const MailDetail = ({ selectedMessage }: Props) => {
         //     )
         // }, 1500)
     }
+    const [seenMessage, resultSeenMessage] = CommonApi.Messages.useIsSeen()
+    // useEffect(() => {
+    //     if (selectedMessage?.id) {
+    //         mailDetail?.map((item: any) => {
+    //             if (item?.isSeen === false) {
+    //                 seenMessage(item?.id)
+    //             }
+    //         })
+    //     }
+    // }, [selectedMessage])
+
 
     return (
         <div className="w-full h-full">
@@ -123,36 +134,36 @@ export const MailDetail = ({ selectedMessage }: Props) => {
                         <div className={`flex flex-col gap-y-2.5 `}>
                             {mailDetail && mailDetail?.length > 0
                                 ? mailDetail?.map((mail: any, i: number) => (
-                                      <Mail
-                                          key={mail?.id}
-                                          sender={
-                                              mail?.sender?.role === 'admin'
-                                          }
-                                          message={mail}
-                                          index={i}
-                                      />
-                                  ))
+                                    <Mail
+                                        key={mail?.id}
+                                        sender={
+                                            mail?.sender?.role === 'admin'
+                                        }
+                                        message={mail}
+                                        index={i}
+                                    />
+                                ))
                                 : !message?.isError &&
-                                  !hasNext &&
-                                  (selectedMessage ? (
-                                      <EmptyData
-                                          imageUrl="/images/icons/common/mails.png"
-                                          title={'No Mails'}
-                                          description={
-                                              'You have not sent/received any mail yet'
-                                          }
-                                          height={'40vh'}
-                                      />
-                                  ) : (
-                                      <EmptyData
-                                          imageUrl="/images/icons/common/mails.png"
-                                          title={'No Mails Selected'}
-                                          description={
-                                              'You did not select any mail yet'
-                                          }
-                                          height={'40vh'}
-                                      />
-                                  ))}
+                                !hasNext &&
+                                (selectedMessage ? (
+                                    <EmptyData
+                                        imageUrl="/images/icons/common/mails.png"
+                                        title={'No Mails'}
+                                        description={
+                                            'You have not sent/received any mail yet'
+                                        }
+                                        height={'40vh'}
+                                    />
+                                ) : (
+                                    <EmptyData
+                                        imageUrl="/images/icons/common/mails.png"
+                                        title={'No Mails Selected'}
+                                        description={
+                                            'You did not select any mail yet'
+                                        }
+                                        height={'40vh'}
+                                    />
+                                ))}
 
                             {message?.isError && (
                                 <NoData

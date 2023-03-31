@@ -50,6 +50,17 @@ export const ContentEditor = ({
     const [contentChange, setContentChange] = useState(false)
 
     useEffect(() => {
+        const blocksFromHTML = convertFromHTML(`<div>${content}</div>`)
+        const bodyValue = EditorState.createWithContent(
+            ContentState.createFromBlockArray(
+                blocksFromHTML.contentBlocks,
+                blocksFromHTML.entityMap
+            )
+        )
+        setContentState(bodyValue)
+    }, [])
+
+    useEffect(() => {
         if (setContent) {
             setContent(
                 contentChange
@@ -71,7 +82,8 @@ export const ContentEditor = ({
         <div className="mb-4">
             {label && <p className="text-sm font-medium mb-2">{label}</p>}
             <Editor
-                defaultContentState={editorState}
+                // defaultContentState={editorState}
+                editorState={contentState}
                 // toolbarStyle={{ border: 'none', borderRadius: '16px' }}
                 wrapperClassName="border rounded-md"
                 editorClassName="min-h-[128px] max-h-[250px] overflow-y-auto  px-2 custom-scrollbar"

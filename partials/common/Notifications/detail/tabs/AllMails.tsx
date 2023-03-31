@@ -21,7 +21,6 @@ export const AllMails = ({
 
     const { data, isLoading, isError, isFetching, isSuccess } =
         CommonApi.Messages.useAllConversations({
-            status: 'seen',
             skip: itemPerPage * page - itemPerPage,
             limit: itemPerPage,
         })

@@ -7,8 +7,10 @@ import { useContextBar } from '@hooks'
 import { AllMails, ReadMail, SendMail, UnReadMail } from '@partials/common'
 import { CommonApi } from '@queries'
 import { NextPageWithLayout } from '@types'
+import { useRouter } from 'next/router'
 
 const SubAdminEmailsNotifications: NextPageWithLayout = () => {
+    const router = useRouter()
     const [selectedMessage, setSelectedMessage] = useState<any>(null)
     const contextBar = useContextBar()
 
@@ -67,7 +69,14 @@ const SubAdminEmailsNotifications: NextPageWithLayout = () => {
                         <div>
                             <div className="flex justify-between items-center">
                                 <div>{header}</div>
-                                <div>
+                                <div className="flex items-center gap-x-2">
+                                    <Button
+                                        onClick={() => {
+                                            router.push('/portals/sub-admin/notifications/bulk-email')
+                                        }}
+                                        text="Bulk Email"
+                                        variant='info'
+                                    />
                                     <Button
                                         onClick={() => {
                                             contextBar.setTitle('Compose Mail')

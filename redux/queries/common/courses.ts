@@ -8,4 +8,8 @@ export const coursesEndpoints = (
         query: () => `filter/courses/all`,
         providesTags: ['Course'],
     }),
+    getCoursesList: builder.query<any, void>({
+        query: () => `shared/courses/list`,
+        providesTags: ['Course'],
+    }),
 })

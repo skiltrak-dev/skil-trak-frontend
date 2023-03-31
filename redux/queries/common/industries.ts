@@ -9,4 +9,8 @@ export const industriesEndpoints = (
         query: () => `filter/industries/all`,
         providesTags: ['Industry'],
     }),
+    getIndustriesList: builder.query<any, void>({
+        query: () => `shared/industries/list`,
+        providesTags: ['Industry'],
+    }),
 })

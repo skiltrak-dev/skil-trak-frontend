@@ -87,7 +87,6 @@ export const SendMail = () => {
         const formData = new FormData()
 
         const { attachment, ...rest } = values
-
         Object.entries(rest)?.forEach(([key, value]: any) => {
             formData.append(key, value)
         })
