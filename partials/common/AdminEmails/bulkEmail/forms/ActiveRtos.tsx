@@ -3,10 +3,8 @@ import { FileUpload } from '@hoc'
 import { useNotification } from '@hooks'
 import { Attachment } from '@partials/common/Notifications'
 import { CommonApi } from '@queries'
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
-
-
 
 export const ActiveRtos = () => {
     const { notification } = useNotification()
@@ -32,22 +30,25 @@ export const ActiveRtos = () => {
     const [sendBulkEmail, resultSendBulkEmail] = CommonApi.Messages.useSendBulkMail()
     const getTemplates = CommonApi.Messages.useAllTemplates()
 
-
-    const templateOptions = getTemplates.data?.length ? getTemplates?.data?.map((template: any) => ({
-        label: template.subject,
-        value: template.id,
-    })) : []
+    const templateOptions = getTemplates.data?.length
+        ? getTemplates?.data?.map((template: any) => ({
+              label: template.subject,
+              value: template.id,
+          }))
+        : []
 
     const findTemplate = (id: any) => {
-        const template = getTemplates?.data?.find((template: any) => template.id === id)
+        const template = getTemplates?.data?.find(
+            (template: any) => template.id === id
+        )
         setTemplateBody(template?.content)
         setTemplateSubject(template?.subject)
     }
     const rtoOptions = rtoResponse.data?.length
         ? rtoResponse?.data?.map((rto: any) => ({
-            label: rto.user.name,
-            value: rto.id,
-        }))
+              label: rto.user.name,
+              value: rto.id,
+          }))
         : []
 
     const getRtosIds = selectAll?.map((rto: any) => rto?.value)
@@ -55,7 +56,6 @@ export const ActiveRtos = () => {
         const rto = rtoResponse?.data?.find((rto: any) => rto.id === rtoId)
         return rto?.user?.id
     })
-
 
     const formMethods = useForm({
         mode: 'all',
@@ -133,7 +133,8 @@ export const ActiveRtos = () => {
             <FormProvider {...formMethods}>
                 <form
                     className="flex flex-col"
-                    onSubmit={formMethods.handleSubmit(onSubmit)}>
+                    onSubmit={formMethods.handleSubmit(onSubmit)}
+                >
                     <div>
                         <Select
                             label={`Select RTO`}
@@ -145,9 +146,13 @@ export const ActiveRtos = () => {
                             }}
                             options={rtoOptions}
                             multi
-                        // loading={courseLoading}
+                            // loading={courseLoading}
                         />
-                        <Checkbox name="rtos" label={'Select all RTOs'} onChange={checkAllRtos} />
+                        <Checkbox
+                            name="rtos"
+                            label={'Select all RTOs'}
+                            onChange={checkAllRtos}
+                        />
                     </div>
 
                     <Card>
@@ -173,12 +178,10 @@ export const ActiveRtos = () => {
                         <div className='mb-4 flex justify-between items-center'>
                             <FileUpload
                                 onChange={(docs: FileList) => {
-                                    setAttachmentFiles(
-                                        (preVal: any) => [
-                                            ...preVal,
-                                            ...docs,
-                                        ]
-                                    )
+                                    setAttachmentFiles((preVal: any) => [
+                                        ...preVal,
+                                        ...docs,
+                                    ])
                                 }}
                                 name={'attachment'}
                                 component={onFileUpload}

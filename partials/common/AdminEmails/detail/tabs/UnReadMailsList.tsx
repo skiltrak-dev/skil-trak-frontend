@@ -1,12 +1,7 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { PulseLoader } from 'react-spinners'
 
-import {
-    EmptyData,
-    LoadingAnimation,
-    NoData,
-    TechnicalError,
-} from '@components'
+import { NoData } from '@components'
 
 // query
 import { CommonApi } from '@queries'
@@ -40,8 +35,6 @@ export const UnReadMailsList = ({
             setAllMails((mails: any) => [...mails, ...data?.data])
         }
     }, [data, isSuccess])
-
-
 
     const fetchMoreData = () => {
         setTimeout(() => {
@@ -90,17 +83,17 @@ export const UnReadMailsList = ({
             >
                 {allMails && allMails?.length > 0
                     ? allMails?.map((message: any) => (
-                        <AllMailsListCard
-                            key={message?.id}
-                            message={message}
-                            selectedMessageId={selectedMessage?.id}
-                            onClick={() => {
-                                setSelectedMessage(message)
-                            }}
-                        />
-                    ))
+                          <AllMailsListCard
+                              key={message?.id}
+                              message={message}
+                              selectedMessageId={selectedMessage?.id}
+                              onClick={() => {
+                                  setSelectedMessage(message)
+                              }}
+                          />
+                      ))
                     : !isError &&
-                    isSuccess && <NoData text={'There is no mails'} />}
+                      isSuccess && <NoData text={'There is no mails'} />}
             </InfiniteScroll>
         </ReceivedMessaging>
     )
