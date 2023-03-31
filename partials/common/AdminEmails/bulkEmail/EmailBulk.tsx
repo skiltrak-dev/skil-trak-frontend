@@ -1,17 +1,11 @@
+import { Card } from '@components'
+import { useState } from 'react'
 import {
-    Button,
-    Card,
-    Checkbox,
-    Select,
-    TextArea,
-    TextInput,
-} from '@components'
-import { FileUpload } from '@hoc'
-import { Attachment } from '@partials/common/Notifications'
-import React, { useState } from 'react'
-import { FormProvider, useForm } from 'react-hook-form'
-import { ActiveRtos, ActiveIndustries, ActiveStudents, BulkEmailCard } from './components'
-import { AuthApi, CommonApi } from '@queries'
+    ActiveIndustries,
+    ActiveRtos,
+    ActiveStudents,
+    BulkEmailCard,
+} from './components'
 type Props = {}
 
 const selectUser = [
@@ -32,7 +26,9 @@ export const EmailBulk = (props: Props) => {
     const [selectedUser, setSelectedUser] = useState<any | null>({
         sendTo: 'Student',
     })
-    const [selectedStudent, setSelectedStudent] = useState<any | null>('All Students')
+    const [selectedStudent, setSelectedStudent] = useState<any | null>(
+        'All Students'
+    )
 
     return (
         <>
@@ -63,11 +59,11 @@ export const EmailBulk = (props: Props) => {
                         />
                     ) : selectedUser?.sendTo === 'RTO' ? (
                         <ActiveRtos />
-                    ) : (<ActiveIndustries />)}
-
+                    ) : (
+                        <ActiveIndustries />
+                    )}
                 </Card>
             </div>
-
         </>
     )
 }

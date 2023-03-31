@@ -3,10 +3,8 @@ import { FileUpload } from '@hoc'
 import { useNotification } from '@hooks'
 import { Attachment } from '@partials/common/Notifications'
 import { CommonApi } from '@queries'
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
-
-
 
 export const ActiveIndustries = () => {
     const { notification } = useNotification()
@@ -33,26 +31,31 @@ export const ActiveIndustries = () => {
 
     const getTemplates = CommonApi.Messages.useAllTemplates()
 
-
-    const templateOptions = getTemplates.data?.length ? getTemplates?.data?.map((template: any) => ({
-        label: template.subject,
-        value: template.id,
-    })) : []
+    const templateOptions = getTemplates.data?.length
+        ? getTemplates?.data?.map((template: any) => ({
+              label: template.subject,
+              value: template.id,
+          }))
+        : []
 
     const findTemplate = (id: any) => {
-        const template = getTemplates?.data?.find((template: any) => template.id === id)
+        const template = getTemplates?.data?.find(
+            (template: any) => template.id === id
+        )
         setTemplateBody(template?.content)
         setTemplateSubject(template?.subject)
     }
     const industryOptions = industriesResponse.data?.length
         ? industriesResponse?.data?.map((rto: any) => ({
-            label: rto.user.name,
-            value: rto.id,
-        }))
+              label: rto.user.name,
+              value: rto.id,
+          }))
         : []
     const getIndustriesIds = selectAll?.map((industry: any) => industry?.value)
     const industriesIds = getIndustriesIds?.map((industryId: any) => {
-        const industry = industriesResponse?.data?.find((industry: any) => industry.id === industryId)
+        const industry = industriesResponse?.data?.find(
+            (industry: any) => industry.id === industryId
+        )
         return industry?.user?.id
     })
 
@@ -133,7 +136,8 @@ export const ActiveIndustries = () => {
             <FormProvider {...formMethods}>
                 <form
                     className="flex flex-col"
-                    onSubmit={formMethods.handleSubmit(onSubmit)}>
+                    onSubmit={formMethods.handleSubmit(onSubmit)}
+                >
                     <div>
                         <Select
                             label={`Select Industry`}
@@ -145,9 +149,13 @@ export const ActiveIndustries = () => {
                             }}
                             options={industryOptions}
                             multi
-                        // loading={courseLoading}
+                            // loading={courseLoading}
                         />
-                        <Checkbox name="industries" label={'Select all Industries'} onChange={checkAllIndustries} />
+                        <Checkbox
+                            name="industries"
+                            label={'Select all Industries'}
+                            onChange={checkAllIndustries}
+                        />
                     </div>
 
                     <Card>
@@ -173,12 +181,10 @@ export const ActiveIndustries = () => {
                         <div className='mb-4 flex justify-between items-center'>
                             <FileUpload
                                 onChange={(docs: FileList) => {
-                                    setAttachmentFiles(
-                                        (preVal: any) => [
-                                            ...preVal,
-                                            ...docs,
-                                        ]
-                                    )
+                                    setAttachmentFiles((preVal: any) => [
+                                        ...preVal,
+                                        ...docs,
+                                    ])
                                 }}
                                 name={'attachment'}
                                 component={onFileUpload}

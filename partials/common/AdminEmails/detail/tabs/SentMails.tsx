@@ -73,17 +73,17 @@ export const SentMails = ({
             >
                 {allMails && allMails?.length > 0
                     ? allMails?.map((message: any) => (
-                        <AllSentMailsListCard
-                            key={message?.id}
-                            message={message}
-                            selectedMessageId={selectedMessage?.id}
-                            onClick={() => {
-                                setSelectedMessage(message)
-                            }}
-                        />
-                    ))
+                          <AllSentMailsListCard
+                              key={message?.id}
+                              message={message}
+                              selectedMessageId={selectedMessage?.id}
+                              onClick={() => {
+                                  setSelectedMessage(message)
+                              }}
+                          />
+                      ))
                     : !isError &&
-                    isSuccess && <NoData text={'There is no mails'} />}
+                      isSuccess && <NoData text={'There is no mails'} />}
                 {isError && (
                     <NoData
                         text={

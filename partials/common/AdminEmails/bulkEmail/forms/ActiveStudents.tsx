@@ -1,6 +1,5 @@
 import {
     Button,
-    Card,
     Checkbox,
     ContentEditor,
     Select,
@@ -8,15 +7,21 @@ import {
     TextArea,
     TextInput,
 } from '@components'
-import React, { useEffect, useState } from 'react'
-import { BulkEmailCard } from '../components/BulkEmailCard'
-import { ToStudentCard } from '../components/ToStudentCard'
-import { FormProvider, useForm } from 'react-hook-form'
-import { Attachment } from '@partials/common/Notifications'
 import { FileUpload } from '@hoc'
-import { CommonApi } from '@queries'
-import { appendFile } from 'fs'
 import { useNotification } from '@hooks'
+import { Attachment } from '@partials/common/Notifications'
+import { CommonApi } from '@queries'
+import { useEffect, useState } from 'react'
+import { FormProvider, useForm } from 'react-hook-form'
+import { ToStudentCard } from '../components/ToStudentCard'
+import { BulkEmailEditor } from '../components'
+import {
+    ContentState,
+    EditorState,
+    convertFromHTML,
+    convertToRaw,
+} from 'draft-js'
+import draftToHtml from 'draftjs-to-html'
 type Props = {
     selectedUser: any
     setSelectedUser: any
@@ -42,6 +47,8 @@ export const ActiveStudents = ({
     const [rtoIds, setRtoIds] = useState<any>([])
     const [courseIds, setCourseIds] = useState<any>([])
 
+    const [templateValue, setTemplateValue] = useState<any>(null)
+
     // Ids
     const getRtoIds = rtoIds.map((rto: any) => rto.value).join(',')
     const getCourseIds = courseIds.map((course: any) => course.value).join(',')
@@ -49,14 +56,15 @@ export const ActiveStudents = ({
         .map((industry: any) => industry.value)
         .join(',')
 
-    const [sendBulkEmail, resultSendBulkEmail] = CommonApi.Messages.useSendBulkMail()
+    const [sendBulkEmail, resultSendBulkEmail] =
+        CommonApi.Messages.useSendBulkMail()
 
     const isWithWorkplace =
         selectedStudent === 'With Workplace'
             ? 1
             : selectedStudent === 'Without Workplace'
-                ? 2
-                : undefined
+            ? 2
+            : undefined
     // rtos list, industries list, courses list
     const rtoResponse = CommonApi.Rtos.useRtosList()
     const industriesResponse = CommonApi.Industries.useIndustriesList()
@@ -78,9 +86,9 @@ export const ActiveStudents = ({
         })
     const studentsOptions = bulkMailStudentsResponse.data?.length
         ? bulkMailStudentsResponse?.data?.map((student: any) => ({
-            label: student?.user?.name,
-            value: student?.id,
-        }))
+              label: student?.user?.name,
+              value: student?.id,
+          }))
         : []
 
     console.log('isWithWorkplace', isWithWorkplace)
@@ -94,33 +102,33 @@ export const ActiveStudents = ({
         }
     }
     // select all students
-    console.log("templateBody", templateSubject)
+    console.log('templateBody', templateSubject)
 
     // Rtos List
 
     const rtoOptions = rtoResponse.data?.length
         ? rtoResponse?.data?.map((rto: any) => ({
-            label: rto?.user?.name,
-            value: rto?.id,
-        }))
+              label: rto?.user?.name,
+              value: rto?.id,
+          }))
         : []
 
     //industries list
 
     const industryOptions = industriesResponse.data?.length
         ? industriesResponse?.data?.map((rto: any) => ({
-            label: rto?.user?.name,
-            value: rto?.id,
-        }))
+              label: rto?.user?.name,
+              value: rto?.id,
+          }))
         : []
 
     // Templates List
     const getTemplates = CommonApi.Messages.useAllTemplates()
     const templateOptions = getTemplates?.data?.length
         ? getTemplates?.data?.map((template: any) => ({
-            label: template?.subject,
-            value: template?.id,
-        }))
+              label: template?.subject,
+              value: template?.id,
+          }))
         : []
 
     const findTemplate = (id: any) => {
@@ -134,9 +142,9 @@ export const ActiveStudents = ({
 
     const coursesOptions = coursesResponse.data?.length
         ? coursesResponse?.data?.map((course: any) => ({
-            label: course?.title,
-            value: course?.id,
-        }))
+              label: course?.title,
+              value: course?.id,
+          }))
         : []
 
     const getStudentIds = selectAll?.map((student: any) => student?.value)
@@ -187,9 +195,23 @@ export const ActiveStudents = ({
         )
     }
     const onSubmit = (data: any) => {
-        // sent the above data to the api using form data 
+        const content = draftToHtml(
+            convertToRaw(data?.message.getCurrentContent())
+        )
+        console.log('datadatadata', data)
+        // sent the above data to the api using form data
         const formData = new FormData()
-        const { attachment, ...rest } = data
+        const {
+            attachment,
+            message,
+            student,
+            rtos,
+            industries,
+            course,
+            students,
+            template,
+            ...rest
+        } = data
         Object.entries(rest)?.forEach(([key, value]: any) => {
             formData.append(key, value)
         })
@@ -199,7 +221,7 @@ export const ActiveStudents = ({
         })
         formData.append('users', studentsIds)
         formData.append('template', templateId)
-        formData.append('message', templateBody)
+        formData.append('message', content)
         formData.append('subject', templateSubject)
 
         sendBulkEmail(formData)
@@ -233,8 +255,27 @@ export const ActiveStudents = ({
                 description: 'Bulk Email Sent Successfully',
             })
             formMethods.reset()
+            setSelectAll(null)
+            setTemplateValue(null)
+            setTemplate(null)
+            setTemplateId(null)
+            setIsChecked(false)
+            setTemplateBody(null)
         }
     }, [resultSendBulkEmail])
+
+    useEffect(() => {
+        if (templateBody) {
+            const blocksFromHTML = convertFromHTML(templateBody)
+            const bodyValue = EditorState.createWithContent(
+                ContentState.createFromBlockArray(
+                    blocksFromHTML.contentBlocks,
+                    blocksFromHTML.entityMap
+                )
+            )
+            formMethods.setValue('message', bodyValue)
+        }
+    }, [templateBody])
     return (
         <>
             <ShowErrorNotifications result={resultSendBulkEmail} />
@@ -341,13 +382,13 @@ export const ActiveStudents = ({
                         onChange={checkAllStudents}
                         defaultChecked={isChecked}
 
-                    // defaultChecked={
-                    //     bulkMailStudentsResponse?.data?.isSuccess &&
-                    //     bulkMailStudentsResponse?.data?.length ===
-                    //         selectAll?.length
-                    //         ? true
-                    //         : false
-                    // }
+                        // defaultChecked={
+                        //     bulkMailStudentsResponse?.data?.isSuccess &&
+                        //     bulkMailStudentsResponse?.data?.length ===
+                        //         selectAll?.length
+                        //         ? true
+                        //         : false
+                        // }
                     />
 
                     {/* <div className="flex justify-between items-center"> */}
@@ -359,17 +400,32 @@ export const ActiveStudents = ({
                         options={templateOptions}
                         placeholder="Select Email Template"
                         // loading={courseLoading}
+                        value={templateValue}
                         onChange={(e: any) => {
-                            setTemplate(e.label)
-                            setTemplateId(e.value)
-                            findTemplate(e.value)
+                            setTemplate(e?.label)
+                            setTemplateId(e?.value)
+                            findTemplate(e?.value)
+                            setTemplateValue(e)
                         }}
                     />
                     {/* <Button text={'All Templates'} /> */}
                     {/* </div> */}
                     <TextInput label={'Subject'} name={'subject'} />
-                    <TextArea rows={10} value={templateBody} label={'Message'} name={'message'} />
-                    {/* <ContentEditor setContent={setTemplateBody} content={templateBody} /> */}
+                    {/* <TextArea
+                        rows={10}
+                        value={templateBody}
+                        label={'Message'}
+                        name={'message'}
+                    /> */}
+                    {/* <ContentEditor
+                        setContent={setTemplateBody}
+                        content={templateBody}
+                    /> */}
+                    <BulkEmailEditor
+                        name={'message'}
+                        label={'Message'}
+                        content={templateBody}
+                    />
                     <div className="mb-4 flex justify-between items-center">
                         <FileUpload
                             onChange={(docs: FileList) => {
@@ -383,7 +439,12 @@ export const ActiveStudents = ({
                             multiple
                             limit={Number(1111111111)}
                         />
-                        <Button disabled={resultSendBulkEmail?.isLoading} loading={resultSendBulkEmail?.isLoading} text={'Send'} submit />
+                        <Button
+                            disabled={resultSendBulkEmail?.isLoading}
+                            loading={resultSendBulkEmail?.isLoading}
+                            text={'Send'}
+                            submit
+                        />
                     </div>
                 </form>
             </FormProvider>
