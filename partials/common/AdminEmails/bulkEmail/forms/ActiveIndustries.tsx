@@ -1,5 +1,6 @@
-import { Button, Card, Checkbox, Select, TextArea, TextInput } from '@components'
+import { Button, Card, Checkbox, Select, ShowErrorNotifications, TextArea, TextInput } from '@components'
 import { FileUpload } from '@hoc'
+import { useNotification } from '@hooks'
 import { Attachment } from '@partials/common/Notifications'
 import { CommonApi } from '@queries'
 import React, { useEffect, useState } from 'react'
@@ -8,9 +9,11 @@ import { FormProvider, useForm } from 'react-hook-form'
 
 
 export const ActiveIndustries = () => {
+    const { notification } = useNotification()
     const [attachmentFiles, setAttachmentFiles] = useState<any>([])
     const [template, setTemplate] = useState<any | null>(null)
     const [templateId, setTemplateId] = useState<any | null>(null)
+    const [templateSubject, setTemplateSubject] = useState<any | null>(null)
     const [templateBody, setTemplateBody] = useState<any | null>(null)
     const [selectAll, setSelectAll] = useState<any | null>(null)
     const [isChecked, setIsChecked] = useState(false)
@@ -26,7 +29,7 @@ export const ActiveIndustries = () => {
     }
     const [storedData, setStoredData] = useState<any>(null)
     const industriesResponse = CommonApi.Industries.useIndustriesList()
-    const [sendBulk, resultSendBulk] = CommonApi.Messages.useSendBulkMail()
+    const [sendBulkEmail, resultSendBulkEmail] = CommonApi.Messages.useSendBulkMail()
 
     const getTemplates = CommonApi.Messages.useAllTemplates()
 
@@ -39,6 +42,7 @@ export const ActiveIndustries = () => {
     const findTemplate = (id: any) => {
         const template = getTemplates?.data?.find((template: any) => template.id === id)
         setTemplateBody(template?.content)
+        setTemplateSubject(template?.subject)
     }
     const industryOptions = industriesResponse.data?.length
         ? industriesResponse?.data?.map((rto: any) => ({
@@ -51,7 +55,7 @@ export const ActiveIndustries = () => {
         const industry = industriesResponse?.data?.find((industry: any) => industry.id === industryId)
         return industry?.user?.id
     })
-    
+
     const formMethods = useForm({
         mode: 'all',
         // resolver: yupResolver(validationSchema),
@@ -88,7 +92,9 @@ export const ActiveIndustries = () => {
         })
         formData.append('users', industriesIds)
         formData.append('template', templateId)
-        sendBulk(formData)
+        formData.append('message', templateBody)
+        formData.append('subject', templateSubject)
+        sendBulkEmail(formData)
     }
 
     useEffect(() => {
@@ -111,8 +117,18 @@ export const ActiveIndustries = () => {
             formMethods.setValue('message', templateBody)
         }
     }, [templateBody])
+    useEffect(() => {
+        if (resultSendBulkEmail.isSuccess) {
+            notification.success({
+                title: 'Bulk Email Sent',
+                description: 'Bulk Email Sent Successfully',
+            })
+            formMethods.reset()
+        }
+    }, [resultSendBulkEmail])
     return (
         <>
+            <ShowErrorNotifications result={resultSendBulkEmail} />
 
             <FormProvider {...formMethods}>
                 <form
@@ -153,7 +169,7 @@ export const ActiveIndustries = () => {
                         {/* <Button text={'All Templates'} /> */}
                         {/* </div> */}
                         <TextInput value={template} label={'Subject'} name={'subject'} />
-                        <TextArea value={templateBody} label={'Message'} name={'message'} />
+                        <TextArea rows={10} value={templateBody} label={'Message'} name={'message'} />
                         <div className='mb-4 flex justify-between items-center'>
                             <FileUpload
                                 onChange={(docs: FileList) => {
@@ -169,7 +185,7 @@ export const ActiveIndustries = () => {
                                 multiple
                                 limit={Number(1111111111)}
                             />
-                            <Button text={'Send'} submit />
+                            <Button disabled={resultSendBulkEmail?.isLoading} loading={resultSendBulkEmail?.isLoading} text={'Send'} submit />
                         </div>
                     </Card>
                 </form>

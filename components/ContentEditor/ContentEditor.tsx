@@ -48,6 +48,7 @@ export const ContentEditor = ({
     const [editorState, setEditorState] = useState<any>(raw)
     const [contentState, setContentState] = useState(EditorState.createEmpty())
     const [contentChange, setContentChange] = useState(false)
+    console.log('content', content)
 
     useEffect(() => {
         const blocksFromHTML = convertFromHTML(`<div>${content}</div>`)
@@ -58,7 +59,7 @@ export const ContentEditor = ({
             )
         )
         setContentState(bodyValue)
-    }, [])
+    }, [content])
 
     useEffect(() => {
         if (setContent) {
