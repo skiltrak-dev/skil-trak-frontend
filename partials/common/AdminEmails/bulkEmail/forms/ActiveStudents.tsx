@@ -2,7 +2,9 @@ import {
     Button,
     Card,
     Checkbox,
+    ContentEditor,
     Select,
+    ShowErrorNotifications,
     TextArea,
     TextInput,
 } from '@components'
@@ -14,6 +16,7 @@ import { Attachment } from '@partials/common/Notifications'
 import { FileUpload } from '@hoc'
 import { CommonApi } from '@queries'
 import { appendFile } from 'fs'
+import { useNotification } from '@hooks'
 type Props = {
     selectedUser: any
     setSelectedUser: any
@@ -27,10 +30,12 @@ export const ActiveStudents = ({
     selectedStudent,
     setSelectedStudent,
 }: Props) => {
+    const { notification } = useNotification()
     const [attachmentFiles, setAttachmentFiles] = useState<any>([])
     const [template, setTemplate] = useState<any | null>(null)
     const [templateId, setTemplateId] = useState<any | null>(null)
     const [templateBody, setTemplateBody] = useState<any | null>(null)
+    const [templateSubject, setTemplateSubject] = useState<any | null>(null)
     const [selectAll, setSelectAll] = useState<any | null>(null)
     const [isChecked, setIsChecked] = useState(false)
     const [industryIds, setIndustryIds] = useState<any>([])
@@ -89,7 +94,7 @@ export const ActiveStudents = ({
         }
     }
     // select all students
-
+    console.log("templateBody", templateSubject)
 
     // Rtos List
 
@@ -123,6 +128,7 @@ export const ActiveStudents = ({
             (template: any) => template.id === id
         )
         setTemplateBody(template?.content)
+        setTemplateSubject(template?.subject)
     }
     // Courses List
 
@@ -193,6 +199,8 @@ export const ActiveStudents = ({
         })
         formData.append('users', studentsIds)
         formData.append('template', templateId)
+        formData.append('message', templateBody)
+        formData.append('subject', templateSubject)
 
         sendBulkEmail(formData)
         // sendBulk({ users: studentsIds, template: templateId })
@@ -217,8 +225,19 @@ export const ActiveStudents = ({
             formMethods.setValue('attachment', attachmentFiles)
         }
     }, [attachmentFiles])
+
+    useEffect(() => {
+        if (resultSendBulkEmail.isSuccess) {
+            notification.success({
+                title: 'Bulk Email Sent',
+                description: 'Bulk Email Sent Successfully',
+            })
+            formMethods.reset()
+        }
+    }, [resultSendBulkEmail])
     return (
         <>
+            <ShowErrorNotifications result={resultSendBulkEmail} />
             <FormProvider {...formMethods}>
                 <form
                     className="flex flex-col"
@@ -349,7 +368,8 @@ export const ActiveStudents = ({
                     {/* <Button text={'All Templates'} /> */}
                     {/* </div> */}
                     <TextInput label={'Subject'} name={'subject'} />
-                    <TextArea label={'Message'} name={'message'} />
+                    <TextArea rows={10} value={templateBody} label={'Message'} name={'message'} />
+                    {/* <ContentEditor setContent={setTemplateBody} content={templateBody} /> */}
                     <div className="mb-4 flex justify-between items-center">
                         <FileUpload
                             onChange={(docs: FileList) => {
@@ -363,7 +383,7 @@ export const ActiveStudents = ({
                             multiple
                             limit={Number(1111111111)}
                         />
-                        <Button text={'Send'} submit />
+                        <Button disabled={resultSendBulkEmail?.isLoading} loading={resultSendBulkEmail?.isLoading} text={'Send'} submit />
                     </div>
                 </form>
             </FormProvider>
