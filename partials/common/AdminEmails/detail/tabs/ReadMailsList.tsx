@@ -1,10 +1,5 @@
-import React, { useState, useEffect } from 'react'
-import {
-    EmptyData,
-    LoadingAnimation,
-    NoData,
-    TechnicalError,
-} from '@components'
+import { NoData } from '@components'
+import { useEffect, useState } from 'react'
 import InfiniteScroll from 'react-infinite-scroller'
 
 // query
@@ -81,17 +76,17 @@ export const ReadMailsList = ({
             >
                 {allMails && allMails?.length > 0
                     ? allMails?.map((message: any) => (
-                        <AllMailsListCard
-                            key={message?.id}
-                            message={message}
-                            selectedMessageId={selectedMessage?.id}
-                            onClick={() => {
-                                setSelectedMessage(message)
-                            }}
-                        />
-                    ))
+                          <AllMailsListCard
+                              key={message?.id}
+                              message={message}
+                              selectedMessageId={selectedMessage?.id}
+                              onClick={() => {
+                                  setSelectedMessage(message)
+                              }}
+                          />
+                      ))
                     : !isError &&
-                    isSuccess && <NoData text={'There is no mails'} />}
+                      isSuccess && <NoData text={'There is no mails'} />}
             </InfiniteScroll>
         </ReceivedMessaging>
     )
