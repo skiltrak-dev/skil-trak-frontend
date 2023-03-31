@@ -45,7 +45,11 @@ export const NotificationDropDown = ({
         >
             <div className="py-2 px-4 border-b flex justify-between items-center">
                 <Typography variant="label">Your Messages</Typography>
-                <Link legacyBehavior href={`/portals/${role(getRole?.role)}/notifications/all-notifications`}>
+                <Link legacyBehavior href={(
+                                getRole?.role === 'admin'
+                                    ? `/portals/admin/all-notifications`
+                                    : `/portals/${role(getRole?.role)}/notifications/all-notifications`
+                            )}>
                     <a className="text-sm text-primary font-semibold cursor-pointer">
                         View All
                     </a>

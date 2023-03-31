@@ -30,7 +30,8 @@ export const ReadMail = ({
             skip: itemPerPage * page - itemPerPage,
             limit: itemPerPage,
         })
-
+        // const [seenMessage, resultSeenMessage] = CommonApi.Messages.useIsSeen()
+        // console.log('resultSeenMessage::::::::::::', resultSeenMessage)
     useEffect(() => {
         if (isSuccess && data?.data && data?.data?.length > 0) {
             setAllMails((mails: any) => [...mails, ...data?.data])
@@ -50,6 +51,12 @@ export const ReadMail = ({
         }, 1500)
         // setLimit(40)
     }
+    // useEffect(() => {
+    //     if (selectedMessage?.id) {
+    //         seenMessage(selectedMessage?.id,)
+    //     }
+    // }, [selectedMessage?.id])
+
     return (
         <Messaging selectedMessage={selectedMessage}>
             {isError && (

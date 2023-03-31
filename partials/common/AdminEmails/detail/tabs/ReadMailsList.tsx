@@ -1,12 +1,18 @@
-// queries
-import { NoData } from '@components'
-import { CommonApi } from '@queries'
-import { useEffect, useState } from 'react'
+import React, { useState, useEffect } from 'react'
+import {
+    EmptyData,
+    LoadingAnimation,
+    NoData,
+    TechnicalError,
+} from '@components'
 import InfiniteScroll from 'react-infinite-scroller'
-import { PulseLoader } from 'react-spinners'
-import { MailListCard, Messaging } from '../../components'
 
-export const AllMails = ({
+// query
+import { CommonApi } from '@queries'
+import { PulseLoader } from 'react-spinners'
+import { AllMailsListCard, ReceivedMessaging } from '../../components'
+
+export const ReadMailsList = ({
     setSelectedMessage,
     selectedMessage,
 }: {
@@ -16,15 +22,15 @@ export const AllMails = ({
     const [itemPerPage, setItemPerPage] = useState(20)
     const [page, setPage] = useState(1)
     const [hasNext, setHasNext] = useState(true)
-
     const [allMails, setAllMails] = useState<any>([])
 
     const { data, isLoading, isError, isFetching, isSuccess } =
-        CommonApi.Messages.useAllConversations({
+        CommonApi.Messages.useMailsByStatus({
+            // search: `isSeen:${true}`,
+            isSeen: true,
             skip: itemPerPage * page - itemPerPage,
             limit: itemPerPage,
         })
-
     useEffect(() => {
         if (data?.pagination && isSuccess) {
             setHasNext(data?.pagination?.hasNext)
@@ -33,16 +39,9 @@ export const AllMails = ({
             setHasNext(false)
         }
     }, [data, isSuccess, isError])
-
     useEffect(() => {
-        if (
-            !isFetching &&
-            !isLoading &&
-            isSuccess &&
-            data?.data &&
-            data?.data?.length > 0
-        ) {
-            setAllMails([...allMails, ...data?.data])
+        if (isSuccess && data?.data && data?.data?.length > 0) {
+            setAllMails((mails: any) => [...mails, ...data?.data])
         }
     }, [data, isSuccess])
 
@@ -59,8 +58,16 @@ export const AllMails = ({
         }, 1500)
         // setLimit(40)
     }
+
     return (
-        <Messaging selectedMessage={selectedMessage}>
+        <ReceivedMessaging selectedMessage={selectedMessage}>
+            {isError && (
+                <NoData
+                    text={
+                        'There is some network issue, try to refresh the browser'
+                    }
+                />
+            )}
             <InfiniteScroll
                 pageStart={0}
                 loadMore={fetchMoreData}
@@ -74,7 +81,7 @@ export const AllMails = ({
             >
                 {allMails && allMails?.length > 0
                     ? allMails?.map((message: any) => (
-                        <MailListCard
+                        <AllMailsListCard
                             key={message?.id}
                             message={message}
                             selectedMessageId={selectedMessage?.id}
@@ -85,14 +92,7 @@ export const AllMails = ({
                     ))
                     : !isError &&
                     isSuccess && <NoData text={'There is no mails'} />}
-                {isError && (
-                    <NoData
-                        text={
-                            'There is some network issue,Data cant load, try to refresh the browser'
-                        }
-                    />
-                )}
             </InfiniteScroll>
-        </Messaging>
+        </ReceivedMessaging>
     )
 }
