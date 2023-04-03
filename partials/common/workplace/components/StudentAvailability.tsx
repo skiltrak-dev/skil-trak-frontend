@@ -28,7 +28,10 @@ export const StudentAvailability = ({ availability }: any) => {
             saturday: 6,
             sunday: 7,
         }
-        const studentAvailability = [...availability]
+        const studentAvailability =
+            availability && availability?.length > 0 ? [...availability] : []
+
+        console.log('availability', availability)
 
         const availabilityDays = studentAvailability?.map((d) => d.name)
         const filteredDays = weekdays.filter(

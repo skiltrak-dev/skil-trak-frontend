@@ -17,10 +17,12 @@ export const RtoCellInfo = ({ rto, short }: { rto: Rto; short?: boolean }) => {
                 className="flex items-center gap-x-2"
             >
                 <div className="shadow-inner-image rounded-full">
-                    <InitialAvatar
-                        name={rto?.user?.name}
-                        imageUrl={rto?.user?.avatar}
-                    />
+                    {rto?.user?.name && (
+                        <InitialAvatar
+                            name={rto?.user?.name}
+                            imageUrl={rto?.user?.avatar}
+                        />
+                    )}
                 </div>
                 <div>
                     <p className={`${short ? 'font-medium' : 'font-semibold'}`}>

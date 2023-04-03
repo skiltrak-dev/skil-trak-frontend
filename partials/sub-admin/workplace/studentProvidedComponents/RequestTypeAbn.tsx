@@ -22,8 +22,9 @@ import {
     TerminateWorkplaceModal,
 } from '../modals'
 import { UserStatus } from '@types'
+import { StudentProvidedForwardModal } from '../modals/StudentProvidedForwardModal'
 
-export const RequestType = ({
+export const RequestTypeAbn = ({
     appliedIndustry,
     workplace,
 }: {
@@ -100,6 +101,16 @@ export const RequestType = ({
         }
     }, [interViewResult])
 
+    const onForwardClicked = (industry: any) => {
+        setModal(
+            <StudentProvidedForwardModal
+                industry={industry}
+                workplaceId={workplace?.id}
+                onCancel={onModalCancelClicked}
+            />
+        )
+    }
+
     const requestTypeActions = [
         {
             primaryText: 'Request Sent',
@@ -116,14 +127,17 @@ export const RequestType = ({
             status: 'caseOfficerAssigned',
         },
         {
-            primaryText: 'Interview',
-            secondaryText: 'with Case Officer',
-            color: 'text-primary-light',
+            primaryText: 'Waiting',
+            secondaryText: 'for Workplace Response',
+            color: 'text-info-light',
             onClick: (isCleared: any) => {
-                isCleared(true)
-                interView(appliedIndustry?.id)
+                console.log('Outer', appliedIndustry)
+                if (workplace?.assignedTo) {
+                    onForwardClicked(appliedIndustry)
+                    isCleared(true)
+                }
             },
-            status: 'interview',
+            status: 'awaitingWorkplaceResponse',
         },
         {
             primaryText: 'Agreement & Eligibility ',
@@ -133,9 +147,9 @@ export const RequestType = ({
                 isCleared(false)
                 if (workplace?.currentStatus === 'awaitingWorkplaceResponse') {
                     notification.info({
-                        title: 'Approve or reject the Request',
+                        title: 'Upload Agrement',
                         description:
-                            'Before uploading agreement you must have to Approve the workplace request',
+                            'Upload Agrement on clicking sign agreement button',
                     })
                     isCleared(false)
                 } else {
@@ -156,17 +170,17 @@ export const RequestType = ({
             onClick: (isCleared: any) => {
                 if (workplace?.currentStatus === 'awaitingAgreementSigned') {
                     notification.info({
-                        title: 'Agreement Sign',
+                        title: 'Upload Agrement',
                         description:
-                            'Now You can upload the agreement file on th workplace which is provided by student or you can request to student to upload the agreement file',
+                            'Upload Agrement on clicking sign agreement button',
                     })
                     isCleared(false)
                 } else {
                     isCleared(false)
-                    notification.error({
-                        title: 'Approve or reject',
+                    notification.info({
+                        title: 'Upload Agrement',
                         description:
-                            'You must have to Approve the workplace request',
+                            'Upload Agrement on clicking sign agreement button',
                     })
                 }
             },
@@ -177,14 +191,18 @@ export const RequestType = ({
             secondaryText: 'Placement Started',
             color: 'text-success-dark',
             onClick: (isCleared: any) => {
-                if (workplace?.currentStatus === 'AgreementSigned') {
+                if (
+                    workplace?.currentStatus === 'awaitingWorkplaceResponse' ||
+                    workplace?.currentStatus === 'AgreementSigned' ||
+                    workplace?.currentStatus === 'awaitingAgreementSigned'
+                ) {
                     onPlacementStartedClicked(Number(appliedIndustry?.id))
                     isCleared(true)
                 } else {
                     notification.error({
-                        title: 'First Approve the workplace',
+                        title: 'Forward the request to Industry',
                         description:
-                            'Placement cannot start without approving the workplace',
+                            'You Must have to Forward the request to Industry before start placement',
                     })
                     isCleared(false)
                 }

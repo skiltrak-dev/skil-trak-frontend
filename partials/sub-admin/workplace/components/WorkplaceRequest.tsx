@@ -3,7 +3,14 @@ import moment from 'moment'
 // Icons
 import { RiBook2Fill } from 'react-icons/ri'
 // components
-import { Card, Typography, Button, ActionButton, Select } from '@components'
+import {
+    Card,
+    Typography,
+    Button,
+    ActionButton,
+    Select,
+    ShowErrorNotifications,
+} from '@components'
 
 // utils
 import { ellipsisText, userStatus } from '@utils'
@@ -79,6 +86,7 @@ export const WorkplaceRequest = ({ workplace }: any) => {
             : []
     return (
         <Card noPadding>
+            <ShowErrorNotifications result={cancelWorkplaceResult} />
             <div
                 className={`w-full h-full p-4 rounded-md shadow-lg ${
                     appliedIndustry?.isCompleted ? 'bg-gray-50' : ''

@@ -120,7 +120,12 @@ const RTOs: NextPageWithLayout = () => {
                             }}
                         >
                             <div className="shadow-inner-image rounded-full">
-                                <InitialAvatar name={name} imageUrl={avatar} />
+                                {name && (
+                                    <InitialAvatar
+                                        name={name}
+                                        imageUrl={avatar}
+                                    />
+                                )}
                             </div>
                             <div>
                                 <p className={'font-semibold'}>{name}</p>

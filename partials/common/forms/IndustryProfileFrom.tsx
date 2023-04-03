@@ -483,6 +483,7 @@ export const IndustryProfileFrom = ({
                                         validationIcons
                                     />
                                 </div>
+
                                 <div className="w-full md:w-1/2">
                                     <RadioGroup
                                         name={'isPartner'}
@@ -503,6 +504,10 @@ export const IndustryProfileFrom = ({
                                             },
                                         ]}
                                         onChange={(e: any) => {
+                                            console.log(
+                                                'e,e,e,',
+                                                e.target.value
+                                            )
                                             setIsPartner(
                                                 e?.target?.value === 'yes'
                                                     ? true
