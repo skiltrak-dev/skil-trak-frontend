@@ -25,6 +25,7 @@ export const AllMails = ({
             limit: itemPerPage,
         })
 
+    
     useEffect(() => {
         if (data?.pagination && isSuccess) {
             setHasNext(data?.pagination?.hasNext)
