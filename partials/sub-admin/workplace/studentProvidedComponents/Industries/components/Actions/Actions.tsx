@@ -86,6 +86,11 @@ export const Actions = ({
         )
     }
 
+    console.log(
+        'appliedIndustryappliedIndustry',
+        appliedIndustry?.industry?.user?.id
+    )
+
     return (
         <div className="mt-1.5 mb-2.5">
             {modal && modal}
@@ -116,6 +121,7 @@ export const Actions = ({
                     <Button
                         text={'Approve Industry'}
                         onClick={() => {
+                            setActionStatus(userStatus.APPROVED)
                             if (workplace?.assignedTo) {
                                 changeCustomIndustryStatus({
                                     industryId:
@@ -138,9 +144,11 @@ export const Actions = ({
                         text={'Reject Industry'}
                         variant={'dark'}
                         onClick={() => {
+                            setActionStatus(userStatus.REJECTED)
                             if (workplace?.assignedTo) {
                                 changeCustomIndustryStatus({
-                                    id: appliedIndustry?.industry?.user?.id,
+                                    industryId:
+                                        appliedIndustry?.industry?.user?.id,
                                     workplaceId,
                                     status: userStatus.REJECTED,
                                 })

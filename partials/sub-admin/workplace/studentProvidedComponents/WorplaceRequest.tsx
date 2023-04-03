@@ -10,6 +10,7 @@ import {
     Button,
     ActionButton,
     InitialAvatar,
+    ShowErrorNotifications,
 } from '@components'
 
 // utils
@@ -31,6 +32,7 @@ import {
 } from '../components'
 import { Industries } from './Industries'
 import { RequestType } from './RequestType'
+import { RequestTypeAbn } from './RequestTypeAbn'
 
 export const WorkplaceRequest = ({ workplace }: any) => {
     const [appliedIndustry, setAppliedIndustry] = useState<any | null>(null)
@@ -81,6 +83,7 @@ export const WorkplaceRequest = ({ workplace }: any) => {
 
     return (
         <Card noPadding>
+            <ShowErrorNotifications result={cancelWorkplaceResult} />
             <div
                 className={`w-full h-full p-4 rounded-md shadow-lg ${
                     appliedIndustry?.isCompleted ? 'bg-gray-50' : ''
@@ -137,10 +140,17 @@ export const WorkplaceRequest = ({ workplace }: any) => {
                     </div>
 
                     {/* Request Type Selection */}
-                    <RequestType
-                        appliedIndustry={appliedIndustry}
-                        workplace={workplace}
-                    />
+                    {appliedIndustry?.studentProvidedWorkplace ? (
+                        <RequestType
+                            appliedIndustry={appliedIndustry}
+                            workplace={workplace}
+                        />
+                    ) : (
+                        <RequestTypeAbn
+                            appliedIndustry={appliedIndustry}
+                            workplace={workplace}
+                        />
+                    )}
                 </div>
 
                 {/* Student Small Details */}
@@ -182,7 +192,7 @@ export const WorkplaceRequest = ({ workplace }: any) => {
                                         variant={'error'}
                                         onClick={async () => {
                                             await cancelWorkplace(
-                                                Number(appliedIndustry?.id)
+                                                Number(workplace?.id)
                                             )
                                         }}
                                         loading={

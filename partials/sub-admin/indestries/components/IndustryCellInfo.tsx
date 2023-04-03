@@ -26,10 +26,12 @@ export const IndustryCellInfo = ({
                     setLink('subadmin-industries', router)
                 }}
             >
-                <InitialAvatar
-                    name={industry?.user?.name}
-                    imageUrl={industry?.user?.avatar}
-                />
+                {industry?.user?.name && (
+                    <InitialAvatar
+                        name={industry?.user?.name}
+                        imageUrl={industry?.user?.avatar}
+                    />
+                )}
                 <div>
                     <div className="flex items-center gap-x-1">
                         <p className="font-semibold">{industry?.user?.name}</p>

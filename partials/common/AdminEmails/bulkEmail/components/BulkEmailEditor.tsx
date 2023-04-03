@@ -29,7 +29,6 @@ export const BulkEmailEditor = ({
 }) => {
     const methods = useFormContext()
 
-    console.log('contentcontentcontent', content)
 
     return (
         <div>
