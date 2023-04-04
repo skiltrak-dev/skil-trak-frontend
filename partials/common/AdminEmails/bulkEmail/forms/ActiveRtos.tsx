@@ -59,7 +59,7 @@ export const ActiveRtos = () => {
     }
     const rtoOptions = rtoResponse.data?.length
         ? rtoResponse?.data?.map((rto: any) => ({
-            label: rto.user.name,
+            label: `${rto.user.name} ${rto?.rtoCode}`,
             value: rto.id,
         }))
         : []

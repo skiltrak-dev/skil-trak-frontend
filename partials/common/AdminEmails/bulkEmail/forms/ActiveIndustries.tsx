@@ -59,9 +59,9 @@ export const ActiveIndustries = () => {
         setTemplateSubject(template?.subject)
     }
     const industryOptions = industriesResponse.data?.length
-        ? industriesResponse?.data?.map((rto: any) => ({
-            label: rto.user.name,
-            value: rto.id,
+        ? industriesResponse?.data?.map((industry: any) => ({
+            label: `${industry?.user?.name} ${industry?.abn}`,
+            value: industry?.id,
         }))
         : []
     const getIndustriesIds = selectAll?.map((industry: any) => industry?.value)
