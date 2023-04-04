@@ -293,6 +293,7 @@ export const StudentProfile = ({ noTitle }: { noTitle?: boolean }) => {
                             <div className="flex items-center gap-x-1">
                                 <div className="pl-4 flex items-center gap-x-5">
                                     <UserCreatedAt
+                                        label
                                         createdAt={data?.createdAt}
                                     />
                                     <StudentTimer
