@@ -286,6 +286,7 @@ export const RequestType = ({
     }, [appliedIndustry])
 
     const isLoading = interViewResult.isLoading
+
     return (
         <div className="relative">
             {modal && modal}
@@ -302,8 +303,8 @@ export const RequestType = ({
                         if (workplace?.assignedTo) {
                             if (appliedIndustry) {
                                 if (
-                                    !appliedIndustry?.terminated &&
-                                    !appliedIndustry?.isCompleted &&
+                                    !appliedIndustry?.terminated ||
+                                    !appliedIndustry?.isCompleted ||
                                     !appliedIndustry?.cancelled
                                 ) {
                                     setVisibleRequestType(!visibleRequestType)

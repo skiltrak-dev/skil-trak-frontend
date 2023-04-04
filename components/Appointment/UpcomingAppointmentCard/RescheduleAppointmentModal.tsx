@@ -68,8 +68,6 @@ export const RescheduleAppointmentModal = ({
         })
     }
 
-    console.log('selectedDate', selectedTime)
-
     return (
         <>
             <ShowErrorNotifications result={rescheduleAppointmentResult} />

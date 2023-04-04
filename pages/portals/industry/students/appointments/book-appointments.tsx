@@ -23,7 +23,6 @@ type Props = {}
 const BookAppointment: NextPageWithLayout = (props: Props) => {
     const router = useRouter()
     const { data, isSuccess, isLoading } = useIndustryProfileQuery()
-    console.log('data', data?.courses)
 
     const coursesOptions =
         data?.courses && data?.courses?.length > 0

@@ -91,7 +91,6 @@ export const ActiveStudents = ({
           }))
         : []
 
-    console.log('isWithWorkplace', isWithWorkplace)
     const checkAllStudents = () => {
         if (isChecked) {
             setSelectAll(null)
@@ -102,7 +101,6 @@ export const ActiveStudents = ({
         }
     }
     // select all students
-    console.log('templateBody', templateSubject)
 
     // Rtos List
 
@@ -202,7 +200,6 @@ export const ActiveStudents = ({
                 convertToRaw(data?.message?.getCurrentContent())
             )
         }
-        console.log('datadatadata', data)
         // sent the above data to the api using form data
         const formData = new FormData()
         const {

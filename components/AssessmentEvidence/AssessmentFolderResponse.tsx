@@ -146,7 +146,6 @@ export const AssessmentResponse = ({
             }
         }
     }, [getAssessmentResponse, commentType])
-    console.log('getAssessmentResponse', getAssessmentResponse)
 
     useEffect(() => {
         if (addCommentResult.isSuccess) {

@@ -201,6 +201,7 @@ export const {
     useSubAdminSettingMutation,
 
     // --- INDUSTRIES --- //
+    useGetSubadminIndustriesCountQuery,
     useGetSubAdminIndustriesQuery,
     useGetFavouriteIndustriesQuery,
     useGetSubAdminIndustryStudentsQuery,

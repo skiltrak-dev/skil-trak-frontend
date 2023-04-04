@@ -10,6 +10,7 @@ import {
     Typography,
     TableActionOption,
     StudentStatusProgressCell,
+    UserCreatedAt,
 } from '@components'
 import { PageHeading } from '@components/headings'
 import { ColumnDef } from '@tanstack/react-table'
@@ -182,6 +183,13 @@ export const FilteredStudents = ({
                         {info.row.original?.user?.status}
                     </span>
                 </Typography>
+            ),
+        },
+        {
+            accessorKey: 'createdAt',
+            header: () => <span>Created At</span>,
+            cell: ({ row }: any) => (
+                <UserCreatedAt createdAt={row.original?.createdAt} />
             ),
         },
         {

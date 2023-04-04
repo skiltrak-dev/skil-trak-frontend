@@ -92,7 +92,6 @@ export const Course = ({
                             <TextInput
                                 label={'Start Date'}
                                 type={'date'}
-                                min={getDate()}
                                 name={'startDate'}
                                 onChange={(e: any) => {
                                     setDuration({
