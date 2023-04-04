@@ -6,23 +6,23 @@ export const UserCreatedAt = ({
     createdAt,
     label,
 }: {
-    createdAt: Date
+    createdAt: Date | undefined
     label?: boolean
 }) => {
     return (
         <div>
             {label && (
-                <Typography variant={'label'} color={'text-gray-800'}>
-                    Created At
+                <Typography variant={'small'} color={'text-gray-800'}>
+                    <span className="font-semibold">Created At</span>
                 </Typography>
             )}
-            <Typography variant={'small'} color={'text-gray-600'}>
-                <span className="font-semibold whitespace-pre">
+            <Typography variant={'small'} color={'text-gray-500'}>
+                <span className="whitespace-pre">
                     {moment(createdAt).format('Do MMM YYYY')}
                 </span>
             </Typography>
-            <Typography variant={'small'} color={'text-gray-600'}>
-                <span className="font-semibold whitespace-pre">
+            <Typography variant={'small'} color={'text-gray-500'}>
+                <span className="whitespace-pre">
                     {moment(createdAt).format('hh:mm:ss a')}
                 </span>
             </Typography>

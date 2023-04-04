@@ -34,6 +34,8 @@ export const MyWorkplace = ({
     const [industry, setIndustry] = useState<any>({})
 
     const workplace = useGetSubAdminStudentWorkplaceQuery(id, { skip: !id })
+
+    
     const contextBar = useContextBar()
 
     useEffect(() => {

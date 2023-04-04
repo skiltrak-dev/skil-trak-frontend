@@ -220,6 +220,7 @@ export const ApprovedStudent = () => {
                     <StudentStatusProgressCell step={studentStatus} />
                 ) : (
                     <ProgressCell
+                        studentId={row.original?.id}
                         step={steps > 14 ? 14 : steps < 1 ? 1 : steps}
                     />
                 )
