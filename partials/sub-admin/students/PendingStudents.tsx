@@ -14,6 +14,7 @@ import {
     Table,
     TableAction,
     TableActionOption,
+    UserCreatedAt,
 } from '@components'
 import { StudentCellInfo } from './components'
 
@@ -137,6 +138,13 @@ export const PendingStudents = () => {
             accessorKey: 'sectors',
             header: () => <span>Sectors</span>,
             cell: ({ row }: any) => <SectorCell student={row.original} />,
+        },
+        {
+            accessorKey: 'createdAt',
+            header: () => <span>Created At</span>,
+            cell: ({ row }: any) => (
+                <UserCreatedAt createdAt={row.original?.createdAt} />
+            ),
         },
         {
             header: () => 'Action',

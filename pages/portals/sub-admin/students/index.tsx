@@ -87,15 +87,15 @@ const Students: NextPageWithLayout = (props: Props) => {
         }
     )
 
-    useEffect(() => {
-        setContent(
-            <>
-                <Button variant={'dark'} text={'My Schedule'} />
-                <SidebarCalendar />
-                <RtoContextBarData />
-            </>
-        )
-    }, [setContent])
+    // useEffect(() => {
+    //     setContent(
+    //         <>
+    //             <Button variant={'dark'} text={'My Schedule'} />
+    //             <SidebarCalendar />
+    //             <RtoContextBarData />
+    //         </>
+    //     )
+    // }, [setContent])
 
     const studentCount = getCountData(count?.data)
 

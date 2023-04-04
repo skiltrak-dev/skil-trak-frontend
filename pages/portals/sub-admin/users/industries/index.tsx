@@ -20,12 +20,19 @@ import { useContextBar } from '@hooks'
 
 import {
     AllIndustries,
+    ArchivedIndustries,
+    BlockedIndustries,
     FavoriteIndustries,
     FilteredIndustry,
+    PendingIndustries,
+    RejectedIndustries,
 } from '@partials/sub-admin/indestries'
 import { checkFilteredDataLength } from '@utils'
 //query
-import { useGetSubAdminIndustriesQuery } from '@queries'
+import {
+    useGetSubAdminIndustriesQuery,
+    useGetSubadminIndustriesCountQuery,
+} from '@queries'
 
 type Props = {}
 const filterKeys = ['name', 'email', 'phone', 'address', 'abn', 'courseId']
@@ -45,26 +52,72 @@ const Industries: NextPageWithLayout = (props: Props) => {
         skip: itemPerPage * page - itemPerPage,
         limit: itemPerPage,
     })
-    useEffect(() => {
-        setContent(
-            <>
-                <Button variant={'dark'} text={'My Schedule'} />
-                <SidebarCalendar />
-                <RtoContextBarData />
-            </>
-        )
-    }, [setContent])
+
+    const count = useGetSubadminIndustriesCountQuery()
+    // useEffect(() => {
+    //     setContent(
+    //         <>
+    //             <Button variant={'dark'} text={'My Schedule'} />
+    //             <SidebarCalendar />
+    //             <RtoContextBarData />
+    //         </>
+    //     )
+    // }, [setContent])
 
     const tabs: TabProps[] = [
+        {
+            label: 'Pending',
+            href: { pathname: 'industries', query: { tab: 'pending' } },
+            element: <PendingIndustries />,
+            badge: {
+                text: count.data?.pending,
+                loading: count.isLoading,
+            },
+        },
         {
             label: 'All',
             href: { pathname: 'industries', query: { tab: 'all' } },
             element: <AllIndustries />,
+            badge: {
+                text: count.data?.approved,
+                loading: count.isLoading,
+            },
         },
         {
             label: 'Favourite Industries',
             href: { pathname: 'industries', query: { tab: 'favorite' } },
             element: <FavoriteIndustries />,
+            badge: {
+                text: count.data?.favorite,
+                loading: count.isLoading,
+            },
+        },
+        {
+            label: 'Rejected',
+            href: { pathname: 'industries', query: { tab: 'rejected' } },
+            element: <RejectedIndustries />,
+            badge: {
+                text: count.data?.rejected,
+                loading: count.isLoading,
+            },
+        },
+        {
+            label: 'Blocked',
+            href: { pathname: 'industries', query: { tab: 'blocked' } },
+            element: <BlockedIndustries />,
+            badge: {
+                text: count.data?.blocked,
+                loading: count.isLoading,
+            },
+        },
+        {
+            label: 'Archived',
+            href: { pathname: 'industries', query: { tab: 'archived' } },
+            element: <ArchivedIndustries />,
+            badge: {
+                text: count.data?.archived,
+                loading: count.isLoading,
+            },
         },
     ]
     const filteredDataLength = checkFilteredDataLength(filter)

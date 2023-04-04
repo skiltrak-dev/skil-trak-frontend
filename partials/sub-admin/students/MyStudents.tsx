@@ -16,6 +16,7 @@ import {
     EmptyData,
     InitialAvatar,
     PlacementTableCell,
+    UserCreatedAt,
 } from '@components'
 import { StudentCellInfo } from './components'
 
@@ -158,6 +159,13 @@ export const MyStudents = () => {
                     />
                 )
             },
+        },
+        {
+            accessorKey: 'createdAt',
+            header: () => <span>Created At</span>,
+            cell: ({ row }: any) => (
+                <UserCreatedAt createdAt={row.original?.createdAt} />
+            ),
         },
         {
             header: () => 'Action',

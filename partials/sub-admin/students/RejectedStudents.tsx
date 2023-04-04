@@ -15,6 +15,7 @@ import {
     TableAction,
     TableActionOption,
     Typography,
+    UserCreatedAt,
 } from '@components'
 import { StudentCellInfo } from './components'
 
@@ -178,6 +179,13 @@ export const RejectedStudents = () => {
                     />
                 )
             },
+        },
+        {
+            accessorKey: 'createdAt',
+            header: () => <span>Created At</span>,
+            cell: ({ row }: any) => (
+                <UserCreatedAt createdAt={row.original?.createdAt} />
+            ),
         },
         {
             header: () => 'Action',
