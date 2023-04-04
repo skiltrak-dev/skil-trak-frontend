@@ -63,8 +63,8 @@ export const ActiveStudents = ({
         selectedStudent === 'With Workplace'
             ? 1
             : selectedStudent === 'Without Workplace'
-            ? 2
-            : undefined
+                ? 2
+                : undefined
     // rtos list, industries list, courses list
     const rtoResponse = CommonApi.Rtos.useRtosList()
     const industriesResponse = CommonApi.Industries.useIndustriesList()
@@ -84,11 +84,12 @@ export const ActiveStudents = ({
             industries: getIndustriesIds || undefined,
             workplace: isWithWorkplace,
         })
+    // console.log("bulkMailStudentsResponse", bulkMailStudentsResponse?.data)
     const studentsOptions = bulkMailStudentsResponse.data?.length
         ? bulkMailStudentsResponse?.data?.map((student: any) => ({
-              label: student?.user?.name,
-              value: student?.id,
-          }))
+            label: `${student?.user?.name} ${student?.studentId}`,
+            value: student?.id,
+        }))
         : []
 
     const checkAllStudents = () => {
@@ -106,27 +107,27 @@ export const ActiveStudents = ({
 
     const rtoOptions = rtoResponse.data?.length
         ? rtoResponse?.data?.map((rto: any) => ({
-              label: rto?.user?.name,
-              value: rto?.id,
-          }))
+            label: rto?.user?.name,
+            value: rto?.id,
+        }))
         : []
 
     //industries list
 
     const industryOptions = industriesResponse.data?.length
         ? industriesResponse?.data?.map((rto: any) => ({
-              label: rto?.user?.name,
-              value: rto?.id,
-          }))
+            label: rto?.user?.name,
+            value: rto?.id,
+        }))
         : []
 
     // Templates List
     const getTemplates = CommonApi.Messages.useAllTemplates()
     const templateOptions = getTemplates?.data?.length
         ? getTemplates?.data?.map((template: any) => ({
-              label: template?.subject,
-              value: template?.id,
-          }))
+            label: template?.subject,
+            value: template?.id,
+        }))
         : []
 
     const findTemplate = (id: any) => {
@@ -140,9 +141,9 @@ export const ActiveStudents = ({
 
     const coursesOptions = coursesResponse.data?.length
         ? coursesResponse?.data?.map((course: any) => ({
-              label: course?.title,
-              value: course?.id,
-          }))
+            label: course?.title,
+            value: course?.id,
+        }))
         : []
 
     const getStudentIds = selectAll?.map((student: any) => student?.value)
@@ -352,7 +353,7 @@ export const ActiveStudents = ({
                         }}
                         /> */}
                         <Select
-                            label={'Search by Unit'}
+                            label={'Search by Course'}
                             name={'course'}
                             // defaultValue={courseOptions}
                             // value={courseValues}
@@ -384,13 +385,13 @@ export const ActiveStudents = ({
                         onChange={checkAllStudents}
                         defaultChecked={isChecked}
 
-                        // defaultChecked={
-                        //     bulkMailStudentsResponse?.data?.isSuccess &&
-                        //     bulkMailStudentsResponse?.data?.length ===
-                        //         selectAll?.length
-                        //         ? true
-                        //         : false
-                        // }
+                    // defaultChecked={
+                    //     bulkMailStudentsResponse?.data?.isSuccess &&
+                    //     bulkMailStudentsResponse?.data?.length ===
+                    //         selectAll?.length
+                    //         ? true
+                    //         : false
+                    // }
                     />
 
                     {/* <div className="flex justify-between items-center"> */}

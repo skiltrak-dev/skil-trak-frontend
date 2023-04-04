@@ -10,7 +10,7 @@ export const ReceivedMessaging = ({
     children: any
 }) => {
     return (
-        <div className="flex border min-h-[500px] rounded">
+        <div className="flex border h-[500px] rounded">
             <div
                 id="scrollableDiv"
                 className="w-[28%] h-full border-r overflow-y-auto remove-scrollbar"
