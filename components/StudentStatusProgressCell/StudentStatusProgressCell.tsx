@@ -1,3 +1,5 @@
+import { useContextBar } from '@hooks'
+import { ChangeWorkplaceStatus } from '@partials/common'
 import { Student } from '@types'
 import classNames from 'classnames'
 import Link from 'next/link'
@@ -43,17 +45,23 @@ const StudentProgress = {
 }
 
 export const StudentStatusProgressCell = ({
+    studentId,
+    setStatusSuccessResult,
     status,
     step,
 }: {
+    studentId?: any
+    setStatusSuccessResult?: any
     status?: StudentProgressStatus
     step: 1 | 2 | 3 | 4 | number
 }) => {
+    const contextBar = useContextBar()
     // const currentStatus = StudentProgress[status]
     const currentStatus = Object.values(StudentProgress)[step - 1]
 
     const classes = classNames({
-        'px-2 py-1 rounded-md flex items-center gap-x-2 min-w-max': true,
+        'px-2 py-1 rounded-md flex items-center gap-x-2 min-w-max cursor-pointer':
+            true,
         'bg-white':
             currentStatus.status !==
             StudentProgress['1-PlacementStarted'].status,
@@ -62,8 +70,24 @@ export const StudentStatusProgressCell = ({
             StudentProgress['1-PlacementStarted'].status,
     })
 
+    const onProgressClicked = (studentId: number | undefined) => {
+        contextBar.setContent(
+            <ChangeWorkplaceStatus
+                studentId={studentId}
+                setStatusSuccessResult={setStatusSuccessResult}
+            />
+        )
+        contextBar.show()
+        contextBar.setTitle('Change Workplace Status')
+    }
+
     return (
-        <div className={classes}>
+        <div
+            className={classes}
+            onClick={() => {
+                onProgressClicked(studentId)
+            }}
+        >
             <img
                 src={`/images/students/workplace-progress/${currentStatus.image}`}
                 alt=""

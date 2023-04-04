@@ -30,6 +30,10 @@ const AssessmentEvidenceDetails: NextPageWithLayout = (props: Props) => {
             contextBar.show(false)
             navBar.setSubTitle(student.data?.user?.name)
         }
+        return () => {
+            contextBar.setContent(null)
+            contextBar.hide()
+        }
     }, [student])
 
     useEffect(() => {

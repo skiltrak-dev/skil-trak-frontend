@@ -1,6 +1,11 @@
+import { Modal } from '@components'
+import { useContextBar } from '@hooks'
+import { ChangeWorkplaceStatus } from '@partials/common'
+import { RequestType } from '@partials/sub-admin/workplace/components'
 import { Student } from '@types'
 import classNames from 'classnames'
 import Link from 'next/link'
+import { ReactElement, useState } from 'react'
 import { MdEmail, MdPhoneIphone } from 'react-icons/md'
 
 type WorkplaceRequestStatus =
@@ -106,14 +111,21 @@ const WorkplaceRequestProgress = {
 }
 
 export const ProgressCell = ({
+    studentId,
     status,
     step,
+    setStatusSuccessResult,
 }: {
+    studentId?: number
     status?: WorkplaceRequestStatus
     step: 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 | 13 | 14 | number
+    setStatusSuccessResult?: any
 }) => {
+    const [modal, setModal] = useState<ReactElement | null>(null)
     // const currentStatus = WorkplaceRequestProgress[status]
     const currentStatus = Object.values(WorkplaceRequestProgress)[step - 1]
+
+    const contextBar = useContextBar()
 
     const classes = classNames({
         'px-2 py-1 rounded-md flex items-center gap-x-2 min-w-max': true,
@@ -125,23 +137,48 @@ export const ProgressCell = ({
             WorkplaceRequestProgress['9-PlacementStarted'].status,
     })
 
-    return (
-        <div className={classes}>
-            <img
-                src={`/images/students/workplace-progress/${currentStatus.image}`}
-                alt=""
-                width={24}
+    const onCancelModal = () => {
+        setModal(null)
+    }
+
+    const onProgressClicked = (studentId: number | undefined) => {
+        contextBar.setContent(
+            <ChangeWorkplaceStatus
+                studentId={studentId}
+                setStatusSuccessResult={setStatusSuccessResult}
             />
-            <div>
-                <p
-                    className={`${currentStatus.color} text-xs font-semibold whitespace-nowrap`}
-                >
-                    {currentStatus.status}
-                </p>
-                <p className="text-[11px] text-gray-400 whitespace-nowrap">
-                    {currentStatus.description}
-                </p>
+        )
+        contextBar.show()
+        contextBar.setTitle('Change Workplace Status')
+    }
+
+    return (
+        <>
+            {modal}
+            <div
+                className={`${classes} ${step > 1 ? 'cursor-pointer' : ''}`}
+                onClick={() => {
+                    if (step > 1) {
+                        onProgressClicked(studentId)
+                    }
+                }}
+            >
+                <img
+                    src={`/images/students/workplace-progress/${currentStatus.image}`}
+                    alt=""
+                    width={24}
+                />
+                <div>
+                    <p
+                        className={`${currentStatus.color} text-xs font-semibold whitespace-nowrap`}
+                    >
+                        {currentStatus.status}
+                    </p>
+                    <p className="text-[11px] text-gray-400 whitespace-nowrap">
+                        {currentStatus.description}
+                    </p>
+                </div>
             </div>
-        </div>
+        </>
     )
 }

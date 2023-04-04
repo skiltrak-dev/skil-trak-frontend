@@ -21,6 +21,7 @@ import { useRouter } from 'next/router'
 import { useState } from 'react'
 import { StudentStatus } from './StudentStatus'
 import { ActionButton } from '@components/buttons'
+import { UserCreatedAt } from '@components/UserCreatedAt'
 
 const getGender = (gender: string | undefined) => {
     if (!gender) return 'N/A'
@@ -124,6 +125,9 @@ export const SubAdminStudentProfile = ({ student }: { student: Student }) => {
                 <div className="text-gray-400 text-[11px] flex justify-start pl-4 -mt-0.5 text-right">
                     Phone Number
                 </div>
+            </div>
+            <div className='border-b'>
+                <UserCreatedAt label createdAt={student?.createdAt} />
             </div>
             {/* Info Row 2 */}
             <div className="flex justify-around divide-x border-b">

@@ -5,42 +5,62 @@ import { IoMdArrowDropdown } from 'react-icons/io'
 
 // components
 import {
-    Typography,
     LoadingAnimation,
     ShowErrorNotifications,
+    Typography,
 } from '@components'
-import { requestType } from './requestTypeData'
-import { SignAgreement } from './Industries/components/Actions/components/SignAgreement'
 
 // query
-import { useSendInterviewNotificationMutation } from '@queries'
-import OutsideClickHandler from 'react-outside-click-handler'
-import { useNotification } from '@hooks'
+import { useContextBar, useNotification } from '@hooks'
 import {
-    ForwardModal,
-    PlacementStartedModal,
+    useGetSubAdminStudentWorkplaceQuery,
+    useSendInterviewNotificationMutation,
+} from '@queries'
+import { HiCheckBadge } from 'react-icons/hi2'
+import OutsideClickHandler from 'react-outside-click-handler'
+import {
     ActionModal,
     CompleteWorkplaceModal,
+    ForwardModal,
+    PlacementStartedModal,
     TerminateWorkplaceModal,
-} from '../modals'
-import { HiCheckBadge } from 'react-icons/hi2'
+} from '@partials/sub-admin/workplace/modals'
 
-export const RequestType = ({
-    workplace,
+export const ChangeWorkplaceStatus = ({
+    setStatusSuccessResult,
+    studentId,
     folders,
-    appliedIndustry,
 }: {
-    workplace: any
+    studentId: number | undefined
     folders?: any
-    appliedIndustry: any
+    setStatusSuccessResult: any
 }) => {
     const [modal, setModal] = useState<any>(null)
     const [visibleRequestType, setVisibleRequestType] = useState(false)
     const [selectedRequestType, setSelectedRequestType] = useState<
         number | null
     >(0)
+    const [currentStatus, setCurrentStatus] = useState<string | null>(null)
+
+    const contextBar = useContextBar()
 
     const [interView, interViewResult] = useSendInterviewNotificationMutation()
+    const workplace = useGetSubAdminStudentWorkplaceQuery(Number(studentId), {
+        skip: !studentId,
+    })
+
+    useEffect(() => {
+        if (workplace.isSuccess && workplace.data) {
+            setCurrentStatus(workplace.data[0]?.currentStatus)
+        }
+    }, [workplace])
+
+    const appliedIndustry =
+        workplace?.data && workplace?.data?.length > 0
+            ? workplace?.data[0]?.industries?.find(
+                  (industry: any) => industry?.applied
+              )
+            : {}
 
     const { notification } = useNotification()
 
@@ -50,15 +70,10 @@ export const RequestType = ({
                 title: 'Interview Assigned to Student',
                 description: 'Interview Assigned to Student',
             })
-            setModal(
-                <ActionModal
-                    Icon={HiCheckBadge}
-                    title={'Successfully Interview'}
-                    subtitle={'Now You can forward the request to Industry'}
-                    onCancel={onModalCancelClicked}
-                    confirmText={'OK'}
-                />
-            )
+            setStatusSuccessResult(true)
+            contextBar.setContent(null)
+            contextBar.setTitle(null)
+            contextBar.hide()
         }
     }, [interViewResult])
 
@@ -70,9 +85,10 @@ export const RequestType = ({
         setModal(
             <ForwardModal
                 industry={industry}
-                workplaceId={workplace?.id}
+                workplaceId={workplace?.data[0]?.id}
                 folders={folders}
                 onCancel={() => onModalCancelClicked()}
+                setStatusSuccessResult={setStatusSuccessResult}
             />
         )
     }
@@ -82,8 +98,9 @@ export const RequestType = ({
             <PlacementStartedModal
                 id={id}
                 agreementSigned={appliedIndustry?.AgreementSigned}
-                student={workplace?.student}
+                student={workplace?.data?.student}
                 onCancel={() => onModalCancelClicked()}
+                setStatusSuccessResult={setStatusSuccessResult}
             />
         )
     }
@@ -162,22 +179,11 @@ export const RequestType = ({
             secondaryText: 'Checklist Pending',
             color: 'text-info',
             onClick: (isCleared: any) => {
+                notification.info({
+                    title: 'Upload the Agreement',
+                    description: 'Upload the Agreement from workplace',
+                })
                 isCleared(false)
-                if (workplace?.currentStatus === 'awaitingWorkplaceResponse') {
-                    notification.info({
-                        title: 'Approve or reject the Request',
-                        description:
-                            'Before uploading agreement you must have to Approve the workplace request',
-                    })
-                    isCleared(false)
-                } else {
-                    isCleared(false)
-                    notification.error({
-                        title: 'Forward the request to Industry',
-                        description:
-                            'You Must have to Forward the request to Industry before uploading agreement',
-                    })
-                }
             },
             status: 'awaitingAgreementSigned',
         },
@@ -186,21 +192,11 @@ export const RequestType = ({
             secondaryText: 'Checklist Signed',
             color: 'text-success',
             onClick: (isCleared: any) => {
-                if (workplace?.currentStatus === 'awaitingAgreementSigned') {
-                    notification.info({
-                        title: 'Agreement Sign',
-                        description:
-                            'Now You can upload the agreement file on th workplace which is provided by student or you can request to student to upload the agreement file',
-                    })
-                    isCleared(false)
-                } else {
-                    isCleared(false)
-                    notification.error({
-                        title: 'Approve or reject',
-                        description:
-                            'You must have to Approve the workplace request',
-                    })
-                }
+                notification.info({
+                    title: 'Upload the Agreement',
+                    description: 'Upload the Agreement from workplace',
+                })
+                isCleared(false)
             },
             status: 'AgreementSigned',
         },
@@ -209,7 +205,12 @@ export const RequestType = ({
             secondaryText: 'Placement Started',
             color: 'text-success-dark',
             onClick: (isCleared: any) => {
-                if (workplace?.currentStatus === 'awaitingAgreementSigned') {
+                if (
+                    currentStatus === 'awaitingAgreementSigned' ||
+                    currentStatus === 'AgreementSigned' ||
+                    currentStatus === 'appointmentBooked' ||
+                    currentStatus === 'awaitingWorkplaceResponse'
+                ) {
                     onPlacementStartedClicked(Number(appliedIndustry?.id))
                     isCleared(true)
                 } else {
@@ -257,15 +258,29 @@ export const RequestType = ({
         },
     ]
 
-    const findStatusIndex = requestTypeActions.findIndex(
-        (r) => r.status === workplace.currentStatus
-    )
+    // const findStatusIndex = requestTypeActions.findIndex((r) => {
+    //     return r.status === workplace?.data && workplace?.data?.length > 0
+    //         ? workplace?.data[0]?.currentStatus
+    //         : ''
+    // })
 
+    // console.log(
+    //     'findStatusIndex',
+    //     findStatusIndex,
+    //     workplace?.data && workplace?.data?.length > 0
+    //         ? workplace?.data[0]?.currentStatus
+    //         : ''
+    // )
+    const findStatusIndex = requestTypeActions.findIndex((r) => {
+        return r.status == currentStatus
+    })
     useEffect(() => {
-        if (appliedIndustry?.industryResponse === 'rejected') {
-            setSelectedRequestType(requestTypeActions.length - 1)
-        } else {
-            setSelectedRequestType(findStatusIndex)
+        if (currentStatus) {
+            if (appliedIndustry?.industryResponse === 'rejected') {
+                setSelectedRequestType(requestTypeActions.length - 1)
+            } else {
+                setSelectedRequestType(findStatusIndex)
+            }
         }
 
         // if (data?.caseOfficerAssigned) {
@@ -283,9 +298,9 @@ export const RequestType = ({
         // if (data?.AgreementSigned) {
         //     setSelectedRequestType(6)
         // }
-    }, [appliedIndustry])
+    }, [appliedIndustry, workplace, currentStatus])
 
-    const isLoading = interViewResult.isLoading
+    const isLoading = interViewResult.isLoading || workplace.isLoading
 
     return (
         <div className="relative">
@@ -300,32 +315,24 @@ export const RequestType = ({
                 <div
                     className={`border border-dashed border-gray-400 rounded-lg w-56 px-4 py-1 flex items-center justify-between gap-x-1 cursor-pointer relative`}
                     onClick={() => {
-                        if (workplace?.assignedTo) {
-                            if (appliedIndustry) {
-                                if (
-                                    !appliedIndustry?.terminated ||
-                                    !appliedIndustry?.isCompleted ||
-                                    !appliedIndustry?.cancelled
-                                ) {
-                                    setVisibleRequestType(!visibleRequestType)
-                                } else {
-                                    notification.warning({
-                                        title: 'Action cant perform',
-                                        description: 'Action cant perform',
-                                    })
-                                }
+                        if (appliedIndustry) {
+                            if (
+                                !appliedIndustry?.terminated ||
+                                !appliedIndustry?.isCompleted ||
+                                !appliedIndustry?.cancelled
+                            ) {
+                                setVisibleRequestType(!visibleRequestType)
                             } else {
-                                notification.error({
-                                    title: 'Workplace Not applied',
-                                    description:
-                                        'Apply on any industry before changing status',
+                                notification.warning({
+                                    title: 'Action cant perform',
+                                    description: 'Action cant perform',
                                 })
                             }
                         } else {
                             notification.warning({
-                                title: 'Assign the workplace',
+                                title: 'Workplace Not applied',
                                 description:
-                                    'Assign the workplace before changing status',
+                                    'You didnot apply on any industry yet,Please Apply on any industry before changing the workplace status',
                             })
                         }
                     }}
@@ -364,12 +371,13 @@ export const RequestType = ({
                 </div>
 
                 {visibleRequestType && (
-                    <div className="shadow absolute z-10 w-full bg-white rounded-md py-2 mt-1">
+                    <div className="h-96 overflow-auto custom-scrollbar shadow absolute z-10 w-full bg-white rounded-md py-2 mt-1">
                         {requestTypeActions.map((type, i) => (
                             <div
                                 key={`request_type_${i}`}
                                 className="pb-2 cursor-pointer hover:bg-gray-100 px-2"
                                 onClick={() => {
+                                    setSelectedRequestType(i)
                                     setVisibleRequestType(false)
                                     if (findStatusIndex < i) {
                                         const isCleared = (clear = true) => {
