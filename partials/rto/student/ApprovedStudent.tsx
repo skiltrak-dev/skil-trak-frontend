@@ -168,6 +168,8 @@ export const ApprovedStudent = () => {
                     row.original?.studentStatus
                 )
 
+                console.log('row.original?.id', row.original?.id)
+
                 return industries?.length > 0 ? (
                     <StudentStatusProgressCell step={studentStatus} />
                 ) : (

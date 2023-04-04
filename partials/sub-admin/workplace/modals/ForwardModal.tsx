@@ -5,7 +5,7 @@ import {
     ShowErrorNotifications,
     InitialAvatar,
 } from '@components'
-import { useAlert, useNotification } from '@hooks'
+import { useAlert, useContextBar, useNotification } from '@hooks'
 import { AdminApi } from '@queries'
 import { Industry, Rto, Subscriber } from '@types'
 import { useEffect, useState } from 'react'
@@ -20,14 +20,18 @@ export const ForwardModal = ({
     onCancel,
     workplaceId,
     folders,
+    setStatusSuccessResult,
 }: {
     industry: any
     onCancel: Function
     workplaceId: string
     folders: any
+    setStatusSuccessResult?: any
 }) => {
     const [isDocsUploaded, setIsDocsUploaded] = useState<boolean | null>(null)
     const [missingDocuments, setMissingDocuments] = useState<any | null>(null)
+
+    const contextBar = useContextBar()
 
     // hooks
     const { notification } = useNotification()
@@ -61,6 +65,10 @@ export const ForwardModal = ({
                 description: 'Request Forwarded to industry Successfully',
             })
             onCancel()
+            setStatusSuccessResult(true)
+            contextBar.setContent(null)
+            contextBar.setTitle(null)
+            contextBar.hide()
         }
     }, [forwardToIndustryResult])
 

@@ -23,6 +23,8 @@ export const SidebarCalendar = ({ enabledDays, setSelectedDate }: any) => {
         }
     }, [])
 
+    console.log('date <= new Date()', date < new Date())
+
     return mounted ? (
         <CalendarStyles>
             <Calendar
@@ -30,7 +32,7 @@ export const SidebarCalendar = ({ enabledDays, setSelectedDate }: any) => {
                     ? {
                           tileDisabled: ({ date }) =>
                               !enabledDays?.includes(date.getDay()) ||
-                              date < new Date(),
+                              date <= new Date(),
                       }
                     : {})}
                 onChange={(e: Date) => {
