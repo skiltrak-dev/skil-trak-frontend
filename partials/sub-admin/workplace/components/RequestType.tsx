@@ -132,6 +132,13 @@ export const RequestType = ({
             status: 'interview',
         },
         {
+            primaryText: 'Meeting',
+            secondaryText: 'with Workplace Supervisor (Orientation)',
+            color: 'text-info-dark',
+            onClick: () => {},
+            status: 'appointmentBooked',
+        },
+        {
             primaryText: 'Waiting',
             secondaryText: 'for Workplace Response',
             color: 'text-info-light',
@@ -149,13 +156,6 @@ export const RequestType = ({
                 }
             },
             status: 'awaitingWorkplaceResponse',
-        },
-        {
-            primaryText: 'Meeting',
-            secondaryText: 'with Workplace Supervisor (Orientation)',
-            color: 'text-info-dark',
-            onClick: () => {},
-            status: 'appointmentBooked',
         },
         {
             primaryText: 'Agreement & Eligibility ',

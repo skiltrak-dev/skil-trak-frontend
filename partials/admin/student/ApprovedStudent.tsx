@@ -217,11 +217,16 @@ export const ApprovedStudent = () => {
                 )
 
                 return industries?.length > 0 ? (
-                    <StudentStatusProgressCell step={studentStatus} />
+                    <StudentStatusProgressCell
+                        studentId={row.original?.id}
+                        step={studentStatus}
+                        setStatusSuccessResult={setStatusSuccessResult}
+                    />
                 ) : (
                     <ProgressCell
                         studentId={row.original?.id}
                         step={steps > 14 ? 14 : steps < 1 ? 1 : steps}
+                        setStatusSuccessResult={setStatusSuccessResult}
                     />
                 )
             },

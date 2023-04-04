@@ -1,4 +1,5 @@
 import { Modal } from '@components'
+import { useContextBar } from '@hooks'
 import { ChangeWorkplaceStatus } from '@partials/common'
 import { RequestType } from '@partials/sub-admin/workplace/components'
 import { Student } from '@types'
@@ -113,14 +114,18 @@ export const ProgressCell = ({
     studentId,
     status,
     step,
+    setStatusSuccessResult,
 }: {
     studentId?: number
     status?: WorkplaceRequestStatus
     step: 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 | 13 | 14 | number
+    setStatusSuccessResult?: any
 }) => {
     const [modal, setModal] = useState<ReactElement | null>(null)
     // const currentStatus = WorkplaceRequestProgress[status]
     const currentStatus = Object.values(WorkplaceRequestProgress)[step - 1]
+
+    const contextBar = useContextBar()
 
     const classes = classNames({
         'px-2 py-1 rounded-md flex items-center gap-x-2 min-w-max': true,
@@ -137,16 +142,14 @@ export const ProgressCell = ({
     }
 
     const onProgressClicked = (studentId: number | undefined) => {
-        setModal(
-            <Modal
-                onConfirmClick={() => {}}
-                title="a"
-                subtitle="a"
-                onCancelClick={onCancelModal}
-            >
-                <ChangeWorkplaceStatus studentId={studentId} />
-            </Modal>
+        contextBar.setContent(
+            <ChangeWorkplaceStatus
+                studentId={studentId}
+                setStatusSuccessResult={setStatusSuccessResult}
+            />
         )
+        contextBar.show()
+        contextBar.setTitle('Change Workplace Status')
     }
 
     return (

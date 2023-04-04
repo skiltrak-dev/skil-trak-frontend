@@ -6,16 +6,18 @@ import { FaMapMarkerAlt } from 'react-icons/fa'
 import { IoBriefcase } from 'react-icons/io5'
 
 //queries
-import { WorkplaceAvatar } from '@components'
+import { LoadingAnimation, WorkplaceAvatar } from '@components'
 import { ActionButton } from '@components/buttons'
 import { useGetSubAdminStudentWorkplaceQuery } from '@queries'
-import { getUserCredentials } from '@utils'
+import { WorkplaceCurrentStatus, getUserCredentials } from '@utils'
 import { useState, useEffect, ReactElement } from 'react'
 import { AddWorkplace } from './AddWorkplace'
 import { useContextBar } from '@hooks'
 import { AddSecondWPCB } from '../contextBar'
 import { MdDelete } from 'react-icons/md'
 import { RemoveIndustryModal } from '@partials/sub-admin/workplace/modals'
+import { UserStatus } from '@types'
+import { UserRoles } from '@constants'
 
 export const MyWorkplace = ({
     id,
@@ -25,6 +27,8 @@ export const MyWorkplace = ({
     id: number
 }) => {
     const [modal, setModal] = useState<ReactElement | null>(null)
+    const [currentStatus, setCurrentStatus] = useState<string | null>(null)
+
     const pathname = useRouter()
     const profileId = pathname.query.profileId
 
@@ -35,8 +39,17 @@ export const MyWorkplace = ({
 
     const workplace = useGetSubAdminStudentWorkplaceQuery(id, { skip: !id })
 
-    
     const contextBar = useContextBar()
+
+    useEffect(() => {
+        if (
+            workplace.isSuccess &&
+            workplace.data &&
+            workplace?.data?.length > 0
+        ) {
+            setCurrentStatus(workplace.data[0]?.currentStatus)
+        }
+    }, [workplace])
 
     useEffect(() => {
         if (industries && industries?.length > 0) {
@@ -75,6 +88,150 @@ export const MyWorkplace = ({
                 studentId={id}
             />
         )
+    }
+
+    const WorkplaceStatusData = ({
+        imageUrl,
+        title,
+        subTitle,
+    }: {
+        imageUrl: string
+        title: string
+        subTitle: string
+    }) => {
+        return (
+            <div className="flex flex-col items-center">
+                <Image
+                    src={imageUrl}
+                    width={48}
+                    height={48}
+                    alt={'No Workplace'}
+                />
+                <div className="text-center my-4">
+                    <p className="font-semibold text-lg text-gray-500">
+                        {title}
+                    </p>
+                    <p className="font-medium text-sm text-gray-400">
+                        {subTitle}
+                    </p>
+                </div>
+            </div>
+        )
+    }
+
+    const workplaceStatus = () => {
+        switch (currentStatus) {
+            case WorkplaceCurrentStatus.NotRequested:
+                return (
+                    <>
+                        <WorkplaceStatusData
+                            imageUrl={'/images/icons/industry.png'}
+                            title={'No Workplace'}
+                            subTitle={'You don&apos;t have any workplace yet'}
+                        />
+                        {role === UserRoles.SUBADMIN && (
+                            <div className="flex justify-center">
+                                <AddWorkplace id={Number(id)} />
+                            </div>
+                        )}
+                    </>
+                )
+            case WorkplaceCurrentStatus.Applied:
+                return (
+                    <WorkplaceStatusData
+                        imageUrl={
+                            '/images/students/workplace-progress/industry-check.png'
+                        }
+                        title={'Request Sent'}
+                        subTitle={'No Case Officer'}
+                    />
+                )
+            case WorkplaceCurrentStatus.CaseOfficerAssigned:
+                return (
+                    <WorkplaceStatusData
+                        imageUrl={
+                            '/images/students/workplace-progress/case-officer.png'
+                        }
+                        title={'Assigned'}
+                        subTitle={'Case Officer'}
+                    />
+                )
+            case WorkplaceCurrentStatus.Interview:
+                return (
+                    <WorkplaceStatusData
+                        imageUrl={
+                            '/images/students/workplace-progress/interview.png'
+                        }
+                        title={'Interview'}
+                        subTitle={'with Case Officer'}
+                    />
+                )
+            case WorkplaceCurrentStatus.AwaitingWorkplaceResponse:
+                return (
+                    <WorkplaceStatusData
+                        imageUrl={
+                            '/images/students/workplace-progress/waiting.png'
+                        }
+                        title={'Waiting'}
+                        subTitle={'for Workplace Response'}
+                    />
+                )
+            case WorkplaceCurrentStatus.AppointmentBooked:
+                return (
+                    <WorkplaceStatusData
+                        imageUrl={
+                            '/images/students/workplace-progress/appointment.png'
+                        }
+                        title={'Appointment'}
+                        subTitle={'with Workplace Supervisor'}
+                    />
+                )
+            case WorkplaceCurrentStatus.AwaitingAgreementSigned:
+                return (
+                    <WorkplaceStatusData
+                        imageUrl={
+                            '/images/students/workplace-progress/agreement.png'
+                        }
+                        title={'Agreement & Eligibility'}
+                        subTitle={'Checklist Pending'}
+                    />
+                )
+            case WorkplaceCurrentStatus.AgreementSigned:
+                return (
+                    <WorkplaceStatusData
+                        imageUrl={
+                            '/images/students/workplace-progress/agreement.png'
+                        }
+                        title={'Agreement & Eligibility'}
+                        subTitle={'Checklist Signed'}
+                    />
+                )
+            case WorkplaceCurrentStatus.PlacementStarted:
+                return (
+                    <WorkplaceStatusData
+                        imageUrl={
+                            '/images/students/workplace-progress/placement-started.png'
+                        }
+                        title={'Placement Started'}
+                        subTitle={'Placement Started'}
+                    />
+                )
+            default:
+                return (
+                    <>
+                        <WorkplaceStatusData
+                            imageUrl={'/images/icons/industry.png'}
+                            title={'No Workplace'}
+                            subTitle={'You don&apos;t have any workplace yet'}
+                        />
+                        {role === UserRoles.SUBADMIN && (
+                            <div className="flex justify-center">
+                                <AddWorkplace id={Number(id)} />
+                            </div>
+                        )}
+                    </>
+                )
+        }
     }
 
     return (
@@ -210,29 +367,10 @@ export const MyWorkplace = ({
                         </div>
                     </div>
                 </div>
+            ) : workplace.isLoading ? (
+                <LoadingAnimation />
             ) : (
-                <div>
-                    {/* <NoData text="No Workplace" /> */}
-                    <div className="flex flex-col items-center">
-                        <Image
-                            src={'/images/icons/industry.png'}
-                            width={48}
-                            height={48}
-                            alt={'No Workplace'}
-                        />
-                        <div className="text-center my-4">
-                            <p className="font-semibold text-lg text-gray-500">
-                                No Workplace
-                            </p>
-                            <p className="font-medium text-sm text-gray-400">
-                                You don&apos;t have any workplace yet
-                            </p>
-                        </div>
-                        {role === 'subadmin' && (
-                            <AddWorkplace id={Number(id)} />
-                        )}
-                    </div>
-                </div>
+                <div>{workplaceStatus()}</div>
             )}
         </Card>
     )

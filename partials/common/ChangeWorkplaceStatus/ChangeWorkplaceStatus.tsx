@@ -11,7 +11,7 @@ import {
 } from '@components'
 
 // query
-import { useNotification } from '@hooks'
+import { useContextBar, useNotification } from '@hooks'
 import {
     useGetSubAdminStudentWorkplaceQuery,
     useSendInterviewNotificationMutation,
@@ -27,26 +27,33 @@ import {
 } from '@partials/sub-admin/workplace/modals'
 
 export const ChangeWorkplaceStatus = ({
+    setStatusSuccessResult,
     studentId,
     folders,
-}: // appliedIndustry,
-{
+}: {
     studentId: number | undefined
     folders?: any
-    // appliedIndustry: any
+    setStatusSuccessResult: any
 }) => {
     const [modal, setModal] = useState<any>(null)
     const [visibleRequestType, setVisibleRequestType] = useState(false)
     const [selectedRequestType, setSelectedRequestType] = useState<
         number | null
     >(0)
+    const [currentStatus, setCurrentStatus] = useState<string | null>(null)
+
+    const contextBar = useContextBar()
 
     const [interView, interViewResult] = useSendInterviewNotificationMutation()
     const workplace = useGetSubAdminStudentWorkplaceQuery(Number(studentId), {
         skip: !studentId,
     })
 
-    console.log('selectedRequestType', selectedRequestType)
+    useEffect(() => {
+        if (workplace.isSuccess && workplace.data) {
+            setCurrentStatus(workplace.data[0]?.currentStatus)
+        }
+    }, [workplace])
 
     const appliedIndustry =
         workplace?.data && workplace?.data?.length > 0
@@ -63,15 +70,10 @@ export const ChangeWorkplaceStatus = ({
                 title: 'Interview Assigned to Student',
                 description: 'Interview Assigned to Student',
             })
-            setModal(
-                <ActionModal
-                    Icon={HiCheckBadge}
-                    title={'Successfully Interview'}
-                    subtitle={'Now You can forward the request to Industry'}
-                    onCancel={onModalCancelClicked}
-                    confirmText={'OK'}
-                />
-            )
+            setStatusSuccessResult(true)
+            contextBar.setContent(null)
+            contextBar.setTitle(null)
+            contextBar.hide()
         }
     }, [interViewResult])
 
@@ -86,6 +88,7 @@ export const ChangeWorkplaceStatus = ({
                 workplaceId={workplace?.data[0]?.id}
                 folders={folders}
                 onCancel={() => onModalCancelClicked()}
+                setStatusSuccessResult={setStatusSuccessResult}
             />
         )
     }
@@ -97,6 +100,7 @@ export const ChangeWorkplaceStatus = ({
                 agreementSigned={appliedIndustry?.AgreementSigned}
                 student={workplace?.data?.student}
                 onCancel={() => onModalCancelClicked()}
+                setStatusSuccessResult={setStatusSuccessResult}
             />
         )
     }
@@ -145,6 +149,13 @@ export const ChangeWorkplaceStatus = ({
             status: 'interview',
         },
         {
+            primaryText: 'Meeting',
+            secondaryText: 'with Workplace Supervisor (Orientation)',
+            color: 'text-info-dark',
+            onClick: () => {},
+            status: 'appointmentBooked',
+        },
+        {
             primaryText: 'Waiting',
             secondaryText: 'for Workplace Response',
             color: 'text-info-light',
@@ -164,36 +175,15 @@ export const ChangeWorkplaceStatus = ({
             status: 'awaitingWorkplaceResponse',
         },
         {
-            primaryText: 'Meeting',
-            secondaryText: 'with Workplace Supervisor (Orientation)',
-            color: 'text-info-dark',
-            onClick: () => {},
-            status: 'appointmentBooked',
-        },
-        {
             primaryText: 'Agreement & Eligibility ',
             secondaryText: 'Checklist Pending',
             color: 'text-info',
             onClick: (isCleared: any) => {
+                notification.info({
+                    title: 'Upload the Agreement',
+                    description: 'Upload the Agreement from workplace',
+                })
                 isCleared(false)
-                if (
-                    workplace?.data?.currentStatus ===
-                    'awaitingWorkplaceResponse'
-                ) {
-                    notification.info({
-                        title: 'Approve or reject the Request',
-                        description:
-                            'Before uploading agreement you must have to Approve the workplace request',
-                    })
-                    isCleared(false)
-                } else {
-                    isCleared(false)
-                    notification.error({
-                        title: 'Forward the request to Industry',
-                        description:
-                            'You Must have to Forward the request to Industry before uploading agreement',
-                    })
-                }
             },
             status: 'awaitingAgreementSigned',
         },
@@ -202,23 +192,11 @@ export const ChangeWorkplaceStatus = ({
             secondaryText: 'Checklist Signed',
             color: 'text-success',
             onClick: (isCleared: any) => {
-                if (
-                    workplace?.data?.currentStatus === 'awaitingAgreementSigned'
-                ) {
-                    notification.info({
-                        title: 'Agreement Sign',
-                        description:
-                            'Now You can upload the agreement file on th workplace which is provided by student or you can request to student to upload the agreement file',
-                    })
-                    isCleared(false)
-                } else {
-                    isCleared(false)
-                    notification.error({
-                        title: 'Approve or reject',
-                        description:
-                            'You must have to Approve the workplace request',
-                    })
-                }
+                notification.info({
+                    title: 'Upload the Agreement',
+                    description: 'Upload the Agreement from workplace',
+                })
+                isCleared(false)
             },
             status: 'AgreementSigned',
         },
@@ -228,7 +206,10 @@ export const ChangeWorkplaceStatus = ({
             color: 'text-success-dark',
             onClick: (isCleared: any) => {
                 if (
-                    workplace?.data?.currentStatus === 'awaitingAgreementSigned'
+                    currentStatus === 'awaitingAgreementSigned' ||
+                    currentStatus === 'AgreementSigned' ||
+                    currentStatus === 'appointmentBooked' ||
+                    currentStatus === 'awaitingWorkplaceResponse'
                 ) {
                     onPlacementStartedClicked(Number(appliedIndustry?.id))
                     isCleared(true)
@@ -277,11 +258,11 @@ export const ChangeWorkplaceStatus = ({
         },
     ]
 
-    const findStatusIndex = requestTypeActions.findIndex((r) => {
-        return r.status === workplace?.data && workplace?.data?.length > 0
-            ? workplace?.data[0]?.currentStatus
-            : ''
-    })
+    // const findStatusIndex = requestTypeActions.findIndex((r) => {
+    //     return r.status === workplace?.data && workplace?.data?.length > 0
+    //         ? workplace?.data[0]?.currentStatus
+    //         : ''
+    // })
 
     // console.log(
     //     'findStatusIndex',
@@ -290,23 +271,16 @@ export const ChangeWorkplaceStatus = ({
     //         ? workplace?.data[0]?.currentStatus
     //         : ''
     // )
+    const findStatusIndex = requestTypeActions.findIndex((r) => {
+        return r.status == currentStatus
+    })
     useEffect(() => {
-        const findStatusIndex = requestTypeActions.findIndex((r) => {
-            return r.status == workplace?.data && workplace?.data?.length > 0
-                ? workplace?.data[0]?.currentStatus
-                : ''
-        })
-        console.log(
-            'findStatusIndex',
-            findStatusIndex,
-            workplace?.data && workplace?.data?.length > 0
-                ? workplace?.data[0]?.currentStatus
-                : ''
-        )
-        if (appliedIndustry?.industryResponse === 'rejected') {
-            setSelectedRequestType(requestTypeActions.length - 1)
-        } else {
-            workplace.isSuccess && setSelectedRequestType(findStatusIndex)
+        if (currentStatus) {
+            if (appliedIndustry?.industryResponse === 'rejected') {
+                setSelectedRequestType(requestTypeActions.length - 1)
+            } else {
+                setSelectedRequestType(findStatusIndex)
+            }
         }
 
         // if (data?.caseOfficerAssigned) {
@@ -324,7 +298,7 @@ export const ChangeWorkplaceStatus = ({
         // if (data?.AgreementSigned) {
         //     setSelectedRequestType(6)
         // }
-    }, [appliedIndustry, workplace])
+    }, [appliedIndustry, workplace, currentStatus])
 
     const isLoading = interViewResult.isLoading || workplace.isLoading
 
@@ -355,10 +329,10 @@ export const ChangeWorkplaceStatus = ({
                                 })
                             }
                         } else {
-                            notification.error({
+                            notification.warning({
                                 title: 'Workplace Not applied',
                                 description:
-                                    'Apply on any industry before changing status',
+                                    'You didnot apply on any industry yet,Please Apply on any industry before changing the workplace status',
                             })
                         }
                     }}
@@ -397,7 +371,7 @@ export const ChangeWorkplaceStatus = ({
                 </div>
 
                 {visibleRequestType && (
-                    <div className="h-72 overflow-auto custom-scrollbar shadow absolute z-10 w-full bg-white rounded-md py-2 mt-1">
+                    <div className="h-96 overflow-auto custom-scrollbar shadow absolute z-10 w-full bg-white rounded-md py-2 mt-1">
                         {requestTypeActions.map((type, i) => (
                             <div
                                 key={`request_type_${i}`}

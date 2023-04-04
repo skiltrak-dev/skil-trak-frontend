@@ -4,7 +4,7 @@ import {
     Typography,
     ShowErrorNotifications,
 } from '@components'
-import { useAlert, useNotification } from '@hooks'
+import { useAlert, useContextBar, useNotification } from '@hooks'
 import { AdminApi } from '@queries'
 import { Industry, Rto, Subscriber } from '@types'
 import { useEffect, useState } from 'react'
@@ -19,15 +19,19 @@ export const PlacementStartedModal = ({
     student,
     agreementSigned,
     onCancel,
+    setStatusSuccessResult,
 }: {
     id: any
     student: any
     onCancel: Function
     agreementSigned: any
+    setStatusSuccessResult?: any
 }) => {
     // hooks
     const { alert } = useAlert()
     const { notification } = useNotification()
+
+    const contextBar = useContextBar()
 
     // query
     const [startPlacement, startPlacementResult] = useStartPlacementMutation()
@@ -43,6 +47,10 @@ export const PlacementStartedModal = ({
                 description: 'Placement Started Successfully',
             })
             onCancel()
+            setStatusSuccessResult(true)
+            contextBar.setContent(null)
+            contextBar.setTitle(null)
+            contextBar.hide()
         }
     }, [startPlacementResult])
 
