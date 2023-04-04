@@ -98,7 +98,6 @@ export const CreateNote = ({
             // updateNote({ ...values, postedFor: receiverId, id: editValues?.id })
         } else {
             if (values?.body) {
-                console.log('values?.body', values?.body)
                 const body = draftToHtml(
                     convertToRaw(values?.body.getCurrentContent())
                 )

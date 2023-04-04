@@ -21,7 +21,6 @@ const SubAdminAllNotifications: NextPageWithLayout = () => {
         })
     const [readNotifications, resultReadNotifications] =
         CommonApi.Notifications.useIsReadNotification()
-    console.log("notifications", notifications)
     return (
         <Card>
             {isError && <TechnicalError />}

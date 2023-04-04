@@ -17,6 +17,7 @@ import {
     Button,
     BackButton,
     ActionButton,
+    UserCreatedAt,
 } from '@components'
 
 // queries
@@ -26,7 +27,13 @@ import {
     useUpdateAssessmentToolArchiveMutation,
 } from '@queries'
 
-import { useAlert, useContextBar, useNavbar, useNotification } from '@hooks'
+import {
+    useActionModal,
+    useAlert,
+    useContextBar,
+    useNavbar,
+    useNotification,
+} from '@hooks'
 
 import { DetailTabs } from '@partials/sub-admin/students'
 import { AddWorkplace } from '@partials/sub-admin/students'
@@ -53,6 +60,8 @@ export const StudentProfile = ({ noTitle }: { noTitle?: boolean }) => {
         })
     const [notContactable, notContactableResult] =
         SubAdminApi.Student.useNotContactable()
+
+    const { passwordModal, onViewPassword } = useActionModal()
 
     useEffect(() => {
         if (studentExpiryDate) {
@@ -160,6 +169,12 @@ export const StudentProfile = ({ noTitle }: { noTitle?: boolean }) => {
             case UserStatus.Approved:
                 return (
                     <div className="flex items-end gap-x-2">
+                        <Button
+                            text={'View Password'}
+                            onClick={() => {
+                                onViewPassword({ user: data?.user })
+                            }}
+                        />
                         {role === 'subadmin' && <AddWorkplace id={data?.id} />}
                         <Button
                             text="Book Appointment"
@@ -249,6 +264,7 @@ export const StudentProfile = ({ noTitle }: { noTitle?: boolean }) => {
     return (
         <>
             {modal && modal}
+            {passwordModal}
             <div className="mb-16">
                 <div className="flex justify-between items-end mb-4">
                     <div>
@@ -275,7 +291,11 @@ export const StudentProfile = ({ noTitle }: { noTitle?: boolean }) => {
                     {isSuccess && data && (
                         <div className="flex flex-col items-end gap-y-2">
                             <div className="flex items-center gap-x-1">
-                                <div className="pl-4">
+                                <div className="pl-4 flex items-center gap-x-5">
+                                    <UserCreatedAt
+                                        label
+                                        createdAt={data?.createdAt}
+                                    />
                                     <StudentTimer
                                         studentId={data?.user?.id}
                                         date={data?.expiryDate}

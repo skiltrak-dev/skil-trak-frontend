@@ -22,10 +22,12 @@ export const StudentCellInfo = ({ student }: { student: Student }) => {
                 className="flex items-center gap-x-2"
             >
                 <div className="">
-                    <InitialAvatar
-                        name={student?.user?.name}
-                        imageUrl={student?.user?.avatar}
-                    />
+                    {student?.user?.name && (
+                        <InitialAvatar
+                            name={student?.user?.name}
+                            imageUrl={student?.user?.avatar}
+                        />
+                    )}
                 </div>
                 <div>
                     <p className="flex items-center gap-x-1 text-xs">

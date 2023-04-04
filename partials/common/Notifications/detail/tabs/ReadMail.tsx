@@ -31,7 +31,6 @@ export const ReadMail = ({
             limit: itemPerPage,
         })
         // const [seenMessage, resultSeenMessage] = CommonApi.Messages.useIsSeen()
-        // console.log('resultSeenMessage::::::::::::', resultSeenMessage)
     useEffect(() => {
         if (isSuccess && data?.data && data?.data?.length > 0) {
             setAllMails((mails: any) => [...mails, ...data?.data])

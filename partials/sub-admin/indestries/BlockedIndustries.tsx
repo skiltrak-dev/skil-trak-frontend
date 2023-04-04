@@ -24,12 +24,9 @@ import { MdFavorite, MdFavoriteBorder } from 'react-icons/md'
 import { getUserCredentials, setLink } from '@utils'
 import { RiLockPasswordFill } from 'react-icons/ri'
 import { useActionModal } from '@hooks'
+import { IndustrySubAdmin } from './AllIndustries'
 
-export interface IndustrySubAdmin extends Industry {
-    subAdmin: SubAdmin[]
-}
-
-export const AllIndustries = () => {
+export const BlockedIndustries = () => {
     const [modal, setModal] = useState<ReactElement | null>(null)
     const router = useRouter()
     const [itemPerPage, setItemPerPage] = useState(50)
@@ -39,7 +36,7 @@ export const AllIndustries = () => {
     const { passwordModal, onViewPassword } = useActionModal()
 
     const { isLoading, data, isError } = useGetSubAdminIndustriesQuery({
-        search: `status:${UserStatus.Approved}`,
+        search: `status:${UserStatus.Blocked}`,
         skip: itemPerPage * page - itemPerPage,
         limit: itemPerPage,
     })
