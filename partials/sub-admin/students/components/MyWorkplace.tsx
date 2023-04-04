@@ -216,6 +216,56 @@ export const MyWorkplace = ({
                         subTitle={'Placement Started'}
                     />
                 )
+            case WorkplaceCurrentStatus.Cancelled:
+                return (
+                    <WorkplaceStatusData
+                        imageUrl={
+                            '/images/students/workplace-progress/placement-cancelled.png'
+                        }
+                        title={'Placement Cancelled'}
+                        subTitle={'placement-cancelled'}
+                    />
+                )
+            case WorkplaceCurrentStatus.Completed:
+                return (
+                    <WorkplaceStatusData
+                        imageUrl={
+                            '/images/students/workplace-progress/placement-started.png'
+                        }
+                        title={'Placement Completed'}
+                        subTitle={'placement-completed'}
+                    />
+                )
+            case WorkplaceCurrentStatus.NoResponse:
+                return (
+                    <WorkplaceStatusData
+                        imageUrl={
+                            '/images/students/workplace-progress/placement-cancelled.png'
+                        }
+                        title={'Industry NotResponded'}
+                        subTitle={'industry not-responded'}
+                    />
+                )
+            case WorkplaceCurrentStatus.Rejected:
+                return (
+                    <WorkplaceStatusData
+                        imageUrl={
+                            '/images/students/workplace-progress/placement-cancelled.png'
+                        }
+                        title={'Rejected'}
+                        subTitle={'placement-rejected'}
+                    />
+                )
+            case WorkplaceCurrentStatus.Terminated:
+                return (
+                    <WorkplaceStatusData
+                        imageUrl={
+                            '/images/students/workplace-progress/placement-cancelled.png'
+                        }
+                        title={'Terminated'}
+                        subTitle={'placement-terminated'}
+                    />
+                )
             default:
                 return (
                     <>
