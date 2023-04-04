@@ -59,10 +59,10 @@ export const BulkEmailEditor = ({
                                 link: { inDropdown: true },
                                 history: { inDropdown: true },
                             }}
-                            editorState={field.value}
+                            editorState={field?.value}
                             wrapperClassName="border rounded-md"
                             editorClassName="overflow-hidden h-20"
-                            onEditorStateChange={field.onChange} // send data with the onChagne
+                            onEditorStateChange={field?.onChange} // send data with the onChagne
                         />
                     )
                 }}

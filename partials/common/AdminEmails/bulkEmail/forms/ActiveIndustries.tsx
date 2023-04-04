@@ -1,10 +1,21 @@
-import { Button, Card, Checkbox, Select, ShowErrorNotifications, TextArea, TextInput } from '@components'
+import {
+    Button,
+    Card,
+    Checkbox,
+    Select,
+    ShowErrorNotifications,
+    TextArea,
+    TextInput,
+} from '@components'
 import { FileUpload } from '@hoc'
 import { useNotification } from '@hooks'
 import { Attachment } from '@partials/common/Notifications'
 import { CommonApi } from '@queries'
 import { useEffect, useState } from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
+import { BulkEmailEditor } from '../components'
+import draftToHtml from 'draftjs-to-html'
+import { ContentState, EditorState, convertFromHTML, convertToRaw } from 'draft-js'
 
 export const ActiveIndustries = () => {
     const { notification } = useNotification()
@@ -13,6 +24,7 @@ export const ActiveIndustries = () => {
     const [templateId, setTemplateId] = useState<any | null>(null)
     const [templateSubject, setTemplateSubject] = useState<any | null>(null)
     const [templateBody, setTemplateBody] = useState<any | null>(null)
+    const [templateValue, setTemplateValue] = useState<any | null>(null)
     const [selectAll, setSelectAll] = useState<any | null>(null)
     const [isChecked, setIsChecked] = useState(false)
 
@@ -27,15 +39,16 @@ export const ActiveIndustries = () => {
     }
     const [storedData, setStoredData] = useState<any>(null)
     const industriesResponse = CommonApi.Industries.useIndustriesList()
-    const [sendBulkEmail, resultSendBulkEmail] = CommonApi.Messages.useSendBulkMail()
+    const [sendBulkEmail, resultSendBulkEmail] =
+        CommonApi.Messages.useSendBulkMail()
 
     const getTemplates = CommonApi.Messages.useAllTemplates()
 
     const templateOptions = getTemplates.data?.length
         ? getTemplates?.data?.map((template: any) => ({
-              label: template.subject,
-              value: template.id,
-          }))
+            label: template.subject,
+            value: template.id,
+        }))
         : []
 
     const findTemplate = (id: any) => {
@@ -47,9 +60,9 @@ export const ActiveIndustries = () => {
     }
     const industryOptions = industriesResponse.data?.length
         ? industriesResponse?.data?.map((rto: any) => ({
-              label: rto.user.name,
-              value: rto.id,
-          }))
+            label: rto.user.name,
+            value: rto.id,
+        }))
         : []
     const getIndustriesIds = selectAll?.map((industry: any) => industry?.value)
     const industriesIds = getIndustriesIds?.map((industryId: any) => {
@@ -84,8 +97,14 @@ export const ActiveIndustries = () => {
         )
     }
     const onSubmit = (data: any) => {
+        let content = ''
+        if (data?.message) {
+            content = draftToHtml(
+                convertToRaw(data?.message?.getCurrentContent())
+            )
+        }
         const formData = new FormData()
-        const { attachment, ...rest } = data
+        const { attachment, message, industries, template, ...rest } = data
         Object.entries(rest)?.forEach(([key, value]: any) => {
             formData.append(key, value)
         })
@@ -95,8 +114,8 @@ export const ActiveIndustries = () => {
         })
         formData.append('users', industriesIds)
         formData.append('template', templateId)
-        formData.append('message', templateBody)
-        formData.append('subject', templateSubject)
+        formData.append('message', content)
+        // formData.append('subject', templateSubject)
         sendBulkEmail(formData)
     }
 
@@ -116,10 +135,18 @@ export const ActiveIndustries = () => {
         }
     }, [attachmentFiles])
     useEffect(() => {
-        if (templateBody && templateBody?.length > 0) {
-            formMethods.setValue('message', templateBody)
+        if (templateBody) {
+            const blocksFromHTML = convertFromHTML(templateBody)
+            const bodyValue = EditorState.createWithContent(
+                ContentState.createFromBlockArray(
+                    blocksFromHTML.contentBlocks,
+                    blocksFromHTML.entityMap
+                )
+            )
+            formMethods.setValue('message', bodyValue)
         }
     }, [templateBody])
+
     useEffect(() => {
         if (resultSendBulkEmail.isSuccess) {
             notification.success({
@@ -127,6 +154,12 @@ export const ActiveIndustries = () => {
                 description: 'Bulk Email Sent Successfully',
             })
             formMethods.reset()
+            setSelectAll(null)
+            setTemplateValue(null)
+            setTemplate(null)
+            setTemplateId(null)
+            setIsChecked(false)
+            setTemplateBody(null)
         }
     }, [resultSendBulkEmail])
     return (
@@ -149,7 +182,7 @@ export const ActiveIndustries = () => {
                             }}
                             options={industryOptions}
                             multi
-                            // loading={courseLoading}
+                        // loading={courseLoading}
                         />
                         <Checkbox
                             name="industries"
@@ -158,42 +191,56 @@ export const ActiveIndustries = () => {
                         />
                     </div>
 
-                    <Card>
-                        {/* <div className="flex justify-between items-center"> */}
-                        <Select
-                            label={'Select Email Template'}
-                            name={'template'}
-                            // defaultValue={courseOptions}
-                            // value={courseValues}
-                            options={templateOptions}
-                            placeholder="Select Email Template"
-                            // loading={courseLoading}
-                            onChange={(e: any) => {
-                                setTemplate(e.label)
-                                setTemplateId(e.value)
-                                findTemplate(e.value)
+                    {/* <div className="flex justify-between items-center"> */}
+                    <Select
+                        label={'Select Email Template'}
+                        name={'template'}
+                        // defaultValue={courseOptions}
+                        options={templateOptions}
+                        placeholder="Select Email Template"
+                        value={templateValue}
+                        // loading={courseLoading}
+                        onChange={(e: any) => {
+                            setTemplate(e.label)
+                            setTemplateId(e.value)
+                            findTemplate(e.value)
+                            setTemplateValue(e)
+                        }}
+                    />
+                    {/* <Button text={'All Templates'} /> */}
+                    {/* </div> */}
+                    <TextInput
+                        value={template}
+                        label={'Subject'}
+                        name={'subject'}
+                    />
+                    {/* <TextArea rows={10} value={templateBody} label={'Message'} name={'message'} /> */}
+                    <BulkEmailEditor
+                        name={'message'}
+                        label={'Message'}
+                        content={templateBody}
+                    />
+
+                    <div className="mb-4 flex justify-between items-center">
+                        <FileUpload
+                            onChange={(docs: FileList) => {
+                                setAttachmentFiles((preVal: any) => [
+                                    ...preVal,
+                                    ...docs,
+                                ])
                             }}
+                            name={'attachment'}
+                            component={onFileUpload}
+                            multiple
+                            limit={Number(1111111111)}
                         />
-                        {/* <Button text={'All Templates'} /> */}
-                        {/* </div> */}
-                        <TextInput value={template} label={'Subject'} name={'subject'} />
-                        <TextArea rows={10} value={templateBody} label={'Message'} name={'message'} />
-                        <div className='mb-4 flex justify-between items-center'>
-                            <FileUpload
-                                onChange={(docs: FileList) => {
-                                    setAttachmentFiles((preVal: any) => [
-                                        ...preVal,
-                                        ...docs,
-                                    ])
-                                }}
-                                name={'attachment'}
-                                component={onFileUpload}
-                                multiple
-                                limit={Number(1111111111)}
-                            />
-                            <Button disabled={resultSendBulkEmail?.isLoading} loading={resultSendBulkEmail?.isLoading} text={'Send'} submit />
-                        </div>
-                    </Card>
+                        <Button
+                            disabled={resultSendBulkEmail?.isLoading}
+                            loading={resultSendBulkEmail?.isLoading}
+                            text={'Send'}
+                            submit
+                        />
+                    </div>
                 </form>
             </FormProvider>
         </>

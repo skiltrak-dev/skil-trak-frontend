@@ -355,7 +355,7 @@ export const ActiveStudents = ({
                         }}
                         /> */}
                         <Select
-                            label={'Search by Unit'}
+                            label={'Search by Course'}
                             name={'course'}
                             // defaultValue={courseOptions}
                             // value={courseValues}
