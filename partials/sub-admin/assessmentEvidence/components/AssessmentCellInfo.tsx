@@ -5,25 +5,33 @@ import Link from 'next/link'
 import { FaEnvelope, FaPhone } from 'react-icons/fa'
 import { MdEmail, MdPhoneIphone } from 'react-icons/md'
 
-export const AssessmentCellInfo = ({ student }: { student: Student }) => {
+export const AssessmentCellInfo = ({ item }: { item: any }) => {
+    console.log('student', item)
     return (
         <div className="flex items-center relative">
             <div className="flex items-center gap-x-2">
-                <div>
-                    <InitialAvatar
-                        name={student?.user?.name}
-                        imageUrl={student?.user?.avatar}
-                    />
-                </div>
+                {item?.student?.user?.name && (
+                    <div>
+                        <InitialAvatar
+                            name={item?.student?.user?.name}
+                            imageUrl={item?.student?.user?.avatar}
+                        />
+                    </div>
+                )}
 
                 <Link
                     legacyBehavior
-                    href={`/portals/sub-admin/tasks/assessment-evidence/${student?.id}/${student?.user?.id}`}
+                    href={{
+                        pathname: `/portals/sub-admin/tasks/assessment-evidence/${item?.student?.id}/${item?.student?.user?.id}`,
+                        query: {
+                            course: item?.course?.id,
+                        },
+                    }}
                 >
                     <a>
                         <div className="flex items-center gap-x-2">
                             <p className={'text-xs text-gray-500'}>
-                                {student?.studentId}
+                                {item?.student?.studentId}
                             </p>
                             {/* <div className="flex items-center gap-x-2 ">
                                             <div
@@ -42,21 +50,23 @@ export const AssessmentCellInfo = ({ student }: { student: Student }) => {
                                         </div> */}
                         </div>
                         <p className="text-gray-800 font-medium">
-                            {student?.user?.name}
+                            {item?.student?.user?.name}
                         </p>
                         <div className="flex items-center gap-x-2 text-sm">
                             <span className="text-gray-400">
                                 <FaEnvelope />
                             </span>
                             <p className="text-gray-500">
-                                {student?.user?.email}
+                                {item?.student?.user?.email}
                             </p>
                         </div>
                         <div className="flex items-center gap-x-2 text-sm">
                             <span className="text-gray-400">
                                 <FaPhone />
                             </span>
-                            <p className="text-gray-500">{student?.phone}</p>
+                            <p className="text-gray-500">
+                                {item?.student?.phone}
+                            </p>
                         </div>
                     </a>
                 </Link>

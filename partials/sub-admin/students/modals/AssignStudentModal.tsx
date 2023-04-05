@@ -1,7 +1,7 @@
 import { ActionModal } from '@components'
 import { useAlert, useNotification } from '@hooks'
 import { AdminApi } from '@queries'
-import { Student, Subscriber } from '@types'
+import { Student, SubAdmin, Subscriber } from '@types'
 import { useEffect } from 'react'
 import { FaBan } from 'react-icons/fa'
 import { HiCheckBadge } from 'react-icons/hi2'
@@ -10,11 +10,15 @@ import { HiCheckBadge } from 'react-icons/hi2'
 import { useAssignStudentsToSubAdminMutation } from '@queries'
 import { useChangeStatus } from '../hooks'
 
+interface StudentSubadmin extends Student {
+    subadmin?: SubAdmin
+}
+
 export const AssignStudentModal = ({
     student,
     onCancel,
 }: {
-    student: Student
+    student: StudentSubadmin
     onCancel: Function
 }) => {
     const { alert } = useAlert()
@@ -48,7 +52,9 @@ export const AssignStudentModal = ({
             Icon={HiCheckBadge}
             variant="success"
             title="Are you sure!"
-            description={`You are about to Assign  <em>"${student?.user?.name}"<em>. Do you wish to continue?`}
+            description={`You are about to ${
+                student?.subadmin ? 'Un-Assign' : 'Assign'
+            }  <em>"${student?.user?.name}"<em>. Do you wish to continue?`}
             onConfirm={onConfirmClicked}
             onCancel={onCancel}
             input

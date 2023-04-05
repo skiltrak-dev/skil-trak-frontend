@@ -11,6 +11,7 @@ import {
     TableAction,
     TableActionOption,
     Typography,
+    UserCreatedAt,
 } from '@components'
 
 // types
@@ -23,10 +24,13 @@ export const useColumns = () => {
     const tableActionOptions: TableActionOption[] = [
         {
             text: 'View',
-            onClick: (student: Student) => {
-                router.push(
-                    `/portals/sub-admin/tasks/assessment-evidence/${student?.id}/${student?.user?.id}`
-                )
+            onClick: (item: any) => {
+                router.push({
+                    pathname: `/portals/sub-admin/tasks/assessment-evidence/${item?.student?.id}/${item?.student?.user?.id}`,
+                    query: {
+                        course: item?.course?.id,
+                    },
+                })
             },
             Icon: FaEye,
         },
@@ -37,9 +41,7 @@ export const useColumns = () => {
             header: () => 'Name',
             accessorKey: 'user',
             sort: true,
-            cell: ({ row }: any) => (
-                <AssessmentCellInfo student={row.original?.student} />
-            ),
+            cell: ({ row }: any) => <AssessmentCellInfo item={row.original} />,
         },
         {
             header: () => 'Course',
@@ -75,7 +77,12 @@ export const useColumns = () => {
                     >
                         <a className="flex items-center gap-x-2">
                             <div className="shadow-inner-image rounded-full">
-                                <InitialAvatar name={name} imageUrl={avatar} />
+                                {name && (
+                                    <InitialAvatar
+                                        name={name}
+                                        imageUrl={avatar}
+                                    />
+                                )}
                             </div>
                             <div>
                                 <p className={'font-semibold'}>{name}</p>
@@ -109,13 +116,20 @@ export const useColumns = () => {
             ),
         },
         {
+            header: () => 'Submitted On',
+            accessorKey: 'result',
+            cell: ({ row }: any) => (
+                <UserCreatedAt createdAt={row.original?.createdAt} />
+            ),
+        },
+        {
             header: () => 'Action',
             accessorKey: 'Action',
             cell: ({ row }: any) => {
                 return (
                     <TableAction
                         options={tableActionOptions}
-                        rowItem={row.original?.student}
+                        rowItem={row.original}
                     />
                 )
             },

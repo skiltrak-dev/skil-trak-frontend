@@ -2,6 +2,7 @@ import { Button, PageTitle } from '@components'
 import React, { useState } from 'react'
 import { ActiveAssessmentDetail } from './ActiveAssessmentDetail'
 import { ArchivedAssessmentDetail } from './ArchivedAssessmentDetail'
+import { useRouter } from 'next/router'
 
 export const Detail = ({
     studentId,

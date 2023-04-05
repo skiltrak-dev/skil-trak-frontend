@@ -1,11 +1,17 @@
 import { useEffect, useRef } from 'react'
 import { useNotification } from 'hooks'
 
-export const ShowErrorNotifications = ({ result }: { result: any }) => {
+export const ShowErrorNotifications = ({
+    result,
+    variant = 'error',
+}: {
+    result: any
+    variant?: string
+}) => {
     const { notification } = useNotification()
     const notificationRef = useRef(notification)
     notificationRef.current = notification
-    
+
     useEffect(() => {
         const showErrorNotifications = async () => {
             if (result?.isError) {
@@ -13,14 +19,14 @@ export const ShowErrorNotifications = ({ result }: { result: any }) => {
                 if (errorTitle && Array.isArray(result.error?.data?.message)) {
                     for (let msg of result.error?.data?.message) {
                         await new Promise((resolve) => setTimeout(resolve, 100))
-                        notificationRef.current.error({
+                        notificationRef.current['error']({
                             title: errorTitle,
                             description: msg,
                             autoDismiss: true,
                         })
                     }
                 } else {
-                    notificationRef.current.error({
+                    notificationRef.current['error']({
                         title: errorTitle || 'Some thing is not right',
                         description:
                             result.error?.data?.message ||
