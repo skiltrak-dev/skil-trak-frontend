@@ -76,7 +76,7 @@ export const Students = ({ data }: Props) => {
                 onCancel={() => onModalCancelClicked()}
             />
         )
-    }
+}
 
     const tableActionOptions: TableActionOption[] = [
         {

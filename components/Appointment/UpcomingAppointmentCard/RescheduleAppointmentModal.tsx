@@ -39,22 +39,23 @@ export const RescheduleAppointmentModal = ({
         }
     }, [rescheduleAppointmentResult])
 
-    const timeSlots = CommonApi.Appointments.useAppointmentsAvailableSlots(
-        {
-            id: appointment?.type?.id,
-            date: selectedDate?.toISOString(),
-            forUser: appointment?.appointmentFor?.id,
-            byUser: appointment?.appointmentBy?.id,
-        },
-        {
-            skip:
-                !selectedDate ||
-                !appointment?.type?.id ||
-                !appointment?.appointmentFor?.id ||
-                !appointment?.appointmentBy?.id ||
-                !slots,
-        }
-    )
+    const timeSlots =
+        CommonApi.Appointments.getRescheduleAppointmentsAvailableSlots(
+            {
+                id: appointment?.type?.id,
+                date: selectedDate?.toISOString(),
+                forUser: appointment?.appointmentFor?.id,
+                byUser: appointment?.appointmentBy?.id,
+            },
+            {
+                skip:
+                    !selectedDate ||
+                    !appointment?.type?.id ||
+                    !appointment?.appointmentFor?.id ||
+                    !appointment?.appointmentBy?.id ||
+                    !slots,
+            }
+        )
 
     const onSubmit = () => {
         let date = selectedDate

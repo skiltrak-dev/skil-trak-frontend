@@ -58,6 +58,13 @@ export const appointmentsEndpoints = (
         }),
         providesTags: ['Appointments'],
     }),
+    getRescheduleAppointmentsAvailableSlots: builder.query<any, any>({
+        query: (params) => ({
+            url: `${PREFIX}/available/slots`,
+            params,
+        }),
+        providesTags: ['Appointments'],
+    }),
     allCoordinators: builder.query<any, void>({
         query: () => `${PREFIX}/coordinator/list`,
         providesTags: ['Appointments'],
