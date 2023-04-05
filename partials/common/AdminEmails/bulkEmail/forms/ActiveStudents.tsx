@@ -21,7 +21,9 @@ import {
     convertFromHTML,
     convertToRaw,
 } from 'draft-js'
+import * as yup from 'yup'
 import draftToHtml from 'draftjs-to-html'
+import { yupResolver } from '@hookform/resolvers/yup'
 type Props = {
     selectedUser: any
     setSelectedUser: any
@@ -63,8 +65,8 @@ export const ActiveStudents = ({
         selectedStudent === 'With Workplace'
             ? 1
             : selectedStudent === 'Without Workplace'
-                ? 2
-                : undefined
+            ? 2
+            : undefined
     // rtos list, industries list, courses list
     const rtoResponse = CommonApi.Rtos.useRtosList()
     const industriesResponse = CommonApi.Industries.useIndustriesList()
@@ -87,9 +89,9 @@ export const ActiveStudents = ({
     // console.log("bulkMailStudentsResponse", bulkMailStudentsResponse?.data)
     const studentsOptions = bulkMailStudentsResponse.data?.length
         ? bulkMailStudentsResponse?.data?.map((student: any) => ({
-            label: `${student?.user?.name} ${student?.studentId}`,
-            value: student?.id,
-        }))
+              label: `${student?.user?.name} ${student?.studentId}`,
+              value: student?.id,
+          }))
         : []
 
     const checkAllStudents = () => {
@@ -107,27 +109,27 @@ export const ActiveStudents = ({
 
     const rtoOptions = rtoResponse.data?.length
         ? rtoResponse?.data?.map((rto: any) => ({
-            label: rto?.user?.name,
-            value: rto?.id,
-        }))
+              label: rto?.user?.name,
+              value: rto?.id,
+          }))
         : []
 
     //industries list
 
     const industryOptions = industriesResponse.data?.length
         ? industriesResponse?.data?.map((rto: any) => ({
-            label: rto?.user?.name,
-            value: rto?.id,
-        }))
+              label: rto?.user?.name,
+              value: rto?.id,
+          }))
         : []
 
     // Templates List
     const getTemplates = CommonApi.Messages.useAllTemplates()
     const templateOptions = getTemplates?.data?.length
         ? getTemplates?.data?.map((template: any) => ({
-            label: template?.subject,
-            value: template?.id,
-        }))
+              label: template?.subject,
+              value: template?.id,
+          }))
         : []
 
     const findTemplate = (id: any) => {
@@ -141,9 +143,9 @@ export const ActiveStudents = ({
 
     const coursesOptions = coursesResponse.data?.length
         ? coursesResponse?.data?.map((course: any) => ({
-            label: course?.title,
-            value: course?.id,
-        }))
+              label: course?.title,
+              value: course?.id,
+          }))
         : []
 
     const getStudentIds = selectAll?.map((student: any) => student?.value)
@@ -170,10 +172,18 @@ export const ActiveStudents = ({
         },
     ]
 
+    const validationSchema = yup.object({
+        student: yup
+            .array()
+            .min(1, 'Must select at least 1 Student')
+            .required(),
+        // name : yup.
+    })
     const formMethods = useForm({
         mode: 'all',
-        // resolver: yupResolver(validationSchema),
+        resolver: yupResolver(validationSchema),
     })
+
     const onRemoveFile = (fileId: number) => {
         setAttachmentFiles((preVal: any) => [
             ...preVal?.filter((file: File) => file?.lastModified !== fileId),
@@ -195,6 +205,7 @@ export const ActiveStudents = ({
         )
     }
     const onSubmit = (data: any) => {
+        console.log('datata', data)
         let content = ''
         if (data?.message) {
             content = draftToHtml(
@@ -223,18 +234,18 @@ export const ActiveStudents = ({
             attachment?.forEach((attached: File) => {
                 formData.append('attachment', attached)
             })
-        formData.append('users', studentsIds)
-        formData.append('template', templateId)
+        formData.append('users', studentsIds || '')
+        formData.append('template', templateId || '')
         formData.append('message', content)
 
         sendBulkEmail(formData)
         // sendBulk({ users: studentsIds, template: templateId })
     }
-    useEffect(() => {
-        if (selectAll && selectAll?.length > 0) {
-            formMethods.setValue('student', selectAll)
-        }
-    }, [selectAll])
+    // useEffect(() => {
+    //     if (selectAll && selectAll?.length > 0) {
+    //         formMethods.setValue('student', selectAll)
+    //     }
+    // }, [selectAll])
     useEffect(() => {
         if (template && template?.length > 0) {
             formMethods.setValue('subject', template)
@@ -385,13 +396,13 @@ export const ActiveStudents = ({
                         onChange={checkAllStudents}
                         defaultChecked={isChecked}
 
-                    // defaultChecked={
-                    //     bulkMailStudentsResponse?.data?.isSuccess &&
-                    //     bulkMailStudentsResponse?.data?.length ===
-                    //         selectAll?.length
-                    //         ? true
-                    //         : false
-                    // }
+                        // defaultChecked={
+                        //     bulkMailStudentsResponse?.data?.isSuccess &&
+                        //     bulkMailStudentsResponse?.data?.length ===
+                        //         selectAll?.length
+                        //         ? true
+                        //         : false
+                        // }
                     />
 
                     {/* <div className="flex justify-between items-center"> */}

@@ -11,6 +11,7 @@ import {
     TableAction,
     TableActionOption,
     Typography,
+    UserCreatedAt,
 } from '@components'
 
 // types
@@ -75,7 +76,12 @@ export const useColumns = () => {
                     >
                         <a className="flex items-center gap-x-2">
                             <div className="shadow-inner-image rounded-full">
-                                <InitialAvatar name={name} imageUrl={avatar} />
+                                {name && (
+                                    <InitialAvatar
+                                        name={name}
+                                        imageUrl={avatar}
+                                    />
+                                )}
                             </div>
                             <div>
                                 <p className={'font-semibold'}>{name}</p>
@@ -106,6 +112,13 @@ export const useColumns = () => {
                 <Typography variant={'label'} capitalize>
                     {row.original?.result}
                 </Typography>
+            ),
+        },
+        {
+            header: () => 'Submitted On',
+            accessorKey: 'result',
+            cell: ({ row }: any) => (
+                <UserCreatedAt createdAt={row.original?.createdAt} />
             ),
         },
         {

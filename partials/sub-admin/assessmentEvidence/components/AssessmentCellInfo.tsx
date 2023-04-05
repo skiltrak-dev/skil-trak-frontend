@@ -9,12 +9,14 @@ export const AssessmentCellInfo = ({ student }: { student: Student }) => {
     return (
         <div className="flex items-center relative">
             <div className="flex items-center gap-x-2">
-                <div>
-                    <InitialAvatar
-                        name={student?.user?.name}
-                        imageUrl={student?.user?.avatar}
-                    />
-                </div>
+                {student?.user?.name && (
+                    <div>
+                        <InitialAvatar
+                            name={student?.user?.name}
+                            imageUrl={student?.user?.avatar}
+                        />
+                    </div>
+                )}
 
                 <Link
                     legacyBehavior
