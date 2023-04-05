@@ -8,6 +8,7 @@ import { CalendarStyles } from './style'
 export const SidebarCalendar = ({ enabledDays, setSelectedDate }: any) => {
     const [isDateChange, setIsDateChange] = useState(false)
     const [date, setDate] = useState(new Date())
+    const todayDate = new Date(Date.now() - 3600 * 1000 * 24)
 
     const [mounted, setMounted] = useState(false)
 
@@ -23,7 +24,7 @@ export const SidebarCalendar = ({ enabledDays, setSelectedDate }: any) => {
         }
     }, [])
 
-    console.log('date <= new Date()', date < new Date())
+    // console.log('date <= new Date()', date == new Date())
 
     return mounted ? (
         <CalendarStyles>
@@ -32,7 +33,7 @@ export const SidebarCalendar = ({ enabledDays, setSelectedDate }: any) => {
                     ? {
                           tileDisabled: ({ date }) =>
                               !enabledDays?.includes(date.getDay()) ||
-                              date <= new Date(),
+                              date < todayDate,
                       }
                     : {})}
                 onChange={(e: Date) => {

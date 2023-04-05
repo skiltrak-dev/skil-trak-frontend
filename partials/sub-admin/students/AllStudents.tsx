@@ -123,45 +123,48 @@ export const AllStudents = () => {
         setModal(<BlockModal item={student} onCancel={onModalCancelClicked} />)
     }
 
-    const tableActionOptions: TableActionOption[] = [
-        {
-            text: 'View',
-            onClick: (student: Student) => {
-                router.push(
-                    `/portals/sub-admin/students/${student.id}?tab=overview`
-                )
-                setLink('subadmin-student', router)
+    const tableActionOptions = (student: any) => {
+        console.log('student', student)
+        return [
+            {
+                text: 'View',
+                onClick: (student: Student) => {
+                    router.push(
+                        `/portals/sub-admin/students/${student.id}?tab=overview`
+                    )
+                    setLink('subadmin-student', router)
+                },
+                Icon: FaEye,
             },
-            Icon: FaEye,
-        },
-        {
-            text: 'Assign to me',
-            onClick: (student: Student) => onAssignStudentClicked(student),
-            Icon: MdBlock,
-            color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
-        },
-        {
-            text: 'Change Status',
-            onClick: (student: Student) => onChangeStatus(student),
-            Icon: FaEdit,
-        },
-        {
-            text: 'View Password',
-            onClick: (student: Student) => onViewPassword(student),
-            Icon: RiLockPasswordFill,
-        },
-        {
-            text: 'Block',
-            onClick: (student: Student) => onBlockClicked(student),
-            Icon: MdBlock,
-            color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
-        },
-        {
-            text: 'Change Expiry',
-            onClick: (student: Student) => onDateClick(student),
-            Icon: FaEdit,
-        },
-    ]
+            {
+                text: student?.subadmin ? 'Un Assign' : 'Assign to me',
+                onClick: (student: Student) => onAssignStudentClicked(student),
+                Icon: MdBlock,
+                color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
+            },
+            {
+                text: 'Change Status',
+                onClick: (student: Student) => onChangeStatus(student),
+                Icon: FaEdit,
+            },
+            {
+                text: 'View Password',
+                onClick: (student: Student) => onViewPassword(student),
+                Icon: RiLockPasswordFill,
+            },
+            {
+                text: 'Block',
+                onClick: (student: Student) => onBlockClicked(student),
+                Icon: MdBlock,
+                color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
+            },
+            {
+                text: 'Change Expiry',
+                onClick: (student: Student) => onDateClick(student),
+                Icon: FaEdit,
+            },
+        ]
+    }
 
     const Columns: ColumnDef<Student>[] = [
         {
@@ -236,9 +239,10 @@ export const AllStudents = () => {
             header: () => 'Action',
             accessorKey: 'Action',
             cell: ({ row }: any) => {
+                const tableActionOption = tableActionOptions(row.original)
                 return (
                     <TableAction
-                        options={tableActionOptions}
+                        options={tableActionOption}
                         rowItem={row.original}
                     />
                 )

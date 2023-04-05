@@ -156,7 +156,6 @@ const SubAdminDashboard: NextPageWithLayout = () => {
                     disableBeacon: true,
                 },
                 {
-
                     target: '#student-profile',
                     content: (
                         <>
@@ -202,8 +201,7 @@ const SubAdminDashboard: NextPageWithLayout = () => {
                             run: false,
                         }))
                         router.push('/portals/sub-admin/students?tab=all')
-                    }
-                     else if (action === 'reset' || lifecycle === 'complete') {
+                    } else if (action === 'reset' || lifecycle === 'complete') {
                         joyride.setState({
                             ...joyride.state,
                             run: false,
@@ -695,6 +693,10 @@ const SubAdminDashboard: NextPageWithLayout = () => {
     useEffect(() => {
         contextBar.setContent(<ViewProfileCB />)
         contextBar.show(false)
+        return () => {
+            contextBar.setContent(null)
+            contextBar.hide()
+        }
     }, [])
 
     useEffect(() => {

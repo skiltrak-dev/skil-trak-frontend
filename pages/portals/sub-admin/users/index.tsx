@@ -93,6 +93,11 @@ const SubAdminUsers: NextPageWithLayout = () => {
             </>
         )
         contextBar.show(false)
+
+        return () => {
+            contextBar.setContent(null)
+            contextBar.hide()
+        }
     }, [])
 
     // USER JOY RIDE - Start

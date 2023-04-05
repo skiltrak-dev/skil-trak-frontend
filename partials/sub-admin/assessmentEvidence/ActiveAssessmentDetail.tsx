@@ -44,6 +44,10 @@ export const ActiveAssessmentDetail = ({
 }) => {
     const router = useRouter()
 
+    const { course } = router.query
+
+    console.log('course', course)
+
     const [selectedCourse, setSelectedCourse] = useState<any | null>(null)
     const [selectedFolder, setSelectedFolder] = useState<any | null>(null)
     const [manualReOpen, setManualReOpen] = useState<boolean>(false)
@@ -95,10 +99,12 @@ export const ActiveAssessmentDetail = ({
                     ? studentCourses?.data?.find(
                           (c: any) => c?.id === selectedCourse?.id
                       )
+                    : course
+                    ? studentCourses?.data?.find((c: any) => c?.id == course)
                     : studentCourses?.data[0]
             )
         }
-    }, [studentCourses, manuallyReopenSubmissionResult])
+    }, [studentCourses, manuallyReopenSubmissionResult, course])
 
     useEffect(() => {
         if (getFolders.isSuccess) {
