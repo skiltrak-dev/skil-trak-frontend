@@ -1,12 +1,12 @@
-import { Button, Select, Typography, TextInput, FileUpload } from '@components'
-import { FormProvider, useForm } from 'react-hook-form'
-import * as yup from 'yup'
+import { Button, Select, TextInput } from '@components'
+import { BinaryFileUpload } from '@components/inputs/BinaryFileUpload'
 import { yupResolver } from '@hookform/resolvers/yup'
+import { useNotification } from '@hooks'
 import { AdminApi } from '@queries'
 import { useEffect, useState } from 'react'
-import { Course } from '@types'
-import { read, readFile, utils, writeFile } from 'xlsx'
-import { BinaryFileUpload } from '@components/inputs/BinaryFileUpload'
+import { FormProvider, useForm } from 'react-hook-form'
+import { read, utils } from 'xlsx'
+import * as yup from 'yup'
 
 interface FormProps {
     onSubmit: any
@@ -24,13 +24,13 @@ export const ImportStudentForm = ({
     onStudentFound,
     setEmailExistList,
 }: FormProps) => {
+    const { notification } = useNotification()
     const [mount, setMount] = useState(false)
     useEffect(() => {
         if (!mount) setMount(true)
     }, [])
 
     const sectors = AdminApi.Sectors.useListQuery({})
-    // const [checkEmail, checkEmailResult] = AdminApi.Rtos.useCheckStudentEmail()
 
     const courses = AdminApi.Courses.useListQuery({})
     const [courseOptions, setCourseOptions] = useState<any>([])
@@ -56,7 +56,10 @@ export const ImportStudentForm = ({
         )
     }
 
-    const validationSchema = yup.object({})
+    const validationSchema = yup.object({
+        batch: yup.string().required('Batch required'),
+        expiry: yup.string().required('Expiry required'),
+    })
 
     const methods = useForm({
         resolver: yupResolver(validationSchema),
@@ -65,19 +68,19 @@ export const ImportStudentForm = ({
     })
 
     const onFileChange = async (e: any, fileData: any) => {
-        // const wb = readFile(e.target.result)
-        const wb = read(e.target.result, { type: 'binary' })
-        const sheets = wb.SheetNames
+        try {
+            const wb = read(e.target.result, { type: 'binary' })
+            const sheets = wb.SheetNames
 
-        if (sheets.length) {
-            const rows = utils.sheet_to_json(wb.Sheets[sheets[0]])
-            // const result: any = await checkEmail({
-            //     body: rows.map((row: any) => row.email),
-            // })
-            // if (result?.data && result?.data?.email) {
-            //     setEmailExists([...emailExists, result?.data?.email])
-            // }
-            onStudentFound && onStudentFound(rows, fileData)
+            if (sheets.length) {
+                const rows = utils.sheet_to_json(wb.Sheets[sheets[0]])
+                onStudentFound && onStudentFound(rows, fileData)
+            }
+        } catch (err) {
+            notification.error({
+                title: 'Invalid File',
+                description: 'File should be .csv or .xlsx',
+            })
         }
     }
 
@@ -131,6 +134,8 @@ export const ImportStudentForm = ({
                             name="list"
                             onChange={onFileChange}
                             fileAsObject={false}
+                            acceptTypes={['csv', 'xlsx', 'numbers']}
+                            
                         />
                     </div>
                 </div>

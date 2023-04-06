@@ -1,4 +1,4 @@
-import { useAlert, useContextBar, useNavbar } from '@hooks'
+import { useAlert, useContextBar, useNavbar, useNotification } from '@hooks'
 import { AdminLayout } from '@layouts'
 import { NextPageWithLayout } from '@types'
 import { useRouter } from 'next/router'
@@ -19,7 +19,7 @@ import { RtoApi } from '@queries'
 import { setupListeners } from '@reduxjs/toolkit/dist/query'
 
 const RtoStudentLists: NextPageWithLayout = () => {
-    const { alert } = useAlert()
+    const { notification } = useNotification()
     const router = useRouter()
     const navBar = useNavbar()
     const contextBar = useContextBar()
@@ -93,23 +93,31 @@ const RtoStudentLists: NextPageWithLayout = () => {
 
         // await importStudents({ id: Number(router.query.id), body: formData })
 
-        let list = [...foundStudents]
+        let list = foundStudents.filter((fs: any) => !!fs.email)
+
         if (existingEmails.length) {
             existingEmails.forEach((item: any) => {
-                if (list.findIndex((o) => o.email === item.email) !== -1) {
-                    list = list.filter((o) => o.email !== item.email)
+                if (list.findIndex((o: any) => o.email === item.email) !== -1) {
+                    list = list.filter((o: any) => o.email !== item.email)
                 }
             })
         }
 
-        await importStudents({
-            id: Number(router.query.id),
-            body: {
-                ...values,
-                courses,
-                list,
-            },
-        })
+        if (list.length === 0) {
+            notification.error({
+                title: 'No Student Found',
+                description: 'List is invalid or empty',
+            })
+        } else {
+            await importStudents({
+                id: Number(router.query.id),
+                body: {
+                    ...values,
+                    courses,
+                    list,
+                },
+            })
+        }
     }
     const onColumnsChange = (columns: any) => {
         setColumnsToRead(columns)
