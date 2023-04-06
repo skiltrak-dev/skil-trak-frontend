@@ -119,6 +119,7 @@ const {
     useRtoAssignCoursesMutation,
     useRtoUnassignCourseMutation,
     useRtoImportStudentsMutation,
+    useRtoImportStudentExistingEmailCheckMutation,
     useRtoAddStudentMutation,
 
     useRtoSubAdminsQuery,
@@ -261,6 +262,8 @@ export const AdminApi = {
         useArchiveAssessmentTools: useRtoAssessmentToolArchiveMutation,
         useRtoImportStudents: useRtoImportStudentsMutation,
         useRtoAddStudent: useRtoAddStudentMutation,
+        useRtoStudentAccountCheck:
+            useRtoImportStudentExistingEmailCheckMutation,
         useCheckStudentEmail: useCheckStudentEmailMutation,
 
         useSectors: useRtoSectorsQuery,

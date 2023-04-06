@@ -170,6 +170,16 @@ export const rtoEndpoints = (
         },
         invalidatesTags: ['RTOS'],
     }),
+    rtoImportStudentExistingEmailCheck: builder.mutation<any, any>({
+        query: (body: any) => {
+            return {
+                url: `${PREFIX}/students/existing-emails`,
+                method: 'POST',
+                body,
+            }
+        },
+        invalidatesTags: ['RTOS'],
+    }),
     rtoAddStudent: builder.mutation({
         query: ({ id, body }: any) => {
             return {
@@ -198,5 +208,10 @@ export const rtoEndpoints = (
             method: 'DELETE',
         }),
         invalidatesTags: ['RTOS'],
+    }),
+
+    studentAccountsExists: builder.query<Rto, number>({
+        query: (id: number) => `${PREFIX}/rtos/view/${id}`,
+        providesTags: ['STUDENT EMAILS'],
     }),
 })
