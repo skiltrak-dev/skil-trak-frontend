@@ -1,7 +1,6 @@
 import { Controller, useFormContext } from 'react-hook-form'
 
 import dynamic from 'next/dynamic'
-
 import { EditorProps } from 'react-draft-wysiwyg'
 const Editor = dynamic<EditorProps>(
     () => import('react-draft-wysiwyg').then((mod) => mod.Editor),
@@ -17,6 +16,7 @@ import { Typography } from '@components/Typography'
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css'
 import { useEffect } from 'react'
 import { ContentState, EditorState, convertFromHTML } from 'draft-js'
+import { InputErrorMessage } from '@components/inputs/components'
 
 export const BulkEmailEditor = ({
     name,
@@ -25,7 +25,7 @@ export const BulkEmailEditor = ({
 }: {
     name: string
     label?: string
-    content: any
+    content?: any
 }) => {
     const methods = useFormContext()
 
@@ -65,6 +65,7 @@ export const BulkEmailEditor = ({
                     )
                 }}
             />
+            <InputErrorMessage name={name} />
         </div>
     )
 }

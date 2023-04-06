@@ -71,31 +71,6 @@ const VolunteerRequests: NextPageWithLayout = (props: Props) => {
     ]
 
     const columns: ColumnDef<any>[] = [
-        // {
-        //   header: () => <span>Title</span>,
-        //   accessorKey: '',
-        //   cell: (info) => {
-        //     return (
-        //       <div>
-        //         <p className="font-semibold">
-        //           {info.row.original.id}
-        //         </p>
-
-        //       </div>
-        //     )
-        //   },
-        // },
-        // {
-        //   header: () => <span>Description</span>,
-        //   accessorKey: '',
-        //   cell: (info) => {
-        //     return (
-        //       <ActionButton variant="link" simple>
-        //         View
-        //       </ActionButton>
-        //     )
-        //   },
-        // },
         {
             header: () => <span>Name</span>,
             accessorKey: 'jobDescription',
@@ -146,59 +121,7 @@ const VolunteerRequests: NextPageWithLayout = (props: Props) => {
             accessorKey: 'industry.enrolledStudents',
             cell: (info) => info.getValue(),
         },
-        // {
-        //   header: () => <span>Contact Person</span>,
-        //   accessorKey: 'contactPerson',
-        //   cell: (info) => {
-        //     return (
-        //       <div className="flex items-center gap-x-2">
-        //         <InitialAvatar
-        //           name={info.row.original.contactPerson}
-        //           small
-        //         />
-        //         <p>{info.row.original.contactPerson}</p>
-        //       </div>
-        //     )
-        //   },
-        // },
-        // {
-        //   header: () => <span>Address</span>,
-        //   accessorKey: 'suburb',
-        //   cell: (info) => info.getValue(),
-        // },
-        // {
-        //   header: () => <span>Salary</span>,
-        //   accessorKey: 'salaryFrom',
-        //   cell: (info) => {
-        //     return (
-        //       <div>
-        //         <span className="text-gray-400">AUD</span>{' '}
-        //         <span className="text-gray-600 font-semibold">
-        //           {info.row.original.salaryFrom}
-        //         </span>{' '}
-        //         - <span className="text-gray-400">AUD</span>{' '}
-        //         <span className="text-gray-600 font-semibold">
-        //           {info.row.original.salaryTo}
-        //         </span>
-        //       </div>
-        //     )
-        //   },
-        // },
-
-        // {
-        //   accessorKey: 'action',
-        //   header: () => <span>Action</span>,
-        //   cell: (info) => {
-        //     return (
-        //       <div className="flex gap-x-1 items-center">
-        //         <TableAction
-        //           options={tableActionOptions}
-        //           rowItem={info.row.original}
-        //         />
-        //       </div>
-        //     )
-        //   },
-        // },
+        
     ]
 
     return (

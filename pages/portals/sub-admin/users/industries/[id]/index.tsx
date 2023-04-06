@@ -84,12 +84,12 @@ const IndustriesProfile: NextPageWithLayout = (props: Props) => {
         navBar.setSubTitle(data?.user?.name)
     }, [data])
 
-    useEffect(() => {
-        if (isSuccess && data) {
-            setContent(<IndustryProfile data={data} />)
-            show(false)
-        }
-    }, [data, isSuccess, setContent])
+    // useEffect(() => {
+    //     if (isSuccess && data) {
+    //         setContent(<IndustryProfile data={data} />)
+    //         show(false)
+    //     }
+    // }, [data, isSuccess, setContent])
 
     const tabs: TabProps[] = [
         {
