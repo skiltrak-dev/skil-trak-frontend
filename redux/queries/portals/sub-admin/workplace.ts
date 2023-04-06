@@ -172,7 +172,6 @@ export const workplaceEndpoints = (
     }),
     changeCustomIndustryStatus: builder.mutation<any, any>({
         query: ({ industryId, status, workplaceId }) => {
-            console.log('industryId', industryId)
             return {
                 url: `${PREFIX}custom-workplace-request/action/${industryId}/${workplaceId}`,
                 method: 'PATCH',

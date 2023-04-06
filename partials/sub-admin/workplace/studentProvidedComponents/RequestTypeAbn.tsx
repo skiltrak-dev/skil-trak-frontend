@@ -131,7 +131,6 @@ export const RequestTypeAbn = ({
             secondaryText: 'for Workplace Response',
             color: 'text-info-light',
             onClick: (isCleared: any) => {
-                console.log('Outer', appliedIndustry)
                 if (workplace?.assignedTo) {
                     onForwardClicked(appliedIndustry)
                     isCleared(true)
