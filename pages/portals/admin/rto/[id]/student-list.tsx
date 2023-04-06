@@ -7,6 +7,7 @@ import { ReactElement, useEffect, useState } from 'react'
 import { AdminApi } from '@queries'
 import {
     BackButton,
+    Button,
     Card,
     PageTitle,
     ShowErrorNotifications,
@@ -119,7 +120,7 @@ const RtoStudentLists: NextPageWithLayout = () => {
             //     title: `Import Successful`,
             //     description: `${importStudentsResult.data.created} Student(s) has been added`,
             // })
-            router.back()
+            // router.back()
         }
     }, [importStudentsResult])
 
@@ -177,8 +178,7 @@ const RtoStudentLists: NextPageWithLayout = () => {
                                                     <p>
                                                         Following user already
                                                         have accounts, their
-                                                        accounts will not be
-                                                        ignores:
+                                                        accounts will ignored:
                                                     </p>
                                                     <ul>
                                                         {checkMailsResult.data?.map(
@@ -351,6 +351,15 @@ const RtoStudentLists: NextPageWithLayout = () => {
                         ) : (
                             <></>
                         )}
+
+                        <div>
+                            <Button
+                                text="Back"
+                                onClick={() => {
+                                    router.back()
+                                }}
+                            />
+                        </div>
                     </div>
                 )}
             </div>
