@@ -42,7 +42,7 @@ export const AllStudents = () => {
     const router = useRouter()
 
     const [mount, setMount] = useState(false)
-    const [changeExpiryData, setChangeExpiryData] = useState(false)
+    const [refetchStudents, setRefetchStudents] = useState(false)
 
     // hooks
     const { passwordModal, onViewPassword } = useActionModal()
@@ -82,10 +82,10 @@ export const AllStudents = () => {
     })
 
     useEffect(() => {
-        if (changeExpiryData) {
+        if (refetchStudents) {
             refetch()
         }
-    }, [changeExpiryData])
+    }, [refetchStudents])
 
     const onModalCancelClicked = () => {
         setModal(null)
@@ -114,7 +114,7 @@ export const AllStudents = () => {
                 studentId={student?.user?.id}
                 date={student?.expiryDate}
                 onCancel={onModalCancelClicked}
-                changeExpiryData={setChangeExpiryData}
+                changeExpiryData={setRefetchStudents}
             />
         )
     }
@@ -220,10 +220,16 @@ export const AllStudents = () => {
                 )
 
                 return industries?.length > 0 ? (
-                    <StudentStatusProgressCell step={studentStatus} />
+                    <StudentStatusProgressCell
+                        studentId={row.original?.id}
+                        step={studentStatus}
+                        setStatusSuccessResult={setRefetchStudents}
+                    />
                 ) : (
                     <ProgressCell
+                        studentId={row.original?.id}
                         step={steps > 14 ? 14 : steps < 1 ? 1 : steps}
+                        setStatusSuccessResult={setRefetchStudents}
                     />
                 )
             },

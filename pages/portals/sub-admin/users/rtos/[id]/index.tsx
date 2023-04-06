@@ -42,7 +42,7 @@ type Props = {}
 const RtoProfile: NextPageWithLayout = (props: Props) => {
     const pathname = useRouter()
     const { id } = pathname.query
-    const { setContent, show } = useContextBar()
+    const { setContent, show, hide } = useContextBar()
     const rtoDetail = useGetSubAdminRTODetailQuery(String(id), {
         skip: !id,
         refetchOnMountOrArgChange: true,
@@ -61,6 +61,10 @@ const RtoProfile: NextPageWithLayout = (props: Props) => {
                 </>
             )
             show(false)
+        }
+        return () => {
+            setContent(null)
+            hide()
         }
     }, [rtoDetail, setContent])
 

@@ -170,7 +170,7 @@ export const StudentSignUpForm = ({ onSubmit }: { onSubmit: any }) => {
         if (SignUpUtils.getEditingMode()) {
             const values = SignUpUtils.getValuesFromStorage()
             setStoredData(values)
-            setCourseOptions(values.courses)
+            setCourseOptions(values?.courses)
         }
     }, [])
 

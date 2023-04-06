@@ -355,7 +355,7 @@ export const RequestTypeAbn = ({
                 </div>
 
                 {visibleRequestType && (
-                    <div className="shadow absolute z-10 w-full bg-white rounded-md py-2 mt-1">
+                    <div className="shadow absolute z-10 w-full bg-white rounded-md py-2 mt-1 h-80 overflow-auto custom-scrollbar">
                         {requestTypeActions.map((type, i) => (
                             <div
                                 key={`request_type_${i}`}

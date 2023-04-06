@@ -199,6 +199,7 @@ const {
     useSubAdminUnassignRtoMutation,
 
     //------ WORKPLACE -----//
+    useWorkplacesCountQuery,
     useAssignCourseMutation,
     useFilteredWorkplacesQuery,
     useCancelledWorkplacesQuery,
@@ -313,6 +314,7 @@ export const AdminApi = {
         useSummary: useViewSummaryQuery,
     },
     Workplace: {
+        workplacesCount: useWorkplacesCountQuery,
         assignCourse: useAssignCourseMutation,
         useListQuery: useUnAssignedSubAdminsQuery,
         cancelledWorkplaces: useCancelledWorkplacesQuery,

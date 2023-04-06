@@ -17,8 +17,8 @@ export const SmallIndustryCard = ({ industry }: any) => {
                     {ellipsisText(industry?.industry?.user?.name, 10)}
                 </Typography>
                 <BsDot />
-                <Typography variant={'badge'} color={'text-gray-400'}>
-                    5km away
+                <Typography variant={'badge'} color={'text-gray-500'}>
+                    {Number(industry?.distance)?.toFixed(2)} Km Away
                 </Typography>
             </div>
         </div>
