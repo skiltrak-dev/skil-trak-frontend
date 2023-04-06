@@ -9,6 +9,7 @@ import {
     AppointmentTab,
 } from '@partials/common'
 import { RequiredDocs } from './RequiredDocs'
+import { WorkplaceTab } from './WorkplaceTab'
 export const DetailTabs = ({
     id,
     student,
@@ -50,6 +51,11 @@ export const DetailTabs = ({
                     industry={student?.industries[0]}
                 />
             ),
+        },
+        {
+            label: 'Workplace',
+            href: { pathname: String(id), query: { tab: 'workplace' } },
+            element: <WorkplaceTab studentId={student?.id} />,
         },
         {
             label: 'Appointments',

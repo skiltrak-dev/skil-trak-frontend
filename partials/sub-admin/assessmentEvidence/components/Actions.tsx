@@ -64,6 +64,10 @@ export const Actions = ({
                     : '#'
             )
             setEditAssessment(false)
+            notification.success({
+                title: 'Result Added',
+                description: 'Result Added Successfully',
+            })
         }
     }, [submitAssessmentEvidenceResult])
 

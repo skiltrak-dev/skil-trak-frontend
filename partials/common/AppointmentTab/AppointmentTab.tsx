@@ -3,7 +3,7 @@ import { PastAppointments, UpcomingAppointments } from '../appointments'
 
 export const AppointmentTab = ({ userId }: { userId: number }) => {
     return (
-        <div>
+        <div className='mt-7'>
             <UpcomingAppointments userId={userId} />
             <PastAppointments userId={userId} />
         </div>

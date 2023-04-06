@@ -31,7 +31,7 @@ export const Tab = ({ label, href, badge, active, element }: TabProps) => {
     const classes = classNames({
         'text-sm font-semibold p-4 border-b transition-all duration-500 hover:text-gray-600':
             true,
-        'flex items-center': true,
+        'flex items-center flex-shrink-0': true,
         'text-gray-400 border-transparent': !active,
         'text-gray-800 border-orange-500': active,
     })
@@ -46,7 +46,9 @@ export const Tab = ({ label, href, badge, active, element }: TabProps) => {
 
     return (
         <div className={classes}>
-            <Link legacyBehavior href={href}>{label}</Link>
+            <Link legacyBehavior href={href}>
+                {label}
+            </Link>
             {badge && (
                 <>
                     {badge?.loading && (
