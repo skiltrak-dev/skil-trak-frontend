@@ -81,6 +81,22 @@ export const mailsEndpoints = (
         }),
         invalidatesTags: ['Mails'],
     }),
+
+    createNewDraft: builder.mutation({
+        query: (body) => ({
+            url: `templates`,
+            method: 'POST',
+            body: body,
+        }),
+        invalidatesTags: ['Mails'],
+    }),
+    removeDraft: builder.mutation({
+        query: (id) => ({
+            url: `templates/${id}`,
+            method: 'DELETE',
+        }),
+        invalidatesTags: ['Mails'],
+    }),
     sendBulkMail: builder.mutation<any, any>({
         query: (body) => ({
             url: `shared/bulk/send`,
@@ -177,6 +193,18 @@ export const mailsEndpoints = (
     getAllTemplates: builder.query<any, void>({
         query: () => `templates`,
         providesTags: ['Mails'],
+    }),
+    getTemplate: builder.query<any, any>({
+        query: (id) => `templates/${id}`,
+        providesTags: ['Mails'],
+    }),
+    updateEmailDraft: builder.mutation({
+        query: ({body, id}: any) => ({
+            url: `templates/${id}`,
+            method: 'PATCH',
+            body,
+        }),
+        invalidatesTags: ['Mails'],
     }),
     searchBulkMailStudents: builder.query<any, any>({
         query: (params) => ({

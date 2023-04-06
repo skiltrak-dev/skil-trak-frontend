@@ -95,6 +95,13 @@ const SubAdminEmailsNotifications: NextPageWithLayout = () => {
                                     />
                                     <Button
                                         onClick={() => {
+                                            router.push('/portals/admin/email-draft')
+                                        }}
+                                        text="Email Draft"
+                                        variant='info'
+                                    />
+                                    <Button
+                                        onClick={() => {
                                             contextBar.setTitle('Compose Mail')
                                             contextBar.setContent(<SendMail />)
                                             contextBar.show()

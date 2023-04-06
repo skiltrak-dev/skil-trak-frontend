@@ -34,7 +34,6 @@ export const messagesEndpoints = (
                         draft.push(data)
                     })
                 }
-                console.log('testing deep')
                 ws.addEventListener('message', listener)
             } catch {
                 // no-op in case `cacheEntryRemoved` resolves before `cacheDataLoaded`,

@@ -150,8 +150,12 @@ const {
     useGetAllSentMailsListQuery,
     useGetMailsByStatusQuery,
     useGetAllTemplatesQuery,
+    useGetTemplateQuery,
     useSendBulkMailMutation,
+    useUpdateEmailDraftMutation,
     useSearchBulkMailStudentsQuery,
+    useCreateNewDraftMutation,
+    useRemoveDraftMutation,
 
     // -- APPOINTMENTS -- //
     useGetAppointmentsTypesQuery,
@@ -236,8 +240,12 @@ export const CommonApi = {
         useAllSentMails: useGetAllSentMailsListQuery,
         useMailsByStatus: useGetMailsByStatusQuery,
         useAllTemplates: useGetAllTemplatesQuery,
+        useGetTemplate: useGetTemplateQuery,
         useSendBulkMail: useSendBulkMailMutation,
         useSearchBulkMailStudents: useSearchBulkMailStudentsQuery,
+        useCreateDraft: useCreateNewDraftMutation,
+        useRemoveDraft: useRemoveDraftMutation,
+        useUpdateEmailDraft: useUpdateEmailDraftMutation,
     },
     Appointments: {
         appointmentType: useGetAppointmentsTypesQuery,
