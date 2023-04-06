@@ -6,6 +6,10 @@ const PREFIX = 'admin'
 export const workplaceEndpoints = (
     builder: EndpointBuilder<BaseQueryFn, string, string>
 ) => ({
+    workplacesCount: builder.query<any, void>({
+        query: () => `${PREFIX}/workplace-request/count`,
+        providesTags: ['Workplaces'],
+    }),
     filteredWorkplaces: builder.query<any, any>({
         query: (params) => ({
             url: `${PREFIX}/workplace-request/filter`,

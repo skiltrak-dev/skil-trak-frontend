@@ -86,9 +86,15 @@ export const AppliedIndustry = ({
                                     large
                                 />
                                 <div>
-                                    {/* <Typography variant={'muted'} color={'gray'}>
-                5km away
-            </Typography> */}
+                                    <Typography
+                                        variant={'xs'}
+                                        color={'text-gray-500'}
+                                    >
+                                        {Number(
+                                            appliedIndustry?.distance
+                                        )?.toFixed(2)}{' '}
+                                        Km Away
+                                    </Typography>
                                     <p className="font-semibold">
                                         {appliedIndustry?.industry?.user?.name}
                                     </p>
