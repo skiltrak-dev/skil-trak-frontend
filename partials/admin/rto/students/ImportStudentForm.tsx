@@ -24,22 +24,21 @@ export const ImportStudentForm = ({
     onStudentFound,
     setEmailExistList,
 }: FormProps) => {
+    const [mount, setMount] = useState(false)
+    useEffect(() => {
+        if (!mount) setMount(true)
+    }, [])
+
     const sectors = AdminApi.Sectors.useListQuery({})
-    const [checkEmail, checkEmailResult] = AdminApi.Rtos.useCheckStudentEmail()
+    // const [checkEmail, checkEmailResult] = AdminApi.Rtos.useCheckStudentEmail()
 
     const courses = AdminApi.Courses.useListQuery({})
-    const [selectableCourses, setSelectableCourses] = useState<Course[]>([])
-    const [emailExists, setEmailExists] = useState<any>([])
-    useEffect(() => {
-        if (checkEmailResult.isSuccess && checkEmailResult?.data) {
-            setEmailExistList(checkEmailResult?.data)
-        }
-    }, [checkEmailResult])
+    const [courseOptions, setCourseOptions] = useState<any>([])
 
     const onSectorSelect = (options: any) => {
         const currentSelectedSectors = options.map((opt: any) => opt.value)
 
-        const currentSelectableCourses: Course[] = []
+        const currentSelectableCourses: any = []
         currentSelectedSectors.forEach((sectorId: number) => {
             const currentCourses = courses.data?.data.filter(
                 (c) => c.sector.id === sectorId
@@ -49,7 +48,12 @@ export const ImportStudentForm = ({
                 currentSelectableCourses.push(...currentCourses)
         })
 
-        setSelectableCourses(currentSelectableCourses)
+        setCourseOptions(
+            currentSelectableCourses.map((c: any) => ({
+                label: c.title,
+                value: c.id,
+            }))
+        )
     }
 
     const validationSchema = yup.object({})
@@ -67,86 +71,87 @@ export const ImportStudentForm = ({
 
         if (sheets.length) {
             const rows = utils.sheet_to_json(wb.Sheets[sheets[0]])
-            const result: any = await checkEmail({
-                body: rows.map((row: any) => row.email),
-            })
-            if (result?.data && result?.data?.email) {
-                setEmailExists([...emailExists, result?.data?.email])
-            }
-            onStudentFound && onStudentFound(rows, fileData, emailExists)
+            // const result: any = await checkEmail({
+            //     body: rows.map((row: any) => row.email),
+            // })
+            // if (result?.data && result?.data?.email) {
+            //     setEmailExists([...emailExists, result?.data?.email])
+            // }
+            onStudentFound && onStudentFound(rows, fileData)
         }
     }
 
     return (
         <FormProvider {...methods}>
-            <form
-                className="mt-2 w-full"
-                onSubmit={methods.handleSubmit(onSubmit)}
-            >
-                <div className={'flex flex-col gap-y-2'}>
-                    <div className="grid grid-cols-2 gap-4">
-                        <TextInput label={'Batch/Class'} name="batch" />
-                        <TextInput
-                            label={'Expiry Date'}
-                            name="expiry"
-                            type="date"
-                        />
-                    </div>
-
-                    <div className="mb-4">
-                        <Typography variant={'muted'} color={'text-gray-400'}>
-                            Sectors &amp; Courses
-                        </Typography>
-
-                        <div className="grid grid-cols-2 gap-4">
-                            <Select
-                                name={'sectors'}
-                                label={'Sector'}
-                                options={
-                                    sectors.isLoading
-                                        ? []
-                                        : sectors.data?.data.map((s) => ({
-                                              label: s.name,
-                                              value: s.id,
-                                          }))
-                                }
-                                onChange={(option: any) =>
-                                    onSectorSelect(option)
-                                }
-                                loading={sectors.isLoading}
-                                multi
+            <form className="w-full" onSubmit={methods.handleSubmit(onSubmit)}>
+                <div className={'flex gap-4'}>
+                    <div className="w-3/5">
+                        <div className="grid grid-cols-2 gap-2">
+                            <TextInput label={'Batch/Class'} name="batch" />
+                            <TextInput
+                                label={'Expiry Date'}
+                                name="expiry"
+                                type="date"
                             />
+                        </div>
 
-                            <Select
-                                name={'courses'}
-                                label={'Courses'}
-                                options={selectableCourses.map((c) => ({
-                                    label: c.title,
-                                    value: c.id,
-                                }))}
-                                multi
-                            />
+                        <div className="mb-2 -mt-3">
+                            <div className="grid grid-cols-2 gap-2">
+                                <Select
+                                    name={'sectors'}
+                                    label={'Sector'}
+                                    options={
+                                        sectors.isLoading
+                                            ? []
+                                            : sectors.data?.data.map((s) => ({
+                                                  label: s.name,
+                                                  value: s.id,
+                                              }))
+                                    }
+                                    onChange={(option: any) =>
+                                        onSectorSelect(option)
+                                    }
+                                    loading={sectors.isLoading}
+                                    multi
+                                />
+
+                                <Select
+                                    name={'courses'}
+                                    label={'Courses'}
+                                    options={courseOptions}
+                                    defaultValue={courseOptions}
+                                    multi
+                                />
+                            </div>
                         </div>
                     </div>
 
-                    <BinaryFileUpload
-                        name="list"
-                        onChange={onFileChange}
-                        fileAsObject={false}
-                    />
-
-                    <div className="flex">
-                        {checkEmailResult?.data?.length > 0 ? (
-                            <Button text="Import" submit disabled />
-                        ) : (
-                            <Button
-                                text="Import"
-                                submit
-                                loading={result.isLoading}
-                                disabled={result.isLoading}
-                            />
-                        )}
+                    <div className="w-2/5">
+                        <BinaryFileUpload
+                            name="list"
+                            onChange={onFileChange}
+                            fileAsObject={false}
+                        />
                     </div>
+                </div>
+
+                <div className="flex">
+                    <Button
+                        text="Import"
+                        submit
+                        loading={result.isLoading}
+                        disabled={result.isLoading}
+                    />
+                    {/* {checkEmailResult?.data?.length > 0 ? (
+                        <Button text="Import" submit disabled />
+                    ) : (
+                        <Button
+                            text="Import"
+                            submit
+                            loading={result.isLoading}
+                            disabled={result.isLoading}
+                        />
+                    )} */}
                 </div>
             </form>
         </FormProvider>

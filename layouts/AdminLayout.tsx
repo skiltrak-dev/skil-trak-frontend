@@ -153,7 +153,8 @@ export const AdminLayout = ({ children }: any) => {
                         >
                             <DisplayAlerts />
                             <DisplayNotifications />
-                            <div className="w-full mb-28 py-3">{children}</div>
+                            {/* <div className="w-full mb-28 py-3">{children}</div> */}
+                            <div className="w-full mb-28 py-1">{children}</div>
                         </div>
                         <ContextBar />
                     </div>

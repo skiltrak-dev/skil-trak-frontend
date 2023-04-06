@@ -165,26 +165,28 @@ export const Select = ({
             : event
     }
 
-    const getSimpleSelect = (onChange: any, onBlur: any, defaultValue: any) => (
-        <ReactSelect
-            isSearchable
-            isClearable={value !== ''}
-            name={name}
-            value={value}
-            defaultValue={defaultValue}
-            options={options}
-            className="basic-single w-full"
-            classNamePrefix="select"
-            styles={CustomStyle}
-            isLoading={loading}
-            isDisabled={disabled}
-            isMulti={multi}
-            onChange={onChange}
-            onBlur={onBlur}
-            placeholder={placeholder}
-            {...(menuPlacement ? { menuPlacement } : {})}
-        />
-    )
+    const getSimpleSelect = (onChange: any, onBlur: any, defaultValue: any) => {
+        return (
+            <ReactSelect
+                isSearchable
+                isClearable={value !== ''}
+                name={name}
+                value={value}
+                defaultValue={defaultValue}
+                options={options}
+                className="basic-single w-full"
+                classNamePrefix="select"
+                styles={CustomStyle}
+                isLoading={loading}
+                isDisabled={disabled}
+                isMulti={multi}
+                onChange={onChange}
+                onBlur={onBlur}
+                placeholder={placeholder}
+                // {...(menuPlacement ? { menuPlacement } : {})}
+            />
+        )
+    }
 
     const getControlledSelect = () => {
         return (
