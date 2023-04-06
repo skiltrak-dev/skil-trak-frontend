@@ -86,10 +86,10 @@ export const IndustryCard = ({
                             <Typography variant={'label'}>
                                 {industry?.industry?.user?.name}
                             </Typography>
-                            {/* <BsDot /> */}
-                            {/* <Typography variant={'xs'} color={'text-gray-400'}>
-                            5km away
-                        </Typography> */}
+                            <BsDot />
+                            <Typography variant={'xs'} color={'text-gray-500'}>
+                                {Number(industry?.distance)?.toFixed(2)} Km Away
+                            </Typography>
                         </div>
                         <Typography variant={'muted'} color={'gray'}>
                             {industry?.industry?.addressLine1},{' '}

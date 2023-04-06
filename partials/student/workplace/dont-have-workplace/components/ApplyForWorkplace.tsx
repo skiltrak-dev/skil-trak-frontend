@@ -37,9 +37,9 @@ export const ApplyForWorkplace = ({
                         large
                     />
                     <div>
-                        {/* <Typography variant={'muted'} color={'gray'}>
-                        5km away
-                    </Typography> */}
+                        <Typography variant={'muted'} color={'text-gray-500'}>
+                            {Number(industry?.distance)?.toFixed(2)} Km Away
+                        </Typography>
                         <p className="font-semibold text-sm">
                             {industry?.industry?.user?.name}
                         </p>

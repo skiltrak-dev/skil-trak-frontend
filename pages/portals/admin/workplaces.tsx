@@ -48,6 +48,7 @@ const Workplace: NextPageWithLayout = (props: Props) => {
         setItemPerPage(Number(router.query.pageSize || 30))
     }, [router])
 
+    const count = AdminApi.Workplace.workplacesCount()
     const filteredWorkplaces = AdminApi.Workplace.useFilteredWorkplaces(
         {
             search: `${JSON.stringify(filter)
@@ -68,6 +69,10 @@ const Workplace: NextPageWithLayout = (props: Props) => {
                 pathname: 'workplaces',
                 query: { tab: 'all-student-provided-workplace' },
             },
+            badge: {
+                text: count?.data?.studentProvided,
+                loading: count?.isLoading,
+            },
             element: <AllStudentProvidedWorkplace />,
         },
         {
@@ -75,6 +80,10 @@ const Workplace: NextPageWithLayout = (props: Props) => {
             href: {
                 pathname: 'workplaces',
                 query: { tab: 'all-requested-workplace' },
+            },
+            badge: {
+                text: count?.data?.requested,
+                loading: count?.isLoading,
             },
             element: <AllRequestedWorkplace />,
         },
@@ -84,6 +93,10 @@ const Workplace: NextPageWithLayout = (props: Props) => {
                 pathname: 'workplaces',
                 query: { tab: 'assigned-request' },
             },
+            badge: {
+                text: count?.data?.assigned,
+                loading: count?.isLoading,
+            },
             element: <AssignedRequest />,
         },
         {
@@ -92,6 +105,10 @@ const Workplace: NextPageWithLayout = (props: Props) => {
                 pathname: 'workplaces',
                 query: { tab: 'un-assigned-request' },
             },
+            badge: {
+                text: count?.data?.unAssigned,
+                loading: count?.isLoading,
+            },
             element: <UnAssignedRequest />,
         },
         {
@@ -99,6 +116,10 @@ const Workplace: NextPageWithLayout = (props: Props) => {
             href: {
                 pathname: 'workplaces',
                 query: { tab: 'cancelled-workplace' },
+            },
+            badge: {
+                text: count?.data?.cancelled,
+                loading: count?.isLoading,
             },
             element: <CancelledRequests />,
         },

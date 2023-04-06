@@ -28,9 +28,9 @@ export const ApplyIndustryCard = ({
                     alt=""
                 />
                 <div>
-                    {/* <Typography variant={'muted'} color={'gray'}>
-                        5km away
-                    </Typography> */}
+                    <Typography variant={'xs'} color={'text-gray-500'}>
+                        {Number(industry?.distance)?.toFixed(2)} Km Away
+                    </Typography>
                     <Typography variant={'label'}>
                         {industry?.user?.name}
                     </Typography>
