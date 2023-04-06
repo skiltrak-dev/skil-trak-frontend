@@ -19,7 +19,7 @@ import {
 import { useGetSubAdminIndustriesQuery } from '@queries'
 import { Industry, SubAdmin, UserStatus } from '@types'
 import { IndustryCellInfo } from './components'
-import { AddToFavoriteModal } from './modals'
+import { AcceptModal, AddToFavoriteModal, RejectModal } from './modals'
 import { MdFavorite, MdFavoriteBorder } from 'react-icons/md'
 import { getUserCredentials, setLink } from '@utils'
 import { RiLockPasswordFill } from 'react-icons/ri'
@@ -45,6 +45,14 @@ export const PendingIndustries = () => {
 
     const onCancelClicked = () => {
         setModal(null)
+    }
+
+    const onAcceptClicked = (industry: Industry) => {
+        setModal(<AcceptModal industry={industry} onCancel={onCancelClicked} />)
+    }
+
+    const onRejectClicked = (industry: Industry) => {
+        setModal(<RejectModal industry={industry} onCancel={onCancelClicked} />)
     }
 
     const onAddToFavoriteClicked = (industry: Industry) => {
@@ -80,6 +88,14 @@ export const PendingIndustries = () => {
                     onAddToFavoriteClicked(industry),
                 Icon: subAdmin ? MdFavorite : MdFavoriteBorder,
             },
+            // {
+            //     text: 'Accept',
+            //     onClick: (industry: Industry) => onAcceptClicked(industry),
+            // },
+            // {
+            //     text: 'Reject',
+            //     onClick: (industry: Industry) => onRejectClicked(industry),
+            // },
             {
                 text: 'View Password',
                 onClick: (industry: Industry) => onViewPassword(industry),

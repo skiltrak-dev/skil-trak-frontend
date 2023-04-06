@@ -1,19 +1,17 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 import { AuthUtils } from '@utils'
 
-import { SubAdmin } from '@types'
-import { notesEndpoints } from './notes'
-import { workplaceEndpoints } from './workplace'
-import { studentsEndpoints } from './students'
-import { profileEndpoints } from './profile'
+import { subAdminAppointmentspoints } from './appointments'
 import { assessmentEvidenceEndpoints } from './assessmentEvidence'
+import { subAdminIndustriesEndpoints } from './industries'
+import { notesEndpoints } from './notes'
+import { profileEndpoints } from './profile'
+import { subAdminRtoEndpoints } from './rto'
 import { setScheduleEndpoints } from './setSchedule'
 import { setUnavailabilityEndpoints } from './setUnavailability'
-import { subAdminAppointmentspoints } from './appointments'
-import { subAdminRtoEndpoints } from './rto'
 import { subAdminSettingEndpoints } from './setting'
-import { subAdminIndustriesEndpoints } from './industries'
-import { emptySplitApi } from '../empty.query'
+import { studentsEndpoints } from './students'
+import { workplaceEndpoints } from './workplace'
 
 export const subAdminApi = createApi({
     reducerPath: 'subAdminApi',
@@ -125,6 +123,7 @@ export const {
     useGetSubAdminMyRtoQuery,
     useGetSubAdminStudentCoursesQuery,
     useGetSubAdminStudentDetailQuery,
+    useGetSubAdminStudentWorkplaceDetailQuery,
     useUpdateSubAdminCourseDurationMutation,
     useGetSubAdminMyStudentsQuery,
     useAssignStudentsToSubAdminMutation,

@@ -1,18 +1,17 @@
-import React, { useEffect, useState } from 'react'
+import { useState } from 'react'
 
 import {
-    TechnicalError,
-    LoadingAnimation,
     EmptyData,
+    LoadingAnimation,
     PageSize,
     Pagination,
-    Modal,
+    TechnicalError,
 } from '@components'
 import { WorkplaceRequest } from './components'
 import { WorkplaceRequest as StudentProvidedWorkplace } from './studentProvidedComponents'
 
 // query
-import { useGetSubAdminWorkplacesQuery, SubAdminApi } from '@queries'
+import { useGetSubAdminWorkplacesQuery } from '@queries'
 
 export const AllWorkplaces = () => {
     const [page, setPage] = useState(1)
