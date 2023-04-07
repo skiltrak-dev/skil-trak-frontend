@@ -2,10 +2,13 @@ import {
     Button,
     Card,
     Checkbox,
+    InputContentEditor,
     Select,
     ShowErrorNotifications,
     TextArea,
     TextInput,
+    draftToHtmlText,
+    htmlToDraftText,
 } from '@components'
 import { FileUpload } from '@hoc'
 import { useNotification } from '@hooks'
@@ -15,7 +18,12 @@ import { useEffect, useState } from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
 import { BulkEmailEditor } from '../components'
 import draftToHtml from 'draftjs-to-html'
-import { ContentState, EditorState, convertFromHTML, convertToRaw } from 'draft-js'
+import {
+    ContentState,
+    EditorState,
+    convertFromHTML,
+    convertToRaw,
+} from 'draft-js'
 
 export const ActiveIndustries = () => {
     const { notification } = useNotification()
@@ -46,9 +54,9 @@ export const ActiveIndustries = () => {
 
     const templateOptions = getTemplates.data?.length
         ? getTemplates?.data?.map((template: any) => ({
-            label: template.subject,
-            value: template.id,
-        }))
+              label: template.subject,
+              value: template.id,
+          }))
         : []
 
     const findTemplate = (id: any) => {
@@ -60,9 +68,9 @@ export const ActiveIndustries = () => {
     }
     const industryOptions = industriesResponse.data?.length
         ? industriesResponse?.data?.map((industry: any) => ({
-            label: `${industry?.user?.name} ${industry?.abn}`,
-            value: industry?.id,
-        }))
+              label: `${industry?.user?.name} ${industry?.abn}`,
+              value: industry?.id,
+          }))
         : []
     const getIndustriesIds = selectAll?.map((industry: any) => industry?.value)
     const industriesIds = getIndustriesIds?.map((industryId: any) => {
@@ -97,12 +105,8 @@ export const ActiveIndustries = () => {
         )
     }
     const onSubmit = (data: any) => {
-        let content = ''
-        if (data?.message) {
-            content = draftToHtml(
-                convertToRaw(data?.message?.getCurrentContent())
-            )
-        }
+        let content = draftToHtmlText(data?.message)
+
         const formData = new FormData()
         const { attachment, message, industries, template, ...rest } = data
         Object.entries(rest)?.forEach(([key, value]: any) => {
@@ -135,16 +139,7 @@ export const ActiveIndustries = () => {
         }
     }, [attachmentFiles])
     useEffect(() => {
-        if (templateBody) {
-            const blocksFromHTML = convertFromHTML(templateBody)
-            const bodyValue = EditorState.createWithContent(
-                ContentState.createFromBlockArray(
-                    blocksFromHTML.contentBlocks,
-                    blocksFromHTML.entityMap
-                )
-            )
-            formMethods.setValue('message', bodyValue)
-        }
+        htmlToDraftText(formMethods, templateBody, 'message')
     }, [templateBody])
 
     useEffect(() => {
@@ -182,7 +177,7 @@ export const ActiveIndustries = () => {
                             }}
                             options={industryOptions}
                             multi
-                        // loading={courseLoading}
+                            // loading={courseLoading}
                         />
                         <Checkbox
                             name="industries"
@@ -215,7 +210,7 @@ export const ActiveIndustries = () => {
                         name={'subject'}
                     />
                     {/* <TextArea rows={10} value={templateBody} label={'Message'} name={'message'} /> */}
-                    <BulkEmailEditor
+                    <InputContentEditor
                         name={'message'}
                         label={'Message'}
                         content={templateBody}

@@ -2,10 +2,13 @@ import {
     Button,
     Checkbox,
     ContentEditor,
+    InputContentEditor,
     Select,
     ShowErrorNotifications,
     TextArea,
     TextInput,
+    draftToHtmlText,
+    htmlToDraftText,
 } from '@components'
 import { FileUpload } from '@hoc'
 import { useNotification } from '@hooks'
@@ -205,14 +208,7 @@ export const ActiveStudents = ({
         )
     }
     const onSubmit = (data: any) => {
-        console.log('datata', data)
-        let content = ''
-        if (data?.message) {
-            content = draftToHtml(
-                convertToRaw(data?.message?.getCurrentContent())
-            )
-        }
-        // sent the above data to the api using form data
+        let content = draftToHtmlText(data?.message)
         const formData = new FormData()
         const {
             attachment,
@@ -279,16 +275,8 @@ export const ActiveStudents = ({
     }, [resultSendBulkEmail])
 
     useEffect(() => {
-        if (templateBody) {
-            const blocksFromHTML = convertFromHTML(templateBody)
-            const bodyValue = EditorState.createWithContent(
-                ContentState.createFromBlockArray(
-                    blocksFromHTML.contentBlocks,
-                    blocksFromHTML.entityMap
-                )
-            )
-            formMethods.setValue('message', bodyValue)
-        }
+        // converting draft to html and sending to contentEditor
+        htmlToDraftText(formMethods, templateBody, 'message')
     }, [templateBody])
     return (
         <>
@@ -405,7 +393,6 @@ export const ActiveStudents = ({
                         // }
                     />
 
-                    {/* <div className="flex justify-between items-center"> */}
                     <Select
                         label={'Select Email Template'}
                         name={'template'}
@@ -422,20 +409,10 @@ export const ActiveStudents = ({
                             setTemplateValue(e)
                         }}
                     />
-                    {/* <Button text={'All Templates'} /> */}
-                    {/* </div> */}
+
                     <TextInput label={'Subject'} name={'subject'} />
-                    {/* <TextArea
-                        rows={10}
-                        value={templateBody}
-                        label={'Message'}
-                        name={'message'}
-                    /> */}
-                    {/* <ContentEditor
-                        setContent={setTemplateBody}
-                        content={templateBody}
-                    /> */}
-                    <BulkEmailEditor
+
+                    <InputContentEditor
                         name={'message'}
                         label={'Message'}
                         content={templateBody}
