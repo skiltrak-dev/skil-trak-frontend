@@ -25,3 +25,5 @@ export const ListToggleData = [
             'This User Privacy Notice applies to your use of this website and all eBay applications, services (including payment services), products and tools (collectively the Services) provided by eBay Inc. or its affiliates (eBay Inc. and the companies it directly or indirectly controls are referred to as “eBay Affiliates”). This User Privacy Notice applies regardless of how you access or use these Services, including access via mobile devices and apps. For additional regional and state disclosures, please see Regional and State Privacy Disclosures below. This User Privacy Notice also applies if reference is made to it via a link or in a similar manner, e.g. on websites of partners on which Services from eBay are offered. We may change this User Privacy Notice at any time by posting the revised User Privacy Notice on this website and indicating the effective date of the revised User Privacy Notice. You will be notified of any material changes to this User Privacy Notice via My Messages in My eBay and/or by email.',
     },
 ]
+
+
