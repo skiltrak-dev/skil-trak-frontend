@@ -47,7 +47,7 @@ export const PlacementStartedModal = ({
                 description: 'Placement Started Successfully',
             })
             onCancel()
-            setStatusSuccessResult(true)
+            setStatusSuccessResult && setStatusSuccessResult(true)
             contextBar.setContent(null)
             contextBar.setTitle(null)
             contextBar.hide()

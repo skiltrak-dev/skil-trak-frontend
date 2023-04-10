@@ -65,7 +65,7 @@ export const ForwardModal = ({
                 description: 'Request Forwarded to industry Successfully',
             })
             onCancel()
-            setStatusSuccessResult(true)
+            setStatusSuccessResult && setStatusSuccessResult(true)
             contextBar.setContent(null)
             contextBar.setTitle(null)
             contextBar.hide()

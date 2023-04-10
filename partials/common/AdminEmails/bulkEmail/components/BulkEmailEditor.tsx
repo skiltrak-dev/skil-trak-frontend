@@ -42,7 +42,6 @@ export const BulkEmailEditor = ({
                 name={name}
                 control={methods.control}
                 render={({ field }) => {
-                    console.log('ffff', typeof field.value)
                     return (
                         <Editor
                             editorStyle={{

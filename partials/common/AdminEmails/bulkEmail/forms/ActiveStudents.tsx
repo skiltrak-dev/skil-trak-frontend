@@ -89,7 +89,6 @@ export const ActiveStudents = ({
             industries: getIndustriesIds || undefined,
             workplace: isWithWorkplace,
         })
-    // console.log("bulkMailStudentsResponse", bulkMailStudentsResponse?.data)
     const studentsOptions = bulkMailStudentsResponse.data?.length
         ? bulkMailStudentsResponse?.data?.map((student: any) => ({
               label: `${student?.user?.name} ${student?.studentId}`,
