@@ -5,7 +5,7 @@ export const useChangeStatus = () => {
     const [assignOrUnAssignStudent, assignOrUnAssignStudentResult] =
         useAssignStudentsToSubAdminMutation()
     const [changeStatus, changeStatusResult] =
-        SubAdminApi.Student.changeStatus()
+        SubAdminApi.SubAdmin.changeSubAdminUserStatus()
 
     const onAssignOrUnAssign = async (student: Industry) => {
         await assignOrUnAssignStudent(student?.id)

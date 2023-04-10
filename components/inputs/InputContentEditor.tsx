@@ -24,7 +24,32 @@ import {
 import { InputErrorMessage } from '@components/inputs/components'
 import draftToHtml from 'draftjs-to-html'
 
-export const BulkEmailEditor = ({
+export const draftToHtmlText = (draftText: any) => {
+    let content = ''
+    if (draftText) {
+        content = draftToHtml(convertToRaw(draftText?.getCurrentContent()))
+    }
+    return content
+}
+
+export const htmlToDraftText = (
+    methods: any,
+    content: string,
+    name: string
+) => {
+    if (content) {
+        const blocksFromHTML = convertFromHTML(content)
+        const bodyValue = EditorState.createWithContent(
+            ContentState.createFromBlockArray(
+                blocksFromHTML.contentBlocks,
+                blocksFromHTML.entityMap
+            )
+        )
+        methods.setValue(name, bodyValue)
+    }
+}
+
+export const InputContentEditor = ({
     name,
     label,
     content,

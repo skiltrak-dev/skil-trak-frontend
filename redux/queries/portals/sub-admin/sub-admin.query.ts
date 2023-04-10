@@ -12,6 +12,7 @@ import { setUnavailabilityEndpoints } from './setUnavailability'
 import { subAdminSettingEndpoints } from './setting'
 import { studentsEndpoints } from './students'
 import { workplaceEndpoints } from './workplace'
+import { UserStatus } from '@types'
 
 export const subAdminApi = createApi({
     reducerPath: 'subAdminApi',
@@ -56,6 +57,24 @@ export const subAdminApi = createApi({
             providesTags: ['Statistics'],
         }),
 
+        changeSubAdminUserStatus: build.mutation<
+            any,
+            { id: number; status: UserStatus }
+        >({
+            query: ({ id, status }) => ({
+                url: `shared/user/status/update`,
+                method: 'PATCH',
+                params: { id },
+                body: { status },
+            }),
+            invalidatesTags: [
+                'Notes',
+                'SubAdmin',
+                'SubAdminRtos',
+                'SubAdminIndustries',
+            ],
+        }),
+
         ...notesEndpoints(build),
         ...profileEndpoints(build),
         ...studentsEndpoints(build),
@@ -75,6 +94,7 @@ export const {
     // ------ SELF ------ //
     useProfileQuery,
     useUpdateSubAdminProfileMutation,
+    useChangeSubAdminUserStatusMutation,
 
     // ------ NOTES ------ //
     useNotesQuery,
@@ -215,6 +235,7 @@ export const SubAdminApi = {
     SubAdmin: {
         useProfile: useProfileQuery,
         useUpdateProfile: useUpdateSubAdminProfileMutation,
+        changeSubAdminUserStatus: useChangeSubAdminUserStatusMutation,
     },
     Notes: {
         useList: useNotesQuery,

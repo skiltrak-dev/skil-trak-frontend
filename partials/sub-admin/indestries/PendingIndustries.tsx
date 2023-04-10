@@ -88,14 +88,14 @@ export const PendingIndustries = () => {
                     onAddToFavoriteClicked(industry),
                 Icon: subAdmin ? MdFavorite : MdFavoriteBorder,
             },
-            // {
-            //     text: 'Accept',
-            //     onClick: (industry: Industry) => onAcceptClicked(industry),
-            // },
-            // {
-            //     text: 'Reject',
-            //     onClick: (industry: Industry) => onRejectClicked(industry),
-            // },
+            {
+                text: 'Accept',
+                onClick: (industry: Industry) => onAcceptClicked(industry),
+            },
+            {
+                text: 'Reject',
+                onClick: (industry: Industry) => onRejectClicked(industry),
+            },
             {
                 text: 'View Password',
                 onClick: (industry: Industry) => onViewPassword(industry),
