@@ -135,10 +135,10 @@ export const AllIndustries = () => {
             header: () => 'Contact Person',
             accessorKey: 'contactPersonNumber',
             cell: ({ row }: any) => {
-                const { contactPersonNumber } = row.original
+                const { contactPersonNumber, contactPerson } = row.original
                 return (
                     <Typography variant={'muted'} color={'gray'}>
-                        {contactPersonNumber}
+                        {contactPersonNumber} {contactPerson}
                     </Typography>
                 )
             },

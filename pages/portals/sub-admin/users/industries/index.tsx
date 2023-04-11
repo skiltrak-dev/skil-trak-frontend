@@ -37,7 +37,7 @@ import {
 type Props = {}
 const filterKeys = ['name', 'email', 'phone', 'address', 'abn', 'courseId']
 const Industries: NextPageWithLayout = (props: Props) => {
-    const { setContent } = useContextBar()
+    const { setContent, hide, show } = useContextBar()
     const [filterAction, setFilterAction] = useState(null)
     const [itemPerPage, setItemPerPage] = useState(50)
     const [page, setPage] = useState(1)
@@ -62,6 +62,12 @@ const Industries: NextPageWithLayout = (props: Props) => {
     //             <RtoContextBarData />
     //         </>
     //     )
+    //     show(true)
+
+    //     return () => {
+    //         setContent(null)
+    //         hide()
+    //     }
     // }, [setContent])
 
     const tabs: TabProps[] = [

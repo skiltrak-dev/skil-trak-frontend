@@ -15,6 +15,9 @@ export const emptySplitApi = createApi({
         },
     }),
     tagTypes: [
+        'BulkStatus',
+        'RecentActivities',
+        'User',
         'RTOS',
         'Notes',
         'Mails',
