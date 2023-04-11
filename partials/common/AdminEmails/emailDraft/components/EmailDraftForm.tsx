@@ -28,7 +28,6 @@ export const EmailDraftForm = (props: Props) => {
         //         'has text',
         //         'Cannot save an empty note',
         //         (value: any) => {
-        //             console.log("value", value)
         //             let content = ''
         //             if (!value?.content) {
         //                 content = draftToHtml(

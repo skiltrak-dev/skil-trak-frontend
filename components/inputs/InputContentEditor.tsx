@@ -67,7 +67,6 @@ export const InputContentEditor = ({
                 name={name}
                 control={methods.control}
                 render={({ field }) => {
-                    console.log('ffff', typeof field.value)
                     return (
                         <Editor
                             editorStyle={{

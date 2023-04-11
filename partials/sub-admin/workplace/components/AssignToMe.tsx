@@ -6,9 +6,10 @@ import { useAssignToSubAdminMutation } from '@queries'
 import { useEffect, useState } from 'react'
 
 // utils
-import { ellipsisText } from '@utils'
+import { ellipsisText, getUserCredentials } from '@utils'
 import { ActionModal } from '../modals'
 import { HiCheckBadge } from 'react-icons/hi2'
+import { UserRoles } from '@constants'
 
 export const AssignToMe = ({ workplace, appliedIndustry }: any) => {
     const [assignToMe, assignToMeResult] = useAssignToSubAdminMutation()
@@ -38,6 +39,8 @@ export const AssignToMe = ({ workplace, appliedIndustry }: any) => {
             // }, 5000)
         }
     }, [assignToMeResult])
+
+    const role = getUserCredentials()?.role
 
     return (
         <div>
@@ -84,7 +87,8 @@ export const AssignToMe = ({ workplace, appliedIndustry }: any) => {
                     disabled={
                         assignToMeResult?.isLoading ||
                         workplace?.currentStatus === 'cancelled' ||
-                        assignToMeResult.isSuccess
+                        assignToMeResult.isSuccess ||
+                        role !== UserRoles.SUBADMIN
                     }
                 />
             )}

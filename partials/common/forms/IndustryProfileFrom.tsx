@@ -504,10 +504,6 @@ export const IndustryProfileFrom = ({
                                             },
                                         ]}
                                         onChange={(e: any) => {
-                                            console.log(
-                                                'e,e,e,',
-                                                e.target.value
-                                            )
                                             setIsPartner(
                                                 e?.target?.value === 'yes'
                                                     ? true

@@ -10,6 +10,7 @@ import {
     PdfViewModal,
     Select,
     SelectOption,
+    ShowErrorNotifications,
     Typography,
     VideoPlayModal,
 } from '@components'
@@ -21,6 +22,7 @@ import { TextInput } from '@components/inputs'
 import { Result } from '@constants'
 import { useAddCommentOnAssessmentMutation } from '@queries'
 import moment from 'moment'
+import { useNotification } from '@hooks'
 
 export const AssessmentResponse = ({
     folder,
@@ -47,6 +49,8 @@ export const AssessmentResponse = ({
     const [selected, setSelected] = useState<any>(null)
 
     const [modal, setModal] = useState<any>(null)
+
+    const { notification } = useNotification()
 
     // query
     const [addComment, addCommentResult] = useAddCommentOnAssessmentMutation()
@@ -151,6 +155,10 @@ export const AssessmentResponse = ({
         if (addCommentResult.isSuccess) {
             setComment('')
             setCommentType(null)
+            notification.success({
+                title: 'Comment Added',
+                description: 'Comment Added Successfully',
+            })
         }
     }, [addCommentResult])
 
@@ -158,6 +166,7 @@ export const AssessmentResponse = ({
 
     return (
         <>
+            <ShowErrorNotifications result={addCommentResult} />
             {modal && modal}
             <div className="h-full bg-white flex flex-col justify-between">
                 <div className="h-full overflow-scroll remove-scrollbar">

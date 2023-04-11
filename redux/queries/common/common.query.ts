@@ -14,38 +14,38 @@ import { notificationsEndpoints } from './notifications'
 import { AdminStats, UserStatus } from '@types'
 import { emptySplitApi } from '@queries/portals/empty.query'
 
-// export const commonApi = emptySplitApi.injectEndpoints({
-export const commonApi = createApi({
-    reducerPath: 'commonApi',
-    baseQuery: fetchBaseQuery({
-        baseUrl: `${process.env.NEXT_PUBLIC_END_POINT}/`,
-        prepareHeaders: (headers, { getState }) => {
-            const token = AuthUtils.getToken()
-            if (token) {
-                headers.set('authorization', `Bearer ${token}`)
-            }
-            return headers
-        },
-    }),
+export const commonApi = emptySplitApi.injectEndpoints({
+    // export const commonApi = createApi({
+    //     reducerPath: 'commonApi',
+    //     baseQuery: fetchBaseQuery({
+    //         baseUrl: `${process.env.NEXT_PUBLIC_END_POINT}/`,
+    //         prepareHeaders: (headers, { getState }) => {
+    //             const token = AuthUtils.getToken()
+    //             if (token) {
+    //                 headers.set('authorization', `Bearer ${token}`)
+    //             }
+    //             return headers
+    //         },
+    //     }),
 
-    tagTypes: [
-        'RTOS',
-        'Notes',
-        'Mails',
-        'Avatar',
-        'Course',
-        'Industry',
-        'Appointments',
-        'AllCommunications',
-        'AllNotifications',
-        'Students',
-        'BulkStatus',
-        'Documents',
-        'MailCount',
-        'MailsRecent',
-        'RecentActivities',
-        'User',
-    ],
+    //     tagTypes: [
+    //         'RTOS',
+    //         'Notes',
+    //         'Mails',
+    //         'Avatar',
+    //         'Course',
+    //         'Industry',
+    //         'Appointments',
+    //         'AllCommunications',
+    //         'AllNotifications',
+    //         'Students',
+    //         'BulkStatus',
+    //         'Documents',
+    //         'MailCount',
+    //         'MailsRecent',
+    //         'RecentActivities',
+    //         'User',
+    //     ],
 
     // ---------- RTO ENDPOINTS ---------- //
     endpoints: (build) => ({
@@ -72,7 +72,7 @@ export const commonApi = createApi({
             }),
             invalidatesTags: ['BulkStatus'],
         }),
-        getDocuments: build.query<any, void>({
+        getCommonDocuments: build.query<any, void>({
             query: () => `admin/documents/list`,
             providesTags: ['Documents'],
         }),
@@ -180,7 +180,7 @@ const {
     useGetRecentActivitiesQuery,
 
     // ---- DOCUMENTS ---- //
-    useGetDocumentsQuery,
+    useGetCommonDocumentsQuery,
 
     // ---- USER ---- //
     useChangeUserStatusMutation,
@@ -266,7 +266,7 @@ export const CommonApi = {
         useIsReadNotification: useIsReadNotificationMutation,
     },
     Documents: {
-        useList: useGetDocumentsQuery,
+        useList: useGetCommonDocumentsQuery,
     },
     RecentActivities: {
         useRecentActivities: useGetRecentActivitiesQuery,
