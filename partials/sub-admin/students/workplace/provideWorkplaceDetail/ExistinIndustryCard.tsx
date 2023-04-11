@@ -1,23 +1,39 @@
-import React, { useEffect } from 'react'
 import {
-    Card,
     Button,
-    Typography,
+    Card,
     InitialAvatar,
+    Select,
     ShowErrorNotifications,
+    Typography,
 } from '@components'
+import { useEffect, useState } from 'react'
 
 // query
-import { useApplyWorkplaceOnExistingIndustryMutation } from '@queries'
+import { useNotification } from '@hooks'
+import {
+    SubAdminApi,
+    useApplyWorkplaceOnExistingIndustryMutation,
+} from '@queries'
+import { Course } from '@types'
 
 export const ExistinIndustryCard = ({
     industry,
     setActive,
     setWorkplaceData,
+    studentId,
     student,
 }: any) => {
+    const [selectedCourse, setselectedCourse] = useState<number | null>(null)
+
     const [applyForWorkplace, applyForWorkplaceResult] =
         useApplyWorkplaceOnExistingIndustryMutation()
+
+    const courses = SubAdminApi.Student.useCourses(studentId, {
+        skip: !studentId,
+        refetchOnMountOrArgChange: true,
+    })
+
+    const { notification } = useNotification()
 
     useEffect(() => {
         if (applyForWorkplaceResult.isSuccess) {
@@ -25,6 +41,14 @@ export const ExistinIndustryCard = ({
             setActive((active: number) => active + 1)
         }
     }, [applyForWorkplaceResult])
+
+    const courseOptions =
+        courses?.data && courses?.data?.length > 0
+            ? courses?.data?.map((course: Course) => ({
+                  value: course?.id,
+                  label: course?.title,
+              }))
+            : []
 
     return (
         <>
@@ -43,7 +67,22 @@ export const ExistinIndustryCard = ({
                 <Typography variant={'small'} color={'text-gray-500'}>
                     You can carry on by clicking &apos;Apply Here&apos; button
                 </Typography>
-                <div className="mt-2 bg-secondary-dark py-2 px-4 rounded-lg flex justify-between items-center">
+
+                <div className="mt-2">
+                    <Select
+                        label={'Select Course'}
+                        name={'course'}
+                        required
+                        options={courseOptions}
+                        placeholder={'Select Course...'}
+                        loading={courses.isLoading}
+                        onChange={(e: any) => {
+                            setselectedCourse(e?.value)
+                        }}
+                    />
+                </div>
+
+                <div className="-mt-2 bg-secondary-dark py-2 px-4 rounded-lg flex justify-between items-center">
                     <div className="flex items-center gap-x-2">
                         <InitialAvatar
                             name={industry?.user?.name}
@@ -68,10 +107,18 @@ export const ExistinIndustryCard = ({
                         text={'Apply Here'}
                         // disabled={industries?.map((i: any) => i.applied).includes(true)}
                         onClick={async () => {
-                            await applyForWorkplace({
-                                studentId: student,
-                                IndustryId: industry?.id,
-                            })
+                            if (selectedCourse) {
+                                await applyForWorkplace({
+                                    studentId: student,
+                                    IndustryId: industry?.id,
+                                    courseId: selectedCourse,
+                                })
+                            } else {
+                                notification.warning({
+                                    title: 'Course Required',
+                                    description: 'Course Must be selected',
+                                })
+                            }
                         }}
                         loading={applyForWorkplaceResult.isLoading}
                         disabled={applyForWorkplaceResult.isLoading}
