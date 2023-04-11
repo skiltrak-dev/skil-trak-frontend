@@ -5,7 +5,7 @@ const PREFIX = 'industries'
 export const notificationsEndpoints = (
     builder: EndpointBuilder<BaseQueryFn, string, string>
 ) => ({
-    getNotifications: builder.query<any, any>({
+    getIndustryNotifications: builder.query<any, any>({
         query: (params) => ({
             url: '/notifications',
             params,

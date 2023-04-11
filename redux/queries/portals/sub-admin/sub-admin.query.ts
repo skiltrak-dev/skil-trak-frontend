@@ -13,37 +13,38 @@ import { subAdminSettingEndpoints } from './setting'
 import { studentsEndpoints } from './students'
 import { workplaceEndpoints } from './workplace'
 import { UserStatus } from '@types'
-
-export const subAdminApi = createApi({
-    reducerPath: 'subAdminApi',
-    baseQuery: fetchBaseQuery({
-        baseUrl: `${process.env.NEXT_PUBLIC_END_POINT}/`,
-        prepareHeaders: (headers, { getState }) => {
-            const token = AuthUtils.getToken()
-            if (token) {
-                headers.set('authorization', `Bearer ${token}`)
-            }
-            return headers
-        },
-    }),
+import { emptySplitApi } from '../empty.query'
+export const subAdminApi = emptySplitApi.injectEndpoints({
+    // export const subAdminApi = createApi({
+    //     reducerPath: 'subAdminApi',
+    //     baseQuery: fetchBaseQuery({
+    //         baseUrl: `${process.env.NEXT_PUBLIC_END_POINT}/`,
+    //         prepareHeaders: (headers, { getState }) => {
+    //             const token = AuthUtils.getToken()
+    //             if (token) {
+    //                 headers.set('authorization', `Bearer ${token}`)
+    //             }
+    //             return headers
+    //         },
+    //     }),
 
     // keepUnusedDataFor: 200,
     // refetchOnMountOrArgChange: true,
     // refetchOnReconnect: true,
 
-    tagTypes: [
-        'Notes',
-        'Setting',
-        'SubAdmin',
-        'Statistics',
-        'Appointment',
-        'SetSchedule',
-        'SubAdminRtos',
-        'SubAdminStudents',
-        'SubAdminWorkplace',
-        'AssessmentEvidence',
-        'SubAdminIndustries',
-    ],
+    // tagTypes: [
+    //     'Notes',
+    //     'Setting',
+    //     'SubAdmin',
+    //     'Statistics',
+    //     'Appointment',
+    //     'SetSchedule',
+    //     'SubAdminRtos',
+    //     'SubAdminStudents',
+    //     'SubAdminWorkplace',
+    //     'AssessmentEvidence',
+    //     'SubAdminIndustries',
+    // ],
 
     // ---------- Sub Admin ENDPOINTS ---------- //
     endpoints: (build) => ({
@@ -52,7 +53,7 @@ export const subAdminApi = createApi({
             providesTags: ['SubAdmin'],
         }),
 
-        statistics: build.query<any, void>({
+        subadminStatistics: build.query<any, void>({
             query: () => `subadmin/dashboard/count`,
             providesTags: ['Statistics'],
         }),
@@ -97,17 +98,17 @@ export const {
     useChangeSubAdminUserStatusMutation,
 
     // ------ NOTES ------ //
-    useNotesQuery,
+    useSubadminNotesQuery,
     useGetNotesQuery,
     useNoteAddMutation,
     useNoteDeleteMutation,
     useUpdateNoteMutation,
-    useNoteStatusChangeMutation,
+    useSubadminNoteStatusChangeMutation,
 
     // ------ WORKPLACE------ //
     useWorkplaceCountQuery,
     useAgrementSignMutation,
-    useAssignCourseMutation,
+    useAssignSubadminWorkplaceCourseMutation,
     useStartPlacementMutation,
     useIndustryResponseMutation,
     useAssignToSubAdminMutation,
@@ -166,7 +167,7 @@ export const {
     useAddCourseStartEndDateMutation,
 
     // -- COUNT -- //
-    useStatisticsQuery,
+    useSubadminStatisticsQuery,
 
     // --- ASSESSMENT EVIDENCE --- //
     useGetAssessmentEvidenceQuery,
@@ -230,7 +231,7 @@ export const {
 
 export const SubAdminApi = {
     Count: {
-        statistics: useStatisticsQuery,
+        statistics: useSubadminStatisticsQuery,
     },
     SubAdmin: {
         useProfile: useProfileQuery,
@@ -238,10 +239,10 @@ export const SubAdminApi = {
         changeSubAdminUserStatus: useChangeSubAdminUserStatusMutation,
     },
     Notes: {
-        useList: useNotesQuery,
+        useList: useSubadminNotesQuery,
         useCreate: useNoteAddMutation,
         useDelete: useNoteDeleteMutation,
-        useStatusChange: useNoteStatusChangeMutation,
+        useStatusChange: useSubadminNoteStatusChangeMutation,
     },
 
     Student: {
@@ -262,7 +263,7 @@ export const SubAdminApi = {
     },
     Workplace: {
         count: useWorkplaceCountQuery,
-        assignCourse: useAssignCourseMutation,
+        assignCourse: useAssignSubadminWorkplaceCourseMutation,
         AgreementSign: useAgrementSignMutation,
         removeAppliedIndustry: useRemoveAppliedIndustryMutation,
         useStartPlacementMutation,

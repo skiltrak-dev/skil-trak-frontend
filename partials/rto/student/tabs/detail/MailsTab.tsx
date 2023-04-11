@@ -1,19 +1,18 @@
-import React, { useState, useEffect } from 'react'
+import { useEffect, useState } from 'react'
 
 // components
 import {
+    EmptyData,
     LoadingAnimation,
     Mail,
-    EmptyData,
     MailForm,
     TechnicalError,
 } from '@components'
 
 // utils
-import { AuthUtils } from '@utils'
 
 // query
-import { AdminApi, useSendMessageMutation } from '@queries'
+import { AdminApi, useSendIndustryMessageMutation } from '@queries'
 
 // hooks
 import { useContextBar } from '@hooks'
@@ -92,7 +91,7 @@ export const MailsTab = ({ student }: any) => {
             {approvedUser && (
                 <div className={`${isVisible ? 'w-full' : 'w-[29%]'}`}>
                     <MailForm
-                        action={useSendMessageMutation}
+                        action={useSendIndustryMessageMutation}
                         receiverId={Number(student?.id)}
                         sender={'admin'}
                     />

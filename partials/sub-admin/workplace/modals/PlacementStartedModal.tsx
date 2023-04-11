@@ -19,13 +19,11 @@ export const PlacementStartedModal = ({
     student,
     agreementSigned,
     onCancel,
-    setStatusSuccessResult,
 }: {
     id: any
     student: any
     onCancel: Function
     agreementSigned: any
-    setStatusSuccessResult?: any
 }) => {
     // hooks
     const { alert } = useAlert()
@@ -47,7 +45,6 @@ export const PlacementStartedModal = ({
                 description: 'Placement Started Successfully',
             })
             onCancel()
-            setStatusSuccessResult && setStatusSuccessResult(true)
             contextBar.setContent(null)
             contextBar.setTitle(null)
             contextBar.hide()

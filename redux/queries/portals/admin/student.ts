@@ -15,16 +15,20 @@ export const studentEndpoints = (
 ) => ({
     studentCount: builder.query<UserCount, void>({
         query: () => `${PREFIX}students/list/count`,
-        providesTags: ['Students'],
+        providesTags: ['Students', 'SubAdminWorkplace', 'SubAdminStudents'],
     }),
     students: builder.query<PaginatedResponse<any>, any>({
-        query: (params: any) => {
-            return {
-                url: `${PREFIX}students/list`,
-                params,
-            }
-        },
-        providesTags: ['Students', 'Notes', 'AllCommunications'],
+        query: (params: any) => ({
+            url: `${PREFIX}students/list`,
+            params,
+        }),
+        providesTags: [
+            'Students',
+            'SubAdminStudents',
+            'Notes',
+            'AllCommunications',
+            'SubAdminWorkplace',
+        ],
     }),
 
     filteredStudents: builder.query<PaginatedResponse<any>, any>({
@@ -34,7 +38,13 @@ export const studentEndpoints = (
                 params,
             }
         },
-        providesTags: ['Students'],
+        providesTags: [
+            'Students',
+            'SubAdminStudents',
+            'Notes',
+            'AllCommunications',
+            'SubAdminWorkplace',
+        ],
     }),
 
     studentProfile: builder.query<Student, number>({

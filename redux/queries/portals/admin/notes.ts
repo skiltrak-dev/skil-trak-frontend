@@ -6,17 +6,17 @@ const PREFIX = 'admin/'
 export const notesEndpoints = (
     builder: EndpointBuilder<BaseQueryFn, string, string>
 ) => ({
-    notesPinned: builder.query<Note[], number | any>({
+    adminNotesPinned: builder.query<Note[], number | any>({
         query: (id) => `${PREFIX}notes/listpinned/${id}`,
         providesTags: ['Notes'],
     }),
 
-    notes: builder.query<Note[], any>({
+    adminNotes: builder.query<Note[], any>({
         query: (id) => `${PREFIX}notes/list/${id}`,
         providesTags: ['Notes'],
     }),
 
-    noteStatusChange: builder.mutation({
+    adminNoteStatusChange: builder.mutation({
         query: (id) => ({
             url: `${PREFIX}notes/update-status/${id}`,
             method: 'PATCH',
@@ -24,7 +24,7 @@ export const notesEndpoints = (
         invalidatesTags: ['Notes'],
     }),
 
-    noteCreate: builder.mutation({
+    adminNoteCreate: builder.mutation({
         query: (body) => ({
             url: `${PREFIX}notes/add`,
             method: 'POST',
@@ -33,7 +33,7 @@ export const notesEndpoints = (
         invalidatesTags: ['Notes'],
     }),
 
-    noteUpdate: builder.mutation({
+    adminNoteUpdate: builder.mutation({
         query: (body: any) => ({
             url: `${PREFIX}notes/update/${body.id}`,
             method: 'PATCH',
@@ -42,7 +42,7 @@ export const notesEndpoints = (
         invalidatesTags: ['Notes'],
     }),
 
-    noteRemove: builder.mutation({
+    adminNoteRemove: builder.mutation({
         query: (id) => ({
             url: `${PREFIX}note/remove/${id}`,
             method: 'DELETE',

@@ -206,6 +206,7 @@ const ProvideWorkplaceDetail: NextPageWithLayout = (props: Props) => {
                                         industry={result?.data}
                                         setWorkplaceData={setWorkplaceData}
                                         student={data?.user?.id}
+                                        studentId={data?.id}
                                     />
                                 ) : (
                                     <AddCustomIndustryForm

@@ -55,12 +55,6 @@ export const ArchivedStudent = () => {
             limit: itemPerPage,
         })
 
-    useEffect(() => {
-        if (changeExpiryData || statusSuccessResult) {
-            refetch()
-        }
-    }, [changeExpiryData, statusSuccessResult])
-
     const [bulkAction, resultBulkAction] = commonApi.useBulkStatusMutation()
 
     const onModalCancelClicked = () => {
