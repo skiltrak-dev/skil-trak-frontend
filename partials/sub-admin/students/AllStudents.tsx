@@ -124,7 +124,6 @@ export const AllStudents = () => {
     }
 
     const tableActionOptions = (student: any) => {
-        console.log('student', student)
         return [
             {
                 text: 'View',

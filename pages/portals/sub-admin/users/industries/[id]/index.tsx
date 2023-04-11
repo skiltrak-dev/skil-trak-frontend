@@ -64,7 +64,7 @@ const events: CalendarEvent[] = [
 ]
 
 const IndustriesProfile: NextPageWithLayout = (props: Props) => {
-    const { setContent, show } = useContextBar()
+    const { setContent, show, hide } = useContextBar()
     const pathname = useRouter()
     const { id } = pathname.query
 
@@ -84,12 +84,16 @@ const IndustriesProfile: NextPageWithLayout = (props: Props) => {
         navBar.setSubTitle(data?.user?.name)
     }, [data])
 
-    // useEffect(() => {
-    //     if (isSuccess && data) {
-    //         setContent(<IndustryProfile data={data} />)
-    //         show(false)
-    //     }
-    // }, [data, isSuccess, setContent])
+    useEffect(() => {
+        if (isSuccess && data) {
+            setContent(<IndustryProfile data={data} />)
+            show(false)
+        }
+        return () => {
+            setContent(null)
+            hide()
+        }
+    }, [data, isSuccess, setContent])
 
     const tabs: TabProps[] = [
         {

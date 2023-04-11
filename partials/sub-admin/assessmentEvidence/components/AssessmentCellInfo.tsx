@@ -6,7 +6,6 @@ import { FaEnvelope, FaPhone } from 'react-icons/fa'
 import { MdEmail, MdPhoneIphone } from 'react-icons/md'
 
 export const AssessmentCellInfo = ({ item }: { item: any }) => {
-    console.log('student', item)
     return (
         <div className="flex items-center relative">
             <div className="flex items-center gap-x-2">

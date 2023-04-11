@@ -116,6 +116,17 @@ export const useColumns = () => {
             ),
         },
         {
+            header: () => 'Submission Type',
+            accessorKey: 'autoSubmission',
+            cell: ({ row }: any) => (
+                <Typography variant={'label'} capitalize>
+                    {row.original?.autoSubmission
+                        ? 'Auto Submition'
+                        : 'Manual Submission'}
+                </Typography>
+            ),
+        },
+        {
             header: () => 'Submitted On',
             accessorKey: 'result',
             cell: ({ row }: any) => (

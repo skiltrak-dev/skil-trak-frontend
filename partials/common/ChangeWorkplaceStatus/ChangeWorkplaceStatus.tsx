@@ -264,13 +264,6 @@ export const ChangeWorkplaceStatus = ({
     //         : ''
     // })
 
-    // console.log(
-    //     'findStatusIndex',
-    //     findStatusIndex,
-    //     workplace?.data && workplace?.data?.length > 0
-    //         ? workplace?.data[0]?.currentStatus
-    //         : ''
-    // )
     const findStatusIndex = requestTypeActions.findIndex((r) => {
         return r.status == currentStatus
     })

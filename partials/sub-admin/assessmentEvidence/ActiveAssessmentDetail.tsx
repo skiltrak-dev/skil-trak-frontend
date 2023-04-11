@@ -46,8 +46,6 @@ export const ActiveAssessmentDetail = ({
 
     const { course } = router.query
 
-    console.log('course', course)
-
     const [selectedCourse, setSelectedCourse] = useState<any | null>(null)
     const [selectedFolder, setSelectedFolder] = useState<any | null>(null)
     const [manualReOpen, setManualReOpen] = useState<boolean>(false)

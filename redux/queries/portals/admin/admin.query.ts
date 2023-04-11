@@ -19,45 +19,48 @@ import { subscriberEndpoints } from './subscribers'
 import { volunteerEndpoints } from './volunteer'
 import { workplaceEndpoints } from './workplace'
 import { industryRplEndpoints } from './industyRpl'
+import { emptySplitApi } from '../empty.query'
 
 const PREFIX = 'admin'
-export const adminApi = createApi({
-    reducerPath: 'adminApi',
-    baseQuery: fetchBaseQuery({
-        baseUrl: `${process.env.NEXT_PUBLIC_END_POINT}/`,
-        prepareHeaders: (headers, { getState }) => {
-            const token = AuthUtils.getToken()
-            if (token) {
-                headers.set('authorization', `Bearer ${token}`)
-            }
-            return headers
-        },
-    }),
-    keepUnusedDataFor: 200,
-    refetchOnMountOrArgChange: 100,
-    refetchOnReconnect: true,
-    // refetchOnFocus: true,
-    tagTypes: [
-        'Count',
-        'Profile',
-        'RTOS',
-        'Students',
-        'Subscribers',
-        'Sectors',
-        'SubAdmins',
-        'Industries',
-        'Notes',
-        'Courses',
-        'Folders',
-        'AppointmentTypes',
-        'Jobs',
-        'Messages',
-        'Statistics',
-        'Workplaces',
-        'SMS',
-        'Documents',
-        'RPL',
-    ],
+
+export const adminApi = emptySplitApi.injectEndpoints({
+    // export const adminApi = createApi({
+    //     reducerPath: 'adminApi',
+    //     baseQuery: fetchBaseQuery({
+    //         baseUrl: `${process.env.NEXT_PUBLIC_END_POINT}/`,
+    //         prepareHeaders: (headers, { getState }) => {
+    //             const token = AuthUtils.getToken()
+    //             if (token) {
+    //                 headers.set('authorization', `Bearer ${token}`)
+    //             }
+    //             return headers
+    //         },
+    //     }),
+    // keepUnusedDataFor: 200,
+    // refetchOnMountOrArgChange: 100,
+    // refetchOnReconnect: true,
+    //     // refetchOnFocus: true,
+    //     tagTypes: [
+    //         'Count',
+    //         'Profile',
+    //         'RTOS',
+    //         'Students',
+    //         'Subscribers',
+    //         'Sectors',
+    //         'SubAdmins',
+    //         'Industries',
+    //         'Notes',
+    //         'Courses',
+    //         'Folders',
+    //         'AppointmentTypes',
+    //         'Jobs',
+    //         'Messages',
+    //         'Statistics',
+    //         'Workplaces',
+    //         'SMS',
+    //         'Documents',
+    //         'RPL',
+    //     ],
 
     // ---------- RTO ENDPOINTS ---------- //
     endpoints: (build) => ({

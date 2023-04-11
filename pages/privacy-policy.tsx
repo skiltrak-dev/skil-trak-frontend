@@ -1,4 +1,5 @@
 import { Typography } from '@components'
+import { SiteLayout } from '@layouts'
 import { MoreAboutCard } from '@partials/frontPages'
 import { ListToggle } from '@partials/frontPages/privacyPolicy/components/ListToggle'
 import { ListToggleData } from '@partials/frontPages/privacyPolicy/components/data'
@@ -204,67 +205,69 @@ const PrivacyPolicy: NextPage = () => {
 
     const columnDivisible = isMobile ? 1 : isTablet ? 2 : 3
     return (
-        <div className="bg-gray-100">
-            <Typography variant={'h3'} center>
-                Privacy Notice
-            </Typography>
-            <div className="max-w-3xl mx-auto mt-5 px-2 xl:px-0">
-                <Typography center color={'text-gray-600'}>
-                    <span className="text-base md:text-lg font-light">
-                        In our User Privacy Notice we have compiled all
-                        essential information about our handling of your
-                        personal data and your corresponding rights. This User
-                        Privacy Notice is effective from March 24, 2023.
-                    </span>
+        <SiteLayout title="Privacy Policy">
+            <div className="bg-gray-100 py-10">
+                <Typography variant={'h3'} center>
+                    Privacy Notice
                 </Typography>
-            </div>
+                <div className="max-w-3xl mx-auto mt-5 px-2 xl:px-0">
+                    <Typography center color={'text-gray-600'}>
+                        <span className="text-base md:text-lg font-light">
+                            In our User Privacy Notice we have compiled all
+                            essential information about our handling of your
+                            personal data and your corresponding rights. This
+                            User Privacy Notice is effective from March 24,
+                            2023.
+                        </span>
+                    </Typography>
+                </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 max-w-6xl mx-auto mt-10 px-2 xl:px-0">
-                {privacyData?.map((privacy, i) => (
-                    <>
-                        <div
-                            onClick={() => {
-                                setfirst((preVal) =>
-                                    preVal === i + 1 ? null : i + 1
-                                )
-                            }}
-                            className={`${
-                                first === i + 1
-                                    ? 'bg-white'
-                                    : !first
-                                    ? 'bg-white'
-                                    : 'bg-gray-200'
-                            } transition-all duration-200 group flex flex-col cursor-pointer w-full h-60 border border-gray-100 justify-center items-center px-16`}
-                        >
-                            {privacy?.Icon && (
-                                <privacy.Icon className="text-6xl text-gray-500 group-hover:text-blue-500 transition-all duration-200" />
-                            )}
-                            <Typography variant={'label'} center>
-                                <div className="text-lg font-extralight group-hover:text-blue-500 transition-all">
-                                    {privacy.title}
-                                </div>
-                            </Typography>
-                        </div>
-                        {first === i + 1 && (
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 max-w-6xl mx-auto mt-10 px-2 xl:px-0">
+                    {privacyData?.map((privacy, i) => (
+                        <>
                             <div
-                                className={`h-auto p-10 w-full transition-all col-start-1 col-span-1 sm:col-span-2 md:col-span-3 bg-white relative`}
-                                style={{
-                                    gridRowStart: Math.ceil(
-                                        (i + 1) / columnDivisible + 1
-                                    ),
+                                onClick={() => {
+                                    setfirst((preVal) =>
+                                        preVal === i + 1 ? null : i + 1
+                                    )
                                 }}
+                                className={`${
+                                    first === i + 1
+                                        ? 'bg-white'
+                                        : !first
+                                        ? 'bg-white'
+                                        : 'bg-gray-200'
+                                } transition-all duration-200 group flex flex-col cursor-pointer w-full h-60 border border-gray-100 justify-center items-center px-16`}
                             >
-                                <FaTimes
-                                    className="absolute top-5 right-5 cursor-pointer text-xl"
-                                    onClick={() => {
-                                        setfirst(null)
-                                    }}
-                                />
-                                {i}
-                                {privacy.description}
+                                {privacy?.Icon && (
+                                    <privacy.Icon className="text-6xl text-gray-500 group-hover:text-[#ea7e3f] transition-all duration-200" />
+                                )}
+                                <Typography variant={'label'} center>
+                                    <div className="text-lg font-extralight group-hover:text-[#ea7e3f] transition-all">
+                                        {privacy.title}
+                                    </div>
+                                </Typography>
                             </div>
-                        )}
-                        {/* <div
+                            {first === i + 1 && (
+                                <div
+                                    className={`h-auto p-10 w-full transition-all col-start-1 col-span-1 sm:col-span-2 md:col-span-3 bg-white relative`}
+                                    style={{
+                                        gridRowStart: Math.ceil(
+                                            (i + 1) / columnDivisible + 1
+                                        ),
+                                    }}
+                                >
+                                    <FaTimes
+                                        className="absolute top-5 right-5 cursor-pointer text-xl"
+                                        onClick={() => {
+                                            setfirst(null)
+                                        }}
+                                    />
+                                    {i}
+                                    {privacy.description}
+                                </div>
+                            )}
+                            {/* <div
                             className={`${
                                 first === i
                                     ? 'h-20 overflow-hidden p-10 w-full'
@@ -273,30 +276,31 @@ const PrivacyPolicy: NextPage = () => {
                         >
                             {privacy.description}
                         </div> */}
-                    </>
-                ))}
-            </div>
-
-            {/* toggles */}
-            <div className="max-w-6xl mx-auto mt-10 px-2 xl:px-0">
-                <div className="flex flex-col gap-y-1">
-                    {ListToggleData.map((list, i) => (
-                        <ListToggle key={i} list={list} />
+                        </>
                     ))}
                 </div>
-            </div>
 
-            <div className="max-w-6xl mx-auto mt-10 px-2 xl:px-0">
-                <Typography variant={'title'} center>
-                    More About Privacy
-                </Typography>
+                {/* toggles */}
+                <div className="max-w-6xl mx-auto mt-10 px-2 xl:px-0">
+                    <div className="flex flex-col gap-y-1">
+                        {ListToggleData.map((list, i) => (
+                            <ListToggle key={i} list={list} />
+                        ))}
+                    </div>
+                </div>
 
-                <div className="flex items-center flex-col md:flex-row justify-between gap-x-10 gap-y-5 mt-7">
-                    <MoreAboutCard />
-                    <MoreAboutCard variant={'light'} />
+                <div className="max-w-6xl mx-auto mt-10 px-2 xl:px-0">
+                    <Typography variant={'title'} center>
+                        More About Privacy
+                    </Typography>
+
+                    <div className="flex items-center flex-col md:flex-row justify-between gap-x-10 gap-y-5 mt-7">
+                        <MoreAboutCard />
+                        <MoreAboutCard variant={'light'} />
+                    </div>
                 </div>
             </div>
-        </div>
+        </SiteLayout>
     )
 }
 

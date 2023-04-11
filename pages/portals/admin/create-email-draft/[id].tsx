@@ -59,8 +59,6 @@ const CreateEmailDraftDetail: NextPageWithLayout = () => {
         resolver: yupResolver(validationSchema),
     })
     const onSubmit = (values: any) => {
-        console.log("data", values)
-        console.log("data>>>", data.id)
         let content = ''
         if (values?.content) {
             content = draftToHtml(

@@ -38,7 +38,8 @@ export const AssessmentsEvidence = ({
                         {assessmentsFolders.isError && (
                             <NoData text={'There is Some Network Issue'} />
                         )}
-                        {assessmentsFolders.isLoading ? (
+                        {assessmentsFolders.isLoading ||
+                        assessmentsFolders.isFetching ? (
                             <div className="flex flex-col items-center pt-12">
                                 <LoadingAnimation size={50} />
                                 <Typography variant={'subtitle'}>
