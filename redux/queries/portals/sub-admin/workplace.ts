@@ -155,7 +155,7 @@ export const workplaceEndpoints = (
         }),
         invalidatesTags: ['SubAdminWorkplace'],
     }),
-    assignCourse: builder.mutation<any, any>({
+    assignSubadminWorkplaceCourse: builder.mutation<any, any>({
         query: ({ workplaceId, courseId }) => ({
             url: `${PREFIX}workplace-request/assign-course/${workplaceId}/${courseId}`,
             method: 'POST',

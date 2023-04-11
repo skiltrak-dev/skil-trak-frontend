@@ -1,21 +1,11 @@
-import React, { useState, useEffect } from 'react'
-
 // components
-import {
-    LoadingAnimation,
-    Mail,
-    EmptyData,
-    MailForm,
-    TechnicalError,
-} from '@components'
 
 // query
 // query
-import { useGetIndustryMessagesQuery, useSendMessageMutation } from '@queries'
+import { useGetIndustryMessagesQuery } from '@queries'
 
 // hooks
 import { useContextBar } from 'hooks'
-import { MailsTab } from '@partials/common'
 export const MailTab = () => {
     const { isVisible } = useContextBar()
     // const [messagesList, setMessagesList] = useState([])

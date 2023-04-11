@@ -27,13 +27,11 @@ import {
 } from '@partials/sub-admin/workplace/modals'
 
 export const ChangeWorkplaceStatus = ({
-    setStatusSuccessResult,
     studentId,
     folders,
 }: {
     studentId: number | undefined
     folders?: any
-    setStatusSuccessResult: any
 }) => {
     const [modal, setModal] = useState<any>(null)
     const [visibleRequestType, setVisibleRequestType] = useState(false)
@@ -70,7 +68,6 @@ export const ChangeWorkplaceStatus = ({
                 title: 'Interview Assigned to Student',
                 description: 'Interview Assigned to Student',
             })
-            setStatusSuccessResult(true)
             contextBar.setContent(null)
             contextBar.setTitle(null)
             contextBar.hide()
@@ -88,7 +85,6 @@ export const ChangeWorkplaceStatus = ({
                 workplaceId={workplace?.data[0]?.id}
                 folders={folders}
                 onCancel={() => onModalCancelClicked()}
-                setStatusSuccessResult={setStatusSuccessResult}
             />
         )
     }
@@ -100,7 +96,6 @@ export const ChangeWorkplaceStatus = ({
                 agreementSigned={appliedIndustry?.AgreementSigned}
                 student={workplace?.data?.student}
                 onCancel={() => onModalCancelClicked()}
-                setStatusSuccessResult={setStatusSuccessResult}
             />
         )
     }

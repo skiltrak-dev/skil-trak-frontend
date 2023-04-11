@@ -51,7 +51,7 @@ export const foldersEndpoints = (
         }),
         invalidatesTags: ['Document'],
     }),
-    getDocuments: builder.query<any, any>({
+    getIndustryDocuments: builder.query<any, any>({
         query: (course) => {
             return {
                 url: 'industries/folder/list',

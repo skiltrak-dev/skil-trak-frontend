@@ -114,12 +114,10 @@ export const ProgressCell = ({
     studentId,
     status,
     step,
-    setStatusSuccessResult,
 }: {
     studentId?: number
     status?: WorkplaceRequestStatus
     step: 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 | 13 | 14 | number
-    setStatusSuccessResult?: any
 }) => {
     const [modal, setModal] = useState<ReactElement | null>(null)
     // const currentStatus = WorkplaceRequestProgress[status]
@@ -142,12 +140,7 @@ export const ProgressCell = ({
     }
 
     const onProgressClicked = (studentId: number | undefined) => {
-        contextBar.setContent(
-            <ChangeWorkplaceStatus
-                studentId={studentId}
-                setStatusSuccessResult={setStatusSuccessResult}
-            />
-        )
+        contextBar.setContent(<ChangeWorkplaceStatus studentId={studentId} />)
         contextBar.show()
         contextBar.setTitle('Change Workplace Status')
     }

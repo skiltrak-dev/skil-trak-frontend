@@ -72,11 +72,11 @@ export const ApprovedStudent = () => {
             { refetchOnMountOrArgChange: true }
         )
 
-    useEffect(() => {
-        if (changeExpiryData || statusSuccessResult) {
-            refetch()
-        }
-    }, [changeExpiryData, statusSuccessResult])
+    // useEffect(() => {
+    //     if (changeExpiryData || statusSuccessResult) {
+    //         refetch()
+    //     }
+    // }, [changeExpiryData, statusSuccessResult])
 
     const onModalCancelClicked = () => {
         setModal(null)
@@ -220,13 +220,11 @@ export const ApprovedStudent = () => {
                     <StudentStatusProgressCell
                         studentId={row.original?.id}
                         step={studentStatus}
-                        setStatusSuccessResult={setStatusSuccessResult}
                     />
                 ) : (
                     <ProgressCell
                         studentId={row.original?.id}
                         step={steps > 14 ? 14 : steps < 1 ? 1 : steps}
-                        setStatusSuccessResult={setStatusSuccessResult}
                     />
                 )
             },

@@ -5,7 +5,7 @@ const PREFIX = 'industries'
 export const coursesEndpoints = (
     builder: EndpointBuilder<BaseQueryFn, string, string>
 ) => ({
-    getAllCourses: builder.query({
+    getAllIndustryCourses: builder.query({
         query: (params) => ({
             url: 'admin/course/list',
             params,

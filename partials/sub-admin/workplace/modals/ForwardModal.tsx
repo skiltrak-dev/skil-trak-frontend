@@ -20,13 +20,11 @@ export const ForwardModal = ({
     onCancel,
     workplaceId,
     folders,
-    setStatusSuccessResult,
 }: {
     industry: any
     onCancel: Function
     workplaceId: string
     folders: any
-    setStatusSuccessResult?: any
 }) => {
     const [isDocsUploaded, setIsDocsUploaded] = useState<boolean | null>(null)
     const [missingDocuments, setMissingDocuments] = useState<any | null>(null)
@@ -65,7 +63,6 @@ export const ForwardModal = ({
                 description: 'Request Forwarded to industry Successfully',
             })
             onCancel()
-            setStatusSuccessResult && setStatusSuccessResult(true)
             contextBar.setContent(null)
             contextBar.setTitle(null)
             contextBar.hide()

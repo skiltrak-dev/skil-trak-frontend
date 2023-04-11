@@ -11,10 +11,12 @@ import { CustomDocInput } from './CustomDocInput'
 import { DocumentInputField } from './DocumentInputField'
 
 // redux
-import { useGetDocumentsQuery } from '@queries'
+import { useGetIndustryDocumentsQuery } from '@queries'
 
 export const CourseDocuments = ({ course }: any) => {
-    const { data, isSuccess, isLoading } = useGetDocumentsQuery(course.id)
+    const { data, isSuccess, isLoading } = useGetIndustryDocumentsQuery(
+        course.id
+    )
 
     const [showCustomRequirementForm, setShowCustomRequirementForm] =
         useState(false)

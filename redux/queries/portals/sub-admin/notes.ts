@@ -13,7 +13,7 @@ export const notesEndpoints = (
         }),
         providesTags: ['Notes'],
     }),
-    notes: builder.query<Note[], { id: number; pinned?: boolean }>({
+    subadminNotes: builder.query<Note[], { id: number; pinned?: boolean }>({
         query: ({ id, pinned }) => ({
             url: `${PREFIX}notes/${id}`,
             params: { pinned },
@@ -38,7 +38,7 @@ export const notesEndpoints = (
         }),
         invalidatesTags: ['Notes'],
     }),
-    noteStatusChange: builder.mutation<Note, number>({
+    subadminNoteStatusChange: builder.mutation<Note, number>({
         query: (id) => ({
             url: `${PREFIX}notes/update-status/${id}`,
             method: 'PATCH',
