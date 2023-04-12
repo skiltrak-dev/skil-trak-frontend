@@ -1,7 +1,7 @@
 import { BaseQueryFn } from '@reduxjs/toolkit/dist/query/baseQueryTypes'
 import { EndpointBuilder } from '@reduxjs/toolkit/dist/query/endpointDefinitions'
 
-import { UserCount, PaginatedResponse, Rto, UserStatus, Course } from '@types'
+import { UserCount, PaginatedResponse, Rto, UserStatus, Course, RtoStatsCount } from '@types'
 
 const PREFIX = 'admin'
 export const rtoEndpoints = (
@@ -9,6 +9,11 @@ export const rtoEndpoints = (
 ) => ({
     rtoCount: builder.query<UserCount, void>({
         query: () => `${PREFIX}/rtos/count`,
+        providesTags: ['RTOS'],
+    }),
+
+    rtoStatisticsCount: builder.query<RtoStatsCount, number>({
+        query: (id) => `${PREFIX}/rto/dashboard/count/${id}`,
         providesTags: ['RTOS'],
     }),
 

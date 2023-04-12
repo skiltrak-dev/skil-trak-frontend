@@ -33,6 +33,7 @@ import {
 import {
     useGetSubAdminIndustriesProfileQuery,
     useGetSubAdminIndustryStudentsQuery,
+    SubAdminApi,
 } from '@queries'
 import {
     AllCommunicationTab,
@@ -42,6 +43,7 @@ import {
 } from '@partials/common'
 import { Students } from '@partials/sub-admin/indestries'
 import { getLink } from '@utils'
+import { FigureCard } from '@components/sections/subAdmin'
 
 type Props = {}
 
@@ -75,6 +77,10 @@ const IndustriesProfile: NextPageWithLayout = (props: Props) => {
             skip: !id,
             refetchOnMountOrArgChange: true,
         })
+    const industryStatsCount = SubAdminApi.Industry.useStatusticsCount(
+        Number(data?.user?.id),
+        { skip: !data?.user?.id }
+    )
     const studentList = useGetSubAdminIndustryStudentsQuery(String(id), {
         skip: !id,
     })
@@ -176,6 +182,15 @@ const IndustriesProfile: NextPageWithLayout = (props: Props) => {
                     {({ header, element }: any) => {
                         return (
                             <div>
+                                <div className="flex">
+                                    <FigureCard
+                                        imageUrl="/images/icons/students.png"
+                                        count={Number(
+                                            industryStatsCount?.data?.count
+                                        )}
+                                        title={'Current Students'}
+                                    />
+                                </div>
                                 <div>{header}</div>
                                 <div className="mt-3">{element}</div>
                             </div>

@@ -107,6 +107,7 @@ const {
 
     // ------ RTO ------ //
     useRtoCountQuery,
+    useRtoStatisticsCountQuery,
     useRtosQuery,
     useRtosApprovedQuery,
     useRtoDetailQuery,
@@ -151,6 +152,7 @@ const {
     useStudentUpcomingAppointmentsQuery,
 
     // ------ INDUSTRY ------ //
+    useIndustryStatisticsCountQuery,
     useIndustriesQuery,
     useIndustryCountQuery,
     useIndustryDetailQuery,
@@ -255,6 +257,7 @@ export const AdminApi = {
     },
     Rtos: {
         useCountQuery: useRtoCountQuery,
+        useStatisticsCount: useRtoStatisticsCountQuery,
         useListQuery: useRtosQuery,
         useApprovedList: useRtosApprovedQuery,
         useDetailQuery: useRtoDetailQuery,
@@ -330,6 +333,7 @@ export const AdminApi = {
     },
 
     Industries: {
+        useStatisticsCount: useIndustryStatisticsCountQuery,
         useIndustrySectors: useIndustrySectorsQuery,
         useListQuery: useIndustriesQuery,
         useAssignCourses: useIndustryAssignCoursesMutation,
