@@ -222,13 +222,11 @@ export const AllStudents = () => {
                     <StudentStatusProgressCell
                         studentId={row.original?.id}
                         step={studentStatus}
-                        setStatusSuccessResult={setRefetchStudents}
                     />
                 ) : (
                     <ProgressCell
                         studentId={row.original?.id}
                         step={steps > 14 ? 14 : steps < 1 ? 1 : steps}
-                        setStatusSuccessResult={setRefetchStudents}
                     />
                 )
             },

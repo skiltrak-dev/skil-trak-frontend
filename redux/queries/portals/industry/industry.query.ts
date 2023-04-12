@@ -17,33 +17,34 @@ import { studentsEndpoints } from './students'
 import { volunteerEndpoints } from './volunteer'
 import { workplaceEndpoints } from './workplace'
 
-export const industryApi = createApi({
-    reducerPath: 'industryApi',
-    baseQuery: fetchBaseQuery({
-        baseUrl: `${process.env.NEXT_PUBLIC_END_POINT}/`,
-        prepareHeaders: (headers, { getState }) => {
-            const token = AuthUtils.getToken()
-            if (token) {
-                headers.set('authorization', `Bearer ${token}`)
-            }
-            return headers
-        },
-    }),
-    keepUnusedDataFor: 200,
-    refetchOnMountOrArgChange: 100,
-    refetchOnReconnect: true,
-    // refetchOnFocus: true,
-    tagTypes: [
-        'RPL',
-        'Course',
-        'Employee',
-        'Employee',
-        'Students',
-        'Document',
-        'Industries',
-        'EmployeeTask',
-        'AvailableShifts',
-    ],
+export const industryApi = emptySplitApi.injectEndpoints({
+    // export const industryApi = createApi({
+    //     reducerPath: 'industryApi',
+    //     baseQuery: fetchBaseQuery({
+    //         baseUrl: `${process.env.NEXT_PUBLIC_END_POINT}/`,
+    //         prepareHeaders: (headers, { getState }) => {
+    //             const token = AuthUtils.getToken()
+    //             if (token) {
+    //                 headers.set('authorization', `Bearer ${token}`)
+    //             }
+    //             return headers
+    //         },
+    //     }),
+    //     keepUnusedDataFor: 200,
+    //     refetchOnMountOrArgChange: 100,
+    //     refetchOnReconnect: true,
+    //     // refetchOnFocus: true,
+    //     tagTypes: [
+    //         'RPL',
+    //         'Course',
+    //         'Employee',
+    //         'Employee',
+    //         'Students',
+    //         'Document',
+    //         'Industries',
+    //         'EmployeeTask',
+    //         'AvailableShifts',
+    //     ],
 
     // ---------- RTO ENDPOINTS ---------- //
     endpoints: (build) => ({
@@ -94,7 +95,7 @@ export const {
     // ---- COURSES ---- //
     useAddCourseMutation,
     useAddCoursesMutation,
-    useGetAllCoursesQuery,
+    useGetAllIndustryCoursesQuery,
     useGetCourseDetailQuery,
     useRemoveCourseMutation,
     useUpdateCourseMutation,
@@ -115,7 +116,7 @@ export const {
     useGetEmployeeTaskQuery,
 
     // ---- FOLDERS ---- //
-    useGetDocumentsQuery,
+    useGetIndustryDocumentsQuery,
     useAddFolderMutation,
     useAddDocumentMutation,
     useUpdateFolderMutation,
@@ -169,7 +170,7 @@ export const {
 
     // --- MESSAGE --- //
     useGetIndustryMessagesQuery,
-    useSendMessageMutation,
+    useSendIndustryMessageMutation,
 
     // ----- MOU ----- //
     useGetIndustryMOUQuery,
@@ -181,7 +182,7 @@ export const {
     useAcceptMouByIndustryMutation,
 
     // --- NOTIFICATIONS --- //
-    useGetNotificationsQuery,
+    useGetIndustryNotificationsQuery,
     useGetNotificationDetailQuery,
     useReadNotificationMutation,
 
@@ -206,7 +207,7 @@ export const IndustryApi = {
         useAddWorkingHoursMutation,
     },
     Courses: {
-        useGetAllCoursesQuery,
+        useGetAllIndustryCoursesQuery,
         useGetCourseDetailQuery,
         useAddCourseMutation,
         useAddCoursesMutation,
@@ -229,7 +230,7 @@ export const IndustryApi = {
         useGetEmployeeTaskQuery,
     },
     Folders: {
-        useGetDocumentsQuery,
+        useGetIndustryDocumentsQuery,
         useAddFolderMutation,
         useAddDocumentMutation,
         useUpdateFolderMutation,
@@ -283,7 +284,7 @@ export const IndustryApi = {
     },
     Messages: {
         useGetIndustryMessagesQuery,
-        useSendMessageMutation,
+        useSendIndustryMessageMutation,
     },
     Mou: {
         useGetIndustryMOUQuery,
@@ -295,7 +296,7 @@ export const IndustryApi = {
         useAcceptMouByIndustryMutation,
     },
     Notification: {
-        useGetNotificationsQuery,
+        useGetIndustryNotificationsQuery,
         useGetNotificationDetailQuery,
         useReadNotificationMutation,
     },

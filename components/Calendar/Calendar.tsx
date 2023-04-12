@@ -27,13 +27,13 @@ export const SidebarCalendar = ({ enabledDays, setSelectedDate }: any) => {
     return mounted ? (
         <CalendarStyles>
             <Calendar
-                {...(enabledDays
-                    ? {
-                          tileDisabled: ({ date }) =>
-                              !enabledDays?.includes(date.getDay()) ||
-                              date < todayDate,
-                      }
-                    : {})}
+                // {...(enabledDays
+                //     ? {
+                //           tileDisabled: ({ date }) =>
+                //               !enabledDays?.includes(date.getDay()) ||
+                //               date < todayDate,
+                //       }
+                //     : {})}
                 onChange={(e: Date) => {
                     setDate(e)
                     setIsDateChange(true)

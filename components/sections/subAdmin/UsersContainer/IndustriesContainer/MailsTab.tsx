@@ -11,7 +11,7 @@ import {
 
 // query
 // query
-import { AdminApi, useSendMessageMutation } from '@queries'
+import { AdminApi, useSendIndustryMessageMutation } from '@queries'
 
 // hooks
 import { useContextBar } from 'hooks'
@@ -88,7 +88,7 @@ export const MailsTab = ({ industry }: any) => {
             {approvedUser && (
                 <div className={`${isVisible ? 'w-full' : 'w-[29%]'}`}>
                     <MailForm
-                        action={useSendMessageMutation}
+                        action={useSendIndustryMessageMutation}
                         receiverId={Number(industry?.id)}
                         sender={'admin'}
                     />

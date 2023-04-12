@@ -46,12 +46,10 @@ const StudentProgress = {
 
 export const StudentStatusProgressCell = ({
     studentId,
-    setStatusSuccessResult,
     status,
     step,
 }: {
     studentId?: any
-    setStatusSuccessResult?: any
     status?: StudentProgressStatus
     step: 1 | 2 | 3 | 4 | number
 }) => {
@@ -71,12 +69,7 @@ export const StudentStatusProgressCell = ({
     })
 
     const onProgressClicked = (studentId: number | undefined) => {
-        contextBar.setContent(
-            <ChangeWorkplaceStatus
-                studentId={studentId}
-                setStatusSuccessResult={setStatusSuccessResult}
-            />
-        )
+        contextBar.setContent(<ChangeWorkplaceStatus studentId={studentId} />)
         contextBar.show()
         contextBar.setTitle('Change Workplace Status')
     }

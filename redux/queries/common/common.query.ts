@@ -61,7 +61,12 @@ export const commonApi = emptySplitApi.injectEndpoints({
                 method: 'POST',
                 body: body,
             }),
-            invalidatesTags: ['Students', 'Notes', 'AllCommunications'],
+            invalidatesTags: [
+                'Students',
+                'SubAdminStudents',
+                'Notes',
+                'AllCommunications',
+            ],
         }),
         bulkStatus: build.mutation({
             query: ({ ids, status }: any) => ({
@@ -116,7 +121,7 @@ const {
     useGetIndustriesListQuery,
 
     useGetAllRtosQuery,
-    useGetSubAdminRtosQuery,
+    useGetFilterSubAdminRtosQuery,
     useGetRtosListQuery,
 
     useGetAllCoursesQuery,
@@ -203,7 +208,7 @@ export const CommonApi = {
         useIndustries: useGetAllIndustriesQuery,
         useRtos: useGetAllRtosQuery,
         useCourses: useGetAllCoursesQuery,
-        useSubAdminRtos: useGetSubAdminRtosQuery,
+        useSubAdminRtos: useGetFilterSubAdminRtosQuery,
     },
     Rtos: {
         useRtosList: useGetRtosListQuery,

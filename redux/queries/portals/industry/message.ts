@@ -9,7 +9,7 @@ export const messageEndpoints = (
         query: (params) => `${PREFIX}/mail/list`,
         providesTags: ['Message'],
     }),
-    sendMessage: builder.mutation({
+    sendIndustryMessage: builder.mutation({
         query: (body) => ({
             url: `messaging/email`,
             method: 'POST',

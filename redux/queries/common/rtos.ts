@@ -8,7 +8,7 @@ export const rtosEndpoints = (
         query: () => `filter/rtos/all`,
         providesTags: ['RTO'],
     }),
-    getSubAdminRtos: builder.query<any, void>({
+    getFilterSubAdminRtos: builder.query<any, void>({
         query: () => `subadmin/rtos/list/all`,
         providesTags: ['RTO'],
     }),

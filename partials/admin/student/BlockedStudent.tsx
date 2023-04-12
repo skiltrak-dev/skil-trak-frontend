@@ -48,12 +48,11 @@ export const BlockedStudent = () => {
     // hooks
     const { passwordModal, onViewPassword } = useActionModal()
 
-    const { isLoading, data, isError, refetch } =
-        AdminApi.Students.useListQuery({
-            search: `status:${UserStatus.Blocked}`,
-            skip: itemPerPage * page - itemPerPage,
-            limit: itemPerPage,
-        })
+    const { isLoading, data, isError } = AdminApi.Students.useListQuery({
+        search: `status:${UserStatus.Blocked}`,
+        skip: itemPerPage * page - itemPerPage,
+        limit: itemPerPage,
+    })
     const [bulkAction, resultBulkAction] = commonApi.useBulkStatusMutation()
 
     const onModalCancelClicked = () => {

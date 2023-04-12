@@ -63,11 +63,11 @@ export const StudentProfile = ({ noTitle }: { noTitle?: boolean }) => {
 
     const { passwordModal, onViewPassword } = useActionModal()
 
-    useEffect(() => {
-        if (studentExpiryDate) {
-            refetch()
-        }
-    }, [studentExpiryDate])
+    // useEffect(() => {
+    //     if (studentExpiryDate) {
+    //         refetch()
+    //     }
+    // }, [studentExpiryDate])
 
     // hooks
     const navBar = useNavbar()

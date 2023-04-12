@@ -20,7 +20,10 @@ import {
 import { useContextBar, useNotification } from 'hooks'
 
 // query
-import { useGetNotificationsQuery, useReadNotificationMutation } from '@queries'
+import {
+    useGetIndustryNotificationsQuery,
+    useReadNotificationMutation,
+} from '@queries'
 
 // utills
 import { ellipsisText } from '@utils'
@@ -36,10 +39,11 @@ export const Notifications = () => {
     const [currentPage, setCurrentPage] = useState(1)
 
     // query
-    const { data, isLoading, refetch, isError } = useGetNotificationsQuery({
-        skip: resultsPerPage * (currentPage - 1),
-        limit: resultsPerPage,
-    })
+    const { data, isLoading, refetch, isError } =
+        useGetIndustryNotificationsQuery({
+            skip: resultsPerPage * (currentPage - 1),
+            limit: resultsPerPage,
+        })
     const [readNotification] = useReadNotificationMutation()
 
     const { setContent } = useContextBar()

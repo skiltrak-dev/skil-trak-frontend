@@ -1,20 +1,17 @@
-import React, { useState, useEffect } from 'react'
-
 // components
 import {
+    EmptyData,
     LoadingAnimation,
     Mail,
-    EmptyData,
     MailForm,
     TechnicalError,
 } from '@components'
 
 // query
 // query
-import { CommonApi, AdminApi, useSendMessageMutation } from '@queries'
+import { CommonApi, useSendIndustryMessageMutation } from '@queries'
 
 // hooks
-import { useContextBar } from 'hooks'
 // import { useMessage } from 'hooks'
 
 export const MailsTab = ({ user }: { user: any }) => {
@@ -70,7 +67,7 @@ export const MailsTab = ({ user }: { user: any }) => {
             </div>
             <div className={`md:w-2/5 w-full`}>
                 <MailForm
-                    action={useSendMessageMutation}
+                    action={useSendIndustryMessageMutation}
                     receiverId={Number(user?.id)}
                     sender={'admin'}
                 />

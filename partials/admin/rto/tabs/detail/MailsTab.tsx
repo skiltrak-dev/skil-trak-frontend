@@ -13,7 +13,7 @@ import {
 import { AuthUtils } from '@utils'
 
 // query
-import { AdminApi, useSendMessageMutation } from '@queries'
+import { AdminApi, useSendIndustryMessageMutation } from '@queries'
 
 // hooks
 import { useContextBar } from '@hooks'
@@ -92,7 +92,7 @@ export const MailsTab = ({ rto }: any) => {
             {approvedUser && (
                 <div className={`${isVisible ? 'w-full' : 'w-[29%]'}`}>
                     <MailForm
-                        action={useSendMessageMutation}
+                        action={useSendIndustryMessageMutation}
                         receiverId={Number(rto?.id)}
                         sender={'admin'}
                     />

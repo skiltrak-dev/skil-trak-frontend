@@ -11,7 +11,10 @@ import {
 
 // query
 // query
-import { useGetIndustryMessagesQuery, useSendMessageMutation } from '@queries'
+import {
+    useGetIndustryMessagesQuery,
+    useSendIndustryMessageMutation,
+} from '@queries'
 
 // hooks
 import { useContextBar } from 'hooks'
@@ -82,7 +85,7 @@ export const MailsTab = () => {
 
             <div className={`${isVisible ? 'w-full' : 'md:w-[29%] w-full'}`}>
                 <MailForm
-                    action={useSendMessageMutation}
+                    action={useSendIndustryMessageMutation}
                     // receiverId={Number(industry?.id)}
                     sender={'admin'}
                 />
