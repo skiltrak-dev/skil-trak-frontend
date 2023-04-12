@@ -33,7 +33,7 @@ export const studentEndpoints = (
         },
         providesTags: ['StudentAppointments'],
     }),
-    createAppointment: builder.mutation({
+    createStudentAppointment: builder.mutation({
         query: (body) => ({
             url: `${PREFIX}/appointment/create`,
             method: 'POST',

@@ -8,7 +8,7 @@ export const coursesEndpoints = (
     getStudentCourses: builder.query<any, void>({
         query: (params: any) => {
             return {
-                url: 'courses/view',
+                url: `${PREFIX}/courses/view`,
                 params,
             }
         },
@@ -17,7 +17,7 @@ export const coursesEndpoints = (
     getStudentCoursesLs: builder.query<any, void>({
         query: (params: any) => {
             return {
-                url: 'courses/list',
+                url: `${PREFIX}/courses/list`,
                 params,
             }
         },

@@ -1,16 +1,26 @@
-import React, { useEffect } from 'react'
-import { Typography, Button, Card, InitialAvatar } from '@components'
+import React, { useEffect, useState } from 'react'
+import { Typography, Button, Card, InitialAvatar, Select } from '@components'
 
 // query
-import { useApplyWorkplaceWithAbnIndustryMutation } from '@queries'
+import {
+    useApplyWorkplaceWithAbnIndustryMutation,
+    useGetStudentProfileDetailQuery,
+} from '@queries'
+import { useNotification } from '@hooks'
+import { Course } from '@types'
 
 export const ExistingIndustryCard = ({
     industry,
     setActive,
     setWorkplaceData,
 }: any) => {
+    const [selectedCourse, setselectedCourse] = useState<number | null>(null)
+
     const [applyForWorkplace, applyForWorkplaceResult] =
         useApplyWorkplaceWithAbnIndustryMutation()
+    const { data, isLoading } = useGetStudentProfileDetailQuery()
+
+    const { notification } = useNotification()
 
     useEffect(() => {
         if (applyForWorkplaceResult.isSuccess) {
@@ -18,6 +28,14 @@ export const ExistingIndustryCard = ({
             setActive((active: number) => active + 1)
         }
     }, [applyForWorkplaceResult])
+
+    const courseOptions =
+        data?.courses && data?.courses?.length > 0
+            ? data?.courses?.map((course: Course) => ({
+                  value: course?.id,
+                  label: course?.title,
+              }))
+            : []
 
     return (
         <div>
@@ -35,7 +53,21 @@ export const ExistingIndustryCard = ({
                 <Typography variant={'small'} color={'text-gray-500'}>
                     You can carry on by clicking &apos;Apply Here&apos; button
                 </Typography>
-                <div className="mt-1 bg-gray-100 py-2 px-4 rounded-lg flex justify-between items-center">
+
+                <div className="mt-2">
+                    <Select
+                        label={'Select Course'}
+                        name={'course'}
+                        required
+                        options={courseOptions}
+                        placeholder={'Select Course...'}
+                        loading={isLoading}
+                        onChange={(e: any) => {
+                            setselectedCourse(e?.value)
+                        }}
+                    />
+                </div>
+                <div className="-mt-2 bg-gray-100 py-2 px-4 rounded-lg flex justify-between items-center">
                     <div className="flex items-center gap-x-2">
                         <InitialAvatar
                             name={industry?.user?.name}
@@ -59,7 +91,18 @@ export const ExistingIndustryCard = ({
                         variant={'primary'}
                         text={'Apply Here'}
                         onClick={async () => {
-                            await applyForWorkplace(industry?.id)
+                            if (selectedCourse) {
+                                await applyForWorkplace({
+                                    IndustryId: industry?.id,
+                                    courseId: selectedCourse,
+                                })
+                            } else {
+                                notification.warning({
+                                    title: 'Course Required',
+                                    description: 'Course Must be selected',
+                                })
+                            }
+                            // await applyForWorkplace(industry?.id)
                         }}
                         loading={applyForWorkplaceResult.isLoading}
                         disabled={applyForWorkplaceResult.isLoading}

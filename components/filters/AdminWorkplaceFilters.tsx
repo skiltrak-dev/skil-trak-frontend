@@ -22,6 +22,7 @@ export const AdminWorkplaceFilters = ({
     const getIndustries = CommonApi.Filter.useIndustries()
     const getCourses = CommonApi.Filter.useCourses()
     const getCoordinators = CommonApi.Appointments.allCoordinators()
+    const getRtos = CommonApi.Filter.useRtos()
 
     useEffect(() => {
         if (getIndustries.isSuccess) {
@@ -51,6 +52,14 @@ export const AdminWorkplaceFilters = ({
             label: coordinator?.user?.name,
         })
     )
+
+    const rtoOptions =
+        getRtos?.data && getRtos?.data?.length > 0
+            ? getRtos?.data?.map((rto: any) => ({
+                  value: rto?.id,
+                  label: rto?.user?.name,
+              }))
+            : []
 
     return (
         <div className="grid grid-cols-4 gap-x-3">
@@ -110,6 +119,19 @@ export const AdminWorkplaceFilters = ({
                 loading={getCoordinators.isLoading}
                 disabled={getCoordinators.isLoading}
             />
+
+            <Select
+                label={'Search by Rto'}
+                name={'rtoId'}
+                options={rtoOptions}
+                placeholder={'Select Rto...'}
+                onChange={(e: any) => {
+                    onFilterChange({ ...filter, rtoId: e?.value })
+                }}
+                loading={getRtos.isLoading}
+                disabled={getRtos.isLoading}
+            />
+
             <Select
                 label={'Search by Industry'}
                 name={'industryId'}

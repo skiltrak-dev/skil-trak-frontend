@@ -1,4 +1,4 @@
-import { ReactElement, useState } from 'react'
+import { ReactElement, useEffect, useState } from 'react'
 // Layouts
 import { RtoLayout } from '@layouts'
 import { NextPageWithLayout } from '@types'
@@ -13,6 +13,9 @@ import {
     TechnicalError,
     LoadingAnimation,
     InitialAvatar,
+    Filter,
+    PageTitle,
+    RTOWorkplaceFilters,
 } from '@components'
 // Links
 import Link from 'next/link'
@@ -26,17 +29,42 @@ import { IndustryCell } from '@partials/admin/industry/components'
 import { useRouter } from 'next/router'
 import { MdEmail, MdPhoneIphone } from 'react-icons/md'
 import { StudentCellInfo } from '@partials/rto/student/components'
+import { getFilterQuery } from '@utils'
 
 type Props = {}
 
+const filterKeys = [
+    'studentId',
+    'name',
+    'email',
+    'location',
+    'subAdminId',
+    'industryId',
+    'courseId',
+]
+
 const RtoWorkplaces: NextPageWithLayout = (props: Props) => {
     const router = useRouter()
+    const [filterAction, setFilterAction] = useState(null)
+    const [filter, setFilter] = useState({})
     const [itemPerPage, setItemPerPage] = useState(50)
     const [page, setPage] = useState(1)
+
     const { isLoading, data, isError } = useGetRTOWorkplacesQuery({
+        search: `${JSON.stringify(filter)
+            .replaceAll('{', '')
+            .replaceAll('}', '')
+            .replaceAll('"', '')
+            .trim()}`,
         skip: itemPerPage * page - itemPerPage,
         limit: itemPerPage,
     })
+
+    const query = getFilterQuery({ router, filterKeys })
+    useEffect(() => {
+        setFilter(query)
+    }, [router])
+
     const RelatedQuestions = [
         {
             text: `I have a workplace. What next?`,
@@ -162,7 +190,23 @@ const RtoWorkplaces: NextPageWithLayout = (props: Props) => {
     ]
     return (
         <>
-            {/* TODO Workplace list is not getting */}
+            <div className="mb-5">
+                <div className="flex justify-between items-center">
+                    <PageTitle
+                        title={'Workplaces'}
+                        navigateBack
+                        backTitle={'Dashboard'}
+                    />
+                    {filterAction}
+                </div>
+                <Filter
+                    component={RTOWorkplaceFilters}
+                    initialValues={filter}
+                    filterKeys={filterKeys}
+                    setFilterAction={setFilterAction}
+                    setFilter={setFilter}
+                />
+            </div>
             <Card noPadding>
                 {isError && <TechnicalError />}
                 {isLoading ? (
@@ -228,9 +272,9 @@ const RtoWorkplaces: NextPageWithLayout = (props: Props) => {
 RtoWorkplaces.getLayout = (page: ReactElement) => {
     return (
         <RtoLayout
-            pageTitle={{
-                title: 'Workplaces',
-            }}
+        // pageTitle={{
+        //     title: 'Workplaces',
+        // }}
         >
             {page}
         </RtoLayout>

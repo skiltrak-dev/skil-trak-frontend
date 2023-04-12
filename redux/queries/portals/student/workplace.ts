@@ -21,8 +21,8 @@ export const workplaceEndpoints = (
         query: () => `${PREFIX}/work-place-request/view`,
         providesTags: ['Workplace'],
     }),
-    getCourseDocuments: builder.query({
-        query: ({ id, course }: any) => {
+    getCourseDocuments: builder.query<any, any>({
+        query: ({ id, course }) => {
             return {
                 url: `${PREFIX}/requireddocs/${id}`,
                 params: { course },
@@ -60,9 +60,13 @@ export const workplaceEndpoints = (
         }),
         invalidatesTags: ['Workplace'],
     }),
-    applyWorkplaceWithAbnIndustry: builder.mutation({
-        query: (id) => ({
-            url: `${PREFIX}/add/work-place/existing-industry/${id}`,
+    applyWorkplaceWithAbnIndustry: builder.mutation<
+        any,
+        { IndustryId: number; courseId: number }
+    >({
+        query: ({ IndustryId, courseId }) => ({
+            url: `${PREFIX}/add/work-place/existing-industry/${IndustryId}`,
+            params: { courseId },
             method: 'POST',
         }),
         invalidatesTags: ['Workplace'],
