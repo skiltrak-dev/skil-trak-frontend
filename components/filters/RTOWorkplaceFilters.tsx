@@ -55,14 +55,6 @@ export const RTOWorkplaceFilters = ({
               }))
             : []
 
-    console.log(
-        industryOptions.find(
-            (industry: SelectOption) =>
-                industry.value === Number(filter?.industryId)
-        ),
-        filter?.industryId
-    )
-
     return (
         <>
             <SetQueryFilters filter={filter} />

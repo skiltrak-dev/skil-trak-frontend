@@ -261,29 +261,38 @@ export const FilteredStudents = ({
                 //         WorkplaceCurrentStatus.Cancelled
                 // )
                 // const workplace = row.original.workplace[0]
-                let earliestWorkplace = row.original.workplace[0]
-                const workplace = row.original.workplace?.forEach(
-                    (workplace: any) => {
-                        if (
-                            workplace?.createdAt > earliestWorkplace?.createdAt
-                        ) {
-                            earliestWorkplace = workplace
-                        }
+                // let earliestWorkplace = row.original.workplace[0]
+                // const workplace = row.original.workplace?.forEach(
+                //     (workplace: any) => {
+                //         if (
+                //             workplace?.createdAt > earliestWorkplace?.createdAt
+                //         ) {
+                //             earliestWorkplace = workplace
+                //         }
+                //     }
+                // )
+
+                const workplace = row.original.workplace?.reduce(
+                    (a: any, b: any) => (a?.createdAt > b?.createdAt ? a : b),
+                    {
+                        currentStatus: WorkplaceCurrentStatus.Applied,
                     }
                 )
 
                 const industries = row.original?.industries
-                const steps = checkWorkplaceStatus(
-                    earliestWorkplace?.currentStatus
-                )
+                const steps = checkWorkplaceStatus(workplace?.currentStatus)
                 const studentStatus = checkStudentStatus(
                     row.original?.studentStatus
                 )
 
                 return industries?.length > 0 ? (
-                    <StudentStatusProgressCell step={studentStatus} />
+                    <StudentStatusProgressCell
+                        studentId={row.original?.id}
+                        step={studentStatus}
+                    />
                 ) : (
                     <ProgressCell
+                        studentId={row.original?.id}
                         step={steps > 14 ? 14 : steps < 1 ? 1 : steps}
                     />
                 )

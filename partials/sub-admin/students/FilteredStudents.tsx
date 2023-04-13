@@ -27,7 +27,12 @@ import {
     ChangeStudentStatusModal,
 } from './modals'
 import { ProgressCell, SectorCell } from '@partials/admin/student/components'
-import { checkStudentStatus, checkWorkplaceStatus, setLink } from '@utils'
+import {
+    WorkplaceCurrentStatus,
+    checkStudentStatus,
+    checkWorkplaceStatus,
+    setLink,
+} from '@utils'
 import { useActionModal } from '@hooks'
 import { RiLockPasswordFill } from 'react-icons/ri'
 
@@ -158,7 +163,17 @@ export const FilteredStudents = ({
             accessorKey: 'progress',
             header: () => <span>Progress</span>,
             cell: ({ row }) => {
-                const workplace = row.original.workplace[0]
+                // const workplace = row.original.workplace[0]
+                // const workplace = row.original.workplace?.filter(
+                //     (work: any) =>
+                //         work?.currentStatus !== WorkplaceCurrentStatus.Cancelled
+                // )[0]
+                const workplace = row.original.workplace?.reduce(
+                    (a: any, b: any) => (a?.createdAt > b?.createdAt ? a : b),
+                    {
+                        currentStatus: WorkplaceCurrentStatus.Applied,
+                    }
+                )
                 const industries = row.original?.industries
                 const steps = checkWorkplaceStatus(workplace?.currentStatus)
                 const studentStatus = checkStudentStatus(

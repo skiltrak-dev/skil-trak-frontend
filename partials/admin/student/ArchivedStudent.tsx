@@ -24,7 +24,11 @@ import { RtoCellInfo } from '../rto/components'
 import { ProgressCell, SectorCell, StudentCellInfo } from './components'
 import { useActionModal } from '@hooks'
 import { RiLockPasswordFill } from 'react-icons/ri'
-import { checkStudentStatus, checkWorkplaceStatus } from '@utils'
+import {
+    WorkplaceCurrentStatus,
+    checkStudentStatus,
+    checkWorkplaceStatus,
+} from '@utils'
 import { ChangeStatusModal, DeleteModal } from './modals'
 import { EditTimer } from '@components/StudentTimer/EditTimer'
 import moment from 'moment'
@@ -169,7 +173,12 @@ export const ArchivedStudent = () => {
             accessorKey: 'progress',
             header: () => <span>Progress</span>,
             cell: ({ row }) => {
-                const workplace = row.original.workplace[0]
+                const workplace = row.original.workplace?.reduce(
+                    (a: any, b: any) => (a?.createdAt > b?.createdAt ? a : b),
+                    {
+                        currentStatus: WorkplaceCurrentStatus.Applied,
+                    }
+                )
                 const industries = row.original?.industries
                 const steps = checkWorkplaceStatus(workplace?.currentStatus)
                 const studentStatus = checkStudentStatus(
