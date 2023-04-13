@@ -28,7 +28,7 @@ const StudentProgress = {
         status: 'Expired',
         description: 'expired',
         color: 'text-red-500',
-        image: 'expired.png',
+        image: 'placement-started.png',
     },
     '4-Cancelled': {
         status: 'Cancelled',
@@ -40,7 +40,7 @@ const StudentProgress = {
         status: 'Terminated',
         description: 'terminated',
         color: 'text-error',
-        image: 'placement-terminated.png',
+        image: 'placement-cancelled.png',
     },
 }
 
