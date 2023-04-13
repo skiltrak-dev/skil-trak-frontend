@@ -71,6 +71,13 @@ export const studentsEndpoints = (
         }),
         invalidatesTags: ['SubAdminStudents', 'SubAdminWorkplace'],
     }),
+    calledStudent: builder.mutation<any, number>({
+        query: (id) => ({
+            url: `${PREFIX}/student/update-to-called/${id}`,
+            method: 'PATCH',
+        }),
+        invalidatesTags: ['SubAdminStudents', 'SubAdminWorkplace'],
+    }),
 
     getSubAdminStudentCourses: builder.query<any, number>({
         query: (id) => `${PREFIX}/student/course/list-result/${id}`,
