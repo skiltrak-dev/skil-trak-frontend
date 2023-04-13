@@ -12,8 +12,18 @@ html {
     font-size: 16px;
 }
 
+/* .custom-scrollbar {
+    scrollbar-width: thin;
+} */
+
 .custom-scrollbar::-webkit-scrollbar {
-    width: 1em;
+    width: 8px;
+    /* scrollbar-color: #6969dd #e0e0e0; */
+}
+
+.custom-scrollbar::-webkit-scrollbar:horizontal {
+    height: 8px;
+    /* scrollbar-color: #6969dd #e0e0e0; */
 }
 
 .custom-scrollbar::-webkit-scrollbar-track {

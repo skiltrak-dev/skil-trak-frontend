@@ -22,7 +22,7 @@ export const RejectModal = ({
 
     useEffect(() => {
         if (changeStatusResult.isSuccess) {
-            alert.error({
+            notification.error({
                 title: `Request Rejected`,
                 description: `RTO "${industry?.user?.name}" has been rejected.`,
             })

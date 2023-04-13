@@ -22,7 +22,7 @@ export const AcceptModal = ({
 
     useEffect(() => {
         if (changeStatusResult.isSuccess) {
-            alert.success({
+            notification.success({
                 title: `Request Accepted`,
                 description: `Industry "${industry?.user?.name}" has been accepted.`,
             })

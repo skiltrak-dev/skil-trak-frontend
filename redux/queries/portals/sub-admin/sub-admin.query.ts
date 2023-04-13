@@ -204,6 +204,7 @@ export const {
     useSubAdminCreateAppointmentMutation,
 
     // ---- RTO ---- //
+    useSubadminRtoStatisticsCountQuery,
     useGetSubAdminRtosQuery,
     useGetSubAdminRTODetailQuery,
     useGetSubAdminRTOCoursesQuery,
@@ -221,6 +222,7 @@ export const {
     useSubAdminSettingMutation,
 
     // --- INDUSTRIES --- //
+    useSubadminIndustryStatisticsCountQuery,
     useGetSubadminIndustriesCountQuery,
     useGetSubAdminIndustriesQuery,
     useGetFavouriteIndustriesQuery,
@@ -260,6 +262,12 @@ export const SubAdminApi = {
         useAddSecondWorkplace: useAddSecondWorkplaceMutation,
         useAddCustomWorkplace: useAddCustomSecondWorkplaceMutation,
         addCourseStartEndDate: useAddCourseStartEndDateMutation,
+    },
+    Industry: {
+        useStatusticsCount: useSubadminIndustryStatisticsCountQuery,
+    },
+    Rto: {
+        useRtoStatsCount: useSubadminRtoStatisticsCountQuery,
     },
     Workplace: {
         count: useWorkplaceCountQuery,

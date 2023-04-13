@@ -9,7 +9,6 @@ import {
     TableActionOption,
     TechnicalError,
     Typography,
-    ViewUserPassword,
 } from '@components'
 import { PageHeading } from '@components/headings'
 import { ColumnDef } from '@tanstack/react-table'
@@ -18,13 +17,7 @@ import { FaEdit, FaEye } from 'react-icons/fa'
 import { RtoCellInfo } from '@partials/admin/rto/components'
 import { AdminApi } from '@queries'
 import { Student, UserStatus } from '@types'
-import {
-    checkStudentStatus,
-    checkWorkplaceStatus,
-    isBrowser,
-    queryToUrl,
-    setLink,
-} from '@utils'
+import { checkStudentStatus, checkWorkplaceStatus, setLink } from '@utils'
 import { useRouter } from 'next/router'
 import { ReactElement, useEffect, useState } from 'react'
 import { MdBlock } from 'react-icons/md'
@@ -39,9 +32,8 @@ import {
 } from './modals'
 
 // hooks
-import { useActionModal } from '@hooks'
-import { ref } from 'yup'
 import { EditTimer } from '@components/StudentTimer/EditTimer'
+import { useActionModal } from '@hooks'
 import moment from 'moment'
 
 export const ApprovedStudent = () => {

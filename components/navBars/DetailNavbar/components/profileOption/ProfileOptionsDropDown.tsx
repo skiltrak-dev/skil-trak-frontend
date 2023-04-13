@@ -1,28 +1,19 @@
 import { AuthUtils, getUserCredentials } from '@utils'
-import { AiFillProfile } from 'react-icons/ai'
-import { FaRegAddressCard } from 'react-icons/fa'
-import { FiChevronDown } from 'react-icons/fi'
-import { MdLogout } from 'react-icons/md'
 import { useRouter } from 'next/router'
+import { FaRegAddressCard } from 'react-icons/fa'
+import { MdLogout } from 'react-icons/md'
 import { useDispatch } from 'react-redux'
 
+import { UserRoles } from '@constants'
+import { useJoyRide } from '@hooks'
 import {
-    subAdminApi,
-    rtoApi,
     commonApi,
     industryApi,
-    studentCoursesApi,
-    studentAppointmentsApi,
-    studentAssessmentApi,
-    studentAssessmentEvidenceApi,
-    studentJobsApi,
-    studentProfileApi,
-    studentSignUpApi,
-    workplaceRequestApi,
+    rtoApi,
+    studentApi,
+    subAdminApi
 } from '@queries'
-import { useJoyRide } from '@hooks'
 import { useEffect } from 'react'
-import { UserRoles } from '@constants'
 
 export const ProfileOptionsDropDown = ({
     expanded,
@@ -78,16 +69,7 @@ export const ProfileOptionsDropDown = ({
                         dispatch(rtoApi.util.resetApiState())
                         dispatch(industryApi.util.resetApiState())
                         dispatch(commonApi.util.resetApiState())
-                        dispatch(studentCoursesApi.util.resetApiState())
-                        dispatch(studentAppointmentsApi.util.resetApiState())
-                        dispatch(studentAssessmentApi.util.resetApiState())
-                        dispatch(
-                            studentAssessmentEvidenceApi.util.resetApiState()
-                        )
-                        dispatch(studentJobsApi.util.resetApiState())
-                        dispatch(studentProfileApi.util.resetApiState())
-                        dispatch(studentSignUpApi.util.resetApiState())
-                        dispatch(workplaceRequestApi.util.resetApiState())
+                        dispatch(studentApi.util.resetApiState())
                     }}
                     className="flex items-center gap-x-4 px-4 py-2 hover:bg-red-100 cursor-pointer group"
                 >

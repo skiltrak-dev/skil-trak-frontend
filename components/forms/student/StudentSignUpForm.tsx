@@ -2,17 +2,15 @@ import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 
-import { Form, Formik } from 'formik'
 import _debounce from 'lodash/debounce'
 import * as yup from 'yup'
 
 import { useNotification } from '@hooks'
-import { AuthApi, useUpdateStudentSignUpMutation } from '@queries'
-import { isEmailValid, onlyAlphabets, SignUpUtils } from '@utils'
+import { AuthApi } from '@queries'
+import { SignUpUtils, isEmailValid, onlyAlphabets } from '@utils'
 
 import { Button, Checkbox, Select, TextInput, Typography } from '@components'
 import { FormProvider, useForm } from 'react-hook-form'
-import { yupResolver } from '@hookform/resolvers/yup'
 
 export const StudentSignUpForm = ({ onSubmit }: { onSubmit: any }) => {
     const router = useRouter()

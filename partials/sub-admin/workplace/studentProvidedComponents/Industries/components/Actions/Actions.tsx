@@ -86,11 +86,6 @@ export const Actions = ({
         )
     }
 
-    console.log(
-        'appliedIndustryappliedIndustry',
-        appliedIndustry?.industry?.user?.id
-    )
-
     return (
         <div className="mt-1.5 mb-2.5">
             {modal && modal}

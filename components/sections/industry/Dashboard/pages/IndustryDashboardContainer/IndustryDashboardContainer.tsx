@@ -2,6 +2,8 @@ import { MediaQueries } from '@constants'
 import { useEffect, useState } from 'react'
 import { useMediaQuery } from 'react-responsive'
 
+import { IndustryApi } from '@queries'
+
 // Components
 import { Card, HelpQuestionSet, LottieAnimation, Typography } from '@components'
 
@@ -16,6 +18,7 @@ import { AuthUtils } from '@utils'
 import { useContextBar } from 'hooks'
 import { useRouter } from 'next/router'
 import { CallBackProps } from 'react-joyride'
+import { FigureCard } from '@components/sections/subAdmin'
 
 export const PrimaryActions = [
     {
@@ -51,6 +54,9 @@ export const IndustryDashboardContainer = () => {
     const contextBar = useContextBar()
     const [credentials, setCredentials] = useState<any>(null)
     const sectorsWithCourses = getSectors([])
+
+    const studentCount = IndustryApi.Students.useStudentCount()
+
     // Questions
     const WorkplaceQuestions = [
         {
@@ -860,6 +866,13 @@ export const IndustryDashboardContainer = () => {
 
     return (
         <div className="flex flex-col gap-y-6">
+            <div className="flex">
+                <FigureCard
+                    imageUrl="/images/icons/students.png"
+                    count={studentCount?.data?.count}
+                    title={'Current Students'}
+                />
+            </div>
             <section className="bg-[#D6F4FF] w-full p-4 rounded-2xl relative overflow-hidden">
                 <div className="absolute md:block hidden right-0 -bottom-3">
                     <LottieAnimation

@@ -25,6 +25,7 @@ import { ArchiveModal, BlockModal } from '@partials/admin/rto/modals'
 import { DetailTabs } from '@partials/admin/rto/tabs'
 import { AdminApi } from '@queries'
 import { useActionModals } from '@partials/admin/rto/hooks/useActionModals'
+import { FigureCard } from '@components/sections/subAdmin'
 
 const RtoDetail: NextPageWithLayout = () => {
     const router = useRouter()
@@ -46,12 +47,16 @@ const RtoDetail: NextPageWithLayout = () => {
         skip: !router.query?.id,
         refetchOnMountOrArgChange: true,
     })
+    const statisticsCount = AdminApi.Rtos.useStatisticsCount(
+        Number(rto?.data?.user?.id),
+        { skip: !rto?.data?.user?.id }
+    )
     useEffect(() => {
         navBar.setTitle('RTO Detail')
         navBar.setSubTitle(rto?.data?.user?.name)
         // contextBar.hide()
     }, [rto.data])
-    
+
     useEffect(() => {
         if (rto.isSuccess) {
             contextBar.setContent(
@@ -245,6 +250,39 @@ const RtoDetail: NextPageWithLayout = () => {
                             }
                         />
                         {statusBaseActions()}
+                    </div>
+
+                    <div className="flex gap-x-4">
+                        <FigureCard
+                            imageUrl="/images/icons/students.png"
+                            count={Number(
+                                statisticsCount?.data?.currentStudent
+                            )}
+                            title={'Current Students'}
+                            link={'/portals/rto/students?tab=active'}
+                        />
+                        <FigureCard
+                            imageUrl="/images/icons/pending-student.png"
+                            count={Number(
+                                statisticsCount?.data?.pendingStudent
+                            )}
+                            title={'Pending Students'}
+                            link={'/portals/rto/students?tab=pending'}
+                        />
+                        <FigureCard
+                            imageUrl="/images/icons/industry.png"
+                            count={Number(
+                                statisticsCount?.data?.workplaceRequest
+                            )}
+                            title={'Workplace Requests'}
+                            link={'/portals/rto/industries/workplaces'}
+                        />
+                        <FigureCard
+                            imageUrl="/images/icons/job.png"
+                            count={Number(statisticsCount?.data?.pendingResult)}
+                            title={'Pending Result'}
+                            link={'/portals/rto/students/2426?tab=submissions'}
+                        />
                     </div>
 
                     <PinnedNotes id={rto?.data?.user?.id} />

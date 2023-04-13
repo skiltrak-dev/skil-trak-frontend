@@ -34,8 +34,9 @@ import {
     MailsTab,
     NotesTab,
 } from '@partials/common'
-import { useGetSubAdminRTODetailQuery } from '@queries'
+import { useGetSubAdminRTODetailQuery, SubAdminApi } from '@queries'
 import { getLink } from '@utils'
+import { FigureCard } from '@components/sections/subAdmin'
 
 type Props = {}
 
@@ -43,10 +44,15 @@ const RtoProfile: NextPageWithLayout = (props: Props) => {
     const pathname = useRouter()
     const { id } = pathname.query
     const { setContent, show, hide } = useContextBar()
+
     const rtoDetail = useGetSubAdminRTODetailQuery(String(id), {
         skip: !id,
         refetchOnMountOrArgChange: true,
     })
+    const rtoStatsCount = SubAdminApi.Rto.useRtoStatsCount(
+        Number(rtoDetail?.data?.user?.id),
+        { skip: !rtoDetail?.data?.user?.id }
+    )
     const navBar = useNavbar()
 
     useEffect(() => {
@@ -246,6 +252,49 @@ const RtoProfile: NextPageWithLayout = (props: Props) => {
                     {({ header, element }: any) => {
                         return (
                             <div>
+                                <div className="flex gap-x-4">
+                                    <FigureCard
+                                        imageUrl="/images/icons/students.png"
+                                        count={Number(
+                                            rtoStatsCount?.data?.currentStudent
+                                        )}
+                                        title={'Current Students'}
+                                        link={
+                                            '/portals/rto/students?tab=active'
+                                        }
+                                    />
+                                    <FigureCard
+                                        imageUrl="/images/icons/pending-student.png"
+                                        count={Number(
+                                            rtoStatsCount?.data?.pendingStudent
+                                        )}
+                                        title={'Pending Students'}
+                                        link={
+                                            '/portals/rto/students?tab=pending'
+                                        }
+                                    />
+                                    <FigureCard
+                                        imageUrl="/images/icons/industry.png"
+                                        count={Number(
+                                            rtoStatsCount?.data
+                                                ?.workplaceRequest
+                                        )}
+                                        title={'Workplace Requests'}
+                                        link={
+                                            '/portals/rto/industries/workplaces'
+                                        }
+                                    />
+                                    <FigureCard
+                                        imageUrl="/images/icons/job.png"
+                                        count={Number(
+                                            rtoStatsCount?.data?.pendingResult
+                                        )}
+                                        title={'Pending Result'}
+                                        link={
+                                            '/portals/rto/students/2426?tab=submissions'
+                                        }
+                                    />
+                                </div>
                                 <div>{header}</div>
                                 <div>{element}</div>
                             </div>
