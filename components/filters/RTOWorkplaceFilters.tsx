@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { Select, TextInput } from '@components/inputs'
 
 // query
-import { CommonApi, useGetSubAdminRtosQuery } from '@queries'
+import { CommonApi, useGetSubAdminRtosQuery, RtoApi } from '@queries'
 
 import { statusOptions } from './statusOptions'
 
@@ -10,7 +10,7 @@ interface ItemFilterProps {
     onFilterChange: Function
     filter: any
 }
-export const WorkplaceFilters = ({
+export const RTOWorkplaceFilters = ({
     onFilterChange,
     filter,
 }: ItemFilterProps) => {
@@ -19,8 +19,8 @@ export const WorkplaceFilters = ({
 
     // query
     const getIndustries = CommonApi.Filter.useIndustries()
-    const getCourses = CommonApi.Filter.useCourses()
-    const getRtos = useGetSubAdminRtosQuery({})
+    const courses = RtoApi.Rto.useProfile()
+    const rtoCoordinators = RtoApi.Coordinator.useList({})
 
     useEffect(() => {
         if (getIndustries.isSuccess) {
@@ -34,21 +34,21 @@ export const WorkplaceFilters = ({
     }, [getIndustries])
 
     useEffect(() => {
-        if (getCourses.isSuccess) {
+        if (courses.isSuccess) {
             setCoursesOptions(
-                getCourses?.data?.map((course: any) => ({
+                courses?.data?.courses?.map((course: any) => ({
                     value: course?.id,
                     label: course?.title,
                 }))
             )
         }
-    }, [getCourses])
+    }, [courses])
 
-    const rtoOptions =
-        getRtos?.data?.data && getRtos?.data?.data?.length > 0
-            ? getRtos?.data?.data?.map((rto: any) => ({
-                  value: rto?.id,
-                  label: rto?.user?.name,
+    const coordinatorsOptions =
+        rtoCoordinators?.data?.data && rtoCoordinators?.data?.data?.length > 0
+            ? rtoCoordinators?.data?.data?.map((coordinator: any) => ({
+                  value: coordinator?.user?.id,
+                  label: coordinator?.user?.name,
               }))
             : []
 
@@ -80,26 +80,27 @@ export const WorkplaceFilters = ({
                 }}
             />
 
-            <Select
-                label={'Status'}
-                name={'status'}
-                options={statusOptions}
-                placeholder={'Select Sectors...'}
+            <TextInput
+                name="location"
+                label={'Location'}
+                placeholder={'Search by Location ...'}
                 onChange={(e: any) => {
-                    onFilterChange({ ...filter, status: e?.value })
+                    onFilterChange({ ...filter, location: e.target.value })
                 }}
             />
+
             <Select
-                label={'Search by Rto'}
-                name={'rtoId'}
-                options={rtoOptions}
-                placeholder={'Select Rto...'}
+                label={'Search by Coordinator'}
+                name={'subAdminId'}
+                options={coordinatorsOptions}
+                placeholder={'Select Coordinator...'}
                 onChange={(e: any) => {
-                    onFilterChange({ ...filter, rtoId: e?.value })
+                    onFilterChange({ ...filter, subAdminId: e?.value })
                 }}
-                loading={getRtos.isLoading}
-                disabled={getRtos.isLoading}
+                loading={rtoCoordinators.isLoading}
+                disabled={rtoCoordinators.isLoading}
             />
+
             <Select
                 label={'Search by Industry'}
                 name={'industryId'}
@@ -120,8 +121,8 @@ export const WorkplaceFilters = ({
                 onChange={(e: any) => {
                     onFilterChange({ ...filter, courseId: e?.value })
                 }}
-                loading={getCourses.isLoading}
-                disabled={getCourses.isLoading}
+                loading={courses.isLoading}
+                disabled={courses.isLoading}
             />
         </div>
     )

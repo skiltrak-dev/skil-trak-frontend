@@ -6,6 +6,7 @@ import { FaEye } from 'react-icons/fa'
 
 // components
 import {
+    ActionButton,
     Card,
     EmptyData,
     LoadingAnimation,
@@ -161,7 +162,24 @@ export const PendingIndustries = () => {
             accessorKey: 'Action',
             cell: ({ row }: any) => {
                 const actions = tableActionOptions(row.original)
-                return <TableAction options={actions} rowItem={row.original} />
+                return (
+                    <div className="flex gap-x-1 items-center">
+                        <ActionButton
+                            variant="success"
+                            onClick={() => onAcceptClicked(row.original)}
+                        >
+                            Accept
+                        </ActionButton>
+                        <ActionButton
+                            variant="error"
+                            onClick={() => onRejectClicked(row.original)}
+                        >
+                            Reject
+                        </ActionButton>
+
+                        <TableAction options={actions} rowItem={row.original} />
+                    </div>
+                )
             },
         },
     ]

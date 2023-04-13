@@ -21,6 +21,7 @@ import { ArchiveModal, BlockModal } from '@partials/admin/industry/modals'
 import { Industry } from '@types'
 import { useActionModals } from '@partials/admin/industry/hooks/useActionModals'
 import { getUserCredentials } from '@utils'
+import { FigureCard } from '@components/sections/subAdmin'
 
 const Detail: NextPageWithLayout = () => {
     const router = useRouter()
@@ -44,6 +45,10 @@ const Detail: NextPageWithLayout = () => {
         skip: !router.query?.id,
         refetchOnMountOrArgChange: true,
     })
+    const industryStatisticsCount = AdminApi.Industries.useStatisticsCount(
+        Number(industry?.data?.user?.id),
+        { skip: !industry?.data?.user?.id }
+    )
 
     useEffect(() => {
         navBar.setSubTitle('Industry Detail')
@@ -222,6 +227,15 @@ const Detail: NextPageWithLayout = () => {
                     <div className="flex items-center justify-between">
                         <BackButton text="Industries" />
                         {statusBaseActions()}
+                    </div>
+
+                    <div className="flex">
+                        <FigureCard
+                            imageUrl="/images/icons/students.png"
+                            count={Number(industryStatisticsCount?.data?.count)}
+                            title={'Current Students'}
+                            link={'/portals/rto/students?tab=active'}
+                        />
                     </div>
 
                     <DetailTabs id={router.query.id} industry={industry} />

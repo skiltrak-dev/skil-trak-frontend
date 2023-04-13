@@ -5,6 +5,11 @@ const PREFIX = 'subadmin'
 export const subAdminIndustriesEndpoints = (
     builder: EndpointBuilder<BaseQueryFn, string, string>
 ) => ({
+    subadminIndustryStatisticsCount: builder.query<any, number>({
+        query: (id) => `${PREFIX}/industry/students/count/${id}`,
+        providesTags: ['Industries'],
+    }),
+
     getSubadminIndustriesCount: builder.query<any, void>({
         query: () => `${PREFIX}/industries/count`,
         providesTags: ['SubAdminIndustries'],

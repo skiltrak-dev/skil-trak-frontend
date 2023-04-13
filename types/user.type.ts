@@ -37,6 +37,13 @@ export interface UserCount {
     archived: number | string
 }
 
+export interface RtoStatsCount {
+    currentStudent: number | string
+    pendingResult: number | string
+    pendingStudent: number | string
+    workplaceRequest: number | string
+}
+
 export interface Rto extends BaseResponse {
     id: number
     rtoCode: string

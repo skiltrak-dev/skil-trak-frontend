@@ -14,6 +14,11 @@ const PREFIX = 'admin/'
 export const industryEndpoints = (
     builder: EndpointBuilder<BaseQueryFn, string, string>
 ) => ({
+    industryStatisticsCount: builder.query<any, number>({
+        query: (id) => `${PREFIX}industry/students/count/${id}`,
+        providesTags: ['Industries'],
+    }),
+
     industrySectors: builder.query<Course[], number>({
         query: (id) => `${PREFIX}industry/courses/${id}`,
         providesTags: ['Industries'],

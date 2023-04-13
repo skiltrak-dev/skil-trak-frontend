@@ -7,21 +7,27 @@ export const useChangeStatus = () => {
     const [changeStatus, changeStatusResult] =
         SubAdminApi.SubAdmin.changeSubAdminUserStatus()
 
-    const onAssignOrUnAssign = async (student: Industry) => {
-        await assignOrUnAssignStudent(student?.id)
+    const onAssignOrUnAssign = async (industry: Industry) => {
+        await assignOrUnAssignStudent(industry?.id)
     }
 
-    const onBlock = async (student: Industry) => {
-        await changeStatus({ id: student.id, status: UserStatus.Blocked })
+    const onBlock = async (industry: Industry) => {
+        await changeStatus({ id: industry?.id, status: UserStatus.Blocked })
     }
-    const onAccept = async (student: Industry) => {
-        await changeStatus({ id: student.id, status: UserStatus.Approved })
+    const onAccept = async (industry: Industry) => {
+        await changeStatus({
+            id: industry?.user?.id,
+            status: UserStatus.Approved,
+        })
     }
-    const onArchive = async (student: Industry) => {
-        await changeStatus({ id: student.id, status: UserStatus.Archived })
+    const onArchive = async (industry: Industry) => {
+        await changeStatus({ id: industry?.id, status: UserStatus.Archived })
     }
-    const onReject = async (student: Industry) => {
-        await changeStatus({ id: student.id, status: UserStatus.Rejected })
+    const onReject = async (industry: Industry) => {
+        await changeStatus({
+            id: industry?.user?.id,
+            status: UserStatus.Rejected,
+        })
     }
 
     return {

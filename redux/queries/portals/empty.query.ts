@@ -67,6 +67,8 @@ export const emptySplitApi = createApi({
         'Document',
         'EmployeeTask',
         'AvailableShifts',
+        'StudentCourses',
+        'StudentAppointments',
     ],
     endpoints: () => ({}),
 })
