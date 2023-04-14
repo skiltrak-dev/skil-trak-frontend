@@ -1,6 +1,14 @@
-import { Button, Checkbox, Select, TextArea, TextInput } from '@components'
+import {
+    Button,
+    Checkbox,
+    Select,
+    SelectOption,
+    TextArea,
+    TextInput,
+} from '@components'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { Folder } from '@types'
+import { useEffect, useState } from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
 import * as yup from 'yup'
 
@@ -19,6 +27,14 @@ export const CourseFolderForm = ({
     onCancel,
     result,
 }: CourseFolderFormProps) => {
+    const [selectedType, setSelectedType] = useState<string | null>(null)
+
+    useEffect(() => {
+        if (initialValues?.type) {
+            setSelectedType(initialValues?.type)
+        }
+    }, [initialValues])
+
     const validationSchema = yup.object({
         name: yup.string().required('Name is required'),
         capacity: yup.number().required('Capacity is Required'),
@@ -29,6 +45,12 @@ export const CourseFolderForm = ({
         defaultValues: initialValues,
         mode: 'all',
     })
+
+    const typeOptions = [
+        { label: 'Documents', value: 'docs' },
+        { label: 'Images', value: 'images' },
+        { label: 'Videos', value: 'videos' },
+    ]
 
     return (
         <FormProvider {...methods}>
@@ -58,11 +80,14 @@ export const CourseFolderForm = ({
                             label={'Type'}
                             required
                             defaultValue={initialValues?.type}
-                            options={[
-                                { label: 'Documents', value: 'docs' },
-                                { label: 'Images', value: 'images' },
-                                { label: 'Videos', value: 'videos' },
-                            ]}
+                            value={typeOptions?.find(
+                                (type: SelectOption) =>
+                                    type.value === selectedType
+                            )}
+                            options={typeOptions}
+                            onChange={(e: SelectOption) => {
+                                setSelectedType(String(e?.value))
+                            }}
                         />
 
                         <TextArea
@@ -78,6 +103,7 @@ export const CourseFolderForm = ({
 
                     <div className="mt-2 flex gap-x-2">
                         <Button
+                            variant={edit ? 'info' : 'primary'}
                             submit
                             loading={result.isLoading}
                             disabled={result.isLoading}

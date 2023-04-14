@@ -222,6 +222,7 @@ const {
     // ------ FOLDERS ------ //
     useFolderAddMutation,
     useFolderUpdateMutation,
+    useAssessmentEvidenceUpdateMutation,
     useFolderRemoveMutation,
     useIndustryChecklistAddMutation,
     useAssessmentEvidenceAddMutation,
@@ -379,6 +380,7 @@ export const AdminApi = {
     Folders: {
         useCreate: useFolderAddMutation,
         useUpdate: useFolderUpdateMutation,
+        useAssessMentUpdate: useAssessmentEvidenceUpdateMutation,
         useRemove: useFolderRemoveMutation,
         useRemoveAssessment: useRemoveAssessmentMutation,
         useIndustryChecklistAdd: useIndustryChecklistAddMutation,

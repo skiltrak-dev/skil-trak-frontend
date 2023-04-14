@@ -1,48 +1,51 @@
 const formatAndJoin = (prefix: string, types: string[]) => {
-	const formats = types.map((format) => `${prefix}/${format}`);
-	return formats.join(",");
-};
+    const formats = types.map((format) => `${prefix}/${format}`)
+    return formats.join(',')
+}
 
 // Supported Video Formats
 const VideoFormats = [
-	"*",
-	"x-msvideo",
-	"mp4",
-	"mpeg",
-	"quicktime",
-	"ogg",
-	"webm",
-	"3gpp",
-];
-export const SupportedVideoFormats = formatAndJoin("video", VideoFormats);
+    '*',
+    'x-msvideo',
+    'mp4',
+    'mpeg',
+    'quicktime',
+    'ogg',
+    'webm',
+    '3gpp',
+]
+export const SupportedVideoFormats = formatAndJoin('video', VideoFormats)
 
 // Supported Image Formats
-const ImageFormats = ["*", "jpeg", "jpg", "png", "svg+xml", "webp"];
-export const SupportedImageFormats = formatAndJoin("image", ImageFormats);
+const ImageFormats = ['*', 'jpeg', 'jpg', 'png', 'svg+xml', 'webp']
+export const SupportedImageFormats = formatAndJoin('image', ImageFormats)
 
 // Supported Document Formats
 export const DocumentFormats = [
-	"*",
-	"msword",
-	"vnd.openxmlformats-officedocument.wordprocessingml.document",
-	"vnd.ms-excel",
-	"vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-	"pdf",
-];
+    '*',
+    'msword',
+    'vnd.openxmlformats-officedocument.wordprocessingml.document',
+    'vnd.ms-excel',
+    'vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+    'pdf',
+    'xlsx',
+    'numbers',
+    'csv',
+]
 
-export const TextFormats = ["csv"];
+export const TextFormats = ['csv']
 
 export const SupportedDocumentFormats = `${formatAndJoin(
-	"application",
-	DocumentFormats
-)},${formatAndJoin("text", TextFormats)}`;
+    'application',
+    DocumentFormats
+)},${formatAndJoin('text', TextFormats)}`
 
 export const FileFormat = {
-	isPdf: (file: any) => {
-		const extension = file.name.split(".").reverse()[0];
-		return file.type === "application/pdf" || extension === "pdf";
-	},
-};
+    isPdf: (file: any) => {
+        const extension = file.name.split('.').reverse()[0]
+        return file.type === 'application/pdf' || extension === 'pdf'
+    },
+}
 
 /**
  * Returns mime type for given type like png, pdf, mp4, doc etc.
@@ -69,34 +72,34 @@ export const FileFormat = {
  * ```
  */
 export const getMimeTypes = (types: string[]) => {
-	const mimeTypes = types.map((t) => {
-		if (t === "image") {
-			return "image/*";
-		}
+    const mimeTypes = types.map((t) => {
+        if (t === 'image') {
+            return 'image/*'
+        }
 
-		if (t === "video") {
-			return "video/*";
-		}
+        if (t === 'video') {
+            return 'video/*'
+        }
 
-		if (t === "document") {
-			return "application/*,text/*";
-		}
+        if (t === 'document') {
+            return 'application/*,text/*'
+        }
 
-		const isDocument = DocumentFormats.some((d) => d === t);
-		const isVideo = VideoFormats.some((v) => v === t);
-		const isImage = ImageFormats.some((i) => i === t);
-		const isText = TextFormats.some((txt) => txt === t);
+        const isDocument = DocumentFormats.some((d) => d === t)
+        const isVideo = VideoFormats.some((v) => v === t)
+        const isImage = ImageFormats.some((i) => i === t)
+        const isText = TextFormats.some((txt) => txt === t)
 
-		if (isDocument) return `application/${t}`;
-		if (isVideo) return `video/${t}`;
-		if (isImage) return `image/${t}`;
-		if (isText) return `text/${t}`;
+        if (isDocument) return `application/${t}`
+        if (isVideo) return `video/${t}`
+        if (isImage) return `image/${t}`
+        if (isText) return `text/${t}`
 
-		return `.${t}`;
-	});
+        return `.${t}`
+    })
 
-	return mimeTypes.join(",");
-};
+    return mimeTypes.join(',')
+}
 
 /**
  * Returns the extension of given file.
@@ -115,5 +118,5 @@ export const getMimeTypes = (types: string[]) => {
  * ```
  */
 export const getFileExtension = (file: File) => {
-	return file.name.split(".").reverse()[0];
-};
+    return file.name.split('.').reverse()[0]
+}
