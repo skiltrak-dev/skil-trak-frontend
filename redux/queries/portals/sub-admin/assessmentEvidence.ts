@@ -47,7 +47,7 @@ export const assessmentEvidenceEndpoints = (
     >({
         query: ({ studentId, courseId }) => ({
             url: `shared/files/download/${studentId}/${courseId}`,
-            method: 'POST',
+            // method: 'POST',
         }),
         invalidatesTags: ['Students', 'SubAdminStudents'],
     }),

@@ -34,6 +34,8 @@ import { getDocType } from '@components/sections/student/AssessmentsContainer'
 import { useRouter } from 'next/router'
 import { AiFillDelete } from 'react-icons/ai'
 import { MdEdit } from 'react-icons/md'
+import Link from 'next/link'
+import { FaDownload } from 'react-icons/fa'
 
 export const ActiveAssessmentDetail = ({
     studentId,
@@ -321,13 +323,29 @@ export const ActiveAssessmentDetail = ({
                                     {results?.assessor?.name || 'Not Assessesd'}
                                 </span>
                             </Typography>
-                            <Button
-                                text={'Download All Files'}
-                                variant={'info'}
-                                onClick={onDownloadFiles}
+                            {/* <Button
+                                text={'Download Files'}
+                                variant={'action'}
                                 loading={downloadFilesResult.isLoading}
                                 disabled={downloadFilesResult.isLoading}
-                            />
+                                Icon={FaDownload}
+                            /> */}
+                            <Link
+                                className="text-xs font-medium uppercase transition-all duration-300 rounded-md border px-4 py-2 shadow focus:outline-none focus:ring-4 bg-white text-dark hover:bg-secondary-dark border-transparent ring-primary-light"
+                                href={`${
+                                    process.env.NEXT_PUBLIC_END_POINT
+                                }/shared/files/download/${Number(studentId)}/${
+                                    selectedCourse?.id
+                                }`}
+                                download
+                                referrerPolicy="no-referrer"
+                                target="_blank"
+                            >
+                                <div className='flex items-center gap-x-2'>
+                                    <FaDownload />
+                                    <span>Download Files</span>
+                                </div>
+                            </Link>
                             <div className="flex items-center gap-x-2 mb-1">
                                 <div>
                                     {selectedFolder &&
@@ -494,7 +512,7 @@ export const ActiveAssessmentDetail = ({
                                 variant="muted"
                                 color="text-neutral-500"
                             >
-                                *You will be able to submit assessment evedence
+                                *You will be able to submit assessment evidence
                                 result after you add a comment to each folder
                                 mentioned above.
                             </Typography>
