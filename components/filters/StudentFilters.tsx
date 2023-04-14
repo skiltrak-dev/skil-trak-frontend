@@ -110,7 +110,7 @@ export const StudentFilters = ({ onFilterChange, filter }: ItemFilterProps) => {
                 <Select
                     label={'Status'}
                     name={'status'}
-                    defaultValue={statusOptions.find(
+                    value={statusOptions.find(
                         (status) => status.value === filter?.status
                     )}
                     options={statusOptions}
@@ -123,7 +123,7 @@ export const StudentFilters = ({ onFilterChange, filter }: ItemFilterProps) => {
                     <Select
                         label={'Search By Rto'}
                         name={'rtoId'}
-                        defaultValue={rtoOptions?.find(
+                        value={rtoOptions?.find(
                             (rto: SelectOption) => rto.value === filter?.rtoId
                         )}
                         options={rtoOptions}
@@ -140,7 +140,7 @@ export const StudentFilters = ({ onFilterChange, filter }: ItemFilterProps) => {
                     name={'industryId'}
                     options={industryOptions}
                     placeholder={'Select Industry...'}
-                    defaultValue={industryOptions?.find(
+                    value={industryOptions?.find(
                         (industry: SelectOption) =>
                             industry.value === filter?.industryId
                     )}
@@ -164,7 +164,7 @@ export const StudentFilters = ({ onFilterChange, filter }: ItemFilterProps) => {
                     name={'courseId'}
                     options={coursesOptions}
                     placeholder={'Select Courses...'}
-                    defaultValue={coursesOptions?.find(
+                    value={coursesOptions?.find(
                         (course: SelectOption) =>
                             course.value === filter?.courseId
                     )}

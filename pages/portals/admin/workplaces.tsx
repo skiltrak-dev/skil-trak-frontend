@@ -7,6 +7,7 @@ import {
     AdminWorkplaceFilters,
     Card,
     Filter,
+    SetDetaultQueryFilteres,
     TabNavigation,
     TabProps,
 } from '@components'
@@ -29,6 +30,18 @@ import { checkFilteredDataLength } from '@utils'
 import { useRouter } from 'next/router'
 
 type Props = {}
+
+const filterKeys = [
+    'studentId',
+    'name',
+    'email',
+    'location',
+    'status',
+    'subAdminId',
+    'rtoId',
+    'industryId',
+    'courseId',
+]
 
 const Workplace: NextPageWithLayout = (props: Props) => {
     const router = useRouter()
@@ -128,47 +141,55 @@ const Workplace: NextPageWithLayout = (props: Props) => {
     const filteredDataLength = checkFilteredDataLength(filter)
 
     return (
-        <div className="p-3">
-            <div>
-                <div className="flex justify-end mb-2">{filterAction}</div>
-                <Filter
-                    component={AdminWorkplaceFilters}
-                    initialValues={filter}
-                    setFilterAction={setFilterAction}
-                    setFilter={setFilter}
-                />
-            </div>
-            {filteredDataLength && filteredWorkplaces.isError && (
-                <TechnicalError />
-            )}
-            {filteredWorkplaces.isLoading || filteredWorkplaces.isFetching ? (
-                <div className="mt-5">
-                    <Card>
-                        <LoadingAnimation />
-                    </Card>
+        <>
+            <SetDetaultQueryFilteres
+                filterKeys={filterKeys}
+                setFilter={setFilter}
+            />
+            <div className="p-3">
+                <div>
+                    <div className="flex justify-end mb-2">{filterAction}</div>
+                    <Filter
+                        component={AdminWorkplaceFilters}
+                        initialValues={filter}
+                        setFilterAction={setFilterAction}
+                        setFilter={setFilter}
+                        filterKeys={filterKeys}
+                    />
                 </div>
-            ) : filteredDataLength && filteredWorkplaces.isSuccess ? (
-                <AdminFilteredWorkplace
-                    setPage={setPage}
-                    setItemPerPage={setItemPerPage}
-                    workplace={filteredWorkplaces}
-                    itemPerPage={itemPerPage}
-                />
-            ) : (
-                !filteredDataLength && (
-                    <TabNavigation tabs={tabs}>
-                        {({ header, element }: any) => {
-                            return (
-                                <div>
-                                    <div>{header}</div>
-                                    <div className="mt-3">{element}</div>
-                                </div>
-                            )
-                        }}
-                    </TabNavigation>
-                )
-            )}
-        </div>
+                {filteredDataLength && filteredWorkplaces.isError && (
+                    <TechnicalError />
+                )}
+                {filteredWorkplaces.isLoading ||
+                filteredWorkplaces.isFetching ? (
+                    <div className="mt-5">
+                        <Card>
+                            <LoadingAnimation />
+                        </Card>
+                    </div>
+                ) : filteredDataLength && filteredWorkplaces.isSuccess ? (
+                    <AdminFilteredWorkplace
+                        setPage={setPage}
+                        setItemPerPage={setItemPerPage}
+                        workplace={filteredWorkplaces}
+                        itemPerPage={itemPerPage}
+                    />
+                ) : (
+                    !filteredDataLength && (
+                        <TabNavigation tabs={tabs}>
+                            {({ header, element }: any) => {
+                                return (
+                                    <div>
+                                        <div>{header}</div>
+                                        <div className="mt-3">{element}</div>
+                                    </div>
+                                )
+                            }}
+                        </TabNavigation>
+                    )
+                )}
+            </div>
+        </>
     )
 }
 Workplace.getLayout = (page: ReactElement) => {

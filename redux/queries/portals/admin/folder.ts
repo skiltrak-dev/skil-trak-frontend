@@ -41,6 +41,15 @@ export const folderEndpoints = (
         invalidatesTags: ['Folders', 'Courses'],
     }),
 
+    assessmentEvidenceUpdate: builder.mutation({
+        query: (body: any) => ({
+            url: `${PREFIX}assessment-evidence/update/${body.id}`,
+            method: 'PATCH',
+            body,
+        }),
+        invalidatesTags: ['Folders', 'Courses'],
+    }),
+
     folderRemove: builder.mutation({
         query: (id) => ({
             url: `${PREFIX}folder/remove/${id}`,

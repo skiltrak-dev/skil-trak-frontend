@@ -32,7 +32,12 @@ import {
 } from './modals'
 
 import { ProgressCell, SectorCell } from '@partials/admin/student/components'
-import { checkStudentStatus, checkWorkplaceStatus, setLink } from '@utils'
+import {
+    WorkplaceCurrentStatus,
+    checkStudentStatus,
+    checkWorkplaceStatus,
+    setLink,
+} from '@utils'
 import { IndustryCellInfo } from '../indestries/components'
 import { ColumnDef } from '@tanstack/react-table'
 import { EditTimer } from '@components/StudentTimer/EditTimer'
@@ -211,7 +216,12 @@ export const AllStudents = () => {
             accessorKey: 'progress',
             header: () => <span>Progress</span>,
             cell: ({ row }) => {
-                const workplace = row.original.workplace[0]
+                const workplace = row.original.workplace?.reduce(
+                    (a: any, b: any) => (a?.createdAt > b?.createdAt ? a : b),
+                    {
+                        currentStatus: WorkplaceCurrentStatus.Applied,
+                    }
+                )
                 const industries = row.original?.industries
                 const steps = checkWorkplaceStatus(workplace?.currentStatus)
                 const studentStatus = checkStudentStatus(

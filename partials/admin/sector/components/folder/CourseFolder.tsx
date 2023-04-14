@@ -1,4 +1,4 @@
-import { ActionButton } from '@components'
+import { ActionButton, ShowErrorNotifications } from '@components'
 import { useNotification } from '@hooks'
 import { AdminApi } from '@queries'
 import { Course, Folder } from '@types'
@@ -34,13 +34,22 @@ export const CourseFolder = ({
     }
 
     const [update, updateResult] = AdminApi.Folders.useUpdate()
+    const [updateAssessment, updateAssessmentResult] =
+        AdminApi.Folders.useAssessMentUpdate()
     const onSubmit = async (values: any) => {
-        await update({
-            id: folder.id,
-            ...values,
-            type: values.type.value,
-            course: course?.id,
-        })
+        edit
+            ? await updateAssessment({
+                  id: folder.id,
+                  ...values,
+                  type: values.type.value,
+                  course: course?.id,
+              })
+            : await update({
+                  id: folder.id,
+                  ...values,
+                  type: values.type.value,
+                  course: course?.id,
+              })
     }
 
     const [deleteFolder, deleteResult] = AdminApi.Folders.useRemove()
@@ -65,13 +74,19 @@ export const CourseFolder = ({
             })
 
             onCancel()
-        } else if (updateResult.isError) {
-            notification.error({
-                title: 'Folder Update Failed',
-                description: 'An error occurred while updating folder',
-            })
         }
     }, [updateResult])
+
+    useEffect(() => {
+        if (updateAssessmentResult.isSuccess) {
+            notification.info({
+                title: 'Assessment Folder Update',
+                description: 'A Assessment folder updated in course',
+            })
+
+            onCancel()
+        }
+    }, [updateAssessmentResult])
 
     useEffect(() => {
         if (deleteResult.isSuccess) {
@@ -107,94 +122,98 @@ export const CourseFolder = ({
     }, [deleteAssessmentResult])
 
     return (
-        <div className="border-b pb-4">
-            {edit ? (
-                <CourseFolderForm
-                    onSubmit={onSubmit}
-                    edit
-                    initialValues={folder}
-                    onCancel={onCancel}
-                    result={result}
-                />
-            ) : (
-                <div className="relative">
-                    {deleting && (
-                        <div className="absolute top-0 left-0 flex flex-col w-full h-full backdrop-blur-sm bg-white/50 px-2 py-2">
-                            <div className="flex items-center gap-x-2 mb-4">
-                                <div className="bg-red-500 w-6 h-6 rounded-lg flex items-center justify-center text-white">
-                                    <FaTrash />
+        <>
+            <ShowErrorNotifications result={updateResult} />
+            <ShowErrorNotifications result={updateAssessmentResult} />
+            <div className="border-b pb-4">
+                {edit ? (
+                    <CourseFolderForm
+                        onSubmit={onSubmit}
+                        edit
+                        initialValues={folder}
+                        onCancel={onCancel}
+                        result={edit ? updateAssessmentResult : updateResult}
+                    />
+                ) : (
+                    <div className="relative">
+                        {deleting && (
+                            <div className="absolute top-0 left-0 flex flex-col w-full h-full backdrop-blur-sm bg-white/50 px-2 py-2">
+                                <div className="flex items-center gap-x-2 mb-4">
+                                    <div className="bg-red-500 w-6 h-6 rounded-lg flex items-center justify-center text-white">
+                                        <FaTrash />
+                                    </div>
+                                    <p className="font-medium text-sm">
+                                        Delete '{folder.name}' Folder!
+                                    </p>
                                 </div>
-                                <p className="font-medium text-sm">
-                                    Delete '{folder.name}' Folder!
+                                <div className="flex gap-x-2">
+                                    <ActionButton
+                                        variant="error"
+                                        onClick={() => {
+                                            onDelete()
+                                        }}
+                                    >
+                                        Yes
+                                    </ActionButton>
+                                    <ActionButton
+                                        simple
+                                        onClick={() => setDeleting(false)}
+                                    >
+                                        Cancel
+                                    </ActionButton>
+                                </div>
+                            </div>
+                        )}
+                        <div>
+                            <div className="flex justify-between">
+                                <div className="flex gap-x-2 items-center">
+                                    <span className="text-indigo-500">
+                                        <FaFolder />
+                                    </span>
+                                    <p className="text-sm font-medium">
+                                        {folder.name}
+                                    </p>
+                                    <span className="text-xs text-gray-500">
+                                        {'('}
+                                        {folder.capacity}
+                                        {')'}
+                                    </span>
+                                </div>
+
+                                <div>
+                                    <ActionButton
+                                        variant="info"
+                                        simple
+                                        onClick={() => setEdit(true)}
+                                    >
+                                        Edit
+                                    </ActionButton>
+                                    <ActionButton
+                                        variant="error"
+                                        simple
+                                        onClick={() => setDeleting(true)}
+                                    >
+                                        Delete
+                                    </ActionButton>
+                                </div>
+                            </div>
+
+                            <p className="text-xs text-gray-600">
+                                {getFolderType()}
+                            </p>
+
+                            <div className="mt-2">
+                                <p className="text-[11px] text-gray-500">
+                                    Description:
+                                </p>
+                                <p className="text-xs text-gray-700 font-medium">
+                                    {folder.description}
                                 </p>
                             </div>
-                            <div className="flex gap-x-2">
-                                <ActionButton
-                                    variant="error"
-                                    onClick={() => {
-                                        onDelete()
-                                    }}
-                                >
-                                    Yes
-                                </ActionButton>
-                                <ActionButton
-                                    simple
-                                    onClick={() => setDeleting(false)}
-                                >
-                                    Cancel
-                                </ActionButton>
-                            </div>
-                        </div>
-                    )}
-                    <div>
-                        <div className="flex justify-between">
-                            <div className="flex gap-x-2 items-center">
-                                <span className="text-indigo-500">
-                                    <FaFolder />
-                                </span>
-                                <p className="text-sm font-medium">
-                                    {folder.name}
-                                </p>
-                                <span className="text-xs text-gray-500">
-                                    {'('}
-                                    {folder.capacity}
-                                    {')'}
-                                </span>
-                            </div>
-
-                            <div>
-                                <ActionButton
-                                    variant="info"
-                                    simple
-                                    onClick={() => setEdit(true)}
-                                >
-                                    Edit
-                                </ActionButton>
-                                <ActionButton
-                                    variant="error"
-                                    simple
-                                    onClick={() => setDeleting(true)}
-                                >
-                                    Delete
-                                </ActionButton>
-                            </div>
-                        </div>
-
-                        <p className="text-xs text-gray-600">
-                            {getFolderType()}
-                        </p>
-
-                        <div className="mt-2">
-                            <p className="text-[11px] text-gray-500">
-                                Description:
-                            </p>
-                            <p className="text-xs text-gray-700 font-medium">
-                                {folder.description}
-                            </p>
                         </div>
                     </div>
-                </div>
-            )}
-        </div>
+                )}
+            </div>
+        </>
     )
 }

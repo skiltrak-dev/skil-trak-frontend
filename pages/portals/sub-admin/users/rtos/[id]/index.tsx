@@ -55,6 +55,7 @@ const RtoProfile: NextPageWithLayout = (props: Props) => {
     )
     const navBar = useNavbar()
 
+<<<<<<< Updated upstream
     useEffect(() => {
         if (rtoDetail?.isSuccess) {
             setContent(
@@ -73,6 +74,22 @@ const RtoProfile: NextPageWithLayout = (props: Props) => {
             hide()
         }
     }, [rtoDetail, setContent])
+=======
+    // useEffect(() => {
+    //     if (rtoDetail?.isSuccess) {
+    //         setContent(
+    //             <>
+    //                 <RtoProfileSidebar
+    //                     rto={rtoDetail}
+    //                     loading={rtoDetail?.isLoading}
+    //                     data={rtoDetail?.data}
+    //                 />
+    //             </>
+    //         )
+    //         show(false)
+    //     }
+    // }, [rtoDetail, setContent])
+>>>>>>> Stashed changes
 
     useEffect(() => {
         navBar.setSubTitle(rtoDetail?.data?.user?.name)

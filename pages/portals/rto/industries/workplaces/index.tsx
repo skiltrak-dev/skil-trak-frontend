@@ -1,4 +1,4 @@
-import { ReactElement, useEffect, useState } from 'react'
+import { ReactElement, useCallback, useEffect, useState } from 'react'
 // Layouts
 import { RtoLayout } from '@layouts'
 import { NextPageWithLayout } from '@types'
@@ -16,6 +16,7 @@ import {
     Filter,
     PageTitle,
     RTOWorkplaceFilters,
+    SetDetaultQueryFilteres,
 } from '@components'
 // Links
 import Link from 'next/link'
@@ -29,7 +30,8 @@ import { IndustryCell } from '@partials/admin/industry/components'
 import { useRouter } from 'next/router'
 import { MdEmail, MdPhoneIphone } from 'react-icons/md'
 import { StudentCellInfo } from '@partials/rto/student/components'
-import { getFilterQuery } from '@utils'
+import { getFilterQuery, removeEmptyValues } from '@utils'
+import { debounce } from 'lodash'
 
 type Props = {}
 
@@ -60,9 +62,9 @@ const RtoWorkplaces: NextPageWithLayout = (props: Props) => {
         limit: itemPerPage,
     })
 
-    const query = getFilterQuery({ router, filterKeys })
     useEffect(() => {
-        setFilter(query)
+        setPage(Number(router.query.page || 1))
+        setItemPerPage(Number(router.query.pageSize || 50))
     }, [router])
 
     const RelatedQuestions = [
@@ -104,7 +106,7 @@ const RtoWorkplaces: NextPageWithLayout = (props: Props) => {
     ]
     const columns: ColumnDef<any>[] = [
         {
-            header: () => 'Name',
+            header: () => 'Industry Name',
             accessorKey: 'name',
             cell: ({ row }: any) => {
                 const {
@@ -190,6 +192,10 @@ const RtoWorkplaces: NextPageWithLayout = (props: Props) => {
     ]
     return (
         <>
+            <SetDetaultQueryFilteres
+                filterKeys={filterKeys}
+                setFilter={setFilter}
+            />
             <div className="mb-5">
                 <div className="flex justify-between items-center">
                     <PageTitle
