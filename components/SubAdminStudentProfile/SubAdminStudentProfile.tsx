@@ -10,7 +10,7 @@ import { IoLocation } from 'react-icons/io5'
 import { MdBatchPrediction, MdPhone, MdVerified } from 'react-icons/md'
 
 // hooks
-import { useActionModal } from '@hooks'
+import { useActionModal, useNotification } from '@hooks'
 
 // queries
 import { StudentAvatar } from '@components/avatars'
@@ -18,10 +18,11 @@ import { BlockModal } from '@partials/sub-admin/students/modals'
 import { Student } from '@types'
 import { getUserCredentials } from '@utils'
 import { useRouter } from 'next/router'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { StudentStatus } from './StudentStatus'
 import { ActionButton } from '@components/buttons'
 import { UserCreatedAt } from '@components/UserCreatedAt'
+import { SubAdminApi } from '@queries'
 
 const getGender = (gender: string | undefined) => {
     if (!gender) return 'N/A'
@@ -31,10 +32,22 @@ const getGender = (gender: string | undefined) => {
 }
 export const SubAdminStudentProfile = ({ student }: { student: Student }) => {
     const router = useRouter()
-
+    const { notification } = useNotification()
     const { passwordModal, onUpdatePassword } = useActionModal()
+    const [calledStudent, resultCalledStudent] = SubAdminApi.Student.useCalled()
 
     const role = getUserCredentials()?.role
+
+
+    useEffect(() => {
+        if (resultCalledStudent.isSuccess) {
+            notification.success({
+                title: 'Called Student',
+                description: `Called Student with Id: ${student.studentId}`,
+            })
+        }
+    }, [resultCalledStudent])
+
     return (
         <div>
             {passwordModal && passwordModal}
@@ -49,10 +62,10 @@ export const SubAdminStudentProfile = ({ student }: { student: Student }) => {
                                 role === 'admin'
                                     ? `/portals/admin/student/edit-student/${student?.id}`
                                     : role === 'subadmin'
-                                    ? `/portals/sub-admin/students/${student?.id}/edit-student`
-                                    : role === 'rto'
-                                    ? `/portals/rto/students/${student?.id}/edit-student`
-                                    : ''
+                                        ? `/portals/sub-admin/students/${student?.id}/edit-student`
+                                        : role === 'rto'
+                                            ? `/portals/rto/students/${student?.id}/edit-student`
+                                            : ''
                             )
                         }
                         title="Edit Profile"
@@ -116,17 +129,35 @@ export const SubAdminStudentProfile = ({ student }: { student: Student }) => {
                 </div>
             </div>
             <div className="p-2 border-b">
-                <div className="flex items-center space-x-2">
-                    <span className="text-gray-300">
-                        <MdPhone size={12} />
-                    </span>
-                    <p className="text-xs font-medium">{student?.phone}</p>
+                <div className="flex items-center justify-between space-x-2">
+                    <div className='flex items-center'>
+                        <span className="text-gray-300">
+                            <MdPhone size={12} />
+                        </span>
+                        <p className="text-xs font-medium">{student?.phone}</p>
+                    </div>
+                    <div>
+                        <div
+                            onClick={() => {
+                                calledStudent(student.id)
+                            }}
+                            className="bg-green-400 hover:bg-green-500 rounded-md px-4 py-1 cursor-pointer"
+                        >
+                            <MdPhone className="text-white" size={15} />
+                        </div>
+
+                    </div>
                 </div>
-                <div className="text-gray-400 text-[11px] flex justify-start pl-4 -mt-0.5 text-right">
-                    Phone Number
+                <div className='flex items-center justify-between'>
+                    <div className="text-gray-400 text-[11px] flex justify-start pl-4 -mt-0.5 text-right">
+                        Phone Number
+                    </div>
+                    <div className="text-gray-400 text-[11px] flex justify-center mt-2 text-center">
+                        Call student
+                    </div>
                 </div>
             </div>
-            <div className='border-b'>
+            <div className="border-b">
                 <UserCreatedAt label createdAt={student?.createdAt} />
             </div>
             {/* Info Row 2 */}

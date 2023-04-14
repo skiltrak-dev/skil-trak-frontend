@@ -290,3 +290,15 @@ tr[aria-hidden] td {
 .react-pdf__Page__annotations {
     position: absolute !important;
 }
+.card-bg{
+    /* clip-path: polygon(100% 100%, 50% 84%, 0 100%, 0 0, 61% 0, 100% 0); */
+    clip-path: polygon(100% 100%, 48% 100%, 0 100%, 0 0, 61% 0, 100% 0);
+    transition: transform 0.2s ease 0s;
+}
+
+.arrow-clr{
+    clip-path: polygon(100% 100%, 48% 100%, 0 100%, 0 100%, 50% 50%, 100% 100%);
+}
+.arrow {
+    clip-path: polygon(100% 100%, 48% 100%, 0 100%, 0 75%, 50% 25%, 100% 75%);
+}
