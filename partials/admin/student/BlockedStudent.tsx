@@ -31,6 +31,7 @@ import { RiLockPasswordFill } from 'react-icons/ri'
 import { useActionModal } from '@hooks'
 import { checkStudentStatus, checkWorkplaceStatus } from '@utils'
 import moment from 'moment'
+import { BulkDeleteModal } from '@modals'
 
 export const BlockedStudent = () => {
     const router = useRouter()
@@ -72,6 +73,12 @@ export const BlockedStudent = () => {
                 item={student}
                 onCancel={() => onModalCancelClicked()}
             />
+        )
+    }
+
+    const onBulkDeleteClicked = (ids: number[]) => {
+        setModal(
+            <BulkDeleteModal onCancel={onModalCancelClicked} usersIds={ids} />
         )
     }
 
@@ -217,7 +224,7 @@ export const BlockedStudent = () => {
                 </ActionButton>
             </div>
         ),
-        common: (ids: number[]) => (
+        common: (ids: any) => (
             <div className="flex gap-x-2">
                 <ActionButton
                     onClick={() => {
@@ -229,7 +236,14 @@ export const BlockedStudent = () => {
                 >
                     Unblock
                 </ActionButton>
-                <ActionButton Icon={FaTrash} variant="error">
+                <ActionButton
+                    Icon={FaTrash}
+                    variant="error"
+                    onClick={() => {
+                        const arrayOfIds = ids.map((id: any) => id?.user.id)
+                        onBulkDeleteClicked(arrayOfIds)
+                    }}
+                >
                     Delete
                 </ActionButton>
             </div>
