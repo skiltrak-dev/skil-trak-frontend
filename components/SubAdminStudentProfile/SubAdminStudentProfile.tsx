@@ -30,14 +30,13 @@ const getGender = (gender: string | undefined) => {
     if (gender.toLocaleLowerCase() === 'm') return 'Male'
     if (gender.toLocaleLowerCase() === 'f') return 'Female'
 }
-export const SubAdminStudentProfile = ({ student }: { student: Student }) => {
+export const SubAdminStudentProfile = ({ student }: { student: any }) => {
     const router = useRouter()
     const { notification } = useNotification()
     const { passwordModal, onUpdatePassword } = useActionModal()
     const [calledStudent, resultCalledStudent] = SubAdminApi.Student.useCalled()
 
     const role = getUserCredentials()?.role
-
 
     useEffect(() => {
         if (resultCalledStudent.isSuccess) {
@@ -62,10 +61,10 @@ export const SubAdminStudentProfile = ({ student }: { student: Student }) => {
                                 role === 'admin'
                                     ? `/portals/admin/student/edit-student/${student?.id}`
                                     : role === 'subadmin'
-                                        ? `/portals/sub-admin/students/${student?.id}/edit-student`
-                                        : role === 'rto'
-                                            ? `/portals/rto/students/${student?.id}/edit-student`
-                                            : ''
+                                    ? `/portals/sub-admin/students/${student?.id}/edit-student`
+                                    : role === 'rto'
+                                    ? `/portals/rto/students/${student?.id}/edit-student`
+                                    : ''
                             )
                         }
                         title="Edit Profile"
@@ -130,25 +129,30 @@ export const SubAdminStudentProfile = ({ student }: { student: Student }) => {
             </div>
             <div className="p-2 border-b">
                 <div className="flex items-center justify-between space-x-2">
-                    <div className='flex items-center'>
+                    <div className="flex items-center gap-x-2">
                         <span className="text-gray-300">
                             <MdPhone size={12} />
                         </span>
                         <p className="text-xs font-medium">{student?.phone}</p>
                     </div>
                     <div>
-                        <div
-                            onClick={() => {
-                                calledStudent(student.id)
-                            }}
-                            className="bg-green-400 hover:bg-green-500 rounded-md px-4 py-1 cursor-pointer"
-                        >
-                            <MdPhone className="text-white" size={15} />
-                        </div>
-
+                        {student?.called ? (
+                            <div className="bg-green-200  rounded-md px-4 py-1">
+                                <MdPhone className="text-white" size={15} />
+                            </div>
+                        ) : (
+                            <div
+                                onClick={() => {
+                                    calledStudent(student.id)
+                                }}
+                                className="bg-green-400 hover:bg-green-500 rounded-md px-4 py-1 cursor-pointer"
+                            >
+                                <MdPhone className="text-white" size={15} />
+                            </div>
+                        )}
                     </div>
                 </div>
-                <div className='flex items-center justify-between'>
+                <div className="flex items-center justify-between">
                     <div className="text-gray-400 text-[11px] flex justify-start pl-4 -mt-0.5 text-right">
                         Phone Number
                     </div>
