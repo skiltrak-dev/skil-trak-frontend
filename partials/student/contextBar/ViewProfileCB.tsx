@@ -125,7 +125,9 @@ export const ViewProfileCB = () => {
                                 <FaBirthdayCake />
                             </span>
                             <p className="text-sm font-medium">
-                                {moment(data?.dob).format('LL')}
+                                {data?.dob
+                                    ? moment(data?.dob).format('LL')
+                                    : 'Not Provided'}
                             </p>
                         </div>
                         <div className="text-gray-400 text-[11px] -mt-0.5 text-center">

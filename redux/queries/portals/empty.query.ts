@@ -16,6 +16,7 @@ export const emptySplitApi = createApi({
     }),
     tagTypes: [
         'BulkStatus',
+        'BulkUsersDelete',
         'RecentActivities',
         'User',
         'RTOS',
@@ -69,6 +70,8 @@ export const emptySplitApi = createApi({
         'AvailableShifts',
         'StudentCourses',
         'StudentAppointments',
+        'MailsRecent',
+        'MailCount',
     ],
     endpoints: () => ({}),
 })

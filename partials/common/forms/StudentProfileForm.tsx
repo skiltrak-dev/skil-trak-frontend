@@ -12,6 +12,7 @@ import {
     Select,
     Avatar,
     ShowErrorNotifications,
+    RadioGroup,
 } from '@components'
 
 // utils
@@ -316,6 +317,17 @@ export const StudentProfileForm = ({
                                         placeholder={'Date of Birth...'}
                                         validationIcons
                                         required
+                                    />
+                                    <RadioGroup
+                                        name={'gender'}
+                                        label={'Gender'}
+                                        options={[
+                                            { label: 'Male', value: 'M' },
+                                            {
+                                                label: 'Fe-Male',
+                                                value: 'F',
+                                            },
+                                        ]}
                                     />
                                 </div>
                                 <div className="grid grid-cols-2 gap-x-8">
