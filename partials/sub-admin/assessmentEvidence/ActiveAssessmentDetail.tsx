@@ -341,7 +341,7 @@ export const ActiveAssessmentDetail = ({
                                 referrerPolicy="no-referrer"
                                 target="_blank"
                             >
-                                <div className='flex items-center gap-x-2'>
+                                <div className="flex items-center gap-x-2">
                                     <FaDownload />
                                     <span>Download Files</span>
                                 </div>
@@ -506,7 +506,17 @@ export const ActiveAssessmentDetail = ({
                             </div>
                         )}
 
-                    {!results?.isSubmitted && (
+                    {!allCommentsAdded && (
+                        <div className="mt-4">
+                            <p className="text-xs text-orange-500 bg-orange-200 py-2 px-4">
+                                *You will be able to submit assessment evidence
+                                result after you add a comment to each folder
+                                mentioned above.
+                            </p>
+                        </div>
+                    )}
+
+                    {/* {!results?.isSubmitted && (
                         <div className="mt-4">
                             <Typography
                                 variant="muted"
@@ -517,7 +527,7 @@ export const ActiveAssessmentDetail = ({
                                 mentioned above.
                             </Typography>
                         </div>
-                    )}
+                    )} */}
                 </div>
             )}
         </div>

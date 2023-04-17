@@ -32,6 +32,7 @@ import {
 import { ChangeStatusModal, DeleteModal } from './modals'
 import { EditTimer } from '@components/StudentTimer/EditTimer'
 import moment from 'moment'
+import { BulkDeleteModal } from '@modals'
 
 export const ArchivedStudent = () => {
     const router = useRouter()
@@ -89,6 +90,12 @@ export const ArchivedStudent = () => {
                 onCancel={onModalCancelClicked}
                 changeExpiryData={setChangeExpiryData}
             />
+        )
+    }
+
+    const onBulkDeleteClicked = (ids: number[]) => {
+        setModal(
+            <BulkDeleteModal onCancel={onModalCancelClicked} usersIds={ids} />
         )
     }
 
@@ -264,7 +271,14 @@ export const ArchivedStudent = () => {
         ),
         common: (ids: number[]) => (
             <div className="flex gap-x-2">
-                <ActionButton Icon={FaTrash} variant="error" disabled>
+                <ActionButton
+                    Icon={FaTrash}
+                    variant="error"
+                    onClick={() => {
+                        const arrayOfIds = ids.map((id: any) => id?.user.id)
+                        onBulkDeleteClicked(arrayOfIds)
+                    }}
+                >
                     Delete
                 </ActionButton>
             </div>

@@ -128,7 +128,7 @@ const RtoCoordinators: NextPageWithLayout = (props: Props) => {
         {
             text: 'Delete',
             onClick: (coordinator: any) => {
-                removeCoordinator(coordinator?.id)
+                removeCoordinator(coordinator?.user?.id)
             },
             Icon: '',
         },

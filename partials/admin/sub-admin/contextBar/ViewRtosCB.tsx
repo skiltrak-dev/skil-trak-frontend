@@ -84,7 +84,7 @@ export const ViewRtosCB = ({ subAdmin }: { subAdmin: SubAdmin }) => {
                         <ContextBarLoading />
                     ) : rtoList.data?.length ? (
                         rtoList.data.map((rto: Rto) => (
-                            <AssignedRto rto={rto} onRemove={onRemoveClicked} />
+                            <AssignedRto rto={rto} onRemove={onRemoveClicked} removeResult={unassignResult} />
                         ))
                     ) : (
                         <NoData text={'No RTOs Assigned'} />

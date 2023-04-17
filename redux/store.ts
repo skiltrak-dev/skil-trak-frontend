@@ -1,5 +1,4 @@
 import { configureStore } from '@reduxjs/toolkit'
-// Or from '@reduxjs/toolkit/query/react'
 import { setupListeners } from '@reduxjs/toolkit/query'
 
 import {
@@ -21,15 +20,6 @@ export const store = configureStore({
         [commonApi.reducerPath]: commonApi.reducer,
         [adminApi.reducerPath]: adminApi.reducer,
         [studentApi.reducerPath]: studentApi.reducer,
-        // [studentJobsApi.reducerPath]: studentJobsApi.reducer,
-        // [studentCoursesApi.reducerPath]: studentCoursesApi.reducer,
-        // [workplaceRequestApi.reducerPath]: workplaceRequestApi.reducer,
-        // [studentAppointmentsApi.reducerPath]: studentAppointmentsApi.reducer,
-        // [studentAssessmentEvidenceApi.reducerPath]:
-        //     studentAssessmentEvidenceApi.reducer,
-        // [studentSignUpApi.reducerPath]: studentSignUpApi.reducer,
-        // [studentAssessmentApi.reducerPath]: studentAssessmentApi.reducer,
-        // [studentProfileApi.reducerPath]: studentProfileApi.reducer,
         [rtoApi.reducerPath]: rtoApi.reducer,
         [subAdminApi.reducerPath]: subAdminApi.reducer,
         [stripeApi.reducerPath]: stripeApi.reducer,
@@ -43,13 +33,7 @@ export const store = configureStore({
             commonApi.middleware,
             adminApi.middleware,
             studentApi.middleware,
-            // studentJobsApi.middleware,
-            // studentCoursesApi.middleware,
-            // workplaceRequestApi.middleware,
-            // studentAppointmentsApi.middleware,
-            // studentAssessmentEvidenceApi.middleware,
-            // studentAssessmentApi.middleware,
-            // studentProfileApi.middleware,
+
             rtoApi.middleware,
             subAdminApi.middleware,
             stripeApi.middleware,

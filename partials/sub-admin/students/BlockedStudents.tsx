@@ -2,10 +2,11 @@ import { useRouter } from 'next/router'
 import { ReactElement } from 'react'
 
 // Icons
-import { FaEye } from 'react-icons/fa'
+import { FaEye, FaTrash } from 'react-icons/fa'
 
 // components
 import {
+    ActionButton,
     Card,
     EmptyData,
     InitialAvatar,
@@ -33,6 +34,8 @@ import { IndustryCellInfo } from '../indestries/components'
 import { ColumnDef } from '@tanstack/react-table'
 import { RiLockPasswordFill } from 'react-icons/ri'
 import { AiFillCheckCircle } from 'react-icons/ai'
+import { BulkDeleteModal } from '@modals'
+import { CgUnblock } from 'react-icons/cg'
 
 export const BlockedStudents = () => {
     const router = useRouter()
@@ -70,6 +73,12 @@ export const BlockedStudents = () => {
                 student={student}
                 onCancel={() => onModalCancelClicked()}
             />
+        )
+    }
+
+    const onBulkDeleteClicked = (ids: number[]) => {
+        setModal(
+            <BulkDeleteModal onCancel={onModalCancelClicked} usersIds={ids} />
         )
     }
 
@@ -188,6 +197,35 @@ export const BlockedStudents = () => {
         },
     ]
 
+    const quickActionsElements = {
+        id: 'id',
+        individual: (id: number) => (
+            <div className="flex gap-x-2">
+                <ActionButton>Sub Admins</ActionButton>
+                <ActionButton Icon={CgUnblock} variant="warning">
+                    Unblock
+                </ActionButton>
+                <ActionButton Icon={FaTrash} variant="error">
+                    Delete
+                </ActionButton>
+            </div>
+        ),
+        common: (ids: any) => (
+            <div className="flex gap-x-2">
+                <ActionButton
+                    Icon={FaTrash}
+                    variant="error"
+                    onClick={() => {
+                        const arrayOfIds = ids.map((id: any) => id?.user.id)
+                        onBulkDeleteClicked(arrayOfIds)
+                    }}
+                >
+                    Delete
+                </ActionButton>
+            </div>
+        ),
+    }
+
     return (
         <div>
             {modal && modal}
@@ -201,6 +239,7 @@ export const BlockedStudents = () => {
                         columns={Columns}
                         data={data.data}
                         enableRowSelection
+                        quickActions={quickActionsElements}
                     >
                         {({
                             table,
