@@ -17,7 +17,12 @@ import { FaEdit, FaEye } from 'react-icons/fa'
 import { RtoCellInfo } from '@partials/admin/rto/components'
 import { AdminApi } from '@queries'
 import { Student, UserStatus } from '@types'
-import { WorkplaceCurrentStatus, checkStudentStatus, checkWorkplaceStatus, setLink } from '@utils'
+import {
+    WorkplaceCurrentStatus,
+    checkStudentStatus,
+    checkWorkplaceStatus,
+    setLink,
+} from '@utils'
 import { useRouter } from 'next/router'
 import { ReactElement, useEffect, useState } from 'react'
 import { MdBlock } from 'react-icons/md'
@@ -204,7 +209,7 @@ export const ApprovedStudent = () => {
                 const workplace = row.original.workplace?.reduce(
                     (a: any, b: any) => (a?.createdAt > b?.createdAt ? a : b),
                     {
-                        currentStatus: WorkplaceCurrentStatus.Applied,
+                        currentStatus: WorkplaceCurrentStatus.NotRequested,
                     }
                 )
                 const industries = row.original?.industries

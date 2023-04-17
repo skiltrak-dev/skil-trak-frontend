@@ -219,7 +219,7 @@ export const AllStudents = () => {
                 const workplace = row.original.workplace?.reduce(
                     (a: any, b: any) => (a?.createdAt > b?.createdAt ? a : b),
                     {
-                        currentStatus: WorkplaceCurrentStatus.Applied,
+                        currentStatus: WorkplaceCurrentStatus.NotRequested,
                     }
                 )
                 const industries = row.original?.industries
