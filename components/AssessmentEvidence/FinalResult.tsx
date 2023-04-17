@@ -68,6 +68,7 @@ export const FinalResult = ({
                 )
         }
     }
+
     return (
         <div className="mt-5 flex flex-col gap-y-2">
             {results &&
@@ -76,7 +77,8 @@ export const FinalResult = ({
                     ?.filter((result: any) => result?.finalComment)
                     ?.sort(
                         (a: any, b: any) =>
-                            a?.totalSubmission - b?.totalSubmission
+                            (new Date(b?.createdAt) as any) -
+                            (new Date(a?.createdAt) as any)
                     )
                     ?.map((result: any) => (
                         <Card key={result?.id}>

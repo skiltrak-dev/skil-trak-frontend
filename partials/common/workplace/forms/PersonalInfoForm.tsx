@@ -1,21 +1,20 @@
-import React, { useEffect, useState } from 'react'
-import * as yup from 'yup'
-import { Formik, Form } from 'formik'
-import { Button } from 'components/buttons/Button'
-import { Select, TextInput, RadioButton, RadioGroup } from '@components'
-import { FormProvider, useForm } from 'react-hook-form'
+import { RadioGroup, Select, TextInput } from '@components'
 import { yupResolver } from '@hookform/resolvers/yup'
-import moment from 'moment'
+import { Button } from 'components/buttons/Button'
+import { useState } from 'react'
+import { FormProvider, useForm } from 'react-hook-form'
+import * as yup from 'yup'
 
 // components
 import { Card, Typography } from 'components'
 
-import { useGetStudentCoursesQuery, useGetCourseDocumentsQuery } from '@queries'
-import { SignUpUtils } from '@utils'
 type PersonalInfoProps = {
     onSubmit: any
     courses: any
 }
+
+const placesLibrary = ['places'] as any
+
 export const PersonalInfoForm = ({ onSubmit, courses }: PersonalInfoProps) => {
     const [work, setWork] = useState<string>('')
     const [qualification, setQualification] = useState<string>('')
@@ -23,6 +22,12 @@ export const PersonalInfoForm = ({ onSubmit, courses }: PersonalInfoProps) => {
         label: course.title,
         value: course.id,
     }))
+
+    // const { isLoaded } = useJsApiLoader({
+    //     id: 'google-map-script',
+    //     googleMapsApiKey: '',
+    //     libraries: placesLibrary,
+    // })
 
     // function getCurrentWeek() {
     //     var currentDate = moment()
@@ -67,6 +72,8 @@ export const PersonalInfoForm = ({ onSubmit, courses }: PersonalInfoProps) => {
         mode: 'all',
         resolver: yupResolver(validationSchema),
     })
+
+    const onPlaceChanged = () => {}
     return (
         <div>
             <Typography variant={'label'} capitalize>
@@ -165,6 +172,22 @@ export const PersonalInfoForm = ({ onSubmit, courses }: PersonalInfoProps) => {
                                 label="Where would you want to locate your self? (Suburb)"
                                 placeholder="Where would you want to locate your self? (Suburb)"
                             />
+                            {/* {isLoaded
+                                ? isBrowser() && (
+                                      <Autocomplete
+                                      // onPlaceChanged={(place) =>
+                                      //     onPlaceChanged(place)
+                                      // }
+                                      // onLoad={onLoad}
+                                      >
+                                          <TextInput
+                                              name="preferableLocation"
+                                              label="Where would you want to locate your self? (Suburb)"
+                                              placeholder="Where would you want to locate your self? (Suburb)"
+                                          />
+                                      </Autocomplete>
+                                  )
+                                : null} */}
                         </div>
                         <Button text={'Continue'} submit />
                     </form>

@@ -38,7 +38,6 @@ export const SubAdminStudentProfile = ({ student }: { student: Student }) => {
 
     const role = getUserCredentials()?.role
 
-
     useEffect(() => {
         if (resultCalledStudent.isSuccess) {
             notification.success({
@@ -62,10 +61,10 @@ export const SubAdminStudentProfile = ({ student }: { student: Student }) => {
                                 role === 'admin'
                                     ? `/portals/admin/student/edit-student/${student?.id}`
                                     : role === 'subadmin'
-                                        ? `/portals/sub-admin/students/${student?.id}/edit-student`
-                                        : role === 'rto'
-                                            ? `/portals/rto/students/${student?.id}/edit-student`
-                                            : ''
+                                    ? `/portals/sub-admin/students/${student?.id}/edit-student`
+                                    : role === 'rto'
+                                    ? `/portals/rto/students/${student?.id}/edit-student`
+                                    : ''
                             )
                         }
                         title="Edit Profile"
@@ -130,7 +129,7 @@ export const SubAdminStudentProfile = ({ student }: { student: Student }) => {
             </div>
             <div className="p-2 border-b">
                 <div className="flex items-center justify-between space-x-2">
-                    <div className='flex items-center'>
+                    <div className="flex items-center">
                         <span className="text-gray-300">
                             <MdPhone size={12} />
                         </span>
@@ -145,10 +144,9 @@ export const SubAdminStudentProfile = ({ student }: { student: Student }) => {
                         >
                             <MdPhone className="text-white" size={15} />
                         </div>
-
                     </div>
                 </div>
-                <div className='flex items-center justify-between'>
+                <div className="flex items-center justify-between">
                     <div className="text-gray-400 text-[11px] flex justify-start pl-4 -mt-0.5 text-right">
                         Phone Number
                     </div>
@@ -205,8 +203,11 @@ export const SubAdminStudentProfile = ({ student }: { student: Student }) => {
                         </div> */}
                         <div>
                             <p className="text-xs font-medium">
-                                {student?.addressLine1}, {student?.addressLine2}
-                                , {student?.state}, {student?.suburb}
+                                {student?.addressLine1},{' '}
+                                {student?.addressLine2
+                                    ? `${student?.addressLine2},`
+                                    : null}
+                                {student?.state}, {student?.suburb}
                             </p>
                         </div>
                     </div>

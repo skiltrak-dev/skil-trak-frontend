@@ -15,7 +15,13 @@ export const studentEndpoints = (
 ) => ({
     studentCount: builder.query<UserCount, void>({
         query: () => `${PREFIX}students/list/count`,
-        providesTags: ['Students', 'SubAdminWorkplace', 'SubAdminStudents'],
+        providesTags: [
+            'Students',
+            'SubAdminWorkplace',
+            'SubAdminStudents',
+            'BulkUsersDelete',
+            'BulkStatus',
+        ],
     }),
     students: builder.query<PaginatedResponse<any>, any>({
         query: (params: any) => ({
@@ -28,6 +34,8 @@ export const studentEndpoints = (
             'Notes',
             'AllCommunications',
             'SubAdminWorkplace',
+            'BulkUsersDelete',
+            'BulkStatus',
         ],
     }),
 

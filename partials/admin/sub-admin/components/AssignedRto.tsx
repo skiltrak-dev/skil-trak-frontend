@@ -6,8 +6,13 @@ import { FaMinusCircle } from 'react-icons/fa'
 interface AssignedCourseProps {
     rto: Rto
     onRemove: Function
+    removeResult: any
 }
-export const AssignedRto = ({ rto, onRemove }: AssignedCourseProps) => {
+export const AssignedRto = ({
+    rto,
+    onRemove,
+    removeResult,
+}: AssignedCourseProps) => {
     const [showUnassign, setShowUnassign] = useState(false)
 
     const onRemoveClicked = () => {
@@ -54,7 +59,12 @@ export const AssignedRto = ({ rto, onRemove }: AssignedCourseProps) => {
                     </p>
 
                     <div className="flex gap-x-1">
-                        <ActionButton variant="error" onClick={onUnassignClick}>
+                        <ActionButton
+                            variant="error"
+                            onClick={onUnassignClick}
+                            loading={removeResult.isLoading}
+                            disabled={removeResult.isLoading}
+                        >
                             Unassign
                         </ActionButton>
                         <ActionButton onClick={onCancelClicked}>
