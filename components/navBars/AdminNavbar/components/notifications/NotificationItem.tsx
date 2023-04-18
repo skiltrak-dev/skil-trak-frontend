@@ -49,10 +49,23 @@ export const NotificationItem = ({
             )}
 
             <div className="flex-grow">
-                <Typography variant={'subtitle'} color={`${!resultIsReadNotification.isSuccess && !isRead ? "text-blue-400" : 'text-muted'}`}>{title.substring(0, 10)}...</Typography>
-                <Typography variant={'muted'} color={`${!resultIsReadNotification.isSuccess && !isRead ? "text-blue-100" : 'text-muted'}`}>
+                {/* <Typography variant={'subtitle'} color={`${!resultIsReadNotification.isSuccess && !isRead ? "text-blue-400" : 'text-muted'}`}>{title.substring(0, 10)}...</Typography> */}
+                <div
+                    className={`${!resultIsReadNotification.isSuccess && !isRead ? "text-blue-400" : 'text-gray-300'}`}
+                    dangerouslySetInnerHTML={{
+                        __html: title.substring(0, 10),
+                    }}
+                />
+
+                {/* <Typography variant={'muted'} color={`${!resultIsReadNotification.isSuccess && !isRead ? "text-blue-100" : 'text-muted'}`}>
                     {description.substring(0, 10)}
-                </Typography>
+                </Typography> */}
+                <div
+                    className={`${!resultIsReadNotification.isSuccess && !isRead ? "text-blue-400" : 'text-gray-300'}`}
+                    dangerouslySetInnerHTML={{
+                        __html: description.substring(0, 10),
+                    }}
+                />
             </div>
             <div className="flex flex-col items-end">
                 <Typography variant={'small'} color={'text-muted'}>

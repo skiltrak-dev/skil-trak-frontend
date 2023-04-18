@@ -41,7 +41,7 @@ export const rtoApi = createApi({
 
     // ---------- RTO ENDPOINTS ---------- //
     endpoints: (build) => ({
-        rtoProfile: build.query<Rto, void>({
+        rtoProfile: build.query<any, void>({
             query: () => `rtos/profile/view`,
             providesTags: ['RTO'],
         }),
