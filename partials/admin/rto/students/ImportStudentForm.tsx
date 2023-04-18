@@ -3,6 +3,8 @@ import { BinaryFileUpload } from '@components/inputs/BinaryFileUpload'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useNotification } from '@hooks'
 import { AdminApi } from '@queries'
+import { Course } from '@types'
+import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
 import { read, utils } from 'xlsx'
@@ -15,6 +17,7 @@ interface FormProps {
     onStudentFound: Function
     setEmailExistList: Function
     result: any
+    rtoCourses: any
 }
 export const ImportStudentForm = ({
     result,
@@ -23,9 +26,13 @@ export const ImportStudentForm = ({
     initialValues,
     onStudentFound,
     setEmailExistList,
+    rtoCourses,
 }: FormProps) => {
     const { notification } = useNotification()
     const [mount, setMount] = useState(false)
+
+    const router = useRouter()
+
     useEffect(() => {
         if (!mount) setMount(true)
     }, [])
@@ -99,8 +106,8 @@ export const ImportStudentForm = ({
                         </div>
 
                         <div className="mb-2 -mt-3">
-                            <div className="grid grid-cols-2 gap-2">
-                                <Select
+                            <div className="grid  gap-2">
+                                {/* <Select
                                     name={'sectors'}
                                     label={'Sector'}
                                     options={
@@ -116,13 +123,12 @@ export const ImportStudentForm = ({
                                     }
                                     loading={sectors.isLoading}
                                     multi
-                                />
+                                /> */}
 
                                 <Select
                                     name={'courses'}
                                     label={'Courses'}
-                                    options={courseOptions}
-                                    defaultValue={courseOptions}
+                                    options={rtoCourses}
                                     multi
                                 />
                             </div>

@@ -169,7 +169,7 @@ export const CreateNote = ({
         <>
             <ShowErrorNotifications result={createNoteResult} />
 
-            <div className={`sticky -4 -top-40`}>
+            <div className={`sticky -4 -top-48`}>
                 <Card>
                     <FormProvider {...methods}>
                         <form

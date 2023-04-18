@@ -127,7 +127,7 @@ const {
 
     // ------ Industry ------ //
     useGetAllIndustriesQuery,
-    useGetIndustriesListQuery,
+    useAllGetIndustriesListQuery,
 
     useGetAllRtosQuery,
     useGetFilterSubAdminRtosQuery,
@@ -223,7 +223,7 @@ export const CommonApi = {
         useRtosList: useGetRtosListQuery,
     },
     Industries: {
-        useIndustriesList: useGetIndustriesListQuery,
+        useIndustriesList: useAllGetIndustriesListQuery,
     },
     Courses: {
         useCoursesList: useGetCoursesListQuery,

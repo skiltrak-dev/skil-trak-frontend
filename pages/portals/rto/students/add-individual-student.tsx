@@ -1,15 +1,10 @@
-import { BackButton, Card, PageTitle } from '@components'
+import { Card, PageTitle } from '@components'
 import { useAlert, useContextBar } from '@hooks'
 import { RtoLayout } from '@layouts'
 import { NextPageWithLayout } from '@types'
 import { useRouter } from 'next/router'
-import { ReactElement, useEffect } from 'react'
+import { ReactElement } from 'react'
 
-import { PageHeading } from '@components/headings'
-import { SubAdminForm } from '@partials/admin/sub-admin/form'
-import { RtoApi } from '@queries'
-import { UserRoles } from '@constants'
-import { AuthUtils } from '@utils'
 import { AddIndividualStudentForm } from '@partials/rto/student/form'
 
 const AddIndividualStudent: NextPageWithLayout = () => {

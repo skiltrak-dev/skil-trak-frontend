@@ -1,6 +1,6 @@
 import { useAlert, useContextBar, useNavbar } from '@hooks'
 import { AdminLayout } from '@layouts'
-import { NextPageWithLayout } from '@types'
+import { Course, NextPageWithLayout } from '@types'
 import { useRouter } from 'next/router'
 import { ReactElement, useEffect, useState } from 'react'
 
@@ -23,10 +23,6 @@ const RtoStudentLists: NextPageWithLayout = () => {
     const contextBar = useContextBar()
 
     const [emailExistList, setEmailExistList] = useState<any | null>(null)
-
-    const rto = AdminApi.Rtos.useDetailQuery(Number(router.query.id), {
-        skip: !router.query?.id,
-    })
 
     useEffect(() => {
         navBar.setTitle('RTO Detail')
@@ -101,6 +97,7 @@ const RtoStudentLists: NextPageWithLayout = () => {
                         <div className="w-full">
                             <Card>
                                 <ImportStudentForm
+                                    rtoCourses={[]}
                                     onSubmit={onSubmit}
                                     onStudentFound={onStudentFound}
                                     setEmailExistList={setEmailExistList}

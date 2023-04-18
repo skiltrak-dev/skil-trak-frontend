@@ -22,20 +22,14 @@ export const coordinatorEndpoints = (
         invalidatesTags: ['Rto-Coordinators'],
     }),
     getRtoCoordinators: builder.query<any, any>({
-        query: (params) => {
-            return {
-                url: `${PREFIX}/coordinator/list`,
-                params,
-            }
-        },
-        providesTags: ['Rto-Coordinators'],
+        query: (params) => ({
+            url: `${PREFIX}/coordinator/list`,
+            params,
+        }),
+        providesTags: ['Rto-Coordinators', 'SubAdmins'],
     }),
     getRtoCoordinatorsDetail: builder.query<any, number>({
-        query: (id) => {
-            return {
-                url: `${PREFIX}/coordinator/profile/${id}`,
-            }
-        },
+        query: (id) => `${PREFIX}/coordinator/profile/${id}`,
         providesTags: ['Rto-Coordinators'],
     }),
     removeCoordinator: builder.mutation<any, number>({
