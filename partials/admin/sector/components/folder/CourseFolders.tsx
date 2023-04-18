@@ -1,4 +1,4 @@
-import { ActionButton, NoData } from '@components'
+import { ActionButton, NoData, ShowErrorNotifications } from '@components'
 import { useNotification } from '@hooks'
 import { AdminApi } from '@queries'
 import { Course, Folder } from '@types'
@@ -44,11 +44,6 @@ export const CourseFolders = ({
             })
 
             onFormCancel()
-        } else if (addFolderResult.isError) {
-            notification.error({
-                title: 'Folder Add Failed',
-                description: 'An error occurred while adding new folder',
-            })
         }
     }, [addFolderResult])
 
@@ -60,11 +55,6 @@ export const CourseFolders = ({
             })
 
             onFormCancel()
-        } else if (addAssessmentEvidenceResult.isError) {
-            notification.error({
-                title: 'Folder Add Failed',
-                description: 'An error occurred while adding new folder',
-            })
         }
     }, [addAssessmentEvidenceResult])
 
@@ -85,63 +75,67 @@ export const CourseFolders = ({
     const onFormCancel = () => setCreate(false)
 
     return (
-        <div className="pt-2">
-            <div className="flex justify-between items-center">
-                <p className="text-xs">
-                    <span className="text-gray-600 font-semibold">
-                        {folders?.length || 0}
-                    </span>{' '}
-                    -{' '}
-                    <span className="text-gray-500 font-medium">
-                        {getFoldersTitle()} Folders
-                    </span>
-                </p>
+        <>
+            <ShowErrorNotifications result={addFolderResult} />
+            <ShowErrorNotifications result={addAssessmentEvidenceResult} />
+            <div className="pt-2">
+                <div className="flex justify-between items-center">
+                    <p className="text-xs">
+                        <span className="text-gray-600 font-semibold">
+                            {folders?.length || 0}
+                        </span>{' '}
+                        -{' '}
+                        <span className="text-gray-500 font-medium">
+                            {getFoldersTitle()} Folders
+                        </span>
+                    </p>
 
-                <ActionButton
-                    variant="info"
-                    simple
-                    onClick={() => setCreate(true)}
-                >
-                    + Add Folder
-                </ActionButton>
+                    <ActionButton
+                        variant="info"
+                        simple
+                        onClick={() => setCreate(true)}
+                    >
+                        + Add Folder
+                    </ActionButton>
+                </div>
+
+                {create && (
+                    <CourseFolderForm
+                        onSubmit={onSubmit}
+                        onCancel={onFormCancel}
+                        initialValues={{
+                            name: '',
+                            capacity: 0,
+                            type: 'docs',
+                            category,
+                            description: '',
+                            isRequired: false,
+                        }}
+                        result={
+                            category === 'IndustryCheck'
+                                ? addFolderResult
+                                : addAssessmentEvidenceResult
+                        }
+                    />
+                )}
+
+                <>
+                    {!create &&
+                        (folders && folders.length ? (
+                            folders?.map((f: any) => (
+                                <CourseFolder
+                                    folder={f}
+                                    key={f.id}
+                                    course={course!!}
+                                    category={category}
+                                    result={addAssessmentEvidenceResult}
+                                />
+                            ))
+                        ) : (
+                            <NoData text="No Folder Here" />
+                        ))}
+                </>
             </div>
-
-            {create && (
-                <CourseFolderForm
-                    onSubmit={onSubmit}
-                    onCancel={onFormCancel}
-                    initialValues={{
-                        name: '',
-                        capacity: 0,
-                        type: 'docs',
-                        category,
-                        description: '',
-                        isRequired: false,
-                    }}
-                    result={
-                        category === 'IndustryCheck'
-                            ? addFolderResult
-                            : addAssessmentEvidenceResult
-                    }
-                />
-            )}
-
-            <>
-                {!create &&
-                    (folders && folders.length ? (
-                        folders?.map((f: any) => (
-                            <CourseFolder
-                                folder={f}
-                                key={f.id}
-                                course={course!!}
-                                category={category}
-                                result={addAssessmentEvidenceResult}
-                            />
-                        ))
-                    ) : (
-                        <NoData text="No Folder Here" />
-                    ))}
-            </>
-        </div>
+        </>
     )
 }

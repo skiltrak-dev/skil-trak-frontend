@@ -92,4 +92,14 @@ export const subAdminRtoEndpoints = (
         }),
         invalidatesTags: ['SubAdminRtos'],
     }),
+    subadminRtoImportStudents: builder.mutation<any, any>({
+        query: ({ id, body }: any) => {
+            return {
+                url: `${PREFIX}/students/import/${id}`,
+                method: 'POST',
+                body,
+            }
+        },
+        invalidatesTags: ['RTOS'],
+    }),
 })
