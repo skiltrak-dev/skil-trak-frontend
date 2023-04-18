@@ -15,6 +15,7 @@ import {
     BsFillDatabaseFill,
     BsLockFill,
 } from 'react-icons/bs'
+
 import { FaTimes } from 'react-icons/fa'
 import { FcBiotech } from 'react-icons/fc'
 import { IoIosLaptop } from 'react-icons/io'
