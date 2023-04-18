@@ -22,7 +22,7 @@ export const DeleteModal = ({
     const [remove, removeResult] = AdminApi.Industries.useRemove()
 
     const onConfirmUClicked = async (industry: Industry) => {
-        await remove(industry.id)
+        await remove(industry.user.id);
     }
 
     useEffect(() => {

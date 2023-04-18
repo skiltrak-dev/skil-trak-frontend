@@ -1,19 +1,19 @@
 import {
-    Button,
-    TextArea,
-    TextInput,
     ActionAlert,
-    ShowErrorNotifications,
+    Button,
     Select,
+    ShowErrorNotifications,
+    TextInput,
 } from '@components'
-import { useRouter } from 'next/router'
 import { UserRoles } from '@constants'
 import { yupResolver } from '@hookform/resolvers/yup'
-import { RtoApi, AuthApi } from '@queries'
-import { onlyAlphabets, SignUpUtils } from '@utils'
+import { AuthApi, RtoApi } from '@queries'
+import { Course } from '@types'
+import { SignUpUtils, onlyAlphabets } from '@utils'
+import { useRouter } from 'next/router'
+import { useEffect, useState } from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
 import * as yup from 'yup'
-import { useState, useEffect } from 'react'
 
 export const AddIndividualStudentForm = () => {
     const router = useRouter()
@@ -25,6 +25,16 @@ export const AddIndividualStudentForm = () => {
     const [addStudent, addStudentResult] = RtoApi.Students.useAddStudent()
     // auth api to get sectors
     const sectorResponse = AuthApi.useSectors({})
+
+    const rto = RtoApi.Rto.useProfile()
+
+    const rtoCoursesOptions =
+        rto.isSuccess && rto?.data?.courses && rto?.data?.courses?.length > 0
+            ? rto?.data?.courses?.map((course: Course) => ({
+                  label: course?.title,
+                  value: course?.id,
+              }))
+            : []
 
     useEffect(() => {
         if (addStudentResult.isSuccess) {
@@ -90,19 +100,14 @@ export const AddIndividualStudentForm = () => {
             .required('Must provide email'),
         expiryDate: yup.date().required('Must provide Expiry Date'),
         // sector and courses
-        sectors: yup.array().min(1, 'Must select at least 1 sector'),
-        courses: yup.array().min(1, 'Must select at least 1 course'),
+        courses: yup.array().min(1, 'Must select at least 1 course').required(),
 
         // Address Information
-        addressLine1: yup.string().required('Must provide address'),
-        state: yup.string().required('Must provide name of state'),
-        suburb: yup.string().required('Must provide suburb name'),
-        zipCode: yup.string().required('Must provide zip code for your state'),
     })
 
     const formMethods = useForm({
         mode: 'all',
-        // resolver: yupResolver(validationSchema),
+        resolver: yupResolver(validationSchema),
     })
 
     const onSubmitForm = (values: any) => {
@@ -112,7 +117,17 @@ export const AddIndividualStudentForm = () => {
         addStudent({
             ...values,
             courses: values.courses.map((course: any) => course.value),
-            sectors: values.sectors.map((sector: any) => sector.value),
+            role: UserRoles.STUDENT,
+            dob: 'N/A',
+            familyName: 'N/A',
+            emergencyPerson: 'N/A',
+            emergencyPersonPhone: 'N/A',
+            gender: 'NA',
+            addressLine1: 'NA',
+            state: 'NA',
+            suburb: 'NA',
+            zipCode: 'NA',
+            password: 'NA',
         })
     }
 
@@ -129,7 +144,10 @@ export const AddIndividualStudentForm = () => {
                     primaryAction={{
                         text: 'Back To List',
                         onClick: () => {
-                            router.push(`/portals/rto/students?tab=approved`)
+                            router.push({
+                                pathname: '/portals/rto/students',
+                                query: { tab: 'active' },
+                            })
                         },
                     }}
                     secondaryAction={{
@@ -168,15 +186,7 @@ export const AddIndividualStudentForm = () => {
                                 required
                             />
 
-                            <TextInput
-                                label={'Password'}
-                                name={'password'}
-                                type={'password'}
-                                placeholder={'Password...'}
-                                validationIcons
-                                required
-                            />
-                            <Select
+                            {/* <Select
                                 label={'Sector'}
                                 {...(storedData
                                     ? {
@@ -190,19 +200,12 @@ export const AddIndividualStudentForm = () => {
                                 loading={sectorResponse.isLoading}
                                 onChange={onSectorChanged}
                                 validationIcons
-                            />
+                            /> */}
                             <Select
                                 label={'Courses'}
                                 name={'courses'}
-                                defaultValue={courseOptions}
-                                options={courseOptions}
+                                options={rtoCoursesOptions}
                                 multi
-                                loading={courseLoading}
-                                disabled={
-                                    storedData
-                                        ? storedData?.courses?.length === 0
-                                        : courseOptions?.length === 0
-                                }
                                 validationIcons
                             />
                             <TextInput
@@ -223,7 +226,7 @@ export const AddIndividualStudentForm = () => {
                                 validationIcons
                                 required
                             />
-                            <TextInput
+                            {/* <TextInput
                                 label={'Address Line 1'}
                                 name={'addressLine1'}
                                 placeholder={'Your Address Line 1...'}
@@ -254,7 +257,7 @@ export const AddIndividualStudentForm = () => {
                                 name={'zipCode'}
                                 placeholder={'Zip Code...'}
                                 validationIcons
-                            />
+                            /> */}
                         </div>
                         <Button
                             submit

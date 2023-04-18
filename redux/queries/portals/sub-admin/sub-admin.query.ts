@@ -206,6 +206,7 @@ export const {
 
     // ---- RTO ---- //
     useSubadminRtoStatisticsCountQuery,
+    useSubadminRtoImportStudentsMutation,
     useGetSubAdminRtosQuery,
     useGetSubAdminRTODetailQuery,
     useGetSubAdminRTOCoursesQuery,
@@ -253,7 +254,7 @@ export const SubAdminApi = {
         useList: useGetSubAdminStudentsQuery,
         assignCourse: useSubadminStudentAssignCoursesMutation,
         subadminStudentUnassignCourses:
-        useSubadminStudentUnassignCoursesMutation,
+            useSubadminStudentUnassignCoursesMutation,
         useNotContactable: useSetNotContactableMutation,
         useCalled: useCalledStudentMutation,
         useCourses: useGetSubAdminStudentCoursesQuery,
@@ -270,6 +271,7 @@ export const SubAdminApi = {
     },
     Rto: {
         useRtoStatsCount: useSubadminRtoStatisticsCountQuery,
+        useImportStudentList: useSubadminRtoImportStudentsMutation,
     },
     Workplace: {
         count: useWorkplaceCountQuery,

@@ -27,6 +27,7 @@ import Link from 'next/link'
 import { toNamespacedPath } from 'path'
 import { useJoyRide, useNotification } from '@hooks'
 import { DeleteModal } from '@partials/admin/sub-admin/modals'
+import { CoursesCell } from '@partials/rto/coordinators'
 
 type Props = {}
 
@@ -167,6 +168,13 @@ const RtoCoordinators: NextPageWithLayout = (props: Props) => {
         {
             header: () => 'Phone',
             accessorKey: 'phone',
+        },
+        {
+            header: () => 'Courses',
+            accessorKey: 'course',
+            cell: (info) => {
+                return <CoursesCell coordinator={info.row.original} />
+            },
         },
         {
             header: () => 'Address',

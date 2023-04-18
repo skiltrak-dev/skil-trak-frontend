@@ -14,34 +14,35 @@ import { mouEndpoints } from './mou'
 import { workplaceEndpoints } from './workplace'
 import { emptySplitApi } from '../empty.query'
 
-export const rtoApi = createApi({
-    reducerPath: 'rto',
-    baseQuery: fetchBaseQuery({
-        baseUrl: `${process.env.NEXT_PUBLIC_END_POINT}/`,
-        prepareHeaders: (headers, { getState }) => {
-            const token = AuthUtils.getToken()
-            if (token) {
-                headers.set('authorization', `Bearer ${token}`)
-            }
-            return headers
-        },
-    }),
-    tagTypes: [
-        'RTO',
-        'RTOMOU',
-        'RTOCourses',
-        'Rto-Students',
-        'RTOWorkplace',
-        'RTOIndustries',
-        'ContactPersons',
-        'RTOAppointment',
-        'Rto-Coordinators',
-        'RtoAssessmentToolsList',
-    ],
+export const rtoApi = emptySplitApi.injectEndpoints({
+    // export const rtoApi = createApi({
+    //     reducerPath: 'rto',
+    //     baseQuery: fetchBaseQuery({
+    //         baseUrl: `${process.env.NEXT_PUBLIC_END_POINT}/`,
+    //         prepareHeaders: (headers, { getState }) => {
+    //             const token = AuthUtils.getToken()
+    //             if (token) {
+    //                 headers.set('authorization', `Bearer ${token}`)
+    //             }
+    //             return headers
+    //         },
+    //     }),
+    //     tagTypes: [
+    //         'RTO',
+    //         'RTOMOU',
+    //         'RTOCourses',
+    //         'Rto-Students',
+    //         'RTOWorkplace',
+    //         'RTOIndustries',
+    //         'ContactPersons',
+    //         'RTOAppointment',
+    //         'Rto-Coordinators',
+    //         'RtoAssessmentToolsList',
+    //     ],
 
     // ---------- RTO ENDPOINTS ---------- //
     endpoints: (build) => ({
-        rtoProfile: build.query<Rto, void>({
+        rtoMyProfile: build.query<Rto, void>({
             query: () => `rtos/profile/view`,
             providesTags: ['RTO'],
         }),
@@ -65,7 +66,7 @@ export const rtoApi = createApi({
 
 export const {
     // ------ SELF ------ //
-    useRtoProfileQuery,
+    useRtoMyProfileQuery,
     useDashboardQuery,
     useUpdateRTOProfileMutation,
 
@@ -126,7 +127,7 @@ export const {
 
 export const RtoApi = {
     Rto: {
-        useProfile: useRtoProfileQuery,
+        useProfile: useRtoMyProfileQuery,
         useContactPersons: useContactPersonsQuery,
         useDashboard: useDashboardQuery,
         useUpdateProfile: useUpdateRTOProfileMutation,

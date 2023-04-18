@@ -15,6 +15,7 @@ import { onlyAlphabets, SignUpUtils } from '@utils'
 import { FormProvider, useForm } from 'react-hook-form'
 import * as yup from 'yup'
 import { useState, useEffect } from 'react'
+import { Course } from '@types'
 
 export const AddIndividualStudentForm = () => {
     const router = useRouter()
@@ -30,6 +31,14 @@ export const AddIndividualStudentForm = () => {
         refetchOnMountOrArgChange: true,
     })
     const sectorResponse = AuthApi.useSectors({})
+
+    const rtoCoursesOptions =
+        rto.isSuccess && rto?.data?.courses && rto?.data?.courses?.length > 0
+            ? rto?.data?.courses?.map((course: Course) => ({
+                  label: course?.title,
+                  value: course?.id,
+              }))
+            : []
 
     // get sectors
     const onSectorChanged = (sectors: any) => {
@@ -199,7 +208,7 @@ export const AddIndividualStudentForm = () => {
                                 </Typography>
                             </div>
 
-                            <Select
+                            {/* <Select
                                 label={'Sector'}
                                 {...(storedData
                                     ? {
@@ -213,19 +222,13 @@ export const AddIndividualStudentForm = () => {
                                 loading={sectorResponse.isLoading}
                                 onChange={onSectorChanged}
                                 validationIcons
-                            />
+                            /> */}
                             <Select
                                 label={'Courses'}
                                 name={'courses'}
-                                defaultValue={courseOptions}
-                                options={courseOptions}
+                                defaultValue={rtoCoursesOptions}
+                                options={rtoCoursesOptions}
                                 multi
-                                loading={courseLoading}
-                                disabled={
-                                    storedData
-                                        ? storedData?.courses?.length === 0
-                                        : courseOptions?.length === 0
-                                }
                                 validationIcons
                             />
                             <TextInput
@@ -246,36 +249,6 @@ export const AddIndividualStudentForm = () => {
                                 validationIcons
                                 required
                             />
-                            {/* <TextInput
-                                label={'Address Line 1'}
-                                name={'addressLine1'}
-                                placeholder={'Your Address Line 1...'}
-                                validationIcons
-                                required
-                            />
-
-                            <TextInput
-                                label={'Suburb'}
-                                name={'suburb'}
-                                placeholder={'Suburb...'}
-                                validationIcons
-                                required
-                            />
-                            <TextInput
-                                label={'State'}
-                                name={'state'}
-                                placeholder={'State...'}
-                                validationIcons
-                                required
-                            />
-
-                            <TextInput
-                                label={'Zip Code'}
-                                name={'zipCode'}
-                                placeholder={'Zip Code...'}
-                                validationIcons
-                                required
-                            /> */}
                         </div>
                         <Button
                             submit

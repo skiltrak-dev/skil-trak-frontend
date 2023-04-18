@@ -49,6 +49,10 @@ const CreateAppointments: NextPageWithLayout = (props: Props) => {
     const [createAppointment, createAppointmentResult] =
         CommonApi.Appointments.createAppointment()
     const coordinators = useGetCoordinatorsForRTOQuery()
+    // const { isLoading, data, isError } = RtoApi.Coordinator.useList({
+    //     skip: itemPerPage * page - itemPerPage,
+    //     limit: itemPerPage,
+    // })
     const rtoCourses = RtoApi.Rto.useProfile()
     const availableSlots = CommonApi.Appointments.useAppointmentsAvailableSlots(
         {
