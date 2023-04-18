@@ -184,6 +184,8 @@ export const ViewProfileCB = () => {
                                         Name
                                     </Typography>
                                 </div>
+
+                            
                                 <Typography
                                     variant={'small'}
                                     color={'text-black'}
