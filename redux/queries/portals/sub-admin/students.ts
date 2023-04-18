@@ -8,14 +8,19 @@ export const studentsEndpoints = (
 ) => ({
     subAdminStudentCount: builder.query<any, void>({
         query: () => `${PREFIX}/students/count`,
-        providesTags: ['SubAdminStudents', 'SubAdminWorkplace'],
+        providesTags: [
+            'SubAdminStudents',
+            'SubAdminWorkplace',
+            'BulkUsersDelete',
+            'BulkStatus',
+        ],
     }),
     getSubAdminStudents: builder.query<any, any>({
         query: (params) => ({
             url: `${PREFIX}/students/list-all`,
             params,
         }),
-        providesTags: ['SubAdminStudents'],
+        providesTags: ['SubAdminStudents', 'BulkUsersDelete', 'BulkStatus'],
     }),
 
     subadminStudentAssignCourses: builder.mutation({

@@ -52,6 +52,8 @@ export const StudentAssessmentTools = ({ role, actions }: Props) => {
         }
     }, [coursesData, isSuccess])
 
+    console.log('coursesData', coursesData)
+
     return (
         <div>
             <div className="mb-2">
@@ -82,11 +84,9 @@ export const StudentAssessmentTools = ({ role, actions }: Props) => {
                                             name={course?.title}
                                             id={course.id}
                                             onClick={() =>
-                                                setSelectedCourseId(course.id)
+                                                setSelectedCourseId(course?.id)
                                             }
-                                            selectedCourseId={
-                                                selectedCourseId?.id
-                                            }
+                                            selectedCourseId={selectedCourseId}
                                         />
                                     ))}
                                     <AssessmentCourse

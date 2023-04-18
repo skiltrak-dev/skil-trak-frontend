@@ -68,6 +68,14 @@ export const commonApi = emptySplitApi.injectEndpoints({
                 'AllCommunications',
             ],
         }),
+        bulkUserRemove: build.mutation({
+            query: (ids: number[]) => ({
+                url: `shared/bulk/users/remove`,
+                method: 'DELETE',
+                params: { users: ids },
+            }),
+            invalidatesTags: ['BulkUsersDelete'],
+        }),
         bulkStatus: build.mutation({
             query: ({ ids, status }: any) => ({
                 url: `admin/user/status/update`,
@@ -113,12 +121,13 @@ export const commonApi = emptySplitApi.injectEndpoints({
 })
 
 const {
+    useBulkUserRemoveMutation,
     // ---- EXPIRY DATE ---- //
     useUpdateExpiryDateMutation,
 
     // ------ Industry ------ //
     useGetAllIndustriesQuery,
-    useGetIndustriesListQuery,
+    useAllGetIndustriesListQuery,
 
     useGetAllRtosQuery,
     useGetFilterSubAdminRtosQuery,
@@ -214,7 +223,7 @@ export const CommonApi = {
         useRtosList: useGetRtosListQuery,
     },
     Industries: {
-        useIndustriesList: useGetIndustriesListQuery,
+        useIndustriesList: useAllGetIndustriesListQuery,
     },
     Courses: {
         useCoursesList: useGetCoursesListQuery,
@@ -278,5 +287,6 @@ export const CommonApi = {
     },
     User: {
         changeUserStatus: useChangeUserStatusMutation,
+        bulkRemove: useBulkUserRemoveMutation,
     },
 }

@@ -58,7 +58,7 @@ export const subAdminEndpoints = (
 
     subAdminCourses: builder.query<Course[], number>({
         query: (id) => `${PREFIX}/subadmin/${id}/courses`,
-        providesTags: ['SubAdmins'],
+        providesTags: ['SubAdmins', 'Rto-Coordinators'],
     }),
 
     subAdminAssignCourses: builder.mutation({
@@ -67,7 +67,7 @@ export const subAdminEndpoints = (
             method: 'POST',
             body,
         }),
-        invalidatesTags: ['SubAdmins'],
+        invalidatesTags: ['SubAdmins', 'Rto-Coordinators'],
     }),
 
     subAdminUnAssignCourses: builder.mutation({
@@ -76,7 +76,7 @@ export const subAdminEndpoints = (
             method: 'POST',
             params: { course: body.course },
         }),
-        invalidatesTags: ['SubAdmins'],
+        invalidatesTags: ['SubAdmins', 'Rto-Coordinators'],
     }),
 
     subAdminRtos: builder.query<Rto[], number>({

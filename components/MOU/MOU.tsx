@@ -108,7 +108,7 @@ export const MOUDetailContainer = forwardRef(
                             <div className={`${isError ? 'hidden' : ''}`}>
                                 <div className="flex justify-between items-center ">
                                     <Typography variant={'h4'}>
-                                        Memorendum Ou{' '}
+                                        Memorendum Of Understanding{' '}
                                         <span className="text-sm text-error font-semibold">
                                             {checkMOUStatus()}
                                         </span>
