@@ -1,7 +1,14 @@
 import { BaseQueryFn } from '@reduxjs/toolkit/dist/query/baseQueryTypes'
 import { EndpointBuilder } from '@reduxjs/toolkit/dist/query/endpointDefinitions'
 
-import { UserCount, PaginatedResponse, Rto, UserStatus, Course, RtoStatsCount } from '@types'
+import {
+    UserCount,
+    PaginatedResponse,
+    Rto,
+    UserStatus,
+    Course,
+    RtoStatsCount,
+} from '@types'
 
 const PREFIX = 'admin'
 export const rtoEndpoints = (
