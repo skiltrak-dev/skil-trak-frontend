@@ -33,10 +33,10 @@ const getSectors = (courses: any) => {
     const sectors = {}
     courses.forEach((c: any) => {
         if ((sectors as any)[c.sector.name]) {
-            ;(sectors as any)[c.sector.name].push(c)
+            ; (sectors as any)[c.sector.name].push(c)
         } else {
-            ;(sectors as any)[c.sector.name] = []
-            ;(sectors as any)[c.sector.name].push(c)
+            ; (sectors as any)[c.sector.name] = []
+                ; (sectors as any)[c.sector.name].push(c)
         }
     })
     return sectors
@@ -184,12 +184,13 @@ export const ViewProfileCB = () => {
                                         Name
                                     </Typography>
                                 </div>
+
+                            
                                 <Typography
                                     variant={'small'}
                                     color={'text-black'}
                                 >
-                                    {/* {rto?.contactPerson || "NA"} */}
-                                    {'Not Available'}
+                                    {rto?.contactPersons[0]?.name || "N/A"}
                                 </Typography>
                             </div>
                             <div className="p-2">
@@ -206,8 +207,7 @@ export const ViewProfileCB = () => {
                                     variant={'small'}
                                     color={'text-black'}
                                 >
-                                    {/* {rto?.contactPersonNumber || "N/A"} */}
-                                    {'Not Available'}
+                                    {rto?.contactPersons[0]?.phone || "N/A"}
                                 </Typography>
                             </div>
                         </div>
@@ -235,16 +235,16 @@ export const ViewProfileCB = () => {
                                         variant={'small'}
                                         color={'text-black'}
                                     >
-                                        {rto?.package?.name || 'N/A'}
+                                        {rto?.package?.name || 'Package Name N/A'}
                                     </Typography>
                                     <Typography
                                         variant={'small'}
                                         color={'text-black'}
                                     >
                                         {ellipsisText(
-                                            rto?.package?.shortDescription,
-                                            15
-                                        ) || 'N/A'}
+                                            rto?.package?.description,
+                                            25
+                                        ) || 'Package Description N/A'}
                                     </Typography>
                                 </>
                             ) : (
@@ -315,7 +315,7 @@ export const ViewProfileCB = () => {
                                         <CourseList
                                             courses={
                                                 (sectorsWithCourses as any)[
-                                                    sector
+                                                sector
                                                 ]
                                             }
                                         />

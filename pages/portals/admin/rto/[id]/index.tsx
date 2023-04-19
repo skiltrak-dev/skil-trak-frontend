@@ -76,7 +76,7 @@ const RtoDetail: NextPageWithLayout = () => {
     }, [rto.data])
 
     const [showDropDown, setShowDropDown] = useState(false)
-
+    
     const statusBaseActions = () => {
         switch (rto.data?.user?.status) {
             case UserStatus.Pending:
@@ -259,7 +259,7 @@ const RtoDetail: NextPageWithLayout = () => {
                                 statisticsCount?.data?.currentStudent
                             )}
                             title={'Current Students'}
-                            link={'/portals/rto/students?tab=active'}
+                            link={'#'}
                         />
                         <FigureCard
                             imageUrl="/images/icons/pending-student.png"
@@ -267,7 +267,7 @@ const RtoDetail: NextPageWithLayout = () => {
                                 statisticsCount?.data?.pendingStudent
                             )}
                             title={'Pending Students'}
-                            link={'/portals/rto/students?tab=pending'}
+                            link={'#'}
                         />
                         <FigureCard
                             imageUrl="/images/icons/industry.png"
@@ -275,13 +275,13 @@ const RtoDetail: NextPageWithLayout = () => {
                                 statisticsCount?.data?.workplaceRequest
                             )}
                             title={'Workplace Requests'}
-                            link={'/portals/rto/industries/workplaces'}
+                            link={'#'}
                         />
                         <FigureCard
                             imageUrl="/images/icons/job.png"
                             count={Number(statisticsCount?.data?.pendingResult)}
                             title={'Pending Result'}
-                            link={'/portals/rto/students/2426?tab=submissions'}
+                            link={'#'}
                         />
                     </div>
 
