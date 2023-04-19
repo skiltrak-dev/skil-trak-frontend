@@ -174,6 +174,8 @@ export const {
     useGetAssessmentEvidenceQuery,
     useAssessmentCountQuery,
     useGetAssessmentResponseQuery,
+
+    useGetAgrementFileQuery,
     useGetArchivedAssessmentResponseQuery,
     useStudentAssessmentCoursesQuery,
     useAddCommentOnAssessmentMutation,

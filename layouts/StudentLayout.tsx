@@ -10,9 +10,11 @@ import { StudentContextBar } from '@partials/student/components'
 import { UserStatus } from '@types'
 import { AuthUtils, getUserCredentials } from '@utils'
 import { useRouter } from 'next/router'
-import { ReactNode, useEffect, useState } from 'react'
+import { ReactElement, ReactNode, useEffect, useState } from 'react'
 import Joyride from 'react-joyride'
 import { UserLayout } from './UserLayout'
+import { ProfileModal } from '@partials/student/Profile/modal/ProfileModal'
+import { useGetStudentProfileDetailQuery } from '@queries'
 
 interface StudentLayoutProps {
     pageTitle?: PageTitleProps
@@ -39,6 +41,8 @@ export const StudentLayout = ({ pageTitle, children }: StudentLayoutProps) => {
     const [mounted, setMounted] = useState(false)
     const router = useRouter()
 
+    const [modal, setModal] = useState<ReactElement | null>(null)
+
     const { alert, setAlerts } = useAlert()
     const userData = getUserCredentials()
     const joyride = useJoyRide()
@@ -60,11 +64,56 @@ export const StudentLayout = ({ pageTitle, children }: StudentLayoutProps) => {
         setMounted(true)
     }, [])
 
+    const profile = useGetStudentProfileDetailQuery(undefined, {
+        refetchOnMountOrArgChange: true,
+    })
+
+    const values = { ...profile?.data, ...profile?.data?.user }
+    const keys = [
+        'name',
+        'email',
+        'familyName',
+        'phone',
+        'rto',
+        'studentId',
+        'dob',
+        'emergencyPerson',
+        'emergencyPersonPhone',
+        'suburb',
+        'state',
+        'zipCode',
+        'addressLine1',
+        'courses',
+    ]
+    // const keys = Object.keys(values)
+
+    let totalValues = keys?.length
+    let filledValues = 0
+    keys.forEach((key) => {
+        const keyValue = values[key as keyof typeof values]
+        if (keyValue && keyValue != 'NA' && !Array.isArray(keyValue)) {
+            filledValues++
+        } else if (Array.isArray(keyValue) && keyValue?.length > 0) {
+            filledValues++
+        }
+    })
+
+    const profileCompletion = Math.floor((filledValues / totalValues) * 100)
+
+    useEffect(() => {
+        if (profileCompletion && profileCompletion < 100) {
+            setModal(<ProfileModal />)
+        } else {
+            setModal(null)
+        }
+    }, [profileCompletion])
+
     return (
         <RedirectUnApprovedUsers
             getRoutePath={getRoutePath}
             redirectUrls={redirectUrls}
         >
+            {modal}
             <UserLayout>
                 <>
                     <StudentContextBar />

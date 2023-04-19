@@ -112,6 +112,7 @@ const RequestWorkplaceDetail: NextPageWithLayout = (props: Props) => {
                                         setPersonalInfoData={
                                             setPersonalInfoData
                                         }
+                                        personalInfoData={personalInfoData}
                                     />
                                 )}
 

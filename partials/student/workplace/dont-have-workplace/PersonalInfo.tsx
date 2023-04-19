@@ -6,11 +6,13 @@ import React, { useState, useEffect } from 'react'
 type PersonalInfoProps = {
     setActive: any
     setPersonalInfoData: any
+    personalInfoData: any
 }
 
 export const PersonalInfo = ({
     setActive,
     setPersonalInfoData,
+    personalInfoData,
 }: PersonalInfoProps) => {
     const router = useRouter()
     const { id } = router.query
@@ -29,7 +31,11 @@ export const PersonalInfo = ({
 
     return (
         <div>
-            <PersonalInfoForm courses={courses} onSubmit={onSubmit} />
+            <PersonalInfoForm
+                courses={courses}
+                onSubmit={onSubmit}
+                personalInfoData={personalInfoData}
+            />
         </div>
     )
 }

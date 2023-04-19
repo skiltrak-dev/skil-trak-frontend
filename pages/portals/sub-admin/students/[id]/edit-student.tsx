@@ -43,6 +43,12 @@ const EditStudentDetail: NextPageWithLayout = () => {
     const [updateDetail, updateDetailResult] = useUpdateStudentProfileMutation()
 
     useEffect(() => {
+        if (updateDetailResult.isSuccess) {
+            router.back()
+        }
+    }, [updateDetailResult])
+
+    useEffect(() => {
         contextBar.setContent(null)
         contextBar.hide()
     }, [])

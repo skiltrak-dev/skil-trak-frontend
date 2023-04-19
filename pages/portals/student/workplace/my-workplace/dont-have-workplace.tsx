@@ -85,6 +85,7 @@ const DontHaveWorkplace: NextPageWithLayout = (props: Props) => {
                                 <PersonalInfo
                                     setActive={setActive}
                                     setPersonalInfoData={setPersonalInfoData}
+                                    personalInfoData={personalInfoData}
                                 />
                             )}
 

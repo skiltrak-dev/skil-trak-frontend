@@ -12,6 +12,7 @@ import { AppliedIndustry } from './AppliedIndustry'
 import { ApplyForWorkplace, VerifyStudentDocs } from './components'
 import { IndustryNotResponded } from '@partials/common'
 import { RejectedIndustries } from '@partials/common/workplace/components/dontHaveWorkplace/RejectedIndustries'
+import { WorkplaceCurrentStatus } from '@utils'
 
 export const IndustrySelection = ({
     setActive,
@@ -80,21 +81,32 @@ export const IndustrySelection = ({
     }, [cancelRequestResult.isSuccess])
 
     const workplaceCancelRequest = (simple: boolean = false) => {
-        return (
-            <div className="mt-3">
-                <ActionButton
-                    variant={'error'}
-                    onClick={async () => {
-                        await cancelRequest()
-                    }}
-                    loading={cancelRequestResult.isLoading}
-                    disabled={cancelRequestResult.isLoading}
-                    simple={simple}
-                >
-                    Cancel Request
-                </ActionButton>
-            </div>
-        )
+        const workplaceStatus = [
+            WorkplaceCurrentStatus.NotRequested,
+            WorkplaceCurrentStatus.Applied,
+            WorkplaceCurrentStatus.CaseOfficerAssigned,
+            WorkplaceCurrentStatus.Interview,
+            WorkplaceCurrentStatus.AwaitingWorkplaceResponse,
+        ]
+
+        if (workplaceStatus.includes(workplaceIndustries?.currentStatus)) {
+            return (
+                <div className="mt-3">
+                    <ActionButton
+                        variant={'error'}
+                        onClick={async () => {
+                            await cancelRequest()
+                        }}
+                        loading={cancelRequestResult.isLoading}
+                        disabled={cancelRequestResult.isLoading}
+                        simple={simple}
+                    >
+                        Cancel Request
+                    </ActionButton>
+                </div>
+            )
+        }
+        return null
     }
 
     return !industrySelection ? (

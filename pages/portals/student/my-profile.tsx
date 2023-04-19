@@ -1,4 +1,4 @@
-import { ReactElement } from 'react'
+import { ReactElement, useEffect } from 'react'
 
 import { StudentLayout } from '@layouts'
 import { NextPageWithLayout } from '@types'
@@ -14,19 +14,30 @@ import { StudentProfileForm } from '@partials/common'
 
 import { useRouter } from 'next/router'
 import {
+    Avatar,
+    Button,
     EmptyData,
     LoadingAnimation,
     SelectOption,
     TechnicalError,
 } from '@components'
+import { useActionModal } from '@hooks'
 
 const MyProfile: NextPageWithLayout = () => {
+    const { onUpdatePassword, passwordModal } = useActionModal()
+
     const router = useRouter()
     const profile = useGetStudentProfileDetailQuery(undefined, {
         refetchOnMountOrArgChange: true,
     })
     const [updateProfile, updateProfileResult] =
         useUpdateStudentProfileMutation()
+
+    useEffect(() => {
+        if (updateProfileResult.isSuccess) {
+            router.back()
+        }
+    }, [updateProfileResult])
 
     const onSubmit = (values: any) => {
         if (!values?.courses) {
@@ -54,6 +65,17 @@ const MyProfile: NextPageWithLayout = () => {
 
     return (
         <div className="px-4">
+            <Avatar
+                avatar={profile?.data?.user?.avatar}
+                user={profile?.data?.user?.id}
+            />
+            {passwordModal && passwordModal}
+            <div className="flex justify-end mb-3">
+                <Button
+                    text={'Update Password'}
+                    onClick={() => onUpdatePassword(profile?.data)}
+                />
+            </div>
             {profile.isError && <TechnicalError />}
             {profile.isLoading ? (
                 <LoadingAnimation height={'h-[70vh]'} />
