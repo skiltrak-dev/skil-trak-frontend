@@ -73,8 +73,8 @@ export const IndustrySelection = ({
         }
     }, [cancelRequestResult])
 
-    const onCancelWorkplace = () => {
-        cancelRequest(workplace?.data[0]?.id)
+    const onCancelWorkplace = async () => {
+        await cancelRequest(workplace?.data[0]?.id)
     }
 
     const workplaceCancelRequest = (simple: boolean = false) => {

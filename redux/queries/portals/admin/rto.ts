@@ -45,7 +45,7 @@ export const rtoEndpoints = (
 
     rtoDetail: builder.query<Rto, number>({
         query: (id: number) => `${PREFIX}/rtos/view/${id}`,
-        providesTags: ['RTOS'],
+        providesTags: ['RTOS', 'Avatar', 'Profile'],
     }),
 
     rtoAssessmentTools: builder.query<

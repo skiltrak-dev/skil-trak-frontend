@@ -17,6 +17,7 @@ export const AvatarCard = ({
     requiredDoc,
     result,
     avatar,
+    user,
 }: any) => {
     const [file, setfile] = useState<any | null>(null)
     const [avatarImage, setAvatarImage] = useState(avatar)
@@ -36,8 +37,8 @@ export const AvatarCard = ({
             setfile(null)
         }
         if (removeProfileResult.isSuccess) {
-            setAvatarImage(null)
-            setfile(null)
+            // setAvatarImage(null)
+            // setfile(null)
             notification.error({
                 title: 'Profile Removed',
                 description: 'Profile Removed Successfully',
@@ -53,7 +54,7 @@ export const AvatarCard = ({
     }
 
     const onRemove = () => {
-        removeProfile()
+        removeProfile(user)
     }
 
     return (

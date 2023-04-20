@@ -13,7 +13,7 @@ import {
 } from '@components'
 
 // utils
-import { ellipsisText, userStatus } from '@utils'
+import { WorkplaceCurrentStatus, ellipsisText, userStatus } from '@utils'
 
 // hooks
 import { GetFolders } from '../hooks'
@@ -210,7 +210,9 @@ export const WorkplaceRequest = ({ workplace }: any) => {
                             folders={folders}
                             student={workplace?.student}
                         />
-                        {!appliedIndustry?.cancelled &&
+                        {workplace?.currentStatus !==
+                            WorkplaceCurrentStatus.Cancelled &&
+                            !appliedIndustry?.cancelled &&
                             appliedIndustry?.industryResponse !== 'rejected' &&
                             !appliedIndustry?.isCompleted &&
                             !appliedIndustry?.terminated && (

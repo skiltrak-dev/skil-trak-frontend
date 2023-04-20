@@ -29,16 +29,24 @@ export const PersonalInfoForm = ({
 
     useEffect(() => {
         if (
-            personalInfoData?.course &&
+            personalInfoData?.courses &&
             courses?.data &&
             courses?.data?.length > 0
         ) {
-            setselectedCourse(
-                courses?.data?.find(
-                    (course: Course) =>
-                        course?.id === Number(personalInfoData?.course)
-                )
+            const course = courses?.data?.find(
+                (course: Course) =>
+                    course?.id === Number(personalInfoData?.courses)
             )
+            setselectedCourse({
+                label: course?.title,
+                value: course?.id,
+            })
+        }
+        if (personalInfoData?.work) {
+            setWork(personalInfoData?.work)
+        }
+        if (personalInfoData?.qualification) {
+            setQualification(personalInfoData?.qualification)
         }
     }, [personalInfoData, courses?.data])
 
@@ -73,7 +81,24 @@ export const PersonalInfoForm = ({
     // }))
 
     const validationSchema = yup.object({
-        courses: yup.string().required('Must provide course'),
+        courses: yup
+            .object()
+            .shape({
+                label: yup.string().required(),
+                value: yup.string().required(),
+            })
+            .nullable(true)
+            .test(
+                (
+                    course: SelectOption,
+                    { createError }: { createError: any }
+                ) => {
+                    if (!course?.value) {
+                        return createError({ message: 'Course is Required' })
+                    }
+                    return true
+                }
+            ),
         qualification: yup
             .string()
             .nullable(true)
@@ -113,10 +138,22 @@ export const PersonalInfoForm = ({
             ...personalInfoData,
             haveDrivingLicense: personalInfoData?.haveDrivingLicense
                 ? 'yes'
-                : 'no',
-            haveTransport: personalInfoData?.haveTransport ? 'yes' : 'no',
+                : personalInfoData?.haveDrivingLicense === false
+                ? 'no'
+                : '',
+            haveTransport: personalInfoData?.haveTransport
+                ? 'yes'
+                : personalInfoData?.haveTransport === false
+                ? 'no'
+                : '',
         },
     })
+
+    useEffect(() => {
+        if (selectedCourse) {
+            formMethods.setValue('courses', selectedCourse)
+        }
+    }, [selectedCourse])
 
     const onPlaceChanged = () => {}
     return (
@@ -140,7 +177,6 @@ export const PersonalInfoForm = ({
                                 options={coursesOptions}
                                 loading={courses.isLoading}
                                 disabled={courses.isLoading}
-                                onlyValue
                             />
                         </div>
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-x-2 mt-4">

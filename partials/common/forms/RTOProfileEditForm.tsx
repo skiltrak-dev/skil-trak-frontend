@@ -378,7 +378,10 @@ export const RTOProfileEditForm = ({
                                 </form>
                             </FormProvider>
                         </div>
-                        <Avatar avatar={profile?.data?.user?.avatar} />
+                        <Avatar
+                            user={profile?.data?.user?.id}
+                            avatar={profile?.data?.user?.avatar}
+                        />
                     </div>
                 </Card>
             ) : (

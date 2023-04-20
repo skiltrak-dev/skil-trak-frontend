@@ -22,6 +22,7 @@ const DontHaveWorkplace: NextPageWithLayout = (props: Props) => {
 
     const [active, setActive] = useState(1)
     const [personalInfoData, setPersonalInfoData] = useState({})
+    const [availabilities, setAvailabilities] = useState<any | null>(Array())
 
     // query
     const workplace = useGetWorkplaceIndustriesQuery()
@@ -93,6 +94,8 @@ const DontHaveWorkplace: NextPageWithLayout = (props: Props) => {
                                 <Availability
                                     setActive={setActive}
                                     personalInfoData={personalInfoData}
+                                    availabilities={availabilities}
+                                    setAvailabilities={setAvailabilities}
                                 />
                             )}
 
