@@ -129,7 +129,6 @@ export const SubAdminStudentProfile = ({ student }: { student: any }) => {
             </div>
             <div className="p-2 border-b">
                 <div className="flex items-center justify-between space-x-2">
-
                     <div className="flex items-center gap-x-2">
                         <span className="text-gray-300">
                             <MdPhone size={12} />
@@ -137,7 +136,6 @@ export const SubAdminStudentProfile = ({ student }: { student: any }) => {
                         <p className="text-xs font-medium">{student?.phone}</p>
                     </div>
                     <div>
-
                         {student?.called ? (
                             <div className="bg-green-200  rounded-md px-4 py-1">
                                 <MdPhone className="text-white" size={15} />
@@ -152,7 +150,6 @@ export const SubAdminStudentProfile = ({ student }: { student: any }) => {
                                 <MdPhone className="text-white" size={15} />
                             </div>
                         )}
-
                     </div>
                 </div>
                 <div className="flex items-center justify-between">
@@ -212,11 +209,8 @@ export const SubAdminStudentProfile = ({ student }: { student: any }) => {
                         </div> */}
                         <div>
                             <p className="text-xs font-medium">
-                                {student?.addressLine1},{' '}
-                                {student?.addressLine2
-                                    ? `${student?.addressLine2},`
-                                    : null}
-                                {student?.state}, {student?.suburb}
+                                {student?.addressLine1}, {student?.state},{' '}
+                                {student?.suburb}
                             </p>
                         </div>
                     </div>

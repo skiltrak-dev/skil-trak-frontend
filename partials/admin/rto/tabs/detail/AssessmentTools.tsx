@@ -1,14 +1,18 @@
-import { TabNavigation, TabProps, Typography } from '@components'
+import { Typography } from '@components'
 import { useContextBar } from '@hooks'
 import {
-    AdminApi,
-    useUpdateSubAdminAssessmentToolArchiveMutation,
+    AdminApi
 } from '@queries'
+import Link from 'next/link'
 import { useState } from 'react'
-import { AssessmentTool, ArchivedAssessmentTool } from '../../components'
 import { FaEdit } from 'react-icons/fa'
+import { ArchivedAssessmentTool, AssessmentTool } from '../../components'
 import { AddAssessmentToolCB } from '../../components/AddAssessmentToolCB'
 export const AssessmentTools = ({ rto }: any) => {
+    const [assessmentToolId, setAssessmentToolId] = useState<number | null>(
+        null
+    )
+
     const [assessmentView, setAssessmentView] = useState<string>('assessments')
     const contextBar = useContextBar()
     const [archiveAssessmentTool, archiveAssessmentToolResult] =
@@ -24,11 +28,22 @@ export const AssessmentTools = ({ rto }: any) => {
     const actions = (assessment: any) => {
         return (
             <div className="flex gap-x-2 ">
-                <a href={assessment?.file} target="blank" rel="noreferrer">
+                {/* <a href={assessment?.file} target="blank" rel="noreferrer"> */}
+                <Link
+                    className="cursor-pointer"
+                    href={`${
+                        process.env.NEXT_PUBLIC_END_POINT
+                    }/shared/assessment-tool/download/${Number(
+                        assessment?.id
+                    )}`}
+                    download
+                    referrerPolicy="no-referrer"
+                    target="_blank"
+                >
                     <Typography variant="tableCell" color="text-blue-600">
                         Download
                     </Typography>
-                </a>
+                </Link>
 
                 <div
                     className="cursor-pointer"

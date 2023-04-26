@@ -32,6 +32,7 @@ export const Avatar = ({ avatar, user }: { user?: number; avatar: string }) => {
             <ShowErrorNotifications result={changeProfileImageResult} />
             <AvatarCard
                 avatar={avatar}
+                user={user}
                 onChange={(e: any) => onChange(e)}
                 result={changeProfileImageResult}
             />

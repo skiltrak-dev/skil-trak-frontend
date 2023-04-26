@@ -50,8 +50,6 @@ export const StudentProfileForm = ({
         ...sectorDefaultOptions,
     ])
 
-    const { onUpdatePassword, passwordModal } = useActionModal()
-
     const sectorOptions = sectorResponse?.data
         ? sectorResponse.data?.map((sector: any) => ({
               label: sector.name,
@@ -117,7 +115,6 @@ export const StudentProfileForm = ({
                 title: 'Profile Updated',
                 description: 'Profile Updated Successfully',
             })
-            router.back()
         }
     }, [result])
 
@@ -169,6 +166,7 @@ export const StudentProfileForm = ({
     const validationSchema = yup.object({
         // Profile Information
         name: yup.string().required('Must provide your name'),
+        familyName: yup.string().required('Must provide your Family Name'),
 
         email: yup
             .string()
@@ -183,8 +181,13 @@ export const StudentProfileForm = ({
         // Contact Person Information
         emergencyPerson: yup
             .string()
-            .matches(onlyAlphabets(), 'Must be a valid name'),
-        emergencyPersonPhone: yup.string(),
+            .matches(onlyAlphabets(), 'Must be a valid name')
+            .required(),
+        emergencyPersonPhone: yup.string().required(),
+
+        // Sector Information
+        sectors: yup.array().min(1, 'Must select at least 1 sector'),
+        courses: yup.array().min(1, 'Must select at least 1 course'),
 
         // Address Information
         addressLine1: yup.string().required('Must provide address'),
@@ -232,7 +235,7 @@ export const StudentProfileForm = ({
                 ...userValues,
             }
             for (const key in values) {
-                formMethods.setValue(key, values[key])
+                values[key] !== 'NA' && formMethods.setValue(key, values[key])
             }
         }
     }, [profile])
@@ -245,18 +248,8 @@ export const StudentProfileForm = ({
     return (
         <>
             <ShowErrorNotifications result={result} />
-            <Avatar
-                avatar={profile?.data?.user?.avatar}
-                user={profile?.data?.user?.id}
-            />
+
             <Card>
-                {passwordModal && passwordModal}
-                <div className="flex justify-end mb-3">
-                    <Button
-                        text={'Update Password'}
-                        onClick={() => onUpdatePassword(profile?.data)}
-                    />
-                </div>
                 <FormProvider {...formMethods}>
                     <form
                         className="flex flex-col gap-y-4"

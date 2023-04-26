@@ -112,6 +112,8 @@ export const AssessmentResponse = ({
         }
     }
 
+    console.log('getAssessmentResponse', getAssessmentResponse)
+
     const getResultBadge = () => {
         switch (result?.result) {
             case Result.Competent:

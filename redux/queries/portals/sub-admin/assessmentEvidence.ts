@@ -41,6 +41,12 @@ export const assessmentEvidenceEndpoints = (
         providesTags: ['AssessmentEvidence'],
     }),
 
+    getAgrementFile: builder.query<any, { studentId: number }>({
+        query: ({ studentId }) =>
+            `${PREFIX}/student/workplace-request/agreement/${studentId}`,
+        providesTags: ['AssessmentEvidence'],
+    }),
+
     downloadAllCourseFiles: builder.mutation<
         any,
         { studentId: number; courseId: number }

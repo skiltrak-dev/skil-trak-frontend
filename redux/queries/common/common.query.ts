@@ -49,6 +49,10 @@ export const commonApi = emptySplitApi.injectEndpoints({
 
     // ---------- RTO ENDPOINTS ---------- //
     endpoints: (build) => ({
+        downloadAssessmentTool: build.query<any, number>({
+            query: (id) => `shared/assessment-tool/download/${id}`,
+            providesTags: ['Documents'],
+        }),
         updateExpiryDate: build.mutation<
             any,
             {
@@ -121,6 +125,7 @@ export const commonApi = emptySplitApi.injectEndpoints({
 })
 
 const {
+    useDownloadAssessmentToolQuery,
     useBulkUserRemoveMutation,
     // ---- EXPIRY DATE ---- //
     useUpdateExpiryDateMutation,
@@ -203,6 +208,9 @@ const {
 } = commonApi
 
 export const CommonApi = {
+    Download: {
+        downloadAssessmentTool: useDownloadAssessmentToolQuery,
+    },
     changeUserStatus: {
         useChangeStatus: useBulkStatusMutation,
     },

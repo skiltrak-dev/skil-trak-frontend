@@ -62,6 +62,7 @@ export const SignAgreement = ({
                 }}
                 name={studentId + appliedIndustryId + student?.user?.name}
                 component={UploadAgreementFile}
+                // multiple
                 acceptTypes={['pdf']}
             />
         </>

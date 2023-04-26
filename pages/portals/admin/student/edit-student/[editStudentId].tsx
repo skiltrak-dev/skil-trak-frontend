@@ -30,6 +30,12 @@ const EditStudent: NextPageWithLayout = () => {
     const [updateProfile, updateProfileResult] =
         useUpdateStudentProfileMutation()
 
+    useEffect(() => {
+        if (updateProfileResult.isSuccess) {
+            router.back()
+        }
+    }, [updateProfileResult])
+
     const onSubmit = (values: any) => {
         if (!values?.courses) {
             delete values?.courses

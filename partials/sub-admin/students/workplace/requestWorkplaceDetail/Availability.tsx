@@ -12,11 +12,15 @@ type AvailabilityProps = {
     setActive: any
     personalInfoData: any
     userId: number
+    availabilities: any
+    setAvailabilities: any
 }
 export const Availability = ({
     setActive,
     personalInfoData,
     userId,
+    availabilities,
+    setAvailabilities,
 }: AvailabilityProps) => {
     // query
     const [workplaceRequest, workplaceRequestResult] =
@@ -50,6 +54,8 @@ export const Availability = ({
                 setActive={setActive}
                 onSubmit={onSubmit}
                 result={workplaceRequestResult}
+                availabilities={availabilities}
+                setAvailabilities={setAvailabilities}
             />
         </div>
     )

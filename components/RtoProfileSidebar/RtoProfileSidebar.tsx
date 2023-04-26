@@ -22,19 +22,9 @@ type Props = {}
 export const RtoProfileSidebar = ({ loading, data, rto }: any) => {
     const pathname = useRouter()
     const profileId = pathname.query.profileId
-    const [isAvatarUpdated, setIsAvatarUpdated] = useState<boolean>(false)
     // const {data} = useGetSubAdminRTODetailQuery(String(profileId), {
     //   skip: !profileId,
     // })
-
-    useEffect(() => {
-        if (isAvatarUpdated) {
-            rto.refetch()
-        }
-        if (rto.isSuccess) {
-            setIsAvatarUpdated(false)
-        }
-    }, [isAvatarUpdated, rto])
 
     // hooks
     const { onUpdatePassword, passwordModal } = useActionModal()
@@ -94,7 +84,6 @@ export const RtoProfileSidebar = ({ loading, data, rto }: any) => {
                                     imageUrl={rto?.data?.user?.avatar}
                                     user={rto?.data?.user?.id}
                                     canEdit
-                                    setIsAvatarUpdated={setIsAvatarUpdated}
                                 />
                             </div>
 

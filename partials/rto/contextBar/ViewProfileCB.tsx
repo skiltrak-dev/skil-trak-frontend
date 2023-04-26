@@ -33,10 +33,10 @@ const getSectors = (courses: any) => {
     const sectors = {}
     courses.forEach((c: any) => {
         if ((sectors as any)[c.sector.name]) {
-            ; (sectors as any)[c.sector.name].push(c)
+            ;(sectors as any)[c.sector.name].push(c)
         } else {
-            ; (sectors as any)[c.sector.name] = []
-                ; (sectors as any)[c.sector.name].push(c)
+            ;(sectors as any)[c.sector.name] = []
+            ;(sectors as any)[c.sector.name].push(c)
         }
     })
     return sectors
@@ -44,20 +44,10 @@ const getSectors = (courses: any) => {
 
 export const ViewProfileCB = () => {
     const router = useRouter()
-    const [isAvatarUpdated, setIsAvatarUpdated] = useState<boolean>(false)
 
     const { onUpdatePassword, passwordModal } = useActionModal()
 
-    const { data: rto, isLoading, refetch, isSuccess } = RtoApi.Rto.useProfile()
-
-    useEffect(() => {
-        if (isAvatarUpdated) {
-            refetch()
-        }
-        if (isSuccess) {
-            setIsAvatarUpdated(false)
-        }
-    }, [isAvatarUpdated, rto])
+    const { data: rto, isLoading } = RtoApi.Rto.useProfile()
 
     const sectorsWithCourses = getSectors(rto?.courses)
     return (
@@ -87,11 +77,7 @@ export const ViewProfileCB = () => {
                         />
                     </div>
                     <div className="flex flex-col items-center">
-                        <RtoAvatar
-                            imageUrl={rto?.user.avatar}
-                            canEdit
-                            setIsAvatarUpdated={setIsAvatarUpdated}
-                        />
+                        <RtoAvatar imageUrl={rto?.user.avatar} canEdit />
 
                         <div className="flex flex-col items-center mt-2">
                             <p className="text-md font-semibold">
@@ -185,12 +171,11 @@ export const ViewProfileCB = () => {
                                     </Typography>
                                 </div>
 
-                            
                                 <Typography
                                     variant={'small'}
                                     color={'text-black'}
                                 >
-                                    {rto?.contactPersons[0]?.name || "N/A"}
+                                    {rto?.contactPersons[0]?.name || 'N/A'}
                                 </Typography>
                             </div>
                             <div className="p-2">
@@ -207,7 +192,7 @@ export const ViewProfileCB = () => {
                                     variant={'small'}
                                     color={'text-black'}
                                 >
-                                    {rto?.contactPersons[0]?.phone || "N/A"}
+                                    {rto?.contactPersons[0]?.phone || 'N/A'}
                                 </Typography>
                             </div>
                         </div>
@@ -235,7 +220,8 @@ export const ViewProfileCB = () => {
                                         variant={'small'}
                                         color={'text-black'}
                                     >
-                                        {rto?.package?.name || 'Package Name N/A'}
+                                        {rto?.package?.name ||
+                                            'Package Name N/A'}
                                     </Typography>
                                     <Typography
                                         variant={'small'}
@@ -315,7 +301,7 @@ export const ViewProfileCB = () => {
                                         <CourseList
                                             courses={
                                                 (sectorsWithCourses as any)[
-                                                sector
+                                                    sector
                                                 ]
                                             }
                                         />
