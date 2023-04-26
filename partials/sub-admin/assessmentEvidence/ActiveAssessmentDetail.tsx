@@ -26,6 +26,7 @@ import {
     useMaulallyReopenSubmissionRequestMutation,
     useStudentAssessmentCoursesQuery,
     SubAdminApi,
+    useGetAgrementFileQuery,
 } from '@queries'
 import { ellipsisText, getCourseResult, getUserCredentials } from '@utils'
 import { FileUpload } from '@hoc'
@@ -36,6 +37,8 @@ import { AiFillDelete } from 'react-icons/ai'
 import { MdEdit } from 'react-icons/md'
 import Link from 'next/link'
 import { FaDownload } from 'react-icons/fa'
+
+const AgreementFile = 'agreementFile'
 
 export const ActiveAssessmentDetail = ({
     studentId,
@@ -76,7 +79,17 @@ export const ActiveAssessmentDetail = ({
             selectedFolder: Number(selectedFolder?.id),
             student: Number(studentUserId),
         },
-        { skip: !selectedFolder || !studentUserId }
+        {
+            skip:
+                !selectedFolder ||
+                !studentUserId ||
+                selectedFolder?.id === AgreementFile,
+        }
+    )
+
+    const getAgrementFile = useGetAgrementFileQuery(
+        { studentId: Number(studentId) },
+        { skip: !studentId || selectedFolder?.id !== AgreementFile }
     )
     const [manullyReopenSubmission, manuallyReopenSubmissionResult] =
         useMaulallyReopenSubmissionRequestMutation()
@@ -394,6 +407,18 @@ export const ActiveAssessmentDetail = ({
                     <div className="grid grid-cols-3 h-[450px]">
                         <div className="border border-gray-300 border-r-transparent h-[inherit] overflow-hidden">
                             <div className="bg-white h-[inherit] overflow-y-scroll custom-scrollbar">
+                                <AssessmentFolderCard
+                                    id={AgreementFile}
+                                    name={'Agreement'}
+                                    // isActive={folder.isActive}
+                                    selectedFolderId={selectedFolder?.id}
+                                    // response={{ files: [1] }}
+                                    onClick={() => {
+                                        setSelectedFolder({
+                                            id: AgreementFile,
+                                        })
+                                    }}
+                                />
                                 {getFolders?.isLoading ||
                                 getFolders.isFetching ? (
                                     <div className="flex flex-col justify-center items-center gap-y-2 py-5">
@@ -421,22 +446,33 @@ export const ActiveAssessmentDetail = ({
                                             }}
                                         />
                                     ))
-                                ) : (
-                                    <NoData text={'No Assessment were found'} />
-                                )}
+                                ) : null}
                             </div>
                         </div>
 
                         {/* Assessment Response */}
                         <div className="col-span-2 bg-white border border-gray-300 overflow-auto">
                             <AssessmentResponse
-                                getAssessmentResponse={getAssessmentResponse}
+                                getAssessmentResponse={
+                                    selectedFolder?.id === AgreementFile
+                                        ? {
+                                              ...getAgrementFile,
+                                              data: {
+                                                  files: [
+                                                      getAgrementFile?.data,
+                                                  ],
+                                              },
+                                          }
+                                        : getAssessmentResponse
+                                }
                                 folder={selectedFolder}
                                 studentId={studentId}
                                 assessmentEvidenceView={true}
                                 result={results}
                                 deleteAction={deleteUploadedFileAction}
-                                activeAssessment
+                                activeAssessment={
+                                    selectedFolder?.id !== AgreementFile
+                                }
                             />
 
                             {/* <AddFolderComment

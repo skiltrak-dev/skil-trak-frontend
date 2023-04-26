@@ -15,9 +15,10 @@ export const changeProfileImageEndpoints = (
         }),
         invalidatesTags: ['Avatar', 'Profile'],
     }),
-    removeProfile: builder.mutation<any, void>({
-        query: () => ({
+    removeProfile: builder.mutation<any, number>({
+        query: (user) => ({
             url: `${PREFIX}/avatar/remove`,
+            params: { user },
             method: 'DELETE',
         }),
         invalidatesTags: ['Avatar', 'Profile'],

@@ -6,11 +6,13 @@ import React, { useState, useEffect } from 'react'
 type PersonalInfoProps = {
     setActive: any
     setPersonalInfoData: any
+    personalInfoData: any
 }
 
 export const PersonalInfo = ({
     setActive,
     setPersonalInfoData,
+    personalInfoData,
 }: PersonalInfoProps) => {
     const router = useRouter()
     const { id } = router.query
@@ -22,6 +24,7 @@ export const PersonalInfo = ({
     const onSubmit = (values: any) => {
         setPersonalInfoData({
             ...values,
+            courses: values?.courses?.value,
             haveTransport: values.haveTransport === 'yes' ? true : false,
             haveDrivingLicense:
                 values.haveDrivingLicense === 'yes' ? true : false,
@@ -31,7 +34,11 @@ export const PersonalInfo = ({
 
     return (
         <div>
-            <PersonalInfoForm courses={courses} onSubmit={onSubmit} />
+            <PersonalInfoForm
+                courses={courses}
+                onSubmit={onSubmit}
+                personalInfoData={personalInfoData}
+            />
         </div>
     )
 }

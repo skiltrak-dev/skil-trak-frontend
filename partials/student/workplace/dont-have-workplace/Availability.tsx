@@ -6,10 +6,14 @@ import React, { useEffect } from 'react'
 type AvailabilityProps = {
     setActive: any
     personalInfoData: any
+    availabilities: any
+    setAvailabilities: any
 }
 export const Availability = ({
     setActive,
     personalInfoData,
+    availabilities,
+    setAvailabilities,
 }: AvailabilityProps) => {
     // query
     const [workplaceRequest, workplaceRequestResult] =
@@ -37,6 +41,8 @@ export const Availability = ({
                 setActive={setActive}
                 onSubmit={onSubmit}
                 result={workplaceRequestResult}
+                availabilities={availabilities}
+                setAvailabilities={setAvailabilities}
             />
         </div>
     )

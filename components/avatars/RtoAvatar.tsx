@@ -13,23 +13,15 @@ export const RtoAvatar = ({
     user,
     imageUrl,
     canEdit,
-    setIsAvatarUpdated,
 }: {
     user?: number
     imageUrl?: string
     canEdit?: boolean
-    setIsAvatarUpdated?: any
 }) => {
     const { notification } = useNotification()
 
     const [changeProfileImage, changeProfileImageResult] =
         CommonApi.Avatar.useChangeProfile()
-
-    useEffect(() => {
-        if (setIsAvatarUpdated && changeProfileImageResult.isSuccess) {
-            setIsAvatarUpdated(changeProfileImageResult.isSuccess)
-        }
-    }, [changeProfileImageResult])
 
     useEffect(() => {
         if (changeProfileImageResult.isSuccess) {

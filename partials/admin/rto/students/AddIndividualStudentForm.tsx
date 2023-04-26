@@ -226,7 +226,6 @@ export const AddIndividualStudentForm = () => {
                             <Select
                                 label={'Courses'}
                                 name={'courses'}
-                                defaultValue={rtoCoursesOptions}
                                 options={rtoCoursesOptions}
                                 multi
                                 validationIcons

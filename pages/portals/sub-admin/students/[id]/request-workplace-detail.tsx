@@ -27,6 +27,7 @@ type Props = {}
 const RequestWorkplaceDetail: NextPageWithLayout = (props: Props) => {
     const [active, setActive] = useState(1)
     const [personalInfoData, setPersonalInfoData] = useState({})
+    const [availabilities, setAvailabilities] = useState<any | null>(Array())
 
     const router = useRouter()
     const { id } = router.query
@@ -112,6 +113,7 @@ const RequestWorkplaceDetail: NextPageWithLayout = (props: Props) => {
                                         setPersonalInfoData={
                                             setPersonalInfoData
                                         }
+                                        personalInfoData={personalInfoData}
                                     />
                                 )}
 
@@ -120,6 +122,8 @@ const RequestWorkplaceDetail: NextPageWithLayout = (props: Props) => {
                                         setActive={setActive}
                                         personalInfoData={personalInfoData}
                                         userId={data?.user?.id}
+                                        setAvailabilities={setAvailabilities}
+                                        availabilities={availabilities}
                                     />
                                 )}
 
