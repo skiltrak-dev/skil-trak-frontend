@@ -139,12 +139,12 @@ export const AddIndividualStudentForm = () => {
                 familyName: 'N/A',
                 emergencyPerson: 'N/A',
                 emergencyPersonPhone: 'N/A',
-                gender: 'NA',
-                addressLine1: 'NA',
-                state: 'NA',
-                suburb: 'NA',
-                zipCode: 'NA',
-                password: 'NA',
+                gender: 'N/A',
+                addressLine1: 'N/A',
+                state: 'N/A',
+                suburb: 'N/A',
+                zipCode: 'N/A',
+                password: 'N/A',
             },
         })
     }

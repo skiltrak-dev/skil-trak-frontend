@@ -47,10 +47,7 @@ export const OverViewTab = ({ student }: StudentsProfileOverviewProps) => {
                     <MyRto myRto={student?.rto} />
                 </div>
                 <div className="w-full">
-                    <MyWorkplace
-                        id={student?.id}
-                        industries={student?.industries}
-                    />
+                    <MyWorkplace student={student} />
                 </div>
             </div>
 

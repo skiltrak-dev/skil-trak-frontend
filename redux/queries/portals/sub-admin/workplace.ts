@@ -67,14 +67,15 @@ export const workplaceEndpoints = (
         invalidatesTags: ['SubAdminWorkplace'],
     }),
     agrementSign: builder.mutation({
-        query: ({ studentId, appliedIndustryId, body }) => ({
+        query: ({ course, studentId, appliedIndustryId, body }) => ({
             url: `${PREFIX}sign/agreement/${appliedIndustryId}`,
             method: 'POST',
-            params: { std: studentId },
+            params: { std: studentId, course },
             body,
         }),
         invalidatesTags: ['SubAdminWorkplace'],
     }),
+
     startPlacement: builder.mutation({
         query: (id) => ({
             url: `${PREFIX}workplace-started/${id}`,

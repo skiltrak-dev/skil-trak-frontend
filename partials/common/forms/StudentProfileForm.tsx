@@ -27,13 +27,13 @@ export const StudentProfileForm = ({
     result,
     onSubmit,
     courses,
-    studentId,
+    student,
 }: {
     profile: any
     result: any
     onSubmit: any
     courses: any
-    studentId?: boolean
+    student?: boolean
 }) => {
     const { notification } = useNotification()
     const router = useRouter()
@@ -256,8 +256,8 @@ export const StudentProfileForm = ({
                         onSubmit={formMethods.handleSubmit(onSubmit)}
                     >
                         {/* Personal Information */}
-                        <div className="flex gap-x-16 border-t py-4">
-                            <div className="w-2/6">
+                        <div className="flex flex-col md:flex-row gap-x-16 border-t py-4">
+                            <div className="w-full md:w-2/6">
                                 <Typography
                                     variant={'subtitle'}
                                     color={'text-gray-500'}
@@ -270,7 +270,7 @@ export const StudentProfileForm = ({
                                 </p>
                             </div>
 
-                            <div className="w-4/6">
+                            <div className="w-full md:w-4/6">
                                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-8">
                                     <TextInput
                                         label={'Name'}
@@ -300,7 +300,7 @@ export const StudentProfileForm = ({
                                         placeholder={'Student ID...'}
                                         validationIcons
                                         required
-                                        disabled={studentId}
+                                        disabled={student}
                                     />
                                     <TextInput
                                         label={'Date of Birth'}
@@ -317,13 +317,13 @@ export const StudentProfileForm = ({
                                         options={[
                                             { label: 'Male', value: 'M' },
                                             {
-                                                label: 'Fe-Male',
+                                                label: 'Female',
                                                 value: 'F',
                                             },
                                         ]}
                                     />
                                 </div>
-                                <div className="grid grid-cols-2 gap-x-8">
+                                <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-8">
                                     <TextInput
                                         label={'Emergency Person'}
                                         name={'emergencyPerson'}
@@ -359,6 +359,7 @@ export const StudentProfileForm = ({
                                 onlyValue
                                 loading={rtoResponse.isLoading}
                                 validationIcons
+                                disabled={student}
                             />
                         )}
                         {!Object.keys(rtoDefaultOptions)?.length && (
@@ -371,11 +372,12 @@ export const StudentProfileForm = ({
                                 onlyValue
                                 loading={rtoResponse.isLoading}
                                 validationIcons
+                                disabled={student}
                             />
                         )}
 
                         {courses.isSuccess && (
-                            <div className="w-4/6 grid grid-cols-1 gap-y-4">
+                            <div className="w-full md:w-4/6 grid grid-cols-1 gap-y-4">
                                 <div>
                                     {sectorDefaultOptions &&
                                         sectorDefaultOptions?.length > 0 && (
@@ -397,6 +399,10 @@ export const StudentProfileForm = ({
                                                 loading={
                                                     sectorResponse.isLoading
                                                 }
+                                                disabled={
+                                                    sectorResponse.isLoading ||
+                                                    student
+                                                }
                                                 onChange={(e: any) => {
                                                     onSectorChanged(e)
                                                     setSectorsValue(e)
@@ -413,6 +419,10 @@ export const StudentProfileForm = ({
                                             placeholder={'Select Sectors...'}
                                             multi
                                             loading={sectorResponse.isLoading}
+                                            disabled={
+                                                sectorResponse.isLoading ||
+                                                student
+                                            }
                                             onChange={(e: any) => {
                                                 onSectorChanged(e)
                                                 setSectorsValue(e)
@@ -440,6 +450,7 @@ export const StudentProfileForm = ({
                                                 onChange={(e: any) => {
                                                     setCourseValues(e)
                                                 }}
+                                                disabled={student}
                                                 // onlyValue
                                             />
                                         )}
@@ -457,7 +468,7 @@ export const StudentProfileForm = ({
                                                 setCourseValues(e)
                                             }}
                                             validationIcons
-                                            // onlyValue
+                                            disabled={student}
                                         />
                                     )}
                                 </div>
@@ -465,8 +476,8 @@ export const StudentProfileForm = ({
                         )}
 
                         {/* Profile Information */}
-                        <div className="flex gap-x-16 border-t py-4">
-                            <div className="w-2/6">
+                        <div className="flex flex-col md:flex-row gap-x-16 border-t py-2 md:py-4">
+                            <div className="w-full md:w-2/6">
                                 <Typography
                                     variant={'subtitle'}
                                     color={'text-gray-500'}
@@ -479,7 +490,7 @@ export const StudentProfileForm = ({
                                 </p>
                             </div>
 
-                            <div className="w-4/6">
+                            <div className="w-full md:w-4/6">
                                 <TextInput
                                     label={'Email'}
                                     name={'email'}
@@ -487,13 +498,14 @@ export const StudentProfileForm = ({
                                     placeholder={'Your Email...'}
                                     validationIcons
                                     required
+                                    disabled={student}
                                 />
                             </div>
                         </div>
 
                         {/* Address Information */}
-                        <div className="flex gap-x-16 border-t py-4">
-                            <div className="w-2/6">
+                        <div className="flex flex-col md:flex-row gap-x-16 border-t py-0 md:py-4">
+                            <div className="w-full md:w-2/6">
                                 <Typography
                                     variant={'subtitle'}
                                     color={'text-gray-500'}
@@ -506,13 +518,14 @@ export const StudentProfileForm = ({
                                 </p>
                             </div>
 
-                            <div className="w-4/6">
+                            <div className="w-full md:w-4/6">
                                 <div className="grid grid-cols-1 gap-x-8">
                                     <TextInput
                                         label={'Address Line 1'}
                                         name={'addressLine1'}
                                         placeholder={'Your Address Line 1...'}
                                         validationIcons
+                                        required
                                     />
                                 </div>
 
@@ -522,6 +535,7 @@ export const StudentProfileForm = ({
                                         name={'suburb'}
                                         placeholder={'Suburb...'}
                                         validationIcons
+                                        required
                                     />
 
                                     <TextInput
@@ -529,6 +543,7 @@ export const StudentProfileForm = ({
                                         name={'state'}
                                         placeholder={'State...'}
                                         validationIcons
+                                        required
                                     />
 
                                     <TextInput
@@ -536,12 +551,13 @@ export const StudentProfileForm = ({
                                         name={'zipCode'}
                                         placeholder={'Zip Code...'}
                                         validationIcons
+                                        required
                                     />
                                 </div>
                             </div>
                         </div>
 
-                        <div className="w-4/6 ml-auto pl-12">
+                        <div className="w-full md:w-4/6 ml-auto pl-0 md:pl-12">
                             <Button
                                 text={'Update'}
                                 submit

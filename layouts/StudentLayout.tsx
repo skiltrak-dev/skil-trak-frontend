@@ -91,7 +91,12 @@ export const StudentLayout = ({ pageTitle, children }: StudentLayoutProps) => {
     let filledValues = 0
     keys.forEach((key) => {
         const keyValue = values[key as keyof typeof values]
-        if (keyValue && keyValue != 'NA' && !Array.isArray(keyValue)) {
+        if (
+            keyValue &&
+            keyValue != 'NA' &&
+            keyValue != 'N/A' &&
+            !Array.isArray(keyValue)
+        ) {
             filledValues++
         } else if (Array.isArray(keyValue) && keyValue?.length > 0) {
             filledValues++
@@ -102,7 +107,7 @@ export const StudentLayout = ({ pageTitle, children }: StudentLayoutProps) => {
 
     useEffect(() => {
         if (profileCompletion && profileCompletion < 100) {
-            setModal(<ProfileModal />)
+            setModal(<ProfileModal profileCompletion={profileCompletion} />)
         } else {
             setModal(null)
         }

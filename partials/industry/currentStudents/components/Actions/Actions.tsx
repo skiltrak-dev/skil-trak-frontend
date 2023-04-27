@@ -16,10 +16,10 @@ import {
 } from '@queries'
 import { useState, ReactElement, useEffect } from 'react'
 import { ChangeStatusAction } from './components'
-import { ViewAgreement } from '../../contextBar'
 import { useContextBar, useNotification } from '@hooks'
 import { Feedback, PlacementStartedModal, ReportModal } from '../../modals'
 import { UserStatus } from '@types'
+import { ViewAgreement } from '@partials/common'
 
 export const Actions = ({ workplace, industry, student }: any) => {
     const [modal, setModal] = useState<ReactElement | null>(null)
@@ -107,11 +107,7 @@ export const Actions = ({ workplace, industry, student }: any) => {
                         variant={'info'}
                         text={'View Agreement'}
                         onClick={() => {
-                            setContent(
-                                <ViewAgreement
-                                    agreement={workplace?.student?.agreement}
-                                />
-                            )
+                            setContent(<ViewAgreement workplace={workplace} />)
                             show()
                         }}
                     />

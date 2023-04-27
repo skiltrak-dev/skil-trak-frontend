@@ -94,10 +94,10 @@ export const Note = ({ note }: { note: NoteType }) => {
                         </p>
                         <p className="text-[11px] font-medium text-[#BFBF80]">
                             {format(
-                                new Date(note.updatedAt!!),
+                                new Date(note.createdAt!!),
                                 'EEE dd, LLL, yyyy'
                             )}{' '}
-                            at {format(new Date(note.updatedAt!!), 'hh:mm aa')}
+                            at {format(new Date(note.createdAt!!), 'hh:mm aa')}
                         </p>
                     </div>
 

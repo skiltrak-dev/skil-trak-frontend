@@ -22,13 +22,21 @@ import { Actions } from './components'
 import { useNotification } from '@hooks'
 import {
     useGetAssessmentEvidenceDetailQuery,
+    useGetSubAdminStudentWorkplaceQuery,
     useGetAssessmentResponseQuery,
     useMaulallyReopenSubmissionRequestMutation,
     useStudentAssessmentCoursesQuery,
+    useGetSubAdminStudentDetailQuery,
     SubAdminApi,
     useGetAgrementFileQuery,
+    CommonApi,
 } from '@queries'
-import { ellipsisText, getCourseResult, getUserCredentials } from '@utils'
+import {
+    WorkplaceCurrentStatus,
+    ellipsisText,
+    getCourseResult,
+    getUserCredentials,
+} from '@utils'
 import { FileUpload } from '@hoc'
 import { UploadFile } from '@components/sections/student/AssessmentsContainer/AssessmentsEvidence/AssessmentFolderDetailX/UploadFile'
 import { getDocType } from '@components/sections/student/AssessmentsContainer'
@@ -37,6 +45,7 @@ import { AiFillDelete } from 'react-icons/ai'
 import { MdEdit } from 'react-icons/md'
 import Link from 'next/link'
 import { FaDownload } from 'react-icons/fa'
+import { SignAgreement } from '../workplace/components/Industries/components/Actions/components'
 
 const AgreementFile = 'agreementFile'
 
@@ -61,6 +70,10 @@ export const ActiveAssessmentDetail = ({
     const { notification } = useNotification()
 
     // query
+    const studentProfile = useGetSubAdminStudentDetailQuery(Number(studentId), {
+        skip: !studentId,
+        refetchOnMountOrArgChange: true,
+    })
     const studentCourses = useStudentAssessmentCoursesQuery(Number(studentId), {
         skip: !studentId,
         refetchOnMountOrArgChange: true,
@@ -71,6 +84,22 @@ export const ActiveAssessmentDetail = ({
             skip: !selectedCourse,
         }
     )
+    const workplace = useGetSubAdminStudentWorkplaceQuery(Number(studentId), {
+        skip: !studentId,
+    })
+
+    const latestWorkplace = workplace?.data?.reduce(
+        (a: any, b: any) => (a?.createdAt > b?.createdAt ? a : b),
+        {
+            currentStatus: WorkplaceCurrentStatus.NotRequested,
+        }
+    )
+
+    const appliedIndustry = latestWorkplace?.industries?.find(
+        (industry: any) => industry?.applied
+    )
+
+
     const [uploadDocs, uploadDocsResult] =
         SubAdminApi.AssessmentEvidence.uploadDocs()
 
@@ -91,6 +120,13 @@ export const ActiveAssessmentDetail = ({
         { studentId: Number(studentId) },
         { skip: !studentId || selectedFolder?.id !== AgreementFile }
     )
+
+    const viewAgreement = CommonApi.Agreement.viewAgreement({
+        course: selectedCourse?.id,
+        industry: appliedIndustry?.industry?.id,
+        student: Number(studentId),
+    })
+
     const [manullyReopenSubmission, manuallyReopenSubmissionResult] =
         useMaulallyReopenSubmissionRequestMutation()
     const [downloadFiles, downloadFilesResult] =
@@ -160,7 +196,12 @@ export const ActiveAssessmentDetail = ({
     const onUploadDocs = (docs: any) => {
         const formData = new FormData()
         docs.forEach((doc: any) => {
-            formData.append(`${selectedFolder?.name}`, doc)
+            formData.append(
+                selectedFolder?.id === AgreementFile
+                    ? 'file'
+                    : `${selectedFolder?.name}`,
+                doc
+            )
         })
 
         uploadDocs({
@@ -206,6 +247,8 @@ export const ActiveAssessmentDetail = ({
             </div>
         )
     }
+
+   
 
     return (
         <div className="mb-10">
@@ -362,32 +405,50 @@ export const ActiveAssessmentDetail = ({
                             <div className="flex items-center gap-x-2 mb-1">
                                 <div>
                                     {selectedFolder &&
-                                        results !== 'Not Submitted' && (
+                                        results !== 'Not Submitted' &&
+                                        (selectedFolder?.id ===
+                                        AgreementFile ? (
+                                            <SignAgreement
+                                                studentId={
+                                                    studentProfile?.data?.id
+                                                }
+                                                appliedIndustryId={
+                                                    appliedIndustry?.id
+                                                }
+                                                student={studentProfile?.data}
+                                                course={
+                                                    latestWorkplace?.courses[0]
+                                                }
+                                            />
+                                        ) : (
                                             <FileUpload
                                                 onChange={onUploadDocs}
                                                 name={'folder?.name'}
                                                 component={AddFileButton}
                                                 multiple
                                                 limit={
-                                                    Number(
-                                                        selectedFolder?.capacity
-                                                    ) -
-                                                    Number(
-                                                        selectedFolder
-                                                            ?.studentResponse
-                                                            ?.length > 0
-                                                            ? selectedFolder
-                                                                  ?.studentResponse[0]
-                                                                  ?.files
-                                                                  ?.length
-                                                            : 0
-                                                    )
+                                                    selectedFolder?.id ===
+                                                    AgreementFile
+                                                        ? 10
+                                                        : Number(
+                                                              selectedFolder?.capacity
+                                                          ) -
+                                                          Number(
+                                                              selectedFolder
+                                                                  ?.studentResponse
+                                                                  ?.length > 0
+                                                                  ? selectedFolder
+                                                                        ?.studentResponse[0]
+                                                                        ?.files
+                                                                        ?.length
+                                                                  : 0
+                                                          )
                                                 }
                                                 acceptTypes={getDocType(
                                                     selectedFolder?.type
                                                 )}
                                             />
-                                        )}
+                                        ))}
                                 </div>
                             </div>
                         </div>
@@ -407,18 +468,27 @@ export const ActiveAssessmentDetail = ({
                     <div className="grid grid-cols-3 h-[450px]">
                         <div className="border border-gray-300 border-r-transparent h-[inherit] overflow-hidden">
                             <div className="bg-white h-[inherit] overflow-y-scroll custom-scrollbar">
-                                <AssessmentFolderCard
-                                    id={AgreementFile}
-                                    name={'Agreement'}
-                                    // isActive={folder.isActive}
-                                    selectedFolderId={selectedFolder?.id}
-                                    // response={{ files: [1] }}
-                                    onClick={() => {
-                                        setSelectedFolder({
-                                            id: AgreementFile,
-                                        })
-                                    }}
-                                />
+                                {latestWorkplace?.courses &&
+                                    appliedIndustry &&
+                                    latestWorkplace?.courses[0]?.id ===
+                                        selectedCourse?.id && (
+                                        <AssessmentFolderCard
+                                            id={AgreementFile}
+                                            name={'Agreement'}
+                                            // isActive={folder.isActive}
+                                            selectedFolderId={
+                                                selectedFolder?.id
+                                            }
+                                            // response={{
+                                            //     files: [viewAgreement?.data?.length],
+                                            // }}
+                                            onClick={() => {
+                                                setSelectedFolder({
+                                                    id: AgreementFile,
+                                                })
+                                            }}
+                                        />
+                                    )}
                                 {getFolders?.isLoading ||
                                 getFolders.isFetching ? (
                                     <div className="flex flex-col justify-center items-center gap-y-2 py-5">
@@ -456,10 +526,15 @@ export const ActiveAssessmentDetail = ({
                                 getAssessmentResponse={
                                     selectedFolder?.id === AgreementFile
                                         ? {
-                                              ...getAgrementFile,
+                                              ...viewAgreement,
                                               data: {
                                                   files: [
-                                                      getAgrementFile?.data,
+                                                      ...viewAgreement?.data?.map(
+                                                          (agreement: any) => ({
+                                                              ...agreement,
+                                                              type: 'docs',
+                                                          })
+                                                      ),
                                                   ],
                                               },
                                           }

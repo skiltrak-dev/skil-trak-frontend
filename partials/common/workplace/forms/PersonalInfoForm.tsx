@@ -125,12 +125,6 @@ export const PersonalInfoForm = ({
             .required('Must provide preferableLocation'),
     })
 
-    console.log('personalInfoData', {
-        ...personalInfoData,
-        haveDrivingLicense: personalInfoData?.haveDrivingLicense ? 'yes' : '',
-        haveTransport: personalInfoData?.haveTransport ? 'yes' : '',
-    })
-
     const formMethods = useForm({
         mode: 'all',
         resolver: yupResolver(validationSchema),
