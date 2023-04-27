@@ -13,6 +13,7 @@ import { notificationsEndpoints } from './notifications'
 
 import { AdminStats, UserStatus } from '@types'
 import { emptySplitApi } from '@queries/portals/empty.query'
+import { agreementsEndpoints } from './agreement'
 
 export const commonApi = emptySplitApi.injectEndpoints({
     // export const commonApi = createApi({
@@ -115,6 +116,7 @@ export const commonApi = emptySplitApi.injectEndpoints({
         ...notesEndpoints(build),
         ...mailsEndpoints(build),
         ...coursesEndpoints(build),
+        ...agreementsEndpoints(build),
         ...industriesEndpoints(build),
         ...appointmentsEndpoints(build),
         ...notificationsEndpoints(build),
@@ -205,6 +207,9 @@ const {
     useChangeUserStatusMutation,
     // ---- COURSE ---- //
     useGetCoursesListQuery,
+
+    // ---- AGREEMENT ---- //
+    useViewSignedAgreementQuery,
 } = commonApi
 
 export const CommonApi = {
@@ -296,5 +301,8 @@ export const CommonApi = {
     User: {
         changeUserStatus: useChangeUserStatusMutation,
         bulkRemove: useBulkUserRemoveMutation,
+    },
+    Agreement: {
+        viewAgreement: useViewSignedAgreementQuery,
     },
 }

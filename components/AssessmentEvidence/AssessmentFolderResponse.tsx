@@ -79,11 +79,11 @@ export const AssessmentResponse = ({
 
         if (
             ['jpg', 'jpeg', 'png', 'jfif'].includes(
-                file.extension.toLowerCase()
+                file?.extension?.toLowerCase()
             )
         ) {
             setModal(getImageViewModal(file))
-        } else if (['pdf'].includes(file.extension.toLowerCase())) {
+        } else if (['pdf'].includes(file?.extension?.toLowerCase())) {
             // const fileSplit = file.file.split('https://')
             // const url = `https://www.${fileSplit[1]}`
             const url = `${file?.file}`
@@ -96,7 +96,7 @@ export const AssessmentResponse = ({
             )
         } else if (
             ['mp4', 'mkv', 'avi', 'mpeg', 'quicktime', 'mov'].includes(
-                file.extension.toLowerCase()
+                file?.extension?.toLowerCase()
             )
         ) {
             // const fileSplit = file.file.split('https://')
@@ -111,8 +111,6 @@ export const AssessmentResponse = ({
             )
         }
     }
-
-    console.log('getAssessmentResponse', getAssessmentResponse)
 
     const getResultBadge = () => {
         switch (result?.result) {
@@ -166,6 +164,10 @@ export const AssessmentResponse = ({
 
     // query
 
+    const filteredFiles = getAssessmentResponse?.data?.files?.filter(
+        (file: any) => file
+    )
+
     return (
         <>
             <ShowErrorNotifications result={addCommentResult} />
@@ -185,7 +187,7 @@ export const AssessmentResponse = ({
                                     Uploaded{' '}
                                     {getAssessmentResponse?.data?.files
                                         ?.length || 0}
-                                    /{folder?.capacity}
+                                    /{folder?.capacity || 10}
                                 </Typography>
                             </div>
                             {assessmentEvidenceView && (
@@ -219,25 +221,22 @@ export const AssessmentResponse = ({
                                     Assessment Files Loading
                                 </Typography>
                             </div>
-                        ) : getAssessmentResponse?.data?.files &&
-                          getAssessmentResponse?.data?.files?.length > 0 ? (
+                        ) : filteredFiles && filteredFiles?.length > 0 ? (
                             // <div className="p-2 grid grid-cols-6 gap-x-2  overflow-hidden">
                             <div className="p-2 flex flex-wrap gap-x-2 gap-y-2 items-end  overflow-hidden">
-                                {getAssessmentResponse?.data?.files.map(
-                                    (file: any, i: number) => (
-                                        <AssessmentFolderFileCard
-                                            key={file.id}
-                                            file={file}
-                                            index={i}
-                                            filename={file.filename}
-                                            fileUrl={file.file}
-                                            type={folder?.type}
-                                            selected={selected?.id === file.id}
-                                            onClick={onFileClicked}
-                                            deleteAction={deleteAction}
-                                        />
-                                    )
-                                )}
+                                {filteredFiles?.map((file: any, i: number) => (
+                                    <AssessmentFolderFileCard
+                                        key={file?.id}
+                                        file={file}
+                                        index={i}
+                                        filename={file?.filename}
+                                        fileUrl={file?.file}
+                                        type={file?.type}
+                                        selected={selected?.id === file?.id}
+                                        onClick={onFileClicked}
+                                        deleteAction={deleteAction}
+                                    />
+                                ))}
                             </div>
                         ) : (
                             !getAssessmentResponse.isError && (

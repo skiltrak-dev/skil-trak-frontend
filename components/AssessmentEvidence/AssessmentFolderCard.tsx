@@ -90,7 +90,8 @@ export const AssessmentFolderCard = ({
                             <Typography variant="label">{name}</Typography>
                         </div>
                         <Typography variant={'small'}>
-                            ({response?.files?.length || 0})
+                            {response?.files?.length &&
+                                `(${response?.files?.length})`}
                         </Typography>
                     </div>
                     <div>

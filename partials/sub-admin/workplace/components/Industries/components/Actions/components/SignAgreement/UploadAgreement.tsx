@@ -17,7 +17,7 @@ export const UploadAgreement = ({
     loading?: boolean
 }) => {
     return (
-        <Button variant={'dark'} loading={loading} disabled={loading}>
+        <Button variant={'info'} loading={loading} disabled={loading}>
             <label htmlFor={`file_id_${name}`} className="cursor-pointer">
                 SIGN AGREEMENT
             </label>

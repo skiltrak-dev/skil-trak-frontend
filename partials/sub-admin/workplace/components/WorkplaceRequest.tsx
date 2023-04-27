@@ -34,10 +34,10 @@ import { WorkplaceFolders } from './WorkplaceFolders'
 import { Industries } from './Industries'
 import { Notes } from './Notes'
 import { SmallDetail } from './smallDetail'
-import { ViewAgreement } from '../contextBar'
 import { RtoDetail } from './RtoDetail'
 import { Availability } from './Availability'
 import { Course } from '@types'
+import { ViewAgreement } from '@partials/common'
 export const WorkplaceRequest = ({ workplace }: any) => {
     const [appliedIndustry, setAppliedIndustry] = useState<any | null>(null)
     const [course, setCourse] = useState<any | null>(null)
@@ -143,11 +143,7 @@ export const WorkplaceRequest = ({ workplace }: any) => {
                                 text={'View Agreement'}
                                 onClick={() => {
                                     setContent(
-                                        <ViewAgreement
-                                            agreement={
-                                                workplace?.student?.agreement
-                                            }
-                                        />
+                                        <ViewAgreement workplace={workplace} />
                                     )
                                     show()
                                 }}

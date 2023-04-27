@@ -28,14 +28,15 @@ export const AssessmentFolderFileCard = ({
     onClick,
     deleteAction,
 }: AssessmentFolderFileCardProps) => {
-    let fileName = file ? file.file.split('\\') : ''
-    if (fileName.length === 1) {
-        fileName = file.file.split('/')
+    let fileName = file ? file?.file?.split('\\') : ''
+    if (fileName?.length === 1) {
+        fileName = file?.file?.split('/')
 
         if (fileName.length > 1) {
-            fileName = fileName[fileName.length - 1]
+            fileName = fileName[fileName?.length - 1]
         }
     }
+
 
     const extension = fileName?.split('.').reverse()[0]
 
@@ -55,7 +56,7 @@ export const AssessmentFolderFileCard = ({
                         onClick({
                             ...file,
                             extension,
-                            type,
+                            type: type || 'all',
                         })
                 }}
             >

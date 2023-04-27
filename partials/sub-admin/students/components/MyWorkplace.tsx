@@ -16,16 +16,10 @@ import { useContextBar } from '@hooks'
 import { AddSecondWPCB } from '../contextBar'
 import { MdDelete } from 'react-icons/md'
 import { RemoveIndustryModal } from '@partials/sub-admin/workplace/modals'
-import { UserStatus } from '@types'
+import { Student, UserStatus } from '@types'
 import { UserRoles } from '@constants'
 
-export const MyWorkplace = ({
-    id,
-    industries,
-}: {
-    industries: any
-    id: number
-}) => {
+export const MyWorkplace = ({ student }: { student: Student }) => {
     const [modal, setModal] = useState<ReactElement | null>(null)
     const [currentStatus, setCurrentStatus] = useState<string | null>(null)
 
@@ -37,7 +31,9 @@ export const MyWorkplace = ({
         useState<boolean>(false)
     const [industry, setIndustry] = useState<any>({})
 
-    const workplace = useGetSubAdminStudentWorkplaceQuery(id, { skip: !id })
+    const workplace = useGetSubAdminStudentWorkplaceQuery(student?.id, {
+        skip: !student?.id,
+    })
 
     const contextBar = useContextBar()
 
@@ -52,13 +48,13 @@ export const MyWorkplace = ({
     }, [workplace])
 
     useEffect(() => {
-        if (industries && industries?.length > 0) {
-            setIndustry(industries[0])
+        if (student?.industries && student?.industries?.length > 0) {
+            setIndustry(student?.industries[0])
         }
-        if (!industries?.length) {
+        if (!student?.industries?.length) {
             setIndustry({})
         }
-    }, [industries])
+    }, [student?.industries])
 
     useEffect(() => {
         if (
@@ -75,6 +71,7 @@ export const MyWorkplace = ({
     // )
 
     const role = getUserCredentials()?.role
+    const status = getUserCredentials()?.status
 
     const onCancelClicked = () => {
         setModal(null)
@@ -85,7 +82,7 @@ export const MyWorkplace = ({
             <RemoveIndustryModal
                 industry={industry}
                 onCancel={onCancelClicked}
-                studentId={id}
+                studentId={student?.id}
             />
         )
     }
@@ -129,11 +126,12 @@ export const MyWorkplace = ({
                             title={'No Workplace'}
                             subTitle={'You don&apos;t have any workplace yet'}
                         />
-                        {role === UserRoles.SUBADMIN && (
-                            <div className="flex justify-center">
-                                <AddWorkplace id={Number(id)} />
-                            </div>
-                        )}
+                        {role === UserRoles.SUBADMIN &&
+                            student?.user?.status === UserStatus.Approved && (
+                                <div className="flex justify-center">
+                                    <AddWorkplace id={Number(student?.id)} />
+                                </div>
+                            )}
                     </>
                 )
             case WorkplaceCurrentStatus.Applied:
@@ -274,11 +272,12 @@ export const MyWorkplace = ({
                             title={'No Workplace'}
                             subTitle={'You don&apos;t have any workplace yet'}
                         />
-                        {role === UserRoles.SUBADMIN && (
-                            <div className="flex justify-center">
-                                <AddWorkplace id={Number(id)} />
-                            </div>
-                        )}
+                        {role === UserRoles.SUBADMIN &&
+                            student?.user?.status === UserStatus.Approved && (
+                                <div className="flex justify-center">
+                                    <AddWorkplace id={Number(student?.id)} />
+                                </div>
+                            )}
                     </>
                 )
         }
@@ -323,13 +322,13 @@ export const MyWorkplace = ({
                         </ActionButton>
                     ) : null}
 
-                    {role !== 'rto' && industries?.length > 1 ? (
+                    {role !== 'rto' && student?.industries?.length > 1 ? (
                         <ActionButton
                             variant={'link'}
                             onClick={() => {
                                 isSecondWorkplaceView
-                                    ? setIndustry(industries[0])
-                                    : setIndustry(industries[1])
+                                    ? setIndustry(student?.industries[0])
+                                    : setIndustry(student?.industries[1])
                                 setSsSecondWorkplaceView(!isSecondWorkplaceView)
                             }}
                         >
@@ -338,12 +337,12 @@ export const MyWorkplace = ({
                                 : 'View Second'}
                         </ActionButton>
                     ) : null}
-                    {role !== 'rto' && industries?.length === 1 ? (
+                    {role !== 'rto' && student?.industries?.length === 1 ? (
                         <ActionButton
                             variant={'link'}
                             onClick={() => {
                                 contextBar.setContent(
-                                    <AddSecondWPCB studentId={id} />
+                                    <AddSecondWPCB studentId={student?.id} />
                                 )
                                 contextBar.show(false)
                             }}

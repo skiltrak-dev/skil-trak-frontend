@@ -52,8 +52,6 @@ export const StudentAssessmentTools = ({ role, actions }: Props) => {
         }
     }, [coursesData, isSuccess])
 
-    console.log('coursesData', coursesData)
-
     return (
         <div>
             <div className="mb-2">
