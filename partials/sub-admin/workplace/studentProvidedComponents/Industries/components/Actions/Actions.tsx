@@ -170,6 +170,7 @@ export const Actions = ({
                                 student={workplace?.student}
                                 studentId={workplace?.student?.id}
                                 appliedIndustryId={appliedIndustry?.id}
+                                course={workplace?.course[0]}
                             />
                         </div>
                     )}

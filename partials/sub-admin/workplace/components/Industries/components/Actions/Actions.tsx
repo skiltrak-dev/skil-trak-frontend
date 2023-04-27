@@ -159,6 +159,7 @@ export const Actions = ({
                                                 appliedIndustry?.id
                                             }
                                             student={student}
+                                            course={workplace?.courses[0]}
                                         />
                                     </div>
                                 )}

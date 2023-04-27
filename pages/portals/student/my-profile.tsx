@@ -84,7 +84,7 @@ const MyProfile: NextPageWithLayout = () => {
                     onSubmit={onSubmit}
                     profile={profile}
                     result={updateProfileResult}
-                    studentId
+                    student
                     courses={{
                         ...profile,
                         data: [...profile?.data?.courses],

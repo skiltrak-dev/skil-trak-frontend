@@ -12,6 +12,7 @@
   "dependencies": {
     "@hookform/error-message": "^2.0.0",
     "@hookform/resolvers": "^2.9.8",
+    "@ramonak/react-progress-bar": "^5.0.3",
     "@react-google-maps/api": "^2.18.1",
     "@reduxjs/toolkit": "^1.8.4",
     "@stripe/stripe-js": "^1.48.0",

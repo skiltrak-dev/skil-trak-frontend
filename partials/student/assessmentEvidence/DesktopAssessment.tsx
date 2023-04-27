@@ -83,20 +83,17 @@ export const DesktopAssessment = ({
                             : null} */}
                         {isFilesUploaded &&
                         assessmentsFolders?.data &&
-                        assessmentsFolders?.data?.length > 0 ? (
-                            selectedCourse?.results?.length > 0 ? (
-                                result?.totalSubmission < 3 ? (
-                                    (result?.result === 'reOpened' ||
-                                        result?.result === 'notCompetent') &&
-                                    assessmentActions()
-                                ) : (
-                                    result?.isManualSubmission &&
-                                    assessmentActions()
-                                )
-                            ) : (
-                                assessmentActions()
-                            )
-                        ) : (
+                        assessmentsFolders?.data?.length > 0
+                            ? selectedCourse?.results?.length > 0
+                                ? result?.totalSubmission < 3
+                                    ? (result?.result === 'reOpened' ||
+                                          result?.result === 'notCompetent') &&
+                                      assessmentActions()
+                                    : result?.isManualSubmission &&
+                                      assessmentActions()
+                                : assessmentActions()
+                            : null}
+                        {!isFilesUploaded && (
                             <div className="mt-4">
                                 <p className="text-xs text-orange-500 bg-orange-200 py-2 px-4">
                                     *You will be able to submit assessment

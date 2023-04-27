@@ -1,14 +1,6 @@
 import { useContextBar } from '@hooks'
 import { useEffect, Fragment, useState, ReactElement } from 'react'
-import {
-    Typography,
-    ActionButton,
-    NoData,
-    LoadingAnimation,
-    PdfViewModal,
-    VideoPlayModal,
-    FileViewModal,
-} from '@components'
+import { Typography, ActionButton, NoData, FileViewModal, PdfViewModal, VideoPlayModal, LoadingAnimation } from '@components'
 import { ellipsisText } from '@utils'
 import { AiFillEye } from 'react-icons/ai'
 import { FaCloudDownloadAlt } from 'react-icons/fa'
@@ -27,10 +19,6 @@ export const ViewAgreement = ({ workplace }: any) => {
         industry: appliedIndustry?.industry?.id,
         student: workplace?.student?.id,
     })
-
-    useEffect(() => {
-        setTitle('View Agreement')
-    }, [])
 
     const onModalCancel = () => {
         setModal(null)
@@ -92,6 +80,11 @@ export const ViewAgreement = ({ workplace }: any) => {
     const extension = (fileName: string) => {
         return fileName?.split('.').reverse()[0]
     }
+
+    useEffect(() => {
+        setTitle('View Agreement')
+    }, [])
+
     return (
         <>
             {modal}

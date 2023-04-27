@@ -5,7 +5,8 @@ import {
 
 import { StudentProfileForm } from '@partials/common'
 
-import { useRouter } from 'next/router'
+import ProgressBar from '@ramonak/react-progress-bar'
+
 import {
     EmptyData,
     LoadingAnimation,
@@ -14,6 +15,9 @@ import {
     Typography,
 } from '@components'
 import { useEffect } from 'react'
+import { getThemeColors } from '@theme'
+
+const colors = getThemeColors()
 
 // components
 
@@ -29,7 +33,11 @@ interface ModalProps {
     disabled?: boolean
 }
 
-export const ProfileModal = () => {
+export const ProfileModal = ({
+    profileCompletion,
+}: {
+    profileCompletion: number
+}) => {
     const profile = useGetStudentProfileDetailQuery(undefined, {
         refetchOnMountOrArgChange: true,
     })
@@ -64,7 +72,17 @@ export const ProfileModal = () => {
         <div className="bg-[#00000080] w-full h-screen flex items-center justify-center fixed top-0 left-0 z-40">
             <div className="bg-white rounded-2xl flex flex-col justify-between shadow-md w-[90vw] h-[90vh] overflow-auto custom-scrollbar">
                 <div className="px-4 py-6">
-                <Typography variant={'subtitle'}>Complete Your Profile</Typography>
+                    <Typography variant={'subtitle'}>
+                        Complete Your Profile
+                    </Typography>
+                    <ProgressBar
+                        completed={profileCompletion}
+                        bgColor={colors.info.DEFAULT}
+                        height={'11px'}
+                        labelClassName={
+                            'text-center text-[11px] font-semibold mx-auto text-white'
+                        }
+                    />
                     {profile.isError && <TechnicalError />}
                     {profile.isLoading ? (
                         <LoadingAnimation height={'h-[70vh]'} />
@@ -73,7 +91,7 @@ export const ProfileModal = () => {
                             onSubmit={onSubmit}
                             profile={profile}
                             result={updateProfileResult}
-                            studentId
+                            student
                             courses={{
                                 ...profile,
                                 data: [...profile?.data?.courses],
