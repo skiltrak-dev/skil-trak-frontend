@@ -62,10 +62,33 @@ export const SignAgreement = ({
                                 'You selected a wrong file, Please select a pdf file',
                         })
                     }
+                    // const formData = new FormData()
+                    // docs.forEach((doc: File) => {
+                    //     formData.append('file', doc)
+                    // })
+                    // const fileType = docs.map((doc: File) => doc.type)
+                    // // formData.append(`file`, doc)
+                    // if (
+                    //     fileType.every(
+                    //         (type: string) => type === 'application/pdf'
+                    //     )
+                    // ) {
+                    //     agrementSign({
+                    //         studentId,
+                    //         appliedIndustryId,
+                    //         course: course?.id,
+                    //         body: formData,
+                    //     })
+                    // } else {
+                    //     notification.error({
+                    //         title: 'Wrong File Selected',
+                    //         description:
+                    //             'You selected a wrong file, Please select a pdf file',
+                    //     })
+                    // }
                 }}
                 name={studentId + appliedIndustryId + student?.user?.name}
                 component={UploadAgreementFile}
-                // multiple
                 acceptTypes={['pdf']}
             />
         </>

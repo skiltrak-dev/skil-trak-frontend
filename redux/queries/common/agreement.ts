@@ -13,6 +13,6 @@ export const agreementsEndpoints = (
             url: `${PREFIX}/view`,
             params: { student, course, industry },
         }),
-        providesTags: ['Agreement'],
+        providesTags: ['Agreement', 'SubAdminWorkplace'],
     }),
 })

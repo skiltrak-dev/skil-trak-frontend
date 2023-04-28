@@ -37,12 +37,15 @@ export const AssessmentFolderFileCard = ({
         }
     }
 
-
-    const extension = fileName?.split('.').reverse()[0]
+    const extension = fileName
+        ?.replaceAll('{"', '')
+        .replaceAll('"}', '')
+        ?.split('.')
+        .reverse()[0]
 
     return (
         <div className="relative w-24">
-            {deleteAction && (
+            {deleteAction && !file?.agreement && (
                 <div className="absolute top-1 right-1 z-20">
                     {deleteAction(file?.id)}
                 </div>
@@ -55,6 +58,9 @@ export const AssessmentFolderFileCard = ({
                     onClick &&
                         onClick({
                             ...file,
+                            file: file?.file
+                                .replaceAll('{"', '')
+                                .replaceAll('"}', ''),
                             extension,
                             type: type || 'all',
                         })
