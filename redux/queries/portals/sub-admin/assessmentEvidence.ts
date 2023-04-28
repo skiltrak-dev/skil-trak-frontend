@@ -22,7 +22,7 @@ export const assessmentEvidenceEndpoints = (
     >({
         query: ({ courseId, studentId }) =>
             `${PREFIX}/student/assessment-evidence/${courseId}/${studentId}`,
-        providesTags: ['AssessmentEvidence'],
+        providesTags: ['AssessmentEvidence', 'Agreement', 'SubAdminWorkplace'],
     }),
     getArchivedAssessmentEvidenceDetail: builder.query<
         any,
@@ -38,7 +38,7 @@ export const assessmentEvidenceEndpoints = (
     >({
         query: ({ selectedFolder, student }) =>
             `${PREFIX}/student/assessment-evidence/response/${selectedFolder}/${student}`,
-        providesTags: ['AssessmentEvidence'],
+        providesTags: ['AssessmentEvidence', 'Agreement', 'SubAdminWorkplace'],
     }),
 
     getAgrementFile: builder.query<any, { studentId: number }>({
@@ -112,7 +112,12 @@ export const assessmentEvidenceEndpoints = (
     }),
     studentAssessmentCourses: builder.query<any, number>({
         query: (id) => `${PREFIX}/student/course/${id}`,
-        providesTags: ['AssessmentEvidence', 'SubAdminStudents'],
+        providesTags: [
+            'AssessmentEvidence',
+            'SubAdminStudents',
+            'Agreement',
+            'SubAdminWorkplace',
+        ],
     }),
     maulallyReopenSubmissionRequest: builder.mutation<any, number>({
         query: (id) => ({

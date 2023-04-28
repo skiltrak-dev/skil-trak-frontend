@@ -101,42 +101,53 @@ export const ViewAgreement = ({ workplace }: any) => {
             {viewAgreement.isLoading ? (
                 <LoadingAnimation size={75} height={'h-[50vh]'} />
             ) : viewAgreement.data && viewAgreement?.data?.length > 0 ? (
-                viewAgreement?.data?.map((agreement: any) => (
-                    <div className="flex justify-between items-center gap-x-0.5">
-                        <Typography variant={'small'} color={'text-slate-500'}>
-                            <span className="font-medium">
-                                {ellipsisText(agreement?.fileName, 11)}
-                            </span>
-                        </Typography>
-                        <div className="flex items-center gap">
-                            {/* <a href={agreement?.file} target="_blank"> */}
-                            <ActionButton
-                                simple
-                                Icon={AiFillEye}
-                                variant="success"
-                                onClick={() => {
-                                    onFileClicked({
-                                        ...agreement,
-                                        extension: extension(agreement?.file),
-                                        type: 'all',
-                                    })
-                                }}
+                viewAgreement?.data?.map((agreement: any) => {
+                    const name = agreement?.fileName
+                        ?.replaceAll('{"', '')
+                        .replaceAll('"}', '')
+
+                    return (
+                        <div className="flex justify-between items-center gap-x-0.5">
+                            <Typography
+                                variant={'small'}
+                                color={'text-slate-500'}
                             >
-                                View
-                            </ActionButton>
-                            {/* </a> */}
-                            <a href={agreement?.file}>
+                                <span className="font-medium">
+                                    {ellipsisText(agreement?.fileName, 11)}
+                                </span>
+                            </Typography>
+                            <div className="flex items-center gap">
+                                {/* <a href={agreement?.file} target="_blank"> */}
                                 <ActionButton
                                     simple
-                                    variant="link"
-                                    Icon={FaCloudDownloadAlt}
+                                    Icon={AiFillEye}
+                                    variant="success"
+                                    onClick={() => {
+                                        onFileClicked({
+                                            ...agreement,
+                                            extension: extension(
+                                                agreement?.file
+                                            ),
+                                            type: 'all',
+                                        })
+                                    }}
                                 >
-                                    Download
+                                    View
                                 </ActionButton>
-                            </a>
+                                {/* </a> */}
+                                <a href={agreement?.file}>
+                                    <ActionButton
+                                        simple
+                                        variant="link"
+                                        Icon={FaCloudDownloadAlt}
+                                    >
+                                        Download
+                                    </ActionButton>
+                                </a>
+                            </div>
                         </div>
-                    </div>
-                ))
+                    )
+                })
             ) : (
                 !viewAgreement.isError && (
                     <NoData text={'No Agreement were found'} />

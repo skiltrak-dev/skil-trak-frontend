@@ -167,7 +167,6 @@ export const AssessmentResponse = ({
     const filteredFiles = getAssessmentResponse?.data?.files?.filter(
         (file: any) => file
     )
-
     return (
         <>
             <ShowErrorNotifications result={addCommentResult} />
