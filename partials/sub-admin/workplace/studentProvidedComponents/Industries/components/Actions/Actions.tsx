@@ -86,6 +86,8 @@ export const Actions = ({
         )
     }
 
+    console.log('workplace', workplace)
+
     return (
         <div className="mt-1.5 mb-2.5">
             {modal && modal}
@@ -170,7 +172,7 @@ export const Actions = ({
                                 student={workplace?.student}
                                 studentId={workplace?.student?.id}
                                 appliedIndustryId={appliedIndustry?.id}
-                                course={workplace?.course[0]}
+                                course={workplace?.courses[0]}
                             />
                         </div>
                     )}
