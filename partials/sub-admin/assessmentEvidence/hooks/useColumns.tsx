@@ -120,7 +120,10 @@ export const useColumns = () => {
             accessorKey: 'autoSubmission',
             cell: ({ row }: any) => (
                 <Typography variant={'label'} capitalize>
-                    {row.original?.autoSubmission ? 'Auto' : 'Manual'}
+                    {row.original?.autoSubmission ||
+                    !row.original?.isManualSubmission
+                        ? 'Auto'
+                        : 'Manual'}
                 </Typography>
             ),
         },
