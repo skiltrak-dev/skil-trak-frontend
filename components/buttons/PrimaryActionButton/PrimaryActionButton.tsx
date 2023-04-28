@@ -52,7 +52,7 @@ export const PrimaryActionButton = ({
                         <></>
                     )}
                     {badge && (
-                        <div className="absolute top-0 right-0 bg-blue-500 px-1 text-[11px] ml-2 font-medium min-w-[20px] flex items-center justify-center rounded transition-all duration-500">
+                        <div className="absolute top-0 right-0 bg-red-500 px-1 text-[11px] ml-2 font-medium min-w-[20px] flex items-center justify-center rounded transition-all duration-500">
                             <Typography variant={'xs'} color={'text-white'}>
                                 {badge.loading ? (
                                     <PulseLoader size={3} color={'#ffffff'} />

@@ -1,6 +1,14 @@
 import { useContextBar } from '@hooks'
 import { useEffect, Fragment, useState, ReactElement } from 'react'
-import { Typography, ActionButton, NoData, FileViewModal, PdfViewModal, VideoPlayModal, LoadingAnimation } from '@components'
+import {
+    Typography,
+    ActionButton,
+    NoData,
+    FileViewModal,
+    PdfViewModal,
+    VideoPlayModal,
+    LoadingAnimation,
+} from '@components'
 import { ellipsisText } from '@utils'
 import { AiFillEye } from 'react-icons/ai'
 import { FaCloudDownloadAlt } from 'react-icons/fa'
@@ -77,8 +85,8 @@ export const ViewAgreement = ({ workplace }: any) => {
         }
     }
 
-    const extension = (fileName: string) => {
-        return fileName?.split('.').reverse()[0]
+    const extension = (fileUrl: string) => {
+        return fileUrl?.split('.').reverse()[0]
     }
 
     useEffect(() => {
@@ -94,42 +102,52 @@ export const ViewAgreement = ({ workplace }: any) => {
             {viewAgreement.isLoading ? (
                 <LoadingAnimation size={75} height={'h-[50vh]'} />
             ) : viewAgreement.data && viewAgreement?.data?.length > 0 ? (
-                viewAgreement?.data?.map((agreement: any) => (
-                    <div className="flex justify-between items-center gap-x-0.5">
-                        <Typography variant={'small'} color={'text-slate-500'}>
-                            <span className="font-medium">
-                                {ellipsisText(agreement?.fileName, 11)}
-                            </span>
-                        </Typography>
-                        <div className="flex items-center gap">
-                            {/* <a href={agreement?.file} target="_blank"> */}
-                            <ActionButton
-                                simple
-                                Icon={AiFillEye}
-                                variant="success"
-                                onClick={() => {
-                                    onFileClicked({
-                                        ...agreement,
-                                        extension: extension(agreement?.file),
-                                        type: 'all',
-                                    })
-                                }}
+                viewAgreement?.data?.map((agreement: any) => {
+                    const fileUrl = agreement?.file
+                        .replaceAll('{"', '')
+                        .replaceAll('"}', '')
+
+                    return (
+                        <div className="flex justify-between items-center gap-x-0.5">
+                            <Typography
+                                variant={'small'}
+                                color={'text-slate-500'}
                             >
-                                View
-                            </ActionButton>
-                            {/* </a> */}
-                            <a href={agreement?.file}>
+                                <span className="font-medium">
+                                    {ellipsisText(agreement?.fileName, 11)}
+                                </span>
+                            </Typography>
+                            <div className="flex items-center gap">
+                                {/* <a href={agreement?.file} target="_blank"> */}
                                 <ActionButton
                                     simple
-                                    variant="link"
-                                    Icon={FaCloudDownloadAlt}
+                                    Icon={AiFillEye}
+                                    variant="success"
+                                    onClick={() => {
+                                        onFileClicked({
+                                            ...agreement,
+                                            file: fileUrl,
+                                            extension: extension(fileUrl),
+                                            type: 'all',
+                                        })
+                                    }}
                                 >
-                                    Download
+                                    View
                                 </ActionButton>
-                            </a>
+                                {/* </a> */}
+                                <a href={fileUrl}>
+                                    <ActionButton
+                                        simple
+                                        variant="link"
+                                        Icon={FaCloudDownloadAlt}
+                                    >
+                                        Download
+                                    </ActionButton>
+                                </a>
+                            </div>
                         </div>
-                    </div>
-                ))
+                    )
+                })
             ) : (
                 !viewAgreement.isError && (
                     <NoData text={'No Agreement were found'} />
