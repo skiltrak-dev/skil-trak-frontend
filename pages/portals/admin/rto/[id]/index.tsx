@@ -7,7 +7,7 @@ import {
     RtoProfileSidebar,
     TechnicalError,
 } from '@components'
-import { useContextBar, useNavbar } from '@hooks'
+import { useActionModal, useContextBar, useNavbar } from '@hooks'
 import { AdminLayout } from '@layouts'
 import { NextPageWithLayout, Rto, UserStatus } from '@types'
 import { useRouter } from 'next/router'
@@ -42,6 +42,7 @@ const RtoDetail: NextPageWithLayout = () => {
         onDeleteClicked,
         onBlockClicked,
     } = useActionModals()
+    const { passwordModal, onViewPassword } = useActionModal()
 
     const rto = AdminApi.Rtos.useDetailQuery(Number(router.query.id), {
         skip: !router.query?.id,
@@ -76,7 +77,7 @@ const RtoDetail: NextPageWithLayout = () => {
     }, [rto.data])
 
     const [showDropDown, setShowDropDown] = useState(false)
-    
+
     const statusBaseActions = () => {
         switch (rto.data?.user?.status) {
             case UserStatus.Pending:
@@ -235,6 +236,7 @@ const RtoDetail: NextPageWithLayout = () => {
     return (
         <>
             {modal && modal}
+            {passwordModal}
             {rto.isError && <TechnicalError />}
             {rto?.isLoading ? (
                 <LoadingAnimation height={'h-[70vh]'} />
@@ -249,7 +251,15 @@ const RtoDetail: NextPageWithLayout = () => {
                                 '/portals/admin/rto?tab=approved&page=1&pageSize=50'
                             }
                         />
-                        {statusBaseActions()}
+                        <div className="flex items-center gap-x-2">
+                            <Button
+                                text={'View Password'}
+                                onClick={() => {
+                                    onViewPassword({ user: rto?.data?.user })
+                                }}
+                            />
+                            {statusBaseActions()}
+                        </div>
                     </div>
 
                     <div className="flex gap-x-4">

@@ -16,6 +16,7 @@ import { getGender } from 'utils/functions/getGender'
 // hooks
 import { useActionModal } from '@hooks'
 import { useRouter } from 'next/router'
+import { ellipsisText } from '@utils'
 export const ViewProfileCB = () => {
     const router = useRouter()
 
@@ -63,7 +64,7 @@ export const ViewProfileCB = () => {
                         </p>
                         <div className="flex items-center gap-x-2">
                             <p className="text-sm text-gray-400">
-                                {data?.user?.email}
+                                {ellipsisText(data?.user?.email, 30)}
                             </p>
                             <span className="text-blue-500">
                                 <MdVerified />

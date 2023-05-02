@@ -16,7 +16,7 @@ import { useActionModal, useNotification } from '@hooks'
 import { StudentAvatar } from '@components/avatars'
 import { BlockModal } from '@partials/sub-admin/students/modals'
 import { Student } from '@types'
-import { getUserCredentials } from '@utils'
+import { ellipsisText, getUserCredentials } from '@utils'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import { StudentStatus } from './StudentStatus'
@@ -90,7 +90,7 @@ export const SubAdminStudentProfile = ({ student }: { student: any }) => {
                     </p>
                     <div className="flex items-center gap-x-2">
                         <p className="text-sm text-gray-400">
-                            {student?.user?.email}
+                            {ellipsisText(student?.user?.email, 30)}
                         </p>
                         <span className="text-blue-500">
                             <MdVerified />
