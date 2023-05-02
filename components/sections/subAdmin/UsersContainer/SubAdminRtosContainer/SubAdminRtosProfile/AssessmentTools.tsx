@@ -57,7 +57,7 @@ export const AssessmentTools = ({
             </div>
             <Card noPadding>
                 <div className="flex">
-                    <div className="w-[25%] border-r">
+                    <div className="w-[25%] border-r h-[450px] overflow-auto custom-scrollbar">
                         <div className={`p-3.5`}>
                             <Typography variant="label" color="text-black">
                                 Select a Course
@@ -77,8 +77,8 @@ export const AssessmentTools = ({
                             </>
                         ))}
                         <AssessmentCourse
-                            code={"-"}
-                            name={"Miscellaneous"}
+                            code={'-'}
+                            name={'Miscellaneous'}
                             id={-1}
                             onClick={() => setSelectedCourseId(-1)}
                             selectedCourseId={selectedCourseId}
@@ -120,9 +120,10 @@ export const AssessmentTools = ({
                                 </div>
                             </div>
                         )}
-                        <div className="p-2 min-h-[260px]">
-                            {getAssessmentTools?.isLoading ? (
-                                <LoadingAnimation />
+                        <div className="p-2 h-80 overflow-auto custom-scrollbar">
+                            {getAssessmentTools?.isLoading ||
+                            getAssessmentTools?.isFetching ? (
+                                <LoadingAnimation size={70} />
                             ) : getAssessmentTools?.data &&
                               getAssessmentTools?.data?.length > 0 ? (
                                 getAssessmentTools?.data?.map((tools: any) => (
