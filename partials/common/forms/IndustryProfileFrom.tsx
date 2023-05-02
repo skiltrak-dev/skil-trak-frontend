@@ -235,6 +235,8 @@ export const IndustryProfileFrom = ({
             studentCapacity: isPartner ? values?.studentCapacity : 0,
         })
     }
+
+    console.log('isPartner', isPartner)
     return (
         <>
             <Avatar

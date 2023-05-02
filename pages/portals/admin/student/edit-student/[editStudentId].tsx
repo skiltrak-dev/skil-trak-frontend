@@ -41,6 +41,10 @@ const EditStudent: NextPageWithLayout = () => {
             delete values?.courses
         }
         const { name, email, ...rest } = values
+
+        const dob = new Date(values.dob)
+        dob.setDate(dob.getDate() + 1)
+
         updateProfile({
             id: student?.data?.id,
             body: {
@@ -52,6 +56,7 @@ const EditStudent: NextPageWithLayout = () => {
                           })),
                       }
                     : {}),
+                dob,
                 user: {
                     id: student?.data?.user?.id,
                     name,

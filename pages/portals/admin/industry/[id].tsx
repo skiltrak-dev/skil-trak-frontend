@@ -1,12 +1,13 @@
 import {
     ActionButton,
     BackButton,
+    Button,
     EmptyData,
     IndustryProfile,
     LoadingAnimation,
     TechnicalError,
 } from '@components'
-import { useAlert, useContextBar, useNavbar } from '@hooks'
+import { useActionModal, useAlert, useContextBar, useNavbar } from '@hooks'
 import { AdminLayout } from '@layouts'
 import { NextPageWithLayout, UserStatus } from '@types'
 import { useRouter } from 'next/router'
@@ -103,6 +104,8 @@ const Detail: NextPageWithLayout = () => {
     }, [industry])
 
     const role = getUserCredentials()?.role
+
+    const { passwordModal, onViewPassword } = useActionModal()
 
     const statusBaseActions = () => {
         switch (industry.data?.user?.status) {
@@ -217,6 +220,7 @@ const Detail: NextPageWithLayout = () => {
 
     return (
         <>
+            {passwordModal}
             {industry.isError && <TechnicalError />}
             {industry.isLoading ? (
                 <LoadingAnimation height={'h-[70vh]'} />
@@ -226,7 +230,17 @@ const Detail: NextPageWithLayout = () => {
                     {/* Action Bar */}
                     <div className="flex items-center justify-between">
                         <BackButton text="Industries" />
-                        {statusBaseActions()}
+                        <div className="flex items-center gap-x-2">
+                            <Button
+                                text={'View Password'}
+                                onClick={() => {
+                                    onViewPassword({
+                                        user: industry?.data?.user,
+                                    })
+                                }}
+                            />
+                            {statusBaseActions()}
+                        </div>
                     </div>
 
                     <div className="flex">

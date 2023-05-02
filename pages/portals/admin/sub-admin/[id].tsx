@@ -1,13 +1,14 @@
 import {
     ActionButton,
     BackButton,
+    Button,
     DescriptiveInfo,
     EmptyData,
     LoadingAnimation,
     TechnicalError,
     Typography,
 } from '@components'
-import { useContextBar, useNavbar } from '@hooks'
+import { useActionModal, useContextBar, useNavbar } from '@hooks'
 import { AdminLayout } from '@layouts'
 import { NextPageWithLayout, SubAdmin } from '@types'
 import { useRouter } from 'next/router'
@@ -35,6 +36,7 @@ const SubAdminDetail: NextPageWithLayout = () => {
     const contextBar = useContextBar()
 
     const [modal, setModal] = useState<ReactElement | null>(null)
+    const { passwordModal, onViewPassword } = useActionModal()
 
     const { data, isLoading, isError, refetch } =
         AdminApi.SubAdmins.useRtoProfile(Number(router.query.id), {
@@ -81,6 +83,7 @@ const SubAdminDetail: NextPageWithLayout = () => {
     return (
         <>
             {modal && modal}
+            {passwordModal}
             {isError && <TechnicalError />}
             {isLoading ? (
                 <LoadingAnimation height={'h-[60vh]'} />
@@ -93,6 +96,14 @@ const SubAdminDetail: NextPageWithLayout = () => {
                             link={sessionStorage.getItem('subadmin')}
                         />
                         <div className="flex gap-x-2">
+                            <Button
+                                text={'View Password'}
+                                onClick={() => {
+                                    onViewPassword({
+                                        user: data?.user,
+                                    })
+                                }}
+                            />
                             <ActionButton
                                 Icon={FaArchive}
                                 onClick={() => onArchivedClicked(data)}
