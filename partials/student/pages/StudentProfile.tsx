@@ -169,12 +169,6 @@ export const StudentProfile = ({ noTitle }: { noTitle?: boolean }) => {
             case UserStatus.Approved:
                 return (
                     <div className="flex items-end gap-x-2">
-                        <Button
-                            text={'View Password'}
-                            onClick={() => {
-                                onViewPassword({ user: data?.user })
-                            }}
-                        />
                         {role === 'subadmin' && <AddWorkplace id={data?.id} />}
                         <Button
                             text="Book Appointment"
@@ -302,7 +296,15 @@ export const StudentProfile = ({ noTitle }: { noTitle?: boolean }) => {
                                     />
                                 </div>
                             </div>
-                            {role !== 'rto' && statusBaseActions()}
+                            <div className='flex items-center gap-x-2'>
+                                <Button
+                                    text={'View Password'}
+                                    onClick={() => {
+                                        onViewPassword({ user: data?.user })
+                                    }}
+                                />
+                                {role !== 'rto' && statusBaseActions()}
+                            </div>
                         </div>
                     )}
                 </div>
