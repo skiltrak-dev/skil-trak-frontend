@@ -1,0 +1,39 @@
+import { BaseQueryFn } from '@reduxjs/toolkit/dist/query/baseQueryTypes'
+import { EndpointBuilder } from '@reduxjs/toolkit/dist/query/endpointDefinitions'
+
+const PREFIX = 'supervisors'
+export const supervisorsEndpoints = (
+    builder: EndpointBuilder<BaseQueryFn, string, string>
+) => ({
+    getSupervisor: builder.query<any, any>({
+        query: (params) => ({
+            url: `${PREFIX}`,
+            params,
+        }),
+        providesTags: ['Industries'],
+    }),
+    addSupervisor: builder.mutation<any, any>({
+        query: (body) => ({
+            url: `${PREFIX}`,
+            method: 'POST',
+            body,
+        }),
+        invalidatesTags: ['Industries'],
+    }),
+    editSupervisor: builder.mutation<any, any>({
+        query: (body) => ({
+            url: `${PREFIX}/${body?.id}`,
+            method: 'PATCH',
+            body,
+        }),
+        invalidatesTags: ['Industries'],
+    }),
+
+    removeSupervisor: builder.mutation<any, number>({
+        query: (id) => ({
+            url: `${PREFIX}/${id}`,
+            method: 'DELETE',
+        }),
+        invalidatesTags: ['Industries'],
+    }),
+})
