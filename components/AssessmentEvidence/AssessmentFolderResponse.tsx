@@ -251,7 +251,8 @@ export const AssessmentResponse = ({
                 {activeAssessment &&
                     assessmentEvidenceView &&
                     getAssessmentResponse?.data &&
-                    result?.result !== 'competent' &&
+                    result?.result !== Result.Competent &&
+                    result?.result !== Result.NotCompetent &&
                     !getAssessmentResponse.isError && (
                         <div className="flex justify-between gap-x-2 mt-3 mx-3">
                             <div className="grid grid-cols-3 gap-x-2 w-full">

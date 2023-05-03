@@ -76,7 +76,7 @@ const Workplace: NextPageWithLayout = (props: Props) => {
 
     const tabs: TabProps[] = [
         {
-            label: 'All Requests',
+            label: 'Need Workplaces',
             href: { pathname: 'workplace', query: { tab: 'all' } },
             badge: {
                 text: count?.data?.all,

@@ -59,6 +59,7 @@ export const RadioGroup = (
     }: RadioGroupType,
     ref: any
 ) => {
+    console.log('inner', value)
     const getOptionsLayout = () => {
         let currentLayout = OptionLayout[layout]
         if (layout === 'grid') {
@@ -87,6 +88,7 @@ export const RadioGroup = (
                         label={option.label}
                         value={option.value}
                         defaultChecked={option.value === value}
+                        // value={option.value === value}
                         group
                         onChange={(e: any) => {
                             onChange && onChange(e)

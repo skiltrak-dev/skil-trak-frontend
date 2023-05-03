@@ -14,6 +14,7 @@ import {
     Avatar,
     RadioGroup,
     SelectOption,
+    RadioButton,
 } from '@components'
 
 // hooks
@@ -45,7 +46,7 @@ export const IndustryProfileFrom = ({
     >(null)
     const [courseValues, setCourseValues] = useState<SelectOption[]>([])
     const [sectors, setSectors] = useState<any | null>(null)
-    const [isPartner, setIsPartner] = useState<boolean>(false)
+    const [isPartner, setIsPartner] = useState<string>('')
     const [courseOptions, setCourseOptions] = useState([])
     const [courseDefaultOptions, setCourseDefaultOptions] = useState([])
 
@@ -218,7 +219,8 @@ export const IndustryProfileFrom = ({
             for (const key in values) {
                 formMethods.setValue(key, values[key])
             }
-            setIsPartner(profile?.data?.isPartner)
+            formMethods.setValue('isPartner', isPartner ? 'yes' : 'no')
+            setIsPartner(profile?.data?.isPartner ? 'yes' : 'no')
         }
     }, [profile])
 
@@ -231,8 +233,8 @@ export const IndustryProfileFrom = ({
     const onFormSubmit = (values: any) => {
         onSubmit({
             ...values,
-            isPartner,
-            studentCapacity: isPartner ? values?.studentCapacity : 0,
+            isPartner: values?.isPartner === 'yes' ? true : false,
+            studentCapacity: isPartner === 'yes' ? values?.studentCapacity : 0,
         })
     }
 
@@ -492,30 +494,22 @@ export const IndustryProfileFrom = ({
                                         label={
                                             'You want to use as a partner or single'
                                         }
-                                        value={isPartner ? 'yes' : 'no'}
                                         options={[
                                             {
                                                 label: 'use once',
                                                 value: 'no',
-                                                // checked: !isPartner,
                                             },
                                             {
                                                 label: 'Is Partner',
                                                 value: 'yes',
-                                                // checked: true,
                                             },
                                         ]}
-                                        onChange={(e: any) => {
-                                            setIsPartner(
-                                                e?.target?.value === 'yes'
-                                                    ? true
-                                                    : false
-                                            )
-                                        }}
+                                        onChange={(e: any) =>
+                                            setIsPartner(e?.target?.value)
+                                        }
                                     />
-                                    {isPartner && (
+                                    {isPartner === 'yes' && (
                                         <TextInput
-                                            onChange={(e: any) => {}}
                                             name={'studentCapacity'}
                                             label={'Student Capacity'}
                                             type={'number'}
