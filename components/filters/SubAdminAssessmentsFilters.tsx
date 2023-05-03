@@ -120,7 +120,7 @@ export const SubAdminAssessmentsFilters = ({
                     name={'result'}
                     options={resultOptions}
                     placeholder={'Select Sectors...'}
-                    defaultValue={resultOptions?.find(
+                    value={resultOptions?.find(
                         (result: SelectOption) =>
                             result.value === filter?.result
                     )}
@@ -133,8 +133,9 @@ export const SubAdminAssessmentsFilters = ({
                     name={'rtoId'}
                     options={rtoOptions}
                     placeholder={'Select Search By Rto...'}
-                    defaultValue={rtoOptions?.find(
-                        (rto: SelectOption) => rto.value === filter?.rtoId
+                    value={rtoOptions?.find(
+                        (rto: SelectOption) =>
+                            rto.value === Number(filter?.rtoId)
                     )}
                     onChange={(e: any) => {
                         onFilterChange({ ...filter, rtoId: e?.value })
@@ -147,9 +148,9 @@ export const SubAdminAssessmentsFilters = ({
                     name={'courseId'}
                     options={coursesOptions}
                     placeholder={'Select Courses...'}
-                    defaultValue={coursesOptions?.find(
+                    value={coursesOptions?.find(
                         (course: SelectOption) =>
-                            course.value === filter?.courseId
+                            course.value === Number(filter?.courseId)
                     )}
                     onChange={(e: any) => {
                         onFilterChange({ ...filter, courseId: e?.value })

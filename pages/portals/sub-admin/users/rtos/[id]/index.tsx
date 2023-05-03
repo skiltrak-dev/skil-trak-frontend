@@ -287,7 +287,7 @@ const RtoProfile: NextPageWithLayout = (props: Props) => {
                                             rtoStatsCount?.data?.pendingResult
                                         )}
                                         title={'Pending Result'}
-                                        link={`/portals/sub-admin/tasks/assessment-evidence?tab=pending&rtoId=${rtoDetail?.data?.id}`}
+                                        link={`/portals/sub-admin/tasks/assessment-evidence?tab=pending&rtoId=${rtoDetail?.data?.id}&result=pending`}
                                     />
                                 </div>
                                 <div>{header}</div>
