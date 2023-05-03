@@ -29,9 +29,19 @@ import {
     useAssessmentCountQuery,
     useGetAssessmentEvidenceQuery,
 } from '@queries'
-import { getCountData } from '@utils'
+import { getCountData, getFilterQuery } from '@utils'
 
 type Props = {}
+
+const filterKeys = [
+    'name',
+    'email',
+    'phone',
+    'studentId',
+    'result',
+    'rtoId',
+    'courseId',
+]
 
 const AssessmentEvidence: NextPageWithLayout = (props: Props) => {
     const router = useRouter()
@@ -41,6 +51,11 @@ const AssessmentEvidence: NextPageWithLayout = (props: Props) => {
     const [page, setPage] = useState(1)
     const [itemPerPage, setItemPerPage] = useState(50)
     const [modal, setModal] = useState<any | null>(null)
+
+    const query = getFilterQuery({ router, filterKeys })
+    useEffect(() => {
+        setFilter(query)
+    }, [router])
 
     const count = useAssessmentCountQuery()
     const profile = SubAdminApi.SubAdmin.useProfile(undefined, {
@@ -157,6 +172,7 @@ const AssessmentEvidence: NextPageWithLayout = (props: Props) => {
                     initialValues={filter}
                     setFilterAction={setFilterAction}
                     setFilter={setFilter}
+                    filterKeys={filterKeys}
                 />
             </div>
 

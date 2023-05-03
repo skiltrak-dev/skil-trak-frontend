@@ -269,7 +269,7 @@ const RtoDetail: NextPageWithLayout = () => {
                                 statisticsCount?.data?.currentStudent
                             )}
                             title={'Current Students'}
-                            link={'#'}
+                            link={`/portals/admin/student?tab=active&page=1&pageSize=50&status=${UserStatus.Approved}&rtoId=${rto?.data?.id}`}
                         />
                         <FigureCard
                             imageUrl="/images/icons/pending-student.png"
@@ -277,7 +277,7 @@ const RtoDetail: NextPageWithLayout = () => {
                                 statisticsCount?.data?.pendingStudent
                             )}
                             title={'Pending Students'}
-                            link={'#'}
+                            link={`/portals/admin/student?tab=active&page=1&pageSize=50&status=${UserStatus.Pending}&rtoId=${rto?.data?.id}`}
                         />
                         <FigureCard
                             imageUrl="/images/icons/industry.png"
@@ -285,7 +285,7 @@ const RtoDetail: NextPageWithLayout = () => {
                                 statisticsCount?.data?.workplaceRequest
                             )}
                             title={'Workplace Requests'}
-                            link={'#'}
+                            link={`/portals/admin/workplaces?tab=all-student-provided-workplace&rtoId=${rto?.data?.id}`}
                         />
                         <FigureCard
                             imageUrl="/images/icons/job.png"

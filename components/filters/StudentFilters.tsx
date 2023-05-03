@@ -124,7 +124,8 @@ export const StudentFilters = ({ onFilterChange, filter }: ItemFilterProps) => {
                         label={'Search By Rto'}
                         name={'rtoId'}
                         value={rtoOptions?.find(
-                            (rto: SelectOption) => rto.value === filter?.rtoId
+                            (rto: SelectOption) =>
+                                rto.value === Number(filter?.rtoId)
                         )}
                         options={rtoOptions}
                         placeholder={'Select Search By Rto...'}
@@ -142,7 +143,7 @@ export const StudentFilters = ({ onFilterChange, filter }: ItemFilterProps) => {
                     placeholder={'Select Industry...'}
                     value={industryOptions?.find(
                         (industry: SelectOption) =>
-                            industry.value === filter?.industryId
+                            industry.value === Number(filter?.industryId)
                     )}
                     onChange={(e: any) => {
                         onFilterChange({ ...filter, industryId: e?.value })
@@ -166,7 +167,7 @@ export const StudentFilters = ({ onFilterChange, filter }: ItemFilterProps) => {
                     placeholder={'Select Courses...'}
                     value={coursesOptions?.find(
                         (course: SelectOption) =>
-                            course.value === filter?.courseId
+                            course.value === Number(filter?.courseId)
                     )}
                     onChange={(e: any) => {
                         onFilterChange({ ...filter, courseId: e?.value })
