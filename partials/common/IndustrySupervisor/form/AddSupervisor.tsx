@@ -54,8 +54,6 @@ export const AddSupervisor = ({ industry, initialValues, edit }: any) => {
         resolver: yupResolver(validationSchema),
     })
 
-    console.log(initialValues)
-
     const onSubmit = async (values: any) => {
         edit
             ? editSupervisor({
