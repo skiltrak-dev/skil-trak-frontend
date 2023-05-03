@@ -504,14 +504,12 @@ export const IndustryProfileFrom = ({
                                                 value: 'yes',
                                             },
                                         ]}
-                                        onChange={(e: any) => {
-                                            console.log('eeee', e.target)
+                                        onChange={(e: any) =>
                                             setIsPartner(e?.target?.value)
-                                        }}
+                                        }
                                     />
                                     {isPartner === 'yes' && (
                                         <TextInput
-                                            onChange={(e: any) => {}}
                                             name={'studentCapacity'}
                                             label={'Student Capacity'}
                                             type={'number'}
