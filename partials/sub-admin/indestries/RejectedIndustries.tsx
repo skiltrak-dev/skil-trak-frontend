@@ -191,9 +191,9 @@ export const RejectedIndustries = () => {
                 ) : (
                     !isError && (
                         <EmptyData
-                            title={'No Approved Industry!'}
+                            title={'No Rejected Industry!'}
                             description={
-                                'You have not approved any Industry request yet'
+                                'You have not Rejected any Industry request yet'
                             }
                             height={'50vh'}
                         />

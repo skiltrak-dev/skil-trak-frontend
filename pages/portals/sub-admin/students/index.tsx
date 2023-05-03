@@ -46,6 +46,7 @@ const filterKeys = [
     'email',
     'phone',
     'studentId',
+    'status',
     'rtoId',
     'industryId',
     'courseId',

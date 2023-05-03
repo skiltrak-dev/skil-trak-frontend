@@ -10,7 +10,10 @@ export const StudentCellInfo = ({ student }: { student: Student }) => {
 
     const query = queryToUrl(router?.query)
     return (
-        <Link legacyBehavior href={`student/${student?.id}?tab=overview`}>
+        <Link
+            legacyBehavior
+            href={`/portals/admin/student/${student?.id}?tab=overview`}
+        >
             <a
                 onClick={() => {
                     setLink('student', router)

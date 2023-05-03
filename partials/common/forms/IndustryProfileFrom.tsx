@@ -238,7 +238,6 @@ export const IndustryProfileFrom = ({
         })
     }
 
-    console.log('isPartner', isPartner)
     return (
         <>
             <Avatar
