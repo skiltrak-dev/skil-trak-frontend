@@ -7,6 +7,7 @@ import {
     Supervisor,
 } from '@partials/common'
 import { SectorsTab } from './SectorsTab'
+import { Students } from './Students'
 
 export const DetailTabs = ({
     id,
@@ -25,6 +26,11 @@ export const DetailTabs = ({
             label: 'Supervisors',
             href: { query: { tab: 'supervisors', id } },
             element: <Supervisor industry={industry?.data} />,
+        },
+        {
+            label: 'Students',
+            href: { query: { tab: 'students', id } },
+            element: <Students industry={industry?.data} />,
         },
         {
             label: 'Notes',

@@ -84,4 +84,12 @@ export const industryEndpoints = (
         }),
         invalidatesTags: ['Industries'],
     }),
+
+    industryStudents: builder.query<PaginatedResponse<any>, any>({
+        query: ({ params, industryId }) => ({
+            url: `${PREFIX}industry/students/list/${industryId}`,
+            params,
+        }),
+        providesTags: ['Industries'],
+    }),
 })

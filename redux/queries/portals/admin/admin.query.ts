@@ -158,6 +158,7 @@ const {
     useIndustryDetailQuery,
     useIndustrySectorsQuery,
     useIndustryRemoveMutation,
+    useIndustryStudentsQuery,
     useIndustryStatusChangeMutation,
     useIndustryAssignCoursesMutation,
     useIndustryUnassignCourseMutation,
@@ -343,6 +344,7 @@ export const AdminApi = {
         useStatusChange: useIndustryStatusChangeMutation,
         useDetail: useIndustryDetailQuery,
         useRemove: useIndustryRemoveMutation,
+        industryStudents: useIndustryStudentsQuery,
     },
 
     Rpl: {
