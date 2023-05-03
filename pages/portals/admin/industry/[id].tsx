@@ -31,6 +31,10 @@ const Detail: NextPageWithLayout = () => {
 
     const { alert, setAlerts } = useAlert()
 
+    useEffect(() => {
+        navBar.setTitle('Industry Detail')
+    }, [])
+
     const {
         modal,
         onAcceptClicked,

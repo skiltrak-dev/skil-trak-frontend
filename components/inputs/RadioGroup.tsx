@@ -59,7 +59,6 @@ export const RadioGroup = (
     }: RadioGroupType,
     ref: any
 ) => {
-    console.log('inner', value)
     const getOptionsLayout = () => {
         let currentLayout = OptionLayout[layout]
         if (layout === 'grid') {

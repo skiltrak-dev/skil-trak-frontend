@@ -5,7 +5,7 @@ import { ReactElement, useEffect, useState } from 'react'
 import { useContextBar, useNavbar } from '@hooks'
 //Layouts
 import { SubAdminLayout } from '@layouts'
-import { NextPageWithLayout } from '@types'
+import { NextPageWithLayout, UserStatus } from '@types'
 
 //components
 import {
@@ -260,9 +260,7 @@ const RtoProfile: NextPageWithLayout = (props: Props) => {
                                             rtoStatsCount?.data?.currentStudent
                                         )}
                                         title={'Current Students'}
-                                        link={
-                                            '/portals/rto/students?tab=active'
-                                        }
+                                        link={`/portals/sub-admin/students?tab=all&rtoId=${rtoDetail?.data?.id}&status=${UserStatus.Approved}`}
                                     />
                                     <FigureCard
                                         imageUrl="/images/icons/pending-student.png"
@@ -270,9 +268,7 @@ const RtoProfile: NextPageWithLayout = (props: Props) => {
                                             rtoStatsCount?.data?.pendingStudent
                                         )}
                                         title={'Pending Students'}
-                                        link={
-                                            '/portals/rto/students?tab=pending'
-                                        }
+                                        link={`/portals/sub-admin/students?tab=all&rtoId=${rtoDetail?.data?.id}&status=${UserStatus.Pending}`}
                                     />
                                     <FigureCard
                                         imageUrl="/images/icons/industry.png"
@@ -282,7 +278,7 @@ const RtoProfile: NextPageWithLayout = (props: Props) => {
                                         )}
                                         title={'Workplace Requests'}
                                         link={
-                                            '/portals/rto/industries/workplaces'
+                                            '/portals/sub-admin/tasks/workplace?tab=all'
                                         }
                                     />
                                     <FigureCard
@@ -291,9 +287,7 @@ const RtoProfile: NextPageWithLayout = (props: Props) => {
                                             rtoStatsCount?.data?.pendingResult
                                         )}
                                         title={'Pending Result'}
-                                        link={
-                                            '/portals/rto/students/2426?tab=submissions'
-                                        }
+                                        link={`/portals/sub-admin/tasks/assessment-evidence?tab=pending&rtoId=${rtoDetail?.data?.id}`}
                                     />
                                 </div>
                                 <div>{header}</div>

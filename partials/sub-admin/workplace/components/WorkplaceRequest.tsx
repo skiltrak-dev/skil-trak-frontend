@@ -163,7 +163,7 @@ export const WorkplaceRequest = ({ workplace }: any) => {
 
                     {/*  */}
                     <WorkplaceFolders
-                        // workplace={workplace}
+                        workplace={workplace}
                         // courseId={course?.id}
                         // appliedIndustryId={appliedIndustry?.industry?.id}
                         folders={folders}

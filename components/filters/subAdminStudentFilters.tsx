@@ -100,12 +100,25 @@ export const SubAdminStudentFilters = ({
                     }}
                 />
                 <Select
+                    label={'Status'}
+                    name={'status'}
+                    value={statusOptions.find(
+                        (status) => status.value === filter?.status
+                    )}
+                    options={statusOptions}
+                    placeholder={'Select Sectors...'}
+                    onChange={(e: SelectOption) => {
+                        onFilterChange({ ...filter, status: e?.value })
+                    }}
+                />
+                <Select
                     label={'Search By Rto'}
                     name={'rtoId'}
                     options={rtoOptions}
                     placeholder={'Select Search By Rto...'}
-                    defaultValue={rtoOptions?.find(
-                        (rto: SelectOption) => rto.value === filter?.rtoId
+                    value={rtoOptions?.find(
+                        (rto: SelectOption) =>
+                            rto.value === Number(filter?.rtoId)
                     )}
                     onChange={(e: any) => {
                         onFilterChange({ ...filter, rtoId: e?.value })

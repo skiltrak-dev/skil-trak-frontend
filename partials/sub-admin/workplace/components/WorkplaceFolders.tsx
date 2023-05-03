@@ -1,10 +1,9 @@
-import React, { useEffect, useState } from 'react'
 import { Typography } from '@components'
 import { useContextBar, useJoyRide } from '@hooks'
 import moment from 'moment'
+import { useEffect, useState } from 'react'
 
 // query
-import { useGetWorkplaceFoldersQuery } from '@queries'
 import { ViewFoldersCB } from '../contextBar'
 
 export const WorkplaceFolders = ({
@@ -41,7 +40,10 @@ export const WorkplaceFolders = ({
         <div className="flex items-center gap-x-5">
             {!workplace?.byExistingAbn &&
                 !workplace?.studentProvidedWorkplace && (
-                    <div id='placement-documents' className="flex flex-col items-end gap-y-1">
+                    <div
+                        id="placement-documents"
+                        className="flex flex-col items-end gap-y-1"
+                    >
                         <Typography variant={'small'}>
                             {isAllDocumentsUploaded ? (
                                 <span className="bg-green-500 text-white rounded-md p-1">
@@ -72,10 +74,7 @@ export const WorkplaceFolders = ({
                 <Typography variant={'xs'}>Recieved On:</Typography>
                 <Typography variant={'small'}>
                     <span className="font-semibold">
-                        {moment(
-                            workplace?.createdAt,
-                            'YYYY-MM-DD hh:mm:ss Z'
-                        ).format('Do MMM, YYYY')}
+                        {moment(workplace?.createdAt).format('Do MMM, YYYY')}
                     </span>
                 </Typography>
             </div>
