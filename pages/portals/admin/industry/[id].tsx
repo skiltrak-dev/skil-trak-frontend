@@ -248,7 +248,7 @@ const Detail: NextPageWithLayout = () => {
                             imageUrl="/images/icons/students.png"
                             count={Number(industryStatisticsCount?.data?.count)}
                             title={'Current Students'}
-                            link={'/portals/rto/students?tab=active'}
+                            link={`/portals/admin/industry/${industry?.data?.id}?tab=students`}
                         />
                     </div>
 

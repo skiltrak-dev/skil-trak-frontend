@@ -16,6 +16,7 @@ import { rplEndpoints } from './rpl'
 import { studentsEndpoints } from './students'
 import { volunteerEndpoints } from './volunteer'
 import { workplaceEndpoints } from './workplace'
+import { supervisorsEndpoints } from './supervisors'
 
 export const industryApi = emptySplitApi.injectEndpoints({
     // export const industryApi = createApi({
@@ -76,6 +77,7 @@ export const industryApi = emptySplitApi.injectEndpoints({
         ...notificationsEndpoints(build),
         ...rplEndpoints(build),
         ...volunteerEndpoints(build),
+        ...supervisorsEndpoints(build),
     }),
     // overrideExisting: true,
 })
@@ -192,6 +194,12 @@ export const {
 
     // ---- VOLUNTEER ---- //
     useRequestAVolunteerMutation,
+
+    // ---- SUPERVISORS ---- //
+    useGetSupervisorQuery,
+    useAddSupervisorMutation,
+    useEditSupervisorMutation,
+    useRemoveSupervisorMutation,
 } = industryApi
 
 export const IndustryApi = {
@@ -306,5 +314,11 @@ export const IndustryApi = {
     },
     Volunteer: {
         useRequestAVolunteerMutation,
+    },
+    Supervisor: {
+        useGetSupervisor: useGetSupervisorQuery,
+        addSupervisor: useAddSupervisorMutation,
+        editSupervisor: useEditSupervisorMutation,
+        removeSupervisor: useRemoveSupervisorMutation,
     },
 }

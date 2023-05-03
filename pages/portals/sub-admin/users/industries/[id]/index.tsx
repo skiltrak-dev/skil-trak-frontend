@@ -40,6 +40,7 @@ import {
     AppointmentTab,
     MailsTab,
     NotesTab,
+    Supervisor,
 } from '@partials/common'
 import { Students } from '@partials/sub-admin/indestries'
 import { getLink } from '@utils'
@@ -107,6 +108,11 @@ const IndustriesProfile: NextPageWithLayout = (props: Props) => {
             href: { pathname: String(id), query: { tab: 'overview' } },
             badge: { text: '05', color: 'text-blue-500' },
             element: <IndustryProfileOverview industryProfile={data} />,
+        },
+        {
+            label: 'Supervisors',
+            href: { query: { tab: 'supervisors', id } },
+            element: <Supervisor industry={data} />,
         },
         {
             label: 'Students',
