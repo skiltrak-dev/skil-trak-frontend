@@ -12,7 +12,9 @@ export const DownloadButton = (props: Props) => {
     return (
         <div className="flex items-center gap-x-2">
             <div className="flex items-center gap-x-3">
-                <OutsideClickHandler onOutsideClick={() => setShowDropDown(false)}>
+                <OutsideClickHandler
+                    onOutsideClick={() => setShowDropDown(false)}
+                >
                     <div
                         className="relative"
                         // onMouseEnter={() => setShowDropDown(true)}
@@ -35,9 +37,7 @@ export const DownloadButton = (props: Props) => {
                             <ul className="bg-white shadow-xl rounded-lg overflow-hidden absolute z-30 right-0">
                                 <li>
                                     <button
-                                        onClick={() => {
-                                            console.log('clicked')
-                                        }}
+                                        onClick={() => {}}
                                         className="w-full border-b px-6 flex items-center gap-x-2 text-sm py-2  hover:bg-gray-200"
                                     >
                                         {/* <span className="text-gray-500">
@@ -48,9 +48,7 @@ export const DownloadButton = (props: Props) => {
                                 </li>
                                 <li>
                                     <button
-                                        onClick={() => {
-                                            console.log('clicked')
-                                        }}
+                                        onClick={() => {}}
                                         className="w-full border-b px-6 flex items-center gap-x-2 text-sm py-2 hover:bg-gray-200"
                                     >
                                         {/* <span className="text-gray-500">
@@ -61,9 +59,7 @@ export const DownloadButton = (props: Props) => {
                                 </li>
                                 <li>
                                     <button
-                                        onClick={() => {
-                                            console.log('clicked')
-                                        }}
+                                        onClick={() => {}}
                                         className="w-full border-b px-6 flex items-center gap-x-2 text-sm py-2 hover:bg-gray-200"
                                     >
                                         {/* <span className="text-gray-500">
@@ -78,7 +74,7 @@ export const DownloadButton = (props: Props) => {
                 </OutsideClickHandler>
             </div>
             <Button variant="action">
-                <span className='flex items-center gap-x-2'>
+                <span className="flex items-center gap-x-2">
                     <AiFillPrinter size={18} />
                     <span>Print</span>
                 </span>

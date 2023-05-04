@@ -83,7 +83,9 @@ export const AssessmentResponse = ({
             )
         ) {
             setModal(getImageViewModal(file))
-        } else if (['pdf'].includes(file?.extension?.toLowerCase())) {
+        } else if (
+            ['pdf', 'document'].includes(file?.extension?.toLowerCase())
+        ) {
             // const fileSplit = file.file.split('https://')
             // const url = `https://www.${fileSplit[1]}`
             const url = `${file?.file}`
@@ -92,6 +94,7 @@ export const AssessmentResponse = ({
                     url={url}
                     downloadUrl={file?.file}
                     onCancelButtonClick={onModalCancel}
+                    extension={file?.extension}
                 />
             )
         } else if (

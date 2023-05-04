@@ -191,4 +191,14 @@ export const workplaceEndpoints = (
         }),
         invalidatesTags: ['SubAdminWorkplace'],
     }),
+    removeAppliedIndustryFromWorkplace: builder.mutation<
+        any,
+        { workplaceIndustryId: number; studentId: number }
+    >({
+        query: ({ workplaceIndustryId, studentId }) => ({
+            url: `${PREFIX}workplace-request/remove/work-industry/${workplaceIndustryId}/${studentId}`,
+            method: 'DELETE',
+        }),
+        invalidatesTags: ['SubAdminWorkplace'],
+    }),
 })
