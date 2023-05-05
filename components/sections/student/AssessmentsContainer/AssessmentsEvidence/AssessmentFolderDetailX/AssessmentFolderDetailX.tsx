@@ -38,7 +38,7 @@ const Loading = () => {
 export const getDocType = (type: string) => {
     switch (type) {
         case 'docs':
-            return ['pdf']
+            return ['pdf', 'document']
         case 'images':
             return ['jpg', 'png', 'jpeg', 'JPG', 'jfif']
         case 'video':

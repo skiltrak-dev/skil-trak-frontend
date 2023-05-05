@@ -3,7 +3,7 @@ import { useRouter } from 'next/router'
 
 import { isActiveRoute } from '@utils'
 import { FaClipboardList, FaUserGraduate } from 'react-icons/fa'
-import { HiUsers } from 'react-icons/hi'
+import { HiDocumentReport, HiUsers } from 'react-icons/hi'
 import { MdNotifications, MdSpaceDashboard } from 'react-icons/md'
 
 const PREFIX = '/portals/sub-admin'
@@ -15,6 +15,7 @@ const Routes = {
     ESignature: '/portals/sub-admin/e-signature',
     Notification: '/portals/sub-admin/notifications',
     Settings: '/portals/sub-admin/setting',
+    Report: '/portals/sub-admin/report',
 }
 export const SubAdminNavbar = () => {
     const router = useRouter()
@@ -33,8 +34,8 @@ export const SubAdminNavbar = () => {
                     <Link legacyBehavior href={Routes.Dashboard}>
                         <a
                             className={`${isActive(Routes.Dashboard)
-                                    ? 'bg-indigo-100 text-indigo-700'
-                                    : 'text-slate-700'
+                                ? 'bg-indigo-100 text-indigo-700'
+                                : 'text-slate-700'
                                 } ${defaultClasses} hover:bg-indigo-100 hover:text-indigo-700`}
                         >
                             <span>
@@ -51,8 +52,8 @@ export const SubAdminNavbar = () => {
                     <Link legacyBehavior href={Routes.Students}>
                         <a
                             className={`${isActive(Routes.Students)
-                                    ? 'bg-blue-100 text-blue-700'
-                                    : 'text-slate-700'
+                                ? 'bg-blue-100 text-blue-700'
+                                : 'text-slate-700'
                                 } ${defaultClasses} hover:bg-blue-100 hover:text-blue-700`}
                             id="student"
                         >
@@ -70,8 +71,8 @@ export const SubAdminNavbar = () => {
                     <Link legacyBehavior href={Routes.Users}>
                         <a
                             className={`${isActive(Routes.Users)
-                                    ? 'bg-blue-100 text-blue-700'
-                                    : 'text-slate-700'
+                                ? 'bg-blue-100 text-blue-700'
+                                : 'text-slate-700'
                                 } ${defaultClasses} hover:bg-blue-100 hover:text-blue-700`}
                             id="users"
                         >
@@ -87,8 +88,8 @@ export const SubAdminNavbar = () => {
                     <Link legacyBehavior href={Routes.Tasks}>
                         <a
                             className={`${isActive(Routes.Tasks)
-                                    ? 'bg-orange-100 text-orange-700'
-                                    : 'text-slate-700'
+                                ? 'bg-orange-100 text-orange-700'
+                                : 'text-slate-700'
                                 } ${defaultClasses} hover:bg-orange-100 hover:text-orange-700`}
                             id="tasks"
                         >
@@ -122,8 +123,8 @@ export const SubAdminNavbar = () => {
                     <Link legacyBehavior href={Routes.Notification}>
                         <a
                             className={`${isActive(Routes.Notification)
-                                    ? 'bg-blue-100 text-blue-700'
-                                    : 'text-slate-700'
+                                ? 'bg-blue-100 text-blue-700'
+                                : 'text-slate-700'
                                 } ${defaultClasses} hover:bg-blue-100 hover:text-blue-700`}
                         >
                             <span>
@@ -135,20 +136,38 @@ export const SubAdminNavbar = () => {
                         </a>
                     </Link>
                 </li>
+
             </ul>
-            <Link legacyBehavior href={Routes.Settings}>
-                <a
-                    className={`${isActive(Routes.Settings)
+            <div className='flex items-center gap-x-2'>
+                <Link legacyBehavior href={Routes.Report}>
+                    <a
+                        className={`${isActive(Routes.Report)
                             ? 'bg-blue-100 text-blue-700'
                             : 'text-slate-700'
-                        } ${defaultClasses} hover:bg-blue-100 hover:text-blue-700`}
-                >
-                    <span>
-                        <MdNotifications />
-                    </span>
-                    <span className="text-sm font-semibold">Settings</span>
-                </a>
-            </Link>
+                            } ${defaultClasses} hover:bg-blue-100 hover:text-blue-700`}
+                    >
+                        <span>
+                            <HiDocumentReport />
+                        </span>
+                        <span className="text-sm font-semibold">
+                            Report
+                        </span>
+                    </a>
+                </Link>
+                <Link legacyBehavior href={Routes.Settings}>
+                    <a
+                        className={`${isActive(Routes.Settings)
+                            ? 'bg-blue-100 text-blue-700'
+                            : 'text-slate-700'
+                            } ${defaultClasses} hover:bg-blue-100 hover:text-blue-700`}
+                    >
+                        <span>
+                            <MdNotifications />
+                        </span>
+                        <span className="text-sm font-semibold">Settings</span>
+                    </a>
+                </Link>
+            </div>
         </div>
     )
 }

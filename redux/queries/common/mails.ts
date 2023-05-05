@@ -17,7 +17,6 @@ function getSocket() {
             withCredentials: true,
         })
     }
-    console.log('adding')
     return socket
 }
 
@@ -68,7 +67,6 @@ export const mailsEndpoints = (
             } catch {
                 // if cacheEntryRemoved resolved before cacheDataLoaded,
                 // cacheDataLoaded throws
-                console.log('failed')
             }
         },
         providesTags: ['Mails'],
@@ -199,7 +197,7 @@ export const mailsEndpoints = (
         providesTags: ['Mails'],
     }),
     updateEmailDraft: builder.mutation({
-        query: ({body, id}: any) => ({
+        query: ({ body, id }: any) => ({
             url: `templates/${id}`,
             method: 'PATCH',
             body,

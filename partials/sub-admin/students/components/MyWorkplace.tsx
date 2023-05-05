@@ -283,6 +283,13 @@ export const MyWorkplace = ({ student }: { student: Student }) => {
         }
     }
 
+    const industryByWorkplace =
+        workplace?.data &&
+        workplace?.data?.length > 0 &&
+        workplace?.data[0]?.industries?.find(
+            (ind: any) => ind?.industry?.id === industry?.id
+        )
+
     return (
         <Card fullHeight>
             {modal}
@@ -304,7 +311,9 @@ export const MyWorkplace = ({ student }: { student: Student }) => {
                             Icon={MdDelete}
                             variant={'error'}
                             title={'Delete Industry'}
-                            onClick={() => onDeleteIndustry(industry)}
+                            onClick={() =>
+                                onDeleteIndustry(industryByWorkplace)
+                            }
                         />
                     )}
                     {role !== 'rto' && Object.keys(industry)?.length > 0 ? (

@@ -24,7 +24,7 @@ export const EmailsCard = () => {
                                 Subject:{' '}
                                 {data[data?.length - 1]?.subject || 'N/A'}
                             </Typography>
-                            <Typography
+                            {/* <Typography
                                 variant={'subtitle'}
                                 color={'text-[#2763CA]'}
                             >
@@ -32,7 +32,8 @@ export const EmailsCard = () => {
                                     0,
                                     32
                                 ) || 'N/A'}
-                            </Typography>
+                            </Typography> */}
+                           
                         </div>
                         <div className="border border-white rounded-2xl p-2">
                             <Typography
@@ -42,7 +43,7 @@ export const EmailsCard = () => {
                                 Subject:{' '}
                                 {data[data?.length - 2]?.subject || 'N/A'}
                             </Typography>
-                            <Typography
+                            {/* <Typography
                                 variant={'subtitle'}
                                 color={'text-[#2763CA]'}
                             >
@@ -50,7 +51,7 @@ export const EmailsCard = () => {
                                     0,
                                     32
                                 ) || 'N/A'}
-                            </Typography>
+                            </Typography> */}
                         </div>
                     </div>
                 ) : (
