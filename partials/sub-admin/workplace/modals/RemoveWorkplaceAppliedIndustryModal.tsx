@@ -6,7 +6,7 @@ import { Industry, Student } from '@types'
 import { useEffect } from 'react'
 import { FaTrash } from 'react-icons/fa'
 
-export const RemoveIndustryModal = ({
+export const RemoveWorkplaceAppliedIndustryModal = ({
     industry,
     onCancel,
     studentId,

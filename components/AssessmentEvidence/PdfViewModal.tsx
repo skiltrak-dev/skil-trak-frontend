@@ -12,12 +12,14 @@ interface PdfViewModalProps {
     url: string
     onCancelButtonClick?: () => void
     downloadUrl: string
+    extension?: string
 }
 
 export const PdfViewModal = ({
     url,
     onCancelButtonClick,
     downloadUrl,
+    extension,
 }: PdfViewModalProps) => {
     const [totalPages, setTotalPages] = useState(0)
     const [currentPage, setCurrentPage] = useState(1)
@@ -85,21 +87,30 @@ export const PdfViewModal = ({
                                 </button>
                             </div>
                         </div>
-                        <Document
-                            file={url}
-                            onLoadSuccess={({ numPages }) => {
-                                setTotalPages(numPages)
-                            }}
-                            loading={
-                                <div className="min-w-[595px] min-h-[842px]">
-                                    <p className="text-center font-semibold text-gray-500 mt-16">
-                                        Loading PDF...
-                                    </p>
-                                </div>
-                            }
-                        >
-                            <Page pageNumber={currentPage} />
-                        </Document>
+                        {extension === 'pdf' ? (
+                            <Document
+                                file={url}
+                                onLoadSuccess={({ numPages }) => {
+                                    setTotalPages(numPages)
+                                }}
+                                loading={
+                                    <div className="min-w-[595px] min-h-[842px]">
+                                        <p className="text-center font-semibold text-gray-500 mt-16">
+                                            Loading PDF...
+                                        </p>
+                                    </div>
+                                }
+                            >
+                                <Page pageNumber={currentPage} />
+                            </Document>
+                        ) : (
+                            <div className="p-2">
+                                <Typography>
+                                    Document is not a PDF format, so plzz
+                                    download the file then view the document
+                                </Typography>
+                            </div>
+                        )}
                     </div>
                 </div>
 

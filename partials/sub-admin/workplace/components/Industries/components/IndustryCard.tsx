@@ -17,7 +17,10 @@ import { FaRemoveFormat } from 'react-icons/fa'
 import { MdDelete } from 'react-icons/md'
 
 import { AddIndustryCB } from '@partials/sub-admin/workplace/contextBar'
-import { RemoveIndustryModal } from '@partials/sub-admin/workplace/modals'
+import {
+    RemoveIndustryModal,
+    RemoveWorkplaceAppliedIndustryModal,
+} from '@partials/sub-admin/workplace/modals'
 
 export const IndustryCard = ({
     industry,
@@ -113,9 +116,7 @@ export const IndustryCard = ({
                                 rounded
                                 Icon={MdDelete}
                                 variant={'error'}
-                                onClick={() =>
-                                    onDeleteIndustry(industry?.industry)
-                                }
+                                onClick={() => onDeleteIndustry(industry)}
                                 title="Delete Industry"
                             />
                         </div>
