@@ -77,4 +77,54 @@ export const studentEndpoints = (
         },
         invalidatesTags: ['Rto-Students'],
     }),
+    getNotContactableStudents: builder.query<any, any>({
+        query: () => `statistics/rto/student/not-contactable`,
+        providesTags: ['Rto-Students'],
+    }),
+    getBlockedStudentsReport: builder.query<any, any>({
+        query: () => `statistics/rto/students/blocked`,
+        providesTags: ['Rto-Students'],
+    }),
+    getArchivedStudentsReport: builder.query<any, any>({
+        query: () => `statistics/rto/students/archived`,
+        providesTags: ['Rto-Students'],
+    }),
+    
+    getNewStudentsReport: builder.query<any, any>({
+        query: (params) => {
+            return {
+                url: `statistics/rto/new-students`,
+                params,
+            }
+        },
+        providesTags: ['Rto-Students'],
+    }),
+    getCancelledWorkplaceReport: builder.query<any, any>({
+        query: (params) => {
+            return {
+                url: `statistics/rto/workplace-requests/cancelled`,
+                params,
+            }
+        },
+        providesTags: ['Rto-Students'],
+    }),
+    getCompletedWorkplaceReport: builder.query<any, any>({
+        query: (params) => {
+            return {
+                url: `statistics/rto/workplace-requests/completed`,
+                params,
+            }
+        },
+        providesTags: ['Rto-Students'],
+    }),
+    getTerminatedWorkplaceReport: builder.query<any, any>({
+        query: (params) => {
+            return {
+                url: `statistics/rto/workplace-requests/terminated`,
+                params,
+            }
+        },
+        providesTags: ['Rto-Students'],
+    }),
+
 })
