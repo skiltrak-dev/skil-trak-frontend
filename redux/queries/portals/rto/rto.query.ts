@@ -80,6 +80,11 @@ export const {
     useStudentsCountQuery,
     useStudentsImportMutation,
     useAddStudentMutation,
+    useGetNotContactableStudentsQuery,
+    useGetArchivedStudentsReportQuery,
+    useGetCompletedWorkplaceReportQuery,
+    useGetTerminatedWorkplaceReportQuery,
+
 
     // ------ COORDINATOR ------ //
     useGetRtoCoordinatorsQuery,
@@ -119,6 +124,9 @@ export const {
     useRemoveRTOStudentMutation,
     useGetRtoStudentProfileQuery,
     useChangeRTOStudentsStatusMutation,
+    useGetNewStudentsReportQuery,
+    useGetCancelledWorkplaceReportQuery,
+    useGetBlockedStudentsReportQuery,
 
     // --- WORKPLACES --- //
     useGetRTOWorkplacesQuery,
@@ -139,6 +147,13 @@ export const RtoApi = {
         useCount: useStudentsCountQuery,
         useImportStudents: useStudentsImportMutation,
         useAddStudent: useAddStudentMutation,
+        useGetNotContactableStudents: useGetNotContactableStudentsQuery,
+        useNewStudentsReport: useGetNewStudentsReportQuery,
+        useCancelledWorkplaceReport:useGetCancelledWorkplaceReportQuery,
+        useBlockedStudentsReport:useGetBlockedStudentsReportQuery,
+        useArchivedStudentsReport: useGetArchivedStudentsReportQuery,
+        useCompletedWorkplaceReport: useGetCompletedWorkplaceReportQuery,
+        useTerminatedWorkplaceReport:useGetTerminatedWorkplaceReportQuery,
     },
     Coordinator: {
         useCreate: useCoordinatorCreateMutation,
