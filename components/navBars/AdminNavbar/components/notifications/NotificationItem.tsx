@@ -1,5 +1,5 @@
 import { Typography } from '@components'
-import { trimString } from '@utils'
+import { ellipsisText, trimString } from '@utils'
 import moment from 'moment'
 import { MouseEventHandler } from 'react'
 import { AiFillBell, AiOutlineMail } from 'react-icons/ai'
@@ -33,7 +33,13 @@ export const NotificationItem = ({
             className="flex items-center border-b py-2 px-4 hover:bg-secondary cursor-pointer"
         >
             {icon ? (
-                <div className={`${!resultIsReadNotification.isSuccess && !isRead ? "text-blue-400" : "text-gray-500"} bg-gray-300 h-8 w-8 rounded-md flex items-center justify-center text-2xl mr-2`}>
+                <div
+                    className={`${
+                        !resultIsReadNotification.isSuccess && !isRead
+                            ? 'text-blue-400'
+                            : 'text-gray-500'
+                    } bg-gray-300 h-8 w-8 rounded-md flex items-center justify-center text-2xl mr-2`}
+                >
                     <Icon />
                 </div>
             ) : avatar ? (
@@ -43,7 +49,13 @@ export const NotificationItem = ({
                     alt=""
                 />
             ) : (
-                <div className={`${!resultIsReadNotification.isSuccess && !isRead ? "text-blue-400" : "text-gray-500"} bg-gray-300 h-8 w-8 rounded-md flex items-center justify-center text-2xl mr-2`}>
+                <div
+                    className={`${
+                        !resultIsReadNotification.isSuccess && !isRead
+                            ? 'text-blue-400'
+                            : 'text-gray-500'
+                    } bg-gray-300 h-8 w-8 rounded-md flex items-center justify-center text-2xl mr-2`}
+                >
                     <AiFillBell />
                 </div>
             )}
@@ -51,7 +63,11 @@ export const NotificationItem = ({
             <div className="flex-grow">
                 {/* <Typography variant={'subtitle'} color={`${!resultIsReadNotification.isSuccess && !isRead ? "text-blue-400" : 'text-muted'}`}>{title.substring(0, 10)}...</Typography> */}
                 <div
-                    className={`${!resultIsReadNotification.isSuccess && !isRead ? "text-blue-400" : 'text-gray-300'}`}
+                    className={`${
+                        !resultIsReadNotification.isSuccess && !isRead
+                            ? 'text-blue-400'
+                            : 'text-gray-300'
+                    }`}
                     dangerouslySetInnerHTML={{
                         __html: title.substring(0, 10),
                     }}
@@ -61,19 +77,29 @@ export const NotificationItem = ({
                     {description.substring(0, 10)}
                 </Typography> */}
                 <div
-                    className={`${!resultIsReadNotification.isSuccess && !isRead ? "text-blue-400" : 'text-gray-300'}`}
+                    className={`${
+                        !resultIsReadNotification.isSuccess && !isRead
+                            ? 'text-blue-400'
+                            : 'text-gray-300'
+                    }`}
                     dangerouslySetInnerHTML={{
-                        __html: description.substring(0, 10),
+                        __html: ellipsisText(description, 10),
                     }}
                 />
             </div>
             <div className="flex flex-col items-end">
                 <Typography variant={'small'} color={'text-muted'}>
-                    {moment(new Date(timestamp)).format(
-                        'dddd, MMMM'
-                    )}
+                    {moment(new Date(timestamp)).format('dddd, MMMM')}
                 </Typography>
-                {!resultIsReadNotification.isSuccess && !isRead ? (<><AiOutlineMail className='text-blue-400' /></>) : (<><HiOutlineMailOpen /></>)}
+                {!resultIsReadNotification.isSuccess && !isRead ? (
+                    <>
+                        <AiOutlineMail className="text-blue-400" />
+                    </>
+                ) : (
+                    <>
+                        <HiOutlineMailOpen />
+                    </>
+                )}
             </div>
         </div>
     )
