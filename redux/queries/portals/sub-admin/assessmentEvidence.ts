@@ -102,8 +102,8 @@ export const assessmentEvidenceEndpoints = (
         }),
         invalidatesTags: ['AssessmentEvidence', 'SubAdminStudents'],
     }),
-    submitAssessmentEvidence: builder.mutation<any, any | null>({
-        query: ({ id, body }: any) => ({
+    submitAssessmentEvidence: builder.mutation<any, any>({
+        query: ({ id, body }) => ({
             url: `${PREFIX}/student/assessment-evidence/result/${id}`,
             method: 'PATCH',
             body,
