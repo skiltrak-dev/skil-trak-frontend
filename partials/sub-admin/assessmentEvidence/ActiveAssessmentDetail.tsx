@@ -147,7 +147,8 @@ export const ActiveAssessmentDetail = ({
                     ? studentCourses?.data?.find(
                           (c: any) => c?.id === selectedCourse?.id
                       )
-                    : course
+                    : //   for subadmin portal assessment submission page
+                    course
                     ? studentCourses?.data?.find((c: any) => c?.id == course)
                     : studentCourses?.data[0]
             )
@@ -156,7 +157,13 @@ export const ActiveAssessmentDetail = ({
 
     useEffect(() => {
         if (getFolders.isSuccess) {
-            setSelectedFolder(selectedFolder || getFolders?.data[0])
+            setSelectedFolder(
+                selectedFolder
+                    ? getFolders?.data?.find(
+                          (folder: any) => folder?.id === selectedFolder?.id
+                      )
+                    : getFolders?.data[0]
+            )
         }
     }, [getFolders])
 
