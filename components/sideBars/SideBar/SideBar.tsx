@@ -7,6 +7,7 @@ import { PortalTypeBadge } from '@components/Badge'
 import { useRouter } from 'next/router'
 import { UserActions } from './components'
 import { getUserCredentials } from '@utils'
+import { IoMdArrowDroprightCircle } from 'react-icons/io'
 
 export const SideBar = ({ routes, portalType }: any) => {
     const router = useRouter()
@@ -27,6 +28,7 @@ export const SideBar = ({ routes, portalType }: any) => {
 
     return (
         <div className="w-56 flex-shrink-0 h-screen pb-24 bg-white border-r border-secondary-dark px-2 py-2 relative overflow-y-scroll remove-scrollbar">
+            {/* <IoMdArrowDroprightCircle className="absolute top-12 scale-150 opacity-50" /> */}
             <Link
                 legacyBehavior
                 href={`/portals/${role === 'subadmin' ? 'sub-admin' : role}`}
