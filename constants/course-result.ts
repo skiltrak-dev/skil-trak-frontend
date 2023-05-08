@@ -1,4 +1,5 @@
 export enum Result {
+    NotSubmitted = 'Not Submitted',
     Pending = 'pending',
     NotCompetent = 'notCompetent',
     Competent = 'competent',
