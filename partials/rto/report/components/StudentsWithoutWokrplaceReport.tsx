@@ -1,20 +1,23 @@
 import { EmptyData, InitialAvatar, LoadingAnimation, Table, TechnicalError, Typography } from '@components'
 import { CourseDot } from '@partials/rto/student/components'
-import React, { useState } from 'react'
 import { RtoApi } from '@queries'
 import { ColumnDef } from '@tanstack/react-table'
+import React, { useState } from 'react'
+import { FilterReport } from '../FilterReport'
 import { Course } from '@types'
 import { ViewFullListReport } from '../ViewFullListReport'
-type Props = {}
 
-export const NonContactableReport = (props: Props) => {
+
+
+export const StudentsWithoutWorkplaceReport = () => {
     const [itemPerPage, setItemPerPage] = useState(50)
     const [page, setPage] = useState(1)
 
-    const { data, isLoading, isError } = RtoApi.Students.useGetNotContactableStudents({
-        skip: itemPerPage * page - itemPerPage,
-        limit: itemPerPage,
-    });
+    const { data, isLoading, isError } =
+        RtoApi.Students.useWithoutWorkplaceReport({
+            skip: itemPerPage * page - itemPerPage,
+            limit: itemPerPage,
+        })
 
     const columns: ColumnDef<any>[] = [
         {
@@ -25,28 +28,26 @@ export const NonContactableReport = (props: Props) => {
                     id,
                     user: { name, avatar },
                 } = info.row.original || {}
-
                 return (
                     <a className="flex items-center gap-x-2">
                         <InitialAvatar name={name} imageUrl={avatar} />
-                        <div className='flex flex-col'>
+                        <div className="flex flex-col">
                             <span>{id}</span>
-                            <span>
-                                {name}
-                            </span>
+                            <span>{name}</span>
                         </div>
                     </a>
                 )
             },
-
         },
         {
             accessorKey: 'email',
             header: () => <span>Email</span>,
             cell: (info) => {
-                const { user: { email } } = info.row.original || {}
+                const {
+                    user: { email },
+                } = info.row.original || {}
                 return <span>{email}</span>
-            }
+            },
         },
         {
             accessorKey: 'phone',
@@ -61,43 +62,35 @@ export const NonContactableReport = (props: Props) => {
                 ))
             },
         },
-
-
     ]
     const count = data?.data?.length;
     return (
         <>
-            <div className="flex justify-between items-start">
+            <div className="flex justify-between items-center">
                 <div className="">
                     <Typography variant="title" color="text-gray-400">
-                        Non Contactable Students
+                        Students Without Workplace
                     </Typography>
                     <Typography variant="h3">{count || 0}</Typography>
                 </div>
-                <ViewFullListReport data={data} columns={columns} />
-            </div>
 
+
+                <ViewFullListReport data={data} columns={columns} />
+
+            </div>
             {isError && <TechnicalError />}
             {isLoading ? (
                 <LoadingAnimation height="h-[60vh]" />
             ) : data?.data && data?.data?.length ? (
                 <Table columns={columns} data={data?.data}>
-                    {({
-                        table,
-                        pagination,
-                        pageSize,
-                        quickActions,
-                    }: any) => {
+                    {({ table, pagination, pageSize, quickActions }: any) => {
                         return (
                             <div>
                                 <div className="p-6 mb-2 flex justify-between">
                                     {pageSize(itemPerPage, setItemPerPage)}
                                     <div className="flex gap-x-2">
                                         {quickActions}
-                                        {pagination(
-                                            data?.pagination,
-                                            setPage
-                                        )}
+                                        {pagination(data?.pagination, setPage)}
                                     </div>
                                 </div>
                                 <div className="px-6">{table}</div>
@@ -108,9 +101,9 @@ export const NonContactableReport = (props: Props) => {
             ) : (
                 !isError && (
                     <EmptyData
-                        title={'No Not Contactable Students Found'}
+                        title={'No Without Workplace Students Found'}
                         description={
-                            'There is no any Not Contactable Students yet'
+                            'There is no Without Workplace Students yet'
                         }
                         height={'50vh'}
                     />

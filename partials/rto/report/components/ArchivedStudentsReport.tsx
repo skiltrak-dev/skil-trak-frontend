@@ -1,8 +1,10 @@
-import { EmptyData, InitialAvatar, LoadingAnimation, Table, TechnicalError } from '@components'
-import { SectorCell } from '@partials/rto/student/components'
+import { EmptyData, InitialAvatar, LoadingAnimation, Table, TechnicalError, Typography } from '@components'
+import { CourseDot } from '@partials/rto/student/components'
 import React, { useState } from 'react'
 import { RtoApi } from '@queries'
 import { ColumnDef } from '@tanstack/react-table'
+import { Course } from '@types'
+import { ViewFullListReport } from '../ViewFullListReport'
 type Props = {}
 
 export const ArchivedStudentsReport = (props: Props) => {
@@ -55,14 +57,26 @@ export const ArchivedStudentsReport = (props: Props) => {
             accessorKey: 'courses',
             header: () => <span>Courses</span>,
             cell: (info) => {
-                return <SectorCell student={info.row.original} />
+                return info?.row?.original?.courses?.map((c: Course) => (
+                    <CourseDot key={c?.id} course={c} />
+                ))
             },
         },
 
 
     ]
+    const count = data?.data?.length;
     return (
         <>
+            <div className="flex justify-between items-center">
+                <div className="">
+                    <Typography variant="title" color="text-gray-400">
+                        Archived Students
+                    </Typography>
+                    <Typography variant="h3">{count || 0}</Typography>
+                </div>
+                <ViewFullListReport data={data} columns={columns} />
+            </div>
 
             {isError && <TechnicalError />}
             {isLoading ? (

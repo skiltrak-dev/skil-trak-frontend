@@ -85,7 +85,6 @@ export const {
     useGetCompletedWorkplaceReportQuery,
     useGetTerminatedWorkplaceReportQuery,
 
-
     // ------ COORDINATOR ------ //
     useGetRtoCoordinatorsQuery,
     useRemoveCoordinatorMutation,
@@ -127,6 +126,11 @@ export const {
     useGetNewStudentsReportQuery,
     useGetCancelledWorkplaceReportQuery,
     useGetBlockedStudentsReportQuery,
+    useGetWorkplaceRequestsReportQuery,
+    useGetWithoutWorkplaceReportQuery,
+    useGetAppointmentsReportQuery,
+    useGetReportedStudentsReportQuery,
+    useGetReportDownloadLinkQuery,
 
     // --- WORKPLACES --- //
     useGetRTOWorkplacesQuery,
@@ -149,11 +153,16 @@ export const RtoApi = {
         useAddStudent: useAddStudentMutation,
         useGetNotContactableStudents: useGetNotContactableStudentsQuery,
         useNewStudentsReport: useGetNewStudentsReportQuery,
-        useCancelledWorkplaceReport:useGetCancelledWorkplaceReportQuery,
-        useBlockedStudentsReport:useGetBlockedStudentsReportQuery,
+        useCancelledWorkplaceReport: useGetCancelledWorkplaceReportQuery,
+        useBlockedStudentsReport: useGetBlockedStudentsReportQuery,
         useArchivedStudentsReport: useGetArchivedStudentsReportQuery,
         useCompletedWorkplaceReport: useGetCompletedWorkplaceReportQuery,
-        useTerminatedWorkplaceReport:useGetTerminatedWorkplaceReportQuery,
+        useTerminatedWorkplaceReport: useGetTerminatedWorkplaceReportQuery,
+        useWorkplaceRequestReport: useGetWorkplaceRequestsReportQuery,
+        useWithoutWorkplaceReport: useGetWithoutWorkplaceReportQuery,
+        useAppointmentsReport: useGetAppointmentsReportQuery,
+        useReportedStudentsReport: useGetReportedStudentsReportQuery,
+        useReportDownloadLink: useGetReportDownloadLinkQuery,
     },
     Coordinator: {
         useCreate: useCoordinatorCreateMutation,

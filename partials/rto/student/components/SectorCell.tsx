@@ -24,7 +24,7 @@ export const SectorCell = ({ student }: { student: Student }) => {
                     View
                 </ActionButton>
                 <div className="flex gap-x-1">
-                    {student.courses.map((c: Course) => (
+                    {student?.courses?.map((c: Course) => (
                         <CourseDot key={c?.id} course={c} />
                     ))}
                 </div>

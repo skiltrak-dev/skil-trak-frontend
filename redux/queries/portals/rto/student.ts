@@ -1,3 +1,4 @@
+import { Students } from '@partials/sub-admin/indestries'
 import { BaseQueryFn } from '@reduxjs/toolkit/dist/query/baseQueryTypes'
 import { EndpointBuilder } from '@reduxjs/toolkit/dist/query/endpointDefinitions'
 
@@ -89,7 +90,7 @@ export const studentEndpoints = (
         query: () => `statistics/rto/students/archived`,
         providesTags: ['Rto-Students'],
     }),
-    
+
     getNewStudentsReport: builder.query<any, any>({
         query: (params) => {
             return {
@@ -122,6 +123,42 @@ export const studentEndpoints = (
             return {
                 url: `statistics/rto/workplace-requests/terminated`,
                 params,
+            }
+        },
+        providesTags: ['Rto-Students'],
+    }),
+    getWorkplaceRequestsReport: builder.query<any, any>({
+        query: (params) => {
+            return {
+                url: `statistics/rto/workplace-requests`,
+                params,
+            }
+        },
+        providesTags: ['Rto-Students'],
+    }),
+    getAppointmentsReport: builder.query<any, any>({
+        query: (params) => {
+            return {
+                url: `statistics/rto/appointments/list`,
+                params,
+            }
+        },
+        providesTags: ['Rto-Students'],
+    }),
+    getWithoutWorkplaceReport: builder.query<any, any>({
+        query: () => `statistics/rto/students/list/with-out-workplace`,
+        providesTags: ['Rto-Students'],
+    }),
+    getReportedStudentsReport: builder.query<any, any>({
+        query: () => `statistics/rto/students/reported`,
+        providesTags: ['Rto-Students'],
+    }),
+    getReportDownloadLink: builder.query<any, any>({
+        query: (id) => {
+            console.log("params",id)
+            return {
+                url: `statistics/rto/summary/generate/${id}`,
+                responseType: 'arraybuffer',
             }
         },
         providesTags: ['Rto-Students'],
