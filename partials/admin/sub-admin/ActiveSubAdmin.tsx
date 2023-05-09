@@ -46,7 +46,7 @@ export const ActiveSubAdmin = () => {
     // hooks
     const { passwordModal, onViewPassword } = useActionModal()
 
-    const { isLoading, data, isError, refetch } =
+    const { isLoading, isFetching, data, isError, refetch } =
         AdminApi.SubAdmins.useListQuery(
             {
                 search: `status:${UserStatus.Approved}`,
@@ -223,7 +223,7 @@ export const ActiveSubAdmin = () => {
 
                 <Card noPadding>
                     {isError && <TechnicalError />}
-                    {isLoading ? (
+                    {isLoading || isFetching ? (
                         <LoadingAnimation height="h-[60vh]" />
                     ) : data && data?.data.length ? (
                         <Table

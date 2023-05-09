@@ -250,7 +250,7 @@ export const FilteredStudents = ({
                 />
 
                 <Card noPadding>
-                    {student?.isLoading ? (
+                    {student?.isLoading || student.isFetching ? (
                         <LoadingAnimation height="h-[60vh]" />
                     ) : student?.data && student?.data?.data.length ? (
                         <Table

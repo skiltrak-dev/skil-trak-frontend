@@ -20,8 +20,7 @@ const Page = () => {
             .then((res) => {
                 setTeamList(res.data)
             })
-            .catch((err) => {
-            })
+            .catch((err) => {})
     }, [])
 
     return (

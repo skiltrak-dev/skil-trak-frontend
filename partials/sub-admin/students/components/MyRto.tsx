@@ -17,6 +17,7 @@ import { ActionButton } from '@components'
 import { getUserCredentials } from '@utils'
 
 export const MyRto = ({ myRto }: any) => {
+    console.log('myRto', myRto)
     const pathname = useRouter()
     const role = getUserCredentials()?.role
     return (
@@ -31,6 +32,27 @@ export const MyRto = ({ myRto }: any) => {
                     </div>
                     <p className="text-sm font-semibold">My RTO</p>
                 </div>
+
+                {role !== 'rto' ? (
+                    <ActionButton
+                        variant="success"
+                        onClick={() => {
+                            pathname.push(
+                                role === 'admin'
+                                    ? {
+                                          pathname: `/portals/admin/rto/${myRto?.rto?.id}`,
+                                          query: { tab: 'sectors' },
+                                      }
+                                    : {
+                                          pathname: `/portals/sub-admin/users/rtos/${myRto?.rto?.id}`,
+                                          query: { tab: 'overview' },
+                                      }
+                            )
+                        }}
+                    >
+                        See Details
+                    </ActionButton>
+                ) : null}
 
                 {/* Action */}
                 {/* <Link
