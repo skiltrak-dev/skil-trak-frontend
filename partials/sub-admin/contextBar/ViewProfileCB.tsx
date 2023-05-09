@@ -1,20 +1,25 @@
-import { ActionButton, NoData, Typography } from '@components'
+import { ActionButton, LoadingAnimation, NoData, Typography } from '@components'
 import { SubAdminApi } from '@queries'
 import { useRouter } from 'next/router'
 import { Course } from '@types'
 import Image from 'next/image'
 import { AiFillEdit } from 'react-icons/ai'
 import { BsUnlockFill } from 'react-icons/bs'
-import { FaAddressCard } from 'react-icons/fa'
+import { FaAddressCard, FaBirthdayCake, FaUserCircle } from 'react-icons/fa'
 import { IoLocation } from 'react-icons/io5'
 import { MdAdminPanelSettings, MdPhone, MdVerified } from 'react-icons/md'
 
 // hooks
 import { useActionModal } from '@hooks'
+import moment from 'moment'
+import { Fragment } from 'react'
 
 export const ViewProfileCB = () => {
     const router = useRouter()
-    const { data, isSuccess, isLoading } = SubAdminApi.SubAdmin.useProfile()
+    const { data, isSuccess, isLoading, isFetching } =
+        SubAdminApi.SubAdmin.useProfile()
+
+    console.log(data?.dob, 'KAKA')
 
     const { onUpdatePassword, passwordModal } = useActionModal()
 
@@ -33,219 +38,191 @@ export const ViewProfileCB = () => {
     }
     const sectorsWithCourses = getSectors(data?.courses)
     return (
-        <div>
-            {passwordModal && passwordModal}
-            <div className="flex flex-col">
-                <div className="relative flex flex-col items-center">
-                    <div className="flex justify-end gap-x-2 absolute top-0 right-0">
-                        <ActionButton
-                            rounded
-                            Icon={AiFillEdit}
-                            variant={'info'}
-                            onClick={() =>
-                                router.push('/portals/sub-admin/my-profile')
-                            }
-                            title="Edit Profile"
-                        />
+        <>
+            {isLoading || isFetching ? (
+                <LoadingAnimation height={'h-[40vh]'} size={80} />
+            ) : (
+                <div>
+                    {passwordModal && passwordModal}
+                    <div className="flex flex-col">
+                        <div className="relative flex flex-col items-center">
+                            <div className="flex justify-end gap-x-2 absolute top-0 right-0">
+                                <ActionButton
+                                    rounded
+                                    Icon={AiFillEdit}
+                                    variant={'info'}
+                                    onClick={() =>
+                                        router.push(
+                                            '/portals/sub-admin/my-profile'
+                                        )
+                                    }
+                                    title="Edit Profile"
+                                />
 
-                        <ActionButton
-                            rounded
-                            Icon={BsUnlockFill}
-                            variant={'neutral'}
-                            onClick={() => onUpdatePassword(data)}
-                            title="Edit Password"
-                        />
-                        {/* <div className="bg-blue-100 rounded-full p-1">
-                            <AiFillEdit
-                                className="text-blue-400  cursor-pointer"
-                                onClick={() =>
-                                    router.push('/portals/sub-admin/my-profile')
-                                }
-                            />
+                                <ActionButton
+                                    rounded
+                                    Icon={BsUnlockFill}
+                                    variant={'neutral'}
+                                    onClick={() => onUpdatePassword(data)}
+                                    title="Edit Password"
+                                />
+                            </div>
+                            {data?.user.avatar ? (
+                                <Image
+                                    src={data?.user.avatar}
+                                    width={100}
+                                    height={100}
+                                    alt=""
+                                    className="rounded-full shadow-inner-image"
+                                />
+                            ) : (
+                                <div className="h-24 w-24 flex items-center justify-center bg-gray-100 rounded-full">
+                                    <span className="text-4xl text-gray-300">
+                                        <MdAdminPanelSettings />
+                                    </span>
+                                </div>
+                            )}
+                            <div
+                                className={`${
+                                    data?.user.avatar
+                                        ? 'w-[100px] h-[100px]'
+                                        : 'w-24 h-24'
+                                } absolute top-0 w-[100px] h-[100px] bg-transparent rounded-full shadow-inner-image`}
+                            ></div>
                         </div>
-                        <div
-                            className="bg-blue-100 rounded-full p-1"
-                            onClick={() => onUpdatePassword(data)}
-                        >
-                            <BsUnlockFill className="text-blue-400  cursor-pointer" />
-                        </div> */}
-                    </div>
-                    {data?.user.avatar ? (
-                        <Image
-                            src={data?.user.avatar}
-                            width={100}
-                            height={100}
-                            alt=""
-                            className="rounded-full shadow-inner-image"
-                        />
-                    ) : (
-                        <div className="h-24 w-24 flex items-center justify-center bg-gray-100 rounded-full">
-                            <span className="text-4xl text-gray-300">
-                                <MdAdminPanelSettings />
-                            </span>
+
+                        <div className="flex flex-col items-center">
+                            <p className="text-lg font-semibold">
+                                {data?.user?.name}
+                            </p>
+                            <div className="flex items-center gap-x-2">
+                                <p className="text-sm text-gray-400">
+                                    {data?.user?.email}
+                                </p>
+                                <span className="text-blue-500">
+                                    <MdVerified />
+                                </span>
+                            </div>
                         </div>
-                    )}
-                    <div
-                        className={`${
-                            data?.user.avatar
-                                ? 'w-[100px] h-[100px]'
-                                : 'w-24 h-24'
-                        } absolute top-0 w-[100px] h-[100px] bg-transparent rounded-full shadow-inner-image`}
-                    ></div>
-                </div>
+                    </div>
 
-                <div className="flex flex-col items-center">
-                    <p className="text-lg font-semibold">{data?.user?.name}</p>
-                    <div className="flex items-center gap-x-2">
-                        <p className="text-sm text-gray-400">
-                            {data?.user?.email}
-                        </p>
-                        <span className="text-blue-500">
-                            <MdVerified />
-                        </span>
-                    </div>
-                </div>
-            </div>
+                    {/* Info Row 1 */}
+                    <div className="flex justify-between divide-x border-b mt-4">
+                        <div className="p-2">
+                            <div className="flex items-center space-x-2">
+                                <span className="text-gray-300">
+                                    <FaAddressCard />
+                                </span>
+                                <p className="text-sm font-medium">
+                                    {data?.coordinatorId}
+                                </p>
+                            </div>
+                            <div className="text-gray-400 text-[11px] -mt-0.5 text-center">
+                                Coordinator ID
+                            </div>
+                        </div>
 
-            {/* Info Row 1 */}
-            <div className="flex justify-between divide-x border-b mt-4">
-                <div className="p-2">
-                    <div className="flex items-center space-x-2">
-                        <span className="text-gray-300">
-                            <FaAddressCard />
-                        </span>
-                        <p className="text-sm font-medium">
-                            {data?.coordinatorId}
-                        </p>
+                        <div className="p-2">
+                            <div className="flex items-center space-x-2">
+                                <span className="text-gray-300">
+                                    <MdPhone />
+                                </span>
+                                <p className="text-sm font-medium">
+                                    {data?.phone}
+                                </p>
+                            </div>
+                            <div className="text-gray-400 text-[11px] -mt-0.5 text-center">
+                                Phone Number
+                            </div>
+                        </div>
                     </div>
-                    <div className="text-gray-400 text-[11px] -mt-0.5 text-center">
-                        Coordinator ID
-                    </div>
-                </div>
 
-                {/* <div className="p-2">
-                    <div className="flex items-center space-x-2">
-                        <span className="text-gray-300">
-                            <MdBatchPrediction />
-                        </span>
-                        <p className="text-sm font-medium">April 22</p>
+                    {/* Info Row 2 */}
+                    <div className="flex justify-around divide-x border-b">
+                        <div className="p-2">
+                            <div className="flex items-center space-x-2">
+                                <span className="text-gray-300">
+                                    <FaUserCircle />
+                                </span>
+                                <p className="text-sm font-medium">Male</p>
+                            </div>
+                            <div className="text-gray-400 text-[11px] -mt-0.5 text-center">
+                                Gender
+                            </div>
+                        </div>
                     </div>
-                    <div className="text-gray-400 text-[11px] -mt-0.5 text-center">
-                        Batch
-                    </div>
-                </div> */}
 
-                <div className="p-2">
-                    <div className="flex items-center space-x-2">
-                        <span className="text-gray-300">
-                            <MdPhone />
-                        </span>
-                        <p className="text-sm font-medium">{data?.phone}</p>
+                    {/* Info Row 3 */}
+                    <div className="flex justify-around divide-x border-b">
+                        <div className="p-2">
+                            <div className="flex items-center space-x-2">
+                                <span className="text-gray-300">
+                                    <IoLocation />
+                                </span>
+                                <p className="text-sm font-medium">
+                                    {data?.addressLine1 ||
+                                        'No Address Provided'}
+                                    ,
+                                </p>
+                            </div>
+                            <div className="text-gray-400 text-[11px] -mt-0.5 text-center">
+                                Address
+                            </div>
+                        </div>
                     </div>
-                    <div className="text-gray-400 text-[11px] -mt-0.5 text-center">
-                        Phone Number
-                    </div>
-                </div>
-            </div>
+                    {/* Eligible sectors */}
+                    <div className="mt-4">
+                        <Typography variant={'small'} color={'text-gray-500'}>
+                            Eligible Sectors
+                        </Typography>
 
-            {/* Info Row 2 */}
-            {/* <div className="flex justify-around divide-x border-b">
-                <div className="p-2">
-                    <div className="flex items-center space-x-2">
-                        <span className="text-gray-300">
-                            <FaBirthdayCake />
-                        </span>
-                        <p className="text-sm font-medium">
-                            {moment(data?.dob).format('LL')}
-                        </p>
-                    </div>
-                    <div className="text-gray-400 text-[11px] -mt-0.5 text-center">
-                        Date Of Birth
-                    </div>
-                </div>
-
-                <div className="p-2">
-                    <div className="flex items-center space-x-2">
-                        <span className="text-gray-300">
-                            <FaUserCircle />
-                        </span>
-                        <p className="text-sm font-medium">Male</p>
-                    </div>
-                    <div className="text-gray-400 text-[11px] -mt-0.5 text-center">
-                        Gender
-                    </div>
-                </div>
-            </div> */}
-
-            {/* Info Row 3 */}
-            <div className="flex justify-around divide-x border-b">
-                <div className="p-2">
-                    <div className="flex items-center space-x-2">
-                        <span className="text-gray-300">
-                            <IoLocation />
-                        </span>
-                        <p className="text-sm font-medium">
-                            {data?.addressLine1}, {data?.addressLine2},{' '}
-                            {data?.state}, {data?.suburb}
-                            {/* {data?.addressLine1} */}
-                        </p>
-                    </div>
-                    <div className="text-gray-400 text-[11px] -mt-0.5 text-center">
-                        Address
-                    </div>
-                </div>
-            </div>
-            {/* Eligible sectors */}
-            {/* <div className="mt-4">
-                <Typography variant={'small'} color={'text-gray-500'}>
-                    Eligible Sectors
-                </Typography>
-
-                {sectorsWithCourses ? (
-                    Object.keys(sectorsWithCourses).map((sector) => {
-                        return (
-                            <>
-                                <Typography
-                                    variant={'label'}
-                                    color={'text-black'}
-                                >
-                                    {sector}
-                                </Typography>
-
-                                {(sectorsWithCourses as any)[sector]?.map(
-                                    (c: Course) => (
-                                        <div
-                                            key={c?.id}
-                                            className="flex gap-x-2 justify-start"
+                        {sectorsWithCourses ? (
+                            Object.keys(sectorsWithCourses).map((sector, i) => {
+                                return (
+                                    <Fragment key={i}>
+                                        <Typography
+                                            variant={'label'}
+                                            color={'text-black'}
                                         >
-                                            <div className="flex flex-col items-center">
-                                                <div className="bg-blue-400 p-2 rounded-full"></div>
-                                                <div className="bg-blue-400 w-[1px] h-full"></div>
+                                            {sector}
+                                        </Typography>
+
+                                        {(sectorsWithCourses as any)[
+                                            sector
+                                        ]?.map((c: Course) => (
+                                            <div
+                                                key={c?.id}
+                                                className="flex gap-x-2 justify-start"
+                                            >
+                                                <div className="flex flex-col items-center">
+                                                    <div className="bg-blue-400 p-2 rounded-full"></div>
+                                                    <div className="bg-blue-400 w-[1px] h-full"></div>
+                                                </div>
+                                                <div className="pb-2">
+                                                    <Typography
+                                                        variant={'small'}
+                                                        color={'text-gray-500'}
+                                                    >
+                                                        {c?.code}
+                                                    </Typography>
+                                                    <Typography
+                                                        variant={'small'}
+                                                        color={'text-gray-800'}
+                                                    >
+                                                        {c?.title}
+                                                    </Typography>
+                                                </div>
                                             </div>
-                                            <div className="pb-2">
-                                                <Typography
-                                                    variant={'small'}
-                                                    color={'text-gray-500'}
-                                                >
-                                                    {c?.code}
-                                                </Typography>
-                                                <Typography
-                                                    variant={'small'}
-                                                    color={'text-gray-800'}
-                                                >
-                                                    {c?.title}
-                                                </Typography>
-                                            </div>
-                                        </div>
-                                    )
-                                )}
-                            </>
-                        )
-                    })
-                ) : (
-                    <NoData text={'No Sectors Assigned'} />
-                )}
-            </div> */}
-        </div>
+                                        ))}
+                                    </Fragment>
+                                )
+                            })
+                        ) : (
+                            <NoData text={'No Sectors Assigned'} />
+                        )}
+                    </div>
+                </div>
+            )}
+        </>
     )
 }
