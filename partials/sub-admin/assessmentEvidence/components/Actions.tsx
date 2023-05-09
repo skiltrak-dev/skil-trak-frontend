@@ -17,7 +17,7 @@ import { useSubmitAssessmentEvidenceMutation } from '@queries'
 import { useNotification } from '@hooks'
 import { getUserCredentials } from '@utils'
 import { yupResolver } from '@hookform/resolvers/yup'
-import { UserRoles } from '@constants'
+import { Result, UserRoles } from '@constants'
 
 export const Actions = ({
     result,
@@ -145,9 +145,9 @@ export const Actions = ({
     }
 
     const ResultOptions = [
-        { label: 'Competent', value: 'competent' },
-        { label: 'Not Competent', value: 'notCompetent' },
-        { label: 'Re-Open', value: 'reOpened' },
+        { label: 'Competent', value: Result.Competent },
+        { label: 'Not Competent', value: Result.NotCompetent },
+        { label: 'Re-Open', value: Result.ReOpened },
     ]
     return (
         <>

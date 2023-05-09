@@ -5,6 +5,7 @@ import { Select, TextInput } from '@components/inputs'
 import { CommonApi } from '@queries'
 import { SetQueryFilters } from './SetQueryFilters'
 import { SelectOption } from './types'
+import { Result } from '@constants'
 interface ItemFilterProps {
     onFilterChange: Function
     filter: any
@@ -58,19 +59,19 @@ export const SubAdminAssessmentsFilters = ({
     const resultOptions = [
         {
             label: 'Pending',
-            value: 'pending',
+            value: Result.Pending,
         },
         {
             label: 'Not Competent',
-            value: 'notCompetent',
+            value: Result.NotCompetent,
         },
         {
             label: 'Competent',
-            value: 'competent',
+            value: Result.Competent,
         },
         {
             label: 'Re-Opened',
-            value: 'reOpened',
+            value: Result.ReOpened,
         },
     ]
 

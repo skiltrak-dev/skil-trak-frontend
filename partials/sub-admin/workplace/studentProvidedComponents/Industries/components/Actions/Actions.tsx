@@ -111,7 +111,7 @@ export const Actions = ({
                     />
                 )}
 
-            {workplace?.industryStatus === 'pending' ? (
+            {workplace?.industryStatus === UserStatus.Pending ? (
                 <div className="flex items-center gap-x-2">
                     <Button
                         text={'Approve Industry'}

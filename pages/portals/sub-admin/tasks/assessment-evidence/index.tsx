@@ -30,6 +30,7 @@ import {
     useGetAssessmentEvidenceQuery,
 } from '@queries'
 import { getCountData, getFilterQuery } from '@utils'
+import { Result } from '@constants'
 
 type Props = {}
 
@@ -108,7 +109,7 @@ const AssessmentEvidence: NextPageWithLayout = (props: Props) => {
             label: 'Pending',
             href: {
                 pathname: 'assessment-evidence',
-                query: { tab: 'pending' },
+                query: { tab: Result.Pending },
             },
             badge: {
                 text: assessMentCount?.pending,
@@ -120,7 +121,7 @@ const AssessmentEvidence: NextPageWithLayout = (props: Props) => {
             label: 'Competent',
             href: {
                 pathname: 'assessment-evidence',
-                query: { tab: 'competent' },
+                query: { tab: Result.Competent },
             },
             badge: {
                 text: assessMentCount?.competent,

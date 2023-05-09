@@ -1,7 +1,7 @@
 import { ReactElement, useEffect, useState } from 'react'
 //Layouts
 import { RtoLayout } from '@layouts'
-import { NextPageWithLayout } from '@types'
+import { NextPageWithLayout, UserStatus } from '@types'
 
 //components
 import {
@@ -69,7 +69,7 @@ const RtoStudents: NextPageWithLayout = (props: Props) => {
     const tabs: TabProps[] = [
         {
             label: 'Pending',
-            href: { pathname: 'students', query: { tab: 'pending' } },
+            href: { pathname: 'students', query: { tab: UserStatus.Pending } },
             badge: {
                 text: studentCount?.pending,
                 loading: count.isLoading,
@@ -91,7 +91,7 @@ const RtoStudents: NextPageWithLayout = (props: Props) => {
                 text: studentCount?.rejected,
                 loading: count.isLoading,
             },
-            href: { pathname: 'students', query: { tab: 'rejected' } },
+            href: { pathname: 'students', query: { tab: UserStatus.Rejected } },
             element: <RejectedStudent />,
         },
         {
@@ -100,7 +100,7 @@ const RtoStudents: NextPageWithLayout = (props: Props) => {
                 text: studentCount?.blocked,
                 loading: count.isLoading,
             },
-            href: { pathname: 'students', query: { tab: 'blocked' } },
+            href: { pathname: 'students', query: { tab: UserStatus.Blocked } },
             element: <BlockedStudent />,
         },
         {
@@ -109,7 +109,7 @@ const RtoStudents: NextPageWithLayout = (props: Props) => {
                 text: studentCount?.archived,
                 loading: count.isLoading,
             },
-            href: { pathname: 'students', query: { tab: 'archived' } },
+            href: { pathname: 'students', query: { tab: UserStatus.Archived } },
             element: <ArchivedStudent />,
         },
     ]

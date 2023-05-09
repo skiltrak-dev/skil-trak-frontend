@@ -1,7 +1,7 @@
 import { ReactElement, useEffect, useState } from 'react'
 //Layouts
 import { SubAdminLayout } from '@layouts'
-import { NextPageWithLayout } from '@types'
+import { NextPageWithLayout, UserStatus } from '@types'
 
 //components
 import {
@@ -73,7 +73,10 @@ const Industries: NextPageWithLayout = (props: Props) => {
     const tabs: TabProps[] = [
         {
             label: 'Pending',
-            href: { pathname: 'industries', query: { tab: 'pending' } },
+            href: {
+                pathname: 'industries',
+                query: { tab: UserStatus.Pending },
+            },
             element: <PendingIndustries />,
             badge: {
                 text: count.data?.pending,
@@ -100,7 +103,10 @@ const Industries: NextPageWithLayout = (props: Props) => {
         },
         {
             label: 'Rejected',
-            href: { pathname: 'industries', query: { tab: 'rejected' } },
+            href: {
+                pathname: 'industries',
+                query: { tab: UserStatus.Rejected },
+            },
             element: <RejectedIndustries />,
             badge: {
                 text: count.data?.rejected,
@@ -109,7 +115,10 @@ const Industries: NextPageWithLayout = (props: Props) => {
         },
         {
             label: 'Blocked',
-            href: { pathname: 'industries', query: { tab: 'blocked' } },
+            href: {
+                pathname: 'industries',
+                query: { tab: UserStatus.Blocked },
+            },
             element: <BlockedIndustries />,
             badge: {
                 text: count.data?.blocked,
@@ -118,7 +127,10 @@ const Industries: NextPageWithLayout = (props: Props) => {
         },
         {
             label: 'Archived',
-            href: { pathname: 'industries', query: { tab: 'archived' } },
+            href: {
+                pathname: 'industries',
+                query: { tab: UserStatus.Archived },
+            },
             element: <ArchivedIndustries />,
             badge: {
                 text: count.data?.archived,

@@ -2,7 +2,7 @@ import { useRouter } from 'next/router'
 import { ReactElement, useEffect } from 'react'
 
 import { IndustryLayout } from '@layouts'
-import { NextPageWithLayout } from '@types'
+import { NextPageWithLayout, UserStatus } from '@types'
 
 import { TabNavigation, TabProps } from '@components/TabNavigation'
 import { PendingStudents, Approved } from '@partials/industry'
@@ -20,12 +20,18 @@ const CurrentStudents: NextPageWithLayout = () => {
     const tabs: TabProps[] = [
         {
             label: 'Pending',
-            href: { pathname: 'current-students', query: { tab: 'pending' } },
+            href: {
+                pathname: 'current-students',
+                query: { tab: UserStatus.Pending },
+            },
             element: <PendingStudents />,
         },
         {
             label: 'Approved',
-            href: { pathname: 'current-students', query: { tab: 'approved' } },
+            href: {
+                pathname: 'current-students',
+                query: { tab: UserStatus.Approved },
+            },
             element: <Approved />,
         },
     ]

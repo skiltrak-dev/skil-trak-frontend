@@ -34,12 +34,14 @@ export type TextInputProps = InputProps & {
     placeholder?: string
     min?: string
     max?: string
+    ref?: any
 }
 
 export const TextInput = ({
     id,
     name,
     label,
+    ref,
 
     type,
     placeholder,
@@ -103,6 +105,7 @@ export const TextInput = ({
                             onBlur
                         )}
                         {...(value ? { value } : {})}
+                        {...(ref ? { ref } : {})}
                     />
 
                     {type === 'password' && (
