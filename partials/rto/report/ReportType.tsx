@@ -18,6 +18,12 @@ export const ReportType = ({
         { label: 'Workplace Request Completed', value: 'workplace-request-completed' },
         { label: 'Workplace Request Terminated', value: 'workplace-request-terminated' },
         { label: 'Archived Students', value: 'archived-students' },
+        { label: 'Workplace Request', value: 'workplace-request' },
+        { label: 'Student Without Workplace Request', value: 'without-workplace-request' },
+        { label: 'Appointments Report', value: 'appointments-report' },
+        { label: 'Reported Students', value: 'reported-students' }
+
+
     ]
 
     const reportOptions = data.map((m) => ({

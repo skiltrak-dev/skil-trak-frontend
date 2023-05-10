@@ -18,6 +18,7 @@ import { RtoApi } from '@queries'
 import { ColumnDef } from '@tanstack/react-table'
 import { SectorCell } from '@partials/rto/student/components'
 import {
+    AppointmentsReport,
     ArchivedStudentsReport,
     BlockedStudentsReport,
     CancelledWorkplaceReport,
@@ -26,7 +27,10 @@ import {
     FilterReport,
     NewStudentReport,
     NonContactableReport,
+    ReportedStudents,
+    StudentsWithoutWorkplaceReport,
     TerminatedWorkplaceReport,
+    WorkplaceRequestReport,
 } from '@partials/rto/report'
 import { ReportType } from '@partials/rto/report/ReportType'
 
@@ -56,40 +60,58 @@ const Report: NextPageWithLayout = () => {
                 />
             </div>
             <Card>
-                {reportType.value === 'non-contactable' ? (
+                {reportType?.value === 'non-contactable' ? (
                     <NonContactableReport />
-                ) : reportType.value === 'new-students' ? (
+                ) : reportType?.value === 'new-students' ? (
                     <NewStudentReport
                         setStartDate={setStartDate}
                         setEndDate={setEndDate}
                         startDate={startDate}
                         endDate={endDate}
                     />
-                ) : reportType.value === 'cancelled-workplace-request' ? (
+                ) : reportType?.value === 'cancelled-workplace-request' ? (
                     <CancelledWorkplaceReport
                         setStartDate={setStartDate}
                         setEndDate={setEndDate}
                         startDate={startDate}
                         endDate={endDate}
                     />
-                ) : reportType.value === 'blocked-students' ? (
+                ) : reportType?.value === 'blocked-students' ? (
                     <BlockedStudentsReport />
-                ) : reportType.value === 'archived-students' ? (
+                ) : reportType?.value === 'archived-students' ? (
                     <ArchivedStudentsReport />
-                ) : reportType.value === 'workplace-request-completed' ? (
+                ) : reportType?.value === 'workplace-request-completed' ? (
                     <CompletedWorkplaceReport
                         setStartDate={setStartDate}
                         setEndDate={setEndDate}
                         startDate={startDate}
                         endDate={endDate}
                     />
-                ) : reportType.value === 'workplace-request-terminated' ? (
+                ) : reportType?.value === 'workplace-request-terminated' ? (
                     <TerminatedWorkplaceReport
                         setStartDate={setStartDate}
                         setEndDate={setEndDate}
                         startDate={startDate}
                         endDate={endDate}
                     />
+                ) : reportType?.value === 'workplace-request' ? (
+                    <WorkplaceRequestReport
+                        setStartDate={setStartDate}
+                        setEndDate={setEndDate}
+                        startDate={startDate}
+                        endDate={endDate}
+                    />
+                ) : reportType?.value === 'without-workplace-request' ? (
+                    <StudentsWithoutWorkplaceReport />
+                ) : reportType?.value === 'appointments-report' ? (
+                    <AppointmentsReport
+                        setStartDate={setStartDate}
+                        setEndDate={setEndDate}
+                        startDate={startDate}
+                        endDate={endDate}
+                    />
+                ) : reportType?.value === 'reported-students' ? (
+                    <ReportedStudents />
                 ) : null}
             </Card>
         </>
