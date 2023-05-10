@@ -113,7 +113,6 @@ export const FilterReport = ({
                     //         view="year"
                     //         showNavigation={false}
                     //         onClickYear={(value, event) => {
-                    //             console.log('value', value)
                     //             handleYearChange(value)
                     //             setShowCalendars(false)
                     //             setDateRange(

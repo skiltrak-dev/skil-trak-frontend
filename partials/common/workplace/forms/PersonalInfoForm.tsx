@@ -150,9 +150,7 @@ export const PersonalInfoForm = ({
 
     const { ref }: any = usePlacesWidget({
         apiKey: process.env.NEXT_PUBLIC_MAP_KEY,
-        onPlaceSelected: (place) => {
-            console.log(place)
-        },
+        onPlaceSelected: (place) => {},
         options: {
             // types: ['(suburbs)'],
             componentRestrictions: {
