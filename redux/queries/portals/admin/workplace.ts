@@ -74,4 +74,8 @@ export const workplaceEndpoints = (
         }),
         invalidatesTags: ['Workplaces'],
     }),
+    getSubadminForAssignWorkplace: builder.query<any, void>({
+        query: () => `${PREFIX}/subadmin/workplace/list`,
+        providesTags: ['Workplaces'],
+    }),
 })
