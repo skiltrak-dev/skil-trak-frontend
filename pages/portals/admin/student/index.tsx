@@ -22,7 +22,7 @@ import {
     RejectedStudent,
 } from '@partials/admin/student'
 import { AdminApi } from '@queries'
-import { NextPageWithLayout } from '@types'
+import { NextPageWithLayout, UserStatus } from '@types'
 import { checkFilteredDataLength, getFilterQuery } from '@utils'
 import { useRouter } from 'next/router'
 
@@ -80,7 +80,7 @@ const StudentList: NextPageWithLayout = () => {
             label: 'Pending',
             href: {
                 pathname: 'student',
-                query: { tab: 'pending', page: 1, pageSize: 50 },
+                query: { tab: UserStatus.Pending, page: 1, pageSize: 50 },
             },
             badge: {
                 text: data?.pending,
@@ -104,7 +104,7 @@ const StudentList: NextPageWithLayout = () => {
             label: 'Rejected',
             href: {
                 pathname: 'student',
-                query: { tab: 'rejected', page: 1, pageSize: 50 },
+                query: { tab: UserStatus.Rejected, page: 1, pageSize: 50 },
             },
             badge: {
                 text: data?.rejected,
@@ -116,7 +116,7 @@ const StudentList: NextPageWithLayout = () => {
             label: 'Blocked',
             href: {
                 pathname: 'student',
-                query: { tab: 'blocked', page: 1, pageSize: 50 },
+                query: { tab: UserStatus.Blocked, page: 1, pageSize: 50 },
             },
             badge: {
                 text: data?.blocked,
@@ -128,7 +128,7 @@ const StudentList: NextPageWithLayout = () => {
             label: 'Archived',
             href: {
                 pathname: 'student',
-                query: { tab: 'archived', page: 1, pageSize: 50 },
+                query: { tab: UserStatus.Archived, page: 1, pageSize: 50 },
             },
             badge: {
                 text: data?.archived,

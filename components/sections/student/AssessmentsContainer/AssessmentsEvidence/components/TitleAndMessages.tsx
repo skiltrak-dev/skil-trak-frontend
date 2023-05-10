@@ -1,5 +1,6 @@
 import { PageTitle } from '@components'
 import { NotificationMessage } from '@components/NotificationMessage'
+import { Result } from '@constants'
 import { UserStatus } from '@types'
 import React from 'react'
 
@@ -8,27 +9,27 @@ export const TitleAndMessages = ({ result }: { result: any }) => {
         <div className="flex flex-col md:flex-row gap-2 justify-between  md:items-center mb-6">
             <PageTitle title="Assessment Evidence" backTitle="Assessment" />
             <div>
-                {result?.result === UserStatus.Pending &&
+                {result?.result === Result.Pending &&
                     result?.totalSubmission < 3 && (
                         <NotificationMessage
                             title={'Submitted For Approval'}
                             subtitle={'Wait for Admin review'}
                         />
                     )}
-                {result?.result === 'reOpened' &&
+                {result?.result === Result.ReOpened &&
                     result?.totalSubmission < 3 && (
                         <NotificationMessage
                             title={'Admin Reopened your request'}
                             subtitle={'You can resubmit your assessment'}
                         />
                     )}
-                {result?.result === 'competent' && (
+                {result?.result === Result.Competent && (
                     <NotificationMessage
                         title={'Congratulations!'}
                         subtitle={'You have successfully passes the Assessment'}
                     />
                 )}
-                {result?.result === 'notCompetent' &&
+                {result?.result === Result.NotCompetent &&
                     result?.totalSubmission < 3 && (
                         <NotificationMessage
                             title={'Failed'}
@@ -37,7 +38,7 @@ export const TitleAndMessages = ({ result }: { result: any }) => {
                             }
                         />
                     )}
-                {result?.result !== 'competent' &&
+                {result?.result !== Result.Competent &&
                     result?.totalSubmission >= 3 &&
                     !result?.isManualSubmission && (
                         <NotificationMessage

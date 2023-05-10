@@ -192,7 +192,10 @@ export const ArchivedSubAdmin = () => {
                 <ActionButton
                     onClick={() => {
                         const arrayOfIds = ids.map((id: any) => id?.user.id)
-                        bulkAction({ ids: arrayOfIds, status: 'approved' })
+                        bulkAction({
+                            ids: arrayOfIds,
+                            status: UserStatus.Approved,
+                        })
                     }}
                     Icon={MdUnarchive}
                     variant="warning"

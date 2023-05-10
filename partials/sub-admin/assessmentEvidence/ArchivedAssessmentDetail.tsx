@@ -34,6 +34,7 @@ import { getDocType } from '@components/sections/student/AssessmentsContainer'
 import { useRouter } from 'next/router'
 import { AiFillDelete } from 'react-icons/ai'
 import { MdEdit } from 'react-icons/md'
+import { Result } from '@constants'
 
 export const ArchivedAssessmentDetail = ({
     studentId,
@@ -216,7 +217,7 @@ export const ArchivedAssessmentDetail = ({
                                 (a: any, b: any) =>
                                     a?.createdAt > b?.createdAt ? a : b,
                                 {
-                                    result: 'Not Submitted',
+                                    result: Result.NotSubmitted,
                                 }
                             )}
                             onClick={() => {

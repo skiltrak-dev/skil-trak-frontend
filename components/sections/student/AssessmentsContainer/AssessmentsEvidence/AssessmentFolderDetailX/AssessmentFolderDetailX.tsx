@@ -24,6 +24,7 @@ import {
 
 // hoc
 import { FileUpload } from '@hoc'
+import { Result } from '@constants'
 
 type Props = {
     folder: any
@@ -136,7 +137,7 @@ export const AssessmentFolderDetailX = ({
                         </div>
                         <div className="ml-auto">
                             {fileUpload ? (
-                                result?.result !== 'competent' ? (
+                                result?.result !== Result.Competent ? (
                                     <FileUpload
                                         onChange={(docs: any) => {
                                             const formData = new FormData()

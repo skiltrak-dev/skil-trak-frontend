@@ -1,5 +1,5 @@
 import { ReactElement, useCallback, useEffect, useState } from 'react'
-import { NextPageWithLayout, UserCount } from '@types'
+import { NextPageWithLayout, UserCount, UserStatus } from '@types'
 import debounce from 'lodash/debounce'
 
 //components
@@ -103,7 +103,7 @@ const Students: NextPageWithLayout = (props: Props) => {
     const tabs: TabProps[] = [
         {
             label: 'Pending',
-            href: { pathname: 'students', query: { tab: 'pending' } },
+            href: { pathname: 'students', query: { tab: UserStatus.Pending } },
             badge: {
                 text: studentCount?.pending,
                 loading: count.isLoading,
@@ -130,7 +130,7 @@ const Students: NextPageWithLayout = (props: Props) => {
         },
         {
             label: 'Rejected',
-            href: { pathname: 'students', query: { tab: 'rejected' } },
+            href: { pathname: 'students', query: { tab: UserStatus.Rejected } },
             badge: {
                 text: studentCount?.rejected,
                 loading: count.isLoading,
@@ -139,7 +139,7 @@ const Students: NextPageWithLayout = (props: Props) => {
         },
         {
             label: 'Blocked',
-            href: { pathname: 'students', query: { tab: 'blocked' } },
+            href: { pathname: 'students', query: { tab: UserStatus.Blocked } },
             badge: {
                 text: studentCount?.blocked,
                 loading: count.isLoading,
@@ -148,7 +148,7 @@ const Students: NextPageWithLayout = (props: Props) => {
         },
         {
             label: 'Archived',
-            href: { pathname: 'students', query: { tab: 'archived' } },
+            href: { pathname: 'students', query: { tab: UserStatus.Archived } },
             badge: {
                 text: studentCount?.archived,
                 loading: count.isLoading,

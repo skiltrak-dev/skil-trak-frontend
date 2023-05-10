@@ -1,8 +1,6 @@
-import React from 'react'
 import { Controller, useFormContext } from 'react-hook-form'
 
 import dynamic from 'next/dynamic'
-import { useEffect, useState } from 'react'
 
 import { EditorProps } from 'react-draft-wysiwyg'
 const Editor = dynamic<EditorProps>(
@@ -15,15 +13,8 @@ const Editor = dynamic<EditorProps>(
 const htmlToDraft =
     typeof window === 'object' && require('html-to-draftjs').default
 
-import {
-    ContentState,
-    convertFromHTML,
-    convertToRaw,
-    EditorState,
-} from 'draft-js'
-import draftToHtml from 'draftjs-to-html'
-import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css'
 import { Typography } from '@components/Typography'
+import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css'
 
 export const NoteEditor = ({
     name,
@@ -64,7 +55,7 @@ export const NoteEditor = ({
                             editorState={field.value}
                             wrapperClassName="border rounded-md"
                             editorClassName="overflow-hidden h-20"
-                            onEditorStateChange={field.onChange} // send data with the onChagne
+                            onEditorStateChange={field.onChange} // send data with the onChange
                         />
                     )
                 }}
