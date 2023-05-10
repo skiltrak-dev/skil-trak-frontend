@@ -33,6 +33,7 @@ export const AssessmentResponse = ({
     header = true,
     deleteAction,
     activeAssessment,
+    editAssessment,
 }: {
     folder?: any
     studentId?: any
@@ -42,6 +43,7 @@ export const AssessmentResponse = ({
     result?: any
     deleteAction?: any
     activeAssessment?: boolean
+    editAssessment: boolean
 }) => {
     const [comment, setComment] = useState<string>('')
     const [commentType, setCommentType] = useState<SelectOption | null>(null)
@@ -253,76 +255,77 @@ export const AssessmentResponse = ({
                         )}
                     </div>
                 </div>
-                {activeAssessment &&
+                {((activeAssessment &&
                     assessmentEvidenceView &&
                     getAssessmentResponse?.data &&
                     result?.result !== Result.Competent &&
                     result?.result !== Result.NotSubmitted &&
-                    !getAssessmentResponse.isError && (
-                        <div className="flex justify-between gap-x-2 mt-3 mx-3">
-                            <div className="grid grid-cols-3 gap-x-2 w-full">
-                                <div className="w-full">
-                                    <Select
-                                        name={'type'}
-                                        menuPlacement={'top'}
-                                        // value={commentType}
-                                        options={[
-                                            {
-                                                label: 'Approve',
-                                                value: 'approved',
-                                            },
-                                            {
-                                                label: 'Reject',
-                                                value: 'rejected',
-                                            },
-                                        ]}
-                                        value={commentType}
-                                        onChange={(e: any) => {
-                                            setCommentType(e)
-                                        }}
-                                    />
-                                </div>
-                                <div className="col-span-2">
-                                    <TextInput
-                                        name="comment"
-                                        value={comment}
-                                        placeholder={'Write your comment'}
-                                        onChange={(
-                                            e: ChangeEvent<HTMLInputElement>
-                                        ) => {
-                                            setComment(e.target.value)
-                                        }}
-                                    />
-                                </div>
-                            </div>
-                            <div>
-                                <Button
-                                    variant={'success'}
-                                    outline
-                                    text={'Submit'}
-                                    onClick={() => {
-                                        addComment({
-                                            folderId:
-                                                getAssessmentResponse?.data?.id,
-                                            comment,
-                                            resultId: result?.id,
-                                            status: commentType?.value,
-                                            assessmentFolderId:
-                                                getAssessmentResponse?.data
-                                                    ?.assessmentFolder?.id,
-                                            std: studentId,
-                                        })
+                    !getAssessmentResponse.isError) ||
+                    editAssessment) && (
+                    <div className="flex justify-between gap-x-2 mt-3 mx-3">
+                        <div className="grid grid-cols-3 gap-x-2 w-full">
+                            <div className="w-full">
+                                <Select
+                                    name={'type'}
+                                    menuPlacement={'top'}
+                                    // value={commentType}
+                                    options={[
+                                        {
+                                            label: 'Approve',
+                                            value: 'approved',
+                                        },
+                                        {
+                                            label: 'Reject',
+                                            value: 'rejected',
+                                        },
+                                    ]}
+                                    value={commentType}
+                                    onChange={(e: any) => {
+                                        setCommentType(e)
                                     }}
-                                    loading={
-                                        addCommentResult?.isLoading &&
-                                        addCommentResult?.originalArgs
-                                            ?.status === 'approved'
-                                    }
-                                    disabled={addCommentResult?.isLoading}
+                                />
+                            </div>
+                            <div className="col-span-2">
+                                <TextInput
+                                    name="comment"
+                                    value={comment}
+                                    placeholder={'Write your comment'}
+                                    onChange={(
+                                        e: ChangeEvent<HTMLInputElement>
+                                    ) => {
+                                        setComment(e.target.value)
+                                    }}
                                 />
                             </div>
                         </div>
-                    )}
+                        <div>
+                            <Button
+                                variant={'success'}
+                                outline
+                                text={'Submit'}
+                                onClick={() => {
+                                    addComment({
+                                        folderId:
+                                            getAssessmentResponse?.data?.id,
+                                        comment,
+                                        resultId: result?.id,
+                                        status: commentType?.value,
+                                        assessmentFolderId:
+                                            getAssessmentResponse?.data
+                                                ?.assessmentFolder?.id,
+                                        std: studentId,
+                                    })
+                                }}
+                                loading={
+                                    addCommentResult?.isLoading &&
+                                    addCommentResult?.originalArgs?.status ===
+                                        'approved'
+                                }
+                                disabled={addCommentResult?.isLoading}
+                            />
+                        </div>
+                    </div>
+                )}
             </div>
         </>
     )
