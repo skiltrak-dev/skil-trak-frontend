@@ -259,45 +259,6 @@ export const ActiveAssessmentDetail = ({
         )
     }
 
-
-
-    // const agreementFiles = () => {
-    //     const id = (agreementId: number) => {
-    //         const time = new Date().getTime()
-    //         return agreementId + time
-    //     }
-    //     return viewAgreement?.data?.map((agreement: any) => {
-    //         const fileUrl = agreement?.file
-    //             .replaceAll('{"', '')
-    //             .replaceAll('"}', '')
-    //         const splitedFile = fileUrl?.split(',')
-    //         return splitedFile?.length > 1
-    //             ? splitedFile?.map((file: string) => {
-    //                   const url = file.replaceAll('"', '')
-    //                   return {
-    //                       ...agreement,
-    //                       id: id(agreement?.id),
-    //                       file: url,
-    //                       type: 'docs',
-    //                   }
-    //               })
-    //             : {
-    //                   ...agreement,
-    //                   file: fileUrl,
-    //                   type: 'docs',
-    //               }
-    //     })
-    // }
-
-    console.log(
-        'Hello',
-        allCommentsAdded,
-        (allCommentsAdded &&
-            ((results?.result !== Result.Competent && results?.isSubmitted) ||
-                manualReOpen)) ||
-            editAssessment
-    )
-
     return (
         <div className="mb-10">
             <ShowErrorNotifications result={downloadFilesResult} />
