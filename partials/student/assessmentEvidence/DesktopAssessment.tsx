@@ -2,6 +2,7 @@ import { CourseCard, LoadingAnimation, NoData, Typography } from '@components'
 import { NotificationMessage } from '@components/NotificationMessage'
 import { AssessmentsEvidence } from '@components/sections/student/AssessmentsContainer'
 import { Actions } from '@components/sections/student/AssessmentsContainer/AssessmentsEvidence/components/Actions'
+import { Result } from '@constants'
 import { getCourseResult, getUserCredentials } from '@utils'
 
 export const DesktopAssessment = ({
@@ -86,8 +87,9 @@ export const DesktopAssessment = ({
                         assessmentsFolders?.data?.length > 0
                             ? selectedCourse?.results?.length > 0
                                 ? result?.totalSubmission < 3
-                                    ? (result?.result === 'reOpened' ||
-                                          result?.result === 'notCompetent') &&
+                                    ? (result?.result === Result.ReOpened ||
+                                          result?.result ===
+                                              Result.NotCompetent) &&
                                       assessmentActions()
                                     : result?.isManualSubmission &&
                                       assessmentActions()
@@ -105,7 +107,7 @@ export const DesktopAssessment = ({
                     </>
                 )}
             <div className="mt-4">
-                {result?.result === 'pending' &&
+                {result?.result === Result.Pending &&
                     result?.totalSubmission < 3 && (
                         <NotificationMessage
                             title={'Submitted For Approval'}
@@ -114,20 +116,20 @@ export const DesktopAssessment = ({
                             }`}
                         />
                     )}
-                {result?.result === 'reOpened' &&
+                {result?.result === Result.ReOpened &&
                     result?.totalSubmission < 3 && (
                         <NotificationMessage
                             title={'Admin Reopened your request'}
                             subtitle={'You can resubmit your assessment'}
                         />
                     )}
-                {result?.result === 'competent' && (
+                {result?.result === Result.Competent && (
                     <NotificationMessage
                         title={'Congratulations!'}
                         subtitle={'You have successfully passes the Assessment'}
                     />
                 )}
-                {result?.result === 'notCompetent' &&
+                {result?.result === Result.NotCompetent &&
                     result?.totalSubmission < 3 && (
                         <NotificationMessage
                             title={'Failed'}
@@ -136,7 +138,7 @@ export const DesktopAssessment = ({
                             }
                         />
                     )}
-                {result?.result !== 'competent' &&
+                {result?.result !== Result.Competent &&
                     result?.totalSubmission >= 3 &&
                     !result?.isManualSubmission && (
                         <NotificationMessage

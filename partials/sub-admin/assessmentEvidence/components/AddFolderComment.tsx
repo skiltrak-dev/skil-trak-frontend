@@ -1,4 +1,5 @@
 import { Button, Select, TextInput } from '@components'
+import { Result } from '@constants'
 
 // queries
 import { useAddCommentOnAssessmentMutation } from '@queries'
@@ -61,66 +62,67 @@ export const AddFolderComment = ({
 
     return (
         <div>
-            {getAssessmentResponse?.data && result?.result !== 'competent' && (
-                <FormProvider {...methods}>
-                    <form
-                        className="mt-2 w-full"
-                        onSubmit={methods.handleSubmit(onSubmit)}
-                    >
-                        <div className="flex justify-between gap-x-2 mt-3 mx-3">
-                            <div className="grid grid-cols-3 gap-x-2 w-full">
-                                <div className="w-full">
-                                    <Select
-                                        name={'status'}
-                                        menuPlacement={'top'}
-                                        options={[
-                                            {
-                                                label: 'Approve',
-                                                value: 'approved',
-                                            },
-                                            {
-                                                label: 'Reject',
-                                                value: 'rejected',
-                                            },
-                                        ]}
-                                        onlyValue
-                                        // onChange={(e: any) => {
-                                        //     setCommentType(e?.value)
-                                        // }}
-                                    />
+            {getAssessmentResponse?.data &&
+                result?.result !== Result.Competent && (
+                    <FormProvider {...methods}>
+                        <form
+                            className="mt-2 w-full"
+                            onSubmit={methods.handleSubmit(onSubmit)}
+                        >
+                            <div className="flex justify-between gap-x-2 mt-3 mx-3">
+                                <div className="grid grid-cols-3 gap-x-2 w-full">
+                                    <div className="w-full">
+                                        <Select
+                                            name={'status'}
+                                            menuPlacement={'top'}
+                                            options={[
+                                                {
+                                                    label: 'Approve',
+                                                    value: 'approved',
+                                                },
+                                                {
+                                                    label: 'Reject',
+                                                    value: 'rejected',
+                                                },
+                                            ]}
+                                            onlyValue
+                                            // onChange={(e: any) => {
+                                            //     setCommentType(e?.value)
+                                            // }}
+                                        />
+                                    </div>
+                                    <div className="col-span-2">
+                                        <TextInput
+                                            name="comment"
+                                            value={comment}
+                                            placeholder={'Write your comment'}
+                                            // onChange={(
+                                            //     e: ChangeEvent<HTMLInputElement>
+                                            // ) => {
+                                            //     setComment(e.target.value)
+                                            // }}
+                                        />
+                                    </div>
                                 </div>
-                                <div className="col-span-2">
-                                    <TextInput
-                                        name="comment"
-                                        value={comment}
-                                        placeholder={'Write your comment'}
-                                        // onChange={(
-                                        //     e: ChangeEvent<HTMLInputElement>
-                                        // ) => {
-                                        //     setComment(e.target.value)
-                                        // }}
+                                <div>
+                                    <Button
+                                        variant={'success'}
+                                        outline
+                                        submit
+                                        text={'Submit'}
+                                        // onClick={() => {}}
+                                        loading={
+                                            addCommentResult?.isLoading &&
+                                            addCommentResult?.originalArgs
+                                                ?.status === 'approved'
+                                        }
+                                        disabled={addCommentResult?.isLoading}
                                     />
                                 </div>
                             </div>
-                            <div>
-                                <Button
-                                    variant={'success'}
-                                    outline
-                                    submit
-                                    text={'Submit'}
-                                    // onClick={() => {}}
-                                    loading={
-                                        addCommentResult?.isLoading &&
-                                        addCommentResult?.originalArgs
-                                            ?.status === 'approved'
-                                    }
-                                    disabled={addCommentResult?.isLoading}
-                                />
-                            </div>
-                        </div>
-                    </form>
-                </FormProvider>
-            )}
+                        </form>
+                    </FormProvider>
+                )}
         </div>
     )
 }

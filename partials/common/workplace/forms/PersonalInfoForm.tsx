@@ -6,8 +6,11 @@ import { FormProvider, useForm } from 'react-hook-form'
 import * as yup from 'yup'
 
 // components
-import { Card, Typography } from 'components'
+import { usePlacesWidget } from 'react-google-autocomplete'
+
+import { InputErrorMessage, RequiredStar } from '@components/inputs/components'
 import { Course } from '@types'
+import { Card, Typography } from 'components'
 
 type PersonalInfoProps = {
     onSubmit: any
@@ -54,12 +57,6 @@ export const PersonalInfoForm = ({
         label: course.title,
         value: course.id,
     }))
-
-    // const { isLoaded } = useJsApiLoader({
-    //     id: 'google-map-script',
-    //     googleMapsApiKey: '',
-    //     libraries: placesLibrary,
-    // })
 
     // function getCurrentWeek() {
     //     var currentDate = moment()
@@ -120,9 +117,9 @@ export const PersonalInfoForm = ({
             .string()
             .nullable(true)
             .required('Must provide Driving License Option'),
-        preferableLocation: yup
-            .string()
-            .required('Must provide preferableLocation'),
+        // preferableLocation: yup
+        //     .string()
+        //     .required('Must provide preferableLocation'),
     })
 
     const formMethods = useForm({
@@ -150,6 +147,22 @@ export const PersonalInfoForm = ({
     }, [selectedCourse])
 
     const onPlaceChanged = () => {}
+
+    const { ref }: any = usePlacesWidget({
+        apiKey: process.env.NEXT_PUBLIC_MAP_KEY,
+        onPlaceSelected: (place) => {
+            console.log(place)
+        },
+        options: {
+            // types: ['(suburbs)'],
+            componentRestrictions: {
+                country: 'au',
+            },
+        },
+    })
+
+    const { ref: preferableLocationRef, ...rest } =
+        formMethods.register('preferableLocation')
     return (
         <div>
             <Typography variant={'label'} capitalize>
@@ -246,27 +259,30 @@ export const PersonalInfoForm = ({
                             />
                         </div>
                         <div>
-                            <TextInput
-                                name="preferableLocation"
-                                label="Where would you want to locate your self? (Suburb)"
+                            <div className="flex justify-between items-center mb-1">
+                                <div>
+                                    <Typography
+                                        variant={'label'}
+                                        htmlFor={'map'}
+                                    >
+                                        Where would you want to locate your
+                                        self? (Suburb)
+                                    </Typography>
+                                    <RequiredStar />
+                                </div>
+                            </div>
+
+                            <input
+                                className="border text-black w-full rounded-md outline-none px-4 py-2 placeholder-gray text-sm"
+                                ref={(e: any) => {
+                                    preferableLocationRef(e)
+                                    ref.current = e
+                                }}
+                                {...rest}
+                                id={'map'}
                                 placeholder="Where would you want to locate your self? (Suburb)"
                             />
-                            {/* {isLoaded
-                                ? isBrowser() && (
-                                      <Autocomplete
-                                      // onPlaceChanged={(place) =>
-                                      //     onPlaceChanged(place)
-                                      // }
-                                      // onLoad={onLoad}
-                                      >
-                                          <TextInput
-                                              name="preferableLocation"
-                                              label="Where would you want to locate your self? (Suburb)"
-                                              placeholder="Where would you want to locate your self? (Suburb)"
-                                          />
-                                      </Autocomplete>
-                                  )
-                                : null} */}
+                            <InputErrorMessage name={'preferableLocation'} />
                         </div>
                         <Button text={'Continue'} submit />
                     </form>

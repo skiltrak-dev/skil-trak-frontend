@@ -46,6 +46,7 @@ import { MdEdit } from 'react-icons/md'
 import Link from 'next/link'
 import { FaDownload } from 'react-icons/fa'
 import { SignAgreement } from '../workplace/components/Industries/components/Actions/components'
+import { Result } from '@constants'
 
 const AgreementFile = 'agreementFile'
 
@@ -374,7 +375,7 @@ export const ActiveAssessmentDetail = ({
                                 (a: any, b: any) =>
                                     a?.createdAt > b?.createdAt ? a : b,
                                 {
-                                    result: 'Not Submitted',
+                                    result: Result.NotSubmitted,
                                 }
                             )}
                             onClick={() => {
@@ -437,7 +438,7 @@ export const ActiveAssessmentDetail = ({
                             <div className="flex items-center gap-x-2 mb-1">
                                 <div>
                                     {selectedFolder &&
-                                        results !== 'Not Submitted' &&
+                                        results !== Result.NotSubmitted &&
                                         (selectedFolder?.id ===
                                         AgreementFile ? (
                                             <SignAgreement
@@ -610,7 +611,7 @@ export const ActiveAssessmentDetail = ({
                     )}
 
                     {((allCommentsAdded &&
-                        ((results?.result !== 'competent' &&
+                        ((results?.result !== Result.Competent &&
                             results?.isSubmitted) ||
                             manualReOpen)) ||
                         editAssessment) && (
@@ -628,7 +629,7 @@ export const ActiveAssessmentDetail = ({
                     {/* <Actions result={results} /> */}
                     {role === 'admin' &&
                         results?.totalSubmission >= 3 &&
-                        results?.result !== 'pending' &&
+                        results?.result !== Result.Pending &&
                         !results?.isManualSubmission && (
                             <div className="mt-5 flex flex-col gap-y-1">
                                 <Typography variant={'small'}>
@@ -650,28 +651,25 @@ export const ActiveAssessmentDetail = ({
                             </div>
                         )}
 
-                    {!allCommentsAdded && (
+                    {Result.NotSubmitted ? (
                         <div className="mt-4">
-                            <p className="text-xs text-orange-500 bg-orange-200 py-2 px-4">
+                            <p className="text-xs text-orange-600 bg-orange-100 py-2 px-4">
                                 *You will be able to submit assessment evidence
-                                result after you add a comment to each folder
-                                mentioned above.
+                                result when student will submit the assessment
+                                submissions.
                             </p>
                         </div>
+                    ) : (
+                        !allCommentsAdded && (
+                            <div className="mt-4">
+                                <p className="text-xs text-orange-500 bg-orange-200 py-2 px-4">
+                                    *You will be able to submit assessment
+                                    evidence result after you add a comment to
+                                    each folder mentioned above.
+                                </p>
+                            </div>
+                        )
                     )}
-
-                    {/* {!results?.isSubmitted && (
-                        <div className="mt-4">
-                            <Typography
-                                variant="muted"
-                                color="text-neutral-500"
-                            >
-                                *You will be able to submit assessment evidence
-                                result after you add a comment to each folder
-                                mentioned above.
-                            </Typography>
-                        </div>
-                    )} */}
                 </div>
             )}
         </div>

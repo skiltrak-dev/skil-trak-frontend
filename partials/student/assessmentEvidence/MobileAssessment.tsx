@@ -7,6 +7,7 @@ import {
 } from '@components'
 import { AssessmentFolderDetailX } from '@components/sections/student/AssessmentsContainer'
 import { Actions } from '@components/sections/student/AssessmentsContainer/AssessmentsEvidence/components/Actions'
+import { Result } from '@constants'
 import { IoIosArrowRoundBack } from 'react-icons/io'
 
 export const MobileAssessment = ({
@@ -56,7 +57,7 @@ export const MobileAssessment = ({
                                                 ? a
                                                 : b,
                                         {
-                                            result: 'Not Submitted',
+                                            result: Result.NotSubmitted,
                                         }
                                     )}
                                     coordinator={
@@ -191,8 +192,8 @@ export const MobileAssessment = ({
                 selectedCourse?.results?.length > 0 ? (
                     (results?.totalSubmission < 3 ||
                         results?.isManualSubmission) &&
-                    (results?.result === 'reOpened' ||
-                        results?.result === 'notCompetent') ? (
+                    (results?.result === Result.ReOpened ||
+                        results?.result === Result.NotCompetent) ? (
                         <Actions selectedCourseId={selectedCourse?.id} />
                     ) : null
                 ) : (
