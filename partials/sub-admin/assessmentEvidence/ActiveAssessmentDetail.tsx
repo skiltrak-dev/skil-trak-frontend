@@ -289,6 +289,15 @@ export const ActiveAssessmentDetail = ({
     //     })
     // }
 
+    console.log(
+        'Hello',
+        allCommentsAdded,
+        (allCommentsAdded &&
+            ((results?.result !== Result.Competent && results?.isSubmitted) ||
+                manualReOpen)) ||
+            editAssessment
+    )
+
     return (
         <div className="mb-10">
             <ShowErrorNotifications result={downloadFilesResult} />
