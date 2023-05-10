@@ -259,10 +259,7 @@ export const ActiveAssessmentDetail = ({
         )
     }
 
-    console.log(
-        'Hello 2',
-        getFolders?.data?.find((folder: any) => folder?.name === 'Agreement')
-    )
+
 
     // const agreementFiles = () => {
     //     const id = (agreementId: number) => {
@@ -291,15 +288,6 @@ export const ActiveAssessmentDetail = ({
     //               }
     //     })
     // }
-
-    console.log(
-        'Hello',
-        allCommentsAdded,
-        (allCommentsAdded &&
-            ((results?.result !== Result.Competent && results?.isSubmitted) ||
-                manualReOpen)) ||
-            editAssessment
-    )
 
     return (
         <div className="mb-10">

@@ -17,7 +17,6 @@ import { ActionButton } from '@components'
 import { getUserCredentials } from '@utils'
 
 export const MyRto = ({ myRto }: any) => {
-    console.log('myRto', myRto)
     const pathname = useRouter()
     const role = getUserCredentials()?.role
     return (

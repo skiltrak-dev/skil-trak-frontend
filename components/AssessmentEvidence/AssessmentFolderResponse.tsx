@@ -43,7 +43,7 @@ export const AssessmentResponse = ({
     result?: any
     deleteAction?: any
     activeAssessment?: boolean
-    editAssessment: boolean
+    editAssessment?: boolean
 }) => {
     const [comment, setComment] = useState<string>('')
     const [commentType, setCommentType] = useState<SelectOption | null>(null)
@@ -173,7 +173,6 @@ export const AssessmentResponse = ({
         (file: any) => file
     )
 
-    console.log('resultresult', result)
     return (
         <>
             <ShowErrorNotifications result={addCommentResult} />
