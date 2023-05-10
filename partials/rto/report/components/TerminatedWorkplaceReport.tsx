@@ -1,9 +1,11 @@
 import { EmptyData, InitialAvatar, LoadingAnimation, Table, TechnicalError, Typography } from '@components'
-import { SectorCell } from '@partials/rto/student/components'
+import { CourseDot } from '@partials/rto/student/components'
 import { RtoApi } from '@queries'
 import { ColumnDef } from '@tanstack/react-table'
 import React, { useState } from 'react'
 import { FilterReport } from '../FilterReport'
+import { Course } from '@types'
+import { ViewFullListReport } from '../ViewFullListReport'
 
 type Props = {
     startDate: any
@@ -67,27 +69,33 @@ export const TerminatedWorkplaceReport = ({
             accessorKey: 'courses',
             header: () => <span>Courses</span>,
             cell: (info) => {
-                return <SectorCell student={info.row.original} />
+                return info?.row?.original?.courses?.map((c: Course) => (
+                    <CourseDot key={c?.id} course={c} />
+                ))
             },
         },
     ]
+    const count = data?.data?.length;
     return (
         <>
             <div className="flex justify-between">
                 <div className="">
                     <Typography variant="title" color="text-gray-400">
-                        Students Assigned
+                        Terminated Workplace
                     </Typography>
-                    <Typography variant="h3">50</Typography>
+                    <Typography variant="h3">{count || 0}</Typography>
                 </div>
 
 
-                <FilterReport
-                    startDate={startDate}
-                    setStartDate={setStartDate}
-                    endDate={endDate}
-                    setEndDate={setEndDate}
-                />
+                <div className='flex items-center gap-x-4'>
+                    <FilterReport
+                        startDate={startDate}
+                        setStartDate={setStartDate}
+                        endDate={endDate}
+                        setEndDate={setEndDate}
+                    />
+                    <ViewFullListReport data={data} columns={columns} />
+                </div>
 
             </div>
             {isError && <TechnicalError />}

@@ -10,7 +10,7 @@ import OutsideClickHandler from 'react-outside-click-handler'
 import { Card } from '@components'
 import { ReportListModal } from '../components/ReportListModal'
 
-type Props = {   
+type Props = {
     startDate: any
     setStartDate: any
     endDate: any
@@ -53,12 +53,12 @@ export const FilterReport = ({
         value: new Date().getMonth().toString(),
     })
 
-    const onClose = () => {
-        setModal(null)
-    }
-    const onViewClicked = () => {
-        setModal(<ReportListModal onClose={() => onClose()} />)
-    }
+    // const onClose = () => {
+    //     setModal(null)
+    // }
+    // const onViewClicked = () => {
+    //     setModal(<ReportListModal onClose={() => onClose()} />)
+    // }
 
     const handleShowFilter = () => {
         setShowFilter(!showFilter)
@@ -217,7 +217,6 @@ export const FilterReport = ({
     }
     return (
         <>
-            {modal && modal}
             <div className="flex items-center gap-x-4 ">
                 <OutsideClickHandler
                     onOutsideClick={() => setShowCalendars(false)}
@@ -259,10 +258,10 @@ export const FilterReport = ({
                             />
                         </div>
                         {showFilter && (
-                            <div className="absolute z-20 bg-white rounded-lg">
+                            <div className="absolute z-20 bg-white shadow-xl rounded-lg mt-4">
                                 <ul className="">
                                     <li
-                                        className="border-b px-4"
+                                        className="w-full border-b px-6 flex items-center gap-x-2 text-sm py-2  hover:bg-gray-200 cursor-pointer"
                                         onClick={() => {
                                             handleFilterSelect('Range')
                                             setShowFilter(false)
@@ -270,17 +269,17 @@ export const FilterReport = ({
                                     >
                                         Range
                                     </li>
-                                    <li
-                                        className="border-b px-4"
+                                    {/* <li
+                                        className="w-full border-b px-6 flex items-center gap-x-2 text-sm py-2  hover:bg-gray-200 cursor-pointer"
                                         onClick={() => {
                                             handleFilterSelect('Monthly')
                                             setShowFilter(false)
                                         }}
                                     >
                                         Monthly
-                                    </li>
+                                    </li> */}
                                     <li
-                                        className="border-b px-4"
+                                        className="w-full border-b px-6 flex items-center gap-x-2 text-sm py-2  hover:bg-gray-200 cursor-pointer"
                                         onClick={() => {
                                             handleFilterSelect('Weekly')
                                             setShowFilter(false)
@@ -288,21 +287,21 @@ export const FilterReport = ({
                                     >
                                         Weekly
                                     </li>
-                                    <li
-                                        className="border-b px-4"
+                                    {/* <li
+                                        className="w-full border-b px-6 flex items-center gap-x-2 text-sm py-2  hover:bg-gray-200 cursor-pointer"
                                         onClick={() => {
                                             handleFilterSelect('Annually')
                                             setShowFilter(false)
                                         }}
                                     >
                                         Annually
-                                    </li>
+                                    </li> */}
                                 </ul>
                             </div>
                         )}
                     </div>
                 </OutsideClickHandler>
-                <div
+                {/* <div
                     onClick={() => {
                         onViewClicked()
                     }}
@@ -310,7 +309,7 @@ export const FilterReport = ({
                 >
                     <MdViewQuilt size={20} className="text-gray-400" />
                     <span>VIEW FULL LIST</span>
-                </div>
+                </div> */}
             </div>
             {/* <button onClick={handleRangeSelect}>Select Range</button> */}
 
