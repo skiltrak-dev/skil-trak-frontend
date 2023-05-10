@@ -1,37 +1,42 @@
-import { useState, useEffect } from 'react'
+import { useEffect, useState } from 'react'
 
 // components
-import { Select, Typography } from '@components'
+import { Select, ShowErrorNotifications, Typography } from '@components'
 
 // queries
 import { AdminApi } from '@queries'
 
 // utils
 import { ellipsisText } from '@utils'
+import { useNotification } from '@hooks'
 
 export const AssignWorkplace = ({ workplace }: { workplace: any }) => {
-    const [subAdminOptions, setSubAdminOptions] = useState([])
+    const { notification } = useNotification()
 
-    const { isLoading, data } = AdminApi.Workplace.useListQuery({
-        createdBy: 'admin',
-    })
-    const [assignSubAdmin] = AdminApi.Workplace.useWorkplaceMutation()
+    const subadmins = AdminApi.Workplace.subadminForAssignWorkplace()
+    const [assignSubAdmin, assignSubAdminResult] =
+        AdminApi.Workplace.useWorkplaceMutation()
 
     useEffect(() => {
-        if (data?.data.length) {
-            const options = data?.data?.map((subAdmin: any) => ({
-                label: subAdmin?.user?.name,
-                value: subAdmin?.id,
-            }))
-            setSubAdminOptions(options)
+        if (assignSubAdminResult.isSuccess) {
+            notification.success({
+                title: 'Subadmin Assigned',
+                description: 'Subadmin Assigned Successfully',
+            })
         }
-    }, [data?.data])
+    }, [assignSubAdminResult])
+
+    const subAdminOptions = subadmins?.data?.map((subAdmin: any) => ({
+        label: subAdmin?.user?.name,
+        value: subAdmin?.id,
+    }))
 
     const onAssignSubAdmin = (e: any) => {
         assignSubAdmin({ subadmin: e?.value, workplace: workplace?.id })
     }
     return (
         <div>
+            <ShowErrorNotifications result={assignSubAdminResult} />
             {workplace?.assignedTo ? (
                 <>
                     <Typography variant={'small'} color={'text-gray-500'}>
@@ -55,7 +60,8 @@ export const AssignWorkplace = ({ workplace }: { workplace: any }) => {
                     name={'subAdmin'}
                     placeholder={'Select Sub Admin'}
                     options={subAdminOptions}
-                    loading={data?.isLoading}
+                    loading={subadmins?.isLoading}
+                    disabled={subadmins?.isLoading}
                     onChange={(e: any) => {
                         onAssignSubAdmin(e)
                     }}
