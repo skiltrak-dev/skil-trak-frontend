@@ -19,8 +19,6 @@ export const ViewProfileCB = () => {
     const { data, isSuccess, isLoading, isFetching } =
         SubAdminApi.SubAdmin.useProfile()
 
-    console.log(data?.dob, 'KAKA')
-
     const { onUpdatePassword, passwordModal } = useActionModal()
 
     const getSectors = (courses: any) => {

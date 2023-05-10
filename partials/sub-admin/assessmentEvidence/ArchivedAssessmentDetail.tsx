@@ -48,7 +48,6 @@ export const ArchivedAssessmentDetail = ({
     const [selectedCourse, setSelectedCourse] = useState<any | null>(null)
     const [selectedFolder, setSelectedFolder] = useState<any | null>(null)
     const [manualReOpen, setManualReOpen] = useState<boolean>(false)
-    const [editAssessment, setEditAssessment] = useState<boolean>(false)
 
     const results = getCourseResult(selectedCourse?.results)
 

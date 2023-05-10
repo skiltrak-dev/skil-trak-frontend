@@ -154,14 +154,10 @@ export const studentEndpoints = (
         providesTags: ['Rto-Students'],
     }),
     getReportDownloadLink: builder.query<any, any>({
-        query: (id) => {
-            console.log("params",id)
-            return {
-                url: `statistics/rto/summary/generate/${id}`,
-                responseType: 'arraybuffer',
-            }
-        },
+        query: (id) => ({
+            url: `statistics/rto/summary/generate/${id}`,
+            responseType: 'arraybuffer',
+        }),
         providesTags: ['Rto-Students'],
     }),
-
 })
