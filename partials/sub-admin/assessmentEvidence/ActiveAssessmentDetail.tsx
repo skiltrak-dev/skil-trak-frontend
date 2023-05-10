@@ -133,6 +133,10 @@ export const ActiveAssessmentDetail = ({
         SubAdminApi.AssessmentEvidence.downloadFiles()
 
     useEffect(() => {
+        setEditAssessment(false)
+    }, [selectedCourse])
+
+    useEffect(() => {
         if (downloadFilesResult.isSuccess) {
             router.push(downloadFilesResult?.data?.url)
         }
@@ -255,6 +259,11 @@ export const ActiveAssessmentDetail = ({
         )
     }
 
+    console.log(
+        'Hello 2',
+        getFolders?.data?.find((folder: any) => folder?.name === 'Agreement')
+    )
+
     // const agreementFiles = () => {
     //     const id = (agreementId: number) => {
     //         const time = new Date().getTime()
@@ -282,6 +291,15 @@ export const ActiveAssessmentDetail = ({
     //               }
     //     })
     // }
+
+    console.log(
+        'Hello',
+        allCommentsAdded,
+        (allCommentsAdded &&
+            ((results?.result !== Result.Competent && results?.isSubmitted) ||
+                manualReOpen)) ||
+            editAssessment
+    )
 
     return (
         <div className="mb-10">
@@ -504,7 +522,12 @@ export const ActiveAssessmentDetail = ({
                                 {latestWorkplace?.courses &&
                                     appliedIndustry &&
                                     latestWorkplace?.courses[0]?.id ===
-                                        selectedCourse?.id && (
+                                        selectedCourse?.id &&
+                                    !getFolders?.data?.find((folder: any) =>
+                                        folder?.name
+                                            ?.split(' ')
+                                            .includes('Agreement')
+                                    ) && (
                                         <AssessmentFolderCard
                                             id={AgreementFile}
                                             name={'Agreement'}
@@ -582,6 +605,7 @@ export const ActiveAssessmentDetail = ({
                                 activeAssessment={
                                     selectedFolder?.id !== AgreementFile
                                 }
+                                editAssessment={editAssessment}
                             />
 
                             {/* <AddFolderComment
