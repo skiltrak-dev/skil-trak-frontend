@@ -14,6 +14,7 @@ import { notificationsEndpoints } from './notifications'
 import { AdminStats, UserStatus } from '@types'
 import { emptySplitApi } from '@queries/portals/empty.query'
 import { agreementsEndpoints } from './agreement'
+import { draftEndpoints } from './draft'
 
 export const commonApi = emptySplitApi.injectEndpoints({
     // export const commonApi = createApi({
@@ -113,6 +114,7 @@ export const commonApi = emptySplitApi.injectEndpoints({
         }),
 
         ...rtosEndpoints(build),
+        ...draftEndpoints(build),
         ...notesEndpoints(build),
         ...mailsEndpoints(build),
         ...coursesEndpoints(build),
@@ -210,6 +212,12 @@ const {
 
     // ---- AGREEMENT ---- //
     useViewSignedAgreementQuery,
+
+    // ---- DRAFT ---- //
+    useSetEmailDarftMutation,
+    useGetEmailDarftQuery,
+    useSetNoteDarftMutation,
+    useGetNoteDarftQuery,
 } = commonApi
 
 export const CommonApi = {
@@ -304,5 +312,11 @@ export const CommonApi = {
     },
     Agreement: {
         viewAgreement: useViewSignedAgreementQuery,
+    },
+    Draft: {
+        useEmailDraft: useSetEmailDarftMutation,
+        useGetEmailDraft: useGetEmailDarftQuery,
+        useSetNoteDarft: useSetNoteDarftMutation,
+        getNoteDarft: useGetNoteDarftQuery,
     },
 }
