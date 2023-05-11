@@ -10,7 +10,7 @@ export const ReportListModal = ({ data, columns, onClose }: any) => {
     return (
         <>
             <div className="bg-[#00000050] w-full h-screen flex items-center justify-center fixed top-0 left-0 z-40">
-                <div className="bg-white  overflow-auto custom-scrollbar rounded-2xl flex flex-col items-center gap-y-2 shadow-xl min-w-[450px] px-4 py-4">
+                <div className="bg-white h-[80vh] overflow-auto custom-scrollbar rounded-2xl flex flex-col items-center gap-y-2 shadow-xl min-w-[450px] px-4 py-4">
                     <div className="flex justify-end w-full">
                         <FaTimes
                             className="text-gray-500 hover:text-red-500 cursor-pointer"

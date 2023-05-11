@@ -27,6 +27,8 @@ export const MonthlyDropdown = ({
     // const handleMonthChange = (event: any) => {
     //     setMonth(parseInt(event.value))
     // }
+    console.log("year", year)
+    console.log("month", month)
     const yearOptions = Array.from(
         { length: new Date().getFullYear() - 2019 },
         (_, i) => 2020 + i

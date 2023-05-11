@@ -1,22 +1,38 @@
-import { EmptyData, InitialAvatar, LoadingAnimation, Table, TechnicalError, Typography } from '@components'
+import { ActionButton, EmptyData, InitialAvatar, LoadingAnimation, Table, TechnicalError, Typography } from '@components'
 import { CourseDot } from '@partials/rto/student/components'
 import { RtoApi } from '@queries'
 import { ColumnDef } from '@tanstack/react-table'
-import { Course } from '@types'
 import React, { useState } from 'react'
-import { ViewFullListReport } from '../ViewFullListReport'
+import { FilterReport } from '../../FilterReport'
+import { ViewFullListReport } from '../../ViewFullListReport'
+import { Course, ReportOptionsEnum } from '@types'
+import { useRouter } from 'next/router'
 
 
+type Props = {
+    startDate: any
+    endDate: any
+    setStartDate: any
+    setEndDate: any
+}
 
-export const BlockedStudentsReport = () => {
+export const TerminatedWorkplaceReport = ({
+    setStartDate,
+    setEndDate,
+    startDate,
+    endDate
+}: Props) => {
     const [itemPerPage, setItemPerPage] = useState(50)
     const [page, setPage] = useState(1)
-
+    const router = useRouter()
     const { data, isLoading, isError } =
-        RtoApi.Students.useBlockedStudentsReport({
+        RtoApi.Students.useTerminatedWorkplaceReport({
+            startDate: startDate.toISOString().slice(0, 10),
+            endDate: endDate.toISOString().slice(0, 10),
             skip: itemPerPage * page - itemPerPage,
             limit: itemPerPage,
         })
+
     const columns: ColumnDef<any>[] = [
         {
             header: () => <span>Name</span>,
@@ -24,8 +40,9 @@ export const BlockedStudentsReport = () => {
             cell: (info: any) => {
                 const {
                     id,
-                    user: { name, avatar },
+                    student: { user: { name, avatar } },
                 } = info.row.original || {}
+
                 return (
                     <a className="flex items-center gap-x-2">
                         <InitialAvatar name={name} imageUrl={avatar} />
@@ -42,7 +59,7 @@ export const BlockedStudentsReport = () => {
             header: () => <span>Email</span>,
             cell: (info) => {
                 const {
-                    user: { email },
+                    student: { user: { email } },
                 } = info.row.original || {}
                 return <span>{email}</span>
             },
@@ -50,6 +67,12 @@ export const BlockedStudentsReport = () => {
         {
             accessorKey: 'phone',
             header: () => <span>Phone</span>,
+            cell: (info) => {
+                const {
+                    student: { phone },
+                } = info.row.original || {}
+                return <span>{phone}</span>
+            },
         },
         {
             accessorKey: 'courses',
@@ -64,14 +87,28 @@ export const BlockedStudentsReport = () => {
     const count = data?.data?.length;
     return (
         <>
-            <div className="flex justify-between items-center">
+            <div className="flex justify-between">
                 <div className="">
                     <Typography variant="title" color="text-gray-400">
-                        Blocked Students
+                        Terminated Workplace
                     </Typography>
                     <Typography variant="h3">{count || 0}</Typography>
                 </div>
-                <ViewFullListReport data={data} columns={columns} />
+
+
+                <div className='flex items-center gap-x-4'>
+                    <FilterReport
+                        startDate={startDate}
+                        setStartDate={setStartDate}
+                        endDate={endDate}
+                        setEndDate={setEndDate}
+                    />
+                    {/* <ViewFullListReport data={data} columns={columns} /> */}
+                    <ActionButton onClick={() => { router.push(`/portals/rto/report/${ReportOptionsEnum.WORKPLACE_REQUEST_TERMINATED}`) }} >
+                        View Full List
+                    </ActionButton>
+                </div>
+
             </div>
             {isError && <TechnicalError />}
             {isLoading ? (
@@ -84,7 +121,7 @@ export const BlockedStudentsReport = () => {
                                 <div className="p-6 mb-2 flex justify-between">
                                     {pageSize(itemPerPage, setItemPerPage)}
                                     <div className="flex gap-x-2">
-                                        {quickActions}
+                                        {/* {quickActions} */}
                                         {pagination(data?.pagination, setPage)}
                                     </div>
                                 </div>
@@ -96,9 +133,9 @@ export const BlockedStudentsReport = () => {
             ) : (
                 !isError && (
                     <EmptyData
-                        title={'No Blocked Students Found'}
+                        title={'No Terminated Workplace Requests Found'}
                         description={
-                            'There Is No Blocked Students Yet'
+                            'There is no New Terminated Workplace Workplace Request yet'
                         }
                         height={'50vh'}
                     />
