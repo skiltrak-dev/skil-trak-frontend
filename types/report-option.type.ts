@@ -1,0 +1,13 @@
+export enum ReportOptionsEnum {
+    NON_CONTACTABLE = 'non-contactable',
+    NEW_STUDENTS = 'new-students',
+    BLOCKED_STUDENTS = 'blocked-students',
+    CANCELLED_WORKPLACE_REQUEST = 'cancelled-workplace-request',
+    WORKPLACE_REQUEST_COMPLETED = 'workplace-request-completed',
+    WORKPLACE_REQUEST_TERMINATED = 'workplace-request-terminated',
+    ARCHIVED_STUDENTS = 'archived-students',
+    WORKPLACE_REQUEST = 'workplace-request',
+    STUDENT_WITHOUT_WORKPLACE_REQUEST = 'without-workplace-request',
+    APPOINTMENTS_REPORT = 'appointments-report',
+    REPORTED_STUDENTS = 'reported-students',
+}

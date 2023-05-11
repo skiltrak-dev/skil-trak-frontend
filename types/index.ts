@@ -15,3 +15,4 @@ export * from './stats.type'
 export * from './package.type'
 
 export * from './form.type'
+export * from './report-option.type'
