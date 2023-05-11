@@ -138,13 +138,19 @@ const RtoList: NextPageWithLayout = () => {
                 />
             </div>
             {filteredDataLength && filteredRtos.isError && <TechnicalError />}
-            {filteredDataLength && filteredRtos.isSuccess ? (
-                <FilteredRto
-                    setPage={setPage}
-                    itemPerPage={itemPerPage}
-                    rto={filteredRtos}
-                    setItemPerPage={setItemPerPage}
-                />
+            {filteredDataLength ? (
+                filteredRtos?.isLoading ? (
+                    <LoadingAnimation />
+                ) : (
+                    filteredRtos.isSuccess && (
+                        <FilteredRto
+                            setPage={setPage}
+                            itemPerPage={itemPerPage}
+                            rto={filteredRtos}
+                            setItemPerPage={setItemPerPage}
+                        />
+                    )
+                )
             ) : null}
             {!filteredDataLength && (
                 <TabNavigation tabs={tabs}>

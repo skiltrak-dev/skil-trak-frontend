@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { InputProps } from './InputPropType'
 
 // components
@@ -31,7 +31,11 @@ export const Switch = ({
     disabled,
 }: SwitchProps) => {
     const formContext = useFormContext()
-    const [checked, setChecked] = useState(false)
+    const [checked, setChecked] = useState<boolean | null | undefined>(false)
+
+    useEffect(() => {
+        setChecked(defaultChecked)
+    }, [defaultChecked])
 
     return (
         <div className="flex items-center justify-between gap-x-1">
@@ -61,6 +65,7 @@ export const Switch = ({
                         )}
                         {...(value ? { value } : {})}
                         defaultChecked={defaultChecked}
+                        checked={defaultChecked}
                     />
                     <span className="slider"></span>
                 </label>
@@ -68,12 +73,12 @@ export const Switch = ({
                 {loading && (
                     <div
                         className={`w-[20px] h-[20px] flex items-center justify-center absolute top-[4px] ${
-                            checked ? 'left-[4px]' : 'right-[4px]'
+                            checked ? 'right-[4px]' : 'left-[4px]'
                         }`}
                     >
                         <ClipLoader
                             size={14}
-                            color={checked ? 'white' : 'black'}
+                            color={checked ? 'black' : 'white'}
                         />
                     </div>
                 )}

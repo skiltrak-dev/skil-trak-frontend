@@ -39,7 +39,7 @@ export const ApprovedRto = () => {
     // hooks
     const { passwordModal, onViewPassword } = useActionModal()
 
-    const { isLoading, data, isError } = AdminApi.Rtos.useListQuery(
+    const { isLoading, isFetching, data, isError } = AdminApi.Rtos.useListQuery(
         {
             search: `status:${UserStatus.Approved}`,
             skip: itemPerPage * page - itemPerPage,
@@ -198,7 +198,7 @@ export const ApprovedRto = () => {
 
                 <Card noPadding>
                     {isError && <TechnicalError />}
-                    {isLoading ? (
+                    {isLoading || isFetching ? (
                         <LoadingAnimation height="h-[60vh]" />
                     ) : data && data?.data.length ? (
                         <Table<Rto>
