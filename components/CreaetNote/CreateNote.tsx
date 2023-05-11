@@ -39,6 +39,7 @@ import { useContextBar } from '@hooks'
 import { CommonApi } from '@queries'
 import { useNotification } from 'hooks'
 import { NoteEditor } from './NoteEditor'
+import ClickAwayListener from 'react-click-away-listener'
 
 export const CreateNote = ({
     action,
@@ -53,6 +54,10 @@ export const CreateNote = ({
 
     // query
     const [createNote, createNoteResult] = CommonApi.Notes.useCreate()
+    const [setNoteDraft, setNoteDraftResult] = CommonApi.Draft.useSetNoteDarft()
+    const getNoteDraft = CommonApi.Draft.getNoteDarft(receiverId, {
+        skip: !receiverId,
+    })
 
     const [editing, setEditing] = useState(false)
 
@@ -153,6 +158,23 @@ export const CreateNote = ({
     })
 
     useEffect(() => {
+        if (getNoteDraft.isSuccess) {
+            if (getNoteDraft?.data?.content) {
+                const blocksFromHTML = convertFromHTML(
+                    getNoteDraft?.data?.content
+                )
+                const bodyValue = EditorState.createWithContent(
+                    ContentState.createFromBlockArray(
+                        blocksFromHTML.contentBlocks,
+                        blocksFromHTML.entityMap
+                    )
+                )
+                methods.setValue('body', bodyValue)
+            }
+        }
+    }, [getNoteDraft])
+
+    useEffect(() => {
         if (templateValue) {
             const blocksFromHTML = convertFromHTML(templateValue)
             const bodyValue = EditorState.createWithContent(
@@ -184,12 +206,39 @@ export const CreateNote = ({
                                     validationIcons
                                 />
 
-                                <div className="mb-3">
-                                    <NoteEditor
-                                        name={'body'}
-                                        label={'Message'}
-                                    />
-                                </div>
+                                <ClickAwayListener
+                                    onClickAway={(e: any) => {
+                                        if (noteContent) {
+                                            setNoteDraft({
+                                                receiver: receiverId,
+                                                content: noteContent,
+                                            })
+                                        }
+                                    }}
+                                >
+                                    <div className="mb-3">
+                                        <NoteEditor
+                                            name={'body'}
+                                            label={'Message'}
+                                            onChange={(e: any) => {
+                                                const note = draftToHtml(
+                                                    convertToRaw(
+                                                        e.getCurrentContent()
+                                                    )
+                                                )
+                                                setNoteContent(note)
+
+                                                console.log(
+                                                    draftToHtml(
+                                                        convertToRaw(
+                                                            e.getCurrentContent()
+                                                        )
+                                                    )
+                                                )
+                                            }}
+                                        />
+                                    </div>
+                                </ClickAwayListener>
 
                                 <Select
                                     name={'templates'}

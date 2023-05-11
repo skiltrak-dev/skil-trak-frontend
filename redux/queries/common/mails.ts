@@ -25,8 +25,7 @@ export const mailsEndpoints = (
     builder: EndpointBuilder<BaseQueryFn, string, string>
 ) => ({
     getMessages: builder.query<any, any>({
-        // query: (id) => `${PREFIX}/mail/list/${id}`,
-        query: (params: any) => {
+        query: (params) => {
             return {
                 url: `admin/mail/list/${params.id}`,
                 params,

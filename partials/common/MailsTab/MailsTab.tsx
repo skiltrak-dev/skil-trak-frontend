@@ -18,8 +18,6 @@ export const MailsTab = ({ user }: { user: any }) => {
     const messages = CommonApi.Messages.useMessages(
         {
             id: user?.id,
-            skip: 0,
-            limit: 50,
         },
         {
             skip: !user?.id,

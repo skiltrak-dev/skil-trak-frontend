@@ -228,7 +228,7 @@ export const CreateAppointments = () => {
             date?.setDate(date.getDate() + 1)
             createAppointment({
                 ...selectedTime,
-                selectedDate,
+                date: selectedDate,
                 note,
                 type: appointmentTypeId,
                 course: selectedCourse,

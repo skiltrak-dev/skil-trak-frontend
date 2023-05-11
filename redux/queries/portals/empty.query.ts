@@ -82,6 +82,7 @@ const commonTagTypes = [
     'RTO',
     'User',
     'Count',
+    'Draft',
     'Notes',
     'Mails',
     'Avatar',

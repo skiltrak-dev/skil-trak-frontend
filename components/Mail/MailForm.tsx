@@ -1,17 +1,25 @@
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import * as yup from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { FormProvider, useForm } from 'react-hook-form'
+import { debounce } from 'lodash'
 
 // icons
 import { IoMdSend } from 'react-icons/io'
 import { MdOutlineCancel } from 'react-icons/md'
 
 // components
-import { Card, TextInput, Select, Button, TextArea } from '@components'
+import {
+    Card,
+    TextInput,
+    Select,
+    Button,
+    TextArea,
+    ShowErrorNotifications,
+} from '@components'
 import { FileUpload } from '@hoc'
 
-import { useContextBar } from 'hooks'
+import { useContextBar, useNotification } from 'hooks'
 import { ellipsisText } from '@utils'
 
 // import { useMessage } from 'hooks'
@@ -23,13 +31,19 @@ import { Attachment } from '@partials/common'
 
 export const MailForm = ({ action, receiverId, sender }: any) => {
     // const { replyMessage, setReplyMessage, setMessage } = useMessage()
+    const { notification } = useNotification()
     // query
     const [to, setTo] = useState(false)
     const [cc, setCc] = useState(false)
     const [attachmentFiles, setAttachmentFiles] = useState<any>([])
+    const [sendEmailDraft, setSendEmailDraft] = useState<boolean>(true)
 
     const [actionData, actionDataResult] = action()
     const [sendMessage, sendMessageResult] = CommonApi.Messages.useSendMessage()
+    const [emailDraft, emailDraftResult] = CommonApi.Draft.useEmailDraft()
+    const getEmailDraft = CommonApi.Draft.useGetEmailDraft(receiverId, {
+        skip: !receiverId,
+    })
 
     const validationSchema = yup.object({
         subject: yup.string().required('Must provide subject'),
@@ -42,6 +56,14 @@ export const MailForm = ({ action, receiverId, sender }: any) => {
     })
 
     useEffect(() => {
+        if (getEmailDraft.isSuccess) {
+            if (getEmailDraft?.data?.content) {
+                methods.setValue('message', getEmailDraft?.data?.content)
+            }
+        }
+    }, [getEmailDraft])
+
+    useEffect(() => {
         if (attachmentFiles) {
             methods.setValue('attachment', attachmentFiles)
         }
@@ -51,6 +73,14 @@ export const MailForm = ({ action, receiverId, sender }: any) => {
         if (sendMessageResult.isSuccess) {
             methods.reset()
             methods.setValue('attachment', null)
+            setSendEmailDraft(true)
+            notification.success({
+                title: 'Email Sent',
+                description: 'Email Sent Successfully',
+            })
+        }
+        if (sendMessageResult.isError) {
+            setSendEmailDraft(true)
         }
     }, [sendMessageResult])
 
@@ -77,6 +107,7 @@ export const MailForm = ({ action, receiverId, sender }: any) => {
     }
 
     const onSubmit = (values: any) => {
+        setSendEmailDraft(false)
         const userCredentials = AuthUtils.getUserCredentials()
         const date = new Date()
         const parent = -1
@@ -114,6 +145,7 @@ export const MailForm = ({ action, receiverId, sender }: any) => {
 
     return (
         <>
+            <ShowErrorNotifications result={sendMessageResult} />
             <div className={`sticky top-4`}>
                 <Card>
                     <div className="flex justify-end items-center gap-x-1">
@@ -183,6 +215,12 @@ export const MailForm = ({ action, receiverId, sender }: any) => {
                                     required
                                     rows={4}
                                     placeholder={'Your Message ...'}
+                                    onBlur={(e: any) => {
+                                        emailDraft({
+                                            receiver: receiverId,
+                                            content: e.target.value,
+                                        })
+                                    }}
                                 />
 
                                 {/* <Select
