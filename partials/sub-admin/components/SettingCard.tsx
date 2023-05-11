@@ -77,13 +77,16 @@ export const SettingCard = ({ setting, loading }: any) => {
                 </div>
                 <Switch
                     name={'setting'}
-                    label={isEnabled || setting.status ? 'Yes' : 'No'}
+                    label={setting.status ? 'Yes' : 'No'}
                     onChange={(e: any) => {
-                        setIsEnabled(e.target.checked)
-                        // subAdminSetting(e.target.checked)
-                        subAdminSetting(setting.type)
+                        if (e) {
+                            setIsEnabled(e.target.checked)
+                            // subAdminSetting(e.target.checked)
+                            subAdminSetting(setting.type)
+                        }
                     }}
-                    defaultChecked={isEnabled}
+                    defaultChecked={setting.status}
+                    value={setting.status}
                     loading={isLoading}
                 />
             </div>

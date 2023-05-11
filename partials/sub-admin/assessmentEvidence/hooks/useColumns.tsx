@@ -68,7 +68,7 @@ export const useColumns = () => {
                     id,
                     phone,
                     user: { name, email, avatar },
-                } = row.original?.student?.rto
+                } = row.original?.student?.rto || {}
 
                 return (
                     <Link
@@ -120,10 +120,7 @@ export const useColumns = () => {
             accessorKey: 'autoSubmission',
             cell: ({ row }: any) => (
                 <Typography variant={'label'} capitalize>
-                    {row.original?.autoSubmission ||
-                    !row.original?.isManualSubmission
-                        ? 'Auto'
-                        : 'Manual'}
+                    {row.original?.autoSubmission ? 'Auto' : 'Manual'}
                 </Typography>
             ),
         },
