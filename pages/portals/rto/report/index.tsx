@@ -1,5 +1,5 @@
 import { ReactElement, useState } from 'react'
-import { NextPageWithLayout } from '@types'
+import { NextPageWithLayout, ReportOptionsEnum } from '@types'
 
 // layouts
 import { RtoLayout } from '@layouts'
@@ -14,9 +14,7 @@ import {
     TechnicalError,
     Typography,
 } from '@components'
-import { RtoApi } from '@queries'
-import { ColumnDef } from '@tanstack/react-table'
-import { SectorCell } from '@partials/rto/student/components'
+
 import {
     AppointmentsReport,
     ArchivedStudentsReport,
@@ -24,7 +22,6 @@ import {
     CancelledWorkplaceReport,
     CompletedWorkplaceReport,
     DownloadButton,
-    FilterReport,
     NewStudentReport,
     NonContactableReport,
     ReportedStudents,
@@ -39,13 +36,82 @@ import { ReportType } from '@partials/rto/report/ReportType'
 const Report: NextPageWithLayout = () => {
     const [startDate, setStartDate] = useState<any>(new Date())
     const [endDate, setEndDate] = useState<any>(new Date())
-    const [itemPerPage, setItemPerPage] = useState(50)
-    const [page, setPage] = useState(1)
 
     const [reportType, setReportType] = useState({
         label: 'Non Contactable',
         value: 'non-contactable',
     })
+
+    const reports = () => {
+        switch (reportType?.value) {
+            case ReportOptionsEnum.NON_CONTACTABLE:
+                return <NonContactableReport />
+            case ReportOptionsEnum.NEW_STUDENTS:
+                return (
+                    <NewStudentReport
+                        setStartDate={setStartDate}
+                        setEndDate={setEndDate}
+                        startDate={startDate}
+                        endDate={endDate}
+                    />
+                )
+            case ReportOptionsEnum.CANCELLED_WORKPLACE_REQUEST:
+                return (
+                    <CancelledWorkplaceReport
+                        setStartDate={setStartDate}
+                        setEndDate={setEndDate}
+                        startDate={startDate}
+                        endDate={endDate}
+                    />
+                )
+            case ReportOptionsEnum.BLOCKED_STUDENTS:
+                return <BlockedStudentsReport />
+            case ReportOptionsEnum.ARCHIVED_STUDENTS:
+                return <ArchivedStudentsReport />
+            case ReportOptionsEnum.WORKPLACE_REQUEST_COMPLETED:
+                return (
+                    <CompletedWorkplaceReport
+                        setStartDate={setStartDate}
+                        setEndDate={setEndDate}
+                        startDate={startDate}
+                        endDate={endDate}
+                    />
+                )
+            case ReportOptionsEnum.WORKPLACE_REQUEST_TERMINATED:
+                return (
+                    <TerminatedWorkplaceReport
+                        setStartDate={setStartDate}
+                        setEndDate={setEndDate}
+                        startDate={startDate}
+                        endDate={endDate}
+                    />
+                )
+            case ReportOptionsEnum.WORKPLACE_REQUEST:
+                return (
+                    <WorkplaceRequestReport
+                        setStartDate={setStartDate}
+                        setEndDate={setEndDate}
+                        startDate={startDate}
+                        endDate={endDate}
+                    />
+                )
+            case ReportOptionsEnum.STUDENT_WITHOUT_WORKPLACE_REQUEST:
+                return <StudentsWithoutWorkplaceReport />
+            case ReportOptionsEnum.APPOINTMENTS_REPORT:
+                return (
+                    <AppointmentsReport
+                        setStartDate={setStartDate}
+                        setEndDate={setEndDate}
+                        startDate={startDate}
+                        endDate={endDate}
+                    />
+                )
+            case ReportOptionsEnum.REPORTED_STUDENTS:
+                return <ReportedStudents />
+            default:
+                return null
+        }
+    }
 
     return (
         <>
@@ -59,61 +125,7 @@ const Report: NextPageWithLayout = () => {
                     setReportType={setReportType}
                 />
             </div>
-            <Card>
-                {reportType?.value === 'non-contactable' ? (
-                    <NonContactableReport />
-                ) : reportType?.value === 'new-students' ? (
-                    <NewStudentReport
-                        setStartDate={setStartDate}
-                        setEndDate={setEndDate}
-                        startDate={startDate}
-                        endDate={endDate}
-                    />
-                ) : reportType?.value === 'cancelled-workplace-request' ? (
-                    <CancelledWorkplaceReport
-                        setStartDate={setStartDate}
-                        setEndDate={setEndDate}
-                        startDate={startDate}
-                        endDate={endDate}
-                    />
-                ) : reportType?.value === 'blocked-students' ? (
-                    <BlockedStudentsReport />
-                ) : reportType?.value === 'archived-students' ? (
-                    <ArchivedStudentsReport />
-                ) : reportType?.value === 'workplace-request-completed' ? (
-                    <CompletedWorkplaceReport
-                        setStartDate={setStartDate}
-                        setEndDate={setEndDate}
-                        startDate={startDate}
-                        endDate={endDate}
-                    />
-                ) : reportType?.value === 'workplace-request-terminated' ? (
-                    <TerminatedWorkplaceReport
-                        setStartDate={setStartDate}
-                        setEndDate={setEndDate}
-                        startDate={startDate}
-                        endDate={endDate}
-                    />
-                ) : reportType?.value === 'workplace-request' ? (
-                    <WorkplaceRequestReport
-                        setStartDate={setStartDate}
-                        setEndDate={setEndDate}
-                        startDate={startDate}
-                        endDate={endDate}
-                    />
-                ) : reportType?.value === 'without-workplace-request' ? (
-                    <StudentsWithoutWorkplaceReport />
-                ) : reportType?.value === 'appointments-report' ? (
-                    <AppointmentsReport
-                        setStartDate={setStartDate}
-                        setEndDate={setEndDate}
-                        startDate={startDate}
-                        endDate={endDate}
-                    />
-                ) : reportType?.value === 'reported-students' ? (
-                    <ReportedStudents />
-                ) : null}
-            </Card>
+            <Card>{reports()}</Card>
         </>
     )
 }

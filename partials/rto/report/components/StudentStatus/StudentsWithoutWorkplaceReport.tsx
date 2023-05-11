@@ -1,20 +1,24 @@
-import { EmptyData, InitialAvatar, LoadingAnimation, Table, TechnicalError, Typography } from '@components'
+import { ActionButton, EmptyData, InitialAvatar, LoadingAnimation, Table, TechnicalError, Typography } from '@components'
 import { CourseDot } from '@partials/rto/student/components'
-import React, { useState } from 'react'
 import { RtoApi } from '@queries'
 import { ColumnDef } from '@tanstack/react-table'
-import { Course } from '@types'
-import { ViewFullListReport } from '../ViewFullListReport'
-type Props = {}
+import React, { useState } from 'react'
 
-export const ArchivedStudentsReport = (props: Props) => {
+import { Course, ReportOptionsEnum } from '@types'
+import { ViewFullListReport } from '../../ViewFullListReport'
+import { useRouter } from 'next/router'
+
+
+
+export const StudentsWithoutWorkplaceReport = () => {
     const [itemPerPage, setItemPerPage] = useState(50)
     const [page, setPage] = useState(1)
-
-    const { data, isLoading, isError } = RtoApi.Students.useArchivedStudentsReport({
-        skip: itemPerPage * page - itemPerPage,
-        limit: itemPerPage,
-    });
+    const router = useRouter()
+    const { data, isLoading, isError } =
+        RtoApi.Students.useWithoutWorkplaceReport({
+            skip: itemPerPage * page - itemPerPage,
+            limit: itemPerPage,
+        })
 
     const columns: ColumnDef<any>[] = [
         {
@@ -25,28 +29,26 @@ export const ArchivedStudentsReport = (props: Props) => {
                     id,
                     user: { name, avatar },
                 } = info.row.original || {}
-
                 return (
                     <a className="flex items-center gap-x-2">
                         <InitialAvatar name={name} imageUrl={avatar} />
-                        <div className='flex flex-col'>
+                        <div className="flex flex-col">
                             <span>{id}</span>
-                            <span>
-                                {name}
-                            </span>
+                            <span>{name}</span>
                         </div>
                     </a>
                 )
             },
-
         },
         {
             accessorKey: 'email',
             header: () => <span>Email</span>,
             cell: (info) => {
-                const { user: { email } } = info.row.original || {}
+                const {
+                    user: { email },
+                } = info.row.original || {}
                 return <span>{email}</span>
-            }
+            },
         },
         {
             accessorKey: 'phone',
@@ -61,8 +63,6 @@ export const ArchivedStudentsReport = (props: Props) => {
                 ))
             },
         },
-
-
     ]
     const count = data?.data?.length;
     return (
@@ -70,34 +70,31 @@ export const ArchivedStudentsReport = (props: Props) => {
             <div className="flex justify-between items-center">
                 <div className="">
                     <Typography variant="title" color="text-gray-400">
-                        Archived Students
+                        Students Without Workplace
                     </Typography>
                     <Typography variant="h3">{count || 0}</Typography>
                 </div>
-                <ViewFullListReport data={data} columns={columns} />
-            </div>
 
+
+                {/* <ViewFullListReport data={data} columns={columns} /> */}
+                <ActionButton onClick={() => { router.push(`/portals/rto/report/${ReportOptionsEnum.STUDENT_WITHOUT_WORKPLACE_REQUEST}`) }} >
+                    View Full List
+                </ActionButton>
+
+            </div>
             {isError && <TechnicalError />}
             {isLoading ? (
                 <LoadingAnimation height="h-[60vh]" />
             ) : data?.data && data?.data?.length ? (
                 <Table columns={columns} data={data?.data}>
-                    {({
-                        table,
-                        pagination,
-                        pageSize,
-                        quickActions,
-                    }: any) => {
+                    {({ table, pagination, pageSize, quickActions }: any) => {
                         return (
                             <div>
                                 <div className="p-6 mb-2 flex justify-between">
                                     {pageSize(itemPerPage, setItemPerPage)}
                                     <div className="flex gap-x-2">
-                                        {quickActions}
-                                        {pagination(
-                                            data?.pagination,
-                                            setPage
-                                        )}
+                                        {/* {quickActions} */}
+                                        {pagination(data?.pagination, setPage)}
                                     </div>
                                 </div>
                                 <div className="px-6">{table}</div>
@@ -108,9 +105,9 @@ export const ArchivedStudentsReport = (props: Props) => {
             ) : (
                 !isError && (
                     <EmptyData
-                        title={'No Not Contactable Students Found'}
+                        title={'No Without Workplace Students Found'}
                         description={
-                            'There is no any Not Contactable Students yet'
+                            'There is no Without Workplace Students yet'
                         }
                         height={'50vh'}
                     />
