@@ -19,9 +19,11 @@ import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css'
 export const NoteEditor = ({
     name,
     label,
+    onChange,
 }: {
     name: string
     label: string
+    onChange?: any
 }) => {
     const methods = useFormContext()
     return (
@@ -55,7 +57,12 @@ export const NoteEditor = ({
                             editorState={field.value}
                             wrapperClassName="border rounded-md"
                             editorClassName="overflow-hidden h-20"
-                            onEditorStateChange={field.onChange} // send data with the onChange
+                            onEditorStateChange={(e: any) => {
+                                field.onChange(e)
+                                if (onChange) {
+                                    onChange(e)
+                                }
+                            }} // send data with the onChange
                         />
                     )
                 }}
