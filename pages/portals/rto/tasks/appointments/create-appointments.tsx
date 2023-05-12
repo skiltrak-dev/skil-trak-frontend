@@ -69,7 +69,6 @@ const CreateAppointments: NextPageWithLayout = (props: Props) => {
     const [coordinatorsOptions, setCoordinatorsOptions] = useState<any | null>(
         []
     )
-    const [coursesOptions, setCoursesOptions] = useState<any>([])
 
     useEffect(() => {
         setSelectedCoordinator(null)
@@ -83,16 +82,6 @@ const CreateAppointments: NextPageWithLayout = (props: Props) => {
     }, [coordinators])
 
     useEffect(() => {
-        if (rtoCourses?.data && rtoCourses.isSuccess) {
-            const options = rtoCourses?.data?.courses?.map((course: any) => ({
-                label: course.title,
-                value: course.id,
-            }))
-            setCoursesOptions(options)
-        }
-    }, [rtoCourses?.data?.courses, rtoCourses.isSuccess])
-
-    useEffect(() => {
         if (createAppointmentResult.isSuccess) {
             notification.success({
                 title: 'Appointment Created Successfully',
@@ -101,6 +90,11 @@ const CreateAppointments: NextPageWithLayout = (props: Props) => {
             router.push('/portals/rto/tasks/appointments/')
         }
     }, [createAppointmentResult.isSuccess])
+
+    const coursesOptions = rtoCourses?.data?.courses?.map((course: any) => ({
+        label: course.title,
+        value: course.id,
+    }))
 
     const formMethods = useForm({
         mode: 'all',

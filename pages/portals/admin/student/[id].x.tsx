@@ -72,7 +72,6 @@ const Detail: NextPageWithLayout = () => {
 
     useEffect(() => {
         if (appliedIndustry?.placementStarted) {
-        } else if (appliedIndustry?.placementStarted) {
             setPlacementProgressBar('Placement Started')
         } else if (appliedIndustry?.awaitingAgreementSigned) {
             setPlacementProgressBar('Waiting For Agrement Sign')

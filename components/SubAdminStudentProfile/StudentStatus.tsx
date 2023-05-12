@@ -28,13 +28,6 @@ export const StudentStatus = ({
     const [edit, setEdit] = useState(false)
 
     const { notification } = useNotification()
-    // const [appliedIndustryId, setAppliedIndustryId] = useState('')
-
-    // useEffect(() => {
-    //     if (industries) {
-    //         setAppliedIndustryId(industries?.find((i: any) => i.applied)?.id)
-    //     }
-    // }, [industries])
 
     // query
     const [terminate, terminateResult] = useTerminatePlacementMutation()

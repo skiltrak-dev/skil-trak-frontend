@@ -53,7 +53,6 @@ const HaveWorkplace: NextPageWithLayout = (props: Props) => {
                 title: 'Workplace request sent',
                 description: 'Workplace Request sent to your coordinator',
             })
-            // setWorkplaceData(addWorkplaceResult.data?.workplaceRequest)
             setActive((active: number) => active + 1)
         }
     }, [addWorkplaceResult])
@@ -80,12 +79,6 @@ const HaveWorkplace: NextPageWithLayout = (props: Props) => {
             setActive((active: number) => active + 1)
         }
     }, [result])
-
-    // useEffect(() => {
-    //     if (workplace.isSuccess && workplace.data.length > 0) {
-    //         setActive(3)
-    //     }
-    // }, [workplace.data, workplace.isSuccess])
 
     useEffect(() => {
         if (cancelRequestResult.isSuccess) {

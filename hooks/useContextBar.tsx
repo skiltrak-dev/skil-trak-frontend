@@ -1,12 +1,6 @@
-import React, {
-    ReactElement,
-    ReactNode,
-    useContext, useState
-} from 'react'
+import React, { ReactElement, ReactNode, useContext, useState } from 'react'
 
 // utils
-import { getToken } from '@utils'
-import { useRouter } from 'next/router'
 
 interface ContextBarContextType {
     content: ReactElement | ReactNode | undefined
@@ -34,24 +28,6 @@ export const ContextBarProvider = ({
     const [fixed, setFixed] = useState(false)
     const [content, setContent] = useState(null)
     const [title, setTitle] = useState('')
-
-    const token = getToken()
-    const route = useRouter()
-
-    // useEffect(() => {
-    //     if (!token) {
-    //         setContent(null)
-    //         setTitle('')
-    //         setVisible(false)
-    //     }
-    // }, [token])
-
-    // useEffect(() => {
-    //     setTitle('')
-    //     setFixed(false)
-    //     setContent(null)
-    //     setVisible(false)
-    // }, [route])
 
     const value = {
         content,

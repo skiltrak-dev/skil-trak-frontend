@@ -81,12 +81,6 @@ export const Table = <Type,>({
         [columns]
     )
 
-    // Table Data
-    // const [tableData, setTableData] = useState(() => [...data])
-    // useEffect(() => {
-    //     setTableData([...data])
-    // }, [data])
-
     // Table Row Selection
     const [rowSelection, setRowSelection] = useState({})
 

@@ -1,13 +1,12 @@
 import { ReactElement, useEffect, useState } from 'react'
 
 import { FigureCard } from '@components/sections/subAdmin'
+import { useNavbar } from '@hooks'
 import { AdminLayout } from '@layouts'
-import { adminApi, AdminApi } from '@queries'
+import { AdminApi } from '@queries'
 import { NextPageWithLayout } from '@types'
 import { AuthUtils } from '@utils'
 import { format } from 'date-fns'
-import { useNavbar } from '@hooks'
-import Link from 'next/link'
 
 const AdminDashboard: NextPageWithLayout = () => {
     const navBar = useNavbar()
