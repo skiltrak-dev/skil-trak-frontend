@@ -61,7 +61,7 @@ export const MailForm = ({ action, receiverId, sender }: any) => {
                 methods.setValue('message', getEmailDraft?.data?.content)
             }
         }
-    }, [getEmailDraft])
+    }, [getEmailDraft.isSuccess])
 
     useEffect(() => {
         if (attachmentFiles) {

@@ -172,7 +172,7 @@ export const CreateNote = ({
                 methods.setValue('body', bodyValue)
             }
         }
-    }, [getNoteDraft])
+    }, [getNoteDraft.isSuccess])
 
     useEffect(() => {
         if (templateValue) {
