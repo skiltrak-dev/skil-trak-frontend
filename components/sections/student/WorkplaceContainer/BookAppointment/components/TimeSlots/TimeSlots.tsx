@@ -69,10 +69,6 @@ export const TimeSlots = ({
     const [timeAvailability, setTimeAvailability] = useState(Array())
     const [daysAvailability, setDaysAvailability] = useState(Array())
 
-    // useEffect(() => {
-    //     setCurrentItems([])
-    // }, [appointmentAvailability, selectedDate])
-
     useEffect(() => {
         const available = appointmentAvailability?.map((a: any) => a?.name)
 

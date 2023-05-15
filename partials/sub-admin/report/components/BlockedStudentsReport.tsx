@@ -1,12 +1,17 @@
-import { EmptyData, InitialAvatar, LoadingAnimation, Table, TechnicalError, Typography } from '@components'
+import {
+    EmptyData,
+    InitialAvatar,
+    LoadingAnimation,
+    Table,
+    TechnicalError,
+    Typography,
+} from '@components'
 import { CourseDot } from '@partials/rto/student/components'
 import { RtoApi } from '@queries'
 import { ColumnDef } from '@tanstack/react-table'
 import { Course } from '@types'
 import React, { useState } from 'react'
 import { ViewFullListReport } from '../ViewFullListReport'
-
-
 
 export const BlockedStudentsReport = () => {
     const [itemPerPage, setItemPerPage] = useState(50)
@@ -17,7 +22,7 @@ export const BlockedStudentsReport = () => {
             skip: itemPerPage * page - itemPerPage,
             limit: itemPerPage,
         })
-    console.log("data", data)
+
     const columns: ColumnDef<any>[] = [
         {
             header: () => <span>Name</span>,
@@ -62,7 +67,7 @@ export const BlockedStudentsReport = () => {
             },
         },
     ]
-    const count = data?.data?.length;
+    const count = data?.data?.length
     return (
         <>
             <div className="flex justify-between items-center">
@@ -98,9 +103,7 @@ export const BlockedStudentsReport = () => {
                 !isError && (
                     <EmptyData
                         title={'No Blocked Students Found'}
-                        description={
-                            'There Is No Blocked Students Yet'
-                        }
+                        description={'There Is No Blocked Students Yet'}
                         height={'50vh'}
                     />
                 )

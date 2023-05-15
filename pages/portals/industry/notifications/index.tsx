@@ -17,7 +17,6 @@ import { EmailsCard, RecentAppointment } from '@partials/common'
 // Hooks
 import { useContextBar, useJoyRide } from '@hooks'
 
-
 const Notifications: NextPageWithLayout = () => {
     const { setContent } = useContextBar()
 
@@ -31,50 +30,18 @@ const Notifications: NextPageWithLayout = () => {
         )
     }, [setContent])
 
-    // WORKPLACE JOY RIDE - Start
-    // const joyride = useJoyRide()
-
-    // useEffect(() => {
-    //     if (joyride.state.tourActive) {
-    //         setTimeout(() => {
-    //             joyride.setState({ ...joyride.state, run: true, stepIndex: 1 })
-    //         }, 1200)
-    //     }
-    // }, [])
-
     const PrimaryLinks = [
         {
             title: 'Emails',
             description: 'All Emails',
             link: 'notifications/e-mails?tab=all-mails',
             animation: Animations.Student.Appointments.AssessmentTool,
-            // id: 'workplace',
-            // badge: {
-            //     text: statistics?.data?.workplaceRequest,
-            //     loading: statistics.isLoading,
-            // },
         },
-        // {
-        //     title: 'Discussions',
-        //     description: 'Discussions',
-        //     link: 'notifications/e-mails?tab=all-mails',
-        //     animation: Animations.Student.Appointments.AssessmentEvidence,
-        //     // id: 'assessment-evidence',
-        //     // badge: {
-        //     //     text: statistics?.data?.assessmentEvidence,
-        //     //     loading: statistics.isLoading,
-        //     // },
-        // },
         {
             title: 'All Notifications',
             description: 'All Notifications',
             link: 'notifications/all-notifications',
             animation: Animations.Student.Appointments.AssessmentEvidence,
-            // id: 'assessment-evidence',
-            // badge: {
-            //     text: statistics?.data?.assessmentEvidence,
-            //     loading: statistics.isLoading,
-            // },
         },
     ]
 

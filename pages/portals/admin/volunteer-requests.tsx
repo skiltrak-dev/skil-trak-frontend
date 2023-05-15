@@ -61,14 +61,6 @@ const VolunteerRequests: NextPageWithLayout = (props: Props) => {
     useEffect(() => {
         navBar.setTitle('Volunteer Request')
     }, [])
-    const tableActionOptions: TableActionOption[] = [
-        {
-            text: 'Delete',
-            onClick: (item: any) => onDeleteClicked(item),
-            Icon: FaTrash,
-            color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
-        },
-    ]
 
     const columns: ColumnDef<any>[] = [
         {
@@ -121,7 +113,6 @@ const VolunteerRequests: NextPageWithLayout = (props: Props) => {
             accessorKey: 'industry.enrolledStudents',
             cell: (info) => info.getValue(),
         },
-        
     ]
 
     return (

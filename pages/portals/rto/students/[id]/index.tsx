@@ -42,12 +42,6 @@ const Detail: NextPageWithLayout = () => {
         navBar.setTitle('Student Detail')
         contextBar.hide()
     }, [])
-    // useEffect(() => {
-    //     if (isSuccess) {
-    //         contextBar.setContent(<RtoStudentProfileCB student={data} />)
-    //         contextBar.show(false)
-    //     }
-    // }, [data])
 
     return (
         <>

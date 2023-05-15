@@ -64,7 +64,6 @@ const IndustryList: NextPageWithLayout = () => {
     useEffect(() => {
         navBar.setTitle('Industries')
         contextBar.hide()
-        // contextBar.setContent(<UserProfile />)
     }, [])
 
     const tabs: TabProps[] = [

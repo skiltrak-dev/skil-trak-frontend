@@ -10,14 +10,6 @@ import { Actions } from '../Actions'
 import { StudentAvailability } from '@partials/common'
 
 export const CurrentStudentCard = ({ workplace }: any) => {
-    const [industry, setIndustry] = useState<any | null>(null)
-
-    useEffect(() => {
-        if (workplace.industries) {
-            setIndustry(workplace.industries[0])
-        }
-    }, [workplace])
-
     return (
         <Card>
             <div className="flex justify-between items-center pb-2.5 border-b border-dashed">
@@ -27,7 +19,8 @@ export const CurrentStudentCard = ({ workplace }: any) => {
                         <Typography variant={'small'}>
                             <span className="font-semibold">
                                 {moment(
-                                    industry?.awaitingWorkplaceResponseDate,
+                                    workplace.industries[0]
+                                        ?.awaitingWorkplaceResponseDate,
                                     'YYYY-MM-DD hh:mm:ss Z'
                                 ).format('Do MMM, YYYY')}
                             </span>
@@ -39,7 +32,10 @@ export const CurrentStudentCard = ({ workplace }: any) => {
                 {/*  */}
 
                 {/* Request Type Selection */}
-                <Actions workplace={workplace} industry={industry} />
+                <Actions
+                    workplace={workplace}
+                    industry={workplace.industries[0]}
+                />
             </div>
 
             {/* Student Small Details */}

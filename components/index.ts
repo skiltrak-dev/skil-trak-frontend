@@ -27,6 +27,7 @@ export * from './RedirectUser'
 export * from './EditPassword'
 export * from './Tooltip'
 export * from './UserCreatedAt'
+export * from './UserCardRole'
 
 // export * from './Pagination'
 export * from './PopUp'

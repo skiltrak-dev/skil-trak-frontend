@@ -21,7 +21,6 @@ export const RtoSignUpForm = ({ onSubmit }: { onSubmit: any }) => {
     const sectorResponse = AuthApi.useSectors({})
     const [checkEmailExists, emailCheckResult] = AuthApi.useEmailCheck()
 
-    const [sectorOptions, setSectorOptions] = useState([])
     const [courseOptions, setCourseOptions] = useState([])
     const [courseLoading, setCourseLoading] = useState(false)
 
@@ -117,15 +116,13 @@ export const RtoSignUpForm = ({ onSubmit }: { onSubmit: any }) => {
             ),
     })
 
-    useEffect(() => {
-        if (sectorResponse.data?.length) {
-            const options = sectorResponse.data?.map((sector: any) => ({
-                label: sector.name,
-                value: sector.id,
-            }))
-            setSectorOptions(options)
-        }
-    }, [sectorResponse.data])
+    const sectorOptions =
+        sectorResponse.data && sectorResponse.data?.length > 0
+            ? sectorResponse.data?.map((sector: any) => ({
+                  label: sector.name,
+                  value: sector.id,
+              }))
+            : []
 
     useEffect(() => {
         if (SignUpUtils.getEditingMode()) {

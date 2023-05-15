@@ -14,35 +14,20 @@ export const WorkplaceFilters = ({
     onFilterChange,
     filter,
 }: ItemFilterProps) => {
-    const [industryOptions, setIndustryOptions] = useState<any>([])
-    const [coursesOptions, setCoursesOptions] = useState<any>([])
-
     // query
     const getIndustries = CommonApi.Filter.useIndustries()
     const getCourses = CommonApi.Filter.useCourses()
     const getRtos = useGetSubAdminRtosQuery({})
 
-    useEffect(() => {
-        if (getIndustries.isSuccess) {
-            setIndustryOptions(
-                getIndustries?.data?.map((industry: any) => ({
-                    value: industry?.id,
-                    label: industry?.user?.name,
-                }))
-            )
-        }
-    }, [getIndustries])
+    const industryOptions = getIndustries?.data?.map((industry: any) => ({
+        value: industry?.id,
+        label: industry?.user?.name,
+    }))
 
-    useEffect(() => {
-        if (getCourses.isSuccess) {
-            setCoursesOptions(
-                getCourses?.data?.map((course: any) => ({
-                    value: course?.id,
-                    label: course?.title,
-                }))
-            )
-        }
-    }, [getCourses])
+    const coursesOptions = getCourses?.data?.map((course: any) => ({
+        value: course?.id,
+        label: course?.title,
+    }))
 
     const rtoOptions =
         getRtos?.data?.data && getRtos?.data?.data?.length > 0

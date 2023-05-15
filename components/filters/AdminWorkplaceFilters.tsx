@@ -1,12 +1,11 @@
-import { useEffect, useState } from 'react'
 import { Select, TextInput } from '@components/inputs'
 
 // query
 import { CommonApi } from '@queries'
 
-import { statusOptions } from './statusOptions'
-import { Rto, SubAdmin } from '@types'
+import { SubAdmin } from '@types'
 import { SetQueryFilters } from './SetQueryFilters'
+import { statusOptions } from './statusOptions'
 import { SelectOption } from './types'
 
 interface ItemFilterProps {
@@ -17,36 +16,21 @@ export const AdminWorkplaceFilters = ({
     onFilterChange,
     filter,
 }: ItemFilterProps) => {
-    const [industryOptions, setIndustryOptions] = useState<any>([])
-    const [coursesOptions, setCoursesOptions] = useState<any>([])
-
     // query
     const getIndustries = CommonApi.Filter.useIndustries()
     const getCourses = CommonApi.Filter.useCourses()
     const getCoordinators = CommonApi.Appointments.allCoordinators()
     const getRtos = CommonApi.Filter.useRtos()
 
-    useEffect(() => {
-        if (getIndustries.isSuccess) {
-            setIndustryOptions(
-                getIndustries?.data?.map((industry: any) => ({
-                    value: industry?.id,
-                    label: industry?.user?.name,
-                }))
-            )
-        }
-    }, [getIndustries])
+    const industryOptions = getIndustries?.data?.map((industry: any) => ({
+        value: industry?.id,
+        label: industry?.user?.name,
+    }))
 
-    useEffect(() => {
-        if (getCourses.isSuccess) {
-            setCoursesOptions(
-                getCourses?.data?.map((course: any) => ({
-                    value: course?.id,
-                    label: course?.title,
-                }))
-            )
-        }
-    }, [getCourses])
+    const coursesOptions = getCourses?.data?.map((course: any) => ({
+        value: course?.id,
+        label: course?.title,
+    }))
 
     const coordinatorOptions = getCoordinators?.data?.map(
         (coordinator: SubAdmin) => ({

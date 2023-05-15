@@ -1,12 +1,10 @@
-import { useEffect, useState } from 'react'
 import { Select, TextInput } from '@components/inputs'
 
 // query
-import { CommonApi, useGetSubAdminRtosQuery, RtoApi } from '@queries'
+import { CommonApi, RtoApi } from '@queries'
 
-import { statusOptions } from './statusOptions'
-import { SelectOption } from './types'
 import { SetQueryFilters } from './SetQueryFilters'
+import { SelectOption } from './types'
 
 interface ItemFilterProps {
     onFilterChange: Function
@@ -16,36 +14,20 @@ export const RTOWorkplaceFilters = ({
     onFilterChange,
     filter,
 }: ItemFilterProps) => {
-    const [industryOptions, setIndustryOptions] = useState<any>([])
-    const [coursesOptions, setCoursesOptions] = useState<any>([])
-    const [selectedDropDownValues, setSelectDropDownValues] = useState<any>({})
-
     // query
     const getIndustries = CommonApi.Filter.useIndustries()
     const courses = RtoApi.Rto.useProfile()
     const rtoCoordinators = RtoApi.Coordinator.useList({})
 
-    useEffect(() => {
-        if (getIndustries.isSuccess) {
-            setIndustryOptions(
-                getIndustries?.data?.map((industry: any) => ({
-                    value: industry?.id,
-                    label: industry?.user?.name,
-                }))
-            )
-        }
-    }, [getIndustries])
+    const industryOptions = getIndustries?.data?.map((industry: any) => ({
+        value: industry?.id,
+        label: industry?.user?.name,
+    }))
 
-    useEffect(() => {
-        if (courses.isSuccess) {
-            setCoursesOptions(
-                courses?.data?.courses?.map((course: any) => ({
-                    value: course?.id,
-                    label: course?.title,
-                }))
-            )
-        }
-    }, [courses])
+    const coursesOptions = courses?.data?.courses?.map((course: any) => ({
+        value: course?.id,
+        label: course?.title,
+    }))
 
     const coordinatorsOptions =
         rtoCoordinators?.data?.data && rtoCoordinators?.data?.data?.length > 0

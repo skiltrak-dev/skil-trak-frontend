@@ -1,6 +1,6 @@
 import { Controller, FormProvider, useForm } from 'react-hook-form'
 import dynamic from 'next/dynamic'
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 
 import { EditorProps } from 'react-draft-wysiwyg'
 const Editor = dynamic<EditorProps>(
@@ -40,6 +40,7 @@ import { CommonApi } from '@queries'
 import { useNotification } from 'hooks'
 import { NoteEditor } from './NoteEditor'
 import ClickAwayListener from 'react-click-away-listener'
+import OutsideClickHandler from 'react-outside-click-handler'
 
 export const CreateNote = ({
     action,
@@ -51,6 +52,10 @@ export const CreateNote = ({
     const { isVisible } = useContextBar()
     const { notification } = useNotification()
     const [noteContent, setNoteContent] = useState<any>(null)
+
+    const ref = useRef<HTMLDivElement>(null)
+
+    const [isSendDraft, setIsSendDraft] = useState<boolean>(true)
 
     // query
     const [createNote, createNoteResult] = CommonApi.Notes.useCreate()
@@ -84,21 +89,17 @@ export const CreateNote = ({
             })
             setNoteContent(null)
             methods.reset()
+            // setIsSendDraft(true)
         }
     }, [createNoteResult.isSuccess])
-
     // useEffect(() => {
-    //     if (updateNoteResult.isSuccess) {
-    //         setEditing(false)
-    //         setEditValues(null)
-    //         notification.info({
-    //             title: 'Note Updated Successfully',
-    //             description: 'Note Updated Successfully',
-    //         })
+    //     if (createNoteResult.isError) {
+    //         setIsSendDraft(true)
     //     }
-    // }, [updateNoteResult.isSuccess])
+    // }, [createNoteResult.isError])
 
     const onSubmit = (values: any) => {
+        setIsSendDraft(false)
         if (editing) {
             // updateNote({ ...values, postedFor: receiverId, id: editValues?.id })
         } else {
@@ -171,8 +172,11 @@ export const CreateNote = ({
                 )
                 methods.setValue('body', bodyValue)
             }
+            if (getNoteDraft?.data?.title) {
+                methods.setValue('title', getNoteDraft?.data?.title)
+            }
         }
-    }, [getNoteDraft])
+    }, [getNoteDraft.isSuccess])
 
     useEffect(() => {
         if (templateValue) {
@@ -204,11 +208,26 @@ export const CreateNote = ({
                                     name={'title'}
                                     placeholder={'Note Title...'}
                                     validationIcons
+                                    onBlur={(e: any) => {
+                                        if (
+                                            !ref.current?.contains(
+                                                e.relatedTarget
+                                            )
+                                        ) {
+                                            setNoteDraft({
+                                                receiver: receiverId,
+                                                title: e.target.value,
+                                            })
+                                        }
+                                    }}
                                 />
 
                                 <ClickAwayListener
                                     onClickAway={(e: any) => {
-                                        if (noteContent) {
+                                        if (
+                                            noteContent &&
+                                            !ref.current?.contains(e.target)
+                                        ) {
                                             setNoteDraft({
                                                 receiver: receiverId,
                                                 content: noteContent,
@@ -227,14 +246,6 @@ export const CreateNote = ({
                                                     )
                                                 )
                                                 setNoteContent(note)
-
-                                                console.log(
-                                                    draftToHtml(
-                                                        convertToRaw(
-                                                            e.getCurrentContent()
-                                                        )
-                                                    )
-                                                )
                                             }}
                                         />
                                     </div>
@@ -255,14 +266,20 @@ export const CreateNote = ({
                                     />
                                 </div>
 
-                                <Button
-                                    submit
-                                    fullWidth
-                                    text={`${editing ? 'Update' : 'Add'} Note`}
-                                    loading={createNoteResult?.isLoading}
-                                    disabled={createNoteResult?.isLoading}
-                                    variant={editing ? 'secondary' : 'primary'}
-                                />
+                                <div ref={ref} id={'submitButton'}>
+                                    <Button
+                                        submit
+                                        fullWidth
+                                        text={`${
+                                            editing ? 'Update' : 'Add'
+                                        } Note`}
+                                        loading={createNoteResult?.isLoading}
+                                        disabled={createNoteResult?.isLoading}
+                                        variant={
+                                            editing ? 'secondary' : 'primary'
+                                        }
+                                    />
+                                </div>
                             </div>
                         </form>
                     </FormProvider>

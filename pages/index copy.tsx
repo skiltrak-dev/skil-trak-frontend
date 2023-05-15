@@ -11,9 +11,6 @@ const Home: NextPage = () => {
     function updateOnlineStatus(event: any) {
         const status = navigator.onLine ? 'online' : 'offline'
         return status === 'offline' ? router.push('404') : ''
-
-        // TODO: if OFFLINE -> Navigate to your 404 page
-        // Put here your redirection code
     }
 
     useEffect(() => {

@@ -17,7 +17,6 @@ import { EmailsCard, RecentAppointment } from '@partials/common'
 // Hooks
 import { useContextBar, useJoyRide } from '@hooks'
 
-
 const Notifications: NextPageWithLayout = () => {
     const { setContent } = useContextBar()
 
@@ -30,17 +29,6 @@ const Notifications: NextPageWithLayout = () => {
             </>
         )
     }, [setContent])
-
-    // WORKPLACE JOY RIDE - Start
-    // const joyride = useJoyRide()
-
-    // useEffect(() => {
-    //     if (joyride.state.tourActive) {
-    //         setTimeout(() => {
-    //             joyride.setState({ ...joyride.state, run: true, stepIndex: 1 })
-    //         }, 1200)
-    //     }
-    // }, [])
 
     const PrimaryLinks = [
         {
@@ -97,9 +85,7 @@ const Notifications: NextPageWithLayout = () => {
 }
 
 Notifications.getLayout = (page: ReactElement) => {
-    return (
-        <RtoLayout pageTitle={{ title: 'Tasks' }}>{page}</RtoLayout>
-    )
+    return <RtoLayout pageTitle={{ title: 'Tasks' }}>{page}</RtoLayout>
 }
 
 export default Notifications

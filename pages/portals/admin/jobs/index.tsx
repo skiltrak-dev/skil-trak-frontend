@@ -2,9 +2,8 @@ import { ReactElement, useEffect } from 'react'
 
 import { useNavbar } from '@hooks'
 import { AdminLayout } from '@layouts'
-import { NextPageWithLayout } from '@types'
-import { AppointmentTypes } from '@partials/admin/appointment-type'
 import { Jobs } from '@partials/admin/job'
+import { NextPageWithLayout } from '@types'
 
 const JobsList: NextPageWithLayout = () => {
     const navBar = useNavbar()

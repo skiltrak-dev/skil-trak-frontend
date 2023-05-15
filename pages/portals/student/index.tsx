@@ -47,30 +47,12 @@ const StudentDashboard: NextPageWithLayout = () => {
         undefined,
         handleMediaQueryChange
     )
-    
-    
 
     const { data, isLoading } = useGetStudentProfileDetailQuery()
     const sectorsWithCourses = getSectors(data?.courses)
 
-    // const [mounted, setMounted] = useState(false)
-    // useEffect(() => {
-    //     setMounted(true)
-    // }, [])
-    // useEffect(() => {
-    //     if (mounted && !isMobile && !contextBar.isVisible) {
-    //         contextBar.setContent(<ViewProfileCB />)
-    //         contextBar.show(false)
-    //     }
-
-    //     return () => {
-    //         contextBar.hide()
-    //     }
-    // }, [isMobile, mounted])
-
     return (
         <div className="flex flex-col gap-y-6 pb-8">
-            {/* <StudentContextBar /> */}
             {/* Question Section */}
             <PortalQuestions />
 

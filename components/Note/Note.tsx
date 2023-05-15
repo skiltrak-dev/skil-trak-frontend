@@ -127,6 +127,8 @@ export const Note = ({ note }: { note: NoteType }) => {
                             <ActionButton
                                 variant="error"
                                 onClick={onDeleteClick}
+                                loading={removeResult.isLoading}
+                                disabled={removeResult.isLoading}
                             >
                                 Delete
                             </ActionButton>

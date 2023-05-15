@@ -72,7 +72,6 @@ const StudentList: NextPageWithLayout = () => {
     useEffect(() => {
         navBar.setTitle('Students')
         contextBar.hide()
-        // contextBar.setContent(<UserProfile />)
     }, [])
 
     const tabs: TabProps[] = [

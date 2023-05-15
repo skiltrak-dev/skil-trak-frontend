@@ -17,7 +17,6 @@ import { EmailsCard, RecentAppointment } from '@partials/common'
 // Hooks
 import { useContextBar, useJoyRide } from '@hooks'
 
-
 const Notifications: NextPageWithLayout = () => {
     const { setContent } = useContextBar()
 
@@ -33,14 +32,6 @@ const Notifications: NextPageWithLayout = () => {
 
     // WORKPLACE JOY RIDE - Start
     // const joyride = useJoyRide()
-
-    // useEffect(() => {
-    //     if (joyride.state.tourActive) {
-    //         setTimeout(() => {
-    //             joyride.setState({ ...joyride.state, run: true, stepIndex: 1 })
-    //         }, 1200)
-    //     }
-    // }, [])
 
     const PrimaryLinks = [
         {

@@ -1,5 +1,4 @@
 import { Select, TextInput } from '@components/inputs'
-import { useState, useEffect } from 'react'
 
 import { statusOptions } from './statusOptions'
 
@@ -16,21 +15,14 @@ export const IndustryFilters = ({
     onFilterChange,
     filter,
 }: ItemFilterProps) => {
-    const [coursesOptions, setCoursesOptions] = useState<any>([])
-
     // query
     const getCourses = CommonApi.Filter.useCourses()
 
-    useEffect(() => {
-        if (getCourses.isSuccess) {
-            setCoursesOptions(
-                getCourses?.data?.map((course: any) => ({
-                    value: course?.id,
-                    label: course?.title,
-                }))
-            )
-        }
-    }, [getCourses])
+    const coursesOptions = getCourses?.data?.map((course: any) => ({
+        value: course?.id,
+        label: course?.title,
+    }))
+
     return (
         <>
             <SetQueryFilters filter={filter} />

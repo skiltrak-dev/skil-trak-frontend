@@ -1,32 +1,25 @@
-import React, { useState, useEffect } from 'react'
-import moment from 'moment'
 import { useRouter } from 'next/router'
+import { useEffect, useState } from 'react'
 
 // Icons
-import { GoPrimitiveDot } from 'react-icons/go'
 import { IoNotifications } from 'react-icons/io5'
 
 // components
 import {
     Card,
-    LoadingAnimation,
     EmptyData,
-    Pagination,
-    Typography,
+    LoadingAnimation,
     TechnicalError,
+    Typography,
 } from 'components'
 
 // hooks
-import { useContextBar, useNotification } from 'hooks'
+import { useNotification } from 'hooks'
 
 // query
-import {
-    useGetIndustryNotificationsQuery,
-    useReadNotificationMutation,
-} from '@queries'
+import { useGetIndustryNotificationsQuery } from '@queries'
 
 // utills
-import { ellipsisText } from '@utils'
 
 export const Notifications = () => {
     const router = useRouter()
@@ -39,40 +32,17 @@ export const Notifications = () => {
     const [currentPage, setCurrentPage] = useState(1)
 
     // query
-    const { data, isLoading, refetch, isError } =
+    const { data, isLoading, isError } =
         useGetIndustryNotificationsQuery({
             skip: resultsPerPage * (currentPage - 1),
             limit: resultsPerPage,
         })
-    const [readNotification] = useReadNotificationMutation()
-
-    const { setContent } = useContextBar()
-
-    useEffect(() => {
-        setContent(<>SAAD</>)
-    }, [setContent])
-
-    useEffect(() => {
-        refetch()
-    }, [refetch])
 
     useEffect(() => {
         if (data) {
             setNotifications(data?.data)
         }
     }, [data])
-
-    // useEffect(() => {
-    //   if (notificationList) {
-    //     setNotifications((n) => [notificationList, ...n])
-    //     setNotificationList(null)
-    //   }
-    // }, [notificationList, setNotificationList])
-
-    // const readNotifications = async (notification) => {
-    //   await readNotification(notification.id)
-    //   navigate(notification.link)
-    // }
 
     return (
         <Card>

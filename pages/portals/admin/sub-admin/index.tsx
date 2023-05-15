@@ -55,13 +55,10 @@ const SubAdminList: NextPageWithLayout = () => {
 
     useEffect(() => {
         navBar.setTitle('Sub-Admins')
-        // contextBar.hide()
-        // contextBar.setContent(<UserProfile />)
     }, [])
 
     useEffect(() => {
         navBar.setTitle('Sub-Admins')
-        // contextBar.hide()
     }, [])
 
     const tabs: TabProps[] = [
