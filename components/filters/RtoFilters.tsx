@@ -1,6 +1,5 @@
 import { Select, TextInput } from '@components/inputs'
 import { CommonApi } from '@queries'
-import { useEffect, useState } from 'react'
 import { SetQueryFilters } from './SetQueryFilters'
 import { statusOptions } from './statusOptions'
 import { SelectOption } from './types'
@@ -10,21 +9,14 @@ interface ItemFilterProps {
     filter: any
 }
 export const RtoFilters = ({ onFilterChange, filter }: ItemFilterProps) => {
-    const [coursesOptions, setCoursesOptions] = useState<any>([])
-
     // query
     const getCourses = CommonApi.Filter.useCourses()
 
-    useEffect(() => {
-        if (getCourses.isSuccess) {
-            setCoursesOptions(
-                getCourses?.data?.map((course: any) => ({
-                    value: course?.id,
-                    label: course?.title,
-                }))
-            )
-        }
-    }, [getCourses])
+    const coursesOptions = getCourses?.data?.map((course: any) => ({
+        value: course?.id,
+        label: course?.title,
+    }))
+
     return (
         <>
             <SetQueryFilters filter={filter} />

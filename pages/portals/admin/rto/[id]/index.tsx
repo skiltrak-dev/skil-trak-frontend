@@ -55,7 +55,6 @@ const RtoDetail: NextPageWithLayout = () => {
     useEffect(() => {
         navBar.setTitle('RTO Detail')
         navBar.setSubTitle(rto?.data?.user?.name)
-        // contextBar.hide()
     }, [rto.data])
 
     useEffect(() => {

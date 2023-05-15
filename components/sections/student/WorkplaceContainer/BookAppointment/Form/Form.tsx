@@ -33,7 +33,6 @@ export const Form = ({
     const [coordinatorsOptions, setCoordinatorsOptions] = useState<any | null>(
         []
     )
-    const [coursesOptions, setCoursesOptions] = useState<any[]>([])
 
     const coordinators = useGetCoordinatorsForStudentQuery()
     const studentCourses = useGetStudentCoursesQuery()
@@ -49,15 +48,10 @@ export const Form = ({
         }
     }, [coordinators])
 
-    useEffect(() => {
-        if (studentCourses?.data && studentCourses.isSuccess) {
-            const options = studentCourses?.data?.map((course: any) => ({
-                label: course.title,
-                value: course.id,
-            }))
-            setCoursesOptions(options)
-        }
-    }, [studentCourses?.data])
+    const coursesOptions = studentCourses?.data?.map((course: any) => ({
+        label: course.title,
+        value: course.id,
+    }))
 
     return (
         <div>

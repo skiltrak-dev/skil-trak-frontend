@@ -21,7 +21,6 @@ export const PersonalInfo = ({
     setPersonalInfoData,
 }: PersonalInfoProps) => {
     const { data, isSuccess, isLoading } = useGetStudentCoursesQuery()
-    const [courses, setCourses] = useState<any[]>([])
 
     // function getCurrentWeek() {
     //     var currentDate = moment()
@@ -42,24 +41,10 @@ export const PersonalInfo = ({
     //     day: moment.weekdaysShort()[i],
     // }))
 
-    useEffect(() => {
-        if (isSuccess) {
-            const options = data?.map((course: any) => ({
-                label: course.title,
-                value: course.id,
-            }))
-            setCourses(options)
-        }
-    }, [data, isSuccess])
-
-    const initialValues = {
-        course: '',
-        currentQualification: '',
-        currentWork: '',
-        haveTransport: '',
-        haveDrivingLicense: '',
-        preferableLocation: '',
-    }
+    const courses = data?.map((course: any) => ({
+        label: course.title,
+        value: course.id,
+    }))
 
     const validationSchema = yup.object({
         // course: yup.string().required('Must provide course'),

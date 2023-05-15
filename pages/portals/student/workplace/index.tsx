@@ -1,15 +1,13 @@
 import { ReactElement, useEffect } from 'react'
 
 import { Animations } from '@animations'
-import {
-    DisplayPrimaryActions
-} from '@components'
+import { DisplayPrimaryActions } from '@components'
 import { PlacementProgressCard } from '@components/specialCards/PlacementProgress'
 import { StudentLayout } from '@layouts'
 import { RecentAppointment } from '@partials/common'
 import {
     useGetPlacementProgressQuery,
-    useGetStudentPastAppointmentsQuery
+    useGetStudentPastAppointmentsQuery,
 } from '@queries'
 import { NextPageWithLayout } from '@types'
 import { useJoyRide } from 'hooks'
@@ -79,21 +77,6 @@ const OtherQuestions = [
 const StudentWorkplace: NextPageWithLayout = () => {
     const { data: getPlacementProgress } = useGetPlacementProgressQuery()
     const { data: recentAppointments } = useGetStudentPastAppointmentsQuery()
-
-    // const contextBar = useContextBar()
-    // const [mounted, setMounted] = useState(false)
-    // useEffect(() => {
-    //     setMounted(true)
-    // }, [])
-    // useEffect(() => {
-    //     contextBar.setContent(
-    //         <>
-    //             <Button variant={'dark'} text={'My Schedule'} />
-    //             <SidebarCalendar />
-    //         </>
-    //     )
-    //     contextBar.show(false)
-    // }, [mounted])
 
     // WORKPLACE JOY RIDE - start
     const joyride = useJoyRide()

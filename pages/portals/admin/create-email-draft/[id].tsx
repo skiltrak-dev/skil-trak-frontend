@@ -4,20 +4,17 @@ import { AdminLayout } from '@layouts'
 // Types
 import { NextPageWithLayout } from '@types'
 
-import { PageHeading } from '@components/headings'
-import { EmailDraftForm } from '@partials/common/AdminEmails/emailDraft'
-import { CommonApi } from '@queries'
-import { useRouter } from 'next/router'
-import { Button, Card, EmptyData, LoadingAnimation, TechnicalError, TextInput, Typography } from '@components'
-import { FormProvider, useForm } from 'react-hook-form'
-import { BulkEmailEditor } from '@partials/common/AdminEmails/bulkEmail'
-import { FileUpload } from '@hoc'
-import draftToHtml from 'draftjs-to-html'
-import * as yup from 'yup'
+import { Button, Card, LoadingAnimation, TechnicalError, TextInput } from '@components'
 import { yupResolver } from '@hookform/resolvers/yup'
-import { Attachment } from '@partials/common'
 import { useNotification } from '@hooks'
+import { Attachment } from '@partials/common'
+import { BulkEmailEditor } from '@partials/common/AdminEmails/bulkEmail'
+import { CommonApi } from '@queries'
 import { ContentState, EditorState, convertFromHTML, convertToRaw } from 'draft-js'
+import draftToHtml from 'draftjs-to-html'
+import { useRouter } from 'next/router'
+import { FormProvider, useForm } from 'react-hook-form'
+import * as yup from 'yup'
 
 const CreateEmailDraftDetail: NextPageWithLayout = () => {
     const router = useRouter()
@@ -85,8 +82,6 @@ const CreateEmailDraftDetail: NextPageWithLayout = () => {
         updateNewDraft({ id: data?.id, body: formData })
 
     }
-
-
 
     useEffect(() => {
         if (attachmentFiles) {

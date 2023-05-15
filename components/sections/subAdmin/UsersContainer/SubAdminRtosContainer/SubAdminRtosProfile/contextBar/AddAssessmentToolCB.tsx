@@ -20,7 +20,6 @@ type Props = {
     assessment?: any
 }
 export const AddAssessmentToolCB = ({ edit, assessment }: Props) => {
-    const [coursesOptions, setCoursesOptions] = useState<any | null>([])
     const [fileData, setFileData] = useState<any | null>([])
 
     const router = useRouter()
@@ -28,15 +27,11 @@ export const AddAssessmentToolCB = ({ edit, assessment }: Props) => {
     const rtoCourses = useGetSubAdminRTOCoursesQuery(String(rtoId))
     const [create, createResult] = useCreateRtoSubAdminAssessmentToolsMutation()
     const [update, updateResult] = useUpdateRtoSubAdminAssessmentToolsMutation()
-    useEffect(() => {
-        if (rtoCourses?.data && rtoCourses.isSuccess) {
-            const options = rtoCourses?.data?.map((course: any) => ({
-                label: course.title,
-                value: course.id,
-            }))
-            setCoursesOptions(options)
-        }
-    }, [rtoCourses?.data, rtoCourses.isSuccess])
+
+    const coursesOptions = rtoCourses?.data?.map((course: any) => ({
+        label: course.title,
+        value: course.id,
+    }))
 
     const methods = useForm({
         mode: 'all',

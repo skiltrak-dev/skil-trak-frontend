@@ -1,61 +1,38 @@
 import { Select, TextInput } from '@components/inputs'
-import { useEffect, useState } from 'react'
 
 // query
 import { CommonApi } from '@queries'
 
 import { AuthUtils } from '@utils'
+import { SetQueryFilters } from './SetQueryFilters'
 import { statusOptions } from './statusOptions'
 import { SelectOption } from './types'
-import { SetQueryFilters } from './SetQueryFilters'
 
 interface ItemFilterProps {
     onFilterChange: Function
     filter: any
 }
 export const StudentFilters = ({ onFilterChange, filter }: ItemFilterProps) => {
-    const [rtoOptions, setRtoOptions] = useState<any>([])
-    const [industryOptions, setIndustryOptions] = useState<any>([])
-    const [coursesOptions, setCoursesOptions] = useState<any>([])
-
     // query
     const getIndustries = CommonApi.Filter.useIndustries()
     const getRtos = CommonApi.Filter.useRtos()
     const getCourses = CommonApi.Filter.useCourses()
     const getUserRole = AuthUtils.getUserCredentials()
 
-    useEffect(() => {
-        if (getIndustries.isSuccess) {
-            setIndustryOptions(
-                getIndustries?.data?.map((industry: any) => ({
-                    value: industry?.id,
-                    label: industry?.user?.name,
-                }))
-            )
-        }
-    }, [getIndustries])
+    const industryOptions = getIndustries?.data?.map((industry: any) => ({
+        value: industry?.id,
+        label: industry?.user?.name,
+    }))
 
-    useEffect(() => {
-        if (getRtos.isSuccess) {
-            setRtoOptions(
-                getRtos?.data?.map((rto: any) => ({
-                    value: rto?.id,
-                    label: rto?.user?.name,
-                }))
-            )
-        }
-    }, [getRtos])
+    const rtoOptions = getRtos?.data?.map((rto: any) => ({
+        value: rto?.id,
+        label: rto?.user?.name,
+    }))
 
-    useEffect(() => {
-        if (getCourses.isSuccess) {
-            setCoursesOptions(
-                getCourses?.data?.map((course: any) => ({
-                    value: course?.id,
-                    label: course?.title,
-                }))
-            )
-        }
-    }, [getCourses])
+    const coursesOptions = getCourses?.data?.map((course: any) => ({
+        value: course?.id,
+        label: course?.title,
+    }))
 
     return (
         <>

@@ -1,6 +1,7 @@
 import { Select, TextInput } from '@components/inputs'
 import { SetQueryFilters } from './SetQueryFilters'
 import { SelectOption } from './types'
+import { UserRoles } from '@constants'
 
 interface ItemFilterProps {
     onFilterChange: Function
@@ -11,9 +12,9 @@ export const AppointmentTypeFilters = ({
     filter,
 }: ItemFilterProps) => {
     const appointmentForOptions = [
-        { label: 'Industry', value: 'industry' },
-        { label: 'RTO', value: 'rto' },
-        { label: 'Student', value: 'student' },
+        { label: 'Industry', value: UserRoles.INDUSTRY },
+        { label: 'RTO', value: UserRoles.RTO },
+        { label: 'Student', value: UserRoles.STUDENT },
     ]
     return (
         <>

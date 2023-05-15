@@ -21,16 +21,6 @@ const EditRtoProfile: NextPageWithLayout = () => {
         contextBar.hide()
     }, [])
 
-    // useEffect(() => {
-    //     if (updateProfileResult.isSuccess) {
-    //         notification.success({
-    //             title: 'Profile Updated',
-    //             description: 'Profile Updated Successfully',
-    //         })
-    //         profile.refetch()
-    //         router.back()
-    //     }
-    // }, [updateProfileResult])
     const onSubmit = (values: any) => {
         updateProfile({
             id: profile?.data?.user?.id,

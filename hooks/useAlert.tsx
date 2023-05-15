@@ -1,13 +1,6 @@
-import {
-    createContext,
-    useCallback,
-    useContext,
-    useEffect,
-    useState,
-} from 'react'
+import { createContext, useContext, useState } from 'react'
 
-import { Alert, AlertType, AlertProps } from '@components'
-import { getToken } from '@utils'
+import { Alert, AlertProps, AlertType } from '@components'
 import { useRouter } from 'next/router'
 
 type AlertObjectType = {
@@ -38,12 +31,6 @@ export const AlertProvider = ({ children }: { children: React.ReactNode }) => {
         )
         setAlerts([...filteredAlerts])
     }
-
-    const token = getToken()
-
-    // useEffect(() => {
-    //     setAlerts([])
-    // }, [router])
 
     const createAlert = ({
         title,

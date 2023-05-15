@@ -1,12 +1,17 @@
-import { DisplayAlerts, PageTitle, PageTitleProps, RedirectUnApprovedUsers } from '@components'
-import { RtoNavbar } from '@components'
+import {
+    DisplayAlerts,
+    PageTitle,
+    PageTitleProps,
+    RedirectUnApprovedUsers,
+    RtoNavbar,
+} from '@components'
 import { useAlert, useJoyRide } from '@hooks'
-import { ReactNode, useEffect, useState } from 'react'
-import { UserLayout } from './UserLayout'
-import Joyride, { CallBackProps } from 'react-joyride'
-import { AuthUtils, getUserCredentials } from '@utils'
-import { useRouter } from 'next/router'
 import { UserStatus } from '@types'
+import { AuthUtils } from '@utils'
+import { useRouter } from 'next/router'
+import { ReactNode, useEffect, useState } from 'react'
+import Joyride from 'react-joyride'
+import { UserLayout } from './UserLayout'
 interface RtoLayoutProps {
     pageTitle?: PageTitleProps
     children: ReactNode
@@ -36,19 +41,7 @@ export const RtoLayout = ({ pageTitle, children }: RtoLayoutProps) => {
     const router = useRouter()
     const { alert, setAlerts } = useAlert()
 
-    const token = AuthUtils.getToken()
     const status = AuthUtils.getUserCredentials()?.status
-
-    // useEffect(() => {
-    //     if (
-    //         token &&
-    //         redirectUrls.includes(router.pathname) &&
-    //         status !== UserStatus.Approved
-    //     ) {
-    //         router.push(getRoutePath)
-    //     }
-    // }, [router])
-
 
     useEffect(() => {
         if (status === UserStatus.Pending) {
