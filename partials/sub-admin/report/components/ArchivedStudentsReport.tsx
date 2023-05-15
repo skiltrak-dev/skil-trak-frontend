@@ -16,7 +16,6 @@ export const ArchivedStudentsReport = (props: Props) => {
         skip: itemPerPage * page - itemPerPage,
         limit: itemPerPage,
     });
-    console.log("data", data);
 
     const columns: ColumnDef<any>[] = [
         {

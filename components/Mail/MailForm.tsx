@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import * as yup from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { FormProvider, useForm } from 'react-hook-form'
@@ -32,11 +32,16 @@ import { Attachment } from '@partials/common'
 export const MailForm = ({ action, receiverId, sender }: any) => {
     // const { replyMessage, setReplyMessage, setMessage } = useMessage()
     const { notification } = useNotification()
+    const [isSendDraft, setIsSendDraft] = useState<boolean>(true)
+    const [sendEmailDraft, setSendEmailDraft] = useState<boolean>(true)
+
+    const ref = useRef<HTMLDivElement>(null)
+    let activeDivRef = useRef<any>(null)
+
     // query
     const [to, setTo] = useState(false)
     const [cc, setCc] = useState(false)
     const [attachmentFiles, setAttachmentFiles] = useState<any>([])
-    const [sendEmailDraft, setSendEmailDraft] = useState<boolean>(true)
 
     const [actionData, actionDataResult] = action()
     const [sendMessage, sendMessageResult] = CommonApi.Messages.useSendMessage()
@@ -59,6 +64,9 @@ export const MailForm = ({ action, receiverId, sender }: any) => {
         if (getEmailDraft.isSuccess) {
             if (getEmailDraft?.data?.content) {
                 methods.setValue('message', getEmailDraft?.data?.content)
+            }
+            if (getEmailDraft?.data?.title) {
+                methods.setValue('subject', getEmailDraft?.data?.title)
             }
         }
     }, [getEmailDraft.isSuccess])
@@ -107,6 +115,7 @@ export const MailForm = ({ action, receiverId, sender }: any) => {
     }
 
     const onSubmit = (values: any) => {
+        setIsSendDraft(false)
         setSendEmailDraft(false)
         const userCredentials = AuthUtils.getUserCredentials()
         const date = new Date()
@@ -207,6 +216,18 @@ export const MailForm = ({ action, receiverId, sender }: any) => {
                                     placeholder={'Your Subject...'}
                                     validationIcons
                                     required
+                                    onBlur={(e: any) => {
+                                        if (
+                                            !ref.current?.contains(
+                                                e.relatedTarget
+                                            )
+                                        ) {
+                                            emailDraft({
+                                                receiver: receiverId,
+                                                title: e.target.value,
+                                            })
+                                        }
+                                    }}
                                 />
 
                                 <TextArea
@@ -216,10 +237,16 @@ export const MailForm = ({ action, receiverId, sender }: any) => {
                                     rows={4}
                                     placeholder={'Your Message ...'}
                                     onBlur={(e: any) => {
-                                        emailDraft({
-                                            receiver: receiverId,
-                                            content: e.target.value,
-                                        })
+                                        if (
+                                            !ref.current?.contains(
+                                                e.relatedTarget
+                                            )
+                                        ) {
+                                            emailDraft({
+                                                receiver: receiverId,
+                                                content: e.target.value,
+                                            })
+                                        }
                                     }}
                                 />
 
@@ -254,16 +281,22 @@ export const MailForm = ({ action, receiverId, sender }: any) => {
                                         multiple
                                         limit={Number(1111111111)}
                                     />
-                                    <Button
-                                        submit
-                                        loading={sendMessageResult?.isLoading}
-                                        disabled={sendMessageResult?.isLoading}
-                                    >
-                                        <div className="flex items-center gap-x-2">
-                                            <span>Send</span>
-                                            <IoMdSend />
-                                        </div>
-                                    </Button>
+                                    <div ref={ref} id={'submitButton'}>
+                                        <Button
+                                            submit
+                                            loading={
+                                                sendMessageResult?.isLoading
+                                            }
+                                            disabled={
+                                                sendMessageResult?.isLoading
+                                            }
+                                        >
+                                            <div className="flex items-center gap-x-2">
+                                                <span>Send</span>
+                                                <IoMdSend />
+                                            </div>
+                                        </Button>
+                                    </div>
                                 </div>
                             </div>
                         </form>

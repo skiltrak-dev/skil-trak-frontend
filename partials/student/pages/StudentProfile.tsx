@@ -1,23 +1,20 @@
 import { useRouter } from 'next/router'
-import { ReactElement, useEffect, useState } from 'react'
-import OutsideClickHandler from 'react-outside-click-handler'
+import { useEffect, useState } from 'react'
 
 //Layouts
-import { SubAdminLayout } from '@layouts'
-import { NextPageWithLayout, UserStatus } from '@types'
+import { UserStatus } from '@types'
 
 //components
 import {
-    TechnicalError,
-    LoadingAnimation,
+    ActionButton,
+    BackButton,
+    Button,
     EmptyData,
-    SubAdminStudentProfile,
+    LoadingAnimation,
     PageTitle,
     StudentTimer,
-    Button,
-    BackButton,
-    ActionButton,
-    UserCreatedAt,
+    SubAdminStudentProfile,
+    TechnicalError,
 } from '@components'
 
 // queries
@@ -35,12 +32,10 @@ import {
     useNotification,
 } from '@hooks'
 
-import { DetailTabs } from '@partials/sub-admin/students'
-import { AddWorkplace } from '@partials/sub-admin/students'
-import { getLink, getUserCredentials, isBrowser } from '@utils'
-import { FaArchive, FaBan } from 'react-icons/fa'
+import { AddWorkplace, DetailTabs } from '@partials/sub-admin/students'
 import { useActionModals } from '@partials/sub-admin/students/hooks/useActionModals'
-import moment from 'moment'
+import { getLink, getUserCredentials } from '@utils'
+import { FaArchive, FaBan } from 'react-icons/fa'
 
 export const StudentProfile = ({ noTitle }: { noTitle?: boolean }) => {
     const [studentExpiryDate, setStudentExpiryDate] = useState<boolean>(false)
@@ -296,7 +291,7 @@ export const StudentProfile = ({ noTitle }: { noTitle?: boolean }) => {
                                     />
                                 </div>
                             </div>
-                            <div className='flex items-center gap-x-2'>
+                            <div className="flex items-center gap-x-2">
                                 <Button
                                     text={'View Password'}
                                     onClick={() => {

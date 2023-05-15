@@ -21,41 +21,29 @@ import { Card, PageTitle } from '@components'
 const ReportType: NextPageWithLayout = () => {
     const router = useRouter()
     const { reportType } = router.query
-    console.log('reportType', reportType)
+
     const reports = () => {
         switch (reportType) {
             case ReportOptionsEnum.NON_CONTACTABLE:
                 return <NonContactableDetail />
             case ReportOptionsEnum.NEW_STUDENTS:
-                return (
-                    <NewStudentsDetail />
-                )
+                return <NewStudentsDetail />
             case ReportOptionsEnum.CANCELLED_WORKPLACE_REQUEST:
-                return (
-                    <CancelledWorkplaceDetail />
-                )
+                return <CancelledWorkplaceDetail />
             case ReportOptionsEnum.BLOCKED_STUDENTS:
                 return <BlockedStudentsDetail />
             case ReportOptionsEnum.ARCHIVED_STUDENTS:
                 return <ArchivedStudentsDetail />
             case ReportOptionsEnum.WORKPLACE_REQUEST_COMPLETED:
-                return (
-                    <CompletedWorkplaceDetail />
-                )
+                return <CompletedWorkplaceDetail />
             case ReportOptionsEnum.WORKPLACE_REQUEST_TERMINATED:
-                return (
-                    <TerminatedWorkplaceDetail />
-                )
+                return <TerminatedWorkplaceDetail />
             case ReportOptionsEnum.WORKPLACE_REQUEST:
-                return (
-                    <WorkplaceRequestDetail />
-                )
+                return <WorkplaceRequestDetail />
             case ReportOptionsEnum.STUDENT_WITHOUT_WORKPLACE_REQUEST:
                 return <StudentsWithoutWorkplaceDetail />
             case ReportOptionsEnum.APPOINTMENTS_REPORT:
-                return (
-                    <AppointmentsDetail />
-                )
+                return <AppointmentsDetail />
             case ReportOptionsEnum.REPORTED_STUDENTS:
                 return <ReportStudentsDetail />
             default:
@@ -68,9 +56,7 @@ const ReportType: NextPageWithLayout = () => {
                 <PageTitle title={`${reportType} Detail`} />
                 <DownloadButton />
             </div>
-            <Card>
-                {reports()}
-            </Card>
+            <Card>{reports()}</Card>
         </>
     )
 }
