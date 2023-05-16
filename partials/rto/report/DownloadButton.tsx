@@ -11,10 +11,8 @@ import { getUserCredentials } from '@utils'
 type Props = {}
 
 export const DownloadButton = (props: Props) => {
-    
-    const [showDropDown, setShowDropDown] = useState(false);
-    const userId = getUserCredentials()?.id;
-    
+    const [showDropDown, setShowDropDown] = useState(false)
+    const userId = getUserCredentials()?.id
 
     return (
         <div className="flex items-center gap-x-2">
@@ -46,6 +44,8 @@ export const DownloadButton = (props: Props) => {
                                     <Link
                                         className="w-full border-b px-6 flex items-center gap-x-2 text-sm py-2  hover:bg-gray-200"
                                         href={`${process.env.NEXT_PUBLIC_END_POINT}/statistics/rto/summary/generate/${userId}`}
+                                        target="_blank"
+                                        download
                                     >
                                         <span className="">As PDF</span>
                                     </Link>

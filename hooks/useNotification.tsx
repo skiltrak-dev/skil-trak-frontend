@@ -19,7 +19,7 @@ type NotificationObjectType = {
     message: (props: NotificationProps) => void
 }
 
-interface NotificationContextType {
+export interface NotificationContextType {
     notification: NotificationObjectType
     notifications: Object[]
     dismiss: Function

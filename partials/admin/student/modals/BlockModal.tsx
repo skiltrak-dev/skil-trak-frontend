@@ -21,7 +21,7 @@ export const BlockModal = ({
     const onConfirmClicked = async (item: Student) => {
         await onBlock(item)
     }
-
+    
     useEffect(() => {
         if (setResult) {
             setResult(changeStatusResult)
