@@ -13,16 +13,12 @@ export const BlockedStudentsDetail = (props: Props) => {
       header: () => <span>Name</span>,
       accessorKey: 'user',
       cell: (info: any) => {
-        const {
-          id,
-          user: { name, avatar },
-        } = info.row.original || {}
         return (
           <a className="flex items-center gap-x-2">
-            <InitialAvatar name={name} imageUrl={avatar} />
+            <InitialAvatar name={info?.row?.original?.user?.name} imageUrl={info?.row?.original?.user?.avatar} />
             <div className="flex flex-col">
-              <span>{id}</span>
-              <span>{name}</span>
+              <span>{info?.row?.original?.id}</span>
+              <span>{info?.row?.original?.user?.name}</span>
             </div>
           </a>
         )
@@ -32,10 +28,8 @@ export const BlockedStudentsDetail = (props: Props) => {
       accessorKey: 'email',
       header: () => <span>Email</span>,
       cell: (info) => {
-        const {
-          user: { email },
-        } = info.row.original || {}
-        return <span>{email}</span>
+
+        return <span>{info?.row?.original?.user?.email}</span>
       },
     },
     {
@@ -46,9 +40,10 @@ export const BlockedStudentsDetail = (props: Props) => {
       accessorKey: 'courses',
       header: () => <span>Courses</span>,
       cell: (info) => {
-        return info?.row?.original?.courses?.map((c: Course) => (
-          <CourseDot key={c?.id} course={c} />
-        ))
+        // return info?.row?.original?.courses?.map((c: Course) => (
+        //   <CourseDot key={c?.id} course={c} />
+        // ))
+        return <span>{info?.row?.original?.courses[0]?.title || "N/A"}</span>
       },
     },
   ]
@@ -62,7 +57,7 @@ export const BlockedStudentsDetail = (props: Props) => {
           </Typography>
           <Typography variant="h3">{count || 0}</Typography>
         </div>
-       
+
       </div>
       {isError && <TechnicalError />}
       {isLoading ? (
@@ -72,7 +67,7 @@ export const BlockedStudentsDetail = (props: Props) => {
           {({ table, pagination, pageSize, quickActions }: any) => {
             return (
               <div>
-                
+
                 <div className="px-6">{table}</div>
               </div>
             )
