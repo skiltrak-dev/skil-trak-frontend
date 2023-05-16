@@ -79,15 +79,30 @@ export const studentEndpoints = (
         invalidatesTags: ['Rto-Students'],
     }),
     getNotContactableStudents: builder.query<any, any>({
-        query: () => `statistics/rto/student/not-contactable`,
+        query: (params) => {
+            return {
+                url: `statistics/rto/student/not-contactable`,
+                params,
+            }
+        },
         providesTags: ['Rto-Students'],
     }),
     getBlockedStudentsReport: builder.query<any, any>({
-        query: () => `statistics/rto/students/blocked`,
+        query: (params) => {
+            return {
+                url: `statistics/rto/students/blocked`,
+                params,
+            }
+        },
         providesTags: ['Rto-Students'],
     }),
     getArchivedStudentsReport: builder.query<any, any>({
-        query: () => `statistics/rto/students/archived`,
+        query: (params) => {
+            return {
+                url: `statistics/rto/students/archived`,
+                params,
+            }
+        },
         providesTags: ['Rto-Students'],
     }),
 
@@ -146,11 +161,21 @@ export const studentEndpoints = (
         providesTags: ['Rto-Students'],
     }),
     getWithoutWorkplaceReport: builder.query<any, any>({
-        query: () => `statistics/rto/students/list/with-out-workplace`,
+        query: (params) => {
+            return {
+                url: `statistics/rto/students/list/with-out-workplace`,
+                params,
+            }
+        },
         providesTags: ['Rto-Students'],
     }),
     getReportedStudentsReport: builder.query<any, any>({
-        query: () => `statistics/rto/students/reported`,
+        query: (params) => {
+            return {
+                url: `statistics/rto/students/reported`,
+                params,
+            }
+        },
         providesTags: ['Rto-Students'],
     }),
     getReportDownloadLink: builder.query<any, any>({
