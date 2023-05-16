@@ -1,13 +1,15 @@
-import { EmptyData, InitialAvatar, LoadingAnimation, Table, TechnicalError, Typography } from '@components'
+import { ActionButton, EmptyData, InitialAvatar, LoadingAnimation, Table, TechnicalError, Typography } from '@components'
 import { CourseDot } from '@partials/rto/student/components'
 import React, { useState } from 'react'
 import { RtoApi } from '@queries'
 import { ColumnDef } from '@tanstack/react-table'
-import { Course } from '@types'
+import { Course, ReportOptionsEnum } from '@types'
 import { ViewFullListReport } from '../../ViewFullListReport'
+import { useRouter } from 'next/router'
 type Props = {}
 
 export const ArchivedStudentsReport = (props: Props) => {
+    const router = useRouter()
     const [itemPerPage, setItemPerPage] = useState(50)
     const [page, setPage] = useState(1)
 
@@ -74,7 +76,9 @@ export const ArchivedStudentsReport = (props: Props) => {
                     </Typography>
                     <Typography variant="h3">{count || 0}</Typography>
                 </div>
-                <ViewFullListReport data={data} columns={columns} />
+                <ActionButton onClick={() => { router.push(`/portals/rto/report/${ReportOptionsEnum.ARCHIVED_STUDENTS}`) }} >
+                    View Full List
+                </ActionButton>
             </div>
 
             {isError && <TechnicalError />}
@@ -91,7 +95,7 @@ export const ArchivedStudentsReport = (props: Props) => {
                         return (
                             <div>
                                 <div className="p-6 mb-2 flex justify-between">
-                                    {pageSize(itemPerPage, setItemPerPage)}
+                                {pageSize(itemPerPage, setItemPerPage)}
                                     <div className="flex gap-x-2">
                                         {/* {quickActions} */}
                                         {pagination(
