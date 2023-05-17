@@ -82,7 +82,7 @@ const RequestWorkplaceDetail: NextPageWithLayout = (props: Props) => {
     return (
         <>
             <PageTitle
-                title="Request Workplace Detial"
+                title="Request Workplace Detail"
                 backTitle="Student Detail"
             />
 

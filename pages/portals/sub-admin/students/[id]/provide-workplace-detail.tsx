@@ -169,7 +169,7 @@ const ProvideWorkplaceDetail: NextPageWithLayout = (props: Props) => {
     return (
         <>
             <PageTitle
-                title="Provide Workplace Detial"
+                title="Provide Workplace Detail"
                 backTitle="Student Detail"
             />
             <div className="mt-10">
