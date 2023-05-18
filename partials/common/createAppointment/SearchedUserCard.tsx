@@ -7,6 +7,7 @@ import { BsDot } from 'react-icons/bs'
 import { InitialAvatar, Typography } from '@components'
 import { Button } from '@components/buttons'
 import { ellipsisText } from '@utils'
+import { UserRoles } from '@constants'
 
 export const SearchedUserCard = ({
     data,
@@ -27,14 +28,11 @@ export const SearchedUserCard = ({
                     <InitialAvatar name={data?.name} imageUrl={data?.avatar} />
                     <div>
                         <div className="flex items-center gap-x-1">
-                            <Typography variant={'xs'}>{data?.id}</Typography>
-                            <BsDot className="text-gray-400" />
-                            {/* <Typography
-                                variant={'xs'}
-                                color={'text-success-dark'}
-                            >
-                                Completed
-                            </Typography> */}
+                            <Typography variant={'xs'}>
+                                {data?.role === UserRoles.STUDENT
+                                    ? person?.studentId
+                                    : data?.id}
+                            </Typography>
                         </div>
                         <div className="flex items-center gap-x-2">
                             <Typography variant={'label'} color={'gray'}>
