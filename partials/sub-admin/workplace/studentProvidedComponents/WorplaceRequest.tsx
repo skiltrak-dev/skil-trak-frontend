@@ -140,17 +140,17 @@ export const WorkplaceRequest = ({ workplace }: any) => {
                     </div>
 
                     {/* Request Type Selection */}
-                    {appliedIndustry?.studentProvidedWorkplace ? (
+                    {workplace?.studentProvidedWorkplace ? (
                         <RequestType
                             appliedIndustry={appliedIndustry}
                             workplace={workplace}
                         />
-                    ) : (
+                    ) : workplace?.byExistingAbn ? (
                         <RequestTypeAbn
                             appliedIndustry={appliedIndustry}
                             workplace={workplace}
                         />
-                    )}
+                    ) : null}
                 </div>
 
                 {/* Student Small Details */}
