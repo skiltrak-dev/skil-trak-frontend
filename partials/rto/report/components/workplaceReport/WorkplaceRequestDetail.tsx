@@ -70,9 +70,10 @@ export const WorkplaceRequestDetail = (props: Props) => {
       accessorKey: 'courses',
       header: () => <span>Courses</span>,
       cell: (info) => {
-        return info?.row?.original?.courses?.map((c: Course) => (
-          <CourseDot key={c?.id} course={c} />
-        ))
+        // return info?.row?.original?.courses?.map((c: Course) => (
+        //   <CourseDot key={c?.id} course={c} />
+        // ))
+        return <span>{info?.row?.original?.courses[0]?.title || "N/A"}</span>
       },
     },
   ]
