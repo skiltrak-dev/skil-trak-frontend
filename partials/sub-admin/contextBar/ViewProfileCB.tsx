@@ -135,21 +135,6 @@ export const ViewProfileCB = () => {
                         </div>
                     </div>
 
-                    {/* Info Row 2 */}
-                    <div className="flex justify-around divide-x border-b">
-                        <div className="p-2">
-                            <div className="flex items-center space-x-2">
-                                <span className="text-gray-300">
-                                    <FaUserCircle />
-                                </span>
-                                <p className="text-sm font-medium">Male</p>
-                            </div>
-                            <div className="text-gray-400 text-[11px] -mt-0.5 text-center">
-                                Gender
-                            </div>
-                        </div>
-                    </div>
-
                     {/* Info Row 3 */}
                     <div className="flex justify-around divide-x border-b">
                         <div className="p-2">

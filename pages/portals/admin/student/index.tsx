@@ -1,13 +1,13 @@
-import { ReactElement, useCallback, useEffect, useState } from 'react'
 import debounce from 'lodash/debounce'
+import { ReactElement, useCallback, useEffect, useState } from 'react'
 
 import {
     Filter,
+    LoadingAnimation,
+    SetDetaultQueryFilteres,
     StudentFilters,
     TabNavigation,
     TabProps,
-    Card,
-    LoadingAnimation,
     TechnicalError,
     TextInput,
 } from '@components'
@@ -23,7 +23,7 @@ import {
 } from '@partials/admin/student'
 import { AdminApi } from '@queries'
 import { NextPageWithLayout, UserStatus } from '@types'
-import { checkFilteredDataLength, getFilterQuery } from '@utils'
+import { checkFilteredDataLength } from '@utils'
 import { useRouter } from 'next/router'
 
 const filterKeys = [
@@ -50,10 +50,10 @@ const StudentList: NextPageWithLayout = () => {
     const [page, setPage] = useState(1)
     const [itemPerPage, setItemPerPage] = useState(50)
 
-    const query = getFilterQuery({ router, filterKeys })
-    useEffect(() => {
-        setFilter(query)
-    }, [router])
+    // const query = getFilterQuery({ router, filterKeys })
+    // useEffect(() => {
+    //     setFilter(query)
+    // }, [router])
 
     const { isLoading, data } = AdminApi.Students.useCountQuery()
     const filteredStudents = AdminApi.Students.useListQuery({
@@ -151,6 +151,10 @@ const StudentList: NextPageWithLayout = () => {
 
     return (
         <div>
+            <SetDetaultQueryFilteres
+                filterKeys={filterKeys}
+                setFilter={setFilter}
+            />
             <div className="px-4">
                 <div className="flex justify-end gap-x-2 mb-2">
                     <div>
