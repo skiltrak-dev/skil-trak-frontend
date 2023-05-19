@@ -20,7 +20,6 @@ export const MyRto = ({ myRto }: any) => {
     const pathname = useRouter()
     const role = getUserCredentials()?.role
     return (
-        // /portals/admin/rto/2?tab=sectors
         <Card fullHeight>
             {/* Card Header */}
             <div className="flex justify-between items-center">
@@ -39,41 +38,13 @@ export const MyRto = ({ myRto }: any) => {
                             pathname.push(
                                 role === 'admin'
                                     ? {
-                                          pathname: `/portals/admin/rto/${myRto?.rto?.id}`,
+                                          pathname: `/portals/admin/rto/${myRto?.id}`,
                                           query: { tab: 'sectors' },
                                       }
                                     : {
-                                          pathname: `/portals/sub-admin/users/rtos/${myRto?.rto?.id}`,
+                                          pathname: `/portals/sub-admin/users/rtos/${myRto?.id}`,
                                           query: { tab: 'overview' },
                                       }
-                            )
-                        }}
-                    >
-                        See Details
-                    </ActionButton>
-                ) : null}
-
-                {/* Action */}
-                {/* <Link
-                    legacyBehavior
-                    href={`/portals/sub-admin/users/rtos/${myRto?.rto?.id}?tab=overview`}
-                >
-                    <a className="inline-block uppercase text-xs font-medium bg-orange-100 text-orange-600 px-4 py-2 rounded">
-                        See Details
-                    </a>
-                </Link> */}
-                {myRto?.rto ? (
-                    <ActionButton
-                        variant="success"
-                        onClick={() => {
-                            pathname.push(
-                                role === 'admin'
-                                    ? `/portals/admin/rto//${myRto?.rto?.id}?tab=sectors`
-                                    : role === 'subadmin'
-                                    ? `/portals/sub-admin/users/rtos/${myRto?.rto?.id}?tab=overview`
-                                    : role === 'rto'
-                                    ? '/portals/rto'
-                                    : ''
                             )
                         }}
                     >
