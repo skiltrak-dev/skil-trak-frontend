@@ -1,19 +1,10 @@
-import { ReactElement, useState } from 'react'
 import { NextPageWithLayout, ReportOptionsEnum } from '@types'
+import { ReactElement, useState } from 'react'
 
 // layouts
 import { RtoLayout } from '@layouts'
 
-import {
-    Card,
-    EmptyData,
-    InitialAvatar,
-    LoadingAnimation,
-    PageTitle,
-    Table,
-    TechnicalError,
-    Typography,
-} from '@components'
+import { Card, PageTitle } from '@components'
 
 import {
     AppointmentsReport,

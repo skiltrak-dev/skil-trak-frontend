@@ -182,7 +182,7 @@ const RTOs: NextPageWithLayout = () => {
             accessorKey: 'students',
             cell: ({ row }: any) => (
                 <Typography variant={'muted'} color={'gray'}>
-                    {row.original?.students?.length || 0}
+                    {row.original?.students || 0}
                 </Typography>
             ),
         },
@@ -206,7 +206,7 @@ const RTOs: NextPageWithLayout = () => {
             header: () => 'Address',
             accessorKey: 'address',
             cell: ({ row }: any) => {
-                const { address, city, state, zipCode } = row.original
+                const { address, state } = row.original
                 return (
                     <div>
                         <Typography color={'black'}>{address}</Typography>

@@ -30,41 +30,6 @@ export const Messages = () => {
     // query
     // const messages = useGetIndustryMessagesQuery()
 
-    useEffect(() => {
-        setContent(
-            <>
-                {/* <PrimaryActionLink
-                    border={'1'}
-                    bgColor={'white'}
-                    bgHoverColor={'secondary'}
-                    borderColor={'secondary'}
-                    shadow={1}
-                    title={'Documentation Required'}
-                    desc={'Some helping text'}
-                    img={'./images/dashboardbtn.png'}
-                /> */}
-            </>
-        )
-        hide()
-    }, [setContent])
-
-    // useEffect(() => {
-    //     messages.refetch()
-    // }, [messages.refetch])
-
-    // useEffect(() => {
-    //     if (messages.isSuccess) {
-    //         setMessagesList(messages.data)
-    //     }
-    // }, [messages.data, messages.isSuccess])
-
-    // useEffect(() => {
-    //     if (message) {
-    //         setMessagesList((m) => [...m, message])
-    //     }
-    //     setMessage(null)
-    // }, [message, setMessage])
-
     return (
         <>
             <div

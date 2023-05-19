@@ -53,16 +53,6 @@ export const VerifyStudentDocs = ({
         getSectors()
     }, [requiredDocs])
 
-    // useEffect(() => {
-    //   requiredDocs.refetch()
-    // }, [id, selectedCourses])
-
-    // useEffect(() => {
-    //     if (uploadDocsResult.isSuccess) {
-    //         setActive((active: number) => active + 1)
-    //     }
-    // }, [uploadDocsResult.isSuccess])
-
     const getUploadedDocPercent = () => {
         const totalDocs = folders?.reduce(
             (acum: any, curr: any) => acum + curr?.folder?.capacity,
