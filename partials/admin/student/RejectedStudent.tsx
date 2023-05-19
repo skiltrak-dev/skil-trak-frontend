@@ -17,7 +17,11 @@ import { FaEdit, FaEye, FaTrash } from 'react-icons/fa'
 import { useActionModal } from '@hooks'
 import { AdminApi } from '@queries'
 import { Student, UserStatus } from '@types'
-import { checkStudentStatus, checkWorkplaceStatus } from '@utils'
+import {
+    checkStudentStatus,
+    checkWorkplaceStatus,
+    getStudentWorkplaceAppliedIndustry,
+} from '@utils'
 import { useRouter } from 'next/router'
 import { ReactElement, useEffect, useState } from 'react'
 import { RiLockPasswordFill } from 'react-icons/ri'
@@ -119,11 +123,19 @@ export const RejectedStudent = () => {
         {
             accessorKey: 'industry',
             header: () => <span>Industry</span>,
-            cell: (info) => {
+            cell: (info: any) => {
                 const industry = info.row.original?.industries
+
+                const appliedIndustry = getStudentWorkplaceAppliedIndustry(
+                    info.row.original?.workplace[0]
+                )?.industry
 
                 return industry && industry?.length > 0 ? (
                     <IndustryCell industry={industry[0]} />
+                ) : info.row.original?.workplace &&
+                  info.row.original?.workplace?.length > 0 &&
+                  appliedIndustry ? (
+                    <IndustryCell industry={appliedIndustry} />
                 ) : (
                     <Typography center>N/A</Typography>
                 )

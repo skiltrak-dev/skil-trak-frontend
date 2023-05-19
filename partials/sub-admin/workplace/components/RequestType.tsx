@@ -264,6 +264,11 @@ export const RequestType = ({
         (r) => r.status === workplace.currentStatus
     )
 
+    console.log(
+        'findStatusIndexfindStatusIndexfindStatusIndex',
+        findStatusIndex
+    )
+
     useEffect(() => {
         if (appliedIndustry?.industryResponse === 'rejected') {
             setSelectedRequestType(requestTypeActions.length - 1)

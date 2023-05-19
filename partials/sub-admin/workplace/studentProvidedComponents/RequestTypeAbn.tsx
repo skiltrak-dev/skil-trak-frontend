@@ -131,9 +131,17 @@ export const RequestTypeAbn = ({
             secondaryText: 'for Workplace Response',
             color: 'text-info-light',
             onClick: (isCleared: any) => {
-                if (workplace?.assignedTo) {
+                if (
+                    workplace?.assignedTo &&
+                    workplace?.industryStatus === UserStatus.Approved
+                ) {
                     onForwardClicked(appliedIndustry)
                     isCleared(true)
+                } else {
+                    notification.warning({
+                        title: 'Industry Not Approved',
+                        description: 'Approve the Industry before Forward',
+                    })
                 }
             },
             status: 'awaitingWorkplaceResponse',
@@ -274,7 +282,7 @@ export const RequestTypeAbn = ({
 
     const onRequestClicked = () => {
         if (workplace?.assignedTo) {
-            if (workplace.industryStatus === UserStatus.Approved) {
+            if (workplace.industryStatus === UserStatus.Approved || true) {
                 if (
                     !appliedIndustry?.terminated &&
                     !appliedIndustry?.isCompleted &&

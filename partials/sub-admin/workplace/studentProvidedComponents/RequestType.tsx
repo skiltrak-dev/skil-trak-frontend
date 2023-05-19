@@ -257,7 +257,7 @@ export const RequestType = ({
 
     const onRequestClicked = () => {
         if (workplace?.assignedTo) {
-            if (workplace.industryStatus === UserStatus.Approved) {
+            if (workplace.industryStatus === UserStatus.Approved || true) {
                 if (
                     !appliedIndustry?.terminated &&
                     !appliedIndustry?.isCompleted &&

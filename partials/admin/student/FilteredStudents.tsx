@@ -40,6 +40,7 @@ import { useRouter } from 'next/router'
 import {
     checkStudentStatus,
     checkWorkplaceStatus,
+    getStudentWorkplaceAppliedIndustry,
     WorkplaceCurrentStatus,
 } from '@utils'
 import { IndustryCell } from '../industry/components'
@@ -233,11 +234,19 @@ export const FilteredStudents = ({
         {
             accessorKey: 'industry',
             header: () => <span>Industry</span>,
-            cell: (info) => {
+            cell: (info: any) => {
                 const industry = info.row.original?.industries
+
+                const appliedIndustry = getStudentWorkplaceAppliedIndustry(
+                    info.row.original?.workplace[0]
+                )?.industry
 
                 return industry && industry?.length > 0 ? (
                     <IndustryCell industry={industry[0]} />
+                ) : info.row.original?.workplace &&
+                  info.row.original?.workplace?.length > 0 &&
+                  appliedIndustry ? (
+                    <IndustryCell industry={appliedIndustry} />
                 ) : (
                     <Typography center>N/A</Typography>
                 )
