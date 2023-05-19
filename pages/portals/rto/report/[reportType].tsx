@@ -20,7 +20,13 @@ import { Card, PageTitle } from '@components'
 
 const ReportType: NextPageWithLayout = () => {
     const router = useRouter()
-    const { reportType } = router.query
+    const { reportType } = router.query;
+    let title;
+    if (Array.isArray(reportType)) {
+        title = reportType[0]?.replace(/-/g, " ");
+    } else {
+        title = reportType?.replace(/-/g, " ");
+    }
 
     const reports = () => {
         switch (reportType) {
@@ -53,7 +59,7 @@ const ReportType: NextPageWithLayout = () => {
     return (
         <>
             <div className="flex items-center justify-between mb-4">
-                <PageTitle title={`${reportType} Detail`} />
+                <PageTitle title={`${title} Detail`} />
                 <DownloadButton />
             </div>
             <Card>{reports()}</Card>

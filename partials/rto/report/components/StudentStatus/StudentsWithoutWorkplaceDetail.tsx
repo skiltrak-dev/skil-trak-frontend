@@ -11,16 +11,11 @@ type Props = {};
 export const StudentsWithoutWorkplaceDetail = (props: Props) => {
   const { data, isLoading, isError } =
     RtoApi.Students.useWithoutWorkplaceReport({})
-    console.log(data)
   const columns: ColumnDef<any>[] = [
     {
       header: () => <span>Name</span>,
       accessorKey: 'user',
       cell: (info: any) => {
-        // const {
-        //   id,
-        //   user: { avatar, name },
-        // } = info.row.original || {}
         return (
           <a className="flex items-center gap-x-2">
             <InitialAvatar name={info?.row?.original?.user?.name || "N/A"} imageUrl={info?.row?.original?.user?.avatar || ""} />
@@ -36,9 +31,7 @@ export const StudentsWithoutWorkplaceDetail = (props: Props) => {
       accessorKey: 'email',
       header: () => <span>Email</span>,
       cell: (info) => {
-        // const {
-        //   user: { email },
-        // } = info.row.original || {}
+      
         return <span>{info?.row?.original?.user?.email}</span>
       },
     },
@@ -50,9 +43,10 @@ export const StudentsWithoutWorkplaceDetail = (props: Props) => {
       accessorKey: 'courses',
       header: () => <span>Courses</span>,
       cell: (info) => {
-        return info?.row?.original?.courses?.map((c: Course) => (
-          <CourseDot key={c?.id} course={c} />
-        ))
+        // return info?.row?.original?.courses?.map((c: Course) => (
+        //   <CourseDot key={c?.id} course={c} />
+        // ))
+        return <span>{info?.row?.original?.courses[0]?.title || "N/A"}</span>
       },
     },
   ]

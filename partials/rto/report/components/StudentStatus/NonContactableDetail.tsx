@@ -9,51 +9,49 @@ type Props = {}
 export const NonContactableDetail = (props: Props) => {
     const { data, isLoading, isError } =
         RtoApi.Students.useGetNotContactableStudents({})
-    const columns: ColumnDef<any>[] = [
-        {
-            header: () => <span>Name</span>,
-            accessorKey: 'user',
-            cell: (info: any) => {
-                const {
-                    id,
-                    user: { name, avatar },
-                } = info.row.original || {}
-
-                return (
-                    <a className="flex items-center gap-x-2">
-                        <InitialAvatar name={name} imageUrl={avatar} />
-                        <div className="flex flex-col">
-                            <span>{id}</span>
-                            <span>{name}</span>
-                        </div>
-                    </a>
-                )
+        const columns: ColumnDef<any>[] = [
+            {
+                header: () => <span>Name</span>,
+                accessorKey: 'user',
+                cell: (info: any) => {
+                    return (
+                        <a className="flex items-center gap-x-2">
+                            <InitialAvatar name={info?.row?.original?.user?.name} imageUrl={info?.row?.original?.user?.avatar} />
+                            <div className='flex flex-col'>
+                                <span>{info?.row?.original?.id}</span>
+                                <span>
+                                    {info?.row?.original?.user?.name}
+                                </span>
+                            </div>
+                        </a>
+                    )
+                },
+    
             },
-        },
-        {
-            accessorKey: 'email',
-            header: () => <span>Email</span>,
-            cell: (info) => {
-                const {
-                    user: { email },
-                } = info.row.original || {}
-                return <span>{email}</span>
+            {
+                accessorKey: 'email',
+                header: () => <span>Email</span>,
+                cell: (info) => {
+                    return <span>{info?.row?.original?.user?.email}</span>
+                }
             },
-        },
-        {
-            accessorKey: 'phone',
-            header: () => <span>Phone</span>,
-        },
-        {
-            accessorKey: 'courses',
-            header: () => <span>Courses</span>,
-            cell: (info) => {
-                return info?.row?.original?.courses?.map((c: Course) => (
-                    <CourseDot key={c?.id} course={c} />
-                ))
+            {
+                accessorKey: 'phone',
+                header: () => <span>Phone</span>,
             },
-        },
-    ]
+            {
+                accessorKey: 'courses',
+                header: () => <span>Courses</span>,
+                cell: (info) => {
+                    // return info?.row?.original?.courses?.map((c: Course) => (
+                    //     <CourseDot key={c?.id} course={c} />
+                    // ))
+                    return <span>{info?.row?.original?.courses[0]?.title || "N/A"}</span>
+                },
+            },
+    
+    
+        ]
     const count = data?.data?.length
     return (
         <>

@@ -127,7 +127,10 @@ export const RequestType = ({
             color: 'text-primary-light',
             onClick: (isCleared: any) => {
                 isCleared(true)
-                interView(appliedIndustry?.id)
+                interView({
+                    workIndustry: appliedIndustry?.id,
+                    workplace: workplace?.id,
+                })
             },
             status: 'interview',
         },
@@ -301,7 +304,7 @@ export const RequestType = ({
                     className={`border border-dashed border-gray-400 rounded-lg w-56 px-4 py-1 flex items-center justify-between gap-x-1 cursor-pointer relative`}
                     onClick={() => {
                         if (workplace?.assignedTo) {
-                            if (appliedIndustry) {
+                            if (appliedIndustry || true) {
                                 if (
                                     !appliedIndustry?.terminated ||
                                     !appliedIndustry?.isCompleted ||

@@ -17,14 +17,14 @@ export const AppointmentsDetail = (props: Props) => {
       header: () => <span>Appointment By</span>,
       accessorKey: 'appointmentBy',
       cell: (info: any) => {
-        const { appointmentBy: { name, id, avatar, email } } = info.row.original;
+
         return (
           <a className="flex items-center gap-x-2">
-            <InitialAvatar name={name} imageUrl={avatar} />
+            <InitialAvatar name={info?.row?.original?.appointmentBy?.name} imageUrl={info?.row?.original?.appointmentBy?.avatar} />
             <div className="flex flex-col">
-              <span>{id}</span>
-              <span>{name || "N/A"}</span>
-              <span>{email}</span>
+              <span>{info.row.original.appointmentBy?.id}</span>
+              <span>{info.row.original.appointmentBy?.name || "N/A"}</span>
+              <span>{info.row.original.appointmentBy?.email}</span>
             </div>
           </a>
         )
@@ -34,13 +34,13 @@ export const AppointmentsDetail = (props: Props) => {
       accessorKey: 'appointmentFor',
       header: () => <span>Appointment For</span>,
       cell: (info) => {
-        const { appointmentFor: { name, id, avatar } } = info.row.original;
+        // const { appointmentFor: { name, id, avatar } } = info.row.original;
         return (
           <a className="flex items-center gap-x-2">
-            <InitialAvatar name={name || "N/A"} imageUrl={avatar} />
+            <InitialAvatar name={info?.row?.original?.appointmentFor?.name || "N/A"} imageUrl={info.row.original?.appointmentFor?.avatar} />
             <div className="flex flex-col">
-              <span>{id}</span>
-              <span>{name || "N/A"}</span>
+              <span>{info.row.original.appointmentFor?.id}</span>
+              <span>{info.row.original.appointmentFor?.name || "N/A"}</span>
             </div>
           </a>
         )
@@ -101,7 +101,7 @@ export const AppointmentsDetail = (props: Props) => {
           {({ table, pagination, pageSize, quickActions }: any) => {
             return (
               <div>
-               
+
                 <div className="px-6">{table}</div>
               </div>
             )

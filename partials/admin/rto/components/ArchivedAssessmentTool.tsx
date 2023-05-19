@@ -16,7 +16,6 @@ import { useNotification } from '@hooks'
 
 export const ArchivedAssessmentTool = ({ rto, setAssessmentView }: any) => {
     const [selectedTool, setSelectedTool] = useState<number>(-1)
-    const [courses, setCourses] = useState<any | null>(null)
 
     const { notification } = useNotification()
 
@@ -25,9 +24,6 @@ export const ArchivedAssessmentTool = ({ rto, setAssessmentView }: any) => {
     )
     const [remove, removeResult] = AdminApi.Rtos.useRemoveAssessmentTools()
 
-    useEffect(() => {
-        setCourses(rto?.data?.courses)
-    }, [rto])
     const [archiveAssessmentTool, archiveAssessmentToolResult] =
         AdminApi.Rtos.useArchiveAssessmentTools()
     const getAssessmentTools = AdminApi.Rtos.useRtoAssessmentTools(
@@ -97,10 +93,17 @@ export const ArchivedAssessmentTool = ({ rto, setAssessmentView }: any) => {
                             Select a Course
                         </Typography>
                     </div>
+                    {rto?.isError && (
+                        <NoData
+                            text={
+                                'There is some Network issue, Check your network'
+                            }
+                        />
+                    )}
                     {rto?.isLoading ? (
                         <LoadingAnimation size={85} />
-                    ) : courses && courses?.length > 0 ? (
-                        courses?.map((course: any) => (
+                    ) : rto?.data?.courses && rto?.data?.courses?.length > 0 ? (
+                        rto?.data?.courses?.map((course: any) => (
                             <AssessmentCourse
                                 code={course?.code}
                                 name={course?.title}
@@ -110,7 +113,9 @@ export const ArchivedAssessmentTool = ({ rto, setAssessmentView }: any) => {
                             />
                         ))
                     ) : (
-                        <NoData text={'No Courses were Found'} />
+                        !rto?.isError && (
+                            <NoData text={'No Courses were Found'} />
+                        )
                     )}
                 </div>
                 <div className="w-[75%]">
@@ -143,6 +148,13 @@ export const ArchivedAssessmentTool = ({ rto, setAssessmentView }: any) => {
                         </div>
                     </div>
                     <div className="p-2 min-h-[260px]">
+                        {getAssessmentTools.isError && (
+                            <NoData
+                                text={
+                                    'There is some Network issue, Check your network'
+                                }
+                            />
+                        )}
                         {getAssessmentTools?.isLoading ? (
                             <LoadingAnimation size={80} />
                         ) : getAssessmentTools?.data &&
@@ -156,7 +168,11 @@ export const ArchivedAssessmentTool = ({ rto, setAssessmentView }: any) => {
                                 />
                             ))
                         ) : (
-                            <NoData text={'No Assessment tools were found'} />
+                            !getAssessmentTools.isError && (
+                                <NoData
+                                    text={'No Assessment tools were found'}
+                                />
+                            )
                         )}
                     </div>
                 </div>
