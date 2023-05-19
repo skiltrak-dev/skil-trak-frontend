@@ -49,3 +49,7 @@ export const checkStudentStatus = (studentStatus: string) => {
     const step = StudentStatus.findIndex((status) => status === studentStatus)
     return step + 1
 }
+
+export const getStudentWorkplaceAppliedIndustry = (workplace: any) => {
+    return workplace?.industries?.find((industry: any) => industry?.applied)
+}

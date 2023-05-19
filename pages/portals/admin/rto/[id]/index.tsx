@@ -9,7 +9,7 @@ import {
 } from '@components'
 import { useActionModal, useContextBar, useNavbar } from '@hooks'
 import { AdminLayout } from '@layouts'
-import { NextPageWithLayout, Rto, UserStatus } from '@types'
+import { NextPageWithLayout, UserStatus } from '@types'
 import { useRouter } from 'next/router'
 import { ReactElement, useEffect, useState } from 'react'
 import {
@@ -20,12 +20,11 @@ import {
     FaUserGraduate,
 } from 'react-icons/fa'
 
+import { FigureCard } from '@components/sections/subAdmin'
 import { PinnedNotes } from '@partials'
-import { ArchiveModal, BlockModal } from '@partials/admin/rto/modals'
+import { useActionModals } from '@partials/admin/rto/hooks/useActionModals'
 import { DetailTabs } from '@partials/admin/rto/tabs'
 import { AdminApi } from '@queries'
-import { useActionModals } from '@partials/admin/rto/hooks/useActionModals'
-import { FigureCard } from '@components/sections/subAdmin'
 
 const RtoDetail: NextPageWithLayout = () => {
     const router = useRouter()

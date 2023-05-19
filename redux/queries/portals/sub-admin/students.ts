@@ -20,7 +20,12 @@ export const studentsEndpoints = (
             url: `${PREFIX}/students/list-all`,
             params,
         }),
-        providesTags: ['SubAdminStudents', 'BulkUsersDelete', 'BulkStatus'],
+        providesTags: [
+            'SubAdminStudents',
+            'BulkUsersDelete',
+            'BulkStatus',
+            'Students',
+        ],
     }),
 
     subadminStudentAssignCourses: builder.mutation({

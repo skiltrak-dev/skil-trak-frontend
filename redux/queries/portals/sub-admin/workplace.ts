@@ -44,9 +44,13 @@ export const workplaceEndpoints = (
         }),
         invalidatesTags: ['SubAdminWorkplace'],
     }),
-    sendInterviewNotification: builder.mutation({
-        query: (id) => ({
-            url: `${PREFIX}interview-case-officer/${id}`,
+    sendInterviewNotification: builder.mutation<
+        any,
+        { workIndustry: number; workplace: number }
+    >({
+        query: (params) => ({
+            url: `${PREFIX}interview-case-officer`,
+            params,
             method: 'PATCH',
         }),
         invalidatesTags: ['SubAdminWorkplace'],
