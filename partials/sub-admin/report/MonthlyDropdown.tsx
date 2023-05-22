@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { Card, Select } from '@components'
 
+
 type MonthlyDropdown = {
     year: any
     month: any
@@ -14,7 +15,7 @@ export const MonthlyDropdown = ({
     month,
     setMonth,
     setYear,
-    setShowCalendars,
+    setShowCalendars
 }: MonthlyDropdown) => {
     // const [year, setYear] = useState(new Date().getFullYear())
     // const [month, setMonth] = useState(new Date().getMonth())
@@ -26,7 +27,7 @@ export const MonthlyDropdown = ({
     // const handleMonthChange = (event: any) => {
     //     setMonth(parseInt(event.value))
     // }
-
+    
     const yearOptions = Array.from(
         { length: new Date().getFullYear() - 2019 },
         (_, i) => 2020 + i
@@ -59,6 +60,7 @@ export const MonthlyDropdown = ({
                 options={monthOptions}
                 onChange={(e: any) => {
                     if (year && month) {
+
                         setShowCalendars(false)
                     }
                     setMonth(e)

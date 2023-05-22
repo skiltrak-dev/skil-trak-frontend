@@ -14,6 +14,7 @@ import { studentsEndpoints } from './students'
 import { workplaceEndpoints } from './workplace'
 import { UserStatus } from '@types'
 import { emptySplitApi } from '../empty.query'
+import { subAdminReports } from './reports'
 export const subAdminApi = emptySplitApi.injectEndpoints({
     // export const subAdminApi = createApi({
     //     reducerPath: 'subAdminApi',
@@ -87,6 +88,7 @@ export const subAdminApi = emptySplitApi.injectEndpoints({
         ...subAdminAppointmentspoints(build),
         ...assessmentEvidenceEndpoints(build),
         ...subAdminIndustriesEndpoints(build),
+        ...subAdminReports(build),
     }),
     // overrideExisting: false,
 })
@@ -235,6 +237,17 @@ export const {
     useGetSubAdminIndustryStudentsQuery,
     useGetSubAdminIndustriesProfileQuery,
     useAddToFavoriteMutation,
+
+    // --- REPORTS --- //
+    useGetAssignedStudentsReportQuery,
+    useGetAssignedWorkplaceReportQuery,
+    useGetActiveStudentsReportQuery,
+    useGetSubAdminArchivedStudentsReportQuery,
+    useGetStudentsCallsReportQuery,
+    useGetBookAppointmentsReportQuery,
+    useGetSubAdminTerminatedWorkplaceReportQuery,
+    useGetSubAdminCompletedWorkplaceReportQuery,
+    useGetSubAdminCancelledWorkplaceReportQuery,
 } = subAdminApi
 
 export const SubAdminApi = {
@@ -321,5 +334,16 @@ export const SubAdminApi = {
         archiveUploadedFile: useArchiveUploadedFileMutation,
         downloadFiles: useDownloadAllCourseFilesMutation,
         downloadArchiveFiles: useDownloadArhiveCourseFilesMutation,
+    },
+    Reports: {
+        useAssignedStudents: useGetAssignedStudentsReportQuery,
+        useAssignedWorkplace: useGetAssignedWorkplaceReportQuery,
+        useActiveStudentsReport: useGetActiveStudentsReportQuery,
+        useArchiveStudentsReport: useGetSubAdminArchivedStudentsReportQuery,
+        useStudentsCallsReport: useGetStudentsCallsReportQuery,
+        useBookAppointmentsReport:useGetBookAppointmentsReportQuery,
+        useTerminatedWorkplaceReport: useGetSubAdminTerminatedWorkplaceReportQuery,
+        useCompletedWorkplaceReport: useGetSubAdminCompletedWorkplaceReportQuery,
+        useCancelledWorkplaceReport: useGetSubAdminCancelledWorkplaceReportQuery,
     },
 }

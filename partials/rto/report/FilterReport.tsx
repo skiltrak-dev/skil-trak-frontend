@@ -1,4 +1,4 @@
-import React, { ReactElement, useState } from 'react'
+import React, { ReactElement, useEffect, useState } from 'react'
 import { CalendarStyles } from '@components/Calendar/style'
 import Calendar from 'react-calendar'
 import { AiTwotoneFilter } from 'react-icons/ai'
@@ -84,7 +84,10 @@ export const FilterReport = ({
                 `${weekStart.toLocaleDateString()} - ${weekEnd.toLocaleDateString()}`
             )
         }
+       
     }
+
+    
 
     const handleEndDateChange = (date: any) => {
         setEndDate(date)
@@ -230,10 +233,10 @@ export const FilterReport = ({
                                 {dateRange
                                     ? dateRange
                                     : selectedFilter === 'Monthly'
-                                        ? `${month?.label} / ${year?.value}`
-                                        : selectedFilter === 'Annually'
-                                            ? `${year?.value}`
-                                            : selectedFilter}
+                                    ? `${month?.label} / ${year?.value}`
+                                    : selectedFilter === 'Annually'
+                                    ? `${year?.value}`
+                                    : selectedFilter}
                             </button>
                         </div>
                         {showCalendars && (

@@ -107,9 +107,9 @@ export const ArchivedStudentsReport = (props: Props) => {
             ) : (
                 !isError && (
                     <EmptyData
-                        title={'No Not Contactable Students Found'}
+                        title={'No Archived Students Found'}
                         description={
-                            'There is no any Not Contactable Students yet'
+                            'There is no any Archived Students yet'
                         }
                         height={'50vh'}
                     />

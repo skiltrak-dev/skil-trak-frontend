@@ -53,7 +53,6 @@ export const DownloadButton = (props: Props) => {
                                 {/* <li>
                                     <button
                                         onClick={() => {
-                                            console.log('clicked')
                                         }}
                                         className="w-full border-b px-6 flex items-center gap-x-2 text-sm py-2 hover:bg-gray-200"
                                     >
@@ -64,7 +63,6 @@ export const DownloadButton = (props: Props) => {
                                 {/* <li>
                                     <button
                                         onClick={() => {
-                                            console.log('clicked')
                                         }}
                                         className="w-full border-b px-6 flex items-center gap-x-2 text-sm py-2 hover:bg-gray-200"
                                     >

@@ -1,11 +1,14 @@
-import { EmptyData, InitialAvatar, LoadingAnimation, Table, TechnicalError, Typography } from '@components'
+import { ActionButton, EmptyData, InitialAvatar, LoadingAnimation, Table, TechnicalError, Typography } from '@components'
 import { CourseDot } from '@partials/rto/student/components'
-import { RtoApi } from '@queries'
+import { SubAdminApi } from '@queries'
 import { ColumnDef } from '@tanstack/react-table'
 import React, { useState } from 'react'
-import { FilterReport } from '../FilterReport'
-import { Course } from '@types'
-import { ViewFullListReport } from '../ViewFullListReport'
+import { FilterReport } from '../../FilterReport'
+import { ViewFullListReport } from '../../ViewFullListReport'
+import { Course, ReportOptionsEnum } from '@types'
+import { useRouter } from 'next/router'
+import { SubAdminReports } from 'types/sub-admin-reports.type'
+
 
 type Props = {
     startDate: any
@@ -14,7 +17,7 @@ type Props = {
     setEndDate: any
 }
 
-export const CancelledWorkplaceReport = ({
+export const CompletedWorkplaceReport = ({
     setStartDate,
     setEndDate,
     startDate,
@@ -22,9 +25,9 @@ export const CancelledWorkplaceReport = ({
 }: Props) => {
     const [itemPerPage, setItemPerPage] = useState(50)
     const [page, setPage] = useState(1)
-
+    const router = useRouter()
     const { data, isLoading, isError } =
-        RtoApi.Students.useCancelledWorkplaceReport({
+        SubAdminApi.Reports.useCompletedWorkplaceReport({
             startDate: startDate.toISOString().slice(0, 10),
             endDate: endDate.toISOString().slice(0, 10),
             skip: itemPerPage * page - itemPerPage,
@@ -38,8 +41,9 @@ export const CancelledWorkplaceReport = ({
             cell: (info: any) => {
                 const {
                     id,
-                    user: { name, avatar },
+                    student: { user: { name, avatar } },
                 } = info.row.original || {}
+
                 return (
                     <a className="flex items-center gap-x-2">
                         <InitialAvatar name={name} imageUrl={avatar} />
@@ -56,7 +60,7 @@ export const CancelledWorkplaceReport = ({
             header: () => <span>Email</span>,
             cell: (info) => {
                 const {
-                    user: { email },
+                    student: { user: { email } },
                 } = info.row.original || {}
                 return <span>{email}</span>
             },
@@ -64,14 +68,21 @@ export const CancelledWorkplaceReport = ({
         {
             accessorKey: 'phone',
             header: () => <span>Phone</span>,
+            cell: (info) => {
+                const {
+                    student: { phone },
+                } = info.row.original || {}
+                return <span>{phone}</span>
+            },
         },
         {
             accessorKey: 'courses',
             header: () => <span>Courses</span>,
             cell: (info) => {
-                return info?.row?.original?.courses?.map((c: Course) => (
-                    <CourseDot key={c?.id} course={c} />
-                ))
+                // return info?.row?.original?.courses?.map((c: Course) => (
+                //     <CourseDot key={c?.id} course={c} />
+                // ))
+                return <span>{info?.row?.original?.courses[0]?.title || "N/A"}</span>
             },
         },
     ]
@@ -81,7 +92,7 @@ export const CancelledWorkplaceReport = ({
             <div className="flex justify-between">
                 <div className="">
                     <Typography variant="title" color="text-gray-400">
-                        Cancelled Workplace Request
+                        Completed Workplace
                     </Typography>
                     <Typography variant="h3">{count || 0}</Typography>
                 </div>
@@ -94,9 +105,11 @@ export const CancelledWorkplaceReport = ({
                         endDate={endDate}
                         setEndDate={setEndDate}
                     />
-                    <ViewFullListReport data={data} columns={columns} />
+                    {/* <ViewFullListReport data={data} columns={columns} /> */}
+                    <ActionButton onClick={() => { router.push(`/portals/sub-admin/report/${SubAdminReports.COMPLETED_WORKPLACE}`) }} >
+                        View Full List
+                    </ActionButton>
                 </div>
-
             </div>
             {isError && <TechnicalError />}
             {isLoading ? (
@@ -109,7 +122,7 @@ export const CancelledWorkplaceReport = ({
                                 <div className="p-6 mb-2 flex justify-between">
                                     {pageSize(itemPerPage, setItemPerPage)}
                                     <div className="flex gap-x-2">
-                                        {quickActions}
+                                        {/* {quickActions} */}
                                         {pagination(data?.pagination, setPage)}
                                     </div>
                                 </div>
@@ -121,9 +134,9 @@ export const CancelledWorkplaceReport = ({
             ) : (
                 !isError && (
                     <EmptyData
-                        title={'No Cancelled Requests Found'}
+                        title={'No Completed Workplace Requests Found'}
                         description={
-                            'There is no New Cancelled Workplace Request yet'
+                            'There is no New Completed Workplace Workplace Request yet'
                         }
                         height={'50vh'}
                     />

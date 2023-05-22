@@ -31,6 +31,7 @@ const subadminTagTypes = [
     'SetSchedule',
     'Appointment',
     'SubAdminRtos',
+    'SubAdminReports',
     'SubAdminStudents',
     'SetUnAvailability',
     'SubAdminWorkplace',
