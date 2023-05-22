@@ -69,9 +69,9 @@ export const AssignToMe = ({ workplace, appliedIndustry }: any) => {
                     variant={'dark'}
                     text={'ASSIGN TO ME'}
                     onClick={() => {
-                        if (appliedIndustry) {
+                        if (appliedIndustry || true) {
                             assignToMe({
-                                industryId: appliedIndustry?.id,
+                                industry: appliedIndustry?.id,
                                 id: workplace?.id,
                             })
                         } else {

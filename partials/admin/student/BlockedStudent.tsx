@@ -29,7 +29,11 @@ import { useRouter } from 'next/router'
 import { IndustryCell } from '../industry/components'
 import { RiLockPasswordFill } from 'react-icons/ri'
 import { useActionModal } from '@hooks'
-import { checkStudentStatus, checkWorkplaceStatus } from '@utils'
+import {
+    checkStudentStatus,
+    checkWorkplaceStatus,
+    getStudentWorkplaceAppliedIndustry,
+} from '@utils'
 import moment from 'moment'
 import { BulkDeleteModal } from '@modals'
 
@@ -136,11 +140,19 @@ export const BlockedStudent = () => {
         {
             accessorKey: 'industry',
             header: () => <span>Industry</span>,
-            cell: (info) => {
+            cell: (info: any) => {
                 const industry = info.row.original?.industries
+
+                const appliedIndustry = getStudentWorkplaceAppliedIndustry(
+                    info.row.original?.workplace[0]
+                )?.industry
 
                 return industry && industry?.length > 0 ? (
                     <IndustryCell industry={industry[0]} />
+                ) : info.row.original?.workplace &&
+                  info.row.original?.workplace?.length > 0 &&
+                  appliedIndustry ? (
+                    <IndustryCell industry={appliedIndustry} />
                 ) : (
                     <Typography center>N/A</Typography>
                 )

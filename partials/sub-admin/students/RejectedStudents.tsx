@@ -28,7 +28,12 @@ import { MdBlock } from 'react-icons/md'
 import { AcceptModal, AssignStudentModal, BlockModal } from './modals'
 
 import { ProgressCell, SectorCell } from '@partials/admin/student/components'
-import { checkStudentStatus, checkWorkplaceStatus, setLink } from '@utils'
+import {
+    checkStudentStatus,
+    checkWorkplaceStatus,
+    getStudentWorkplaceAppliedIndustry,
+    setLink,
+} from '@utils'
 import { IndustryCellInfo } from '../indestries/components'
 import { ColumnDef } from '@tanstack/react-table'
 import { RiLockPasswordFill } from 'react-icons/ri'
@@ -146,8 +151,16 @@ export const RejectedStudents = () => {
             cell: (info: any) => {
                 const industry = info.row.original?.industries
 
+                const appliedIndustry = getStudentWorkplaceAppliedIndustry(
+                    info.row.original?.workplace[0]
+                )?.industry
+
                 return industry && industry?.length > 0 ? (
                     <IndustryCellInfo industry={industry[0]} />
+                ) : info.row.original?.workplace &&
+                  info.row.original?.workplace?.length > 0 &&
+                  appliedIndustry ? (
+                    <IndustryCellInfo industry={appliedIndustry} />
                 ) : (
                     <Typography center>N/A</Typography>
                 )
