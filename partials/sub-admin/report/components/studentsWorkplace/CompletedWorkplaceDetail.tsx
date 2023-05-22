@@ -1,6 +1,6 @@
 import { ActionButton, EmptyData, InitialAvatar, LoadingAnimation, Table, TechnicalError, Typography } from '@components'
 import { CourseDot } from '@partials/rto/student/components'
-import { RtoApi } from '@queries'
+import { SubAdminApi } from '@queries'
 import { ColumnDef } from '@tanstack/react-table'
 import { Course } from '@types';
 
@@ -9,8 +9,8 @@ import { Course } from '@types';
 type Props = {};
 
 export const CompletedWorkplaceDetail = (props: Props) => {
-  const { data, isLoading, isError } =
-    RtoApi.Students.useCompletedWorkplaceReport({})
+    const { data, isLoading, isError } =
+    SubAdminApi.Reports.useCompletedWorkplaceReport({})
   const columns: ColumnDef<any>[] = [
     {
       header: () => <span>Name</span>,
@@ -56,10 +56,9 @@ export const CompletedWorkplaceDetail = (props: Props) => {
       accessorKey: 'courses',
       header: () => <span>Courses</span>,
       cell: (info) => {
-        // return info?.row?.original?.courses?.map((c: Course) => (
-        //   <CourseDot key={c?.id} course={c} />
-        // ))
-        return <span>{info?.row?.original?.courses[0]?.title || "N/A"}</span>
+        return info?.row?.original?.courses?.map((c: Course) => (
+          <CourseDot key={c?.id} course={c} />
+        ))
       },
     },
   ]

@@ -30,7 +30,7 @@ export const ReportType = ({
         <>
             <Select
                 name="reportType"
-                label="Report Type"
+                label="Reports Type"
                 value={reportType}
                 options={reportOptions}
                 onChange={(e: any) => {

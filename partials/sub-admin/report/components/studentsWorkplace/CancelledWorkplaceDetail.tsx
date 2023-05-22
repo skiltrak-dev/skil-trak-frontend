@@ -1,16 +1,17 @@
 import { ActionButton, EmptyData, InitialAvatar, LoadingAnimation, Table, TechnicalError, Typography } from '@components'
 import { CourseDot } from '@partials/rto/student/components'
-import { RtoApi } from '@queries'
+import { SubAdminApi } from '@queries'
 import { ColumnDef } from '@tanstack/react-table'
-import { Course } from '@types';
+import React, { useState } from 'react'
 
+import { Course, ReportOptionsEnum } from '@types'
 
 
 type Props = {};
 
-export const CompletedWorkplaceDetail = (props: Props) => {
+export const CancelledWorkplaceDetail = (props: Props) => {
   const { data, isLoading, isError } =
-    RtoApi.Students.useCompletedWorkplaceReport({})
+        SubAdminApi.Reports.useCancelledWorkplaceReport({})
   const columns: ColumnDef<any>[] = [
     {
       header: () => <span>Name</span>,
@@ -56,10 +57,9 @@ export const CompletedWorkplaceDetail = (props: Props) => {
       accessorKey: 'courses',
       header: () => <span>Courses</span>,
       cell: (info) => {
-        // return info?.row?.original?.courses?.map((c: Course) => (
-        //   <CourseDot key={c?.id} course={c} />
-        // ))
-        return <span>{info?.row?.original?.courses[0]?.title || "N/A"}</span>
+        return info?.row?.original?.courses?.map((c: Course) => (
+          <CourseDot key={c?.id} course={c} />
+        ))
       },
     },
   ]
@@ -69,10 +69,11 @@ export const CompletedWorkplaceDetail = (props: Props) => {
       <div className="flex justify-between">
         <div className="">
           <Typography variant="title" color="text-gray-400">
-            Completed Workplace
+            Cancelled Workplace Request
           </Typography>
           <Typography variant="h3">{count || 0}</Typography>
         </div>
+
       </div>
       {isError && <TechnicalError />}
       {isLoading ? (
@@ -82,7 +83,7 @@ export const CompletedWorkplaceDetail = (props: Props) => {
           {({ table, pagination, pageSize, quickActions }: any) => {
             return (
               <div>
-
+               
                 <div className="px-6">{table}</div>
               </div>
             )
@@ -91,9 +92,9 @@ export const CompletedWorkplaceDetail = (props: Props) => {
       ) : (
         !isError && (
           <EmptyData
-            title={'No Completed Workplace Requests Found'}
+            title={'No Cancelled Requests Found'}
             description={
-              'There is no New Completed Workplace Workplace Request yet'
+              'There is no New Cancelled Workplace Request yet'
             }
             height={'50vh'}
           />

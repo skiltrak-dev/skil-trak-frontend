@@ -1,17 +1,19 @@
-import { EmptyData, InitialAvatar, LoadingAnimation, Table, TechnicalError, Typography } from '@components'
+import { ActionButton, EmptyData, InitialAvatar, LoadingAnimation, Table, TechnicalError, Typography } from '@components'
 import { CourseDot } from '@partials/rto/student/components'
 import React, { useState } from 'react'
-import { RtoApi } from '@queries'
+import { SubAdminApi } from '@queries'
 import { ColumnDef } from '@tanstack/react-table'
-import { Course } from '@types'
-import { ViewFullListReport } from '../ViewFullListReport'
+import { Course, ReportOptionsEnum } from '@types'
+import { ViewFullListReport } from '../../ViewFullListReport'
+import { useRouter } from 'next/router'
 type Props = {}
 
-export const NonContactableReport = (props: Props) => {
+export const ArchivedStudentsReport = (props: Props) => {
+    const router = useRouter()
     const [itemPerPage, setItemPerPage] = useState(50)
     const [page, setPage] = useState(1)
 
-    const { data, isLoading, isError } = RtoApi.Students.useGetNotContactableStudents({
+    const { data, isLoading, isError } = SubAdminApi.Reports.useArchiveStudentsReport({
         skip: itemPerPage * page - itemPerPage,
         limit: itemPerPage,
     });
@@ -21,18 +23,13 @@ export const NonContactableReport = (props: Props) => {
             header: () => <span>Name</span>,
             accessorKey: 'user',
             cell: (info: any) => {
-                const {
-                    id,
-                    user: { name, avatar },
-                } = info.row.original || {}
-
                 return (
                     <a className="flex items-center gap-x-2">
-                        <InitialAvatar name={name} imageUrl={avatar} />
+                        <InitialAvatar name={info?.row?.original?.user?.name} imageUrl={info?.row?.original?.user?.avatar} />
                         <div className='flex flex-col'>
-                            <span>{id}</span>
+                            <span>{info?.row?.original?.id}</span>
                             <span>
-                                {name}
+                                {info?.row?.original?.user?.name}
                             </span>
                         </div>
                     </a>
@@ -44,8 +41,7 @@ export const NonContactableReport = (props: Props) => {
             accessorKey: 'email',
             header: () => <span>Email</span>,
             cell: (info) => {
-                const { user: { email } } = info.row.original || {}
-                return <span>{email}</span>
+                return <span>{info?.row?.original?.user?.email}</span>
             }
         },
         {
@@ -56,9 +52,10 @@ export const NonContactableReport = (props: Props) => {
             accessorKey: 'courses',
             header: () => <span>Courses</span>,
             cell: (info) => {
-                return info?.row?.original?.courses?.map((c: Course) => (
-                    <CourseDot key={c?.id} course={c} />
-                ))
+                // return info?.row?.original?.courses?.map((c: Course) => (
+                //     <CourseDot key={c?.id} course={c} />
+                // ))
+                return <span>{info?.row?.original?.courses[0]?.title || "N/A"}</span>
             },
         },
 
@@ -67,14 +64,16 @@ export const NonContactableReport = (props: Props) => {
     const count = data?.data?.length;
     return (
         <>
-            <div className="flex justify-between items-start">
+            <div className="flex justify-between items-center">
                 <div className="">
                     <Typography variant="title" color="text-gray-400">
-                        Non Contactable Students
+                        Archived Students
                     </Typography>
                     <Typography variant="h3">{count || 0}</Typography>
                 </div>
-                <ViewFullListReport data={data} columns={columns} />
+                <ActionButton onClick={() => { router.push(`/portals/rto/report/${ReportOptionsEnum.ARCHIVED_STUDENTS}`) }} >
+                    View Full List
+                </ActionButton>
             </div>
 
             {isError && <TechnicalError />}
@@ -91,9 +90,9 @@ export const NonContactableReport = (props: Props) => {
                         return (
                             <div>
                                 <div className="p-6 mb-2 flex justify-between">
-                                    {pageSize(itemPerPage, setItemPerPage)}
+                                {pageSize(itemPerPage, setItemPerPage)}
                                     <div className="flex gap-x-2">
-                                        {quickActions}
+                                        {/* {quickActions} */}
                                         {pagination(
                                             data?.pagination,
                                             setPage
@@ -108,9 +107,9 @@ export const NonContactableReport = (props: Props) => {
             ) : (
                 !isError && (
                     <EmptyData
-                        title={'No Not Contactable Students Found'}
+                        title={'No Archived Students Found'}
                         description={
-                            'There is no any Not Contactable Students yet'
+                            'There is no any Archived Students yet'
                         }
                         height={'50vh'}
                     />

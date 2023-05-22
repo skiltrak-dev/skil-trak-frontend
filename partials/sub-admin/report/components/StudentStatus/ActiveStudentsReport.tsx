@@ -1,32 +1,29 @@
-import { EmptyData, InitialAvatar, LoadingAnimation, Table, TechnicalError, Typography } from '@components'
+import {
+    ActionButton,
+    EmptyData,
+    InitialAvatar,
+    LoadingAnimation,
+    Table,
+    TechnicalError,
+    Typography,
+} from '@components'
 import { CourseDot } from '@partials/rto/student/components'
-import { RtoApi } from '@queries'
-import { ColumnDef } from '@tanstack/react-table'
 import React, { useState } from 'react'
-import { FilterReport } from '../FilterReport'
-import { Course } from '@types'
-import { ViewFullListReport } from '../ViewFullListReport'
+import { SubAdminApi } from '@queries'
+import { ColumnDef } from '@tanstack/react-table'
+import { Course, ReportOptionsEnum } from '@types'
+import { ViewFullListReport } from '../../ViewFullListReport'
+import { useRouter } from 'next/router'
+import { SubAdminReports } from 'types/sub-admin-reports.type'
+type Props = {}
 
-type Props = {
-    startDate: any
-    endDate: any
-    setStartDate: any
-    setEndDate: any
-}
-
-export const CompletedWorkplaceReport = ({
-    setStartDate,
-    setEndDate,
-    startDate,
-    endDate
-}: Props) => {
+export const ActiveStudentsReport = (props: Props) => {
+    const router = useRouter()
     const [itemPerPage, setItemPerPage] = useState(50)
     const [page, setPage] = useState(1)
 
     const { data, isLoading, isError } =
-        RtoApi.Students.useCompletedWorkplaceReport({
-            startDate: startDate.toISOString().slice(0, 10),
-            endDate: endDate.toISOString().slice(0, 10),
+        SubAdminApi.Reports.useActiveStudentsReport({
             skip: itemPerPage * page - itemPerPage,
             limit: itemPerPage,
         })
@@ -36,16 +33,15 @@ export const CompletedWorkplaceReport = ({
             header: () => <span>Name</span>,
             accessorKey: 'user',
             cell: (info: any) => {
-                const {
-                    id,
-                    user: { name, avatar },
-                } = info.row.original || {}
                 return (
                     <a className="flex items-center gap-x-2">
-                        <InitialAvatar name={name} imageUrl={avatar} />
+                        <InitialAvatar
+                            name={info?.row?.original?.user?.name}
+                            imageUrl={info?.row?.original?.user?.avatar}
+                        />
                         <div className="flex flex-col">
-                            <span>{id}</span>
-                            <span>{name}</span>
+                            <span>{info?.row?.original?.id}</span>
+                            <span>{info?.row?.original?.user?.name}</span>
                         </div>
                     </a>
                 )
@@ -55,10 +51,7 @@ export const CompletedWorkplaceReport = ({
             accessorKey: 'email',
             header: () => <span>Email</span>,
             cell: (info) => {
-                const {
-                    user: { email },
-                } = info.row.original || {}
-                return <span>{email}</span>
+                return <span>{info?.row?.original?.user?.email}</span>
             },
         },
         {
@@ -69,34 +62,38 @@ export const CompletedWorkplaceReport = ({
             accessorKey: 'courses',
             header: () => <span>Courses</span>,
             cell: (info) => {
-                return info?.row?.original?.courses?.map((c: Course) => (
-                    <CourseDot key={c?.id} course={c} />
-                ))
+                // return info?.row?.original?.courses?.map((c: Course) => (
+                //     <CourseDot key={c?.id} course={c} />
+                // ))
+                return (
+                    <span>
+                        {info?.row?.original?.courses[0]?.title || 'N/A'}
+                    </span>
+                )
             },
         },
     ]
-    const count = data?.data?.length;
+    const count = data?.data?.length
     return (
         <>
-            <div className="flex justify-between">
+            <div className="flex justify-between items-center">
                 <div className="">
                     <Typography variant="title" color="text-gray-400">
-                        Completed Workplace
+                        Active Students
                     </Typography>
                     <Typography variant="h3">{count || 0}</Typography>
                 </div>
-
-
-                <div className='flex items-center gap-x-4'>
-                    <FilterReport
-                        startDate={startDate}
-                        setStartDate={setStartDate}
-                        endDate={endDate}
-                        setEndDate={setEndDate}
-                    />
-                    <ViewFullListReport data={data} columns={columns} />
-                </div>
+                <ActionButton
+                    onClick={() => {
+                        router.push(
+                            `/portals/sub-admin/report/${SubAdminReports.ACTIVE_STUDENTS}`
+                        )
+                    }}
+                >
+                    View Full List
+                </ActionButton>
             </div>
+
             {isError && <TechnicalError />}
             {isLoading ? (
                 <LoadingAnimation height="h-[60vh]" />
@@ -108,7 +105,7 @@ export const CompletedWorkplaceReport = ({
                                 <div className="p-6 mb-2 flex justify-between">
                                     {pageSize(itemPerPage, setItemPerPage)}
                                     <div className="flex gap-x-2">
-                                        {quickActions}
+                                        {/* {quickActions} */}
                                         {pagination(data?.pagination, setPage)}
                                     </div>
                                 </div>
@@ -120,10 +117,8 @@ export const CompletedWorkplaceReport = ({
             ) : (
                 !isError && (
                     <EmptyData
-                        title={'No Completed Workplace Requests Found'}
-                        description={
-                            'There is no New Completed Workplace Workplace Request yet'
-                        }
+                        title={'No Active Students Found'}
+                        description={'There is no any Active Students yet'}
                         height={'50vh'}
                     />
                 )
