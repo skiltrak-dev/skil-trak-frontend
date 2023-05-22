@@ -307,7 +307,7 @@ export const StudentProfile = ({ noTitle }: { noTitle?: boolean }) => {
                 {isError && <TechnicalError />}
                 {isLoading ? (
                     <LoadingAnimation height={'h-[60vh]'} />
-                ) : data ? (
+                ) : data && !isError ? (
                     <DetailTabs student={data} id={data?.id} />
                 ) : (
                     !isError &&

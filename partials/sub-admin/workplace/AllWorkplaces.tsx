@@ -41,7 +41,8 @@ export const AllWorkplaces = () => {
             {subAdminWorkplace.isLoading && subAdminWorkplace.isFetching ? (
                 <LoadingAnimation height={'h-96'} />
             ) : subAdminWorkplace?.data?.data &&
-              subAdminWorkplace?.data?.data.length > 0 ? (
+              subAdminWorkplace?.data?.data.length > 0 &&
+              !subAdminWorkplace.isError ? (
                 <div className="flex flex-col gap-y-4">
                     {subAdminWorkplace?.data?.data?.map((workplace: any) => {
                         if (
