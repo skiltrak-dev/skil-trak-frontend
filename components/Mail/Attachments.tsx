@@ -31,6 +31,7 @@ export const Attachments = ({ attachments }: { attachments: string[] }) => {
             'vnd.ms-excel',
             'vnd.openxmlformats-officedocument.spreadsheetml.sheet',
             'pdf',
+            'document',
         ],
     }
 
@@ -58,7 +59,7 @@ export const Attachments = ({ attachments }: { attachments: string[] }) => {
 
         if (attachementsType?.images?.includes(file.extension.toLowerCase())) {
             setModal(getImageViewModal(file))
-        } else if (['pdf'].includes(file.extension.toLowerCase())) {
+        } else if (['pdf', 'document'].includes(file.extension.toLowerCase())) {
             // const fileSplit = file.file.split('https://')
             // const url = `https://www.${fileSplit[1]}`
             const url = `${file?.file}`
