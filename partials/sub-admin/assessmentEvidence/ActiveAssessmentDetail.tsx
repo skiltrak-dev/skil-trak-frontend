@@ -261,8 +261,9 @@ export const ActiveAssessmentDetail = ({
 
     return (
         <div className="mb-10">
-            <ShowErrorNotifications result={downloadFilesResult} />
+            <ShowErrorNotifications result={uploadDocsResult} />
             <ShowErrorNotifications result={archiveFileResult} />
+            <ShowErrorNotifications result={downloadFilesResult} />
             <div className="flex justify-between items-center mb-6">
                 {/* <div>
                     {!selectedCourse?.results?.length && (
