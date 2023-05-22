@@ -1,11 +1,14 @@
-import { EmptyData, InitialAvatar, LoadingAnimation, Table, TechnicalError, Typography } from '@components'
-
+import { ActionButton, EmptyData, InitialAvatar, LoadingAnimation, Table, TechnicalError, Typography } from '@components'
+import { CourseDot } from '@partials/rto/student/components'
 import { RtoApi } from '@queries'
 import { ColumnDef } from '@tanstack/react-table'
 import React, { useState } from 'react'
-import { FilterReport } from '../FilterReport'
 
-import { ViewFullListReport } from '../ViewFullListReport'
+import { Course, ReportOptionsEnum } from '@types'
+import { FilterReport } from '../../FilterReport'
+import { ViewFullListReport } from '../../ViewFullListReport'
+import { useRouter } from 'next/router'
+
 
 type Props = {
     startDate: any
@@ -14,7 +17,7 @@ type Props = {
     setEndDate: any
 }
 
-export const AppointmentsReport = ({
+export const StudentCancelledWorkplaceReport = ({
     setStartDate,
     setEndDate,
     startDate,
@@ -22,82 +25,66 @@ export const AppointmentsReport = ({
 }: Props) => {
     const [itemPerPage, setItemPerPage] = useState(50)
     const [page, setPage] = useState(1)
-
+    const router = useRouter()
     const { data, isLoading, isError } =
-        RtoApi.Students.useAppointmentsReport({
+        RtoApi.Students.useCancelledWorkplaceReport({
             startDate: startDate.toISOString().slice(0, 10),
             endDate: endDate.toISOString().slice(0, 10),
             skip: itemPerPage * page - itemPerPage,
             limit: itemPerPage,
         })
 
+
     const columns: ColumnDef<any>[] = [
         {
-            header: () => <span>Appointment By</span>,
-            accessorKey: 'appointmentBy',
+            header: () => <span>Name</span>,
+            accessorKey: 'user',
             cell: (info: any) => {
-                const { appointmentBy: { name, id, avatar, email } } = info.row.original;
+                const {
+                    id,
+                    student: { user: { name, avatar } },
+                } = info.row.original || {}
+
                 return (
                     <a className="flex items-center gap-x-2">
                         <InitialAvatar name={name} imageUrl={avatar} />
                         <div className="flex flex-col">
                             <span>{id}</span>
-                            <span>{name || "N/A"}</span>
-                            <span>{email}</span>
+                            <span>{name}</span>
                         </div>
                     </a>
                 )
             },
         },
         {
-            accessorKey: 'appointmentFor',
-            header: () => <span>Appointment For</span>,
+            accessorKey: 'email',
+            header: () => <span>Email</span>,
             cell: (info) => {
-                const { appointmentFor: { name, id, avatar } } = info.row.original;
-                return (
-                    <a className="flex items-center gap-x-2">
-                        <InitialAvatar name={name || "N/A"} imageUrl={avatar} />
-                        <div className="flex flex-col">
-                            <span>{id}</span>
-                            <span>{name || "N/A"}</span>
-                        </div>
-                    </a>
-                )
-            }
-
-        },
-        // {
-        //     accessorKey: 'email',
-        //     header: () => <span>Email</span>,
-
-        // },
-        // {
-        //     accessorKey: 'phone',
-        //     header: () => <span>Phone</span>,
-        // },
-        // {
-        //     accessorKey: 'courses',
-        //     header: () => <span>Courses</span>,
-        //     cell: (info) => {
-        //         return info?.row?.original?.courses?.map((c: Course) => (
-        //     <CourseDot key={c?.id} course={c} />
-        //     ))
-        //     },
-        // },
-        {
-            accessorKey: 'startTime',
-            header: () => <span>Start Time</span>,
-
+                const {
+                    student: { user: { email } },
+                } = info.row.original || {}
+                return <span>{email}</span>
+            },
         },
         {
-            accessorKey: 'endTime',
-            header: () => <span>End Time</span>,
-
+            accessorKey: 'phone',
+            header: () => <span>Phone</span>,
+            cell: (info) => {
+                const {
+                    student: { phone },
+                } = info.row.original || {}
+                return <span>{phone}</span>
+            },
         },
         {
-            accessorKey: 'date',
-            header: () => <span>Date</span>,
-
+            accessorKey: 'courses',
+            header: () => <span>Courses</span>,
+            cell: (info) => {
+                // return info?.row?.original?.courses?.map((c: Course) => (
+                //     <CourseDot key={c?.id} course={c} />
+                // ))
+                return <span>{info?.row?.original?.courses[0]?.title || "N/A"}</span>
+            },
         },
     ]
     const count = data?.data?.length;
@@ -106,7 +93,7 @@ export const AppointmentsReport = ({
             <div className="flex justify-between">
                 <div className="">
                     <Typography variant="title" color="text-gray-400">
-                        Appointments
+                    Student Cancelled Workplace Request
                     </Typography>
                     <Typography variant="h3">{count || 0}</Typography>
                 </div>
@@ -119,7 +106,10 @@ export const AppointmentsReport = ({
                         endDate={endDate}
                         setEndDate={setEndDate}
                     />
-                    <ViewFullListReport data={data} columns={columns} />
+                    {/* <ViewFullListReport data={data} columns={columns} /> */}
+                    <ActionButton onClick={() => { router.push(`/portals/rto/report/${ReportOptionsEnum.CANCELLED_WORKPLACE_REQUEST}`) }} >
+                        View Full List
+                    </ActionButton>
                 </div>
 
             </div>
@@ -134,7 +124,7 @@ export const AppointmentsReport = ({
                                 <div className="p-6 mb-2 flex justify-between">
                                     {pageSize(itemPerPage, setItemPerPage)}
                                     <div className="flex gap-x-2">
-                                        {quickActions}
+                                        {/* {quickActions} */}
                                         {pagination(data?.pagination, setPage)}
                                     </div>
                                 </div>
@@ -146,9 +136,9 @@ export const AppointmentsReport = ({
             ) : (
                 !isError && (
                     <EmptyData
-                        title={'No Appointments Found'}
+                        title={'No Student Cancelled Requests Found'}
                         description={
-                            'There is no Appointments yet'
+                            'There is no New Student Cancelled Workplace Request yet'
                         }
                         height={'50vh'}
                     />

@@ -1,4 +1,5 @@
 import {
+    ActionButton,
     EmptyData,
     InitialAvatar,
     LoadingAnimation,
@@ -7,18 +8,34 @@ import {
     Typography,
 } from '@components'
 import { CourseDot } from '@partials/rto/student/components'
-import { RtoApi } from '@queries'
+import { RtoApi, SubAdminApi } from '@queries'
 import { ColumnDef } from '@tanstack/react-table'
-import { Course } from '@types'
 import React, { useState } from 'react'
-import { ViewFullListReport } from '../ViewFullListReport'
+import { FilterReport } from '../../FilterReport'
+import { ViewFullListReport } from '../../ViewFullListReport'
+import { Course, ReportOptionsEnum } from '@types'
+import { useRouter } from 'next/router'
 
-export const ReportedStudents = () => {
+type Props = {
+    startDate: any
+    endDate: any
+    setStartDate: any
+    setEndDate: any
+}
+
+export const StudentHaveWorkplaceReport = ({
+    setStartDate,
+    setEndDate,
+    startDate,
+    endDate,
+}: Props) => {
     const [itemPerPage, setItemPerPage] = useState(50)
     const [page, setPage] = useState(1)
-
+    const router = useRouter()
     const { data, isLoading, isError } =
-        RtoApi.Students.useReportedStudentsReport({
+        SubAdminApi.Reports.useAssignedWorkplace({
+            startDate: startDate.toISOString().slice(0, 10),
+            endDate: endDate.toISOString().slice(0, 10),
             skip: itemPerPage * page - itemPerPage,
             limit: itemPerPage,
         })
@@ -30,8 +47,11 @@ export const ReportedStudents = () => {
             cell: (info: any) => {
                 const {
                     id,
-                    user: { name, avatar },
+                    student: {
+                        user: { name, avatar },
+                    },
                 } = info.row.original || {}
+
                 return (
                     <a className="flex items-center gap-x-2">
                         <InitialAvatar name={name} imageUrl={avatar} />
@@ -48,7 +68,9 @@ export const ReportedStudents = () => {
             header: () => <span>Email</span>,
             cell: (info) => {
                 const {
-                    user: { email },
+                    student: {
+                        user: { email },
+                    },
                 } = info.row.original || {}
                 return <span>{email}</span>
             },
@@ -56,28 +78,57 @@ export const ReportedStudents = () => {
         {
             accessorKey: 'phone',
             header: () => <span>Phone</span>,
+            cell: (info) => {
+                const {
+                    student: { phone },
+                } = info.row.original || {}
+                return <span>{phone}</span>
+            },
         },
         {
             accessorKey: 'courses',
             header: () => <span>Courses</span>,
             cell: (info) => {
-                return info?.row?.original?.courses?.map((c: Course) => (
-                    <CourseDot key={c?.id} course={c} />
-                ))
+                // return info?.row?.original?.courses?.map((c: Course) => (
+                //     <CourseDot key={c?.id} course={c} />
+                // ))
+                return (
+                    <span>
+                        {info?.row?.original?.courses[0]?.title || 'N/A'}
+                    </span>
+                )
             },
         },
     ]
-    const count = data?.data?.length;
+    const count = data?.data?.length
     return (
         <>
-            <div className="flex justify-between items-center">
+            <div className="flex justify-between">
                 <div className="">
                     <Typography variant="title" color="text-gray-400">
-                        Reported Students
+                        Student Workplace Requests Assigned to himself
                     </Typography>
                     <Typography variant="h3">{count || 0}</Typography>
                 </div>
-                <ViewFullListReport data={data} columns={columns} />
+
+                <div className="flex items-center gap-x-4">
+                    <FilterReport
+                        startDate={startDate}
+                        setStartDate={setStartDate}
+                        endDate={endDate}
+                        setEndDate={setEndDate}
+                    />
+                    {/* <ViewFullListReport data={data} columns={columns} /> */}
+                    <ActionButton
+                        onClick={() => {
+                            router.push(
+                                `/portals/sub-admin/report/${ReportOptionsEnum.WORKPLACE_REQUEST_TERMINATED}`
+                            )
+                        }}
+                    >
+                        View Full List
+                    </ActionButton>
+                </div>
             </div>
             {isError && <TechnicalError />}
             {isLoading ? (
@@ -90,7 +141,7 @@ export const ReportedStudents = () => {
                                 <div className="p-6 mb-2 flex justify-between">
                                     {pageSize(itemPerPage, setItemPerPage)}
                                     <div className="flex gap-x-2">
-                                        {quickActions}
+                                        {/* {quickActions} */}
                                         {pagination(data?.pagination, setPage)}
                                     </div>
                                 </div>
@@ -102,8 +153,12 @@ export const ReportedStudents = () => {
             ) : (
                 !isError && (
                     <EmptyData
-                        title={'No Workplace Requests Found'}
-                        description={'There is no New Workplace Request yet'}
+                        title={
+                            'No Student Workplace Requests Assigned to himself Found'
+                        }
+                        description={
+                            'There is no Student Workplace Requests Assigned to himself yet'
+                        }
                         height={'50vh'}
                     />
                 )

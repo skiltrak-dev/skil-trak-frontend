@@ -1,6 +1,7 @@
 import { Card, Select } from '@components'
 import { ReportOptionsEnum } from '@types'
 import React from 'react'
+import { SubAdminReports } from 'types/sub-admin-reports.type'
 
 type Props = {
     reportType: any
@@ -12,17 +13,15 @@ export const ReportType = ({
     setReportType,
 }: Props) => {
     const reportOptions = [
-        { label: 'Non Contactable', value: ReportOptionsEnum.NON_CONTACTABLE },
-        { label: 'New Students', value: ReportOptionsEnum.NEW_STUDENTS },
-        { label: 'Blocked Students', value: ReportOptionsEnum.BLOCKED_STUDENTS },
-        { label: 'Cancelled Workplace Request', value: ReportOptionsEnum.CANCELLED_WORKPLACE_REQUEST },
-        { label: 'Workplace Request Completed', value: ReportOptionsEnum.WORKPLACE_REQUEST_COMPLETED },
-        { label: 'Workplace Request Terminated', value: ReportOptionsEnum.WORKPLACE_REQUEST_TERMINATED },
-        { label: 'Archived Students', value: ReportOptionsEnum.ARCHIVED_STUDENTS },
-        { label: 'Workplace Request', value: ReportOptionsEnum.WORKPLACE_REQUEST },
-        { label: 'Student Without Workplace Request', value: ReportOptionsEnum.STUDENT_WITHOUT_WORKPLACE_REQUEST },
-        { label: 'Appointments Report', value: ReportOptionsEnum.APPOINTMENTS_REPORT },
-        { label: 'Reported Students', value: ReportOptionsEnum.REPORTED_STUDENTS }
+        { label: 'Assigned Students', value: SubAdminReports.ASSIGNED_STUDENTS },
+        { label: 'Student Have Workplace', value: SubAdminReports.STUDENT_HAVE_WORKPLACE },
+        { label: 'Active Students', value: SubAdminReports.ACTIVE_STUDENTS },
+        { label: 'Archive Students', value: SubAdminReports.ARCHIVED_STUDENTS },
+        { label: 'Students Calls', value: SubAdminReports.STUDENTS_CALLS},
+        { label: 'Book Appointments', value: SubAdminReports.BOOK_APPOINTMENTS},
+        { label: 'Terminated Workplace ', value: SubAdminReports.TERMINATED_WORKPLACE},
+        { label: 'Completed Workplace ', value: SubAdminReports.COMPLETED_WORKPLACE},
+        { label: 'Cancelled Workplace ', value: SubAdminReports.CANCELLED_WORKPLACE},
     ]
 
    
@@ -30,7 +29,7 @@ export const ReportType = ({
         <>
             <Select
                 name="reportType"
-                label="Report Type"
+                label="Reports Type"
                 value={reportType}
                 options={reportOptions}
                 onChange={(e: any) => {

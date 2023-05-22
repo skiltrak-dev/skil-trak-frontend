@@ -1,11 +1,21 @@
-import { EmptyData, InitialAvatar, LoadingAnimation, Table, TechnicalError, Typography } from '@components'
-import { CourseDot } from '@partials/rto/student/components'
-import { RtoApi } from '@queries'
+import {
+    ActionButton,
+    EmptyData,
+    InitialAvatar,
+    LoadingAnimation,
+    Table,
+    TechnicalError,
+    Typography,
+} from '@components'
+
+import { SubAdminApi } from '@queries'
 import { ColumnDef } from '@tanstack/react-table'
 import React, { useState } from 'react'
-import { FilterReport } from '../FilterReport'
+import { FilterReport } from '../../FilterReport'
+import { CourseDot } from '@partials/rto/student/components'
 import { Course } from '@types'
-import { ViewFullListReport } from '../ViewFullListReport'
+import { useRouter } from 'next/router'
+import { SubAdminReports } from 'types/sub-admin-reports.type'
 
 type Props = {
     startDate: any
@@ -14,17 +24,17 @@ type Props = {
     setEndDate: any
 }
 
-export const TerminatedWorkplaceReport = ({
+export const StudentsAssignedReport = ({
     setStartDate,
     setEndDate,
     startDate,
-    endDate
+    endDate,
 }: Props) => {
     const [itemPerPage, setItemPerPage] = useState(50)
     const [page, setPage] = useState(1)
-
+    const router = useRouter()
     const { data, isLoading, isError } =
-        RtoApi.Students.useTerminatedWorkplaceReport({
+        SubAdminApi.Reports.useAssignedStudents({
             startDate: startDate.toISOString().slice(0, 10),
             endDate: endDate.toISOString().slice(0, 10),
             skip: itemPerPage * page - itemPerPage,
@@ -36,29 +46,26 @@ export const TerminatedWorkplaceReport = ({
             header: () => <span>Name</span>,
             accessorKey: 'user',
             cell: (info: any) => {
-                const {
-                    id,
-                    user: { name, avatar },
-                } = info.row.original || {}
                 return (
                     <a className="flex items-center gap-x-2">
-                        <InitialAvatar name={name} imageUrl={avatar} />
+                        <InitialAvatar
+                            name={info?.row?.original?.user?.name}
+                            imageUrl={info?.row?.original?.user?.avatar}
+                        />
                         <div className="flex flex-col">
-                            <span>{id}</span>
-                            <span>{name}</span>
+                            <span>{info?.row?.original?.id}</span>
+                            <span>{info?.row?.original?.user?.name}</span>
                         </div>
                     </a>
                 )
             },
         },
+
         {
             accessorKey: 'email',
             header: () => <span>Email</span>,
             cell: (info) => {
-                const {
-                    user: { email },
-                } = info.row.original || {}
-                return <span>{email}</span>
+                return <span>{info?.row?.original?.user?.email}</span>
             },
         },
         {
@@ -69,34 +76,50 @@ export const TerminatedWorkplaceReport = ({
             accessorKey: 'courses',
             header: () => <span>Courses</span>,
             cell: (info) => {
-                return info?.row?.original?.courses?.map((c: Course) => (
-                    <CourseDot key={c?.id} course={c} />
-                ))
+                return (
+                    <div className="flex items-center gap-x-1">
+                        {info?.row?.original?.courses?.map((c: Course) => (
+                            <CourseDot key={c?.id} course={c} />
+                        ))}
+                    </div>
+                )
+                // return (
+                //     <span>
+                //         {info?.row?.original?.courses[0]?.title || 'N/A'}
+                //     </span>
+                // )
             },
         },
     ]
-    const count = data?.data?.length;
+    const count = data?.data?.length
     return (
         <>
             <div className="flex justify-between">
                 <div className="">
                     <Typography variant="title" color="text-gray-400">
-                        Terminated Workplace
+                        Students Assigned
                     </Typography>
                     <Typography variant="h3">{count || 0}</Typography>
                 </div>
 
-
-                <div className='flex items-center gap-x-4'>
+                <div className="flex items-center gap-x-4">
                     <FilterReport
                         startDate={startDate}
                         setStartDate={setStartDate}
                         endDate={endDate}
                         setEndDate={setEndDate}
                     />
-                    <ViewFullListReport data={data} columns={columns} />
+                    {/* <ViewFullListReport data={data} columns={columns} /> */}
+                    <ActionButton
+                        onClick={() => {
+                            router.push(
+                                `/portals/sub-admin/report/${SubAdminReports.ASSIGNED_STUDENTS}`
+                            )
+                        }}
+                    >
+                        View Full List
+                    </ActionButton>
                 </div>
-
             </div>
             {isError && <TechnicalError />}
             {isLoading ? (
@@ -109,7 +132,7 @@ export const TerminatedWorkplaceReport = ({
                                 <div className="p-6 mb-2 flex justify-between">
                                     {pageSize(itemPerPage, setItemPerPage)}
                                     <div className="flex gap-x-2">
-                                        {quickActions}
+                                        {/* {quickActions} */}
                                         {pagination(data?.pagination, setPage)}
                                     </div>
                                 </div>
@@ -121,10 +144,8 @@ export const TerminatedWorkplaceReport = ({
             ) : (
                 !isError && (
                     <EmptyData
-                        title={'No Terminated Workplace Requests Found'}
-                        description={
-                            'There is no New Terminated Workplace Workplace Request yet'
-                        }
+                        title={'No Students Assigned Found'}
+                        description={'There is no Assigned Students yet'}
                         height={'50vh'}
                     />
                 )

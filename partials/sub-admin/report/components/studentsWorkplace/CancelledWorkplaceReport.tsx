@@ -1,11 +1,22 @@
-import { EmptyData, InitialAvatar, LoadingAnimation, Table, TechnicalError, Typography } from '@components'
+import {
+    ActionButton,
+    EmptyData,
+    InitialAvatar,
+    LoadingAnimation,
+    Table,
+    TechnicalError,
+    Typography,
+} from '@components'
 import { CourseDot } from '@partials/rto/student/components'
-import { RtoApi } from '@queries'
+import { SubAdminApi } from '@queries'
 import { ColumnDef } from '@tanstack/react-table'
 import React, { useState } from 'react'
-import { FilterReport } from '../FilterReport'
-import { Course } from '@types'
-import { ViewFullListReport } from '../ViewFullListReport'
+
+import { Course, ReportOptionsEnum } from '@types'
+import { FilterReport } from '../../FilterReport'
+import { ViewFullListReport } from '../../ViewFullListReport'
+import { useRouter } from 'next/router'
+import { SubAdminReports } from 'types/sub-admin-reports.type'
 
 type Props = {
     startDate: any
@@ -14,17 +25,17 @@ type Props = {
     setEndDate: any
 }
 
-export const NewStudentReport = ({
+export const CancelledWorkplaceReport = ({
     setStartDate,
     setEndDate,
     startDate,
-    endDate
+    endDate,
 }: Props) => {
     const [itemPerPage, setItemPerPage] = useState(50)
     const [page, setPage] = useState(1)
-
+    const router = useRouter()
     const { data, isLoading, isError } =
-        RtoApi.Students.useNewStudentsReport({
+        SubAdminApi.Reports.useCancelledWorkplaceReport({
             startDate: startDate.toISOString().slice(0, 10),
             endDate: endDate.toISOString().slice(0, 10),
             skip: itemPerPage * page - itemPerPage,
@@ -38,8 +49,11 @@ export const NewStudentReport = ({
             cell: (info: any) => {
                 const {
                     id,
-                    user: { name, avatar },
+                    student: {
+                        user: { name, avatar },
+                    },
                 } = info.row.original || {}
+
                 return (
                     <a className="flex items-center gap-x-2">
                         <InitialAvatar name={name} imageUrl={avatar} />
@@ -56,7 +70,9 @@ export const NewStudentReport = ({
             header: () => <span>Email</span>,
             cell: (info) => {
                 const {
-                    user: { email },
+                    student: {
+                        user: { email },
+                    },
                 } = info.row.original || {}
                 return <span>{email}</span>
             },
@@ -64,39 +80,57 @@ export const NewStudentReport = ({
         {
             accessorKey: 'phone',
             header: () => <span>Phone</span>,
+            cell: (info) => {
+                const {
+                    student: { phone },
+                } = info.row.original || {}
+                return <span>{phone}</span>
+            },
         },
         {
             accessorKey: 'courses',
             header: () => <span>Courses</span>,
             cell: (info) => {
-                return info?.row?.original?.courses?.map((c: Course) => (
-                    <CourseDot key={c?.id} course={c} />
-                ))
+                // return info?.row?.original?.courses?.map((c: Course) => (
+                //     <CourseDot key={c?.id} course={c} />
+                // ))
+                return (
+                    <span>
+                        {info?.row?.original?.courses[0]?.title || 'N/A'}
+                    </span>
+                )
             },
         },
     ]
-    const count = data?.data?.length;
+    const count = data?.data?.length
     return (
         <>
             <div className="flex justify-between">
                 <div className="">
                     <Typography variant="title" color="text-gray-400">
-                        New Students
+                        Cancelled Workplace Request
                     </Typography>
                     <Typography variant="h3">{count || 0}</Typography>
                 </div>
 
-
-                <div className='flex items-center gap-x-4'>
+                <div className="flex items-center gap-x-4">
                     <FilterReport
                         startDate={startDate}
                         setStartDate={setStartDate}
                         endDate={endDate}
                         setEndDate={setEndDate}
                     />
-                    <ViewFullListReport data={data} columns={columns} />
+                    {/* <ViewFullListReport data={data} columns={columns} /> */}
+                    <ActionButton
+                        onClick={() => {
+                            router.push(
+                                `/portals/sub-admin/report/${SubAdminReports.CANCELLED_WORKPLACE}`
+                            )
+                        }}
+                    >
+                        View Full List
+                    </ActionButton>
                 </div>
-
             </div>
             {isError && <TechnicalError />}
             {isLoading ? (
@@ -109,7 +143,7 @@ export const NewStudentReport = ({
                                 <div className="p-6 mb-2 flex justify-between">
                                     {pageSize(itemPerPage, setItemPerPage)}
                                     <div className="flex gap-x-2">
-                                        {quickActions}
+                                        {/* {quickActions} */}
                                         {pagination(data?.pagination, setPage)}
                                     </div>
                                 </div>
@@ -121,9 +155,9 @@ export const NewStudentReport = ({
             ) : (
                 !isError && (
                     <EmptyData
-                        title={'No New Students Found'}
+                        title={'No Cancelled Requests Found'}
                         description={
-                            'There is no New Contactable Students yet'
+                            'There is no New Cancelled Workplace Request yet'
                         }
                         height={'50vh'}
                     />

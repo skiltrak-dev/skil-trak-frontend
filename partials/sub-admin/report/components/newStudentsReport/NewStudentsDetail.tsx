@@ -2,31 +2,26 @@ import { ActionButton, EmptyData, InitialAvatar, LoadingAnimation, Table, Techni
 import { CourseDot } from '@partials/rto/student/components'
 import { RtoApi } from '@queries'
 import { ColumnDef } from '@tanstack/react-table'
-import { Course } from '@types';
-
-
+import React, { useState } from 'react'
+import { FilterReport } from '../../FilterReport'
+import { Course, ReportOptionsEnum } from '@types'
 
 type Props = {};
 
-export const CompletedWorkplaceDetail = (props: Props) => {
-  const { data, isLoading, isError } =
-    RtoApi.Students.useCompletedWorkplaceReport({})
+export const NewStudentsDetail = (props: Props) => {
+  const { data, isLoading, isError } = RtoApi.Students.useNewStudentsReport({})
   const columns: ColumnDef<any>[] = [
     {
       header: () => <span>Name</span>,
       accessorKey: 'user',
       cell: (info: any) => {
-        const {
-          id,
-          student: { user: { name, avatar } },
-        } = info.row.original || {}
 
         return (
           <a className="flex items-center gap-x-2">
-            <InitialAvatar name={name} imageUrl={avatar} />
+            <InitialAvatar name={info?.row?.original?.user?.name} imageUrl={info?.row?.original?.user?.avatar} />
             <div className="flex flex-col">
-              <span>{id}</span>
-              <span>{name}</span>
+              <span>{info?.row?.original?.id}</span>
+              <span>{info?.row?.original?.user?.name}</span>
             </div>
           </a>
         )
@@ -37,20 +32,14 @@ export const CompletedWorkplaceDetail = (props: Props) => {
       header: () => <span>Email</span>,
       cell: (info) => {
         const {
-          student: { user: { email } },
+          user: { email },
         } = info.row.original || {}
-        return <span>{email}</span>
+        return <span>{info?.row?.original?.user?.email}</span>
       },
     },
     {
       accessorKey: 'phone',
       header: () => <span>Phone</span>,
-      cell: (info) => {
-        const {
-          student: { phone },
-        } = info.row.original || {}
-        return <span>{phone}</span>
-      },
     },
     {
       accessorKey: 'courses',
@@ -69,10 +58,11 @@ export const CompletedWorkplaceDetail = (props: Props) => {
       <div className="flex justify-between">
         <div className="">
           <Typography variant="title" color="text-gray-400">
-            Completed Workplace
+            New Students
           </Typography>
           <Typography variant="h3">{count || 0}</Typography>
         </div>
+
       </div>
       {isError && <TechnicalError />}
       {isLoading ? (
@@ -91,9 +81,9 @@ export const CompletedWorkplaceDetail = (props: Props) => {
       ) : (
         !isError && (
           <EmptyData
-            title={'No Completed Workplace Requests Found'}
+            title={'No New Students Found'}
             description={
-              'There is no New Completed Workplace Workplace Request yet'
+              'There is no New Contactable Students yet'
             }
             height={'50vh'}
           />
