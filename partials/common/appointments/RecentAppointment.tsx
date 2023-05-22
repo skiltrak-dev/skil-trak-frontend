@@ -43,16 +43,20 @@ export const RecentAppointment = ({
 
     const appointmentUser = appointment ? appointment[appointmentWith] : {}
 
-    const appointmentWithUser = appointment
-        ? appointmentUser[
-              appointmentUser['role'] === 'subadmin'
-                  ? 'coordinator'
-                  : appointmentUser['role']
-          ]
-        : {}
+    console.log('appointmentUser', appointmentUser)
+
+    const appointmentWithUser =
+        appointment && appointmentUser
+            ? appointmentUser[
+                  appointmentUser?.role === 'subadmin'
+                      ? 'coordinator'
+                      : appointmentUser?.role
+              ]
+            : [{}]
+    // const appointmentWithUser = [{}]
 
     const profile = appointment
-        ? appointmentUser['role'] === 'subadmin'
+        ? appointmentUser?.role === 'subadmin'
             ? appointmentWithUser[0]
             : appointmentWithUser
         : {}
