@@ -35,6 +35,7 @@ const filterKeys = [
     'rtoId',
     'industryId',
     'courseId',
+    'progress',
 ]
 
 const StudentList: NextPageWithLayout = () => {

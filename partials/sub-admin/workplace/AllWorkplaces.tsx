@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 import {
     EmptyData,
@@ -12,10 +12,13 @@ import { WorkplaceRequest as StudentProvidedWorkplace } from './studentProvidedC
 
 // query
 import { useGetSubAdminWorkplacesQuery } from '@queries'
+import { useRouter } from 'next/router'
 
 export const AllWorkplaces = () => {
     const [page, setPage] = useState(1)
     const [itemPerPage, setItemPerPage] = useState(30)
+
+    const router = useRouter()
 
     const subAdminWorkplace = useGetSubAdminWorkplacesQuery(
         {
@@ -24,6 +27,11 @@ export const AllWorkplaces = () => {
         },
         { refetchOnMountOrArgChange: true }
     )
+
+    useEffect(() => {
+        setPage(Number(router.query.page || 1))
+        setItemPerPage(Number(router.query.pageSize || 30))
+    }, [router])
 
     return (
         <div>
@@ -37,6 +45,7 @@ export const AllWorkplaces = () => {
                     setPage={setPage}
                 />
             </div>
+
             {subAdminWorkplace.isError && <TechnicalError />}
             {subAdminWorkplace.isLoading && subAdminWorkplace.isFetching ? (
                 <LoadingAnimation height={'h-96'} />
@@ -44,25 +53,12 @@ export const AllWorkplaces = () => {
               subAdminWorkplace?.data?.data.length > 0 &&
               !subAdminWorkplace.isError ? (
                 <div className="flex flex-col gap-y-4">
-                    {subAdminWorkplace?.data?.data?.map((workplace: any) => {
-                        if (
-                            workplace?.studentProvidedWorkplace ||
-                            workplace?.byExistingAbn
-                        ) {
-                            return (
-                                <StudentProvidedWorkplace
-                                    key={workplace.id}
-                                    workplace={workplace}
-                                />
-                            )
-                        }
-                        return (
-                            <WorkplaceRequest
-                                key={workplace.id}
-                                workplace={workplace}
-                            />
-                        )
-                    })}
+                    {subAdminWorkplace?.data?.data?.map((workplace: any) => (
+                        <WorkplaceRequest
+                            key={workplace.id}
+                            workplace={workplace}
+                        />
+                    ))}
                 </div>
             ) : (
                 !subAdminWorkplace.isError && (

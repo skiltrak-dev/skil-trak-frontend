@@ -3,7 +3,7 @@ import { Select, TextInput } from '@components/inputs'
 // query
 import { CommonApi } from '@queries'
 
-import { AuthUtils } from '@utils'
+import { AuthUtils, WorkplaceCurrentStatus } from '@utils'
 import { SetQueryFilters } from './SetQueryFilters'
 import { statusOptions } from './statusOptions'
 import { SelectOption } from './types'
@@ -33,6 +33,65 @@ export const StudentFilters = ({ onFilterChange, filter }: ItemFilterProps) => {
         value: course?.id,
         label: course?.title,
     }))
+
+    const workplaceProgressOptions = [
+        {
+            label: 'Not Requested',
+            value: WorkplaceCurrentStatus.NotRequested,
+        },
+        {
+            label: 'Requested',
+            value: WorkplaceCurrentStatus.Applied,
+        },
+        {
+            label: 'Assigned',
+            value: WorkplaceCurrentStatus.CaseOfficerAssigned,
+        },
+        {
+            label: 'Interview',
+            value: WorkplaceCurrentStatus.Interview,
+        },
+        {
+            label: 'Waiting',
+            value: WorkplaceCurrentStatus.AwaitingWorkplaceResponse,
+        },
+        {
+            label: 'Meeting',
+            value: WorkplaceCurrentStatus.AppointmentBooked,
+        },
+        {
+            label: 'AgreementPending',
+            value: WorkplaceCurrentStatus.AwaitingAgreementSigned,
+        },
+        {
+            label: 'AgreementSigned',
+            value: WorkplaceCurrentStatus.AgreementSigned,
+        },
+        {
+            label: 'PlacementStarted',
+            value: WorkplaceCurrentStatus.PlacementStarted,
+        },
+        {
+            label: 'PlacementCancelled',
+            value: WorkplaceCurrentStatus.Cancelled,
+        },
+        {
+            label: 'PlacementCompleted',
+            value: WorkplaceCurrentStatus.Completed,
+        },
+        {
+            label: 'Rejected',
+            value: WorkplaceCurrentStatus.Rejected,
+        },
+        {
+            label: 'Terminated',
+            value: WorkplaceCurrentStatus.Terminated,
+        },
+        {
+            label: 'No Response',
+            value: WorkplaceCurrentStatus.NoResponse,
+        },
+    ]
 
     return (
         <>
@@ -128,15 +187,7 @@ export const StudentFilters = ({ onFilterChange, filter }: ItemFilterProps) => {
                     loading={getIndustries.isLoading}
                     disabled={getIndustries.isLoading}
                 />
-                {/* <Select
-                label={'Search by Batch/Class'}
-                name={'batchId'}
-                options={[]}
-                placeholder={'Select Batch/Class...'}
-                onChange={(e: any) => {
-                    onFilterChange({ ...filter, batchId: e?.value })
-                }}
-            /> */}
+
                 <Select
                     label={'Search by Courses'}
                     name={'courseId'}
@@ -151,6 +202,19 @@ export const StudentFilters = ({ onFilterChange, filter }: ItemFilterProps) => {
                     }}
                     loading={getCourses.isLoading}
                     disabled={getCourses.isLoading}
+                />
+                <Select
+                    label={'Search by Progress'}
+                    name={'progress'}
+                    options={workplaceProgressOptions}
+                    placeholder={'Select Courses...'}
+                    value={workplaceProgressOptions?.find(
+                        (progress: SelectOption) =>
+                            progress.value === filter?.progress
+                    )}
+                    onChange={(e: any) => {
+                        onFilterChange({ ...filter, progress: e?.value })
+                    }}
                 />
             </div>
         </>

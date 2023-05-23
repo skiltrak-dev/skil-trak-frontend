@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 // components
 import {
@@ -12,10 +12,13 @@ import { WorkplaceRequest } from './components'
 
 // query
 import { useGetMyStudentsWorkplacesQuery } from '@queries'
+import { useRouter } from 'next/router'
 
 export const MyWorkplaces = () => {
     const [page, setPage] = useState(1)
     const [itemPerPage, setItemPerPage] = useState(30)
+
+    const router = useRouter()
 
     const subAdminWorkplace = useGetMyStudentsWorkplacesQuery(
         {
@@ -24,6 +27,11 @@ export const MyWorkplaces = () => {
         },
         { refetchOnMountOrArgChange: true }
     )
+
+    useEffect(() => {
+        setPage(Number(router.query.page || 1))
+        setItemPerPage(Number(router.query.pageSize || 30))
+    }, [router])
     return (
         <div>
             <div className="flex items-center justify-between">
