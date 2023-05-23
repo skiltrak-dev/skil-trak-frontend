@@ -34,7 +34,7 @@ export const ArchiveModal = ({
         if (changeStatusResult.isSuccess) {
             alert.success({
                 title: `Request Archived`,
-                description: `Student "${item.user.name}" has been archived.`,
+                description: `Student "${item?.user?.name}" has been archived.`,
             })
             onCancel()
         }
@@ -51,11 +51,11 @@ export const ArchiveModal = ({
             Icon={IoWarningOutline}
             variant="primary"
             title="Are you sure!"
-            description={`You are about to archive <em>"${item.user.name}"<em>. Do you wish to continue?`}
+            description={`You are about to archive <em>"${item?.user?.name}"<em>. Do you wish to continue?`}
             onConfirm={onConfirmClicked}
             onCancel={onCancel}
             input
-            inputKey={item.user.email}
+            inputKey={item?.user?.email}
             actionObject={item}
             loading={changeStatusResult.isLoading}
         />

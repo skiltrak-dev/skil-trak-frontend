@@ -35,7 +35,7 @@ const filterKeys = [
     'rtoId',
     'industryId',
     'courseId',
-    'progress',
+    'currentStatus',
 ]
 
 const StudentList: NextPageWithLayout = () => {
@@ -50,11 +50,6 @@ const StudentList: NextPageWithLayout = () => {
     const [filter, setFilter] = useState({})
     const [page, setPage] = useState(1)
     const [itemPerPage, setItemPerPage] = useState(50)
-
-    // const query = getFilterQuery({ router, filterKeys })
-    // useEffect(() => {
-    //     setFilter(query)
-    // }, [router])
 
     const { isLoading, data } = AdminApi.Students.useCountQuery()
     const filteredStudents = AdminApi.Students.useListQuery({

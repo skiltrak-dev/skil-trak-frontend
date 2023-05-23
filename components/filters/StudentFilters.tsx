@@ -12,6 +12,65 @@ interface ItemFilterProps {
     onFilterChange: Function
     filter: any
 }
+
+export const workplaceProgressOptions = [
+    {
+        label: 'Not Requested',
+        value: WorkplaceCurrentStatus.NotRequested,
+    },
+    {
+        label: 'Requested',
+        value: WorkplaceCurrentStatus.Applied,
+    },
+    {
+        label: 'Assigned',
+        value: WorkplaceCurrentStatus.CaseOfficerAssigned,
+    },
+    {
+        label: 'Interview',
+        value: WorkplaceCurrentStatus.Interview,
+    },
+    {
+        label: 'Waiting',
+        value: WorkplaceCurrentStatus.AwaitingWorkplaceResponse,
+    },
+    {
+        label: 'Meeting',
+        value: WorkplaceCurrentStatus.AppointmentBooked,
+    },
+    {
+        label: 'AgreementPending',
+        value: WorkplaceCurrentStatus.AwaitingAgreementSigned,
+    },
+    {
+        label: 'AgreementSigned',
+        value: WorkplaceCurrentStatus.AgreementSigned,
+    },
+    {
+        label: 'PlacementStarted',
+        value: WorkplaceCurrentStatus.PlacementStarted,
+    },
+    {
+        label: 'PlacementCancelled',
+        value: WorkplaceCurrentStatus.Cancelled,
+    },
+    {
+        label: 'PlacementCompleted',
+        value: WorkplaceCurrentStatus.Completed,
+    },
+    {
+        label: 'Rejected',
+        value: WorkplaceCurrentStatus.Rejected,
+    },
+    {
+        label: 'Terminated',
+        value: WorkplaceCurrentStatus.Terminated,
+    },
+    {
+        label: 'No Response',
+        value: WorkplaceCurrentStatus.NoResponse,
+    },
+]
 export const StudentFilters = ({ onFilterChange, filter }: ItemFilterProps) => {
     // query
     const getIndustries = CommonApi.Filter.useIndustries()
@@ -33,65 +92,6 @@ export const StudentFilters = ({ onFilterChange, filter }: ItemFilterProps) => {
         value: course?.id,
         label: course?.title,
     }))
-
-    const workplaceProgressOptions = [
-        {
-            label: 'Not Requested',
-            value: WorkplaceCurrentStatus.NotRequested,
-        },
-        {
-            label: 'Requested',
-            value: WorkplaceCurrentStatus.Applied,
-        },
-        {
-            label: 'Assigned',
-            value: WorkplaceCurrentStatus.CaseOfficerAssigned,
-        },
-        {
-            label: 'Interview',
-            value: WorkplaceCurrentStatus.Interview,
-        },
-        {
-            label: 'Waiting',
-            value: WorkplaceCurrentStatus.AwaitingWorkplaceResponse,
-        },
-        {
-            label: 'Meeting',
-            value: WorkplaceCurrentStatus.AppointmentBooked,
-        },
-        {
-            label: 'AgreementPending',
-            value: WorkplaceCurrentStatus.AwaitingAgreementSigned,
-        },
-        {
-            label: 'AgreementSigned',
-            value: WorkplaceCurrentStatus.AgreementSigned,
-        },
-        {
-            label: 'PlacementStarted',
-            value: WorkplaceCurrentStatus.PlacementStarted,
-        },
-        {
-            label: 'PlacementCancelled',
-            value: WorkplaceCurrentStatus.Cancelled,
-        },
-        {
-            label: 'PlacementCompleted',
-            value: WorkplaceCurrentStatus.Completed,
-        },
-        {
-            label: 'Rejected',
-            value: WorkplaceCurrentStatus.Rejected,
-        },
-        {
-            label: 'Terminated',
-            value: WorkplaceCurrentStatus.Terminated,
-        },
-        {
-            label: 'No Response',
-            value: WorkplaceCurrentStatus.NoResponse,
-        },
-    ]
 
     return (
         <>
@@ -205,15 +205,15 @@ export const StudentFilters = ({ onFilterChange, filter }: ItemFilterProps) => {
                 />
                 <Select
                     label={'Search by Progress'}
-                    name={'progress'}
+                    name={'currentStatus'}
                     options={workplaceProgressOptions}
-                    placeholder={'Select Courses...'}
+                    placeholder={'Select Progress...'}
                     value={workplaceProgressOptions?.find(
-                        (progress: SelectOption) =>
-                            progress.value === filter?.progress
+                        (currentStatus: SelectOption) =>
+                            currentStatus.value === filter?.currentStatus
                     )}
                     onChange={(e: any) => {
-                        onFilterChange({ ...filter, progress: e?.value })
+                        onFilterChange({ ...filter, currentStatus: e?.value })
                     }}
                 />
             </div>
