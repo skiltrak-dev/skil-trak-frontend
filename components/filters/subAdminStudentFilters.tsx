@@ -6,6 +6,7 @@ import { CommonApi } from '@queries'
 import { SetQueryFilters } from './SetQueryFilters'
 import { statusOptions } from './statusOptions'
 import { SelectOption } from './types'
+import { workplaceProgressOptions } from './StudentFilters'
 
 interface ItemFilterProps {
     onFilterChange: Function
@@ -38,7 +39,7 @@ export const SubAdminStudentFilters = ({
     return (
         <>
             <SetQueryFilters filter={filter} />
-            <div className="grid grid-cols-4 gap-x-3">
+            <div className="grid grid-cols-3 gap-x-3">
                 <TextInput
                     name="name"
                     label={'Name'}
@@ -118,15 +119,7 @@ export const SubAdminStudentFilters = ({
                     loading={getIndustries.isLoading}
                     disabled={getIndustries.isLoading}
                 />
-                {/* <Select
-                label={'Search by Batch/Class'}
-                name={'batchId'}
-                options={[{ value: '', label: '' }]}
-                placeholder={'Select Batch/Class...'}
-                onChange={(e: any) => {
-                    onFilterChange({ ...filter, batchId: e?.value })
-                }}
-            /> */}
+
                 <Select
                     label={'Search by Courses'}
                     name={'courseId'}
@@ -141,6 +134,19 @@ export const SubAdminStudentFilters = ({
                     }}
                     loading={getCourses.isLoading}
                     disabled={getCourses.isLoading}
+                />
+                <Select
+                    label={'Search by Progress'}
+                    name={'currentStatus'}
+                    options={workplaceProgressOptions}
+                    placeholder={'Select Progress...'}
+                    value={workplaceProgressOptions?.find(
+                        (currentStatus: SelectOption) =>
+                            currentStatus.value === filter?.currentStatus
+                    )}
+                    onChange={(e: any) => {
+                        onFilterChange({ ...filter, currentStatus: e?.value })
+                    }}
                 />
             </div>
         </>

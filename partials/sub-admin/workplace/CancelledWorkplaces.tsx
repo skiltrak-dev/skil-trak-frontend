@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
 import {
     TechnicalError,
@@ -11,10 +11,13 @@ import { WorkplaceRequest } from './components'
 
 // query
 import { useGetCancelledWorkplacesQuery } from '@queries'
+import { useRouter } from 'next/router'
 
 export const CancelledWorkplaces = () => {
     const [page, setPage] = useState(1)
     const [itemPerPage, setItemPerPage] = useState(30)
+
+    const router = useRouter()
 
     const subAdminWorkplace = useGetCancelledWorkplacesQuery(
         {
@@ -23,6 +26,11 @@ export const CancelledWorkplaces = () => {
         },
         { refetchOnMountOrArgChange: true }
     )
+
+    useEffect(() => {
+        setPage(Number(router.query.page || 1))
+        setItemPerPage(Number(router.query.pageSize || 30))
+    }, [router])
     return (
         <div>
             <div className="flex items-center justify-between">
