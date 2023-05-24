@@ -16,16 +16,16 @@ import {
     TerminatedWorkplaceDetail,
     WorkplaceRequestDetail,
 } from '@partials/rto/report'
-import { Card, PageTitle } from '@components'
+import { Button, Card, PageTitle } from '@components'
 
 const ReportType: NextPageWithLayout = () => {
     const router = useRouter()
-    const { reportType } = router.query;
-    let title;
+    const { reportType } = router.query
+    let title
     if (Array.isArray(reportType)) {
-        title = reportType[0]?.replace(/-/g, " ");
+        title = reportType[0]?.replace(/-/g, ' ')
     } else {
-        title = reportType?.replace(/-/g, " ");
+        title = reportType?.replace(/-/g, ' ')
     }
 
     const reports = () => {
@@ -60,7 +60,9 @@ const ReportType: NextPageWithLayout = () => {
         <>
             <div className="flex items-center justify-between mb-4">
                 <PageTitle title={`${title} Detail`} />
-                <DownloadButton />
+
+                {/* <DownloadButton /> */}
+                <Button variant={'dark'} text={'Download'} />
             </div>
             <Card>{reports()}</Card>
         </>
