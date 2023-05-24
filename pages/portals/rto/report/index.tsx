@@ -4,7 +4,7 @@ import { ReactElement, useState } from 'react'
 // layouts
 import { RtoLayout } from '@layouts'
 
-import { Card, PageTitle } from '@components'
+import { Button, Card, PageTitle } from '@components'
 
 import {
     AppointmentsReport,
@@ -21,22 +21,47 @@ import {
     WorkplaceRequestReport,
 } from '@partials/rto/report'
 import { ReportType } from '@partials/rto/report/ReportType'
+import { ReportListModal } from '@partials/rto/components/ReportListModal'
+import { IoMdDownload } from 'react-icons/io'
 
 // components
 
 const Report: NextPageWithLayout = () => {
     const [startDate, setStartDate] = useState<any>(new Date())
     const [endDate, setEndDate] = useState<any>(new Date())
+    
 
     const [reportType, setReportType] = useState({
         label: 'Non Contactable',
         value: 'non-contactable',
     })
+    const [modal, setModal] = useState<ReactElement | null>(null)
+    const onClose = () => {
+        setModal(null)
+    }
+    const onViewClicked = () => {
+        setModal(
+            <ReportListModal
+                // setStartDate={setStartDate}
+                // setEndDate={setEndDate}
+                // startDate={startDate}
+                // endDate={endDate}
+                onClose={() => onClose()}
+            />
+        )
+    }
 
     const reports = () => {
         switch (reportType?.value) {
             case ReportOptionsEnum.NON_CONTACTABLE:
-                return <NonContactableReport />
+                return (
+                    <NonContactableReport
+                        setStartDate={setStartDate}
+                        setEndDate={setEndDate}
+                        startDate={startDate}
+                        endDate={endDate}
+                    />
+                )
             case ReportOptionsEnum.NEW_STUDENTS:
                 return (
                     <NewStudentReport
@@ -106,9 +131,26 @@ const Report: NextPageWithLayout = () => {
 
     return (
         <>
+            {modal && modal}
             <div className="flex items-center justify-between mb-4">
                 <PageTitle title="Statistics" />
-                <DownloadButton />
+                {/* <DownloadButton
+                    setStartDate={setStartDate}
+                    setEndDate={setEndDate}
+                    startDate={startDate}
+                    endDate={endDate}
+                /> */}
+                <Button
+                    onClick={() => {
+                        onViewClicked()
+                    }}
+                    variant="dark"
+                >
+                    <span className="flex items-center gap-x-2">
+                        <IoMdDownload size={18} />
+                        <span>Download</span>
+                    </span>
+                </Button>
             </div>
             <div className="w-1/4">
                 <ReportType

@@ -26,9 +26,9 @@ export const FilterReport = ({
     const [dateRange, setDateRange] = useState<any>('')
     const [showCalendars, setShowCalendars] = useState<any>(false)
     const [selectedFilter, setSelectedFilter] = useState<any>('Weekly')
+    
 
     const [showFilter, setShowFilter] = useState<any>(false)
-    const [modal, setModal] = useState<ReactElement | null>(null)
     // months
     const [year, setYear] = useState<any>({
         label: new Date().getFullYear().toString(),
@@ -53,13 +53,6 @@ export const FilterReport = ({
         value: new Date().getMonth().toString(),
     })
 
-    // const onClose = () => {
-    //     setModal(null)
-    // }
-    // const onViewClicked = () => {
-    //     setModal(<ReportListModal onClose={() => onClose()} />)
-    // }
-
     const handleShowFilter = () => {
         setShowFilter(!showFilter)
     }
@@ -80,14 +73,12 @@ export const FilterReport = ({
             const weekStart = new Date(date)
             const weekEnd = new Date(date)
             weekEnd.setDate(weekEnd.getDate() + 6)
+            setEndDate(weekEnd)
             setDateRange(
                 `${weekStart.toLocaleDateString()} - ${weekEnd.toLocaleDateString()}`
             )
         }
-       
     }
-
-    
 
     const handleEndDateChange = (date: any) => {
         setEndDate(date)
@@ -98,6 +89,7 @@ export const FilterReport = ({
             )
         }
     }
+ 
 
     const handleFilterSelect = (filter: any) => {
         setSelectedFilter(filter)
@@ -108,33 +100,6 @@ export const FilterReport = ({
         switch (selectedFilter) {
             case 'Monthly':
                 return (
-                    // <div className='absolute top-10 z-10'>
-                    // <CalendarStyles>
-                    //     <Calendar
-                    //         onChange={handleStartDateChange}
-                    //         value={startDate}
-                    //         view="year"
-                    //         showNavigation={false}
-                    //         onClickYear={(value, event) => {
-                    //             handleYearChange(value)
-                    //             setShowCalendars(false)
-                    //             setDateRange(
-                    //                 value.toLocaleDateString('en-US', {
-                    //                     year: 'numeric',
-                    //                 })
-                    //             )
-                    //         }}
-                    //         tileContent={({ date, view }) =>
-                    //             view === 'month' && date.getFullYear() ? (
-                    //                 <span className="">
-                    //                     {date.toLocaleDateString('en-US', {
-                    //                         month: 'numeric',
-                    //                     })}
-                    //                 </span>
-                    //             ) : null
-                    //         }
-                    //     />
-                    // </CalendarStyles>
                     <MonthlyDropdown
                         setShowCalendars={setShowCalendars}
                         month={month}
@@ -159,35 +124,6 @@ export const FilterReport = ({
                 )
             case 'Annually':
                 return (
-                    // <div className='absolute top-10 right-0 z-10'>
-                    // <CalendarStyles>
-                    //     <Calendar
-                    //         onChange={handleStartDateChange}
-                    //         value={startDate}
-                    //         showNavigation={false}
-                    //         view="decade"
-                    //         onClickDecade={(value, event) => {
-                    //             setShowCalendars(false)
-                    //             setDateRange(
-                    //                 value.toLocaleDateString('en-US', {
-                    //                     year: 'numeric',
-                    //                 })
-                    //             )
-                    //         }}
-                    //         tileContent={({ date, view }) =>
-                    //             view === 'year' &&
-                    //                 date.toLocaleDateString() ===
-                    //                 startDate.toLocaleDateString() ? (
-                    //                 <span style={{ fontWeight: 'bold' }}>
-                    //                     {date.toLocaleDateString('en-US', {
-                    //                         year: 'numeric',
-                    //                     })}
-                    //                 </span>
-                    //             ) : null
-                    //         }
-                    //     />
-                    // </CalendarStyles>
-                    // </div>
                     <Card>
                         <AnnualDropdown
                             setShowCalendars={setShowCalendars}
@@ -233,7 +169,7 @@ export const FilterReport = ({
                                 {dateRange
                                     ? dateRange
                                     : selectedFilter === 'Monthly'
-                                    ? `${month?.label} / ${year?.value}`
+                                    ? `${month?.label} - ${year?.value}`
                                     : selectedFilter === 'Annually'
                                     ? `${year?.value}`
                                     : selectedFilter}
@@ -303,23 +239,7 @@ export const FilterReport = ({
                         )}
                     </div>
                 </OutsideClickHandler>
-                {/* <div
-                    onClick={() => {
-                        onViewClicked()
-                    }}
-                    className="bg-gray-100 cursor-pointer rounded p-1 flex items-center gap-x-2"
-                >
-                    <MdViewQuilt size={20} className="text-gray-400" />
-                    <span>VIEW FULL LIST</span>
-                </div> */}
             </div>
-            {/* <button onClick={handleRangeSelect}>Select Range</button> */}
-
-            {/* {showCalendars && (
-                <div className="calendars-container">
-                    {getCalendarByFilter()}
-                </div>
-            )} */}
         </>
     )
 }
