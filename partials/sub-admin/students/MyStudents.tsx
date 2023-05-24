@@ -1,43 +1,37 @@
 import { useRouter } from 'next/router'
-import Image from 'next/image'
-import Link from 'next/link'
 
 // Icons
-import { FaEye, FaEnvelope } from 'react-icons/fa'
+import { FaEye } from 'react-icons/fa'
 
 // components
 import {
     Card,
-    TableActionOption,
-    Typography,
-    TableAction,
-    LoadingAnimation,
-    Table,
+    CaseOfficerAssignedStudent,
     EmptyData,
     InitialAvatar,
-    PlacementTableCell,
+    LoadingAnimation,
+    StudentSubAdmin,
+    Table,
+    TableAction,
+    TableActionOption,
+    Typography,
     UserCreatedAt,
 } from '@components'
 import { StudentCellInfo } from './components'
 
-import { Student } from '@types'
-import { useState, ReactElement, useEffect } from 'react'
-import { useGetSubAdminMyStudentsQuery } from '@queries'
 import { TechnicalError } from '@components/ActionAnimations/TechnicalError'
-import { BlockModal, UnAssignStudentModal } from './modals'
+import { useGetSubAdminMyStudentsQuery } from '@queries'
+import { Student } from '@types'
+import { ReactElement, useEffect, useState } from 'react'
 import { MdBlock } from 'react-icons/md'
+import { BlockModal, UnAssignStudentModal } from './modals'
 
-import { getActiveIndustry } from '@partials/student/utils'
-import { IndustryCell } from '@partials/admin/industry/components'
-import { IndustryCellInfo } from '../indestries/components'
-import { ProgressCell, SectorCell } from '@partials/admin/student/components'
-import {
-    checkWorkplaceStatus,
-    getStudentWorkplaceAppliedIndustry,
-    setLink,
-} from '@utils'
-import { RiLockPasswordFill } from 'react-icons/ri'
 import { useActionModal } from '@hooks'
+import { SectorCell } from '@partials/admin/student/components'
+import { ColumnDef } from '@tanstack/react-table'
+import { getStudentWorkplaceAppliedIndustry, setLink } from '@utils'
+import { RiLockPasswordFill } from 'react-icons/ri'
+import { IndustryCellInfo } from '../indestries/components'
 
 export const MyStudents = () => {
     const router = useRouter()
@@ -107,11 +101,10 @@ export const MyStudents = () => {
         },
     ]
 
-    const Columns = [
+    const Columns: ColumnDef<StudentSubAdmin>[] = [
         {
             header: () => 'Name',
             accessorKey: 'user',
-            sort: true,
             cell: ({ row }: any) => {
                 return <StudentCellInfo student={row.original} />
             },
@@ -162,15 +155,9 @@ export const MyStudents = () => {
         {
             header: () => 'Progress',
             accessorKey: 'progress',
-            cell: ({ row }: any) => {
-                const workplace = row.original.workplace[0]
-                const steps = checkWorkplaceStatus(workplace?.currentStatus)
-                return (
-                    <ProgressCell
-                        step={steps > 9 ? 9 : steps < 1 ? 1 : steps}
-                    />
-                )
-            },
+            cell: ({ row }) => (
+                <CaseOfficerAssignedStudent student={row.original} />
+            ),
         },
         {
             accessorKey: 'createdAt',

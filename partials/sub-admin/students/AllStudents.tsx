@@ -2,15 +2,17 @@ import { useRouter } from 'next/router'
 import { ReactElement } from 'react'
 
 // Icons
-import { FaEdit, FaEye } from 'react-icons/fa'
+import { FaEdit, FaEye, FaUsers } from 'react-icons/fa'
 
 // components
 import {
     Card,
+    CaseOfficerAssignedStudent,
     EmptyData,
     InitialAvatar,
     LoadingAnimation,
     StudentStatusProgressCell,
+    StudentSubAdmin,
     Table,
     TableAction,
     TableActionOption,
@@ -22,7 +24,7 @@ import { StudentCellInfo } from './components'
 import { TechnicalError } from '@components/ActionAnimations/TechnicalError'
 import { useActionModal, useJoyRide } from '@hooks'
 import { useGetSubAdminStudentsQuery, SubAdminApi } from '@queries'
-import { Student, UserStatus } from '@types'
+import { Student, SubAdmin, UserStatus } from '@types'
 import { useEffect, useState } from 'react'
 import { MdBlock } from 'react-icons/md'
 import {
@@ -43,6 +45,7 @@ import { IndustryCellInfo } from '../indestries/components'
 import { ColumnDef } from '@tanstack/react-table'
 import { EditTimer } from '@components/StudentTimer/EditTimer'
 import { RiLockPasswordFill } from 'react-icons/ri'
+import { InterviewModal } from '../workplace/modals'
 
 export const AllStudents = () => {
     const router = useRouter()
@@ -129,6 +132,19 @@ export const AllStudents = () => {
         setModal(<BlockModal item={student} onCancel={onModalCancelClicked} />)
     }
 
+    const onInterviewClicked = (student: Student) => {
+        setModal(
+            <InterviewModal
+                student={student}
+                onCancel={onModalCancelClicked}
+                workplace={student?.workplace[0]?.id}
+                workIndustry={
+                    getStudentWorkplaceAppliedIndustry(student?.workplace)?.id
+                }
+            />
+        )
+    }
+
     const tableActionOptions = (student: any) => {
         return [
             {
@@ -145,7 +161,11 @@ export const AllStudents = () => {
                 text: student?.subadmin ? 'Un Assign' : 'Assign to me',
                 onClick: (student: Student) => onAssignStudentClicked(student),
                 Icon: MdBlock,
-                color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
+            },
+            {
+                text: 'Interview',
+                onClick: (student: Student) => onInterviewClicked(student),
+                Icon: FaUsers,
             },
             {
                 text: 'Change Status',
@@ -171,7 +191,7 @@ export const AllStudents = () => {
         ]
     }
 
-    const Columns: ColumnDef<Student>[] = [
+    const Columns: ColumnDef<StudentSubAdmin>[] = [
         {
             header: () => 'Name',
             accessorKey: 'user',
@@ -224,31 +244,9 @@ export const AllStudents = () => {
         {
             accessorKey: 'progress',
             header: () => <span>Progress</span>,
-            cell: ({ row }) => {
-                const workplace = row.original.workplace?.reduce(
-                    (a: any, b: any) => (a?.createdAt > b?.createdAt ? a : b),
-                    {
-                        currentStatus: WorkplaceCurrentStatus.NotRequested,
-                    }
-                )
-                const industries = row.original?.industries
-                const steps = checkWorkplaceStatus(workplace?.currentStatus)
-                const studentStatus = checkStudentStatus(
-                    row.original?.studentStatus
-                )
-
-                return industries?.length > 0 ? (
-                    <StudentStatusProgressCell
-                        studentId={row.original?.id}
-                        step={studentStatus}
-                    />
-                ) : (
-                    <ProgressCell
-                        studentId={row.original?.id}
-                        step={steps > 14 ? 14 : steps < 1 ? 1 : steps}
-                    />
-                )
-            },
+            cell: ({ row }) => (
+                <CaseOfficerAssignedStudent student={row.original} />
+            ),
         },
         {
             accessorKey: 'createdAt',

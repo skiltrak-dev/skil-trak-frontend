@@ -11,6 +11,8 @@ import {
     StudentFilters,
     Typography,
     StudentStatusProgressCell,
+    StudentSubAdmin,
+    CaseOfficerAssignedStudent,
 } from '@components'
 import { PageHeading } from '@components/headings'
 import { ColumnDef } from '@tanstack/react-table'
@@ -211,7 +213,7 @@ export const FilteredStudents = ({
         },
     ]
 
-    const columns: ColumnDef<any>[] = [
+    const columns: ColumnDef<StudentSubAdmin>[] = [
         {
             accessorKey: 'user.name',
             // cell: (info) => 'Saad',
@@ -263,49 +265,9 @@ export const FilteredStudents = ({
         {
             accessorKey: 'progress',
             header: () => <span>Progress</span>,
-            cell: ({ row }) => {
-                // const workplace = row.original.workplace?.find(
-                //     (workplace: any) =>
-                //         workplace?.currentStatus !==
-                //         WorkplaceCurrentStatus.Cancelled
-                // )
-                // const workplace = row.original.workplace[0]
-                // let earliestWorkplace = row.original.workplace[0]
-                // const workplace = row.original.workplace?.forEach(
-                //     (workplace: any) => {
-                //         if (
-                //             workplace?.createdAt > earliestWorkplace?.createdAt
-                //         ) {
-                //             earliestWorkplace = workplace
-                //         }
-                //     }
-                // )
-
-                const workplace = row.original.workplace?.reduce(
-                    (a: any, b: any) => (a?.createdAt > b?.createdAt ? a : b),
-                    {
-                        currentStatus: WorkplaceCurrentStatus.NotRequested,
-                    }
-                )
-
-                const industries = row.original?.industries
-                const steps = checkWorkplaceStatus(workplace?.currentStatus)
-                const studentStatus = checkStudentStatus(
-                    row.original?.studentStatus
-                )
-
-                return industries?.length > 0 ? (
-                    <StudentStatusProgressCell
-                        studentId={row.original?.id}
-                        step={studentStatus}
-                    />
-                ) : (
-                    <ProgressCell
-                        studentId={row.original?.id}
-                        step={steps > 14 ? 14 : steps < 1 ? 1 : steps}
-                    />
-                )
-            },
+            cell: ({ row }) => (
+                <CaseOfficerAssignedStudent student={row.original} />
+            ),
         },
         {
             accessorKey: 'user.status',

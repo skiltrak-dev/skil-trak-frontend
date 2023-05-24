@@ -12,6 +12,7 @@ import {
     EmptyData,
     LoadingAnimation,
     PageTitle,
+    ShowErrorNotifications,
     StudentTimer,
     SubAdminStudentProfile,
     TechnicalError,
@@ -181,7 +182,9 @@ export const StudentProfile = ({ noTitle }: { noTitle?: boolean }) => {
                         />
                         <Button
                             text="Not Contactable"
-                            variant="info"
+                            variant={
+                                data?.nonContactable ? 'secondary' : 'info'
+                            }
                             onClick={() => {
                                 notContactable(data?.id)
                             }}
@@ -254,6 +257,7 @@ export const StudentProfile = ({ noTitle }: { noTitle?: boolean }) => {
         <>
             {modal && modal}
             {passwordModal}
+            <ShowErrorNotifications result={notContactableResult} />
             <div className="mb-16">
                 <div className="flex justify-between items-end mb-4">
                     <div>

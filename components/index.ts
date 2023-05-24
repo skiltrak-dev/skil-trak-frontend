@@ -28,6 +28,7 @@ export * from './EditPassword'
 export * from './Tooltip'
 export * from './UserCreatedAt'
 export * from './UserCardRole'
+export * from './CaseOfficerAssignedStudent'
 
 // export * from './Pagination'
 export * from './PopUp'

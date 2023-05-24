@@ -1,25 +1,24 @@
 import { Card } from '@components/cards'
 import Image from 'next/image'
-import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { FaMapMarkerAlt } from 'react-icons/fa'
 import { IoBriefcase } from 'react-icons/io5'
 
 //queries
-import { LoadingAnimation, WorkplaceAvatar } from '@components'
+import { LoadingAnimation, StudentSubAdmin, WorkplaceAvatar } from '@components'
 import { ActionButton } from '@components/buttons'
-import { useGetSubAdminStudentWorkplaceQuery } from '@queries'
-import { WorkplaceCurrentStatus, getUserCredentials } from '@utils'
-import { useState, useEffect, ReactElement } from 'react'
-import { AddWorkplace } from './AddWorkplace'
-import { useContextBar } from '@hooks'
-import { AddSecondWPCB } from '../contextBar'
-import { MdDelete } from 'react-icons/md'
-import { RemoveIndustryModal } from '@partials/sub-admin/workplace/modals'
-import { Student, UserStatus } from '@types'
 import { UserRoles } from '@constants'
+import { useContextBar } from '@hooks'
+import { RemoveIndustryModal } from '@partials/sub-admin/workplace/modals'
+import { useGetSubAdminStudentWorkplaceQuery } from '@queries'
+import { UserStatus } from '@types'
+import { WorkplaceCurrentStatus, getUserCredentials } from '@utils'
+import { ReactElement, useEffect, useState } from 'react'
+import { MdDelete } from 'react-icons/md'
+import { AddSecondWPCB } from '../contextBar'
+import { AddWorkplace } from './AddWorkplace'
 
-export const MyWorkplace = ({ student }: { student: Student }) => {
+export const MyWorkplace = ({ student }: { student: StudentSubAdmin }) => {
     const [modal, setModal] = useState<ReactElement | null>(null)
     const [currentStatus, setCurrentStatus] = useState<string | null>(null)
 
@@ -116,24 +115,40 @@ export const MyWorkplace = ({ student }: { student: Student }) => {
         )
     }
 
+    const noWorkplace = () => {
+        return (
+            <>
+                <WorkplaceStatusData
+                    imageUrl={'/images/icons/industry.png'}
+                    title={'No Workplace'}
+                    subTitle={'You don&apos;t have any workplace yet'}
+                />
+                {role === UserRoles.SUBADMIN &&
+                    student?.user?.status === UserStatus.Approved && (
+                        <div className="flex justify-center">
+                            <AddWorkplace id={Number(student?.id)} />
+                        </div>
+                    )}
+            </>
+        )
+    }
+
+    const caseOfficerAssigned = () => {
+        return (
+            <WorkplaceStatusData
+                imageUrl={
+                    '/images/students/workplace-progress/case-officer.png'
+                }
+                title={'Assigned'}
+                subTitle={'Case Officer'}
+            />
+        )
+    }
+
     const workplaceStatus = () => {
         switch (currentStatus) {
             case WorkplaceCurrentStatus.NotRequested:
-                return (
-                    <>
-                        <WorkplaceStatusData
-                            imageUrl={'/images/icons/industry.png'}
-                            title={'No Workplace'}
-                            subTitle={'You don&apos;t have any workplace yet'}
-                        />
-                        {role === UserRoles.SUBADMIN &&
-                            student?.user?.status === UserStatus.Approved && (
-                                <div className="flex justify-center">
-                                    <AddWorkplace id={Number(student?.id)} />
-                                </div>
-                            )}
-                    </>
-                )
+                return noWorkplace()
             case WorkplaceCurrentStatus.Applied:
                 return (
                     <WorkplaceStatusData
@@ -145,15 +160,7 @@ export const MyWorkplace = ({ student }: { student: Student }) => {
                     />
                 )
             case WorkplaceCurrentStatus.CaseOfficerAssigned:
-                return (
-                    <WorkplaceStatusData
-                        imageUrl={
-                            '/images/students/workplace-progress/case-officer.png'
-                        }
-                        title={'Assigned'}
-                        subTitle={'Case Officer'}
-                    />
-                )
+                return caseOfficerAssigned()
             case WorkplaceCurrentStatus.Interview:
                 return (
                     <WorkplaceStatusData
@@ -265,21 +272,7 @@ export const MyWorkplace = ({ student }: { student: Student }) => {
                     />
                 )
             default:
-                return (
-                    <>
-                        <WorkplaceStatusData
-                            imageUrl={'/images/icons/industry.png'}
-                            title={'No Workplace'}
-                            subTitle={'You dont have any workplace yet'}
-                        />
-                        {role === UserRoles.SUBADMIN &&
-                            student?.user?.status === UserStatus.Approved && (
-                                <div className="flex justify-center">
-                                    <AddWorkplace id={Number(student?.id)} />
-                                </div>
-                            )}
-                    </>
-                )
+                return noWorkplace()
         }
     }
 
@@ -414,7 +407,13 @@ export const MyWorkplace = ({ student }: { student: Student }) => {
             ) : workplace.isLoading ? (
                 <LoadingAnimation />
             ) : (
-                <div>{workplaceStatus()}</div>
+                <div>
+                    {workplace?.data && workplace?.data?.length > 0
+                        ? workplaceStatus()
+                        : student?.subadmin
+                        ? caseOfficerAssigned()
+                        : noWorkplace()}
+                </div>
             )}
         </Card>
     )

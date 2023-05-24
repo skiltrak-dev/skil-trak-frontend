@@ -1,5 +1,6 @@
 export * from './ActionModal'
 export * from './ForwardModal'
+export * from './InterviewModal'
 export * from './RejectRequestModal'
 export * from './ApproveRequestModal'
 export * from './RemoveIndustryModal'
