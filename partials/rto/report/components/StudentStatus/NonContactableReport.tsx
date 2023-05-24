@@ -1,4 +1,12 @@
-import { ActionButton, EmptyData, InitialAvatar, LoadingAnimation, Table, TechnicalError, Typography } from '@components'
+import {
+    ActionButton,
+    EmptyData,
+    InitialAvatar,
+    LoadingAnimation,
+    Table,
+    TechnicalError,
+    Typography,
+} from '@components'
 import { CourseDot } from '@partials/rto/student/components'
 import React, { useState } from 'react'
 import { RtoApi } from '@queries'
@@ -6,17 +14,32 @@ import { ColumnDef } from '@tanstack/react-table'
 import { Course, ReportOptionsEnum } from '@types'
 import { ViewFullListReport } from '../../ViewFullListReport'
 import { useRouter } from 'next/router'
-type Props = {}
+import { FilterReport } from '../../FilterReport'
+type Props = {
+    startDate: any
+    endDate: any
+    setStartDate: any
+    setEndDate: any
+}
 
-export const NonContactableReport = (props: Props) => {
+export const NonContactableReport = ({
+    setStartDate,
+    setEndDate,
+    startDate,
+    endDate,
+}: Props) => {
     const [itemPerPage, setItemPerPage] = useState(50)
     const [page, setPage] = useState(1)
     const router = useRouter()
 
-    const { data, isLoading, isError } = RtoApi.Students.useGetNotContactableStudents({
-        skip: itemPerPage * page - itemPerPage,
-        limit: itemPerPage,
-    });
+    const { data, isLoading, isError } =
+        RtoApi.Students.useGetNotContactableStudents({
+            startDate: startDate.toISOString().slice(0, 10),
+            endDate: endDate.toISOString().slice(0, 10),
+            skip: itemPerPage * page - itemPerPage,
+            limit: itemPerPage,
+        })
+    
 
     const columns: ColumnDef<any>[] = [
         {
@@ -25,24 +48,24 @@ export const NonContactableReport = (props: Props) => {
             cell: (info: any) => {
                 return (
                     <a className="flex items-center gap-x-2">
-                        <InitialAvatar name={info?.row?.original?.user?.name} imageUrl={info?.row?.original?.user?.avatar} />
-                        <div className='flex flex-col'>
+                        <InitialAvatar
+                            name={info?.row?.original?.user?.name}
+                            imageUrl={info?.row?.original?.user?.avatar}
+                        />
+                        <div className="flex flex-col">
                             <span>{info?.row?.original?.id}</span>
-                            <span>
-                                {info?.row?.original?.user?.name}
-                            </span>
+                            <span>{info?.row?.original?.user?.name}</span>
                         </div>
                     </a>
                 )
             },
-
         },
         {
             accessorKey: 'email',
             header: () => <span>Email</span>,
             cell: (info) => {
                 return <span>{info?.row?.original?.user?.email}</span>
-            }
+            },
         },
         {
             accessorKey: 'phone',
@@ -55,13 +78,15 @@ export const NonContactableReport = (props: Props) => {
                 // return info?.row?.original?.courses?.map((c: Course) => (
                 //     <CourseDot key={c?.id} course={c} />
                 // ))
-                return <span>{info?.row?.original?.courses[0]?.title || "N/A"}</span>
+                return (
+                    <span>
+                        {info?.row?.original?.courses[0]?.title || 'N/A'}
+                    </span>
+                )
             },
         },
-
-
     ]
-    const count = data?.data?.length;
+    const count = data?.data?.length
     return (
         <>
             <div className="flex justify-between items-start">
@@ -72,9 +97,23 @@ export const NonContactableReport = (props: Props) => {
                     <Typography variant="h3">{count || 0}</Typography>
                 </div>
                 {/* <ViewFullListReport data={data} columns={columns} /> */}
-                <ActionButton onClick={() => { router.push(`/portals/rto/report/${ReportOptionsEnum.NON_CONTACTABLE}`) }} >
-                    View Full List
-                </ActionButton>
+                <div className="flex items-center gap-x-4">
+                    <FilterReport
+                        startDate={startDate}
+                        setStartDate={setStartDate}
+                        endDate={endDate}
+                        setEndDate={setEndDate}
+                    />
+                    <ActionButton
+                        onClick={() => {
+                            router.push(
+                                `/portals/rto/report/${ReportOptionsEnum.NON_CONTACTABLE}`
+                            )
+                        }}
+                    >
+                        View Full List
+                    </ActionButton>
+                </div>
             </div>
 
             {isError && <TechnicalError />}
@@ -82,22 +121,14 @@ export const NonContactableReport = (props: Props) => {
                 <LoadingAnimation height="h-[60vh]" />
             ) : data?.data && data?.data?.length ? (
                 <Table columns={columns} data={data?.data}>
-                    {({
-                        table,
-                        pagination,
-                        pageSize,
-                        quickActions,
-                    }: any) => {
+                    {({ table, pagination, pageSize, quickActions }: any) => {
                         return (
                             <div>
                                 <div className="p-6 mb-2 flex justify-between">
                                     {pageSize(itemPerPage, setItemPerPage)}
                                     <div className="flex gap-x-2">
                                         {/* {quickActions} */}
-                                        {pagination(
-                                            data?.pagination,
-                                            setPage
-                                        )}
+                                        {pagination(data?.pagination, setPage)}
                                     </div>
                                 </div>
                                 <div className="px-6">{table}</div>
