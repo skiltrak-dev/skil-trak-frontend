@@ -10,6 +10,7 @@ import {
     Filter,
     LoadingAnimation,
     PageTitle,
+    SetDetaultQueryFilteres,
     StudentFilters,
     TabNavigation,
     TabProps,
@@ -28,6 +29,17 @@ import { FaChevronDown, FaFileImport, FaUserGraduate } from 'react-icons/fa'
 import { useGetRtoStudentsQuery, RtoApi } from '@queries'
 import { getCountData } from '@utils'
 
+const filterKeys = [
+    'name',
+    'email',
+    'phone',
+    'studentId',
+    'status',
+    'industryId',
+    'courseId',
+    'currentStatus',
+]
+
 type Props = {}
 
 const RtoStudents: NextPageWithLayout = (props: Props) => {
@@ -38,6 +50,10 @@ const RtoStudents: NextPageWithLayout = (props: Props) => {
     const [filter, setFilter] = useState({})
     const [page, setPage] = useState(1)
     const [itemPerPage, setItemPerPage] = useState(50)
+    useEffect(() => {
+        setPage(Number(router.query.page || 1))
+        setItemPerPage(Number(router.query.pageSize || 50))
+    }, [router])
 
     const count = RtoApi.Students.useCount()
     const filteredStudents = useGetRtoStudentsQuery(
@@ -119,6 +135,10 @@ const RtoStudents: NextPageWithLayout = (props: Props) => {
     return (
         <>
             <div>
+                <SetDetaultQueryFilteres
+                    filterKeys={filterKeys}
+                    setFilter={setFilter}
+                />
                 <div className="flex items-end justify-between mb-6">
                     <PageTitle title="Students" backTitle="Users" />
 
