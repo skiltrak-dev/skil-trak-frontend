@@ -11,13 +11,14 @@ import {
     TableActionOption,
     StudentStatusProgressCell,
     UserCreatedAt,
+    CaseOfficerAssignedStudent,
 } from '@components'
 import { PageHeading } from '@components/headings'
 import { ColumnDef } from '@tanstack/react-table'
 import { Student } from '@types'
 import { useRouter } from 'next/router'
 import { ReactElement, useState } from 'react'
-import { FaEdit, FaEye } from 'react-icons/fa'
+import { FaEdit, FaEye, FaUsers } from 'react-icons/fa'
 import { MdBlock } from 'react-icons/md'
 import { IndustryCellInfo } from '../indestries/components'
 import { StudentCellInfo } from './components'
@@ -36,6 +37,7 @@ import {
 } from '@utils'
 import { useActionModal } from '@hooks'
 import { RiLockPasswordFill } from 'react-icons/ri'
+import { InterviewModal } from '../workplace/modals'
 
 export const FilteredStudents = ({
     student,
@@ -79,40 +81,59 @@ export const FilteredStudents = ({
         )
     }
 
-    const tableActionOptions: TableActionOption[] = [
-        {
-            text: 'View',
-            onClick: (student: Student) => {
-                router.push(
-                    `/portals/sub-admin/students/${student.id}?tab=overview`
-                )
-                setLink('subadmin-student', router)
+    const onInterviewClicked = (student: Student) => {
+        setModal(
+            <InterviewModal
+                student={student}
+                onCancel={onModalCancelClicked}
+                workplace={student?.workplace[0]?.id}
+                workIndustry={
+                    getStudentWorkplaceAppliedIndustry(student?.workplace)?.id
+                }
+            />
+        )
+    }
+
+    const tableActionOptions = (student: any) => {
+        return [
+            {
+                text: 'View',
+                onClick: (student: Student) => {
+                    router.push(
+                        `/portals/sub-admin/students/${student.id}?tab=overview`
+                    )
+                    setLink('subadmin-student', router)
+                },
+                Icon: FaEye,
             },
-            Icon: FaEye,
-        },
-        {
-            text: 'View Password',
-            onClick: (student: Student) => onViewPassword(student),
-            Icon: RiLockPasswordFill,
-        },
-        {
-            text: 'Change Status',
-            onClick: (student: Student) => onChangeStatus(student),
-            Icon: FaEdit,
-        },
-        {
-            text: 'Block',
-            onClick: (student: Student) => onBlockClicked(student),
-            Icon: MdBlock,
-            color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
-        },
-        {
-            text: 'Assign to me',
-            onClick: (student: Student) => onAssignStudentClicked(student),
-            Icon: MdBlock,
-            color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
-        },
-    ]
+            {
+                text: student?.subadmin ? 'Un Assign' : 'Assign to me',
+                onClick: (student: Student) => onAssignStudentClicked(student),
+                Icon: MdBlock,
+            },
+            {
+                text: 'Interview',
+                onClick: (student: Student) => onInterviewClicked(student),
+                Icon: FaUsers,
+            },
+            {
+                text: 'View Password',
+                onClick: (student: Student) => onViewPassword(student),
+                Icon: RiLockPasswordFill,
+            },
+            {
+                text: 'Change Status',
+                onClick: (student: Student) => onChangeStatus(student),
+                Icon: FaEdit,
+            },
+            {
+                text: 'Block',
+                onClick: (student: Student) => onBlockClicked(student),
+                Icon: MdBlock,
+                color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
+            },
+        ]
+    }
 
     const columns: ColumnDef<any>[] = [
         {
@@ -171,32 +192,9 @@ export const FilteredStudents = ({
         {
             accessorKey: 'progress',
             header: () => <span>Progress</span>,
-            cell: ({ row }) => {
-                // const workplace = row.original.workplace[0]
-                // const workplace = row.original.workplace?.filter(
-                //     (work: any) =>
-                //         work?.currentStatus !== WorkplaceCurrentStatus.Cancelled
-                // )[0]
-                const workplace = row.original.workplace?.reduce(
-                    (a: any, b: any) => (a?.createdAt > b?.createdAt ? a : b),
-                    {
-                        currentStatus: WorkplaceCurrentStatus.NotRequested,
-                    }
-                )
-                const industries = row.original?.industries
-                const steps = checkWorkplaceStatus(workplace?.currentStatus)
-                const studentStatus = checkStudentStatus(
-                    row.original?.studentStatus
-                )
-
-                return industries?.length > 0 ? (
-                    <StudentStatusProgressCell step={studentStatus} />
-                ) : (
-                    <ProgressCell
-                        step={steps > 14 ? 14 : steps < 1 ? 1 : steps}
-                    />
-                )
-            },
+            cell: ({ row }) => (
+                <CaseOfficerAssignedStudent student={row.original} />
+            ),
         },
         {
             accessorKey: 'user.status',
@@ -220,9 +218,10 @@ export const FilteredStudents = ({
             header: () => 'Action',
             accessorKey: 'Action',
             cell: ({ row }: any) => {
+                const tableActionOption = tableActionOptions(row.original)
                 return (
                     <TableAction
-                        options={tableActionOptions}
+                        options={tableActionOption}
                         rowItem={row.original}
                     />
                 )

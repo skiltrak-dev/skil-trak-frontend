@@ -64,7 +64,7 @@ export const workplaceEndpoints = (
             params,
             method: 'PATCH',
         }),
-        invalidatesTags: ['SubAdminWorkplace'],
+        invalidatesTags: ['SubAdminWorkplace', 'SubAdminStudents', 'Students'],
     }),
     forwardWorkplaceToIndustry: builder.mutation({
         query: ({ industryId, id }) => ({

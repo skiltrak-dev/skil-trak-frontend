@@ -22,6 +22,7 @@ import {
     ActionModal,
     CompleteWorkplaceModal,
     TerminateWorkplaceModal,
+    InterviewModal,
 } from '../modals'
 import { HiCheckBadge } from 'react-icons/hi2'
 
@@ -106,6 +107,17 @@ export const RequestType = ({
         )
     }
 
+    const onInterviewClicked = () => {
+        setModal(
+            <InterviewModal
+                workIndustry={appliedIndustry?.id}
+                workplace={workplace?.id}
+                onCancel={onModalCancelClicked}
+                student={workplace?.student}
+            />
+        )
+    }
+
     const requestTypeActions = [
         {
             primaryText: 'Request Sent',
@@ -127,10 +139,11 @@ export const RequestType = ({
             color: 'text-primary-light',
             onClick: (isCleared: any) => {
                 isCleared(true)
-                interView({
-                    workIndustry: appliedIndustry?.id,
-                    workplace: workplace?.id,
-                })
+                onInterviewClicked()
+                // interView({
+                //     workIndustry: appliedIndustry?.id,
+                //     workplace: workplace?.id,
+                // })
             },
             status: 'interview',
         },

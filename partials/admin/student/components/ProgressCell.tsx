@@ -61,13 +61,13 @@ const WorkplaceRequestProgress = {
         image: 'appointment.png',
     },
     '7-AgreementPending': {
-        status: 'Agreement & Eligibility ',
+        status: 'Agreement & Eligibility',
         description: 'Checklist Pending',
         color: 'text-blue-500',
         image: 'agreement.png',
     },
     '8-AgreementSigned': {
-        status: 'Agreement & Eligibility ',
+        status: 'Agreement & Eligibility',
         description: 'Checklist Signed',
         color: 'text-green-500',
         image: 'agreement.png',

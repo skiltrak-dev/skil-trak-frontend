@@ -8,10 +8,12 @@ import { FaEye, FaTrash } from 'react-icons/fa'
 import {
     ActionButton,
     Card,
+    CaseOfficerAssignedStudent,
     EmptyData,
     InitialAvatar,
     LoadingAnimation,
     StudentStatusProgressCell,
+    StudentSubAdmin,
     Table,
     TableAction,
     TableActionOption,
@@ -117,11 +119,11 @@ export const BlockedStudents = () => {
         },
     ]
 
-    const Columns: ColumnDef<Student>[] = [
+    const Columns: ColumnDef<StudentSubAdmin>[] = [
         {
             header: () => 'Name',
             accessorKey: 'user',
-            cell: ({ row }: any) => (
+            cell: ({ row }) => (
                 <div id="student-profile">
                     <StudentCellInfo student={row.original} />
                 </div>
@@ -172,22 +174,9 @@ export const BlockedStudents = () => {
         {
             accessorKey: 'progress',
             header: () => <span>Progress</span>,
-            cell: ({ row }) => {
-                const workplace = row.original.workplace[0]
-                const industries = row.original?.industries
-                const steps = checkWorkplaceStatus(workplace?.currentStatus)
-                const studentStatus = checkStudentStatus(
-                    row.original?.studentStatus
-                )
-
-                return industries?.length > 0 ? (
-                    <StudentStatusProgressCell step={studentStatus} />
-                ) : (
-                    <ProgressCell
-                        step={steps > 14 ? 14 : steps < 1 ? 1 : steps}
-                    />
-                )
-            },
+            cell: ({ row }) => (
+                <CaseOfficerAssignedStudent student={row.original} />
+            ),
         },
         {
             accessorKey: 'createdAt',
