@@ -15,11 +15,7 @@ interface ItemFilterProps {
 
 export const workplaceProgressOptions = [
     {
-        label: 'Not Requested',
-        value: WorkplaceCurrentStatus.NotRequested,
-    },
-    {
-        label: 'Requested',
+        label: 'Request Sent',
         value: WorkplaceCurrentStatus.Applied,
     },
     {
@@ -35,27 +31,27 @@ export const workplaceProgressOptions = [
         value: WorkplaceCurrentStatus.AwaitingWorkplaceResponse,
     },
     {
-        label: 'Meeting',
+        label: 'Appointment',
         value: WorkplaceCurrentStatus.AppointmentBooked,
     },
     {
-        label: 'AgreementPending',
+        label: 'Agreement & Eligibility Pending',
         value: WorkplaceCurrentStatus.AwaitingAgreementSigned,
     },
     {
-        label: 'AgreementSigned',
+        label: 'Agreement & Eligibility Signed',
         value: WorkplaceCurrentStatus.AgreementSigned,
     },
     {
-        label: 'PlacementStarted',
+        label: 'Placement Started',
         value: WorkplaceCurrentStatus.PlacementStarted,
     },
     {
-        label: 'PlacementCancelled',
+        label: 'Placement Cancelled',
         value: WorkplaceCurrentStatus.Cancelled,
     },
     {
-        label: 'PlacementCompleted',
+        label: 'Placement Completed',
         value: WorkplaceCurrentStatus.Completed,
     },
     {
@@ -67,7 +63,7 @@ export const workplaceProgressOptions = [
         value: WorkplaceCurrentStatus.Terminated,
     },
     {
-        label: 'No Response',
+        label: 'Industry NotResponded',
         value: WorkplaceCurrentStatus.NoResponse,
     },
 ]

@@ -32,6 +32,8 @@ export const OverViewTab = ({ student }: StudentsProfileOverviewProps) => {
                             ? 'placementStarted'
                             : workplace?.data && workplace?.data?.length > 0
                             ? workplace?.data[0]?.currentStatus
+                            : student?.subadmin
+                            ? 'caseOfficerAssigned'
                             : 'industryCheck'
                     }
                 />

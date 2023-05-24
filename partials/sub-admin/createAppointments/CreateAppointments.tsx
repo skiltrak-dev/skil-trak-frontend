@@ -224,8 +224,8 @@ export const CreateAppointments = () => {
     const onSubmit = () => {
         if (profile.data?.canBookAppointments) {
             setSlots(false)
-            let date = selectedDate
-            date?.setDate(date.getDate() + 1)
+            // let date = selectedDate
+            // date?.setDate(date.getDate() + 1)
             createAppointment({
                 ...selectedTime,
                 date: selectedDate,
