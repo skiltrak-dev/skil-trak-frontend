@@ -2,8 +2,10 @@ import { ActionModal, ShowErrorNotifications } from '@components'
 import { useNotification } from '@hooks'
 import { useSendInterviewNotificationMutation } from '@queries'
 import { Student } from '@types'
-import { useEffect } from 'react'
+import { ReactElement, useEffect, useState } from 'react'
 import { FaBan } from 'react-icons/fa'
+import { HiCheckBadge } from 'react-icons/hi2'
+import { ActionModal as InterViewMessageModal } from './ActionModal'
 
 export const InterviewModal = ({
     workIndustry,
@@ -16,12 +18,15 @@ export const InterviewModal = ({
     onCancel: Function
     student: Student
 }) => {
+    const [modal, setModal] = useState<ReactElement | null>(null)
     const { notification } = useNotification()
 
     const [interView, interViewResult] = useSendInterviewNotificationMutation()
 
+    console.log('workplaceworkplace', workplace)
+
     const onInterviewClicked = () => {
-        if (student?.workplace && student?.workplace?.length > 0) {
+        if (workplace) {
             interView({
                 workIndustry,
                 workplace,
@@ -38,18 +43,30 @@ export const InterviewModal = ({
                 description: 'Interview Assigned to Student',
             })
             onCancel()
+            setModal(
+                <InterViewMessageModal
+                    Icon={HiCheckBadge}
+                    title={'Successfully Interview'}
+                    subtitle={'Now You can forward the request to Industry'}
+                    onCancel={() => {
+                        setModal(null)
+                    }}
+                    confirmText={'OK'}
+                />
+            )
         }
     }, [interViewResult])
 
     return (
         <>
+            {modal}
             <ShowErrorNotifications result={interViewResult} />
             <ActionModal
                 Icon={FaBan}
                 variant="error"
                 title="Are you sure!"
                 description={
-                    student?.workplace && student?.workplace?.length > 0
+                    workplace
                         ? `You are about to Assign Interview <em>"${student?.user?.name}"</em>. Do you wish to continue?`
                         : `There is no workplace for <em>"${student?.user?.name}"</em>`
                 }
