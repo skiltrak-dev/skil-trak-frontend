@@ -11,6 +11,7 @@ import {
 } from '@types'
 
 const PREFIX = 'rtos'
+const STATISTICS = 'statistics'
 export const studentEndpoints = (
     builder: EndpointBuilder<BaseQueryFn, string, string>
 ) => ({
@@ -97,94 +98,74 @@ export const studentEndpoints = (
         providesTags: ['Rto-Students'],
     }),
     getArchivedStudentsReport: builder.query<any, any>({
-        query: (params) => {
-            return {
-                url: `statistics/rto/students/archived`,
-                params,
-            }
-        },
+        query: (params) => ({
+            url: `statistics/rto/students/archived`,
+            params,
+        }),
         providesTags: ['Rto-Students'],
     }),
 
     getNewStudentsReport: builder.query<any, any>({
-        query: (params) => {
-            return {
-                url: `statistics/rto/new-students`,
-                params,
-            }
-        },
+        query: (params) => ({
+            url: `statistics/rto/new-students`,
+            params,
+        }),
         providesTags: ['Rto-Students'],
     }),
     getCancelledWorkplaceReport: builder.query<any, any>({
-        query: (params) => {
-            return {
-                url: `statistics/rto/workplace-requests/cancelled`,
-                params,
-            }
-        },
+        query: (params) => ({
+            url: `statistics/rto/workplace-requests/cancelled`,
+            params,
+        }),
         providesTags: ['Rto-Students'],
     }),
     getCompletedWorkplaceReport: builder.query<any, any>({
-        query: (params) => {
-            return {
-                url: `statistics/rto/workplace-requests/completed`,
-                params,
-            }
-        },
+        query: (params) => ({
+            url: `statistics/rto/workplace-requests/completed`,
+            params,
+        }),
         providesTags: ['Rto-Students'],
     }),
     getTerminatedWorkplaceReport: builder.query<any, any>({
-        query: (params) => {
-            return {
-                url: `statistics/rto/workplace-requests/terminated`,
-                params,
-            }
-        },
+        query: (params) => ({
+            url: `statistics/rto/workplace-requests/terminated`,
+            params,
+        }),
         providesTags: ['Rto-Students'],
     }),
     getWorkplaceRequestsReport: builder.query<any, any>({
-        query: (params) => {
-            return {
-                url: `statistics/rto/workplace-requests`,
-                params,
-            }
-        },
+        query: (params) => ({
+            url: `statistics/rto/workplace-requests`,
+            params,
+        }),
         providesTags: ['Rto-Students'],
     }),
     getAppointmentsReport: builder.query<any, any>({
-        query: (params) => {
-            return {
-                url: `statistics/rto/appointments/list`,
-                params,
-            }
-        },
+        query: (params) => ({
+            url: `statistics/rto/appointments/list`,
+            params,
+        }),
         providesTags: ['Rto-Students'],
     }),
     getWithoutWorkplaceReport: builder.query<any, any>({
-        query: (params) => {
-            return {
-                url: `statistics/rto/students/list/with-out-workplace`,
-                params,
-            }
-        },
+        query: (params) => ({
+            url: `statistics/rto/students/list/with-out-workplace`,
+            params,
+        }),
         providesTags: ['Rto-Students'],
     }),
     getReportedStudentsReport: builder.query<any, any>({
-        query: (params) => {
-            return {
-                url: `statistics/rto/students/reported`,
-                params,
-            }
-        },
+        query: (params) => ({
+            url: `statistics/rto/students/reported`,
+            params,
+        }),
         providesTags: ['Rto-Students'],
     }),
     getReportDownloadLink: builder.query<any, any>({
-        query: ({ userId, ...params }) => {
-            return {
-                url: `statistics/rto/summary/generate/${userId}`,
-                params,
-            }
-        },
+        query: ({ userId, ...params }) => ({
+            url: `${STATISTICS}/rto/summary/generate/${userId}`,
+            params,
+        }),
         providesTags: ['Rto-Students'],
     }),
 })

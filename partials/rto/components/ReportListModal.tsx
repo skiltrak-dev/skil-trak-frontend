@@ -1,7 +1,7 @@
 import { LoadingAnimation, NoData, Select, Table, TextInput } from '@components'
 import { Button } from '@components/buttons'
 import { RtoApi } from '@queries'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { FaTimes } from 'react-icons/fa'
 import { PulseLoader } from 'react-spinners'
 import { FilterReport } from '../report'
@@ -18,14 +18,15 @@ export const ReportListModal = ({ onClose }: any) => {
     const [endDateProvided, setEndDateProvided] = useState(false)
     const [startDateValid, setStartDateValid] = useState(true)
     const [endDateValid, setEndDateValid] = useState(true)
+    const [isPdfDownload, setIsPdfDownload] = useState<boolean>(false)
 
     const currentDate = new Date()
     const weekStart = formatDate(currentDate)
     const weekEnd = new Date(currentDate)
     weekEnd.setDate(weekEnd.getDate() - 6)
     const formattedWeekEnd = formatDate(weekEnd)
-    const [startDate, setStartDate] = useState(weekStart)
-    const [endDate, setEndDate] = useState(formattedWeekEnd)
+    const [startDate, setStartDate] = useState('')
+    const [endDate, setEndDate] = useState('')
 
     function formatDate(date: any) {
         const month = String(date.getMonth() + 1).padStart(2, '0')
@@ -37,11 +38,31 @@ export const ReportListModal = ({ onClose }: any) => {
     const userId = getUserCredentials()?.id
     console.log('startDate', startDate)
     console.log('endDate', endDate)
-    const { data, isError, isLoading } = RtoApi.Students.useReportDownloadLink({
-        userId,
-        startDate: startDate,
-        endDate: endDate,
-    })
+    const { data, isError, isLoading, isSuccess } =
+        RtoApi.Students.useReportDownloadLink(
+            {
+                userId,
+                startDate,
+                endDate,
+            },
+            { skip: !isPdfDownload }
+        )
+
+    useEffect(() => {
+        if (data?.file?.data && isSuccess) {
+            const buffer = Buffer.from(data.file.data)
+            const blob = new Blob([buffer], { type: 'application/pdf' })
+            saveAs(blob, 'report.pdf')
+            setIsPdfDownload(false)
+        }
+    }, [data, isSuccess])
+
+    useEffect(() => {
+        if (isError) {
+            setIsPdfDownload(false)
+        }
+    }, [isError])
+
     // let buffer = undefined;
     // if(data && data?.length > 0){
     //      buffer = Buffer.from(data)
@@ -73,12 +94,7 @@ export const ReportListModal = ({ onClose }: any) => {
         setEndDate(dateValue)
     }
     const handleDownloadPDF = () => {
-        if (data?.file?.data) {
-            const buffer = Buffer.from(data.file.data);
-            const blob = new Blob([buffer], { type: 'application/pdf' });
-            saveAs(blob, 'report.pdf');
-        }
-        
+        setIsPdfDownload(true)
     }
 
     return (
@@ -97,31 +113,31 @@ export const ReportListModal = ({ onClose }: any) => {
                         <div className="flex gap-x-2">
                             <div>
                                 <TextInput
-                                    placeholder="MM-DD-YYYY"
+                                    placeholder="YYYY-MM-DD"
                                     name="startDate"
                                     label={'Start Date'}
                                     onChange={handleStartDateChange}
                                     disabled={filterReports?.value === 'weekly'}
                                 />
-                                {!startDateValid && (
+                                {/* {!startDateValid && (
                                     <div className="text-red-400 text-xs mb-3 -mt-5">
                                         Invalid date format
                                     </div>
-                                )}
+                                )} */}
                             </div>
                             <div>
                                 <TextInput
-                                    placeholder="MM-DD-YYYY"
+                                    placeholder="YYYY-MM-DD"
                                     name="endDate"
                                     label={'End Date'}
                                     onChange={handleEndDateChange}
                                     disabled={filterReports?.value === 'weekly'}
                                 />
-                                {!endDateValid && (
+                                {/* {!endDateValid && (
                                     <div className="text-red-400 text-xs mb-3 -mt-5">
                                         Invalid date format
                                     </div>
-                                )}
+                                )} */}
                             </div>
                         </div>
                         <div className="w-full">
@@ -143,6 +159,8 @@ export const ReportListModal = ({ onClose }: any) => {
                                 text="Download as PDF"
                                 variant="dark"
                                 onClick={handleDownloadPDF}
+                                loading={isLoading}
+                                disabled={isLoading}
                             />
                             <Button
                                 text="Download as CSV"
