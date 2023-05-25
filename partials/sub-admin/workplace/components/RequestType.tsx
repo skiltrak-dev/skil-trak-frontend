@@ -45,23 +45,7 @@ export const RequestType = ({
 
     const { notification } = useNotification()
 
-    useEffect(() => {
-        if (interViewResult.isSuccess) {
-            notification.success({
-                title: 'Interview Assigned to Student',
-                description: 'Interview Assigned to Student',
-            })
-            setModal(
-                <ActionModal
-                    Icon={HiCheckBadge}
-                    title={'Successfully Interview'}
-                    subtitle={'Now You can forward the request to Industry'}
-                    onCancel={onModalCancelClicked}
-                    confirmText={'OK'}
-                />
-            )
-        }
-    }, [interViewResult])
+    
 
     const onModalCancelClicked = () => {
         setModal(null)
