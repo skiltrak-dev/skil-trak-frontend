@@ -3,7 +3,7 @@ import { useNotification } from '@hooks'
 import { useSendInterviewNotificationMutation } from '@queries'
 import { Student } from '@types'
 import { ReactElement, useEffect, useState } from 'react'
-import { FaBan } from 'react-icons/fa'
+import { FaBan, FaUsers } from 'react-icons/fa'
 import { HiCheckBadge } from 'react-icons/hi2'
 import { ActionModal as InterViewMessageModal } from './ActionModal'
 
@@ -22,8 +22,6 @@ export const InterviewModal = ({
     const { notification } = useNotification()
 
     const [interView, interViewResult] = useSendInterviewNotificationMutation()
-
-    console.log('workplaceworkplace', workplace)
 
     const onInterviewClicked = () => {
         if (workplace) {
@@ -62,8 +60,8 @@ export const InterviewModal = ({
             {modal}
             <ShowErrorNotifications result={interViewResult} />
             <ActionModal
-                Icon={FaBan}
-                variant="error"
+                Icon={workplace ? FaUsers : FaBan}
+                variant={workplace ? 'info' : 'error'}
                 title="Are you sure!"
                 description={
                     workplace
