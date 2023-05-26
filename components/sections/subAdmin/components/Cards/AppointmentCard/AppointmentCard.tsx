@@ -11,38 +11,6 @@ export const AppointmentCard = (props: Props) => {
     const { data, isError, isLoading } =
         CommonApi.RecentActivities.useRecentActivities()
 
-    const recentActivityLinks = [
-        {
-            title: 'Student Allocated',
-            color: 'text-blue-500',
-            bgColor: 'bg-blue-100',
-        },
-        {
-            title: 'RTO Accepted',
-            color: 'text-green-500',
-            bgColor: 'bg-green-100',
-        },
-        {
-            title: 'RTO Removed',
-            color: 'text-red-500',
-            bgColor: 'bg-red-100',
-        },
-        {
-            title: 'Industry Pending',
-            color: 'text-orange-500',
-            bgColor: 'bg-orange-100',
-        },
-        {
-            title: 'Student Allocated',
-            color: 'text-blue-500',
-            bgColor: 'bg-blue-100',
-        },
-        {
-            title: 'Student Allocated',
-            color: 'text-blue-500',
-            bgColor: 'bg-blue-100',
-        },
-    ]
     const bgColor = [
         'bg-blue-100',
         'bg-orange-100',
@@ -54,71 +22,6 @@ export const AppointmentCard = (props: Props) => {
         'text-orange-500',
         'text-green-500',
         'text-red-500',
-    ]
-    const recentActivityDescription = [
-        {
-            text: (
-                <>
-                    You have allocated student{' '}
-                    <span className="text-sm font-bold text-blue-400">
-                        John Doe
-                    </span>{' '}
-                    to yourself.
-                </>
-            ),
-        },
-        {
-            text: (
-                <>
-                    You have approved RTO{' '}
-                    <span className="text-sm font-bold text-blue-400">
-                        XYZ RTO.
-                    </span>
-                </>
-            ),
-        },
-        {
-            text: (
-                <>
-                    You have removed RTO{' '}
-                    <span className="text-sm font-bold text-blue-400">MNO</span>
-                    .
-                </>
-            ),
-        },
-        {
-            text: (
-                <>
-                    Industry{' '}
-                    <span className="text-sm font-bold text-blue-400">
-                        ABDC
-                    </span>{' '}
-                    awaiting your approval.{' '}
-                </>
-            ),
-        },
-        {
-            text: (
-                <>
-                    You have allocated student{' '}
-                    <span className="text-sm font-bold text-blue-400">
-                        Jane Doe
-                    </span>{' '}
-                    to yourself.
-                </>
-            ),
-        },
-        {
-            text: (
-                <>
-                    You have allocated student{' '}
-                    <span className="text-sm font-bold text-blue-400">
-                        Kai Doe
-                    </span>{' '}
-                    to yourself.
-                </>
-            ),
-        },
     ]
 
     return (

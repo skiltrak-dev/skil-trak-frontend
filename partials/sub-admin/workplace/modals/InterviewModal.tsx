@@ -1,5 +1,5 @@
 import { ActionModal, ShowErrorNotifications } from '@components'
-import { useNotification } from '@hooks'
+import { useContextBar, useNotification } from '@hooks'
 import { useSendInterviewNotificationMutation } from '@queries'
 import { Student } from '@types'
 import { ReactElement, useEffect, useState } from 'react'
@@ -20,6 +20,7 @@ export const InterviewModal = ({
 }) => {
     const [modal, setModal] = useState<ReactElement | null>(null)
     const { notification } = useNotification()
+    const contextBar = useContextBar()
 
     const [interView, interViewResult] = useSendInterviewNotificationMutation()
 
@@ -41,6 +42,9 @@ export const InterviewModal = ({
                 description: 'Interview Assigned to Student',
             })
             onCancel()
+            contextBar.setContent(null)
+            contextBar.setTitle(null)
+            contextBar.hide()
             setModal(
                 <InterViewMessageModal
                     Icon={HiCheckBadge}
