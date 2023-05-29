@@ -20,7 +20,7 @@ export const UserCellInfo = ({ user }: any) => {
             ? profile[0]
             : profile
         : {}
-
+    console.log(profile, userProfile)
     return (
         <div className="flex items-center relative">
             <div className="flex items-center gap-x-2">
@@ -61,6 +61,29 @@ export const UserCellInfo = ({ user }: any) => {
                             {userProfile?.state}
                         </Typography>
                     </div>
+                    {user?.role === UserRoles.INDUSTRY ? (
+                        <div className="mt-3">
+                            <Typography variant={'xs'}>
+                                Contact Person
+                            </Typography>
+                            <div className="flex items-center gap-x-2 text-sm">
+                                <Typography variant={'small'}>
+                                    <span className="font-bold">
+                                        {userProfile?.contactPerson || 'N/A'}
+                                    </span>
+                                </Typography>
+                            </div>
+                            <div className="flex items-center gap-x-2 text-sm">
+                                <FaPhone className="text-gray-400 text-xs" />
+                                <Typography
+                                    variant={'small'}
+                                    color={'text-gray-500'}
+                                >
+                                    {userProfile?.contactPersonNumber}
+                                </Typography>
+                            </div>
+                        </div>
+                    ) : null}
                 </div>
             </div>
         </div>
