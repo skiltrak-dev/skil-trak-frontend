@@ -34,10 +34,7 @@ export const ReportListModal = ({ onClose }: any) => {
         const year = date.getFullYear()
         return `${month}-${day}-${year}`
     }
-    console.log('weekStart', weekStart)
     const userId = getUserCredentials()?.id
-    console.log('startDate', startDate)
-    console.log('endDate', endDate)
     const { data, isError, isLoading, isSuccess } =
         RtoApi.Students.useReportDownloadLink(
             {
@@ -67,7 +64,6 @@ export const ReportListModal = ({ onClose }: any) => {
     // if(data && data?.length > 0){
     //      buffer = Buffer.from(data)
     // }
-    console.log('downloadAsPdf', data)
     // const sDate = new getDate
 
     const filterOptions = [
@@ -165,9 +161,7 @@ export const ReportListModal = ({ onClose }: any) => {
                             <Button
                                 text="Download as CSV"
                                 variant="dark"
-                                onClick={() => {
-                                    console.log('downloading')
-                                }}
+                                onClick={() => {}}
                             />
                         </div>
                     </div>

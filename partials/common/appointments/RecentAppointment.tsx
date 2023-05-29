@@ -43,8 +43,6 @@ export const RecentAppointment = ({
 
     const appointmentUser = appointment ? appointment[appointmentWith] : {}
 
-    console.log('appointmentUser', appointmentUser)
-
     const appointmentWithUser =
         appointment && appointmentUser
             ? appointmentUser[
