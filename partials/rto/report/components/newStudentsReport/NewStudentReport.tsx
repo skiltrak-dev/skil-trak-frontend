@@ -73,6 +73,14 @@ export const NewStudentReport = ({
                 return <span>{info?.row?.original?.courses[0]?.title || "N/A"}</span>
             },
         },
+        // {
+        //     accessorKey: 'createdAt',
+        //     header: () => <span>Created At</span>,
+        //     cell: (info) => {
+        //         const { createdAt } = info.row.original || {}
+        //         return <span>{createdAt?.slice(0, 10)}</span>
+        //     },
+        // }
     ]
     const count = data?.data?.length;
     return (

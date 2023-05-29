@@ -116,43 +116,45 @@ export const IndustryProfile = ({ data }: Props) => {
                     </div>
 
                     {/* Info Row 1 */}
-                    <div className="flex justify-between divide-x border-b mt-4">
-                        <div className="p-2">
+                    <div className="flex flex-col border-b mt-4">
+                        <div className="border-b py-2">
+                            <div className="text-gray-400 text-[11px] ml-4 text-left">
+                                ABN
+                            </div>
                             <div className="flex items-center space-x-2">
                                 <span className="text-gray-300">
                                     <FaAddressCard />
                                 </span>
-                                <p className="text-sm font-medium">
+                                <Typography variant={'small'} color={'text-black'}>
                                     {data?.abn}
-                                </p>
-                            </div>
-                            <div className="text-gray-400 text-[11px] -mt-0.5 text-center">
-                                ABN
+                                </Typography>
                             </div>
                         </div>
 
-                        <div className="p-2">
+                        <div className="border-b py-2">
+                            <div className="text-gray-400 text-[11px] ml-4">
+                                Phone Number
+                            </div>
                             <div className="flex items-center space-x-2">
                                 <span className="text-gray-300">
                                     <MdPhone />
                                 </span>
-                                <p className="text-sm font-medium">
+                                <Typography variant={'small'} color={'text-black'}>
                                     {data?.phoneNumber}
-                                </p>
-                            </div>
-                            <div className="text-gray-400 text-[11px] -mt-0.5 text-center">
-                                Phone Number
+                                </Typography>
                             </div>
                         </div>
-                        <div className="p-2">
+                        <div className="mb-2">
+                            <div className="text-gray-400 text-[11px] ml-4">
+                                Last Login
+                            </div>
                             <div className="flex items-center space-x-2">
                                 <span className="text-gray-300">
                                     <GiBackwardTime />
                                 </span>
-                                <p className="text-sm font-medium">Yesterday</p>
-                            </div>
-                            <div className="text-gray-400 text-[11px] -mt-0.5 text-center">
-                                Last Login
+                                <Typography variant={'small'} color={'text-black'}>
+                                    Yesterday 
+                                </Typography>
                             </div>
                         </div>
                     </div>
