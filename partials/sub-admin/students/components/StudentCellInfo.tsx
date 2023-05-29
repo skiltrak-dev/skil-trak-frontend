@@ -13,7 +13,7 @@ export const StudentCellInfo = ({
     call,
 }: {
     student: Student
-    call: boolean
+    call?: boolean
 }) => {
     const router = useRouter()
     return (
