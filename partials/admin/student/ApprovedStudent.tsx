@@ -174,7 +174,7 @@ export const ApprovedStudent = () => {
         {
             accessorKey: 'user.name',
             cell: (info) => {
-                return <StudentCellInfo student={info?.row?.original} />
+                return <StudentCellInfo student={info?.row?.original} call />
             },
             header: () => <span>Student</span>,
         },
