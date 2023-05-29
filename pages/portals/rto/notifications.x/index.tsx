@@ -88,6 +88,10 @@ const Notifications: NextPageWithLayout = () => {
     useEffect(() => {
         contextBar.setContent(<CommonCB />)
         contextBar.show(false)
+        return () => {
+            contextBar.setContent(null)
+            contextBar.hide()
+        }
     }, [])
 
     return (

@@ -15,7 +15,7 @@ import {
 } from '@components'
 import { PageHeading } from '@components/headings'
 import { ColumnDef } from '@tanstack/react-table'
-import { Student } from '@types'
+import { Student, UserStatus } from '@types'
 import { useRouter } from 'next/router'
 import { ReactElement, useState } from 'react'
 import { FaEdit, FaEye, FaUsers } from 'react-icons/fa'
@@ -200,7 +200,15 @@ export const FilteredStudents = ({
             accessorKey: 'user.status',
             header: () => <span>Status</span>,
             cell: (info) => (
-                <Typography uppercase variant={'badge'}>
+                <Typography
+                    uppercase
+                    variant={'badge'}
+                    color={
+                        info.row.original?.user?.status === UserStatus.Blocked
+                            ? 'text-error'
+                            : 'text-black'
+                    }
+                >
                     <span className="font-bold">
                         {info.row.original?.user?.status}
                     </span>

@@ -19,8 +19,11 @@ const SubAdminHistory: NextPageWithLayout = () => {
     const [itemPerPage, setItemPerPage] = useState(50)
     const [page, setPage] = useState(1)
 
-    const { data, isError, isLoading } =
-        CommonApi.RecentActivities.useRecentActivities()
+    const { data, isError, isLoading, isFetching } =
+        CommonApi.RecentActivities.useRecentActivities({
+            skip: itemPerPage * page - itemPerPage,
+            limit: itemPerPage,
+        })
 
     const Columns: ColumnDef<any>[] = [
         {
@@ -32,8 +35,8 @@ const SubAdminHistory: NextPageWithLayout = () => {
             accessorKey: 'description',
         },
         {
-            header: () => 'Description',
-            accessorKey: 'description',
+            header: () => 'Created On',
+            accessorKey: 'createdAt',
             cell: ({ row }) => (
                 <UserCreatedAt createdAt={row.original?.createdAt} />
             ),
@@ -44,7 +47,7 @@ const SubAdminHistory: NextPageWithLayout = () => {
             {' '}
             {isError && <TechnicalError />}
             <Card noPadding>
-                {isLoading ? (
+                {isLoading || isFetching ? (
                     <LoadingAnimation height="h-[60vh]" />
                 ) : data && data?.data?.length && !isError ? (
                     <Table

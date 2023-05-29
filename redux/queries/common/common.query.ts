@@ -95,8 +95,14 @@ export const commonApi = emptySplitApi.injectEndpoints({
             query: () => `admin/documents/list`,
             providesTags: ['Documents'],
         }),
-        getRecentActivities: build.query<any, void>({
-            query: () => `activity-logger`,
+        getRecentActivities: build.query<
+            any,
+            { skip?: number; limit?: number }
+        >({
+            query: (params) => ({
+                url: `activity-logger`,
+                params,
+            }),
             providesTags: ['RecentActivities'],
         }),
 
