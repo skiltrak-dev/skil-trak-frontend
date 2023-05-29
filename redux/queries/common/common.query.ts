@@ -97,7 +97,14 @@ export const commonApi = emptySplitApi.injectEndpoints({
         }),
         getRecentActivities: build.query<
             any,
-            { skip?: number; limit?: number }
+            {
+                currentDate?: number
+                startDate?: any
+                endDate?: any
+                last7days?: any
+                skip?: number
+                limit?: number
+            }
         >({
             query: (params) => ({
                 url: `activity-logger`,

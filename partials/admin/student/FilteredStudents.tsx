@@ -219,7 +219,7 @@ export const FilteredStudents = ({
             // cell: (info) => 'Saad',
             cell: (info) => {
                 return info.row.original?.user ? (
-                    <StudentCellInfo student={info.row.original} />
+                    <StudentCellInfo student={info.row.original} call />
                 ) : (
                     ''
                 )
