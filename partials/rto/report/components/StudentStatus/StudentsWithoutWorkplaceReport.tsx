@@ -1,4 +1,12 @@
-import { ActionButton, EmptyData, InitialAvatar, LoadingAnimation, Table, TechnicalError, Typography } from '@components'
+import {
+    ActionButton,
+    EmptyData,
+    InitialAvatar,
+    LoadingAnimation,
+    Table,
+    TechnicalError,
+    Typography,
+} from '@components'
 import { CourseDot } from '@partials/rto/student/components'
 import { RtoApi } from '@queries'
 import { ColumnDef } from '@tanstack/react-table'
@@ -7,8 +15,6 @@ import React, { useState } from 'react'
 import { Course, ReportOptionsEnum } from '@types'
 import { ViewFullListReport } from '../../ViewFullListReport'
 import { useRouter } from 'next/router'
-
-
 
 export const StudentsWithoutWorkplaceReport = () => {
     const [itemPerPage, setItemPerPage] = useState(50)
@@ -27,7 +33,10 @@ export const StudentsWithoutWorkplaceReport = () => {
             cell: (info: any) => {
                 return (
                     <a className="flex items-center gap-x-2">
-                        <InitialAvatar name={info?.row?.original?.user?.name || "N/A"} imageUrl={info?.row?.original?.user?.avatar || ""} />
+                        <InitialAvatar
+                            name={info?.row?.original?.user?.name || 'N/A'}
+                            imageUrl={info?.row?.original?.user?.avatar || ''}
+                        />
                         <div className="flex flex-col">
                             <span>{info.row.original?.id}</span>
                             <span>{info?.row?.original?.user?.name}</span>
@@ -40,7 +49,6 @@ export const StudentsWithoutWorkplaceReport = () => {
             accessorKey: 'email',
             header: () => <span>Email</span>,
             cell: (info) => {
-
                 return <span>{info?.row?.original?.user?.email}</span>
             },
         },
@@ -55,11 +63,15 @@ export const StudentsWithoutWorkplaceReport = () => {
                 // return info?.row?.original?.courses?.map((c: Course) => (
                 //     <CourseDot key={c?.id} course={c} />
                 // ))
-                return <span>{info?.row?.original?.courses[0]?.title || "N/A"}</span>
+                return (
+                    <span>
+                        {info?.row?.original?.courses[0]?.title || 'N/A'}
+                    </span>
+                )
             },
         },
     ]
-    const count = data?.data?.length;
+    const count = data?.data?.length
     return (
         <>
             <div className="flex justify-between items-center">
@@ -70,12 +82,16 @@ export const StudentsWithoutWorkplaceReport = () => {
                     <Typography variant="h3">{count || 0}</Typography>
                 </div>
 
-
                 {/* <ViewFullListReport data={data} columns={columns} /> */}
-                <ActionButton onClick={() => { router.push(`/portals/rto/report/${ReportOptionsEnum.STUDENT_WITHOUT_WORKPLACE_REQUEST}`) }} >
+                <ActionButton
+                    onClick={() => {
+                        router.push(
+                            `/portals/rto/report/${ReportOptionsEnum.STUDENT_WITHOUT_WORKPLACE_REQUEST}`
+                        )
+                    }}
+                >
                     View Full List
                 </ActionButton>
-
             </div>
             {isError && <TechnicalError />}
             {isLoading ? (
