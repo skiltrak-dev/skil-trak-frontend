@@ -9,7 +9,7 @@ type Props = {}
 
 export const AppointmentCard = (props: Props) => {
     const { data, isError, isLoading } =
-        CommonApi.RecentActivities.useRecentActivities()
+        CommonApi.RecentActivities.useRecentActivities({})
 
     const bgColor = [
         'bg-blue-100',

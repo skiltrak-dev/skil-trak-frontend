@@ -3,6 +3,7 @@ import { Student } from '@types'
 import { queryToUrl, setLink } from '@utils'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
+import { HiPhoneOutgoing } from 'react-icons/hi'
 import { MdEmail } from 'react-icons/md'
 
 export const StudentCellInfo = ({
@@ -45,9 +46,7 @@ export const StudentCellInfo = ({
                             {student?.studentId}
                         </p>
                         {call && student?.called && (
-                            <p className="flex items-center gap-x-1 text-xs">
-                                c
-                            </p>
+                            <HiPhoneOutgoing title={'Call Made'} />
                         )}
                     </div>
                     <p className="font-semibold">{student?.user?.name}</p>
