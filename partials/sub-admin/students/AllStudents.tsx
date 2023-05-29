@@ -196,7 +196,7 @@ export const AllStudents = () => {
             header: () => 'Name',
             accessorKey: 'user',
             cell: ({ row }: any) => {
-                return <StudentCellInfo student={row.original} />
+                return <StudentCellInfo student={row.original} call />
             },
         },
         {

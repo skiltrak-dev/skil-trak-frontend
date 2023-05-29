@@ -142,7 +142,7 @@ export const ArchivedStudents = () => {
             cell: ({ row }: any) => {
                 return (
                     <div id="student-profile">
-                        <StudentCellInfo student={row.original} />
+                        <StudentCellInfo student={row.original} call />
                     </div>
                 )
             },
