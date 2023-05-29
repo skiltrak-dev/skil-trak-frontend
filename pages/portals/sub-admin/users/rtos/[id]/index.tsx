@@ -177,10 +177,18 @@ const RtoProfile: NextPageWithLayout = (props: Props) => {
                     <div className="flex items-center gap-x-3">
                         <div
                             className="relative"
-                            onMouseEnter={() => setShowDropDown(true)}
+                            onMouseEnter={() => {
+                                if (rtoDetail.isSuccess) {
+                                    setShowDropDown(true)
+                                }
+                            }}
                             onMouseLeave={() => setShowDropDown(false)}
                         >
-                            <Button>
+                            <Button
+                                disabled={
+                                    rtoDetail.isLoading || !rtoDetail.isSuccess
+                                }
+                            >
                                 <span
                                     id="add-students"
                                     className="flex items-center gap-x-2"

@@ -273,7 +273,15 @@ export const FilteredStudents = ({
             accessorKey: 'user.status',
             header: () => <span>Status</span>,
             cell: (info) => (
-                <Typography uppercase variant={'badge'}>
+                <Typography
+                    uppercase
+                    variant={'badge'}
+                    color={
+                        info.row.original?.user?.status === UserStatus.Blocked
+                            ? 'text-error'
+                            : 'text-black'
+                    }
+                >
                     <span className="font-bold">
                         {info.row.original?.user?.status}
                     </span>

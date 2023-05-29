@@ -21,6 +21,8 @@ import {
     RemoveIndustryModal,
     RemoveWorkplaceAppliedIndustryModal,
 } from '@partials/sub-admin/workplace/modals'
+import { getUserCredentials } from '@utils'
+import { UserRoles } from '@constants'
 
 export const IndustryCard = ({
     industry,
@@ -72,12 +74,23 @@ export const IndustryCard = ({
         )
     }
 
+    const role = getUserCredentials()?.role
+
     return (
         <>
             {modal}
             <ShowErrorNotifications result={applyForWorkplaceResult} />
             <div className="bg-secondary py-1 px-2 rounded-lg flex justify-between items-center">
-                <Link href={''} className="flex items-center gap-x-2">
+                <Link
+                    href={
+                        role === UserRoles.ADMIN
+                            ? `/portals/admin/industry/${industry?.industry?.id}?tab=sectors`
+                            : role === UserRoles.SUBADMIN
+                            ? `/portals/sub-admin/users/industries/${industry?.industry?.id}?tab=overview`
+                            : '#'
+                    }
+                    className="flex items-center gap-x-2 cursor-pointer"
+                >
                     {industry?.industry?.user && (
                         <InitialAvatar
                             name={industry?.industry?.user?.name}
@@ -87,7 +100,9 @@ export const IndustryCard = ({
                     <div>
                         <div className="flex items-center gap-x-0.5">
                             <Typography variant={'label'}>
-                                {industry?.industry?.user?.name}
+                                <span className="cursor-pointer">
+                                    {industry?.industry?.user?.name}
+                                </span>
                             </Typography>
                             <BsDot />
                             <Typography variant={'xs'} color={'text-gray-500'}>

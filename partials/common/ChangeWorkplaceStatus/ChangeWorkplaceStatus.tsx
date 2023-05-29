@@ -22,9 +22,11 @@ import {
     ActionModal,
     CompleteWorkplaceModal,
     ForwardModal,
+    InterviewModal,
     PlacementStartedModal,
     TerminateWorkplaceModal,
 } from '@partials/sub-admin/workplace/modals'
+import { WorkplaceCurrentStatus } from '@utils'
 
 export const ChangeWorkplaceStatus = ({
     studentId,
@@ -42,7 +44,6 @@ export const ChangeWorkplaceStatus = ({
 
     const contextBar = useContextBar()
 
-    const [interView, interViewResult] = useSendInterviewNotificationMutation()
     const workplace = useGetSubAdminStudentWorkplaceQuery(Number(studentId), {
         skip: !studentId,
     })
@@ -62,20 +63,19 @@ export const ChangeWorkplaceStatus = ({
 
     const { notification } = useNotification()
 
-    useEffect(() => {
-        if (interViewResult.isSuccess) {
-            notification.success({
-                title: 'Interview Assigned to Student',
-                description: 'Interview Assigned to Student',
-            })
-            contextBar.setContent(null)
-            contextBar.setTitle(null)
-            contextBar.hide()
-        }
-    }, [interViewResult])
-
     const onModalCancelClicked = () => {
         setModal(null)
+    }
+
+    const onInterviewClicked = () => {
+        setModal(
+            <InterviewModal
+                workIndustry={appliedIndustry?.id}
+                workplace={workplace?.data[0]?.id}
+                onCancel={onModalCancelClicked}
+                student={workplace?.data[0]?.student}
+            />
+        )
     }
 
     const onForwardClicked = (industry: any) => {
@@ -139,7 +139,7 @@ export const ChangeWorkplaceStatus = ({
             color: 'text-primary-light',
             onClick: (isCleared: any) => {
                 isCleared(true)
-                interView(appliedIndustry?.id)
+                onInterviewClicked()
             },
             status: 'interview',
         },
@@ -150,25 +150,32 @@ export const ChangeWorkplaceStatus = ({
             onClick: () => {},
             status: 'appointmentBooked',
         },
-        {
-            primaryText: 'Waiting',
-            secondaryText: 'for Workplace Response',
-            color: 'text-info-light',
-            onClick: (isCleared: any) => {
-                if (appliedIndustry?.interview) {
-                    onForwardClicked(appliedIndustry)
-                    isCleared(true)
-                } else {
-                    isCleared(false)
-                    notification.error({
-                        title: 'Take an Interview',
-                        description:
-                            'You Must have to take an Interview from student before sending request to industry',
-                    })
-                }
-            },
-            status: 'awaitingWorkplaceResponse',
-        },
+        // {
+        //     primaryText: 'Waiting',
+        //     secondaryText: 'for Workplace Response',
+        //     color: 'text-info-light',
+        //     onClick: (isCleared: any) => {
+        //         console.log(workplace)
+        //         const WPStatus = [
+        //             WorkplaceCurrentStatus.Applied,
+        //             WorkplaceCurrentStatus.AppointmentBooked,
+        //             WorkplaceCurrentStatus.Interview,
+        //             WorkplaceCurrentStatus.CaseOfficerAssigned,
+        //         ]
+        //         if (WPStatus.includes(workplace?.data[0]?.currentStatus)) {
+        //             onForwardClicked(appliedIndustry)
+        //             isCleared(true)
+        //         } else {
+        //             isCleared(false)
+        //             notification.error({
+        //                 title: 'Take an Interview',
+        //                 description:
+        //                     'You Must have to take an Interview from student before sending request to industry',
+        //             })
+        //         }
+        //     },
+        //     status: 'awaitingWorkplaceResponse',
+        // },
         {
             primaryText: 'Agreement & Eligibility ',
             secondaryText: 'Checklist Pending',
@@ -270,31 +277,14 @@ export const ChangeWorkplaceStatus = ({
                 setSelectedRequestType(findStatusIndex)
             }
         }
-
-        // if (data?.caseOfficerAssigned) {
-        //     setSelectedRequestType(1)
-        // }
-        // if (data?.interview) {
-        //     setSelectedRequestType(2)
-        // }
-        // if (data?.awaitingWorkplaceResponse) {
-        //     setSelectedRequestType(3)
-        // }
-        // if (data?.awaitingAgreementSigned) {
-        //     setSelectedRequestType(5)
-        // }
-        // if (data?.AgreementSigned) {
-        //     setSelectedRequestType(6)
-        // }
     }, [appliedIndustry, workplace, currentStatus])
 
-    const isLoading = interViewResult.isLoading || workplace.isLoading
+    const isLoading = workplace.isLoading
 
     return (
         <div className="relative">
             {modal && modal}
 
-            <ShowErrorNotifications result={interViewResult} />
             <OutsideClickHandler
                 onOutsideClick={() => {
                     setVisibleRequestType(false)
@@ -303,24 +293,16 @@ export const ChangeWorkplaceStatus = ({
                 <div
                     className={`border border-dashed border-gray-400 rounded-lg w-56 px-4 py-1 flex items-center justify-between gap-x-1 cursor-pointer relative`}
                     onClick={() => {
-                        if (appliedIndustry) {
-                            if (
-                                !appliedIndustry?.terminated ||
-                                !appliedIndustry?.isCompleted ||
-                                !appliedIndustry?.cancelled
-                            ) {
-                                setVisibleRequestType(!visibleRequestType)
-                            } else {
-                                notification.warning({
-                                    title: 'Action cant perform',
-                                    description: 'Action cant perform',
-                                })
-                            }
+                        if (
+                            !appliedIndustry?.terminated ||
+                            !appliedIndustry?.isCompleted ||
+                            !appliedIndustry?.cancelled
+                        ) {
+                            setVisibleRequestType(!visibleRequestType)
                         } else {
                             notification.warning({
-                                title: 'Workplace Not applied',
-                                description:
-                                    'You didnot apply on any industry yet,Please Apply on any industry before changing the workplace status',
+                                title: 'Action cant perform',
+                                description: 'Action cant perform',
                             })
                         }
                     }}

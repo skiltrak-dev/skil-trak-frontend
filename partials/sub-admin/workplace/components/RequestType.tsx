@@ -45,8 +45,6 @@ export const RequestType = ({
 
     const { notification } = useNotification()
 
-    
-
     const onModalCancelClicked = () => {
         setModal(null)
     }
@@ -124,10 +122,6 @@ export const RequestType = ({
             onClick: (isCleared: any) => {
                 isCleared(true)
                 onInterviewClicked()
-                // interView({
-                //     workIndustry: appliedIndustry?.id,
-                //     workplace: workplace?.id,
-                // })
             },
             status: 'interview',
         },
@@ -259,11 +253,6 @@ export const RequestType = ({
 
     const findStatusIndex = requestTypeActions.findIndex(
         (r) => r.status === workplace.currentStatus
-    )
-
-    console.log(
-        'findStatusIndexfindStatusIndexfindStatusIndex',
-        findStatusIndex
     )
 
     useEffect(() => {

@@ -86,7 +86,7 @@ export const SubAdminStudentProfile = ({ student }: { student: any }) => {
 
                 <div className="flex flex-col items-center">
                     <p className="text-lg font-semibold">
-                        {student?.user?.name}
+                        {student?.user?.name} {student?.familyName}
                     </p>
                     <div className="flex items-center gap-x-2">
                         <p className="text-sm text-gray-400">

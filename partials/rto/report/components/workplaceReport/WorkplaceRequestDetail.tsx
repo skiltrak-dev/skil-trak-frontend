@@ -20,8 +20,8 @@ type Props = {};
 export const WorkplaceRequestDetail = (props: Props) => {
   const { data, isLoading, isError } =
     RtoApi.Students.useWorkplaceRequestReport({})
-    console.log(data)
-  const columns: ColumnDef<any>[] = [
+
+    const columns: ColumnDef<any>[] = [
     {
       header: () => <span>Name</span>,
       accessorKey: 'user',

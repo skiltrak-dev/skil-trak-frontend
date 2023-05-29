@@ -56,7 +56,6 @@ export const StudentProfile = ({ noTitle }: { noTitle?: boolean }) => {
         })
     const [notContactable, notContactableResult] =
         SubAdminApi.Student.useNotContactable()
-
     const { passwordModal, onViewPassword } = useActionModal()
 
     // useEffect(() => {
@@ -181,9 +180,9 @@ export const StudentProfile = ({ noTitle }: { noTitle?: boolean }) => {
                             disabled={!isSuccess}
                         />
                         <Button
-                            text="Not Contactable"
+                            text={data?.nonContactable ? 'Not Contactable' : 'Contactable'}
                             variant={
-                                data?.nonContactable ? 'secondary' : 'info'
+                                data?.nonContactable ? 'info' : 'secondary'
                             }
                             onClick={() => {
                                 notContactable(data?.id)

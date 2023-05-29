@@ -5,9 +5,16 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { FaEnvelope, FaPhone } from 'react-icons/fa'
+import { HiPhoneOutgoing } from 'react-icons/hi'
 import { MdEmail, MdPhoneIphone } from 'react-icons/md'
 
-export const StudentCellInfo = ({ student }: { student: Student }) => {
+export const StudentCellInfo = ({
+    student,
+    call,
+}: {
+    student: Student
+    call?: boolean
+}) => {
     const router = useRouter()
     return (
         <div className="flex items-center relative">
@@ -31,9 +38,14 @@ export const StudentCellInfo = ({ student }: { student: Student }) => {
                         }}
                     >
                         <div className="flex items-center gap-x-2">
-                            <p className={'text-xs text-gray-500'}>
-                                {student?.studentId}
-                            </p>
+                            <div className="flex items-center gap-x-2">
+                                <p className={'text-xs text-gray-500'}>
+                                    {student?.studentId}
+                                </p>
+                                {call && student?.called && (
+                                    <HiPhoneOutgoing title={'Call Made'} />
+                                )}
+                            </div>
                             {/* <div className="flex items-center gap-x-2 ">
                                             <div
                                                 className={`w-1 h-1 rounded-full ${

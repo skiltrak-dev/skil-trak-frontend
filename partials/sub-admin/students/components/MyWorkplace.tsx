@@ -133,18 +133,6 @@ export const MyWorkplace = ({ student }: { student: StudentSubAdmin }) => {
         )
     }
 
-    const caseOfficerAssigned = () => {
-        return (
-            <WorkplaceStatusData
-                imageUrl={
-                    '/images/students/workplace-progress/case-officer.png'
-                }
-                title={'Assigned'}
-                subTitle={'Case Officer'}
-            />
-        )
-    }
-
     const workplaceStatus = () => {
         switch (currentStatus) {
             case WorkplaceCurrentStatus.NotRequested:
@@ -160,7 +148,15 @@ export const MyWorkplace = ({ student }: { student: StudentSubAdmin }) => {
                     />
                 )
             case WorkplaceCurrentStatus.CaseOfficerAssigned:
-                return caseOfficerAssigned()
+                return (
+                    <WorkplaceStatusData
+                        imageUrl={
+                            '/images/students/workplace-progress/case-officer.png'
+                        }
+                        title={'Assigned'}
+                        subTitle={'Case Officer'}
+                    />
+                )
             case WorkplaceCurrentStatus.Interview:
                 return (
                     <WorkplaceStatusData
@@ -407,13 +403,7 @@ export const MyWorkplace = ({ student }: { student: StudentSubAdmin }) => {
             ) : workplace.isLoading ? (
                 <LoadingAnimation />
             ) : (
-                <div>
-                    {workplace?.data && workplace?.data?.length > 0
-                        ? workplaceStatus()
-                        : student?.subadmin
-                        ? caseOfficerAssigned()
-                        : noWorkplace()}
-                </div>
+                <div>{workplaceStatus()}</div>
             )}
         </Card>
     )
