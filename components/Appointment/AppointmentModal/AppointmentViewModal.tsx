@@ -23,7 +23,6 @@ export const AppointmentViewModal = ({
         skip: !id,
     })
 
-    console.log('appointment', appointment)
     return (
         <>
             <div className="fixed w-full h-screen bg-black/50 top-0 left-0 z-[1000] flex items-center justify-center">

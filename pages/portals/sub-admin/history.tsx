@@ -138,10 +138,6 @@ const SubAdminHistory: NextPageWithLayout = () => {
                 <LoadingAnimation />
             ) : data?.data && data?.data?.length > 0 ? (
                 dates?.map((date: Date, i: number) => {
-                    // console.log(
-                    //     moment(new Date(date)).format('MMDDYYYY'),
-                    //     moment(new Date(date?.getDate() - 1)).format('MMDDYYYY')
-                    // )
                     return (
                         <div
                             key={i}

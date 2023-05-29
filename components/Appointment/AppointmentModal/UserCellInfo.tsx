@@ -20,7 +20,6 @@ export const UserCellInfo = ({ user }: any) => {
             ? profile[0]
             : profile
         : {}
-    console.log(profile, userProfile)
     return (
         <div className="flex items-center relative">
             <div className="flex items-center gap-x-2">
