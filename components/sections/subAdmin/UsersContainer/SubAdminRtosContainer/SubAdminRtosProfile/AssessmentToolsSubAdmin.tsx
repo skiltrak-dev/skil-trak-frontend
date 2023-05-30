@@ -26,6 +26,7 @@ import {
     useGetSubAdminRTODetailQuery,
     useUpdateSubAdminAssessmentToolArchiveMutation,
 } from '@queries'
+import Link from 'next/link'
 type Props = {}
 
 export const AssessmentToolsSubAdmin = (props: Props) => {
@@ -54,15 +55,19 @@ export const AssessmentToolsSubAdmin = (props: Props) => {
     const actions = (tool: any) => {
         return (
             <div className="flex gap-x-2 ">
-                <a
-                    href={`${process.env.NEXT_PUBLIC_END_POINT}/rtos/course/content/${tool?.id}`}
-                    target="blank"
-                    rel="noreferrer"
+                <Link
+                    className="cursor-pointer"
+                    href={`${
+                        process.env.NEXT_PUBLIC_END_POINT
+                    }/shared/assessment-tool/download/${Number(tool?.id)}`}
+                    download
+                    referrerPolicy="no-referrer"
+                    target="_blank"
                 >
                     <Typography variant="tableCell" color="text-blue-600">
                         Download
                     </Typography>
-                </a>
+                </Link>
 
                 <div
                     className="cursor-pointer"

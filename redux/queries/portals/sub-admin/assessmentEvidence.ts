@@ -128,7 +128,7 @@ export const assessmentEvidenceEndpoints = (
     }),
     uploadAssessmentDocs: builder.mutation<any, any>({
         query: ({ folderId, studentId, body }) => ({
-            url: `subadmin/assessment-evidence/response/${folderId}/${studentId}`,
+            url: `${PREFIX}/assessment-evidence/response/${folderId}/${studentId}`,
             method: 'POST',
             body,
         }),

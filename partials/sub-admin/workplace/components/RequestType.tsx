@@ -137,15 +137,23 @@ export const RequestType = ({
             secondaryText: 'for Workplace Response',
             color: 'text-info-light',
             onClick: (isCleared: any) => {
-                if (appliedIndustry?.interview) {
-                    onForwardClicked(appliedIndustry)
-                    isCleared(true)
+                if (appliedIndustry) {
+                    if (appliedIndustry?.interview) {
+                        onForwardClicked(appliedIndustry)
+                        isCleared(true)
+                    } else {
+                        isCleared(false)
+                        notification.error({
+                            title: 'Take an Interview',
+                            description:
+                                'You Must have to take an Interview from student before sending request to industry',
+                        })
+                    }
                 } else {
-                    isCleared(false)
                     notification.error({
-                        title: 'Take an Interview',
+                        title: 'Apply on Industry',
                         description:
-                            'You Must have to take an Interview from student before sending request to industry',
+                            'Apply on Industry before forwarding request',
                     })
                 }
             },

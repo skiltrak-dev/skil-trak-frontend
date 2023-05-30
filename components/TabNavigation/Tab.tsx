@@ -24,7 +24,7 @@ export interface TabProps {
 }
 
 const formattedCount = (count: number) => {
-    return count < 10 ? `0${count}` : count > 100 ? `${count}+` : count
+    return count < 10 ? `0${count}` : count
 }
 
 export const Tab = ({ label, href, badge, active, element }: TabProps) => {
