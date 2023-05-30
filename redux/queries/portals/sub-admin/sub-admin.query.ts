@@ -249,6 +249,9 @@ export const {
     useGetSubAdminTerminatedWorkplaceReportQuery,
     useGetSubAdminCompletedWorkplaceReportQuery,
     useGetSubAdminCancelledWorkplaceReportQuery,
+    useGetStudentWorkplaceStartedReportQuery,
+    useGetStudentWithNoWorkplaceReportQuery,
+    useGetSubAdminReportDownloadLinkQuery,
 } = subAdminApi
 
 export const SubAdminApi = {
@@ -343,9 +346,17 @@ export const SubAdminApi = {
         useActiveStudentsReport: useGetActiveStudentsReportQuery,
         useArchiveStudentsReport: useGetSubAdminArchivedStudentsReportQuery,
         useStudentsCallsReport: useGetStudentsCallsReportQuery,
-        useBookAppointmentsReport:useGetBookAppointmentsReportQuery,
-        useTerminatedWorkplaceReport: useGetSubAdminTerminatedWorkplaceReportQuery,
-        useCompletedWorkplaceReport: useGetSubAdminCompletedWorkplaceReportQuery,
-        useCancelledWorkplaceReport: useGetSubAdminCancelledWorkplaceReportQuery,
+        useBookAppointmentsReport: useGetBookAppointmentsReportQuery,
+        useTerminatedWorkplaceReport:
+            useGetSubAdminTerminatedWorkplaceReportQuery,
+        useCompletedWorkplaceReport:
+            useGetSubAdminCompletedWorkplaceReportQuery,
+        useCancelledWorkplaceReport:
+            useGetSubAdminCancelledWorkplaceReportQuery,
+        useStudentWorkplaceStartedReport:
+            useGetStudentWorkplaceStartedReportQuery,
+        useStudentWithNoWorkplaceReport:
+            useGetStudentWithNoWorkplaceReportQuery,
+        useDownloadLink: useGetSubAdminReportDownloadLinkQuery,
     },
 }

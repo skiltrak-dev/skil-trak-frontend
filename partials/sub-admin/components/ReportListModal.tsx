@@ -1,62 +1,145 @@
-import { LoadingAnimation, NoData, Table } from '@components'
+import { Select, ShowErrorNotifications, TextInput } from '@components'
 import { Button } from '@components/buttons'
-import { CommonApi } from '@queries'
-import { useState } from 'react'
+import { SubAdminApi } from '@queries'
+import { useEffect, useState } from 'react'
 import { FaTimes } from 'react-icons/fa'
-import { PulseLoader } from 'react-spinners'
+import { getUserCredentials } from '@utils'
+import { saveAs } from 'file-saver'
+import { DownloadLoader } from './DownloadLoader'
 
-export const ReportListModal = ({ data, columns, onClose }: any) => {
+export const ReportListModal = ({ onClose }: any) => {
+    const [filterReports, setFilterReports] = useState({
+        label: 'Weekly',
+        value: 'weekly',
+    })
+    const [isPdfDownload, setIsPdfDownload] = useState<boolean>(false)
+    const [startDate, setStartDate] = useState('')
+    const [endDate, setEndDate] = useState('')
+
+    const userId = getUserCredentials()?.id
+    const subAdminName = getUserCredentials()?.name
+
+    const downloadAsPdf = SubAdminApi.Reports.useDownloadLink(
+        {
+            userId,
+            startDate,
+            endDate,
+        },
+        { skip: !isPdfDownload }
+    )
+
+    useEffect(() => {
+        if (downloadAsPdf?.data?.file?.data && downloadAsPdf?.isSuccess) {
+            const buffer = Buffer.from(downloadAsPdf.data.file.data)
+            const blob = new Blob([buffer], { type: 'application/pdf' })
+            saveAs(blob, subAdminName)
+            setIsPdfDownload(false)
+        }
+    }, [downloadAsPdf?.data, downloadAsPdf?.isSuccess])
+
+    useEffect(() => {
+        if (downloadAsPdf?.isError) {
+            setIsPdfDownload(false)
+        }
+    }, [downloadAsPdf?.isError])
+
+    const filterOptions = [
+        { label: 'Weekly', value: 'weekly' },
+        { label: 'Range', value: 'range' },
+    ]
+
+    const handleStartDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const dateValue = e.target.value.trim()
+        setStartDate(dateValue)
+    }
+
+    const handleEndDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const dateValue = e.target.value.trim()
+        setEndDate(dateValue)
+    }
+    const handleDownloadPDF = () => {
+        setIsPdfDownload(true)
+    }
 
     return (
         <>
+            <ShowErrorNotifications result={downloadAsPdf} />
             <div className="bg-[#00000050] w-full h-screen flex items-center justify-center fixed top-0 left-0 z-40">
-                <div className="bg-white  overflow-auto custom-scrollbar rounded-2xl flex flex-col items-center gap-y-2 shadow-xl min-w-[450px] px-4 py-4">
-                    <div className="flex justify-end w-full">
-                        <FaTimes
-                            className="text-gray-500 hover:text-red-500 cursor-pointer"
-                            onClick={() => {
-                                onClose && onClose()
-                            }}
-                        />
-                    </div>
-                    {data?.data?.length > 0 ? (
-                        <Table columns={columns} data={data?.data}>
-                            {({
-                                table,
-                                pagination,
-                                pageSize,
-                                quickActions,
-                            }: any) => {
-                                return (
-                                    <div>
-                                        {/* <div className="p-6 mb-2 flex justify-between">
-                                        {pageSize(itemPerPage, setItemPerPage)}
-                                        <div className="flex gap-x-2">
-                                            {quickActions}
-                                            {pagination(
-                                                data?.pagination,
-                                                setPage
-                                            )}
-                                        </div>
-                                    </div> */}
-                                        <div className="px-6">{table}</div>
-                                    </div>
-                                )
-                            }}
-                        </Table>
+                <div className="bg-white  h-[60vh] overflow-auto custom-scrollbar rounded-2xl flex flex-col items-center gap-y-2 shadow-xl min-w-[450px] px-4 py-4">
+                    {downloadAsPdf?.isLoading ? (
+                        <DownloadLoader />
                     ) : (
-                        <NoData text='No data found' />
+                        <>
+                            <div className="flex justify-end w-full">
+                                <FaTimes
+                                    className="text-gray-500 hover:text-red-500 cursor-pointer"
+                                    onClick={() => {
+                                        onClose && onClose()
+                                    }}
+                                />
+                            </div>
+                            <div className="flex flex-col items-start mr-auto">
+                                <div className="flex gap-x-2">
+                                    <div>
+                                        <TextInput
+                                            placeholder="YYYY-MM-DD"
+                                            name="startDate"
+                                            label={'Start Date'}
+                                            onChange={handleStartDateChange}
+                                            disabled={
+                                                filterReports?.value ===
+                                                'weekly'
+                                            }
+                                            type="date"
+                                        />
+                                    </div>
+                                    <div>
+                                        <TextInput
+                                            placeholder="YYYY-MM-DD"
+                                            name="endDate"
+                                            label={'End Date'}
+                                            onChange={handleEndDateChange}
+                                            disabled={
+                                                filterReports?.value ===
+                                                'weekly'
+                                            }
+                                            type="date"
+                                        />
+                                    </div>
+                                </div>
+                                <div className="w-full">
+                                    <Select
+                                        name="filter"
+                                        label="Select filter"
+                                        options={filterOptions}
+                                        placeholder="Select reports filter by"
+                                        value={filterReports}
+                                        onChange={(e: any) => {
+                                            setFilterReports(e)
+                                        }}
+                                    />
+                                </div>
+                            </div>
+                            <div className="flex gap-x-4 items-center justify-end mt-auto">
+                                <div className="flex items-center gap-x-2">
+                                    <Button
+                                        text="Download as PDF"
+                                        variant="dark"
+                                        onClick={handleDownloadPDF}
+                                        loading={downloadAsPdf?.isLoading}
+                                        disabled={downloadAsPdf?.isLoading}
+                                    />
+                                    {/* <Button
+                                        text="Download as CSV"
+                                        variant="dark"
+                                        onClick={() => {
+                                            console.log('downloading')
+                                        }}
+                                    /> */}
+                                </div>
+                            </div>
+                        </>
                     )}
-
-                    <div className="flex gap-x-4 items-center justify-end">
-                        <Button
-                            text="Close"
-                            variant="secondary"
-                            onClick={() => {
-                                onClose && onClose()
-                            }}
-                        />
-                    </div>
                 </div>
             </div>
         </>
