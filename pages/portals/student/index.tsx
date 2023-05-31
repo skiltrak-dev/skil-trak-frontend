@@ -10,6 +10,7 @@ import {
     InitialAvatar,
     InitialAvatarContainer,
     NoData,
+    StudentTimer,
     Typography,
 } from '@components'
 

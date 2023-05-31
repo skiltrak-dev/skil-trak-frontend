@@ -1,11 +1,12 @@
 import { ActionButton, EmptyData, InitialAvatar, LoadingAnimation, Table, TechnicalError, Typography } from '@components'
 import { CourseDot } from '@partials/rto/student/components'
 import React, { useState } from 'react'
-import { RtoApi } from '@queries'
+import { SubAdminApi } from '@queries'
 import { ColumnDef } from '@tanstack/react-table'
 import { Course, ReportOptionsEnum } from '@types'
 import { ViewFullListReport } from '../../ViewFullListReport'
 import { useRouter } from 'next/router'
+import { SubAdminReports } from 'types/sub-admin-reports.type'
 type Props = {}
 
 export const ActiveStudentsWithoutWorkplacesReport = (props: Props) => {
@@ -13,7 +14,7 @@ export const ActiveStudentsWithoutWorkplacesReport = (props: Props) => {
     const [itemPerPage, setItemPerPage] = useState(50)
     const [page, setPage] = useState(1)
 
-    const { data, isLoading, isError } = RtoApi.Students.useArchivedStudentsReport({
+    const { data, isLoading, isError } = SubAdminApi.Reports.useStudentWithNoWorkplaceReport({
         skip: itemPerPage * page - itemPerPage,
         limit: itemPerPage,
     });
@@ -71,7 +72,7 @@ export const ActiveStudentsWithoutWorkplacesReport = (props: Props) => {
                     </Typography>
                     <Typography variant="h3">{count || 0}</Typography>
                 </div>
-                <ActionButton onClick={() => { router.push(`/portals/rto/report/${ReportOptionsEnum.ARCHIVED_STUDENTS}`) }} >
+                <ActionButton onClick={() => { router.push(`/portals/sub-admin/report/${SubAdminReports.NO_WORKPLACE}`) }} >
                     View Full List
                 </ActionButton>
             </div>

@@ -68,5 +68,25 @@ export const subAdminReports = (
         }),
         providesTags: ['SubAdminReports'],
     }),
-
+    getStudentWorkplaceStartedReport: builder.query<any, any>({
+        query: (params) => ({
+            url: `${PREFIX}/workplace-requests/started`,
+            params,
+        }),
+        providesTags: ['SubAdminReports'],
+    }),
+    getStudentWithNoWorkplaceReport: builder.query<any, any>({
+        query: (params) => ({
+            url: `${PREFIX}/students/no-workplace-requests`,
+            params,
+        }),
+        providesTags: ['SubAdminReports'],
+    }),
+    getSubAdminReportDownloadLink: builder.query<any, any>({
+        query: ({ userId, ...params }) => ({
+            url: `${PREFIX}/summary/generate/${userId}`,
+            params,
+        }),
+        providesTags: ['Rto-Students'],
+    }),
 })

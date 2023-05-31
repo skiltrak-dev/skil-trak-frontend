@@ -136,6 +136,7 @@ export const {
     useShowExistingIndustriesQuery,
     useAddExistingIndustriesMutation,
     useChangeCustomIndustryStatusMutation,
+    useSendMeetingNotificationMutation,
 
     // ----- STUDENTS-------//
     useGetSubAdminStudentsQuery,
@@ -171,6 +172,8 @@ export const {
     useAddSecondWorkplaceMutation,
     useAddCustomSecondWorkplaceMutation,
     useAddCourseStartEndDateMutation,
+    useStudentCallLogMutation,
+    useGetStudentCallLogQuery,
 
     // -- COUNT -- //
     useSubadminStatisticsQuery,
@@ -249,6 +252,9 @@ export const {
     useGetSubAdminTerminatedWorkplaceReportQuery,
     useGetSubAdminCompletedWorkplaceReportQuery,
     useGetSubAdminCancelledWorkplaceReportQuery,
+    useGetStudentWorkplaceStartedReportQuery,
+    useGetStudentWithNoWorkplaceReportQuery,
+    useGetSubAdminReportDownloadLinkQuery,
 } = subAdminApi
 
 export const SubAdminApi = {
@@ -283,6 +289,8 @@ export const SubAdminApi = {
         useAddSecondWorkplace: useAddSecondWorkplaceMutation,
         useAddCustomWorkplace: useAddCustomSecondWorkplaceMutation,
         addCourseStartEndDate: useAddCourseStartEndDateMutation,
+        useStudentCallLog: useStudentCallLogMutation,
+        useGetStudentCallLog: useGetStudentCallLogQuery,
     },
     Industry: {
         useStatusticsCount: useSubadminIndustryStatisticsCountQuery,
@@ -320,6 +328,7 @@ export const SubAdminApi = {
         useShowExistingIndustriesQuery,
         useAddExistingIndustriesMutation,
         useChangeCustomIndustryStatusMutation,
+        useSendMeetingNotification: useSendMeetingNotificationMutation,
     },
 
     Courses: {
@@ -343,9 +352,18 @@ export const SubAdminApi = {
         useActiveStudentsReport: useGetActiveStudentsReportQuery,
         useArchiveStudentsReport: useGetSubAdminArchivedStudentsReportQuery,
         useStudentsCallsReport: useGetStudentsCallsReportQuery,
-        useBookAppointmentsReport:useGetBookAppointmentsReportQuery,
-        useTerminatedWorkplaceReport: useGetSubAdminTerminatedWorkplaceReportQuery,
-        useCompletedWorkplaceReport: useGetSubAdminCompletedWorkplaceReportQuery,
-        useCancelledWorkplaceReport: useGetSubAdminCancelledWorkplaceReportQuery,
+        useBookAppointmentsReport: useGetBookAppointmentsReportQuery,
+        useTerminatedWorkplaceReport:
+            useGetSubAdminTerminatedWorkplaceReportQuery,
+        useCompletedWorkplaceReport:
+            useGetSubAdminCompletedWorkplaceReportQuery,
+        useCancelledWorkplaceReport:
+            useGetSubAdminCancelledWorkplaceReportQuery,
+        useStudentWorkplaceStartedReport:
+            useGetStudentWorkplaceStartedReportQuery,
+        useStudentWithNoWorkplaceReport:
+            useGetStudentWithNoWorkplaceReportQuery,
+        useDownloadLink: useGetSubAdminReportDownloadLinkQuery,
+
     },
 }

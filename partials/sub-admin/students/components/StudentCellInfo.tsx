@@ -1,6 +1,7 @@
 import { InitialAvatar } from '@components'
 import { Student } from '@types'
 import { setLink } from '@utils'
+import moment from 'moment'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
@@ -16,6 +17,21 @@ export const StudentCellInfo = ({
     call?: boolean
 }) => {
     const router = useRouter()
+
+    const callLog = student?.callLog?.reduce(
+        (a: any, b: any) => (a?.createdAt > b?.createdAt ? a : b),
+        {
+            isExpired: true,
+            createdAt: null,
+        }
+    )
+
+    const today = moment()
+    const startDate = today.startOf('week').format('MM-DD-YYYY')
+    const endDate = today.endOf('week').format('MM-DD-YYYY')
+    const createdAt = moment(callLog?.createdAt, 'YYYY-MM-DD')
+
+    const isDateExist = createdAt.isBetween(startDate, endDate, 'day')
     return (
         <div className="flex items-center relative">
             <div className="flex items-center gap-x-2">
@@ -42,8 +58,13 @@ export const StudentCellInfo = ({
                                 <p className={'text-xs text-gray-500'}>
                                     {student?.studentId}
                                 </p>
-                                {call && student?.called && (
-                                    <HiPhoneOutgoing title={'Call Made'} />
+                                {call && isDateExist && (
+                                    <div className="rounded-full bg-success p-0.5">
+                                        <HiPhoneOutgoing
+                                            title={'Call Made'}
+                                            className="text-white text-[10px]"
+                                        />
+                                    </div>
                                 )}
                             </div>
                             {/* <div className="flex items-center gap-x-2 ">

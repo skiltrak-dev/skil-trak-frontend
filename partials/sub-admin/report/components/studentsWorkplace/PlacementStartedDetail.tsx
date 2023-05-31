@@ -7,39 +7,20 @@ import {
     TechnicalError,
     Typography,
 } from '@components'
-import { CourseDot } from '@partials/rto/student/components'
 import { SubAdminApi } from '@queries'
 import { ColumnDef } from '@tanstack/react-table'
 import React, { useState } from 'react'
-import { FilterReport } from '../../FilterReport'
 
-import { Course, ReportOptionsEnum } from '@types'
-import { useRouter } from 'next/router'
-import { SubAdminReports } from 'types/sub-admin-reports.type'
 
-type Props = {
-    startDate: any
-    endDate: any
-    setStartDate: any
-    setEndDate: any
-}
 
-export const PlacementStartedReport = ({
-    setStartDate,
-    setEndDate,
-    startDate,
-    endDate,
-}: Props) => {
-    const [itemPerPage, setItemPerPage] = useState(50)
-    const [page, setPage] = useState(1)
-    const router = useRouter()
+
+
+
+
+
+export const PlacementStartedDetail = () => {
     const { data, isLoading, isError } =
-        SubAdminApi.Reports.useStudentWorkplaceStartedReport({
-            startDate: startDate.toISOString().slice(0, 10),
-            endDate: endDate.toISOString().slice(0, 10),
-            skip: itemPerPage * page - itemPerPage,
-            limit: itemPerPage,
-        })
+        SubAdminApi.Reports.useStudentWorkplaceStartedReport({})
 
     const columns: ColumnDef<any>[] = [
         {
@@ -107,28 +88,11 @@ export const PlacementStartedReport = ({
             <div className="flex justify-between">
                 <div className="">
                     <Typography variant="title" color="text-gray-400">
-                        Placement Started For Students
+                        Placement Started For Students Detail
                     </Typography>
                     <Typography variant="h3">{count || 0}</Typography>
                 </div>
 
-                <div className="flex items-center gap-x-4">
-                    <FilterReport
-                        startDate={startDate}
-                        setStartDate={setStartDate}
-                        endDate={endDate}
-                        setEndDate={setEndDate}
-                    />
-                    <ActionButton
-                        onClick={() => {
-                            router.push(
-                                `/portals/sub-admin/report/${SubAdminReports.PLACEMENT_STARTED}`
-                            )
-                        }}
-                    >
-                        View Full List
-                    </ActionButton>
-                </div>
             </div>
             {isError && <TechnicalError />}
             {isLoading ? (
@@ -138,13 +102,6 @@ export const PlacementStartedReport = ({
                     {({ table, pagination, pageSize, quickActions }: any) => {
                         return (
                             <div>
-                                <div className="p-6 mb-2 flex justify-between">
-                                    {pageSize(itemPerPage, setItemPerPage)}
-                                    <div className="flex gap-x-2">
-                                        {/* {quickActions} */}
-                                        {pagination(data?.pagination, setPage)}
-                                    </div>
-                                </div>
                                 <div className="px-6">{table}</div>
                             </div>
                         )

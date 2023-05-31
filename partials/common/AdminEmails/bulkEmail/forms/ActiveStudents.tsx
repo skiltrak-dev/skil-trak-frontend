@@ -275,7 +275,8 @@ export const ActiveStudents = ({
 
     useEffect(() => {
         // converting draft to html and sending to contentEditor
-        htmlToDraftText(formMethods, templateBody, 'message')
+        // htmlToDraftText(formMethods, templateBody, 'message')
+        formMethods.setValue('message', htmlToDraftText(templateBody))
     }, [templateBody])
     return (
         <>

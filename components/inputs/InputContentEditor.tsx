@@ -32,31 +32,45 @@ export const draftToHtmlText = (draftText: any) => {
     return content
 }
 
-export const htmlToDraftText = (
-    methods: any,
-    content: string,
-    name: string
-) => {
+export const htmlToDraftText = (content: string) => {
     if (content) {
         const blocksFromHTML = convertFromHTML(content)
-        const bodyValue = EditorState.createWithContent(
+        return EditorState.createWithContent(
             ContentState.createFromBlockArray(
                 blocksFromHTML.contentBlocks,
                 blocksFromHTML.entityMap
             )
         )
-        methods.setValue(name, bodyValue)
     }
 }
+
+// export const htmlToDraftText = (
+//     methods: any,
+//     content: string,
+//     name: string
+// ) => {
+//     if (content) {
+//         const blocksFromHTML = convertFromHTML(content)
+//         const bodyValue = EditorState.createWithContent(
+//             ContentState.createFromBlockArray(
+//                 blocksFromHTML.contentBlocks,
+//                 blocksFromHTML.entityMap
+//             )
+//         )
+//         methods.setValue(name, bodyValue)
+//     }
+// }
 
 export const InputContentEditor = ({
     name,
     label,
     content,
+    onChange,
 }: {
     name: string
     label?: string
     content?: any
+    onChange?: any
 }) => {
     const methods = useFormContext()
 
@@ -91,7 +105,12 @@ export const InputContentEditor = ({
                             editorState={field?.value}
                             wrapperClassName="border rounded-md"
                             editorClassName="overflow-hidden h-20"
-                            onEditorStateChange={field?.onChange} // send data with the onChagne
+                            onEditorStateChange={(e: any) => {
+                                field.onChange(e)
+                                if (onChange) {
+                                    onChange(e)
+                                }
+                            }}
                         />
                     )
                 }}
