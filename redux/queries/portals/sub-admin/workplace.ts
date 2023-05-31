@@ -66,6 +66,17 @@ export const workplaceEndpoints = (
         }),
         invalidatesTags: ['SubAdminWorkplace', 'SubAdminStudents', 'Students'],
     }),
+    sendMeetingNotification: builder.mutation<
+        any,
+        { workplace: number; workIndustry: number }
+    >({
+        query: (params) => ({
+            url: `${PREFIX}workplace-request/book-appointment`,
+            params,
+            method: 'PATCH',
+        }),
+        invalidatesTags: ['SubAdminWorkplace', 'SubAdminStudents', 'Students'],
+    }),
     forwardWorkplaceToIndustry: builder.mutation({
         query: ({ industryId, id }) => ({
             url: `${PREFIX}forward-industry-request/${industryId}/${id}`,

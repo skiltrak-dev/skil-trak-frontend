@@ -84,11 +84,12 @@ export const AllStudents = () => {
         setItemPerPage(Number(router.query.pageSize || 50))
     }, [router])
 
-    const { isLoading, data, isError, refetch } = SubAdminApi.Student.useList({
-        search: `status:${UserStatus.Approved}`,
-        skip: itemPerPage * page - itemPerPage,
-        limit: itemPerPage,
-    })
+    const { isLoading, data, isError, isFetching, refetch } =
+        SubAdminApi.Student.useList({
+            search: `status:${UserStatus.Approved}`,
+            skip: itemPerPage * page - itemPerPage,
+            limit: itemPerPage,
+        })
 
     useEffect(() => {
         if (refetchStudents) {
@@ -276,7 +277,7 @@ export const AllStudents = () => {
             {passwordModal}
             {isError && <TechnicalError />}
             <Card noPadding>
-                {isLoading ? (
+                {isLoading || isFetching ? (
                     <LoadingAnimation height="h-[60vh]" />
                 ) : data && data?.data.length && !isError ? (
                     <Table
@@ -293,7 +294,11 @@ export const AllStudents = () => {
                             return (
                                 <div>
                                     <div className="p-6 mb-2 flex justify-between">
-                                        {pageSize(itemPerPage, setItemPerPage)}
+                                        {pageSize(
+                                            itemPerPage,
+                                            setItemPerPage,
+                                            data?.data?.length
+                                        )}
                                         <div className="flex gap-x-2">
                                             {quickActions}
                                             {pagination(

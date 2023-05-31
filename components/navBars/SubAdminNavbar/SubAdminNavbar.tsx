@@ -156,7 +156,7 @@ export const SubAdminNavbar = () => {
                         <span>
                             <HiDocumentReport />
                         </span>
-                        <span className="text-sm font-semibold">Report</span>
+                        <span className="text-sm font-semibold">Reports</span>
                     </a>
                 </Link>
                 <Link legacyBehavior href={Routes.Settings}>

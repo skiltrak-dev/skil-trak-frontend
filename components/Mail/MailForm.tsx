@@ -16,6 +16,9 @@ import {
     Button,
     TextArea,
     ShowErrorNotifications,
+    InputContentEditor,
+    htmlToDraftText,
+    draftToHtmlText,
 } from '@components'
 import { FileUpload } from '@hoc'
 
@@ -28,6 +31,9 @@ import { ellipsisText } from '@utils'
 import { AuthUtils, userStatus } from '@utils'
 import { CommonApi } from '@queries'
 import { Attachment } from '@partials/common'
+import ClickAwayListener from 'react-click-away-listener'
+import { convertToRaw } from 'draft-js'
+import draftToHtml from 'draftjs-to-html'
 
 export const MailForm = ({ action, receiverId, sender }: any) => {
     // const { replyMessage, setReplyMessage, setMessage } = useMessage()
@@ -42,6 +48,7 @@ export const MailForm = ({ action, receiverId, sender }: any) => {
     const [to, setTo] = useState(false)
     const [cc, setCc] = useState(false)
     const [attachmentFiles, setAttachmentFiles] = useState<any>([])
+    const [mailContent, setMailContent] = useState<any>([])
 
     const [actionData, actionDataResult] = action()
     const [sendMessage, sendMessageResult] = CommonApi.Messages.useSendMessage()
@@ -52,7 +59,7 @@ export const MailForm = ({ action, receiverId, sender }: any) => {
 
     const validationSchema = yup.object({
         subject: yup.string().required('Must provide subject'),
-        message: yup.string().required('Must provide message'),
+        // message: yup.string().required('Must provide message'),
     })
 
     const methods = useForm({
@@ -63,8 +70,12 @@ export const MailForm = ({ action, receiverId, sender }: any) => {
     useEffect(() => {
         if (getEmailDraft.isSuccess) {
             if (getEmailDraft?.data?.content) {
-                methods.setValue('message', getEmailDraft?.data?.content)
+                methods.setValue(
+                    'message',
+                    htmlToDraftText(getEmailDraft?.data?.content)
+                )
             }
+
             if (getEmailDraft?.data?.title) {
                 methods.setValue('subject', getEmailDraft?.data?.title)
             }
@@ -118,15 +129,16 @@ export const MailForm = ({ action, receiverId, sender }: any) => {
         setIsSendDraft(false)
         setSendEmailDraft(false)
         const userCredentials = AuthUtils.getUserCredentials()
-        const date = new Date()
         const parent = -1
         // const parent = replyMessage?.id
         const formData = new FormData()
 
+        const message = draftToHtmlText(values.message)
+
         const { attachment, ...rest } = values
         const data = {
             subject: values.subject,
-            message: values.message,
+            message,
             type: 'email',
             sender: userCredentials?.id,
             receiver: receiverId,
@@ -229,8 +241,35 @@ export const MailForm = ({ action, receiverId, sender }: any) => {
                                         }
                                     }}
                                 />
-
-                                <TextArea
+                                <ClickAwayListener
+                                    onClickAway={(e: any) => {
+                                        if (
+                                            mailContent &&
+                                            !ref.current?.contains(e.target)
+                                        ) {
+                                            emailDraft({
+                                                receiver: receiverId,
+                                                content: mailContent,
+                                            })
+                                        }
+                                    }}
+                                >
+                                    <div className="mb-3">
+                                        <InputContentEditor
+                                            name={'message'}
+                                            label={'Message'}
+                                            onChange={(e: any) => {
+                                                const mail = draftToHtml(
+                                                    convertToRaw(
+                                                        e.getCurrentContent()
+                                                    )
+                                                )
+                                                setMailContent(mail)
+                                            }}
+                                        />
+                                    </div>
+                                </ClickAwayListener>
+                                {/* <TextArea
                                     label={'Message'}
                                     name={'message'}
                                     required
@@ -248,7 +287,7 @@ export const MailForm = ({ action, receiverId, sender }: any) => {
                                             })
                                         }
                                     }}
-                                />
+                                /> */}
 
                                 {/* <Select
                                     label={'Templates'}
