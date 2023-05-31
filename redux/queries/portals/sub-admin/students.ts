@@ -160,6 +160,23 @@ export const studentsEndpoints = (
         invalidatesTags: ['SubAdminStudents'],
     }),
 
+    getStudentCallLog: builder.query<any, number>({
+        query: (studentId) => ({
+            url: `call-log`,
+            params: { studentId },
+        }),
+        providesTags: ['SubAdminStudents'],
+    }),
+
+    studentCallLog: builder.mutation<any, { student: number }>({
+        query: (body) => ({
+            url: `call-log`,
+            method: 'POST',
+            body,
+        }),
+        invalidatesTags: ['SubAdminStudents'],
+    }),
+
     getRequiredDocs: builder.query<any, any>({
         query: ({ id, course, user }) => ({
             url: `${PREFIX}/student/required-document/${id}`,

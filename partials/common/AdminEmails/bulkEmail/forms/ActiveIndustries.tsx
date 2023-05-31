@@ -139,7 +139,8 @@ export const ActiveIndustries = () => {
         }
     }, [attachmentFiles])
     useEffect(() => {
-        htmlToDraftText(formMethods, templateBody, 'message')
+        // htmlToDraftText(formMethods, templateBody, 'message')
+        formMethods.setValue('message', htmlToDraftText(templateBody))
     }, [templateBody])
 
     useEffect(() => {

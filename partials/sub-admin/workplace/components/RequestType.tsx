@@ -23,8 +23,10 @@ import {
     CompleteWorkplaceModal,
     TerminateWorkplaceModal,
     InterviewModal,
+    MeetingModal,
 } from '../modals'
 import { HiCheckBadge } from 'react-icons/hi2'
+import { WorkplaceCurrentStatus } from '@utils'
 
 export const RequestType = ({
     workplace,
@@ -40,8 +42,6 @@ export const RequestType = ({
     const [selectedRequestType, setSelectedRequestType] = useState<
         number | null
     >(0)
-
-    const [interView, interViewResult] = useSendInterviewNotificationMutation()
 
     const { notification } = useNotification()
 
@@ -100,6 +100,17 @@ export const RequestType = ({
         )
     }
 
+    const onMeetingClicked = () => {
+        setModal(
+            <MeetingModal
+                workIndustry={appliedIndustry?.id}
+                workplace={workplace?.id}
+                onCancel={onModalCancelClicked}
+                student={workplace?.student}
+            />
+        )
+    }
+
     const requestTypeActions = [
         {
             primaryText: 'Request Sent',
@@ -119,7 +130,7 @@ export const RequestType = ({
             primaryText: 'Interview',
             secondaryText: 'with Case Officer',
             color: 'text-primary-light',
-            onClick: (isCleared: any) => {
+            onClick: (isCleared: (bool: boolean) => void) => {
                 isCleared(true)
                 onInterviewClicked()
             },
@@ -129,14 +140,27 @@ export const RequestType = ({
             primaryText: 'Meeting',
             secondaryText: 'with Workplace Supervisor (Orientation)',
             color: 'text-info-dark',
-            onClick: () => {},
+            onClick: (isCleared: (bool: boolean) => void) => {
+                if (
+                    workplace?.currentStatus ===
+                    WorkplaceCurrentStatus.Interview
+                ) {
+                    isCleared(true)
+                    onMeetingClicked()
+                } else {
+                    notification.error({
+                        title: 'Take an Interview',
+                        description: 'Take an Interview From Student',
+                    })
+                }
+            },
             status: 'appointmentBooked',
         },
         {
             primaryText: 'Waiting',
             secondaryText: 'for Workplace Response',
             color: 'text-info-light',
-            onClick: (isCleared: any) => {
+            onClick: (isCleared: (bool: boolean) => void) => {
                 if (appliedIndustry) {
                     if (appliedIndustry?.interview) {
                         onForwardClicked(appliedIndustry)
@@ -163,7 +187,7 @@ export const RequestType = ({
             primaryText: 'Agreement & Eligibility ',
             secondaryText: 'Checklist Pending',
             color: 'text-info',
-            onClick: (isCleared: any) => {
+            onClick: (isCleared: (bool: boolean) => void) => {
                 isCleared(false)
                 if (workplace?.currentStatus === 'awaitingWorkplaceResponse') {
                     notification.info({
@@ -187,7 +211,7 @@ export const RequestType = ({
             primaryText: 'Agreement & Eligibility ',
             secondaryText: 'Checklist Signed',
             color: 'text-success',
-            onClick: (isCleared: any) => {
+            onClick: (isCleared: (bool: boolean) => void) => {
                 if (workplace?.currentStatus === 'awaitingAgreementSigned') {
                     notification.info({
                         title: 'Agreement Sign',
@@ -210,7 +234,7 @@ export const RequestType = ({
             primaryText: 'Placement Started',
             secondaryText: 'Placement Started',
             color: 'text-success-dark',
-            onClick: (isCleared: any) => {
+            onClick: (isCleared: (bool: boolean) => void) => {
                 if (workplace?.currentStatus === 'awaitingAgreementSigned') {
                     onPlacementStartedClicked(Number(appliedIndustry?.id))
                     isCleared(true)
@@ -287,13 +311,12 @@ export const RequestType = ({
         // }
     }, [appliedIndustry])
 
-    const isLoading = interViewResult.isLoading
+    const isLoading = false
 
     return (
         <div className="relative">
             {modal && modal}
 
-            <ShowErrorNotifications result={interViewResult} />
             <OutsideClickHandler
                 onOutsideClick={() => {
                     setVisibleRequestType(false)

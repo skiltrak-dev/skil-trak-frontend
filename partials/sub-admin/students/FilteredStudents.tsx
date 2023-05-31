@@ -286,7 +286,8 @@ export const FilteredStudents = ({
                                         <div className="p-6 mb-2 flex justify-between">
                                             {pageSize(
                                                 itemPerPage,
-                                                setItemPerPage
+                                                setItemPerPage,
+                                                student?.data?.data?.length
                                             )}
                                             <div className="flex gap-x-2">
                                                 {quickActions}
