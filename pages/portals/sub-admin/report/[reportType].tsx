@@ -6,6 +6,7 @@ import { useRouter } from 'next/router'
 import { Card, PageTitle } from '@components'
 import {
     ActiveStudentsDetail,
+    ActiveStudentsWithoutWorkplaceDetail,
     AppointmentsDetail,
     DownloadButton,
     StudentsAssignedDetail,
@@ -14,7 +15,7 @@ import {
 import { SubAdminReports } from 'types/sub-admin-reports.type'
 import { ArchivedStudentsDetail } from '@partials/rto/report'
 import { TerminatedWorkplaceDetail } from '@partials/sub-admin/report/components/studentsWorkplace/TerminatedWorkplaceDetail'
-import { CancelledWorkplaceDetail, CompletedWorkplaceDetail } from '@partials/sub-admin/report/components/studentsWorkplace'
+import { CancelledWorkplaceDetail, CompletedWorkplaceDetail, PlacementStartedDetail } from '@partials/sub-admin/report/components/studentsWorkplace'
 
 const ReportType: NextPageWithLayout = () => {
     const router = useRouter()
@@ -46,6 +47,10 @@ const ReportType: NextPageWithLayout = () => {
                 return <CompletedWorkplaceDetail />
             case SubAdminReports.CANCELLED_WORKPLACE:
                 return <CancelledWorkplaceDetail />
+            case SubAdminReports.PLACEMENT_STARTED:
+                return <PlacementStartedDetail />
+            case SubAdminReports.NO_WORKPLACE:
+                return <ActiveStudentsWithoutWorkplaceDetail />
             default:
                 return null
         }

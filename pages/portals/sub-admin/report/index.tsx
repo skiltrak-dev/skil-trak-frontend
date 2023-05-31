@@ -5,6 +5,7 @@ import { NextPageWithLayout, ReportOptionsEnum } from '@types'
 import { SubAdminLayout } from '@layouts'
 
 import {
+    Button,
     Card,
     EmptyData,
     InitialAvatar,
@@ -18,6 +19,7 @@ import {
 import { SubAdminReports } from 'types/sub-admin-reports.type'
 import {
     ActiveStudentsReport,
+    ActiveStudentsWithoutWorkplacesReport,
     AppointmentsReport,
     ArchivedStudentsReport,
     DownloadButton,
@@ -27,10 +29,13 @@ import {
 import { ReportType } from '@partials/sub-admin/report/ReportType'
 import {
     CancelledWorkplaceReport,
+    PlacementStartedReport,
     StudentHaveWorkplaceReport,
     TerminatedWorkplaceReport,
 } from '@partials/sub-admin/report/components/studentsWorkplace'
 import { CompletedWorkplaceReport } from '@partials/sub-admin/report/components/studentsWorkplace'
+import { ReportListModal } from '@partials/sub-admin/components/ReportListModal'
+import { IoMdDownload } from 'react-icons/io'
 
 // components
 
@@ -42,6 +47,14 @@ const Report: NextPageWithLayout = () => {
         label: 'Assigned Students',
         value: 'assigned-students',
     })
+
+    const [modal, setModal] = useState<ReactElement | null>(null)
+    const onClose = () => {
+        setModal(null)
+    }
+    const onViewClicked = () => {
+        setModal(<ReportListModal onClose={() => onClose()} />)
+    }
 
     const reports = () => {
         switch (reportType?.value) {
@@ -112,6 +125,19 @@ const Report: NextPageWithLayout = () => {
                         setEndDate={setEndDate}
                     />
                 )
+            case SubAdminReports.PLACEMENT_STARTED:
+                return (
+                    <PlacementStartedReport
+                        startDate={startDate}
+                        setStartDate={setStartDate}
+                        endDate={endDate}
+                        setEndDate={setEndDate}
+                    />
+                )
+            case SubAdminReports.NO_WORKPLACE:
+                return (
+                    <ActiveStudentsWithoutWorkplacesReport />
+                )
             default:
                 return null
         }
@@ -119,9 +145,20 @@ const Report: NextPageWithLayout = () => {
 
     return (
         <>
+            {modal && modal}
             <div className="flex items-center justify-between mb-4">
                 <PageTitle title="Statistics" />
-                <DownloadButton />
+                <Button
+                    onClick={() => {
+                        onViewClicked()
+                    }}
+                    variant="dark"
+                >
+                    <span className="flex items-center gap-x-2">
+                        <IoMdDownload size={18} />
+                        <span>Download</span>
+                    </span>
+                </Button>
             </div>
             <div className="w-1/4">
                 <ReportType

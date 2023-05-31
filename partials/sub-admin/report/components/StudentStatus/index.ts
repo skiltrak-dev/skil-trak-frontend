@@ -11,5 +11,6 @@ export * from './StudentsCallsPerDayReport'
 export * from './StudentsCallsDetail'
 
 export * from './ActiveStudentsWithoutWorkplacesReport'
+export * from './ActiveStudentsWithoutWorkplaceDetail'
 
 export * from './ArchivedStudentsWithoutWorkplacesReport'

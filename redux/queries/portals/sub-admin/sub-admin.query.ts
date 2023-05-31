@@ -252,6 +252,9 @@ export const {
     useGetSubAdminTerminatedWorkplaceReportQuery,
     useGetSubAdminCompletedWorkplaceReportQuery,
     useGetSubAdminCancelledWorkplaceReportQuery,
+    useGetStudentWorkplaceStartedReportQuery,
+    useGetStudentWithNoWorkplaceReportQuery,
+    useGetSubAdminReportDownloadLinkQuery,
 } = subAdminApi
 
 export const SubAdminApi = {
@@ -356,5 +359,11 @@ export const SubAdminApi = {
             useGetSubAdminCompletedWorkplaceReportQuery,
         useCancelledWorkplaceReport:
             useGetSubAdminCancelledWorkplaceReportQuery,
+        useStudentWorkplaceStartedReport:
+            useGetStudentWorkplaceStartedReportQuery,
+        useStudentWithNoWorkplaceReport:
+            useGetStudentWithNoWorkplaceReportQuery,
+        useDownloadLink: useGetSubAdminReportDownloadLinkQuery,
+
     },
 }
