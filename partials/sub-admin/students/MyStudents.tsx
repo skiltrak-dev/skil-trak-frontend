@@ -106,7 +106,7 @@ export const MyStudents = () => {
             header: () => 'Name',
             accessorKey: 'user',
             cell: ({ row }: any) => {
-                return <StudentCellInfo student={row.original} />
+                return <StudentCellInfo student={row.original} call />
             },
         },
 
@@ -203,7 +203,11 @@ export const MyStudents = () => {
                             return (
                                 <div>
                                     <div className="p-6 mb-2 flex justify-between">
-                                        {pageSize(itemPerPage, setItemPerPage)}
+                                        {pageSize(
+                                            itemPerPage,
+                                            setItemPerPage,
+                                            data?.data?.length
+                                        )}
                                         <div className="flex gap-x-2">
                                             {quickActions}
                                             {pagination(

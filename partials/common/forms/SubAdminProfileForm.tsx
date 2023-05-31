@@ -66,20 +66,16 @@ export const SubAdminProfileForm = ({
 
     useEffect(() => {
         if (profile?.data && profile.isSuccess) {
-            const {
-                courses,
-                createdBy,
-                rtos,
-                user,
-                updatedAt,
-                createdAt,
-                ...rest
-            } = profile?.data
-            const { skiltrakId, ...userRest } = user
-            const values = {
-                ...rest,
-                ...userRest,
+            const { coordinatorId, phone, address } = profile?.data
+            const { name, email } = profile?.data?.user
+            const values: any = {
+                coordinatorId,
+                phone,
+                address,
+                name,
+                email,
             }
+
             for (const key in values) {
                 formMethods.setValue(key, values[key])
             }
@@ -102,13 +98,23 @@ export const SubAdminProfileForm = ({
                             onSubmit={formMethods.handleSubmit(onSubmit)}
                         >
                             {/* Personal Information */}
-                            <TextInput
-                                label={'Name'}
-                                name={'name'}
-                                placeholder={'Student Name...'}
-                                validationIcons
-                                required
-                            />
+
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-8">
+                                <TextInput
+                                    label={'Name'}
+                                    name={'name'}
+                                    placeholder={'Student Name...'}
+                                    validationIcons
+                                    required
+                                />
+                                <TextInput
+                                    label={'Coordinator ID'}
+                                    name={'coordinatorId'}
+                                    placeholder={'Your Coordinator ID...'}
+                                    validationIcons
+                                    required
+                                />
+                            </div>
                             <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-8">
                                 <TextInput
                                     label={'Phone Number'}

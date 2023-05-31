@@ -24,30 +24,36 @@ import moment from 'moment'
 import OutsideClickHandler from 'react-outside-click-handler'
 // components
 
+const FilterType = {
+    Today: 'today',
+    '7Days': '7days',
+    Range: 'range',
+}
+
 const SubAdminHistory: NextPageWithLayout = () => {
     const [itemPerPage, setItemPerPage] = useState(50)
     const [page, setPage] = useState(1)
     const [isCustomRange, setIsCustomRange] = useState<boolean>(false)
-    const [filterType, setFilterType] = useState<string>('')
+    const [filterType, setFilterType] = useState<string>(FilterType['7Days'])
     const [customRangeDate, setCustomRangeDate] = useState<{
-        startDate: Date
-        endDate: Date
+        startDate: any
+        endDate: any
     }>({
-        startDate: new Date(),
-        endDate: new Date(),
+        startDate: null,
+        endDate: null,
     })
 
     const { data, isError, isLoading, isFetching } =
         CommonApi.RecentActivities.useRecentActivities(
             {
-                ...(filterType === 'today'
+                ...(filterType === FilterType.Today
                     ? { currentDate: 1 }
-                    : filterType === 'range'
+                    : filterType === FilterType.Range
                     ? {
-                          startDate: customRangeDate?.startDate.toISOString(),
-                          endDate: customRangeDate?.endDate.toISOString(),
+                          startDate: customRangeDate?.startDate?.toISOString(),
+                          endDate: customRangeDate?.endDate?.toISOString(),
                       }
-                    : filterType === '7days'
+                    : filterType === FilterType['7Days']
                     ? { last7days: undefined }
                     : ''),
                 // skip: itemPerPage * page - itemPerPage,
@@ -65,18 +71,35 @@ const SubAdminHistory: NextPageWithLayout = () => {
             <div className="flex justify-between items-center">
                 <PageTitle title={'History'} navigateBack />
                 <div className="flex items-center gap-x-2">
+                    <Typography>
+                        <span className="font-semibold">
+                            {filterType === FilterType.Today
+                                ? 'Today'
+                                : filterType === FilterType.Range
+                                ? customRangeDate?.startDate &&
+                                  customRangeDate?.endDate &&
+                                  `${moment(customRangeDate?.startDate).format(
+                                      'MMM, DD YYYY'
+                                  )} - ${moment(
+                                      customRangeDate?.endDate
+                                  ).format('MMM, DD YYYY')}`
+                                : filterType === FilterType['7Days']
+                                ? 'Last 7 Days'
+                                : 'Last 7 Days'}
+                        </span>
+                    </Typography>
                     <Button
                         text={'Today'}
                         variant={'action'}
                         onClick={() => {
-                            setFilterType('today')
+                            setFilterType(FilterType.Today)
                         }}
                     />
                     <Button
                         text={'Last 7 Days'}
                         variant={'dark'}
                         onClick={() => {
-                            setFilterType('7days')
+                            setFilterType(FilterType['7Days'])
                         }}
                     />
                     <div className="relative">
@@ -89,7 +112,7 @@ const SubAdminHistory: NextPageWithLayout = () => {
                                 text={'Range'}
                                 variant={'secondary'}
                                 onClick={() => {
-                                    setFilterType('range')
+                                    setFilterType(FilterType.Range)
                                     setIsCustomRange(!isCustomRange)
                                 }}
                             />
@@ -138,23 +161,28 @@ const SubAdminHistory: NextPageWithLayout = () => {
                 <LoadingAnimation />
             ) : data?.data && data?.data?.length > 0 ? (
                 dates?.map((date: Date, i: number) => {
+                    const yesterday = new Date()
+                    yesterday.setDate(yesterday.getDate() - 1)
                     return (
                         <div
                             key={i}
                             className="relative p-4 pt-6 rounded-md w-full mt-6 mb-2"
                         >
                             <div className="flex items-center sticky top-4 z-20">
-                                {/* <div className='w-2/5 h-[1px] bg-gray-700'/> */}
                                 <div className="bg-gray-700 w-fit shadow-md px-4 py-2 rounded-md text-gray-100">
-                                    {moment(date).format('MMDDYYYY') ===
-                                    moment(new Date()).format('MMDDYYYY')
+                                    {moment(new Date()).isSame(date, 'day')
                                         ? 'Today'
-                                        : new Date(date).getDate() ===
-                                          new Date().getDate() - 1
+                                        : moment(yesterday).isSame(date, 'day')
                                         ? 'Yesterday'
                                         : moment(date).format('MMM, DD YYYY')}
+                                    {/* {moment(date).format('MMDDYYYY') ===
+                                    moment(new Date()).format('MMDDYYYY')
+                                        ? 'Today'
+                                        : moment(date).format('MMDDYYYY') ===
+                                          moment(yesterday).format('MMDDYYYY')
+                                        ? 'Yesterday'
+                                        : moment(date).format('MMM, DD YYYY')} */}
                                 </div>
-                                {/* <div className='w-2/5 h-[1px] bg-gray-700'/> */}
                             </div>
 
                             <div className="border-l-4 border-gray-700 ml-8 w-full">

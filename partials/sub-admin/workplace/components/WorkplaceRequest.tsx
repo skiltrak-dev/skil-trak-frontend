@@ -38,6 +38,17 @@ import { RtoDetail } from './RtoDetail'
 import { Availability } from './Availability'
 import { Course } from '@types'
 import { ViewAgreement } from '@partials/common'
+
+export const WPStatusForCancelButon = [
+    WorkplaceCurrentStatus.Applied,
+    WorkplaceCurrentStatus.CaseOfficerAssigned,
+    WorkplaceCurrentStatus.Interview,
+    WorkplaceCurrentStatus.AwaitingWorkplaceResponse,
+    WorkplaceCurrentStatus.AppointmentBooked,
+    WorkplaceCurrentStatus.AwaitingAgreementSigned,
+    WorkplaceCurrentStatus.NoResponse,
+    WorkplaceCurrentStatus.Rejected,
+]
 export const WorkplaceRequest = ({ workplace }: any) => {
     const [appliedIndustry, setAppliedIndustry] = useState<any | null>(null)
     const [course, setCourse] = useState<any | null>(null)
@@ -84,6 +95,7 @@ export const WorkplaceRequest = ({ workplace }: any) => {
                   value: course?.id,
               }))
             : []
+
     return (
         <Card noPadding>
             <ShowErrorNotifications result={cancelWorkplaceResult} />
@@ -206,31 +218,33 @@ export const WorkplaceRequest = ({ workplace }: any) => {
                             folders={folders}
                             student={workplace?.student}
                         />
-                        {workplace?.currentStatus !==
+
+                        {WPStatusForCancelButon.includes(
+                            workplace?.currentStatus
+                        ) && (
+                            <div className="mt-3">
+                                <ActionButton
+                                    variant={'error'}
+                                    onClick={async () => {
+                                        await cancelWorkplace(
+                                            Number(workplace?.id)
+                                        )
+                                    }}
+                                    loading={cancelWorkplaceResult.isLoading}
+                                    disabled={cancelWorkplaceResult.isLoading}
+                                >
+                                    Cancel Request
+                                </ActionButton>
+                            </div>
+                        )}
+                        {/* {workplace?.currentStatus !==
                             WorkplaceCurrentStatus.Cancelled &&
                             !appliedIndustry?.cancelled &&
                             appliedIndustry?.industryResponse !== 'rejected' &&
                             !appliedIndustry?.isCompleted &&
                             !appliedIndustry?.terminated && (
-                                <div className="mt-3">
-                                    <ActionButton
-                                        variant={'error'}
-                                        onClick={async () => {
-                                            await cancelWorkplace(
-                                                Number(workplace?.id)
-                                            )
-                                        }}
-                                        loading={
-                                            cancelWorkplaceResult.isLoading
-                                        }
-                                        disabled={
-                                            cancelWorkplaceResult.isLoading
-                                        }
-                                    >
-                                        Cancel Request
-                                    </ActionButton>
-                                </div>
-                            )}
+                                
+                            )} */}
                     </div>
 
                     {/* Notes */}

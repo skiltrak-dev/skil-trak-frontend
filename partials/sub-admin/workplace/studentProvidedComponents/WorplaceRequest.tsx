@@ -29,6 +29,7 @@ import {
     StudentDetail,
     WorkplaceFolders,
     Notes,
+    WPStatusForCancelButon,
 } from '../components'
 import { Industries } from './Industries'
 import { RequestType } from './RequestType'
@@ -183,29 +184,31 @@ export const WorkplaceRequest = ({ workplace }: any) => {
                             courseId={course?.id}
                             folders={folders}
                         />
-                        {!appliedIndustry?.cancelled &&
+
+                        {WPStatusForCancelButon.includes(
+                            workplace?.currentStatus
+                        ) && (
+                            <div className="mt-3">
+                                <ActionButton
+                                    variant={'error'}
+                                    onClick={async () => {
+                                        await cancelWorkplace(
+                                            Number(workplace?.id)
+                                        )
+                                    }}
+                                    loading={cancelWorkplaceResult.isLoading}
+                                    disabled={cancelWorkplaceResult.isLoading}
+                                >
+                                    Cancel Request
+                                </ActionButton>
+                            </div>
+                        )}
+                        {/* {!appliedIndustry?.cancelled &&
                             appliedIndustry?.industryResponse !== 'rejected' &&
                             !appliedIndustry?.isCompleted &&
                             !appliedIndustry?.terminated && (
-                                <div className="mt-3">
-                                    <ActionButton
-                                        variant={'error'}
-                                        onClick={async () => {
-                                            await cancelWorkplace(
-                                                Number(workplace?.id)
-                                            )
-                                        }}
-                                        loading={
-                                            cancelWorkplaceResult.isLoading
-                                        }
-                                        disabled={
-                                            cancelWorkplaceResult.isLoading
-                                        }
-                                    >
-                                        Cancel Request
-                                    </ActionButton>
-                                </div>
-                            )}
+                                
+                            )} */}
                     </div>
 
                     {/* Notes */}

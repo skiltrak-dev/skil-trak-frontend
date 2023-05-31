@@ -7,6 +7,7 @@ import { UserStatus } from '@types'
 //components
 import {
     ActionButton,
+    AuthorizedUserComponent,
     BackButton,
     Button,
     EmptyData,
@@ -37,6 +38,7 @@ import { AddWorkplace, DetailTabs } from '@partials/sub-admin/students'
 import { useActionModals } from '@partials/sub-admin/students/hooks/useActionModals'
 import { getLink, getUserCredentials } from '@utils'
 import { FaArchive, FaBan } from 'react-icons/fa'
+import { UserRoles } from '@constants'
 
 export const StudentProfile = ({ noTitle }: { noTitle?: boolean }) => {
     const [studentExpiryDate, setStudentExpiryDate] = useState<boolean>(false)
@@ -45,7 +47,7 @@ export const StudentProfile = ({ noTitle }: { noTitle?: boolean }) => {
     const router = useRouter()
     const { id } = router.query
 
-    const { alert, setAlerts } = useAlert()
+    const { alert, setAlerts, alerts } = useAlert()
     const { notification } = useNotification()
 
     const [addWorkplace, setAddWorkplace] = useState<boolean>(false)
@@ -86,10 +88,6 @@ export const StudentProfile = ({ noTitle }: { noTitle?: boolean }) => {
 
     useEffect(() => {
         if (isSuccess && data) {
-            contextBar.setContent(<SubAdminStudentProfile student={data} />)
-            contextBar.show(false)
-            navBar.setSubTitle(data?.user?.name)
-
             const showAlert = () => {
                 switch (data?.user?.status) {
                     case UserStatus.Pending:
@@ -125,10 +123,19 @@ export const StudentProfile = ({ noTitle }: { noTitle?: boolean }) => {
                         break
                 }
             }
-            showAlert()
+            if (!alerts?.length) {
+                showAlert()
+            }
+        }
+    }, [data])
+
+    useEffect(() => {
+        if (isSuccess && data) {
+            contextBar.setContent(<SubAdminStudentProfile student={data} />)
+            contextBar.show(false)
+            navBar.setSubTitle(data?.user?.name)
         }
         return () => {
-            setAlerts([])
             contextBar.setContent(null)
             contextBar.hide()
         }
@@ -164,7 +171,9 @@ export const StudentProfile = ({ noTitle }: { noTitle?: boolean }) => {
             case UserStatus.Approved:
                 return (
                     <div className="flex items-end gap-x-2">
-                        {role === 'subadmin' && <AddWorkplace id={data?.id} />}
+                        <AuthorizedUserComponent roles={[UserRoles.SUBADMIN]}>
+                            <AddWorkplace id={data?.id} />
+                        </AuthorizedUserComponent>
                         <Button
                             text="Book Appointment"
                             variant="info"
@@ -180,7 +189,11 @@ export const StudentProfile = ({ noTitle }: { noTitle?: boolean }) => {
                             disabled={!isSuccess}
                         />
                         <Button
-                            text={data?.nonContactable ? 'Not Contactable' : 'Contactable'}
+                            text={
+                                data?.nonContactable
+                                    ? 'Not Contactable'
+                                    : 'Contactable'
+                            }
                             variant={
                                 data?.nonContactable ? 'info' : 'secondary'
                             }
@@ -301,7 +314,14 @@ export const StudentProfile = ({ noTitle }: { noTitle?: boolean }) => {
                                         onViewPassword({ user: data?.user })
                                     }}
                                 />
-                                {role !== 'rto' && statusBaseActions()}
+                                <AuthorizedUserComponent
+                                    roles={[
+                                        UserRoles.ADMIN,
+                                        UserRoles.SUBADMIN,
+                                    ]}
+                                >
+                                    {statusBaseActions()}
+                                </AuthorizedUserComponent>
                             </div>
                         </div>
                     )}

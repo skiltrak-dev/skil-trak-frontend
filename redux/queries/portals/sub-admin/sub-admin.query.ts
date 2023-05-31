@@ -136,6 +136,7 @@ export const {
     useShowExistingIndustriesQuery,
     useAddExistingIndustriesMutation,
     useChangeCustomIndustryStatusMutation,
+    useSendMeetingNotificationMutation,
 
     // ----- STUDENTS-------//
     useGetSubAdminStudentsQuery,
@@ -171,6 +172,8 @@ export const {
     useAddSecondWorkplaceMutation,
     useAddCustomSecondWorkplaceMutation,
     useAddCourseStartEndDateMutation,
+    useStudentCallLogMutation,
+    useGetStudentCallLogQuery,
 
     // -- COUNT -- //
     useSubadminStatisticsQuery,
@@ -286,6 +289,8 @@ export const SubAdminApi = {
         useAddSecondWorkplace: useAddSecondWorkplaceMutation,
         useAddCustomWorkplace: useAddCustomSecondWorkplaceMutation,
         addCourseStartEndDate: useAddCourseStartEndDateMutation,
+        useStudentCallLog: useStudentCallLogMutation,
+        useGetStudentCallLog: useGetStudentCallLogQuery,
     },
     Industry: {
         useStatusticsCount: useSubadminIndustryStatisticsCountQuery,
@@ -323,6 +328,7 @@ export const SubAdminApi = {
         useShowExistingIndustriesQuery,
         useAddExistingIndustriesMutation,
         useChangeCustomIndustryStatusMutation,
+        useSendMeetingNotification: useSendMeetingNotificationMutation,
     },
 
     Courses: {
@@ -358,5 +364,6 @@ export const SubAdminApi = {
         useStudentWithNoWorkplaceReport:
             useGetStudentWithNoWorkplaceReportQuery,
         useDownloadLink: useGetSubAdminReportDownloadLinkQuery,
+
     },
 }
