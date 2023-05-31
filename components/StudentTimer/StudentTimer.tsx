@@ -6,6 +6,8 @@ import moment from 'moment'
 import { AiFillEdit } from 'react-icons/ai'
 import { EditTimer } from './EditTimer'
 import { Typography } from '@components/Typography'
+import { UserRoles } from '@constants'
+import { AuthorizedUserComponent } from '@components/AuthorizedUserComponent'
 
 export const StudentTimer = ({
     studentId,
@@ -100,13 +102,21 @@ export const StudentTimer = ({
                             {moment(date).format('Do MMM YYYY')}
                         </Typography>
                     </div>
-                    <ActionButton
-                        rounded
-                        Icon={AiFillEdit}
-                        variant={'info'}
-                        title="Edit Expiry Date"
-                        onClick={onDateClick}
-                    />
+                    <AuthorizedUserComponent
+                        roles={[
+                            UserRoles.ADMIN,
+                            UserRoles.RTO,
+                            UserRoles.SUBADMIN,
+                        ]}
+                    >
+                        <ActionButton
+                            rounded
+                            Icon={AiFillEdit}
+                            variant={'info'}
+                            title="Edit Expiry Date"
+                            onClick={onDateClick}
+                        />
+                    </AuthorizedUserComponent>
                 </div>
             ) : null}
         </>

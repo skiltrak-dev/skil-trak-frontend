@@ -1,4 +1,4 @@
-import {  Select, ShowErrorNotifications, TextInput } from '@components'
+import { Select, ShowErrorNotifications, TextInput } from '@components'
 import { Button } from '@components/buttons'
 import { RtoApi } from '@queries'
 import { useEffect, useState } from 'react'
@@ -129,13 +129,6 @@ export const ReportListModal = ({ onClose }: any) => {
                                         loading={downloadAsPdf?.isLoading}
                                         disabled={downloadAsPdf?.isLoading}
                                     />
-                                    {/* <Button
-                                        text="Download as CSV"
-                                        variant="dark"
-                                        onClick={() => {
-                                            console.log('downloading')
-                                        }}
-                                    /> */}
                                 </div>
                             </div>
                         </>

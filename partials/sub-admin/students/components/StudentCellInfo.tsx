@@ -43,7 +43,12 @@ export const StudentCellInfo = ({
                                     {student?.studentId}
                                 </p>
                                 {call && student?.called && (
-                                    <HiPhoneOutgoing title={'Call Made'} />
+                                    <div className="rounded-full bg-success p-0.5">
+                                        <HiPhoneOutgoing
+                                            title={'Call Made'}
+                                            className="text-white text-[10px]"
+                                        />
+                                    </div>
                                 )}
                             </div>
                             {/* <div className="flex items-center gap-x-2 ">
