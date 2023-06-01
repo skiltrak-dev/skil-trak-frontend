@@ -8,15 +8,25 @@ import { NoData } from '@components/ActionAnimations'
 import { LoadingAnimation } from '@components/LoadingAnimation'
 import { Course } from '@types'
 import { useRouter } from 'next/router'
-import { FaAddressCard, FaRegHandshake } from 'react-icons/fa'
+import {
+    FaAddressCard,
+    FaHandshake,
+    FaHandshakeSlash,
+    FaRegHandshake,
+} from 'react-icons/fa'
 import { GiBackwardTime } from 'react-icons/gi'
 import { IoLocation } from 'react-icons/io5'
 import { MdAdminPanelSettings, MdPhone, MdVerified } from 'react-icons/md'
 import { getUserCredentials } from '@utils'
 import { CourseList } from '@partials/common'
 import { BsUnlockFill } from 'react-icons/bs'
-import { useActionModal } from '@hooks'
+import { useActionModal, useNotification } from '@hooks'
 import { ActionButton } from '@components/buttons'
+import { SubAdminApi } from '@queries'
+import { AuthorizedUserComponent } from '@components/AuthorizedUserComponent'
+import { UserRoles } from '@constants'
+import { ShowErrorNotifications } from '@components/ShowErrorNotifications'
+import { useEffect } from 'react'
 
 type Props = {
     data: any
@@ -26,6 +36,29 @@ export const IndustryProfile = ({ data }: Props) => {
     const router = useRouter()
 
     const { onUpdatePassword, passwordModal } = useActionModal()
+    const { notification } = useNotification()
+
+    const [addToPartner, addToPartnerResult] =
+        SubAdminApi.Industry.useAddToPartner()
+
+    useEffect(() => {
+        if (addToPartnerResult.isSuccess) {
+            notification[
+                addToPartnerResult?.data?.isPartner ? 'success' : 'error'
+            ]({
+                title: addToPartnerResult?.data?.isPartner
+                    ? 'Industry Added to Partner'
+                    : 'Industry Removed from Partner',
+                description: addToPartnerResult?.data?.isPartner
+                    ? 'Industry Added to Partner'
+                    : 'Industry Removed from Partner',
+            })
+        }
+    }, [addToPartnerResult])
+    console.log(
+        'addToPartnerResultaddToPartnerResultaddToPartnerResult',
+        addToPartnerResult?.data
+    )
 
     const getSectors = (courses: any) => {
         if (!courses) return {}
@@ -43,9 +76,14 @@ export const IndustryProfile = ({ data }: Props) => {
     const sectorsWithCourses = getSectors(data?.courses)
 
     const role = getUserCredentials()?.role
+
+    const onAddToPartner = () => {
+        addToPartner(data?.id)
+    }
     return (
         <>
             {passwordModal && passwordModal}
+            <ShowErrorNotifications result={addToPartnerResult} />
             {data?.isLoading ? (
                 <LoadingAnimation />
             ) : (
@@ -125,7 +163,10 @@ export const IndustryProfile = ({ data }: Props) => {
                                 <span className="text-gray-300">
                                     <FaAddressCard />
                                 </span>
-                                <Typography variant={'small'} color={'text-black'}>
+                                <Typography
+                                    variant={'small'}
+                                    color={'text-black'}
+                                >
                                     {data?.abn}
                                 </Typography>
                             </div>
@@ -139,7 +180,10 @@ export const IndustryProfile = ({ data }: Props) => {
                                 <span className="text-gray-300">
                                     <MdPhone />
                                 </span>
-                                <Typography variant={'small'} color={'text-black'}>
+                                <Typography
+                                    variant={'small'}
+                                    color={'text-black'}
+                                >
                                     {data?.phoneNumber}
                                 </Typography>
                             </div>
@@ -152,8 +196,11 @@ export const IndustryProfile = ({ data }: Props) => {
                                 <span className="text-gray-300">
                                     <GiBackwardTime />
                                 </span>
-                                <Typography variant={'small'} color={'text-black'}>
-                                    Yesterday 
+                                <Typography
+                                    variant={'small'}
+                                    color={'text-black'}
+                                >
+                                    Yesterday
                                 </Typography>
                             </div>
                         </div>
@@ -162,7 +209,7 @@ export const IndustryProfile = ({ data }: Props) => {
                     <Typography variant={'small'} color={'text-gray-500'}>
                         Partnership
                     </Typography>
-                    <div className="flex justify-around divide-x border-t border-b">
+                    <div className="flex justify-around items-center divide-x border-t border-b">
                         <div className="p-2">
                             <div className="flex items-center gap-x-2">
                                 <FaRegHandshake className="text-gray-400" />
@@ -184,6 +231,25 @@ export const IndustryProfile = ({ data }: Props) => {
                                 </Typography>
                             </div>
                         </div>
+                        <AuthorizedUserComponent roles={[UserRoles.SUBADMIN]}>
+                            <ActionButton
+                                mini
+                                Icon={
+                                    data?.isPartner
+                                        ? FaHandshakeSlash
+                                        : FaHandshake
+                                }
+                                variant={data?.isPartner ? 'error' : 'warning'}
+                                title={
+                                    data?.isPartner
+                                        ? 'Remove from Partner'
+                                        : 'Add to Partner'
+                                }
+                                onClick={onAddToPartner}
+                                loading={addToPartnerResult.isLoading}
+                                disabled={addToPartnerResult.isLoading}
+                            />
+                        </AuthorizedUserComponent>
                     </div>
 
                     {/* Info Row 3 */}

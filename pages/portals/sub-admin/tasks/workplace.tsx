@@ -44,14 +44,14 @@ const Workplace: NextPageWithLayout = (props: Props) => {
     const [filterAction, setFilterAction] = useState(null)
     const [filter, setFilter] = useState({})
     const [page, setPage] = useState(1)
-    const [itemPerPage, setItemPerPage] = useState(30)
+    const [itemPerPage, setItemPerPage] = useState(10)
     const [modal, setModal] = useState<any | null>(null)
 
     const router = useRouter()
 
     useEffect(() => {
         setPage(Number(router.query.page || 1))
-        setItemPerPage(Number(router.query.pageSize || 30))
+        setItemPerPage(Number(router.query.pageSize || 10))
     }, [router])
 
     const count = SubAdminApi.Workplace.count()

@@ -1,41 +1,30 @@
+import { NextPageWithLayout } from '@types'
 import { ReactElement, useState } from 'react'
-import { NextPageWithLayout, ReportOptionsEnum } from '@types'
 
 // layouts
 import { SubAdminLayout } from '@layouts'
 
-import {
-    Button,
-    Card,
-    EmptyData,
-    InitialAvatar,
-    LoadingAnimation,
-    PageTitle,
-    Table,
-    TechnicalError,
-    Typography,
-} from '@components'
+import { Button, Card, PageTitle } from '@components'
 
-import { SubAdminReports } from 'types/sub-admin-reports.type'
 import {
     ActiveStudentsReport,
     ActiveStudentsWithoutWorkplacesReport,
     AppointmentsReport,
     ArchivedStudentsReport,
-    DownloadButton,
     StudentsAssignedReport,
     StudentsCallsPerDayReport,
 } from '@partials/sub-admin'
+import { ReportListModal } from '@partials/sub-admin/components/ReportListModal'
 import { ReportType } from '@partials/sub-admin/report/ReportType'
 import {
     CancelledWorkplaceReport,
+    CompletedWorkplaceReport,
     PlacementStartedReport,
     StudentHaveWorkplaceReport,
     TerminatedWorkplaceReport,
 } from '@partials/sub-admin/report/components/studentsWorkplace'
-import { CompletedWorkplaceReport } from '@partials/sub-admin/report/components/studentsWorkplace'
-import { ReportListModal } from '@partials/sub-admin/components/ReportListModal'
 import { IoMdDownload } from 'react-icons/io'
+import { SubAdminReports } from 'types/sub-admin-reports.type'
 
 // components
 
@@ -135,9 +124,7 @@ const Report: NextPageWithLayout = () => {
                     />
                 )
             case SubAdminReports.NO_WORKPLACE:
-                return (
-                    <ActiveStudentsWithoutWorkplacesReport />
-                )
+                return <ActiveStudentsWithoutWorkplacesReport />
             default:
                 return null
         }
