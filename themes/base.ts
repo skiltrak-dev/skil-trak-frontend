@@ -15,7 +15,7 @@ const colors: ThemeColors = {
     },
 
     success: {
-        DEFAULT: '#BADC58',
+        DEFAULT: '#22c55e',
         dark: '#6AB04C',
         light: '#BADC5880',
     },

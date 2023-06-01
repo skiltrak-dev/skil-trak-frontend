@@ -17,6 +17,7 @@ export const ViewUserPassword = ({
             <Modal
                 title={`${name} Account Password`}
                 subtitle={'Here is password'}
+                
                 onConfirmClick={() => {
                     navigator.clipboard.writeText(password)
                     setCopiedPassword(password)

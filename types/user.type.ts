@@ -130,4 +130,5 @@ export interface ContactPerson extends BaseResponse {
 export interface CallLog extends BaseResponse {
     id: number
     isExpired: boolean
+    isAnswered: boolean
 }

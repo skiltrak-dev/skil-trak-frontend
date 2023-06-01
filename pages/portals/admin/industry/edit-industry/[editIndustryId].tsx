@@ -7,7 +7,13 @@ import { ReactElement, useEffect } from 'react'
 import { IndustryProfileFrom } from '@partials/common'
 import { AdminApi, RtoApi, useUpdateIndustryProfileMutation } from '@queries'
 import { useState } from 'react'
-import { EmptyData, LoadingAnimation, SelectOption, ShowErrorNotifications, TechnicalError } from '@components'
+import {
+    EmptyData,
+    LoadingAnimation,
+    SelectOption,
+    ShowErrorNotifications,
+    TechnicalError,
+} from '@components'
 
 const EditRto: NextPageWithLayout = () => {
     const [formData, setFormData] = useState<any>('')
@@ -31,15 +37,6 @@ const EditRto: NextPageWithLayout = () => {
         contextBar.hide()
     }, [])
 
-    useEffect(() => {
-        if (updateProfileResult.isSuccess) {
-            notification.success({
-                title: 'Profile Updated',
-                description: 'Profile Updated Successfully',
-            })
-            router.back()
-        }
-    }, [])
     const onSubmit = (values: any) => {
         updateProfile({
             id: industry?.data?.user?.id,
