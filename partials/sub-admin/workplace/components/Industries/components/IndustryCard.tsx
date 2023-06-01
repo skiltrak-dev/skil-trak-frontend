@@ -91,7 +91,7 @@ export const IndustryCard = ({
                     }
                     className="flex items-center gap-x-2 cursor-pointer"
                 >
-                    {industry?.industry?.user && (
+                    {industry?.industry?.user?.name && (
                         <InitialAvatar
                             name={industry?.industry?.user?.name}
                             imageUrl={industry?.industry?.user?.avatar}

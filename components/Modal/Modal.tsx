@@ -47,7 +47,7 @@ export const Modal = ({
                     <div>
                         <div className="flex items-center gap-x-2">
                             <Typography variant={'title'}>{title}</Typography>
-                            <TitleIcon className="text-info" />
+                            {TitleIcon && <TitleIcon className="text-info" />}
                         </div>
                         <Typography variant={'subtitle'} color={'text-muted'}>
                             {subtitle}
