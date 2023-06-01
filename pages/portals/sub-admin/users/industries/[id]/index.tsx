@@ -195,6 +195,7 @@ const IndustriesProfile: NextPageWithLayout = (props: Props) => {
                                             industryStatsCount?.data?.count
                                         )}
                                         title={'Current Students'}
+                                        link={`/portals/sub-admin/students?tab=all&industryId=${data?.id}`}
                                     />
                                 </div>
                                 <div>{header}</div>

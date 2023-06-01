@@ -177,6 +177,15 @@ export const studentsEndpoints = (
         invalidatesTags: ['SubAdminStudents'],
     }),
 
+    studentAnsweredCall: builder.mutation<any, { id: number; status: string }>({
+        query: ({ id, status }) => ({
+            url: `call-log/action/answered/${id}`,
+            method: 'PATCH',
+            params: { status },
+        }),
+        invalidatesTags: ['SubAdminStudents'],
+    }),
+
     getRequiredDocs: builder.query<any, any>({
         query: ({ id, course, user }) => ({
             url: `${PREFIX}/student/required-document/${id}`,

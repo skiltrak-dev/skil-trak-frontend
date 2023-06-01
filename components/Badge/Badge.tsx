@@ -61,7 +61,7 @@ export const Badge = ({
             {loading ? (
                 <PulseLoader size={5} color={(LoaderColor as any)[variant]} />
             ) : (
-                 text 
+                text
             )}
         </div>
     )
