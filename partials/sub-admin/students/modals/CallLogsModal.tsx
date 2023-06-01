@@ -8,6 +8,9 @@ import {
 import { SubAdminApi } from '@queries'
 import { CallLog } from '@types'
 import React from 'react'
+import { CallLogDetail } from '../components'
+import { MdPhoneDisabled } from 'react-icons/md'
+import { LuPhoneCall } from 'react-icons/lu'
 
 export const CallLogsModal = ({
     onCancel,
@@ -19,6 +22,7 @@ export const CallLogsModal = ({
     const callLogs = SubAdminApi.Student.useGetStudentCallLog(studentId, {
         skip: !studentId,
     })
+
     return (
         <div>
             <Modal
@@ -26,8 +30,9 @@ export const CallLogsModal = ({
                 subtitle={'All Call List Made with This Student'}
                 onCancelClick={onCancel}
                 onConfirmClick={onCancel}
+                titleIcon={LuPhoneCall}
             >
-                <div className="min-w-[600px] max-w-[80vw] max-h-[80vh] overflow-auto custom-scrollbar">
+                <div className="min-w-[600px] max-w-[80vw] min-h-[20vh] max-h-[60vh] overflow-auto custom-scrollbar">
                     {callLogs.isError && (
                         <NoData
                             text={'There is some technical issue, Try again'}
@@ -35,21 +40,11 @@ export const CallLogsModal = ({
                     )}
                     {callLogs.isLoading ? (
                         <LoadingAnimation />
-                    ) : callLogs.data && callLogs.data?.length > 0 ? (
+                    ) : callLogs.data &&
+                      callLogs.data?.length > 0 &&
+                      callLogs.isSuccess ? (
                         callLogs.data?.map((callLog: CallLog) => (
-                            <div className="bg-gray-100 rounded-md shadow flex justify-between items-center px-2 py-1 mb-1.5">
-                                <Typography
-                                    variant={'label'}
-                                    color={'text-black'}
-                                >
-                                    Call Made
-                                </Typography>
-                                <div>
-                                    <UserCreatedAt
-                                        createdAt={callLog?.createdAt}
-                                    />
-                                </div>
-                            </div>
+                            <CallLogDetail callLog={callLog} />
                         ))
                     ) : (
                         !callLogs.isError && (

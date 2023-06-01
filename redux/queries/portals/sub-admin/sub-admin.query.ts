@@ -174,6 +174,7 @@ export const {
     useAddCourseStartEndDateMutation,
     useStudentCallLogMutation,
     useGetStudentCallLogQuery,
+    useStudentAnsweredCallMutation,
 
     // -- COUNT -- //
     useSubadminStatisticsQuery,
@@ -291,6 +292,7 @@ export const SubAdminApi = {
         addCourseStartEndDate: useAddCourseStartEndDateMutation,
         useStudentCallLog: useStudentCallLogMutation,
         useGetStudentCallLog: useGetStudentCallLogQuery,
+        useStudentAnsweredCall: useStudentAnsweredCallMutation,
     },
     Industry: {
         useStatusticsCount: useSubadminIndustryStatisticsCountQuery,
@@ -364,6 +366,5 @@ export const SubAdminApi = {
         useStudentWithNoWorkplaceReport:
             useGetStudentWithNoWorkplaceReportQuery,
         useDownloadLink: useGetSubAdminReportDownloadLinkQuery,
-
     },
 }

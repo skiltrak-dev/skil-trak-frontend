@@ -26,6 +26,8 @@ import { SubAdminApi } from '@queries'
 import { ShowErrorNotifications } from '@components/ShowErrorNotifications'
 import { IoMdEye } from 'react-icons/io'
 import { Modal } from '@components/Modal'
+import { Tooltip } from '@components/Tooltip'
+import { LoadingAnimation } from '@components/LoadingAnimation'
 
 const getGender = (gender: string | undefined) => {
     if (!gender) return 'N/A'
@@ -157,7 +159,12 @@ export const SubAdminStudentProfile = ({ student }: { student: any }) => {
             <div className="p-2 border-b">
                 <div>
                     <div className="flex justify-between items-center">
-                        <div className="flex gap-x-2">
+                        <div className="flex gap-x-2 cursor-pointer group relative">
+                            {callLogResult.isLoading && (
+                                <div className="absolute top-0 left-0 w-full h-full bg-[#00000020] text-white flex justify-center items-center">
+                                    <LoadingAnimation size={20} />
+                                </div>
+                            )}
                             <span className="text-gray-300">
                                 <MdPhone size={12} />
                             </span>
@@ -182,6 +189,9 @@ export const SubAdminStudentProfile = ({ student }: { student: any }) => {
                                 <div className="text-gray-400 text-[11px] flex justify-start -mt-0.5 text-right">
                                     Phone Number
                                 </div>
+                            </div>
+                            <div className="mt-3 ml-5">
+                                <Tooltip>Copy to Clipboard</Tooltip>
                             </div>
                         </div>
                         <div

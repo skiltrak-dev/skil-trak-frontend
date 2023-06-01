@@ -306,21 +306,23 @@ export const MailForm = ({ action, receiverId, sender }: any) => {
                                         touched={touched}
                                         fileupload={setFieldValue}
                                     /> */}
-                                    <FileUpload
-                                        onChange={(docs: FileList) => {
-                                            setAttachmentFiles(
-                                                (preVal: any) => [
-                                                    ...preVal,
-                                                    ...docs,
-                                                ]
-                                            )
-                                        }}
-                                        name={'attachment'}
-                                        component={onFileUpload}
-                                        multiple
-                                        limit={Number(1111111111)}
-                                    />
-                                    <div ref={ref} id={'submitButton'}>
+                                    <div ref={ref}>
+                                        <FileUpload
+                                            onChange={(docs: FileList) => {
+                                                setAttachmentFiles(
+                                                    (preVal: any) => [
+                                                        ...preVal,
+                                                        ...docs,
+                                                    ]
+                                                )
+                                            }}
+                                            name={'attachment'}
+                                            component={onFileUpload}
+                                            multiple
+                                            limit={Number(1111111111)}
+                                        />
+                                    </div>
+                                    <div id={'submitButton'}>
                                         <Button
                                             submit
                                             loading={

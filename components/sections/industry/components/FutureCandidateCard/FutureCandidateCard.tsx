@@ -7,10 +7,12 @@ export const FutureCandidateCard = ({ data }: any) => {
         <Card>
             <div className="flex flex-col gap-y-3 md:flex-row md:justify-between md:items-center">
                 <div className="flex items-center gap-x-2">
-                    <InitialAvatar
-                        name={data?.user?.name}
-                        imageUrl={data?.user?.avatar}
-                    />
+                    {data?.user && (
+                        <InitialAvatar
+                            name={data?.user?.name}
+                            imageUrl={data?.user?.avatar}
+                        />
+                    )}
                     <div>
                         <Typography variant={'label'}>
                             <span className="font-semibold">
@@ -47,10 +49,12 @@ export const FutureCandidateCard = ({ data }: any) => {
                         <span className="font-semibold">RTO</span>
                     </Typography>
                     <div className="flex items-center gap-x-2">
-                        <InitialAvatar
-                            name={data?.rto?.user?.name}
-                            imageUrl={data?.rto?.user?.avatar}
-                        />
+                        {data?.rto?.user?.name && (
+                            <InitialAvatar
+                                name={data?.rto?.user?.name}
+                                imageUrl={data?.rto?.user?.avatar}
+                            />
+                        )}
                         <div>
                             <Typography color={'black'} variant={'small'}>
                                 {data?.rto?.user?.name}
