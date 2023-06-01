@@ -18,6 +18,7 @@ import { SearchedUserCard } from './SearchedUserCard'
 import { useSearchSubAdminUsersQuery, useSearchUserQuery } from '@queries'
 import { getUserCredentials } from '@utils'
 import { RequiredStar } from '@components/inputs/components'
+import { UserRoles } from '@constants'
 
 export const SearchUserCard = ({
     onClick,
@@ -99,7 +100,12 @@ export const SearchUserCard = ({
                     <div>
                         <div className="grid grid-cols-3 gap-x-5 my-5">
                             <TextInput
-                                label={`Search ${selectedAppointment} BY Name/Email`}
+                                label={`Search ${selectedAppointment} BY ${
+                                    selectedAppointment?.toLowerCase() ===
+                                    UserRoles.STUDENT
+                                        ? 'StudentId/'
+                                        : ''
+                                }Name/Email`}
                                 name={'name'}
                                 placeholder={'Search BY Name/Email...'}
                                 validationIcons
