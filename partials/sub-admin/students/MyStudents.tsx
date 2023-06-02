@@ -31,7 +31,7 @@ import { SectorCell } from '@partials/admin/student/components'
 import { ColumnDef } from '@tanstack/react-table'
 import { getStudentWorkplaceAppliedIndustry, setLink } from '@utils'
 import { RiLockPasswordFill } from 'react-icons/ri'
-import { IndustryCellInfo } from '../indestries/components'
+import { IndustryCellInfo } from '../Industries'
 
 export const MyStudents = () => {
     const router = useRouter()

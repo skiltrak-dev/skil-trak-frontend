@@ -1,14 +1,5 @@
-import { Students } from '@partials/sub-admin/indestries'
 import { BaseQueryFn } from '@reduxjs/toolkit/dist/query/baseQueryTypes'
 import { EndpointBuilder } from '@reduxjs/toolkit/dist/query/endpointDefinitions'
-
-import {
-    Course,
-    PaginatedResponse,
-    Student,
-    UserCount,
-    UserStatus,
-} from '@types'
 
 const PREFIX = 'rtos'
 const STATISTICS = 'statistics'

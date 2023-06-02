@@ -26,7 +26,7 @@ import {
     FilteredIndustry,
     PendingIndustries,
     RejectedIndustries,
-} from '@partials/sub-admin/indestries'
+} from '@partials/sub-admin/Industries'
 import { checkFilteredDataLength } from '@utils'
 //query
 import {

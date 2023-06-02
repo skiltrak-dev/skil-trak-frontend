@@ -1,10 +1,8 @@
-import { ReactElement } from 'react'
-import Image from 'next/image'
-import Link from 'next/link'
 import { useRouter } from 'next/router'
+import { ReactElement } from 'react'
 
 // Icons
-import { FaEnvelope, FaEye } from 'react-icons/fa'
+import { FaEye } from 'react-icons/fa'
 
 // components
 import {
@@ -16,23 +14,20 @@ import {
     Table,
     TableAction,
     TableActionOption,
-    Typography,
 } from '@components'
 // import { StudentCellInfo } from './components'
 
 import { TechnicalError } from '@components/ActionAnimations/TechnicalError'
 // import { useGetSubAdminIndustryStudentsQuery, useGetSubAdminStudentsQuery } from '@queries'
+import { useJoyRide } from '@hooks'
 import { Student } from '@types'
 import { useEffect, useState } from 'react'
-import { useJoyRide } from '@hooks'
 import { MdBlock } from 'react-icons/md'
-// import { AssignStudentModal } from './modals'
 
-import { IndustryCellInfo } from '../indestries/components'
 import { IndustryCell } from '@partials/admin/industry/components'
 import { getActiveIndustry } from '@partials/student/utils'
-import { AssignStudentModal } from '../students/modals'
-import { StudentCellInfo } from '../students/components'
+import { StudentCellInfo } from '@partials/sub-admin/students'
+import { AssignStudentModal } from '@partials/sub-admin/students/modals'
 
 type Props = {
     data: any
@@ -76,7 +71,7 @@ export const Students = ({ data }: Props) => {
                 onCancel={() => onModalCancelClicked()}
             />
         )
-}
+    }
 
     const tableActionOptions: TableActionOption[] = [
         {

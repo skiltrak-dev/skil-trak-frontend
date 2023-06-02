@@ -228,28 +228,21 @@ export const IndustryProfile = ({ data }: Props) => {
                                     {data?.isPartner === false
                                         ? 'No'
                                         : 'Yes' || 'N/A'}
+                                    <AuthorizedUserComponent
+                                        roles={[UserRoles.SUBADMIN]}
+                                    >
+                                        {' '}
+                                        -{' '}
+                                        <span
+                                            className="text-info cursor-pointer"
+                                            onClick={() => {}}
+                                        >
+                                            Make Partner
+                                        </span>
+                                    </AuthorizedUserComponent>
                                 </Typography>
                             </div>
                         </div>
-                        <AuthorizedUserComponent roles={[UserRoles.SUBADMIN]}>
-                            <ActionButton
-                                mini
-                                Icon={
-                                    data?.isPartner
-                                        ? FaHandshakeSlash
-                                        : FaHandshake
-                                }
-                                variant={data?.isPartner ? 'error' : 'warning'}
-                                title={
-                                    data?.isPartner
-                                        ? 'Remove from Partner'
-                                        : 'Add to Partner'
-                                }
-                                onClick={onAddToPartner}
-                                loading={addToPartnerResult.isLoading}
-                                disabled={addToPartnerResult.isLoading}
-                            />
-                        </AuthorizedUserComponent>
                     </div>
 
                     {/* Info Row 3 */}
