@@ -26,7 +26,9 @@ import { SubAdminApi } from '@queries'
 import { AuthorizedUserComponent } from '@components/AuthorizedUserComponent'
 import { UserRoles } from '@constants'
 import { ShowErrorNotifications } from '@components/ShowErrorNotifications'
-import { useEffect } from 'react'
+import { ReactNode, useEffect, useState } from 'react'
+import { AddToPartnerModal } from '@partials/sub-admin/Industries/modals/AddToPartnerModal'
+import { PulseLoader } from 'react-spinners'
 
 type Props = {
     data: any
@@ -34,6 +36,7 @@ type Props = {
 
 export const IndustryProfile = ({ data }: Props) => {
     const router = useRouter()
+    const [modal, setModal] = useState<ReactNode | null>(null)
 
     const { onUpdatePassword, passwordModal } = useActionModal()
     const { notification } = useNotification()
@@ -77,11 +80,23 @@ export const IndustryProfile = ({ data }: Props) => {
 
     const role = getUserCredentials()?.role
 
-    const onAddToPartner = () => {
-        addToPartner(data?.id)
+    const onAddPartner = () => {
+        setModal(
+            <AddToPartnerModal
+                onCancel={() => {
+                    setModal(null)
+                }}
+                industry={data?.id}
+            />
+        )
+    }
+
+    const onRemovePartner = () => {
+        addToPartner({ industry: data?.id, studentCapacity: 0 })
     }
     return (
         <>
+            {modal}
             {passwordModal && passwordModal}
             <ShowErrorNotifications result={addToPartnerResult} />
             {data?.isLoading ? (
@@ -233,12 +248,30 @@ export const IndustryProfile = ({ data }: Props) => {
                                     >
                                         {' '}
                                         -{' '}
-                                        <span
-                                            className="text-info cursor-pointer"
-                                            onClick={() => {}}
-                                        >
-                                            Make Partner
-                                        </span>
+                                        {data?.isPartner ? (
+                                            <span
+                                                className="text-info cursor-pointer"
+                                                onClick={() => {
+                                                    if (
+                                                        !addToPartnerResult.isLoading
+                                                    ) {
+                                                        onRemovePartner()
+                                                    }
+                                                }}
+                                            >
+                                                Remove Partner{' '}
+                                                {addToPartnerResult.isLoading && (
+                                                    <PulseLoader size={3} />
+                                                )}
+                                            </span>
+                                        ) : (
+                                            <span
+                                                className="text-info cursor-pointer"
+                                                onClick={onAddPartner}
+                                            >
+                                                Make Partner
+                                            </span>
+                                        )}
                                     </AuthorizedUserComponent>
                                 </Typography>
                             </div>

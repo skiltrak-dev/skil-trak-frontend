@@ -487,7 +487,7 @@ export const IndustryProfileFrom = ({
                                     />
                                 </div>
 
-                                <div className="w-full md:w-1/2">
+                                {/* <div className="w-full md:w-1/2">
                                     <RadioGroup
                                         name={'isPartner'}
                                         label={
@@ -514,7 +514,7 @@ export const IndustryProfileFrom = ({
                                             type={'number'}
                                         />
                                     )}
-                                </div>
+                                </div> */}
                             </div>
                         </div>
 
