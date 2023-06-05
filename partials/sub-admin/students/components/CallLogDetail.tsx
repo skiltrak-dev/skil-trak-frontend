@@ -55,7 +55,9 @@ export const CallLogDetail = ({ callLog }: { callLog: CallLog }) => {
             <ShowErrorNotifications result={isAnsweredCallResult} />
             <div className="bg-gray-100 rounded-md shadow grid grid-cols-3 items-center px-2 py-1 mb-1.5">
                 <div className="flex items-center gap-2">
-                    <p>Call made {callLog.isAnswered !== null ? 'and' : ''}</p>
+                    <Typography>
+                        Call made {callLog.isAnswered !== null ? 'and' : ''}
+                    </Typography>
 
                     {callLog?.isAnswered ? (
                         <Badge text="Answered" size="sm" variant="success" />

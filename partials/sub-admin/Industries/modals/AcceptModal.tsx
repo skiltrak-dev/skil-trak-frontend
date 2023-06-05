@@ -3,7 +3,7 @@ import { useAlert, useNotification } from '@hooks'
 import { Industry, Student } from '@types'
 import { useEffect } from 'react'
 import { HiCheckBadge } from 'react-icons/hi2'
-import { useChangeStatus } from '../../indestries/hooks'
+import { useChangeStatus } from '../hooks'
 
 export const AcceptModal = ({
     industry,

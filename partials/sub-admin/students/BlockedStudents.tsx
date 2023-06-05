@@ -37,12 +37,12 @@ import {
     getStudentWorkplaceAppliedIndustry,
     setLink,
 } from '@utils'
-import { IndustryCellInfo } from '../indestries/components'
 import { ColumnDef } from '@tanstack/react-table'
 import { RiLockPasswordFill } from 'react-icons/ri'
 import { AiFillCheckCircle } from 'react-icons/ai'
 import { BulkDeleteModal } from '@modals'
 import { CgUnblock } from 'react-icons/cg'
+import { IndustryCellInfo } from '../Industries'
 
 export const BlockedStudents = () => {
     const router = useRouter()

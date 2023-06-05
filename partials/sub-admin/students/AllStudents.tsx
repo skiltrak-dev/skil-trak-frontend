@@ -41,11 +41,11 @@ import {
     getStudentWorkplaceAppliedIndustry,
     setLink,
 } from '@utils'
-import { IndustryCellInfo } from '../indestries/components'
 import { ColumnDef } from '@tanstack/react-table'
 import { EditTimer } from '@components/StudentTimer/EditTimer'
 import { RiLockPasswordFill } from 'react-icons/ri'
 import { InterviewModal } from '../workplace/modals'
+import { IndustryCellInfo } from '../Industries'
 
 export const AllStudents = () => {
     const router = useRouter()

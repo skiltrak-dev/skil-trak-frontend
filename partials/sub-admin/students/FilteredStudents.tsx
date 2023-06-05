@@ -20,7 +20,6 @@ import { useRouter } from 'next/router'
 import { ReactElement, useState } from 'react'
 import { FaEdit, FaEye, FaUsers } from 'react-icons/fa'
 import { MdBlock } from 'react-icons/md'
-import { IndustryCellInfo } from '../indestries/components'
 import { StudentCellInfo } from './components'
 import {
     AssignStudentModal,
@@ -38,6 +37,7 @@ import {
 import { useActionModal } from '@hooks'
 import { RiLockPasswordFill } from 'react-icons/ri'
 import { InterviewModal } from '../workplace/modals'
+import { IndustryCellInfo } from '../Industries'
 
 export const FilteredStudents = ({
     student,

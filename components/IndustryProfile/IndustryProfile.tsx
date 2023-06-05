@@ -8,15 +8,27 @@ import { NoData } from '@components/ActionAnimations'
 import { LoadingAnimation } from '@components/LoadingAnimation'
 import { Course } from '@types'
 import { useRouter } from 'next/router'
-import { FaAddressCard, FaRegHandshake } from 'react-icons/fa'
+import {
+    FaAddressCard,
+    FaHandshake,
+    FaHandshakeSlash,
+    FaRegHandshake,
+} from 'react-icons/fa'
 import { GiBackwardTime } from 'react-icons/gi'
 import { IoLocation } from 'react-icons/io5'
 import { MdAdminPanelSettings, MdPhone, MdVerified } from 'react-icons/md'
 import { getUserCredentials } from '@utils'
 import { CourseList } from '@partials/common'
 import { BsUnlockFill } from 'react-icons/bs'
-import { useActionModal } from '@hooks'
+import { useActionModal, useNotification } from '@hooks'
 import { ActionButton } from '@components/buttons'
+import { SubAdminApi } from '@queries'
+import { AuthorizedUserComponent } from '@components/AuthorizedUserComponent'
+import { UserRoles } from '@constants'
+import { ShowErrorNotifications } from '@components/ShowErrorNotifications'
+import { ReactNode, useEffect, useState } from 'react'
+import { AddToPartnerModal } from '@partials/sub-admin/Industries/modals/AddToPartnerModal'
+import { PulseLoader } from 'react-spinners'
 
 type Props = {
     data: any
@@ -24,8 +36,32 @@ type Props = {
 
 export const IndustryProfile = ({ data }: Props) => {
     const router = useRouter()
+    const [modal, setModal] = useState<ReactNode | null>(null)
 
     const { onUpdatePassword, passwordModal } = useActionModal()
+    const { notification } = useNotification()
+
+    const [addToPartner, addToPartnerResult] =
+        SubAdminApi.Industry.useAddToPartner()
+
+    useEffect(() => {
+        if (addToPartnerResult.isSuccess) {
+            notification[
+                addToPartnerResult?.data?.isPartner ? 'success' : 'error'
+            ]({
+                title: addToPartnerResult?.data?.isPartner
+                    ? 'Industry Added to Partner'
+                    : 'Industry Removed from Partner',
+                description: addToPartnerResult?.data?.isPartner
+                    ? 'Industry Added to Partner'
+                    : 'Industry Removed from Partner',
+            })
+        }
+    }, [addToPartnerResult])
+    console.log(
+        'addToPartnerResultaddToPartnerResultaddToPartnerResult',
+        addToPartnerResult?.data
+    )
 
     const getSectors = (courses: any) => {
         if (!courses) return {}
@@ -43,9 +79,26 @@ export const IndustryProfile = ({ data }: Props) => {
     const sectorsWithCourses = getSectors(data?.courses)
 
     const role = getUserCredentials()?.role
+
+    const onAddPartner = () => {
+        setModal(
+            <AddToPartnerModal
+                onCancel={() => {
+                    setModal(null)
+                }}
+                industry={data?.id}
+            />
+        )
+    }
+
+    const onRemovePartner = () => {
+        addToPartner({ industry: data?.id, studentCapacity: 0 })
+    }
     return (
         <>
+            {modal}
             {passwordModal && passwordModal}
+            <ShowErrorNotifications result={addToPartnerResult} />
             {data?.isLoading ? (
                 <LoadingAnimation />
             ) : (
@@ -125,7 +178,10 @@ export const IndustryProfile = ({ data }: Props) => {
                                 <span className="text-gray-300">
                                     <FaAddressCard />
                                 </span>
-                                <Typography variant={'small'} color={'text-black'}>
+                                <Typography
+                                    variant={'small'}
+                                    color={'text-black'}
+                                >
                                     {data?.abn}
                                 </Typography>
                             </div>
@@ -139,7 +195,10 @@ export const IndustryProfile = ({ data }: Props) => {
                                 <span className="text-gray-300">
                                     <MdPhone />
                                 </span>
-                                <Typography variant={'small'} color={'text-black'}>
+                                <Typography
+                                    variant={'small'}
+                                    color={'text-black'}
+                                >
                                     {data?.phoneNumber}
                                 </Typography>
                             </div>
@@ -152,8 +211,11 @@ export const IndustryProfile = ({ data }: Props) => {
                                 <span className="text-gray-300">
                                     <GiBackwardTime />
                                 </span>
-                                <Typography variant={'small'} color={'text-black'}>
-                                    Yesterday 
+                                <Typography
+                                    variant={'small'}
+                                    color={'text-black'}
+                                >
+                                    Yesterday
                                 </Typography>
                             </div>
                         </div>
@@ -162,7 +224,7 @@ export const IndustryProfile = ({ data }: Props) => {
                     <Typography variant={'small'} color={'text-gray-500'}>
                         Partnership
                     </Typography>
-                    <div className="flex justify-around divide-x border-t border-b">
+                    <div className="flex justify-around items-center divide-x border-t border-b">
                         <div className="p-2">
                             <div className="flex items-center gap-x-2">
                                 <FaRegHandshake className="text-gray-400" />
@@ -181,6 +243,36 @@ export const IndustryProfile = ({ data }: Props) => {
                                     {data?.isPartner === false
                                         ? 'No'
                                         : 'Yes' || 'N/A'}
+                                    <AuthorizedUserComponent
+                                        roles={[UserRoles.SUBADMIN]}
+                                    >
+                                        {' '}
+                                        -{' '}
+                                        {data?.isPartner ? (
+                                            <span
+                                                className="text-info cursor-pointer"
+                                                onClick={() => {
+                                                    if (
+                                                        !addToPartnerResult.isLoading
+                                                    ) {
+                                                        onRemovePartner()
+                                                    }
+                                                }}
+                                            >
+                                                Remove Partner{' '}
+                                                {addToPartnerResult.isLoading && (
+                                                    <PulseLoader size={3} />
+                                                )}
+                                            </span>
+                                        ) : (
+                                            <span
+                                                className="text-info cursor-pointer"
+                                                onClick={onAddPartner}
+                                            >
+                                                Make Partner
+                                            </span>
+                                        )}
+                                    </AuthorizedUserComponent>
                                 </Typography>
                             </div>
                         </div>
