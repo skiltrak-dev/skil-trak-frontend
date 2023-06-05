@@ -46,6 +46,7 @@ import { EditTimer } from '@components/StudentTimer/EditTimer'
 import { RiLockPasswordFill } from 'react-icons/ri'
 import { InterviewModal } from '../workplace/modals'
 import { IndustryCellInfo } from '../Industries'
+import { RTOCellInfo } from '../rto/components'
 
 export const AllStudents = () => {
     const router = useRouter()
@@ -203,16 +204,7 @@ export const AllStudents = () => {
         {
             header: () => 'RTO',
             accessorKey: 'rto',
-            cell({ row }: any) {
-                const { rto } = row.original
-
-                return (
-                    <div className="flex gap-x-2 items-center">
-                        <InitialAvatar name={rto.user.name} small />
-                        {rto.user.name}
-                    </div>
-                )
-            },
+            cell: ({ row }: any) => <RTOCellInfo rto={row.original?.rto} />,
         },
         {
             accessorKey: 'industry',

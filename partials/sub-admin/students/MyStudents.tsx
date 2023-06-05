@@ -49,10 +49,11 @@ export const MyStudents = () => {
         setItemPerPage(Number(router.query.pageSize || 50))
     }, [router])
 
-    const { isLoading, data, isError } = useGetSubAdminMyStudentsQuery({
-        skip: itemPerPage * page - itemPerPage,
-        limit: itemPerPage,
-    })
+    const { isLoading, isFetching, data, isError } =
+        useGetSubAdminMyStudentsQuery({
+            skip: itemPerPage * page - itemPerPage,
+            limit: itemPerPage,
+        })
 
     const onModalCancelClicked = () => {
         setModal(null)
@@ -185,7 +186,7 @@ export const MyStudents = () => {
             {passwordModal}
             <Card noPadding>
                 {isError && <TechnicalError />}
-                {isLoading ? (
+                {isLoading || isFetching ? (
                     <LoadingAnimation height="h-[60vh]" />
                 ) : data && data?.data.length ? (
                     <Table

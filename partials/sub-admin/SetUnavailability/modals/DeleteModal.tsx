@@ -1,5 +1,5 @@
 import { ActionModal } from '@components'
-import { useAlert, useNotification } from '@hooks'
+import { useNotification } from '@hooks'
 import { useRemoveUnAvailabilityMutation } from '@queries'
 
 import { useEffect } from 'react'
@@ -12,7 +12,6 @@ export const DeleteModal = ({
     unavailability: any
     onCancel: Function
 }) => {
-    const { alert } = useAlert()
     const { notification } = useNotification()
     const [remove, removeResult] = useRemoveUnAvailabilityMutation()
 
@@ -22,9 +21,9 @@ export const DeleteModal = ({
 
     useEffect(() => {
         if (removeResult.isSuccess) {
-            alert.error({
-                title: `RTO Deleted`,
-                description: `RTO "${unavailability.date}" has been deleted.`,
+            notification.error({
+                title: `Unavailability Deleted`,
+                description: `Unavailability "${unavailability.date}" has been deleted.`,
             })
             onCancel()
         }

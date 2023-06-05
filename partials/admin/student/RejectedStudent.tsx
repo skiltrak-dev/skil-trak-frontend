@@ -48,11 +48,12 @@ export const RejectedStudent = () => {
     // hooks
     const { passwordModal, onViewPassword } = useActionModal()
 
-    const { isLoading, data, isError } = AdminApi.Students.useListQuery({
-        search: `status:${UserStatus.Rejected}`,
-        skip: itemPerPage * page - itemPerPage,
-        limit: itemPerPage,
-    })
+    const { isLoading, isFetching, data, isError } =
+        AdminApi.Students.useListQuery({
+            search: `status:${UserStatus.Rejected}`,
+            skip: itemPerPage * page - itemPerPage,
+            limit: itemPerPage,
+        })
 
     const onModalCancelClicked = () => {
         setModal(null)
@@ -230,7 +231,7 @@ export const RejectedStudent = () => {
 
                 <Card noPadding>
                     {isError && <TechnicalError />}
-                    {isLoading ? (
+                    {isLoading || isFetching ? (
                         <LoadingAnimation height="h-[60vh]" />
                     ) : data && data?.data.length ? (
                         <Table

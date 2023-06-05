@@ -17,6 +17,7 @@ import {
     EmptyData,
     TechnicalError,
     LoadingAnimation,
+    Typography,
 } from '@components'
 import { DeleteModal } from './modals'
 
@@ -28,7 +29,7 @@ import { useGetUnAvailabilitiesQuery } from '@queries'
 
 export const SetUnavailabilityContainer = () => {
     const router = useRouter()
-    const { setContent, show } = useContextBar()
+    const { setContent, show, hide } = useContextBar()
 
     const [itemPerPage, setItemPerPage] = useState(50)
     const [page, setPage] = useState(1)
@@ -42,6 +43,11 @@ export const SetUnavailabilityContainer = () => {
     useEffect(() => {
         setContent(<SetUnavailabilityFormCB />)
         show(false)
+
+        return () => {
+            setContent(null)
+            hide()
+        }
     }, [])
 
     const onModalCancelClicked = () => {
@@ -83,7 +89,16 @@ export const SetUnavailabilityContainer = () => {
         {
             accessorKey: 'type',
             header: () => <span>Type</span>,
-            cell: (info: any) => info.getValue(),
+            cell: (info: any) => (
+                <Typography>
+                    {' '}
+                    {info.row.original?.fullDay
+                        ? 'Full Day'
+                        : info.row.original?.partialDay
+                        ? 'Partial Day'
+                        : '-'}{' '}
+                </Typography>
+            ),
         },
         {
             accessorKey: 'from',

@@ -60,11 +60,12 @@ export const BlockedStudents = () => {
         setItemPerPage(Number(router.query.pageSize || 50))
     }, [router])
 
-    const { isLoading, data, isError } = SubAdminApi.Student.useList({
-        search: `status:${UserStatus.Blocked}`,
-        skip: itemPerPage * page - itemPerPage,
-        limit: itemPerPage,
-    })
+    const { isLoading, isFetching, data, isError } =
+        SubAdminApi.Student.useList({
+            search: `status:${UserStatus.Blocked}`,
+            skip: itemPerPage * page - itemPerPage,
+            limit: itemPerPage,
+        })
 
     const onModalCancelClicked = () => {
         setModal(null)
@@ -234,7 +235,7 @@ export const BlockedStudents = () => {
             {passwordModal}
             {isError && <TechnicalError />}
             <Card noPadding>
-                {isLoading ? (
+                {isLoading || isFetching ? (
                     <LoadingAnimation height="h-[60vh]" />
                 ) : data && data?.data.length ? (
                     <Table

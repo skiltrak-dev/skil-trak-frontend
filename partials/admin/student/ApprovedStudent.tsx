@@ -4,7 +4,6 @@ import {
     CaseOfficerAssignedStudent,
     EmptyData,
     LoadingAnimation,
-    StudentStatusProgressCell,
     StudentSubAdmin,
     Table,
     TableAction,
@@ -19,19 +18,13 @@ import { FaEdit, FaEye } from 'react-icons/fa'
 import { RtoCellInfo } from '@partials/admin/rto/components'
 import { AdminApi } from '@queries'
 import { Student, UserStatus } from '@types'
-import {
-    WorkplaceCurrentStatus,
-    checkStudentStatus,
-    checkWorkplaceStatus,
-    getStudentWorkplaceAppliedIndustry,
-    setLink,
-} from '@utils'
+import { getStudentWorkplaceAppliedIndustry, setLink } from '@utils'
 import { useRouter } from 'next/router'
 import { ReactElement, useEffect, useState } from 'react'
 import { MdBlock } from 'react-icons/md'
 import { RiLockPasswordFill } from 'react-icons/ri'
 import { IndustryCell } from '../industry/components'
-import { ProgressCell, SectorCell, StudentCellInfo } from './components'
+import { SectorCell, StudentCellInfo } from './components'
 import {
     ArchiveModal,
     BlockModal,
@@ -71,12 +64,6 @@ export const ApprovedStudent = () => {
             },
             { refetchOnMountOrArgChange: true }
         )
-
-    // useEffect(() => {
-    //     if (changeExpiryData || statusSuccessResult) {
-    //         refetch()
-    //     }
-    // }, [changeExpiryData, statusSuccessResult])
 
     const onModalCancelClicked = () => {
         setModal(null)
@@ -318,7 +305,7 @@ export const ApprovedStudent = () => {
                 />
                 <Card noPadding>
                     {isError && <TechnicalError />}
-                    {isLoading ? (
+                    {isLoading || isFetching ? (
                         <LoadingAnimation height="h-[60vh]" />
                     ) : data && data?.data.length ? (
                         <Table

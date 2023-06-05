@@ -4,7 +4,7 @@ import { FormProvider, useForm } from 'react-hook-form'
 
 // components
 import { Typography, Button, TextInput, Select } from '@components'
-import { UploadFile } from '../components/UploadFile'
+import { UploadFile } from '../components'
 // hoc
 import { FileUpload } from '@hoc'
 
@@ -45,9 +45,9 @@ export const AddAssessmentToolCB = ({ edit, assessment }: Props) => {
         Object.keys(values).map((key) => {
             formData.append(key, values[key])
         })
-        ;(await edit)
-            ? update({ body: values.title, assessment: assessment?.id })
-            : create({ body: formData, id: String(rtoId) })
+        edit
+            ? await update({ body: values.title, assessment: assessment?.id })
+            : await create({ body: formData, id: String(rtoId) })
     }
     return (
         <div>
@@ -97,23 +97,22 @@ export const AddAssessmentToolCB = ({ edit, assessment }: Props) => {
                     </div>
 
                     <div className="mt-4 flex items-center justify-between">
-                        {edit ? (
-                            <Button
-                                submit
-                                disabled={createResult.isLoading}
-                                loading={createResult.isLoading}
-                            >
-                                Update Assessment
-                            </Button>
-                        ) : (
-                            <Button
-                                submit
-                                disabled={createResult.isLoading}
-                                loading={createResult.isLoading}
-                            >
-                                Add Assessment
-                            </Button>
-                        )}
+                        <Button
+                            submit
+                            variant={edit ? 'info' : 'primary'}
+                            disabled={
+                                edit
+                                    ? updateResult.isLoading
+                                    : createResult.isLoading
+                            }
+                            loading={
+                                edit
+                                    ? updateResult.isLoading
+                                    : createResult.isLoading
+                            }
+                        >
+                            {edit ? 'Update' : 'Add'} Assessment
+                        </Button>
                     </div>
                 </form>
             </FormProvider>

@@ -16,7 +16,7 @@ import {
     TableAction,
     TableActionOption,
     Typography,
-    UserCreatedAt
+    UserCreatedAt,
 } from '@components'
 import { StudentCellInfo } from './components'
 
@@ -30,10 +30,7 @@ import { AcceptModal, AssignStudentModal, BlockModal } from './modals'
 
 import { SectorCell } from '@partials/admin/student/components'
 import { ColumnDef } from '@tanstack/react-table'
-import {
-    getStudentWorkplaceAppliedIndustry,
-    setLink
-} from '@utils'
+import { getStudentWorkplaceAppliedIndustry, setLink } from '@utils'
 import { AiFillCheckCircle } from 'react-icons/ai'
 import { RiLockPasswordFill } from 'react-icons/ri'
 import { IndustryCellInfo } from '../Industries'
@@ -54,11 +51,12 @@ export const RejectedStudents = () => {
         setItemPerPage(Number(router.query.pageSize || 50))
     }, [router])
 
-    const { isLoading, data, isError } = SubAdminApi.Student.useList({
-        search: `status:${UserStatus.Rejected}`,
-        skip: itemPerPage * page - itemPerPage,
-        limit: itemPerPage,
-    })
+    const { isLoading, isFetching, data, isError } =
+        SubAdminApi.Student.useList({
+            search: `status:${UserStatus.Rejected}`,
+            skip: itemPerPage * page - itemPerPage,
+            limit: itemPerPage,
+        })
 
     const onModalCancelClicked = () => {
         setModal(null)
@@ -206,7 +204,7 @@ export const RejectedStudents = () => {
             {passwordModal}
             {isError && <TechnicalError />}
             <Card noPadding>
-                {isLoading ? (
+                {isLoading || isFetching ? (
                     <LoadingAnimation height="h-[60vh]" />
                 ) : data && data?.data.length ? (
                     <Table

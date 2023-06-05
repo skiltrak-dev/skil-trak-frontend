@@ -10,7 +10,6 @@ import {
     FigureCard,
     PinnedNotes,
 } from '@components/sections/subAdmin/components'
-import { PendingStudents, RecentAppointment } from './components'
 
 // queries
 import {
@@ -18,6 +17,7 @@ import {
     useGetSubAdminRtosStudentsQuery,
 } from '@queries'
 import { useState } from 'react'
+import { PendingStudents, RecentAppointment } from '../../components'
 
 type Props = {
     rtoId: any

@@ -54,7 +54,7 @@ export const ArchivedStudent = () => {
     // hooks
     const { passwordModal, onViewPassword } = useActionModal()
 
-    const { isLoading, data, isError, refetch } =
+    const { isLoading, isFetching, data, isError, refetch } =
         AdminApi.Students.useListQuery({
             search: `status:${UserStatus.Archived}`,
             skip: itemPerPage * page - itemPerPage,
@@ -306,7 +306,7 @@ export const ArchivedStudent = () => {
 
                 <Card noPadding>
                     {isError && <TechnicalError />}
-                    {isLoading ? (
+                    {isLoading || isFetching ? (
                         <LoadingAnimation height="h-[60vh]" />
                     ) : data && data?.data.length ? (
                         <Table

@@ -55,11 +55,12 @@ export const BlockedStudent = () => {
     // hooks
     const { passwordModal, onViewPassword } = useActionModal()
 
-    const { isLoading, data, isError } = AdminApi.Students.useListQuery({
-        search: `status:${UserStatus.Blocked}`,
-        skip: itemPerPage * page - itemPerPage,
-        limit: itemPerPage,
-    })
+    const { isLoading, isFetching, data, isError } =
+        AdminApi.Students.useListQuery({
+            search: `status:${UserStatus.Blocked}`,
+            skip: itemPerPage * page - itemPerPage,
+            limit: itemPerPage,
+        })
     const [bulkAction, resultBulkAction] = commonApi.useBulkStatusMutation()
 
     const onModalCancelClicked = () => {
@@ -265,7 +266,7 @@ export const BlockedStudent = () => {
 
                 <Card noPadding>
                     {isError && <TechnicalError />}
-                    {isLoading ? (
+                    {isLoading || isFetching ? (
                         <LoadingAnimation height="h-[60vh]" />
                     ) : data && data?.data.length ? (
                         <Table
