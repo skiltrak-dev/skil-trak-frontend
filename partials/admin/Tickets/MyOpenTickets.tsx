@@ -14,10 +14,13 @@ import React, { useState } from 'react'
 import { AiFillCloseCircle, AiFillDelete } from 'react-icons/ai'
 import { TicketSubject, TicketUser } from './components'
 import moment from 'moment'
+import { useRouter } from 'next/router'
 
 export const MyOpenTickets = () => {
     const [itemPerPage, setItemPerPage] = useState(50)
     const [page, setPage] = useState(1)
+
+    const router = useRouter()
 
     const { isLoading, isFetching, data, isError, refetch } =
         AdminApi.Students.useListQuery(
@@ -30,8 +33,9 @@ export const MyOpenTickets = () => {
 
     const tableActionOptions: TableActionOption[] = [
         {
-            text: 'Close',
-            onClick: () => {},
+            text: 'View',
+            onClick: (ticket: any) =>
+                router.push(`/portals/admin/tickets/detail/${ticket?.id}`),
             Icon: AiFillCloseCircle,
         },
         {
@@ -59,20 +63,9 @@ export const MyOpenTickets = () => {
             header: () => <span>Assigned To</span>,
         },
         {
-            accessorKey: 'conversation',
+            accessorKey: 'replies',
             cell: (info) => Math.floor(Math.random() * 100),
-            header: () => <span>Conversation</span>,
-        },
-        {
-            accessorKey: 'createdAt',
-            cell: (info) => (
-                <Typography variant={'label'} capitalize>
-                    <span className="whitespace-pre">
-                        {moment(info.row.original?.createdAt).fromNow()}
-                    </span>
-                </Typography>
-            ),
-            header: () => <span>Created At</span>,
+            header: () => <span>Replies</span>,
         },
         {
             accessorKey: 'lastActivity',
@@ -107,11 +100,7 @@ export const MyOpenTickets = () => {
                 {isLoading || isFetching ? (
                     <LoadingAnimation height="h-[60vh]" />
                 ) : data && data?.data.length ? (
-                    <Table
-                        columns={columns}
-                        data={data.data}
-                        enableRowSelection
-                    >
+                    <Table columns={columns} data={data.data}>
                         {({
                             table,
                             pagination,

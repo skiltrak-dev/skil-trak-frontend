@@ -1,4 +1,4 @@
-import { CalendarEvent, TabNavigation, TabProps } from '@components'
+import { TabNavigation, TabProps } from '@components'
 
 import { FigureCard } from '@components/sections/subAdmin'
 import {
@@ -7,10 +7,10 @@ import {
     MailsTab,
     NotesTab,
 } from '@partials/common'
-import { SubAdminApi, useGetSubAdminIndustryStudentsQuery } from '@queries'
-import { Industry, Rto, UserStatus } from '@types'
-import { RtoProfileOverview } from './RtoProfileOverview'
+import { SubAdminApi } from '@queries'
+import { Rto, UserStatus } from '@types'
 import { AssessmentToolsSubAdmin } from './AssessmentToolsSubAdmin'
+import { RtoProfileOverview } from './RtoProfileOverview'
 export const DetailTabs = ({ rto }: { rto: Rto }) => {
     const rtoStatsCount = SubAdminApi.Rto.useRtoStatsCount(
         Number(rto?.user?.id),

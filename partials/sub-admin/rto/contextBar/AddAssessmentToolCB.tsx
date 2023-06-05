@@ -3,7 +3,13 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import { FormProvider, useForm } from 'react-hook-form'
 
 // components
-import { Typography, Button, TextInput, Select } from '@components'
+import {
+    Typography,
+    Button,
+    TextInput,
+    Select,
+    ShowErrorNotifications,
+} from '@components'
 import { UploadFile } from '../components'
 // hoc
 import { FileUpload } from '@hoc'
@@ -15,18 +21,49 @@ import {
     useUpdateRtoSubAdminAssessmentToolsMutation,
 } from '@queries'
 import { useRouter } from 'next/router'
+import { useContextBar, useNotification } from '@hooks'
 type Props = {
     edit?: boolean
     assessment?: any
 }
 export const AddAssessmentToolCB = ({ edit, assessment }: Props) => {
-    const [fileData, setFileData] = useState<any | null>([])
+    const [fileData, setFileData] = useState<any | null>(null)
+    const [selectedCourse, setSelectedCourse] = useState<number | null>(null)
+
+    const { notification } = useNotification()
+    const contextBar = useContextBar()
+
+    useEffect(() => {
+        if (assessment?.course) {
+            setSelectedCourse(assessment?.course?.id)
+        }
+    }, [assessment])
 
     const router = useRouter()
     const rtoId = router.query.id
     const rtoCourses = useGetSubAdminRTOCoursesQuery(String(rtoId))
     const [create, createResult] = useCreateRtoSubAdminAssessmentToolsMutation()
     const [update, updateResult] = useUpdateRtoSubAdminAssessmentToolsMutation()
+
+    useEffect(() => {
+        if (createResult.isSuccess) {
+            notification.success({
+                title: 'Assessment Tool Created',
+                description: 'Assessment Tool Created Successfully',
+            })
+            contextBar.setTitle(null)
+        }
+    }, [createResult])
+
+    useEffect(() => {
+        if (updateResult.isSuccess) {
+            notification.info({
+                title: 'Assessment Tool Updated',
+                description: 'Assessment Tool Updated Successfully',
+            })
+            contextBar.setTitle(null)
+        }
+    }, [updateResult])
 
     const coursesOptions = rtoCourses?.data?.map((course: any) => ({
         label: course.title,
@@ -40,17 +77,27 @@ export const AddAssessmentToolCB = ({ edit, assessment }: Props) => {
 
     const onSubmit = async (values: any) => {
         delete values.file
+        const course = values?.course?.id || values?.course
+        console.log(course)
         const formData = new FormData()
-        formData.append('file', fileData)
+        if (edit) {
+            delete values.course
+            delete values.id
+            formData.append('course', course)
+        }
+        fileData && formData.append('file', fileData)
         Object.keys(values).map((key) => {
             formData.append(key, values[key])
         })
         edit
-            ? await update({ body: values.title, assessment: assessment?.id })
+            ? await update({ body: formData, assessment: assessment?.id })
             : await create({ body: formData, id: String(rtoId) })
     }
+
     return (
         <div>
+            <ShowErrorNotifications result={createResult} />
+            <ShowErrorNotifications result={updateResult} />
             <Typography variant={'small'} color={'text-gray-500'}>
                 Add Assessment To:
             </Typography>
@@ -67,8 +114,12 @@ export const AddAssessmentToolCB = ({ edit, assessment }: Props) => {
                             label="Course(s)"
                             placeholder="Select Your Choice"
                             options={coursesOptions}
+                            value={coursesOptions?.find(
+                                (c: any) => c?.value === Number(selectedCourse)
+                            )}
                             loading={rtoCourses.isLoading}
                             disabled={rtoCourses.isLoading}
+                            onChange={(e: number) => setSelectedCourse(e)}
                             onlyValue
                         />
                         <TextInput

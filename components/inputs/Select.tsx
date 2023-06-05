@@ -71,9 +71,9 @@ export const Select = ({
             boxShadow: state.isFocused ? '0.5px 0.5px #888888' : 'none',
             border: state.isFocused
                 ? `1px solid ${Colors.secondary.dark} !important`
-                : formContext &&
-                  formContext.formState.touchedFields[name] &&
-                  formContext.formState.errors[name]
+                : // formContext &&
+                //   formContext.formState.touchedFields[name] &&
+                formContext.formState.errors[name]
                 ? `1px solid red !important`
                 : `1px solid ${Colors.secondary.dark} !important`,
             '&:hover': {
@@ -81,6 +81,7 @@ export const Select = ({
                     ? `1px solid ${Colors.muted} !important`
                     : `1px solid ${Colors.muted} !important`,
             },
+            // border: '1px solid blue',
         }),
         input: (base: any, state: any) => ({
             ...base,

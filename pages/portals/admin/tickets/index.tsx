@@ -5,9 +5,10 @@ import { AdminLayout } from '@layouts'
 import { NextPageWithLayout } from '@types'
 import { PageHeading } from '@components/headings'
 import { useNavbar } from '@hooks'
-import { Button, TabNavigation, TabProps } from '@components'
+import { BackButton, Button, TabNavigation, TabProps } from '@components'
 import { BsFillTicketDetailedFill } from 'react-icons/bs'
 import { MyOpenTickets } from '@partials/admin/Tickets'
+import { useRouter } from 'next/router'
 
 enum TicketType {
     MyOpenTickets = 'my-open-tickets',
@@ -16,6 +17,7 @@ enum TicketType {
 }
 
 const Tickets: NextPageWithLayout = () => {
+    const router = useRouter()
     const { setTitle } = useNavbar()
 
     useEffect(() => {
@@ -60,6 +62,7 @@ const Tickets: NextPageWithLayout = () => {
                         <div>
                             <div>{header}</div>
                             <div className="mt-4 ml-4">
+                                <BackButton text={'Go Back'} />
                                 <PageHeading
                                     title={'Ticket'}
                                     subtitle={'You can find all Tickets here'}
@@ -68,6 +71,11 @@ const Tickets: NextPageWithLayout = () => {
                                         variant={'dark'}
                                         text={'Create a Ticket'}
                                         Icon={BsFillTicketDetailedFill}
+                                        onClick={() => {
+                                            router.push(
+                                                '/portals/admin/tickets/add-ticket'
+                                            )
+                                        }}
                                     />
                                 </PageHeading>
                             </div>

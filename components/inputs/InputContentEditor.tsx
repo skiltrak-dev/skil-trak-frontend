@@ -23,6 +23,7 @@ import {
 } from 'draft-js'
 import { InputErrorMessage } from '@components/inputs/components'
 import draftToHtml from 'draftjs-to-html'
+import { htmltotext } from '@utils'
 
 export const draftToHtmlText = (draftText: any) => {
     let content = ''
@@ -42,6 +43,15 @@ export const htmlToDraftText = (content: string) => {
             )
         )
     }
+}
+
+export const inputEditorErrorMessage = (value: string) => {
+    const content = draftToHtmlText(value)
+    if (htmltotext(content)?.length > 1) {
+        console.log(draftToHtmlText(value))
+        return true
+    }
+    return false
 }
 
 // export const htmlToDraftText = (
@@ -74,6 +84,9 @@ export const InputContentEditor = ({
 }) => {
     const methods = useFormContext()
 
+    const error = methods?.formState?.errors?.[name]?.message
+    console.log('methods', error)
+
     return (
         <div>
             <Typography variant={'label'}>{label}</Typography>
@@ -103,7 +116,9 @@ export const InputContentEditor = ({
                                 history: { inDropdown: true },
                             }}
                             editorState={field?.value}
-                            wrapperClassName="border rounded-md"
+                            wrapperClassName={`border ${
+                                error ? 'border-error' : ''
+                            } rounded-md`}
                             editorClassName="overflow-hidden h-20"
                             onEditorStateChange={(e: any) => {
                                 field.onChange(e)
