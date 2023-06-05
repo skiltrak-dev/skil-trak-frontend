@@ -1,5 +1,5 @@
 import { PinnedNotes } from '@components/sections/subAdmin/components'
-import { OfficeShiftTimings } from './OfficeShiftTimings'
+import { OfficeShiftTimings } from '../../components/OfficeShiftTimings'
 
 type Props = {
     industryProfile: any

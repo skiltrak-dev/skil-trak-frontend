@@ -127,6 +127,10 @@ export const StudentProfile = ({ noTitle }: { noTitle?: boolean }) => {
                 showAlert()
             }
         }
+
+        return () => {
+            setAlerts([])
+        }
     }, [data])
 
     useEffect(() => {

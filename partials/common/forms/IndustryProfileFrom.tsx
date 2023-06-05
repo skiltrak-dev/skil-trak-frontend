@@ -5,25 +5,25 @@ import * as yup from 'yup'
 
 // components
 import {
+    AuthorizedUserComponent,
+    Avatar,
     Button,
     Card,
+    RadioGroup,
     Select,
+    SelectOption,
     ShowErrorNotifications,
     TextInput,
-    Typography,
-    Avatar,
-    RadioGroup,
-    SelectOption,
-    RadioButton,
+    Typography
 } from '@components'
 
 // hooks
 import { useActionModal, useContextBar, useNotification } from '@hooks'
 
 // utills
+import { UserRoles } from '@constants'
 import { AuthApi } from '@queries'
 import { Course } from '@types'
-import { onlyAlphabets } from '@utils'
 import { useRouter } from 'next/router'
 
 export const IndustryProfileFrom = ({
@@ -487,34 +487,41 @@ export const IndustryProfileFrom = ({
                                     />
                                 </div>
 
-                                <div className="w-full md:w-1/2">
-                                    <RadioGroup
-                                        name={'isPartner'}
-                                        label={
-                                            'You want to use as a partner or single'
-                                        }
-                                        options={[
-                                            {
-                                                label: 'use once',
-                                                value: 'no',
-                                            },
-                                            {
-                                                label: 'Is Partner',
-                                                value: 'yes',
-                                            },
-                                        ]}
-                                        onChange={(e: any) =>
-                                            setIsPartner(e?.target?.value)
-                                        }
-                                    />
-                                    {isPartner === 'yes' && (
-                                        <TextInput
-                                            name={'studentCapacity'}
-                                            label={'Student Capacity'}
-                                            type={'number'}
+                                <AuthorizedUserComponent
+                                    roles={[
+                                        UserRoles.ADMIN,
+                                        UserRoles.INDUSTRY,
+                                    ]}
+                                >
+                                    <div className="w-full md:w-1/2">
+                                        <RadioGroup
+                                            name={'isPartner'}
+                                            label={
+                                                'You want to use as a partner or single'
+                                            }
+                                            options={[
+                                                {
+                                                    label: 'use once',
+                                                    value: 'no',
+                                                },
+                                                {
+                                                    label: 'Is Partner',
+                                                    value: 'yes',
+                                                },
+                                            ]}
+                                            onChange={(e: any) =>
+                                                setIsPartner(e?.target?.value)
+                                            }
                                         />
-                                    )}
-                                </div>
+                                        {isPartner === 'yes' && (
+                                            <TextInput
+                                                name={'studentCapacity'}
+                                                label={'Student Capacity'}
+                                                type={'number'}
+                                            />
+                                        )}
+                                    </div>
+                                </AuthorizedUserComponent>
                             </div>
                         </div>
 

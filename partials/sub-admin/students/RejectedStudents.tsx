@@ -11,35 +11,32 @@ import {
     EmptyData,
     InitialAvatar,
     LoadingAnimation,
-    StudentStatusProgressCell,
     StudentSubAdmin,
     Table,
     TableAction,
     TableActionOption,
     Typography,
-    UserCreatedAt,
+    UserCreatedAt
 } from '@components'
 import { StudentCellInfo } from './components'
 
 import { TechnicalError } from '@components/ActionAnimations/TechnicalError'
-import { useActionModal, useJoyRide } from '@hooks'
+import { useActionModal } from '@hooks'
 import { SubAdminApi } from '@queries'
 import { Student, UserStatus } from '@types'
 import { useEffect, useState } from 'react'
 import { MdBlock } from 'react-icons/md'
 import { AcceptModal, AssignStudentModal, BlockModal } from './modals'
 
-import { ProgressCell, SectorCell } from '@partials/admin/student/components'
-import {
-    checkStudentStatus,
-    checkWorkplaceStatus,
-    getStudentWorkplaceAppliedIndustry,
-    setLink,
-} from '@utils'
-import { IndustryCellInfo } from '../indestries/components'
+import { SectorCell } from '@partials/admin/student/components'
 import { ColumnDef } from '@tanstack/react-table'
-import { RiLockPasswordFill } from 'react-icons/ri'
+import {
+    getStudentWorkplaceAppliedIndustry,
+    setLink
+} from '@utils'
 import { AiFillCheckCircle } from 'react-icons/ai'
+import { RiLockPasswordFill } from 'react-icons/ri'
+import { IndustryCellInfo } from '../Industries'
 
 export const RejectedStudents = () => {
     const router = useRouter()

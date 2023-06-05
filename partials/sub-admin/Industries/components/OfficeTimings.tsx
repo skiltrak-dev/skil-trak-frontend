@@ -1,7 +1,6 @@
 //components
-import { Typography, Card } from '@components'
+import { Typography } from '@components'
 // icons
-import { MdBook } from 'react-icons/md'
 
 type OfficeTimingsProps = {
     timings: string

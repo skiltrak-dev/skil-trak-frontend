@@ -2,7 +2,7 @@ import { Card } from '@components/cards'
 import { Typography } from '@components/Typography'
 import React from 'react'
 import { MdBook } from 'react-icons/md'
-import { OfficeTimings } from './components'
+import { OfficeTimings } from './OfficeTimings'
 
 type OfficeShiftTimingsProps = {
     title: string
