@@ -1,22 +1,18 @@
 import { ReactElement, useEffect } from 'react'
 // Layouts
-import { AdminLayout } from '@layouts'
+import { AdminLayout, SubAdminLayout } from '@layouts'
 // Types
 import { NextPageWithLayout } from '@types'
 import { PageHeading } from '@components/headings'
 import { useAlert, useNavbar } from '@hooks'
 import { BackButton, Button, TabNavigation, TabProps } from '@components'
 import { BsFillTicketDetailedFill } from 'react-icons/bs'
-import {
-    AllTickets,
-    MyClosedTickets,
-    MyOpenTickets,
-} from '@partials/admin/Tickets'
+import { MyOpenTickets } from '@partials/admin/Tickets'
 import { useRouter } from 'next/router'
+import { ClosedTickets, OpenTickets } from '@partials/sub-admin/Tickets'
 
 enum TicketType {
-    MyOpenTickets = 'my-open-tickets',
-    MyClosedTickets = 'my-closed-tickets',
+    ClosedTickets = 'closed-tickets',
     AllTickets = 'all-tickets',
 }
 
@@ -30,30 +26,12 @@ const Tickets: NextPageWithLayout = () => {
         setTitle('Tickets')
         alert.warning({
             title: 'Under Construction',
-            description: 'Working In Progress',
+            description: 'Working in Progress',
             autoDismiss: false,
         })
     }, [])
 
     const tabs: TabProps[] = [
-        {
-            label: 'My Open Tickets',
-            href: {
-                pathname: 'tickets',
-                query: { tab: TicketType.MyOpenTickets },
-            },
-
-            element: <MyOpenTickets />,
-        },
-        {
-            label: 'My Closed Tickets',
-            href: {
-                pathname: 'tickets',
-                query: { tab: TicketType.MyClosedTickets },
-            },
-
-            element: <MyClosedTickets />,
-        },
         {
             label: 'All Tickets',
             href: {
@@ -61,22 +39,21 @@ const Tickets: NextPageWithLayout = () => {
                 query: { tab: TicketType.AllTickets },
             },
 
-            element: <AllTickets />,
+            element: <OpenTickets />,
+        },
+        {
+            label: 'Closed Tickets',
+            href: {
+                pathname: 'tickets',
+                query: { tab: TicketType.ClosedTickets },
+            },
+
+            element: <ClosedTickets />,
         },
     ]
 
     return (
         <div className="px-4">
-            <div className="flex justify-end my-5">
-                <Button
-                    variant={'dark'}
-                    text={'Create a Ticket'}
-                    Icon={BsFillTicketDetailedFill}
-                    onClick={() => {
-                        router.push('/portals/admin/tickets/add-ticket')
-                    }}
-                />
-            </div>
             <TabNavigation tabs={tabs}>
                 {({ header, element }: any) => {
                     return (
@@ -87,7 +64,18 @@ const Tickets: NextPageWithLayout = () => {
                                 <PageHeading
                                     title={'Ticket'}
                                     subtitle={'You can find all Tickets here'}
-                                ></PageHeading>
+                                >
+                                    <Button
+                                        variant={'dark'}
+                                        text={'Create a Ticket'}
+                                        Icon={BsFillTicketDetailedFill}
+                                        onClick={() => {
+                                            router.push(
+                                                '/portals/sub-admin/tickets/add-ticket'
+                                            )
+                                        }}
+                                    />
+                                </PageHeading>
                             </div>
                             <div className="p-4">{element}</div>
                         </div>
@@ -99,7 +87,7 @@ const Tickets: NextPageWithLayout = () => {
 }
 
 Tickets.getLayout = (page: ReactElement) => {
-    return <AdminLayout>{page}</AdminLayout>
+    return <SubAdminLayout>{page}</SubAdminLayout>
 }
 
 export default Tickets

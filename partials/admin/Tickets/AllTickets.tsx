@@ -8,28 +8,22 @@ import {
     TechnicalError,
     Typography,
 } from '@components'
+import { TicketSubject, TicketUser } from '@partials/common/Tickets/components'
 import { AdminApi } from '@queries'
 import { ColumnDef } from '@tanstack/react-table'
-import React, { useState } from 'react'
-import { AiFillCloseCircle, AiFillDelete } from 'react-icons/ai'
 import moment from 'moment'
 import { useRouter } from 'next/router'
-import { TicketSubject, TicketUser } from '@partials/common/Tickets/components'
+import { useState } from 'react'
+import { AiFillCloseCircle, AiFillDelete } from 'react-icons/ai'
 
-export enum TicketStatus {
-    OPEN = 'open',
-    CLOSED = 'close',
-    REOPENED = 'reopened',
-}
-
-export const MyOpenTickets = () => {
+export const AllTickets = () => {
     const [itemPerPage, setItemPerPage] = useState(50)
     const [page, setPage] = useState(1)
 
     const router = useRouter()
 
-    const { isLoading, isFetching, data, isError } =
-        AdminApi.Tickets.useGetTicket(
+    const { isLoading, isFetching, data, isError, refetch } =
+        AdminApi.Students.useListQuery(
             {
                 skip: itemPerPage * page - itemPerPage,
                 limit: itemPerPage,
@@ -60,16 +54,12 @@ export const MyOpenTickets = () => {
         },
         {
             accessorKey: 'createdBy',
-            cell: (info) => (
-                <TicketUser ticket={info?.row?.original?.createdBy} />
-            ),
+            cell: (info) => <TicketUser ticket={info?.row?.original} />,
             header: () => <span>Created By</span>,
         },
         {
             accessorKey: 'assignedTo',
-            cell: (info) => (
-                <TicketUser ticket={info?.row?.original?.assignedTo} />
-            ),
+            cell: (info) => <TicketUser ticket={info?.row?.original} />,
             header: () => <span>Assigned To</span>,
         },
         {
@@ -109,8 +99,8 @@ export const MyOpenTickets = () => {
                 {isError && <TechnicalError />}
                 {isLoading || isFetching ? (
                     <LoadingAnimation height="h-[60vh]" />
-                ) : data && data?.data?.length ? (
-                    <Table columns={columns} data={data?.data}>
+                ) : data && data?.data.length ? (
+                    <Table columns={columns} data={data.data}>
                         {({
                             table,
                             pagination,
