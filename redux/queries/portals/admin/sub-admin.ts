@@ -16,8 +16,8 @@ export const subAdminEndpoints = (
         invalidatesTags: ['SubAdmins'],
     }),
     updateSubAdmin: builder.mutation({
-        query: ({ id, body }) => ({
-            url: `${PREFIX}/subadmin/update/${id}`,
+        query: ({ id, userId, body }) => ({
+            url: `${PREFIX}/subadmin/update/${id}/${userId}`,
             method: 'PATCH',
             body,
         }),

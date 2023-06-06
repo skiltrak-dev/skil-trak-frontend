@@ -119,7 +119,7 @@ const routes: Route[] = [
     },
     {
         text: 'Tickets',
-        path: getRoutePath('/tickets'),
+        path: getRoutePath('/tickets?tab=my-open-tickets'),
         Icon: BsFillTicketDetailedFill,
     },
     {

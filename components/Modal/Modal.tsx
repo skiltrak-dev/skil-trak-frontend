@@ -55,7 +55,7 @@ export const Modal = ({
                     </div>
                     <MdCancel
                         onClick={onCancelButtonClick}
-                        className="transition-all duration-300 text-gray-400 hover:text-black text-3xl cursor-pointer"
+                        className="transition-all duration-500 text-gray-400 hover:text-black text-3xl cursor-pointer hover:rotate-90"
                     />
                 </div>
 

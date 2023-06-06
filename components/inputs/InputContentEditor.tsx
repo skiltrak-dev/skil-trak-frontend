@@ -118,7 +118,7 @@ export const InputContentEditor = ({
                             editorState={field?.value}
                             wrapperClassName={`border ${
                                 error ? 'border-error' : ''
-                            } rounded-md`}
+                            } rounded-md h-10`}
                             editorClassName="overflow-hidden h-20"
                             onEditorStateChange={(e: any) => {
                                 field.onChange(e)

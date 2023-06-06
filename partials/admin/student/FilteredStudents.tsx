@@ -239,9 +239,25 @@ export const FilteredStudents = ({
             cell: (info: any) => {
                 const industry = info.row.original?.industries
 
-                const appliedIndustry = getStudentWorkplaceAppliedIndustry(
-                    info.row.original?.workplace[0]
-                )?.industry
+                const activeWorkplace = info.row.original?.workplace?.filter(
+                    (wp: any) =>
+                        wp?.currentStatus !==
+                            WorkplaceCurrentStatus.Cancelled ||
+                        wp?.currentStatus !==
+                            WorkplaceCurrentStatus.Terminated ||
+                        wp?.currentStatus !== WorkplaceCurrentStatus.Rejected ||
+                        wp?.currentStatus !== WorkplaceCurrentStatus.NoResponse
+                )
+
+                const workplace = activeWorkplace?.reduce(
+                    (a: any, b: any) => (a?.createdAt > b?.createdAt ? a : b),
+                    {
+                        currentStatus: WorkplaceCurrentStatus.NotRequested,
+                    }
+                )
+
+                const appliedIndustry =
+                    getStudentWorkplaceAppliedIndustry(workplace)?.industry
 
                 return industry && industry?.length > 0 ? (
                     <IndustryCell industry={industry[0]} />

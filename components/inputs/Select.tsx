@@ -73,7 +73,7 @@ export const Select = ({
                 ? `1px solid ${Colors.secondary.dark} !important`
                 : // formContext &&
                 //   formContext.formState.touchedFields[name] &&
-                formContext.formState.errors[name]
+                formContext?.formState.errors[name]
                 ? `1px solid red !important`
                 : `1px solid ${Colors.secondary.dark} !important`,
             '&:hover': {
