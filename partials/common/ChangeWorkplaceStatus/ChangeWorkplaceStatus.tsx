@@ -155,7 +155,6 @@ export const ChangeWorkplaceStatus = ({
         //     secondaryText: 'for Workplace Response',
         //     color: 'text-info-light',
         //     onClick: (isCleared: any) => {
-        //         console.log(workplace)
         //         const WPStatus = [
         //             WorkplaceCurrentStatus.Applied,
         //             WorkplaceCurrentStatus.AppointmentBooked,

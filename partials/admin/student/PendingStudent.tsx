@@ -48,7 +48,7 @@ export const PendingStudent = () => {
     // hooks
     const { passwordModal, onViewPassword } = useActionModal()
 
-    const { isLoading, data, isError, isSuccess } =
+    const { isLoading, isFetching, data, isError, isSuccess } =
         AdminApi.Students.useListQuery({
             search: `status:${UserStatus.Pending}`,
             skip: itemPerPage * page - itemPerPage,
@@ -232,7 +232,7 @@ export const PendingStudent = () => {
 
                 <Card noPadding>
                     {isError && <TechnicalError />}
-                    {isLoading ? (
+                    {isLoading || isFetching ? (
                         <LoadingAnimation height="h-[60vh]" />
                     ) : data && data?.data.length && isSuccess ? (
                         <Table

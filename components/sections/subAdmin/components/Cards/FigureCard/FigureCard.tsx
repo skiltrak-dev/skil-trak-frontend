@@ -44,7 +44,7 @@ export const FigureCard = ({
                             ) : (
                                 <p className="text-3xl font-bold">
                                     {/* <CountUp end={count} /> */}
-                                    {count}
+                                    {count || 0}
                                 </p>
                             )}
                             <p className="text-xs text-gray-500 leading-3 uppercase">

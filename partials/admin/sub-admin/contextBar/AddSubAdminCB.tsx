@@ -47,7 +47,11 @@ export const AddSubAdminCB = ({
         if (edit) {
             // delete values.password
 
-            update({ id: subAdmin?.id, body: values })
+            update({
+                id: subAdmin?.id,
+                userId: subAdmin?.user?.id,
+                body: values,
+            })
         } else {
             createSubAmin({
                 role: UserRoles.SUBADMIN,

@@ -1,5 +1,5 @@
 import { useRouter } from 'next/router'
-import { ReactElement, useEffect, useState } from 'react'
+import { useState } from 'react'
 
 // hooks
 import { useContextBar } from '@hooks'
@@ -7,17 +7,6 @@ import { useContextBar } from '@hooks'
 
 //components
 import { Typography } from '@components'
-import { Notes } from '@components/sections/subAdmin'
-
-import { FigureCard } from '@components/sections/subAdmin'
-import { SubAdminProfileTabsView } from '@components/sections/subAdmin'
-import {
-    RtoProfileOverview,
-    AppointmentProfile,
-    AssessmentTools,
-    ArchivedAssessmentTool,
-} from '@components/sections/subAdmin/UsersContainer'
-import { AddAssessmentToolCB } from './contextBar'
 
 // icons
 import { FaEdit } from 'react-icons/fa'
@@ -27,6 +16,9 @@ import {
     useUpdateSubAdminAssessmentToolArchiveMutation,
 } from '@queries'
 import Link from 'next/link'
+import { AddAssessmentToolCB } from '../../contextBar'
+import { AssessmentTools } from './AssessmentTools'
+import { ArchivedAssessmentTool } from './ArchivedAssessmentTool'
 type Props = {}
 
 export const AssessmentToolsSubAdmin = (props: Props) => {

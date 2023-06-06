@@ -5,29 +5,23 @@ import { AiFillEdit } from 'react-icons/ai'
 import { BiRename } from 'react-icons/bi'
 
 import { NoData } from '@components/ActionAnimations'
+import { AuthorizedUserComponent } from '@components/AuthorizedUserComponent'
 import { LoadingAnimation } from '@components/LoadingAnimation'
-import { Course } from '@types'
+import { ShowErrorNotifications } from '@components/ShowErrorNotifications'
+import { ActionButton } from '@components/buttons'
+import { UserRoles } from '@constants'
+import { useActionModal, useNotification } from '@hooks'
+import { CourseList } from '@partials/common'
+import { AddToPartnerModal } from '@partials/sub-admin/Industries/modals/AddToPartnerModal'
+import { SubAdminApi } from '@queries'
+import { getUserCredentials } from '@utils'
 import { useRouter } from 'next/router'
-import {
-    FaAddressCard,
-    FaHandshake,
-    FaHandshakeSlash,
-    FaRegHandshake,
-} from 'react-icons/fa'
+import { ReactNode, useEffect, useState } from 'react'
+import { BsUnlockFill } from 'react-icons/bs'
+import { FaAddressCard, FaRegHandshake } from 'react-icons/fa'
 import { GiBackwardTime } from 'react-icons/gi'
 import { IoLocation } from 'react-icons/io5'
 import { MdAdminPanelSettings, MdPhone, MdVerified } from 'react-icons/md'
-import { getUserCredentials } from '@utils'
-import { CourseList } from '@partials/common'
-import { BsUnlockFill } from 'react-icons/bs'
-import { useActionModal, useNotification } from '@hooks'
-import { ActionButton } from '@components/buttons'
-import { SubAdminApi } from '@queries'
-import { AuthorizedUserComponent } from '@components/AuthorizedUserComponent'
-import { UserRoles } from '@constants'
-import { ShowErrorNotifications } from '@components/ShowErrorNotifications'
-import { ReactNode, useEffect, useState } from 'react'
-import { AddToPartnerModal } from '@partials/sub-admin/Industries/modals/AddToPartnerModal'
 import { PulseLoader } from 'react-spinners'
 
 type Props = {
@@ -58,10 +52,6 @@ export const IndustryProfile = ({ data }: Props) => {
             })
         }
     }, [addToPartnerResult])
-    console.log(
-        'addToPartnerResultaddToPartnerResultaddToPartnerResult',
-        addToPartnerResult?.data
-    )
 
     const getSectors = (courses: any) => {
         if (!courses) return {}

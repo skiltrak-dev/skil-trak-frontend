@@ -36,6 +36,7 @@ import {
     checkWorkplaceStatus,
     getStudentWorkplaceAppliedIndustry,
     setLink,
+    studentsListWorkplace,
 } from '@utils'
 import { ColumnDef } from '@tanstack/react-table'
 import { RiLockPasswordFill } from 'react-icons/ri'
@@ -60,11 +61,12 @@ export const BlockedStudents = () => {
         setItemPerPage(Number(router.query.pageSize || 50))
     }, [router])
 
-    const { isLoading, data, isError } = SubAdminApi.Student.useList({
-        search: `status:${UserStatus.Blocked}`,
-        skip: itemPerPage * page - itemPerPage,
-        limit: itemPerPage,
-    })
+    const { isLoading, isFetching, data, isError } =
+        SubAdminApi.Student.useList({
+            search: `status:${UserStatus.Blocked}`,
+            skip: itemPerPage * page - itemPerPage,
+            limit: itemPerPage,
+        })
 
     const onModalCancelClicked = () => {
         setModal(null)
@@ -149,9 +151,9 @@ export const BlockedStudents = () => {
             cell: (info: any) => {
                 const industry = info.row.original?.industries
 
-                const appliedIndustry = getStudentWorkplaceAppliedIndustry(
-                    info.row.original?.workplace[0]
-                )?.industry
+                const appliedIndustry = studentsListWorkplace(
+                    info.row.original?.workplace
+                )
 
                 return industry && industry?.length > 0 ? (
                     <IndustryCellInfo industry={industry[0]} />
@@ -234,7 +236,7 @@ export const BlockedStudents = () => {
             {passwordModal}
             {isError && <TechnicalError />}
             <Card noPadding>
-                {isLoading ? (
+                {isLoading || isFetching ? (
                     <LoadingAnimation height="h-[60vh]" />
                 ) : data && data?.data.length ? (
                     <Table

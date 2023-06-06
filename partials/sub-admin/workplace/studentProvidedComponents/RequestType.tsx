@@ -18,6 +18,7 @@ import OutsideClickHandler from 'react-outside-click-handler'
 import {
     ActionModal,
     CompleteWorkplaceModal,
+    InterviewModal,
     PlacementStartedModal,
     TerminateWorkplaceModal,
 } from '../modals'
@@ -39,6 +40,17 @@ export const RequestType = ({
     const [interView, interViewResult] = useSendInterviewNotificationMutation()
 
     const { notification } = useNotification()
+
+    const onInterviewClicked = () => {
+        setModal(
+            <InterviewModal
+                workIndustry={appliedIndustry?.id}
+                workplace={workplace?.id}
+                onCancel={onModalCancelClicked}
+                student={workplace?.student}
+            />
+        )
+    }
 
     useEffect(() => {
         if (interViewResult.isSuccess) {
@@ -121,7 +133,8 @@ export const RequestType = ({
             color: 'text-primary-light',
             onClick: (isCleared: any) => {
                 isCleared(true)
-                interView(appliedIndustry?.id)
+                // interView(appliedIndustry?.id)
+                onInterviewClicked()
             },
             status: 'interview',
         },

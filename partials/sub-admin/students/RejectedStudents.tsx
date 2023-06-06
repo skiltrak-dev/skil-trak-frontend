@@ -16,7 +16,7 @@ import {
     TableAction,
     TableActionOption,
     Typography,
-    UserCreatedAt
+    UserCreatedAt,
 } from '@components'
 import { StudentCellInfo } from './components'
 
@@ -32,7 +32,8 @@ import { SectorCell } from '@partials/admin/student/components'
 import { ColumnDef } from '@tanstack/react-table'
 import {
     getStudentWorkplaceAppliedIndustry,
-    setLink
+    setLink,
+    studentsListWorkplace,
 } from '@utils'
 import { AiFillCheckCircle } from 'react-icons/ai'
 import { RiLockPasswordFill } from 'react-icons/ri'
@@ -54,11 +55,12 @@ export const RejectedStudents = () => {
         setItemPerPage(Number(router.query.pageSize || 50))
     }, [router])
 
-    const { isLoading, data, isError } = SubAdminApi.Student.useList({
-        search: `status:${UserStatus.Rejected}`,
-        skip: itemPerPage * page - itemPerPage,
-        limit: itemPerPage,
-    })
+    const { isLoading, isFetching, data, isError } =
+        SubAdminApi.Student.useList({
+            search: `status:${UserStatus.Rejected}`,
+            skip: itemPerPage * page - itemPerPage,
+            limit: itemPerPage,
+        })
 
     const onModalCancelClicked = () => {
         setModal(null)
@@ -150,9 +152,9 @@ export const RejectedStudents = () => {
             cell: (info: any) => {
                 const industry = info.row.original?.industries
 
-                const appliedIndustry = getStudentWorkplaceAppliedIndustry(
-                    info.row.original?.workplace[0]
-                )?.industry
+                const appliedIndustry = studentsListWorkplace(
+                    info.row.original?.workplace
+                )
 
                 return industry && industry?.length > 0 ? (
                     <IndustryCellInfo industry={industry[0]} />
@@ -206,7 +208,7 @@ export const RejectedStudents = () => {
             {passwordModal}
             {isError && <TechnicalError />}
             <Card noPadding>
-                {isLoading ? (
+                {isLoading || isFetching ? (
                     <LoadingAnimation height="h-[60vh]" />
                 ) : data && data?.data.length ? (
                     <Table

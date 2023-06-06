@@ -53,3 +53,25 @@ export const checkStudentStatus = (studentStatus: string) => {
 export const getStudentWorkplaceAppliedIndustry = (workplace: any) => {
     return workplace?.industries?.find((industry: any) => industry?.applied)
 }
+
+export const studentsListWorkplace = (workplace: any) => {
+    const activeWorkplace = workplace?.filter(
+        (wp: any) =>
+            wp?.currentStatus !== WorkplaceCurrentStatus.Cancelled ||
+            wp?.currentStatus !== WorkplaceCurrentStatus.Terminated ||
+            wp?.currentStatus !== WorkplaceCurrentStatus.Rejected ||
+            wp?.currentStatus !== WorkplaceCurrentStatus.NoResponse
+    )
+
+    const latestWorkplace = activeWorkplace?.reduce(
+        (a: any, b: any) => (a?.createdAt > b?.createdAt ? a : b),
+        {
+            currentStatus: WorkplaceCurrentStatus.NotRequested,
+        }
+    )
+
+    const appliedIndustry =
+        getStudentWorkplaceAppliedIndustry(latestWorkplace)?.industry
+
+    return appliedIndustry
+}

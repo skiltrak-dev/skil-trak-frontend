@@ -29,8 +29,6 @@ export const CallLogDetail = ({ callLog }: { callLog: CallLog }) => {
 
     const { notification } = useNotification()
 
-    console.log('callTypecallType', callType)
-
     useEffect(() => {
         if (isAnsweredCallResult.isSuccess) {
             notification[

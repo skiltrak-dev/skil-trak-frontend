@@ -36,7 +36,11 @@ import {
 } from './components'
 import { useRouter } from 'next/router'
 import { DeleteModal, AcceptModal } from './modals'
-import { checkStudentStatus, checkWorkplaceStatus } from '@utils'
+import {
+    checkStudentStatus,
+    checkWorkplaceStatus,
+    studentsListWorkplace,
+} from '@utils'
 import { ChangeStudentStatusModal } from '@partials/sub-admin/students/modals'
 import { EditTimer } from '@components/StudentTimer/EditTimer'
 
@@ -134,11 +138,19 @@ export const ArchivedStudent = () => {
         {
             accessorKey: 'industry',
             header: () => <span>Industry</span>,
-            cell: (info) => {
+            cell: (info: any) => {
                 const industry = info.row.original?.industries
+
+                const appliedIndustry = studentsListWorkplace(
+                    info.row.original?.workplace
+                )
 
                 return industry && industry?.length > 0 ? (
                     <IndustryCell industry={industry[0]} />
+                ) : info.row.original?.workplace &&
+                  info.row.original?.workplace?.length > 0 &&
+                  appliedIndustry ? (
+                    <IndustryCell industry={appliedIndustry} />
                 ) : (
                     <Typography center>N/A</Typography>
                 )

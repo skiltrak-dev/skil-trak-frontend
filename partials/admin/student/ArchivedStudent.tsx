@@ -29,6 +29,7 @@ import {
     checkStudentStatus,
     checkWorkplaceStatus,
     getStudentWorkplaceAppliedIndustry,
+    studentsListWorkplace,
 } from '@utils'
 import { ChangeStatusModal, DeleteModal } from './modals'
 import { EditTimer } from '@components/StudentTimer/EditTimer'
@@ -54,7 +55,7 @@ export const ArchivedStudent = () => {
     // hooks
     const { passwordModal, onViewPassword } = useActionModal()
 
-    const { isLoading, data, isError, refetch } =
+    const { isLoading, isFetching, data, isError, refetch } =
         AdminApi.Students.useListQuery({
             search: `status:${UserStatus.Archived}`,
             skip: itemPerPage * page - itemPerPage,
@@ -163,9 +164,9 @@ export const ArchivedStudent = () => {
             cell: (info: any) => {
                 const industry = info.row.original?.industries
 
-                const appliedIndustry = getStudentWorkplaceAppliedIndustry(
-                    info.row.original?.workplace[0]
-                )?.industry
+                const appliedIndustry = studentsListWorkplace(
+                    info.row.original?.workplace
+                )
 
                 return industry && industry?.length > 0 ? (
                     <IndustryCell industry={industry[0]} />
@@ -306,7 +307,7 @@ export const ArchivedStudent = () => {
 
                 <Card noPadding>
                     {isError && <TechnicalError />}
-                    {isLoading ? (
+                    {isLoading || isFetching ? (
                         <LoadingAnimation height="h-[60vh]" />
                     ) : data && data?.data.length ? (
                         <Table

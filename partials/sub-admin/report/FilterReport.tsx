@@ -7,6 +7,7 @@ import { MonthlyDropdown } from './MonthlyDropdown'
 import { AnnualDropdown } from './AnnualDropdown'
 import OutsideClickHandler from 'react-outside-click-handler'
 import { Card } from '@components'
+import moment from 'moment'
 
 type Props = {
     startDate: any
@@ -81,8 +82,13 @@ export const FilterReport = ({
         setEndDate(date)
         if (selectedFilter === 'Range') {
             setShowCalendars(false)
+            // setDateRange(
+            //     `${startDate.toLocaleDateString()} - ${date.toLocaleDateString()}`
+            // )
             setDateRange(
-                `${startDate.toLocaleDateString()} - ${date.toLocaleDateString()}`
+                `${moment(startDate).format('DD/MM/YYYY')} - ${moment(
+                    date
+                ).format('DD/MM/YYYY')}`
             )
         }
     }

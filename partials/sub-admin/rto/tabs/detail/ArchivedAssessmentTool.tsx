@@ -18,7 +18,7 @@ import {
 } from '@queries'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 type ArchivedViewProps = {
     role: 'RTO' | 'Student'
@@ -48,6 +48,13 @@ export const ArchivedAssessmentTool = ({
         useUpdateSubAdminAssessmentToolArchiveMutation()
 
     const [remove, removeResult] = useRemoveSubAdminRTOAssessmentToolsMutation()
+
+    useEffect(() => {
+        if (rtoCourses.isSuccess) {
+            setSelectedCourseId(rtoCourses?.data[0]?.id)
+        }
+    }, [rtoCourses])
+
     const actions = (assessment: any) => {
         return (
             <div className="flex gap-x-2 ">
