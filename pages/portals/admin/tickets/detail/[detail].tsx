@@ -109,6 +109,7 @@ const Tickets: NextPageWithLayout = () => {
             <div className="flex flex-col gap-y-4 mt-4">
                 {[...Array(10)].map((_, i) => (
                     <div
+                        key={i}
                         className={`${
                             i % 2 == 1 ? 'bg-gray-100' : ''
                         } border border-gray-300 rounded-md px-4 py-5`}
@@ -146,7 +147,7 @@ const Tickets: NextPageWithLayout = () => {
                 ))}
             </div>
 
-            <div className="mt-2 fixed bottom-0 w-[100%-300px]">
+            <div className="mt-2 fixed bottom-0 w-[calc(100%-255px)]">
                 <Card>
                     <FormProvider {...methods}>
                         <form
@@ -156,6 +157,7 @@ const Tickets: NextPageWithLayout = () => {
                             <InputContentEditor
                                 name={'message'}
                                 label={'Message'}
+                                height={'h-44'}
                             />
                             <Button submit text={'Reply'} variant={'dark'} />
                         </form>

@@ -29,6 +29,7 @@ import {
     checkStudentStatus,
     checkWorkplaceStatus,
     getStudentWorkplaceAppliedIndustry,
+    studentsListWorkplace,
 } from '@utils'
 import { ChangeStatusModal, DeleteModal } from './modals'
 import { EditTimer } from '@components/StudentTimer/EditTimer'
@@ -163,9 +164,9 @@ export const ArchivedStudent = () => {
             cell: (info: any) => {
                 const industry = info.row.original?.industries
 
-                const appliedIndustry = getStudentWorkplaceAppliedIndustry(
-                    info.row.original?.workplace[0]
-                )?.industry
+                const appliedIndustry = studentsListWorkplace(
+                    info.row.original?.workplace
+                )
 
                 return industry && industry?.length > 0 ? (
                     <IndustryCell industry={industry[0]} />

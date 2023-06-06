@@ -76,11 +76,13 @@ export const InputContentEditor = ({
     label,
     content,
     onChange,
+    height,
 }: {
     name: string
     label?: string
     content?: any
     onChange?: any
+    height?: string
 }) => {
     const methods = useFormContext()
 
@@ -118,8 +120,10 @@ export const InputContentEditor = ({
                             editorState={field?.value}
                             wrapperClassName={`border ${
                                 error ? 'border-error' : ''
-                            } rounded-md h-10`}
-                            editorClassName="overflow-hidden h-20"
+                            } rounded-md ${
+                                height ? height : 'h-64'
+                            } overflow-auto`}
+                            editorClassName="!overflow-auto custom-scrollbar !h-[calc(100%-60px)]"
                             onEditorStateChange={(e: any) => {
                                 field.onChange(e)
                                 if (onChange) {

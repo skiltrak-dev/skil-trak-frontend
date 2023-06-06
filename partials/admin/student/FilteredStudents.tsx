@@ -43,6 +43,7 @@ import {
     checkStudentStatus,
     checkWorkplaceStatus,
     getStudentWorkplaceAppliedIndustry,
+    studentsListWorkplace,
     WorkplaceCurrentStatus,
 } from '@utils'
 import { IndustryCell } from '../industry/components'
@@ -239,25 +240,9 @@ export const FilteredStudents = ({
             cell: (info: any) => {
                 const industry = info.row.original?.industries
 
-                const activeWorkplace = info.row.original?.workplace?.filter(
-                    (wp: any) =>
-                        wp?.currentStatus !==
-                            WorkplaceCurrentStatus.Cancelled ||
-                        wp?.currentStatus !==
-                            WorkplaceCurrentStatus.Terminated ||
-                        wp?.currentStatus !== WorkplaceCurrentStatus.Rejected ||
-                        wp?.currentStatus !== WorkplaceCurrentStatus.NoResponse
+                const appliedIndustry = studentsListWorkplace(
+                    info.row.original?.workplace
                 )
-
-                const workplace = activeWorkplace?.reduce(
-                    (a: any, b: any) => (a?.createdAt > b?.createdAt ? a : b),
-                    {
-                        currentStatus: WorkplaceCurrentStatus.NotRequested,
-                    }
-                )
-
-                const appliedIndustry =
-                    getStudentWorkplaceAppliedIndustry(workplace)?.industry
 
                 return industry && industry?.length > 0 ? (
                     <IndustryCell industry={industry[0]} />
