@@ -16,25 +16,44 @@ import {
 
 // types
 import { Student } from '@types'
-import { AssessmentCellInfo } from '../components'
+import { ArchiveModal, AssessmentCellInfo } from '../components'
 import { MdEmail, MdPhoneIphone } from 'react-icons/md'
+import { ReactElement, useState } from 'react'
+import { BsArchiveFill } from 'react-icons/bs'
 
 export const useColumns = () => {
     const router = useRouter()
-    const tableActionOptions: TableActionOption[] = [
-        {
-            text: 'View',
-            onClick: (item: any) => {
-                router.push({
-                    pathname: `/portals/sub-admin/tasks/assessment-evidence/${item?.student?.id}/${item?.student?.user?.id}`,
-                    query: {
-                        course: item?.course?.id,
-                    },
-                })
+    const [modal, setModal] = useState<ReactElement | null>(null)
+    const onModalCancelClicked = () => {
+        setModal(null)
+    }
+    const onArchiveClicked = (student: any) => {
+        setModal(
+            <ArchiveModal item={student} onCancel={onModalCancelClicked} />
+        )
+    }
+    const tableActionOptions = (student: any) => {
+        return [
+            {
+                text: 'View',
+                onClick: (item: any) => {
+                    router.push({
+                        pathname: `/portals/sub-admin/tasks/assessment-evidence/${item?.student?.id}/${item?.student?.user?.id}`,
+                        query: {
+                            course: item?.course?.id,
+                        },
+                    })
+                },
+                Icon: FaEye,
             },
-            Icon: FaEye,
-        },
-    ]
+            {
+                text: student.status === "approved" ? 'Archived' : 'Un-archived',
+                onClick: (student: any) => onArchiveClicked(student),
+                Icon: BsArchiveFill,
+                color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
+            },
+        ]
+    }
 
     const columns = [
         {
@@ -135,14 +154,15 @@ export const useColumns = () => {
             header: () => 'Action',
             accessorKey: 'Action',
             cell: ({ row }: any) => {
+                const tableActionOption = tableActionOptions(row.original)
                 return (
                     <TableAction
-                        options={tableActionOptions}
+                        options={tableActionOption}
                         rowItem={row.original}
                     />
                 )
             },
         },
     ]
-    return columns
+    return { columns, modal }
 }

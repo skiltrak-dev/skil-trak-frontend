@@ -9,7 +9,6 @@ import { SubAdminApi } from '@queries'
 import { CallLog } from '@types'
 import React from 'react'
 import { CallLogDetail } from '../components'
-import { MdPhoneDisabled } from 'react-icons/md'
 import { LuPhoneCall } from 'react-icons/lu'
 
 export const CallLogsModal = ({

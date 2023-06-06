@@ -87,6 +87,13 @@ export const subAdminReports = (
             url: `${PREFIX}/summary/generate/${userId}`,
             params,
         }),
-        providesTags: ['Rto-Students'],
+        providesTags: ['SubAdminReports'],
+    }),
+    getStudentProvidedWorkplaceReport: builder.query<any, any>({
+        query: (params) => ({
+            url: `${PREFIX}/student-provided/workplace-requests`,
+            params,
+        }),
+        providesTags: ['SubAdminReports'],
     }),
 })

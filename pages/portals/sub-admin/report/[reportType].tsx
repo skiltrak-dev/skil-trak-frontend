@@ -8,14 +8,19 @@ import {
     ActiveStudentsDetail,
     ActiveStudentsWithoutWorkplaceDetail,
     AppointmentsDetail,
+    ArchivedStudentsDetail,
+    CancelledWorkplaceDetail,
+    CompletedWorkplaceDetail,
     DownloadButton,
+    PlacementStartedDetail,
+    StudentHaveWorkplaceDetail,
     StudentsAssignedDetail,
     StudentsCallsDetail,
+    TerminatedWorkplaceDetail,
    } from '@partials/sub-admin'
 import { SubAdminReports } from 'types/sub-admin-reports.type'
-import { ArchivedStudentsDetail } from '@partials/rto/report'
-import { TerminatedWorkplaceDetail } from '@partials/sub-admin/report/components/studentsWorkplace/TerminatedWorkplaceDetail'
-import { CancelledWorkplaceDetail, CompletedWorkplaceDetail, PlacementStartedDetail } from '@partials/sub-admin/report/components/studentsWorkplace'
+
+
 
 const ReportType: NextPageWithLayout = () => {
     const router = useRouter()
@@ -51,6 +56,8 @@ const ReportType: NextPageWithLayout = () => {
                 return <PlacementStartedDetail />
             case SubAdminReports.NO_WORKPLACE:
                 return <ActiveStudentsWithoutWorkplaceDetail />
+            case SubAdminReports.STUDENT_HAVE_WORKPLACE:
+                return <StudentHaveWorkplaceDetail />
             default:
                 return null
         }

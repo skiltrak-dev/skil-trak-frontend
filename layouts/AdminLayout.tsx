@@ -10,12 +10,16 @@ import {
     SideBar,
 } from '@components'
 import { IconType } from 'react-icons'
+<<<<<<< Updated upstream
 import {
     FaClipboardList,
     FaUniversity,
     FaUserGraduate,
     FaUsers,
 } from 'react-icons/fa'
+=======
+import { FaClipboardList, FaFileInvoiceDollar, FaUniversity, FaUserGraduate } from 'react-icons/fa'
+>>>>>>> Stashed changes
 import { IoMdBriefcase } from 'react-icons/io'
 import {
     MdHomeWork,
@@ -144,6 +148,19 @@ const routes: Route[] = [
         path: getRoutePath('/all-notifications'),
         Icon: MdNotificationsActive,
     },
+    {
+        type: 'divider',
+    },
+    {
+        type: 'title',
+        text: 'Accounts',
+    },
+    {
+        text: 'Invoices',
+        path: getRoutePath('/invoices'),
+        Icon: FaFileInvoiceDollar,
+    },
+
 ]
 
 export const AdminLayout = ({ children }: any) => {

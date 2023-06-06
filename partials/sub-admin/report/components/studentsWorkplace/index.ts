@@ -1,4 +1,5 @@
 export * from './StudentHaveWorkplaceReport'
+export * from './StudentHaveWorkplaceDetail'
 
 export * from './AddStudentsWorkplacesReport'
 

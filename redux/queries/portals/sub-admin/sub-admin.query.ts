@@ -179,6 +179,7 @@ export const {
 
     // --- ASSESSMENT EVIDENCE --- //
     useGetAssessmentEvidenceQuery,
+    useArchiveAssessmentEvidenceMutation,
     useAssessmentCountQuery,
     useGetAssessmentResponseQuery,
 
@@ -255,6 +256,7 @@ export const {
     useGetStudentWorkplaceStartedReportQuery,
     useGetStudentWithNoWorkplaceReportQuery,
     useGetSubAdminReportDownloadLinkQuery,
+    useGetStudentProvidedWorkplaceReportQuery,
 } = subAdminApi
 
 export const SubAdminApi = {
@@ -347,6 +349,7 @@ export const SubAdminApi = {
         archiveUploadedFile: useArchiveUploadedFileMutation,
         downloadFiles: useDownloadAllCourseFilesMutation,
         downloadArchiveFiles: useDownloadArhiveCourseFilesMutation,
+        useArchiveAssessmentEvidence: useArchiveAssessmentEvidenceMutation,
     },
     Reports: {
         useAssignedStudents: useGetAssignedStudentsReportQuery,
@@ -366,5 +369,7 @@ export const SubAdminApi = {
         useStudentWithNoWorkplaceReport:
             useGetStudentWithNoWorkplaceReportQuery,
         useDownloadLink: useGetSubAdminReportDownloadLinkQuery,
+        useStudentProvidedWorkplaceReport:
+            useGetStudentProvidedWorkplaceReportQuery,
     },
 }

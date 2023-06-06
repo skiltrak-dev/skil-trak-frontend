@@ -110,6 +110,13 @@ export const assessmentEvidenceEndpoints = (
         }),
         invalidatesTags: ['AssessmentEvidence', 'SubAdminStudents'],
     }),
+    archiveAssessmentEvidence: builder.mutation<any, any>({
+        query: ({ id }) => ({
+            url: `${PREFIX}/assessment-evidence/result/update-status/${id}`,
+            method: 'PATCH',
+        }),
+        invalidatesTags: ['AssessmentEvidence', 'SubAdminStudents'],
+    }),
     studentAssessmentCourses: builder.query<any, number>({
         query: (id) => `${PREFIX}/student/course/${id}`,
         providesTags: [
