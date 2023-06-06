@@ -40,12 +40,14 @@ import {
     checkWorkplaceStatus,
     getStudentWorkplaceAppliedIndustry,
     setLink,
+    studentsListWorkplace,
 } from '@utils'
 import { ColumnDef } from '@tanstack/react-table'
 import { EditTimer } from '@components/StudentTimer/EditTimer'
 import { RiLockPasswordFill } from 'react-icons/ri'
 import { InterviewModal } from '../workplace/modals'
 import { IndustryCellInfo } from '../Industries'
+import { RTOCellInfo } from '../rto/components'
 
 export const AllStudents = () => {
     const router = useRouter()
@@ -203,16 +205,7 @@ export const AllStudents = () => {
         {
             header: () => 'RTO',
             accessorKey: 'rto',
-            cell({ row }: any) {
-                const { rto } = row.original
-
-                return (
-                    <div className="flex gap-x-2 items-center">
-                        <InitialAvatar name={rto.user.name} small />
-                        {rto.user.name}
-                    </div>
-                )
-            },
+            cell: ({ row }: any) => <RTOCellInfo rto={row.original?.rto} />,
         },
         {
             accessorKey: 'industry',
@@ -220,9 +213,9 @@ export const AllStudents = () => {
             cell: (info: any) => {
                 const industry = info.row.original?.industries
 
-                const appliedIndustry = getStudentWorkplaceAppliedIndustry(
-                    info.row.original?.workplace[0]
-                )?.industry
+                const appliedIndustry = studentsListWorkplace(
+                    info.row.original?.workplace
+                )
 
                 return industry && industry?.length > 0 ? (
                     <IndustryCellInfo industry={industry[0]} />

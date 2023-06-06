@@ -129,13 +129,6 @@ export const ReportListModal = ({ onClose }: any) => {
                                         loading={downloadAsPdf?.isLoading}
                                         disabled={downloadAsPdf?.isLoading}
                                     />
-                                    {/* <Button
-                                        text="Download as CSV"
-                                        variant="dark"
-                                        onClick={() => {
-                                            console.log('downloading')
-                                        }}
-                                    /> */}
                                 </div>
                             </div>
                         </>

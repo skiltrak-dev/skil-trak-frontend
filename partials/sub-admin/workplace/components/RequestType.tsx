@@ -4,29 +4,20 @@ import { useEffect, useState } from 'react'
 import { IoMdArrowDropdown } from 'react-icons/io'
 
 // components
-import {
-    Typography,
-    LoadingAnimation,
-    ShowErrorNotifications,
-} from '@components'
-import { requestType } from './requestTypeData'
-import { SignAgreement } from './Industries/components/Actions/components/SignAgreement'
+import { LoadingAnimation, Typography } from '@components'
 
 // query
-import { useSendInterviewNotificationMutation } from '@queries'
-import OutsideClickHandler from 'react-outside-click-handler'
 import { useNotification } from '@hooks'
+import { WorkplaceCurrentStatus } from '@utils'
+import OutsideClickHandler from 'react-outside-click-handler'
 import {
-    ForwardModal,
-    PlacementStartedModal,
-    ActionModal,
     CompleteWorkplaceModal,
-    TerminateWorkplaceModal,
+    ForwardModal,
     InterviewModal,
     MeetingModal,
+    PlacementStartedModal,
+    TerminateWorkplaceModal,
 } from '../modals'
-import { HiCheckBadge } from 'react-icons/hi2'
-import { WorkplaceCurrentStatus } from '@utils'
 
 export const RequestType = ({
     workplace,

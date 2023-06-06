@@ -1,20 +1,18 @@
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
-import { AuthUtils } from '@utils'
 
+import { UserStatus } from '@types'
+import { emptySplitApi } from '../empty.query'
 import { subAdminAppointmentspoints } from './appointments'
 import { assessmentEvidenceEndpoints } from './assessmentEvidence'
 import { subAdminIndustriesEndpoints } from './industries'
 import { notesEndpoints } from './notes'
 import { profileEndpoints } from './profile'
+import { subAdminReports } from './reports'
 import { subAdminRtoEndpoints } from './rto'
 import { setScheduleEndpoints } from './setSchedule'
 import { setUnavailabilityEndpoints } from './setUnavailability'
 import { subAdminSettingEndpoints } from './setting'
 import { studentsEndpoints } from './students'
 import { workplaceEndpoints } from './workplace'
-import { UserStatus } from '@types'
-import { emptySplitApi } from '../empty.query'
-import { subAdminReports } from './reports'
 export const subAdminApi = emptySplitApi.injectEndpoints({
     // export const subAdminApi = createApi({
     //     reducerPath: 'subAdminApi',

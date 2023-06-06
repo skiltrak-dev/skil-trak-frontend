@@ -222,6 +222,7 @@ const RtoStudents: NextPageWithLayout = (props: Props) => {
                             initialValues={filter}
                             setFilterAction={setFilterAction}
                             setFilter={setFilter}
+                            filterKeys={filterKeys}
                         />
                     </div>
                     {filteredStudents.isLoading ? (

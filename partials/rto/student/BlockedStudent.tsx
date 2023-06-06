@@ -32,7 +32,11 @@ import {
 import { Student, UserStatus } from '@types'
 import { DeleteModal, UnblockModal } from './modals'
 import { useRouter } from 'next/router'
-import { checkStudentStatus, checkWorkplaceStatus } from '@utils'
+import {
+    checkStudentStatus,
+    checkWorkplaceStatus,
+    studentsListWorkplace,
+} from '@utils'
 
 export const BlockedStudent = () => {
     const router = useRouter()
@@ -102,11 +106,19 @@ export const BlockedStudent = () => {
         {
             accessorKey: 'industry',
             header: () => <span>Industry</span>,
-            cell: (info) => {
+            cell: (info: any) => {
                 const industry = info.row.original?.industries
+
+                const appliedIndustry = studentsListWorkplace(
+                    info.row.original?.workplace
+                )
 
                 return industry && industry?.length > 0 ? (
                     <IndustryCell industry={industry[0]} />
+                ) : info.row.original?.workplace &&
+                  info.row.original?.workplace?.length > 0 &&
+                  appliedIndustry ? (
+                    <IndustryCell industry={appliedIndustry} />
                 ) : (
                     <Typography center>N/A</Typography>
                 )

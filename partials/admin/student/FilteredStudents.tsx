@@ -43,6 +43,7 @@ import {
     checkStudentStatus,
     checkWorkplaceStatus,
     getStudentWorkplaceAppliedIndustry,
+    studentsListWorkplace,
     WorkplaceCurrentStatus,
 } from '@utils'
 import { IndustryCell } from '../industry/components'
@@ -239,9 +240,9 @@ export const FilteredStudents = ({
             cell: (info: any) => {
                 const industry = info.row.original?.industries
 
-                const appliedIndustry = getStudentWorkplaceAppliedIndustry(
-                    info.row.original?.workplace[0]
-                )?.industry
+                const appliedIndustry = studentsListWorkplace(
+                    info.row.original?.workplace
+                )
 
                 return industry && industry?.length > 0 ? (
                     <IndustryCell industry={industry[0]} />

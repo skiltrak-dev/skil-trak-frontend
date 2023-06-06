@@ -37,6 +37,8 @@ import { SectorCell } from '@partials/admin/sub-admin'
 import { checkFilteredDataLength, getFilterQuery, setLink } from '@utils'
 import { MdEmail, MdPhoneIphone } from 'react-icons/md'
 import { RiLockPasswordFill } from 'react-icons/ri'
+import { ColumnDef } from '@tanstack/react-table'
+import { RTOCellInfo } from '@partials/sub-admin/rto/components'
 
 const RTOs: NextPageWithLayout = () => {
     const { setContent } = useContextBar()
@@ -97,62 +99,16 @@ const RTOs: NextPageWithLayout = () => {
         },
     ]
 
-    const Columns = [
+    const Columns: ColumnDef<Rto>[] = [
         {
             header: () => 'Name',
             accessorKey: 'user',
-            sort: true,
-            cell: ({ row }: any) => {
-                const {
-                    phone,
-                    user: { avatar, name, email },
-                } = row.original
-
-                return (
-                    <Link
-                        legacyBehavior
-                        href={`/portals/sub-admin/users/rtos/${row.original.id}?tab=overview`}
-                    >
-                        <a
-                            className="flex items-center gap-x-2"
-                            onClick={() => {
-                                setLink('subadmin-rtos', router)
-                            }}
-                        >
-                            <div className="shadow-inner-image rounded-full">
-                                {name && (
-                                    <InitialAvatar
-                                        name={name}
-                                        imageUrl={avatar}
-                                    />
-                                )}
-                            </div>
-                            <div>
-                                <p className={'font-semibold'}>{name}</p>
-                                <div className="font-medium text-xs text-gray-500">
-                                    <p className="flex items-center gap-x-1">
-                                        <span>
-                                            <MdEmail />
-                                        </span>
-                                        {email}
-                                    </p>
-                                    <p className="flex items-center gap-x-1">
-                                        <span>
-                                            <MdPhoneIphone />
-                                        </span>
-                                        {phone}
-                                    </p>
-                                </div>
-                            </div>
-                        </a>
-                    </Link>
-                )
-            },
+            cell: ({ row }) => <RTOCellInfo rto={row.original} />,
         },
         {
             header: () => 'Package',
             accessorKey: 'package',
-            cell: ({ row }: any) => {
+            cell: ({ row }) => {
                 // const {package}:any = row.original
                 return (
                     <div className="flex justify-center">
@@ -166,7 +122,7 @@ const RTOs: NextPageWithLayout = () => {
         {
             header: () => 'Code',
             accessorKey: 'code',
-            cell: ({ row }: any) => {
+            cell: ({ row }) => {
                 const { rtoCode } = row.original
                 return (
                     <div className="flex justify-center">
@@ -180,7 +136,7 @@ const RTOs: NextPageWithLayout = () => {
         {
             header: () => 'Students',
             accessorKey: 'students',
-            cell: ({ row }: any) => (
+            cell: ({ row }) => (
                 <Typography variant={'muted'} color={'gray'}>
                     {row.original?.students || 0}
                 </Typography>
@@ -189,36 +145,23 @@ const RTOs: NextPageWithLayout = () => {
         {
             header: () => 'Courses',
             accessorKey: 'courses',
-            cell: (info: any) => {
-                return <SectorCell subAdmin={info.row.original} />
+            cell: (info) => {
+                return <SectorCell subAdmin={info.row.original as any} />
             },
-            // cell: ({ row }: any) => {
-            //     return (
-            //         <div className="flex justify-center">
-            //             <Typography variant={'muted'} color="text-blue-400">
-            //                 View
-            //             </Typography>
-            //         </div>
-            //     )
-            // },
         },
         {
             header: () => 'Address',
             accessorKey: 'address',
-            cell: ({ row }: any) => {
-                const { address, state } = row.original
-                return (
-                    <div>
-                        <Typography color={'black'}>{address}</Typography>
-                        <Typography color={'black'}>{state}</Typography>
-                    </div>
-                )
-            },
+            cell: ({ row }) => (
+                <Typography color={'black'}>
+                    {row.original?.addressLine1}
+                </Typography>
+            ),
         },
         {
             header: () => 'Action',
             accessorKey: 'Action',
-            cell: ({ row }: any) => {
+            cell: ({ row }) => {
                 return (
                     <TableAction
                         options={tableActionOptions}

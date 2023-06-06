@@ -1,13 +1,12 @@
-import React, { useEffect, useState } from 'react'
-import { useRouter } from 'next/router'
+import { useEffect, useState } from 'react'
 
 // components
 import {
-    Typography,
-    Card,
     Button,
-    LoadingAnimation,
+    Card,
     EmptyData,
+    LoadingAnimation,
+    Typography,
 } from '@components'
 import {
     AssessmentCourse,
@@ -15,11 +14,12 @@ import {
 } from '@components/AssessmentsTools'
 
 // query
-import { useGetRTOAssessmentToolsQuery } from '@queries'
-import Link from 'next/link'
 import { useContextBar } from '@hooks'
-import { AddAssessmentToolCB } from './contextBar'
+import { useGetRTOAssessmentToolsQuery } from '@queries'
 import { UserStatus } from '@types'
+import Link from 'next/link'
+import { AddAssessmentToolCB } from '../../contextBar'
+
 export const AssessmentTools = ({
     id,
     rto,

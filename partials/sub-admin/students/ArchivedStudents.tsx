@@ -21,26 +21,23 @@ import {
 import { StudentCellInfo } from './components'
 
 import { TechnicalError } from '@components/ActionAnimations/TechnicalError'
-import { useActionModal, useJoyRide } from '@hooks'
+import { useActionModal } from '@hooks'
 import { SubAdminApi } from '@queries'
 import { Student, UserStatus } from '@types'
 import { MdBlock } from 'react-icons/md'
-import {
-    AssignStudentModal,
-    BlockModal,
-    ChangeStudentStatusModal,
-} from './modals'
+import { BlockModal, ChangeStudentStatusModal } from './modals'
 
-import { ProgressCell, SectorCell } from '@partials/admin/student/components'
+import { EditTimer } from '@components/StudentTimer/EditTimer'
+import { SectorCell } from '@partials/admin/student/components'
+import { ColumnDef } from '@tanstack/react-table'
 import {
     WorkplaceCurrentStatus,
     checkStudentStatus,
     checkWorkplaceStatus,
     getStudentWorkplaceAppliedIndustry,
     setLink,
+    studentsListWorkplace,
 } from '@utils'
-import { ColumnDef } from '@tanstack/react-table'
-import { EditTimer } from '@components/StudentTimer/EditTimer'
 import { RiLockPasswordFill } from 'react-icons/ri'
 import { IndustryCellInfo } from '../Industries'
 
@@ -61,11 +58,12 @@ export const ArchivedStudents = () => {
         setItemPerPage(Number(router.query.pageSize || 50))
     }, [router])
 
-    const { isLoading, data, isError, refetch } = SubAdminApi.Student.useList({
-        search: `status:${UserStatus.Archived}`,
-        skip: itemPerPage * page - itemPerPage,
-        limit: itemPerPage,
-    })
+    const { isLoading, isFetching, data, isError, refetch } =
+        SubAdminApi.Student.useList({
+            search: `status:${UserStatus.Archived}`,
+            skip: itemPerPage * page - itemPerPage,
+            limit: itemPerPage,
+        })
 
     useEffect(() => {
         if (changeExpiryData) {
@@ -168,9 +166,9 @@ export const ArchivedStudents = () => {
             cell: (info: any) => {
                 const industry = info.row.original?.industries
 
-                const appliedIndustry = getStudentWorkplaceAppliedIndustry(
-                    info.row.original?.workplace[0]
-                )?.industry
+                const appliedIndustry = studentsListWorkplace(
+                    info.row.original?.workplace
+                )
 
                 return industry && industry?.length > 0 ? (
                     <IndustryCellInfo industry={industry[0]} />
@@ -242,7 +240,7 @@ export const ArchivedStudents = () => {
             {passwordModal}
             {isError && <TechnicalError />}
             <Card noPadding>
-                {isLoading ? (
+                {isLoading || isFetching ? (
                     <LoadingAnimation height="h-[60vh]" />
                 ) : data && data?.data.length ? (
                     <Table

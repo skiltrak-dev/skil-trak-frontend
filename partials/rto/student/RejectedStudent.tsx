@@ -4,10 +4,7 @@ import {
     Card,
     CaseOfficerAssignedStudent,
     EmptyData,
-    Filter,
     LoadingAnimation,
-    RtoFilters,
-    StudentStatusProgressCell,
     StudentSubAdmin,
     Table,
     TableAction,
@@ -17,21 +14,15 @@ import {
 } from '@components'
 import { PageHeading } from '@components/headings'
 import { ColumnDef } from '@tanstack/react-table'
-import { FaEdit, FaEye, FaFileExport, FaFilter, FaTrash } from 'react-icons/fa'
+import { FaEdit, FaEye, FaFileExport, FaTrash } from 'react-icons/fa'
 
 import { useGetRtoStudentsQuery } from '@queries'
-import { MdBlock, MdEmail, MdPhoneIphone } from 'react-icons/md'
-import { ReactElement, useState } from 'react'
-import {
-    IndustryCell,
-    ProgressCell,
-    SectorCell,
-    StudentCellInfo,
-} from './components'
 import { Student, UserStatus } from '@types'
-import { AcceptModal, DeleteModal } from './modals'
 import { useRouter } from 'next/router'
-import { checkStudentStatus, checkWorkplaceStatus } from '@utils'
+import { ReactElement, useState } from 'react'
+import { IndustryCell, SectorCell, StudentCellInfo } from './components'
+import { AcceptModal, DeleteModal } from './modals'
+import { studentsListWorkplace } from '@utils'
 
 export const RejectedStudent = () => {
     const router = useRouter()
@@ -100,11 +91,19 @@ export const RejectedStudent = () => {
         {
             accessorKey: 'industry',
             header: () => <span>Industry</span>,
-            cell: (info) => {
+            cell: (info: any) => {
                 const industry = info.row.original?.industries
+
+                const appliedIndustry = studentsListWorkplace(
+                    info.row.original?.workplace
+                )
 
                 return industry && industry?.length > 0 ? (
                     <IndustryCell industry={industry[0]} />
+                ) : info.row.original?.workplace &&
+                  info.row.original?.workplace?.length > 0 &&
+                  appliedIndustry ? (
+                    <IndustryCell industry={appliedIndustry} />
                 ) : (
                     <Typography center>N/A</Typography>
                 )

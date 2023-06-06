@@ -29,7 +29,11 @@ import { BlockModal, UnAssignStudentModal } from './modals'
 import { useActionModal } from '@hooks'
 import { SectorCell } from '@partials/admin/student/components'
 import { ColumnDef } from '@tanstack/react-table'
-import { getStudentWorkplaceAppliedIndustry, setLink } from '@utils'
+import {
+    getStudentWorkplaceAppliedIndustry,
+    setLink,
+    studentsListWorkplace,
+} from '@utils'
 import { RiLockPasswordFill } from 'react-icons/ri'
 import { IndustryCellInfo } from '../Industries'
 
@@ -49,10 +53,11 @@ export const MyStudents = () => {
         setItemPerPage(Number(router.query.pageSize || 50))
     }, [router])
 
-    const { isLoading, data, isError } = useGetSubAdminMyStudentsQuery({
-        skip: itemPerPage * page - itemPerPage,
-        limit: itemPerPage,
-    })
+    const { isLoading, isFetching, data, isError } =
+        useGetSubAdminMyStudentsQuery({
+            skip: itemPerPage * page - itemPerPage,
+            limit: itemPerPage,
+        })
 
     const onModalCancelClicked = () => {
         setModal(null)
@@ -130,9 +135,9 @@ export const MyStudents = () => {
             cell: (info: any) => {
                 const industry = info.row.original?.industries
 
-                const appliedIndustry = getStudentWorkplaceAppliedIndustry(
-                    info.row.original?.workplace[0]
-                )?.industry
+                const appliedIndustry = studentsListWorkplace(
+                    info.row.original?.workplace
+                )
 
                 return industry && industry?.length > 0 ? (
                     <IndustryCellInfo industry={industry[0]} />
@@ -185,7 +190,7 @@ export const MyStudents = () => {
             {passwordModal}
             <Card noPadding>
                 {isError && <TechnicalError />}
-                {isLoading ? (
+                {isLoading || isFetching ? (
                     <LoadingAnimation height="h-[60vh]" />
                 ) : data && data?.data.length ? (
                     <Table

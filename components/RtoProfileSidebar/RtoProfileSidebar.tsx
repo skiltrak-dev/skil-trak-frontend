@@ -9,13 +9,12 @@ import { useActionModal } from '@hooks'
 import { CourseList } from '@partials/common'
 import { getUserCredentials } from '@utils'
 import { useRouter } from 'next/router'
-import { useEffect, useState } from 'react'
 import { AiFillEdit } from 'react-icons/ai'
 import { BiPackage } from 'react-icons/bi'
 import { BsUnlockFill } from 'react-icons/bs'
 import { FaAddressCard, FaMoneyBill } from 'react-icons/fa'
 import { IoLocation } from 'react-icons/io5'
-import { MdBlock, MdPhone, MdVerified } from 'react-icons/md'
+import { MdPhone, MdVerified } from 'react-icons/md'
 
 type Props = {}
 
