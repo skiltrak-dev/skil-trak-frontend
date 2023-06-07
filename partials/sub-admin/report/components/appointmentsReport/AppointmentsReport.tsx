@@ -56,7 +56,7 @@ export const AppointmentsReport = ({
                             }
                         />
                         <div className="flex flex-col">
-                            <span>{info.row.original.appointmentBy?.id}</span>
+                            {/* <span>{info?.row?.original?.appointmentBy?.studentId}</span> */}
                             <span>
                                 {info.row.original.appointmentBy?.name || 'N/A'}
                             </span>
@@ -83,10 +83,13 @@ export const AppointmentsReport = ({
                             imageUrl={info.row.original?.appointmentFor?.avatar}
                         />
                         <div className="flex flex-col">
-                            <span>{info.row.original.appointmentFor?.id}</span>
+                            {/* <span>{info.row.original.appointmentFor?.studentId}</span> */}
                             <span>
                                 {info.row.original.appointmentFor?.name ||
                                     'N/A'}
+                            </span>
+                            <span>
+                                {info.row.original.appointmentFor?.email}
                             </span>
                         </div>
                     </a>

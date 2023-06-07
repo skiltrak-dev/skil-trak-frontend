@@ -57,7 +57,7 @@ export const TerminatedWorkplaceReport = ({
                     <a className="flex items-center gap-x-2">
                         <InitialAvatar name={name} imageUrl={avatar} />
                         <div className="flex flex-col">
-                            <span>{id}</span>
+                            <span>{info?.row?.original?.student?.studentId}</span>
                             <span>{name}</span>
                         </div>
                     </a>

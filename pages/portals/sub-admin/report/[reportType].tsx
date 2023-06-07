@@ -17,10 +17,8 @@ import {
     StudentsAssignedDetail,
     StudentsCallsDetail,
     TerminatedWorkplaceDetail,
-   } from '@partials/sub-admin'
+} from '@partials/sub-admin'
 import { SubAdminReports } from 'types/sub-admin-reports.type'
-
-
 
 const ReportType: NextPageWithLayout = () => {
     const router = useRouter()
@@ -36,8 +34,6 @@ const ReportType: NextPageWithLayout = () => {
         switch (reportType) {
             case SubAdminReports.ASSIGNED_STUDENTS:
                 return <StudentsAssignedDetail />
-            case SubAdminReports.STUDENT_HAVE_WORKPLACE:
-                return null
             case SubAdminReports.ACTIVE_STUDENTS:
                 return <ActiveStudentsDetail />
             case SubAdminReports.ARCHIVED_STUDENTS:
