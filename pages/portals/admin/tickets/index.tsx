@@ -4,10 +4,14 @@ import { AdminLayout } from '@layouts'
 // Types
 import { NextPageWithLayout } from '@types'
 import { PageHeading } from '@components/headings'
-import { useNavbar } from '@hooks'
+import { useAlert, useNavbar } from '@hooks'
 import { BackButton, Button, TabNavigation, TabProps } from '@components'
 import { BsFillTicketDetailedFill } from 'react-icons/bs'
-import { MyOpenTickets } from '@partials/admin/Tickets'
+import {
+    AllTickets,
+    MyClosedTickets,
+    MyOpenTickets,
+} from '@partials/admin/Tickets'
 import { useRouter } from 'next/router'
 
 enum TicketType {
@@ -20,8 +24,15 @@ const Tickets: NextPageWithLayout = () => {
     const router = useRouter()
     const { setTitle } = useNavbar()
 
+    const { alert } = useAlert()
+
     useEffect(() => {
         setTitle('Tickets')
+        alert.warning({
+            title: 'Under Construction',
+            description: 'Working In Progress',
+            autoDismiss: false,
+        })
     }, [])
 
     const tabs: TabProps[] = [
@@ -41,7 +52,7 @@ const Tickets: NextPageWithLayout = () => {
                 query: { tab: TicketType.MyClosedTickets },
             },
 
-            element: <MyOpenTickets />,
+            element: <MyClosedTickets />,
         },
         {
             label: 'All Tickets',
@@ -50,12 +61,22 @@ const Tickets: NextPageWithLayout = () => {
                 query: { tab: TicketType.AllTickets },
             },
 
-            element: <MyOpenTickets />,
+            element: <AllTickets />,
         },
     ]
 
     return (
         <div className="px-4">
+            <div className="flex justify-end my-5">
+                <Button
+                    variant={'dark'}
+                    text={'Create a Ticket'}
+                    Icon={BsFillTicketDetailedFill}
+                    onClick={() => {
+                        router.push('/portals/admin/tickets/add-ticket')
+                    }}
+                />
+            </div>
             <TabNavigation tabs={tabs}>
                 {({ header, element }: any) => {
                     return (
@@ -66,18 +87,7 @@ const Tickets: NextPageWithLayout = () => {
                                 <PageHeading
                                     title={'Ticket'}
                                     subtitle={'You can find all Tickets here'}
-                                >
-                                    <Button
-                                        variant={'dark'}
-                                        text={'Create a Ticket'}
-                                        Icon={BsFillTicketDetailedFill}
-                                        onClick={() => {
-                                            router.push(
-                                                '/portals/admin/tickets/add-ticket'
-                                            )
-                                        }}
-                                    />
-                                </PageHeading>
+                                ></PageHeading>
                             </div>
                             <div className="p-4">{element}</div>
                         </div>

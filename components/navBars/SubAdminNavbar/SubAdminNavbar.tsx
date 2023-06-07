@@ -17,6 +17,7 @@ const Routes = {
     Settings: '/portals/sub-admin/setting',
     Report: '/portals/sub-admin/report',
     History: '/portals/sub-admin/history',
+    Tickets: '/portals/sub-admin/tickets?tab=all-tickets',
 }
 export const SubAdminNavbar = () => {
     const router = useRouter()
@@ -120,6 +121,25 @@ export const SubAdminNavbar = () => {
                             </span>
                             <span className="text-sm font-semibold">
                                 Notifications
+                            </span>
+                        </a>
+                    </Link>
+                </li>
+
+                <li>
+                    <Link legacyBehavior href={Routes.Tickets}>
+                        <a
+                            className={`${
+                                isActive(Routes.Tickets)
+                                    ? 'bg-green-100 text-green-700'
+                                    : 'text-slate-700'
+                            } ${defaultClasses} hover:bg-green-100 hover:text-green-700`}
+                        >
+                            <span>
+                                <FaHistory />
+                            </span>
+                            <span className="text-sm font-semibold">
+                                Tickets
                             </span>
                         </a>
                     </Link>

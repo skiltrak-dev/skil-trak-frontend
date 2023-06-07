@@ -14,7 +14,7 @@ import { CourseDot } from '@partials/rto/student/components'
 import { Course } from '@types'
 type Props = {}
 
-export const ArchiveStudentsDetail = (props: Props) => {
+export const ArchivedStudentsDetail = (props: Props) => {
     const { data, isLoading, isError } =
         SubAdminApi.Reports.useArchiveStudentsReport({})
     const columns: ColumnDef<any>[] = [

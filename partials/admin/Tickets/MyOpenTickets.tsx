@@ -12,9 +12,15 @@ import { AdminApi } from '@queries'
 import { ColumnDef } from '@tanstack/react-table'
 import React, { useState } from 'react'
 import { AiFillCloseCircle, AiFillDelete } from 'react-icons/ai'
-import { TicketSubject, TicketUser } from './components'
 import moment from 'moment'
 import { useRouter } from 'next/router'
+import { TicketSubject, TicketUser } from '@partials/common/Tickets/components'
+
+export enum TicketStatus {
+    OPEN = 'open',
+    CLOSED = 'close',
+    REOPENED = 'reopened',
+}
 
 export const MyOpenTickets = () => {
     const [itemPerPage, setItemPerPage] = useState(50)
@@ -22,8 +28,8 @@ export const MyOpenTickets = () => {
 
     const router = useRouter()
 
-    const { isLoading, isFetching, data, isError, refetch } =
-        AdminApi.Students.useListQuery(
+    const { isLoading, isFetching, data, isError } =
+        AdminApi.Tickets.useGetTicket(
             {
                 skip: itemPerPage * page - itemPerPage,
                 limit: itemPerPage,
@@ -54,12 +60,16 @@ export const MyOpenTickets = () => {
         },
         {
             accessorKey: 'createdBy',
-            cell: (info) => <TicketUser ticket={info?.row?.original} />,
+            cell: (info) => (
+                <TicketUser ticket={info?.row?.original?.createdBy} />
+            ),
             header: () => <span>Created By</span>,
         },
         {
             accessorKey: 'assignedTo',
-            cell: (info) => <TicketUser ticket={info?.row?.original} />,
+            cell: (info) => (
+                <TicketUser ticket={info?.row?.original?.assignedTo} />
+            ),
             header: () => <span>Assigned To</span>,
         },
         {
@@ -99,8 +109,8 @@ export const MyOpenTickets = () => {
                 {isError && <TechnicalError />}
                 {isLoading || isFetching ? (
                     <LoadingAnimation height="h-[60vh]" />
-                ) : data && data?.data.length ? (
-                    <Table columns={columns} data={data.data}>
+                ) : data && data?.data?.length ? (
+                    <Table columns={columns} data={data?.data}>
                         {({
                             table,
                             pagination,

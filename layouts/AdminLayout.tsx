@@ -10,12 +10,8 @@ import {
     SideBar,
 } from '@components'
 import { IconType } from 'react-icons'
-import {
-    FaClipboardList,
-    FaUniversity,
-    FaUserGraduate,
-    FaUsers,
-} from 'react-icons/fa'
+
+import { FaClipboardList,FaUsers, FaFileInvoiceDollar, FaUniversity, FaUserGraduate } from 'react-icons/fa'
 import { IoMdBriefcase } from 'react-icons/io'
 import {
     MdHomeWork,
@@ -144,6 +140,19 @@ const routes: Route[] = [
         path: getRoutePath('/all-notifications'),
         Icon: MdNotificationsActive,
     },
+    {
+        type: 'divider',
+    },
+    {
+        type: 'title',
+        text: 'Accounts',
+    },
+    {
+        text: 'Invoices',
+        path: getRoutePath('/invoices'),
+        Icon: FaFileInvoiceDollar,
+    },
+
 ]
 
 export const AdminLayout = ({ children }: any) => {

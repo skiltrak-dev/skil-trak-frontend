@@ -12,15 +12,15 @@ export const TicketUser = ({
     return (
         <div className="flex items-center gap-x-2">
             <div className="shadow-inner-image rounded-full">
-                {ticket?.user?.name && (
+                {ticket?.name && (
                     <InitialAvatar
-                        name={ticket?.user?.name}
-                        imageUrl={ticket?.user?.avatar}
+                        name={ticket?.name}
+                        imageUrl={ticket?.avatar}
                     />
                 )}
             </div>
             <div>
-                <Typography variant={'label'}>{ticket?.user?.name}</Typography>
+                <Typography variant={'label'}>{ticket?.name}</Typography>
                 {!small && (
                     <>
                         <div className="font-medium text-xs text-gray-500">
@@ -28,17 +28,19 @@ export const TicketUser = ({
                                 <span>
                                     <MdEmail />
                                 </span>
-                                {ticket?.user?.email}
+                                {ticket?.email}
                             </p>
                         </div>
-                        <div className="font-medium text-xs text-gray-500">
-                            <p className="flex items-center gap-x-1">
-                                <span>
-                                    <MdPhone />
-                                </span>
-                                {ticket?.phone}
-                            </p>
-                        </div>
+                        {ticket?.phone && (
+                            <div className="font-medium text-xs text-gray-500">
+                                <p className="flex items-center gap-x-1">
+                                    <span>
+                                        <MdPhone />
+                                    </span>
+                                    {ticket?.phone}
+                                </p>
+                            </div>
+                        )}
                     </>
                 )}
             </div>

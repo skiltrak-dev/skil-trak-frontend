@@ -203,6 +203,7 @@ export const FilterReport = ({
                                         className="w-full border-b px-6 flex items-center gap-x-2 text-sm py-2  hover:bg-gray-200 cursor-pointer"
                                         onClick={() => {
                                             handleFilterSelect('Range')
+                                            setShowCalendars(!showCalendars)
                                             setShowFilter(false)
                                         }}
                                     >
@@ -212,6 +213,7 @@ export const FilterReport = ({
                                         className="w-full border-b px-6 flex items-center gap-x-2 text-sm py-2  hover:bg-gray-200 cursor-pointer"
                                         onClick={() => {
                                             handleFilterSelect('Weekly')
+                                            setShowCalendars(!showCalendars)
                                             setShowFilter(false)
                                         }}
                                     >

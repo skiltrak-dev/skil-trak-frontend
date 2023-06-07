@@ -20,6 +20,7 @@ import { volunteerEndpoints } from './volunteer'
 import { workplaceEndpoints } from './workplace'
 import { industryRplEndpoints } from './industyRpl'
 import { emptySplitApi } from '../empty.query'
+import { ticketEndpoints } from './ticket.query'
 
 const PREFIX = 'admin'
 
@@ -80,21 +81,22 @@ export const adminApi = emptySplitApi.injectEndpoints({
 
         ...rtoEndpoints(build),
         ...studentEndpoints(build),
-        ...subscriberEndpoints(build),
+        ...jobEndpoints(build),
         ...sectorEndpoints(build),
         ...courseEndpoints(build),
-        ...subAdminEndpoints(build),
-        ...industryEndpoints(build),
+        ...ticketEndpoints(build),
         ...notesEndpoints(build),
         ...folderEndpoints(build),
-        ...appointmentTypeEndpoints(build),
-        ...jobEndpoints(build),
+        ...profileEndpoints(build),
+        ...subAdminEndpoints(build),
+        ...industryEndpoints(build),
         ...workplaceEndpoints(build),
         ...messagesEndpoints(build),
-        ...profileEndpoints(build),
         ...volunteerEndpoints(build),
         ...documentsEndpoints(build),
+        ...subscriberEndpoints(build),
         ...industryRplEndpoints(build),
+        ...appointmentTypeEndpoints(build),
     }),
     // overrideExisting: false,
 })
@@ -250,6 +252,12 @@ const {
     // ---- DOCUMENTS ---- //
     useAddDocumentsMutation,
     useGetDocumentsQuery,
+
+    // ---- TICKETS ---- //
+    useGetTicketQuery,
+    useCloseTicketMutation,
+    useCreateTicketMutation,
+    useGetTicketDetailQuery,
 } = adminApi
 
 export const AdminApi = {
@@ -412,5 +420,11 @@ export const AdminApi = {
     Documents: {
         addDocuments: useAddDocumentsMutation,
         useGetDocuments: useGetDocumentsQuery,
+    },
+    Tickets: {
+        useGetTicket: useGetTicketQuery,
+        useCreateTicket: useCreateTicketMutation,
+        useCloseTicket: useCloseTicketMutation,
+        useGetDetail: useGetTicketDetailQuery,
     },
 }
