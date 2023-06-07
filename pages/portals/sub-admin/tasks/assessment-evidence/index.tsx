@@ -18,6 +18,7 @@ import {
 } from '@components'
 // queries
 import {
+    ArchivedAssessment,
     CompetentAssessment,
     FilteredAssessments,
     NonCompetentAssessment,
@@ -153,6 +154,18 @@ const AssessmentEvidence: NextPageWithLayout = (props: Props) => {
             },
             element: <ReOpenedAssessment />,
         },
+        {
+            label: 'Archive',
+            href: {
+                pathname: 'assessment-evidence',
+                query: { tab: 'archived' },
+            },
+            badge: {
+                text: assessMentCount?.archived,
+                loading: count.isLoading,
+            },
+            element: <ArchivedAssessment />,
+        }
         // {
         //     label: 'Archive',
         //     href: {

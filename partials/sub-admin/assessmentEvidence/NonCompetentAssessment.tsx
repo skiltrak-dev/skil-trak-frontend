@@ -13,7 +13,7 @@ import { useEffect, useState } from 'react'
 import { useColumns } from './hooks'
 
 export const NonCompetentAssessment = () => {
-    const columns = useColumns()
+    const {columns, modal} = useColumns()
     const router = useRouter()
 
     const [itemPerPage, setItemPerPage] = useState(50)
@@ -31,7 +31,8 @@ export const NonCompetentAssessment = () => {
     })
 
     return (
-        <div>
+        <>
+        {modal && modal}
             <Card noPadding>
                 {isError && <TechnicalError />}
                 {isLoading ? (
@@ -82,6 +83,6 @@ export const NonCompetentAssessment = () => {
                     )
                 )}
             </Card>
-        </div>
+        </>
     )
 }

@@ -29,8 +29,12 @@ import { SubAdminReports } from 'types/sub-admin-reports.type'
 // components
 
 const Report: NextPageWithLayout = () => {
-    const [startDate, setStartDate] = useState<any>(new Date())
+    const weekEnd = new Date()
+    weekEnd.setDate(weekEnd.getDate() - 6)
+    console.log("weekEnd>>>>>>", weekEnd)
+    const [startDate, setStartDate] = useState<any>(weekEnd)
     const [endDate, setEndDate] = useState<any>(new Date())
+    
 
     const [reportType, setReportType] = useState({
         label: 'Assigned Students',

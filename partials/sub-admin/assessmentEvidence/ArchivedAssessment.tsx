@@ -5,41 +5,40 @@ import {
     Table,
     TechnicalError,
 } from '@components'
-import { PageHeading } from '@components/headings'
 import { useGetAssessmentEvidenceQuery } from '@queries'
 import { useRouter } from 'next/router'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useColumns } from './hooks'
 
-export const FilteredAssessments = ({
-    assessments,
-    setPage,
-    itemPerPage,
-    setItemPerPage,
-}: {
-    assessments: any
-    setPage: any
-    itemPerPage: any
-    setItemPerPage: any
-}) => {
-    const { columns } = useColumns()
+export const ArchivedAssessment = () => {
+    const { columns, modal } = useColumns()
     const router = useRouter()
 
-    return (
-        <div>
-            <PageHeading
-                title={'Filtered Assessments'}
-                subtitle={'List of Filtered Assessments'}
-            />
+    const [itemPerPage, setItemPerPage] = useState(50)
+    const [page, setPage] = useState(1)
 
+    useEffect(() => {
+        setPage(Number(router.query.page || 1))
+        setItemPerPage(Number(router.query.pageSize || 50))
+    }, [router])
+
+    const { isLoading, isError, data } = useGetAssessmentEvidenceQuery({
+        search: `status:archived`,
+        skip: itemPerPage * page - itemPerPage,
+        limit: itemPerPage,
+    })
+
+    return (
+        <>
+            {modal && modal}
             <Card noPadding>
-                {assessments.isError && <TechnicalError />}
-                {assessments.isLoading || assessments?.isFetching ? (
+                {isError && <TechnicalError />}
+                {isLoading ? (
                     <LoadingAnimation height="h-[60vh]" />
-                ) : assessments.data && assessments.data?.data.length ? (
+                ) : data && data?.data.length ? (
                     <Table
                         columns={columns}
-                        data={assessments.data.data}
+                        data={data.data}
                         // quickActions={quickActionsElements}
                         enableRowSelection
                     >
@@ -55,12 +54,12 @@ export const FilteredAssessments = ({
                                         {pageSize(
                                             itemPerPage,
                                             setItemPerPage,
-                                            assessments?.data?.data?.length
+                                            data?.data?.length
                                         )}
                                         <div className="flex gap-x-2">
                                             {quickActions}
                                             {pagination(
-                                                assessments.data?.pagination,
+                                                data?.pagination,
                                                 setPage
                                             )}
                                         </div>
@@ -71,17 +70,17 @@ export const FilteredAssessments = ({
                         }}
                     </Table>
                 ) : (
-                    !assessments.isError && (
+                    !isError && (
                         <EmptyData
-                            title={'No Pending Assessment Evidence!'}
+                            title={'No Competent AssessmentEvidence!'}
                             description={
-                                'There is no Pending Assessment were found'
+                                'There is no Competent Assessment were found'
                             }
                             height={'50vh'}
                         />
                     )
                 )}
             </Card>
-        </div>
+        </>
     )
 }

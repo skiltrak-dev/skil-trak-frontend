@@ -187,7 +187,6 @@ export const FilterReport = ({
                     onOutsideClick={() => setShowFilter(false)}
                 >
                     <div className="relative">
-                        {/* <button onClick={handleShowFilter}>{selectedFilter}</button> */}
                         <div className="bg-gray-100 rounded p-1">
                             <AiTwotoneFilter
                                 size={20}
@@ -202,38 +201,24 @@ export const FilterReport = ({
                                         className="w-full border-b px-6 flex items-center gap-x-2 text-sm py-2  hover:bg-gray-200 cursor-pointer"
                                         onClick={() => {
                                             handleFilterSelect('Range')
+                                            setShowCalendars(!showCalendars)
                                             setShowFilter(false)
                                         }}
                                     >
                                         Range
                                     </li>
-                                    {/* <li
-                                        className="w-full border-b px-6 flex items-center gap-x-2 text-sm py-2  hover:bg-gray-200 cursor-pointer"
-                                        onClick={() => {
-                                            handleFilterSelect('Monthly')
-                                            setShowFilter(false)
-                                        }}
-                                    >
-                                        Monthly
-                                    </li> */}
+                                   
                                     <li
                                         className="w-full border-b px-6 flex items-center gap-x-2 text-sm py-2  hover:bg-gray-200 cursor-pointer"
                                         onClick={() => {
                                             handleFilterSelect('Weekly')
+                                            setShowCalendars(!showCalendars)
                                             setShowFilter(false)
                                         }}
                                     >
                                         Weekly
                                     </li>
-                                    {/* <li
-                                        className="w-full border-b px-6 flex items-center gap-x-2 text-sm py-2  hover:bg-gray-200 cursor-pointer"
-                                        onClick={() => {
-                                            handleFilterSelect('Annually')
-                                            setShowFilter(false)
-                                        }}
-                                    >
-                                        Annually
-                                    </li> */}
+                                  
                                 </ul>
                             </div>
                         )}

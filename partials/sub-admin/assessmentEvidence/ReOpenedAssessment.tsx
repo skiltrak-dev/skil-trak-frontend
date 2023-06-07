@@ -11,7 +11,7 @@ import { useEffect, useState } from 'react'
 import { useColumns } from './hooks'
 
 export const ReOpenedAssessment = () => {
-    const columns = useColumns()
+    const { columns } = useColumns()
     const router = useRouter()
 
     const [itemPerPage, setItemPerPage] = useState(50)

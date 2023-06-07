@@ -8,38 +8,20 @@ import {
     Typography,
 } from '@components'
 import { CourseDot } from '@partials/rto/student/components'
-import { RtoApi, SubAdminApi } from '@queries'
+import { SubAdminApi } from '@queries'
 import { ColumnDef } from '@tanstack/react-table'
 import React, { useState } from 'react'
-import { FilterReport } from '../../FilterReport'
-import { ViewFullListReport } from '../../ViewFullListReport'
-import { Course, ReportOptionsEnum } from '@types'
+
+
 import { useRouter } from 'next/router'
-import { SubAdminReports } from 'types/sub-admin-reports.type'
 
-type Props = {
-    startDate: any
-    endDate: any
-    setStartDate: any
-    setEndDate: any
-}
 
-export const StudentHaveWorkplaceReport = ({
-    setStartDate,
-    setEndDate,
-    startDate,
-    endDate,
-}: Props) => {
-    const [itemPerPage, setItemPerPage] = useState(50)
-    const [page, setPage] = useState(1)
+
+export const StudentHaveWorkplaceDetail = () => {
+
     const router = useRouter()
     const { data, isLoading, isError } =
-        SubAdminApi.Reports.useStudentProvidedWorkplaceReport({
-            startDate: startDate.toISOString().slice(0, 10),
-            endDate: endDate.toISOString().slice(0, 10),
-            skip: itemPerPage * page - itemPerPage,
-            limit: itemPerPage,
-        })
+        SubAdminApi.Reports.useStudentProvidedWorkplaceReport({})
 
     const columns: ColumnDef<any>[] = [
         {
@@ -107,28 +89,28 @@ export const StudentHaveWorkplaceReport = ({
             <div className="flex justify-between">
                 <div className="">
                     <Typography variant="title" color="text-gray-400">
-                        Student Workplace Requests Assigned to himself
+                        Student Workplace Requests Assigned to himself detail
                     </Typography>
                     <Typography variant="h3">{count || 0}</Typography>
                 </div>
 
                 <div className="flex items-center gap-x-4">
-                    <FilterReport
+                    {/* <FilterReport
                         startDate={startDate}
                         setStartDate={setStartDate}
                         endDate={endDate}
                         setEndDate={setEndDate}
-                    />
+                    /> */}
                     {/* <ViewFullListReport data={data} columns={columns} /> */}
-                    <ActionButton
+                    {/* <ActionButton
                         onClick={() => {
                             router.push(
-                                `/portals/sub-admin/report/${SubAdminReports.STUDENT_HAVE_WORKPLACE}`
+                                `/portals/sub-admin/report/${ReportOptionsEnum.WORKPLACE_REQUEST_TERMINATED}`
                             )
                         }}
                     >
                         View Full List
-                    </ActionButton>
+                    </ActionButton> */}
                 </div>
             </div>
             {isError && <TechnicalError />}
@@ -139,13 +121,13 @@ export const StudentHaveWorkplaceReport = ({
                     {({ table, pagination, pageSize, quickActions }: any) => {
                         return (
                             <div>
-                                <div className="p-6 mb-2 flex justify-between">
+                                {/* <div className="p-6 mb-2 flex justify-between">
                                     {pageSize(itemPerPage, setItemPerPage)}
                                     <div className="flex gap-x-2">
-                                        {/* {quickActions} */}
+                                        {quickActions}
                                         {pagination(data?.pagination, setPage)}
                                     </div>
-                                </div>
+                                </div> */}
                                 <div className="px-6">{table}</div>
                             </div>
                         )
