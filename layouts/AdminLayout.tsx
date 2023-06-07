@@ -10,16 +10,8 @@ import {
     SideBar,
 } from '@components'
 import { IconType } from 'react-icons'
-<<<<<<< Updated upstream
-import {
-    FaClipboardList,
-    FaUniversity,
-    FaUserGraduate,
-    FaUsers,
-} from 'react-icons/fa'
-=======
-import { FaClipboardList, FaFileInvoiceDollar, FaUniversity, FaUserGraduate } from 'react-icons/fa'
->>>>>>> Stashed changes
+
+import { FaClipboardList,FaUsers, FaFileInvoiceDollar, FaUniversity, FaUserGraduate } from 'react-icons/fa'
 import { IoMdBriefcase } from 'react-icons/io'
 import {
     MdHomeWork,
