@@ -1,13 +1,22 @@
 import { Typography } from '@components'
 import { UserRoles } from '@constants'
-import { TicketStatus } from '@partials/admin/Tickets'
 import { ellipsisText, getUserCredentials } from '@utils'
 import moment from 'moment'
 import Link from 'next/link'
+import { TicketStatus } from 'pages/portals/admin/tickets'
 import React from 'react'
 
 export const TicketSubject = ({ ticket }: { ticket: any }) => {
     const role = getUserCredentials()?.role
+
+    console.log(
+        'ticket?.status === TicketStatus.OPEN',
+        ticket?.status === TicketStatus.OPEN
+            ? 'bg-green-100'
+            : ticket?.status === TicketStatus.CLOSED
+            ? 'bg-red-700'
+            : 'bg-error'
+    )
 
     return (
         <Link
@@ -25,14 +34,14 @@ export const TicketSubject = ({ ticket }: { ticket: any }) => {
                         ticket?.status === TicketStatus.OPEN
                             ? 'bg-success'
                             : ticket?.status === TicketStatus.CLOSED
-                            ? 'bg-error'
-                            : 'bg-error'
-                    } bg-success uppercase text-[11px] text-white px-1.5 whitespace-pre`}
+                            ? 'bg-red-700'
+                            : 'bg-success'
+                    } uppercase text-[11px] text-white px-1.5 whitespace-pre`}
                 >
                     {ticket?.status}
                 </div>
                 <div className="rounded-full bg-info uppercase text-[11px] text-white px-1.5 whitespace-pre">
-                    2 New Replies
+                    {ticket?.replies} New Replies
                 </div>
             </div>
             <Typography variant={'label'}>

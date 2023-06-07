@@ -40,16 +40,16 @@ export const StudentHaveWorkplaceReport = ({
             skip: itemPerPage * page - itemPerPage,
             limit: itemPerPage,
         })
-
+        
     const columns: ColumnDef<any>[] = [
         {
             header: () => <span>Name</span>,
             accessorKey: 'user',
             cell: (info: any) => {
                 const {
-                    id,
+                    
                     student: {
-                        user: { name, avatar },
+                        user: { name, avatar, studentId },
                     },
                 } = info.row.original || {}
 
@@ -57,7 +57,7 @@ export const StudentHaveWorkplaceReport = ({
                     <a className="flex items-center gap-x-2">
                         <InitialAvatar name={name} imageUrl={avatar} />
                         <div className="flex flex-col">
-                            <span>{id}</span>
+                            <span>{info?.row?.original?.student?.studentId}</span>
                             <span>{name}</span>
                         </div>
                     </a>

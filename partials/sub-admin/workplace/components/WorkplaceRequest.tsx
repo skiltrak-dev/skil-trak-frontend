@@ -157,7 +157,7 @@ export const WorkplaceRequest = ({ workplace }: any) => {
                                     setContent(
                                         <ViewAgreement workplace={workplace} />
                                     )
-                                    show()
+                                    show(false)
                                 }}
                             />
                         )}
