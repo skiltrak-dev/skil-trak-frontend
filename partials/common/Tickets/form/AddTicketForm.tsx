@@ -73,8 +73,6 @@ export const AddTicketForm = ({
                             name={'priority'}
                             placeholder={'Priority...'}
                             options={priorityOptions}
-                            loading={subadmins?.isLoading}
-                            disabled={subadmins?.isLoading}
                             onlyValue
                         />
                         <TextInput

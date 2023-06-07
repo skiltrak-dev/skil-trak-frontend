@@ -10,6 +10,7 @@ import { CommonApi } from '@queries'
 import { useNotification } from '@hooks'
 import { TbCalendarTime } from 'react-icons/tb'
 import { RescheduleAppointmentModal } from './RescheduleAppointmentModal'
+import { UserRoles } from '@constants'
 
 type AppointmentCardProps = {
     date?: string
@@ -49,14 +50,14 @@ export const UpcomingAppointmentCard = ({
 
     const appointmentWithUser = appointmentUser
         ? appointmentUser[
-              appointmentUser['role'] === 'subadmin'
+              appointmentUser?.role === UserRoles.SUBADMIN
                   ? 'coordinator'
-                  : appointmentUser['role']
+                  : appointmentUser?.role
           ]
         : {}
 
     const appointmentWithUserProfile = appointmentUser
-        ? appointmentUser['role'] === 'subadmin'
+        ? appointmentUser?.role === UserRoles.SUBADMIN
             ? appointmentWithUser[0]
             : appointmentWithUser
         : appointment?.coordinator
@@ -77,7 +78,10 @@ export const UpcomingAppointmentCard = ({
     const onRescheduleClicked = () => {
         setModal(
             <Portal>
-                <RescheduleAppointmentModal onCancel={onCancelClicked} appointment={appointment} />
+                <RescheduleAppointmentModal
+                    onCancel={onCancelClicked}
+                    appointment={appointment}
+                />
             </Portal>
         )
     }

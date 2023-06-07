@@ -121,7 +121,7 @@ export const MyWorkplace = ({ student }: { student: StudentSubAdmin }) => {
                 <WorkplaceStatusData
                     imageUrl={'/images/icons/industry.png'}
                     title={'No Workplace'}
-                    subTitle={'You don&apos;t have any workplace yet'}
+                    subTitle={'You dont have any workplace yet'}
                 />
                 {role === UserRoles.SUBADMIN &&
                     student?.user?.status === UserStatus.Approved && (

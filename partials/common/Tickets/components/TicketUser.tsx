@@ -1,4 +1,5 @@
 import { InitialAvatar, Typography } from '@components'
+import { UserRoles } from '@constants'
 import React from 'react'
 import { MdEmail, MdPhone } from 'react-icons/md'
 
@@ -20,7 +21,9 @@ export const TicketUser = ({
                 )}
             </div>
             <div>
-                <Typography variant={'label'}>{ticket?.name}</Typography>
+                <Typography variant={'label'}>
+                    {ticket?.role === UserRoles.ADMIN ? 'Admin' : ticket?.name}
+                </Typography>
                 {!small && (
                     <>
                         <div className="font-medium text-xs text-gray-500">

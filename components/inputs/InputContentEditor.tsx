@@ -48,7 +48,6 @@ export const htmlToDraftText = (content: string) => {
 export const inputEditorErrorMessage = (value: string) => {
     const content = draftToHtmlText(value)
     if (htmltotext(content)?.length > 1) {
-        console.log(draftToHtmlText(value))
         return true
     }
     return false
@@ -87,7 +86,6 @@ export const InputContentEditor = ({
     const methods = useFormContext()
 
     const error = methods?.formState?.errors?.[name]?.message
-    console.log('methods', error)
 
     return (
         <div>

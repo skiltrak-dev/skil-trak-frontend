@@ -5,6 +5,7 @@ import { isActiveRoute } from '@utils'
 import { FaClipboardList, FaHistory, FaUserGraduate } from 'react-icons/fa'
 import { HiDocumentReport, HiUsers } from 'react-icons/hi'
 import { MdNotifications, MdSpaceDashboard } from 'react-icons/md'
+import { BsFillTicketDetailedFill } from 'react-icons/bs'
 
 const PREFIX = '/portals/sub-admin'
 const Routes = {
@@ -136,7 +137,7 @@ export const SubAdminNavbar = () => {
                             } ${defaultClasses} hover:bg-green-100 hover:text-green-700`}
                         >
                             <span>
-                                <FaHistory />
+                                <BsFillTicketDetailedFill />
                             </span>
                             <span className="text-sm font-semibold">
                                 Tickets

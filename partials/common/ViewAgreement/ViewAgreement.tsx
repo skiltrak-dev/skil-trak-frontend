@@ -8,6 +8,7 @@ import {
     PdfViewModal,
     VideoPlayModal,
     LoadingAnimation,
+    BackButton,
 } from '@components'
 import { ellipsisText } from '@utils'
 import { AiFillEye } from 'react-icons/ai'
@@ -65,6 +66,7 @@ export const ViewAgreement = ({ workplace }: any) => {
                     url={url}
                     downloadUrl={file?.file}
                     onCancelButtonClick={onModalCancel}
+                    extension={file.extension.toLowerCase()}
                 />
             )
         } else if (
@@ -96,6 +98,7 @@ export const ViewAgreement = ({ workplace }: any) => {
     return (
         <>
             {modal}
+            
             {viewAgreement.isError && (
                 <NoData text={'Some Network issue, try reload'} />
             )}

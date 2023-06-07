@@ -9,7 +9,7 @@ import {
     Typography,
 } from '@components'
 import { TicketSubject, TicketUser } from '@partials/common/Tickets/components'
-import { AdminApi } from '@queries'
+import { CommonApi } from '@queries'
 import { ColumnDef } from '@tanstack/react-table'
 import moment from 'moment'
 import { useRouter } from 'next/router'
@@ -22,8 +22,8 @@ export const AllTickets = () => {
 
     const router = useRouter()
 
-    const { isLoading, isFetching, data, isError, refetch } =
-        AdminApi.Students.useListQuery(
+    const { isLoading, isFetching, data, isError } =
+        CommonApi.Tickets.useGetAllTicket(
             {
                 skip: itemPerPage * page - itemPerPage,
                 limit: itemPerPage,
@@ -39,7 +39,7 @@ export const AllTickets = () => {
             Icon: AiFillCloseCircle,
         },
         {
-            text: 'Delete',
+            text: 'Close',
             onClick: () => {},
             Icon: AiFillDelete,
         },
@@ -54,12 +54,16 @@ export const AllTickets = () => {
         },
         {
             accessorKey: 'createdBy',
-            cell: (info) => <TicketUser ticket={info?.row?.original} />,
+            cell: (info) => (
+                <TicketUser ticket={info?.row?.original?.createdBy} />
+            ),
             header: () => <span>Created By</span>,
         },
         {
             accessorKey: 'assignedTo',
-            cell: (info) => <TicketUser ticket={info?.row?.original} />,
+            cell: (info) => (
+                <TicketUser ticket={info?.row?.original?.assignedTo} />
+            ),
             header: () => <span>Assigned To</span>,
         },
         {
