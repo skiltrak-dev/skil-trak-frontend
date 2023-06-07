@@ -78,7 +78,6 @@ export const AddAssessmentToolCB = ({ edit, assessment }: Props) => {
     const onSubmit = async (values: any) => {
         delete values.file
         const course = values?.course?.id || values?.course
-        console.log(course)
         const formData = new FormData()
         if (edit) {
             delete values.course

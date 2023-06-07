@@ -1,15 +1,14 @@
 import { ReactElement, useEffect } from 'react'
 // Layouts
-import { AdminLayout, SubAdminLayout } from '@layouts'
+import { SubAdminLayout } from '@layouts'
 // Types
-import { NextPageWithLayout } from '@types'
-import { PageHeading } from '@components/headings'
-import { useAlert, useNavbar } from '@hooks'
 import { BackButton, Button, TabNavigation, TabProps } from '@components'
-import { BsFillTicketDetailedFill } from 'react-icons/bs'
-import { MyOpenTickets } from '@partials/admin/Tickets'
-import { useRouter } from 'next/router'
+import { PageHeading } from '@components/headings'
+import { useNavbar } from '@hooks'
 import { ClosedTickets, OpenTickets } from '@partials/sub-admin/Tickets'
+import { NextPageWithLayout } from '@types'
+import { useRouter } from 'next/router'
+import { BsFillTicketDetailedFill } from 'react-icons/bs'
 
 enum TicketType {
     ClosedTickets = 'closed-tickets',
@@ -20,15 +19,8 @@ const Tickets: NextPageWithLayout = () => {
     const router = useRouter()
     const { setTitle } = useNavbar()
 
-    const { alert } = useAlert()
-
     useEffect(() => {
         setTitle('Tickets')
-        alert.warning({
-            title: 'Under Construction',
-            description: 'Working in Progress',
-            autoDismiss: false,
-        })
     }, [])
 
     const tabs: TabProps[] = [

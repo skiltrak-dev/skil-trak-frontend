@@ -20,50 +20,11 @@ import { volunteerEndpoints } from './volunteer'
 import { workplaceEndpoints } from './workplace'
 import { industryRplEndpoints } from './industyRpl'
 import { emptySplitApi } from '../empty.query'
-import { ticketEndpoints } from './ticket.query'
 
 const PREFIX = 'admin'
 
 export const adminApi = emptySplitApi.injectEndpoints({
-    // export const adminApi = createApi({
-    //     reducerPath: 'adminApi',
-    //     baseQuery: fetchBaseQuery({
-    //         baseUrl: `${process.env.NEXT_PUBLIC_END_POINT}/`,
-    //         prepareHeaders: (headers, { getState }) => {
-    //             const token = AuthUtils.getToken()
-    //             if (token) {
-    //                 headers.set('authorization', `Bearer ${token}`)
-    //             }
-    //             return headers
-    //         },
-    //     }),
-    // keepUnusedDataFor: 200,
-    // refetchOnMountOrArgChange: 100,
-    // refetchOnReconnect: true,
-    //     // refetchOnFocus: true,
-    //     tagTypes: [
-    //         'Count',
-    //         'Profile',
-    //         'RTOS',
-    //         'Students',
-    //         'Subscribers',
-    //         'Sectors',
-    //         'SubAdmins',
-    //         'Industries',
-    //         'Notes',
-    //         'Courses',
-    //         'Folders',
-    //         'AppointmentTypes',
-    //         'Jobs',
-    //         'Messages',
-    //         'Statistics',
-    //         'Workplaces',
-    //         'SMS',
-    //         'Documents',
-    //         'RPL',
-    //     ],
-
-    // ---------- RTO ENDPOINTS ---------- //
+    // ---------- ADMIN ENDPOINTS ---------- //
     endpoints: (build) => ({
         statistics: build.query<AdminStats, void>({
             query: () => `${PREFIX}/count`,
@@ -84,7 +45,6 @@ export const adminApi = emptySplitApi.injectEndpoints({
         ...jobEndpoints(build),
         ...sectorEndpoints(build),
         ...courseEndpoints(build),
-        ...ticketEndpoints(build),
         ...notesEndpoints(build),
         ...folderEndpoints(build),
         ...profileEndpoints(build),
@@ -252,12 +212,6 @@ const {
     // ---- DOCUMENTS ---- //
     useAddDocumentsMutation,
     useGetDocumentsQuery,
-
-    // ---- TICKETS ---- //
-    useGetTicketQuery,
-    useCloseTicketMutation,
-    useCreateTicketMutation,
-    useGetTicketDetailQuery,
 } = adminApi
 
 export const AdminApi = {
@@ -420,11 +374,5 @@ export const AdminApi = {
     Documents: {
         addDocuments: useAddDocumentsMutation,
         useGetDocuments: useGetDocumentsQuery,
-    },
-    Tickets: {
-        useGetTicket: useGetTicketQuery,
-        useCreateTicket: useCreateTicketMutation,
-        useCloseTicket: useCloseTicketMutation,
-        useGetDetail: useGetTicketDetailQuery,
     },
 }

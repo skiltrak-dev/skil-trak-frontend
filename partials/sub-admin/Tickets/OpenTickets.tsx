@@ -9,12 +9,14 @@ import {
     Typography,
 } from '@components'
 import { TicketSubject, TicketUser } from '@partials/common/Tickets/components'
-import { SubAdminApi } from '@queries'
+import { CommonApi, SubAdminApi } from '@queries'
 import { ColumnDef } from '@tanstack/react-table'
 import moment from 'moment'
 import { useRouter } from 'next/router'
+import { TicketStatus } from 'pages/portals/admin/tickets'
 import { useState } from 'react'
 import { AiFillCloseCircle, AiFillDelete } from 'react-icons/ai'
+import { BsFillEyeFill } from 'react-icons/bs'
 
 export const OpenTickets = () => {
     const [itemPerPage, setItemPerPage] = useState(50)
@@ -22,9 +24,10 @@ export const OpenTickets = () => {
 
     const router = useRouter()
 
-    const { isLoading, isFetching, data, isError, refetch } =
-        SubAdminApi.Student.useList(
+    const { isLoading, isFetching, data, isError } =
+        CommonApi.Tickets.useGetTicket(
             {
+                search: `status:${TicketStatus.OPEN}`,
                 skip: itemPerPage * page - itemPerPage,
                 limit: itemPerPage,
             },
@@ -36,7 +39,7 @@ export const OpenTickets = () => {
             text: 'View',
             onClick: (ticket: any) =>
                 router.push(`/portals/admin/tickets/detail/${ticket?.id}`),
-            Icon: AiFillCloseCircle,
+            Icon: BsFillEyeFill,
         },
         {
             text: 'Delete',
@@ -54,17 +57,20 @@ export const OpenTickets = () => {
         },
         {
             accessorKey: 'createdBy',
-            cell: (info) => <TicketUser ticket={info?.row?.original} />,
+            cell: (info) => (
+                <TicketUser ticket={info?.row?.original?.createdBy} />
+            ),
             header: () => <span>Created By</span>,
         },
         {
             accessorKey: 'assignedTo',
-            cell: (info) => <TicketUser ticket={info?.row?.original} />,
+            cell: (info) => (
+                <TicketUser ticket={info?.row?.original?.assignedTo} />
+            ),
             header: () => <span>Assigned To</span>,
         },
         {
             accessorKey: 'replies',
-            cell: (info) => Math.floor(Math.random() * 100),
             header: () => <span>Replies</span>,
         },
         {

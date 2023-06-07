@@ -12,14 +12,16 @@ import { PageHeading } from '@components/headings'
 import { useNavbar, useNotification } from '@hooks'
 import { AddTicketForm } from '@partials/common/Tickets'
 import { NextPageWithLayout } from '@types'
-import { AdminApi } from '@queries'
+import { CommonApi } from '@queries'
+import { useRouter } from 'next/router'
 
 const AddTicket: NextPageWithLayout = () => {
     const { setTitle } = useNavbar()
     const { notification } = useNotification()
+    const router = useRouter()
 
     const [createTicket, createTicketResult] =
-        AdminApi.Tickets.useCreateTicket()
+        CommonApi.Tickets.useCreateTicket()
 
     useEffect(() => {
         setTitle('Add Tickets')
@@ -31,6 +33,9 @@ const AddTicket: NextPageWithLayout = () => {
                 title: 'Ticket Created',
                 description: 'Ticket Created Successfully',
             })
+            router.push(
+                `/portals/admin/tickets/detail/${createTicketResult.data?.id}`
+            )
         }
     }, [createTicketResult])
 

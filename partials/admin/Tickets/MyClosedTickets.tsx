@@ -8,13 +8,14 @@ import {
     TechnicalError,
     Typography,
 } from '@components'
-import { AdminApi } from '@queries'
+import { CommonApi } from '@queries'
 import { ColumnDef } from '@tanstack/react-table'
 import React, { useState } from 'react'
 import { AiFillCloseCircle, AiFillDelete } from 'react-icons/ai'
 import moment from 'moment'
 import { useRouter } from 'next/router'
 import { TicketSubject, TicketUser } from '@partials/common/Tickets/components'
+import { TicketStatus } from 'pages/portals/admin/tickets'
 
 export const MyClosedTickets = () => {
     const [itemPerPage, setItemPerPage] = useState(50)
@@ -22,9 +23,10 @@ export const MyClosedTickets = () => {
 
     const router = useRouter()
 
-    const { isLoading, isFetching, data, isError, refetch } =
-        AdminApi.Students.useListQuery(
+    const { isLoading, isFetching, data, isError } =
+        CommonApi.Tickets.useGetTicket(
             {
+                search: `status:${TicketStatus.CLOSED}`,
                 skip: itemPerPage * page - itemPerPage,
                 limit: itemPerPage,
             },
@@ -39,7 +41,7 @@ export const MyClosedTickets = () => {
             Icon: AiFillCloseCircle,
         },
         {
-            text: 'Delete',
+            text: 'Close',
             onClick: () => {},
             Icon: AiFillDelete,
         },
@@ -54,17 +56,20 @@ export const MyClosedTickets = () => {
         },
         {
             accessorKey: 'createdBy',
-            cell: (info) => <TicketUser ticket={info?.row?.original} />,
+            cell: (info) => (
+                <TicketUser ticket={info?.row?.original?.createdBy} />
+            ),
             header: () => <span>Created By</span>,
         },
         {
             accessorKey: 'assignedTo',
-            cell: (info) => <TicketUser ticket={info?.row?.original} />,
+            cell: (info) => (
+                <TicketUser ticket={info?.row?.original?.assignedTo} />
+            ),
             header: () => <span>Assigned To</span>,
         },
         {
             accessorKey: 'replies',
-            cell: (info) => Math.floor(Math.random() * 100),
             header: () => <span>Replies</span>,
         },
         {

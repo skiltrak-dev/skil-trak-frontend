@@ -40,8 +40,6 @@ export const AssignToMe = ({ workplace, appliedIndustry }: any) => {
     // hooks
     const { notification } = useNotification()
 
-    console.log('workplace', workplace)
-
     useEffect(() => {
         if (assignToMeResult.isSuccess) {
             notification.success({

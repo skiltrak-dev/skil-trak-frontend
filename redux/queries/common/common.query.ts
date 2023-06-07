@@ -15,40 +15,9 @@ import { AdminStats, UserStatus } from '@types'
 import { emptySplitApi } from '@queries/portals/empty.query'
 import { agreementsEndpoints } from './agreement'
 import { draftEndpoints } from './draft'
+import { ticketEndpoints } from './ticket.query'
 
 export const commonApi = emptySplitApi.injectEndpoints({
-    // export const commonApi = createApi({
-    //     reducerPath: 'commonApi',
-    //     baseQuery: fetchBaseQuery({
-    //         baseUrl: `${process.env.NEXT_PUBLIC_END_POINT}/`,
-    //         prepareHeaders: (headers, { getState }) => {
-    //             const token = AuthUtils.getToken()
-    //             if (token) {
-    //                 headers.set('authorization', `Bearer ${token}`)
-    //             }
-    //             return headers
-    //         },
-    //     }),
-
-    //     tagTypes: [
-    //         'RTOS',
-    //         'Notes',
-    //         'Mails',
-    //         'Avatar',
-    //         'Course',
-    //         'Industry',
-    //         'Appointments',
-    //         'AllCommunications',
-    //         'AllNotifications',
-    //         'Students',
-    //         'BulkStatus',
-    //         'Documents',
-    //         'MailCount',
-    //         'MailsRecent',
-    //         'RecentActivities',
-    //         'User',
-    //     ],
-
     // ---------- RTO ENDPOINTS ---------- //
     endpoints: (build) => ({
         downloadAssessmentTool: build.query<any, number>({
@@ -130,6 +99,7 @@ export const commonApi = emptySplitApi.injectEndpoints({
         ...draftEndpoints(build),
         ...notesEndpoints(build),
         ...mailsEndpoints(build),
+        ...ticketEndpoints(build),
         ...coursesEndpoints(build),
         ...agreementsEndpoints(build),
         ...industriesEndpoints(build),
@@ -231,6 +201,16 @@ const {
     useGetEmailDarftQuery,
     useSetNoteDarftMutation,
     useGetNoteDarftQuery,
+
+    // ---- TICKETS ---- //
+    useGetTicketQuery,
+    useAddReplyMutation,
+    useGetAllTicketQuery,
+    useCloseTicketMutation,
+    useCreateTicketMutation,
+    useGetTicketDetailQuery,
+    useGetTicketRepliesQuery,
+    useSeenTicketReplyMutation,
 } = commonApi
 
 export const CommonApi = {
@@ -331,5 +311,15 @@ export const CommonApi = {
         useGetEmailDraft: useGetEmailDarftQuery,
         useSetNoteDarft: useSetNoteDarftMutation,
         getNoteDarft: useGetNoteDarftQuery,
+    },
+    Tickets: {
+        useGetTicket: useGetTicketQuery,
+        useAddReply: useAddReplyMutation,
+        useGetAllTicket: useGetAllTicketQuery,
+        useGetDetail: useGetTicketDetailQuery,
+        useCloseTicket: useCloseTicketMutation,
+        useCreateTicket: useCreateTicketMutation,
+        useGetTicketReplies: useGetTicketRepliesQuery,
+        useSeenTicketReply: useSeenTicketReplyMutation,
     },
 }

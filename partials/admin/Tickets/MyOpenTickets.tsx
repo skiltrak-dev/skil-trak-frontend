@@ -2,40 +2,51 @@ import {
     Card,
     EmptyData,
     LoadingAnimation,
+    Portal,
     Table,
     TableAction,
     TableActionOption,
     TechnicalError,
     Typography,
 } from '@components'
-import { AdminApi } from '@queries'
+import { CommonApi } from '@queries'
 import { ColumnDef } from '@tanstack/react-table'
-import React, { useState } from 'react'
+import React, { ReactElement, useState } from 'react'
 import { AiFillCloseCircle, AiFillDelete } from 'react-icons/ai'
 import moment from 'moment'
 import { useRouter } from 'next/router'
 import { TicketSubject, TicketUser } from '@partials/common/Tickets/components'
-
-export enum TicketStatus {
-    OPEN = 'open',
-    CLOSED = 'close',
-    REOPENED = 'reopened',
-}
+import { TicketStatus } from 'pages/portals/admin/tickets'
+import { CloseTicketModal } from './modals'
 
 export const MyOpenTickets = () => {
+    const [modal, setModal] = useState<ReactElement | null>(null)
     const [itemPerPage, setItemPerPage] = useState(50)
     const [page, setPage] = useState(1)
 
     const router = useRouter()
 
     const { isLoading, isFetching, data, isError } =
-        AdminApi.Tickets.useGetTicket(
+        CommonApi.Tickets.useGetTicket(
             {
+                search: `status:${TicketStatus.OPEN}`,
                 skip: itemPerPage * page - itemPerPage,
                 limit: itemPerPage,
             },
             { refetchOnMountOrArgChange: true }
         )
+
+    const onCancel = () => {
+        setModal(null)
+    }
+
+    const onCloseClicked = (ticket: any) => {
+        setModal(
+            <Portal>
+                <CloseTicketModal onCancel={onCancel} ticket={ticket} />
+            </Portal>
+        )
+    }
 
     const tableActionOptions: TableActionOption[] = [
         {
@@ -45,8 +56,8 @@ export const MyOpenTickets = () => {
             Icon: AiFillCloseCircle,
         },
         {
-            text: 'Delete',
-            onClick: () => {},
+            text: 'Close',
+            onClick: (ticket: any) => onCloseClicked(ticket),
             Icon: AiFillDelete,
         },
     ]
@@ -74,7 +85,6 @@ export const MyOpenTickets = () => {
         },
         {
             accessorKey: 'replies',
-            cell: (info) => Math.floor(Math.random() * 100),
             header: () => <span>Replies</span>,
         },
         {
@@ -105,6 +115,7 @@ export const MyOpenTickets = () => {
     ]
     return (
         <div>
+            {modal}
             <Card noPadding>
                 {isError && <TechnicalError />}
                 {isLoading || isFetching ? (
