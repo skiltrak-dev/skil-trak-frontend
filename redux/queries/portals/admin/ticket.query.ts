@@ -1,15 +1,34 @@
 import { BaseQueryFn } from '@reduxjs/toolkit/dist/query/baseQueryTypes'
 import { EndpointBuilder } from '@reduxjs/toolkit/dist/query/endpointDefinitions'
 
-const PREFIX = 'admin'
+const PREFIX = 'tickets'
 export const ticketEndpoints = (
     builder: EndpointBuilder<BaseQueryFn, string, string>
 ) => ({
+    getTicket: builder.query<any, { limit: number; skip: number }>({
+        query: (params) => ({
+            url: `${PREFIX}`,
+            params,
+        }),
+        providesTags: ['Tickets'],
+    }),
+    getTicketDetail: builder.query<any, number>({
+        query: (id) => `${PREFIX}/${id}`,
+        providesTags: ['Tickets'],
+    }),
     createTicket: builder.mutation<any, any>({
-        query: ({ workplaceId, courseId }) => ({
-            url: `${PREFIX}/workplace-request/assign-course/${workplaceId}/${courseId}`,
+        query: (body) => ({
+            url: `${PREFIX}`,
+            body,
             method: 'POST',
         }),
-        invalidatesTags: ['Workplaces'],
+        invalidatesTags: ['Tickets'],
+    }),
+    closeTicket: builder.mutation<any, any>({
+        query: (id) => ({
+            url: `${PREFIX}/close/${id}`,
+            method: 'PATCH',
+        }),
+        invalidatesTags: ['Tickets'],
     }),
 })
