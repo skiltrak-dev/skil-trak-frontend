@@ -117,6 +117,13 @@ export const assessmentEvidenceEndpoints = (
         }),
         invalidatesTags: ['AssessmentEvidence', 'SubAdminStudents'],
     }),
+    deleteAssessmentEvidence: builder.mutation<any, any>({
+        query: ({ id }) => ({
+            url: `${PREFIX}/assessment-evidence/result/remove/${id}`,
+            method: 'DELETE',
+        }),
+        invalidatesTags: ['AssessmentEvidence', 'SubAdminStudents'],
+    }),
     studentAssessmentCourses: builder.query<any, number>({
         query: (id) => `${PREFIX}/student/course/${id}`,
         providesTags: [

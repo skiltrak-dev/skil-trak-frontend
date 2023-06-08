@@ -195,6 +195,7 @@ export const {
     useDownloadAllCourseFilesMutation,
     useDownloadArhiveCourseFilesMutation,
     useArchiveUploadedFileMutation,
+    useDeleteAssessmentEvidenceMutation,
 
     // --- SET SCHEDULE --- //
     useSetScheduleMutation,
@@ -347,6 +348,7 @@ export const SubAdminApi = {
     AssessmentEvidence: {
         uploadDocs: useUploadAssessmentDocsMutation,
         archiveUploadedFile: useArchiveUploadedFileMutation,
+        deleteAssessmentEvidence: useDeleteAssessmentEvidenceMutation,
         downloadFiles: useDownloadAllCourseFilesMutation,
         downloadArchiveFiles: useDownloadArhiveCourseFilesMutation,
         useArchiveAssessmentEvidence: useArchiveAssessmentEvidenceMutation,
