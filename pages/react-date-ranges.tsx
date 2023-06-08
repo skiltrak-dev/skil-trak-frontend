@@ -1,4 +1,5 @@
 import { ActionButton, TextInput, Typography } from '@components'
+import { CommonApi } from '@queries'
 import { addDays } from 'date-fns'
 import React, { useState } from 'react'
 import { DateRange } from 'react-date-range'
@@ -7,8 +8,14 @@ import 'react-date-range/dist/theme/default.css' // theme css file
 import { AiTwotoneGift } from 'react-icons/ai'
 import { FaTimes } from 'react-icons/fa'
 import OutsideClickHandler from 'react-outside-click-handler'
+import { useJsApiLoader } from '@react-google-maps/api'
+import GooglePlacesAutocomplete from 'react-google-places-autocomplete'
 
 const ReactDateRanges = () => {
+    const { isLoaded } = useJsApiLoader({
+        id: 'google-map-script',
+        googleMapsApiKey: 'AIzaSyCMEGspm5WHyXte3TN4Lfrkcg9DchsbYEk',
+    })
     const [selectedDate, setSelectedDate] = useState<any>([
         {
             startDate: new Date(),
@@ -24,8 +31,29 @@ const ReactDateRanges = () => {
     }
 
     const [isDropDown, setIsDropDown] = useState<boolean>(false)
+    const [searchPlace, setSearchPlace] = useState<string>('')
+
+    // const getSearchPlaces =
+    //     CommonApi.SearchPlaces.useGetSerchedPlaces(searchPlace)
+
+    const onPlaceSelected = (place: any) => {}
+
     return (
         <>
+            {' '}
+            {/* <GooglePlacesAutocomplete
+                apiKey={'AIzaSyCMEGspm5WHyXte3TN4Lfrkcg9DchsbYEk'}
+                // secret={SECRET}
+                query={searchPlace}
+                onPlaceSelected={onPlaceSelected}
+            /> */}
+            <TextInput
+                name={'month'}
+                label={'Set Months'}
+                onChange={(e: any) => {
+                    setSearchPlace(e.target.value)
+                }}
+            />
             <div className="relative">
                 <OutsideClickHandler
                     onOutsideClick={() => {

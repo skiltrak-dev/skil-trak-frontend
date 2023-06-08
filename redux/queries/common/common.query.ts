@@ -1,18 +1,15 @@
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
-import { AuthUtils } from '@utils'
-
-import { rtosEndpoints } from './rtos'
-import { mailsEndpoints } from './mails'
-import { notesEndpoints } from './notes'
+import { allCommunicationEndpoints } from './allCommunication'
+import { appointmentsEndpoints } from './appointments'
+import { changeProfileImageEndpoints } from './changeProfileImage'
 import { coursesEndpoints } from './courses'
 import { industriesEndpoints } from './industries'
-import { appointmentsEndpoints } from './appointments'
-import { allCommunicationEndpoints } from './allCommunication'
-import { changeProfileImageEndpoints } from './changeProfileImage'
+import { mailsEndpoints } from './mails'
+import { notesEndpoints } from './notes'
 import { notificationsEndpoints } from './notifications'
+import { rtosEndpoints } from './rtos'
 
-import { AdminStats, UserStatus } from '@types'
 import { emptySplitApi } from '@queries/portals/empty.query'
+import { UserStatus } from '@types'
 import { agreementsEndpoints } from './agreement'
 import { draftEndpoints } from './draft'
 import { ticketEndpoints } from './ticket.query'
@@ -20,6 +17,11 @@ import { ticketEndpoints } from './ticket.query'
 export const commonApi = emptySplitApi.injectEndpoints({
     // ---------- COMMON ENDPOINTS ---------- //
     endpoints: (build) => ({
+        getSerchedPlaces: build.query<any, any>({
+            query: (text) =>
+                `https://maps.googleapis.com/maps/api/place/textsearch/json?query=${text}&key=${process.env.NEXT_PUBLIC_MAP_KEY}`,
+            providesTags: ['Documents'],
+        }),
         downloadAssessmentTool: build.query<any, number>({
             query: (id) => `shared/assessment-tool/download/${id}`,
             providesTags: ['Documents'],
@@ -114,6 +116,8 @@ export const commonApi = emptySplitApi.injectEndpoints({
 const {
     useDownloadAssessmentToolQuery,
     useBulkUserRemoveMutation,
+
+    useGetSerchedPlacesQuery,
     // ---- EXPIRY DATE ---- //
     useUpdateExpiryDateMutation,
 
@@ -214,6 +218,9 @@ const {
 } = commonApi
 
 export const CommonApi = {
+    SearchPlaces: {
+        useGetSerchedPlaces: useGetSerchedPlacesQuery,
+    },
     Download: {
         downloadAssessmentTool: useDownloadAssessmentToolQuery,
     },

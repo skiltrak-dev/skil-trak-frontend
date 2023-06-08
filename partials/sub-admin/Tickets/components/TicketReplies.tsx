@@ -16,7 +16,7 @@ export const TicketReplies = ({ ticket }: { ticket: any }) => {
     const [seenReply, seenReplyResult] = CommonApi.Tickets.useSeenTicketReply()
 
     useEffect(() => {
-        if (eventListener?.eventListrner) {
+        if (eventListener?.eventListener) {
             replies.refetch()
         }
     }, [eventListener])
