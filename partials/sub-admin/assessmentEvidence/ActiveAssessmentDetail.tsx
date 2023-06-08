@@ -504,6 +504,13 @@ export const ActiveAssessmentDetail = ({
                                             }}
                                         />
                                     )}
+                                {getFolders?.isError && (
+                                    <NoData
+                                        text={
+                                            'There is some network issue,Try reload'
+                                        }
+                                    />
+                                )}
                                 {getFolders?.isLoading ||
                                 getFolders.isFetching ? (
                                     <div className="flex flex-col justify-center items-center gap-y-2 py-5">
@@ -513,7 +520,8 @@ export const ActiveAssessmentDetail = ({
                                         </Typography>
                                     </div>
                                 ) : getFolders?.data &&
-                                  getFolders?.data?.length > 0 ? (
+                                  getFolders?.data?.length > 0 &&
+                                  getFolders.isSuccess ? (
                                     getFolders?.data?.map((assessment: any) => (
                                         <AssessmentFolderCard
                                             key={assessment?.id}
@@ -531,7 +539,9 @@ export const ActiveAssessmentDetail = ({
                                             }}
                                         />
                                     ))
-                                ) : null}
+                                ) : (
+                                    <NoData text={'No Assessment were found'} />
+                                )}
                             </div>
                         </div>
 

@@ -26,7 +26,6 @@ import { CloseTicketModal, TicketReplies } from '@partials/admin/Tickets'
 import { TicketStatus } from '../index'
 
 const Tickets: NextPageWithLayout = () => {
-    const [modal, setModal] = useState<ReactElement | null>(null)
     const { setTitle } = useNavbar()
     const router = useRouter()
     const { notification } = useNotification()
@@ -43,21 +42,6 @@ const Tickets: NextPageWithLayout = () => {
         setTitle('Ticket Detail')
     }, [])
 
-    const onCancel = () => {
-        setModal(null)
-    }
-
-    const onCloseClicked = () => {
-        setModal(
-            <Portal>
-                <CloseTicketModal
-                    onCancel={onCancel}
-                    ticket={ticketDetail?.data}
-                />
-            </Portal>
-        )
-    }
-
     const onSubmit = (values: any) => {
         const message = draftToHtmlText(values?.message)
         addReply({
@@ -72,36 +56,18 @@ const Tickets: NextPageWithLayout = () => {
 
     return (
         <>
-            {modal}
-
             <ShowErrorNotifications result={addReplyResult} />
             <div className="px-4">
-                <div className="flex items-center justify-between mb-4">
-                    <BackButton
-                        text={'Tickets'}
-                        link={'/portals/admin/tickets?tab=my-open-tickets'}
-                    />
-                    {ticketDetail.isSuccess && ticketDetail?.data && (
-                        <Button
-                            variant={isOpened ? 'dark' : 'info'}
-                            text={isOpened ? 'Close Ticket' : 'Re Open'}
-                            onClick={() => {
-                                if (isOpened) {
-                                    onCloseClicked()
-                                }
-                            }}
-                        />
-                    )}
-                </div>
                 {ticketDetail.isError && <TechnicalError />}
                 {ticketDetail.isLoading ? (
                     <LoadingAnimation height={'h-[50vh]'} />
                 ) : ticketDetail?.data && ticketDetail.isSuccess ? (
                     <>
-                        <div className="h-[calc(100vh-380px)] overflow-auto custom-scrollbar">
+                        <div className="h-[calc(100vh-320px)] overflow-auto custom-scrollbar">
                             <div className="sticky top-0 z-20">
                                 <TicketDetailHeaderCard
                                     ticket={ticketDetail?.data}
+                                    isOpened={isOpened}
                                 />
                             </div>
 
