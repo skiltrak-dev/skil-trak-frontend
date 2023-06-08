@@ -560,6 +560,12 @@ const RTODashboard: NextPageWithLayout = () => {
     useEffect(() => {
         contextBar.setContent(<ViewProfileCB />)
         contextBar.show(false)
+
+        return () => {
+            contextBar.setContent(null)
+            contextBar.hide()
+            contextBar.setTitle('')
+        }
     }, [])
 
     useEffect(() => {

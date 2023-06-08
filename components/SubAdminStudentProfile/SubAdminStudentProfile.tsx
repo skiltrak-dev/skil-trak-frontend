@@ -168,22 +168,21 @@ export const SubAdminStudentProfile = ({ student }: { student: any }) => {
                             <span className="text-gray-300">
                                 <MdPhone size={12} />
                             </span>
-                            <div>
-                                <p
-                                    className="text-xs font-medium"
-                                    onClick={() => {
-                                        navigator.clipboard.writeText(
-                                            student?.phone
-                                        )
-                                        callLog({
-                                            student: student?.id,
-                                        })
-                                        notification.success({
-                                            title: 'Cpoied',
-                                            description: 'Phone Num Copied',
-                                        })
-                                    }}
-                                >
+                            <div
+                                onClick={() => {
+                                    navigator.clipboard.writeText(
+                                        student?.phone
+                                    )
+                                    callLog({
+                                        student: student?.id,
+                                    })
+                                    notification.success({
+                                        title: 'Cpoied',
+                                        description: 'Phone Num Copied',
+                                    })
+                                }}
+                            >
+                                <p className="text-xs font-medium">
                                     {student?.phone}
                                 </p>
                                 <div className="text-gray-400 text-[11px] flex justify-start -mt-0.5 text-right">

@@ -6,6 +6,7 @@ import { useRouter } from 'next/router'
 import { HiPhoneOutgoing } from 'react-icons/hi'
 import { MdEmail } from 'react-icons/md'
 import moment from 'moment'
+import { ImPhone, ImPhoneHangUp } from 'react-icons/im'
 
 export const StudentCellInfo = ({
     student,
@@ -61,14 +62,23 @@ export const StudentCellInfo = ({
                         <p className="flex items-center gap-x-1 text-xs">
                             {student?.studentId}
                         </p>
-                        {call && isDateExist && (
-                            <div className="rounded-full bg-success p-0.5">
-                                <HiPhoneOutgoing
-                                    title={'Call Made'}
-                                    className="text-white text-[10px]"
-                                />
-                            </div>
-                        )}
+                        {call &&
+                            isDateExist &&
+                            (callLog.isAnswered ? (
+                                <div className="rounded-full bg-success p-0.5">
+                                    <ImPhone
+                                        title={'Call Made and Answered'}
+                                        className="text-white text-[10px]"
+                                    />
+                                </div>
+                            ) : callLog.isAnswered === false ? (
+                                <div className="rounded-full bg-red-700 p-0.5">
+                                    <ImPhoneHangUp
+                                        title={'Call Made and Not Answered'}
+                                        className="text-white text-[10px]"
+                                    />
+                                </div>
+                            ) : null)}
                     </div>
                     <p className="font-semibold">{student?.user?.name}</p>
                     <div className="font-medium text-xs text-gray-500">
