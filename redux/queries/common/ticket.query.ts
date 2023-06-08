@@ -17,10 +17,7 @@ export const ticketEndpoints = (
         }),
         providesTags: ['Tickets'],
     }),
-    getTicket: builder.query<
-        PaginatedResponse<any>,
-        { search?: string; limit: number; skip: number }
-    >({
+    getTicket: builder.query<any, any>({
         query: (params) => ({
             url: `${PREFIX}`,
             params,

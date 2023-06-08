@@ -3,8 +3,11 @@ import { PdfViewer } from '@components/PdfViewer'
 import { getDocType } from '@components/sections/student/AssessmentsContainer'
 import { Typography } from '@components/Typography'
 import { VideoPreview } from '@components/VideoPreview'
+import { UserRoles } from '@constants'
 import { ellipsisText, FileFormat } from '@utils'
+import moment from 'moment'
 import Image from 'next/image'
+import { BsFillInfoCircleFill, BsInfo } from 'react-icons/bs'
 import { IoMdDocument } from 'react-icons/io'
 
 type AssessmentFolderFileCardProps = {
@@ -43,13 +46,36 @@ export const AssessmentFolderFileCard = ({
         ?.split('.')
         .reverse()[0]
 
+    console.log('Fi', file)
+
     return (
         <div className="relative w-24">
-            {deleteAction && !file?.agreement && (
-                <div className="absolute top-1 right-1 z-20">
-                    {deleteAction(file?.id)}
-                </div>
-            )}
+            <div className="absolute top-0 z-20 flex justify-between w-full items-center gap-x-1 px-0.5">
+                {file?.uploadedBy && (
+                    <div className="bg-white rounded-full shadow-md border border-gray-600 cursor-pointer relative group">
+                        <BsInfo className="text-black text-sm" />
+
+                        <div className="group-hover:block hidden transition-all duration-500 absolute top-full mt-1 w-auto h-auto p-1 rounded bg-white border text-[10px]">
+                            <div className="whitespace-pre">
+                                Uploaded By: {file?.uploadedBy?.name}(
+                                {file?.uploadedBy?.role})
+                            </div>
+                            <div className="whitespace-pre">
+                                email: {file?.uploadedBy?.email}
+                            </div>
+                            <div className="whitespace-pre">
+                                Uploaded AT:{' '}
+                                {moment(file?.createdAt)?.format(
+                                    'ddd, DD.MMM.YYYY [at] hh:mm a'
+                                )}
+                            </div>
+                        </div>
+                    </div>
+                )}
+                {deleteAction && !file?.agreement && (
+                    <div className="ml-auto">{deleteAction(file?.id)}</div>
+                )}
+            </div>
             <div
                 className={` basis-1/6 border rounded py-2 ${
                     selected ? 'bg-blue-200' : ''

@@ -2,12 +2,21 @@ import React, { useEffect } from 'react'
 import { CommonApi } from '@queries'
 import { TicketMessageCard } from '@partials/common/Tickets'
 import { EmptyData, LoadingAnimation, TechnicalError } from '@components'
+import { useSocketListener } from '@hooks'
 
 export const TicketReplies = ({ ticket }: { ticket: any }) => {
+    const { eventListener } = useSocketListener()
+
     const replies = CommonApi.Tickets.useGetTicketReplies(ticket?.id, {
         skip: !ticket?.id,
     })
     const [seenReply, seenReplyResult] = CommonApi.Tickets.useSeenTicketReply()
+
+    useEffect(() => {
+        if (eventListener?.eventListener) {
+            replies.refetch()
+        }
+    }, [eventListener])
 
     useEffect(() => {
         seenReply(ticket?.id)

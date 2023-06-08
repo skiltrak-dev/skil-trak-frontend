@@ -66,7 +66,8 @@ const Tickets: NextPageWithLayout = () => {
 
     return (
         <div className="px-4">
-            <div className="flex justify-end my-5">
+            <div className="flex justify-between items-center my-5">
+                <BackButton text={'Go Back'} />
                 <Button
                     variant={'dark'}
                     text={'Create a Ticket'}
@@ -82,7 +83,6 @@ const Tickets: NextPageWithLayout = () => {
                         <div>
                             <div>{header}</div>
                             <div className="mt-4 ml-4">
-                                <BackButton text={'Go Back'} />
                                 <PageHeading
                                     title={'Ticket'}
                                     subtitle={'You can find all Tickets here'}

@@ -18,7 +18,7 @@ import { draftEndpoints } from './draft'
 import { ticketEndpoints } from './ticket.query'
 
 export const commonApi = emptySplitApi.injectEndpoints({
-    // ---------- RTO ENDPOINTS ---------- //
+    // ---------- COMMON ENDPOINTS ---------- //
     endpoints: (build) => ({
         downloadAssessmentTool: build.query<any, number>({
             query: (id) => `shared/assessment-tool/download/${id}`,

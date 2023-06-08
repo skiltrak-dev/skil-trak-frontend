@@ -9,10 +9,10 @@ export const TicketMessageCard = ({ message }: { message: any }) => {
     return (
         <div
             className={`${
-                id === message?.author?.id ? 'bg-gray-100' : ''
-            } border border-t-2 border-dashed border-gray-300 border-t-gray-500 shadow py-2`}
+                id === message?.author?.id ? 'bg-gray-200' : 'bg-white'
+            } border-2 border-dashed border-gray-400 shadow px-4 py-2`}
         >
-            <div className="flex justify-between items-center px-4">
+            <div className="flex justify-between items-center ">
                 <TicketUser ticket={message?.author} />
                 <Typography variant={'small'} color={'text-gray-500'}>
                     {moment(message?.createdAt).format(
@@ -21,7 +21,7 @@ export const TicketMessageCard = ({ message }: { message: any }) => {
                 </Typography>
             </div>
             <div
-                className="text-sm text-gray-500 mt-1 px-2 py-1 bg-white shadow"
+                className="text-sm text-gray-500 mt-1 py-1"
                 dangerouslySetInnerHTML={{
                     __html: message?.message,
                 }}

@@ -7,6 +7,7 @@ import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { FaEnvelope, FaPhone } from 'react-icons/fa'
 import { HiPhoneOutgoing } from 'react-icons/hi'
+import { ImPhone, ImPhoneHangUp } from 'react-icons/im'
 import { MdEmail, MdPhoneIphone } from 'react-icons/md'
 
 export const StudentCellInfo = ({
@@ -32,6 +33,7 @@ export const StudentCellInfo = ({
     const createdAt = moment(callLog?.createdAt, 'YYYY-MM-DD')
 
     const isDateExist = createdAt.isBetween(startDate, endDate, 'day')
+
     return (
         <div className="flex items-center relative">
             <div className="flex items-center gap-x-2">
@@ -58,14 +60,25 @@ export const StudentCellInfo = ({
                                 <p className={'text-xs text-gray-500'}>
                                     {student?.studentId}
                                 </p>
-                                {call && isDateExist && (
-                                    <div className="rounded-full bg-success p-0.5">
-                                        <HiPhoneOutgoing
-                                            title={'Call Made'}
-                                            className="text-white text-[10px]"
-                                        />
-                                    </div>
-                                )}
+                                {call &&
+                                    isDateExist &&
+                                    (callLog.isAnswered ? (
+                                        <div className="rounded-full bg-success p-0.5">
+                                            <ImPhone
+                                                title={'Call Made and Answered'}
+                                                className="text-white text-[10px]"
+                                            />
+                                        </div>
+                                    ) : callLog.isAnswered === false ? (
+                                        <div className="rounded-full bg-red-700 p-0.5">
+                                            <ImPhoneHangUp
+                                                title={
+                                                    'Call Made and Not Answered'
+                                                }
+                                                className="text-white text-[10px]"
+                                            />
+                                        </div>
+                                    ) : null)}
                             </div>
                             {/* <div className="flex items-center gap-x-2 ">
                                             <div

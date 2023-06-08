@@ -1,9 +1,14 @@
-import React, { useEffect } from 'react'
-import { CommonApi } from '@queries'
 import { EmptyData, LoadingAnimation, TechnicalError } from '@components'
+import { useSocketListener } from '@hooks'
 import { TicketMessageCard } from '@partials/common/Tickets'
+import { CommonApi } from '@queries'
+import { useEffect } from 'react'
+import { useDispatch } from 'react-redux'
 
 export const TicketReplies = ({ ticket }: { ticket: any }) => {
+    const dispatch = useDispatch()
+    const { eventListener } = useSocketListener()
+
     const replies = CommonApi.Tickets.useGetTicketReplies(ticket?.id, {
         skip: !ticket?.id,
     })
@@ -11,8 +16,15 @@ export const TicketReplies = ({ ticket }: { ticket: any }) => {
     const [seenReply, seenReplyResult] = CommonApi.Tickets.useSeenTicketReply()
 
     useEffect(() => {
+        if (eventListener?.eventListrner) {
+            replies.refetch()
+        }
+    }, [eventListener])
+
+    useEffect(() => {
         seenReply(ticket?.id)
     }, [])
+
     return (
         <>
             {replies.isError && <TechnicalError />}
