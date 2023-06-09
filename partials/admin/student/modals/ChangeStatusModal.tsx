@@ -13,11 +13,9 @@ import { useNotification } from '@hooks'
 export const ChangeStatusModal = ({
     student,
     onCancel,
-    setStatusSuccessResult,
 }: {
     student: Student
     onCancel: Function
-    setStatusSuccessResult: any
 }) => {
     const [changeCurrentStatus, changeCurrentStatusResult] =
         SubAdminApi.Student.changeCurrentStatus()
@@ -31,7 +29,6 @@ export const ChangeStatusModal = ({
                 description: 'Status Changed Successfully',
             })
             onCancel()
-            setStatusSuccessResult(changeCurrentStatusResult.isSuccess)
         }
     }, [changeCurrentStatusResult])
 

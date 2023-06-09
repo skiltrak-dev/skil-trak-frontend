@@ -301,20 +301,23 @@ export const FilteredStudents = ({
                                         <div className="px-6 overflow-auto remove-scrollbar">
                                             {table}
                                         </div>
-                                        <div className="p-6 mb-2 flex justify-between">
-                                            {pageSize(
-                                                itemPerPage,
-                                                setItemPerPage,
-                                                student?.data?.data?.length
-                                            )}
-                                            <div className="flex gap-x-2">
-                                                {quickActions}
-                                                {pagination(
-                                                    student?.data?.pagination,
-                                                    setPage
+                                        {student?.data?.data?.length > 10 && (
+                                            <div className="p-6 mb-2 flex justify-between">
+                                                {pageSize(
+                                                    itemPerPage,
+                                                    setItemPerPage,
+                                                    student?.data?.data?.length
                                                 )}
+                                                <div className="flex gap-x-2">
+                                                    {quickActions}
+                                                    {pagination(
+                                                        student?.data
+                                                            ?.pagination,
+                                                        setPage
+                                                    )}
+                                                </div>
                                             </div>
-                                        </div>
+                                        )}
                                     </div>
                                 )
                             }}

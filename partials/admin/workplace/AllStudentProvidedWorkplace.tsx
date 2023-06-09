@@ -62,6 +62,19 @@ export const AllStudentProvidedWorkplace = () => {
                     />
                 )
             )}
+            {subAdminWorkplace.data?.data?.length > 7 && (
+                <div className="flex items-center justify-between py-7">
+                    <PageSize
+                        itemPerPage={itemPerPage}
+                        setItemPerPage={setItemPerPage}
+                        records={subAdminWorkplace.data?.data?.length}
+                    />
+                    <Pagination
+                        pagination={subAdminWorkplace?.data?.pagination}
+                        setPage={setPage}
+                    />
+                </div>
+            )}
         </div>
     )
 }

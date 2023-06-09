@@ -99,7 +99,6 @@ export const Students = ({ industry }: { industry: Industry }) => {
     const onChangeStatus = (student: Student) => {
         setModal(
             <ChangeStatusModal
-                setStatusSuccessResult={setStatusSuccessResult}
                 student={student}
                 onCancel={onModalCancelClicked}
             />

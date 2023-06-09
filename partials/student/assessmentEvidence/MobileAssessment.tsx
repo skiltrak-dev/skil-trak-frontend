@@ -154,6 +154,7 @@ export const MobileAssessment = ({
                                                                 folder
                                                             )
                                                         }}
+                                                        assessment
                                                     />
                                                 )
                                             )

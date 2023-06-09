@@ -34,6 +34,7 @@ export const AllRequestedWorkplace = () => {
                 <PageSize
                     itemPerPage={itemPerPage}
                     setItemPerPage={setItemPerPage}
+                    records={subAdminWorkplace.data?.data?.length}
                 />
                 <Pagination
                     pagination={subAdminWorkplace?.data?.pagination}
@@ -60,6 +61,19 @@ export const AllRequestedWorkplace = () => {
                         description={'No Workplace Request were found'}
                     />
                 )
+            )}
+            {subAdminWorkplace.data?.data?.length > 7 && (
+                <div className="flex items-center justify-between py-7">
+                    <PageSize
+                        itemPerPage={itemPerPage}
+                        setItemPerPage={setItemPerPage}
+                        records={subAdminWorkplace.data?.data?.length}
+                    />
+                    <Pagination
+                        pagination={subAdminWorkplace?.data?.pagination}
+                        setPage={setPage}
+                    />
+                </div>
             )}
         </div>
     )

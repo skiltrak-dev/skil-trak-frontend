@@ -16,7 +16,7 @@ import { AddToPartnerModal } from '@partials/sub-admin/Industries/modals/AddToPa
 import { SubAdminApi } from '@queries'
 import { getUserCredentials } from '@utils'
 import { useRouter } from 'next/router'
-import { ReactNode, useEffect, useState } from 'react'
+import { Fragment, ReactNode, useEffect, useState } from 'react'
 import { BsUnlockFill } from 'react-icons/bs'
 import { FaAddressCard, FaRegHandshake } from 'react-icons/fa'
 import { GiBackwardTime } from 'react-icons/gi'
@@ -329,7 +329,7 @@ export const IndustryProfile = ({ data }: Props) => {
                         {sectorsWithCourses ? (
                             Object.keys(sectorsWithCourses).map((sector) => {
                                 return (
-                                    <>
+                                    <Fragment key={sector}>
                                         <Typography
                                             variant={'label'}
                                             color={'text-black'}
@@ -344,7 +344,7 @@ export const IndustryProfile = ({ data }: Props) => {
                                                 ]
                                             }
                                         />
-                                    </>
+                                    </Fragment>
                                 )
                             })
                         ) : (

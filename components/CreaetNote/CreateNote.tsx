@@ -1,14 +1,13 @@
-import { Controller, FormProvider, useForm } from 'react-hook-form'
-import dynamic from 'next/dynamic'
 import { useEffect, useRef, useState } from 'react'
+import { FormProvider, useForm } from 'react-hook-form'
+import * as Yup from 'yup'
 
-import { EditorProps } from 'react-draft-wysiwyg'
-const Editor = dynamic<EditorProps>(
-    () => import('react-draft-wysiwyg').then((mod) => mod.Editor),
-    {
-        ssr: false,
-    }
-)
+// const Editor = dynamic<EditorProps>(
+//     () => import('react-draft-wysiwyg').then((mod) => mod.Editor),
+//     {
+//         ssr: false,
+//     }
+// )
 
 const htmlToDraft =
     typeof window === 'object' && require('html-to-draftjs').default
@@ -27,20 +26,20 @@ import {
     Button,
     Card,
     Checkbox,
-    ContentEditor,
+    draftToHtmlText,
+    InputContentEditor,
+    inputEditorErrorMessage,
     Select,
     ShowErrorNotifications,
-    TextArea,
     TextInput,
 } from '@components'
-import { useContextBar } from '@hooks'
 
 // query
+import { yupResolver } from '@hookform/resolvers/yup'
 import { CommonApi } from '@queries'
 import { useNotification } from 'hooks'
-import { NoteEditor } from './NoteEditor'
 import ClickAwayListener from 'react-click-away-listener'
-import OutsideClickHandler from 'react-outside-click-handler'
+import { useRouter } from 'next/router'
 
 export const CreateNote = ({
     action,
@@ -49,9 +48,9 @@ export const CreateNote = ({
     editValues,
     setEditValues,
 }: any) => {
-    const { isVisible } = useContextBar()
     const { notification } = useNotification()
     const [noteContent, setNoteContent] = useState<any>(null)
+    const router = useRouter()
 
     const ref = useRef<HTMLDivElement>(null)
 
@@ -62,6 +61,7 @@ export const CreateNote = ({
     const [setNoteDraft, setNoteDraftResult] = CommonApi.Draft.useSetNoteDarft()
     const getNoteDraft = CommonApi.Draft.getNoteDarft(receiverId, {
         skip: !receiverId,
+        refetchOnMountOrArgChange: true,
     })
 
     const [editing, setEditing] = useState(false)
@@ -89,54 +89,9 @@ export const CreateNote = ({
             })
             setNoteContent(null)
             methods.reset()
-            // setIsSendDraft(true)
+            getNoteDraft.refetch()
         }
     }, [createNoteResult.isSuccess])
-    // useEffect(() => {
-    //     if (createNoteResult.isError) {
-    //         setIsSendDraft(true)
-    //     }
-    // }, [createNoteResult.isError])
-
-    const onSubmit = (values: any) => {
-        setIsSendDraft(false)
-        if (editing) {
-            // updateNote({ ...values, postedFor: receiverId, id: editValues?.id })
-        } else {
-            if (values?.body) {
-                const body = draftToHtml(
-                    convertToRaw(values?.body.getCurrentContent())
-                )
-                createNote({ ...values, body, postedFor: receiverId })
-            } else {
-                notification.error({
-                    title: 'Message is Required',
-                    description: 'Message is Required',
-                })
-            }
-        }
-
-        // setTesting(resetForm);
-        // setResetFormData(resetForm)
-        // const userCredentials = AuthUtils.getUserCredentials();
-        // const date = new Date();
-        // const parent = replyMessage?.id;
-        // setMessage({
-        //   parent: replyMessage,
-        //   createdAt: date.toISOString(),
-        //   status: userStatus.PENDING,
-        //   sender: {
-        //     id: userCredentials?.id,
-        //     name: userCredentials?.name,
-        //     role: sender || "",
-        //   },
-        //   subject: values.subject,
-        //   message: values.message,
-        //   type: "email",
-        //   receiver: receiverId || 64,
-        // });
-        // setReplyMessage(null);
-    }
 
     const templates = [
         {
@@ -153,8 +108,16 @@ export const CreateNote = ({
         )
     }, [])
 
+    const validationSchema = Yup.object({
+        title: Yup.string().required('Title is required'),
+        body: Yup.mixed().test('Message', 'Must Provide Message', (value) =>
+            inputEditorErrorMessage(value)
+        ),
+    })
+
     const methods = useForm({
         mode: 'all',
+        resolver: yupResolver(validationSchema),
         defaultValues: { ...editValues, body: bodyData },
     })
 
@@ -190,6 +153,25 @@ export const CreateNote = ({
             methods.setValue('body', bodyValue)
         }
     }, [templateValue, template])
+
+    const onSubmit = (values: any) => {
+        setIsSendDraft(false)
+        if (editing) {
+            // updateNote({ ...values, postedFor: receiverId, id: editValues?.id })
+        } else {
+            if (values?.body) {
+                const body = draftToHtml(
+                    convertToRaw(values?.body.getCurrentContent())
+                )
+                createNote({ ...values, body, postedFor: receiverId })
+            } else {
+                notification.error({
+                    title: 'Message is Required',
+                    description: 'Message is Required',
+                })
+            }
+        }
+    }
 
     return (
         <>
@@ -236,15 +218,11 @@ export const CreateNote = ({
                                     }}
                                 >
                                     <div className="mb-3">
-                                        <NoteEditor
+                                        <InputContentEditor
                                             name={'body'}
                                             label={'Message'}
                                             onChange={(e: any) => {
-                                                const note = draftToHtml(
-                                                    convertToRaw(
-                                                        e.getCurrentContent()
-                                                    )
-                                                )
+                                                const note = draftToHtmlText(e)
                                                 setNoteContent(note)
                                             }}
                                         />

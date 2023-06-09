@@ -146,6 +146,7 @@ export const AssessmentsEvidence = ({
                                             onClick={() => {
                                                 setSelectedFolder(assessment)
                                             }}
+                                            assessment
                                         />
                                     ))
                                 ) : (

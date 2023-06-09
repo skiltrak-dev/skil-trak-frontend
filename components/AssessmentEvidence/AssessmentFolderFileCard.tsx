@@ -46,8 +46,6 @@ export const AssessmentFolderFileCard = ({
         ?.split('.')
         .reverse()[0]
 
-    console.log('Fi', file)
-
     return (
         <div className="relative w-24 file-view-group">
             <div className=" absolute top-0 z-20 flex justify-between w-full items-center gap-x-1 px-0.5">

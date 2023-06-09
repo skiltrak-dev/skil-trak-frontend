@@ -22,7 +22,7 @@ const VariantOptions = [
 ] as const
 
 interface ButtonProps {
-    variant?: typeof VariantOptions[number]
+    variant?: (typeof VariantOptions)[number]
     Icon?: any
     children?: any
     text?: string
@@ -75,7 +75,7 @@ export const Button = ({
             disabled={disabled}
             type={submit ? 'submit' : 'button'}
             className={currentClass}
-            {...(!submit ? { onClick: () => onClick && onClick() } : {})}
+            {...(!submit ? { onClick: (e) => onClick && onClick(e) } : {})}
         >
             {loading ? (
                 <div className="flex items-center justify-center">

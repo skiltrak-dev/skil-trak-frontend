@@ -11,19 +11,23 @@ import {
 } from '@components'
 
 // queries
-import { useNotification } from '@hooks'
 import { AssessmentResponse } from '@components'
+import { getDocType } from '@components/sections/student/AssessmentsContainer'
+import { UploadFile } from '@components/sections/student/AssessmentsContainer/AssessmentsEvidence/AssessmentFolderDetailX/UploadFile'
+import { FileUpload } from '@hoc'
+import { useNotification } from '@hooks'
 import {
     SubAdminApi,
+    useGetSubAdminStudentWorkplaceQuery,
     useStudentAssessmentCoursesQuery,
     useUploadRequiredDocsMutation,
-    useGetSubAdminStudentWorkplaceQuery,
 } from '@queries'
-import { getUserCredentials } from '@utils'
-import { FileUpload } from '@hoc'
-import { UploadFile } from '@components/sections/student/AssessmentsContainer/AssessmentsEvidence/AssessmentFolderDetailX/UploadFile'
-import { getDocType } from '@components/sections/student/AssessmentsContainer'
-import { useRouter } from 'next/router'
+import {
+    activeWorkplace,
+    getStudentWorkplaceAppliedIndustry,
+    getUserCredentials,
+    latestWorkplace,
+} from '@utils'
 
 export const RequiredDocs = ({
     studentId,
@@ -47,13 +51,18 @@ export const RequiredDocs = ({
         skip: !studentId,
         refetchOnMountOrArgChange: true,
     })
+
+    const activeWP = activeWorkplace(workplace?.data)
+    const latestWP = latestWorkplace(activeWP)
+    const appliedIndustry = getStudentWorkplaceAppliedIndustry(latestWP)
+
     const getFolders = SubAdminApi.Docs.useRequiredFolders(
         {
-            industryId: industry?.id,
+            industryId: appliedIndustry?.industry?.id,
             courseId: Number(selectedCourse?.id),
         },
         {
-            skip: !selectedCourse || !industry,
+            skip: !selectedCourse || !appliedIndustry?.industry?.id,
         }
     )
 
