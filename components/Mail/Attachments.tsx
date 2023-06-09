@@ -3,6 +3,7 @@ import {
     PdfViewModal,
     VideoPlayModal,
 } from '@components/AssessmentEvidence'
+import { DocumentsView } from '@hooks'
 import Image from 'next/image'
 import React, { ReactElement, useState } from 'react'
 import { IoMdDocument } from 'react-icons/io'
@@ -11,6 +12,7 @@ import { TbPlayerPlay } from 'react-icons/tb'
 export const Attachments = ({ attachments }: { attachments: string[] }) => {
     const [modal, setModal] = useState<ReactElement | null>(null)
     const [selected, setSelected] = useState<any>(null)
+    const { onFileClicked, documentsViewModal } = DocumentsView()
 
     const attachementsType = {
         images: ['*', 'jpeg', 'jpg', 'png', 'svg+xml', 'webp'],
@@ -54,40 +56,41 @@ export const Attachments = ({ attachments }: { attachments: string[] }) => {
         )
     }
 
-    const onFileClicked = (file: any) => {
-        setSelected(file)
+    // const onFileClicked = (file: any) => {
+    //     setSelected(file)
 
-        if (attachementsType?.images?.includes(file.extension.toLowerCase())) {
-            setModal(getImageViewModal(file))
-        } else if (['pdf', 'document'].includes(file.extension.toLowerCase())) {
-            // const fileSplit = file.file.split('https://')
-            // const url = `https://www.${fileSplit[1]}`
-            const url = `${file?.file}`
-            setModal(
-                <PdfViewModal
-                    url={url}
-                    downloadUrl={file?.file}
-                    onCancelButtonClick={onModalCancel}
-                />
-            )
-        } else if (
-            ['mp4', 'mkv', 'avi', 'mpeg'].includes(file.extension.toLowerCase())
-        ) {
-            // const fileSplit = file.file.split('https://')
-            // const url = `https://www.${fileSplit[1]}`
-            setModal(
-                <VideoPlayModal
-                    // url={url}
-                    url={file?.file}
-                    downloadUrl={file?.file}
-                    onCancelButtonClick={onModalCancel}
-                />
-            )
-        }
-    }
+    //     if (attachementsType?.images?.includes(file.extension.toLowerCase())) {
+    //         setModal(getImageViewModal(file))
+    //     } else if (['pdf', 'document'].includes(file.extension.toLowerCase())) {
+    //         // const fileSplit = file.file.split('https://')
+    //         // const url = `https://www.${fileSplit[1]}`
+    //         const url = `${file?.file}`
+    //         setModal(
+    //             <PdfViewModal
+    //                 url={url}
+    //                 downloadUrl={file?.file}
+    //                 onCancelButtonClick={onModalCancel}
+    //             />
+    //         )
+    //     } else if (
+    //         ['mp4', 'mkv', 'avi', 'mpeg'].includes(file.extension.toLowerCase())
+    //     ) {
+    //         // const fileSplit = file.file.split('https://')
+    //         // const url = `https://www.${fileSplit[1]}`
+    //         setModal(
+    //             <VideoPlayModal
+    //                 // url={url}
+    //                 url={file?.file}
+    //                 downloadUrl={file?.file}
+    //                 onCancelButtonClick={onModalCancel}
+    //             />
+    //         )
+    //     }
+    // }
     return (
         <>
             {modal}
+            {documentsViewModal}
             <div className="flex items-center flex-wrap gap-x-1 pr-5">
                 {attachments?.map((attached: string) => {
                     const fileType = attached?.split('.')?.reverse()[0]
@@ -101,10 +104,12 @@ export const Attachments = ({ attachments }: { attachments: string[] }) => {
                                         : ''
                                 }`}
                                 onClick={() => {
-                                    onFileClicked({
+                                    const file = {
                                         file: attached,
                                         extension: fileType,
-                                    })
+                                    }
+                                    setSelected(file)
+                                    onFileClicked(file)
                                 }}
                             >
                                 <Image
@@ -122,10 +127,12 @@ export const Attachments = ({ attachments }: { attachments: string[] }) => {
                                 key={attached}
                                 className="relative w-20 h-20 flex items-center justify-center border rounded cursor-pointer"
                                 onClick={() => {
-                                    onFileClicked({
+                                    const file = {
                                         file: attached,
                                         extension: fileType,
-                                    })
+                                    }
+                                    setSelected(file)
+                                    onFileClicked(file)
                                 }}
                             >
                                 <IoMdDocument className="text-5xl text-gray-500" />
@@ -138,10 +145,12 @@ export const Attachments = ({ attachments }: { attachments: string[] }) => {
                                 key={attached}
                                 className="relative w-20 h-20 flex items-center justify-center border rounded cursor-pointer bg-black"
                                 onClick={() => {
-                                    onFileClicked({
+                                    const file = {
                                         file: attached,
                                         extension: fileType,
-                                    })
+                                    }
+                                    setSelected(file)
+                                    onFileClicked(file)
                                 }}
                             >
                                 <TbPlayerPlay className="text-5xl text-gray-500" />

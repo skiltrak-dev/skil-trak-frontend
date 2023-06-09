@@ -1,4 +1,4 @@
-import { useContextBar } from '@hooks'
+import { DocumentsView, useContextBar } from '@hooks'
 import { useEffect, Fragment, useState, ReactElement } from 'react'
 import {
     Typography,
@@ -13,76 +13,16 @@ import { AiFillEye } from 'react-icons/ai'
 import { FaCloudDownloadAlt } from 'react-icons/fa'
 
 export const ViewFoldersCB = ({ folders }: any) => {
-    const [modal, setModal] = useState<ReactElement | null>(null)
+    const { onFileClicked, documentsViewModal } = DocumentsView()
     const { setTitle } = useContextBar()
 
     useEffect(() => {
         setTitle('View Folders')
     }, [])
 
-    const onModalCancel = () => {
-        setModal(null)
-    }
-
-    const getImageViewModal = (file: any) => {
-        return (
-            <FileViewModal
-                title=""
-                subtitle=""
-                url={file?.file}
-                onCancelButtonClick={onModalCancel}
-            >
-                <div className="max-w-[650px] relative">
-                    <img src={file?.file} alt="" className="max-w-full" />
-                </div>
-            </FileViewModal>
-        )
-    }
-
-    const onFileClicked = (file: any) => {
-        // setSelected(file)
-
-        if (
-            ['jpg', 'jpeg', 'png', 'jfif'].includes(
-                file?.extension?.toLowerCase()
-            )
-        ) {
-            setModal(getImageViewModal(file))
-        } else if (
-            ['pdf', 'document'].includes(file?.extension?.toLowerCase())
-        ) {
-            // const fileSplit = file.file.split('https://')
-            // const url = `https://www.${fileSplit[1]}`
-            const url = `${file?.file}`
-            setModal(
-                <PdfViewModal
-                    url={url}
-                    downloadUrl={file?.file}
-                    onCancelButtonClick={onModalCancel}
-                    extension={file?.extension}
-                />
-            )
-        } else if (
-            ['mp4', 'mkv', 'avi', 'mpeg', 'quicktime', 'mov'].includes(
-                file?.extension?.toLowerCase()
-            )
-        ) {
-            // const fileSplit = file.file.split('https://')
-            // const url = `https://www.${fileSplit[1]}`
-            setModal(
-                <VideoPlayModal
-                    // url={url}
-                    url={file?.file}
-                    downloadUrl={file?.file}
-                    onCancelButtonClick={onModalCancel}
-                />
-            )
-        }
-    }
-
     return (
         <>
-            {modal}
+            {documentsViewModal}
             <div>
                 {folders && folders?.length > 0 ? (
                     folders?.map((folder: any) => (

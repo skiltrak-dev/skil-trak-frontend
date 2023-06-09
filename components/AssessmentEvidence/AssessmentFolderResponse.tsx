@@ -22,7 +22,7 @@ import { TextInput } from '@components/inputs'
 import { Result } from '@constants'
 import { useAddCommentOnAssessmentMutation } from '@queries'
 import moment from 'moment'
-import { useNotification } from '@hooks'
+import { DocumentsView, useNotification } from '@hooks'
 
 export const AssessmentResponse = ({
     folder,
@@ -52,6 +52,8 @@ export const AssessmentResponse = ({
 
     const [modal, setModal] = useState<any>(null)
 
+    const { onFileClicked, documentsViewModal } = DocumentsView()
+
     const { notification } = useNotification()
 
     // query
@@ -76,46 +78,46 @@ export const AssessmentResponse = ({
         )
     }
 
-    const onFileClicked = (file: any) => {
-        setSelected(file)
+    // const onFileClicked = (file: any) => {
+    //     setSelected(file)
 
-        if (
-            ['jpg', 'jpeg', 'png', 'jfif'].includes(
-                file?.extension?.toLowerCase()
-            )
-        ) {
-            setModal(getImageViewModal(file))
-        } else if (
-            ['pdf', 'document'].includes(file?.extension?.toLowerCase())
-        ) {
-            // const fileSplit = file.file.split('https://')
-            // const url = `https://www.${fileSplit[1]}`
-            const url = `${file?.file}`
-            setModal(
-                <PdfViewModal
-                    url={url}
-                    downloadUrl={file?.file}
-                    onCancelButtonClick={onModalCancel}
-                    extension={file?.extension}
-                />
-            )
-        } else if (
-            ['mp4', 'mkv', 'avi', 'mpeg', 'quicktime', 'mov'].includes(
-                file?.extension?.toLowerCase()
-            )
-        ) {
-            // const fileSplit = file.file.split('https://')
-            // const url = `https://www.${fileSplit[1]}`
-            setModal(
-                <VideoPlayModal
-                    // url={url}
-                    url={file?.file}
-                    downloadUrl={file?.file}
-                    onCancelButtonClick={onModalCancel}
-                />
-            )
-        }
-    }
+    //     if (
+    //         ['jpg', 'jpeg', 'png', 'jfif'].includes(
+    //             file?.extension?.toLowerCase()
+    //         )
+    //     ) {
+    //         setModal(getImageViewModal(file))
+    //     } else if (
+    //         ['pdf', 'document'].includes(file?.extension?.toLowerCase())
+    //     ) {
+    //         // const fileSplit = file.file.split('https://')
+    //         // const url = `https://www.${fileSplit[1]}`
+    //         const url = `${file?.file}`
+    //         setModal(
+    //             <PdfViewModal
+    //                 url={url}
+    //                 downloadUrl={file?.file}
+    //                 onCancelButtonClick={onModalCancel}
+    //                 extension={file?.extension}
+    //             />
+    //         )
+    //     } else if (
+    //         ['mp4', 'mkv', 'avi', 'mpeg', 'quicktime', 'mov'].includes(
+    //             file?.extension?.toLowerCase()
+    //         )
+    //     ) {
+    //         // const fileSplit = file.file.split('https://')
+    //         // const url = `https://www.${fileSplit[1]}`
+    //         setModal(
+    //             <VideoPlayModal
+    //                 // url={url}
+    //                 url={file?.file}
+    //                 downloadUrl={file?.file}
+    //                 onCancelButtonClick={onModalCancel}
+    //             />
+    //         )
+    //     }
+    // }
 
     const getResultBadge = () => {
         switch (result?.result) {
@@ -177,6 +179,7 @@ export const AssessmentResponse = ({
         <>
             <ShowErrorNotifications result={addCommentResult} />
             {modal && modal}
+            {documentsViewModal}
             <div className="h-full bg-white flex flex-col justify-between">
                 <div className="h-full overflow-scroll remove-scrollbar">
                     {header && (
