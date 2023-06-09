@@ -16,10 +16,11 @@ import {
 
 // types
 import { Student } from '@types'
-import { ArchiveModal, AssessmentCellInfo } from '../components'
+import { ArchiveModal, AssessmentCellInfo, DeleteModal } from '../components'
 import { MdEmail, MdPhoneIphone } from 'react-icons/md'
 import { ReactElement, useState } from 'react'
 import { BsArchiveFill } from 'react-icons/bs'
+import { AiFillDelete } from 'react-icons/ai'
 
 export const useColumns = () => {
     const router = useRouter()
@@ -32,6 +33,12 @@ export const useColumns = () => {
             <ArchiveModal item={student} onCancel={onModalCancelClicked} />
         )
     }
+    const onDeleteClicked = (student: any) => {
+        setModal(
+            <DeleteModal item={student} onCancel={onModalCancelClicked} />
+        )
+    }
+
     const tableActionOptions = (student: any) => {
         return [
             {
@@ -50,6 +57,12 @@ export const useColumns = () => {
                 text: student.status === "approved" ? 'Archived' : 'Un-archived',
                 onClick: (student: any) => onArchiveClicked(student),
                 Icon: BsArchiveFill,
+                color: 'text-blue-500 hover:bg-blue-100 hover:border-blue-200',
+            },
+            {
+                text: "Delete",
+                onClick: (student: any) => onDeleteClicked(student),
+                Icon: AiFillDelete,
                 color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
             },
         ]
