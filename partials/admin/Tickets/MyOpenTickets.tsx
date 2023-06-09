@@ -144,7 +144,11 @@ export const MyOpenTickets = () => {
                                             )}
                                         </div>
                                     </div>
-                                    <div className="px-6 w-full">{table}</div>
+                                    <div className=" overflow-x-scroll remove-scrollbar">
+                                        <div className="px-6 w-full">
+                                            {table}
+                                        </div>
+                                    </div>
                                 </div>
                             )
                         }}

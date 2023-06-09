@@ -41,7 +41,7 @@ export const TicketDetailHeaderCard = ({
                     <div>
                         <div className="flex items-center gap-x-2">
                             <FaLongArrowAltLeft
-                                className="text-xl"
+                                className="text-xl cursor-pointer"
                                 onClick={() => {
                                     if (role === UserRoles.ADMIN) {
                                         router.push(

@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react'
 
 interface PageSizeProps {
     table?: Table<any>
-    itemPerPage?: 1 | 5 | 10 | 20 | 30 | 40 | 50 | 100 | 200 | number
+    itemPerPage?: 1 | 5 | 10 | 20 | 30 | 40 | 50 | 100 | number
     setItemPerPage?: Function
     records?: number
 }
@@ -61,7 +61,7 @@ export const PageSize = ({
                         }}
                         className="outline-none border rounded px-1 py-0.5"
                     >
-                        {[5, 10, 20, 30, 40, 50, 100, 200].map((pageSize) => (
+                        {[5, 10, 20, 30, 40, 50, 100].map((pageSize) => (
                             <option key={pageSize} value={pageSize}>
                                 {pageSize}
                             </option>

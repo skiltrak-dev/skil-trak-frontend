@@ -41,12 +41,18 @@ export const ProtectedRoute = ({ children }: { children: any }) => {
     const updatedRoute =
         assessRole === 'sub-admin' ? UserRoles.SUBADMIN : assessRole
 
-
     useEffect(() => {
         if (!authenticated) {
             setAuthorized(false)
             router.push('/auth/login')
-        } else if (updatedRoute !== role) {
+        }
+        // else if (
+        //     updatedRoute === UserRoles.ADMIN &&
+        //     role === UserRoles.SUBADMIN
+        // ) {
+        //     setAuthorized(true)
+        // }
+        else if (updatedRoute !== role) {
             setAuthorized(false)
             router.push('/404')
         } else {
@@ -57,24 +63,6 @@ export const ProtectedRoute = ({ children }: { children: any }) => {
         //     setAuthorized(true)
         // }
     }, [router, updatedRoute, role])
-
-    // useEffect(() => {
-    //     const isAuth = () => {
-    //         if (authenticated && assessRole !== role) {
-    //             router.push('/404')
-    //         } else {
-    //             setAuthorized(true)
-    //         }
-    //     }
-    //     const preventAccess = () => setAuthorized(false)
-    //     router.events.on('routeChangeStart', preventAccess)
-    //     router.events.on('routeChangeComplete', isAuth)
-
-    //     return () => {
-    //         router.events.off('routeChangeStart', preventAccess)
-    //         router.events.off('routeChangeComplete', isAuth)
-    //     }
-    // }, [router, authenticated, assessRole, role])
 
     return authorized ? children : null
     // return authenticated && assessRole === role ? children : null
