@@ -12,7 +12,10 @@ export const useChangeStatus = () => {
     }
 
     const onBlock = async (industry: Industry) => {
-        await changeStatus({ id: industry?.id, status: UserStatus.Blocked })
+        await changeStatus({
+            id: industry?.user?.id,
+            status: UserStatus.Blocked,
+        })
     }
     const onAccept = async (industry: Industry) => {
         await changeStatus({
@@ -21,7 +24,10 @@ export const useChangeStatus = () => {
         })
     }
     const onArchive = async (industry: Industry) => {
-        await changeStatus({ id: industry?.id, status: UserStatus.Archived })
+        await changeStatus({
+            id: industry?.user?.id,
+            status: UserStatus.Archived,
+        })
     }
     const onReject = async (industry: Industry) => {
         await changeStatus({

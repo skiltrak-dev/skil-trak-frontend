@@ -282,10 +282,10 @@ export const FilteredIndustry = ({
                 <Card noPadding>
                     {industry?.isLoading || industry?.isFetching ? (
                         <LoadingAnimation height="h-[60vh]" />
-                    ) : industry?.data && industry?.data?.data.length ? (
+                    ) : industry?.data && industry?.data?.data?.length ? (
                         <Table
                             columns={columns}
-                            data={industry?.data.data}
+                            data={industry?.data?.data}
                             quickActions={quickActionsElements}
                             enableRowSelection
                         >
@@ -312,6 +312,23 @@ export const FilteredIndustry = ({
                                             </div>
                                         </div>
                                         <div className="px-6">{table}</div>
+                                        {industry.data?.data?.length > 10 && (
+                                            <div className="p-6 mb-2 flex justify-between">
+                                                {pageSize(
+                                                    itemPerPage,
+                                                    setItemPerPage,
+                                                    industry.data?.data?.length
+                                                )}
+                                                <div className="flex gap-x-2">
+                                                    {quickActions}
+                                                    {pagination(
+                                                        industry?.data
+                                                            ?.pagination,
+                                                        setPage
+                                                    )}
+                                                </div>
+                                            </div>
+                                        )}
                                     </div>
                                 )
                             }}

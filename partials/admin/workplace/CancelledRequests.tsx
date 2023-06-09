@@ -34,6 +34,7 @@ export const CancelledRequests = () => {
                 <PageSize
                     itemPerPage={itemPerPage}
                     setItemPerPage={setItemPerPage}
+                    records={cancelledWorkplaces.data?.data?.length}
                 />
                 <Pagination
                     pagination={cancelledWorkplaces?.data?.pagination}
@@ -62,6 +63,19 @@ export const CancelledRequests = () => {
                         }
                     />
                 )
+            )}
+            {cancelledWorkplaces.data?.data?.length > 7 && (
+                <div className="flex items-center justify-between py-7">
+                    <PageSize
+                        itemPerPage={itemPerPage}
+                        setItemPerPage={setItemPerPage}
+                        records={cancelledWorkplaces.data?.data?.length}
+                    />
+                    <Pagination
+                        pagination={cancelledWorkplaces?.data?.pagination}
+                        setPage={setPage}
+                    />
+                </div>
             )}
         </div>
     )

@@ -19,12 +19,13 @@ import {
 import { useGetSubAdminIndustriesQuery } from '@queries'
 import { Industry, SubAdmin, UserStatus } from '@types'
 import { IndustryCellInfo } from './components'
-import { AddToFavoriteModal } from './modals'
+import { AddToFavoriteModal, UnRejectModal } from './modals'
 import { MdFavorite, MdFavoriteBorder } from 'react-icons/md'
 import { getUserCredentials, setLink } from '@utils'
 import { RiLockPasswordFill } from 'react-icons/ri'
 import { useActionModal } from '@hooks'
 import { IndustrySubAdmin } from './AllIndustries'
+import { AiFillCheckCircle } from 'react-icons/ai'
 
 export const RejectedIndustries = () => {
     const [modal, setModal] = useState<ReactElement | null>(null)
@@ -56,6 +57,12 @@ export const RejectedIndustries = () => {
         )
     }
 
+    const onUnRejectClicked = (industry: Industry) => {
+        setModal(
+            <UnRejectModal industry={industry} onCancel={onCancelClicked} />
+        )
+    }
+
     const isFavorite = (subAdmin: SubAdmin[] | undefined) => {
         return subAdmin?.find((subadmin: any) => subadmin?.user?.id === id)
     }
@@ -79,6 +86,12 @@ export const RejectedIndustries = () => {
                 onClick: (industry: Industry) =>
                     onAddToFavoriteClicked(industry),
                 Icon: subAdmin ? MdFavorite : MdFavoriteBorder,
+            },
+            {
+                text: `Un Reject`,
+                color: 'text-primary',
+                onClick: (industry: Industry) => onUnRejectClicked(industry),
+                Icon: AiFillCheckCircle,
             },
             {
                 text: 'View Password',
@@ -162,7 +175,6 @@ export const RejectedIndustries = () => {
                     <Table
                         columns={Columns}
                         data={data.data}
-                        // quickActions={quickActionsElements}
                         enableRowSelection
                     >
                         {({
@@ -174,7 +186,11 @@ export const RejectedIndustries = () => {
                             return (
                                 <div>
                                     <div className="p-6 mb-2 flex justify-between">
-                                        {pageSize(itemPerPage, setItemPerPage)}
+                                        {pageSize(
+                                            itemPerPage,
+                                            setItemPerPage,
+                                            data?.data.length
+                                        )}
                                         <div className="flex gap-x-2">
                                             {quickActions}
                                             {pagination(

@@ -54,24 +54,32 @@ export const getStudentWorkplaceAppliedIndustry = (workplace: any) => {
     return workplace?.industries?.find((industry: any) => industry?.applied)
 }
 
-export const studentsListWorkplace = (workplace: any) => {
-    const activeWorkplace = workplace?.filter(
+export const latestWorkplace = (workplace: any) => {
+    return workplace?.reduce(
+        (a: any, b: any) => (a?.createdAt > b?.createdAt ? a : b),
+        {
+            currentStatus: WorkplaceCurrentStatus.NotRequested,
+        }
+    )
+}
+
+export const activeWorkplace = (workplace: any) => {
+    return workplace?.filter(
         (wp: any) =>
             wp?.currentStatus !== WorkplaceCurrentStatus.Cancelled ||
             wp?.currentStatus !== WorkplaceCurrentStatus.Terminated ||
             wp?.currentStatus !== WorkplaceCurrentStatus.Rejected ||
             wp?.currentStatus !== WorkplaceCurrentStatus.NoResponse
     )
+}
 
-    const latestWorkplace = activeWorkplace?.reduce(
-        (a: any, b: any) => (a?.createdAt > b?.createdAt ? a : b),
-        {
-            currentStatus: WorkplaceCurrentStatus.NotRequested,
-        }
-    )
+export const studentsListWorkplace = (workplace: any) => {
+    const activeWP = activeWorkplace(workplace)
+
+    const latestWP = latestWorkplace(activeWP)
 
     const appliedIndustry =
-        getStudentWorkplaceAppliedIndustry(latestWorkplace)?.industry
+        getStudentWorkplaceAppliedIndustry(latestWP)?.industry
 
     return appliedIndustry
 }

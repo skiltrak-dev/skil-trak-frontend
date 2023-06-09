@@ -1,31 +1,29 @@
-import { useState, ReactElement } from 'react'
 import { useRouter } from 'next/router'
-import Image from 'next/image'
-import Link from 'next/link'
+import { ReactElement, useState } from 'react'
 
 // Icons
-import { FaEye, FaPhoneSquareAlt, FaEnvelope } from 'react-icons/fa'
+import { FaEye } from 'react-icons/fa'
 
 // components
 import {
     Card,
-    TableActionOption,
-    Typography,
-    TableAction,
+    EmptyData,
     LoadingAnimation,
     Table,
-    EmptyData,
+    TableAction,
+    TableActionOption,
     TechnicalError,
+    Typography,
 } from '@components'
 
-import { Industry } from '@types'
-import { useGetFavouriteIndustriesQuery } from '@queries'
-import { AddToFavoriteModal } from './modals'
-import { MdFavorite } from 'react-icons/md'
-import { IndustryCellInfo } from './components'
-import { setLink } from '@utils'
-import { RiLockPasswordFill } from 'react-icons/ri'
 import { useActionModal } from '@hooks'
+import { useGetFavouriteIndustriesQuery } from '@queries'
+import { Industry } from '@types'
+import { setLink } from '@utils'
+import { MdFavorite } from 'react-icons/md'
+import { RiLockPasswordFill } from 'react-icons/ri'
+import { IndustryCellInfo } from './components'
+import { AddToFavoriteModal } from './modals'
 
 export const FavoriteIndustries = () => {
     const [modal, setModal] = useState<ReactElement | null>(null)
@@ -174,7 +172,11 @@ export const FavoriteIndustries = () => {
                             return (
                                 <div>
                                     <div className="p-6 mb-2 flex justify-between">
-                                        {pageSize(itemPerPage, setItemPerPage)}
+                                        {pageSize(
+                                            itemPerPage,
+                                            setItemPerPage,
+                                            data?.data.length
+                                        )}
                                         <div className="flex gap-x-2">
                                             {quickActions}
                                             {pagination(

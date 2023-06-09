@@ -19,12 +19,13 @@ import {
 import { useGetSubAdminIndustriesQuery } from '@queries'
 import { Industry, SubAdmin, UserStatus } from '@types'
 import { IndustryCellInfo } from './components'
-import { AddToFavoriteModal } from './modals'
+import { AddToFavoriteModal, UnBlockedModal } from './modals'
 import { MdFavorite, MdFavoriteBorder } from 'react-icons/md'
 import { getUserCredentials, setLink } from '@utils'
 import { RiLockPasswordFill } from 'react-icons/ri'
 import { useActionModal } from '@hooks'
 import { IndustrySubAdmin } from './AllIndustries'
+import { CgUnblock } from 'react-icons/cg'
 
 export const BlockedIndustries = () => {
     const [modal, setModal] = useState<ReactElement | null>(null)
@@ -56,6 +57,12 @@ export const BlockedIndustries = () => {
         )
     }
 
+    const onUnBlockClicked = (industry: Industry) => {
+        setModal(
+            <UnBlockedModal industry={industry} onCancel={onCancelClicked} />
+        )
+    }
+
     const isFavorite = (subAdmin: SubAdmin[] | undefined) => {
         return subAdmin?.find((subadmin: any) => subadmin?.user?.id === id)
     }
@@ -79,6 +86,12 @@ export const BlockedIndustries = () => {
                 onClick: (industry: Industry) =>
                     onAddToFavoriteClicked(industry),
                 Icon: subAdmin ? MdFavorite : MdFavoriteBorder,
+            },
+            {
+                text: `Un Block`,
+                color: `${subAdmin ? 'text-error' : 'text-primary'}`,
+                onClick: (industry: Industry) => onUnBlockClicked(industry),
+                Icon: CgUnblock,
             },
             {
                 text: 'View Password',
@@ -174,7 +187,11 @@ export const BlockedIndustries = () => {
                             return (
                                 <div>
                                     <div className="p-6 mb-2 flex justify-between">
-                                        {pageSize(itemPerPage, setItemPerPage)}
+                                        {pageSize(
+                                            itemPerPage,
+                                            setItemPerPage,
+                                            data?.data.length
+                                        )}
                                         <div className="flex gap-x-2">
                                             {quickActions}
                                             {pagination(

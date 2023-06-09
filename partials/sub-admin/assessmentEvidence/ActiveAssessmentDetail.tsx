@@ -502,6 +502,7 @@ export const ActiveAssessmentDetail = ({
                                                     id: AgreementFile,
                                                 })
                                             }}
+                                            assessment
                                         />
                                     )}
                                 {getFolders?.isError && (
@@ -537,6 +538,7 @@ export const ActiveAssessmentDetail = ({
                                             onClick={() => {
                                                 setSelectedFolder(assessment)
                                             }}
+                                            assessment
                                         />
                                     ))
                                 ) : (

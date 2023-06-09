@@ -3,9 +3,7 @@ import {
     Button,
     Card,
     EmptyData,
-    Filter,
     LoadingAnimation,
-    RtoFilters,
     Table,
     TableAction,
     TableActionOption,
@@ -13,18 +11,16 @@ import {
 } from '@components'
 import { PageHeading } from '@components/headings'
 import { ColumnDef } from '@tanstack/react-table'
-import { FaEdit, FaEye, FaFileExport, FaFilter } from 'react-icons/fa'
+import { FaEye, FaFileExport } from 'react-icons/fa'
 
-import { useGetRtoStudentsQuery } from '@queries'
-import { MdEmail, MdPhoneIphone } from 'react-icons/md'
-import { ReactElement, useEffect, useState } from 'react'
 import { useContextBar } from '@hooks'
-import { Rto, Student, UserStatus } from '@types'
-import { SectorCell, StudentCellInfo } from './components'
-import { RtoCellInfo } from '@partials/admin/rto/components'
-import { AcceptModal, RejectModal } from './modals'
-import { useChangeStatus } from './hooks'
+import { useGetRtoStudentsQuery } from '@queries'
+import { Student, UserStatus } from '@types'
 import { useRouter } from 'next/router'
+import { ReactElement, useState } from 'react'
+import { StudentCellInfo } from './components'
+import { useChangeStatus } from './hooks'
+import { AcceptModal, RejectModal } from './modals'
 
 export const PendingStudent = () => {
     const router = useRouter()
@@ -151,7 +147,7 @@ export const PendingStudent = () => {
                     {isError && <TechnicalError />}
                     {isLoading ? (
                         <LoadingAnimation height="h-[60vh]" />
-                    ) : data && data?.data.length ? (
+                    ) : data && data?.data?.length ? (
                         <Table
                             columns={columns}
                             data={data.data}
@@ -169,7 +165,8 @@ export const PendingStudent = () => {
                                         <div className="p-6 mb-2 flex justify-between">
                                             {pageSize(
                                                 itemPerPage,
-                                                setItemPerPage
+                                                setItemPerPage,
+                                                data?.data?.length
                                             )}
                                             <div className="flex gap-x-2">
                                                 {quickActions}
@@ -180,6 +177,22 @@ export const PendingStudent = () => {
                                             </div>
                                         </div>
                                         <div className="px-6">{table}</div>
+                                        {data?.data?.length > 10 && (
+                                            <div className="p-6 mb-2 flex justify-between">
+                                                {pageSize(
+                                                    itemPerPage,
+                                                    setItemPerPage,
+                                                    data?.data?.length
+                                                )}
+                                                <div className="flex gap-x-2">
+                                                    {quickActions}
+                                                    {pagination(
+                                                        data?.pagination,
+                                                        setPage
+                                                    )}
+                                                </div>
+                                            </div>
+                                        )}
                                     </div>
                                 )
                             }}
