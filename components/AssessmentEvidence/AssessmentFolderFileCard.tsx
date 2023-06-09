@@ -49,13 +49,13 @@ export const AssessmentFolderFileCard = ({
     console.log('Fi', file)
 
     return (
-        <div className="relative w-24">
-            <div className="absolute top-0 z-20 flex justify-between w-full items-center gap-x-1 px-0.5">
+        <div className="relative w-24 file-view-group">
+            <div className=" absolute top-0 z-20 flex justify-between w-full items-center gap-x-1 px-0.5">
                 {file?.uploadedBy && (
-                    <div className="bg-white rounded-full shadow-md border border-gray-600 cursor-pointer relative group">
+                    <div className="file-view-icon transition-all duration-500 bg-white rounded-full shadow-md border border-gray-600 cursor-pointer relative">
                         <BsInfo className="text-black text-sm" />
 
-                        <div className="group-hover:block hidden transition-all duration-500 absolute top-full mt-1 w-auto h-auto p-1 rounded bg-white border text-[10px]">
+                        <div className="file-view-detail transition-all duration-500 absolute top-full mt-1 w-auto h-auto p-1 rounded bg-white border text-[10px]">
                             <div className="whitespace-pre">
                                 Uploaded By: {file?.uploadedBy?.name}(
                                 {file?.uploadedBy?.role})

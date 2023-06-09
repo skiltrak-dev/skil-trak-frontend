@@ -31,16 +31,19 @@ export const StudentAddedWorkplaces = () => {
     }, [router])
     return (
         <div>
-            <div className="flex items-center justify-between">
-                <PageSize
-                    itemPerPage={itemPerPage}
-                    setItemPerPage={setItemPerPage}
-                />
-                <Pagination
-                    pagination={subAdminWorkplace?.data?.pagination}
-                    setPage={setPage}
-                />
-            </div>
+            {subAdminWorkplace.isSuccess && (
+                <div className="flex items-center justify-between">
+                    <PageSize
+                        itemPerPage={itemPerPage}
+                        setItemPerPage={setItemPerPage}
+                        records={subAdminWorkplace.data?.data?.length}
+                    />
+                    <Pagination
+                        pagination={subAdminWorkplace?.data?.pagination}
+                        setPage={setPage}
+                    />
+                </div>
+            )}
             {subAdminWorkplace.isError && <TechnicalError />}
             {subAdminWorkplace.isLoading && subAdminWorkplace.isFetching ? (
                 <LoadingAnimation />
@@ -63,6 +66,19 @@ export const StudentAddedWorkplaces = () => {
                         }
                     />
                 )
+            )}
+            {subAdminWorkplace.isSuccess && (
+                <div className="flex items-center justify-between py-7">
+                    <PageSize
+                        itemPerPage={itemPerPage}
+                        setItemPerPage={setItemPerPage}
+                        records={subAdminWorkplace.data?.data?.length}
+                    />
+                    <Pagination
+                        pagination={subAdminWorkplace?.data?.pagination}
+                        setPage={setPage}
+                    />
+                </div>
             )}
         </div>
     )

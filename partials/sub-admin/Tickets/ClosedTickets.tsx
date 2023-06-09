@@ -9,10 +9,11 @@ import {
     Typography,
 } from '@components'
 import { TicketSubject, TicketUser } from '@partials/common/Tickets/components'
-import { SubAdminApi } from '@queries'
+import { CommonApi, SubAdminApi } from '@queries'
 import { ColumnDef } from '@tanstack/react-table'
 import moment from 'moment'
 import { useRouter } from 'next/router'
+import { TicketStatus } from 'pages/portals/admin/tickets'
 import { useState } from 'react'
 import { AiFillCloseCircle, AiFillDelete } from 'react-icons/ai'
 
@@ -22,9 +23,10 @@ export const ClosedTickets = () => {
 
     const router = useRouter()
 
-    const { isLoading, isFetching, data, isError, refetch } =
-        SubAdminApi.Student.useList(
+    const { isLoading, isFetching, data, isError } =
+        CommonApi.Tickets.useGetTicket(
             {
+                search: `status:${TicketStatus.CLOSED}`,
                 skip: itemPerPage * page - itemPerPage,
                 limit: itemPerPage,
             },
@@ -54,17 +56,20 @@ export const ClosedTickets = () => {
         },
         {
             accessorKey: 'createdBy',
-            cell: (info) => <TicketUser ticket={info?.row?.original} />,
+            cell: (info) => (
+                <TicketUser ticket={info?.row?.original?.createdBy} />
+            ),
             header: () => <span>Created By</span>,
         },
         {
             accessorKey: 'assignedTo',
-            cell: (info) => <TicketUser ticket={info?.row?.original} />,
+            cell: (info) => (
+                <TicketUser ticket={info?.row?.original?.assignedTo} />
+            ),
             header: () => <span>Assigned To</span>,
         },
         {
             accessorKey: 'replies',
-            cell: (info) => Math.floor(Math.random() * 100),
             header: () => <span>Replies</span>,
         },
         {
