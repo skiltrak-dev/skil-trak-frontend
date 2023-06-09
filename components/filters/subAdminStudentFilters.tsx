@@ -109,9 +109,9 @@ export const SubAdminStudentFilters = ({
                     name={'industryId'}
                     options={industryOptions}
                     placeholder={'Select Industry...'}
-                    defaultValue={industryOptions?.find(
+                    value={industryOptions?.find(
                         (industry: SelectOption) =>
-                            industry.value === filter?.industryId
+                            industry.value === Number(filter?.industryId)
                     )}
                     onChange={(e: any) => {
                         onFilterChange({ ...filter, industryId: e?.value })

@@ -65,7 +65,7 @@ export const ImportStudentForm = ({
 
     const validationSchema = yup.object({
         batch: yup.string().required('Batch required'),
-        expiry: yup.string().required('Expiry required'),
+        expiryDate: yup.string().required('Expiry required'),
     })
 
     const methods = useForm({
@@ -100,7 +100,7 @@ export const ImportStudentForm = ({
                             <TextInput label={'Batch/Class'} name="batch" />
                             <TextInput
                                 label={'Expiry Date'}
-                                name="expiry"
+                                name="expiryDate"
                                 type="date"
                             />
                         </div>

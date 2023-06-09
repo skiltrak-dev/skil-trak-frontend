@@ -8,14 +8,14 @@ import {
     Typography,
 } from '@components'
 import { CourseDot } from '@partials/rto/student/components'
-import { RtoApi } from '@queries'
+import { SubAdminApi } from '@queries'
 import { ColumnDef } from '@tanstack/react-table'
 import React, { useState } from 'react'
 import { FilterReport } from '../../FilterReport'
 
 import { Course, ReportOptionsEnum } from '@types'
 import { useRouter } from 'next/router'
-
+import { SubAdminReports } from 'types/sub-admin-reports.type'
 
 type Props = {
     startDate: any
@@ -34,7 +34,7 @@ export const PlacementStartedReport = ({
     const [page, setPage] = useState(1)
     const router = useRouter()
     const { data, isLoading, isError } =
-        RtoApi.Students.useWorkplaceRequestReport({
+        SubAdminApi.Reports.useStudentWorkplaceStartedReport({
             startDate: startDate.toISOString().slice(0, 10),
             endDate: endDate.toISOString().slice(0, 10),
             skip: itemPerPage * page - itemPerPage,
@@ -57,7 +57,7 @@ export const PlacementStartedReport = ({
                     <a className="flex items-center gap-x-2">
                         <InitialAvatar name={name} imageUrl={avatar} />
                         <div className="flex flex-col">
-                            <span>{id}</span>
+                            <span>{info?.row?.original?.student?.studentId}</span>
                             <span>{name}</span>
                         </div>
                     </a>
@@ -93,7 +93,11 @@ export const PlacementStartedReport = ({
                 // return info?.row?.original?.courses?.map((c: Course) => (
                 //     <CourseDot key={c?.id} course={c} />
                 // ))
-                return <span>{info?.row?.original?.courses[0]?.title || "N/A"}</span>
+                return (
+                    <span>
+                        {info?.row?.original?.courses[0]?.title || 'N/A'}
+                    </span>
+                )
             },
         },
     ]
@@ -103,7 +107,7 @@ export const PlacementStartedReport = ({
             <div className="flex justify-between">
                 <div className="">
                     <Typography variant="title" color="text-gray-400">
-                       Placement Started For Students
+                        Placement Started For Students
                     </Typography>
                     <Typography variant="h3">{count || 0}</Typography>
                 </div>
@@ -115,8 +119,13 @@ export const PlacementStartedReport = ({
                         endDate={endDate}
                         setEndDate={setEndDate}
                     />
-                    {/* <ViewFullListReport data={data} columns={columns} /> */}
-                    <ActionButton onClick={() => { router.push(`/portals/sub-admin/report/${ReportOptionsEnum.WORKPLACE_REQUEST}`) }} >
+                    <ActionButton
+                        onClick={() => {
+                            router.push(
+                                `/portals/sub-admin/report/${SubAdminReports.PLACEMENT_STARTED}`
+                            )
+                        }}
+                    >
                         View Full List
                     </ActionButton>
                 </div>

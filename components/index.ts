@@ -29,6 +29,7 @@ export * from './Tooltip'
 export * from './UserCreatedAt'
 export * from './UserCardRole'
 export * from './CaseOfficerAssignedStudent'
+export * from './AuthorizedUserComponent'
 
 // export * from './Pagination'
 export * from './PopUp'

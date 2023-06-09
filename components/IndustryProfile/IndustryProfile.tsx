@@ -5,18 +5,24 @@ import { AiFillEdit } from 'react-icons/ai'
 import { BiRename } from 'react-icons/bi'
 
 import { NoData } from '@components/ActionAnimations'
+import { AuthorizedUserComponent } from '@components/AuthorizedUserComponent'
 import { LoadingAnimation } from '@components/LoadingAnimation'
-import { Course } from '@types'
+import { ShowErrorNotifications } from '@components/ShowErrorNotifications'
+import { ActionButton } from '@components/buttons'
+import { UserRoles } from '@constants'
+import { useActionModal, useNotification } from '@hooks'
+import { CourseList } from '@partials/common'
+import { AddToPartnerModal } from '@partials/sub-admin/Industries/modals/AddToPartnerModal'
+import { SubAdminApi } from '@queries'
+import { getUserCredentials } from '@utils'
 import { useRouter } from 'next/router'
+import { ReactNode, useEffect, useState } from 'react'
+import { BsUnlockFill } from 'react-icons/bs'
 import { FaAddressCard, FaRegHandshake } from 'react-icons/fa'
 import { GiBackwardTime } from 'react-icons/gi'
 import { IoLocation } from 'react-icons/io5'
 import { MdAdminPanelSettings, MdPhone, MdVerified } from 'react-icons/md'
-import { getUserCredentials } from '@utils'
-import { CourseList } from '@partials/common'
-import { BsUnlockFill } from 'react-icons/bs'
-import { useActionModal } from '@hooks'
-import { ActionButton } from '@components/buttons'
+import { PulseLoader } from 'react-spinners'
 
 type Props = {
     data: any
@@ -24,8 +30,28 @@ type Props = {
 
 export const IndustryProfile = ({ data }: Props) => {
     const router = useRouter()
+    const [modal, setModal] = useState<ReactNode | null>(null)
 
     const { onUpdatePassword, passwordModal } = useActionModal()
+    const { notification } = useNotification()
+
+    const [addToPartner, addToPartnerResult] =
+        SubAdminApi.Industry.useAddToPartner()
+
+    useEffect(() => {
+        if (addToPartnerResult.isSuccess) {
+            notification[
+                addToPartnerResult?.data?.isPartner ? 'success' : 'error'
+            ]({
+                title: addToPartnerResult?.data?.isPartner
+                    ? 'Industry Added to Partner'
+                    : 'Industry Removed from Partner',
+                description: addToPartnerResult?.data?.isPartner
+                    ? 'Industry Added to Partner'
+                    : 'Industry Removed from Partner',
+            })
+        }
+    }, [addToPartnerResult])
 
     const getSectors = (courses: any) => {
         if (!courses) return {}
@@ -43,9 +69,26 @@ export const IndustryProfile = ({ data }: Props) => {
     const sectorsWithCourses = getSectors(data?.courses)
 
     const role = getUserCredentials()?.role
+
+    const onAddPartner = () => {
+        setModal(
+            <AddToPartnerModal
+                onCancel={() => {
+                    setModal(null)
+                }}
+                industry={data?.id}
+            />
+        )
+    }
+
+    const onRemovePartner = () => {
+        addToPartner({ industry: data?.id, studentCapacity: 0 })
+    }
     return (
         <>
+            {modal}
             {passwordModal && passwordModal}
+            <ShowErrorNotifications result={addToPartnerResult} />
             {data?.isLoading ? (
                 <LoadingAnimation />
             ) : (
@@ -116,43 +159,54 @@ export const IndustryProfile = ({ data }: Props) => {
                     </div>
 
                     {/* Info Row 1 */}
-                    <div className="flex justify-between divide-x border-b mt-4">
-                        <div className="p-2">
+                    <div className="flex flex-col border-b mt-4">
+                        <div className="border-b py-2">
+                            <div className="text-gray-400 text-[11px] ml-4 text-left">
+                                ABN
+                            </div>
                             <div className="flex items-center space-x-2">
                                 <span className="text-gray-300">
                                     <FaAddressCard />
                                 </span>
-                                <p className="text-sm font-medium">
+                                <Typography
+                                    variant={'small'}
+                                    color={'text-black'}
+                                >
                                     {data?.abn}
-                                </p>
-                            </div>
-                            <div className="text-gray-400 text-[11px] -mt-0.5 text-center">
-                                ABN
+                                </Typography>
                             </div>
                         </div>
 
-                        <div className="p-2">
+                        <div className="border-b py-2">
+                            <div className="text-gray-400 text-[11px] ml-4">
+                                Phone Number
+                            </div>
                             <div className="flex items-center space-x-2">
                                 <span className="text-gray-300">
                                     <MdPhone />
                                 </span>
-                                <p className="text-sm font-medium">
+                                <Typography
+                                    variant={'small'}
+                                    color={'text-black'}
+                                >
                                     {data?.phoneNumber}
-                                </p>
-                            </div>
-                            <div className="text-gray-400 text-[11px] -mt-0.5 text-center">
-                                Phone Number
+                                </Typography>
                             </div>
                         </div>
-                        <div className="p-2">
+                        <div className="mb-2">
+                            <div className="text-gray-400 text-[11px] ml-4">
+                                Last Login
+                            </div>
                             <div className="flex items-center space-x-2">
                                 <span className="text-gray-300">
                                     <GiBackwardTime />
                                 </span>
-                                <p className="text-sm font-medium">Yesterday</p>
-                            </div>
-                            <div className="text-gray-400 text-[11px] -mt-0.5 text-center">
-                                Last Login
+                                <Typography
+                                    variant={'small'}
+                                    color={'text-black'}
+                                >
+                                    Yesterday
+                                </Typography>
                             </div>
                         </div>
                     </div>
@@ -160,7 +214,7 @@ export const IndustryProfile = ({ data }: Props) => {
                     <Typography variant={'small'} color={'text-gray-500'}>
                         Partnership
                     </Typography>
-                    <div className="flex justify-around divide-x border-t border-b">
+                    <div className="flex justify-around items-center divide-x border-t border-b">
                         <div className="p-2">
                             <div className="flex items-center gap-x-2">
                                 <FaRegHandshake className="text-gray-400" />
@@ -179,6 +233,36 @@ export const IndustryProfile = ({ data }: Props) => {
                                     {data?.isPartner === false
                                         ? 'No'
                                         : 'Yes' || 'N/A'}
+                                    <AuthorizedUserComponent
+                                        roles={[UserRoles.SUBADMIN]}
+                                    >
+                                        {' '}
+                                        -{' '}
+                                        {data?.isPartner ? (
+                                            <span
+                                                className="text-info cursor-pointer"
+                                                onClick={() => {
+                                                    if (
+                                                        !addToPartnerResult.isLoading
+                                                    ) {
+                                                        onRemovePartner()
+                                                    }
+                                                }}
+                                            >
+                                                Remove Partner{' '}
+                                                {addToPartnerResult.isLoading && (
+                                                    <PulseLoader size={3} />
+                                                )}
+                                            </span>
+                                        ) : (
+                                            <span
+                                                className="text-info cursor-pointer"
+                                                onClick={onAddPartner}
+                                            >
+                                                Make Partner
+                                            </span>
+                                        )}
+                                    </AuthorizedUserComponent>
                                 </Typography>
                             </div>
                         </div>

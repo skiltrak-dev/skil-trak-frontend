@@ -57,11 +57,6 @@ export const ImportantDocuments = ({
         const document = getDocument(docType)
         const extension = document?.file?.split('.').reverse()[0]
 
-        // const asasas = onFileClicked({
-        //     file: document,
-        //     extension,
-        // })
-
         if (document) {
             setModal(
                 <Modal

@@ -15,7 +15,7 @@ import { PageHeading } from '@components/headings'
 import { ColumnDef } from '@tanstack/react-table'
 import { FaEdit, FaEye } from 'react-icons/fa'
 
-import { Student } from '@types'
+import { Student, UserStatus } from '@types'
 import { useRouter } from 'next/router'
 import { ReactElement, useState } from 'react'
 import { MdBlock } from 'react-icons/md'
@@ -26,7 +26,11 @@ import {
     StudentCellInfo,
 } from './components'
 import { BlockModal } from './modals'
-import { checkStudentStatus, checkWorkplaceStatus } from '@utils'
+import {
+    checkStudentStatus,
+    checkWorkplaceStatus,
+    studentsListWorkplace,
+} from '@utils'
 
 export const FilteredStudents = ({
     student,
@@ -94,11 +98,19 @@ export const FilteredStudents = ({
         {
             accessorKey: 'industry',
             header: () => <span>Industry</span>,
-            cell: (info) => {
+            cell: (info: any) => {
                 const industry = info.row.original?.industries
+
+                const appliedIndustry = studentsListWorkplace(
+                    info.row.original?.workplace
+                )
 
                 return industry && industry?.length > 0 ? (
                     <IndustryCell industry={industry[0]} />
+                ) : info.row.original?.workplace &&
+                  info.row.original?.workplace?.length > 0 &&
+                  appliedIndustry ? (
+                    <IndustryCell industry={appliedIndustry} />
                 ) : (
                     <Typography center>N/A</Typography>
                 )
@@ -115,7 +127,15 @@ export const FilteredStudents = ({
             accessorKey: 'user.status',
             header: () => <span>Status</span>,
             cell: (info) => (
-                <Typography uppercase variant={'badge'}>
+                <Typography
+                    uppercase
+                    variant={'badge'}
+                    color={
+                        info.row.original?.user?.status === UserStatus.Blocked
+                            ? 'text-error'
+                            : 'text-black'
+                    }
+                >
                     <span className="font-bold">
                         {info.row.original?.user?.status}
                     </span>

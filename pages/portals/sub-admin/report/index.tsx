@@ -1,47 +1,53 @@
+import { NextPageWithLayout } from '@types'
 import { ReactElement, useState } from 'react'
-import { NextPageWithLayout, ReportOptionsEnum } from '@types'
 
 // layouts
 import { SubAdminLayout } from '@layouts'
 
-import {
-    Card,
-    EmptyData,
-    InitialAvatar,
-    LoadingAnimation,
-    PageTitle,
-    Table,
-    TechnicalError,
-    Typography,
-} from '@components'
+import { Button, Card, PageTitle } from '@components'
 
-import { SubAdminReports } from 'types/sub-admin-reports.type'
 import {
     ActiveStudentsReport,
+    ActiveStudentsWithoutWorkplacesReport,
     AppointmentsReport,
     ArchivedStudentsReport,
-    DownloadButton,
     StudentsAssignedReport,
     StudentsCallsPerDayReport,
 } from '@partials/sub-admin'
+import { ReportListModal } from '@partials/sub-admin/components/ReportListModal'
 import { ReportType } from '@partials/sub-admin/report/ReportType'
 import {
     CancelledWorkplaceReport,
+    CompletedWorkplaceReport,
+    PlacementStartedReport,
     StudentHaveWorkplaceReport,
     TerminatedWorkplaceReport,
 } from '@partials/sub-admin/report/components/studentsWorkplace'
-import { CompletedWorkplaceReport } from '@partials/sub-admin/report/components/studentsWorkplace'
+import { IoMdDownload } from 'react-icons/io'
+import { SubAdminReports } from 'types/sub-admin-reports.type'
 
 // components
 
 const Report: NextPageWithLayout = () => {
-    const [startDate, setStartDate] = useState<any>(new Date())
+    const weekEnd = new Date()
+    weekEnd.setDate(weekEnd.getDate() - 6)
+    console.log("weekEnd>>>>>>", weekEnd)
+    const [startDate, setStartDate] = useState<any>(weekEnd)
     const [endDate, setEndDate] = useState<any>(new Date())
+    
 
     const [reportType, setReportType] = useState({
         label: 'Assigned Students',
         value: 'assigned-students',
     })
+
+    const [modal, setModal] = useState<ReactElement | null>(null)
+    const onClose = () => {
+        setModal(null)
+    }
+    const onViewClicked = () => {
+        setModal(<ReportListModal onClose={() => onClose()} />)
+    }
 
     const reports = () => {
         switch (reportType?.value) {
@@ -112,6 +118,17 @@ const Report: NextPageWithLayout = () => {
                         setEndDate={setEndDate}
                     />
                 )
+            case SubAdminReports.PLACEMENT_STARTED:
+                return (
+                    <PlacementStartedReport
+                        startDate={startDate}
+                        setStartDate={setStartDate}
+                        endDate={endDate}
+                        setEndDate={setEndDate}
+                    />
+                )
+            case SubAdminReports.NO_WORKPLACE:
+                return <ActiveStudentsWithoutWorkplacesReport />
             default:
                 return null
         }
@@ -119,9 +136,20 @@ const Report: NextPageWithLayout = () => {
 
     return (
         <>
+            {modal && modal}
             <div className="flex items-center justify-between mb-4">
                 <PageTitle title="Statistics" />
-                <DownloadButton />
+                <Button
+                    onClick={() => {
+                        onViewClicked()
+                    }}
+                    variant="dark"
+                >
+                    <span className="flex items-center gap-x-2">
+                        <IoMdDownload size={18} />
+                        <span>Download</span>
+                    </span>
+                </Button>
             </div>
             <div className="w-1/4">
                 <ReportType

@@ -1,11 +1,10 @@
+
 import { LoadingAnimation, NoData, Select, ShowErrorNotifications, Table, TextInput } from '@components'
+
 import { Button } from '@components/buttons'
 import { RtoApi } from '@queries'
 import { useEffect, useState } from 'react'
 import { FaTimes } from 'react-icons/fa'
-import { PulseLoader } from 'react-spinners'
-import { FilterReport } from '../report'
-import { DownChevron } from 'react-select/dist/declarations/src/components/indicators'
 import { getUserCredentials } from '@utils'
 import { saveAs } from 'file-saver'
 import { DownloadLoader } from './DownloadLoader'
@@ -132,6 +131,7 @@ export const ReportListModal = ({ onClose }: any) => {
                                         loading={downloadAsPdf?.isLoading}
                                         disabled={downloadAsPdf?.isLoading}
                                     />
+                                  
                                     {/* <Button
                                         text="Download as CSV"
                                         variant="dark"
@@ -139,6 +139,7 @@ export const ReportListModal = ({ onClose }: any) => {
                                             console.log('downloading')
                                         }}
                                     /> */}
+
                                 </div>
                             </div>
                         </>

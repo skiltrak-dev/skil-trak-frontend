@@ -1,35 +1,24 @@
 import { ReactElement, useEffect, useState } from 'react'
-import Image from 'next/image'
-import Link from 'next/link'
 
-import { Course, NextPageWithLayout } from '@types'
-import { RtoLayout } from '@layouts'
+import { Animations } from '@animations'
 import {
-    Alert,
-    Badge,
     Card,
     ContextBarLoading,
-    DocumentCard,
     HelpQuestionSet,
-    InitialAvatar,
     LottieAnimation,
     NoData,
-    UserProfile,
 } from '@components'
-import { FaBook, FaMapMarker, FaMapMarkerAlt, FaSchool } from 'react-icons/fa'
-import { Animations } from '@animations'
-import { MdPermContactCalendar, MdPhone, MdVerified } from 'react-icons/md'
-import { IoBriefcase } from 'react-icons/io5'
+import { FigureCard } from '@components/sections/subAdmin'
 import { useContextBar } from '@hooks'
-import { InitialAvatarContainer } from '@components/InitialAvatar/InitialAvatarContainer'
-import { AuthUtils } from '@utils'
-import { AuthApi, RtoApi } from '@queries'
-import { CheckStatus } from '@partials/auth'
+import { RtoLayout } from '@layouts'
 import { ViewProfileCB } from '@partials/rto/contextBar'
 import { ImportantDocuments } from '@partials/student/components'
-import { FigureCard } from '@components/sections/subAdmin'
-import { CallBackProps } from 'react-joyride'
+import { RtoApi } from '@queries'
+import { Course, NextPageWithLayout } from '@types'
+import { AuthUtils } from '@utils'
 import { useRouter } from 'next/router'
+import { FaSchool } from 'react-icons/fa'
+import { CallBackProps } from 'react-joyride'
 
 const RTODashboard: NextPageWithLayout = () => {
     const contextBar = useContextBar()
@@ -571,6 +560,12 @@ const RTODashboard: NextPageWithLayout = () => {
     useEffect(() => {
         contextBar.setContent(<ViewProfileCB />)
         contextBar.show(false)
+
+        return () => {
+            contextBar.setContent(null)
+            contextBar.hide()
+            contextBar.setTitle('')
+        }
     }, [])
 
     useEffect(() => {
@@ -699,7 +694,10 @@ const RTODashboard: NextPageWithLayout = () => {
                     ) : rto?.courses.length ? (
                         Object.keys(sectorsWithCourses).map((sector: any) => {
                             return (
-                                <div className="border rounded p-2" key={sector?.id}>
+                                <div
+                                    className="border rounded p-2"
+                                    key={sector?.id}
+                                >
                                     <div>
                                         {/* <p className="text-xs font-medium text-gray-400">
                                             Sector

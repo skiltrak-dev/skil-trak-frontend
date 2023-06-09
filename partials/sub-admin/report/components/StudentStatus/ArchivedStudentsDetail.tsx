@@ -14,7 +14,7 @@ import { CourseDot } from '@partials/rto/student/components'
 import { Course } from '@types'
 type Props = {}
 
-export const ArchiveStudentsDetail = (props: Props) => {
+export const ArchivedStudentsDetail = (props: Props) => {
     const { data, isLoading, isError } =
         SubAdminApi.Reports.useArchiveStudentsReport({})
     const columns: ColumnDef<any>[] = [
@@ -29,7 +29,7 @@ export const ArchiveStudentsDetail = (props: Props) => {
                             imageUrl={info?.row?.original?.user?.avatar}
                         />
                         <div className="flex flex-col">
-                            <span>{info?.row?.original?.id}</span>
+                            <span>{info?.row?.original?.studentId}</span>
                             <span>{info?.row?.original?.user?.name}</span>
                         </div>
                     </a>

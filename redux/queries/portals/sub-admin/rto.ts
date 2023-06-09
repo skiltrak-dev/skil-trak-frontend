@@ -74,7 +74,7 @@ export const subAdminRtoEndpoints = (
         query: ({ body, assessment }) => ({
             url: `${PREFIX}/rto/assessment-tool/update/${assessment}`,
             method: 'PATCH',
-            body: { title: body },
+            body,
         }),
         invalidatesTags: ['SubAdminRtos'],
     }),

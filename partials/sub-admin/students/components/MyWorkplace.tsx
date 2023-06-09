@@ -121,7 +121,7 @@ export const MyWorkplace = ({ student }: { student: StudentSubAdmin }) => {
                 <WorkplaceStatusData
                     imageUrl={'/images/icons/industry.png'}
                     title={'No Workplace'}
-                    subTitle={'You don&apos;t have any workplace yet'}
+                    subTitle={'You dont have any workplace yet'}
                 />
                 {role === UserRoles.SUBADMIN &&
                     student?.user?.status === UserStatus.Approved && (
@@ -130,18 +130,6 @@ export const MyWorkplace = ({ student }: { student: StudentSubAdmin }) => {
                         </div>
                     )}
             </>
-        )
-    }
-
-    const caseOfficerAssigned = () => {
-        return (
-            <WorkplaceStatusData
-                imageUrl={
-                    '/images/students/workplace-progress/case-officer.png'
-                }
-                title={'Assigned'}
-                subTitle={'Case Officer'}
-            />
         )
     }
 
@@ -160,7 +148,15 @@ export const MyWorkplace = ({ student }: { student: StudentSubAdmin }) => {
                     />
                 )
             case WorkplaceCurrentStatus.CaseOfficerAssigned:
-                return caseOfficerAssigned()
+                return (
+                    <WorkplaceStatusData
+                        imageUrl={
+                            '/images/students/workplace-progress/case-officer.png'
+                        }
+                        title={'Assigned'}
+                        subTitle={'Case Officer'}
+                    />
+                )
             case WorkplaceCurrentStatus.Interview:
                 return (
                     <WorkplaceStatusData
@@ -407,13 +403,7 @@ export const MyWorkplace = ({ student }: { student: StudentSubAdmin }) => {
             ) : workplace.isLoading ? (
                 <LoadingAnimation />
             ) : (
-                <div>
-                    {workplace?.data && workplace?.data?.length > 0
-                        ? workplaceStatus()
-                        : student?.subadmin
-                        ? caseOfficerAssigned()
-                        : noWorkplace()}
-                </div>
+                <div>{workplaceStatus()}</div>
             )}
         </Card>
     )

@@ -1,3 +1,5 @@
 export * from './StudentStatus'
 export * from './appointmentsReport'
 export * from './newStudentsReport'
+export * from './studentsWorkplace'
+export * from './industryReport'

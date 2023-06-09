@@ -4,7 +4,6 @@ import {
     CaseOfficerAssignedStudent,
     EmptyData,
     LoadingAnimation,
-    StudentStatusProgressCell,
     StudentSubAdmin,
     Table,
     TableAction,
@@ -20,18 +19,16 @@ import { RtoCellInfo } from '@partials/admin/rto/components'
 import { AdminApi } from '@queries'
 import { Student, UserStatus } from '@types'
 import {
-    WorkplaceCurrentStatus,
-    checkStudentStatus,
-    checkWorkplaceStatus,
     getStudentWorkplaceAppliedIndustry,
     setLink,
+    studentsListWorkplace,
 } from '@utils'
 import { useRouter } from 'next/router'
 import { ReactElement, useEffect, useState } from 'react'
 import { MdBlock } from 'react-icons/md'
 import { RiLockPasswordFill } from 'react-icons/ri'
 import { IndustryCell } from '../industry/components'
-import { ProgressCell, SectorCell, StudentCellInfo } from './components'
+import { SectorCell, StudentCellInfo } from './components'
 import {
     ArchiveModal,
     BlockModal,
@@ -71,12 +68,6 @@ export const ApprovedStudent = () => {
             },
             { refetchOnMountOrArgChange: true }
         )
-
-    // useEffect(() => {
-    //     if (changeExpiryData || statusSuccessResult) {
-    //         refetch()
-    //     }
-    // }, [changeExpiryData, statusSuccessResult])
 
     const onModalCancelClicked = () => {
         setModal(null)
@@ -174,7 +165,7 @@ export const ApprovedStudent = () => {
         {
             accessorKey: 'user.name',
             cell: (info) => {
-                return <StudentCellInfo student={info?.row?.original} />
+                return <StudentCellInfo student={info?.row?.original} call />
             },
             header: () => <span>Student</span>,
         },
@@ -191,9 +182,9 @@ export const ApprovedStudent = () => {
             cell: (info: any) => {
                 const industry = info.row.original?.industries
 
-                const appliedIndustry = getStudentWorkplaceAppliedIndustry(
-                    info.row.original?.workplace[0]
-                )?.industry
+                const appliedIndustry = studentsListWorkplace(
+                    info.row.original?.workplace
+                )
 
                 return industry && industry?.length > 0 ? (
                     <IndustryCell industry={industry[0]} />
@@ -318,7 +309,7 @@ export const ApprovedStudent = () => {
                 />
                 <Card noPadding>
                     {isError && <TechnicalError />}
-                    {isLoading ? (
+                    {isLoading || isFetching ? (
                         <LoadingAnimation height="h-[60vh]" />
                     ) : data && data?.data.length ? (
                         <Table
@@ -352,6 +343,20 @@ export const ApprovedStudent = () => {
                                         <div className=" overflow-x-scroll remove-scrollbar">
                                             <div className="px-6 w-full">
                                                 {table}
+                                            </div>
+                                        </div>
+                                        <div className="p-6 mb-2 flex justify-between">
+                                            {pageSize(
+                                                itemPerPage,
+                                                setItemPerPage,
+                                                data?.data?.length
+                                            )}
+                                            <div className="flex gap-x-2">
+                                                {quickActions}
+                                                {pagination(
+                                                    data?.pagination,
+                                                    setPage
+                                                )}
                                             </div>
                                         </div>
                                     </div>

@@ -7,5 +7,7 @@ export enum SubAdminReports {
     BOOK_APPOINTMENTS = 'book-appointments',
     TERMINATED_WORKPLACE = 'terminated-workplace',
     COMPLETED_WORKPLACE = 'completed-workplace',
-    CANCELLED_WORKPLACE = 'cancelled-workplace', 
+    CANCELLED_WORKPLACE = 'cancelled-workplace',
+    PLACEMENT_STARTED = 'placement-started',
+    NO_WORKPLACE = 'no-workplace', 
 }

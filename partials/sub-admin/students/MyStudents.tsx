@@ -29,9 +29,13 @@ import { BlockModal, UnAssignStudentModal } from './modals'
 import { useActionModal } from '@hooks'
 import { SectorCell } from '@partials/admin/student/components'
 import { ColumnDef } from '@tanstack/react-table'
-import { getStudentWorkplaceAppliedIndustry, setLink } from '@utils'
+import {
+    getStudentWorkplaceAppliedIndustry,
+    setLink,
+    studentsListWorkplace,
+} from '@utils'
 import { RiLockPasswordFill } from 'react-icons/ri'
-import { IndustryCellInfo } from '../indestries/components'
+import { IndustryCellInfo } from '../Industries'
 
 export const MyStudents = () => {
     const router = useRouter()
@@ -49,10 +53,11 @@ export const MyStudents = () => {
         setItemPerPage(Number(router.query.pageSize || 50))
     }, [router])
 
-    const { isLoading, data, isError } = useGetSubAdminMyStudentsQuery({
-        skip: itemPerPage * page - itemPerPage,
-        limit: itemPerPage,
-    })
+    const { isLoading, isFetching, data, isError } =
+        useGetSubAdminMyStudentsQuery({
+            skip: itemPerPage * page - itemPerPage,
+            limit: itemPerPage,
+        })
 
     const onModalCancelClicked = () => {
         setModal(null)
@@ -106,7 +111,7 @@ export const MyStudents = () => {
             header: () => 'Name',
             accessorKey: 'user',
             cell: ({ row }: any) => {
-                return <StudentCellInfo student={row.original} />
+                return <StudentCellInfo student={row.original} call />
             },
         },
 
@@ -130,9 +135,9 @@ export const MyStudents = () => {
             cell: (info: any) => {
                 const industry = info.row.original?.industries
 
-                const appliedIndustry = getStudentWorkplaceAppliedIndustry(
-                    info.row.original?.workplace[0]
-                )?.industry
+                const appliedIndustry = studentsListWorkplace(
+                    info.row.original?.workplace
+                )
 
                 return industry && industry?.length > 0 ? (
                     <IndustryCellInfo industry={industry[0]} />
@@ -185,7 +190,7 @@ export const MyStudents = () => {
             {passwordModal}
             <Card noPadding>
                 {isError && <TechnicalError />}
-                {isLoading ? (
+                {isLoading || isFetching ? (
                     <LoadingAnimation height="h-[60vh]" />
                 ) : data && data?.data.length ? (
                     <Table
@@ -203,7 +208,11 @@ export const MyStudents = () => {
                             return (
                                 <div>
                                     <div className="p-6 mb-2 flex justify-between">
-                                        {pageSize(itemPerPage, setItemPerPage)}
+                                        {pageSize(
+                                            itemPerPage,
+                                            setItemPerPage,
+                                            data?.data?.length
+                                        )}
                                         <div className="flex gap-x-2">
                                             {quickActions}
                                             {pagination(

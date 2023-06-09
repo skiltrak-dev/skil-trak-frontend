@@ -8,10 +8,12 @@ export const RtoDetail = ({ rto }: { rto: any }) => {
             className="flex items-center relative"
         >
             <div className="flex items-center gap-x-2">
-                <InitialAvatar
-                    name={rto?.user?.name}
-                    imageUrl={rto?.user?.avatar}
-                />
+                {rto?.user?.name && (
+                    <InitialAvatar
+                        name={rto?.user?.name}
+                        imageUrl={rto?.user?.avatar}
+                    />
+                )}
                 <div>
                     <Typography color={'black'} variant={'small'}>
                         {rto?.user?.name}

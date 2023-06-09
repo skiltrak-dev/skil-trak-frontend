@@ -27,11 +27,6 @@ export const CaseOfficerAssignedStudent = ({
     const steps = checkWorkplaceStatus(workplace?.currentStatus)
     const studentStatus = checkStudentStatus(student?.studentStatus)
 
-    const WPStatus = [
-        WorkplaceCurrentStatus.Applied,
-        WorkplaceCurrentStatus.CaseOfficerAssigned,
-    ]
-
     return industries?.length > 0 ? (
         <StudentStatusProgressCell
             studentId={student?.id}
@@ -42,25 +37,6 @@ export const CaseOfficerAssignedStudent = ({
             studentId={student?.id}
             step={steps > 14 ? 14 : steps < 1 ? 1 : steps}
         />
-    ) : student?.subadmin ? (
-        <ProgressCell studentId={student?.id} step={3} />
-    ) : (
-        <ProgressCell studentId={student?.id} step={1} />
-    )
-    return industries?.length > 0 ? (
-        <StudentStatusProgressCell
-            studentId={student?.id}
-            step={studentStatus}
-        />
-    ) : student?.workplace && student?.workplace?.length > 0 ? (
-        WPStatus.includes(workplace?.currentStatus) && student?.subadmin ? (
-            <ProgressCell studentId={student?.id} step={3} />
-        ) : (
-            <ProgressCell
-                studentId={student?.id}
-                step={steps > 14 ? 14 : steps < 1 ? 1 : steps}
-            />
-        )
     ) : student?.subadmin ? (
         <ProgressCell studentId={student?.id} step={3} />
     ) : (

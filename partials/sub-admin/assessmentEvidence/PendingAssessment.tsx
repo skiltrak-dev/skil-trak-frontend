@@ -11,7 +11,7 @@ import { useState, useEffect } from 'react'
 import { useColumns } from './hooks'
 import { useJoyRide } from '@hooks'
 export const PendingAssessment = () => {
-    const columns = useColumns()
+    const {columns, modal} = useColumns()
     const router = useRouter()
 
     const [itemPerPage, setItemPerPage] = useState(50)
@@ -40,7 +40,8 @@ export const PendingAssessment = () => {
     }, [])
 
     return (
-        <div>
+        <>
+            {modal && modal}
             <Card noPadding>
                 {isError && <TechnicalError />}
                 {isLoading ? (
@@ -96,6 +97,6 @@ export const PendingAssessment = () => {
                     )
                 )}
             </Card>
-        </div>
+        </>
     )
 }

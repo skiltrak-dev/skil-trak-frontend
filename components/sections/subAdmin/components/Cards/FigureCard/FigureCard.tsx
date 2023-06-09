@@ -1,5 +1,5 @@
 import Image from 'next/image'
-import CountUp from 'react-countup'
+// import CountUp from 'react-countup'
 
 import { Card } from '@components/cards'
 import { PuffLoader } from 'react-spinners'
@@ -43,7 +43,8 @@ export const FigureCard = ({
                                 </div>
                             ) : (
                                 <p className="text-3xl font-bold">
-                                    <CountUp end={count} />
+                                    {/* <CountUp end={count} /> */}
+                                    {count || 0}
                                 </p>
                             )}
                             <p className="text-xs text-gray-500 leading-3 uppercase">

@@ -40,12 +40,14 @@ import {
     checkWorkplaceStatus,
     getStudentWorkplaceAppliedIndustry,
     setLink,
+    studentsListWorkplace,
 } from '@utils'
-import { IndustryCellInfo } from '../indestries/components'
 import { ColumnDef } from '@tanstack/react-table'
 import { EditTimer } from '@components/StudentTimer/EditTimer'
 import { RiLockPasswordFill } from 'react-icons/ri'
 import { InterviewModal } from '../workplace/modals'
+import { IndustryCellInfo } from '../Industries'
+import { RTOCellInfo } from '../rto/components'
 
 export const AllStudents = () => {
     const router = useRouter()
@@ -84,11 +86,12 @@ export const AllStudents = () => {
         setItemPerPage(Number(router.query.pageSize || 50))
     }, [router])
 
-    const { isLoading, data, isError, refetch } = SubAdminApi.Student.useList({
-        search: `status:${UserStatus.Approved}`,
-        skip: itemPerPage * page - itemPerPage,
-        limit: itemPerPage,
-    })
+    const { isLoading, data, isError, isFetching, refetch } =
+        SubAdminApi.Student.useList({
+            search: `status:${UserStatus.Approved}`,
+            skip: itemPerPage * page - itemPerPage,
+            limit: itemPerPage,
+        })
 
     useEffect(() => {
         if (refetchStudents) {
@@ -196,22 +199,13 @@ export const AllStudents = () => {
             header: () => 'Name',
             accessorKey: 'user',
             cell: ({ row }: any) => {
-                return <StudentCellInfo student={row.original} />
+                return <StudentCellInfo student={row.original} call />
             },
         },
         {
             header: () => 'RTO',
             accessorKey: 'rto',
-            cell({ row }: any) {
-                const { rto } = row.original
-
-                return (
-                    <div className="flex gap-x-2 items-center">
-                        <InitialAvatar name={rto.user.name} small />
-                        {rto.user.name}
-                    </div>
-                )
-            },
+            cell: ({ row }: any) => <RTOCellInfo rto={row.original?.rto} />,
         },
         {
             accessorKey: 'industry',
@@ -219,9 +213,9 @@ export const AllStudents = () => {
             cell: (info: any) => {
                 const industry = info.row.original?.industries
 
-                const appliedIndustry = getStudentWorkplaceAppliedIndustry(
-                    info.row.original?.workplace[0]
-                )?.industry
+                const appliedIndustry = studentsListWorkplace(
+                    info.row.original?.workplace
+                )
 
                 return industry && industry?.length > 0 ? (
                     <IndustryCellInfo industry={industry[0]} />
@@ -276,7 +270,7 @@ export const AllStudents = () => {
             {passwordModal}
             {isError && <TechnicalError />}
             <Card noPadding>
-                {isLoading ? (
+                {isLoading || isFetching ? (
                     <LoadingAnimation height="h-[60vh]" />
                 ) : data && data?.data.length && !isError ? (
                     <Table
@@ -293,7 +287,11 @@ export const AllStudents = () => {
                             return (
                                 <div>
                                     <div className="p-6 mb-2 flex justify-between">
-                                        {pageSize(itemPerPage, setItemPerPage)}
+                                        {pageSize(
+                                            itemPerPage,
+                                            setItemPerPage,
+                                            data?.data?.length
+                                        )}
                                         <div className="flex gap-x-2">
                                             {quickActions}
                                             {pagination(
@@ -308,6 +306,20 @@ export const AllStudents = () => {
                                         className="px-6 overflow-auto remove-scrollbar"
                                     >
                                         {table}
+                                    </div>
+                                    <div className="p-6 mb-2 flex justify-between">
+                                        {pageSize(
+                                            itemPerPage,
+                                            setItemPerPage,
+                                            data?.data?.length
+                                        )}
+                                        <div className="flex gap-x-2">
+                                            {quickActions}
+                                            {pagination(
+                                                data?.pagination,
+                                                setPage
+                                            )}
+                                        </div>
                                     </div>
                                 </div>
                             )

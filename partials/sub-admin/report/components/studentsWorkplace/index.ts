@@ -1,8 +1,10 @@
 export * from './StudentHaveWorkplaceReport'
+export * from './StudentHaveWorkplaceDetail'
 
 export * from './AddStudentsWorkplacesReport'
 
 export * from './PlacementStartedReport'
+export * from './PlacementStartedDetail'
 
 export * from './CancelledWorkplaceReport'
 export * from './CancelledWorkplaceDetail'

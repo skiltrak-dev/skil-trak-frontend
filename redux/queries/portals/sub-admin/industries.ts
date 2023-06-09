@@ -52,4 +52,15 @@ export const subAdminIndustriesEndpoints = (
         }),
         invalidatesTags: ['SubAdminIndustries'],
     }),
+    addToPartner: builder.mutation<
+        any,
+        { industry: number; studentCapacity?: number }
+    >({
+        query: ({ industry, studentCapacity }) => ({
+            url: `${PREFIX}/industry/partner/add/${industry}`,
+            body: { studentCapacity },
+            method: 'PATCH',
+        }),
+        invalidatesTags: ['SubAdminIndustries'],
+    }),
 })

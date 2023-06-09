@@ -1,56 +1,27 @@
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
-import { AuthUtils } from '@utils'
-
-import { rtosEndpoints } from './rtos'
-import { mailsEndpoints } from './mails'
-import { notesEndpoints } from './notes'
+import { allCommunicationEndpoints } from './allCommunication'
+import { appointmentsEndpoints } from './appointments'
+import { changeProfileImageEndpoints } from './changeProfileImage'
 import { coursesEndpoints } from './courses'
 import { industriesEndpoints } from './industries'
-import { appointmentsEndpoints } from './appointments'
-import { allCommunicationEndpoints } from './allCommunication'
-import { changeProfileImageEndpoints } from './changeProfileImage'
+import { mailsEndpoints } from './mails'
+import { notesEndpoints } from './notes'
 import { notificationsEndpoints } from './notifications'
+import { rtosEndpoints } from './rtos'
 
-import { AdminStats, UserStatus } from '@types'
 import { emptySplitApi } from '@queries/portals/empty.query'
+import { UserStatus } from '@types'
 import { agreementsEndpoints } from './agreement'
 import { draftEndpoints } from './draft'
+import { ticketEndpoints } from './ticket.query'
 
 export const commonApi = emptySplitApi.injectEndpoints({
-    // export const commonApi = createApi({
-    //     reducerPath: 'commonApi',
-    //     baseQuery: fetchBaseQuery({
-    //         baseUrl: `${process.env.NEXT_PUBLIC_END_POINT}/`,
-    //         prepareHeaders: (headers, { getState }) => {
-    //             const token = AuthUtils.getToken()
-    //             if (token) {
-    //                 headers.set('authorization', `Bearer ${token}`)
-    //             }
-    //             return headers
-    //         },
-    //     }),
-
-    //     tagTypes: [
-    //         'RTOS',
-    //         'Notes',
-    //         'Mails',
-    //         'Avatar',
-    //         'Course',
-    //         'Industry',
-    //         'Appointments',
-    //         'AllCommunications',
-    //         'AllNotifications',
-    //         'Students',
-    //         'BulkStatus',
-    //         'Documents',
-    //         'MailCount',
-    //         'MailsRecent',
-    //         'RecentActivities',
-    //         'User',
-    //     ],
-
-    // ---------- RTO ENDPOINTS ---------- //
+    // ---------- COMMON ENDPOINTS ---------- //
     endpoints: (build) => ({
+        getSerchedPlaces: build.query<any, any>({
+            query: (text) =>
+                `https://maps.googleapis.com/maps/api/place/textsearch/json?query=${text}&key=${process.env.NEXT_PUBLIC_MAP_KEY}`,
+            providesTags: ['Documents'],
+        }),
         downloadAssessmentTool: build.query<any, number>({
             query: (id) => `shared/assessment-tool/download/${id}`,
             providesTags: ['Documents'],
@@ -95,8 +66,21 @@ export const commonApi = emptySplitApi.injectEndpoints({
             query: () => `admin/documents/list`,
             providesTags: ['Documents'],
         }),
-        getRecentActivities: build.query<any, void>({
-            query: () => `activity-logger`,
+        getRecentActivities: build.query<
+            any,
+            {
+                currentDate?: number
+                startDate?: any
+                endDate?: any
+                last7days?: any
+                skip?: number
+                limit?: number
+            }
+        >({
+            query: (params) => ({
+                url: `activity-logger`,
+                params,
+            }),
             providesTags: ['RecentActivities'],
         }),
 
@@ -117,6 +101,7 @@ export const commonApi = emptySplitApi.injectEndpoints({
         ...draftEndpoints(build),
         ...notesEndpoints(build),
         ...mailsEndpoints(build),
+        ...ticketEndpoints(build),
         ...coursesEndpoints(build),
         ...agreementsEndpoints(build),
         ...industriesEndpoints(build),
@@ -131,6 +116,8 @@ export const commonApi = emptySplitApi.injectEndpoints({
 const {
     useDownloadAssessmentToolQuery,
     useBulkUserRemoveMutation,
+
+    useGetSerchedPlacesQuery,
     // ---- EXPIRY DATE ---- //
     useUpdateExpiryDateMutation,
 
@@ -218,9 +205,22 @@ const {
     useGetEmailDarftQuery,
     useSetNoteDarftMutation,
     useGetNoteDarftQuery,
+
+    // ---- TICKETS ---- //
+    useGetTicketQuery,
+    useAddReplyMutation,
+    useGetAllTicketQuery,
+    useCloseTicketMutation,
+    useCreateTicketMutation,
+    useGetTicketDetailQuery,
+    useGetTicketRepliesQuery,
+    useSeenTicketReplyMutation,
 } = commonApi
 
 export const CommonApi = {
+    SearchPlaces: {
+        useGetSerchedPlaces: useGetSerchedPlacesQuery,
+    },
     Download: {
         downloadAssessmentTool: useDownloadAssessmentToolQuery,
     },
@@ -318,5 +318,15 @@ export const CommonApi = {
         useGetEmailDraft: useGetEmailDarftQuery,
         useSetNoteDarft: useSetNoteDarftMutation,
         getNoteDarft: useGetNoteDarftQuery,
+    },
+    Tickets: {
+        useGetTicket: useGetTicketQuery,
+        useAddReply: useAddReplyMutation,
+        useGetAllTicket: useGetAllTicketQuery,
+        useGetDetail: useGetTicketDetailQuery,
+        useCloseTicket: useCloseTicketMutation,
+        useCreateTicket: useCreateTicketMutation,
+        useGetTicketReplies: useGetTicketRepliesQuery,
+        useSeenTicketReply: useSeenTicketReplyMutation,
     },
 }

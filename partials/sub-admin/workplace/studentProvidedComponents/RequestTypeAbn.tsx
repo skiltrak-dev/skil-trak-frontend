@@ -4,24 +4,17 @@ import { useEffect, useState } from 'react'
 import { IoMdArrowDropdown } from 'react-icons/io'
 
 // components
-import {
-    LoadingAnimation,
-    ShowErrorNotifications,
-    Typography,
-} from '@components'
+import { Typography } from '@components'
 
 // query
 import { useNotification } from '@hooks'
-import { useSendInterviewNotificationMutation } from '@queries'
-import { HiCheckBadge } from 'react-icons/hi2'
+import { UserStatus } from '@types'
 import OutsideClickHandler from 'react-outside-click-handler'
 import {
-    ActionModal,
     CompleteWorkplaceModal,
     PlacementStartedModal,
     TerminateWorkplaceModal,
 } from '../modals'
-import { UserStatus } from '@types'
 import { StudentProvidedForwardModal } from '../modals/StudentProvidedForwardModal'
 
 export const RequestTypeAbn = ({
@@ -37,27 +30,7 @@ export const RequestTypeAbn = ({
     >(0)
     const [modal, setModal] = useState<any>(null)
 
-    const [interView, interViewResult] = useSendInterviewNotificationMutation()
-
     const { notification } = useNotification()
-
-    useEffect(() => {
-        if (interViewResult.isSuccess) {
-            notification.success({
-                title: 'Interview Assigned to Student',
-                description: 'Interview Assigned to Student',
-            })
-            setModal(
-                <ActionModal
-                    Icon={HiCheckBadge}
-                    title={'Successfully Interview'}
-                    subtitle={'Now You can forward the request to Industry'}
-                    onCancel={onModalCancelClicked}
-                    confirmText={'OK'}
-                />
-            )
-        }
-    }, [interViewResult])
 
     const onModalCancelClicked = () => {
         setModal(null)
@@ -91,15 +64,6 @@ export const RequestTypeAbn = ({
             />
         )
     }
-
-    useEffect(() => {
-        if (interViewResult.isSuccess) {
-            notification.success({
-                title: 'Interview Assigned to Student',
-                description: 'Interview Assigned to Student',
-            })
-        }
-    }, [interViewResult])
 
     const onForwardClicked = (industry: any) => {
         setModal(
@@ -278,8 +242,6 @@ export const RequestTypeAbn = ({
         // }
     }, [appliedIndustry])
 
-    const isLoading = interViewResult.isLoading
-
     const onRequestClicked = () => {
         if (workplace?.assignedTo) {
             if (workplace.industryStatus === UserStatus.Approved || true) {
@@ -312,7 +274,6 @@ export const RequestTypeAbn = ({
     return (
         <div className="relative">
             {modal && modal}
-            <ShowErrorNotifications result={interViewResult} />
             <OutsideClickHandler
                 onOutsideClick={() => {
                     setVisibleRequestType(false)
@@ -328,12 +289,6 @@ export const RequestTypeAbn = ({
                     }  border border-dashed border-gray-400 rounded-lg w-56 px-4 py-1 flex items-center justify-between gap-x-1 cursor-pointer relative`}
                     onClick={onRequestClicked}
                 >
-                    {isLoading && (
-                        <div className="absolute top-0 left-0 w-full h-full bg-[#00000010]">
-                            <LoadingAnimation size={40} />
-                        </div>
-                    )}
-
                     <div>
                         <Typography
                             variant={'label'}

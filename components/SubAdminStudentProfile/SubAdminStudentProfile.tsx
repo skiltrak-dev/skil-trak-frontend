@@ -14,15 +14,20 @@ import { useActionModal, useNotification } from '@hooks'
 
 // queries
 import { StudentAvatar } from '@components/avatars'
-import { BlockModal } from '@partials/sub-admin/students/modals'
+import { BlockModal, CallLogsModal } from '@partials/sub-admin/students/modals'
 import { Student } from '@types'
 import { ellipsisText, getUserCredentials } from '@utils'
 import { useRouter } from 'next/router'
-import { useEffect, useState } from 'react'
+import { ReactNode, useEffect, useState } from 'react'
 import { StudentStatus } from './StudentStatus'
 import { ActionButton } from '@components/buttons'
 import { UserCreatedAt } from '@components/UserCreatedAt'
 import { SubAdminApi } from '@queries'
+import { ShowErrorNotifications } from '@components/ShowErrorNotifications'
+import { IoMdEye } from 'react-icons/io'
+import { Modal } from '@components/Modal'
+import { Tooltip } from '@components/Tooltip'
+import { LoadingAnimation } from '@components/LoadingAnimation'
 
 const getGender = (gender: string | undefined) => {
     if (!gender) return 'N/A'
@@ -31,25 +36,49 @@ const getGender = (gender: string | undefined) => {
     if (gender.toLocaleLowerCase() === 'f') return 'Female'
 }
 export const SubAdminStudentProfile = ({ student }: { student: any }) => {
+    const [modal, setModal] = useState<ReactNode | null>(null)
     const router = useRouter()
     const { notification } = useNotification()
     const { passwordModal, onUpdatePassword } = useActionModal()
     const [calledStudent, resultCalledStudent] = SubAdminApi.Student.useCalled()
+    const [callLog, callLogResult] = SubAdminApi.Student.useStudentCallLog()
 
     const role = getUserCredentials()?.role
 
+    // useEffect(() => {
+    //     if (resultCalledStudent.isSuccess) {
+    //         notification.success({
+    //             title: 'Called Student',
+    //             description: `Called Student with Id: ${student.studentId}`,
+    //         })
+    //     }
+    // }, [resultCalledStudent])
+
     useEffect(() => {
-        if (resultCalledStudent.isSuccess) {
+        if (callLogResult.isSuccess) {
             notification.success({
                 title: 'Called Student',
                 description: `Called Student with Id: ${student.studentId}`,
             })
         }
-    }, [resultCalledStudent])
+    }, [callLogResult])
+
+    const onViewCallLogs = () => {
+        setModal(
+            <CallLogsModal
+                studentId={student?.id}
+                onCancel={() => {
+                    setModal(null)
+                }}
+            />
+        )
+    }
 
     return (
         <div>
+            {modal}
             {passwordModal && passwordModal}
+            <ShowErrorNotifications result={callLogResult} />
             <div className="relative flex flex-col items-center">
                 <div className="flex items-center gap-x-2 absolute top-0 right-0">
                     <ActionButton
@@ -86,7 +115,7 @@ export const SubAdminStudentProfile = ({ student }: { student: any }) => {
 
                 <div className="flex flex-col items-center">
                     <p className="text-lg font-semibold">
-                        {student?.user?.name}
+                        {student?.user?.name} {student?.familyName}
                     </p>
                     <div className="flex items-center gap-x-2">
                         <p className="text-sm text-gray-400">
@@ -128,36 +157,50 @@ export const SubAdminStudentProfile = ({ student }: { student: any }) => {
                 </div>
             </div>
             <div className="p-2 border-b">
-                <div className="flex items-center justify-between space-x-2">
-                    <div className="flex items-center gap-x-2">
-                        <span className="text-gray-300">
-                            <MdPhone size={12} />
-                        </span>
-                        <p className="text-xs font-medium">{student?.phone}</p>
-                    </div>
-                    <div>
-                        {student?.called ? (
-                            <div className="bg-green-200  rounded-md px-4 py-1">
-                                <MdPhone className="text-white" size={15} />
-                            </div>
-                        ) : (
+                <div>
+                    <div className="flex justify-between items-center">
+                        <div className="flex gap-x-2 cursor-pointer group relative">
+                            {callLogResult.isLoading && (
+                                <div className="absolute top-0 left-0 w-full h-full bg-[#00000020] text-white flex justify-center items-center">
+                                    <LoadingAnimation size={20} />
+                                </div>
+                            )}
+                            <span className="text-gray-300">
+                                <MdPhone size={12} />
+                            </span>
                             <div
                                 onClick={() => {
-                                    calledStudent(student.id)
+                                    navigator.clipboard.writeText(
+                                        student?.phone
+                                    )
+                                    callLog({
+                                        student: student?.id,
+                                    })
+                                    notification.success({
+                                        title: 'Cpoied',
+                                        description: 'Phone Num Copied',
+                                    })
                                 }}
-                                className="bg-green-400 hover:bg-green-500 rounded-md px-4 py-1 cursor-pointer"
                             >
-                                <MdPhone className="text-white" size={15} />
+                                <p className="text-xs font-medium">
+                                    {student?.phone}
+                                </p>
+                                <div className="text-gray-400 text-[11px] flex justify-start -mt-0.5 text-right">
+                                    Phone Number
+                                </div>
                             </div>
-                        )}
-                    </div>
-                </div>
-                <div className="flex items-center justify-between">
-                    <div className="text-gray-400 text-[11px] flex justify-start pl-4 -mt-0.5 text-right">
-                        Phone Number
-                    </div>
-                    <div className="text-gray-400 text-[11px] flex justify-center mt-2 text-center">
-                        Call student
+                            <div className="mt-3 ml-5">
+                                <Tooltip>Copy to Clipboard</Tooltip>
+                            </div>
+                        </div>
+                        <div
+                            className="text-white bg-info rounded-md px-1.5 py-1 cursor-pointer"
+                            onClick={() => {
+                                onViewCallLogs()
+                            }}
+                        >
+                            <IoMdEye size={14} />
+                        </div>
                     </div>
                 </div>
             </div>

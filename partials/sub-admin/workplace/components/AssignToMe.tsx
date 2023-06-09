@@ -46,16 +46,18 @@ export const AssignToMe = ({ workplace, appliedIndustry }: any) => {
                 title: 'Workplace Assigned',
                 description: 'Workplace Assigned to you Successfully',
             })
-            setModal(
-                <ActionModal
-                    Icon={HiCheckBadge}
-                    title={'Successfully Assigned'}
-                    subtitle={
-                        'Now You can take an Interview from Student, You can select the interview from top right options of workplace'
-                    }
-                    onCancel={onCancelClicked}
-                />
-            )
+            if (!workplace?.byExistingAbn) {
+                setModal(
+                    <ActionModal
+                        Icon={HiCheckBadge}
+                        title={'Successfully Assigned'}
+                        subtitle={
+                            'Now You can take an Interview from Student, You can select the interview from top right options of workplace'
+                        }
+                        onCancel={onCancelClicked}
+                    />
+                )
+            }
             setChangeCoordinator(false)
             // setTimeout(() => {
             //     setModal(null)

@@ -7,6 +7,7 @@ import { MouseEventHandler } from 'react'
 
 interface ModalProps {
     title: string
+    titleIcon?: any
     subtitle: string
     children: any
     confirmText?: string
@@ -27,6 +28,7 @@ export const Modal = ({
     onCancelClick,
     loading,
     disabled,
+    titleIcon,
 }: ModalProps) => {
     const onConfirmButtonClick = () => {
         onConfirmClick && onConfirmClick()
@@ -36,19 +38,24 @@ export const Modal = ({
         onCancelClick && onCancelClick()
     }
 
+    const TitleIcon = titleIcon
+
     return (
         <div className="bg-[#00000050] w-full h-screen flex items-center justify-center fixed top-0 left-0 z-40">
             <div className="bg-white rounded-2xl flex flex-col justify-between shadow-md min-w-[450px]">
                 <div className="px-4 py-2 border-b border-secondary-dark flex justify-between items-center">
                     <div>
-                        <Typography variant={'title'}>{title}</Typography>
+                        <div className="flex items-center gap-x-2">
+                            <Typography variant={'title'}>{title}</Typography>
+                            {TitleIcon && <TitleIcon className="text-info" />}
+                        </div>
                         <Typography variant={'subtitle'} color={'text-muted'}>
                             {subtitle}
                         </Typography>
                     </div>
                     <MdCancel
                         onClick={onCancelButtonClick}
-                        className="transition-all duration-300 text-gray-400 hover:text-black text-3xl cursor-pointer"
+                        className="transition-all duration-500 text-gray-400 hover:text-black text-3xl cursor-pointer hover:rotate-90"
                     />
                 </div>
 

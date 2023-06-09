@@ -7,12 +7,14 @@ type ImportantDocumentProps = {
     title: string
     description: string
     imageUrl: string
+    onClick?: any
 }
 
 export const ImportantDocumentCard = ({
     title,
     description,
     imageUrl,
+    onClick,
 }: ImportantDocumentProps) => {
     const backgroundColor =
         title === 'Work Flow'
@@ -26,7 +28,10 @@ export const ImportantDocumentCard = ({
             : 'bg-[#CACBF4]'
     return (
         <>
-            <div className={`flex gap-x-3  ${backgroundColor} rounded-lg p-1`}>
+            <div
+                className={`flex gap-x-3  ${backgroundColor} rounded-lg p-1 cursor-pointer`}
+                {...(onClick ? { onClick } : {})}
+            >
                 <div className="w-28 min-h-full">
                     <Image
                         src={imageUrl || ' '}

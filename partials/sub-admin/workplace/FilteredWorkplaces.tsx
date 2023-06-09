@@ -23,16 +23,17 @@ export const FilteredWorkplaces = ({
 }) => {
     return (
         <div className="mt-5">
-            {/* <div className="flex items-center justify-between">
+            <div className="flex items-center justify-between">
                 <PageSize
                     itemPerPage={itemPerPage}
                     setItemPerPage={setItemPerPage}
+                    records={workplace.data?.data?.length}
                 />
                 <Pagination
                     pagination={workplace?.data?.pagination}
                     setPage={setPage}
                 />
-            </div> */}
+            </div>
             {workplace.data && workplace.data?.data?.length > 0 ? (
                 <div className="flex flex-col gap-y-4">
                     {workplace?.data?.data?.map((workplace: any) => {
@@ -65,6 +66,17 @@ export const FilteredWorkplaces = ({
                     />
                 )
             )}
+            <div className="flex items-center justify-between py-6">
+                <PageSize
+                    itemPerPage={itemPerPage}
+                    setItemPerPage={setItemPerPage}
+                    records={workplace.data?.data?.length}
+                />
+                <Pagination
+                    pagination={workplace?.data?.pagination}
+                    setPage={setPage}
+                />
+            </div>
         </div>
     )
 }

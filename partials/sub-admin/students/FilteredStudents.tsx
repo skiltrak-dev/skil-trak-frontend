@@ -15,12 +15,11 @@ import {
 } from '@components'
 import { PageHeading } from '@components/headings'
 import { ColumnDef } from '@tanstack/react-table'
-import { Student } from '@types'
+import { Student, UserStatus } from '@types'
 import { useRouter } from 'next/router'
 import { ReactElement, useState } from 'react'
 import { FaEdit, FaEye, FaUsers } from 'react-icons/fa'
 import { MdBlock } from 'react-icons/md'
-import { IndustryCellInfo } from '../indestries/components'
 import { StudentCellInfo } from './components'
 import {
     AssignStudentModal,
@@ -34,10 +33,12 @@ import {
     checkWorkplaceStatus,
     getStudentWorkplaceAppliedIndustry,
     setLink,
+    studentsListWorkplace,
 } from '@utils'
 import { useActionModal } from '@hooks'
 import { RiLockPasswordFill } from 'react-icons/ri'
 import { InterviewModal } from '../workplace/modals'
+import { IndustryCellInfo } from '../Industries'
 
 export const FilteredStudents = ({
     student,
@@ -141,7 +142,7 @@ export const FilteredStudents = ({
             accessorKey: 'user',
             cell: ({ row }: any) => {
                 return row.original?.user ? (
-                    <StudentCellInfo student={row.original} />
+                    <StudentCellInfo student={row.original} call />
                 ) : (
                     ''
                 )
@@ -167,9 +168,9 @@ export const FilteredStudents = ({
             cell: (info: any) => {
                 const industry = info.row.original?.industries
 
-                const appliedIndustry = getStudentWorkplaceAppliedIndustry(
-                    info.row.original?.workplace[0]
-                )?.industry
+                const appliedIndustry = studentsListWorkplace(
+                    info.row.original?.workplace
+                )
 
                 return industry && industry?.length > 0 ? (
                     <IndustryCellInfo industry={industry[0]} />
@@ -200,7 +201,15 @@ export const FilteredStudents = ({
             accessorKey: 'user.status',
             header: () => <span>Status</span>,
             cell: (info) => (
-                <Typography uppercase variant={'badge'}>
+                <Typography
+                    uppercase
+                    variant={'badge'}
+                    color={
+                        info.row.original?.user?.status === UserStatus.Blocked
+                            ? 'text-error'
+                            : 'text-black'
+                    }
+                >
                     <span className="font-bold">
                         {info.row.original?.user?.status}
                     </span>
@@ -260,7 +269,7 @@ export const FilteredStudents = ({
                 <Card noPadding>
                     {student?.isLoading || student.isFetching ? (
                         <LoadingAnimation height="h-[60vh]" />
-                    ) : student?.data && student?.data?.data.length ? (
+                    ) : student?.data?.data && student?.data?.data?.length ? (
                         <Table
                             columns={columns}
                             data={student?.data.data}
@@ -278,7 +287,8 @@ export const FilteredStudents = ({
                                         <div className="p-6 mb-2 flex justify-between">
                                             {pageSize(
                                                 itemPerPage,
-                                                setItemPerPage
+                                                setItemPerPage,
+                                                student?.data?.data?.length
                                             )}
                                             <div className="flex gap-x-2">
                                                 {quickActions}
@@ -290,6 +300,20 @@ export const FilteredStudents = ({
                                         </div>
                                         <div className="px-6 overflow-auto remove-scrollbar">
                                             {table}
+                                        </div>
+                                        <div className="p-6 mb-2 flex justify-between">
+                                            {pageSize(
+                                                itemPerPage,
+                                                setItemPerPage,
+                                                student?.data?.data?.length
+                                            )}
+                                            <div className="flex gap-x-2">
+                                                {quickActions}
+                                                {pagination(
+                                                    student?.data?.pagination,
+                                                    setPage
+                                                )}
+                                            </div>
                                         </div>
                                     </div>
                                 )

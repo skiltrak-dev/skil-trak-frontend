@@ -15,6 +15,7 @@ import { FilterReport } from '../../FilterReport'
 import { ViewFullListReport } from '../../ViewFullListReport'
 import { Course, ReportOptionsEnum } from '@types'
 import { useRouter } from 'next/router'
+import { SubAdminReports } from 'types/sub-admin-reports.type'
 
 type Props = {
     startDate: any
@@ -33,22 +34,22 @@ export const StudentHaveWorkplaceReport = ({
     const [page, setPage] = useState(1)
     const router = useRouter()
     const { data, isLoading, isError } =
-        SubAdminApi.Reports.useAssignedWorkplace({
+        SubAdminApi.Reports.useStudentProvidedWorkplaceReport({
             startDate: startDate.toISOString().slice(0, 10),
             endDate: endDate.toISOString().slice(0, 10),
             skip: itemPerPage * page - itemPerPage,
             limit: itemPerPage,
         })
-
+        
     const columns: ColumnDef<any>[] = [
         {
             header: () => <span>Name</span>,
             accessorKey: 'user',
             cell: (info: any) => {
                 const {
-                    id,
+                    
                     student: {
-                        user: { name, avatar },
+                        user: { name, avatar, studentId },
                     },
                 } = info.row.original || {}
 
@@ -56,7 +57,7 @@ export const StudentHaveWorkplaceReport = ({
                     <a className="flex items-center gap-x-2">
                         <InitialAvatar name={name} imageUrl={avatar} />
                         <div className="flex flex-col">
-                            <span>{id}</span>
+                            <span>{info?.row?.original?.student?.studentId}</span>
                             <span>{name}</span>
                         </div>
                     </a>
@@ -122,7 +123,7 @@ export const StudentHaveWorkplaceReport = ({
                     <ActionButton
                         onClick={() => {
                             router.push(
-                                `/portals/sub-admin/report/${ReportOptionsEnum.WORKPLACE_REQUEST_TERMINATED}`
+                                `/portals/sub-admin/report/${SubAdminReports.STUDENT_HAVE_WORKPLACE}`
                             )
                         }}
                     >

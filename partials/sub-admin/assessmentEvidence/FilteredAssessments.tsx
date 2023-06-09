@@ -22,7 +22,7 @@ export const FilteredAssessments = ({
     itemPerPage: any
     setItemPerPage: any
 }) => {
-    const columns = useColumns()
+    const { columns } = useColumns()
     const router = useRouter()
 
     return (

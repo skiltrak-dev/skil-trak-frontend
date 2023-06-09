@@ -67,6 +67,7 @@ export interface Student extends BaseResponse {
     phone: string
     dob: Date
     emergencyPerson: string
+    called: boolean
     emergencyPersonPhone: string
     industries: any
     expiryDate: Date
@@ -82,6 +83,7 @@ export interface Student extends BaseResponse {
     courses: Course[]
     assessmentEvidence: any[]
     workplace: any
+    callLog: CallLog[]
 
     gender: string
 }
@@ -123,4 +125,10 @@ export interface ContactPerson extends BaseResponse {
     name: string
     email: string
     phone: string
+}
+
+export interface CallLog extends BaseResponse {
+    id: number
+    isExpired: boolean
+    isAnswered: boolean
 }

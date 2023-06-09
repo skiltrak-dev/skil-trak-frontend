@@ -110,6 +110,20 @@ export const assessmentEvidenceEndpoints = (
         }),
         invalidatesTags: ['AssessmentEvidence', 'SubAdminStudents'],
     }),
+    archiveAssessmentEvidence: builder.mutation<any, any>({
+        query: ({ id }) => ({
+            url: `${PREFIX}/assessment-evidence/result/update-status/${id}`,
+            method: 'PATCH',
+        }),
+        invalidatesTags: ['AssessmentEvidence', 'SubAdminStudents'],
+    }),
+    deleteAssessmentEvidence: builder.mutation<any, any>({
+        query: ({ id }) => ({
+            url: `${PREFIX}/assessment-evidence/result/remove/${id}`,
+            method: 'DELETE',
+        }),
+        invalidatesTags: ['AssessmentEvidence', 'SubAdminStudents'],
+    }),
     studentAssessmentCourses: builder.query<any, number>({
         query: (id) => `${PREFIX}/student/course/${id}`,
         providesTags: [
@@ -128,7 +142,7 @@ export const assessmentEvidenceEndpoints = (
     }),
     uploadAssessmentDocs: builder.mutation<any, any>({
         query: ({ folderId, studentId, body }) => ({
-            url: `subadmin/assessment-evidence/response/${folderId}/${studentId}`,
+            url: `${PREFIX}/assessment-evidence/response/${folderId}/${studentId}`,
             method: 'POST',
             body,
         }),

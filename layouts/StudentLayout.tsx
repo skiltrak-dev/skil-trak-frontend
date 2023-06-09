@@ -4,17 +4,18 @@ import {
     PageTitleProps,
     RedirectUnApprovedUsers,
     StudentNavbar,
+    StudentTimer,
 } from '@components'
 import { useAlert, useJoyRide } from '@hooks'
+import { ProfileModal } from '@partials/student/Profile/modal/ProfileModal'
 import { StudentContextBar } from '@partials/student/components'
+import { useGetStudentProfileDetailQuery } from '@queries'
 import { UserStatus } from '@types'
-import { AuthUtils, getUserCredentials } from '@utils'
+import { getUserCredentials } from '@utils'
 import { useRouter } from 'next/router'
 import { ReactElement, ReactNode, useEffect, useState } from 'react'
 import Joyride from 'react-joyride'
 import { UserLayout } from './UserLayout'
-import { ProfileModal } from '@partials/student/Profile/modal/ProfileModal'
-import { useGetStudentProfileDetailQuery } from '@queries'
 
 interface StudentLayoutProps {
     pageTitle?: PageTitleProps
@@ -124,7 +125,18 @@ export const StudentLayout = ({ pageTitle, children }: StudentLayoutProps) => {
                     <StudentContextBar />
                     <div className="px-4 mb-32 md:px-16">
                         <div className="mb-6">
-                            <StudentNavbar />
+                            <div className="flex justify-between items-center">
+                                <StudentNavbar />
+                                {profile.data?.expiryDate && (
+                                    <StudentTimer
+                                        studentId={profile.data?.user?.id}
+                                        date={profile.data?.expiryDate}
+                                        studentStatus={
+                                            profile.data?.user?.studentStatus
+                                        }
+                                    />
+                                )}
+                            </div>
                             <DisplayAlerts />
                         </div>
                         {pageTitle && pageTitle.title && (

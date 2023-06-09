@@ -1,37 +1,34 @@
-import React, { useEffect, useState } from 'react'
-import { useRouter } from 'next/router'
-import Link from 'next/link'
 import { UserStatus } from '@types'
+import Link from 'next/link'
+import { useRouter } from 'next/router'
+import { useEffect, useState } from 'react'
 
 // Icons
-import { FaEdit } from 'react-icons/fa'
 
 // colors
 import { getThemeColors } from '@theme'
 
 // components
 import {
-    Typography,
-    Card,
-    Button,
-    LoadingAnimation,
     AssessmentCourse,
+    Button,
+    Card,
     DownloadableFile,
+    LoadingAnimation,
     NoData,
     ShowErrorNotifications,
+    Typography,
 } from '@components'
+import { useContextBar, useJoyRide, useNotification } from '@hooks'
 import {
     RtoApi,
-    useGetRTOCoursesQuery,
     useGetAssessmentToolByCourseQuery,
     useRemoveRTOAssessmentToolsMutation,
     useUpdateAssessmentToolArchiveMutation,
 } from '@queries'
-import { useContextBar, useJoyRide, useNotification } from '@hooks'
-import { AddAssessmentToolCB } from '../../../components/sections/subAdmin/UsersContainer/SubAdminRtosContainer/SubAdminRtosProfile/contextBar'
-import { AddAssessmentForm } from './form'
 import { MdDelete } from 'react-icons/md'
 import { PulseLoader } from 'react-spinners'
+import { AddAssessmentForm } from './form'
 // import {AssessmentCourse} from
 
 export const AssessmentsToolsContainer = () => {

@@ -10,6 +10,7 @@ import {
     JoyRideProvider,
     NavbarProvider,
     NotificationProvider,
+    SocketListenerProvider,
     useActionModal,
 } from '@hooks'
 
@@ -43,13 +44,15 @@ const MyApp = ({ Component, pageProps }: AppPropsWithLayout) => {
                         <NavbarProvider>
                             <ContextBarProvider>
                                 {/* <Component {...pageProps} /> */}
-                                <Socket>
-                                    <HeadWrapper>
-                                        {getLayout(
-                                            <Component {...pageProps} />
-                                        )}
-                                    </HeadWrapper>
-                                </Socket>
+                                <SocketListenerProvider>
+                                    <Socket>
+                                        <HeadWrapper>
+                                            {getLayout(
+                                                <Component {...pageProps} />
+                                            )}
+                                        </HeadWrapper>
+                                    </Socket>
+                                </SocketListenerProvider>
                             </ContextBarProvider>
                         </NavbarProvider>
                     </NotificationProvider>
@@ -60,3 +63,4 @@ const MyApp = ({ Component, pageProps }: AppPropsWithLayout) => {
 }
 
 export default MyApp
+//

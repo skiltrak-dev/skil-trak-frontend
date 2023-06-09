@@ -4,27 +4,20 @@ import { useEffect, useState } from 'react'
 import { IoMdArrowDropdown } from 'react-icons/io'
 
 // components
-import {
-    Typography,
-    LoadingAnimation,
-    ShowErrorNotifications,
-} from '@components'
-import { requestType } from './requestTypeData'
-import { SignAgreement } from './Industries/components/Actions/components/SignAgreement'
+import { LoadingAnimation, Typography } from '@components'
 
 // query
-import { useSendInterviewNotificationMutation } from '@queries'
-import OutsideClickHandler from 'react-outside-click-handler'
 import { useNotification } from '@hooks'
+import { WorkplaceCurrentStatus } from '@utils'
+import OutsideClickHandler from 'react-outside-click-handler'
 import {
-    ForwardModal,
-    PlacementStartedModal,
-    ActionModal,
     CompleteWorkplaceModal,
-    TerminateWorkplaceModal,
+    ForwardModal,
     InterviewModal,
+    MeetingModal,
+    PlacementStartedModal,
+    TerminateWorkplaceModal,
 } from '../modals'
-import { HiCheckBadge } from 'react-icons/hi2'
 
 export const RequestType = ({
     workplace,
@@ -41,11 +34,7 @@ export const RequestType = ({
         number | null
     >(0)
 
-    const [interView, interViewResult] = useSendInterviewNotificationMutation()
-
     const { notification } = useNotification()
-
-    
 
     const onModalCancelClicked = () => {
         setModal(null)
@@ -102,6 +91,17 @@ export const RequestType = ({
         )
     }
 
+    const onMeetingClicked = () => {
+        setModal(
+            <MeetingModal
+                workIndustry={appliedIndustry?.id}
+                workplace={workplace?.id}
+                onCancel={onModalCancelClicked}
+                student={workplace?.student}
+            />
+        )
+    }
+
     const requestTypeActions = [
         {
             primaryText: 'Request Sent',
@@ -121,13 +121,9 @@ export const RequestType = ({
             primaryText: 'Interview',
             secondaryText: 'with Case Officer',
             color: 'text-primary-light',
-            onClick: (isCleared: any) => {
+            onClick: (isCleared: (bool: boolean) => void) => {
                 isCleared(true)
                 onInterviewClicked()
-                // interView({
-                //     workIndustry: appliedIndustry?.id,
-                //     workplace: workplace?.id,
-                // })
             },
             status: 'interview',
         },
@@ -135,23 +131,44 @@ export const RequestType = ({
             primaryText: 'Meeting',
             secondaryText: 'with Workplace Supervisor (Orientation)',
             color: 'text-info-dark',
-            onClick: () => {},
+            onClick: (isCleared: (bool: boolean) => void) => {
+                if (
+                    workplace?.currentStatus ===
+                    WorkplaceCurrentStatus.Interview
+                ) {
+                    isCleared(true)
+                    onMeetingClicked()
+                } else {
+                    notification.error({
+                        title: 'Take an Interview',
+                        description: 'Take an Interview From Student',
+                    })
+                }
+            },
             status: 'appointmentBooked',
         },
         {
             primaryText: 'Waiting',
             secondaryText: 'for Workplace Response',
             color: 'text-info-light',
-            onClick: (isCleared: any) => {
-                if (appliedIndustry?.interview) {
-                    onForwardClicked(appliedIndustry)
-                    isCleared(true)
+            onClick: (isCleared: (bool: boolean) => void) => {
+                if (appliedIndustry) {
+                    if (appliedIndustry?.interview) {
+                        onForwardClicked(appliedIndustry)
+                        isCleared(true)
+                    } else {
+                        isCleared(false)
+                        notification.error({
+                            title: 'Take an Interview',
+                            description:
+                                'You Must have to take an Interview from student before sending request to industry',
+                        })
+                    }
                 } else {
-                    isCleared(false)
                     notification.error({
-                        title: 'Take an Interview',
+                        title: 'Apply on Industry',
                         description:
-                            'You Must have to take an Interview from student before sending request to industry',
+                            'Apply on Industry before forwarding request',
                     })
                 }
             },
@@ -161,7 +178,7 @@ export const RequestType = ({
             primaryText: 'Agreement & Eligibility ',
             secondaryText: 'Checklist Pending',
             color: 'text-info',
-            onClick: (isCleared: any) => {
+            onClick: (isCleared: (bool: boolean) => void) => {
                 isCleared(false)
                 if (workplace?.currentStatus === 'awaitingWorkplaceResponse') {
                     notification.info({
@@ -185,7 +202,7 @@ export const RequestType = ({
             primaryText: 'Agreement & Eligibility ',
             secondaryText: 'Checklist Signed',
             color: 'text-success',
-            onClick: (isCleared: any) => {
+            onClick: (isCleared: (bool: boolean) => void) => {
                 if (workplace?.currentStatus === 'awaitingAgreementSigned') {
                     notification.info({
                         title: 'Agreement Sign',
@@ -208,7 +225,7 @@ export const RequestType = ({
             primaryText: 'Placement Started',
             secondaryText: 'Placement Started',
             color: 'text-success-dark',
-            onClick: (isCleared: any) => {
+            onClick: (isCleared: (bool: boolean) => void) => {
                 if (workplace?.currentStatus === 'awaitingAgreementSigned') {
                     onPlacementStartedClicked(Number(appliedIndustry?.id))
                     isCleared(true)
@@ -261,11 +278,6 @@ export const RequestType = ({
         (r) => r.status === workplace.currentStatus
     )
 
-    console.log(
-        'findStatusIndexfindStatusIndexfindStatusIndex',
-        findStatusIndex
-    )
-
     useEffect(() => {
         if (appliedIndustry?.industryResponse === 'rejected') {
             setSelectedRequestType(requestTypeActions.length - 1)
@@ -290,13 +302,12 @@ export const RequestType = ({
         // }
     }, [appliedIndustry])
 
-    const isLoading = interViewResult.isLoading
+    const isLoading = false
 
     return (
         <div className="relative">
             {modal && modal}
 
-            <ShowErrorNotifications result={interViewResult} />
             <OutsideClickHandler
                 onOutsideClick={() => {
                     setVisibleRequestType(false)

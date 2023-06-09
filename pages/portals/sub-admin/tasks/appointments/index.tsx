@@ -22,6 +22,10 @@ const Appointments: NextPageWithLayout = (props: Props) => {
     useEffect(() => {
         contextBar.setContent(<CommonCB />)
         contextBar.show(false)
+        return () => {
+            contextBar.setContent(null)
+            contextBar.hide()
+        }
     }, [])
 
     const [mount, setMount] = useState(false)

@@ -28,7 +28,11 @@ import { Student, UserStatus } from '@types'
 import { BlockModal, ArchiveModal } from './modals'
 import { useRouter } from 'next/router'
 import { useGetRtoStudentsQuery } from '@queries'
-import { checkStudentStatus, checkWorkplaceStatus } from '@utils'
+import {
+    checkStudentStatus,
+    checkWorkplaceStatus,
+    studentsListWorkplace,
+} from '@utils'
 import { IndustryCell } from './components/IndustryCell'
 import { ProgressCell } from '@partials/admin/student/components'
 import { ChangeStudentStatusModal } from '@partials/sub-admin/students/modals'
@@ -142,11 +146,19 @@ export const ApprovedStudent = () => {
         {
             accessorKey: 'industry',
             header: () => <span>Industry</span>,
-            cell: (info) => {
+            cell: (info: any) => {
                 const industry = info.row.original?.industries
+
+                const appliedIndustry = studentsListWorkplace(
+                    info.row.original?.workplace
+                )
 
                 return industry && industry?.length > 0 ? (
                     <IndustryCell industry={industry[0]} />
+                ) : info.row.original?.workplace &&
+                  info.row.original?.workplace?.length > 0 &&
+                  appliedIndustry ? (
+                    <IndustryCell industry={appliedIndustry} />
                 ) : (
                     <Typography center>N/A</Typography>
                 )

@@ -34,6 +34,7 @@ export const StudentsCallsPerDayReport = ({
     const [itemPerPage, setItemPerPage] = useState(50)
     const [page, setPage] = useState(1)
     const router = useRouter()
+    console.log("start Date", startDate);
     const { data, isLoading, isError } =
         SubAdminApi.Reports.useStudentsCallsReport({
             startDate: startDate.toISOString().slice(0, 10),
@@ -50,11 +51,11 @@ export const StudentsCallsPerDayReport = ({
                 return (
                     <a className="flex items-center gap-x-2">
                         <InitialAvatar
-                            name={info?.row?.original?.user?.name}
+                            name={info?.row?.original?.studentId}
                             imageUrl={info?.row?.original?.user?.avatar}
                         />
                         <div className="flex flex-col">
-                            <span>{info?.row?.original?.id}</span>
+                            <span>{info?.row?.original?.studentId}</span>
                             <span>{info?.row?.original?.user?.name}</span>
                         </div>
                     </a>

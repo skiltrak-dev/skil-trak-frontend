@@ -43,6 +43,7 @@ import {
     checkStudentStatus,
     checkWorkplaceStatus,
     getStudentWorkplaceAppliedIndustry,
+    studentsListWorkplace,
     WorkplaceCurrentStatus,
 } from '@utils'
 import { IndustryCell } from '../industry/components'
@@ -219,7 +220,7 @@ export const FilteredStudents = ({
             // cell: (info) => 'Saad',
             cell: (info) => {
                 return info.row.original?.user ? (
-                    <StudentCellInfo student={info.row.original} />
+                    <StudentCellInfo student={info.row.original} call />
                 ) : (
                     ''
                 )
@@ -239,9 +240,9 @@ export const FilteredStudents = ({
             cell: (info: any) => {
                 const industry = info.row.original?.industries
 
-                const appliedIndustry = getStudentWorkplaceAppliedIndustry(
-                    info.row.original?.workplace[0]
-                )?.industry
+                const appliedIndustry = studentsListWorkplace(
+                    info.row.original?.workplace
+                )
 
                 return industry && industry?.length > 0 ? (
                     <IndustryCell industry={industry[0]} />
@@ -273,7 +274,15 @@ export const FilteredStudents = ({
             accessorKey: 'user.status',
             header: () => <span>Status</span>,
             cell: (info) => (
-                <Typography uppercase variant={'badge'}>
+                <Typography
+                    uppercase
+                    variant={'badge'}
+                    color={
+                        info.row.original?.user?.status === UserStatus.Blocked
+                            ? 'text-error'
+                            : 'text-black'
+                    }
+                >
                     <span className="font-bold">
                         {info.row.original?.user?.status}
                     </span>
@@ -387,6 +396,20 @@ export const FilteredStudents = ({
                                         </div>
                                         <div className="px-6 overflow-auto remove-scrollbar">
                                             {table}
+                                        </div>
+                                        <div className="p-6 mb-2 flex justify-between">
+                                            {pageSize(
+                                                itemPerPage,
+                                                setItemPerPage,
+                                                student.data?.data?.length
+                                            )}
+                                            <div className="flex gap-x-2">
+                                                {quickActions}
+                                                {pagination(
+                                                    student?.data?.pagination,
+                                                    setPage
+                                                )}
+                                            </div>
                                         </div>
                                     </div>
                                 )

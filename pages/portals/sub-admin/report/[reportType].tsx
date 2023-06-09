@@ -6,15 +6,19 @@ import { useRouter } from 'next/router'
 import { Card, PageTitle } from '@components'
 import {
     ActiveStudentsDetail,
+    ActiveStudentsWithoutWorkplaceDetail,
     AppointmentsDetail,
+    ArchivedStudentsDetail,
+    CancelledWorkplaceDetail,
+    CompletedWorkplaceDetail,
     DownloadButton,
+    PlacementStartedDetail,
+    StudentHaveWorkplaceDetail,
     StudentsAssignedDetail,
     StudentsCallsDetail,
-   } from '@partials/sub-admin'
+    TerminatedWorkplaceDetail,
+} from '@partials/sub-admin'
 import { SubAdminReports } from 'types/sub-admin-reports.type'
-import { ArchivedStudentsDetail } from '@partials/rto/report'
-import { TerminatedWorkplaceDetail } from '@partials/sub-admin/report/components/studentsWorkplace/TerminatedWorkplaceDetail'
-import { CancelledWorkplaceDetail, CompletedWorkplaceDetail } from '@partials/sub-admin/report/components/studentsWorkplace'
 
 const ReportType: NextPageWithLayout = () => {
     const router = useRouter()
@@ -30,8 +34,6 @@ const ReportType: NextPageWithLayout = () => {
         switch (reportType) {
             case SubAdminReports.ASSIGNED_STUDENTS:
                 return <StudentsAssignedDetail />
-            case SubAdminReports.STUDENT_HAVE_WORKPLACE:
-                return null
             case SubAdminReports.ACTIVE_STUDENTS:
                 return <ActiveStudentsDetail />
             case SubAdminReports.ARCHIVED_STUDENTS:
@@ -46,6 +48,12 @@ const ReportType: NextPageWithLayout = () => {
                 return <CompletedWorkplaceDetail />
             case SubAdminReports.CANCELLED_WORKPLACE:
                 return <CancelledWorkplaceDetail />
+            case SubAdminReports.PLACEMENT_STARTED:
+                return <PlacementStartedDetail />
+            case SubAdminReports.NO_WORKPLACE:
+                return <ActiveStudentsWithoutWorkplaceDetail />
+            case SubAdminReports.STUDENT_HAVE_WORKPLACE:
+                return <StudentHaveWorkplaceDetail />
             default:
                 return null
         }

@@ -1,20 +1,18 @@
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
-import { AuthUtils } from '@utils'
 
+import { UserStatus } from '@types'
+import { emptySplitApi } from '../empty.query'
 import { subAdminAppointmentspoints } from './appointments'
 import { assessmentEvidenceEndpoints } from './assessmentEvidence'
 import { subAdminIndustriesEndpoints } from './industries'
 import { notesEndpoints } from './notes'
 import { profileEndpoints } from './profile'
+import { subAdminReports } from './reports'
 import { subAdminRtoEndpoints } from './rto'
 import { setScheduleEndpoints } from './setSchedule'
 import { setUnavailabilityEndpoints } from './setUnavailability'
 import { subAdminSettingEndpoints } from './setting'
 import { studentsEndpoints } from './students'
 import { workplaceEndpoints } from './workplace'
-import { UserStatus } from '@types'
-import { emptySplitApi } from '../empty.query'
-import { subAdminReports } from './reports'
 export const subAdminApi = emptySplitApi.injectEndpoints({
     // export const subAdminApi = createApi({
     //     reducerPath: 'subAdminApi',
@@ -136,6 +134,7 @@ export const {
     useShowExistingIndustriesQuery,
     useAddExistingIndustriesMutation,
     useChangeCustomIndustryStatusMutation,
+    useSendMeetingNotificationMutation,
 
     // ----- STUDENTS-------//
     useGetSubAdminStudentsQuery,
@@ -171,12 +170,16 @@ export const {
     useAddSecondWorkplaceMutation,
     useAddCustomSecondWorkplaceMutation,
     useAddCourseStartEndDateMutation,
+    useStudentCallLogMutation,
+    useGetStudentCallLogQuery,
+    useStudentAnsweredCallMutation,
 
     // -- COUNT -- //
     useSubadminStatisticsQuery,
 
     // --- ASSESSMENT EVIDENCE --- //
     useGetAssessmentEvidenceQuery,
+    useArchiveAssessmentEvidenceMutation,
     useAssessmentCountQuery,
     useGetAssessmentResponseQuery,
 
@@ -192,6 +195,7 @@ export const {
     useDownloadAllCourseFilesMutation,
     useDownloadArhiveCourseFilesMutation,
     useArchiveUploadedFileMutation,
+    useDeleteAssessmentEvidenceMutation,
 
     // --- SET SCHEDULE --- //
     useSetScheduleMutation,
@@ -238,6 +242,7 @@ export const {
     useGetSubAdminIndustryStudentsQuery,
     useGetSubAdminIndustriesProfileQuery,
     useAddToFavoriteMutation,
+    useAddToPartnerMutation,
 
     // --- REPORTS --- //
     useGetAssignedStudentsReportQuery,
@@ -249,6 +254,10 @@ export const {
     useGetSubAdminTerminatedWorkplaceReportQuery,
     useGetSubAdminCompletedWorkplaceReportQuery,
     useGetSubAdminCancelledWorkplaceReportQuery,
+    useGetStudentWorkplaceStartedReportQuery,
+    useGetStudentWithNoWorkplaceReportQuery,
+    useGetSubAdminReportDownloadLinkQuery,
+    useGetStudentProvidedWorkplaceReportQuery,
 } = subAdminApi
 
 export const SubAdminApi = {
@@ -283,9 +292,13 @@ export const SubAdminApi = {
         useAddSecondWorkplace: useAddSecondWorkplaceMutation,
         useAddCustomWorkplace: useAddCustomSecondWorkplaceMutation,
         addCourseStartEndDate: useAddCourseStartEndDateMutation,
+        useStudentCallLog: useStudentCallLogMutation,
+        useGetStudentCallLog: useGetStudentCallLogQuery,
+        useStudentAnsweredCall: useStudentAnsweredCallMutation,
     },
     Industry: {
         useStatusticsCount: useSubadminIndustryStatisticsCountQuery,
+        useAddToPartner: useAddToPartnerMutation,
     },
     Rto: {
         useRtoStatsCount: useSubadminRtoStatisticsCountQuery,
@@ -320,6 +333,7 @@ export const SubAdminApi = {
         useShowExistingIndustriesQuery,
         useAddExistingIndustriesMutation,
         useChangeCustomIndustryStatusMutation,
+        useSendMeetingNotification: useSendMeetingNotificationMutation,
     },
 
     Courses: {
@@ -334,8 +348,10 @@ export const SubAdminApi = {
     AssessmentEvidence: {
         uploadDocs: useUploadAssessmentDocsMutation,
         archiveUploadedFile: useArchiveUploadedFileMutation,
+        deleteAssessmentEvidence: useDeleteAssessmentEvidenceMutation,
         downloadFiles: useDownloadAllCourseFilesMutation,
         downloadArchiveFiles: useDownloadArhiveCourseFilesMutation,
+        useArchiveAssessmentEvidence: useArchiveAssessmentEvidenceMutation,
     },
     Reports: {
         useAssignedStudents: useGetAssignedStudentsReportQuery,
@@ -343,9 +359,19 @@ export const SubAdminApi = {
         useActiveStudentsReport: useGetActiveStudentsReportQuery,
         useArchiveStudentsReport: useGetSubAdminArchivedStudentsReportQuery,
         useStudentsCallsReport: useGetStudentsCallsReportQuery,
-        useBookAppointmentsReport:useGetBookAppointmentsReportQuery,
-        useTerminatedWorkplaceReport: useGetSubAdminTerminatedWorkplaceReportQuery,
-        useCompletedWorkplaceReport: useGetSubAdminCompletedWorkplaceReportQuery,
-        useCancelledWorkplaceReport: useGetSubAdminCancelledWorkplaceReportQuery,
+        useBookAppointmentsReport: useGetBookAppointmentsReportQuery,
+        useTerminatedWorkplaceReport:
+            useGetSubAdminTerminatedWorkplaceReportQuery,
+        useCompletedWorkplaceReport:
+            useGetSubAdminCompletedWorkplaceReportQuery,
+        useCancelledWorkplaceReport:
+            useGetSubAdminCancelledWorkplaceReportQuery,
+        useStudentWorkplaceStartedReport:
+            useGetStudentWorkplaceStartedReportQuery,
+        useStudentWithNoWorkplaceReport:
+            useGetStudentWithNoWorkplaceReportQuery,
+        useDownloadLink: useGetSubAdminReportDownloadLinkQuery,
+        useStudentProvidedWorkplaceReport:
+            useGetStudentProvidedWorkplaceReportQuery,
     },
 }

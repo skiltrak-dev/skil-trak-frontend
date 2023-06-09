@@ -1,5 +1,5 @@
 import Image from 'next/image'
-import { ReactElement, useEffect, useState } from 'react'
+import { ReactElement } from 'react'
 
 import { StudentLayout } from '@layouts'
 import { Course, NextPageWithLayout, SubAdmin } from '@types'
@@ -10,6 +10,7 @@ import {
     InitialAvatar,
     InitialAvatarContainer,
     NoData,
+    StudentTimer,
     Typography,
 } from '@components'
 
@@ -30,7 +31,6 @@ import { Desktop, Mobile } from '@components/Responsive'
 import { MediaQueries } from '@constants'
 import { getSectors } from '@utils'
 import { useMediaQuery } from 'react-responsive'
-import { ProfileModal } from '@partials/student/Profile/modal/ProfileModal'
 
 const StudentDashboard: NextPageWithLayout = () => {
     const contextBar = useContextBar()

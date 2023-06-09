@@ -10,7 +10,8 @@ import {
     SideBar,
 } from '@components'
 import { IconType } from 'react-icons'
-import { FaClipboardList, FaUniversity, FaUserGraduate } from 'react-icons/fa'
+
+import { FaClipboardList,FaUsers, FaFileInvoiceDollar, FaUniversity, FaUserGraduate } from 'react-icons/fa'
 import { IoMdBriefcase } from 'react-icons/io'
 import {
     MdHomeWork,
@@ -20,6 +21,8 @@ import {
 } from 'react-icons/md'
 import { RiShieldUserFill, RiVoiceRecognitionLine } from 'react-icons/ri'
 import { MdNotificationsActive, MdEmail } from 'react-icons/md'
+import { BsFillTicketDetailedFill } from 'react-icons/bs'
+import { HiOutlineDocumentText } from 'react-icons/hi2'
 
 type Route = {
     type?: 'title' | 'divider'
@@ -83,7 +86,7 @@ const routes: Route[] = [
     {
         text: 'Appointments',
         path: getRoutePath('/appointment-type'),
-        Icon: FaClipboardList,
+        Icon: FaUsers,
     },
     {
         text: 'RPL',
@@ -100,29 +103,31 @@ const routes: Route[] = [
         path: getRoutePath('/jobs'),
         Icon: IoMdBriefcase,
     },
-    // {
-    //     text: 'Ticket',
-    //     path: 'ticket/*',
-    //     Icon: HiTicket,
-    // },
-    // {
-    //   text: 'Acts',
-    //   path: 'acts/*',
-    //   Icon: BsInfoSquareFill,
-    // },
     {
         text: 'Subscribers',
         path: getRoutePath('/subscribers'),
         Icon: MdSubscriptions,
     },
     {
-        text: 'SMS',
-        path: getRoutePath('/sms'),
-        Icon: MdSubscriptions,
-    },
-    {
         text: 'Documents',
         path: getRoutePath('/documents'),
+        Icon: HiOutlineDocumentText,
+    },
+    {
+        text: 'Tickets',
+        path: getRoutePath('/tickets?tab=my-open-tickets'),
+        Icon: BsFillTicketDetailedFill,
+    },
+    {
+        type: 'divider',
+    },
+    {
+        type: 'title',
+        text: 'Messages & Notifications',
+    },
+    {
+        text: 'SMS',
+        path: getRoutePath('/sms'),
         Icon: MdSubscriptions,
     },
     {
@@ -135,6 +140,19 @@ const routes: Route[] = [
         path: getRoutePath('/all-notifications'),
         Icon: MdNotificationsActive,
     },
+    {
+        type: 'divider',
+    },
+    {
+        type: 'title',
+        text: 'Accounts',
+    },
+    {
+        text: 'Invoices',
+        path: getRoutePath('/invoices'),
+        Icon: FaFileInvoiceDollar,
+    },
+
 ]
 
 export const AdminLayout = ({ children }: any) => {
