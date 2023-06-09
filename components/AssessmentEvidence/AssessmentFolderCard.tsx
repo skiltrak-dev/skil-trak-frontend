@@ -5,6 +5,7 @@ type AssessmentFolderCardProps = {
     onClick?: () => void
     selectedFolderId?: string | null
     id?: string
+    assessment?: boolean
 }
 import { Badge } from '@components'
 import { Typography } from '@components/Typography'
@@ -17,6 +18,7 @@ export const AssessmentFolderCard = ({
     onClick,
     selectedFolderId,
     id,
+    assessment,
 }: AssessmentFolderCardProps) => {
     const statusColor = isActive
         ? 'bg-green-100'
@@ -96,7 +98,9 @@ export const AssessmentFolderCard = ({
                     </div>
                     <div>
                         <div className={` px-2 `}>
-                            {response && response?.files?.length > 0
+                            {assessment &&
+                            response &&
+                            response?.files?.length > 0
                                 ? getStatusBadge()
                                 : null}
                             {/* {isActive ? (

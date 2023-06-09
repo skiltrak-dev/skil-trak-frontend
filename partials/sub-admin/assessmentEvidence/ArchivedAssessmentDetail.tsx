@@ -301,6 +301,7 @@ export const ArchivedAssessmentDetail = ({
                                             onClick={() => {
                                                 setSelectedFolder(assessment)
                                             }}
+                                            assessment
                                         />
                                     ))
                                 ) : (

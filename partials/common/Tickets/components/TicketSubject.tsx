@@ -9,15 +9,6 @@ import React from 'react'
 export const TicketSubject = ({ ticket }: { ticket: any }) => {
     const role = getUserCredentials()?.role
 
-    console.log(
-        'ticket?.status === TicketStatus.OPEN',
-        ticket?.status === TicketStatus.OPEN
-            ? 'bg-green-100'
-            : ticket?.status === TicketStatus.CLOSED
-            ? 'bg-red-700'
-            : 'bg-error'
-    )
-
     return (
         <Link
             href={

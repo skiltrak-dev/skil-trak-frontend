@@ -23,7 +23,6 @@ export const DeleteModal = ({
     const onConfirmUClicked = async (item: any) => {
         await remove(item)
     }
-    console.log("items", item);
 
     useEffect(() => {
         if (removeResult.isSuccess) {

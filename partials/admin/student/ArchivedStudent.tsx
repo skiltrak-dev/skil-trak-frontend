@@ -38,14 +38,9 @@ import { BulkDeleteModal } from '@modals'
 
 export const ArchivedStudent = () => {
     const router = useRouter()
-    const [filterAction, setFilterAction] = useState(null)
     const [itemPerPage, setItemPerPage] = useState(50)
     const [page, setPage] = useState(1)
-    const [filter, setFilter] = useState({})
     const [modal, setModal] = useState<any | null>(null)
-    const [changeExpiryData, setChangeExpiryData] = useState(false)
-    const [statusSuccessResult, setStatusSuccessResult] =
-        useState<boolean>(false)
 
     useEffect(() => {
         setPage(Number(router.query.page))
@@ -77,7 +72,6 @@ export const ArchivedStudent = () => {
     const onChangeStatus = (student: Student) => {
         setModal(
             <ChangeStatusModal
-                setStatusSuccessResult={setStatusSuccessResult}
                 student={student}
                 onCancel={onModalCancelClicked}
             />
@@ -90,7 +84,6 @@ export const ArchivedStudent = () => {
                 studentId={student?.user?.id}
                 date={student?.expiryDate}
                 onCancel={onModalCancelClicked}
-                changeExpiryData={setChangeExpiryData}
             />
         )
     }
@@ -341,6 +334,22 @@ export const ArchivedStudent = () => {
                                         <div className="px-6 overflow-x-auto remove-scrollbar">
                                             {table}
                                         </div>
+                                        {data?.data?.length > 10 && (
+                                            <div className="p-6 mb-2 flex justify-between">
+                                                {pageSize(
+                                                    itemPerPage,
+                                                    setItemPerPage,
+                                                    data?.data?.length
+                                                )}
+                                                <div className="flex gap-x-2">
+                                                    {quickActions}
+                                                    {pagination(
+                                                        data?.pagination,
+                                                        setPage
+                                                    )}
+                                                </div>
+                                            </div>
+                                        )}
                                     </div>
                                 )
                             }}

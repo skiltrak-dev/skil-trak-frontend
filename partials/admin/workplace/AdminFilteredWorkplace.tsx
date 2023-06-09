@@ -33,6 +33,7 @@ export const AdminFilteredWorkplace = ({
                 <PageSize
                     itemPerPage={itemPerPage}
                     setItemPerPage={setItemPerPage}
+                    records={workplace.data?.data?.length}
                 />
                 <Pagination
                     pagination={workplace?.data?.pagination}
@@ -58,6 +59,19 @@ export const AdminFilteredWorkplace = ({
                         description={'No Search result were found'}
                     />
                 )
+            )}
+            {workplace.data?.data?.length > 7 && (
+                <div className="flex items-center justify-between py-7">
+                    <PageSize
+                        itemPerPage={itemPerPage}
+                        setItemPerPage={setItemPerPage}
+                        records={workplace.data?.data?.length}
+                    />
+                    <Pagination
+                        pagination={workplace?.data?.pagination}
+                        setPage={setPage}
+                    />
+                </div>
             )}
         </div>
     )

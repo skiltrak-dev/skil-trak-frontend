@@ -31,7 +31,6 @@ import { SubAdminReports } from 'types/sub-admin-reports.type'
 const Report: NextPageWithLayout = () => {
     const weekEnd = new Date()
     weekEnd.setDate(weekEnd.getDate() - 6)
-    console.log("weekEnd>>>>>>", weekEnd)
     const [startDate, setStartDate] = useState<any>(weekEnd)
     const [endDate, setEndDate] = useState<any>(new Date())
     

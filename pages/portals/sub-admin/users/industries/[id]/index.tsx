@@ -6,7 +6,7 @@ import { SubAdminLayout } from '@layouts'
 import { NextPageWithLayout } from '@types'
 
 // hooks
-import { useContextBar, useNavbar } from '@hooks'
+import { useActionModal, useContextBar, useNavbar } from '@hooks'
 //components
 import {
     BackButton,
@@ -33,6 +33,8 @@ const IndustriesProfile: NextPageWithLayout = (props: Props) => {
     const pathname = useRouter()
     const { id } = pathname.query
 
+    const { passwordModal, onViewPassword } = useActionModal()
+
     const navBar = useNavbar()
 
     const { data, isLoading, isError, isSuccess } =
@@ -58,6 +60,7 @@ const IndustriesProfile: NextPageWithLayout = (props: Props) => {
 
     return (
         <>
+            {passwordModal}
             <div className="flex justify-between items-end mb-4">
                 <div>
                     <BackButton
@@ -70,6 +73,12 @@ const IndustriesProfile: NextPageWithLayout = (props: Props) => {
                     <PageTitle title="Industry Profile" />
                 </div>
                 <div className="flex items-center gap-x-2">
+                    <Button
+                        text={'View Password'}
+                        onClick={() => {
+                            onViewPassword({ user: data?.user })
+                        }}
+                    />
                     <Button
                         text="Book Appointment"
                         variant="info"

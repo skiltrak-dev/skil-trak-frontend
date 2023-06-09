@@ -122,7 +122,6 @@ export const FilteredStudents = ({
     const onChangeStatus = (student: Student) => {
         setModal(
             <ChangeStatusModal
-                setStatusSuccessResult={setStatusSuccessResult}
                 student={student}
                 onCancel={onModalCancelClicked}
             />

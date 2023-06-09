@@ -19,10 +19,10 @@ import {
 import { useGetSubAdminIndustriesQuery } from '@queries'
 import { Industry, SubAdmin, UserStatus } from '@types'
 import { IndustryCellInfo } from './components'
-import { AddToFavoriteModal } from './modals'
+import { AddToFavoriteModal, UnArchiveModal } from './modals'
 import { MdFavorite, MdFavoriteBorder } from 'react-icons/md'
 import { getUserCredentials, setLink } from '@utils'
-import { RiLockPasswordFill } from 'react-icons/ri'
+import { RiInboxUnarchiveFill, RiLockPasswordFill } from 'react-icons/ri'
 import { useActionModal } from '@hooks'
 import { IndustrySubAdmin } from './AllIndustries'
 
@@ -56,6 +56,12 @@ export const ArchivedIndustries = () => {
         )
     }
 
+    const onUnArchiveClicked = (industry: Industry) => {
+        setModal(
+            <UnArchiveModal industry={industry} onCancel={onCancelClicked} />
+        )
+    }
+
     const isFavorite = (subAdmin: SubAdmin[] | undefined) => {
         return subAdmin?.find((subadmin: any) => subadmin?.user?.id === id)
     }
@@ -79,6 +85,12 @@ export const ArchivedIndustries = () => {
                 onClick: (industry: Industry) =>
                     onAddToFavoriteClicked(industry),
                 Icon: subAdmin ? MdFavorite : MdFavoriteBorder,
+            },
+            {
+                text: `Un Archive`,
+                color: 'text-primary',
+                onClick: (industry: Industry) => onUnArchiveClicked(industry),
+                Icon: RiInboxUnarchiveFill,
             },
             {
                 text: 'View Password',
@@ -174,7 +186,11 @@ export const ArchivedIndustries = () => {
                             return (
                                 <div>
                                     <div className="p-6 mb-2 flex justify-between">
-                                        {pageSize(itemPerPage, setItemPerPage)}
+                                        {pageSize(
+                                            itemPerPage,
+                                            setItemPerPage,
+                                            data?.data.length
+                                        )}
                                         <div className="flex gap-x-2">
                                             {quickActions}
                                             {pagination(

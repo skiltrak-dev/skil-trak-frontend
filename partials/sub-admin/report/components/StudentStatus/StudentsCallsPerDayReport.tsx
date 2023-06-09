@@ -34,7 +34,6 @@ export const StudentsCallsPerDayReport = ({
     const [itemPerPage, setItemPerPage] = useState(50)
     const [page, setPage] = useState(1)
     const router = useRouter()
-    console.log("start Date", startDate);
     const { data, isLoading, isError } =
         SubAdminApi.Reports.useStudentsCallsReport({
             startDate: startDate.toISOString().slice(0, 10),

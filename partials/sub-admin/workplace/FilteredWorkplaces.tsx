@@ -66,17 +66,19 @@ export const FilteredWorkplaces = ({
                     />
                 )
             )}
-            <div className="flex items-center justify-between py-6">
-                <PageSize
-                    itemPerPage={itemPerPage}
-                    setItemPerPage={setItemPerPage}
-                    records={workplace.data?.data?.length}
-                />
-                <Pagination
-                    pagination={workplace?.data?.pagination}
-                    setPage={setPage}
-                />
-            </div>
+            {workplace.data?.data?.length > 6 && (
+                <div className="flex items-center justify-between py-7">
+                    <PageSize
+                        itemPerPage={itemPerPage}
+                        setItemPerPage={setItemPerPage}
+                        records={workplace.data?.data?.length}
+                    />
+                    <Pagination
+                        pagination={workplace?.data?.pagination}
+                        setPage={setPage}
+                    />
+                </div>
+            )}
         </div>
     )
 }

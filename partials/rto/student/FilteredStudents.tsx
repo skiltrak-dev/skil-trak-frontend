@@ -195,7 +195,7 @@ export const FilteredStudents = ({
                 <Card noPadding>
                     {student?.isLoading || student?.isFetching ? (
                         <LoadingAnimation height="h-[60vh]" />
-                    ) : student?.data && student?.data?.data.length ? (
+                    ) : student?.data && student?.data?.data?.length ? (
                         <Table
                             columns={columns}
                             data={student?.data.data}
@@ -213,7 +213,8 @@ export const FilteredStudents = ({
                                         <div className="p-6 mb-2 flex justify-between">
                                             {pageSize(
                                                 itemPerPage,
-                                                setItemPerPage
+                                                setItemPerPage,
+                                                student?.data?.data?.length
                                             )}
                                             <div className="flex gap-x-2">
                                                 {quickActions}
@@ -226,6 +227,23 @@ export const FilteredStudents = ({
                                         <div className="px-6 overflow-auto">
                                             {table}
                                         </div>
+                                        {student?.data?.data?.length > 10 && (
+                                            <div className="p-6 mb-2 flex justify-between">
+                                                {pageSize(
+                                                    itemPerPage,
+                                                    setItemPerPage,
+                                                    student?.data?.data?.length
+                                                )}
+                                                <div className="flex gap-x-2">
+                                                    {quickActions}
+                                                    {pagination(
+                                                        student?.data
+                                                            ?.pagination,
+                                                        setPage
+                                                    )}
+                                                </div>
+                                            </div>
+                                        )}
                                     </div>
                                 )
                             }}

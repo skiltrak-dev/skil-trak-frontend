@@ -52,7 +52,10 @@ export const OverViewTab = ({ student }: StudentsProfileOverviewProps) => {
             </div>
 
             <div className="w-full flex flex-col gap-y-4">
-                <RecentAppointment userId={student?.user?.id} />
+                <RecentAppointment
+                    userId={student?.user?.id}
+                    link={`/portals/admin/student/${student?.id}?tab=appointments`}
+                />
             </div>
         </div>
     )
