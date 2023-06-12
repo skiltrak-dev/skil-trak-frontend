@@ -50,6 +50,7 @@ const filterKeys = [
     'rtoId',
     'industryId',
     'courseId',
+    'currentStatus',
 ]
 
 const Students: NextPageWithLayout = (props: Props) => {
@@ -64,6 +65,8 @@ const Students: NextPageWithLayout = (props: Props) => {
     const [itemPerPage, setItemPerPage] = useState(50)
 
     useEffect(() => {
+        setPage(Number(router.query.page || 1))
+        setItemPerPage(Number(router.query.pageSize || 50))
         const query = getFilterQuery({ router, filterKeys })
         setFilter(query)
     }, [router])
