@@ -430,7 +430,7 @@ export const ActiveAssessmentDetail = ({
                                                     latestWorkplace?.courses[0]
                                                 }
                                             />
-                                        ) : (
+                                        ) : selectedFolder ? (
                                             <FileUpload
                                                 onChange={onUploadDocs}
                                                 name={'folder?.name'}
@@ -458,7 +458,7 @@ export const ActiveAssessmentDetail = ({
                                                     selectedFolder?.type
                                                 )}
                                             />
-                                        ))}
+                                        ) : null)}
                                 </div>
                             </div>
                         </div>

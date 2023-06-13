@@ -12,7 +12,7 @@ interface PopUpProps {
     title: string
     subtitle: string
     shadow?: boolean
-    variant: typeof VariantOptions[number]
+    variant: (typeof VariantOptions)[number]
 }
 
 export const Popup = ({ title, subtitle, shadow, variant }: PopUpProps) => {

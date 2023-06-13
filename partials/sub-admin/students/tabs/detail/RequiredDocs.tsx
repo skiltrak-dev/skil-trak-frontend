@@ -217,22 +217,24 @@ export const RequiredDocs = ({
                         {/* Assessment Response */}
                         {/* <div> */}
                         <div className="col-span-2 border border-gray-300 overflow-hidden">
-                            <div className="flex justify-end m-2">
-                                <div>
-                                    <FileUpload
-                                        onChange={onUploadDocs}
-                                        name={'folder?.name'}
-                                        component={AddFileButton}
-                                        multiple
-                                        limit={Number(
-                                            selectedFolder?.folder?.capacity
-                                        )}
-                                        acceptTypes={getDocType(
-                                            selectedFolder?.type
-                                        )}
-                                    />
+                            {selectedFolder && (
+                                <div className="flex justify-end m-2">
+                                    <div>
+                                        <FileUpload
+                                            onChange={onUploadDocs}
+                                            name={'folder?.name'}
+                                            component={AddFileButton}
+                                            multiple
+                                            limit={Number(
+                                                selectedFolder?.folder?.capacity
+                                            )}
+                                            acceptTypes={getDocType(
+                                                selectedFolder?.type
+                                            )}
+                                        />
+                                    </div>
                                 </div>
-                            </div>
+                            )}
                             <AssessmentResponse
                                 getAssessmentResponse={getRequiredDocsResponse}
                                 folder={selectedFolder?.folder}

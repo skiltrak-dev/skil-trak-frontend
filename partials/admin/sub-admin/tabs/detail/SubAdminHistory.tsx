@@ -1,37 +1,16 @@
-import { NextPageWithLayout, UserStatus } from '@types'
-import { ReactElement, useState } from 'react'
-import { CalendarStyles } from '@components/Calendar/style'
-import Calendar from 'react-calendar'
-
-// layouts
 import {
-    Button,
-    Card,
     EmptyData,
     LoadingAnimation,
     PageTitle,
-    Table,
     TechnicalError,
-    Timeline,
-    Typography,
-    UserCreatedAt,
 } from '@components'
-import { SubAdminLayout } from '@layouts'
-import { CommonApi, SubAdminApi } from '@queries'
-import { ColumnDef } from '@tanstack/react-table'
-import { getCommonDates, getDate } from '@utils'
-import moment from 'moment'
-import OutsideClickHandler from 'react-outside-click-handler'
-import { HistoryCard, HistoryDates, HistoryFilters } from '@partials/common'
-// components
+import { HistoryDates, HistoryFilters } from '@partials/common'
+import { CommonApi } from '@queries'
+import { getCommonDates } from '@utils'
+import { FilterType } from 'pages/portals/sub-admin/history'
+import React, { useState } from 'react'
 
-export const FilterType = {
-    Today: 'today',
-    '7Days': '7days',
-    Range: 'range',
-}
-
-const SubAdminHistory: NextPageWithLayout = () => {
+export const SubAdminHistory = ({ subadmin }: { subadmin: number }) => {
     const [itemPerPage, setItemPerPage] = useState(50)
     const [page, setPage] = useState(1)
     const [isCustomRange, setIsCustomRange] = useState<boolean>(false)
@@ -57,6 +36,7 @@ const SubAdminHistory: NextPageWithLayout = () => {
                     : filterType === FilterType['7Days']
                     ? { last7days: undefined }
                     : ''),
+                coordinator: subadmin,
                 // skip: itemPerPage * page - itemPerPage,
                 // limit: itemPerPage,
             },
@@ -66,11 +46,10 @@ const SubAdminHistory: NextPageWithLayout = () => {
         )
 
     const dates = getCommonDates(data?.data)
-
     return (
         <div>
             <div className="flex justify-between items-center">
-                <PageTitle title={'History'} navigateBack />
+                <PageTitle title={'History'} />
                 <HistoryFilters
                     filterType={filterType}
                     isCustomRange={isCustomRange}
@@ -101,9 +80,3 @@ const SubAdminHistory: NextPageWithLayout = () => {
         </div>
     )
 }
-
-SubAdminHistory.getLayout = (page: ReactElement) => {
-    return <SubAdminLayout>{page}</SubAdminLayout>
-}
-
-export default SubAdminHistory

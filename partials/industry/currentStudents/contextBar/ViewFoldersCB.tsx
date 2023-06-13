@@ -1,11 +1,19 @@
-import { useContextBar } from '@hooks'
-import { useEffect, Fragment } from 'react'
-import { Typography, ActionButton, NoData } from '@components'
+import { DocumentsView, useContextBar } from '@hooks'
+import { useEffect, Fragment, useState, ReactElement } from 'react'
+import {
+    Typography,
+    ActionButton,
+    NoData,
+    PdfViewModal,
+    FileViewModal,
+    VideoPlayModal,
+} from '@components'
 import { ellipsisText } from '@utils'
 import { AiFillEye } from 'react-icons/ai'
 import { FaCloudDownloadAlt } from 'react-icons/fa'
 
 export const ViewFoldersCB = ({ folders }: any) => {
+    const { onFileClicked, documentsViewModal } = DocumentsView()
     const { setTitle } = useContextBar()
 
     useEffect(() => {
@@ -14,6 +22,7 @@ export const ViewFoldersCB = ({ folders }: any) => {
 
     return (
         <>
+            {documentsViewModal}
             <div>
                 {folders && folders?.length > 0 ? (
                     folders?.map((folder: any) => (
@@ -46,10 +55,65 @@ export const ViewFoldersCB = ({ folders }: any) => {
                                                     simple
                                                     Icon={AiFillEye}
                                                     variant="success"
+                                                    onClick={() => {
+                                                        let fileName = uploaded
+                                                            ? uploaded?.file?.split(
+                                                                  '\\'
+                                                              )
+                                                            : ''
+                                                        if (
+                                                            fileName?.length ===
+                                                            1
+                                                        ) {
+                                                            fileName =
+                                                                uploaded?.file?.split(
+                                                                    '/'
+                                                                )
+
+                                                            if (
+                                                                fileName.length >
+                                                                1
+                                                            ) {
+                                                                fileName =
+                                                                    fileName[
+                                                                        fileName?.length -
+                                                                            1
+                                                                    ]
+                                                            }
+                                                        }
+                                                        const extension =
+                                                            fileName
+                                                                ?.replaceAll(
+                                                                    '{"',
+                                                                    ''
+                                                                )
+                                                                .replaceAll(
+                                                                    '"}',
+                                                                    ''
+                                                                )
+                                                                ?.split('.')
+                                                                .reverse()[0]
+                                                        onFileClicked({
+                                                            ...uploaded,
+                                                            file: uploaded?.file
+                                                                .replaceAll(
+                                                                    '{"',
+                                                                    ''
+                                                                )
+                                                                .replaceAll(
+                                                                    '"}',
+                                                                    ''
+                                                                ),
+                                                            extension,
+                                                            type:
+                                                                uploaded?.type ||
+                                                                'all',
+                                                        })
+                                                    }}
                                                 >
-                                                    <a href={uploaded?.file}>
-                                                        View
-                                                    </a>
+                                                    {/* <a href={uploaded?.file}> */}
+                                                    View
+                                                    {/* </a> */}
                                                 </ActionButton>
                                                 <ActionButton
                                                     simple

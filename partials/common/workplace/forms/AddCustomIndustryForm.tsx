@@ -86,16 +86,8 @@ export const AddCustomIndustryForm = ({
         abn: yup.string().required('Must provide ABN'),
         phoneNumber: yup.string().required('Must provide phone number'),
 
-        // Sector Information
-        // sectors: yup.string().required('Must select at sector'),
-        // courses: yup.string().required('Must select at course'),
-        // sectors: yup.array().min(1, 'Must select at least 1 sector'),
-        // courses: yup.array().min(1, 'Must select at least 1 course'),
-
         // Contact Person Information
-        contactPersonName: yup
-            .string()
-            .matches(onlyAlphabets(), 'Must be a valid name'),
+        contactPersonName: yup.string(),
         contactPersonEmail: yup.string().email('Must be a valid email'),
         contactPersonNumber: yup.string(),
 
