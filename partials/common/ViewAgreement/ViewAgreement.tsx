@@ -1,4 +1,4 @@
-import { useContextBar } from '@hooks'
+import { DocumentsView, useContextBar } from '@hooks'
 import { useEffect, Fragment, useState, ReactElement } from 'react'
 import {
     Typography,
@@ -18,6 +18,8 @@ import { CommonApi } from '@queries'
 export const ViewAgreement = ({ workplace }: any) => {
     const { setTitle } = useContextBar()
     const [modal, setModal] = useState<ReactElement | null>(null)
+
+    const { onFileClicked, documentsViewModal } = DocumentsView()
 
     const appliedIndustry = workplace?.industries?.find(
         (industry: any) => industry?.applied
@@ -48,44 +50,44 @@ export const ViewAgreement = ({ workplace }: any) => {
         )
     }
 
-    const onFileClicked = (file: any) => {
-        // setSelected(file)
+    // const onFileClicked = (file: any) => {
+    //     // setSelected(file)
 
-        if (
-            ['jpg', 'jpeg', 'png', 'jfif'].includes(
-                file.extension.toLowerCase()
-            )
-        ) {
-            setModal(getImageViewModal(file))
-        } else if (['pdf'].includes(file.extension.toLowerCase())) {
-            // const fileSplit = file.file.split('https://')
-            // const url = `https://www.${fileSplit[1]}`
-            const url = `${file?.file}`
-            setModal(
-                <PdfViewModal
-                    url={url}
-                    downloadUrl={file?.file}
-                    onCancelButtonClick={onModalCancel}
-                    extension={file.extension.toLowerCase()}
-                />
-            )
-        } else if (
-            ['mp4', 'mkv', 'avi', 'mpeg', 'quicktime', 'mov'].includes(
-                file.extension.toLowerCase()
-            )
-        ) {
-            // const fileSplit = file.file.split('https://')
-            // const url = `https://www.${fileSplit[1]}`
-            setModal(
-                <VideoPlayModal
-                    // url={url}
-                    url={file?.file}
-                    downloadUrl={file?.file}
-                    onCancelButtonClick={onModalCancel}
-                />
-            )
-        }
-    }
+    //     if (
+    //         ['jpg', 'jpeg', 'png', 'jfif'].includes(
+    //             file.extension.toLowerCase()
+    //         )
+    //     ) {
+    //         setModal(getImageViewModal(file))
+    //     } else if (['pdf'].includes(file.extension.toLowerCase())) {
+    //         // const fileSplit = file.file.split('https://')
+    //         // const url = `https://www.${fileSplit[1]}`
+    //         const url = `${file?.file}`
+    //         setModal(
+    //             <PdfViewModal
+    //                 url={url}
+    //                 downloadUrl={file?.file}
+    //                 onCancelButtonClick={onModalCancel}
+    //                 extension={file.extension.toLowerCase()}
+    //             />
+    //         )
+    //     } else if (
+    //         ['mp4', 'mkv', 'avi', 'mpeg', 'quicktime', 'mov'].includes(
+    //             file.extension.toLowerCase()
+    //         )
+    //     ) {
+    //         // const fileSplit = file.file.split('https://')
+    //         // const url = `https://www.${fileSplit[1]}`
+    //         setModal(
+    //             <VideoPlayModal
+    //                 // url={url}
+    //                 url={file?.file}
+    //                 downloadUrl={file?.file}
+    //                 onCancelButtonClick={onModalCancel}
+    //             />
+    //         )
+    //     }
+    // }
 
     const extension = (fileUrl: string) => {
         return fileUrl?.split('.').reverse()[0]
@@ -98,7 +100,7 @@ export const ViewAgreement = ({ workplace }: any) => {
     return (
         <>
             {modal}
-            
+            {documentsViewModal}
             {viewAgreement.isError && (
                 <NoData text={'Some Network issue, try reload'} />
             )}

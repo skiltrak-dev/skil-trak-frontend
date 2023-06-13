@@ -25,6 +25,7 @@ import {
 // hoc
 import { FileUpload } from '@hoc'
 import { Result } from '@constants'
+import { DocumentsView } from '@hooks'
 
 type Props = {
     folder: any
@@ -55,6 +56,7 @@ export const AssessmentFolderDetailX = ({
     folder,
     fileUpload,
 }: Props) => {
+    const { onFileClicked, documentsViewModal } = DocumentsView()
     // query
     // fetch files
     const getAssessmentResponse = useGetAssessmentsFolderDetailQuery(
@@ -86,41 +88,42 @@ export const AssessmentFolderDetailX = ({
         )
     }
 
-    const onFileClicked = (file: any) => {
-        setSelected(file)
+    // const onFileClicked = (file: any) => {
+    //     setSelected(file)
 
-        if (['jpg', 'jpeg', 'png'].includes(file.extension.toLowerCase())) {
-            setModal(getImageViewModal(file))
-        } else if (['pdf'].includes(file.extension.toLowerCase())) {
-            const fileSplit = file.file.split('https://')
-            // const url = `https://www.${fileSplit[1]}`
-            const url = file.file
-            setModal(
-                <PdfViewModal
-                    downloadUrl={file.file}
-                    url={url}
-                    onCancelButtonClick={onModalCancel}
-                />
-            )
-        } else if (
-            ['mp4', 'mkv', 'avi', 'mpeg'].includes(file.extension.toLowerCase())
-        ) {
-            const fileSplit = file.file.split('https://')
-            // const url = `https://www.${fileSplit[1]}`
-            const url = file.file
-            setModal(
-                <VideoPlayModal
-                    url={url}
-                    downloadUrl={file?.file}
-                    onCancelButtonClick={onModalCancel}
-                />
-            )
-        }
-    }
+    //     if (['jpg', 'jpeg', 'png'].includes(file.extension.toLowerCase())) {
+    //         setModal(getImageViewModal(file))
+    //     } else if (['pdf'].includes(file.extension.toLowerCase())) {
+    //         const fileSplit = file.file.split('https://')
+    //         // const url = `https://www.${fileSplit[1]}`
+    //         const url = file.file
+    //         setModal(
+    //             <PdfViewModal
+    //                 downloadUrl={file.file}
+    //                 url={url}
+    //                 onCancelButtonClick={onModalCancel}
+    //             />
+    //         )
+    //     } else if (
+    //         ['mp4', 'mkv', 'avi', 'mpeg'].includes(file.extension.toLowerCase())
+    //     ) {
+    //         const fileSplit = file.file.split('https://')
+    //         // const url = `https://www.${fileSplit[1]}`
+    //         const url = file.file
+    //         setModal(
+    //             <VideoPlayModal
+    //                 url={url}
+    //                 downloadUrl={file?.file}
+    //                 onCancelButtonClick={onModalCancel}
+    //             />
+    //         )
+    //     }
+    // }
 
     return (
         <>
             {modal}
+            {documentsViewModal}
             <div className="h-full">
                 {folder && (
                     <div className="flex justify-between items-center p-2 border-b">
@@ -223,7 +226,10 @@ export const AssessmentFolderDetailX = ({
                                         fileUrl={file.file}
                                         type={folder.type}
                                         selected={selected?.id === file?.id}
-                                        onClick={onFileClicked}
+                                        onClick={(file) => {
+                                            setSelected(file)
+                                            onFileClicked(file)
+                                        }}
                                         result={result}
                                     />
                                 )

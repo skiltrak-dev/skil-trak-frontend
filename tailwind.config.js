@@ -1,6 +1,5 @@
 /** @type {import('tailwindcss').Config} */
 
-
 const colors = {
     primary: {
         DEFAULT: 'var(--theme-primary-default)',
@@ -55,7 +54,8 @@ module.exports = {
         './pages/**/*.{js,ts,jsx,tsx}',
         './components/**/*.{js,ts,jsx,tsx}',
         './layouts/**/*.{js,ts,jsx,tsx}',
-        './partials/**/*.{js,ts,jsx,tsx}'
+        './partials/**/*.{js,ts,jsx,tsx}',
+        './cypress/**/*.{js,ts,jsx,tsx}',
     ],
     theme: {
         extend: {

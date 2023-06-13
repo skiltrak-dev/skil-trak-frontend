@@ -25,6 +25,7 @@ import {
     FaChevronLeft,
     FaChevronRight,
 } from 'react-icons/fa'
+import { DocumentsView } from '@hooks'
 
 export const AssessmentResponse = ({
     folder,
@@ -39,6 +40,8 @@ export const AssessmentResponse = ({
     const [selected, setSelected] = useState<any>(null)
 
     const [modal, setModal] = useState<any>(null)
+
+    const { onFileClicked, documentsViewModal } = DocumentsView()
 
     const onModalCancel = () => {
         setModal(null)
@@ -59,37 +62,37 @@ export const AssessmentResponse = ({
         )
     }
 
-    const onFileClicked = (file: any) => {
-        setSelected(file)
+    // const onFileClicked = (file: any) => {
+    //     setSelected(file)
 
-        if (['jpg', 'jpeg', 'png'].includes(file.extension.toLowerCase())) {
-            setModal(getImageViewModal(file))
-        } else if (['pdf'].includes(file.extension.toLowerCase())) {
-            const fileSplit = file.file.split('https://')
-            // const url = `https://www.${fileSplit[1]}`
-            const url = `${file?.file}`
-            setModal(
-                <PdfViewModal
-                    downloadUrl={file?.file}
-                    url={url}
-                    onCancelButtonClick={onModalCancel}
-                />
-            )
-        } else if (
-            ['mp4', 'mkv', 'avi', 'mpeg'].includes(file.extension.toLowerCase())
-        ) {
-            const fileSplit = file.file.split('https://')
-            // const url = `https://www.${fileSplit[1]}`
-            const url = file?.file
-            setModal(
-                <VideoPlayModal
-                    downloadUrl={file?.file}
-                    url={url}
-                    onCancelButtonClick={onModalCancel}
-                />
-            )
-        }
-    }
+    //     if (['jpg', 'jpeg', 'png'].includes(file.extension.toLowerCase())) {
+    //         setModal(getImageViewModal(file))
+    //     } else if (['pdf'].includes(file.extension.toLowerCase())) {
+    //         const fileSplit = file.file.split('https://')
+    //         // const url = `https://www.${fileSplit[1]}`
+    //         const url = `${file?.file}`
+    //         setModal(
+    //             <PdfViewModal
+    //                 downloadUrl={file?.file}
+    //                 url={url}
+    //                 onCancelButtonClick={onModalCancel}
+    //             />
+    //         )
+    //     } else if (
+    //         ['mp4', 'mkv', 'avi', 'mpeg'].includes(file.extension.toLowerCase())
+    //     ) {
+    //         const fileSplit = file.file.split('https://')
+    //         // const url = `https://www.${fileSplit[1]}`
+    //         const url = file?.file
+    //         setModal(
+    //             <VideoPlayModal
+    //                 downloadUrl={file?.file}
+    //                 url={url}
+    //                 onCancelButtonClick={onModalCancel}
+    //             />
+    //         )
+    //     }
+    // }
 
     useEffect(() => {
         setComment('')
@@ -118,7 +121,8 @@ export const AssessmentResponse = ({
     const [addComment, addCommentResult] = useAddCommentOnAssessmentMutation()
     return (
         <>
-            {modal && modal}
+            {modal}
+            {documentsViewModal}
             <div className="h-full bg-white flex flex-col justify-between">
                 <div className="h-full overflow-scroll remove-scrollbar">
                     <div className="w-full bg-slate-50 border-b px-2 py-2 flex justify-between items-center">
@@ -177,7 +181,10 @@ export const AssessmentResponse = ({
                                             fileUrl={file.file}
                                             type={folder?.type}
                                             selected={selected?.id === file.id}
-                                            onClick={onFileClicked}
+                                            onClick={(file) => {
+                                                setSelected(file)
+                                                onFileClicked(file)
+                                            }}
                                         />
                                     )
                                 )}

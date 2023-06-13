@@ -37,7 +37,7 @@ export const ClosedTickets = () => {
         {
             text: 'View',
             onClick: (ticket: any) =>
-                router.push(`/portals/admin/tickets/detail/${ticket?.id}`),
+                router.push(`/portals/sub-admin/tickets/detail/${ticket?.id}`),
             Icon: AiFillCloseCircle,
         },
         {
