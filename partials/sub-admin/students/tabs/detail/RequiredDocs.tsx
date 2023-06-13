@@ -54,7 +54,9 @@ export const RequiredDocs = ({
 
     const activeWP = activeWorkplace(workplace?.data)
     const latestWP = latestWorkplace(activeWP)
-    const appliedIndustry = getStudentWorkplaceAppliedIndustry(latestWP)
+    const appliedIndustry = getStudentWorkplaceAppliedIndustry(
+        latestWP?.industries
+    )
 
     const getFolders = SubAdminApi.Docs.useRequiredFolders(
         {

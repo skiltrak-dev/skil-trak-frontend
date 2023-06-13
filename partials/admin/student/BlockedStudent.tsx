@@ -1,13 +1,9 @@
 import {
     ActionButton,
-    Button,
     Card,
     CaseOfficerAssignedStudent,
     EmptyData,
-    Filter,
     LoadingAnimation,
-    RtoFilters,
-    StudentStatusProgressCell,
     StudentSubAdmin,
     Table,
     TableAction,
@@ -17,28 +13,22 @@ import {
 } from '@components'
 import { PageHeading } from '@components/headings'
 import { ColumnDef } from '@tanstack/react-table'
-import { FaEdit, FaEye, FaFileExport, FaFilter, FaTrash } from 'react-icons/fa'
+import { FaEdit, FaEye, FaTrash } from 'react-icons/fa'
 
-import { AdminApi, commonApi } from '@queries'
-import { MdBlock, MdEmail, MdPhoneIphone } from 'react-icons/md'
-import { ReactElement, useState, useEffect } from 'react'
-import { CgUnblock } from 'react-icons/cg'
-import { ProgressCell, SectorCell, StudentCellInfo } from './components'
-import { Student, UserStatus } from '@types'
-import { DeleteModal, UnblockModal } from './modals'
-import { RtoCellInfo } from '../rto/components'
-import { useRouter } from 'next/router'
-import { IndustryCell } from '../industry/components'
-import { RiLockPasswordFill } from 'react-icons/ri'
 import { useActionModal } from '@hooks'
-import {
-    checkStudentStatus,
-    checkWorkplaceStatus,
-    getStudentWorkplaceAppliedIndustry,
-    studentsListWorkplace,
-} from '@utils'
-import moment from 'moment'
 import { BulkDeleteModal } from '@modals'
+import { AdminApi, commonApi } from '@queries'
+import { Student, UserStatus } from '@types'
+import { studentsListWorkplace } from '@utils'
+import moment from 'moment'
+import { useRouter } from 'next/router'
+import { ReactElement, useEffect, useState } from 'react'
+import { CgUnblock } from 'react-icons/cg'
+import { RiLockPasswordFill } from 'react-icons/ri'
+import { IndustryCell } from '../industry/components'
+import { RtoCellInfo } from '../rto/components'
+import { SectorCell, StudentCellInfo } from './components'
+import { DeleteModal, UnblockModal } from './modals'
 
 export const BlockedStudent = () => {
     const router = useRouter()

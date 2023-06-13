@@ -1,19 +1,14 @@
 import {
-    ActionModal,
     Button,
-    Typography,
-    ShowErrorNotifications,
     InitialAvatar,
+    ShowErrorNotifications,
+    Typography,
 } from '@components'
-import { useAlert, useContextBar, useNotification } from '@hooks'
-import { AdminApi } from '@queries'
-import { Industry, Rto, Subscriber } from '@types'
+import { useContextBar, useNotification } from '@hooks'
+import { useForwardWorkplaceToIndustryMutation } from '@queries'
 import { useEffect, useState } from 'react'
-import { FaBan } from 'react-icons/fa'
 import { HiCheckBadge } from 'react-icons/hi2'
 import { IoIosWarning } from 'react-icons/io'
-import { useChangeStatus } from '../hooks'
-import { useForwardWorkplaceToIndustryMutation } from '@queries'
 
 export const ForwardModal = ({
     industry,

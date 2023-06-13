@@ -18,11 +18,7 @@ import { FaEdit, FaEye } from 'react-icons/fa'
 import { RtoCellInfo } from '@partials/admin/rto/components'
 import { AdminApi } from '@queries'
 import { Student, UserStatus } from '@types'
-import {
-    getStudentWorkplaceAppliedIndustry,
-    setLink,
-    studentsListWorkplace,
-} from '@utils'
+import { setLink, studentsListWorkplace } from '@utils'
 import { useRouter } from 'next/router'
 import { ReactElement, useEffect, useState } from 'react'
 import { MdBlock } from 'react-icons/md'

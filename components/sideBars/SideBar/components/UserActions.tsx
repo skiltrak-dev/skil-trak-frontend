@@ -12,12 +12,14 @@ import { SideBarItem } from '@components/sideBars/SideBarItem'
 import Image from 'next/image'
 import { useDispatch } from 'react-redux'
 import { adminApi, commonApi } from '@queries'
+import { useContextBar } from '@hooks'
 
 export const UserActions = () => {
     const router = useRouter()
     const [showOptions, setShowOptions] = useState(false)
     const [credentials, setCredentials] = useState<any>(null)
 
+    const contextBar = useContextBar()
     const dispatch = useDispatch()
 
     useEffect(() => {
@@ -41,6 +43,9 @@ export const UserActions = () => {
             text: 'Log Out',
             onClick: () => {
                 AuthUtils.logout(router)
+                contextBar.setContent(null)
+                contextBar.setTitle(null)
+                contextBar.hide()
                 dispatch(adminApi.util.resetApiState())
                 dispatch(commonApi.util.resetApiState())
             },

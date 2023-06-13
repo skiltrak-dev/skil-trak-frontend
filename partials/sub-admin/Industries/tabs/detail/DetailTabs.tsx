@@ -127,7 +127,7 @@ export const DetailTabs = ({ industry }: { industry: Industry }) => {
                                         industryStatsCount?.data?.count
                                     )}
                                     title={'Current Students'}
-                                    link={`/portals/sub-admin/students?tab=all&industryId=${industry?.id}`}
+                                    link={`/portals/sub-admin/users/industries/${industry?.id}?tab=students`}
                                 />
                             </div>
                             <div>{header}</div>

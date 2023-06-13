@@ -69,6 +69,7 @@ export const commonApi = emptySplitApi.injectEndpoints({
         getRecentActivities: build.query<
             any,
             {
+                search?:string
                 currentDate?: number
                 startDate?: any
                 endDate?: any

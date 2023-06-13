@@ -12,7 +12,6 @@ import {
     EmptyData,
     InitialAvatar,
     LoadingAnimation,
-    StudentStatusProgressCell,
     StudentSubAdmin,
     Table,
     TableAction,
@@ -23,26 +22,20 @@ import {
 import { StudentCellInfo } from './components'
 
 import { TechnicalError } from '@components/ActionAnimations/TechnicalError'
-import { useActionModal, useJoyRide } from '@hooks'
+import { useActionModal } from '@hooks'
 import { SubAdminApi } from '@queries'
 import { Student, UserStatus } from '@types'
 import { useEffect, useState } from 'react'
 import { MdBlock } from 'react-icons/md'
 import { AcceptModal, AssignStudentModal } from './modals'
 
-import { ProgressCell, SectorCell } from '@partials/admin/student/components'
-import {
-    checkStudentStatus,
-    checkWorkplaceStatus,
-    getStudentWorkplaceAppliedIndustry,
-    setLink,
-    studentsListWorkplace,
-} from '@utils'
-import { ColumnDef } from '@tanstack/react-table'
-import { RiLockPasswordFill } from 'react-icons/ri'
-import { AiFillCheckCircle } from 'react-icons/ai'
 import { BulkDeleteModal } from '@modals'
+import { SectorCell } from '@partials/admin/student/components'
+import { ColumnDef } from '@tanstack/react-table'
+import { setLink, studentsListWorkplace } from '@utils'
+import { AiFillCheckCircle } from 'react-icons/ai'
 import { CgUnblock } from 'react-icons/cg'
+import { RiLockPasswordFill } from 'react-icons/ri'
 import { IndustryCellInfo } from '../Industries'
 
 export const BlockedStudents = () => {

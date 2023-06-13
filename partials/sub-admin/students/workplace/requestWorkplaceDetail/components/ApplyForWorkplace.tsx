@@ -1,8 +1,8 @@
-import React from 'react'
-import { Typography, Button, ActionButton, InitialAvatar } from '@components'
+import { ActionButton, InitialAvatar, Typography } from '@components'
+import { ApiCallResult } from '@types'
+import { useState } from 'react'
 
 // query
-import { useSubAdminRequestIndustryWorkplaceMutation } from '@queries'
 
 const BACKGROUNDS = [
     'bg-[#F7F1E3]',
@@ -14,10 +14,16 @@ export const ApplyForWorkplace = ({
     industry,
     appliedIndustry,
     index,
-}: any) => {
-    const [applyForWorkplace, applyForWorkplaceResult] =
-        useSubAdminRequestIndustryWorkplaceMutation()
-
+    result,
+    onClick,
+}: {
+    industry: any
+    appliedIndustry: any
+    index: number
+    result: any
+    onClick: () => void
+}) => {
+    const [selectedIndustry, setSelectedIndustry] = useState<number>(-1)
     return (
         <div
             className={`${BACKGROUNDS[index]} p-2 rounded-lg flex justify-between items-center`}
@@ -43,11 +49,12 @@ export const ApplyForWorkplace = ({
             </div>
             <ActionButton
                 variant="success"
-                disabled={applyForWorkplaceResult.isLoading || appliedIndustry}
-                onClick={async () => {
-                    await applyForWorkplace(industry?.id)
+                onClick={() => {
+                    onClick()
+                    setSelectedIndustry(industry?.id)
                 }}
-                loading={applyForWorkplaceResult.isLoading}
+                disabled={result.isLoading || appliedIndustry}
+                loading={result.isLoading && industry?.id === selectedIndustry}
             >
                 Apply Here
             </ActionButton>
