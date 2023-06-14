@@ -28,7 +28,7 @@ export const AssessmentToolsSubAdmin = (props: Props) => {
     const { id } = pathname.query
 
     // query
-    const rtoDetail = useGetSubAdminRTODetailQuery(String(id), {
+    const rtoDetail = useGetSubAdminRTODetailQuery(Number(id), {
         skip: !id,
     })
 
