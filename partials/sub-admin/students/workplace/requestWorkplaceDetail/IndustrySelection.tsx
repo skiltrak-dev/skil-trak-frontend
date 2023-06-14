@@ -8,10 +8,12 @@ import { Typography, Card, LoadingAnimation, ActionButton } from '@components'
 import {
     useSubAdminCancelStudentWorkplaceRequestMutation,
     useApplyForWorkplaceMutation,
+    useSubAdminRequestIndustryWorkplaceMutation,
 } from '@queries'
 import { ApplyForWorkplace, VerifyStudentDocs } from './components'
 import { AppliedIndustry } from './AppliedIndustry'
 import { IndustryNotResponded } from '@partials/common'
+import { getStudentWorkplaceAppliedIndustry } from '@utils'
 // import { IndustryNotResponded } from './IndustryNotResponded'
 
 export const IndustrySelection = ({
@@ -36,6 +38,8 @@ export const IndustrySelection = ({
 
     const [cancelRequest, cancelRequestResult] =
         useSubAdminCancelStudentWorkplaceRequestMutation()
+    const [applyForWorkplace, applyForWorkplaceResult] =
+        useSubAdminRequestIndustryWorkplaceMutation()
 
     useEffect(() => {
         if (workplace) {
@@ -53,19 +57,12 @@ export const IndustrySelection = ({
                         industry?.industryResponse !== 'noResponse'
                 )
             )
-            setAppliedIndustry(allIndustries?.find((i: any) => i.applied))
-            // setSelectedCourses(
-            //     allIndustries
-            //         ?.find((i: any) => i.industry.id === industrySelection)
-            //         ?.industry.courses.map((c: any) => c.id)
-            // )
+            setAppliedIndustry(
+                getStudentWorkplaceAppliedIndustry(allIndustries)
+            )
             setSelectedCourses(workplace?.data[0]?.courses[0]?.id)
         }
-    }, [
-        workplace,
-        industrySelection,
-        // applyForWorkplaceResult.isSuccess,
-    ])
+    }, [workplace, industrySelection])
 
     useEffect(() => {
         if (cancelRequestResult.isSuccess) {
@@ -121,8 +118,11 @@ export const IndustrySelection = ({
                             return (
                                 <ApplyForWorkplace
                                     key={industry.id}
+                                    result={applyForWorkplaceResult}
+                                    onClick={async () => {
+                                        await applyForWorkplace(industry?.id)
+                                    }}
                                     industry={industry}
-                                    industries={industries}
                                     appliedIndustry={appliedIndustry}
                                     index={i}
                                 />

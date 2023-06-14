@@ -30,11 +30,7 @@ import { AcceptModal, AssignStudentModal, BlockModal } from './modals'
 
 import { SectorCell } from '@partials/admin/student/components'
 import { ColumnDef } from '@tanstack/react-table'
-import {
-    getStudentWorkplaceAppliedIndustry,
-    setLink,
-    studentsListWorkplace,
-} from '@utils'
+import { setLink, studentsListWorkplace } from '@utils'
 import { AiFillCheckCircle } from 'react-icons/ai'
 import { RiLockPasswordFill } from 'react-icons/ri'
 import { IndustryCellInfo } from '../Industries'

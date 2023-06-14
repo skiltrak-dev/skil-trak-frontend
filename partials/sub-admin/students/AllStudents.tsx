@@ -9,13 +9,10 @@ import {
     Card,
     CaseOfficerAssignedStudent,
     EmptyData,
-    InitialAvatar,
     LoadingAnimation,
-    StudentStatusProgressCell,
     StudentSubAdmin,
     Table,
     TableAction,
-    TableActionOption,
     Typography,
     UserCreatedAt,
 } from '@components'
@@ -23,8 +20,8 @@ import { StudentCellInfo } from './components'
 
 import { TechnicalError } from '@components/ActionAnimations/TechnicalError'
 import { useActionModal, useJoyRide } from '@hooks'
-import { useGetSubAdminStudentsQuery, SubAdminApi } from '@queries'
-import { Student, SubAdmin, UserStatus } from '@types'
+import { SubAdminApi } from '@queries'
+import { Student, UserStatus } from '@types'
 import { useEffect, useState } from 'react'
 import { MdBlock } from 'react-icons/md'
 import {
@@ -33,21 +30,18 @@ import {
     ChangeStudentStatusModal,
 } from './modals'
 
-import { ProgressCell, SectorCell } from '@partials/admin/student/components'
+import { EditTimer } from '@components/StudentTimer/EditTimer'
+import { SectorCell } from '@partials/admin/student/components'
+import { ColumnDef } from '@tanstack/react-table'
 import {
-    WorkplaceCurrentStatus,
-    checkStudentStatus,
-    checkWorkplaceStatus,
     getStudentWorkplaceAppliedIndustry,
     setLink,
     studentsListWorkplace,
 } from '@utils'
-import { ColumnDef } from '@tanstack/react-table'
-import { EditTimer } from '@components/StudentTimer/EditTimer'
 import { RiLockPasswordFill } from 'react-icons/ri'
-import { InterviewModal } from '../workplace/modals'
 import { IndustryCellInfo } from '../Industries'
 import { RTOCellInfo } from '../rto/components'
+import { InterviewModal } from '../workplace/modals'
 
 export const AllStudents = () => {
     const router = useRouter()
@@ -142,7 +136,9 @@ export const AllStudents = () => {
                 onCancel={onModalCancelClicked}
                 workplace={student?.workplace[0]?.id}
                 workIndustry={
-                    getStudentWorkplaceAppliedIndustry(student?.workplace)?.id
+                    getStudentWorkplaceAppliedIndustry(
+                        student?.workplace[0]?.industries
+                    )?.id
                 }
             />
         )

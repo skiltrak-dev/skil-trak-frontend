@@ -43,6 +43,7 @@ const SubAdminHistory: NextPageWithLayout = () => {
         startDate: null,
         endDate: null,
     })
+    const [searchedValue, setSearchedValue] = useState<string>('')
 
     const { data, isError, isLoading, isFetching } =
         CommonApi.RecentActivities.useRecentActivities(
@@ -57,6 +58,7 @@ const SubAdminHistory: NextPageWithLayout = () => {
                     : filterType === FilterType['7Days']
                     ? { last7days: undefined }
                     : ''),
+                search: `status:${searchedValue}`,
                 // skip: itemPerPage * page - itemPerPage,
                 // limit: itemPerPage,
             },
@@ -77,6 +79,7 @@ const SubAdminHistory: NextPageWithLayout = () => {
                     setFilterType={setFilterType}
                     customRangeDate={customRangeDate}
                     setIsCustomRange={setIsCustomRange}
+                    setSearchedValue={setSearchedValue}
                     setCustomRangeDate={setCustomRangeDate}
                 />
             </div>
@@ -86,7 +89,11 @@ const SubAdminHistory: NextPageWithLayout = () => {
                 <LoadingAnimation />
             ) : data?.data && data?.data?.length > 0 ? (
                 dates?.map((date: Date, i: number) => (
-                    <HistoryDates history={data?.data} date={date} />
+                    <HistoryDates
+                        key={String(date)}
+                        history={data?.data}
+                        date={date}
+                    />
                 ))
             ) : (
                 !isError && (

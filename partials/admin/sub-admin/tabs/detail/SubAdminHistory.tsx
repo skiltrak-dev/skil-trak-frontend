@@ -22,6 +22,7 @@ export const SubAdminHistory = ({ subadmin }: { subadmin: number }) => {
         startDate: null,
         endDate: null,
     })
+    const [searchedValue, setSearchedValue] = useState<string>('')
 
     const { data, isError, isLoading, isFetching } =
         CommonApi.RecentActivities.useRecentActivities(
@@ -37,6 +38,7 @@ export const SubAdminHistory = ({ subadmin }: { subadmin: number }) => {
                     ? { last7days: undefined }
                     : ''),
                 coordinator: subadmin,
+                search: `status:${searchedValue}`,
                 // skip: itemPerPage * page - itemPerPage,
                 // limit: itemPerPage,
             },
@@ -55,6 +57,7 @@ export const SubAdminHistory = ({ subadmin }: { subadmin: number }) => {
                     isCustomRange={isCustomRange}
                     setFilterType={setFilterType}
                     customRangeDate={customRangeDate}
+                    setSearchedValue={setSearchedValue}
                     setIsCustomRange={setIsCustomRange}
                     setCustomRangeDate={setCustomRangeDate}
                 />

@@ -5,13 +5,13 @@ import { MdLogout } from 'react-icons/md'
 import { useDispatch } from 'react-redux'
 
 import { UserRoles } from '@constants'
-import { useJoyRide } from '@hooks'
+import { useContextBar, useJoyRide } from '@hooks'
 import {
     commonApi,
     industryApi,
     rtoApi,
     studentApi,
-    subAdminApi
+    subAdminApi,
 } from '@queries'
 import { useEffect } from 'react'
 
@@ -26,6 +26,7 @@ export const ProfileOptionsDropDown = ({
 
     const router = useRouter()
     const role = getUserCredentials()?.role
+    const contextBar = useContextBar()
     //  EDIT PROFILE JOY RIDE
     const joyride = useJoyRide()
     useEffect(() => {
@@ -65,6 +66,9 @@ export const ProfileOptionsDropDown = ({
                 <li
                     onClick={() => {
                         AuthUtils.logout(router)
+                        contextBar.setContent(null)
+                        contextBar.setTitle(null)
+                        contextBar.hide()
                         dispatch(subAdminApi.util.resetApiState())
                         dispatch(rtoApi.util.resetApiState())
                         dispatch(industryApi.util.resetApiState())

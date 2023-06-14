@@ -34,7 +34,6 @@ import {
     WorkplaceCurrentStatus,
     checkStudentStatus,
     checkWorkplaceStatus,
-    getStudentWorkplaceAppliedIndustry,
     setLink,
     studentsListWorkplace,
 } from '@utils'

@@ -50,8 +50,8 @@ export const checkStudentStatus = (studentStatus: string) => {
     return step + 1
 }
 
-export const getStudentWorkplaceAppliedIndustry = (workplace: any) => {
-    return workplace?.industries?.find((industry: any) => industry?.applied)
+export const getStudentWorkplaceAppliedIndustry = (industries: any) => {
+    return industries?.find((industry: any) => industry?.applied)
 }
 
 export const latestWorkplace = (workplace: any) => {
@@ -78,8 +78,9 @@ export const studentsListWorkplace = (workplace: any) => {
 
     const latestWP = latestWorkplace(activeWP)
 
-    const appliedIndustry =
-        getStudentWorkplaceAppliedIndustry(latestWP)?.industry
+    const appliedIndustry = getStudentWorkplaceAppliedIndustry(
+        latestWP?.industries
+    )?.industry
 
     return appliedIndustry
 }

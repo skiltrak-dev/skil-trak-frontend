@@ -1,4 +1,3 @@
-
 import { UserStatus } from '@types'
 import { emptySplitApi } from '../empty.query'
 import { subAdminAppointmentspoints } from './appointments'
@@ -170,6 +169,7 @@ export const {
     useAddSecondWorkplaceMutation,
     useAddCustomSecondWorkplaceMutation,
     useAddCourseStartEndDateMutation,
+    useUpdateCourseStartEndDateMutation,
     useStudentCallLogMutation,
     useGetStudentCallLogQuery,
     useStudentAnsweredCallMutation,
@@ -292,6 +292,7 @@ export const SubAdminApi = {
         useAddSecondWorkplace: useAddSecondWorkplaceMutation,
         useAddCustomWorkplace: useAddCustomSecondWorkplaceMutation,
         addCourseStartEndDate: useAddCourseStartEndDateMutation,
+        useUpdateCourseStartEndDate: useUpdateCourseStartEndDateMutation,
         useStudentCallLog: useStudentCallLogMutation,
         useGetStudentCallLog: useGetStudentCallLogQuery,
         useStudentAnsweredCall: useStudentAnsweredCallMutation,
