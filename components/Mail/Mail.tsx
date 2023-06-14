@@ -54,16 +54,20 @@ export const Mail = ({ message, sender, index }: any) => {
                 myMessages ? 'flex-row-reverse' : ''
             } group`}
         >
-            <InitialAvatar
-                name={
-                    myMessages ? message?.sender?.name : message?.receiver?.name
-                }
-                imageUrl={
-                    myMessages
-                        ? message?.sender?.avatar
-                        : message?.receiver?.avatar
-                }
-            />
+            {(message?.sender?.name || message?.receiver?.name) && (
+                <InitialAvatar
+                    name={
+                        myMessages
+                            ? message?.sender?.name
+                            : message?.receiver?.name
+                    }
+                    imageUrl={
+                        myMessages
+                            ? message?.sender?.avatar
+                            : message?.receiver?.avatar
+                    }
+                />
+            )}
             <div
                 className={`flex items-center gap-x-2 ${
                     myMessages ? 'flex-row-reverse' : ''

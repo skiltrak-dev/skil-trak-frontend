@@ -13,21 +13,19 @@ import { MdBatchPrediction, MdPhone, MdVerified } from 'react-icons/md'
 import { useActionModal, useNotification } from '@hooks'
 
 // queries
+import { LoadingAnimation } from '@components/LoadingAnimation'
+import { ShowErrorNotifications } from '@components/ShowErrorNotifications'
+import { Tooltip } from '@components/Tooltip'
+import { UserCreatedAt } from '@components/UserCreatedAt'
 import { StudentAvatar } from '@components/avatars'
-import { BlockModal, CallLogsModal } from '@partials/sub-admin/students/modals'
-import { Student } from '@types'
+import { ActionButton } from '@components/buttons'
+import { CallLogsModal } from '@partials/sub-admin/students/modals'
+import { SubAdminApi } from '@queries'
 import { ellipsisText, getUserCredentials } from '@utils'
 import { useRouter } from 'next/router'
 import { ReactNode, useEffect, useState } from 'react'
-import { StudentStatus } from './StudentStatus'
-import { ActionButton } from '@components/buttons'
-import { UserCreatedAt } from '@components/UserCreatedAt'
-import { SubAdminApi } from '@queries'
-import { ShowErrorNotifications } from '@components/ShowErrorNotifications'
 import { IoMdEye } from 'react-icons/io'
-import { Modal } from '@components/Modal'
-import { Tooltip } from '@components/Tooltip'
-import { LoadingAnimation } from '@components/LoadingAnimation'
+import { StudentStatus } from './StudentStatus'
 
 const getGender = (gender: string | undefined) => {
     if (!gender) return 'N/A'
@@ -40,7 +38,6 @@ export const SubAdminStudentProfile = ({ student }: { student: any }) => {
     const router = useRouter()
     const { notification } = useNotification()
     const { passwordModal, onUpdatePassword } = useActionModal()
-    const [calledStudent, resultCalledStudent] = SubAdminApi.Student.useCalled()
     const [callLog, callLogResult] = SubAdminApi.Student.useStudentCallLog()
 
     const role = getUserCredentials()?.role
