@@ -29,7 +29,7 @@ export const AddIndividualStudentForm = () => {
     const [courseLoading, setCourseLoading] = useState(false)
     const [storedData, setStoredData] = useState<any>(null)
 
-    const rtoDetail = useGetSubAdminRTODetailQuery(String(router?.query?.id), {
+    const rtoDetail = useGetSubAdminRTODetailQuery(Number(router?.query?.id), {
         skip: !router?.query?.id,
         refetchOnMountOrArgChange: true,
     })
