@@ -7,7 +7,7 @@ export const allCommunicationEndpoints = (
 ) => ({
     communications: builder.query<any, any>({
         query: (id) => `${PREFIX}/all-communication/${id}`,
-        providesTags: ['Notes', 'AllCommunications'],
+        providesTags: ['Notes', 'AllCommunications','SubAdminStudents'],
     }),
 
     allCommunicationCreate: builder.mutation<any, any>({

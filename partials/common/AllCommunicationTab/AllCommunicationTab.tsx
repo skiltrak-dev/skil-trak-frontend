@@ -1,20 +1,17 @@
-import { useEffect, useState } from 'react'
 import {
     EmptyData,
     LoadingAnimation,
-    Note,
     Mail,
+    Note,
     TechnicalError,
     Timeline,
-    TextInput,
 } from '@components'
 import { useContextBar } from '@hooks'
 import { CommonApi } from '@queries'
 
-import { Note as NoteType } from '@types'
-import { getCommonDates, getDate } from '@utils'
+import { getCommonDates, getDate, getUserCredentials } from '@utils'
 import moment from 'moment'
-import { NotesCard } from '@components/sections/subAdmin'
+import { HistoryCard } from '../History'
 
 export const AllCommunicationTab = ({ user }: { user: any }) => {
     const contextBar = useContextBar()
@@ -60,7 +57,30 @@ export const AllCommunicationTab = ({ user }: { user: any }) => {
                                     <div className="border-l-4 border-gray-700 ml-8">
                                         {allCommunications.data.map(
                                             (item: any, i: number) => {
-                                                if (
+                                                if (item?.calledBy) {
+                                                    return (
+                                                        <HistoryCard
+                                                            call
+                                                            history={{
+                                                                ...item,
+                                                                title: 'Call',
+                                                                description: (
+                                                                    <>
+                                                                        call
+                                                                        made by{' '}
+                                                                        <strong>
+                                                                            {
+                                                                                item
+                                                                                    ?.calledBy
+                                                                                    ?.name
+                                                                            }
+                                                                        </strong>
+                                                                    </>
+                                                                ),
+                                                            }}
+                                                        />
+                                                    )
+                                                } else if (
                                                     date ==
                                                     getDate(item?.updatedAt)
                                                 ) {
