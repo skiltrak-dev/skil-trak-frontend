@@ -1,34 +1,31 @@
 import {
-    Button,
     ActionButton,
     Card,
+    CaseOfficerAssignedStudent,
     EmptyData,
-    Filter,
     LoadingAnimation,
+    StudentSubAdmin,
     Table,
     TableAction,
     TableActionOption,
-    StudentFilters,
     Typography,
-    StudentStatusProgressCell,
-    StudentSubAdmin,
-    CaseOfficerAssignedStudent,
 } from '@components'
 import { PageHeading } from '@components/headings'
 import { ColumnDef } from '@tanstack/react-table'
-import { FaEdit, FaEye, FaFileExport, FaFilter, FaTrash } from 'react-icons/fa'
+import { FaEdit, FaEye, FaTrash } from 'react-icons/fa'
 
-import { AdminApi } from '@queries'
-import { MdBlock, MdEmail, MdPhoneIphone } from 'react-icons/md'
-import { ReactElement, useState } from 'react'
-import {
-    CourseDot,
-    ProgressCell,
-    SectorCell,
-    StudentCellInfo,
-} from './components'
+import { useActionModal } from '@hooks'
 import { RtoCellInfo } from '@partials/admin/rto/components'
 import { Student, UserStatus } from '@types'
+import { studentsListWorkplace } from '@utils'
+import moment from 'moment'
+import { useRouter } from 'next/router'
+import { ReactElement, useState } from 'react'
+import { CgUnblock } from 'react-icons/cg'
+import { MdBlock } from 'react-icons/md'
+import { RiLockPasswordFill } from 'react-icons/ri'
+import { IndustryCell } from '../industry/components'
+import { SectorCell, StudentCellInfo } from './components'
 import {
     AcceptModal,
     ArchiveModal,
@@ -38,19 +35,6 @@ import {
     RejectModal,
     UnblockModal,
 } from './modals'
-import { useRouter } from 'next/router'
-import {
-    checkStudentStatus,
-    checkWorkplaceStatus,
-    getStudentWorkplaceAppliedIndustry,
-    studentsListWorkplace,
-    WorkplaceCurrentStatus,
-} from '@utils'
-import { IndustryCell } from '../industry/components'
-import { RiLockPasswordFill } from 'react-icons/ri'
-import { useActionModal } from '@hooks'
-import { CgUnblock } from 'react-icons/cg'
-import moment from 'moment'
 
 interface StatusTableActionOption extends TableActionOption {
     status: string[]
@@ -396,20 +380,23 @@ export const FilteredStudents = ({
                                         <div className="px-6 overflow-auto remove-scrollbar">
                                             {table}
                                         </div>
-                                        <div className="p-6 mb-2 flex justify-between">
-                                            {pageSize(
-                                                itemPerPage,
-                                                setItemPerPage,
-                                                student.data?.data?.length
-                                            )}
-                                            <div className="flex gap-x-2">
-                                                {quickActions}
-                                                {pagination(
-                                                    student?.data?.pagination,
-                                                    setPage
+                                        {student.data?.data?.length > 10 && (
+                                            <div className="p-6 mb-2 flex justify-between">
+                                                {pageSize(
+                                                    itemPerPage,
+                                                    setItemPerPage,
+                                                    student.data?.data?.length
                                                 )}
+                                                <div className="flex gap-x-2">
+                                                    {quickActions}
+                                                    {pagination(
+                                                        student?.data
+                                                            ?.pagination,
+                                                        setPage
+                                                    )}
+                                                </div>
                                             </div>
-                                        </div>
+                                        )}
                                     </div>
                                 )
                             }}

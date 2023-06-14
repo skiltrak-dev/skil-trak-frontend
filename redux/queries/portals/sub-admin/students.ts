@@ -233,6 +233,30 @@ export const studentsEndpoints = (
         ],
     }),
 
+    updateCourseStartEndDate: builder.mutation<
+        any,
+        {
+            id: number
+            startTime: Date
+            endTime: Date
+        }
+    >({
+        query: ({ id, startTime, endTime }) => ({
+            url: `${PREFIX}/student/course-hours/update/${id}`,
+            method: 'PATCH',
+            body: {
+                startDate: startTime,
+                endDate: endTime,
+            },
+        }),
+
+        invalidatesTags: [
+            'SubAdminStudents',
+            'IndustryWorkplace',
+            'SubAdminWorkplace',
+        ],
+    }),
+
     getRequiredDocsResponse: builder.query<
         any,
         { selectedFolderId: number; studentId: number }

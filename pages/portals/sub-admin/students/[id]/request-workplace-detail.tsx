@@ -39,6 +39,7 @@ const RequestWorkplaceDetail: NextPageWithLayout = (props: Props) => {
         })
     const workplace = useGetSubAdminStudentWorkplaceQuery(Number(id), {
         skip: !id,
+        refetchOnMountOrArgChange: true,
     })
 
     useEffect(() => {

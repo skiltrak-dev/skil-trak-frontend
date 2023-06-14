@@ -1,10 +1,11 @@
-import { Button, Card, Typography } from '@components'
+import { Badge, Button, Card, TextInput, Typography } from '@components'
 import moment from 'moment'
-import React from 'react'
+import React, { useCallback } from 'react'
 import OutsideClickHandler from 'react-outside-click-handler'
 import { CalendarStyles } from '@components/Calendar/style'
 import Calendar from 'react-calendar'
 import { FilterType } from 'pages/portals/sub-admin/history'
+import { debounce } from 'lodash'
 
 export const HistoryFilters = ({
     filterType,
@@ -12,6 +13,7 @@ export const HistoryFilters = ({
     setFilterType,
     customRangeDate,
     setIsCustomRange,
+    setSearchedValue,
     setCustomRangeDate,
 }: {
     filterType: any
@@ -19,25 +21,40 @@ export const HistoryFilters = ({
     setFilterType: any
     customRangeDate: any
     setIsCustomRange: any
+    setSearchedValue: any
     setCustomRangeDate: any
 }) => {
+    const delayedSearch = useCallback(
+        debounce((value) => setSearchedValue(value), 700),
+        []
+    )
     return (
-        <div className="flex items-center gap-x-2">
+        <div className="flex items-start gap-x-2">
+            <TextInput
+                name={'history'}
+                placeholder={'Search History...'}
+                onChange={(e: any) => delayedSearch(e.target.value)}
+            />
             <Typography>
-                <span className="font-semibold">
-                    {filterType === FilterType.Today
-                        ? 'Today'
-                        : filterType === FilterType.Range
-                        ? customRangeDate?.startDate &&
-                          customRangeDate?.endDate &&
-                          `${moment(customRangeDate?.startDate).format(
-                              'MMM, DD YYYY'
-                          )} - ${moment(customRangeDate?.endDate).format(
-                              'MMM, DD YYYY'
-                          )}`
-                        : filterType === FilterType['7Days']
-                        ? 'Last 7 Days'
-                        : 'Last 7 Days'}
+                <span className="font-semibold whitespace-pre mt-1.5 block">
+                    <Badge
+                        text={
+                            filterType === FilterType.Today
+                                ? 'Today'
+                                : filterType === FilterType.Range
+                                ? customRangeDate?.startDate &&
+                                  customRangeDate?.endDate &&
+                                  `${moment(customRangeDate?.startDate).format(
+                                      'MMM, DD YYYY'
+                                  )} - ${moment(
+                                      customRangeDate?.endDate
+                                  ).format('MMM, DD YYYY')}`
+                                : filterType === FilterType['7Days']
+                                ? 'Last 7 Days'
+                                : 'Last 7 Days'
+                        }
+                        variant={'info'}
+                    />
                 </span>
             </Typography>
             <Button
@@ -47,13 +64,15 @@ export const HistoryFilters = ({
                     setFilterType(FilterType.Today)
                 }}
             />
-            <Button
-                text={'Last 7 Days'}
-                variant={'dark'}
-                onClick={() => {
-                    setFilterType(FilterType['7Days'])
-                }}
-            />
+            <div className="flex-shrink-0">
+                <Button
+                    text={'Last 7 Days'}
+                    variant={'dark'}
+                    onClick={() => {
+                        setFilterType(FilterType['7Days'])
+                    }}
+                />
+            </div>
             <div className="relative">
                 <OutsideClickHandler
                     onOutsideClick={() => {

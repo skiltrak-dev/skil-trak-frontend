@@ -4,7 +4,6 @@ import {
     CaseOfficerAssignedStudent,
     EmptyData,
     LoadingAnimation,
-    StudentStatusProgressCell,
     StudentSubAdmin,
     Table,
     TableAction,
@@ -19,20 +18,15 @@ import { FaEdit, FaEye, FaTrash } from 'react-icons/fa'
 import { useActionModal } from '@hooks'
 import { AdminApi } from '@queries'
 import { Student, UserStatus } from '@types'
-import {
-    checkStudentStatus,
-    checkWorkplaceStatus,
-    getStudentWorkplaceAppliedIndustry,
-    studentsListWorkplace,
-} from '@utils'
+import { studentsListWorkplace } from '@utils'
+import moment from 'moment'
 import { useRouter } from 'next/router'
 import { ReactElement, useEffect, useState } from 'react'
 import { RiLockPasswordFill } from 'react-icons/ri'
 import { IndustryCell } from '../industry/components'
 import { RtoCellInfo } from '../rto/components'
-import { ProgressCell, SectorCell, StudentCellInfo } from './components'
+import { SectorCell, StudentCellInfo } from './components'
 import { AcceptModal, DeleteModal } from './modals'
-import moment from 'moment'
 
 export const RejectedStudent = () => {
     const router = useRouter()

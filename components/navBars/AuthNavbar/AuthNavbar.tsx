@@ -8,16 +8,21 @@ import { HeaderLogo } from '../NavbarLogo'
 import { NavItem } from '../NavItem'
 
 import { AuthTypeOptions } from '@layouts'
+import { useContextBar } from '@hooks'
 
 interface AuthHeaderProps {
-    type: typeof AuthTypeOptions[number]
+    type: (typeof AuthTypeOptions)[number]
 }
 
 export const AuthNavbar = ({ type }: AuthHeaderProps) => {
     const router = useRouter()
+    const contextBar = useContextBar()
 
     const onLogOut = () => {
         AuthUtils.logout(router)
+        contextBar.setContent(null)
+        contextBar.setTitle(null)
+        contextBar.hide()
     }
 
     const onLogin = () => {

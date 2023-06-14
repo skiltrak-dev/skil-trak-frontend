@@ -132,3 +132,11 @@ export interface CallLog extends BaseResponse {
     isExpired: boolean
     isAnswered: boolean
 }
+export interface ApiCallResult {
+    isLoading: boolean
+    isSuccess: boolean
+    isFetching: boolean
+    isError: boolean
+    error: any
+    isUninitialized: boolean
+}

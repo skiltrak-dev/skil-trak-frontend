@@ -29,11 +29,7 @@ import { BlockModal, UnAssignStudentModal } from './modals'
 import { useActionModal } from '@hooks'
 import { SectorCell } from '@partials/admin/student/components'
 import { ColumnDef } from '@tanstack/react-table'
-import {
-    getStudentWorkplaceAppliedIndustry,
-    setLink,
-    studentsListWorkplace,
-} from '@utils'
+import { setLink, studentsListWorkplace } from '@utils'
 import { RiLockPasswordFill } from 'react-icons/ri'
 import { IndustryCellInfo } from '../Industries'
 

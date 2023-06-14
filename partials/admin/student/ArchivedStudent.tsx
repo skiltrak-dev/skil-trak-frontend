@@ -14,27 +14,25 @@ import { PageHeading } from '@components/headings'
 import { ColumnDef } from '@tanstack/react-table'
 import { FaEdit, FaEye, FaTrash } from 'react-icons/fa'
 
+import { EditTimer } from '@components/StudentTimer/EditTimer'
+import { useActionModal } from '@hooks'
+import { BulkDeleteModal } from '@modals'
 import { AdminApi, commonApi } from '@queries'
 import { Student, UserStatus } from '@types'
-import { useRouter } from 'next/router'
-import { useEffect, useState } from 'react'
-import { MdUnarchive } from 'react-icons/md'
-import { IndustryCell } from '../industry/components'
-import { RtoCellInfo } from '../rto/components'
-import { ProgressCell, SectorCell, StudentCellInfo } from './components'
-import { useActionModal } from '@hooks'
-import { RiLockPasswordFill } from 'react-icons/ri'
 import {
     WorkplaceCurrentStatus,
     checkStudentStatus,
     checkWorkplaceStatus,
-    getStudentWorkplaceAppliedIndustry,
     studentsListWorkplace,
 } from '@utils'
-import { ChangeStatusModal, DeleteModal } from './modals'
-import { EditTimer } from '@components/StudentTimer/EditTimer'
 import moment from 'moment'
-import { BulkDeleteModal } from '@modals'
+import { useRouter } from 'next/router'
+import { useEffect, useState } from 'react'
+import { RiLockPasswordFill } from 'react-icons/ri'
+import { IndustryCell } from '../industry/components'
+import { RtoCellInfo } from '../rto/components'
+import { SectorCell, StudentCellInfo } from './components'
+import { ChangeStatusModal, DeleteModal } from './modals'
 
 export const ArchivedStudent = () => {
     const router = useRouter()

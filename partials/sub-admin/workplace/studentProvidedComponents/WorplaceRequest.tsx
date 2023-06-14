@@ -88,7 +88,7 @@ export const WorkplaceRequest = ({ workplace }: any) => {
             <div
                 className={`w-full h-full p-4 rounded-md shadow-lg ${
                     appliedIndustry?.isCompleted ? 'bg-gray-50' : ''
-                } `}
+                } bg-gray-100`}
             >
                 <div className="flex justify-between items-center pb-2.5 border-b border-dashed">
                     <AssignToMe

@@ -63,19 +63,21 @@ export const RecentAppointment = ({
         : {}
 
     const onAppointmentClicked = () => {
-        setModal(
-            <AppointmentViewModal
-                id={appointment?.id}
-                onCancel={() => setModal(null)}
-            />
-        )
+        if (appointment) {
+            setModal(
+                <AppointmentViewModal
+                    id={appointment?.id}
+                    onCancel={() => setModal(null)}
+                />
+            )
+        }
     }
 
     return (
         <>
             {modal}
             <div
-                className="w-full cursor-pointer"
+                className={`w-full ${appointment ? 'cursor-pointer' : ''}`}
                 onClick={onAppointmentClicked}
             >
                 <div className="bg-gradient-to-r from-[#3883F3] to-[#5D1BE0] rounded-2xl p-4">
