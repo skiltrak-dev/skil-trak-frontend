@@ -18,9 +18,9 @@ export const PageTitle = ({
 
     const navBar = useNavbar()
 
-    const paths = router.pathname.split('/')
+    const paths = router.asPath.split('/')
     let links = paths.slice(1, -1)
-    links = links?.filter((link) => !link.includes('['))
+    // links = links?.filter((link) => !link.includes('['))
 
     var find = '-'
     var remove = new RegExp(find, 'g')
