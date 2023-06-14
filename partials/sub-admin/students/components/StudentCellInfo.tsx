@@ -2,13 +2,10 @@ import { InitialAvatar } from '@components'
 import { Student } from '@types'
 import { setLink } from '@utils'
 import moment from 'moment'
-import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { FaEnvelope, FaPhone } from 'react-icons/fa'
-import { HiPhoneOutgoing } from 'react-icons/hi'
 import { ImPhone, ImPhoneHangUp } from 'react-icons/im'
-import { MdEmail, MdPhoneIphone } from 'react-icons/md'
 
 export const StudentCellInfo = ({
     student,
@@ -97,7 +94,7 @@ export const StudentCellInfo = ({
                                         </div> */}
                         </div>
                         <p className="text-gray-800 font-medium">
-                            {student?.user?.name}
+                            {student?.user?.name} {student?.familyName}
                         </p>
                         <div className="flex items-center gap-x-2 text-sm">
                             <span className="text-gray-400">

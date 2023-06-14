@@ -7,16 +7,13 @@ type Props = {
     columns: any
 }
 
-export const ViewFullListReport = ({
-    data,
-    columns,
-}: Props) => {
+export const ViewFullListReport = ({ data, columns }: Props) => {
     const [modal, setModal] = useState<ReactElement | null>(null)
     const onClose = () => {
         setModal(null)
     }
     const onViewClicked = () => {
-        setModal(<ReportListModal columns={columns} data={data} onClose={() => onClose()} />)
+        setModal(<ReportListModal onClose={() => onClose()} />)
     }
     return (
         <>

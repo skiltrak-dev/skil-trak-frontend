@@ -1,4 +1,12 @@
-import { ActionButton, EmptyData, InitialAvatar, LoadingAnimation, Table, TechnicalError, Typography } from '@components'
+import {
+    ActionButton,
+    EmptyData,
+    InitialAvatar,
+    LoadingAnimation,
+    Table,
+    TechnicalError,
+    Typography,
+} from '@components'
 import { CourseDot } from '@partials/rto/student/components'
 import { RtoApi } from '@queries'
 import { ColumnDef } from '@tanstack/react-table'
@@ -13,34 +21,38 @@ type Props = {
     endDate: any
     setStartDate: any
     setEndDate: any
+    user?: number
 }
 
 export const NewStudentReport = ({
     setStartDate,
     setEndDate,
     startDate,
-    endDate
+    endDate,
+    user,
 }: Props) => {
     const [itemPerPage, setItemPerPage] = useState(50)
     const [page, setPage] = useState(1)
     const router = useRouter()
-    const { data, isLoading, isError } =
-        RtoApi.Students.useNewStudentsReport({
-            startDate: startDate.toISOString().slice(0, 10),
-            endDate: endDate.toISOString().slice(0, 10),
-            skip: itemPerPage * page - itemPerPage,
-            limit: itemPerPage,
-        })
+    const { data, isLoading, isError } = RtoApi.Students.useNewStudentsReport({
+        user,
+        startDate: startDate.toISOString().slice(0, 10),
+        endDate: endDate.toISOString().slice(0, 10),
+        skip: itemPerPage * page - itemPerPage,
+        limit: itemPerPage,
+    })
 
     const columns: ColumnDef<any>[] = [
         {
             header: () => <span>Name</span>,
             accessorKey: 'user',
             cell: (info: any) => {
-               
                 return (
                     <a className="flex items-center gap-x-2">
-                        <InitialAvatar name={info?.row?.original?.user?.name} imageUrl={info?.row?.original?.user?.avatar} />
+                        <InitialAvatar
+                            name={info?.row?.original?.user?.name}
+                            imageUrl={info?.row?.original?.user?.avatar}
+                        />
                         <div className="flex flex-col">
                             <span>{info?.row?.original?.id}</span>
                             <span>{info?.row?.original?.user?.name}</span>
@@ -70,7 +82,11 @@ export const NewStudentReport = ({
                 // return info?.row?.original?.courses?.map((c: Course) => (
                 //     <CourseDot key={c?.id} course={c} />
                 // ))
-                return <span>{info?.row?.original?.courses[0]?.title || "N/A"}</span>
+                return (
+                    <span>
+                        {info?.row?.original?.courses[0]?.title || 'N/A'}
+                    </span>
+                )
             },
         },
         // {
@@ -82,7 +98,7 @@ export const NewStudentReport = ({
         //     },
         // }
     ]
-    const count = data?.data?.length;
+    const count = data?.data?.length
     return (
         <>
             <div className="flex justify-between">
@@ -93,8 +109,7 @@ export const NewStudentReport = ({
                     <Typography variant="h3">{count || 0}</Typography>
                 </div>
 
-
-                <div className='flex items-center gap-x-4'>
+                <div className="flex items-center gap-x-4">
                     <FilterReport
                         startDate={startDate}
                         setStartDate={setStartDate}
@@ -102,11 +117,16 @@ export const NewStudentReport = ({
                         setEndDate={setEndDate}
                     />
                     {/* <ViewFullListReport data={data} columns={columns} /> */}
-                    <ActionButton onClick={() => { router.push(`/portals/rto/report/${ReportOptionsEnum.NEW_STUDENTS}`) }} >
+                    <ActionButton
+                        onClick={() => {
+                            router.push(
+                                `/portals/rto/report/${ReportOptionsEnum.NEW_STUDENTS}`
+                            )
+                        }}
+                    >
                         View Full List
                     </ActionButton>
                 </div>
-
             </div>
             {isError && <TechnicalError />}
             {isLoading ? (
@@ -132,9 +152,7 @@ export const NewStudentReport = ({
                 !isError && (
                     <EmptyData
                         title={'No New Students Found'}
-                        description={
-                            'There is no New Contactable Students yet'
-                        }
+                        description={'There is no New Contactable Students yet'}
                         height={'50vh'}
                     />
                 )
