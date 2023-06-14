@@ -1,34 +1,33 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { HeaderLogo } from '../NavbarLogo'
 
 // Icons
-import { MdMessage, MdKeyboardArrowDown } from 'react-icons/md'
 import { IoMdNotifications } from 'react-icons/io'
+import { MdMessage } from 'react-icons/md'
 
 // components
-import {
-    BadgeButton,
-    MessageDropDown,
-    NavbarBreadCrumbs,
-} from '../AdminNavbar/components'
-import { useNavbar } from '@hooks'
 import { useRouter } from 'next/router'
 import OutsideClickHandler from 'react-outside-click-handler'
+import { BadgeButton, MessageDropDown } from '../AdminNavbar/components'
 import { NotificationDropDown } from '../AdminNavbar/components/notifications'
 
+import { AuthorizedUserComponent } from '@components/AuthorizedUserComponent'
+import { DisplayNotifications } from '@components/Notification'
+import { MediaQueries, UserRoles } from '@constants'
+import { CommonApi } from '@queries'
+import Link from 'next/link'
+import { BsFillTicketDetailedFill } from 'react-icons/bs'
+import { useMediaQuery } from 'react-responsive'
 import { ProfileOptionsDropDown } from './components'
 import { ProfileOptionButton } from './components/profileOption/ProfileOptionButton'
-import { DisplayNotifications } from '@components/Notification'
-import { useMediaQuery } from 'react-responsive'
-import { MediaQueries } from '@constants'
-import { CommonApi } from '@queries'
 export const DetailNavbar = () => {
+    const router = useRouter()
+
     const isMobile = useMediaQuery(MediaQueries.Mobile)
-    const data =
-        CommonApi.Notifications.useNotifications({
-            skip: undefined,
-            limit: undefined,
-        })
+    const data = CommonApi.Notifications.useNotifications({
+        skip: undefined,
+        limit: undefined,
+    })
 
     const { data: mailCount } = CommonApi.Messages.useMailCount()
     const allMails = CommonApi.Messages.useRecentMails()
@@ -53,6 +52,27 @@ export const DetailNavbar = () => {
             </div>
 
             <div className="flex items-center gap-x-4 md:gap-x-8">
+                <AuthorizedUserComponent roles={[UserRoles.SUBADMIN]}>
+                    <Link
+                        legacyBehavior
+                        href={'/portals/sub-admin/tickets?tab=all-tickets'}
+                    >
+                        <a
+                            className={` ${
+                                router.pathname === '/portals/sub-admin/tickets'
+                                    ? 'bg-green-100 text-green-700'
+                                    : 'text-slate-700'
+                            } transition-all duration-300 px-4 py-2 flex gap-x-2 items-center rounded-md hover:bg-green-100 hover:text-green-700`}
+                        >
+                            <span>
+                                <BsFillTicketDetailedFill />
+                            </span>
+                            <span className="text-sm font-semibold">
+                                Tickets
+                            </span>
+                        </a>
+                    </Link>
+                </AuthorizedUserComponent>
                 <OutsideClickHandler
                     onOutsideClick={() => {
                         setMessagesExpanded(false)

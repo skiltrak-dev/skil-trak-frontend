@@ -1,5 +1,6 @@
 import {
     ActionButton,
+    AuthorizedUserComponent,
     EmptyData,
     InitialAvatar,
     LoadingAnimation,
@@ -13,6 +14,7 @@ import { ReportOptionsEnum } from '@types'
 import { useRouter } from 'next/router'
 import { useState } from 'react'
 import { FilterReport } from '../../FilterReport'
+import { UserRoles } from '@constants'
 
 type Props = {
     startDate: any
@@ -118,16 +120,40 @@ export const CompletedWorkplaceReport = ({
                         endDate={endDate}
                         setEndDate={setEndDate}
                     />
-                    {/* <ViewFullListReport data={data} columns={columns} /> */}
-                    <ActionButton
-                        onClick={() => {
-                            router.push(
-                                `/portals/rto/report/${ReportOptionsEnum.WORKPLACE_REQUEST_COMPLETED}`
-                            )
-                        }}
-                    >
-                        View Full List
-                    </ActionButton>
+
+                    <AuthorizedUserComponent roles={[UserRoles.ADMIN]}>
+                        <ActionButton
+                            onClick={() => {
+                                router.push(
+                                    `/portals/admin/rto/${router.query?.id}/${ReportOptionsEnum.WORKPLACE_REQUEST_COMPLETED}`
+                                )
+                            }}
+                        >
+                            View Full List
+                        </ActionButton>
+                    </AuthorizedUserComponent>
+                    <AuthorizedUserComponent roles={[UserRoles.SUBADMIN]}>
+                        <ActionButton
+                            onClick={() => {
+                                router.push(
+                                    `/portals/sub-admin/users/rtos/${router.query?.id}/${ReportOptionsEnum.WORKPLACE_REQUEST_COMPLETED}`
+                                )
+                            }}
+                        >
+                            View Full List
+                        </ActionButton>
+                    </AuthorizedUserComponent>
+                    <AuthorizedUserComponent roles={[UserRoles.RTO]}>
+                        <ActionButton
+                            onClick={() => {
+                                router.push(
+                                    `/portals/rto/report/${ReportOptionsEnum.WORKPLACE_REQUEST_COMPLETED}`
+                                )
+                            }}
+                        >
+                            View Full List
+                        </ActionButton>
+                    </AuthorizedUserComponent>
                 </div>
             </div>
             {isError && <TechnicalError />}

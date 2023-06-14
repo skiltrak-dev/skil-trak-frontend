@@ -1,5 +1,6 @@
 import {
     ActionButton,
+    AuthorizedUserComponent,
     EmptyData,
     InitialAvatar,
     LoadingAnimation,
@@ -14,6 +15,7 @@ import { ColumnDef } from '@tanstack/react-table'
 import { Course, ReportOptionsEnum } from '@types'
 import { ViewFullListReport } from '../../ViewFullListReport'
 import { useRouter } from 'next/router'
+import { UserRoles } from '@constants'
 type Props = {
     user?: number
 }
@@ -85,15 +87,40 @@ export const ArchivedStudentsReport = ({ user }: Props) => {
                     </Typography>
                     <Typography variant="h3">{count || 0}</Typography>
                 </div>
-                <ActionButton
-                    onClick={() => {
-                        router.push(
-                            `/portals/rto/report/${ReportOptionsEnum.ARCHIVED_STUDENTS}`
-                        )
-                    }}
-                >
-                    View Full List
-                </ActionButton>
+
+                <AuthorizedUserComponent roles={[UserRoles.ADMIN]}>
+                    <ActionButton
+                        onClick={() => {
+                            router.push(
+                                `/portals/admin/rto/${router.query?.id}/${ReportOptionsEnum.ARCHIVED_STUDENTS}`
+                            )
+                        }}
+                    >
+                        View Full List
+                    </ActionButton>
+                </AuthorizedUserComponent>
+                <AuthorizedUserComponent roles={[UserRoles.SUBADMIN]}>
+                    <ActionButton
+                        onClick={() => {
+                            router.push(
+                                `/portals/sub-admin/users/rtos/${router.query?.id}/${ReportOptionsEnum.ARCHIVED_STUDENTS}`
+                            )
+                        }}
+                    >
+                        View Full List
+                    </ActionButton>
+                </AuthorizedUserComponent>
+                <AuthorizedUserComponent roles={[UserRoles.RTO]}>
+                    <ActionButton
+                        onClick={() => {
+                            router.push(
+                                `/portals/rto/report/${ReportOptionsEnum.ARCHIVED_STUDENTS}`
+                            )
+                        }}
+                    >
+                        View Full List
+                    </ActionButton>
+                </AuthorizedUserComponent>
             </div>
 
             {isError && <TechnicalError />}

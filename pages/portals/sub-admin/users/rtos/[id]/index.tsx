@@ -32,7 +32,7 @@ const RtoProfile: NextPageWithLayout = (props: Props) => {
     const { id } = pathname.query
     const { setContent, show, hide } = useContextBar()
 
-    const rtoDetail = useGetSubAdminRTODetailQuery(String(id), {
+    const rtoDetail = useGetSubAdminRTODetailQuery(Number(id), {
         skip: !id,
         refetchOnMountOrArgChange: true,
     })

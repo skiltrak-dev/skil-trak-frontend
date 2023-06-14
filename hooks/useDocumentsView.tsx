@@ -25,7 +25,6 @@ export const DocumentsView = () => {
 
     const onFileClicked = (file: any) => {
         // setSelected(file)
-        console.log('Kaka', file)
 
         if (
             ['jpg', 'jpeg', 'png', 'jfif'].includes(

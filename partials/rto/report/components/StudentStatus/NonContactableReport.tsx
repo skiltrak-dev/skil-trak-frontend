@@ -1,5 +1,6 @@
 import {
     ActionButton,
+    AuthorizedUserComponent,
     EmptyData,
     InitialAvatar,
     LoadingAnimation,
@@ -13,6 +14,7 @@ import { ReportOptionsEnum } from '@types'
 import { useRouter } from 'next/router'
 import { useState } from 'react'
 import { FilterReport } from '../../FilterReport'
+import { UserRoles } from '@constants'
 type Props = {
     startDate: any
     endDate: any
@@ -100,15 +102,45 @@ export const NonContactableReport = ({
                         endDate={endDate}
                         setEndDate={setEndDate}
                     />
-                    <ActionButton
-                        onClick={() => {
-                            router.push(
-                                `/portals/rto/report/${ReportOptionsEnum.NON_CONTACTABLE}`
-                            )
-                        }}
-                    >
-                        View Full List
-                    </ActionButton>
+
+                    {/* Only Show in Admin */}
+                    <AuthorizedUserComponent roles={[UserRoles.ADMIN]}>
+                        <ActionButton
+                            onClick={() => {
+                                router.push(
+                                    `/portals/admin/rto/${router.query?.id}/${ReportOptionsEnum.NON_CONTACTABLE}`
+                                )
+                            }}
+                        >
+                            View Full List
+                        </ActionButton>
+                    </AuthorizedUserComponent>
+
+                    {/* Only Show in SubAdmin */}
+                    <AuthorizedUserComponent roles={[UserRoles.SUBADMIN]}>
+                        <ActionButton
+                            onClick={() => {
+                                router.push(
+                                    `/portals/sub-admin/users/rtos/${router.query?.id}/${ReportOptionsEnum.NON_CONTACTABLE}`
+                                )
+                            }}
+                        >
+                            View Full List
+                        </ActionButton>
+                    </AuthorizedUserComponent>
+
+                    {/* Only Show in RTO */}
+                    <AuthorizedUserComponent roles={[UserRoles.RTO]}>
+                        <ActionButton
+                            onClick={() => {
+                                router.push(
+                                    `/portals/rto/report/${ReportOptionsEnum.NON_CONTACTABLE}`
+                                )
+                            }}
+                        >
+                            View Full List
+                        </ActionButton>
+                    </AuthorizedUserComponent>
                 </div>
             </div>
 
