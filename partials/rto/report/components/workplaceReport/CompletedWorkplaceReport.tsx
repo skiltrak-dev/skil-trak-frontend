@@ -1,26 +1,33 @@
-import { ActionButton, EmptyData, InitialAvatar, LoadingAnimation, Table, TechnicalError, Typography } from '@components'
-import { CourseDot } from '@partials/rto/student/components'
+import {
+    ActionButton,
+    EmptyData,
+    InitialAvatar,
+    LoadingAnimation,
+    Table,
+    TechnicalError,
+    Typography,
+} from '@components'
 import { RtoApi } from '@queries'
 import { ColumnDef } from '@tanstack/react-table'
-import React, { useState } from 'react'
-import { FilterReport } from '../../FilterReport'
-import { ViewFullListReport } from '../../ViewFullListReport'
-import { Course, ReportOptionsEnum } from '@types'
+import { ReportOptionsEnum } from '@types'
 import { useRouter } from 'next/router'
-
+import { useState } from 'react'
+import { FilterReport } from '../../FilterReport'
 
 type Props = {
     startDate: any
     endDate: any
     setStartDate: any
     setEndDate: any
+    user?: number
 }
 
 export const CompletedWorkplaceReport = ({
     setStartDate,
     setEndDate,
     startDate,
-    endDate
+    endDate,
+    user,
 }: Props) => {
     const [itemPerPage, setItemPerPage] = useState(50)
     const [page, setPage] = useState(1)
@@ -40,7 +47,9 @@ export const CompletedWorkplaceReport = ({
             cell: (info: any) => {
                 const {
                     id,
-                    student: { user: { name, avatar } },
+                    student: {
+                        user: { name, avatar },
+                    },
                 } = info.row.original || {}
 
                 return (
@@ -59,7 +68,9 @@ export const CompletedWorkplaceReport = ({
             header: () => <span>Email</span>,
             cell: (info) => {
                 const {
-                    student: { user: { email } },
+                    student: {
+                        user: { email },
+                    },
                 } = info.row.original || {}
                 return <span>{email}</span>
             },
@@ -81,11 +92,15 @@ export const CompletedWorkplaceReport = ({
                 // return info?.row?.original?.courses?.map((c: Course) => (
                 //     <CourseDot key={c?.id} course={c} />
                 // ))
-                return <span>{info?.row?.original?.courses[0]?.title || "N/A"}</span>
+                return (
+                    <span>
+                        {info?.row?.original?.courses[0]?.title || 'N/A'}
+                    </span>
+                )
             },
         },
     ]
-    const count = data?.data?.length;
+    const count = data?.data?.length
     return (
         <>
             <div className="flex justify-between">
@@ -96,8 +111,7 @@ export const CompletedWorkplaceReport = ({
                     <Typography variant="h3">{count || 0}</Typography>
                 </div>
 
-
-                <div className='flex items-center gap-x-4'>
+                <div className="flex items-center gap-x-4">
                     <FilterReport
                         startDate={startDate}
                         setStartDate={setStartDate}
@@ -105,7 +119,13 @@ export const CompletedWorkplaceReport = ({
                         setEndDate={setEndDate}
                     />
                     {/* <ViewFullListReport data={data} columns={columns} /> */}
-                    <ActionButton onClick={() => { router.push(`/portals/rto/report/${ReportOptionsEnum.WORKPLACE_REQUEST_COMPLETED}`) }} >
+                    <ActionButton
+                        onClick={() => {
+                            router.push(
+                                `/portals/rto/report/${ReportOptionsEnum.WORKPLACE_REQUEST_COMPLETED}`
+                            )
+                        }}
+                    >
                         View Full List
                     </ActionButton>
                 </div>

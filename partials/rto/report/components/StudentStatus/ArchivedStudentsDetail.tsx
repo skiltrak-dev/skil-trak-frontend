@@ -6,11 +6,8 @@ import {
     TechnicalError,
     Typography,
 } from '@components'
-import { CourseDot } from '@partials/rto/student/components'
-import React, { useState } from 'react'
 import { RtoApi } from '@queries'
 import { ColumnDef } from '@tanstack/react-table'
-import { Course } from '@types'
 type Props = {}
 
 export const ArchivedStudentsDetail = (props: Props) => {
@@ -28,7 +25,10 @@ export const ArchivedStudentsDetail = (props: Props) => {
 
                 return (
                     <a className="flex items-center gap-x-2">
-                        <InitialAvatar name={info?.row?.original?.user?.name} imageUrl={info?.row?.original?.user?.avatar} />
+                        <InitialAvatar
+                            name={info?.row?.original?.user?.name}
+                            imageUrl={info?.row?.original?.user?.avatar}
+                        />
                         <div className="flex flex-col">
                             <span>{info?.row?.original?.id}</span>
                             <span>{info?.row?.original?.user?.name}</span>
@@ -55,7 +55,11 @@ export const ArchivedStudentsDetail = (props: Props) => {
                 // return info?.row?.original?.courses?.map((c: Course) => (
                 //     <CourseDot key={c?.id} course={c} />
                 // ))
-                return <span>{info?.row?.original?.courses[0]?.title || "N/A"}</span>
+                return (
+                    <span>
+                        {info?.row?.original?.courses[0]?.title || 'N/A'}
+                    </span>
+                )
             },
         },
     ]
@@ -80,7 +84,6 @@ export const ArchivedStudentsDetail = (props: Props) => {
                     {({ table, pagination, pageSize, quickActions }: any) => {
                         return (
                             <div>
-                               
                                 <div className="px-6">{table}</div>
                             </div>
                         )

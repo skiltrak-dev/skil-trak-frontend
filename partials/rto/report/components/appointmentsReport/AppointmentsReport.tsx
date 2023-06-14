@@ -1,4 +1,12 @@
-import { ActionButton, EmptyData, InitialAvatar, LoadingAnimation, Table, TechnicalError, Typography } from '@components'
+import {
+    ActionButton,
+    EmptyData,
+    InitialAvatar,
+    LoadingAnimation,
+    Table,
+    TechnicalError,
+    Typography,
+} from '@components'
 
 import { RtoApi } from '@queries'
 import { ColumnDef } from '@tanstack/react-table'
@@ -14,38 +22,48 @@ type Props = {
     endDate: any
     setStartDate: any
     setEndDate: any
+    user?: number
 }
 
 export const AppointmentsReport = ({
     setStartDate,
     setEndDate,
     startDate,
-    endDate
+    endDate,
+    user,
 }: Props) => {
     const [itemPerPage, setItemPerPage] = useState(50)
     const [page, setPage] = useState(1)
     const router = useRouter()
-    const { data, isLoading, isError } =
-        RtoApi.Students.useAppointmentsReport({
-            startDate: startDate.toISOString().slice(0, 10),
-            endDate: endDate.toISOString().slice(0, 10),
-            skip: itemPerPage * page - itemPerPage,
-            limit: itemPerPage,
-        })
+    const { data, isLoading, isError } = RtoApi.Students.useAppointmentsReport({
+        user,
+        startDate: startDate.toISOString().slice(0, 10),
+        endDate: endDate.toISOString().slice(0, 10),
+        skip: itemPerPage * page - itemPerPage,
+        limit: itemPerPage,
+    })
 
     const columns: ColumnDef<any>[] = [
         {
             header: () => <span>Appointment By</span>,
             accessorKey: 'appointmentBy',
             cell: (info: any) => {
-
                 return (
                     <a className="flex items-center gap-x-2">
-                        <InitialAvatar name={info?.row?.original?.appointmentBy?.name} imageUrl={info?.row?.original?.appointmentBy?.avatar} />
+                        <InitialAvatar
+                            name={info?.row?.original?.appointmentBy?.name}
+                            imageUrl={
+                                info?.row?.original?.appointmentBy?.avatar
+                            }
+                        />
                         <div className="flex flex-col">
                             <span>{info.row.original.appointmentBy?.id}</span>
-                            <span>{info.row.original.appointmentBy?.name || "N/A"}</span>
-                            <span>{info.row.original.appointmentBy?.email}</span>
+                            <span>
+                                {info.row.original.appointmentBy?.name || 'N/A'}
+                            </span>
+                            <span>
+                                {info.row.original.appointmentBy?.email}
+                            </span>
                         </div>
                     </a>
                 )
@@ -58,15 +76,23 @@ export const AppointmentsReport = ({
                 // const { appointmentFor: { name, id, avatar } } = info.row.original;
                 return (
                     <a className="flex items-center gap-x-2">
-                        <InitialAvatar name={info?.row?.original?.appointmentFor?.name || "N/A"} imageUrl={info.row.original?.appointmentFor?.avatar} />
+                        <InitialAvatar
+                            name={
+                                info?.row?.original?.appointmentFor?.name ||
+                                'N/A'
+                            }
+                            imageUrl={info.row.original?.appointmentFor?.avatar}
+                        />
                         <div className="flex flex-col">
                             <span>{info.row.original.appointmentFor?.id}</span>
-                            <span>{info.row.original.appointmentFor?.name || "N/A"}</span>
+                            <span>
+                                {info.row.original.appointmentFor?.name ||
+                                    'N/A'}
+                            </span>
                         </div>
                     </a>
                 )
-            }
-
+            },
         },
         // {
         //     accessorKey: 'email',
@@ -89,20 +115,17 @@ export const AppointmentsReport = ({
         {
             accessorKey: 'startTime',
             header: () => <span>Start Time</span>,
-
         },
         {
             accessorKey: 'endTime',
             header: () => <span>End Time</span>,
-
         },
         {
             accessorKey: 'date',
             header: () => <span>Date</span>,
-
         },
     ]
-    const count = data?.data?.length;
+    const count = data?.data?.length
     return (
         <>
             <div className="flex justify-between">
@@ -113,8 +136,7 @@ export const AppointmentsReport = ({
                     <Typography variant="h3">{count || 0}</Typography>
                 </div>
 
-
-                <div className='flex items-center gap-x-4'>
+                <div className="flex items-center gap-x-4">
                     <FilterReport
                         startDate={startDate}
                         setStartDate={setStartDate}
@@ -122,11 +144,16 @@ export const AppointmentsReport = ({
                         setEndDate={setEndDate}
                     />
                     {/* <ViewFullListReport data={data} columns={columns} /> */}
-                    <ActionButton onClick={() => { router.push(`/portals/rto/report/${ReportOptionsEnum.APPOINTMENTS_REPORT}`) }} >
+                    <ActionButton
+                        onClick={() => {
+                            router.push(
+                                `/portals/rto/report/${ReportOptionsEnum.APPOINTMENTS_REPORT}`
+                            )
+                        }}
+                    >
                         View Full List
                     </ActionButton>
                 </div>
-
             </div>
             {isError && <TechnicalError />}
             {isLoading ? (
@@ -152,9 +179,7 @@ export const AppointmentsReport = ({
                 !isError && (
                     <EmptyData
                         title={'No Appointments Found'}
-                        description={
-                            'There is no Appointments yet'
-                        }
+                        description={'There is no Appointments yet'}
                         height={'50vh'}
                     />
                 )

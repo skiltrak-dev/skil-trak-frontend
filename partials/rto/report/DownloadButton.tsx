@@ -29,15 +29,7 @@ export const DownloadButton = ({
         setModal(null)
     }
     const onViewClicked = () => {
-        setModal(
-            <ReportListModal
-                setStartDate={setStartDate}
-                setEndDate={setEndDate}
-                startDate={startDate}
-                endDate={endDate}
-                onClose={() => onClose()}
-            />
-        )
+        setModal(<ReportListModal onClose={() => onClose()} />)
     }
 
     return (

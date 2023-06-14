@@ -14,6 +14,7 @@ import {
     StudentStatusProgressCell,
     CaseOfficerAssignedStudent,
     StudentSubAdmin,
+    UserCreatedAt,
 } from '@components'
 import { PageHeading } from '@components/headings'
 import { ColumnDef } from '@tanstack/react-table'
@@ -139,11 +140,6 @@ export const ApprovedStudent = () => {
             header: () => <span>Student</span>,
         },
         {
-            accessorKey: 'phone',
-            header: () => <span>Phone</span>,
-            cell: (info) => info.getValue(),
-        },
-        {
             accessorKey: 'industry',
             header: () => <span>Industry</span>,
             cell: (info: any) => {
@@ -176,6 +172,13 @@ export const ApprovedStudent = () => {
             header: () => <span>Progress</span>,
             cell: ({ row }) => (
                 <CaseOfficerAssignedStudent student={row.original} />
+            ),
+        },
+        {
+            accessorKey: 'createdAt',
+            header: () => <span>Created At</span>,
+            cell: ({ row }: any) => (
+                <UserCreatedAt createdAt={row.original?.createdAt} />
             ),
         },
         {
