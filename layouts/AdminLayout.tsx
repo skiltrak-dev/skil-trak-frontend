@@ -11,7 +11,13 @@ import {
 } from '@components'
 import { IconType } from 'react-icons'
 
-import { FaClipboardList,FaUsers, FaFileInvoiceDollar, FaUniversity, FaUserGraduate } from 'react-icons/fa'
+import {
+    FaClipboardList,
+    FaUsers,
+    FaFileInvoiceDollar,
+    FaUniversity,
+    FaUserGraduate,
+} from 'react-icons/fa'
 import { IoMdBriefcase } from 'react-icons/io'
 import {
     MdHomeWork,
@@ -152,7 +158,6 @@ const routes: Route[] = [
         path: getRoutePath('/invoices'),
         Icon: FaFileInvoiceDollar,
     },
-
 ]
 
 export const AdminLayout = ({ children }: any) => {

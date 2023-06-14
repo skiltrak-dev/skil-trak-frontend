@@ -1,5 +1,6 @@
 import {
     ActionButton,
+    AuthorizedUserComponent,
     EmptyData,
     InitialAvatar,
     LoadingAnimation,
@@ -16,6 +17,7 @@ import { Course, ReportOptionsEnum } from '@types'
 import { FilterReport } from '../../FilterReport'
 import { ViewFullListReport } from '../../ViewFullListReport'
 import { useRouter } from 'next/router'
+import { UserRoles } from '@constants'
 
 type Props = {
     startDate: any
@@ -122,16 +124,40 @@ export const CancelledWorkplaceReport = ({
                         endDate={endDate}
                         setEndDate={setEndDate}
                     />
-                    {/* <ViewFullListReport data={data} columns={columns} /> */}
-                    <ActionButton
-                        onClick={() => {
-                            router.push(
-                                `/portals/rto/report/${ReportOptionsEnum.CANCELLED_WORKPLACE_REQUEST}`
-                            )
-                        }}
-                    >
-                        View Full List
-                    </ActionButton>
+
+                    <AuthorizedUserComponent roles={[UserRoles.ADMIN]}>
+                        <ActionButton
+                            onClick={() => {
+                                router.push(
+                                    `/portals/admin/rto/${router.query?.id}/${ReportOptionsEnum.CANCELLED_WORKPLACE_REQUEST}`
+                                )
+                            }}
+                        >
+                            View Full List
+                        </ActionButton>
+                    </AuthorizedUserComponent>
+                    <AuthorizedUserComponent roles={[UserRoles.SUBADMIN]}>
+                        <ActionButton
+                            onClick={() => {
+                                router.push(
+                                    `/portals/sub-admin/users/rtos/${router.query?.id}/${ReportOptionsEnum.CANCELLED_WORKPLACE_REQUEST}`
+                                )
+                            }}
+                        >
+                            View Full List
+                        </ActionButton>
+                    </AuthorizedUserComponent>
+                    <AuthorizedUserComponent roles={[UserRoles.RTO]}>
+                        <ActionButton
+                            onClick={() => {
+                                router.push(
+                                    `/portals/rto/report/${ReportOptionsEnum.CANCELLED_WORKPLACE_REQUEST}`
+                                )
+                            }}
+                        >
+                            View Full List
+                        </ActionButton>
+                    </AuthorizedUserComponent>
                 </div>
             </div>
             {isError && <TechnicalError />}

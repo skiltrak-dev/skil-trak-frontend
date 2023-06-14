@@ -148,7 +148,6 @@ export const ReportListModal = ({
                                         text="Download as CSV"
                                         variant="dark"
                                         onClick={() => {
-                                            console.log('downloading')
                                         }}
                                     /> */}
                                 </div>

@@ -17,7 +17,7 @@ export const subAdminRtoEndpoints = (
         }),
         providesTags: ['SubAdminRtos'],
     }),
-    getSubAdminRTODetail: builder.query<any, string>({
+    getSubAdminRTODetail: builder.query<any, number>({
         query: (id) => `${PREFIX}/rto/profile/${id}`,
         providesTags: ['SubAdminRtos'],
     }),

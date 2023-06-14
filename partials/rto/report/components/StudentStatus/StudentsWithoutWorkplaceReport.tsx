@@ -1,5 +1,6 @@
 import {
     ActionButton,
+    AuthorizedUserComponent,
     EmptyData,
     InitialAvatar,
     LoadingAnimation,
@@ -13,6 +14,7 @@ import { useState } from 'react'
 
 import { ReportOptionsEnum } from '@types'
 import { useRouter } from 'next/router'
+import { UserRoles } from '@constants'
 
 export const StudentsWithoutWorkplaceReport = ({ user }: { user?: number }) => {
     const [itemPerPage, setItemPerPage] = useState(50)
@@ -81,16 +83,39 @@ export const StudentsWithoutWorkplaceReport = ({ user }: { user?: number }) => {
                     <Typography variant="h3">{count || 0}</Typography>
                 </div>
 
-                {/* <ViewFullListReport data={data} columns={columns} /> */}
-                <ActionButton
-                    onClick={() => {
-                        router.push(
-                            `/portals/rto/report/${ReportOptionsEnum.STUDENT_WITHOUT_WORKPLACE_REQUEST}`
-                        )
-                    }}
-                >
-                    View Full List
-                </ActionButton>
+                <AuthorizedUserComponent roles={[UserRoles.ADMIN]}>
+                    <ActionButton
+                        onClick={() => {
+                            router.push(
+                                `/portals/admin/rto/${router.query?.id}/${ReportOptionsEnum.STUDENT_WITHOUT_WORKPLACE_REQUEST}`
+                            )
+                        }}
+                    >
+                        View Full List
+                    </ActionButton>
+                </AuthorizedUserComponent>
+                <AuthorizedUserComponent roles={[UserRoles.SUBADMIN]}>
+                    <ActionButton
+                        onClick={() => {
+                            router.push(
+                                `/portals/sub-admin/users/rtos/${router.query?.id}/${ReportOptionsEnum.STUDENT_WITHOUT_WORKPLACE_REQUEST}`
+                            )
+                        }}
+                    >
+                        View Full List
+                    </ActionButton>
+                </AuthorizedUserComponent>
+                <AuthorizedUserComponent roles={[UserRoles.RTO]}>
+                    <ActionButton
+                        onClick={() => {
+                            router.push(
+                                `/portals/rto/report/${ReportOptionsEnum.STUDENT_WITHOUT_WORKPLACE_REQUEST}`
+                            )
+                        }}
+                    >
+                        View Full List
+                    </ActionButton>
+                </AuthorizedUserComponent>
             </div>
             {isError && <TechnicalError />}
             {isLoading ? (

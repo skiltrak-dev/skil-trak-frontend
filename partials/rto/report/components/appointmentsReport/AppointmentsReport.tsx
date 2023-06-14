@@ -1,5 +1,6 @@
 import {
     ActionButton,
+    AuthorizedUserComponent,
     EmptyData,
     InitialAvatar,
     LoadingAnimation,
@@ -16,6 +17,7 @@ import { CourseDot } from '@partials/rto/student/components'
 import { Course, ReportOptionsEnum } from '@types'
 import { ViewFullListReport } from '../../ViewFullListReport'
 import { useRouter } from 'next/router'
+import { UserRoles } from '@constants'
 
 type Props = {
     startDate: any
@@ -143,16 +145,40 @@ export const AppointmentsReport = ({
                         endDate={endDate}
                         setEndDate={setEndDate}
                     />
-                    {/* <ViewFullListReport data={data} columns={columns} /> */}
-                    <ActionButton
-                        onClick={() => {
-                            router.push(
-                                `/portals/rto/report/${ReportOptionsEnum.APPOINTMENTS_REPORT}`
-                            )
-                        }}
-                    >
-                        View Full List
-                    </ActionButton>
+
+                    <AuthorizedUserComponent roles={[UserRoles.ADMIN]}>
+                        <ActionButton
+                            onClick={() => {
+                                router.push(
+                                    `/portals/admin/rto/${router.query?.id}/${ReportOptionsEnum.APPOINTMENTS_REPORT}`
+                                )
+                            }}
+                        >
+                            View Full List
+                        </ActionButton>
+                    </AuthorizedUserComponent>
+                    <AuthorizedUserComponent roles={[UserRoles.SUBADMIN]}>
+                        <ActionButton
+                            onClick={() => {
+                                router.push(
+                                    `/portals/sub-admin/users/rtos/${router.query?.id}/${ReportOptionsEnum.APPOINTMENTS_REPORT}`
+                                )
+                            }}
+                        >
+                            View Full List
+                        </ActionButton>
+                    </AuthorizedUserComponent>
+                    <AuthorizedUserComponent roles={[UserRoles.RTO]}>
+                        <ActionButton
+                            onClick={() => {
+                                router.push(
+                                    `/portals/rto/report/${ReportOptionsEnum.APPOINTMENTS_REPORT}`
+                                )
+                            }}
+                        >
+                            View Full List
+                        </ActionButton>
+                    </AuthorizedUserComponent>
                 </div>
             </div>
             {isError && <TechnicalError />}

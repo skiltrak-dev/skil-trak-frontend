@@ -1,5 +1,6 @@
 import {
     ActionButton,
+    AuthorizedUserComponent,
     EmptyData,
     InitialAvatar,
     LoadingAnimation,
@@ -15,6 +16,7 @@ import { FilterReport } from '../../FilterReport'
 import { Course, ReportOptionsEnum } from '@types'
 import { ViewFullListReport } from '../../ViewFullListReport'
 import { useRouter } from 'next/router'
+import { UserRoles } from '@constants'
 
 type Props = {
     startDate: any
@@ -117,15 +119,40 @@ export const NewStudentReport = ({
                         setEndDate={setEndDate}
                     />
                     {/* <ViewFullListReport data={data} columns={columns} /> */}
-                    <ActionButton
-                        onClick={() => {
-                            router.push(
-                                `/portals/rto/report/${ReportOptionsEnum.NEW_STUDENTS}`
-                            )
-                        }}
-                    >
-                        View Full List
-                    </ActionButton>
+
+                    <AuthorizedUserComponent roles={[UserRoles.ADMIN]}>
+                        <ActionButton
+                            onClick={() => {
+                                router.push(
+                                    `/portals/admin/rto/${router.query?.id}/${ReportOptionsEnum.NEW_STUDENTS}`
+                                )
+                            }}
+                        >
+                            View Full List
+                        </ActionButton>
+                    </AuthorizedUserComponent>
+                    <AuthorizedUserComponent roles={[UserRoles.SUBADMIN]}>
+                        <ActionButton
+                            onClick={() => {
+                                router.push(
+                                    `/portals/sub-admin/users/rtos/${router.query?.id}/${ReportOptionsEnum.NEW_STUDENTS}`
+                                )
+                            }}
+                        >
+                            View Full List
+                        </ActionButton>
+                    </AuthorizedUserComponent>
+                    <AuthorizedUserComponent roles={[UserRoles.RTO]}>
+                        <ActionButton
+                            onClick={() => {
+                                router.push(
+                                    `/portals/rto/report/${ReportOptionsEnum.NEW_STUDENTS}`
+                                )
+                            }}
+                        >
+                            View Full List
+                        </ActionButton>
+                    </AuthorizedUserComponent>
                 </div>
             </div>
             {isError && <TechnicalError />}

@@ -18,12 +18,10 @@ import { NotificationDropDown } from './components/notifications'
 import { CommonApi } from '@queries'
 
 export const AdminNavbar = () => {
-    
-    const data =
-        CommonApi.Notifications.useNotifications({
-            skip: undefined,
-            limit: undefined,
-        })
+    const data = CommonApi.Notifications.useNotifications({
+        skip: undefined,
+        limit: undefined,
+    })
     const [isReadNotification, resultIsReadNotification] =
         CommonApi.Notifications.useIsReadNotification()
     let router = useRouter()
@@ -32,7 +30,7 @@ export const AdminNavbar = () => {
     const [messagesExpanded, setMessagesExpanded] = useState(false)
     const [notificationsExpanded, setNotificationsExpanded] = useState(false)
 
-    const paths = router.pathname.split('/')
+    const paths = router.asPath.split('/')
     const links = paths.slice(1, -1)
 
     var find = '-'
@@ -72,7 +70,7 @@ export const AdminNavbar = () => {
 
                 <NavbarBreadCrumbs
                     links={links}
-                    title={navbar?.subTitle || navbar.title}
+                    title={navbar?.subTitle || navbar?.title}
                 />
             </div>
 
