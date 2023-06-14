@@ -21,7 +21,7 @@ const EditRTOProfile: NextPageWithLayout = (props: Props) => {
     const { id } = pathname.query
     const contextBar = useContextBar()
     const { notification } = useNotification()
-    const profile = useGetSubAdminRTODetailQuery(String(id), {
+    const profile = useGetSubAdminRTODetailQuery(Number(id), {
         skip: !id,
         refetchOnMountOrArgChange: true,
     })
