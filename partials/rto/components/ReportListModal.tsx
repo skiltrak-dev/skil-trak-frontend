@@ -1,5 +1,11 @@
-
-import { LoadingAnimation, NoData, Select, ShowErrorNotifications, Table, TextInput } from '@components'
+import {
+    LoadingAnimation,
+    NoData,
+    Select,
+    ShowErrorNotifications,
+    Table,
+    TextInput,
+} from '@components'
 
 import { Button } from '@components/buttons'
 import { RtoApi } from '@queries'
@@ -9,7 +15,13 @@ import { getUserCredentials } from '@utils'
 import { saveAs } from 'file-saver'
 import { DownloadLoader } from './DownloadLoader'
 
-export const ReportListModal = ({ onClose }: any) => {
+export const ReportListModal = ({
+    onClose,
+    user,
+}: {
+    onClose: () => void
+    user?: number
+}) => {
     const [filterReports, setFilterReports] = useState({
         label: 'Weekly',
         value: 'weekly',
@@ -18,7 +30,7 @@ export const ReportListModal = ({ onClose }: any) => {
     const [startDate, setStartDate] = useState('')
     const [endDate, setEndDate] = useState('')
 
-    const userId = getUserCredentials()?.id
+    const userId = user || getUserCredentials()?.id
     const rtoName = getUserCredentials()?.name
 
     const downloadAsPdf = RtoApi.Students.useReportDownloadLink(
@@ -131,7 +143,7 @@ export const ReportListModal = ({ onClose }: any) => {
                                         loading={downloadAsPdf?.isLoading}
                                         disabled={downloadAsPdf?.isLoading}
                                     />
-                                  
+
                                     {/* <Button
                                         text="Download as CSV"
                                         variant="dark"
@@ -139,7 +151,6 @@ export const ReportListModal = ({ onClose }: any) => {
                                             console.log('downloading')
                                         }}
                                     /> */}
-
                                 </div>
                             </div>
                         </>

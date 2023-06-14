@@ -80,7 +80,9 @@ export const StudentCellInfo = ({
                                 </div>
                             ) : null)}
                     </div>
-                    <p className="font-semibold">{student?.user?.name}</p>
+                    <p className="font-semibold">
+                        {student?.user?.name} {student?.familyName}
+                    </p>
                     <div className="font-medium text-xs text-gray-500">
                         <p className="flex items-center gap-x-1">
                             <span>

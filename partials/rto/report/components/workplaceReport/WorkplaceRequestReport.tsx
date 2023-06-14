@@ -16,12 +16,12 @@ import { ViewFullListReport } from '../../ViewFullListReport'
 import { Course, ReportOptionsEnum } from '@types'
 import { useRouter } from 'next/router'
 
-
 type Props = {
     startDate: any
     endDate: any
     setStartDate: any
     setEndDate: any
+    user?: number
 }
 
 export const WorkplaceRequestReport = ({
@@ -29,12 +29,14 @@ export const WorkplaceRequestReport = ({
     setEndDate,
     startDate,
     endDate,
+    user,
 }: Props) => {
     const [itemPerPage, setItemPerPage] = useState(50)
     const [page, setPage] = useState(1)
     const router = useRouter()
     const { data, isLoading, isError } =
         RtoApi.Students.useWorkplaceRequestReport({
+            user,
             startDate: startDate.toISOString().slice(0, 10),
             endDate: endDate.toISOString().slice(0, 10),
             skip: itemPerPage * page - itemPerPage,
@@ -93,7 +95,11 @@ export const WorkplaceRequestReport = ({
                 // return info?.row?.original?.courses?.map((c: Course) => (
                 //     <CourseDot key={c?.id} course={c} />
                 // ))
-                return <span>{info?.row?.original?.courses[0]?.title || "N/A"}</span>
+                return (
+                    <span>
+                        {info?.row?.original?.courses[0]?.title || 'N/A'}
+                    </span>
+                )
             },
         },
     ]
@@ -116,7 +122,13 @@ export const WorkplaceRequestReport = ({
                         setEndDate={setEndDate}
                     />
                     {/* <ViewFullListReport data={data} columns={columns} /> */}
-                    <ActionButton onClick={() => { router.push(`/portals/rto/report/${ReportOptionsEnum.WORKPLACE_REQUEST}`) }} >
+                    <ActionButton
+                        onClick={() => {
+                            router.push(
+                                `/portals/rto/report/${ReportOptionsEnum.WORKPLACE_REQUEST}`
+                            )
+                        }}
+                    >
                         View Full List
                     </ActionButton>
                 </div>

@@ -1,18 +1,11 @@
-import { NextPageWithLayout, ReportOptionsEnum } from '@types'
-import { ReactElement, useState } from 'react'
-
-// layouts
-import { RtoLayout } from '@layouts'
-
 import { Button, Card, PageTitle } from '@components'
-
+import { ReportListModal } from '@partials/rto/components/ReportListModal'
 import {
     AppointmentsReport,
     ArchivedStudentsReport,
     BlockedStudentsReport,
     CancelledWorkplaceReport,
     CompletedWorkplaceReport,
-    DownloadButton,
     NewStudentReport,
     NonContactableReport,
     ReportedStudents,
@@ -21,12 +14,11 @@ import {
     WorkplaceRequestReport,
 } from '@partials/rto/report'
 import { ReportType } from '@partials/rto/report/ReportType'
-import { ReportListModal } from '@partials/rto/components/ReportListModal'
+import { ReportOptionsEnum, User } from '@types'
+import React, { ReactElement, useState } from 'react'
 import { IoMdDownload } from 'react-icons/io'
-import { RTOReports } from '@partials/common/Reports'
 
-const Report: NextPageWithLayout = () => {
-    return <RTOReports />
+export const RTOReports = ({ user }: { user?: User }) => {
     const [startDate, setStartDate] = useState<any>(new Date())
     const [endDate, setEndDate] = useState<any>(new Date())
 
@@ -39,7 +31,12 @@ const Report: NextPageWithLayout = () => {
         setModal(null)
     }
     const onViewClicked = () => {
-        setModal(<ReportListModal onClose={() => onClose()} />)
+        setModal(
+            <ReportListModal
+                onClose={() => onClose()}
+                user={Number(user?.id)}
+            />
+        )
     }
 
     const reports = () => {
@@ -51,6 +48,7 @@ const Report: NextPageWithLayout = () => {
                         setEndDate={setEndDate}
                         startDate={startDate}
                         endDate={endDate}
+                        user={user?.id}
                     />
                 )
             case ReportOptionsEnum.NEW_STUDENTS:
@@ -60,6 +58,7 @@ const Report: NextPageWithLayout = () => {
                         setEndDate={setEndDate}
                         startDate={startDate}
                         endDate={endDate}
+                        user={user?.id}
                     />
                 )
             case ReportOptionsEnum.CANCELLED_WORKPLACE_REQUEST:
@@ -69,12 +68,13 @@ const Report: NextPageWithLayout = () => {
                         setEndDate={setEndDate}
                         startDate={startDate}
                         endDate={endDate}
+                        user={user?.id}
                     />
                 )
             case ReportOptionsEnum.BLOCKED_STUDENTS:
-                return <BlockedStudentsReport />
+                return <BlockedStudentsReport user={user?.id} />
             case ReportOptionsEnum.ARCHIVED_STUDENTS:
-                return <ArchivedStudentsReport />
+                return <ArchivedStudentsReport user={user?.id} />
             case ReportOptionsEnum.WORKPLACE_REQUEST_COMPLETED:
                 return (
                     <CompletedWorkplaceReport
@@ -82,6 +82,7 @@ const Report: NextPageWithLayout = () => {
                         setEndDate={setEndDate}
                         startDate={startDate}
                         endDate={endDate}
+                        user={user?.id}
                     />
                 )
             case ReportOptionsEnum.WORKPLACE_REQUEST_TERMINATED:
@@ -91,6 +92,7 @@ const Report: NextPageWithLayout = () => {
                         setEndDate={setEndDate}
                         startDate={startDate}
                         endDate={endDate}
+                        user={user?.id}
                     />
                 )
             case ReportOptionsEnum.WORKPLACE_REQUEST:
@@ -100,10 +102,11 @@ const Report: NextPageWithLayout = () => {
                         setEndDate={setEndDate}
                         startDate={startDate}
                         endDate={endDate}
+                        user={user?.id}
                     />
                 )
             case ReportOptionsEnum.STUDENT_WITHOUT_WORKPLACE_REQUEST:
-                return <StudentsWithoutWorkplaceReport />
+                return <StudentsWithoutWorkplaceReport user={user?.id} />
             case ReportOptionsEnum.APPOINTMENTS_REPORT:
                 return (
                     <AppointmentsReport
@@ -111,17 +114,25 @@ const Report: NextPageWithLayout = () => {
                         setEndDate={setEndDate}
                         startDate={startDate}
                         endDate={endDate}
+                        user={user?.id}
                     />
                 )
             case ReportOptionsEnum.REPORTED_STUDENTS:
-                return <ReportedStudents />
+                return <ReportedStudents user={user?.id} />
             default:
-                return null
+                return (
+                    <NonContactableReport
+                        setStartDate={setStartDate}
+                        setEndDate={setEndDate}
+                        startDate={startDate}
+                        endDate={endDate}
+                        user={user?.id}
+                    />
+                )
         }
     }
-
     return (
-        <>
+        <div>
             {modal && modal}
             <div className="flex items-center justify-between mb-4">
                 <PageTitle title="Statistics" />
@@ -145,12 +156,6 @@ const Report: NextPageWithLayout = () => {
                 />
             </div>
             <Card>{reports()}</Card>
-        </>
+        </div>
     )
 }
-
-Report.getLayout = (page: ReactElement) => {
-    return <RtoLayout>{page}</RtoLayout>
-}
-
-export default Report

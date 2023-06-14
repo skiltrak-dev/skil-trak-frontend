@@ -7,20 +7,19 @@ import {
     TechnicalError,
     Typography,
 } from '@components'
-import { CourseDot } from '@partials/rto/student/components'
 import { RtoApi } from '@queries'
 import { ColumnDef } from '@tanstack/react-table'
-import { Course, ReportOptionsEnum } from '@types'
-import React, { useState } from 'react'
-import { ViewFullListReport } from '../../ViewFullListReport'
+import { ReportOptionsEnum } from '@types'
 import { useRouter } from 'next/router'
+import { useState } from 'react'
 
-export const ReportedStudents = () => {
+export const ReportedStudents = ({ user }: { user?: number }) => {
     const [itemPerPage, setItemPerPage] = useState(50)
     const [page, setPage] = useState(1)
     const router = useRouter()
     const { data, isLoading, isError } =
         RtoApi.Students.useReportedStudentsReport({
+            user,
             skip: itemPerPage * page - itemPerPage,
             limit: itemPerPage,
         })
@@ -30,10 +29,12 @@ export const ReportedStudents = () => {
             header: () => <span>Name</span>,
             accessorKey: 'user',
             cell: (info: any) => {
-               
                 return (
                     <a className="flex items-center gap-x-2">
-                        <InitialAvatar name={info?.row?.original?.user?.name} imageUrl={info?.row?.original?.user?.avatar} />
+                        <InitialAvatar
+                            name={info?.row?.original?.user?.name}
+                            imageUrl={info?.row?.original?.user?.avatar}
+                        />
                         <div className="flex flex-col">
                             <span>{info?.row?.original?.id}</span>
                             <span>{info?.row?.original?.user?.name}</span>
@@ -46,7 +47,6 @@ export const ReportedStudents = () => {
             accessorKey: 'email',
             header: () => <span>Email</span>,
             cell: (info) => {
-               
                 return <span>{info?.row?.original?.user?.email}</span>
             },
         },
@@ -61,11 +61,15 @@ export const ReportedStudents = () => {
                 // return info?.row?.original?.courses?.map((c: Course) => (
                 //     <CourseDot key={c?.id} course={c} />
                 // ))
-                return <span>{info?.row?.original?.courses[0]?.title || "N/A"}</span>
+                return (
+                    <span>
+                        {info?.row?.original?.courses[0]?.title || 'N/A'}
+                    </span>
+                )
             },
         },
     ]
-    const count = data?.data?.length;
+    const count = data?.data?.length
     return (
         <>
             <div className="flex justify-between items-center">
@@ -76,7 +80,13 @@ export const ReportedStudents = () => {
                     <Typography variant="h3">{count || 0}</Typography>
                 </div>
                 {/* <ViewFullListReport data={data} columns={columns} /> */}
-                <ActionButton onClick={() => { router.push(`/portals/rto/report/${ReportOptionsEnum.REPORTED_STUDENTS}`) }} >
+                <ActionButton
+                    onClick={() => {
+                        router.push(
+                            `/portals/rto/report/${ReportOptionsEnum.REPORTED_STUDENTS}`
+                        )
+                    }}
+                >
                     View Full List
                 </ActionButton>
             </div>

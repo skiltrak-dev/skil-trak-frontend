@@ -7,19 +7,18 @@ import {
     TechnicalError,
     Typography,
 } from '@components'
-import { CourseDot } from '@partials/rto/student/components'
-import React, { useState } from 'react'
 import { RtoApi } from '@queries'
 import { ColumnDef } from '@tanstack/react-table'
-import { Course, ReportOptionsEnum } from '@types'
-import { ViewFullListReport } from '../../ViewFullListReport'
+import { ReportOptionsEnum } from '@types'
 import { useRouter } from 'next/router'
+import { useState } from 'react'
 import { FilterReport } from '../../FilterReport'
 type Props = {
     startDate: any
     endDate: any
     setStartDate: any
     setEndDate: any
+    user?: number
 }
 
 export const NonContactableReport = ({
@@ -27,6 +26,7 @@ export const NonContactableReport = ({
     setEndDate,
     startDate,
     endDate,
+    user,
 }: Props) => {
     const [itemPerPage, setItemPerPage] = useState(50)
     const [page, setPage] = useState(1)
@@ -34,38 +34,34 @@ export const NonContactableReport = ({
 
     const { data, isLoading, isError } =
         RtoApi.Students.useGetNotContactableStudents({
+            user,
             startDate: startDate.toISOString().slice(0, 10),
             endDate: endDate.toISOString().slice(0, 10),
             skip: itemPerPage * page - itemPerPage,
             limit: itemPerPage,
         })
-    
 
     const columns: ColumnDef<any>[] = [
         {
             header: () => <span>Name</span>,
             accessorKey: 'user',
-            cell: (info: any) => {
-                return (
-                    <a className="flex items-center gap-x-2">
-                        <InitialAvatar
-                            name={info?.row?.original?.user?.name}
-                            imageUrl={info?.row?.original?.user?.avatar}
-                        />
-                        <div className="flex flex-col">
-                            <span>{info?.row?.original?.id}</span>
-                            <span>{info?.row?.original?.user?.name}</span>
-                        </div>
-                    </a>
-                )
-            },
+            cell: (info: any) => (
+                <a className="flex items-center gap-x-2">
+                    <InitialAvatar
+                        name={info?.row?.original?.user?.name}
+                        imageUrl={info?.row?.original?.user?.avatar}
+                    />
+                    <div className="flex flex-col">
+                        <span>{info?.row?.original?.id}</span>
+                        <span>{info?.row?.original?.user?.name}</span>
+                    </div>
+                </a>
+            ),
         },
         {
             accessorKey: 'email',
             header: () => <span>Email</span>,
-            cell: (info) => {
-                return <span>{info?.row?.original?.user?.email}</span>
-            },
+            cell: (info) => <span>{info?.row?.original?.user?.email}</span>,
         },
         {
             accessorKey: 'phone',

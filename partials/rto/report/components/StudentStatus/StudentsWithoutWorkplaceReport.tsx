@@ -7,21 +7,20 @@ import {
     TechnicalError,
     Typography,
 } from '@components'
-import { CourseDot } from '@partials/rto/student/components'
 import { RtoApi } from '@queries'
 import { ColumnDef } from '@tanstack/react-table'
-import React, { useState } from 'react'
+import { useState } from 'react'
 
-import { Course, ReportOptionsEnum } from '@types'
-import { ViewFullListReport } from '../../ViewFullListReport'
+import { ReportOptionsEnum } from '@types'
 import { useRouter } from 'next/router'
 
-export const StudentsWithoutWorkplaceReport = () => {
+export const StudentsWithoutWorkplaceReport = ({ user }: { user?: number }) => {
     const [itemPerPage, setItemPerPage] = useState(50)
     const [page, setPage] = useState(1)
     const router = useRouter()
     const { data, isLoading, isError } =
         RtoApi.Students.useWithoutWorkplaceReport({
+            user,
             skip: itemPerPage * page - itemPerPage,
             limit: itemPerPage,
         })

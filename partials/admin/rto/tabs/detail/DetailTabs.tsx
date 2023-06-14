@@ -10,6 +10,7 @@ import {
     MailsTab,
     AppointmentTab,
 } from '@partials/common'
+import { RTOReports } from '@partials/common/Reports'
 
 export const DetailTabs = ({
     id,
@@ -32,11 +33,6 @@ export const DetailTabs = ({
             element: <SectorsTab rto={rto} />,
         },
         {
-            label: 'Notes',
-            href: { query: { tab: 'notes', id } },
-            element: <NotesTab user={rto?.data?.user} />,
-        },
-        {
             label: 'Assessments',
             href: {
                 query: {
@@ -55,6 +51,16 @@ export const DetailTabs = ({
             label: 'Appointments',
             href: { pathname: String(id), query: { tab: 'appointments' } },
             element: <AppointmentTab userId={rto?.data?.user?.id} />,
+        },
+        {
+            label: 'Notes',
+            href: { query: { tab: 'notes', id } },
+            element: <NotesTab user={rto?.data?.user} />,
+        },
+        {
+            label: 'Reports',
+            href: { query: { tab: 'reports', id } },
+            element: <RTOReports user={rto?.data?.user} />,
         },
         {
             label: 'Mails',

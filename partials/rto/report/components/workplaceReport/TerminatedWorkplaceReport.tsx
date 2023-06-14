@@ -1,4 +1,12 @@
-import { ActionButton, EmptyData, InitialAvatar, LoadingAnimation, Table, TechnicalError, Typography } from '@components'
+import {
+    ActionButton,
+    EmptyData,
+    InitialAvatar,
+    LoadingAnimation,
+    Table,
+    TechnicalError,
+    Typography,
+} from '@components'
 import { CourseDot } from '@partials/rto/student/components'
 import { RtoApi } from '@queries'
 import { ColumnDef } from '@tanstack/react-table'
@@ -8,25 +16,27 @@ import { ViewFullListReport } from '../../ViewFullListReport'
 import { Course, ReportOptionsEnum } from '@types'
 import { useRouter } from 'next/router'
 
-
 type Props = {
     startDate: any
     endDate: any
     setStartDate: any
     setEndDate: any
+    user?: number
 }
 
 export const TerminatedWorkplaceReport = ({
     setStartDate,
     setEndDate,
     startDate,
-    endDate
+    endDate,
+    user,
 }: Props) => {
     const [itemPerPage, setItemPerPage] = useState(50)
     const [page, setPage] = useState(1)
     const router = useRouter()
     const { data, isLoading, isError } =
         RtoApi.Students.useTerminatedWorkplaceReport({
+            user,
             startDate: startDate.toISOString().slice(0, 10),
             endDate: endDate.toISOString().slice(0, 10),
             skip: itemPerPage * page - itemPerPage,
@@ -40,7 +50,9 @@ export const TerminatedWorkplaceReport = ({
             cell: (info: any) => {
                 const {
                     id,
-                    student: { user: { name, avatar } },
+                    student: {
+                        user: { name, avatar },
+                    },
                 } = info.row.original || {}
 
                 return (
@@ -59,7 +71,9 @@ export const TerminatedWorkplaceReport = ({
             header: () => <span>Email</span>,
             cell: (info) => {
                 const {
-                    student: { user: { email } },
+                    student: {
+                        user: { email },
+                    },
                 } = info.row.original || {}
                 return <span>{email}</span>
             },
@@ -81,11 +95,15 @@ export const TerminatedWorkplaceReport = ({
                 // return info?.row?.original?.courses?.map((c: Course) => (
                 //     <CourseDot key={c?.id} course={c} />
                 // ))
-                return <span>{info?.row?.original?.courses[0]?.title || "N/A"}</span>
+                return (
+                    <span>
+                        {info?.row?.original?.courses[0]?.title || 'N/A'}
+                    </span>
+                )
             },
         },
     ]
-    const count = data?.data?.length;
+    const count = data?.data?.length
     return (
         <>
             <div className="flex justify-between">
@@ -96,8 +114,7 @@ export const TerminatedWorkplaceReport = ({
                     <Typography variant="h3">{count || 0}</Typography>
                 </div>
 
-
-                <div className='flex items-center gap-x-4'>
+                <div className="flex items-center gap-x-4">
                     <FilterReport
                         startDate={startDate}
                         setStartDate={setStartDate}
@@ -105,11 +122,16 @@ export const TerminatedWorkplaceReport = ({
                         setEndDate={setEndDate}
                     />
                     {/* <ViewFullListReport data={data} columns={columns} /> */}
-                    <ActionButton onClick={() => { router.push(`/portals/rto/report/${ReportOptionsEnum.WORKPLACE_REQUEST_TERMINATED}`) }} >
+                    <ActionButton
+                        onClick={() => {
+                            router.push(
+                                `/portals/rto/report/${ReportOptionsEnum.WORKPLACE_REQUEST_TERMINATED}`
+                            )
+                        }}
+                    >
                         View Full List
                     </ActionButton>
                 </div>
-
             </div>
             {isError && <TechnicalError />}
             {isLoading ? (
