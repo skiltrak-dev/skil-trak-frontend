@@ -19,7 +19,9 @@ import React, { ReactElement, useState } from 'react'
 import { IoMdDownload } from 'react-icons/io'
 
 export const RTOReports = ({ user }: { user?: User }) => {
-    const [startDate, setStartDate] = useState<any>(new Date())
+    const monthEnd = new Date()
+    monthEnd.setDate(monthEnd.getDate() - 30)
+    const [startDate, setStartDate] = useState<any>(monthEnd)
     const [endDate, setEndDate] = useState<any>(new Date())
 
     const [reportType, setReportType] = useState({

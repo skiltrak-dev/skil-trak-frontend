@@ -23,8 +23,8 @@ export const ReportListModal = ({
     user?: number
 }) => {
     const [filterReports, setFilterReports] = useState({
-        label: 'Weekly',
-        value: 'weekly',
+        label: 'Monthly',
+        value: 'monthly',
     })
     const [isPdfDownload, setIsPdfDownload] = useState<boolean>(false)
     const [startDate, setStartDate] = useState('')
@@ -58,7 +58,7 @@ export const ReportListModal = ({
     }, [downloadAsPdf?.isError])
 
     const filterOptions = [
-        { label: 'Weekly', value: 'weekly' },
+        { label: 'Monthly', value: 'monthly' },
         { label: 'Range', value: 'range' },
     ]
 
@@ -102,7 +102,7 @@ export const ReportListModal = ({
                                             onChange={handleStartDateChange}
                                             disabled={
                                                 filterReports?.value ===
-                                                'weekly'
+                                                'monthly'
                                             }
                                             type="date"
                                         />
@@ -115,7 +115,7 @@ export const ReportListModal = ({
                                             onChange={handleEndDateChange}
                                             disabled={
                                                 filterReports?.value ===
-                                                'weekly'
+                                                'monthly'
                                             }
                                             type="date"
                                         />
