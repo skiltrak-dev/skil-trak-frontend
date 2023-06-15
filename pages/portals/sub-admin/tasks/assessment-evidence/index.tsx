@@ -165,19 +165,7 @@ const AssessmentEvidence: NextPageWithLayout = (props: Props) => {
                 loading: count.isLoading,
             },
             element: <ArchivedAssessment />,
-        }
-        // {
-        //     label: 'Archive',
-        //     href: {
-        //         pathname: 'assessment-evidence',
-        //         query: { tab: 'archive' },
-        //     },
-        //     badge: {
-        //         text: assessMentCount?.reOpened,
-        //         loading: count.isLoading,
-        //     },
-        //     element: <ReOpenedAssessment />,
-        // },
+        },
     ]
 
     return (

@@ -25,8 +25,7 @@ export const FilterReport = ({
 }: Props) => {
     const [dateRange, setDateRange] = useState<any>('')
     const [showCalendars, setShowCalendars] = useState<any>(false)
-    const [selectedFilter, setSelectedFilter] = useState<any>('Weekly')
-    
+    const [selectedFilter, setSelectedFilter] = useState<any>('Monthly')
 
     const [showFilter, setShowFilter] = useState<any>(false)
     // months
@@ -59,13 +58,23 @@ export const FilterReport = ({
 
     const handleStartDateChange = (date: any) => {
         setStartDate(date)
+        // if (selectedFilter === 'Monthly') {
+        //     setShowCalendars(false)
+        //     setDateRange(
+        //         date.toLocaleDateString('en-US', {
+        //             month: 'long',
+        //             year: 'numeric',
+        //         })
+        //     )
+        // }
         if (selectedFilter === 'Monthly') {
             setShowCalendars(false)
+            const montStart = new Date(date)
+            const monthEnd = new Date(date)
+            monthEnd.setDate(monthEnd.getDate() + 30)
+            setEndDate(monthEnd)
             setDateRange(
-                date.toLocaleDateString('en-US', {
-                    month: 'long',
-                    year: 'numeric',
-                })
+                `${montStart.toLocaleDateString()} - ${monthEnd.toLocaleDateString()}`
             )
         }
         if (selectedFilter === 'Weekly') {
@@ -89,7 +98,6 @@ export const FilterReport = ({
             )
         }
     }
- 
 
     const handleFilterSelect = (filter: any) => {
         setSelectedFilter(filter)
@@ -100,13 +108,24 @@ export const FilterReport = ({
         switch (selectedFilter) {
             case 'Monthly':
                 return (
-                    <MonthlyDropdown
-                        setShowCalendars={setShowCalendars}
-                        month={month}
-                        year={year}
-                        setMonth={setMonth}
-                        setYear={setYear}
-                    />
+                    <Card>
+                        <CalendarStyles>
+                            <Calendar
+                                onChange={handleStartDateChange}
+                                value={startDate}
+                                onClickDay={(value, event) => {
+                                    handleStartDateChange(value)
+                                }}
+                            />
+                        </CalendarStyles>
+                    </Card>
+                    // <MonthlyDropdown
+                    //     setShowCalendars={setShowCalendars}
+                    //     month={month}
+                    //     year={year}
+                    //     setMonth={setMonth}
+                    //     setYear={setYear}
+                    // />
                 )
             case 'Weekly':
                 return (
@@ -207,7 +226,7 @@ export const FilterReport = ({
                                     >
                                         Range
                                     </li>
-                                   
+
                                     <li
                                         className="w-full border-b px-6 flex items-center gap-x-2 text-sm py-2  hover:bg-gray-200 cursor-pointer"
                                         onClick={() => {
@@ -218,7 +237,16 @@ export const FilterReport = ({
                                     >
                                         Weekly
                                     </li>
-                                  
+                                    <li
+                                        className="w-full border-b px-6 flex items-center gap-x-2 text-sm py-2  hover:bg-gray-200 cursor-pointer"
+                                        onClick={() => {
+                                            handleFilterSelect('Monthly')
+                                            setShowCalendars(!showCalendars)
+                                            setShowFilter(false)
+                                        }}
+                                    >
+                                        Monthly
+                                    </li>
                                 </ul>
                             </div>
                         )}
