@@ -24,6 +24,7 @@ import {
     CancelledWorkplaces,
     StudentAddedWorkplaces,
     FilteredWorkplaces,
+    PlacementStartedWorkplaces,
 } from '@partials/sub-admin'
 import { checkFilteredDataLength } from '@utils'
 import { useRouter } from 'next/router'
@@ -115,6 +116,18 @@ const Workplace: NextPageWithLayout = (props: Props) => {
             },
             href: { pathname: 'workplace', query: { tab: 'my-workplaces' } },
             element: <MyWorkplaces />,
+        },
+        {
+            label: 'Placement Started Workplaces',
+            badge: {
+                text: count?.data?.placementStarted,
+                loading: count?.isLoading,
+            },
+            href: {
+                pathname: 'workplace',
+                query: { tab: 'placement-started-workplaces' },
+            },
+            element: <PlacementStartedWorkplaces />,
         },
         {
             label: 'Student Provided Workplace',

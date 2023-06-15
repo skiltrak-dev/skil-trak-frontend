@@ -68,11 +68,9 @@ export const PlacementTableCell = ({ request }: any) => {
                 case 'placementStarted':
                     return (
                         <div
-                            className={`${classes} bg-green-500 border-green-300`}
+                            className={`${classes} !bg-green-500 text-white border-green-300`}
                         >
-                            <span className="text-white">
-                                Placement Started
-                            </span>
+                            Placement Started
                         </div>
                     )
             }

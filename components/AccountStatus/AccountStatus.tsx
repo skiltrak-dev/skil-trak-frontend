@@ -69,7 +69,6 @@ export const AccountStatus = ({ status }: AccountStatusProps) => {
                         // instead of the {{CHECKOUT_SESSION_ID}} placeholder.
                         sessionId: res.data.id,
                     })
-                    console.warn(error.message)
                 }
             })
             .catch((err) => {})

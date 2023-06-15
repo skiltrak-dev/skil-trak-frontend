@@ -244,6 +244,7 @@ export const AddIndividualStudentForm = () => {
                                 name={'suburb'}
                                 placeholder={'Suburb...'}
                                 validationIcons
+                                placesSuggetions
                             />
                             <TextInput
                                 label={'State'}

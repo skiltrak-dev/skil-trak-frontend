@@ -99,9 +99,7 @@ export const DetailTabs = ({ rto }: { rto: Rto }) => {
                                         rtoStatsCount?.data?.workplaceRequest
                                     )}
                                     title={'Workplace Requests'}
-                                    link={
-                                        '/portals/sub-admin/tasks/workplace?tab=all'
-                                    }
+                                    link={`/portals/sub-admin/tasks/workplace?tab=all&rtoId=${rto?.id}`}
                                 />
                                 <FigureCard
                                     imageUrl="/images/icons/job.png"

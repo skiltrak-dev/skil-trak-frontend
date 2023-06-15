@@ -192,12 +192,14 @@ export const UpdateDetails = ({
                                     name={'addressLine1'}
                                     placeholder={'Your Address Line 1...'}
                                     validationIcons
+                                    placesSuggetions
                                 />
                                 <TextInput
                                     label={'Suburb'}
                                     name={'suburb'}
                                     placeholder={'Suburb...'}
                                     validationIcons
+                                    placesSuggetions
                                 />
 
                                 <TextInput

@@ -103,6 +103,8 @@ export const AddCustomIndustryForm = ({
                 [true],
                 'Please check if you agree with our terms & policies'
             ),
+        sectors: yup.object().required(),
+        courses: yup.object().required(),
     })
 
     useEffect(() => {
@@ -275,6 +277,7 @@ export const AddCustomIndustryForm = ({
                                     name={'addressLine1'}
                                     placeholder={'Your Address Line 1...'}
                                     validationIcons
+                                    placesSuggetions
                                 />
                             </div>
 
@@ -284,6 +287,7 @@ export const AddCustomIndustryForm = ({
                                     name={'suburb'}
                                     placeholder={'Suburb...'}
                                     validationIcons
+                                    placesSuggetions
                                 />
 
                                 <TextInput

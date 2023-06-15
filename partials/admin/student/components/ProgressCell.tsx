@@ -1,8 +1,8 @@
-import { Modal } from '@components'
+import { Modal, Typography } from '@components'
 import { useContextBar } from '@hooks'
 import { ChangeWorkplaceStatus } from '@partials/common'
 import { RequestType } from '@partials/sub-admin/workplace/components'
-import { Student } from '@types'
+import { Student, SubAdmin, User } from '@types'
 import classNames from 'classnames'
 import Link from 'next/link'
 import { ReactElement, useState } from 'react'
@@ -114,10 +114,12 @@ export const ProgressCell = ({
     studentId,
     status,
     step,
+    assigned,
 }: {
     studentId?: number
     status?: WorkplaceRequestStatus
     step: 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 | 13 | 14 | number
+    assigned?: SubAdmin
 }) => {
     const [modal, setModal] = useState<ReactElement | null>(null)
     // const currentStatus = WorkplaceRequestProgress[status]
@@ -170,6 +172,14 @@ export const ProgressCell = ({
                     <p className="text-[11px] text-gray-400 whitespace-nowrap">
                         {currentStatus.description}
                     </p>
+
+                    {step === 3 && (
+                        <Typography variant={'xs'} color={'text-gray-500'}>
+                            <span className="font-semibold">
+                                {assigned?.user?.name}
+                            </span>
+                        </Typography>
+                    )}
                 </div>
             </div>
         </>

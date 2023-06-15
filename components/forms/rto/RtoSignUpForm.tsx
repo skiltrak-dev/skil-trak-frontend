@@ -331,6 +331,7 @@ export const RtoSignUpForm = ({ onSubmit }: { onSubmit: any }) => {
                                 name={'addressLine1'}
                                 placeholder={'Your Address Line 1...'}
                                 validationIcons
+                                placesSuggetions
                             />
 
                             <TextInput
@@ -338,6 +339,7 @@ export const RtoSignUpForm = ({ onSubmit }: { onSubmit: any }) => {
                                 name={'addressLine2'}
                                 placeholder={'Your Address Line 2...'}
                                 validationIcons
+                                placesSuggetions
                             />
                         </div>
 
@@ -354,6 +356,7 @@ export const RtoSignUpForm = ({ onSubmit }: { onSubmit: any }) => {
                                 name={'suburb'}
                                 placeholder={'Suburb...'}
                                 validationIcons
+                                placesSuggetions
                             />
 
                             <TextInput

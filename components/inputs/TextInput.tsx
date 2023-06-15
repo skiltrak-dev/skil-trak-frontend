@@ -1,5 +1,6 @@
 import { useFormContext } from 'react-hook-form'
 import { useState } from 'react'
+import { usePlacesWidget } from 'react-google-autocomplete'
 
 import {
     HelpText,
@@ -34,14 +35,13 @@ export type TextInputProps = InputProps & {
     placeholder?: string
     min?: string
     max?: string
-    ref?: any
+    placesSuggetions?: boolean
 }
 
 export const TextInput = ({
     id,
     name,
     label,
-    ref,
 
     type,
     placeholder,
@@ -59,6 +59,8 @@ export const TextInput = ({
     disabled = false,
     validationIcons = false,
 
+    placesSuggetions,
+
     min,
     max,
 }: TextInputProps) => {
@@ -71,6 +73,21 @@ export const TextInput = ({
         formContext && formContext.getFieldState(name).error !== undefined,
         disabled
     )
+
+    const { ref }: any = usePlacesWidget({
+        apiKey: process.env.NEXT_PUBLIC_MAP_KEY,
+        onPlaceSelected: (place) => {},
+        options: {
+            // types: ['(suburbs)'],
+            componentRestrictions: {
+                country: 'au',
+            },
+        },
+    })
+
+    // const { ref: preferableLocationRef, ...rest } = formContext.register(name)
+
+    const formRef = formContext && formContext.register(name)
 
     return (
         <div className="w-full mb-2">
@@ -91,6 +108,7 @@ export const TextInput = ({
                     <input
                         className={inputFieldClasses}
                         {...(id ? { id } : {})}
+                        {...formRef}
                         type={passwordType || type}
                         placeholder={placeholder || ''}
                         disabled={disabled}
@@ -105,7 +123,14 @@ export const TextInput = ({
                             onBlur
                         )}
                         {...(value ? { value } : {})}
-                        {...(ref ? { ref } : {})}
+                        {...(placesSuggetions
+                            ? {
+                                  ref: (e: any) => {
+                                      formRef.ref(e)
+                                      ref.current = e
+                                  },
+                              }
+                            : {})}
                     />
 
                     {type === 'password' && (

@@ -80,8 +80,10 @@ export const StudentProfile = ({ noTitle }: { noTitle?: boolean }) => {
     useEffect(() => {
         if (notContactableResult.isSuccess) {
             notification.success({
-                title: 'Not Contactable',
-                description: 'Not Contactable',
+                title: data?.nonContactable ? 'Not Contactable' : 'Contactable',
+                description: data?.nonContactable
+                    ? 'Not Contactable'
+                    : 'Contactable',
             })
         }
     }, [notContactableResult])

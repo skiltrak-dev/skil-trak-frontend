@@ -217,6 +217,7 @@ export const AddSecondWorkplaceForm = ({
                         name={'addressLine1'}
                         placeholder={'Your Address Line 1...'}
                         validationIcons
+                        placesSuggetions
                     />
 
                     <TextInput
@@ -224,6 +225,7 @@ export const AddSecondWorkplaceForm = ({
                         name={'suburb'}
                         placeholder={'Suburb...'}
                         validationIcons
+                        placesSuggetions
                     />
 
                     <TextInput
