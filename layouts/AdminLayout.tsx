@@ -24,6 +24,7 @@ import {
     MdSpaceDashboard,
     MdSubscriptions,
     MdVolunteerActivism,
+    MdFindInPage,
 } from 'react-icons/md'
 import { RiShieldUserFill, RiVoiceRecognitionLine } from 'react-icons/ri'
 import { MdNotificationsActive, MdEmail } from 'react-icons/md'
@@ -83,6 +84,11 @@ const routes: Route[] = [
         text: 'Workplace Request',
         path: getRoutePath('/workplaces?tab=all-student-provided-workplace'),
         Icon: MdHomeWork,
+    },
+    {
+        text: 'Find Workplaces',
+        path: getRoutePath('/search-workplaces'),
+        Icon: MdFindInPage,
     },
     {
         text: 'Sectors',

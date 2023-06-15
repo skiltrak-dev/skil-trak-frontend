@@ -1,39 +1,33 @@
-import { ReactElement, useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
+import { ReactElement, useEffect, useState } from 'react'
 
-import { StudentLayout, SubAdminLayout } from '@layouts'
-import { NextPageWithLayout } from '@types'
 import {
     ActionAlert,
-    ActionAlertType,
+    ActionButton,
     Card,
     LoadingAnimation,
-    Typography,
-    StepIndicator,
-    ActionButton,
     PageTitle,
+    StepIndicator,
+    Typography,
 } from '@components'
 import { ShowErrorNotifications } from '@components/ShowErrorNotifications'
-import { YourIndustry } from '@components/sections/student/WorkplaceContainer/MyWorkPlace'
+import { SubAdminLayout } from '@layouts'
+import { NextPageWithLayout } from '@types'
 
 // query
-import {
-    useFindByAbnWorkplaceMutation,
-    useAddCustomIndustyForWorkplaceMutation,
-    useSubAdminCancelStudentWorkplaceRequestMutation,
-    useGetWorkplaceIndustriesQuery,
-    useGetSubAdminStudentDetailQuery,
-    useGetSubAdminStudentWorkplaceQuery,
-} from '@queries'
-import { FindWorkplace } from '@components/sections/student/WorkplaceContainer/MyWorkPlace/components/FindWorkplace'
-import { IndustryForm } from '@components/sections/student/WorkplaceContainer/MyWorkPlace/IndustryForm'
 import { useNotification } from '@hooks'
-import { AppliedIndustry } from '@components/sections/student/WorkplaceContainer/MyWorkPlace/components/IndustrySelection/AppliedIndustry'
 import { AddCustomIndustryForm, FindWorkplaceForm } from '@partials/common'
 import {
     ExistinIndustryCard,
     IndustrySelection,
 } from '@partials/sub-admin/students'
+import {
+    useAddCustomIndustyForWorkplaceMutation,
+    useFindByAbnWorkplaceMutation,
+    useGetSubAdminStudentDetailQuery,
+    useGetSubAdminStudentWorkplaceQuery,
+    useSubAdminCancelStudentWorkplaceRequestMutation,
+} from '@queries'
 
 type Props = {}
 

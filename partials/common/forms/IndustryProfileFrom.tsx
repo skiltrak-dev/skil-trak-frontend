@@ -14,7 +14,7 @@ import {
     SelectOption,
     ShowErrorNotifications,
     TextInput,
-    Typography
+    Typography,
 } from '@components'
 
 // hooks
@@ -461,6 +461,7 @@ export const IndustryProfileFrom = ({
                                         name={'addressLine1'}
                                         placeholder={'Your Address Line 1...'}
                                         validationIcons
+                                        placesSuggetions
                                     />
                                 </div>
 
@@ -470,6 +471,7 @@ export const IndustryProfileFrom = ({
                                         name={'suburb'}
                                         placeholder={'Suburb...'}
                                         validationIcons
+                                        placesSuggetions
                                     />
 
                                     <TextInput

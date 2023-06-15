@@ -8,9 +8,6 @@ import * as yup from 'yup'
 // components
 import { Avatar, Button, Card, TextInput } from '@components'
 
-// utils
-import { getUserCredentials, onlyAlphabets } from '@utils'
-
 // hooks
 import { useActionModal, useContextBar, useNotification } from '@hooks'
 

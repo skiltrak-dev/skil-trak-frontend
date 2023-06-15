@@ -310,6 +310,7 @@ export const IndustryForm = ({
                                     name={'addressLine1'}
                                     placeholder={'Your Address Line 1...'}
                                     validationIcons
+                                    placesSuggetions
                                 />
                             </div>
 
@@ -319,6 +320,7 @@ export const IndustryForm = ({
                                     name={'suburb'}
                                     placeholder={'Suburb...'}
                                     validationIcons
+                                    placesSuggetions
                                 />
 
                                 <TextInput

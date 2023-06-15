@@ -1,4 +1,10 @@
-import { RadioGroup, Select, SelectOption, TextInput } from '@components'
+import {
+    AutoCompleteTextInput,
+    RadioGroup,
+    Select,
+    SelectOption,
+    TextInput,
+} from '@components'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { Button } from 'components/buttons/Button'
 import { useEffect, useState } from 'react'
@@ -148,19 +154,19 @@ export const PersonalInfoForm = ({
 
     const onPlaceChanged = () => {}
 
-    const { ref }: any = usePlacesWidget({
-        apiKey: process.env.NEXT_PUBLIC_MAP_KEY,
-        onPlaceSelected: (place) => {},
-        options: {
-            // types: ['(suburbs)'],
-            componentRestrictions: {
-                country: 'au',
-            },
-        },
-    })
+    // const { ref }: any = usePlacesWidget({
+    //     apiKey: process.env.NEXT_PUBLIC_MAP_KEY,
+    //     onPlaceSelected: (place) => {},
+    //     options: {
+    //         // types: ['(suburbs)'],
+    //         componentRestrictions: {
+    //             country: 'au',
+    //         },
+    //     },
+    // })
 
-    const { ref: preferableLocationRef, ...rest } =
-        formMethods.register('preferableLocation')
+    // const { ref: preferableLocationRef, ...rest } =
+    //     formMethods.register('preferableLocation')
     return (
         <div>
             <Typography variant={'label'} capitalize>
@@ -257,7 +263,18 @@ export const PersonalInfoForm = ({
                             />
                         </div>
                         <div>
-                            <div className="flex justify-between items-center mb-1">
+                            <TextInput
+                                name={'preferableLocation'}
+                                label={
+                                    'Where would you want to locate yourself? (Suburb)'
+                                }
+                                id={'map'}
+                                required
+                                placeholder="Where would you want to locate your self? (Suburb)"
+                                placesSuggetions
+                            />
+
+                            {/* <div className="flex justify-between items-center mb-1">
                                 <div>
                                     <Typography
                                         variant={'label'}
@@ -268,9 +285,9 @@ export const PersonalInfoForm = ({
                                     </Typography>
                                     <RequiredStar />
                                 </div>
-                            </div>
+                            </div> */}
 
-                            <input
+                            {/* <input
                                 className="border text-black w-full rounded-md outline-none px-4 py-2 placeholder-gray text-sm"
                                 ref={(e: any) => {
                                     preferableLocationRef(e)
@@ -280,7 +297,7 @@ export const PersonalInfoForm = ({
                                 id={'map'}
                                 placeholder="Where would you want to locate your self? (Suburb)"
                             />
-                            <InputErrorMessage name={'preferableLocation'} />
+                            <InputErrorMessage name={'preferableLocation'} /> */}
                         </div>
                         <Button text={'Continue'} submit />
                     </form>

@@ -110,7 +110,6 @@ export const ScheduleCard = ({
                 item.innerIndex = hoverIndex
             },
             drop: (itemx, monitor) => {
-                // Console('Recieved itemx: ', itemx)
                 // setCard({ ...itemx, empty: false });
                 // return { item };
             },

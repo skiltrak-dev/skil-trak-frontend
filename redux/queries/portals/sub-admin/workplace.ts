@@ -37,6 +37,13 @@ export const workplaceEndpoints = (
         }),
         providesTags: ['SubAdminWorkplace'],
     }),
+    getPlacementStartedWorkplaces: builder.query<any, any>({
+        query: (params) => ({
+            url: `${PREFIX}my-workplace-request/placement-started/list`,
+            params,
+        }),
+        providesTags: ['SubAdminWorkplace'],
+    }),
     assignToSubAdmin: builder.mutation<
         any,
         { industry: number; id: number; subAdmin?: number }

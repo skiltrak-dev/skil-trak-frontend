@@ -22,7 +22,7 @@ export const BlockModal = ({
 
     useEffect(() => {
         if (changeStatusResult.isSuccess) {
-            alert.error({
+            notification.error({
                 title: `Student Blocked`,
                 description: `Student "${item.user.name}" has been blocked.`,
             })

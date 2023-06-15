@@ -1,5 +1,5 @@
-import { ReactElement, useEffect } from 'react'
 import { useRouter } from 'next/router'
+import { ReactElement, useEffect } from 'react'
 
 // components
 import {
@@ -13,17 +13,15 @@ import {
 import { SubAdminLayout } from '@layouts'
 import { NextPageWithLayout } from '@types'
 
-import { StudentSignUpForm } from '@partials/student'
-import { UpdateDetails } from '@partials/sub-admin/students/form/UpdateDetails'
 import { useContextBar, useNotification } from '@hooks'
 
 // queries
+import { StudentProfileForm } from '@partials/common'
 import {
     SubAdminApi,
     useGetSubAdminStudentDetailQuery,
     useUpdateStudentProfileMutation,
 } from '@queries'
-import { StudentProfileForm } from '@partials/common'
 
 const EditStudentDetail: NextPageWithLayout = () => {
     const contextBar = useContextBar()
@@ -36,6 +34,7 @@ const EditStudentDetail: NextPageWithLayout = () => {
         skip: !id,
         refetchOnMountOrArgChange: true,
     })
+
     const courses = SubAdminApi.Student.useCourses(Number(id), {
         skip: !id,
         refetchOnMountOrArgChange: true,

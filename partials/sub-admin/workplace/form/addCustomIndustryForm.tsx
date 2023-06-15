@@ -309,6 +309,7 @@ export const AddCustomIndustryForm = ({ workplaceId }: any) => {
                         name={'addressLine1'}
                         placeholder={'Your Address Line 1...'}
                         validationIcons
+                        placesSuggetions
                     />
 
                     <TextInput
@@ -316,6 +317,7 @@ export const AddCustomIndustryForm = ({ workplaceId }: any) => {
                         name={'suburb'}
                         placeholder={'Suburb...'}
                         validationIcons
+                        placesSuggetions
                     />
 
                     <TextInput
