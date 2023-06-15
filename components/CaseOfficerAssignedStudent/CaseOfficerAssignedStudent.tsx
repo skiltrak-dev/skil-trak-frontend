@@ -35,11 +35,20 @@ export const CaseOfficerAssignedStudent = ({
     ) : student?.workplace && student?.workplace?.length > 0 ? (
         <ProgressCell
             studentId={student?.id}
+            assigned={student?.subadmin || workplace?.assignedTo}
             step={steps > 14 ? 14 : steps < 1 ? 1 : steps}
         />
     ) : student?.subadmin ? (
-        <ProgressCell studentId={student?.id} step={3} />
+        <ProgressCell
+            studentId={student?.id}
+            step={3}
+            assigned={student?.subadmin || workplace?.assignedTo}
+        />
     ) : (
-        <ProgressCell studentId={student?.id} step={1} />
+        <ProgressCell
+            studentId={student?.id}
+            step={1}
+            assigned={student?.subadmin || workplace?.assignedTo}
+        />
     )
 }

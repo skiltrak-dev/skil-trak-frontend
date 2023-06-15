@@ -340,6 +340,7 @@ export const RTOProfileEditForm = ({
                                                     'Your Address Line 1...'
                                                 }
                                                 validationIcons
+                                                placesSuggetions
                                             />
                                         </div>
 
@@ -349,6 +350,7 @@ export const RTOProfileEditForm = ({
                                                 name={'suburb'}
                                                 placeholder={'Suburb...'}
                                                 validationIcons
+                                                placesSuggetions
                                             />
 
                                             <TextInput

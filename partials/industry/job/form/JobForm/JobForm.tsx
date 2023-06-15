@@ -197,6 +197,7 @@ export const JobForm = ({ initialValues, onSubmit, edit }: any) => {
                                 name={'addressLine1'}
                                 placeholder={'Address Line 1...'}
                                 validationIcons
+                                placesSuggetions
                             />
                         </div>
 
@@ -205,6 +206,7 @@ export const JobForm = ({ initialValues, onSubmit, edit }: any) => {
                             name={'suburb'}
                             placeholder={'Suburb...'}
                             validationIcons
+                            placesSuggetions
                         />
                         <TextInput
                             label={'Zip Code'}

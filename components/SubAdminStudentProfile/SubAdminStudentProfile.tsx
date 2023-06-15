@@ -146,7 +146,9 @@ export const SubAdminStudentProfile = ({ student }: { student: any }) => {
                         <span className="text-gray-300">
                             <MdBatchPrediction size={12} />
                         </span>
-                        <p className="text-xs font-medium">N/A</p>
+                        <p className="text-xs font-medium">
+                            {student?.batch || 'N/A'}
+                        </p>
                     </div>
                     <div className="text-gray-400 text-[11px] -mt-0.5 text-right">
                         Batch

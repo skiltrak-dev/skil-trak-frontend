@@ -106,7 +106,7 @@ export const Actions = ({
 
     return (
         <div className="mt-1.5 mb-2.5">
-            {modal && modal}
+            {modal}
             <ShowErrorNotifications result={updateStatusResult} />
             <ShowErrorNotifications result={startPlacementResult} />
             <ShowErrorNotifications result={industryResponseResult} />

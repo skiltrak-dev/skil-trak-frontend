@@ -217,7 +217,6 @@ export const StudentProfileForm = ({
                 nonContactable,
                 isActive,
                 expiryDate,
-                batch,
                 updatedAt,
                 createdAt,
                 ...rest
@@ -290,6 +289,14 @@ export const StudentProfileForm = ({
                                         label={'Phone Number'}
                                         name={'phone'}
                                         placeholder={'Your phone number...'}
+                                        validationIcons
+                                        required
+                                    />
+
+                                    <TextInput
+                                        label={'Batch'}
+                                        name={'batch'}
+                                        placeholder={'Enter Student Batch...'}
                                         validationIcons
                                         required
                                     />
@@ -526,6 +533,7 @@ export const StudentProfileForm = ({
                                         placeholder={'Your Address Line 1...'}
                                         validationIcons
                                         required
+                                        placesSuggetions
                                     />
                                 </div>
 
@@ -536,6 +544,7 @@ export const StudentProfileForm = ({
                                         placeholder={'Suburb...'}
                                         validationIcons
                                         required
+                                        placesSuggetions
                                     />
 
                                     <TextInput

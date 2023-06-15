@@ -166,10 +166,16 @@ export const Actions = ({
                 <div className="flex items-center gap-x-2">
                     {!appliedIndustry?.AgreementSigned && (
                         <div>
-                            <SignAgreement
+                            {/* <SignAgreement
                                 student={workplace?.student}
                                 studentId={workplace?.student?.id}
                                 appliedIndustryId={appliedIndustry?.id}
+                                course={workplace?.courses[0]}
+                            /> */}
+                            <SignAgreement
+                                studentId={workplace?.student?.id}
+                                appliedIndustryId={appliedIndustry?.id}
+                                student={student}
                                 course={workplace?.courses[0]}
                             />
                         </div>

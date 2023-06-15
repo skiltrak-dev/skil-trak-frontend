@@ -379,6 +379,7 @@ export const IndustrySignUpForm = ({ onSubmit }: { onSubmit: any }) => {
                                 name={'addressLine1'}
                                 placeholder={'Your Address Line 1...'}
                                 validationIcons
+                                placesSuggetions
                             />
                         </div>
 
@@ -388,6 +389,7 @@ export const IndustrySignUpForm = ({ onSubmit }: { onSubmit: any }) => {
                                 name={'suburb'}
                                 placeholder={'Suburb...'}
                                 validationIcons
+                                placesSuggetions
                             />
 
                             <TextInput
