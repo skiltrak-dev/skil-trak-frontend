@@ -2,6 +2,7 @@ import {
     LoadingAnimation,
     Modal,
     NoData,
+    ShowErrorNotifications,
     Typography,
     UserCreatedAt,
 } from '@components'
@@ -24,6 +25,7 @@ export const CallLogsModal = ({
 
     return (
         <div>
+            <ShowErrorNotifications result={callLogs} />
             <Modal
                 title={'Call Logs'}
                 subtitle={'All Call List Made with This Student'}

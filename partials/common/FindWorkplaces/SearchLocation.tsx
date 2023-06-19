@@ -15,7 +15,6 @@ export const SearchLocation = () => {
     // const handlePlaceChanged = () => {
     //     const [place] = inputRef.current.getPlaces()
     //     if (place) {
-    //         console.log('place>>>', place)
     //         const request = {
     //             location: place.geometry.location,
     //             radius: 1000,
@@ -29,7 +28,6 @@ export const SearchLocation = () => {
     //             if (
     //                 status === window.google.maps.places.PlacesServiceStatus.OK
     //             ) {
-    //                 console.log('results>>>', results)
     //                 setResultList(results)
     //             }
     //         })
@@ -47,7 +45,6 @@ export const SearchLocation = () => {
             const service = new window.google.maps.places.PlacesService(
                 document.createElement('div')
             )
-
             service.nearbySearch(request, (results: any, status) => {
                 if (
                     status === window.google.maps.places.PlacesServiceStatus.OK
@@ -75,11 +72,6 @@ export const SearchLocation = () => {
                                     window.google.maps.places
                                         .PlacesServiceStatus.OK
                                 ) {
-                                    console.log(
-                                        'Phone number:',
-                                        placeResult.formatted_phone_number
-                                    )
-                                    console.log('Email:', placeResult.email)
                                     // You can store the phone number and email in your desired format or use them as needed
                                 } else {
                                     console.log(
@@ -109,7 +101,9 @@ export const SearchLocation = () => {
                         onPlacesChanged={handlePlaceChanged}
                     >
                         <>
-                            <Typography variant='label' color='text-gray-700'>Search for industry</Typography>
+                            <Typography variant="label" color="text-gray-700">
+                                Search for industry
+                            </Typography>
                             <input
                                 type="text"
                                 className="mb-4 px-4 py-2 w-full border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
@@ -120,8 +114,10 @@ export const SearchLocation = () => {
                     <div className="grid grid-flow-col gap-x-8 w-full h-full">
                         <div className="col-span-2">
                             {resultList && resultList?.length > 0 && (
-                                <div className='flex items-center justify-between mb-2'>
-                                <span className='text-gray-600 text-xs'>results({resultList?.length})</span>
+                                <div className="flex items-center justify-between mb-2">
+                                    <span className="text-gray-600 text-xs">
+                                        results({resultList?.length})
+                                    </span>
                                     <Paginate
                                         data={resultList}
                                         itemsPerPage={4}
