@@ -3,7 +3,7 @@ import Image from 'next/image'
 import { AiFillStar } from 'react-icons/ai'
 import StarRatings from 'react-star-ratings'
 
-export const FindWorkplaces = ({ item, selectedBox, setSelectedBox }: any) => {
+export const FindWorkplaces = ({ item, onClick }: any) => {
     const url =
         item.photos &&
         item?.photos[0]?.html_attributions?.map((attribution: any) => {
@@ -13,31 +13,21 @@ export const FindWorkplaces = ({ item, selectedBox, setSelectedBox }: any) => {
             return match ? match[1] : null
         })
     const urlString = url && url[0]
-    // console.log('lat', item?.geometry?.location?.lat())
-    // console.log('lng', item?.geometry?.location?.lng())
+
     // console.log("selectedBox", selectedBox)
 
     return (
-        <a href={urlString} target="_/">
+        // <a href={urlString} target="_/">
+        <>
             <div
-                onMouseEnter={(e: any) => {
-                    setSelectedBox({
-                        ...item,
-                        position: {
-                            lat:item?.geometry?.location?.lat(),
-                            lng:item?.geometry?.location?.lng()
-
-                        },
-                    })
+                onClick={() => {
+                    onClick && onClick()
                 }}
-                onMouseLeave={() => {
-                    setSelectedBox(null)
-                }}
-                className="flex items-center gap-x-4 mb-2"
+                className="border-b border-solid pb-4 cursor-pointer flex gap-x-4 mb-2"
             >
                 <div>
                     <Image
-                        className="rounded-lg h-full"
+                        className="rounded-lg h-20"
                         src="https://picsum.photos/200/300"
                         width={100}
                         height={80}
@@ -46,13 +36,13 @@ export const FindWorkplaces = ({ item, selectedBox, setSelectedBox }: any) => {
                 </div>
                 <div className="flex flex-col">
                     <div>
-                        <Typography variant="subtitle" color={'secondary'}>
+                        <Typography variant="muted" color={'text-gray-600'}>
                             {item?.name}
                         </Typography>
                     </div>
                     <div className="flex items-center gap-x-2">
                         <div className="pt-1">
-                            <Typography variant="label" color="text-gray-600">
+                            <Typography variant="muted" color="text-gray-600">
                                 {item?.rating || 'N/A'}
                             </Typography>
                         </div>
@@ -64,29 +54,36 @@ export const FindWorkplaces = ({ item, selectedBox, setSelectedBox }: any) => {
                             starDimension="15px"
                             starSpacing="1px"
                         />
-                        <span>({item.user_ratings_total || 'N/A'})</span>
+                        <Typography variant="muted" color="text-gray-600">
+                            ({item.user_ratings_total || 'N/A'})
+                        </Typography>
                     </div>
                     <div>
-                        <Typography variant="label" color={'text-gray-600'}>
+                        <Typography variant="muted" color={'text-gray-600'}>
                             {item?.vicinity}
                         </Typography>
                     </div>
                     <div>
-                        <Typography variant="label" color={'text-gray-600'}>
+                        <Typography variant="muted" color={'text-gray-600'}>
                             {item?.opening_hours?.open_now ? (
-                                <span className="text-green-400">Open</span>
+                                <span className="text-green-400 text-xs">
+                                    Open
+                                </span>
                             ) : (
-                                <span className="text-red-400">Closed</span>
+                                <span className="text-red-400 text-xs">
+                                    Closed
+                                </span>
                             )}
                         </Typography>
                     </div>
                     {/* <div>
-                        <Typography variant="label" color={'text-gray-600'}>
+                        <Typography variant="muted" color={'text-gray-600'}>
                             Dine-in Takeaway Delivery
                         </Typography>
                     </div> */}
                 </div>
             </div>
-        </a>
+        </>
+        // </a>
     )
 }
