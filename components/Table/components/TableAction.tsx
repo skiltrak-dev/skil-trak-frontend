@@ -12,8 +12,14 @@ interface TableActionProps {
     text?: string
     options: TableActionOption[]
     rowItem: any
+    lastIndex?: boolean
 }
-export const TableAction = ({ text, options, rowItem }: TableActionProps) => {
+export const TableAction = ({
+    text,
+    options,
+    rowItem,
+    lastIndex,
+}: TableActionProps) => {
     const [isOverButton, setIsOverButton] = useState(false)
     const [isOverList, setIsOverList] = useState(false)
 
@@ -36,7 +42,9 @@ export const TableAction = ({ text, options, rowItem }: TableActionProps) => {
                 <ul
                     className={`bg-white rounded-xl shadow-xl w-32 ${
                         isOverButton || isOverList ? 'block' : 'hidden'
-                    } absolute right-0 z-10`}
+                    } absolute ${
+                        lastIndex ? 'bottom-full' : 'top-full'
+                    } right-0 z-10`}
                     onMouseEnter={() => {
                         setIsOverList(true)
                     }}
@@ -44,7 +52,7 @@ export const TableAction = ({ text, options, rowItem }: TableActionProps) => {
                         setIsOverList(false)
                     }}
                 >
-                    {options.map((option, idx) => (
+                    {options?.map((option, idx) => (
                         <li
                             className={`${
                                 option.color

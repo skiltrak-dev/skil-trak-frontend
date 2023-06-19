@@ -111,7 +111,7 @@ export const FilteredIndustry = ({
         },
         {
             header: () => 'Enrolled Students',
-            accessorKey: 'enrolledStudents',
+            accessorKey: 'students',
             cell: ({ row }: any) => {
                 const { enrolledStudents } = row.original
                 return (

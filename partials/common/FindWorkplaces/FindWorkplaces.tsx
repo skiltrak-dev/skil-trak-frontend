@@ -1,6 +1,5 @@
 import { Typography } from '@components'
 import Image from 'next/image'
-import { AiFillStar } from 'react-icons/ai'
 import StarRatings from 'react-star-ratings'
 
 export const FindWorkplaces = ({ item, onClick }: any) => {

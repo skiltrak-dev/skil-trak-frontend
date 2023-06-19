@@ -75,7 +75,7 @@ export const StudentAvailability = ({ availability }: any) => {
             <div className="border border-dashed border-gray-400 rounded-lg p-1 flex flex-col justify-between gap-y-3">
                 <div>
                     <div className="grid grid-cols-5 gap-4 px-3">
-                        {shifts.map((shift, i) => (
+                        {shifts.map((shift) => (
                             <Typography
                                 key={shift}
                                 variant={'xs'}
