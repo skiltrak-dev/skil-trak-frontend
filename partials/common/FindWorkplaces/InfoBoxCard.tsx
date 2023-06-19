@@ -25,21 +25,21 @@ export const InfoBoxCard = ({ item, selectedBox, setSelectedBox }: any) => {
                     }}
                 />
                 <a href={urlString} target="_/">
-                    <div className="flex items-center gap-x-4 pr-2">
-                        <div>
+                    <div className="flex flex-col gap-y-2 items-center">
+                        {/* <div className='w-full'>
                             <Image
-                                className="rounded-lg h-32"
+                                className="rounded-lg h-20"
                                 src="https://picsum.photos/200/300"
                                 width={100}
                                 height={80}
                                 alt="Workplace"
                             />
-                        </div>
-                        <div className="flex flex-col">
+                        </div> */}
+                        <div className="flex flex-col p-2">
                             <div>
                                 <Typography
-                                    variant="subtitle"
-                                    color={'secondary'}
+                                    variant="muted"
+                                    color={'text-gray-600'}
                                 >
                                     {selectedBox?.name}
                                 </Typography>
@@ -61,13 +61,13 @@ export const InfoBoxCard = ({ item, selectedBox, setSelectedBox }: any) => {
                                     starDimension="15px"
                                     starSpacing="1px"
                                 />
-                                <span>
+                                <Typography variant='muted' color='text-gray-600'>
                                     ({selectedBox.user_ratings_total || 'N/A'})
-                                </span>
+                                </Typography>
                             </div>
                             <div>
                                 <Typography
-                                    variant="label"
+                                    variant="muted"
                                     color={'text-gray-600'}
                                 >
                                     {selectedBox?.vicinity}
@@ -75,15 +75,15 @@ export const InfoBoxCard = ({ item, selectedBox, setSelectedBox }: any) => {
                             </div>
                             <div>
                                 <Typography
-                                    variant="label"
+                                    variant="muted"
                                     color={'text-gray-600'}
                                 >
                                     {selectedBox?.opening_hours?.open_now ? (
-                                        <span className="text-green-400">
+                                        <span className="text-green-400 text-xs">
                                             Open
                                         </span>
                                     ) : (
-                                        <span className="text-red-400">
+                                        <span className="text-red-400 text-xs">
                                             Closed
                                         </span>
                                     )}

@@ -8,7 +8,7 @@ import {
 } from '@react-google-maps/api'
 
 import { debounce } from 'lodash'
-import { useCallback, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { InfoBoxCard } from './InfoBoxCard'
 
 const containerStyle = {
@@ -21,8 +21,14 @@ const center = {
     lng: 144.963033,
 }
 
-export const MapDetail = ({ resultList, selectedBox, setSelectedBox }: any) => {
+export const MapDetail = ({
+    resultList,
+    selectedBox,
+    setSelectedBox,
+    selectedLocation,
+}: any) => {
     const [map, setMap] = useState<any>(null)
+    const [showInfoBox, setShowInfoBox] = useState<any>(false)
 
     const { isLoaded } = useJsApiLoader({
         id: 'google-map-script',
@@ -37,6 +43,13 @@ export const MapDetail = ({ resultList, selectedBox, setSelectedBox }: any) => {
             lng: lng,
         }
     })
+    useEffect(() => {
+        if (map && selectedLocation) {
+            const { lat, lng } = selectedLocation.geometry.location
+            map.panTo({ lat: lat(), lng: lng() })
+            setShowInfoBox(true)
+        }
+    }, [map, selectedLocation])
 
     // const debounceValue = useCallback(
     //     debounce((properties) => setAllVisibleIndustries(properties), 700),
@@ -45,6 +58,7 @@ export const MapDetail = ({ resultList, selectedBox, setSelectedBox }: any) => {
 
     const onBoundChange = () => {
         setSelectedBox(null)
+        setShowInfoBox(false)
         let industries: any = []
         latLngLocation?.forEach((location: any) => {
             const bound = map?.getBounds()?.contains({
@@ -71,6 +85,8 @@ export const MapDetail = ({ resultList, selectedBox, setSelectedBox }: any) => {
         imagePath:
             'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m', // so you must have m1.png, m2.png, m3.png, m4.png, m5.png and m6.png in that folder
     }
+
+    console.log('selectedBox', selectedBox)
 
     return isLoaded ? (
         <GoogleMap
@@ -101,6 +117,14 @@ export const MapDetail = ({ resultList, selectedBox, setSelectedBox }: any) => {
                                     }}
                                     clusterer={clusterer}
                                     onClick={(e: any) => {
+                                        console.log(
+                                            'Map Detail',
+                                            e.latLng.lat()
+                                        )
+                                        console.log(
+                                            'Map Detail',
+                                            e.latLng.lng()
+                                        )
                                         setSelectedBox({
                                             ...location,
                                             position: {
@@ -108,15 +132,16 @@ export const MapDetail = ({ resultList, selectedBox, setSelectedBox }: any) => {
                                                 lng: e.latLng.lng(),
                                             },
                                         })
-
+                                        setShowInfoBox(true)
                                         // setAllVisibleIndustries([location.id])
                                     }}
                                 />
-                                {selectedBox && (
+                                {selectedBox && showInfoBox && (
                                     <InfoBox
                                         position={selectedBox?.position}
                                         onCloseClick={() => {
                                             setSelectedBox(null)
+                                            setShowInfoBox(false)
                                         }}
                                         options={{
                                             closeBoxURL: ``,
