@@ -1,15 +1,9 @@
+import { useGetStudentProfileDetailQuery } from '@queries'
+import moment from 'moment'
 import Image from 'next/image'
 import { FaAddressCard, FaBirthdayCake, FaUserCircle } from 'react-icons/fa'
 import { IoLocation } from 'react-icons/io5'
-import {
-    MdPhone,
-    MdBatchPrediction,
-    MdGroup,
-    MdGroups,
-    MdVerified,
-} from 'react-icons/md'
-import { useGetStudentProfileDetailQuery } from '@queries'
-import moment from 'moment'
+import { MdBatchPrediction, MdPhone, MdVerified } from 'react-icons/md'
 export const UserProfile = () => {
     const { data, isSuccess, isLoading } = useGetStudentProfileDetailQuery()
     return (
@@ -85,7 +79,9 @@ export const UserProfile = () => {
                         <span className="text-gray-300">
                             <FaBirthdayCake />
                         </span>
-                        <p className="text-sm font-medium">{moment(data?.dob).format('LL')}</p>
+                        <p className="text-sm font-medium">
+                            {moment(data?.dob).format('LL')}
+                        </p>
                     </div>
                     <div className="text-gray-400 text-[11px] -mt-0.5 text-center">
                         Date Of Birth
@@ -113,7 +109,8 @@ export const UserProfile = () => {
                             <IoLocation />
                         </span>
                         <p className="text-sm font-medium">
-                            {data?.addressLine1}, {data?.addressLine2}, {data?.state}, {data?.suburb}
+                            {data?.addressLine1}, {data?.addressLine2},{' '}
+                            {data?.state}, {data?.suburb}
                         </p>
                     </div>
                     <div className="text-gray-400 text-[11px] -mt-0.5 text-center">

@@ -41,16 +41,33 @@ import { FaArchive, FaBan } from 'react-icons/fa'
 import { UserRoles } from '@constants'
 
 export const StudentProfile = ({ noTitle }: { noTitle?: boolean }) => {
-    const [studentExpiryDate, setStudentExpiryDate] = useState<boolean>(false)
-
     const contextBar = useContextBar()
     const router = useRouter()
     const { id } = router.query
 
+    const [isMouseMove, setIsMouseMove] = useState<any>(null)
+
+    useEffect(() => {
+        window.addEventListener('mousemove', (e) => {
+            setIsMouseMove(true)
+        })
+
+        return () => {
+            window.removeEventListener('mousemove', (e) => {
+                setIsMouseMove(false)
+            })
+        }
+    }, [])
+
+    useEffect(() => {
+        if (!contextBar.content) {
+            setIsMouseMove(false)
+        }
+    }, [contextBar])
+
     const { alert, setAlerts, alerts } = useAlert()
     const { notification } = useNotification()
 
-    const [addWorkplace, setAddWorkplace] = useState<boolean>(false)
     const { data, isLoading, isError, isSuccess, refetch } =
         useGetSubAdminStudentDetailQuery(Number(id), {
             skip: !id,
@@ -137,15 +154,15 @@ export const StudentProfile = ({ noTitle }: { noTitle?: boolean }) => {
 
     useEffect(() => {
         if (isSuccess && data) {
-            contextBar.setContent(<SubAdminStudentProfile student={data} />)
-            contextBar.show(false)
             navBar.setSubTitle(data?.user?.name)
+            contextBar.show(false)
+            contextBar.setContent(<SubAdminStudentProfile student={data} />)
         }
         return () => {
             contextBar.setContent(null)
             contextBar.hide()
         }
-    }, [data])
+    }, [data, router, isMouseMove])
 
     const [archiveAssessmentTool, archiveAssessmentToolResult] =
         useUpdateAssessmentToolArchiveMutation()
@@ -283,12 +300,12 @@ export const StudentProfile = ({ noTitle }: { noTitle?: boolean }) => {
                             link={
                                 role === 'admin'
                                     ? getLink('student') ||
-                                      'portals/admin/student?tab=active&page=1&pageSize=50'
+                                      '/portals/admin/student?tab=active&page=1&pageSize=50'
                                     : role === 'subadmin'
                                     ? getLink('subadmin-student') ||
-                                      'portals/sub-admin/students?tab=all'
+                                      '/portals/sub-admin/students?tab=all'
                                     : role === 'rto'
-                                    ? 'portals/rto/students?tab=active'
+                                    ? '/portals/rto/students?tab=active'
                                     : '#'
                             }
                             text="Students"
@@ -309,7 +326,6 @@ export const StudentProfile = ({ noTitle }: { noTitle?: boolean }) => {
                                         studentStatus={
                                             data?.user?.studentStatus
                                         }
-                                        changeExpiryData={setStudentExpiryDate}
                                     />
                                 </div>
                             </div>

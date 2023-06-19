@@ -18,7 +18,7 @@ import { FaEdit, FaEye } from 'react-icons/fa'
 import { RtoCellInfo } from '@partials/admin/rto/components'
 import { AdminApi } from '@queries'
 import { Student, UserStatus } from '@types'
-import { setLink, studentsListWorkplace } from '@utils'
+import { checkListLength, setLink, studentsListWorkplace } from '@utils'
 import { useRouter } from 'next/router'
 import { ReactElement, useEffect, useState } from 'react'
 import { MdBlock } from 'react-icons/md'
@@ -234,11 +234,14 @@ export const ApprovedStudent = () => {
             accessorKey: 'action',
             header: () => <span>Action</span>,
             cell: (info) => {
+                const length = checkListLength(data?.data)
+
                 return (
                     <div className="flex gap-x-1 items-center">
                         <TableAction
                             options={tableActionOptions}
                             rowItem={info.row.original}
+                            lastIndex={length.includes(info.row?.index)}
                         />
                     </div>
                 )
