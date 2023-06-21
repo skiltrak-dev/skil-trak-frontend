@@ -24,7 +24,7 @@ export const InfoBoxCard = ({ item, selectedBox, setSelectedBox }: any) => {
                         setSelectedBox(null)
                     }}
                 />
-                <a href={urlString} target="_/">
+                <a className='cursor-pointer' href={urlString} target="_/">
                     <div className="flex flex-col gap-y-2 items-center">
                         {/* <div className='w-full'>
                             <Image
