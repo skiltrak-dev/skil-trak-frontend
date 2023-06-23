@@ -17,6 +17,7 @@ import { ReportType } from '@partials/rto/report/ReportType'
 import { ReportOptionsEnum, User } from '@types'
 import React, { ReactElement, useState } from 'react'
 import { IoMdDownload } from 'react-icons/io'
+import { Waypoint } from 'react-waypoint'
 
 export const RTOReports = ({ user }: { user?: User }) => {
     const monthEnd = new Date()
@@ -133,8 +134,9 @@ export const RTOReports = ({ user }: { user?: User }) => {
                 )
         }
     }
+
     return (
-        <div>
+        <>
             {modal && modal}
             <div className="flex items-center justify-between mb-4">
                 <PageTitle title="Statistics" />
@@ -158,6 +160,6 @@ export const RTOReports = ({ user }: { user?: User }) => {
                 />
             </div>
             <Card>{reports()}</Card>
-        </div>
+        </>
     )
 }

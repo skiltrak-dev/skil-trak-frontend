@@ -12,9 +12,10 @@ import { RtoApi } from '@queries'
 import { ColumnDef } from '@tanstack/react-table'
 import { ReportOptionsEnum } from '@types'
 import { useRouter } from 'next/router'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { FilterReport } from '../../FilterReport'
 import { UserRoles } from '@constants'
+import { Waypoint } from 'react-waypoint'
 type Props = {
     startDate: any
     endDate: any
@@ -33,6 +34,7 @@ export const NonContactableReport = ({
     const [itemPerPage, setItemPerPage] = useState(50)
     const [page, setPage] = useState(1)
     const router = useRouter()
+
 
     const { data, isLoading, isError } =
         RtoApi.Students.useGetNotContactableStudents({
@@ -85,6 +87,7 @@ export const NonContactableReport = ({
         },
     ]
     const count = data?.data?.length
+    console.log(data)
     return (
         <>
             <div className="flex justify-between items-start">
@@ -155,7 +158,6 @@ export const NonContactableReport = ({
                                 <div className="p-6 mb-2 flex justify-between">
                                     {pageSize(itemPerPage, setItemPerPage)}
                                     <div className="flex gap-x-2">
-                                        {/* {quickActions} */}
                                         {pagination(data?.pagination, setPage)}
                                     </div>
                                 </div>
