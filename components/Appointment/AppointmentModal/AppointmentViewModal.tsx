@@ -2,7 +2,7 @@ import { getAppointmentTypeIcon } from '@partials/appointmentType/AppointmentTyp
 import moment from 'moment'
 import Image from 'next/image'
 import { FaExclamationTriangle, FaMapMarkerAlt, FaTimes } from 'react-icons/fa'
-import { GoPrimitiveDot } from 'react-icons/go'
+// import { GoDotFill } from 'react-icons/go'
 import { UserRoles } from '@constants'
 import { Typography } from '@components/Typography'
 import { UserCellInfo } from './UserCellInfo'
@@ -11,6 +11,7 @@ import { CommonApi } from '@queries'
 import { NoData } from '@components/ActionAnimations'
 import { LoadingAnimation } from '@components/LoadingAnimation'
 import { StudentRtoCellInfo } from './StudentRtoCellInfo'
+import { GoDotFill } from 'react-icons/go'
 
 export const AppointmentViewModal = ({
     id,
@@ -173,7 +174,7 @@ export const AppointmentViewModal = ({
                                                         <div className="flex items-center gap-x-2 -mt-1.5">
                                                             <p className="text-xs flex gap-x-1 items-center mt-0.5">
                                                                 {/* <span className=" text-slate-300">
-                                                <GoPrimitiveDot />
+                                                <GoDotFill />
                                             </span> */}
                                                                 <span className="text-indigo-500">
                                                                     ~
@@ -188,7 +189,8 @@ export const AppointmentViewModal = ({
                                                             </p>
                                                             <p className="text-xs flex gap-x-1 items-center mt-0.5">
                                                                 <span className=" text-slate-300">
-                                                                    <GoPrimitiveDot />
+                                                                    {/* <GoDotFill /> */}
+                                                                    <GoDotFill />
                                                                 </span>
                                                                 <span className="text-orange-400">
                                                                     {

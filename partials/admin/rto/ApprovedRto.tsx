@@ -22,6 +22,7 @@ import { MdBlock } from 'react-icons/md'
 import { RtoCellInfo, SectorCell } from './components'
 import { ViewSubAdminsCB } from './contextBar'
 import { ArchiveModal, BlockModal } from './modals'
+import { checkListLength } from '@utils'
 
 export const ApprovedRto = () => {
     const router = useRouter()
@@ -145,6 +146,9 @@ export const ApprovedRto = () => {
                     <TableAction
                         options={tableActionOptions}
                         rowItem={row.original}
+                        lastIndex={checkListLength(data?.data)?.includes(
+                            row?.index
+                        )}
                     />
                 </div>
             ),

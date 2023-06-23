@@ -2,24 +2,17 @@ import {
     ActionButton,
     BackButton,
     Button,
+    Card,
     DescriptiveInfo,
+    EmptyData,
     InitialAvatar,
     InitialAvatarContainer,
     LoadingAnimation,
-    EmptyData,
-    Typography,
-    Card,
     TechnicalError,
+    Typography,
 } from '@components'
 
-import {
-    Sectors,
-    Workplaces,
-    Appointments,
-    CourseFolders,
-    RequiredDocs,
-    DetailTabs,
-} from '@partials/admin/student'
+import { Appointments, DetailTabs, Sectors } from '@partials/admin/student'
 
 import { useContextBar, useNavbar } from '@hooks'
 import { AdminLayout } from '@layouts'
@@ -28,21 +21,18 @@ import { useRouter } from 'next/router'
 import { ReactElement, useEffect, useState } from 'react'
 
 import {
-    AiFillCodeSandboxCircle,
     AiOutlineBarcode,
     AiOutlineLogin,
     AiTwotonePhone,
 } from 'react-icons/ai'
 import { BsPatchCheckFill } from 'react-icons/bs'
-import { FaArchive, FaBan, FaPhoneAlt, FaUniversity } from 'react-icons/fa'
+import { FaArchive, FaBan, FaUniversity } from 'react-icons/fa'
 
-import { AdminApi } from '@queries'
-import { IoLogIn } from 'react-icons/io5'
-import { MdPlace } from 'react-icons/md'
-import Image from 'next/image'
-import { GoPrimitiveDot } from 'react-icons/go'
-import { BlockModal, ArchiveModal } from '@partials/admin/student/modals'
 import { PinnedNotes } from '@partials'
+import { ArchiveModal, BlockModal } from '@partials/admin/student/modals'
+import { AdminApi } from '@queries'
+import { GoDotFill } from 'react-icons/go'
+import { MdPlace } from 'react-icons/md'
 
 // TODO: Can be deleted
 const Detail: NextPageWithLayout = () => {
@@ -363,7 +353,7 @@ const Detail: NextPageWithLayout = () => {
 
                                             {/*  */}
                                             <div className="my-1.5">
-                                                <GoPrimitiveDot />
+                                                <GoDotFill />
                                                 <Typography
                                                     variant={'small'}
                                                     uppercase

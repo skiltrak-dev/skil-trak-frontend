@@ -1,39 +1,36 @@
-import { useCallback, useEffect, useRef, useState } from 'react'
-import * as yup from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
+import { useEffect, useRef, useState } from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
-import { debounce } from 'lodash'
+import * as yup from 'yup'
 
 // icons
 import { IoMdSend } from 'react-icons/io'
-import { MdOutlineCancel } from 'react-icons/md'
 
 // components
 import {
-    Card,
-    TextInput,
-    Select,
     Button,
-    TextArea,
-    ShowErrorNotifications,
+    Card,
     InputContentEditor,
-    htmlToDraftText,
+    Select,
+    SelectOption,
+    ShowErrorNotifications,
+    TextInput,
     draftToHtmlText,
+    htmlToDraftText,
 } from '@components'
 import { FileUpload } from '@hoc'
 
-import { useContextBar, useNotification } from 'hooks'
-import { ellipsisText } from '@utils'
+import { useNotification } from 'hooks'
 
 // import { useMessage } from 'hooks'
 
 // functions
-import { AuthUtils, userStatus } from '@utils'
-import { CommonApi } from '@queries'
 import { Attachment } from '@partials/common'
-import ClickAwayListener from 'react-click-away-listener'
+import { CommonApi } from '@queries'
+import { AuthUtils } from '@utils'
 import { convertToRaw } from 'draft-js'
 import draftToHtml from 'draftjs-to-html'
+import ClickAwayListener from 'react-click-away-listener'
 
 export const MailForm = ({ action, receiverId, sender }: any) => {
     // const { replyMessage, setReplyMessage, setMessage } = useMessage()
@@ -56,6 +53,7 @@ export const MailForm = ({ action, receiverId, sender }: any) => {
     const getEmailDraft = CommonApi.Draft.useGetEmailDraft(receiverId, {
         skip: !receiverId,
     })
+    const getTemplates = CommonApi.Messages.useAllTemplates()
 
     const validationSchema = yup.object({
         subject: yup.string().required('Must provide subject'),
@@ -109,6 +107,13 @@ export const MailForm = ({ action, receiverId, sender }: any) => {
         ])
     }
 
+    const templateOptions = getTemplates?.data?.length
+        ? getTemplates?.data?.map((template: any) => ({
+              label: template?.subject,
+              value: template?.id,
+          }))
+        : []
+
     const onFileUpload = ({
         name,
         fileList,
@@ -157,6 +162,14 @@ export const MailForm = ({ action, receiverId, sender }: any) => {
         // setReplyMessage(null)
     }
 
+    const findTamplates = (e: SelectOption) => {
+        const template = getTemplates?.data?.find(
+            (template: any) => template.id === e?.value
+        )
+        methods.setValue('subject', template?.subject)
+        methods.setValue('message', htmlToDraftText(template?.content))
+    }
+
     const templates = [
         {
             label: 'Template',
@@ -167,7 +180,7 @@ export const MailForm = ({ action, receiverId, sender }: any) => {
     return (
         <>
             <ShowErrorNotifications result={sendMessageResult} />
-            <div className={`sticky top-4`}>
+            <div className={`sticky -top-5`}>
                 <Card>
                     <div className="flex justify-end items-center gap-x-1">
                         <button
@@ -289,15 +302,21 @@ export const MailForm = ({ action, receiverId, sender }: any) => {
                                     }}
                                 /> */}
 
-                                {/* <Select
-                                    label={'Templates'}
-                                    name={'templates'}
-                                    defaultValue={templates}
-                                    options={templates}
-                                    validationIcons
-                                    loading={false}
-                                    disabled={false}
-                                /> */}
+                                <Select
+                                    label={'Select Email Template'}
+                                    name={'template'}
+                                    options={templateOptions}
+                                    placeholder="Select Email Template"
+                                    onChange={findTamplates}
+                                    // loading={courseLoading}
+                                    // value={templateValue}
+                                    // onChange={(e: any) => {
+                                    //     setTemplate(e?.label)
+                                    //     setTemplateId(e?.value)
+                                    //     findTemplate(e?.value)
+                                    //     setTemplateValue(e)
+                                    // }}
+                                />
 
                                 <div className="flex justify-between items-center gap-x-4 mt-2">
                                     {/* <UploadFile
