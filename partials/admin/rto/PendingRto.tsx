@@ -177,7 +177,7 @@ export const PendingRto = () => {
                     title={'Pending RTOs'}
                     subtitle={'List of Pending RTOs'}
                 >
-                    {data && data?.data.length ? (
+                    {data && data?.data?.length ? (
                         <Button
                             text="Export"
                             variant="action"
@@ -190,10 +190,10 @@ export const PendingRto = () => {
                     {isError && <TechnicalError />}
                     {isLoading ? (
                         <LoadingAnimation height="h-[60vh]" />
-                    ) : data && data?.data.length ? (
+                    ) : data?.data && data?.data?.length ? (
                         <Table
                             columns={columns}
-                            data={data.data}
+                            data={data?.data}
                             quickActions={quickActionsElements}
                             enableRowSelection
                         >
