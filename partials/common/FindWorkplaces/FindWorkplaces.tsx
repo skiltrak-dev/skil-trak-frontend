@@ -13,8 +13,6 @@ export const FindWorkplaces = ({ item, onClick }: any) => {
         })
     const urlString = url && url[0]
 
-    // console.log("selectedBox", selectedBox)
-
     return (
         // <a href={urlString} target="_/">
         <>

@@ -9,6 +9,7 @@ import {
     Filter,
     LoadingAnimation,
     RtoContextBarData,
+    SetDetaultQueryFilteres,
     SidebarCalendar,
     SubAdminIndustryFilter,
     TabNavigation,
@@ -27,21 +28,29 @@ import {
     PendingIndustries,
     RejectedIndustries,
 } from '@partials/sub-admin/Industries'
-import { checkFilteredDataLength } from '@utils'
+import { checkFilteredDataLength, getFilterQuery } from '@utils'
 //query
 import {
     useGetSubAdminIndustriesQuery,
     useGetSubadminIndustriesCountQuery,
 } from '@queries'
+import { useRouter } from 'next/router'
 
 type Props = {}
-const filterKeys = ['name', 'email', 'phone', 'address', 'abn', 'courseId']
+const filterKeys = ['name', 'email', 'phone', 'suburb', 'abn', 'courseId']
 const Industries: NextPageWithLayout = (props: Props) => {
     const { setContent, hide, show } = useContextBar()
     const [filterAction, setFilterAction] = useState(null)
     const [itemPerPage, setItemPerPage] = useState(50)
     const [page, setPage] = useState(1)
     const [filter, setFilter] = useState({})
+
+    const router = useRouter()
+
+    useEffect(() => {
+        setPage(Number(router.query.page || 1))
+        setItemPerPage(Number(router.query.pageSize || 50))
+    }, [router])
 
     const filteredIndustries = useGetSubAdminIndustriesQuery({
         search: `${JSON.stringify(filter)
@@ -141,6 +150,10 @@ const Industries: NextPageWithLayout = (props: Props) => {
     const filteredDataLength = checkFilteredDataLength(filter)
     return (
         <>
+            <SetDetaultQueryFilteres
+                filterKeys={filterKeys}
+                setFilter={setFilter}
+            />
             <div className="px-4">
                 <div className="flex justify-end mb-2">{filterAction}</div>
                 <Filter

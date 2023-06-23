@@ -213,7 +213,7 @@ export const CreateAppointments = () => {
                 title: 'Appointment Created',
                 description: 'Appointment Created Successfully',
             })
-            router.push('/portals/sub-admin/tasks/appointments')
+            router.back()
         }
     }, [createAppointmentResult])
 

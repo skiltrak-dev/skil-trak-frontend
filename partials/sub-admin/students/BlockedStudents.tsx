@@ -26,13 +26,13 @@ import { useActionModal } from '@hooks'
 import { SubAdminApi } from '@queries'
 import { Student, UserStatus } from '@types'
 import { useEffect, useState } from 'react'
-import { MdBlock } from 'react-icons/md'
-import { AcceptModal, AssignStudentModal } from './modals'
+import { MdBlock, MdDelete } from 'react-icons/md'
+import { AcceptModal, AssignStudentModal, DeleteModal } from './modals'
 
 import { BulkDeleteModal } from '@modals'
 import { SectorCell } from '@partials/admin/student/components'
 import { ColumnDef } from '@tanstack/react-table'
-import { setLink, studentsListWorkplace } from '@utils'
+import { checkListLength, setLink, studentsListWorkplace } from '@utils'
 import { AiFillCheckCircle } from 'react-icons/ai'
 import { CgUnblock } from 'react-icons/cg'
 import { RiLockPasswordFill } from 'react-icons/ri'
@@ -78,6 +78,15 @@ export const BlockedStudents = () => {
         )
     }
 
+    const onDeleteClicked = (student: Student) => {
+        setModal(
+            <DeleteModal
+                item={student}
+                onCancel={() => onModalCancelClicked()}
+            />
+        )
+    }
+
     const onBulkDeleteClicked = (ids: number[]) => {
         setModal(
             <BulkDeleteModal onCancel={onModalCancelClicked} usersIds={ids} />
@@ -101,9 +110,15 @@ export const BlockedStudents = () => {
             Icon: RiLockPasswordFill,
         },
         {
-            text: 'Accept',
+            text: 'Un Block',
             onClick: (student: Student) => onAcceptClicked(student),
             Icon: AiFillCheckCircle,
+            color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
+        },
+        {
+            text: 'Delete',
+            onClick: (student: Student) => onDeleteClicked(student),
+            Icon: MdDelete,
             color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
         },
         {
@@ -184,10 +199,12 @@ export const BlockedStudents = () => {
             header: () => 'Action',
             accessorKey: 'Action',
             cell: ({ row }: any) => {
+                const length = checkListLength(data?.data)
                 return (
                     <TableAction
                         options={tableActionOptions}
                         rowItem={row.original}
+                        lastIndex={length.includes(row?.index)}
                     />
                 )
             },

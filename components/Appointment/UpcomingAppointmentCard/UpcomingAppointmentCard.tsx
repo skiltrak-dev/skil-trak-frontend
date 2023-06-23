@@ -4,6 +4,7 @@ import { getUserCredentials } from '@utils'
 import moment from 'moment'
 import { ReactElement, useEffect, useState } from 'react'
 import { FaTimes } from 'react-icons/fa'
+import { BiLogoZoom } from 'react-icons/bi'
 
 // query
 import { CommonApi } from '@queries'
@@ -11,6 +12,7 @@ import { useNotification } from '@hooks'
 import { TbCalendarTime } from 'react-icons/tb'
 import { RescheduleAppointmentModal } from './RescheduleAppointmentModal'
 import { UserRoles } from '@constants'
+import { useRouter } from 'next/router'
 
 type AppointmentCardProps = {
     date?: string
@@ -34,6 +36,7 @@ export const UpcomingAppointmentCard = ({
     onAppointmentClicked,
 }: AppointmentCardProps) => {
     const [modal, setModal] = useState<ReactElement | null>(null)
+    const router = useRouter()
 
     const { notification } = useNotification()
 
@@ -85,12 +88,29 @@ export const UpcomingAppointmentCard = ({
             </Portal>
         )
     }
-
+    const urlRole =
+        getUserCredentials()?.role === 'subadmin'
+            ? 'sub-admin'
+            : getUserCredentials()?.role
     return (
         <>
             {modal && modal}
             <div className={'relative'}>
                 <div className="absolute top-3 right-3 flex items-center gap-x-1">
+                    {appointment?.type?.videoAppointment &&
+                        appointment?.startUrl && (
+                            <ActionButton
+                                Icon={BiLogoZoom}
+                                mini
+                                title={'Zoom Meeting'}
+                                variant={'info'}
+                                onClick={(e: any) => {
+                                    router.push(
+                                        `/portals/${urlRole}/zoom-meeting?appointment=${appointment?.id}`
+                                    )
+                                }}
+                            />
+                        )}
                     <ActionButton
                         Icon={TbCalendarTime}
                         mini

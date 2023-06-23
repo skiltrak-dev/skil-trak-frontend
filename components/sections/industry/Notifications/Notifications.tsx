@@ -32,11 +32,10 @@ export const Notifications = () => {
     const [currentPage, setCurrentPage] = useState(1)
 
     // query
-    const { data, isLoading, isError } =
-        useGetIndustryNotificationsQuery({
-            skip: resultsPerPage * (currentPage - 1),
-            limit: resultsPerPage,
-        })
+    const { data, isLoading, isError } = useGetIndustryNotificationsQuery({
+        skip: resultsPerPage * (currentPage - 1),
+        limit: resultsPerPage,
+    })
 
     useEffect(() => {
         if (data) {
@@ -99,7 +98,7 @@ export const Notifications = () => {
                                                 </Typography>
                                             </div>
                                             {/* {!notification.isRead && (
-                        <GoPrimitiveDot className="text-xl" />
+                        <GoDotFill className="text-xl" />
                       )} */}
                                         </div>
                                     </div>
