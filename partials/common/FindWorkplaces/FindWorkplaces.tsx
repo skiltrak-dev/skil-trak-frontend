@@ -3,89 +3,101 @@ import Image from 'next/image'
 import StarRatings from 'react-star-ratings'
 
 export const FindWorkplaces = ({ item, onClick }: any) => {
-    const url =
-        item.photos &&
-        item?.photos[0]?.html_attributions?.map((attribution: any) => {
-            const anchorTagRegex =
-                /<a[^>]+href=["']([^"']+)["'][^>]*>(.*?)<\/a>/i
-            const match = attribution.match(anchorTagRegex)
-            return match ? match[1] : null
-        })
-    const urlString = url && url[0]
+    console.log('item', item)
 
+    const photoUrl = item?.photos && item?.photos[0]?.getUrl()
+    console.log('photoUrl', photoUrl)
     return (
         // <a href={urlString} target="_/">
         <>
-            
+            <div className="rounded-md hover:shadow-lg bg-white -hover:translate-y-3 border border-solid flex gap-x-1 mb-2">
+                {/* https://picsum.photos/200/300 */}
+                <div>
+                    <Image
+                        className="h-32 w-60"
+                        src={photoUrl || '/images/empty_image.png'}
+                        width={100}
+                        height={100}
+                        alt="image"
+                    />
+                </div>
                 <div
                     onClick={() => {
                         onClick && onClick()
                     }}
-                    className="hover:shadow-lg bg-white -hover:translate-y-3 border border-solid p-4 cursor-pointer flex gap-x-4 mb-2"
+                    className="p-2 w-full cursor-pointer flex flex-col"
                 >
-                    {/* https://picsum.photos/200/300 */}
-                    {/* <div>
-                        <Image
-                            className="rounded-lg h-20"
-                            src="#"
-                            width={100}
-                            height={80}
-                            alt="Workplace"
-                        />
-                    </div> */}
-                    <div className="flex flex-col">
-                        <div>
-                            <Typography variant="muted" color={'text-gray-600'}>
-                                {item?.name}
-                            </Typography>
-                        </div>
-                        <div className="flex items-center gap-x-2">
-                            <div className="pt-1">
-                                <Typography
-                                    variant="muted"
-                                    color="text-gray-600"
-                                >
-                                    {item?.rating || 'N/A'}
-                                </Typography>
-                            </div>
-                            <StarRatings
-                                rating={item?.rating}
-                                starRatedColor="orange"
-                                numberOfStars={5}
-                                name="rating"
-                                starDimension="15px"
-                                starSpacing="1px"
-                            />
-                            <Typography variant="muted" color="text-gray-600">
-                                ({item.user_ratings_total || 'N/A'})
-                            </Typography>
-                        </div>
-                        <div>
-                            <Typography variant="muted" color={'text-gray-600'}>
-                                {item?.vicinity}
-                            </Typography>
-                        </div>
-                        <div>
-                            <Typography variant="muted" color={'text-gray-600'}>
-                                {item?.opening_hours?.open_now ? (
-                                    <span className="text-green-400 text-xs">
-                                        Open
-                                    </span>
-                                ) : (
-                                    <span className="text-red-400 text-xs">
-                                        Closed
-                                    </span>
-                                )}
-                            </Typography>
-                        </div>
-                        {/* <div>
+                    <div>
                         <Typography variant="muted" color={'text-gray-600'}>
-                            Dine-in Takeaway Delivery
+                            {item?.name || 'N/A'}
                         </Typography>
-                    </div> */}
+                    </div>
+                    <div className="flex items-center gap-x-2 whitespace-nowrap">
+                        <div className="pt-1">
+                            <Typography variant="muted" color="text-gray-600">
+                                {item?.rating || 'N/A'}
+                            </Typography>
+                        </div>
+                        <StarRatings
+                            rating={item?.rating}
+                            starRatedColor="orange"
+                            numberOfStars={5}
+                            name="rating"
+                            starDimension="15px"
+                            starSpacing="1px"
+                        />
+                        <Typography variant="muted" color="text-gray-600">
+                            ({item.user_ratings_total || 'N/A'})
+                        </Typography>
+                    </div>
+                    <div>
+                        <Typography variant="muted" color={'text-gray-600'}>
+                            {item?.vicinity || 'N/A'}
+                        </Typography>
+                    </div>
+                    <div>
+                        <Typography variant="muted" color={'text-gray-600'}>
+                            {item?.formatted_phone_number ||
+                                item?.international_phone_number ||
+                                'N/A'}
+                        </Typography>
+                    </div>
+                    <div>
+                        <a
+                            className="text-xs text-blue-500"
+                            href={item?.website || '#'}
+                            target="_blank"
+                            onClick={(e) => {
+                                e.stopPropagation()
+                            }}
+                        >
+                            visit website
+                        </a>
+                    </div>
+                    <div>
+                        <Typography variant="muted" color={'text-gray-600'}>
+                            {item?.opening_hours?.open_now ? (
+                                <span className="text-green-400 text-xs">
+                                    Open
+                                </span>
+                            ) : (
+                                <span className="text-red-400 text-xs">
+                                    Closed
+                                </span>
+                            )}
+                        </Typography>
                     </div>
                 </div>
-           
+                <div className="p-2 w-1/6 flex items-end justify-end">
+                    <a
+                        target="_blank"
+                        className="text-xs text-blue-500"
+                        href={item?.url}
+                    >
+                        view
+                    </a>
+                </div>
+            </div>
         </>
         // </a>
     )

@@ -13,12 +13,40 @@ export const SearchLocation = () => {
     const [detailList, setDetailList] = useState<any>([])
     const [currentItems, setCurrentItems] = useState(Array())
     const [selectedLocation, setSelectedLocation] = useState<any>(null)
+    // const handlePlaceChanged = () => {
+    //     const [place] = inputRef.current.getPlaces()
+    //     const inputElement = document.getElementById(
+    //         'searchInput'
+    //     ) as HTMLInputElement
+    //     const query = inputElement.value
+    //     if (place) {
+    //         const request = {
+    //             query: query,
+    //             location: place.geometry.location,
+    //             radius: 1000,
+    //             type: 'all',
+    //         }
+
+    //         const service = new window.google.maps.places.PlacesService(
+    //             document.createElement('div')
+    //         )
+    //         service.textSearch(request, (results: any, status: any) => {
+    //             if (
+    //                 status === window.google.maps.places.PlacesServiceStatus.OK
+    //             ) {
+    //                 setResultList(results)
+    //             }
+    //         })
+    //     }
+    // }
+
     const handlePlaceChanged = () => {
         const [place] = inputRef.current.getPlaces()
         const inputElement = document.getElementById(
             'searchInput'
         ) as HTMLInputElement
         const query = inputElement.value
+
         if (place) {
             const request = {
                 query: query,
@@ -34,11 +62,66 @@ export const SearchLocation = () => {
                 if (
                     status === window.google.maps.places.PlacesServiceStatus.OK
                 ) {
+                    const detailList: any = []
+
+                    const placeIds = results.map(
+                        (result: any) => result.place_id
+                    )
+
+                    // Fetch place details for each place ID
+                    placeIds.forEach((placeId: string) => {
+                        const detailsRequest = {
+                            placeId: placeId,
+                            fields: [
+                                'name',
+                                'formatted_address',
+                                'formatted_phone_number',
+                                'international_phone_number',
+                                'current_opening_hours',
+                                'opening_hours',
+                                'website',
+                                'secondary_opening_hours',
+                                'price_level',
+                                'reviews',
+                                'geometry',
+                                'photos',
+                                'rating',
+                                'user_ratings_total',
+                                'opening_hours',
+                                'url',
+                                'types',
+                                'plus_code',
+                                'vicinity',
+                            ],
+                        }
+
+                        service.getDetails(
+                            detailsRequest,
+                            (place: any, status: any) => {
+                                if (
+                                    status ===
+                                    window.google.maps.places
+                                        .PlacesServiceStatus.OK
+                                ) {
+                                    detailList.push(place) // Push the entire place object into the array
+                                }
+
+                                // Check if all details have been fetched
+                                if (detailList.length === placeIds.length) {
+                                    setDetailList(detailList) // Set the array of place details
+                                }
+                            }
+                        )
+                    })
+
                     setResultList(results)
                 }
             })
         }
     }
+
+    // console.log('detailList', detailList)
+    // console.log('resultList', resultList)
 
     return (
         <>
@@ -64,15 +147,15 @@ export const SearchLocation = () => {
                             />
                         </>
                     </StandaloneSearchBox>
-                    <div className="grid grid-flow-col gap-x-8 w-full h-full">
-                        <div className="col-span-1">
-                            {resultList && resultList?.length > 0 && (
+                    <div className="grid grid-cols-8  gap-x-8 w-full h-full">
+                        <div className="col-span-4">
+                            {detailList && detailList?.length > 0 && (
                                 <div className="flex items-center justify-between mb-2">
                                     <span className="text-gray-600 text-xs">
-                                        results({resultList?.length})
+                                        results({detailList?.length})
                                     </span>
                                     <Paginate
-                                        data={resultList}
+                                        data={detailList}
                                         itemsPerPage={5}
                                         setCurrentItems={setCurrentItems}
                                     />
@@ -100,7 +183,8 @@ export const SearchLocation = () => {
                                 />
                             ))}
                         </div>
-                        <div className="col-span-4 w-full h-[32rem]">
+
+                        <div className="col-span-4 w-full h-full">
                             <MapDetail
                                 resultList={resultList}
                                 selectedBox={selectedBox}
