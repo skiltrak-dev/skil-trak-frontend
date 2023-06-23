@@ -10,91 +10,43 @@ export const SearchLocation = () => {
     const [allVisibleIndustries, setAllVisibleIndustries] = useState<any>([])
     const [selectedBox, setSelectedBox] = useState<any>(null)
     const [resultList, setResultList] = useState([])
+    const [detailList, setDetailList] = useState<any>([])
     const [currentItems, setCurrentItems] = useState(Array())
     const [selectedLocation, setSelectedLocation] = useState<any>(null)
-    // const handlePlaceChanged = () => {
-    //     const [place] = inputRef.current.getPlaces()
-    //     if (place) {
-    //         const request = {
-    //             location: place.geometry.location,
-    //             radius: 1000,
-    //             type: 'industry',
-    //         }
-
-    //         const service = new window.google.maps.places.PlacesService(
-    //             document.createElement('div')
-    //         )
-    //         service.nearbySearch(request, (results: any, status: any) => {
-    //             if (
-    //                 status === window.google.maps.places.PlacesServiceStatus.OK
-    //             ) {
-    //                 setResultList(results)
-    //             }
-    //         })
-    //     }
-    // }
     const handlePlaceChanged = () => {
         const [place] = inputRef.current.getPlaces()
+        const inputElement = document.getElementById(
+            'searchInput'
+        ) as HTMLInputElement
+        const query = inputElement.value
         if (place) {
             const request = {
+                query: query,
                 location: place.geometry.location,
                 radius: 1000,
-                type: 'industry',
+                type: 'all',
             }
 
             const service = new window.google.maps.places.PlacesService(
                 document.createElement('div')
             )
-            service.nearbySearch(request, (results: any, status) => {
+            service.textSearch(request, (results: any, status: any) => {
                 if (
                     status === window.google.maps.places.PlacesServiceStatus.OK
                 ) {
                     setResultList(results)
-
-                    // Get phone number and email for each result
-                    results.forEach((result: any) => {
-                        const detailsRequest = {
-                            placeId: result.place_id,
-                            fields: [
-                                'name',
-                                'formatted_phone_number',
-                                'website',
-                                'formatted_address',
-                                'email',
-                            ],
-                        }
-
-                        service.getDetails(
-                            detailsRequest,
-                            (placeResult: any, detailsStatus) => {
-                                if (
-                                    detailsStatus ===
-                                    window.google.maps.places
-                                        .PlacesServiceStatus.OK
-                                ) {
-                                    // You can store the phone number and email in your desired format or use them as needed
-                                } else {
-                                    console.log(
-                                        'Failed to retrieve details:',
-                                        detailsStatus
-                                    )
-                                }
-                            }
-                        )
-                    })
-                } else {
-                    console.log('Failed to retrieve nearby places:', status)
                 }
             })
         }
     }
+
     return (
         <>
             <div>
                 <LoadScript
                     googleMapsApiKey="AIzaSyCMEGspm5WHyXte3TN4Lfrkcg9DchsbYEk"
                     libraries={libraries}
-                    region="AUSTRALIA"
+                    region="AU"
                 >
                     <StandaloneSearchBox
                         onLoad={(ref) => (inputRef.current = ref)}
@@ -105,6 +57,7 @@ export const SearchLocation = () => {
                                 Search for industry
                             </Typography>
                             <input
+                                id="searchInput"
                                 type="text"
                                 className="mb-4 px-4 py-2 w-full border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
                                 placeholder="Enter Location"
@@ -112,7 +65,7 @@ export const SearchLocation = () => {
                         </>
                     </StandaloneSearchBox>
                     <div className="grid grid-flow-col gap-x-8 w-full h-full">
-                        <div className="col-span-2">
+                        <div className="col-span-1">
                             {resultList && resultList?.length > 0 && (
                                 <div className="flex items-center justify-between mb-2">
                                     <span className="text-gray-600 text-xs">
@@ -120,7 +73,7 @@ export const SearchLocation = () => {
                                     </span>
                                     <Paginate
                                         data={resultList}
-                                        itemsPerPage={4}
+                                        itemsPerPage={5}
                                         setCurrentItems={setCurrentItems}
                                     />
                                 </div>
@@ -147,7 +100,7 @@ export const SearchLocation = () => {
                                 />
                             ))}
                         </div>
-                        <div className="col-span-3 w-full h-[28rem]">
+                        <div className="col-span-4 w-full h-[32rem]">
                             <MapDetail
                                 resultList={resultList}
                                 selectedBox={selectedBox}
