@@ -169,16 +169,17 @@ export const ProgressCell = ({
                     >
                         {currentStatus.status}
                     </p>
-                    <p className="text-[11px] text-gray-400 whitespace-nowrap">
-                        {currentStatus.description}
-                    </p>
-
-                    {step === 3 && (
+                    {assigned ? (
                         <Typography variant={'xs'} color={'text-gray-500'}>
                             <span className="font-semibold">
+                                <span className="text-gray-400">CO-</span>{' '}
                                 {assigned?.user?.name}
                             </span>
                         </Typography>
+                    ) : (
+                        <p className="text-[11px] text-gray-400 whitespace-nowrap">
+                            {currentStatus.description}
+                        </p>
                     )}
                 </div>
             </div>

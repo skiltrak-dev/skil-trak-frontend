@@ -64,11 +64,11 @@ export const SubAdminIndustryFilter = ({
                 />
                 <TextInput
                     label={'Address'}
-                    name={'address'}
-                    value={filter?.address}
+                    name={'suburb'}
+                    value={filter?.suburb}
                     placeholder={'Search By Address...'}
                     onChange={(e: any) => {
-                        onFilterChange({ ...filter, address: e.target.value })
+                        onFilterChange({ ...filter, suburb: e.target.value })
                     }}
                 />
                 <Select
@@ -76,9 +76,9 @@ export const SubAdminIndustryFilter = ({
                     name={'courseId'}
                     options={coursesOptions}
                     placeholder={'Select Courses...'}
-                    defaultValue={coursesOptions?.find(
+                    value={coursesOptions?.find(
                         (course: SelectOption) =>
-                            course.value === filter?.courseId
+                            course.value === Number(filter?.courseId)
                     )}
                     onChange={(e: any) => {
                         onFilterChange({ ...filter, courseId: e?.value })

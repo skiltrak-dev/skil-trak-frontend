@@ -86,8 +86,6 @@ export const MapDetail = ({
             'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m', // so you must have m1.png, m2.png, m3.png, m4.png, m5.png and m6.png in that folder
     }
 
-    console.log('selectedBox', selectedBox)
-
     return isLoaded ? (
         <GoogleMap
             mapContainerStyle={containerStyle}
@@ -104,7 +102,7 @@ export const MapDetail = ({
                             <div className="relative">
                                 <Marker
                                     icon={{
-                                        url: '/images/icons/industry.png',
+                                        url: '/images/location-icon.png',
                                         scaledSize: new google.maps.Size(
                                             29,
                                             38
@@ -117,14 +115,6 @@ export const MapDetail = ({
                                     }}
                                     clusterer={clusterer}
                                     onClick={(e: any) => {
-                                        console.log(
-                                            'Map Detail',
-                                            e.latLng.lat()
-                                        )
-                                        console.log(
-                                            'Map Detail',
-                                            e.latLng.lng()
-                                        )
                                         setSelectedBox({
                                             ...location,
                                             position: {

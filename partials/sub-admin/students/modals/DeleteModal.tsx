@@ -1,4 +1,4 @@
-import { ActionModal } from '@components'
+import { ActionModal, ShowErrorNotifications } from '@components'
 import { useAlert, useNotification } from '@hooks'
 import { AdminApi } from '@queries'
 
@@ -21,38 +21,35 @@ export const DeleteModal = ({
     const router = useRouter()
 
     const onConfirmUClicked = async (item: Student) => {
-        await remove(item.id)
+        await remove(item?.user?.id)
     }
 
     useEffect(() => {
         if (removeResult.isSuccess) {
-            alert.error({
+            notification.error({
                 title: `Student Deleted`,
                 description: `Student "${item.user.name}" has been deleted.`,
             })
             onCancel()
-            router.push('/portals/admin/student?tab=active')
-        }
-        if (removeResult.isError) {
-            notification.error({
-                title: 'Request Failed',
-                description: `Your request for deleting Student was failed`,
-            })
+            // router.push('/portals/sub-admin/student?tab=active')
         }
     }, [removeResult])
 
     return (
-        <ActionModal
-            Icon={FaTrash}
-            variant="error"
-            title="Are you sure!"
-            description={`You are about to delete "${item.user.name}". Do you wish to continue?`}
-            onConfirm={onConfirmUClicked}
-            onCancel={onCancel}
-            input
-            inputKey={item.user.email}
-            actionObject={item}
-            loading={removeResult.isLoading}
-        />
+        <>
+            <ShowErrorNotifications result={removeResult} />
+            <ActionModal
+                Icon={FaTrash}
+                variant="error"
+                title="Are you sure!"
+                description={`You are about to delete "${item.user.name}". Do you wish to continue?`}
+                onConfirm={onConfirmUClicked}
+                onCancel={onCancel}
+                input
+                inputKey={item.user.email}
+                actionObject={item}
+                loading={removeResult.isLoading}
+            />
+        </>
     )
 }

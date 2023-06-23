@@ -1,5 +1,5 @@
 import { useRouter } from 'next/router'
-import { ReactElement, useState } from 'react'
+import { ReactElement, useEffect, useState } from 'react'
 
 // Icons
 import { FaEye } from 'react-icons/fa'
@@ -35,6 +35,11 @@ export const PendingIndustries = () => {
 
     // hooks
     const { passwordModal, onViewPassword } = useActionModal()
+
+    useEffect(() => {
+        setPage(Number(router.query.page || 1))
+        setItemPerPage(Number(router.query.pageSize || 50))
+    }, [router])
 
     const { isLoading, data, isError } = useGetSubAdminIndustriesQuery({
         search: `status:${UserStatus.Pending}`,

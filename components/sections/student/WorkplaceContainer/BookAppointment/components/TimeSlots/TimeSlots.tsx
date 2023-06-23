@@ -1,8 +1,16 @@
-import { LoadingAnimation, Paginate, SidebarCalendar } from '@components'
+import {
+    AuthorizedUserComponent,
+    LoadingAnimation,
+    Paginate,
+    SidebarCalendar,
+    TextInput,
+} from '@components'
 import { RequiredStar } from '@components/inputs/components'
 import { Typography } from '@components/Typography'
+import { UserRoles } from '@constants'
+import { getUserCredentials } from '@utils'
 import moment from 'moment'
-import { useEffect, useState } from 'react'
+import { ChangeEvent, useEffect, useState } from 'react'
 
 // queries
 import { RiRestTimeLine } from 'react-icons/ri'
@@ -87,6 +95,8 @@ export const TimeSlots = ({
         setTimeAvailability(appointmentAvailability)
     }, [appointmentAvailability, appointmentWith])
 
+    const role = getUserCredentials()?.role
+
     return (
         <div className="">
             <div className="flex gap-x-1">
@@ -97,15 +107,15 @@ export const TimeSlots = ({
                     <RequiredStar />
                 </div>
             </div>
-            <div className="flex flex-col md:flex-row justify-center gap-y-4 gap-x-16 mt-1">
-                <div className="w-full md:w-2/6">
+            <div className="flex flex-col md:flex-row justify-center gap-y-4 gap-x-3 lg:gap-x-16 mt-1 max-w-4xl mx-auto">
+                <div className="w-full">
                     <SidebarCalendar
                         enabledDays={daysAvailability || [1, 2, 3, 4, 5]}
                         // enabledDays={[1, 2, 3, 4, 5]}
                         setSelectedDate={setSelectedDate}
                     />
                 </div>
-                <div>
+                <div className="w-full">
                     <div className="flex justify-between items-center">
                         <Typography variant="subtitle" color="text-black">
                             {moment(
@@ -125,7 +135,53 @@ export const TimeSlots = ({
                     </div>
                     <div>
                         <Typography variant="muted" color="text-gray-400">
-                            Please select one of time slot from below given list
+                            Please{' '}
+                            {(role === UserRoles.ADMIN ||
+                                role === UserRoles.SUBADMIN) &&
+                                'select the time from custom inputs or '}
+                            select one of time slot from below given list
+                        </Typography>
+                    </div>
+
+                    <AuthorizedUserComponent
+                        roles={[UserRoles.ADMIN, UserRoles.SUBADMIN]}
+                    >
+                        <Typography variant="label" color="text-gray-700">
+                            Custom Range
+                        </Typography>
+                        <div className="flex items-center gap-x-2">
+                            <TextInput
+                                name={'startTime'}
+                                type={'time'}
+                                label={'Start Time'}
+                                onChange={(
+                                    e: ChangeEvent<HTMLInputElement>
+                                ) => {
+                                    setSelectedTime((selectedTime: any) => ({
+                                        ...selectedTime,
+                                        startTime: e.target.value,
+                                    }))
+                                }}
+                            />
+                            <TextInput
+                                name={'endTime'}
+                                type={'time'}
+                                label={'End Time'}
+                                onChange={(
+                                    e: ChangeEvent<HTMLInputElement>
+                                ) => {
+                                    setSelectedTime((selectedTime: any) => ({
+                                        ...selectedTime,
+                                        endTime: e.target.value,
+                                    }))
+                                }}
+                            />
+                        </div>
+                    </AuthorizedUserComponent>
+
+                    <div className="-mt-5">
+                        <Typography variant="label" color="text-gray-700">
+                            Pre made Slots
                         </Typography>
                     </div>
                     {loading ? (

@@ -218,25 +218,6 @@ export const AppointmentTypes = () => {
         },
     ]
 
-    const quickActionsElements = {
-        id: 'id',
-        individual: (id: number) => (
-            <div className="flex gap-x-2">
-                <ActionButton variant="success" onClick={() => {}}>
-                    Accept
-                </ActionButton>
-                <ActionButton variant="error" onClick={() => {}}>
-                    Reject
-                </ActionButton>
-            </div>
-        ),
-        common: (ids: number[]) => (
-            <ActionButton variant="error" onClick={() => {}}>
-                Reject
-            </ActionButton>
-        ),
-    }
-
     return (
         <>
             {modal && modal}
@@ -287,12 +268,7 @@ export const AppointmentTypes = () => {
                     {isLoading ? (
                         <LoadingAnimation height="h-[60vh]" />
                     ) : data && data?.data.length ? (
-                        <Table
-                            columns={columns}
-                            data={data.data}
-                            quickActions={quickActionsElements}
-                            enableRowSelection
-                        >
+                        <Table columns={columns} data={data.data}>
                             {({
                                 table,
                                 pagination,
