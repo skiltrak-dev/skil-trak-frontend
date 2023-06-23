@@ -102,7 +102,7 @@ export const MapDetail = ({
                             <div className="relative">
                                 <Marker
                                     icon={{
-                                        url: '/images/icons/industry.png',
+                                        url: '/images/location-icon.png',
                                         scaledSize: new google.maps.Size(
                                             29,
                                             38
