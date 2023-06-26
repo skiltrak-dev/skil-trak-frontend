@@ -2,14 +2,14 @@ import { ReactElement } from 'react'
 
 import { StudentLayout } from '@layouts'
 import { NextPageWithLayout } from '@types'
-import { BigCalendar, Button } from '@components'
+import { BigCalendar, Button, CalendarEvent } from '@components'
 import { useRouter } from 'next/router'
 
 type Props = {}
 
 const Schedule: NextPageWithLayout = (props: Props) => {
     const router = useRouter()
-    const events = [
+    const events: CalendarEvent[] = [
         {
             allDay: false,
             start: new Date('2022-12-26T02:00:15.221Z'),
@@ -61,7 +61,9 @@ const Schedule: NextPageWithLayout = (props: Props) => {
     )
 }
 Schedule.getLayout = (page: ReactElement) => {
-    return <StudentLayout pageTitle={{title:"Schedule"}}>{page}</StudentLayout>
+    return (
+        <StudentLayout pageTitle={{ title: 'Schedule' }}>{page}</StudentLayout>
+    )
 }
 
 export default Schedule

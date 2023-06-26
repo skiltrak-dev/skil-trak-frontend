@@ -5,7 +5,13 @@ import { Paginate } from '@components/Paginate/Paginate'
 
 import { CalendarStyles } from './style'
 
-export const SidebarCalendar = ({ enabledDays, setSelectedDate }: any) => {
+export const SidebarCalendar = ({
+    enabledDays,
+    setSelectedDate,
+}: {
+    enabledDays?: number[]
+    setSelectedDate?: (date: Date) => void
+}) => {
     const [isDateChange, setIsDateChange] = useState(false)
     const [date, setDate] = useState(new Date())
     const todayDate = new Date(Date.now() - 3600 * 1000 * 24)

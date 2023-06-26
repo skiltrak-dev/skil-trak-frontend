@@ -1,11 +1,11 @@
 import classNames from 'classnames'
 import Link from 'next/link'
-import { MouseEventHandler } from 'react'
+import { MouseEventHandler, ReactNode } from 'react'
 
 interface NavItemProps {
     link?: string
     Icon?: any
-    children: any
+    children: ReactNode
     active?: boolean
     color?: boolean
     onClick?: MouseEventHandler

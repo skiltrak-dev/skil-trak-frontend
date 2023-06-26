@@ -25,7 +25,7 @@ export const BigCalendar = ({
     events,
     loading,
 }: {
-    events: any
+    events: CalendarEvent[]
     loading?: boolean
 }) => {
     const today = new Date()

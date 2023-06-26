@@ -36,7 +36,7 @@ export const AssessmentResponse = ({
     editAssessment,
 }: {
     folder?: any
-    studentId?: any
+    studentId?: number
     getAssessmentResponse?: any
     assessmentEvidenceView?: boolean
     header?: boolean
@@ -315,7 +315,7 @@ export const AssessmentResponse = ({
                                         assessmentFolderId:
                                             getAssessmentResponse?.data
                                                 ?.assessmentFolder?.id,
-                                        std: studentId,
+                                        std: Number(studentId),
                                     })
                                 }}
                                 loading={

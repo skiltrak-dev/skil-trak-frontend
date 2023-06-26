@@ -6,7 +6,7 @@ import Link from 'next/link'
 // image
 //Layouts
 import { SubAdminLayout } from '@layouts'
-import { NextPageWithLayout, Rto } from '@types'
+import { NextPageWithLayout, Rto, Student } from '@types'
 
 import { FaEye } from 'react-icons/fa'
 
@@ -99,7 +99,11 @@ const RTOs: NextPageWithLayout = () => {
         },
     ]
 
-    const Columns: ColumnDef<Rto>[] = [
+    type RTOStudents = Rto & {
+        students: number
+    }
+
+    const Columns: ColumnDef<RTOStudents>[] = [
         {
             header: () => 'Name',
             accessorKey: 'user',

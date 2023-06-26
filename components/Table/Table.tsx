@@ -20,6 +20,13 @@ import {
 import { PageSize } from './components/PageSize'
 import { Pagination } from './components/Pagination'
 
+export interface TableChildrenProps {
+    quickActions: ReactNode
+    pageSize: Function | null
+    pagination: Function | null
+    table: JSX.Element
+}
+
 interface QuickTableAction {
     id: string | number
     individual: Function | null
@@ -28,7 +35,12 @@ interface QuickTableAction {
 }
 
 interface TableProps<Type> {
-    children: any
+    children: ({
+        quickActions,
+        pageSize,
+        pagination,
+        table,
+    }: TableChildrenProps) => JSX.Element
     columns: ColumnDef<Type>[]
     data: Type[]
     quickActions?: QuickTableAction

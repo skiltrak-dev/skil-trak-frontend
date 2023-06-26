@@ -44,7 +44,10 @@ const AssessmentEvidenceDetails: NextPageWithLayout = (props: Props) => {
 
     return (
         <>
-            <Detail studentId={studentId} studentUserId={studentUser} />
+            <Detail
+                studentId={Number(studentId)}
+                studentUserId={Number(studentUser)}
+            />
         </>
     )
 }

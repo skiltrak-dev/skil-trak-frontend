@@ -8,7 +8,10 @@ import { UpcomingAppointmentCard } from './UpcomingAppointmentCard'
 export const FutureAppointments = ({
     appointments,
     onAppointmentClicked,
-}: any) => {
+}: {
+    appointments: any
+    onAppointmentClicked?: any
+}) => {
     const navigationPrevRef = useRef(null)
     const navigationNextRef = useRef(null)
     const [iconClasses] = useState(

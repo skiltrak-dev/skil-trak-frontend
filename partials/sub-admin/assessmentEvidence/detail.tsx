@@ -8,8 +8,8 @@ export const Detail = ({
     studentId,
     studentUserId,
 }: {
-    studentId: string | string[] | undefined
-    studentUserId: string | string[] | undefined
+    studentId: number
+    studentUserId: number
 }) => {
     const [isArchivedView, setIsArchivedView] = useState<boolean>(false)
 

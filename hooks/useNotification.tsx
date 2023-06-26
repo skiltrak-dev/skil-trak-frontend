@@ -1,4 +1,4 @@
-import React, { useState, createContext, useContext } from 'react'
+import React, { useState, createContext, useContext, ReactNode } from 'react'
 import { Notification, NotificationType, NotificationProps } from '@components'
 
 type NotificationObjectType = {
@@ -27,7 +27,7 @@ export interface NotificationContextType {
 
 const NotificationContext = createContext<NotificationContextType | null>(null)
 
-export const NotificationProvider = ({ children }: { children: any }) => {
+export const NotificationProvider = ({ children }: { children: ReactNode }) => {
     const [lastId, setLastId] = useState(1)
     const [notifications, setNotification] = useState<any>([])
 

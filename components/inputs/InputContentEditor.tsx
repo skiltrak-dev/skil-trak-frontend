@@ -25,7 +25,7 @@ import { InputErrorMessage } from '@components/inputs/components'
 import draftToHtml from 'draftjs-to-html'
 import { htmltotext } from '@utils'
 
-export const draftToHtmlText = (draftText: any) => {
+export const draftToHtmlText = (draftText: EditorState) => {
     let content = ''
     if (draftText) {
         content = draftToHtml(convertToRaw(draftText?.getCurrentContent()))
@@ -43,9 +43,10 @@ export const htmlToDraftText = (content: string) => {
             )
         )
     }
+    return null
 }
 
-export const inputEditorErrorMessage = (value: string) => {
+export const inputEditorErrorMessage = (value: EditorState) => {
     const content = draftToHtmlText(value)
     if (htmltotext(content)?.length > 1) {
         return true

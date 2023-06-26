@@ -1,7 +1,8 @@
 import classNames from 'classnames'
+import { ReactNode } from 'react'
 
 interface CardProps {
-    children?: any
+    children?: ReactNode
     noPadding?: boolean
     shadowType?: 'soft' | 'hard'
     shadowColor?: string
@@ -28,9 +29,5 @@ export const Card = ({
         'p-0': noPadding,
         'p-4': !noPadding,
     })
-    return (
-        <div className={`${classes} ${shadowColor}`}>
-            {children}
-        </div>
-    )
+    return <div className={`${classes} ${shadowColor}`}>{children}</div>
 }

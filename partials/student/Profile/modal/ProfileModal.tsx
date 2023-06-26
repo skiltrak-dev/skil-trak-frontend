@@ -1,3 +1,4 @@
+import { ReactNode } from 'react'
 import {
     useGetStudentProfileDetailQuery,
     useUpdateStudentProfileMutation,
@@ -10,11 +11,9 @@ import ProgressBar from '@ramonak/react-progress-bar'
 import {
     EmptyData,
     LoadingAnimation,
-    SelectOption,
     TechnicalError,
     Typography,
 } from '@components'
-import { useEffect } from 'react'
 import { getThemeColors } from '@theme'
 
 const colors = getThemeColors()
@@ -24,7 +23,7 @@ const colors = getThemeColors()
 interface ModalProps {
     title: string
     subtitle: string
-    children: any
+    children: ReactNode
     confirmText?: string
     onConfirmClick: Function
     cancelText?: string

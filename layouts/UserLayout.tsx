@@ -1,6 +1,6 @@
-import { DetailNavbar, DisplayAlerts, ProtectedRoute } from '@components'
+import { DetailNavbar, ProtectedRoute } from '@components'
 import { ContextBar } from '@components/sideBars'
-import { ReactNode, useEffect } from 'react'
+import { ReactNode } from 'react'
 
 interface UserLayoutProps {
     children: ReactNode

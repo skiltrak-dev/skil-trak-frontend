@@ -2,12 +2,22 @@ import { ReactElement, useState } from 'react'
 // Layouts
 import { AdminLayout } from '@layouts'
 // Types
-import { Button, TabNavigation, TabProps } from '@components'
+import {
+    Button,
+    TabNavigation,
+    TabNavigationChildrenProps,
+    TabProps,
+} from '@components'
 import { useContextBar } from '@hooks'
 
 import { CommonApi } from '@queries'
 import { NextPageWithLayout } from '@types'
-import { AllMailsList, ReadMailsList, SentMails, UnReadMailsList } from '@partials/common/AdminEmails/detail'
+import {
+    AllMailsList,
+    ReadMailsList,
+    SentMails,
+    UnReadMailsList,
+} from '@partials/common/AdminEmails/detail'
 import { SendMail } from '@partials/common'
 import { useRouter } from 'next/router'
 
@@ -80,25 +90,29 @@ const SubAdminEmailsNotifications: NextPageWithLayout = () => {
     return (
         <div className="px-4">
             <TabNavigation tabs={tabs}>
-                {({ header, element }: any) => {
+                {({ header, element }: TabNavigationChildrenProps) => {
                     return (
                         <div>
                             <div className="flex justify-between items-center">
                                 <div>{header}</div>
-                                <div className='flex items-center gap-x-2'>
+                                <div className="flex items-center gap-x-2">
                                     <Button
                                         onClick={() => {
-                                            router.push('/portals/admin/bulk-email')
+                                            router.push(
+                                                '/portals/admin/bulk-email'
+                                            )
                                         }}
                                         text="Bulk Email"
-                                        variant='info'
+                                        variant="info"
                                     />
                                     <Button
                                         onClick={() => {
-                                            router.push('/portals/admin/email-draft')
+                                            router.push(
+                                                '/portals/admin/email-draft'
+                                            )
                                         }}
                                         text="Email Draft"
-                                        variant='info'
+                                        variant="info"
                                     />
                                     <Button
                                         onClick={() => {

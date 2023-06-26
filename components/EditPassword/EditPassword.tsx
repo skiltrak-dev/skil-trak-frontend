@@ -9,6 +9,11 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import { SubAdminApi } from '@queries'
 import { useNotification } from '@hooks'
 
+interface onSubmitType {
+    password: string
+    confirmPassword: string
+}
+
 export const EditPassword = ({
     onCancel,
     item,
@@ -38,12 +43,12 @@ export const EditPassword = ({
             .required('Confirm Password is required'),
     })
 
-    const methods = useForm({
+    const methods = useForm<onSubmitType>({
         resolver: yupResolver(validationSchema),
         mode: 'all',
     })
 
-    const onSubmit = (values: any) => {
+    const onSubmit = (values: onSubmitType) => {
         changePassword({ ...values, email: item?.user?.email })
     }
     return (

@@ -15,10 +15,15 @@ import { ChangeEvent, useEffect, useState } from 'react'
 // queries
 import { RiRestTimeLine } from 'react-icons/ri'
 
+export interface selectedTimeType {
+    startTime: any
+    endTime: any
+}
+
 type Props = {
     subAdmin?: boolean
     appointmentWith?: string | null
-    setSelectedDate: Function
+    setSelectedDate: (date: Date) => void
     selectedDate: Date | null
     setSelectedTime: Function
     selectedTime: any
@@ -170,10 +175,12 @@ export const TimeSlots = ({
                                 onChange={(
                                     e: ChangeEvent<HTMLInputElement>
                                 ) => {
-                                    setSelectedTime((selectedTime: any) => ({
-                                        ...selectedTime,
-                                        endTime: e.target.value,
-                                    }))
+                                    setSelectedTime(
+                                        (selectedTime: selectedTimeType) => ({
+                                            ...selectedTime,
+                                            endTime: e.target.value,
+                                        })
+                                    )
                                 }}
                             />
                         </div>

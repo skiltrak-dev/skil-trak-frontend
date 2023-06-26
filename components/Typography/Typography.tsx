@@ -1,4 +1,4 @@
-import { ReactElement } from 'react'
+import { ReactElement, ReactNode } from 'react'
 
 const TypographyOptions = {
     h1: { className: `text-4xl font-bold`, element: 'h1' },
@@ -33,9 +33,9 @@ const VariantOptions = [
 ] as const
 
 interface TypographyProps {
-    variant?: typeof VariantOptions[number]
+    variant?: (typeof VariantOptions)[number]
 
-    children: any
+    children: ReactNode
 
     // Label Specific
     htmlFor?: string

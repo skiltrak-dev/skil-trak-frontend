@@ -2,7 +2,7 @@ import { ActionButton, Button, Portal, Typography } from '@components'
 import { User } from '@types'
 import { getUserCredentials } from '@utils'
 import moment from 'moment'
-import { ReactElement, useEffect, useState } from 'react'
+import { MouseEvent, ReactElement, useEffect, useState } from 'react'
 import { FaTimes } from 'react-icons/fa'
 import { BiLogoZoom } from 'react-icons/bi'
 
@@ -104,7 +104,7 @@ export const UpcomingAppointmentCard = ({
                                 mini
                                 title={'Zoom Meeting'}
                                 variant={'info'}
-                                onClick={(e: any) => {
+                                onClick={() => {
                                     router.push(
                                         `/portals/${urlRole}/zoom-meeting?appointment=${appointment?.id}`
                                     )
@@ -116,7 +116,7 @@ export const UpcomingAppointmentCard = ({
                         mini
                         title={'Reschedule Appointment'}
                         variant={'info'}
-                        onClick={(e: any) => {
+                        onClick={() => {
                             onRescheduleClicked()
                         }}
                         loading={cancellAppointmentResult?.isLoading}
@@ -127,7 +127,7 @@ export const UpcomingAppointmentCard = ({
                         mini
                         title={'Cancell Appointment'}
                         variant={'error'}
-                        onClick={(e: any) => {
+                        onClick={(e: MouseEvent<HTMLElement>) => {
                             e?.stopPropagation()
                             cancellAppointment(appointment?.id)
                         }}

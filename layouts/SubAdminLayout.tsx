@@ -2,7 +2,6 @@ import {
     DisplayAlerts,
     PageTitle,
     PageTitleProps,
-    ProtectedRoute,
     SubAdminNavbar,
 } from '@components'
 import { useJoyRide } from '@hooks'

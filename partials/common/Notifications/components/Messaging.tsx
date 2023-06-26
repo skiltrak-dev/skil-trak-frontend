@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { ReactNode } from 'react'
 import { MailDetail } from './MailDetail'
 
 export const Messaging = ({
@@ -6,7 +6,7 @@ export const Messaging = ({
     selectedMessage,
 }: {
     selectedMessage: any
-    children: any
+    children: ReactNode
 }) => {
     return (
         <div className="flex border h-[500px] rounded">

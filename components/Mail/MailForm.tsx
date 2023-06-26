@@ -28,10 +28,19 @@ import { useNotification } from 'hooks'
 import { Attachment } from '@partials/common'
 import { CommonApi } from '@queries'
 import { AuthUtils } from '@utils'
-import { convertToRaw } from 'draft-js'
+import { EditorState, convertToRaw } from 'draft-js'
 import draftToHtml from 'draftjs-to-html'
 import ClickAwayListener from 'react-click-away-listener'
+import { SubmitHandler } from 'react-hook-form'
 
+interface onSubmitType {
+    to?: string
+    cc?: string
+    subject: string
+    message: EditorState
+    template: any
+    attachment: FileList | null
+}
 export const MailForm = ({ action, receiverId, sender }: any) => {
     // const { replyMessage, setReplyMessage, setMessage } = useMessage()
     const { notification } = useNotification()
@@ -60,7 +69,7 @@ export const MailForm = ({ action, receiverId, sender }: any) => {
         // message: yup.string().required('Must provide message'),
     })
 
-    const methods = useForm({
+    const methods = useForm<onSubmitType>({
         resolver: yupResolver(validationSchema),
         mode: 'all',
     })
@@ -70,7 +79,7 @@ export const MailForm = ({ action, receiverId, sender }: any) => {
             if (getEmailDraft?.data?.content) {
                 methods.setValue(
                     'message',
-                    htmlToDraftText(getEmailDraft?.data?.content)
+                    htmlToDraftText(getEmailDraft?.data?.content) as EditorState
                 )
             }
 
@@ -130,7 +139,7 @@ export const MailForm = ({ action, receiverId, sender }: any) => {
         )
     }
 
-    const onSubmit = (values: any) => {
+    const onSubmit = (values: onSubmitType) => {
         setIsSendDraft(false)
         setSendEmailDraft(false)
         const userCredentials = AuthUtils.getUserCredentials()
@@ -155,7 +164,7 @@ export const MailForm = ({ action, receiverId, sender }: any) => {
         })
 
         attachment &&
-            attachment?.forEach((attached: File) => {
+            [...attachment]?.forEach((attached: File) => {
                 formData.append('attachment', attached)
             })
         sendMessage(formData)
@@ -167,7 +176,10 @@ export const MailForm = ({ action, receiverId, sender }: any) => {
             (template: any) => template.id === e?.value
         )
         methods.setValue('subject', template?.subject)
-        methods.setValue('message', htmlToDraftText(template?.content))
+        methods.setValue(
+            'message',
+            htmlToDraftText(template?.content) as EditorState
+        )
     }
 
     const templates = [
