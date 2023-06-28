@@ -85,7 +85,7 @@ export const SubAdminStudentFilters = ({
                     )}
                     options={statusOptions}
                     placeholder={'Select Sectors...'}
-                    onChange={(e: SelectOption) => {
+                    onChange={(e: any) => {
                         onFilterChange({ ...filter, status: e?.value })
                     }}
                 />

@@ -25,7 +25,7 @@ export type SelectProps = {
     value?: any
     defaultValue?: any
     multi?: boolean
-    onlyValue?: any
+    onlyValue?: boolean
     placeholder?: string
     inputRef?: any
     menuPlacement?: MenuPlacement

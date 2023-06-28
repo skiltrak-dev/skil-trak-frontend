@@ -19,6 +19,7 @@ import { useContextBar } from 'hooks'
 import { useRouter } from 'next/router'
 import { CallBackProps } from 'react-joyride'
 import { FigureCard } from '@components/sections/subAdmin'
+import { Course, GetSectorsType } from '@types'
 
 export const PrimaryActions = [
     {
@@ -35,15 +36,15 @@ export const PrimaryActions = [
     },
 ]
 
-const getSectors = (courses: any) => {
+const getSectors = (courses: Course[]) => {
     if (!courses) return {}
-    const sectors = {}
-    courses.forEach((c: any) => {
-        if ((sectors as any)[c.sector.name]) {
-            ;(sectors as any)[c.sector.name].push(c)
+    const sectors: GetSectorsType = {}
+    courses.forEach((c: Course) => {
+        if (sectors[c.sector.name]) {
+            sectors[c.sector.name].push(c)
         } else {
-            ;(sectors as any)[c.sector.name] = []
-            ;(sectors as any)[c.sector.name].push(c)
+            sectors[c.sector.name] = []
+            sectors[c.sector.name].push(c)
         }
     })
     return sectors

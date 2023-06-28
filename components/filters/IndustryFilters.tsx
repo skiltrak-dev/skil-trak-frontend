@@ -6,6 +6,7 @@ import { statusOptions } from './statusOptions'
 import { CommonApi } from '@queries'
 import { SetQueryFilters } from './SetQueryFilters'
 import { SelectOption } from './types'
+import { OptionType } from '@types'
 
 interface ItemFilterProps {
     onFilterChange: Function
@@ -63,7 +64,7 @@ export const IndustryFilters = ({
                         (status) => status.value === filter?.status
                     )}
                     placeholder={'Select Status...'}
-                    onChange={(e: any) => {
+                    onChange={(e: OptionType) => {
                         onFilterChange({ ...filter, status: e?.value })
                     }}
                 />
@@ -85,7 +86,7 @@ export const IndustryFilters = ({
                     options={coursesOptions}
                     placeholder={'Select Courses...'}
                     defaultValue={coursesOptions?.find(
-                        (course: SelectOption) =>
+                        (course: OptionType) =>
                             course.value === filter?.courseId
                     )}
                     onChange={(e: any) => {

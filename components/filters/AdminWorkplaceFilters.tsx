@@ -3,7 +3,7 @@ import { Select, TextInput } from '@components/inputs'
 // query
 import { CommonApi } from '@queries'
 
-import { SubAdmin } from '@types'
+import { OptionType, SubAdmin } from '@types'
 import { SetQueryFilters } from './SetQueryFilters'
 import { statusOptions } from './statusOptions'
 import { SelectOption } from './types'
@@ -94,7 +94,7 @@ export const AdminWorkplaceFilters = ({
                         (status) => status.value === filter.status
                     )}
                     placeholder={'Select Sectors...'}
-                    onChange={(e: any) => {
+                    onChange={(e: OptionType) => {
                         onFilterChange({ ...filter, status: e?.value })
                     }}
                 />
@@ -108,7 +108,7 @@ export const AdminWorkplaceFilters = ({
                             coordinators.value === Number(filter.subAdminId)
                     )}
                     placeholder={'Search by Coordinator...'}
-                    onChange={(e: any) => {
+                    onChange={(e: OptionType) => {
                         onFilterChange({ ...filter, subAdminId: e?.value })
                     }}
                     loading={getCoordinators.isLoading}
@@ -120,11 +120,10 @@ export const AdminWorkplaceFilters = ({
                     name={'rtoId'}
                     options={rtoOptions}
                     value={rtoOptions?.find(
-                        (rto: SelectOption) =>
-                            rto.value === Number(filter.rtoId)
+                        (rto: OptionType) => rto.value === Number(filter.rtoId)
                     )}
                     placeholder={'Select Rto...'}
-                    onChange={(e: any) => {
+                    onChange={(e: OptionType) => {
                         onFilterChange({ ...filter, rtoId: e?.value })
                     }}
                     loading={getRtos.isLoading}
@@ -136,11 +135,11 @@ export const AdminWorkplaceFilters = ({
                     name={'industryId'}
                     options={industryOptions}
                     value={industryOptions?.find(
-                        (industry: SelectOption) =>
+                        (industry: OptionType) =>
                             industry.value === Number(filter.industryId)
                     )}
                     placeholder={'Select Industry...'}
-                    onChange={(e: any) => {
+                    onChange={(e: OptionType) => {
                         onFilterChange({ ...filter, industryId: e?.value })
                     }}
                     loading={getIndustries.isLoading}
@@ -152,11 +151,11 @@ export const AdminWorkplaceFilters = ({
                     name={'courseId'}
                     options={coursesOptions}
                     value={coursesOptions?.find(
-                        (course: SelectOption) =>
+                        (course: OptionType) =>
                             course.value === Number(filter.courseId)
                     )}
                     placeholder={'Select Courses...'}
-                    onChange={(e: any) => {
+                    onChange={(e: OptionType) => {
                         onFilterChange({ ...filter, courseId: e?.value })
                     }}
                     loading={getCourses.isLoading}

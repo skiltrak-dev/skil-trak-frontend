@@ -17,6 +17,8 @@ import {
 } from '../modals'
 import { StudentProvidedForwardModal } from '../modals/StudentProvidedForwardModal'
 
+export type isClearedFunctionType = (e: boolean) => void
+
 export const RequestTypeAbn = ({
     appliedIndustry,
     workplace,
@@ -94,7 +96,7 @@ export const RequestTypeAbn = ({
             primaryText: 'Waiting',
             secondaryText: 'for Workplace Response',
             color: 'text-info-light',
-            onClick: (isCleared: any) => {
+            onClick: (isCleared: isClearedFunctionType) => {
                 if (
                     workplace?.assignedTo &&
                     workplace?.industryStatus === UserStatus.Approved
@@ -114,7 +116,7 @@ export const RequestTypeAbn = ({
             primaryText: 'Agreement & Eligibility ',
             secondaryText: 'Checklist Pending',
             color: 'text-info',
-            onClick: (isCleared: any) => {
+            onClick: (isCleared: isClearedFunctionType) => {
                 isCleared(false)
                 if (workplace?.currentStatus === 'awaitingWorkplaceResponse') {
                     notification.info({
@@ -138,7 +140,7 @@ export const RequestTypeAbn = ({
             primaryText: 'Agreement & Eligibility ',
             secondaryText: 'Checklist Signed',
             color: 'text-success',
-            onClick: (isCleared: any) => {
+            onClick: (isCleared: isClearedFunctionType) => {
                 if (workplace?.currentStatus === 'awaitingAgreementSigned') {
                     notification.info({
                         title: 'Upload Agrement',
@@ -161,7 +163,7 @@ export const RequestTypeAbn = ({
             primaryText: 'Placement Started',
             secondaryText: 'Placement Started',
             color: 'text-success-dark',
-            onClick: (isCleared: any) => {
+            onClick: (isCleared: isClearedFunctionType) => {
                 if (
                     workplace?.currentStatus === 'awaitingWorkplaceResponse' ||
                     workplace?.currentStatus === 'AgreementSigned' ||

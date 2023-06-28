@@ -4,6 +4,7 @@ import {
     InitialAvatar,
     LoadingAnimation,
     Table,
+    TableChildrenProps,
     TechnicalError,
     Typography,
 } from '@components'
@@ -44,9 +45,8 @@ export const StudentsPlacementStartedReport = ({
         {
             header: () => <span>Name</span>,
             accessorKey: 'user',
-            cell: (info: any) => {
+            cell: (info) => {
                 const {
-               
                     student: {
                         user: { name, avatar, studentId },
                     },
@@ -56,7 +56,9 @@ export const StudentsPlacementStartedReport = ({
                     <a className="flex items-center gap-x-2">
                         <InitialAvatar name={name} imageUrl={avatar} />
                         <div className="flex flex-col">
-                            <span>{info?.row?.original?.student?.studentId}</span>
+                            <span>
+                                {info?.row?.original?.student?.studentId}
+                            </span>
                             <span>{name}</span>
                         </div>
                     </a>
@@ -135,14 +137,21 @@ export const StudentsPlacementStartedReport = ({
                 <LoadingAnimation height="h-[60vh]" />
             ) : data?.data && data?.data?.length ? (
                 <Table columns={columns} data={data?.data}>
-                    {({ table, pagination, pageSize, quickActions }: any) => {
+                    {({ table, pagination, pageSize }: TableChildrenProps) => {
                         return (
                             <div>
                                 <div className="p-6 mb-2 flex justify-between">
-                                    {pageSize(itemPerPage, setItemPerPage)}
+                                    {pageSize
+                                        ? pageSize(itemPerPage, setItemPerPage)
+                                        : null}
                                     <div className="flex gap-x-2">
                                         {/* {quickActions} */}
-                                        {pagination(data?.pagination, setPage)}
+                                        {pagination
+                                            ? pagination(
+                                                  data?.pagination,
+                                                  setPage
+                                              )
+                                            : null}
                                     </div>
                                 </div>
                                 <div className="px-6">{table}</div>

@@ -1,37 +1,30 @@
-import { ReactElement, useCallback, useEffect, useState } from 'react'
+import { ReactElement, useEffect, useState } from 'react'
 // Layouts
 import { RtoLayout } from '@layouts'
 import { NextPageWithLayout } from '@types'
 //components
 import {
     Card,
-    HelpQuestionSet,
-    ReactTable,
-    TableAction,
-    Table,
     EmptyData,
-    TechnicalError,
-    LoadingAnimation,
-    InitialAvatar,
     Filter,
+    HelpQuestionSet,
+    InitialAvatar,
+    LoadingAnimation,
     PageTitle,
     RTOWorkplaceFilters,
     SetDetaultQueryFilteres,
+    Table,
+    TableAction,
+    TechnicalError,
 } from '@components'
 // Links
 import Link from 'next/link'
 // Queries
 import { useGetRTOWorkplacesQuery } from '@queries'
 // Next Image
-import Image from 'next/image'
-import { AnyObject } from 'yup/lib/object'
 import { ColumnDef } from '@tanstack/react-table'
-import { IndustryCell } from '@partials/admin/industry/components'
 import { useRouter } from 'next/router'
 import { MdEmail, MdPhoneIphone } from 'react-icons/md'
-import { StudentCellInfo } from '@partials/rto/student/components'
-import { getFilterQuery, removeEmptyValues } from '@utils'
-import { debounce } from 'lodash'
 
 type Props = {}
 

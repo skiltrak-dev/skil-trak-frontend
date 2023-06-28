@@ -1,17 +1,17 @@
-import { ProgressStep } from '@components'
+import { ProgressStep, StudentSubAdmin } from '@components'
 import { PinnedNotes } from '@components/sections/subAdmin'
 
 import { Courses } from '../../components/Courses'
 import { MyRto } from '../../components/MyRto'
 import { MyWorkplace } from '../../components/MyWorkplace'
 
-import { CommonApi, useGetSubAdminStudentWorkplaceQuery } from '@queries'
+import { useGetSubAdminStudentWorkplaceQuery } from '@queries'
 
 //
 import { RecentAppointment } from '@partials/common'
 
 type StudentsProfileOverviewProps = {
-    student: any
+    student: StudentSubAdmin
 }
 
 export const OverViewTab = ({ student }: StudentsProfileOverviewProps) => {

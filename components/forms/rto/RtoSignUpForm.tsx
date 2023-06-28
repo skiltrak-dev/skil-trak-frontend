@@ -13,7 +13,7 @@ import { Button, Checkbox, Select, TextInput, Typography } from '@components'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { FormProvider, useForm, SubmitHandler } from 'react-hook-form'
 import { FieldValues } from 'react-hook-form/dist/types'
-import { LoginCredentials } from '@types'
+import { LoginCredentials, OptionType, Sector } from '@types'
 
 export const RtoSignUpForm = ({
     onSubmit,
@@ -27,7 +27,7 @@ export const RtoSignUpForm = ({
     const sectorResponse = AuthApi.useSectors({})
     const [checkEmailExists, emailCheckResult] = AuthApi.useEmailCheck()
 
-    const [courseOptions, setCourseOptions] = useState([])
+    const [courseOptions, setCourseOptions] = useState<OptionType[]>([])
     const [courseLoading, setCourseLoading] = useState(false)
 
     const [storedData, setStoredData] = useState<any>(null)
@@ -45,18 +45,18 @@ export const RtoSignUpForm = ({
         }, 300)()
     }
 
-    const onSectorChanged = (sectors: any) => {
+    const onSectorChanged = (sectors: OptionType[]) => {
         setCourseLoading(true)
-        const filteredCourses = sectors.map((selectedSector: any) => {
+        const filteredCourses = sectors.map((selectedSector: OptionType) => {
             const sectorExisting = sectorResponse.data.find(
-                (sector: any) => sector.id === selectedSector.value
+                (sector: Sector) => sector.id === selectedSector.value
             )
             if (sectorExisting && sectorExisting?.courses?.length) {
                 return sectorExisting.courses
             }
         })
 
-        const newCourseOptions: any = []
+        const newCourseOptions: OptionType[] = []
         filteredCourses.map((courseList: any) => {
             if (courseList && courseList.length) {
                 return courseList.map((course: any) =>

@@ -23,6 +23,7 @@ import { Result } from '@constants'
 import { useAddCommentOnAssessmentMutation } from '@queries'
 import moment from 'moment'
 import { DocumentsView, useNotification } from '@hooks'
+import { OptionType } from '@types'
 
 export const AssessmentResponse = ({
     folder,
@@ -282,7 +283,7 @@ export const AssessmentResponse = ({
                                         },
                                     ]}
                                     value={commentType}
-                                    onChange={(e: any) => {
+                                    onChange={(e: OptionType) => {
                                         setCommentType(e)
                                     }}
                                 />

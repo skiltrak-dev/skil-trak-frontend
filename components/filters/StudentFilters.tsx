@@ -1,4 +1,6 @@
 import { Select, TextInput } from '@components/inputs'
+import ValueType from 'react-select'
+import OptionTypeBase from 'react-select'
 
 // query
 import { CommonApi } from '@queries'
@@ -7,6 +9,8 @@ import { AuthUtils, WorkplaceCurrentStatus } from '@utils'
 import { SetQueryFilters } from './SetQueryFilters'
 import { statusOptions } from './statusOptions'
 import { SelectOption } from './types'
+import { OptionType } from '@types'
+import { ChangeEvent } from 'react'
 
 interface ItemFilterProps {
     onFilterChange: Function
@@ -67,6 +71,7 @@ export const workplaceProgressOptions = [
         value: WorkplaceCurrentStatus.NoResponse,
     },
 ]
+
 export const StudentFilters = ({ onFilterChange, filter }: ItemFilterProps) => {
     // query
     const getIndustries = CommonApi.Filter.useIndustries()
@@ -147,7 +152,7 @@ export const StudentFilters = ({ onFilterChange, filter }: ItemFilterProps) => {
                     )}
                     options={statusOptions}
                     placeholder={'Select Sectors...'}
-                    onChange={(e: SelectOption) => {
+                    onChange={(e: OptionType) => {
                         onFilterChange({ ...filter, status: e?.value })
                     }}
                 />
@@ -156,12 +161,12 @@ export const StudentFilters = ({ onFilterChange, filter }: ItemFilterProps) => {
                         label={'Search By Rto'}
                         name={'rtoId'}
                         value={rtoOptions?.find(
-                            (rto: SelectOption) =>
+                            (rto: OptionType) =>
                                 rto.value === Number(filter?.rtoId)
                         )}
                         options={rtoOptions}
                         placeholder={'Select Search By Rto...'}
-                        onChange={(e: SelectOption) => {
+                        onChange={(e: OptionType) => {
                             onFilterChange({ ...filter, rtoId: e?.value })
                         }}
                         loading={getRtos.isLoading}

@@ -1,25 +1,20 @@
 import {
-    Button,
-    TextArea,
-    TextInput,
     ActionAlert,
-    ShowErrorNotifications,
+    Button,
     Select,
+    ShowErrorNotifications,
+    TextInput,
     Typography,
 } from '@components'
-import { useRouter } from 'next/router'
 import { UserRoles } from '@constants'
 import { yupResolver } from '@hookform/resolvers/yup'
-import {
-    RtoApi,
-    AuthApi,
-    AdminApi,
-    useGetSubAdminRTODetailQuery,
-} from '@queries'
-import { onlyAlphabets, SignUpUtils } from '@utils'
+import { AdminApi, AuthApi, useGetSubAdminRTODetailQuery } from '@queries'
+import { OptionType, Sector } from '@types'
+import { SignUpUtils, onlyAlphabets } from '@utils'
+import { useRouter } from 'next/router'
+import { useEffect, useState } from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
 import * as yup from 'yup'
-import { useState, useEffect } from 'react'
 
 export const AddIndividualStudentForm = () => {
     const router = useRouter()
@@ -66,7 +61,7 @@ export const AddIndividualStudentForm = () => {
     }
     useEffect(() => {
         if (sectorResponse.data?.length) {
-            const options = sectorResponse.data?.map((sector: any) => ({
+            const options = sectorResponse.data?.map((sector: Sector) => ({
                 label: sector.name,
                 value: sector.id,
             }))
@@ -120,7 +115,9 @@ export const AddIndividualStudentForm = () => {
             id: Number(router.query.id),
             body: {
                 ...values,
-                courses: values?.courses?.map((course: any) => course.value),
+                courses: values?.courses?.map(
+                    (course: OptionType) => course.value
+                ),
                 role: UserRoles.STUDENT,
                 dob: 'N/A',
                 familyName: 'N/A',

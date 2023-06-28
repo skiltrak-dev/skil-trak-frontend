@@ -33,6 +33,7 @@ import {
     BlockModal,
     ChangeStudentStatusModal,
 } from './modals'
+import { WorkplaceWorkIndustriesType } from 'redux/queryTypes'
 
 export const FilteredStudents = ({
     student,
@@ -81,12 +82,13 @@ export const FilteredStudents = ({
             <InterviewModal
                 student={student}
                 onCancel={onModalCancelClicked}
-                workplace={student?.workplace[0]?.id}
-                workIndustry={
+                workplace={Number(student?.workplace[0]?.id)}
+                workIndustry={Number(
                     getStudentWorkplaceAppliedIndustry(
-                        student?.workplace[0]?.industries
+                        student?.workplace[0]
+                            ?.industries as WorkplaceWorkIndustriesType[]
                     )?.id
-                }
+                )}
             />
         )
     }

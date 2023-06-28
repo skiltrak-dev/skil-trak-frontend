@@ -2,6 +2,7 @@ import { Select, TextInput } from '@components/inputs'
 import { SetQueryFilters } from './SetQueryFilters'
 import { SelectOption } from './types'
 import { UserRoles } from '@constants'
+import { OptionType } from '@types'
 
 interface ItemFilterProps {
     onFilterChange: Function
@@ -32,7 +33,7 @@ export const AppointmentTypeFilters = ({
                     label={'Appointment For'}
                     name={'appointmentFor'}
                     defaultValue={appointmentForOptions?.find(
-                        (appointment: SelectOption) =>
+                        (appointment: OptionType) =>
                             appointment.value === filter?.appintmentType
                     )}
                     options={appointmentForOptions}

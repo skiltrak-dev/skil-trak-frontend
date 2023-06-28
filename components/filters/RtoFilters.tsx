@@ -3,6 +3,7 @@ import { CommonApi } from '@queries'
 import { SetQueryFilters } from './SetQueryFilters'
 import { statusOptions } from './statusOptions'
 import { SelectOption } from './types'
+import { OptionType } from '@types'
 
 interface ItemFilterProps {
     onFilterChange: Function
@@ -57,7 +58,7 @@ export const RtoFilters = ({ onFilterChange, filter }: ItemFilterProps) => {
                     defaultValue={statusOptions.find(
                         (status) => status.value === filter?.status
                     )}
-                    onChange={(e: any) => {
+                    onChange={(e: OptionType) => {
                         onFilterChange({ ...filter, status: e?.value })
                     }}
                 />
@@ -67,7 +68,7 @@ export const RtoFilters = ({ onFilterChange, filter }: ItemFilterProps) => {
                     options={coursesOptions}
                     placeholder={'Select Courses...'}
                     defaultValue={coursesOptions?.find(
-                        (course: SelectOption) =>
+                        (course: OptionType) =>
                             course.value === filter?.courseId
                     )}
                     onChange={(e: any) => {

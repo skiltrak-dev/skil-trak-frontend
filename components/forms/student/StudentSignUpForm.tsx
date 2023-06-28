@@ -11,6 +11,7 @@ import { SignUpUtils, isEmailValid, onlyAlphabets } from '@utils'
 
 import { Button, Checkbox, Select, TextInput, Typography } from '@components'
 import { FormProvider, useForm } from 'react-hook-form'
+import { OptionType } from '@types'
 
 export const StudentSignUpForm = ({ onSubmit }: { onSubmit: any }) => {
     const router = useRouter()
@@ -20,7 +21,7 @@ export const StudentSignUpForm = ({ onSubmit }: { onSubmit: any }) => {
     const sectorResponse = AuthApi.useSectors({})
     const [checkEmailExists, emailCheckResult] = AuthApi.useEmailCheck()
 
-    const [courseOptions, setCourseOptions] = useState([])
+    const [courseOptions, setCourseOptions] = useState<OptionType[]>([])
     const [courseLoading, setCourseLoading] = useState(false)
 
     const [storedData, setStoredData] = useState<any>(null)
@@ -38,9 +39,9 @@ export const StudentSignUpForm = ({ onSubmit }: { onSubmit: any }) => {
         }, 300)()
     }
 
-    const onSectorChanged = (sectors: any) => {
+    const onSectorChanged = (sectors: OptionType[]) => {
         setCourseLoading(true)
-        const filteredCourses = sectors.map((selectedSector: any) => {
+        const filteredCourses = sectors.map((selectedSector: OptionType) => {
             const sectorExisting = sectorResponse.data.find(
                 (sector: any) => sector.id === selectedSector.value
             )
@@ -49,7 +50,7 @@ export const StudentSignUpForm = ({ onSubmit }: { onSubmit: any }) => {
             }
         })
 
-        const newCourseOptions: any = []
+        const newCourseOptions: OptionType[] = []
         filteredCourses.map((courseList: any) => {
             if (courseList && courseList.length) {
                 return courseList.map((course: any) =>

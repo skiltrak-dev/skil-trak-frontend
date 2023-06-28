@@ -1,13 +1,13 @@
 import { InitialAvatar } from '@components'
 import { Rto } from '@types'
-import { queryToUrl } from '@utils'
+import { QueryType, queryToUrl } from '@utils'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { MdEmail, MdPhoneIphone } from 'react-icons/md'
 
 export const RtoCellInfo = ({ rto, short }: { rto: Rto; short?: boolean }) => {
     const router = useRouter()
-    const query = queryToUrl(router.query)
+    const query = queryToUrl(router.query as QueryType)
     return (
         <Link legacyBehavior href={`rto/${rto?.id}?tab=sectors`}>
             <a

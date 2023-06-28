@@ -14,7 +14,7 @@ import {
 } from '@components'
 
 // utils
-import { ellipsisText, userStatus } from '@utils'
+import { WorkplaceCurrentStatus, ellipsisText, userStatus } from '@utils'
 
 // query
 import {
@@ -34,8 +34,16 @@ import {
 import { Industries } from './Industries'
 import { RequestType } from './RequestType'
 import { RequestTypeAbn } from './RequestTypeAbn'
+import {
+    IWorkplaceIndustries,
+    WorkplaceWorkIndustriesType,
+} from 'redux/queryTypes'
 
-export const WorkplaceRequest = ({ workplace }: any) => {
+export const WorkplaceRequest = ({
+    workplace,
+}: {
+    workplace: IWorkplaceIndustries
+}) => {
     const [appliedIndustry, setAppliedIndustry] = useState<any | null>(null)
     const [course, setCourse] = useState<any | null>(null)
     const [folders, setFolders] = useState<any | null>(null)
@@ -54,7 +62,11 @@ export const WorkplaceRequest = ({ workplace }: any) => {
     )
 
     useEffect(() => {
-        setAppliedIndustry(workplace.industries?.find((i: any) => i.applied))
+        setAppliedIndustry(
+            workplace.industries?.find(
+                (i: WorkplaceWorkIndustriesType) => i.applied
+            )
+        )
         setCourse(workplace?.courses ? workplace?.courses[0] : {})
     }, [workplace])
 
@@ -179,14 +191,14 @@ export const WorkplaceRequest = ({ workplace }: any) => {
                         <Industries
                             appliedIndustry={appliedIndustry}
                             industries={workplace?.industries}
-                            workplaceId={workplace?.id}
+                            workplaceId={Number(workplace?.id)}
                             workplace={workplace}
                             courseId={course?.id}
                             folders={folders}
                         />
 
                         {WPStatusForCancelButon.includes(
-                            workplace?.currentStatus
+                            workplace?.currentStatus as WorkplaceCurrentStatus
                         ) && (
                             <div className="mt-3">
                                 <ActionButton

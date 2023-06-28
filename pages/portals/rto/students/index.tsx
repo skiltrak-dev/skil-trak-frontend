@@ -42,6 +42,14 @@ const filterKeys = [
 
 type Props = {}
 
+interface CountType {
+    pending: number
+    approved: number
+    rejected: number
+    blocked: number
+    archived: number
+}
+
 const RtoStudents: NextPageWithLayout = (props: Props) => {
     const router = useRouter()
     const contextBar = useContextBar()

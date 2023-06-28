@@ -188,7 +188,7 @@ export const AdminLayout = ({ children }: any) => {
                         <ContextBar />
                     </div>
                 </div>
-            </div>r
+            </div>
         </ProtectedRoute>
     )
 }

@@ -1,21 +1,11 @@
-export interface IWorkplaceIndustries {
-  approvalStatus: string
-  cancelledAt: string
-  cancelledBy: string
-  createdAt: string
-  currentQualification: string
-  currentWork: string
-  haveDrivingLicense: boolean
-  haveTransport: boolean
-  id: number
-  isActive: boolean
-  isCancelled: boolean
-  prefferableLocation: string
-  status: string
-  updatedAt: string
-  industries: {
+import { IndustrySubAdmin } from '@partials/sub-admin/Industries'
+import { Course, Student, SubAdmin, UserStatus } from '@types'
+import { WorkplaceCurrentStatus } from '@utils'
+
+export interface WorkplaceWorkIndustriesType {
     AgreementSigned: boolean
     AgreementSignedDate: string
+    distance: number
     accepted: boolean
     applied: boolean
     appliedDate: string
@@ -45,52 +35,30 @@ export interface IWorkplaceIndustries {
     terminated: boolean
     terminatedDate: string
     updatedAt: string
-    industry: {
-      abn: string
-      addressLine1: string
-      addressLine2: string
-      businessName: string
-      contactPerson: string
-      contactPersonNumber: string
-      createdAt: string
-      id: number
-      isActive: boolean
-      location: string
-      phoneNumber: string
-      state: string
-      studentCapacity: number
-      suburb: string
-      updatedAt: string
-      zipCode: string
-      courses: {
-        code: string
-        createdAt: string
-        description: string
-        hours: number
-        id: number
-        isActive: boolean
-        requirements: string
-        title: string
-        updatedAt: string
-      }[]
-    }
-  }[]
-  student: {
-    addressLine1: string
-    addressLine2: string
-    createdAt: string
-    dob: string
-    emergencyPerson: string
-    emergencyPersonPhone: string
-    familyName: string
-    id: number
-    isActive: boolean
-    location: string
-    phone: string
-    state: string
-    studentId: string
-    suburb: string
-    updatedAt: string
-    zipCode: string
-  }
+    industry: IndustrySubAdmin
+}
+
+export interface IWorkplaceIndustries {
+    approvalStatus?: string
+    cancelledAt?: string
+    byExistingAbn?: boolean
+    studentProvidedWorkplace?: boolean
+    assignedTo?: SubAdmin
+    industryStatus?: UserStatus
+    cancelledBy?: string
+    createdAt?: Date
+    currentStatus?: WorkplaceCurrentStatus
+    currentQualification?: string
+    currentWork?: string
+    haveDrivingLicense?: boolean
+    haveTransport?: boolean
+    id?: number
+    isActive?: boolean
+    isCancelled?: boolean
+    prefferableLocation?: string
+    status?: string
+    updatedAt?: Date
+    industries: WorkplaceWorkIndustriesType[]
+    courses: Course[]
+    student: Student
 }

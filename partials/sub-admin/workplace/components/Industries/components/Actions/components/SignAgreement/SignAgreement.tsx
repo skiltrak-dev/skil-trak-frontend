@@ -8,7 +8,7 @@ import { FileUpload } from '@hoc'
 import { useNotification } from '@hooks'
 import { useAgrementSignMutation } from '@queries'
 import { UploadAgreement } from './UploadAgreement'
-import { Course } from '@types'
+import { Course, Student } from '@types'
 
 export const SignAgreement = ({
     studentId,
@@ -16,9 +16,9 @@ export const SignAgreement = ({
     student,
     course,
 }: {
-    studentId: any
-    appliedIndustryId: any
-    student: any
+    studentId: number
+    appliedIndustryId: number
+    student: Student
     course: Course
 }) => {
     const { notification } = useNotification()
@@ -32,7 +32,7 @@ export const SignAgreement = ({
         }
     }, [agrementSignResult])
 
-    const UploadAgreementFile = ({ name }: any) => {
+    const UploadAgreementFile = ({ name }: { name: string }) => {
         return (
             <UploadAgreement
                 name={name}

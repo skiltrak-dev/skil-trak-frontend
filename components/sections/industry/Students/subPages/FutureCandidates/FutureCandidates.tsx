@@ -1,18 +1,11 @@
-import { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
+import { useEffect, useState } from 'react'
 
 // Icons
 import { AiFillEye } from 'react-icons/ai'
 
 // components
-import {
-    BackButton,
-    Card,
-    ReactTable,
-    Typography,
-    Button,
-    // ActionDropDown,
-} from 'components'
+import { BackButton, Button, ReactTable, Typography } from 'components'
 import { RightSidebarData } from '../../components'
 
 // query
@@ -22,7 +15,7 @@ import { useGetFutureCandidatesQuery } from '@queries'
 import { useContextBar } from '@hooks'
 
 // utils
-import { ThemeColors, getAge } from '@utils'
+import { ThemeColors } from '@utils'
 
 const Colors = ThemeColors
 

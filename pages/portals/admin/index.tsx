@@ -19,6 +19,22 @@ const AdminDashboard: NextPageWithLayout = () => {
         navBar.setTitle('Admin Dashboard')
     }, [])
 
+    const divideValues = (x: number) => {
+        const array = []
+
+        for (let i = 10; i <= x; i += 5) {
+            array.push(i)
+        }
+
+        if (x % 10 !== 0) {
+            array.push(x)
+        }
+
+        return array
+    }
+
+    console.log(divideValues(457))
+
     useEffect(() => {
         if (name === '') {
             if (credentials) {
@@ -29,8 +45,42 @@ const AdminDashboard: NextPageWithLayout = () => {
         }
     }, [])
 
+    console.log((190 / 219) * 100)
+
+    const width = `${(218 / 219) * 100}%`
+    console.log(width)
+
     return (
         <div className="flex flex-col gap-y-6 pb-8 px-6 pt-6 ">
+            {/* <div className="w-full">
+                <div className="border rounded w-full h-8">
+                    <div
+                        className={`${width} h-full bg-gray-600 flex items-center`}
+                        style={{
+                            width,
+                        }}
+                    >
+                        <div className="w-full h-1.5 bg-gray-800"></div>
+                    </div>
+                </div>
+                <div className="flex justify-between w-full">
+                    {[...Array(219 - 1)]?.map((num, i, originalArray) => (
+                        <div className="flex flex-col items-center">
+                            {i % 10 === 0 && (
+                                <div className="h-6 w-0.5 bg-gray-600"></div>
+                            )}
+                            {i % 5 === 0 && i % 10 !== 0 && (
+                                <div className="h-6 w-[1px] bg-gray-400"></div>
+                            )}
+                            <p>{i % 10 === 0 ? i : null}</p>
+                        </div>
+                    ))}
+                    <div className="flex flex-col items-center">
+                        <div className="h-6 w-0.5 bg-gray-700"></div>
+                        <p>{219}</p>
+                    </div>
+                </div>
+            </div> */}
             {/* Admin Welcome Message */}
             <div className="relative pt-6">
                 <div className="absolute right-8 -top-8">

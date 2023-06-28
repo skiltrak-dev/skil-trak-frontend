@@ -82,7 +82,7 @@ export const RadioGroup = (
             <div className={`w-full ${getOptionsLayout()}`}>
                 {options.map((option: RadioGroupOption) => (
                     <RadioButton
-                        key={option.value}
+                        key={Number(option.value)}
                         name={name}
                         label={option.label}
                         value={option.value}

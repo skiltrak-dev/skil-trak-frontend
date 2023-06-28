@@ -1,6 +1,8 @@
+import { NextRouter } from "next/router"
+
 export const isActiveRoute = (
     path: string,
-    router: any,
+    router: NextRouter,
     prefix: string,
     inverse: boolean = false
 ) => {

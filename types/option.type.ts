@@ -1,4 +1,4 @@
 export type OptionType = {
     label: string
-    value: string
+    value: number | string | boolean
 }

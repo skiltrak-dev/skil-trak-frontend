@@ -41,6 +41,7 @@ import { CommonApi } from '@queries'
 import { useNotification } from 'hooks'
 import ClickAwayListener from 'react-click-away-listener'
 import { useRouter } from 'next/router'
+import { OptionType } from '@types'
 
 interface onSubmitType {
     title: string
@@ -238,7 +239,7 @@ export const CreateNote = ({
                                 <Select
                                     name={'templates'}
                                     options={templates}
-                                    onChange={(e: any) => {
+                                    onChange={(e: OptionType) => {
                                         setTemplate(e?.value)
                                     }}
                                 />

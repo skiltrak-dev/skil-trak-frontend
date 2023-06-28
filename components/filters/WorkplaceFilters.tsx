@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { ChangeEvent, useEffect, useState } from 'react'
 import { Select, TextInput } from '@components/inputs'
 
 // query
@@ -48,7 +48,7 @@ export const WorkplaceFilters = ({
                     label={'Student Id'}
                     value={filter?.studentId}
                     placeholder={'Search by Student Id Email ...'}
-                    onChange={(e: any) => {
+                    onChange={(e: ChangeEvent<HTMLInputElement>) => {
                         onFilterChange({ ...filter, studentId: e.target.value })
                     }}
                 />

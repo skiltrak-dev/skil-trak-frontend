@@ -1,4 +1,6 @@
-export const createTheme = (theme: any) => {
+import { ThemeColors } from "./type"
+
+export const createTheme = (theme: ThemeColors) => {
     return {
         // Primary
         '--theme-primary-default': theme.primary.DEFAULT,

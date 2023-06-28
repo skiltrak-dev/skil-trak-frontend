@@ -3,16 +3,12 @@ import {
     IndicatorStep,
     StepIndicator,
 } from '@components'
-import { UserRoles } from '@constants'
-import { RtoSignUpForm } from '@partials/rto/forms'
-import { SignUpUtils } from '@utils'
 import { useRouter } from 'next/router'
-import { useEffect, useState } from 'react'
 import { StepAccountInfo } from './StepAccountInfo'
+import { StepCreate } from './StepCreate'
 import { StepNotificationMethod } from './StepNotificationMethod'
 import { StepPackageSelection } from './StepPackageSelection'
 import { StepReviewInfo } from './StepReviewInfo'
-import { StepCreate } from './StepCreate'
 
 export const StepForm = () => {
     const router = useRouter()

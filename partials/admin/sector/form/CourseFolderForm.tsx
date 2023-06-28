@@ -35,6 +35,8 @@ export const CourseFolderForm = ({
         }
     }, [initialValues])
 
+    console.log({ initialValues })
+
     const validationSchema = yup.object({
         name: yup.string().required('Name is required'),
         capacity: yup.number().required('Capacity is Required'),
@@ -79,13 +81,12 @@ export const CourseFolderForm = ({
                             name="type"
                             label={'Type'}
                             required
-                            defaultValue={initialValues?.type}
                             value={typeOptions?.find(
                                 (type: SelectOption) =>
                                     type.value === selectedType
                             )}
                             options={typeOptions}
-                            onChange={(e: SelectOption) => {
+                            onChange={(e: any) => {
                                 setSelectedType(String(e?.value))
                             }}
                         />

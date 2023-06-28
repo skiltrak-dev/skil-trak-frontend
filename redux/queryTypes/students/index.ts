@@ -1,4 +1,5 @@
-export * from './studentsJobs.types'
 export * from './courses.types'
+export * from './workplace.types'
+export * from './studentsJobs.types'
 export * from './studentAssessment.types'
 export * from './studentAssessmentEvidence.types'

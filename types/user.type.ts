@@ -1,6 +1,7 @@
-import { Course } from '@types'
+import { Course, Packages } from '@types'
 import { BaseResponse } from './base.type'
 import { Note } from './note.type'
+import { IWorkplaceIndustries } from 'redux/queryTypes'
 
 export enum StudentStatusEnum {
     ACTIVE = 'active',
@@ -54,7 +55,7 @@ export interface Rto extends BaseResponse {
     addressLine2: string
     zipCode: string
     user: User
-    package: any
+    package: Packages
     courses: Course[]
     subadmin: SubAdmin[]
     students: Student[]
@@ -69,7 +70,7 @@ export interface Student extends BaseResponse {
     emergencyPerson: string
     called: boolean
     emergencyPersonPhone: string
-    industries: any
+    industries: Industry[]
     expiryDate: Date
     addressLine1: string
     addressLine2: string
@@ -82,7 +83,7 @@ export interface Student extends BaseResponse {
     studentStatus: StudentStatusEnum
     courses: Course[]
     assessmentEvidence: any[]
-    workplace: any
+    workplace: IWorkplaceIndustries[]
     callLog: CallLog[]
 
     gender: string
