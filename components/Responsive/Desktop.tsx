@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { ReactNode, useEffect, useState } from 'react'
 import { useMediaQuery } from 'react-responsive'
 
 export const Desktop = ({ children }: { children: any }) => {

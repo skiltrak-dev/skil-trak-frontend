@@ -34,8 +34,8 @@ export const RequiredDocs = ({
     studentUserId,
     industry,
 }: {
-    studentId: string | string[] | undefined
-    studentUserId: string | string[] | undefined
+    studentId: number
+    studentUserId: number
     industry: any
 }) => {
     const [selectedCourse, setSelectedCourse] = useState<any | null>(null)

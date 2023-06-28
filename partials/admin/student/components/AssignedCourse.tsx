@@ -1,5 +1,5 @@
 import { ActionButton } from '@components'
-import { Course } from '@types'
+import { ApiCallResult, Course } from '@types'
 import { useState } from 'react'
 import { FaMinusCircle } from 'react-icons/fa'
 

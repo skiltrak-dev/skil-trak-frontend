@@ -17,6 +17,11 @@ import { AdminApi } from '@queries'
 import { FormProvider, useForm } from 'react-hook-form'
 import * as yup from 'yup'
 
+interface onSubmitType {
+    number: string
+    message: string
+}
+
 const SMS: NextPageWithLayout = () => {
     const navBar = useNavbar()
     const { notification } = useNotification()
@@ -44,12 +49,12 @@ const SMS: NextPageWithLayout = () => {
         message: yup.string().required('Message is required'),
     })
 
-    const methods = useForm({
+    const methods = useForm<onSubmitType>({
         resolver: yupResolver(validationSchema),
         mode: 'all',
     })
 
-    const onSubmit = (values: any) => {
+    const onSubmit = (values: onSubmitType) => {
         sendSMS(values)
     }
     return (

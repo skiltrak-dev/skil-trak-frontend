@@ -5,16 +5,9 @@ import { NextPageWithLayout } from '@types'
 
 import * as yup from 'yup'
 
-import { getDate, onlyAlphabets } from '@utils'
+import { onlyAlphabets } from '@utils'
 
-import {
-    ActionButton,
-    Button,
-    Card,
-    TextInput,
-    Typography,
-    Avatar,
-} from '@components'
+import { Avatar, Button, TextInput } from '@components'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { FormProvider, useForm } from 'react-hook-form'
 
@@ -28,6 +21,11 @@ import {
 
 // query
 import { AdminApi } from '@queries'
+
+type onSubmitType = {
+    name: string
+    email: string
+}
 
 const MyProfile: NextPageWithLayout = () => {
     const contextBar = useContextBar()
@@ -68,24 +66,31 @@ const MyProfile: NextPageWithLayout = () => {
             .required('Must provide email'),
     })
 
-    const formMethods = useForm({
+    const formMethods = useForm<onSubmitType>({
         mode: 'all',
         resolver: yupResolver(validationSchema),
     })
 
     useEffect(() => {
         if (profile?.data && profile.isSuccess) {
-            const values = {
+            const values: onSubmitType = {
                 name: profile?.data?.name,
                 email: profile?.data?.email,
             }
-            for (const key in values) {
-                formMethods.setValue(key, (values as any)[key])
-            }
+            Object.entries(values)?.forEach(([key, value]) => {
+                formMethods.setValue(key as keyof onSubmitType, value)
+            })
+
+            // for (let key in values) {
+            //     formMethods.setValue(
+            //         key as keyof onSubmitType,
+            //         (values as keyof typeof values)[key]
+            //     )
+            // }
         }
     }, [profile])
 
-    const onSubmit = (values: any) => {
+    const onSubmit = (values: onSubmitType) => {
         updateProfile(values)
     }
     return (

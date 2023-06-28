@@ -1,8 +1,10 @@
+import { ReactNode, ReactNodeArray } from 'react'
+
 export const InitialAvatarContainer = ({
     children,
     show = 3,
 }: {
-    children: any
+    children: ReactNode[]
     show: number
 }) => {
     return (

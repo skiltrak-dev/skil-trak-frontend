@@ -18,7 +18,7 @@ export const AppointmentViewModal = ({
     onCancel,
 }: {
     id: number
-    onCancel: any
+    onCancel: () => void
 }) => {
     const appointment = CommonApi.Appointments.appointmentDetail(id, {
         skip: !id,

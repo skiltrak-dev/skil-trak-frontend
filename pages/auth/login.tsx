@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react'
 import type { NextPage } from 'next'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
+import { SubmitHandler } from 'react-hook-form'
 
 import {
     AccountStatus,
@@ -67,6 +68,8 @@ const Login: NextPage = () => {
                 break
         }
     }
+
+    console.log('loginResult', loginResult)
 
     useEffect(() => {
         if (loginResult.isSuccess) {

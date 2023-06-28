@@ -18,6 +18,7 @@ import { Card, Typography } from 'components'
 
 import { useUpdateFindAbnMutation } from '@queries'
 import { SignUpUtils } from '@utils'
+import { ApiCallResult } from '@types'
 type FindWorkplaceProps = {
     onSubmit: any
     result: any

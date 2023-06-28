@@ -1,7 +1,4 @@
-
-import {
-    FutureAppointments, Typography
-} from '@components'
+import { FutureAppointments, Typography } from '@components'
 
 // query
 import { LoadingAnimation } from '@components/LoadingAnimation'

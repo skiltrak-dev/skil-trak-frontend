@@ -1,4 +1,8 @@
-import { IndicatorStep, StepIndicator } from '@components'
+import {
+    IndicatorChildrenPropType,
+    IndicatorStep,
+    StepIndicator,
+} from '@components'
 import { UserRoles } from '@constants'
 import { RtoSignUpForm } from '@partials/rto/forms'
 import { SignUpUtils } from '@utils'
@@ -51,7 +55,7 @@ export const StepForm = () => {
                     currentStep={currentStep!!}
                     horizontal
                 >
-                    {({ steps, element }: any) => {
+                    {({ steps, element }: IndicatorChildrenPropType) => {
                         return (
                             <div>
                                 <div>{steps}</div>

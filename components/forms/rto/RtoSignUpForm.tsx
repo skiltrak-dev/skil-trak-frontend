@@ -11,9 +11,15 @@ import { isEmailValid, onlyAlphabets, SignUpUtils } from '@utils'
 
 import { Button, Checkbox, Select, TextInput, Typography } from '@components'
 import { yupResolver } from '@hookform/resolvers/yup'
-import { FormProvider, useForm } from 'react-hook-form'
+import { FormProvider, useForm, SubmitHandler } from 'react-hook-form'
+import { FieldValues } from 'react-hook-form/dist/types'
+import { LoginCredentials } from '@types'
 
-export const RtoSignUpForm = ({ onSubmit }: { onSubmit: any }) => {
+export const RtoSignUpForm = ({
+    onSubmit,
+}: {
+    onSubmit: SubmitHandler<FieldValues>
+}) => {
     const router = useRouter()
 
     const { notification } = useNotification()

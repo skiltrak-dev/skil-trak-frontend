@@ -3,13 +3,13 @@ import { MdCancel } from 'react-icons/md'
 
 // components
 import { Typography, Button } from '@components'
-import { MouseEventHandler } from 'react'
+import { MouseEventHandler, ReactNode } from 'react'
 
 interface ModalProps {
     title: string
     titleIcon?: any
     subtitle: string
-    children: any
+    children: ReactNode
     confirmText?: string
     onConfirmClick: Function
     cancelText?: string

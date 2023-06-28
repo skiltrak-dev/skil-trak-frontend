@@ -20,8 +20,8 @@ export const AssessmentsEvidence = ({
     studentUserId,
     courses,
 }: {
-    studentId: string | string[] | undefined
-    studentUserId: string | string[] | undefined
+    studentId: number
+    studentUserId: number
     courses: any
 }) => {
     const [selectedCourse, setSelectedCourse] = useState<any | null>(null)

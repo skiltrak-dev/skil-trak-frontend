@@ -1,5 +1,7 @@
 import PuffLoader from 'react-spinners/PuffLoader'
 import { getTheme } from './theme'
+import { ReactNode } from 'react'
+import { IconType } from 'react-icons'
 
 export const ButtonType = {
     Primary: 'primary',
@@ -23,8 +25,8 @@ const VariantOptions = [
 
 interface ButtonProps {
     variant?: (typeof VariantOptions)[number]
-    Icon?: any
-    children?: any
+    Icon?: IconType
+    children?: ReactNode
     text?: string
     onClick?: Function
     disabled?: boolean

@@ -14,10 +14,14 @@ import {
 import { StudentStatusEnum, UserStatus } from '@types'
 import { Typography } from '@components/Typography'
 import { useNotification } from '@hooks'
-import { FormProvider, useForm } from 'react-hook-form'
+import { FormProvider, SubmitHandler, useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { ShowErrorNotifications } from '@components/ShowErrorNotifications'
 
+interface onSubmitType {
+    status: StudentStatusEnum
+    comment: string
+}
 export const StudentStatus = ({
     id,
     currentStatus,
@@ -40,7 +44,7 @@ export const StudentStatus = ({
         status: Yup.string().required('Status is required!'),
     })
 
-    const methods = useForm({
+    const methods = useForm<onSubmitType>({
         resolver: yupResolver(validationSchema),
         mode: 'all',
     })
@@ -58,19 +62,8 @@ export const StudentStatus = ({
 
     const onChangeClicked = () => setEdit(!edit)
 
-    const onStatusChange = (values: any) => {
+    const onStatusChange: SubmitHandler<onSubmitType> = (values) => {
         changeCurrentStatus({ ...values, id })
-        // switch (status) {
-        //     case 'completed':
-        //         complete(appliedIndustryId)
-        //         break
-        //     case 'terminated':
-        //         terminate(appliedIndustryId)
-        //         break
-        //     case 'cancelled':
-        //         cancel(Number(appliedIndustryId))
-        //         break
-        // }
     }
 
     const isLoading =

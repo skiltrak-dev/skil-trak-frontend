@@ -1,5 +1,7 @@
 import { Tooltip } from '@components/Tooltip'
 import classNames from 'classnames'
+import { ReactNode } from 'react'
+import { IconType } from 'react-icons'
 import { PulseLoader } from 'react-spinners'
 
 const VariantOptions = [
@@ -14,9 +16,9 @@ const VariantOptions = [
 ] as const
 
 interface ButtonProps {
-    variant?: typeof VariantOptions[number]
-    Icon?: any
-    children?: any
+    variant?: (typeof VariantOptions)[number]
+    Icon?: IconType
+    children?: ReactNode
     onClick?: Function
     disabled?: boolean
     loading?: boolean

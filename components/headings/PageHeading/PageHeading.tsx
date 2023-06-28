@@ -1,5 +1,7 @@
+import { ReactNode } from 'react'
+
 interface PageHeadingProps {
-    children?: any
+    children?: ReactNode
     title: string
     subtitle: string
 }
@@ -15,7 +17,9 @@ export const PageHeading = ({
                 <p className="text-sm text-gray-400">{subtitle}</p>
             </div>
 
-            {children && <div className="flex items-center gap-x-2">{children}</div>}
+            {children && (
+                <div className="flex items-center gap-x-2">{children}</div>
+            )}
         </div>
     )
 }

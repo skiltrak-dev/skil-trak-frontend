@@ -236,32 +236,33 @@ export const IndustryProfile = ({ data }: Props) => {
                                     <AuthorizedUserComponent
                                         roles={[UserRoles.SUBADMIN]}
                                     >
-                                        {' '}
-                                        -{' '}
-                                        {data?.isPartner ? (
-                                            <span
-                                                className="text-info cursor-pointer"
-                                                onClick={() => {
-                                                    if (
-                                                        !addToPartnerResult.isLoading
-                                                    ) {
-                                                        onRemovePartner()
-                                                    }
-                                                }}
-                                            >
-                                                Remove Partner{' '}
-                                                {addToPartnerResult.isLoading && (
-                                                    <PulseLoader size={3} />
-                                                )}
-                                            </span>
-                                        ) : (
-                                            <span
-                                                className="text-info cursor-pointer"
-                                                onClick={onAddPartner}
-                                            >
-                                                Make Partner
-                                            </span>
-                                        )}
+                                        <div>
+                                            -{' '}
+                                            {data?.isPartner ? (
+                                                <span
+                                                    className="text-info cursor-pointer"
+                                                    onClick={() => {
+                                                        if (
+                                                            !addToPartnerResult.isLoading
+                                                        ) {
+                                                            onRemovePartner()
+                                                        }
+                                                    }}
+                                                >
+                                                    Remove Partner{' '}
+                                                    {addToPartnerResult.isLoading && (
+                                                        <PulseLoader size={3} />
+                                                    )}
+                                                </span>
+                                            ) : (
+                                                <span
+                                                    className="text-info cursor-pointer"
+                                                    onClick={onAddPartner}
+                                                >
+                                                    Make Partner
+                                                </span>
+                                            )}
+                                        </div>
                                     </AuthorizedUserComponent>
                                 </Typography>
                             </div>

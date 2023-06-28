@@ -1,5 +1,4 @@
-import React from 'react'
-import { MailDetail } from '../../Notifications/components/MailDetail'
+import { ReactNode } from 'react'
 import { SentMailDetail } from './SentMailDetail'
 
 export const SentMessaging = ({
@@ -7,7 +6,7 @@ export const SentMessaging = ({
     selectedMessage,
 }: {
     selectedMessage: any
-    children: any
+    children: ReactNode
 }) => {
     return (
         <div className="flex border h-[500px] rounded">

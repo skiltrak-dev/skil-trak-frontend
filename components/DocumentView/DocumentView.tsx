@@ -5,10 +5,11 @@ import { MdSimCardDownload } from 'react-icons/md'
 
 // components
 import { Button, Card, Typography } from '@components'
+import { ReactNode } from 'react'
 
 interface DocumentViewProps {
     title?: string
-    children: any
+    children: ReactNode
     downloadLink?: string
 }
 

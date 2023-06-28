@@ -2,7 +2,6 @@ import { AppointmentViewModal } from '@components/Appointment/AppointmentModal'
 import { Portal } from '@components/Portal'
 import classNames from 'classnames'
 import { ReactElement, useState } from 'react'
-import { EventWrapperProps } from 'react-big-calendar'
 
 // export const EventWrapper = <T extends object>(event: EventWrapperProps<T>) => {
 export const EventWrapper = <T extends object>(event: any) => {

@@ -24,7 +24,7 @@ export const Actions = ({
     studentId,
     setEditAssessment,
 }: {
-    studentId: string | string[] | undefined
+    studentId: number
     result: any
     setEditAssessment: any
 }) => {

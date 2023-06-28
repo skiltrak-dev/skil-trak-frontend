@@ -1,5 +1,4 @@
 import { getUserCredentials } from '@utils'
-import { ReactNode } from 'react'
 
 export const AuthorizedUserComponent = ({
     roles,

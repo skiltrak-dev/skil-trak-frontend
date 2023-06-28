@@ -1,16 +1,16 @@
 import { UserStatus } from '@types'
 import { AuthUtils, getUserCredentials } from '@utils'
 import { useRouter } from 'next/router'
-import React, { ReactNode, useEffect, useState } from 'react'
+import { ReactNode, useEffect, useState } from 'react'
 
 export const RedirectUnApprovedUsers = ({
     children,
     getRoutePath,
     redirectUrls,
 }: {
-    children: any
-    getRoutePath: any
-    redirectUrls: any
+    children: ReactNode
+    getRoutePath: string
+    redirectUrls: string[]
 }) => {
     const [approved, setApproved] = useState(false)
 
@@ -31,5 +31,5 @@ export const RedirectUnApprovedUsers = ({
             setApproved(true)
         }
     }, [router])
-    return approved ? children : null
+    return approved ? <> {children} </> : null
 }
