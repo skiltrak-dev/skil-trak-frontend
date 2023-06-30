@@ -66,7 +66,8 @@ export const getStudentWorkplaceAppliedIndustry = (
 
 export const latestWorkplace = (workplace: IWorkplaceIndustries[]) => {
     return workplace?.reduce(
-        (a: any, b: any) => (a?.createdAt > b?.createdAt ? a : b),
+        (a: IWorkplaceIndustries, b: IWorkplaceIndustries) =>
+            (a?.createdAt ?? 0) > (b?.createdAt ?? 0) ? a : b,
         {
             currentStatus: WorkplaceCurrentStatus.NotRequested,
         }

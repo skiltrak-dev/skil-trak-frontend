@@ -77,7 +77,7 @@ const RtoStudents: NextPageWithLayout = (props: Props) => {
         { skip: !Object.keys(filter).length }
     )
 
-    const studentCount = getCountData(count?.data)
+    const studentCount = getCountData<{ [key: string]: number }>(count?.data)
 
     // ADD STUDENT JOY RIDE - START
     const joyride = useJoyRide()

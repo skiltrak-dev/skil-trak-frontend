@@ -111,7 +111,10 @@ export const WorkplaceRequest = ({
                     <div className="flex items-center relative">
                         <div className="flex items-center gap-x-2">
                             <InitialAvatar
-                                name={workplace?.student?.rto?.user?.name}
+                                name={
+                                    workplace?.student?.rto?.user
+                                        ?.name as string
+                                }
                                 imageUrl={workplace?.student?.rto?.user?.avatar}
                             />
                             <div>
@@ -190,7 +193,9 @@ export const WorkplaceRequest = ({
                     <div>
                         <Industries
                             appliedIndustry={appliedIndustry}
-                            industries={workplace?.industries}
+                            industries={
+                                workplace?.industries as WorkplaceWorkIndustriesType[]
+                            }
                             workplaceId={Number(workplace?.id)}
                             workplace={workplace}
                             courseId={course?.id}

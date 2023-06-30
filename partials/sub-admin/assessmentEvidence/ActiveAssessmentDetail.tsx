@@ -12,7 +12,7 @@ import {
     LoadingAnimation,
     NoData,
     ShowErrorNotifications,
-    Typography
+    Typography,
 } from '@components'
 import { Actions } from './components'
 
@@ -423,8 +423,8 @@ export const ActiveAssessmentDetail = ({
                                                     appliedIndustry?.id
                                                 }
                                                 student={studentProfile?.data}
-                                                course={
-                                                    latestWorkplace?.courses[0]
+                                                courses={
+                                                    latestWorkplace?.courses
                                                 }
                                             />
                                         ) : selectedFolder ? (

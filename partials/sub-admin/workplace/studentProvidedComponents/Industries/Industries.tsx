@@ -7,6 +7,7 @@ import {
 } from 'redux/queryTypes'
 import { AddIndustryCB } from '../../contextBar'
 import { Actions, IndustryCard } from './components'
+import { Student } from '@types'
 
 export const Industries = ({
     industries,
@@ -94,7 +95,7 @@ export const Industries = ({
                             workplaceId={workplaceId}
                             workplace={workplace}
                             folders={folders}
-                            student={workplace?.student}
+                            student={workplace?.student as Student}
                         />
                     )}
 

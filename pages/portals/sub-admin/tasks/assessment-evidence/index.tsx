@@ -103,7 +103,7 @@ const AssessmentEvidence: NextPageWithLayout = (props: Props) => {
         }
     }, [profile])
 
-    const assessMentCount = getCountData(count?.data)
+    const assessMentCount = getCountData<{ [key: string]: number }>(count?.data)
 
     const tabs: TabProps[] = [
         {

@@ -28,6 +28,7 @@ export interface User extends BaseResponse {
     status: string
     password: string
     avatar: string | undefined
+    appointmentFor: any
 }
 
 export interface UserCount {
@@ -133,19 +134,19 @@ export interface CallLog extends BaseResponse {
     isExpired: boolean
     isAnswered: boolean
 }
-export interface ApiCallResult  {
+export interface ApiCallResult {
     isLoading: any
     isSuccess: any
     isFetching: any
     isError: any
     error: any
     isUninitialized: any
-    status:string
-    reset : () => void
-    originalArgs : any
-    fulfilledTimeStamp : any
-    requestId:any
-    data:any
-    endpointName:any
-    startedTimeStamp:any
+    status: string
+    reset: () => void
+    originalArgs: any
+    fulfilledTimeStamp: any
+    requestId: any
+    data: any
+    endpointName: any
+    startedTimeStamp: any
 }

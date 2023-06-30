@@ -14,15 +14,16 @@ export const SignAgreement = ({
     studentId,
     appliedIndustryId,
     student,
-    course,
+    courses,
 }: {
     studentId: number
     appliedIndustryId: number
     student: Student
-    course: Course
+    courses: Course[]
 }) => {
     const { notification } = useNotification()
     const [agrementSign, agrementSignResult] = useAgrementSignMutation()
+
     useEffect(() => {
         if (agrementSignResult?.isSuccess) {
             notification.success({
@@ -40,6 +41,8 @@ export const SignAgreement = ({
             />
         )
     }
+
+    const course = courses[0]
 
     return (
         <>

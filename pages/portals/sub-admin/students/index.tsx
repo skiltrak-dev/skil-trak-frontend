@@ -91,7 +91,7 @@ const Students: NextPageWithLayout = (props: Props) => {
         }
     )
 
-    const studentCount = getCountData(count?.data)
+    const studentCount = getCountData<{ [key: string]: number }>(count?.data)
 
     const tabs: TabProps[] = [
         {

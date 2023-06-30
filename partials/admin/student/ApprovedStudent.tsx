@@ -235,7 +235,9 @@ export const ApprovedStudent = () => {
             accessorKey: 'action',
             header: () => <span>Action</span>,
             cell: (info) => {
-                const length = checkListLength(data?.data)
+                const length = checkListLength<StudentSubAdmin>(
+                    data?.data as StudentSubAdmin[]
+                )
 
                 return (
                     <div className="flex gap-x-1 items-center">

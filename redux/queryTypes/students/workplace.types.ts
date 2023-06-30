@@ -47,7 +47,7 @@ export interface IWorkplaceIndustries {
     industryStatus?: UserStatus
     cancelledBy?: string
     createdAt?: Date
-    currentStatus?: WorkplaceCurrentStatus
+    currentStatus: WorkplaceCurrentStatus
     currentQualification?: string
     currentWork?: string
     haveDrivingLicense?: boolean
@@ -58,7 +58,7 @@ export interface IWorkplaceIndustries {
     prefferableLocation?: string
     status?: string
     updatedAt?: Date
-    industries: WorkplaceWorkIndustriesType[]
-    courses: Course[]
-    student: Student
+    industries?: WorkplaceWorkIndustriesType[]
+    courses?: Course[]
+    student?: Student
 }

@@ -36,7 +36,7 @@ import { checkListLength, setLink, studentsListWorkplace } from '@utils'
 import { AiFillCheckCircle } from 'react-icons/ai'
 import { CgUnblock } from 'react-icons/cg'
 import { RiLockPasswordFill } from 'react-icons/ri'
-import { IndustryCellInfo } from '../Industries'
+import { IndustryCellInfo, IndustrySubAdmin } from '../Industries'
 
 export const BlockedStudents = () => {
     const router = useRouter()
@@ -142,7 +142,7 @@ export const BlockedStudents = () => {
         {
             header: () => 'RTO',
             accessorKey: 'rto',
-            cell({ row }: any) {
+            cell({ row }) {
                 const { rto } = row.original
 
                 return (
@@ -156,7 +156,7 @@ export const BlockedStudents = () => {
         {
             accessorKey: 'industry',
             header: () => <span>Industry</span>,
-            cell: (info: any) => {
+            cell: (info) => {
                 const industry = info.row.original?.industries
 
                 const appliedIndustry = studentsListWorkplace(
@@ -164,7 +164,9 @@ export const BlockedStudents = () => {
                 )
 
                 return industry && industry?.length > 0 ? (
-                    <IndustryCellInfo industry={industry[0]} />
+                    <IndustryCellInfo
+                        industry={industry[0] as IndustrySubAdmin}
+                    />
                 ) : info.row.original?.workplace &&
                   info.row.original?.workplace?.length > 0 &&
                   appliedIndustry ? (
@@ -177,7 +179,7 @@ export const BlockedStudents = () => {
         {
             accessorKey: 'sectors',
             header: () => <span>Sectors</span>,
-            cell: ({ row }: any) => {
+            cell: ({ row }) => {
                 return <SectorCell student={row.original} />
             },
         },
@@ -191,15 +193,15 @@ export const BlockedStudents = () => {
         {
             accessorKey: 'createdAt',
             header: () => <span>Created At</span>,
-            cell: ({ row }: any) => (
+            cell: ({ row }) => (
                 <UserCreatedAt createdAt={row.original?.createdAt} />
             ),
         },
         {
             header: () => 'Action',
             accessorKey: 'Action',
-            cell: ({ row }: any) => {
-                const length = checkListLength(data?.data)
+            cell: ({ row }) => {
+                const length = checkListLength<StudentSubAdmin>(data?.data)
                 return (
                     <TableAction
                         options={tableActionOptions}

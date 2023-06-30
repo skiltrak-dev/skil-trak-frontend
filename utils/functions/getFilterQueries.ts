@@ -38,7 +38,7 @@ export const setFilterValues = <T>({
     const queryFilters = { ...router.query, ...filter }
     Object.entries(queryFilters)?.forEach(([key, value]) => {
         if (value) {
-            ;(getValueQuery as any)[key] = value
+            getValueQuery[key] = value as string
         }
     })
     const queryUrl = queryToUrl(getValueQuery)

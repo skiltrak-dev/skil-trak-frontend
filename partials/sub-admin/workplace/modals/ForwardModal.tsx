@@ -18,7 +18,7 @@ export const ForwardModal = ({
 }: {
     industry: any
     onCancel: Function
-    workplaceId: string
+    workplaceId: number
     folders: any
 }) => {
     const [isDocsUploaded, setIsDocsUploaded] = useState<boolean | null>(null)

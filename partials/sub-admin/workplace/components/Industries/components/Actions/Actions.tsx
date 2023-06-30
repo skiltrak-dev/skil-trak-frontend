@@ -23,6 +23,11 @@ import {
 } from '@partials/sub-admin/workplace/modals'
 import { SignAgreement } from './components'
 import { useRouter } from 'next/router'
+import {
+    IWorkplaceIndustries,
+    WorkplaceWorkIndustriesType,
+} from 'redux/queryTypes'
+import { Course, Folder, Student } from '@types'
 
 export const Actions = ({
     appliedIndustry,
@@ -30,7 +35,13 @@ export const Actions = ({
     workplace,
     folders,
     student,
-}: any) => {
+}: {
+    appliedIndustry: WorkplaceWorkIndustriesType
+    workplaceId: number
+    workplace: IWorkplaceIndustries
+    folders: Folder
+    student: Student
+}) => {
     const router = useRouter()
 
     const [actionStatus, setActionStatus] = useState<any | string>('')
@@ -154,12 +165,16 @@ export const Actions = ({
                                 {!appliedIndustry?.AgreementSigned && (
                                     <div className="flex">
                                         <SignAgreement
-                                            studentId={workplace?.student?.id}
+                                            studentId={Number(
+                                                workplace?.student?.id
+                                            )}
                                             appliedIndustryId={
                                                 appliedIndustry?.id
                                             }
                                             student={student}
-                                            course={workplace?.courses[0]}
+                                            courses={
+                                                workplace?.courses as Course[]
+                                            }
                                         />
                                     </div>
                                 )}
