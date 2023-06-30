@@ -24,7 +24,7 @@ export const AppointmentType = ({
     )
 
     useEffect(() => {
-        if (appointmentTypes?.data && appointmentTypes?.data.length) {
+        if (appointmentTypes?.data && appointmentTypes?.data?.length) {
             setSelected(appointmentTypes?.data[0].title)
             setAppointmentTypeId(appointmentTypes?.data[0]?.id)
         }
@@ -32,7 +32,7 @@ export const AppointmentType = ({
 
     return (
         <div>
-            <div className='flex gap-x-1'>
+            <div className="flex gap-x-1">
                 <Typography variant={'label'} color={'text-gray-700'}>
                     Please select type of appointment you want to book?
                 </Typography>

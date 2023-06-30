@@ -7,13 +7,14 @@ import { CommonApi } from '@queries'
 import { ShowErrorNotifications } from '@components/ShowErrorNotifications'
 import { useNotification } from '@hooks'
 import moment from 'moment'
+import { Appointment } from '@types'
 
 export const RescheduleAppointmentModal = ({
     onCancel,
     appointment,
 }: {
     onCancel: () => void
-    appointment: any
+    appointment: Appointment
 }) => {
     const { notification } = useNotification()
 

@@ -16,3 +16,5 @@ export * from './package.type'
 
 export * from './form.type'
 export * from './report-option.type'
+
+export * from './appointment.type'

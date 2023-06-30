@@ -3,7 +3,7 @@ import { useRouter } from 'next/router'
 import { ReactElement, useEffect, useState } from 'react'
 
 import { SubAdminLayout } from '@layouts'
-import { NextPageWithLayout } from '@types'
+import { Appointment, NextPageWithLayout } from '@types'
 
 import { BigCalendar, Button, Card, PageTitle } from '@components'
 
@@ -39,7 +39,7 @@ const Appointments: NextPageWithLayout = (props: Props) => {
     const futureAppointments = CommonApi.Appointments.useBookedAppointments({
         status: undefined,
     })
-    const events = futureAppointments?.data?.map((appointment: any) => {
+    const events = futureAppointments?.data?.map((appointment: Appointment) => {
         const startTime = new Date(appointment?.date)
         const endTime = new Date(appointment?.date)
         const startHours = Number(

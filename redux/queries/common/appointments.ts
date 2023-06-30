@@ -1,26 +1,32 @@
 import { BaseQueryFn } from '@reduxjs/toolkit/dist/query/baseQueryTypes'
 import { EndpointBuilder } from '@reduxjs/toolkit/dist/query/endpointDefinitions'
+import {
+    Appointment,
+    AppointmentType,
+    CreateAppointment,
+    PaginatedResponse,
+} from '@types'
 
 const PREFIX = `appointments`
 
 export const appointmentsEndpoints = (
     builder: EndpointBuilder<BaseQueryFn, string, string>
 ) => ({
-    getAppointmentsTypes: builder.query<any, string>({
+    getAppointmentsTypes: builder.query<AppointmentType[], string>({
         query: (appointmentFor) => ({
             url: `${PREFIX}/appointment-type/list`,
             params: { appointmentFor },
         }),
         providesTags: ['StudentAppointments'],
     }),
-    coordinatorAvailablity: builder.query<any, any>({
+    coordinatorAvailablity: builder.query<any, number>({
         query: (user) => ({
             url: `${PREFIX}/availabilities/list`,
             params: { user },
         }),
         providesTags: ['Appointments'],
     }),
-    createAppointment: builder.mutation<any, any | null>({
+    createAppointment: builder.mutation<Appointment, CreateAppointment>({
         query: (body) => ({ url: `${PREFIX}`, method: 'POST', body }),
         invalidatesTags: ['Appointments'],
     }),
@@ -40,7 +46,7 @@ export const appointmentsEndpoints = (
         providesTags: ['Appointments'],
     }),
 
-    appointmentDetail: builder.query<any, number>({
+    appointmentDetail: builder.query<Appointment, number>({
         query: (id) => `${PREFIX}/view/${id}`,
         providesTags: ['Appointments'],
     }),
@@ -77,7 +83,7 @@ export const appointmentsEndpoints = (
         providesTags: ['Appointments'],
     }),
     rescheduleAppointment: builder.mutation<
-        any,
+        Appointment,
         { id: number; body: { selectedTime: Date; date: Date } }
     >({
         query: ({ id, body }) => ({
