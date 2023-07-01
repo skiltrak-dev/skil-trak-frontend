@@ -5,7 +5,13 @@ import { ReactElement, useEffect, useState } from 'react'
 import { SubAdminLayout } from '@layouts'
 import { Appointment, NextPageWithLayout } from '@types'
 
-import { BigCalendar, Button, Card, PageTitle } from '@components'
+import {
+    BigCalendar,
+    Button,
+    CalendarEvent,
+    Card,
+    PageTitle,
+} from '@components'
 
 import { useContextBar } from '@hooks'
 import { PastAppointments, UpcomingAppointments } from '@partials/common'
@@ -130,7 +136,7 @@ const Appointments: NextPageWithLayout = (props: Props) => {
                 <Card>
                     {mount && (
                         <BigCalendar
-                            events={events}
+                            events={events as CalendarEvent[]}
                             loading={futureAppointments.isLoading}
                         />
                     )}

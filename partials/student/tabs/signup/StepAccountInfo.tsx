@@ -3,11 +3,12 @@ import { useRouter } from 'next/router'
 import { UserRoles } from '@constants'
 import { StudentSignUpForm } from '@partials/student/forms'
 import { SignUpUtils } from '@utils'
+import { StudentFormType } from '@types'
 
 export const StepAccountInfo = () => {
     const router = useRouter()
 
-    const onSubmit = (values: any) => {
+    const onSubmit = (values: StudentFormType) => {
         SignUpUtils.setValuesToStorage({
             ...values,
         })

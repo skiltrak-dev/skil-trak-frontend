@@ -18,3 +18,12 @@ export * from './form.type'
 export * from './report-option.type'
 
 export * from './appointment.type'
+export * from './RPL.type'
+
+export * from './form'
+export * from './assessment-tools.type'
+
+export * from './rto.type'
+
+export * from './subadmin.type'
+export * from './assessment-evidence.type'

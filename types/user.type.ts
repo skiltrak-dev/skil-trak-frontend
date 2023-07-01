@@ -97,7 +97,7 @@ export interface SubAdmin extends BaseResponse {
     appointmentEligibility: boolean
     courses: Course[]
     coordinatorId: string
-    address: string
+    addressLine1: string
     createdBy: User
 }
 

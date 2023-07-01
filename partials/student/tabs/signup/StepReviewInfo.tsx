@@ -1,13 +1,13 @@
 import { Button, Typography } from '@components'
 import { PackageView } from '@partials/rto/components'
-import { OptionType, RtoFormData } from '@types'
+import { OptionType, RtoFormData, StudentFormType } from '@types'
 import { SignUpUtils } from '@utils'
 import moment from 'moment'
 import { useRouter } from 'next/router'
 
 export const StepReviewInfo = () => {
     const router = useRouter()
-    const formData: any = SignUpUtils.getValuesFromStorage()
+    const formData: StudentFormType = SignUpUtils.getValuesFromStorage()
 
     const onEditData = () => {
         SignUpUtils.setEditingMode(true)
@@ -267,18 +267,6 @@ export const StepReviewInfo = () => {
                                 </Typography>
                                 <Typography variant={'label'}>
                                     {formData.addressLine1 || '-'}
-                                </Typography>
-                            </div>
-
-                            <div>
-                                <Typography
-                                    variant={'muted'}
-                                    color={'text-gray-500'}
-                                >
-                                    Address Line 2
-                                </Typography>
-                                <Typography variant={'label'}>
-                                    {formData.addressLine2 || '-'}
                                 </Typography>
                             </div>
 

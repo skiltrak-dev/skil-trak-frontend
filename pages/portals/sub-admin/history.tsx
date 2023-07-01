@@ -25,20 +25,22 @@ import OutsideClickHandler from 'react-outside-click-handler'
 import { HistoryCard, HistoryDates, HistoryFilters } from '@partials/common'
 // components
 
-export const FilterType = {
-    Today: 'today',
-    '7Days': '7days',
-    Range: 'range',
+export enum FilterType {
+    Today = 'today',
+    '7Days' = '7days',
+    Range = 'range',
 }
 
 const SubAdminHistory: NextPageWithLayout = () => {
     const [itemPerPage, setItemPerPage] = useState(50)
     const [page, setPage] = useState(1)
     const [isCustomRange, setIsCustomRange] = useState<boolean>(false)
-    const [filterType, setFilterType] = useState<string>(FilterType['7Days'])
+    const [filterType, setFilterType] = useState<FilterType>(
+        FilterType['7Days']
+    )
     const [customRangeDate, setCustomRangeDate] = useState<{
-        startDate: any
-        endDate: any
+        startDate: Date | null
+        endDate: Date | null
     }>({
         startDate: null,
         endDate: null,

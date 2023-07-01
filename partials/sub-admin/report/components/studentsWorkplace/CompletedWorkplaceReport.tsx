@@ -1,4 +1,12 @@
-import { ActionButton, EmptyData, InitialAvatar, LoadingAnimation, Table, TechnicalError, Typography } from '@components'
+import {
+    ActionButton,
+    EmptyData,
+    InitialAvatar,
+    LoadingAnimation,
+    Table,
+    TechnicalError,
+    Typography,
+} from '@components'
 import { CourseDot } from '@partials/rto/student/components'
 import { SubAdminApi } from '@queries'
 import { ColumnDef } from '@tanstack/react-table'
@@ -9,19 +17,18 @@ import { Course, ReportOptionsEnum } from '@types'
 import { useRouter } from 'next/router'
 import { SubAdminReports } from 'types/sub-admin-reports.type'
 
-
 type Props = {
-    startDate: any
-    endDate: any
-    setStartDate: any
-    setEndDate: any
+    startDate: Date
+    setStartDate: (startDate: Date) => void
+    endDate: Date
+    setEndDate: (endDate: Date) => void
 }
 
 export const CompletedWorkplaceReport = ({
     setStartDate,
     setEndDate,
     startDate,
-    endDate
+    endDate,
 }: Props) => {
     const [itemPerPage, setItemPerPage] = useState(50)
     const [page, setPage] = useState(1)
@@ -41,14 +48,18 @@ export const CompletedWorkplaceReport = ({
             cell: (info: any) => {
                 const {
                     id,
-                    student: { user: { name, avatar } },
+                    student: {
+                        user: { name, avatar },
+                    },
                 } = info.row.original || {}
 
                 return (
                     <a className="flex items-center gap-x-2">
                         <InitialAvatar name={name} imageUrl={avatar} />
                         <div className="flex flex-col">
-                            <span>{info?.row?.original?.student?.studentId}</span>
+                            <span>
+                                {info?.row?.original?.student?.studentId}
+                            </span>
                             <span>{name}</span>
                         </div>
                     </a>
@@ -60,7 +71,9 @@ export const CompletedWorkplaceReport = ({
             header: () => <span>Email</span>,
             cell: (info) => {
                 const {
-                    student: { user: { email } },
+                    student: {
+                        user: { email },
+                    },
                 } = info.row.original || {}
                 return <span>{email}</span>
             },
@@ -82,11 +95,15 @@ export const CompletedWorkplaceReport = ({
                 // return info?.row?.original?.courses?.map((c: Course) => (
                 //     <CourseDot key={c?.id} course={c} />
                 // ))
-                return <span>{info?.row?.original?.courses[0]?.title || "N/A"}</span>
+                return (
+                    <span>
+                        {info?.row?.original?.courses[0]?.title || 'N/A'}
+                    </span>
+                )
             },
         },
     ]
-    const count = data?.data?.length;
+    const count = data?.data?.length
     return (
         <>
             <div className="flex justify-between">
@@ -97,8 +114,7 @@ export const CompletedWorkplaceReport = ({
                     <Typography variant="h3">{count || 0}</Typography>
                 </div>
 
-
-                <div className='flex items-center gap-x-4'>
+                <div className="flex items-center gap-x-4">
                     <FilterReport
                         startDate={startDate}
                         setStartDate={setStartDate}
@@ -106,7 +122,13 @@ export const CompletedWorkplaceReport = ({
                         setEndDate={setEndDate}
                     />
                     {/* <ViewFullListReport data={data} columns={columns} /> */}
-                    <ActionButton onClick={() => { router.push(`/portals/sub-admin/report/${SubAdminReports.COMPLETED_WORKPLACE}`) }} >
+                    <ActionButton
+                        onClick={() => {
+                            router.push(
+                                `/portals/sub-admin/report/${SubAdminReports.COMPLETED_WORKPLACE}`
+                            )
+                        }}
+                    >
                         View Full List
                     </ActionButton>
                 </div>

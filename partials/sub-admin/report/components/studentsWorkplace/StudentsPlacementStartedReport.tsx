@@ -18,10 +18,10 @@ import { Course, ReportOptionsEnum } from '@types'
 import { useRouter } from 'next/router'
 
 type Props = {
-    startDate: any
-    endDate: any
-    setStartDate: any
-    setEndDate: any
+    startDate: Date
+    setStartDate: (startDate: Date) => void
+    endDate: Date
+    setEndDate: (endDate: Date) => void
 }
 
 export const StudentsPlacementStartedReport = ({

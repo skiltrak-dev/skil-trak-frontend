@@ -2,9 +2,11 @@ import { BaseQueryFn } from '@reduxjs/toolkit/dist/query/baseQueryTypes'
 import { EndpointBuilder } from '@reduxjs/toolkit/dist/query/endpointDefinitions'
 import {
     Appointment,
+    AppointmentAvailableSlots,
     AppointmentType,
     CreateAppointment,
-    PaginatedResponse,
+    GetAppointmentSlots,
+    SubAdmin,
 } from '@types'
 
 const PREFIX = `appointments`
@@ -50,32 +52,38 @@ export const appointmentsEndpoints = (
         query: (id) => `${PREFIX}/view/${id}`,
         providesTags: ['Appointments'],
     }),
-    cancellAppointment: builder.mutation<any, number>({
+    cancellAppointment: builder.mutation<Appointment, number>({
         query: (id) => ({
             url: `${PREFIX}/cancel/${id}`,
             method: 'PATCH',
         }),
         invalidatesTags: ['Appointments'],
     }),
-    getAppointmentsAvailableSlots: builder.query<any, any>({
+    getAppointmentsAvailableSlots: builder.query<
+        AppointmentAvailableSlots,
+        GetAppointmentSlots
+    >({
         query: (params) => ({
             url: `${PREFIX}/coordinator/available/slots`,
             params,
         }),
         providesTags: ['Appointments'],
     }),
-    getRescheduleAppointmentsAvailableSlots: builder.query<any, any>({
+    getRescheduleAppointmentsAvailableSlots: builder.query<
+        AppointmentAvailableSlots,
+        GetAppointmentSlots
+    >({
         query: (params) => ({
             url: `${PREFIX}/available/slots`,
             params,
         }),
         providesTags: ['Appointments'],
     }),
-    allCoordinators: builder.query<any, void>({
+    allCoordinators: builder.query<SubAdmin[], void>({
         query: () => `${PREFIX}/coordinator/list`,
         providesTags: ['Appointments'],
     }),
-    getUpcommingAppointment: builder.query<any, number | undefined>({
+    getUpcommingAppointment: builder.query<Appointment, number | undefined>({
         query: (id) => ({
             url: `${PREFIX}/future/view`,
             params: { user: id },
@@ -84,7 +92,14 @@ export const appointmentsEndpoints = (
     }),
     rescheduleAppointment: builder.mutation<
         Appointment,
-        { id: number; body: { selectedTime: Date; date: Date } }
+        {
+            id: number
+            body: {
+                startTime?: Date | string
+                endTime?: Date | string
+                date: Date
+            }
+        }
     >({
         query: ({ id, body }) => ({
             url: `${PREFIX}/${id}`,

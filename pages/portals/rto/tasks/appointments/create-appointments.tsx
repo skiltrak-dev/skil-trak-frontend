@@ -56,9 +56,9 @@ const CreateAppointments: NextPageWithLayout = (props: Props) => {
     const rtoCourses = RtoApi.Rto.useProfile()
     const availableSlots = CommonApi.Appointments.useAppointmentsAvailableSlots(
         {
-            id: type,
+            id: Number(type),
             date: selectedDate?.toISOString(),
-            byUser: selectedCoordinator,
+            byUser: Number(selectedCoordinator),
             forUser: getUserCredentials()?.id,
         },
         { skip: !type || !selectedDate || !selectedCoordinator }

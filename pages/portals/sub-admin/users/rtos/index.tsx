@@ -2,25 +2,20 @@ import { useRouter } from 'next/router'
 import { ReactElement, useEffect, useState } from 'react'
 
 // Link
-import Link from 'next/link'
 // image
 //Layouts
 import { SubAdminLayout } from '@layouts'
-import { NextPageWithLayout, Rto, Student } from '@types'
+import { NextPageWithLayout, Rto } from '@types'
 
 import { FaEye } from 'react-icons/fa'
 
 //components
 import {
-    Button,
     Card,
     EmptyData,
     Filter,
-    InitialAvatar,
     LoadingAnimation,
     PageTitle,
-    RtoContextBarData,
-    SidebarCalendar,
     SubAdminRtoFilter,
     Table,
     TableAction,
@@ -34,11 +29,10 @@ import { useGetSubAdminRtosQuery } from '@queries'
 import { useActionModal, useContextBar } from '@hooks'
 
 import { SectorCell } from '@partials/admin/sub-admin'
-import { checkFilteredDataLength, getFilterQuery, setLink } from '@utils'
-import { MdEmail, MdPhoneIphone } from 'react-icons/md'
-import { RiLockPasswordFill } from 'react-icons/ri'
-import { ColumnDef } from '@tanstack/react-table'
 import { RTOCellInfo } from '@partials/sub-admin/rto/components'
+import { ColumnDef } from '@tanstack/react-table'
+import { checkFilteredDataLength, getFilterQuery, setLink } from '@utils'
+import { RiLockPasswordFill } from 'react-icons/ri'
 
 const RTOs: NextPageWithLayout = () => {
     const { setContent } = useContextBar()

@@ -9,7 +9,7 @@ import {
 } from '@components'
 import { useAlert, useNavbar, useNotification } from '@hooks'
 import { AdminLayout } from '@layouts'
-import { NextPageWithLayout, Sector } from '@types'
+import { AppointmentType, NextPageWithLayout, Sector } from '@types'
 import { SectorForm } from '@partials/admin/sector/form'
 import { PageHeading } from '@components/headings'
 import { AdminApi } from '@queries'
@@ -33,7 +33,7 @@ const AppointmentTypeEditPage: NextPageWithLayout = () => {
         navBar.setTitle('Appointment Types')
     }, [])
 
-    const onSubmit = async (values: Sector) => {
+    const onSubmit = async (values: AppointmentType) => {
         await update({
             ...values,
             emailContent,

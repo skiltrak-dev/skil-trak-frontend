@@ -11,18 +11,16 @@ import { useActionModal, useAlert, useContextBar, useNavbar } from '@hooks'
 import { AdminLayout } from '@layouts'
 import { NextPageWithLayout, UserStatus } from '@types'
 import { useRouter } from 'next/router'
-import { ReactElement, useEffect, useState } from 'react'
+import { ReactElement, useEffect } from 'react'
 import { FaArchive, FaBan, FaEdit } from 'react-icons/fa'
 
 import { DetailTabs } from '@partials/admin/industry/tabs'
 import { AdminApi } from '@queries'
 
+import { FigureCard } from '@components/sections/subAdmin'
 import { PinnedNotes } from '@partials'
-import { ArchiveModal, BlockModal } from '@partials/admin/industry/modals'
-import { Industry } from '@types'
 import { useActionModals } from '@partials/admin/industry/hooks/useActionModals'
 import { getUserCredentials } from '@utils'
-import { FigureCard } from '@components/sections/subAdmin'
 
 const Detail: NextPageWithLayout = () => {
     const router = useRouter()

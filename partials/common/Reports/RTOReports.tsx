@@ -15,15 +15,14 @@ import {
 } from '@partials/rto/report'
 import { ReportType } from '@partials/rto/report/ReportType'
 import { ReportOptionsEnum, User } from '@types'
-import React, { ReactElement, useState } from 'react'
+import { ReactElement, useState } from 'react'
 import { IoMdDownload } from 'react-icons/io'
-import { Waypoint } from 'react-waypoint'
 
 export const RTOReports = ({ user }: { user?: User }) => {
     const monthEnd = new Date()
     monthEnd.setDate(monthEnd.getDate() - 30)
-    const [startDate, setStartDate] = useState<any>(monthEnd)
-    const [endDate, setEndDate] = useState<any>(new Date())
+    const [startDate, setStartDate] = useState<Date>(monthEnd)
+    const [endDate, setEndDate] = useState<Date>(new Date())
 
     const [reportType, setReportType] = useState({
         label: 'Non Contactable',

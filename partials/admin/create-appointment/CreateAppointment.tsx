@@ -87,7 +87,7 @@ export const CreateAppointmentContainer = () => {
 
     const timeSlots = CommonApi.Appointments.useAppointmentsAvailableSlots(
         {
-            id: appointmentTypeId,
+            id: Number(appointmentTypeId),
             date: selectedDate?.toISOString(),
             forUser: selectedUser.selectedAppointmentForUser,
             byUser: selectedUser.selectedAppointmentWithUser,

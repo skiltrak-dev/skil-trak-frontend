@@ -10,7 +10,7 @@ import {
 
 // queries
 import { CommonApi } from '@queries'
-import { Appointment } from '@types'
+import { Appointment, PaginatedResponse } from '@types'
 import { useState } from 'react'
 
 export const PastAppointments = ({ userId }: { userId?: any }) => {

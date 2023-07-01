@@ -19,7 +19,7 @@ import { useContextBar } from 'hooks'
 import { AdminApi } from '@queries'
 import { ellipsisText } from '@utils'
 
-export const FileView = ({ id, docType }: any) => {
+export const FileView = ({ id, docType }: { id: number; docType: any }) => {
     const { hide, setContent } = useContextBar()
 
     const { data, isLoading, isError, isFetching } =

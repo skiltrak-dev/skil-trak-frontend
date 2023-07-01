@@ -14,7 +14,7 @@ import { ColumnDef } from '@tanstack/react-table'
 import { FaEdit, FaEye, FaFileExport } from 'react-icons/fa'
 
 import { AdminApi, commonApi } from '@queries'
-import { Industry } from '@types'
+import { Industry, UserStatus } from '@types'
 import { useRouter } from 'next/router'
 import { ReactElement, useEffect, useRef, useState } from 'react'
 import { MdBlock } from 'react-icons/md'
@@ -42,7 +42,7 @@ export const ApprovedIndustry = () => {
     }, [router])
 
     const { isLoading, data, isError } = AdminApi.Industries.useListQuery({
-        search: `status:approved`,
+        search: `status:${UserStatus.Approved}`,
         skip: itemPerPage * page - itemPerPage,
         limit: itemPerPage,
     })

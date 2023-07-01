@@ -1,7 +1,7 @@
 import { Button, Select, TextArea, TextInput, Typography } from '@components'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { AdminApi } from '@queries'
-import { Course, Sector } from '@types'
+import { Course, OptionType, Sector } from '@types'
 import React, { useEffect, useState } from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
 import * as yup from 'yup'
@@ -21,16 +21,17 @@ export const AssignSectorForm = ({
     initialValues,
     sectorsWithCourses,
 }: FormProps) => {
-    const sectors = AdminApi.Sectors.useListQuery(
-        {},
-        { refetchOnMountOrArgChange: true }
-    )
+    const sectors = AdminApi.Sectors.useListQuery(undefined, {
+        refetchOnMountOrArgChange: true,
+    })
 
-    const courses = AdminApi.Courses.useListQuery({})
+    const courses = AdminApi.Courses.useListQuery(undefined)
     const [selectableCourses, setSelectableCourses] = useState<Course[]>([])
 
     const onSectorSelect = (options: any) => {
-        const currentSelectedSectors = options.map((opt: any) => opt.value)
+        const currentSelectedSectors = options.map(
+            (opt: OptionType) => opt.value
+        )
 
         const currentSelectableCourses: Course[] = []
         currentSelectedSectors.forEach((sectorId: number) => {

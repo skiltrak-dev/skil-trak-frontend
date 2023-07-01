@@ -18,10 +18,10 @@ import { useRouter } from 'next/router'
 import { SubAdminReports } from 'types/sub-admin-reports.type'
 
 type Props = {
-    startDate: any
-    endDate: any
-    setStartDate: any
-    setEndDate: any
+    startDate: Date
+    setStartDate: (startDate: Date) => void
+    endDate: Date
+    setEndDate: (endDate: Date) => void
 }
 
 export const StudentHaveWorkplaceReport = ({
@@ -40,14 +40,13 @@ export const StudentHaveWorkplaceReport = ({
             skip: itemPerPage * page - itemPerPage,
             limit: itemPerPage,
         })
-        
+
     const columns: ColumnDef<any>[] = [
         {
             header: () => <span>Name</span>,
             accessorKey: 'user',
             cell: (info: any) => {
                 const {
-                    
                     student: {
                         user: { name, avatar, studentId },
                     },
@@ -57,7 +56,9 @@ export const StudentHaveWorkplaceReport = ({
                     <a className="flex items-center gap-x-2">
                         <InitialAvatar name={name} imageUrl={avatar} />
                         <div className="flex flex-col">
-                            <span>{info?.row?.original?.student?.studentId}</span>
+                            <span>
+                                {info?.row?.original?.student?.studentId}
+                            </span>
                             <span>{name}</span>
                         </div>
                     </a>

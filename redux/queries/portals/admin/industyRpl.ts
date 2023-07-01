@@ -1,20 +1,21 @@
 import { BaseQueryFn } from '@reduxjs/toolkit/dist/query/baseQueryTypes'
 import { EndpointBuilder } from '@reduxjs/toolkit/dist/query/endpointDefinitions'
+import { PaginatedResponse, PaginationWithSearch, Rpl } from '@types'
 
 const PREFIX = 'admin/'
 export const industryRplEndpoints = (
     builder: EndpointBuilder<BaseQueryFn, string, string>
 ) => ({
-    rplRequestList: builder.query<any, any>({
-        query: (params) => {
-            return {
+    rplRequestList: builder.query<PaginatedResponse<Rpl>, PaginationWithSearch>(
+        {
+            query: (params) => ({
                 url: `${PREFIX}rpl-requests/list`,
                 params,
-            }
-        },
-        providesTags: ['RPL'],
-    }),
-    rplDelete: builder.mutation<any, any>({
+            }),
+            providesTags: ['RPL'],
+        }
+    ),
+    rplDelete: builder.mutation<Rpl, number>({
         query: (id) => ({
             url: `${PREFIX}rpl-request/remove/${id}`,
             method: 'DELETE',

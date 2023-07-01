@@ -3,7 +3,7 @@ import { useRouter } from 'next/router'
 import { ReactElement, useEffect, useState } from 'react'
 
 import { IndustryLayout } from '@layouts'
-import { Course, NextPageWithLayout } from '@types'
+import { Course, NextPageWithLayout, SubAdmin } from '@types'
 
 import { Button, Select, ShowErrorNotifications, TextArea } from '@components'
 import { TimeSlots } from '@components/sections'
@@ -54,9 +54,9 @@ const BookAppointment: NextPageWithLayout = (props: Props) => {
         )
     const timeSlots = CommonApi.Appointments.useAppointmentsAvailableSlots(
         {
-            id: type,
+            id: Number(type),
             date: selectedDate?.toISOString(),
-            byUser: selectedCoordinator,
+            byUser: Number(selectedCoordinator),
             forUser: getUserCredentials()?.id,
         },
         { skip: !type || !selectedDate || !selectedCoordinator }
@@ -72,10 +72,12 @@ const BookAppointment: NextPageWithLayout = (props: Props) => {
     useEffect(() => {
         setSelectedCoordinator(null)
         if (coordinators.data && coordinators.isSuccess) {
-            const options = coordinators?.data?.map((coordinator: any) => ({
-                label: coordinator?.user?.name,
-                value: coordinator?.user?.id,
-            }))
+            const options = coordinators?.data?.map(
+                (coordinator: SubAdmin) => ({
+                    label: coordinator?.user?.name,
+                    value: coordinator?.user?.id,
+                })
+            )
             setCoordinatorsOptions(options)
         }
     }, [coordinators])

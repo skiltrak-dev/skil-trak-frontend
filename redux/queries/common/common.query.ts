@@ -53,7 +53,7 @@ export const commonApi = emptySplitApi.injectEndpoints({
             }),
             invalidatesTags: ['BulkUsersDelete'],
         }),
-        bulkStatus: build.mutation<any,any>({
+        bulkStatus: build.mutation<any, any>({
             query: ({ ids, status }) => ({
                 url: `admin/user/status/update`,
                 method: 'PATCH',
@@ -69,10 +69,10 @@ export const commonApi = emptySplitApi.injectEndpoints({
         getRecentActivities: build.query<
             any,
             {
-                search?:string
+                search?: string
                 currentDate?: number
-                startDate?: Date
-                endDate?: Date
+                startDate?: string
+                endDate?: string
                 last7days?: any
                 skip?: number
                 limit?: number

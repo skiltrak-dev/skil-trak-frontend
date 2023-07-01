@@ -19,7 +19,7 @@ const RtoStudentLists: NextPageWithLayout = () => {
     const navBar = useNavbar()
     const contextBar = useContextBar()
     // check student already email exist
-    const [emailExistList, setEmailExistList] = useState<any | null>(null);
+    const [emailExistList, setEmailExistList] = useState<any | null>(null)
     const [emailFound, setEmailFound] = useState<any>([])
 
     // const rto = AdminApi.Rtos.useDetailQuery(Number(router.query.id), {
@@ -66,7 +66,7 @@ const RtoStudentLists: NextPageWithLayout = () => {
 
         formData.append('file', file)
 
-        await importStudents({ id: Number(router.query.id), body: formData })
+        // await importStudents({ id: Number(router.query.id), body: formData })
     }
 
     const onColumnsChange = (columns: any) => {
@@ -154,30 +154,46 @@ const RtoStudentLists: NextPageWithLayout = () => {
                                             {foundStudents.map(
                                                 (student: any, i: number) => (
                                                     <tr key={i}>
-                                                    {Object.values(
-                                                        columnsToRead
-                                                    ).map((k: any) => (
-                                                        <td key={k?.id}>
-                                                            {k === 'email' ? (
-                                                                <div className="flex items-center gap-x-1">
-                                                                    {
-                                                                        student[k]
-                                                                    }
-                                                                    <Typography
-                                                                        variant={
-                                                                            'badge'
+                                                        {Object.values(
+                                                            columnsToRead
+                                                        ).map((k: any) => (
+                                                            <td key={k?.id}>
+                                                                {k ===
+                                                                'email' ? (
+                                                                    <div className="flex items-center gap-x-1">
+                                                                        {
+                                                                            student[
+                                                                                k
+                                                                            ]
                                                                         }
-                                                                        color={
-                                                                            'text-error'
-                                                                        }
-                                                                    >
-                                                                        {emailExistList?.map((item: any) => item.includes(student['email']) ? '- email already exists' : '')}
-                                                                    </Typography>
-                                                                </div> // check email exist
-                                                            ) : (student[k])}
-                                                        </td>
-                                                    ))}
-                                                </tr>
+                                                                        <Typography
+                                                                            variant={
+                                                                                'badge'
+                                                                            }
+                                                                            color={
+                                                                                'text-error'
+                                                                            }
+                                                                        >
+                                                                            {emailExistList?.map(
+                                                                                (
+                                                                                    item: any
+                                                                                ) =>
+                                                                                    item.includes(
+                                                                                        student[
+                                                                                            'email'
+                                                                                        ]
+                                                                                    )
+                                                                                        ? '- email already exists'
+                                                                                        : ''
+                                                                            )}
+                                                                        </Typography>
+                                                                    </div> // check email exist
+                                                                ) : (
+                                                                    student[k]
+                                                                )}
+                                                            </td>
+                                                        ))}
+                                                    </tr>
                                                 )
                                             )}
                                         </tbody>

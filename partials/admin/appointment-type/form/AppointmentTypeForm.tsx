@@ -7,14 +7,14 @@ import {
     Typography,
 } from '@components'
 import { yupResolver } from '@hookform/resolvers/yup'
-import { AppointmentType, Sector } from '@types'
+import { AddAppointmentFormType, AppointmentType, Sector } from '@types'
 import { isBrowser } from '@utils'
 import React, { useState } from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
 import * as yup from 'yup'
 
 interface AppointmentTypeFormProps {
-    onSubmit: any
+    onSubmit: (values: AppointmentType) => void
     edit?: boolean
     initialValues?: AppointmentType
     emailContent: string
@@ -33,7 +33,7 @@ export const AppointmentTypeForm = ({
         title: yup.string().required('Title is required'),
     })
 
-    const methods = useForm({
+    const methods = useForm<AppointmentType>({
         resolver: yupResolver(validationSchema),
         defaultValues: initialValues,
         mode: 'all',
@@ -129,11 +129,13 @@ export const AppointmentTypeForm = ({
                     </div>
 
                     <div className="">
-                        {isBrowser() && <ContentEditor
-                            label="Email Content"
-                            content={emailContent}
-                            setContent={setEmailContent}
-                        />}
+                        {isBrowser() && (
+                            <ContentEditor
+                                label="Email Content"
+                                content={emailContent}
+                                setContent={setEmailContent}
+                            />
+                        )}
                     </div>
 
                     <div className="my-4">

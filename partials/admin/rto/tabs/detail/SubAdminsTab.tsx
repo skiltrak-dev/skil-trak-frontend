@@ -18,7 +18,7 @@ import { AdminApi } from '@queries'
 import { MdBlock, MdEmail, MdPhoneIphone } from 'react-icons/md'
 import { ReactElement, useEffect, useState } from 'react'
 
-import { Rto, SubAdmin } from '@types'
+import { RTOSubAdmin, Rto, SubAdmin } from '@types'
 import { useContextBar } from '@hooks'
 import { useRouter } from 'next/router'
 import { SubAdminCell } from '@partials/admin/sub-admin'
@@ -35,7 +35,7 @@ export const SubAdminsTab = ({ rto }: any) => {
     const [page, setPage] = useState(1)
     const [filter, setFilter] = useState({})
     const { isLoading, data, refetch } = AdminApi.Rtos.useRtoProfileSubAdmins({
-        id: rto?.data?.user?.id,
+        id: Number(rto?.data?.user?.id),
         skip: itemPerPage * page - itemPerPage,
         limit: itemPerPage,
     })
@@ -82,11 +82,13 @@ export const SubAdminsTab = ({ rto }: any) => {
         },
     ]
 
-    const columns: ColumnDef<SubAdmin>[] = [
+    const columns: ColumnDef<RTOSubAdmin>[] = [
         {
             accessorKey: 'user.name',
             cell: (info) => {
-                return <SubAdminCell subAdmin={info.row.original} />
+                return (
+                    <SubAdminCell subAdmin={info.row.original as RTOSubAdmin} />
+                )
             },
             header: () => <span>Name</span>,
         },
@@ -162,7 +164,7 @@ export const SubAdminsTab = ({ rto }: any) => {
                     {isLoading ? (
                         <LoadingAnimation height="h-[60vh]" />
                     ) : data && data?.data.length ? (
-                        <Table<SubAdmin>
+                        <Table<RTOSubAdmin>
                             columns={columns}
                             data={data.data}
                             quickActions={quickActionsElements}

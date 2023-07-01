@@ -1,6 +1,12 @@
 import { useContextBar, useNavbar, useNotification } from '@hooks'
 import { AdminLayout } from '@layouts'
-import { Course, NextPageWithLayout } from '@types'
+import {
+    Course,
+    ImportStudentFileList,
+    ImportStudentFormType,
+    NextPageWithLayout,
+    OptionType,
+} from '@types'
 import { useRouter } from 'next/router'
 import { ReactElement, useEffect, useState } from 'react'
 
@@ -38,8 +44,8 @@ const RtoStudentLists: NextPageWithLayout = () => {
               }))
             : []
 
-    const onSubmit = async (values: any) => {
-        const courses = values?.courses?.map((c: any) => c.value)
+    const onSubmit = async (values: ImportStudentFormType) => {
+        // const courses = values?.courses?.map((c: OptionType) => c.value)
 
         // const formData = new FormData()
         // courses?.forEach((c: any) => {
@@ -53,12 +59,20 @@ const RtoStudentLists: NextPageWithLayout = () => {
 
         // await importStudents({ id: Number(router.query.id), body: formData })
 
-        let list = foundStudents.filter((fs: any) => !!fs.email)
+        let list = foundStudents.filter(
+            (fs: ImportStudentFileList) => !!fs.email
+        )
 
         if (existingEmails.length) {
             existingEmails.forEach((item: any) => {
-                if (list.findIndex((o: any) => o.email === item.email) !== -1) {
-                    list = list.filter((o: any) => o.email !== item.email)
+                if (
+                    list.findIndex(
+                        (o: ImportStudentFileList) => o.email === item.email
+                    ) !== -1
+                ) {
+                    list = list.filter(
+                        (o: ImportStudentFileList) => o.email !== item.email
+                    )
                 }
             })
         }
@@ -73,7 +87,7 @@ const RtoStudentLists: NextPageWithLayout = () => {
                 id: Number(router.query.id),
                 body: {
                     ...values,
-                    courses,
+                    // courses: courses as number[],
                     list,
                 },
             })

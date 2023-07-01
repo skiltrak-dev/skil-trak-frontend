@@ -25,7 +25,6 @@ export const AssignRtoForm = ({
 
     const validationSchema = yup.object({})
 
-
     const methods = useForm({
         resolver: yupResolver(validationSchema),
         defaultValues: initialValues,
@@ -57,6 +56,7 @@ export const AssignRtoForm = ({
                         label={'RTOs'}
                         options={rtos.isLoading ? [] : rtoOptions}
                         loading={rtos.isLoading}
+                        onlyValue
                     />
 
                     <div className="flex">

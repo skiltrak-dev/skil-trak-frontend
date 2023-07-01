@@ -7,7 +7,7 @@ import { FormProvider, useForm } from 'react-hook-form'
 import * as yup from 'yup'
 
 interface FormProps {
-    onSubmit: any
+    onSubmit: (values: any) => void
     edit?: boolean
     initialValues?: Course
     result: any
@@ -19,12 +19,11 @@ export const AssignSectorForm = ({
     initialValues,
     result,
 }: FormProps) => {
-    const sectors = AdminApi.Sectors.useListQuery(
-        {},
-        { refetchOnMountOrArgChange: true }
-    )
+    const sectors = AdminApi.Sectors.useListQuery(undefined, {
+        refetchOnMountOrArgChange: true,
+    })
 
-    const courses = AdminApi.Courses.useListQuery({})
+    const courses = AdminApi.Courses.useListQuery(undefined)
     const [selectableCourses, setSelectableCourses] = useState<Course[]>([])
 
     const onSectorSelect = (options: any) => {

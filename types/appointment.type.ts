@@ -47,3 +47,14 @@ export interface CreateAppointment {
     startTime: Date
     endTime: Date
 }
+
+export interface AppointmentAvailableSlots {
+    [key: string]: string[]
+}
+
+export interface GetAppointmentSlots {
+    id: number
+    date: Date | string | undefined
+    forUser: number
+    byUser: number
+}
