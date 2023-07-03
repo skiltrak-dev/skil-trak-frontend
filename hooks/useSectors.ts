@@ -1,3 +1,4 @@
+import { OptionType } from '@types'
 import React, { useEffect, useState } from 'react'
 
 // query
@@ -7,7 +8,7 @@ export const useSectors = (courses: any) => {
     // const sectorResponse = useGetSectorsQuery()
 
     const [sectorOptions, setSectorOptions] = useState([])
-    const [courseOptions, setCourseOptions] = useState<any[] | null>([])
+    const [courseOptions, setCourseOptions] = useState<OptionType[]>([])
     const [courseLoading, setCourseLoading] = useState(false)
 
     useEffect(() => {
@@ -16,9 +17,9 @@ export const useSectors = (courses: any) => {
         }
     }, [courses])
 
-    const onSectorChanged = (sectors: any) => {
+    const onSectorChanged = (sectors: OptionType[]) => {
         setCourseLoading(true)
-        const filteredCourses = sectors.map((selectedSector: any) => {
+        const filteredCourses = sectors.map((selectedSector: OptionType) => {
             // const sectorExisting = sectorResponse.data?.data?.find(
             //   (sector: any) => sector.id === selectedSector.value
             // )
@@ -28,7 +29,7 @@ export const useSectors = (courses: any) => {
             return null
         })
 
-        let newCourseOptions: any[] = []
+        let newCourseOptions: OptionType[] = []
         filteredCourses.map((courseList: any) => {
             if (courseList && courseList.length) {
                 return courseList.map((course: any) =>

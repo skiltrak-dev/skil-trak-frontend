@@ -7,7 +7,6 @@ import {
     Filter,
     InitialAvatar,
     LoadingAnimation,
-    SectorFilters,
     Table,
     TableAction,
     TableActionOption,
@@ -15,20 +14,11 @@ import {
 } from '@components'
 import { PageHeading } from '@components/headings'
 import { ColumnDef } from '@tanstack/react-table'
-import {
-    FaBook,
-    FaEdit,
-    FaEnvelope,
-    FaFileExport,
-    FaPhone,
-    FaTrash,
-    FaVideo,
-} from 'react-icons/fa'
+import { FaEnvelope, FaFileExport, FaPhone, FaTrash } from 'react-icons/fa'
 
-import Image from 'next/image'
 import { useContextBar } from '@hooks'
 import { AdminApi } from '@queries'
-import { AppointmentType, Job, Sector } from '@types'
+import { AppointmentType, AppointmentTypeFilterType, Job } from '@types'
 import { useRouter } from 'next/router'
 import { ReactElement, useEffect, useState } from 'react'
 import { DeleteModal, RequirementModal } from '../modals'
@@ -41,7 +31,9 @@ export const Jobs = () => {
     const [filterAction, setFilterAction] = useState(null)
     const [itemPerPage, setItemPerPage] = useState(50)
     const [page, setPage] = useState(1)
-    const [filter, setFilter] = useState({})
+    const [filter, setFilter] = useState<AppointmentTypeFilterType>(
+        {} as AppointmentTypeFilterType
+    )
     const { isLoading, data, isError } = AdminApi.Jobs.useList({
         search: `${JSON.stringify(filter)
             .replaceAll('{', '')
@@ -206,7 +198,7 @@ export const Jobs = () => {
 
     const quickActionsElements = {
         id: 'id',
-        individual: (id: number) => (
+        individual: (id: Job) => (
             <div className="flex gap-x-2">
                 <ActionButton variant="success" onClick={() => {}}>
                     Accept
@@ -216,7 +208,7 @@ export const Jobs = () => {
                 </ActionButton>
             </div>
         ),
-        common: (ids: number[]) => (
+        common: (ids: Job[]) => (
             <ActionButton variant="error" onClick={() => {}}>
                 Reject
             </ActionButton>
@@ -238,7 +230,7 @@ export const Jobs = () => {
                     ) : null}
                 </PageHeading>
 
-                <Filter
+                <Filter<AppointmentTypeFilterType>
                     component={AppointmentTypeFilters}
                     initialValues={filter}
                     setFilterAction={setFilterAction}

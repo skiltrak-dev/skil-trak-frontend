@@ -7,6 +7,7 @@ import { BackButton, Button, Card, ShowErrorNotifications } from '@components'
 import { PageHeading } from '@components/headings'
 import { ImportStudentForm, SpecifyColumns } from '@partials/admin/rto/students'
 import { AdminApi } from '@queries'
+import { ImportStudentFormType } from '@types'
 
 export const ImportStudentList = ({
     onSubmit,
@@ -16,7 +17,7 @@ export const ImportStudentList = ({
     result,
     rtoCourses,
 }: {
-    onSubmit: Function
+    onSubmit: (values: ImportStudentFormType) => void
     setFoundStudents: any
     setExistingEmails: any
     foundStudents: any

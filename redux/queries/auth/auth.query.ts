@@ -1,5 +1,10 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
-import { LoginCredentials, Packages } from '@types'
+import {
+    LoginCredentials,
+    Packages,
+    Student,
+    StudentFormQueryType,
+} from '@types'
 
 const PREFIX = 'auth/'
 export const authApi = createApi({
@@ -33,7 +38,7 @@ export const authApi = createApi({
             }),
         }),
 
-        registerStudent: builder.mutation<any, any>({
+        registerStudent: builder.mutation<Student, StudentFormQueryType>({
             query: (body) => ({
                 url: `students`,
                 method: 'POST',

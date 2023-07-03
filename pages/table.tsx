@@ -146,13 +146,13 @@ const defaultData: Person[] = [
 const TablePage: NextPage = () => {
     const QuickActionsElements = {
         id: 'age',
-        individual: (id: number) => (
+        individual: (id: Person) => (
             <div className="flex gap-x-2">
                 <Button variant="secondary">Edit</Button>
                 <Button>Delete</Button>
             </div>
         ),
-        common: (ids: number[]) => <Button>Delete</Button>,
+        common: (ids: Person[]) => <Button>Delete</Button>,
     }
 
     const onlyColumns: ColumnDef<Person>[] = [

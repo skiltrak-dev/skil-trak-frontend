@@ -1,5 +1,5 @@
 import { ActionButton, Button, Portal, Typography } from '@components'
-import { User } from '@types'
+import { Appointment, User, appointmentWithUser } from '@types'
 import { getUserCredentials } from '@utils'
 import moment from 'moment'
 import { MouseEvent, ReactElement, useEffect, useState } from 'react'
@@ -15,17 +15,13 @@ import { UserRoles } from '@constants'
 import { useRouter } from 'next/router'
 
 type AppointmentCardProps = {
-    date?: string
-    time?: string
     totalMinutes?: string
-    address?: string
-    name?: string
-    imageUrl?: string // imageUrl
     type?: string // REactElement ReactNode
-    role: string
-    appointment: any
+    appointment: Appointment
     coordinator: User
-    onAppointmentClicked: any
+    onAppointmentClicked:
+        | ((apointment: Appointment) => void | undefined)
+        | undefined
 }
 
 export const UpcomingAppointmentCard = ({
@@ -49,13 +45,13 @@ export const UpcomingAppointmentCard = ({
             ? 'appointmentFor'
             : 'appointmentBy'
 
-    const appointmentUser = appointment[appointmentWith]
+    const appointmentUser: appointmentWithUser = appointment[appointmentWith]
 
     const appointmentWithUser = appointmentUser
         ? appointmentUser[
               appointmentUser?.role === UserRoles.SUBADMIN
-                  ? 'coordinator'
-                  : appointmentUser?.role
+                  ? ('coordinator' as keyof typeof appointmentUser)
+                  : (appointmentUser?.role as keyof typeof appointmentUser)
           ]
         : {}
 
@@ -139,7 +135,8 @@ export const UpcomingAppointmentCard = ({
                     className="w-full bg-gradient-to-r from-[#3883F3] to-[#5D1BE0] rounded-2xl p-4"
                     onClick={(e) => {
                         e?.stopPropagation()
-                        onAppointmentClicked(appointment)
+                        onAppointmentClicked &&
+                            onAppointmentClicked(appointment)
                     }}
                 >
                     <div className="flex justify-between gap-x-4">

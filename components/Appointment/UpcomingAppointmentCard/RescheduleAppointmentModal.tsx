@@ -1,5 +1,5 @@
 import { Button } from '@components/buttons'
-import { TimeSlots } from '@components/sections'
+import { TimeSlots, selectedTimeType } from '@components/sections'
 import { Typography } from '@components/Typography'
 import React, { useEffect, useState } from 'react'
 import { FaTimes } from 'react-icons/fa'
@@ -7,18 +7,21 @@ import { CommonApi } from '@queries'
 import { ShowErrorNotifications } from '@components/ShowErrorNotifications'
 import { useNotification } from '@hooks'
 import moment from 'moment'
+import { Appointment } from '@types'
 
 export const RescheduleAppointmentModal = ({
     onCancel,
     appointment,
 }: {
     onCancel: () => void
-    appointment: any
+    appointment: Appointment
 }) => {
     const { notification } = useNotification()
 
     const [selectedDate, setSelectedDate] = useState<Date | null>(null)
-    const [selectedTime, setSelectedTime] = useState<any | null>(null)
+    const [selectedTime, setSelectedTime] = useState<selectedTimeType | null>(
+        null
+    )
 
     const [slots, setSlots] = useState(true)
 
@@ -42,7 +45,7 @@ export const RescheduleAppointmentModal = ({
     const timeSlots =
         CommonApi.Appointments.getRescheduleAppointmentsAvailableSlots(
             {
-                id: appointment?.type?.id,
+                id: Number(appointment?.type?.id),
                 date: selectedDate?.toISOString(),
                 forUser: appointment?.appointmentFor?.id,
                 byUser: appointment?.appointmentBy?.id,
@@ -64,7 +67,7 @@ export const RescheduleAppointmentModal = ({
             id: appointment?.id,
             body: {
                 ...selectedTime,
-                date,
+                date: date as Date,
             },
         })
     }

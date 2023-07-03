@@ -19,8 +19,13 @@ import {
 } from '@components'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { FormProvider, useForm } from 'react-hook-form'
+import { RtoFormData } from '@types'
 
-export const RtoSignUpForm = ({ onSubmit }: { onSubmit: any }) => {
+export const RtoSignUpForm = ({
+    onSubmit,
+}: {
+    onSubmit: (values: RtoFormData) => void
+}) => {
     const router = useRouter()
 
     const { notification } = useNotification()
@@ -181,7 +186,7 @@ export const RtoSignUpForm = ({ onSubmit }: { onSubmit: any }) => {
         router.push('/auth/signup/review-signup-info')
     }
 
-    const formMethods = useForm({
+    const formMethods = useForm<RtoFormData>({
         mode: 'all',
         resolver: yupResolver(validationSchema),
     })

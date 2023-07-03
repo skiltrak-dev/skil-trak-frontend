@@ -1,21 +1,19 @@
 import type { NextPage } from 'next'
 import { useRouter } from 'next/router'
 
-import { SignUpUtils } from '@utils'
-import { AuthLayout } from '@layouts'
 import { UserRoles } from '@constants'
+import { AuthLayout } from '@layouts'
+import { SignUpUtils } from '@utils'
 
 import {
-    Typography,
-    BackButton,
     AuthBreadCrumb,
-    StepIndicator,
+    BackButton,
     IndicatorStep,
+    Typography,
 } from '@components'
 
-import { RtoSignUpForm } from '@components/forms'
-import { useState } from 'react'
 import { StepForm } from '@partials/rto/tabs'
+import { useState } from 'react'
 
 const FormSteps: IndicatorStep[] = [
     {

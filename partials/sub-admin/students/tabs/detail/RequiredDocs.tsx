@@ -28,6 +28,7 @@ import {
     getUserCredentials,
     latestWorkplace,
 } from '@utils'
+import { WorkplaceWorkIndustriesType } from 'redux/queryTypes'
 
 export const RequiredDocs = ({
     studentId,
@@ -55,12 +56,12 @@ export const RequiredDocs = ({
     const activeWP = activeWorkplace(workplace?.data)
     const latestWP = latestWorkplace(activeWP)
     const appliedIndustry = getStudentWorkplaceAppliedIndustry(
-        latestWP?.industries
+        latestWP?.industries as WorkplaceWorkIndustriesType[]
     )
 
     const getFolders = SubAdminApi.Docs.useRequiredFolders(
         {
-            industryId: appliedIndustry?.industry?.id,
+            industryId: Number(appliedIndustry?.industry?.id),
             courseId: Number(selectedCourse?.id),
         },
         {

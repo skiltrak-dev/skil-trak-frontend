@@ -13,6 +13,7 @@ import { isEmailValid, onlyAlphabets, SignUpUtils } from '@utils'
 import { Button, Checkbox, Select, TextInput, Typography } from '@components'
 import { FormProvider, useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
+import { Course, OptionType } from '@types'
 
 export const RtoForm = ({ onSubmit }: { onSubmit: any }) => {
     const router = useRouter()
@@ -24,7 +25,7 @@ export const RtoForm = ({ onSubmit }: { onSubmit: any }) => {
     const [checkEmailExists, emailCheckResult] = AuthApi.useEmailCheck()
 
     const [sectorOptions, setSectorOptions] = useState([])
-    const [courseOptions, setCourseOptions] = useState([])
+    const [courseOptions, setCourseOptions] = useState<OptionType[]>([])
     const [courseLoading, setCourseLoading] = useState(false)
 
     const [storedData, setStoredData] = useState<any>(null)
@@ -53,10 +54,10 @@ export const RtoForm = ({ onSubmit }: { onSubmit: any }) => {
             }
         })
 
-        const newCourseOptions: any = []
+        const newCourseOptions: OptionType[] = []
         filteredCourses.map((courseList: any) => {
             if (courseList && courseList.length) {
-                return courseList.map((course: any) =>
+                return courseList.map((course: Course) =>
                     newCourseOptions.push({
                         label: course.title,
                         value: course.id,

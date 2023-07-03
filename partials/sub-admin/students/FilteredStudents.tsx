@@ -5,8 +5,10 @@ import {
     EmptyData,
     InitialAvatar,
     LoadingAnimation,
+    StudentSubAdmin,
     Table,
     TableAction,
+    TableChildrenProps,
     Typography,
     UserCreatedAt,
 } from '@components'
@@ -14,7 +16,7 @@ import { PageHeading } from '@components/headings'
 import { useActionModal } from '@hooks'
 import { SectorCell } from '@partials/admin/student/components'
 import { ColumnDef } from '@tanstack/react-table'
-import { Student, UserStatus } from '@types'
+import { Industry, Student, UserStatus } from '@types'
 import {
     getStudentWorkplaceAppliedIndustry,
     setLink,
@@ -25,7 +27,8 @@ import { ReactElement, useState } from 'react'
 import { FaEdit, FaEye, FaUsers } from 'react-icons/fa'
 import { MdBlock } from 'react-icons/md'
 import { RiLockPasswordFill } from 'react-icons/ri'
-import { IndustryCellInfo } from '../Industries'
+import { WorkplaceWorkIndustriesType } from 'redux/queryTypes'
+import { IndustryCellInfo, IndustrySubAdmin } from '../Industries'
 import { InterviewModal } from '../workplace/modals'
 import { StudentCellInfo } from './components'
 import {
@@ -81,12 +84,13 @@ export const FilteredStudents = ({
             <InterviewModal
                 student={student}
                 onCancel={onModalCancelClicked}
-                workplace={student?.workplace[0]?.id}
-                workIndustry={
+                workplace={Number(student?.workplace[0]?.id)}
+                workIndustry={Number(
                     getStudentWorkplaceAppliedIndustry(
-                        student?.workplace[0]?.industries
+                        student?.workplace[0]
+                            ?.industries as WorkplaceWorkIndustriesType[]
                     )?.id
-                }
+                )}
             />
         )
     }
@@ -132,11 +136,11 @@ export const FilteredStudents = ({
         ]
     }
 
-    const columns: ColumnDef<any>[] = [
+    const columns: ColumnDef<StudentSubAdmin>[] = [
         {
             header: () => 'Name',
             accessorKey: 'user',
-            cell: ({ row }: any) => {
+            cell: ({ row }) => {
                 return row.original?.user ? (
                     <StudentCellInfo student={row.original} call />
                 ) : (
@@ -147,7 +151,7 @@ export const FilteredStudents = ({
         {
             header: () => 'RTO Name',
             accessorKey: 'rto',
-            cell({ row }: any) {
+            cell({ row }) {
                 const { rto } = row.original
 
                 return (
@@ -161,7 +165,7 @@ export const FilteredStudents = ({
         {
             accessorKey: 'industry',
             header: () => <span>Industry</span>,
-            cell: (info: any) => {
+            cell: (info) => {
                 const industry = info.row.original?.industries
 
                 const appliedIndustry = studentsListWorkplace(
@@ -169,7 +173,9 @@ export const FilteredStudents = ({
                 )
 
                 return industry && industry?.length > 0 ? (
-                    <IndustryCellInfo industry={industry[0]} />
+                    <IndustryCellInfo
+                        industry={industry[0] as IndustrySubAdmin}
+                    />
                 ) : info.row.original?.workplace &&
                   info.row.original?.workplace?.length > 0 &&
                   appliedIndustry ? (
@@ -182,7 +188,7 @@ export const FilteredStudents = ({
         {
             accessorKey: 'sectors',
             header: () => <span>Sectors</span>,
-            cell: ({ row }: any) => {
+            cell: ({ row }) => {
                 return <SectorCell student={row.original} />
             },
         },
@@ -215,14 +221,14 @@ export const FilteredStudents = ({
         {
             accessorKey: 'createdAt',
             header: () => <span>Created At</span>,
-            cell: ({ row }: any) => (
+            cell: ({ row }) => (
                 <UserCreatedAt createdAt={row.original?.createdAt} />
             ),
         },
         {
             header: () => 'Action',
             accessorKey: 'Action',
-            cell: ({ row }: any) => {
+            cell: ({ row }) => {
                 const tableActionOption = tableActionOptions(row.original)
                 return (
                     <TableAction
@@ -236,7 +242,7 @@ export const FilteredStudents = ({
 
     const quickActionsElements = {
         id: 'id',
-        individual: (id: number) => (
+        individual: (id: StudentSubAdmin) => (
             <div className="flex gap-x-2">
                 <ActionButton Icon={FaEdit}>Edit</ActionButton>
                 <ActionButton>Sub Admins</ActionButton>
@@ -245,7 +251,7 @@ export const FilteredStudents = ({
                 </ActionButton>
             </div>
         ),
-        common: (ids: number[]) => (
+        common: (ids: StudentSubAdmin[]) => (
             <ActionButton Icon={MdBlock} variant="error">
                 Block
             </ActionButton>
@@ -277,21 +283,27 @@ export const FilteredStudents = ({
                                 pagination,
                                 pageSize,
                                 quickActions,
-                            }: any) => {
+                            }: TableChildrenProps) => {
                                 return (
                                     <div>
                                         <div className="p-6 mb-2 flex justify-between">
-                                            {pageSize(
-                                                itemPerPage,
-                                                setItemPerPage,
-                                                student?.data?.data?.length
-                                            )}
+                                            {pageSize
+                                                ? pageSize(
+                                                      itemPerPage,
+                                                      setItemPerPage,
+                                                      student?.data?.data
+                                                          ?.length
+                                                  )
+                                                : null}
                                             <div className="flex gap-x-2">
                                                 {quickActions}
-                                                {pagination(
-                                                    student?.data?.pagination,
-                                                    setPage
-                                                )}
+                                                {pagination
+                                                    ? pagination(
+                                                          student?.data
+                                                              ?.pagination,
+                                                          setPage
+                                                      )
+                                                    : null}
                                             </div>
                                         </div>
                                         <div className="px-6 overflow-auto remove-scrollbar">
@@ -299,18 +311,23 @@ export const FilteredStudents = ({
                                         </div>
                                         {student?.data?.data?.length > 10 && (
                                             <div className="p-6 mb-2 flex justify-between">
-                                                {pageSize(
-                                                    itemPerPage,
-                                                    setItemPerPage,
-                                                    student?.data?.data?.length
-                                                )}
+                                                {pageSize
+                                                    ? pageSize(
+                                                          itemPerPage,
+                                                          setItemPerPage,
+                                                          student?.data?.data
+                                                              ?.length
+                                                      )
+                                                    : null}
                                                 <div className="flex gap-x-2">
                                                     {quickActions}
-                                                    {pagination(
-                                                        student?.data
-                                                            ?.pagination,
-                                                        setPage
-                                                    )}
+                                                    {pagination
+                                                        ? pagination(
+                                                              student?.data
+                                                                  ?.pagination,
+                                                              setPage
+                                                          )
+                                                        : null}
                                                 </div>
                                             </div>
                                         )}

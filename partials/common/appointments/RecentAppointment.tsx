@@ -1,4 +1,9 @@
-import React, { useState, useEffect, ReactElement } from 'react'
+import React, {
+    useState,
+    useEffect,
+    ReactElement,
+    MouseEventHandler,
+} from 'react'
 import { LoadingAnimation, NoData, Typography } from '@components'
 import { Button } from '@components/buttons'
 import { getUserCredentials } from '@utils'
@@ -12,6 +17,7 @@ import { IoLocationSharp, IoTime } from 'react-icons/io5'
 import { CommonApi } from '@queries'
 import { RiShieldUserFill } from 'react-icons/ri'
 import { AppointmentViewModal } from '@components/Appointment/AppointmentModal'
+import { Appointment, Industry, User, appointmentWithUser } from '@types'
 
 type Props = {}
 
@@ -44,14 +50,16 @@ export const RecentAppointment = ({
             : 'appointmentFor'
         : ''
 
-    const appointmentUser = appointment ? appointment[appointmentWith] : {}
+    const appointmentUser: any = appointment
+        ? appointment[appointmentWith as keyof Appointment]
+        : {}
 
     const appointmentWithUser =
         appointment && appointmentUser
             ? appointmentUser[
                   appointmentUser?.role === 'subadmin'
-                      ? 'coordinator'
-                      : appointmentUser?.role
+                      ? ('coordinator' as keyof typeof appointmentUser)
+                      : (appointmentUser?.role as keyof typeof appointmentUser)
               ]
             : [{}]
     // const appointmentWithUser = [{}]
@@ -94,7 +102,7 @@ export const RecentAppointment = ({
                                     rounded
                                     onClick={(e: any) => {
                                         if (link) {
-                                            e?.stopPropagation()
+                                            e.stopPropagation()
                                             router.push(link)
                                         }
                                     }}
@@ -120,8 +128,8 @@ export const RecentAppointment = ({
                                             {appointment?.type?.title}
                                         </h2>
                                         <p className="text-[#8CD2F9] font-medium ">
-                                            {appointment[appointmentWith]?.name}{' '}
-                                            ({appointmentUser?.role})
+                                            {appointmentUser?.name}(
+                                            {appointmentUser?.role})
                                         </p>
                                     </div>
                                     <div className="flex flex-col gap-y-2">

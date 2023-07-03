@@ -1,13 +1,22 @@
 import { BaseQueryFn } from '@reduxjs/toolkit/dist/query/baseQueryTypes'
 import { EndpointBuilder } from '@reduxjs/toolkit/dist/query/endpointDefinitions'
-import { Course, PaginatedResponse, Rto, SubAdmin, UserCount } from '@types'
-import { RouteType } from 'next/dist/lib/load-custom-routes'
+import {
+    Course,
+    PaginatedResponse,
+    PaginationWithSearch,
+    Rto,
+    SubAdmin,
+    SubAdminProfileCount,
+    SubadminFromType,
+    UserCount,
+    ViewSummaryType,
+} from '@types'
 
 const PREFIX = 'admin'
 export const subAdminEndpoints = (
     builder: EndpointBuilder<BaseQueryFn, string, string>
 ) => ({
-    createSubAdmin: builder.mutation({
+    createSubAdmin: builder.mutation<SubAdmin, SubadminFromType>({
         query: (body) => ({
             url: `${PREFIX}/subadmin/add`,
             method: 'POST',
@@ -15,7 +24,10 @@ export const subAdminEndpoints = (
         }),
         invalidatesTags: ['SubAdmins'],
     }),
-    updateSubAdmin: builder.mutation({
+    updateSubAdmin: builder.mutation<
+        SubAdmin,
+        { id: number; userId: number; body: SubadminFromType }
+    >({
         query: ({ id, userId, body }) => ({
             url: `${PREFIX}/subadmin/update/${id}/${userId}`,
             method: 'PATCH',
@@ -24,22 +36,19 @@ export const subAdminEndpoints = (
         invalidatesTags: ['SubAdmins'],
     }),
 
-    subAdmins: builder.query<PaginatedResponse<SubAdmin>, any>({
-        query: (params) => {
-            return {
-                url: `${PREFIX}/subadmin/list`,
-                params,
-            }
-        },
+    subAdmins: builder.query<
+        PaginatedResponse<SubAdmin>,
+        PaginationWithSearch | undefined
+    >({
+        query: (params) => ({
+            url: `${PREFIX}/subadmin/list`,
+            params,
+        }),
         providesTags: ['SubAdmins'],
     }),
 
     subAdminProfile: builder.query<SubAdmin, number>({
-        query: (id) => {
-            return {
-                url: `${PREFIX}/subadmin/profile/${id}`,
-            }
-        },
+        query: (id) => `${PREFIX}/subadmin/profile/${id}`,
         providesTags: ['SubAdmins'],
     }),
 
@@ -48,7 +57,7 @@ export const subAdminEndpoints = (
         providesTags: ['SubAdmins'],
     }),
 
-    subAdminProfileCount: builder.query<any, number>({
+    subAdminProfileCount: builder.query<SubAdminProfileCount, number>({
         query: (id) => ({
             url: `subadmin/dashboard/count`,
             params: { user: id },
@@ -61,8 +70,11 @@ export const subAdminEndpoints = (
         providesTags: ['SubAdmins', 'Rto-Coordinators'],
     }),
 
-    subAdminAssignCourses: builder.mutation({
-        query: (body: any) => ({
+    subAdminAssignCourses: builder.mutation<
+        SubAdmin,
+        { subadmin: number; courses: number[] }
+    >({
+        query: (body) => ({
             url: `${PREFIX}/subadmin/assign-course`,
             method: 'POST',
             body,
@@ -70,8 +82,11 @@ export const subAdminEndpoints = (
         invalidatesTags: ['SubAdmins', 'Rto-Coordinators'],
     }),
 
-    subAdminUnAssignCourses: builder.mutation({
-        query: (body: any) => ({
+    subAdminUnAssignCourses: builder.mutation<
+        SubAdmin,
+        { id: number; courseId?: number; course?: number }
+    >({
+        query: (body) => ({
             url: `${PREFIX}/sub-admin/course/un-assign/${body.id}`,
             method: 'POST',
             params: { course: body.course },
@@ -84,7 +99,13 @@ export const subAdminEndpoints = (
         providesTags: ['SubAdmins'],
     }),
 
-    subAdminAssignRto: builder.mutation({
+    subAdminAssignRto: builder.mutation<
+        null,
+        {
+            subadmin: number
+            rto: number
+        }
+    >({
         query: (body) => ({
             url: `${PREFIX}/subadmin/assignrto`,
             method: 'POST',
@@ -93,8 +114,14 @@ export const subAdminEndpoints = (
         invalidatesTags: ['SubAdmins'],
     }),
 
-    subAdminUnassignRto: builder.mutation({
-        query: (body: any) => ({
+    subAdminUnassignRto: builder.mutation<
+        { message: string },
+        {
+            id: number
+            subAdmin: number
+        }
+    >({
+        query: (body) => ({
             url: `${PREFIX}/rto/subadmin/remove/${body.id}`,
             params: { subadmin: body.subAdmin },
             method: 'DELETE',
@@ -102,11 +129,11 @@ export const subAdminEndpoints = (
         }),
         invalidatesTags: ['SubAdmins'],
     }),
-    viewSummary: builder.query<any, number>({
+    viewSummary: builder.query<ViewSummaryType, number>({
         query: (id) => `${PREFIX}/summary-report/generate/${id}`,
         providesTags: ['SubAdmins'],
     }),
-    subadminRemove: builder.mutation({
+    subadminRemove: builder.mutation<SubAdmin, number>({
         query: (id) => ({
             url: `${PREFIX}/user/remove/${id}`,
             method: 'DELETE',

@@ -18,7 +18,7 @@ import { FaEdit, FaEye } from 'react-icons/fa'
 
 import { RtoCellInfo } from '@partials/admin/rto/components'
 import { AdminApi } from '@queries'
-import { Student, UserStatus } from '@types'
+import { Industry, Student, UserStatus } from '@types'
 import { checkListLength, setLink, studentsListWorkplace } from '@utils'
 import { useRouter } from 'next/router'
 import { ReactElement, useEffect, useState } from 'react'
@@ -235,7 +235,9 @@ export const ApprovedStudent = () => {
             accessorKey: 'action',
             header: () => <span>Action</span>,
             cell: (info) => {
-                const length = checkListLength(data?.data)
+                const length = checkListLength<StudentSubAdmin>(
+                    data?.data as StudentSubAdmin[]
+                )
 
                 return (
                     <div className="flex gap-x-1 items-center">
@@ -252,38 +254,40 @@ export const ApprovedStudent = () => {
 
     const quickActionsElements = {
         id: 'id',
-        individual: (student: Student) => (
-            <div className="flex gap-x-2">
-                <ActionButton
-                    onClick={() => {
-                        router.push(
-                            `/portals/admin/student/${student?.id}?tab=overview`
-                        )
-                    }}
-                >
-                    View
-                </ActionButton>
-                <ActionButton
-                    Icon={FaEdit}
-                    onClick={() => {
-                        router.push(
-                            `/portals/admin/student/edit-student/${student?.id}`
-                        )
-                    }}
-                >
-                    Edit
-                </ActionButton>
-                <ActionButton
-                    Icon={MdBlock}
-                    variant="error"
-                    onClick={() => {
-                        onBlockClicked(student)
-                    }}
-                >
-                    Block
-                </ActionButton>
-            </div>
-        ),
+        individual: (student: Student) => {
+            return (
+                <div className="flex gap-x-2">
+                    <ActionButton
+                        onClick={() => {
+                            router.push(
+                                `/portals/admin/student/${student?.id}?tab=overview`
+                            )
+                        }}
+                    >
+                        View
+                    </ActionButton>
+                    <ActionButton
+                        Icon={FaEdit}
+                        onClick={() => {
+                            router.push(
+                                `/portals/admin/student/edit-student/${student?.id}`
+                            )
+                        }}
+                    >
+                        Edit
+                    </ActionButton>
+                    <ActionButton
+                        Icon={MdBlock}
+                        variant="error"
+                        onClick={() => {
+                            onBlockClicked(student)
+                        }}
+                    >
+                        Block
+                    </ActionButton>
+                </div>
+            )
+        },
         common: (student: Student[]) => (
             <ActionButton
                 onClick={() => {

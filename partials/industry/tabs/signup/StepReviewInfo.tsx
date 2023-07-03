@@ -173,12 +173,9 @@ export const StepReviewInfo = () => {
                                 {formData.sectors?.map((sector: OptionType) => (
                                     <div
                                         className="border-t pt-1"
-                                        key={sector.value}
+                                        key={Number(sector.value)}
                                     >
-                                        <Typography
-                                            key={sector.value}
-                                            variant={'label'}
-                                        >
+                                        <Typography variant={'label'}>
                                             {sector.label}
                                         </Typography>
                                     </div>
@@ -197,12 +194,9 @@ export const StepReviewInfo = () => {
                                 {formData.courses?.map((course: OptionType) => (
                                     <div
                                         className="border-t pt-1"
-                                        key={course.value}
+                                        key={Number(course.value)}
                                     >
-                                        <Typography
-                                            key={course.value}
-                                            variant={'label'}
-                                        >
+                                        <Typography variant={'label'}>
                                             {course.label}
                                         </Typography>
                                     </div>

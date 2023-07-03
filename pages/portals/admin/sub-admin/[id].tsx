@@ -147,7 +147,7 @@ const SubAdminDetail: NextPageWithLayout = () => {
                                         </div>
                                         <div className="text-sm flex gap-x-2 items-center mt-2 text-gray-500">
                                             <MdPlace className="text-gray-400" />
-                                            {data?.address}
+                                            {data?.addressLine1}
                                         </div>
                                     </div>
                                 </div>
@@ -184,34 +184,38 @@ const SubAdminDetail: NextPageWithLayout = () => {
                                 <div className="flex gap-x-4 w-full">
                                     <FigureCard
                                         imageUrl="/images/icons/students.png"
-                                        count={count?.data?.student}
+                                        count={Number(count?.data?.student)}
                                         title={'Students'}
                                     />
                                     <FigureCard
                                         imageUrl="/images/icons/industry.png"
-                                        count={count?.data?.industry}
+                                        count={Number(count?.data?.industry)}
                                         title={'Industries'}
                                     />
                                     <FigureCard
                                         imageUrl="/images/icons/rto.png"
-                                        count={count?.data?.rto}
+                                        count={Number(count?.data?.rto)}
                                         title={'RTOs'}
                                     />
                                 </div>
                                 <div className="flex gap-x-4">
                                     <FigureCard
                                         imageUrl="/images/icons/workplace.png"
-                                        count={count?.data?.workplaceRequest}
+                                        count={Number(
+                                            count?.data?.workplaceRequest
+                                        )}
                                         title={'Workplace Requests'}
                                     />
                                     <FigureCard
                                         imageUrl="/images/icons/pending-student.png"
-                                        count={count?.data?.Pendingstudent}
+                                        count={Number(
+                                            count?.data?.Pendingstudent
+                                        )}
                                         title={'Pending Students'}
                                     />
                                     <FigureCard
                                         imageUrl="/images/icons/appointments.png"
-                                        count={count?.data?.appointment}
+                                        count={Number(count?.data?.appointment)}
                                         title={'Appointments'}
                                     />
                                 </div>

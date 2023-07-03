@@ -8,13 +8,18 @@ import {
     UserStatus,
     Sector,
     Course,
+    PaginationWithSearch,
+    CourseWithAssessmentEvidence,
 } from '@types'
 
 const PREFIX = 'admin'
 export const courseEndpoints = (
     builder: EndpointBuilder<BaseQueryFn, string, string>
 ) => ({
-    courses: builder.query<PaginatedResponse<Course>, any | undefined>({
+    courses: builder.query<
+        PaginatedResponse<Course>,
+        PaginationWithSearch | undefined
+    >({
         query: (params) => ({
             url: `${PREFIX}/course/list`,
             params,
@@ -22,12 +27,12 @@ export const courseEndpoints = (
         providesTags: ['Courses'],
     }),
 
-    courseDetail: builder.query<any, number>({
+    courseDetail: builder.query<CourseWithAssessmentEvidence, number>({
         query: (id) => `${PREFIX}/course/view/${id}`,
         providesTags: ['Courses'],
     }),
 
-    courseAdd: builder.mutation<any, Course>({
+    courseAdd: builder.mutation<Course, Course>({
         query: (body) => ({
             url: `${PREFIX}/course/add`,
             method: 'POST',
@@ -36,7 +41,7 @@ export const courseEndpoints = (
         invalidatesTags: ['Courses'],
     }),
 
-    courseUpdate: builder.mutation<any, Course>({
+    courseUpdate: builder.mutation<Course, Course>({
         query: (body) => ({
             url: `${PREFIX}/course/update/${body.id}`,
             method: 'PATCH',
@@ -45,7 +50,7 @@ export const courseEndpoints = (
         invalidatesTags: ['Courses'],
     }),
 
-    courseRemove: builder.mutation<any, number>({
+    courseRemove: builder.mutation<Course, number>({
         query: (id) => ({
             url: `${PREFIX}/course/delete/${id}`,
             method: 'DELETE',

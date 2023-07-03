@@ -1,17 +1,16 @@
-import React, { ReactElement, useEffect, useState } from 'react'
+import { Card } from '@components'
 import { CalendarStyles } from '@components/Calendar/style'
+import { useState } from 'react'
 import Calendar from 'react-calendar'
 import { AiTwotoneFilter } from 'react-icons/ai'
 import { RiTimerLine } from 'react-icons/ri'
 import OutsideClickHandler from 'react-outside-click-handler'
-import { Card } from '@components'
-
 
 type Props = {
-    startDate: any
-    setStartDate: any
-    endDate: any
-    setEndDate: any
+    startDate: Date
+    setStartDate: (startDate: Date) => void
+    endDate: Date
+    setEndDate: (endDate: Date) => void
 }
 
 export const FilterInvoices = ({
@@ -23,7 +22,6 @@ export const FilterInvoices = ({
     const [dateRange, setDateRange] = useState<any>('')
     const [showCalendars, setShowCalendars] = useState<any>(false)
     const [selectedFilter, setSelectedFilter] = useState<any>('Fortnightly')
-    
 
     const [showFilter, setShowFilter] = useState<any>(false)
     // months
@@ -87,7 +85,6 @@ export const FilterInvoices = ({
             )
         }
     }
- 
 
     const handleFilterSelect = (filter: any) => {
         setSelectedFilter(filter)

@@ -1,21 +1,14 @@
+import { Appointment } from '@types'
 import moment from 'moment'
 import {
     FaCalendarDay,
     FaClock,
     FaIdCardAlt,
-    FaMapMarkerAlt
+    FaMapMarkerAlt,
 } from 'react-icons/fa'
 
 type PastAppointmentProps = {
-    name?: string
-    post?: string
-    imageUrl?: string
-    status?: string
-    time?: string
-    date?: string
-    address?: string
-    totalMinutes?: string
-    appointment?: any
+    appointment: Appointment
 }
 
 export const PastAppointmentCard = ({ appointment }: PastAppointmentProps) => {
@@ -24,7 +17,7 @@ export const PastAppointmentCard = ({ appointment }: PastAppointmentProps) => {
             <div className="flex flex-col rounded-xl overflow-hidden bg-white border w-fit">
                 <div className="h-full py-2 px-4 bg-indigo-500 text-white">
                     <p className="text-lg font-semibold">
-                        {appointment.type.title}
+                        {appointment?.type?.title}
                     </p>
 
                     <div className="mt-4">
@@ -35,22 +28,22 @@ export const PastAppointmentCard = ({ appointment }: PastAppointmentProps) => {
                             <span className="text-indigo-200 text-sm mt-1">
                                 <FaIdCardAlt />
                             </span>
-                            {appointment.appointmentFor ? (
+                            {appointment?.appointmentFor ? (
                                 <div className="leading-tight">
                                     <p className="font-medium">
-                                        {appointment.appointmentFor.name}
+                                        {appointment?.appointmentFor?.name}
                                     </p>
                                     <p className="text-sm">
-                                        {appointment.appointmentFor.email}
+                                        {appointment?.appointmentFor?.email}
                                     </p>
                                 </div>
                             ) : (
                                 <div className="leading-tight">
                                     <p className="font-medium">
-                                        {appointment.coordinator.name}
+                                        {appointment?.coordinator?.name}
                                     </p>
                                     <p className="text-sm text-indigo-200">
-                                        {appointment.coordinator.email}
+                                        {appointment?.coordinator?.email}
                                     </p>
                                 </div>
                             )}
@@ -59,7 +52,7 @@ export const PastAppointmentCard = ({ appointment }: PastAppointmentProps) => {
                 </div>
 
                 <div className="">
-                    <div className='px-4 py-2'>
+                    <div className="px-4 py-2">
                         <div className="flex items-start gap-x-2">
                             <span className="text-indigo-400 mt-2 text-sm">
                                 <FaClock />

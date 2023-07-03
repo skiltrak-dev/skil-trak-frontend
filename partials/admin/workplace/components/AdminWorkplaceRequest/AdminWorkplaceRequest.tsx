@@ -17,19 +17,24 @@ import {
 } from '@partials/sub-admin/workplace/components'
 
 import { AdminApi } from '@queries'
-import { Course } from '@types'
+import { Course, OptionType } from '@types'
 import { checkWorkplaceStatus } from '@utils'
 import moment from 'moment'
 import { useEffect, useState } from 'react'
 import { RiBook2Fill } from 'react-icons/ri'
 import { AssignWorkplace } from '../AssignWorkplace'
 import { StudentDetail } from '../StudentDetail'
+import {
+    IWorkplaceIndustries,
+    WorkplaceWorkIndustriesType,
+} from 'redux/queryTypes'
 type Props = {
-    workplace: any
+    workplace: IWorkplaceIndustries
 }
 
 export const AdminWorkplaceRequest = ({ workplace }: Props) => {
-    const [appliedIndustry, setAppliedIndustry] = useState<any | null>(null)
+    const [appliedIndustry, setAppliedIndustry] =
+        useState<WorkplaceWorkIndustriesType | null>(null)
 
     // notification
     const { notification } = useNotification()
@@ -38,7 +43,11 @@ export const AdminWorkplaceRequest = ({ workplace }: Props) => {
     const [assignCourse, assignCourseResult] = AdminApi.Workplace.assignCourse()
 
     useEffect(() => {
-        setAppliedIndustry(workplace.industries?.find((i: any) => i.applied))
+        setAppliedIndustry(
+            workplace.industries?.find(
+                (i: WorkplaceWorkIndustriesType) => i.applied
+            ) as WorkplaceWorkIndustriesType
+        )
     }, [workplace])
 
     useEffect(() => {
@@ -53,7 +62,7 @@ export const AdminWorkplaceRequest = ({ workplace }: Props) => {
     const steps = checkWorkplaceStatus(workplace?.currentStatus)
 
     const courseOptions =
-        workplace?.student?.courses?.length > 0
+        workplace?.student?.courses && workplace?.student?.courses?.length > 0
             ? workplace?.student?.courses?.map((course: Course) => ({
                   label: course?.title,
                   value: course?.id,
@@ -74,7 +83,7 @@ export const AdminWorkplaceRequest = ({ workplace }: Props) => {
                         </div>
                     </div>
                     {/*  */}
-                    {workplace?.courses?.length > 0 ? (
+                    {workplace?.courses && workplace?.courses?.length > 0 ? (
                         <div className="flex items-center relative">
                             <div className="flex items-center gap-x-2">
                                 <RiBook2Fill className="text-gray-400 text-2xl" />
@@ -100,11 +109,11 @@ export const AdminWorkplaceRequest = ({ workplace }: Props) => {
                             name={'course'}
                             options={courseOptions}
                             placeholder={'Select Course...'}
-                            onChange={(e: any) => {
+                            onChange={(e: OptionType) => {
                                 if (e?.value) {
                                     assignCourse({
-                                        courseId: e?.value,
-                                        workplaceId: workplace?.id,
+                                        courseId: Number(e?.value),
+                                        workplaceId: Number(workplace?.id),
                                     })
                                 }
                             }}

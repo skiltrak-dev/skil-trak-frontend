@@ -18,11 +18,11 @@ import { FaEdit, FaEye, FaFileExport, FaTrash } from 'react-icons/fa'
 
 import { useGetRtoStudentsQuery } from '@queries'
 import { Student, UserStatus } from '@types'
+import { studentsListWorkplace } from '@utils'
 import { useRouter } from 'next/router'
 import { ReactElement, useState } from 'react'
 import { IndustryCell, SectorCell, StudentCellInfo } from './components'
 import { AcceptModal, DeleteModal } from './modals'
-import { studentsListWorkplace } from '@utils'
 
 export const RejectedStudent = () => {
     const router = useRouter()
@@ -141,7 +141,7 @@ export const RejectedStudent = () => {
 
     const quickActionsElements = {
         id: 'id',
-        individual: (id: number) => (
+        individual: (id: StudentSubAdmin) => (
             <div className="flex gap-x-2">
                 <ActionButton Icon={FaEdit}>Edit</ActionButton>
                 <ActionButton variant="success">Accept</ActionButton>
@@ -150,7 +150,7 @@ export const RejectedStudent = () => {
                 </ActionButton>
             </div>
         ),
-        common: (ids: number[]) => (
+        common: (ids: StudentSubAdmin[]) => (
             <div className="flex gap-x-2">
                 <ActionButton variant="success">Accept</ActionButton>
                 <ActionButton Icon={FaTrash} variant="error">

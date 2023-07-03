@@ -1,14 +1,12 @@
 import {
     ColumnDef,
     flexRender,
-    useReactTable,
     getCoreRowModel,
-    PaginationState,
     getPaginationRowModel,
+    useReactTable,
 } from '@tanstack/react-table'
 import { Paginate } from '@types'
-import React from 'react'
-import {
+import React, {
     HTMLProps,
     ReactElement,
     ReactNode,
@@ -20,17 +18,29 @@ import {
 import { PageSize } from './components/PageSize'
 import { Pagination } from './components/Pagination'
 
+interface pageSize {
+    (
+        itemPerPage: number,
+        setItemPerPage: (value: number) => void,
+        records?: number
+    ): JSX.Element
+}
+
+interface pagination {
+    (paginated: Paginate, setPage: (value: number) => void): JSX.Element
+}
+
 export interface TableChildrenProps {
     quickActions: ReactNode
-    pageSize: Function | null
-    pagination: Function | null
+    pageSize?: pageSize | null
+    pagination: pagination | null
     table: JSX.Element
 }
 
-interface QuickTableAction {
+interface QuickTableAction<Type> {
     id: string | number
-    individual: Function | null
-    common?: Function | null
+    individual: (values: Type) => ReactNode | null
+    common?: (values: Type[]) => ReactNode | null
     // setter: Function
 }
 
@@ -43,7 +53,7 @@ interface TableProps<Type> {
     }: TableChildrenProps) => JSX.Element
     columns: ColumnDef<Type>[]
     data: Type[]
-    quickActions?: QuickTableAction
+    quickActions?: QuickTableAction<Type>
     enableRowSelection?: boolean
     pagination?: boolean
     pageSize?: boolean
@@ -176,7 +186,7 @@ export const Table = <Type,>({
         pageSize: pageSize
             ? (
                   itemPerPage: number,
-                  setItemPerPage: Function,
+                  setItemPerPage: (value: number) => void,
                   records?: number
               ) => (
                   <PageSize
@@ -188,7 +198,7 @@ export const Table = <Type,>({
               )
             : null,
         pagination: pagination
-            ? (paginated: Paginate, setPage: Function) => (
+            ? (paginated: Paginate, setPage: (value: number) => void) => (
                   <Pagination
                       table={table}
                       pagination={paginated}

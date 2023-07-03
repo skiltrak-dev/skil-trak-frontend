@@ -16,7 +16,7 @@ import * as yup from 'yup'
 
 interface CourseFormProps {
     result: any
-    onSubmit: any
+    onSubmit: (values: any) => void
     edit?: boolean
     initialValues?: Course
     requirementFile?: any
@@ -31,7 +31,7 @@ export const CourseForm = ({
     requirementFile,
     setRequirementFile,
 }: CourseFormProps) => {
-    const { data, isLoading } = AdminApi.Sectors.useListQuery({})
+    const { data, isLoading } = AdminApi.Sectors.useListQuery(undefined)
 
     const validationSchema = yup.object({
         title: yup.string().required('Title is required'),

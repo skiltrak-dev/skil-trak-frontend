@@ -10,10 +10,10 @@ import { Card } from '@components'
 import moment from 'moment'
 
 type Props = {
-    startDate: any
-    setStartDate: any
-    endDate: any
-    setEndDate: any
+    startDate: Date
+    setStartDate: (startDate: Date) => void
+    endDate: Date
+    setEndDate: (endDate: Date) => void
 }
 
 export const FilterReport = ({

@@ -22,7 +22,13 @@ export const HistoryFilters = ({
     customRangeDate: any
     setIsCustomRange: any
     setSearchedValue: any
-    setCustomRangeDate: any
+    setCustomRangeDate: ({
+        startDate,
+        endDate,
+    }: {
+        startDate: Date
+        endDate: Date
+    }) => void
 }) => {
     const delayedSearch = useCallback(
         debounce((value) => setSearchedValue(value), 700),

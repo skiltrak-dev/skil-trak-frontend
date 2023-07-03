@@ -1,0 +1,5 @@
+export * from './Rto-form.type'
+export * from './student-form.type'
+export * from './admin-profile.type'
+export * from './subadmin-form.type'
+export * from './appointment-form.type'

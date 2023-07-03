@@ -66,7 +66,7 @@ export const studentsEndpoints = (
     }),
 
     updateSubAdminCourseDuration: builder.mutation<any, any | null>({
-        query: ({ id, body }: any) => ({
+        query: ({ id, body }) => ({
             url: `${PREFIX}/student/course/timing/${id}`,
             method: 'POST',
             body,

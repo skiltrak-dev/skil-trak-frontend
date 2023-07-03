@@ -5,6 +5,7 @@ import { Switch } from '@components/inputs'
 // query
 import { useGetStudentAppointmentsQuery } from '@queries'
 import { LoadingAnimation } from '@components/LoadingAnimation'
+import { Appointment } from '@types'
 
 type Props = {}
 
@@ -26,20 +27,11 @@ export const PastAppointments = (props: Props) => {
                     <LoadingAnimation />
                 ) : pastAppointments?.data && pastAppointments?.data?.length ? (
                     pastAppointments?.data?.map(
-                        (pastAppointment: any, index: number) => {
+                        (pastAppointment: Appointment, index: number) => {
                             return (
                                 <PastAppointmentCard
                                     key={index}
-                                    time={pastAppointment.time}
-                                    totalMinutes={pastAppointment.totalMinutes}
-                                    name={pastAppointment.name}
-                                    imageUrl={
-                                        '/images/card-images/phone-image.png'
-                                    }
-                                    post={pastAppointment.post}
-                                    status={pastAppointment.status}
-                                    address={pastAppointment.address}
-                                    date={pastAppointment.date}
+                                    appointment={pastAppointment}
                                 />
                             )
                         }

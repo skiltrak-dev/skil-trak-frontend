@@ -1,8 +1,8 @@
+import { State } from 'country-state-city'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import 'react-phone-number-input/style.css'
-import { Country, State, City } from 'country-state-city'
 
 import _debounce from 'lodash/debounce'
 import * as yup from 'yup'
@@ -22,8 +22,13 @@ import {
 } from '@components'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { FormProvider, useForm } from 'react-hook-form'
+import { StudentFormType } from '@types'
 
-export const StudentSignUpForm = ({ onSubmit }: { onSubmit: any }) => {
+export const StudentSignUpForm = ({
+    onSubmit,
+}: {
+    onSubmit: (values: StudentFormType) => void
+}) => {
     const router = useRouter()
 
     const { notification } = useNotification()

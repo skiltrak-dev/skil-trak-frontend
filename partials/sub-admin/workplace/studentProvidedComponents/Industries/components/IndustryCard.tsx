@@ -5,8 +5,20 @@ import { BsDot } from 'react-icons/bs'
 // query
 import { useSubAdminApplyStudentWorkplaceMutation } from '@queries'
 import { useNotification } from '@hooks'
+import {
+    IWorkplaceIndustries,
+    WorkplaceWorkIndustriesType,
+} from 'redux/queryTypes'
 
-export const IndustryCard = ({ industry, appliedIndustry, workplace }: any) => {
+export const IndustryCard = ({
+    industry,
+    appliedIndustry,
+    workplace,
+}: {
+    industry: WorkplaceWorkIndustriesType
+    appliedIndustry?: WorkplaceWorkIndustriesType
+    workplace: IWorkplaceIndustries
+}) => {
     const [applyForWorkplace, applyForWorkplaceResult] =
         useSubAdminApplyStudentWorkplaceMutation()
 
@@ -90,7 +102,7 @@ export const IndustryCard = ({ industry, appliedIndustry, workplace }: any) => {
                                 onClick={() => {
                                     applyForWorkplace({
                                         industry: industry?.id,
-                                        id: workplace?.id,
+                                        id: Number(workplace?.id),
                                     })
                                 }}
                             >

@@ -6,7 +6,6 @@ import {
     EmptyData,
     Filter,
     LoadingAnimation,
-    RtoFilters,
     Table,
     TableAction,
     TableActionOption,
@@ -18,12 +17,12 @@ import { FaEdit, FaEye, FaFileExport, FaTrash } from 'react-icons/fa'
 
 import { useContextBar, useNavbar } from '@hooks'
 import { AdminApi } from '@queries'
-import { Course } from '@types'
+import { Course, CourseFilterType } from '@types'
+import { getFilterQuery } from '@utils'
 import { useRouter } from 'next/router'
 import { ReactElement, useEffect, useState } from 'react'
 import { CourseView } from './contextBar'
 import { DeleteCourseModal, RequirementModal } from './modals'
-import { getFilterQuery } from '@utils'
 
 const filterKeys = ['code', 'title']
 
@@ -37,11 +36,13 @@ export const Courses = () => {
     const [filterAction, setFilterAction] = useState(null)
     const [itemPerPage, setItemPerPage] = useState(50)
     const [page, setPage] = useState(1)
-    const [filter, setFilter] = useState({})
+    const [filter, setFilter] = useState<CourseFilterType>(
+        {} as CourseFilterType
+    )
 
     useEffect(() => {
-        const query = getFilterQuery({ router, filterKeys })
-        setFilter(query)
+        const query = getFilterQuery<CourseFilterType>({ router, filterKeys })
+        setFilter(query as CourseFilterType)
     }, [router])
 
     useEffect(() => {
@@ -238,7 +239,7 @@ export const Courses = () => {
                     ) : null}
                 </PageHeading>
 
-                <Filter
+                <Filter<CourseFilterType>
                     component={CourseFilters}
                     initialValues={filter}
                     setFilterAction={setFilterAction}

@@ -2,7 +2,11 @@ import { ColumnDef } from '@tanstack/react-table'
 import { ReactElement, useEffect, useState } from 'react'
 
 import { AdminLayout } from '@layouts'
-import { AppointmentType, NextPageWithLayout } from '@types'
+import {
+    AppointmentType,
+    AppointmentTypeFilterType,
+    NextPageWithLayout,
+} from '@types'
 
 // query
 import { AdminApi } from '@queries'
@@ -42,7 +46,9 @@ const Invoices: NextPageWithLayout = (props: Props) => {
     const [filterAction, setFilterAction] = useState(null)
     const [itemPerPage, setItemPerPage] = useState(50)
     const [page, setPage] = useState(1)
-    const [filter, setFilter] = useState({})
+    const [filter, setFilter] = useState<AppointmentTypeFilterType>(
+        {} as AppointmentTypeFilterType
+    )
     const { isLoading, data, isError } = AdminApi.Volunteer.useList({
         search: `${JSON.stringify(filter)
             .replaceAll('{', '')
@@ -119,7 +125,6 @@ const Invoices: NextPageWithLayout = (props: Props) => {
             cell: (info) => info.getValue(),
         },
     ]
-    
 
     return (
         <div className="p-6">
@@ -137,7 +142,7 @@ const Invoices: NextPageWithLayout = (props: Props) => {
                     />
                 </PageHeading>
 
-                <Filter
+                <Filter<AppointmentTypeFilterType>
                     component={AppointmentTypeFilters}
                     initialValues={filter}
                     setFilterAction={setFilterAction}

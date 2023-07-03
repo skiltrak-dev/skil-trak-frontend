@@ -5,10 +5,21 @@ import { CommonApi, RtoApi } from '@queries'
 
 import { SetQueryFilters } from './SetQueryFilters'
 import { SelectOption } from './types'
+import { OptionType, RTOWorkplaceFormFilter } from '@types'
+
+interface FilterPropType {
+    studentId: string
+    name: string
+    email: string
+    location: string
+    subAdminId: string
+    industryId: string
+    courseId: string
+}
 
 interface ItemFilterProps {
-    onFilterChange: Function
-    filter: any
+    onFilterChange: (values: RTOWorkplaceFormFilter) => void
+    filter: RTOWorkplaceFormFilter
 }
 export const RTOWorkplaceFilters = ({
     onFilterChange,
@@ -39,7 +50,7 @@ export const RTOWorkplaceFilters = ({
 
     return (
         <>
-            <SetQueryFilters filter={filter} />
+            <SetQueryFilters<RTOWorkplaceFormFilter> filter={filter} />
             <div className="grid grid-cols-4 gap-x-3">
                 <TextInput
                     name="studentId"
@@ -85,7 +96,7 @@ export const RTOWorkplaceFilters = ({
                     name={'subAdminId'}
                     options={coordinatorsOptions}
                     value={coordinatorsOptions.find(
-                        (coordinator: SelectOption) =>
+                        (coordinator: OptionType) =>
                             coordinator.value === Number(filter?.subAdminId)
                     )}
                     placeholder={'Select Coordinator...'}
@@ -102,7 +113,7 @@ export const RTOWorkplaceFilters = ({
                     options={industryOptions}
                     placeholder={'Select Industry...'}
                     value={industryOptions.find(
-                        (industry: SelectOption) =>
+                        (industry: OptionType) =>
                             industry.value === Number(filter?.industryId)
                     )}
                     onChange={(e: any) => {
@@ -118,11 +129,14 @@ export const RTOWorkplaceFilters = ({
                     options={coursesOptions}
                     placeholder={'Select Courses...'}
                     value={coursesOptions.find(
-                        (course: SelectOption) =>
+                        (course: OptionType) =>
                             course.value === Number(filter?.courseId)
                     )}
-                    onChange={(e: any) => {
-                        onFilterChange({ ...filter, courseId: e?.value })
+                    onChange={(e: OptionType) => {
+                        onFilterChange({
+                            ...filter,
+                            courseId: Number(e?.value),
+                        })
                     }}
                     loading={courses.isLoading}
                     disabled={courses.isLoading}

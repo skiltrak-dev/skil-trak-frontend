@@ -1,3 +1,4 @@
+import { OptionType } from './option.type'
 import { Packages } from './package.type'
 
 export interface RtoFormData {
@@ -22,6 +23,6 @@ export interface RtoFormData {
     notifyBySms: boolean
 
     package: Packages
-    sectors: any
-    courses: any
+    sectors: OptionType[]
+    courses: OptionType[]
 }

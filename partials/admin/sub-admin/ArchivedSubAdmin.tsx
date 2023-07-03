@@ -3,16 +3,14 @@ import {
     Button,
     Card,
     EmptyData,
-    Filter,
     LoadingAnimation,
-    RtoFilters,
     Table,
     TableAction,
     TableActionOption,
     TechnicalError,
 } from '@components'
-import { SubAdminCell } from './components'
 import { PageHeading } from '@components/headings'
+import { useActionModal, useContextBar } from '@hooks'
 import { AdminApi, commonApi } from '@queries'
 import { ColumnDef } from '@tanstack/react-table'
 import { SubAdmin, UserStatus } from '@types'
@@ -20,9 +18,9 @@ import { useRouter } from 'next/router'
 import { ReactElement, useEffect, useState } from 'react'
 import { FaEdit, FaEye, FaFileExport, FaTrash } from 'react-icons/fa'
 import { MdUnarchive } from 'react-icons/md'
-import { useActionModal, useContextBar } from '@hooks'
-import { AddSubAdminCB } from './contextBar'
 import { RiLockPasswordFill } from 'react-icons/ri'
+import { SubAdminCell } from './components'
+import { AddSubAdminCB } from './contextBar'
 import { DeleteModal, UnArchiveModal } from './modals'
 
 export const ArchivedSubAdmin = () => {
@@ -177,7 +175,7 @@ export const ArchivedSubAdmin = () => {
 
     const quickActionsElements = {
         id: 'id',
-        individual: (id: number) => (
+        individual: (id: SubAdmin) => (
             <div className="flex gap-x-2">
                 <ActionButton Icon={MdUnarchive} variant="warning">
                     Unarchive
@@ -187,7 +185,7 @@ export const ArchivedSubAdmin = () => {
                 </ActionButton>
             </div>
         ),
-        common: (ids: number[]) => (
+        common: (ids: SubAdmin[]) => (
             <div className="flex gap-x-2">
                 <ActionButton
                     onClick={() => {

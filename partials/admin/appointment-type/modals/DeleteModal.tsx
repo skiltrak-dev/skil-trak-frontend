@@ -18,7 +18,7 @@ export const DeleteModal = ({
     const [remove, removeResult] = AdminApi.AppointmentTypes.useRemove()
 
     const onConfirmClicked = async (appointmentType: AppointmentType) => {
-        await remove(appointmentType.id)
+        await remove(Number(appointmentType.id))
     }
 
     useEffect(() => {

@@ -2,14 +2,19 @@ import { Popup, ShowErrorNotifications } from '@components'
 import { UserRoles } from '@constants'
 import { useNotification } from '@hooks'
 import { AuthApi } from '@queries'
-import { OptionType, RtoFormData } from '@types'
+import {
+    OptionType,
+    RtoFormData,
+    StudentFormQueryType,
+    StudentFormType,
+} from '@types'
 import { AuthUtils, SignUpUtils } from '@utils'
 import { useRouter } from 'next/router'
 import { useEffect } from 'react'
 
 export const StepCreate = () => {
     const router = useRouter()
-    const formData: RtoFormData = SignUpUtils.getValuesFromStorage()
+    const formData: StudentFormType = SignUpUtils.getValuesFromStorage()
     const [register, registerResult] = AuthApi.useRegisterStudent()
     const [login, loginResult] = AuthApi.useLogin()
     const { notification } = useNotification()
@@ -19,12 +24,16 @@ export const StepCreate = () => {
             if (formData) {
                 const values = {
                     ...formData,
-                    courses: formData?.courses?.map((c: OptionType) => c?.value),
-                    sectors: formData?.sectors?.map((s: OptionType) => s?.value),
+                    courses: formData?.courses?.map(
+                        (c: OptionType) => c?.value
+                    ),
+                    sectors: formData?.sectors?.map(
+                        (s: OptionType) => s?.value
+                    ),
                     role: UserRoles.STUDENT,
                 }
 
-                await register(values)
+                await register(values as StudentFormQueryType)
             }
         }
 

@@ -1,37 +1,30 @@
-import { ReactElement, useCallback, useEffect, useState } from 'react'
+import { ReactElement, useEffect, useState } from 'react'
 // Layouts
 import { RtoLayout } from '@layouts'
-import { NextPageWithLayout } from '@types'
+import { NextPageWithLayout, RTOWorkplaceFormFilter } from '@types'
 //components
 import {
     Card,
-    HelpQuestionSet,
-    ReactTable,
-    TableAction,
-    Table,
     EmptyData,
-    TechnicalError,
-    LoadingAnimation,
-    InitialAvatar,
     Filter,
+    HelpQuestionSet,
+    InitialAvatar,
+    LoadingAnimation,
     PageTitle,
     RTOWorkplaceFilters,
     SetDetaultQueryFilteres,
+    Table,
+    TableAction,
+    TechnicalError,
 } from '@components'
 // Links
 import Link from 'next/link'
 // Queries
 import { useGetRTOWorkplacesQuery } from '@queries'
 // Next Image
-import Image from 'next/image'
-import { AnyObject } from 'yup/lib/object'
 import { ColumnDef } from '@tanstack/react-table'
-import { IndustryCell } from '@partials/admin/industry/components'
 import { useRouter } from 'next/router'
 import { MdEmail, MdPhoneIphone } from 'react-icons/md'
-import { StudentCellInfo } from '@partials/rto/student/components'
-import { getFilterQuery, removeEmptyValues } from '@utils'
-import { debounce } from 'lodash'
 
 type Props = {}
 
@@ -48,7 +41,9 @@ const filterKeys = [
 const RtoWorkplaces: NextPageWithLayout = (props: Props) => {
     const router = useRouter()
     const [filterAction, setFilterAction] = useState(null)
-    const [filter, setFilter] = useState({})
+    const [filter, setFilter] = useState<RTOWorkplaceFormFilter>(
+        {} as RTOWorkplaceFormFilter
+    )
     const [itemPerPage, setItemPerPage] = useState(50)
     const [page, setPage] = useState(1)
 
@@ -205,7 +200,7 @@ const RtoWorkplaces: NextPageWithLayout = (props: Props) => {
                     />
                     {filterAction}
                 </div>
-                <Filter
+                <Filter<RTOWorkplaceFormFilter>
                     component={RTOWorkplaceFilters}
                     initialValues={filter}
                     filterKeys={filterKeys}

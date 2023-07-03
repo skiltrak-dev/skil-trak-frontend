@@ -1,28 +1,25 @@
 import {
-    Button,
     ActionButton,
     Card,
     EmptyData,
-    Filter,
     LoadingAnimation,
-    RtoFilters,
     Table,
     TableAction,
     TableActionOption,
+    TableChildrenProps,
 } from '@components'
-import { PageHeading } from '@components/headings'
 import { ColumnDef } from '@tanstack/react-table'
-import { FaEdit, FaEye, FaFileExport } from 'react-icons/fa'
+import { FaEdit, FaEye } from 'react-icons/fa'
 
 import { AdminApi } from '@queries'
-import { MdBlock, MdEmail, MdPhoneIphone } from 'react-icons/md'
 import { ReactElement, useEffect, useState } from 'react'
+import { MdBlock } from 'react-icons/md'
 
-import { Rto, SubAdmin } from '@types'
 import { useContextBar } from '@hooks'
-import { useRouter } from 'next/router'
 import { SubAdminCell } from '@partials/admin/sub-admin'
 import { DeleteModal } from '@partials/admin/sub-admin/modals'
+import { RTOSubAdmin, SubAdmin } from '@types'
+import { useRouter } from 'next/router'
 
 export const SubAdminsTab = ({ rto }: any) => {
     const [changeStatusResult, setChangeStatusResult] = useState<any>({})
@@ -30,12 +27,10 @@ export const SubAdminsTab = ({ rto }: any) => {
 
     const [modal, setModal] = useState<ReactElement | null>(null)
 
-    const [filterAction, setFilterAction] = useState(null)
     const [itemPerPage, setItemPerPage] = useState(50)
     const [page, setPage] = useState(1)
-    const [filter, setFilter] = useState({})
     const { isLoading, data, refetch } = AdminApi.Rtos.useRtoProfileSubAdmins({
-        id: rto?.data?.user?.id,
+        id: Number(rto?.data?.user?.id),
         skip: itemPerPage * page - itemPerPage,
         limit: itemPerPage,
     })
@@ -82,12 +77,12 @@ export const SubAdminsTab = ({ rto }: any) => {
         },
     ]
 
-    const columns: ColumnDef<SubAdmin>[] = [
+    const columns: ColumnDef<RTOSubAdmin>[] = [
         {
             accessorKey: 'user.name',
-            cell: (info) => {
-                return <SubAdminCell subAdmin={info.row.original} />
-            },
+            cell: (info) => (
+                <SubAdminCell subAdmin={info.row.original as RTOSubAdmin} />
+            ),
             header: () => <span>Name</span>,
         },
         {
@@ -149,20 +144,11 @@ export const SubAdminsTab = ({ rto }: any) => {
         <>
             {modal && modal}
             <div className="flex flex-col gap-y-4 mb-32">
-                {data && data?.data.length ? (
-                    <Filter
-                        component={RtoFilters}
-                        initialValues={filter}
-                        setFilterAction={setFilterAction}
-                        setFilter={setFilter}
-                    />
-                ) : null}
-
                 <Card noPadding>
                     {isLoading ? (
                         <LoadingAnimation height="h-[60vh]" />
                     ) : data && data?.data.length ? (
-                        <Table<SubAdmin>
+                        <Table<RTOSubAdmin>
                             columns={columns}
                             data={data.data}
                             quickActions={quickActionsElements}
@@ -173,20 +159,24 @@ export const SubAdminsTab = ({ rto }: any) => {
                                 pagination,
                                 pageSize,
                                 quickActions,
-                            }: any) => {
+                            }: TableChildrenProps) => {
                                 return (
                                     <div>
                                         <div className="p-6 mb-2 flex justify-between">
-                                            {pageSize(
-                                                itemPerPage,
-                                                setItemPerPage
-                                            )}
+                                            {pageSize
+                                                ? pageSize(
+                                                      itemPerPage,
+                                                      setItemPerPage
+                                                  )
+                                                : null}
                                             <div className="flex gap-x-2">
                                                 {quickActions}
-                                                {pagination(
-                                                    data?.pagination,
-                                                    setPage
-                                                )}
+                                                {pagination
+                                                    ? pagination(
+                                                          data?.pagination,
+                                                          setPage
+                                                      )
+                                                    : null}
                                             </div>
                                         </div>
                                         <div className="px-6">{table}</div>

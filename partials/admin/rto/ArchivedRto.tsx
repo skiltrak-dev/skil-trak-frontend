@@ -87,7 +87,7 @@ export const ArchivedRto = () => {
         },
     ]
 
-    const columns: ColumnDef<any>[] = [
+    const columns: ColumnDef<Rto>[] = [
         {
             accessorKey: 'user.name',
             cell: (info) => <RtoCellInfo rto={info.row.original} />,
@@ -129,7 +129,7 @@ export const ArchivedRto = () => {
 
     const quickActionsElements = {
         id: 'id',
-        individual: (id: number) => (
+        individual: (id: Rto) => (
             <div className="flex gap-x-2">
                 <ActionButton>Sub Admins</ActionButton>
                 <ActionButton Icon={MdUnarchive} variant="warning">
@@ -140,7 +140,7 @@ export const ArchivedRto = () => {
                 </ActionButton>
             </div>
         ),
-        common: (ids: number[]) => (
+        common: (ids: Rto[]) => (
             <div className="flex gap-x-2">
                 <ActionButton
                     onClick={() => {

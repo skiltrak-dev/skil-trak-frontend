@@ -182,7 +182,7 @@ export const PersonalInfoForm = ({
                                 name="courses"
                                 label="Course"
                                 value={selectedCourse}
-                                onChange={(e: SelectOption) => {
+                                onChange={(e: any) => {
                                     setselectedCourse(e)
                                 }}
                                 options={coursesOptions}

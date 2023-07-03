@@ -6,20 +6,12 @@ import { useRouter } from 'next/router'
 import { ReactElement, useEffect } from 'react'
 
 import { PageHeading } from '@components/headings'
-import { AdminApi } from '@queries'
-import { useState } from 'react'
 
 const EditRto: NextPageWithLayout = () => {
-    const [formData, setFormData] = useState<any>('')
-
     const router = useRouter()
     const editSubAdminId = router.query.editSubAdminId
     const navBar = useNavbar()
     const contextBar = useContextBar()
-
-    const subAdmin = AdminApi.SubAdmins.useListQuery(editSubAdminId, {
-        skip: !editSubAdminId,
-    })
 
     useEffect(() => {
         navBar.setTitle('Edit SubAdmin')

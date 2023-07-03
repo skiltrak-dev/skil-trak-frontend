@@ -87,7 +87,7 @@ export const BlockedRto = () => {
         },
     ]
 
-    const columns: ColumnDef<any>[] = [
+    const columns: ColumnDef<Rto>[] = [
         {
             accessorKey: 'user.name',
             cell: (info) => <RtoCellInfo rto={info.row.original} />,
@@ -148,7 +148,7 @@ export const BlockedRto = () => {
                 </ActionButton>
             </div>
         ),
-        common: (ids: number[]) => (
+        common: (ids: Rto[]) => (
             <div className="flex gap-x-2">
                 <ActionButton
                     onClick={() => {

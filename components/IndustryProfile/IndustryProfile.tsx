@@ -23,6 +23,7 @@ import { GiBackwardTime } from 'react-icons/gi'
 import { IoLocation } from 'react-icons/io5'
 import { MdAdminPanelSettings, MdPhone, MdVerified } from 'react-icons/md'
 import { PulseLoader } from 'react-spinners'
+import { Course, GetSectorsType } from '@types'
 
 type Props = {
     data: any
@@ -53,15 +54,15 @@ export const IndustryProfile = ({ data }: Props) => {
         }
     }, [addToPartnerResult])
 
-    const getSectors = (courses: any) => {
+    const getSectors = (courses: Course[]) => {
         if (!courses) return {}
-        const sectors = {}
-        courses.forEach((c: any) => {
-            if ((sectors as any)[c.sector.name]) {
-                ;(sectors as any)[c.sector.name].push(c)
+        const sectors: GetSectorsType = {}
+        courses.forEach((c: Course) => {
+            if (sectors[c.sector.name]) {
+                sectors[c.sector.name].push(c)
             } else {
-                ;(sectors as any)[c.sector.name] = []
-                ;(sectors as any)[c.sector.name].push(c)
+                sectors[c.sector.name] = []
+                sectors[c.sector.name].push(c)
             }
         })
         return sectors

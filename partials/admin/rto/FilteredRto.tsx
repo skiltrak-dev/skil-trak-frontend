@@ -228,7 +228,7 @@ export const FilteredRto = ({
 
     const quickActionsElements = {
         id: 'id',
-        individual: (id: number) => (
+        individual: (id: Rto) => (
             <div className="flex gap-x-2">
                 <ActionButton Icon={FaEdit}>Edit</ActionButton>
                 <ActionButton>Sub Admins</ActionButton>
@@ -237,7 +237,7 @@ export const FilteredRto = ({
                 </ActionButton>
             </div>
         ),
-        common: (ids: number[]) => (
+        common: (ids: Rto[]) => (
             <ActionButton Icon={MdBlock} variant="error">
                 Block
             </ActionButton>

@@ -3,9 +3,7 @@ import {
     Button,
     Card,
     EmptyData,
-    Filter,
     LoadingAnimation,
-    RtoFilters,
     Table,
     TableAction,
     TableActionOption,
@@ -16,17 +14,16 @@ import { PageHeading } from '@components/headings'
 import { ColumnDef } from '@tanstack/react-table'
 import { FaEdit, FaEye, FaFileExport } from 'react-icons/fa'
 
+import { useActionModal, useContextBar } from '@hooks'
 import { AdminApi, commonApi } from '@queries'
 import { SubAdmin, UserStatus } from '@types'
 import { useRouter } from 'next/router'
 import { ReactElement, useEffect, useState } from 'react'
-import { RtoCell, SectorCell, SubAdminCell } from './components'
-import { useChangeStatus } from './hooks'
-import { AcceptModal, ArchiveModal, RejectModal } from './modals'
-import { useActionModal, useContextBar } from '@hooks'
-import { AddSubAdminCB, ViewRtosCB, ViewSectorsCB } from './contextBar'
 import { BsArchiveFill } from 'react-icons/bs'
 import { RiLockPasswordFill } from 'react-icons/ri'
+import { RtoCell, SectorCell, SubAdminCell } from './components'
+import { AddSubAdminCB, ViewRtosCB, ViewSectorsCB } from './contextBar'
+import { ArchiveModal } from './modals'
 
 export const ActiveSubAdmin = () => {
     const [modal, setModal] = useState<ReactElement | null>(null)
@@ -180,7 +177,7 @@ export const ActiveSubAdmin = () => {
 
     const quickActionsElements = {
         id: 'id',
-        individual: (id: number) => (
+        individual: (id: SubAdmin) => (
             <div className="flex gap-x-2">
                 <ActionButton variant="success" onClick={() => {}}>
                     Accept
@@ -190,7 +187,7 @@ export const ActiveSubAdmin = () => {
                 </ActionButton>
             </div>
         ),
-        common: (ids: number[]) => (
+        common: (ids: SubAdmin[]) => (
             <ActionButton
                 onClick={() => {
                     const arrayOfIds = ids.map((id: any) => id?.user.id)

@@ -17,7 +17,7 @@ export const ViewRtosCB = ({ subAdmin }: { subAdmin: SubAdmin }) => {
     const onSubmit = async (values: any) => {
         await assignRto({
             subadmin: subAdmin.id,
-            rto: values.rto.value,
+            rto: values.rto,
         })
     }
 
@@ -72,7 +72,11 @@ export const ViewRtosCB = ({ subAdmin }: { subAdmin: SubAdmin }) => {
                 <Typography variant={'label'}>{subAdmin.user.name}</Typography>
             </div>
 
-            <AssignRtoForm onSubmit={onSubmit} result={assignRtoResult} assignedRtos={rtoList.data} />
+            <AssignRtoForm
+                onSubmit={onSubmit}
+                result={assignRtoResult}
+                assignedRtos={rtoList.data}
+            />
 
             <div className={'flex flex-col gap-y-2'}>
                 <Typography variant={'muted'} color={'text-gray-400'}>
@@ -84,7 +88,11 @@ export const ViewRtosCB = ({ subAdmin }: { subAdmin: SubAdmin }) => {
                         <ContextBarLoading />
                     ) : rtoList.data?.length ? (
                         rtoList.data.map((rto: Rto) => (
-                            <AssignedRto rto={rto} onRemove={onRemoveClicked} removeResult={unassignResult} />
+                            <AssignedRto
+                                rto={rto}
+                                onRemove={onRemoveClicked}
+                                removeResult={unassignResult}
+                            />
                         ))
                     ) : (
                         <NoData text={'No RTOs Assigned'} />

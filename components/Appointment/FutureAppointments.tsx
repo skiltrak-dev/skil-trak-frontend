@@ -1,16 +1,19 @@
+import { Appointment } from '@types'
 import { useRef, useState } from 'react'
 import { MdKeyboardArrowLeft, MdKeyboardArrowRight } from 'react-icons/md'
-import { Navigation, Pagination } from 'swiper'
+import { Navigation } from 'swiper'
 import { Swiper, SwiperSlide } from 'swiper/react'
-import { HeroSliderContainer } from './style'
 import { UpcomingAppointmentCard } from './UpcomingAppointmentCard'
+import { HeroSliderContainer } from './style'
 
 export const FutureAppointments = ({
     appointments,
     onAppointmentClicked,
 }: {
-    appointments: any
-    onAppointmentClicked?: any
+    appointments: Appointment[]
+    onAppointmentClicked?:
+        | ((apointment: Appointment) => void | undefined)
+        | undefined
 }) => {
     const navigationPrevRef = useRef(null)
     const navigationNextRef = useRef(null)
@@ -60,27 +63,26 @@ export const FutureAppointments = ({
                     modules={[Navigation]}
                     className="mySwiper static"
                 >
-                    {appointments?.map((appointment: any, index: number) => {
-                        return (
-                            <SwiperSlide key={appointment.id}>
-                                <UpcomingAppointmentCard
-                                    key={index}
-                                    date={appointment?.date}
-                                    time={appointment?.startTime}
-                                    totalMinutes={appointment?.type?.duration}
-                                    name={appointment?.appointmentFor?.name}
-                                    imageUrl={
-                                        '/images/card-images/video-icon.png'
-                                    }
-                                    type={appointment?.type?.title}
-                                    role={appointment?.appointmentFor?.role}
-                                    appointment={appointment}
-                                    coordinator={appointment?.coordinator}
-                                    onAppointmentClicked={onAppointmentClicked}
-                                />
-                            </SwiperSlide>
-                        )
-                    })}
+                    {appointments?.map(
+                        (appointment: Appointment, index: number) => {
+                            return (
+                                <SwiperSlide key={appointment.id}>
+                                    <UpcomingAppointmentCard
+                                        key={index}
+                                        totalMinutes={
+                                            appointment?.type?.duration
+                                        }
+                                        type={appointment?.type?.title}
+                                        appointment={appointment}
+                                        coordinator={appointment?.coordinator}
+                                        onAppointmentClicked={
+                                            onAppointmentClicked
+                                        }
+                                    />
+                                </SwiperSlide>
+                            )
+                        }
+                    )}
                     <div
                         ref={navigationPrevRef}
                         className={`${iconClasses} left-0 lg:-left-3`}

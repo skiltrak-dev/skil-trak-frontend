@@ -1,7 +1,7 @@
 import { ReactElement, useEffect } from 'react'
 
 import { AdminLayout } from '@layouts'
-import { NextPageWithLayout } from '@types'
+import { AdminProfileFormType, NextPageWithLayout } from '@types'
 
 import * as yup from 'yup'
 
@@ -21,11 +21,6 @@ import {
 
 // query
 import { AdminApi } from '@queries'
-
-type onSubmitType = {
-    name: string
-    email: string
-}
 
 const MyProfile: NextPageWithLayout = () => {
     const contextBar = useContextBar()
@@ -66,38 +61,38 @@ const MyProfile: NextPageWithLayout = () => {
             .required('Must provide email'),
     })
 
-    const formMethods = useForm<onSubmitType>({
+    const formMethods = useForm<AdminProfileFormType>({
         mode: 'all',
         resolver: yupResolver(validationSchema),
     })
 
     useEffect(() => {
         if (profile?.data && profile.isSuccess) {
-            const values: onSubmitType = {
+            const values: AdminProfileFormType = {
                 name: profile?.data?.name,
                 email: profile?.data?.email,
             }
             Object.entries(values)?.forEach(([key, value]) => {
-                formMethods.setValue(key as keyof onSubmitType, value)
+                formMethods.setValue(key as keyof AdminProfileFormType, value)
             })
 
             // for (let key in values) {
             //     formMethods.setValue(
-            //         key as keyof onSubmitType,
+            //         key as keyof AdminProfileFormType,
             //         (values as keyof typeof values)[key]
             //     )
             // }
         }
     }, [profile])
 
-    const onSubmit = (values: onSubmitType) => {
+    const onSubmit = (values: AdminProfileFormType) => {
         updateProfile(values)
     }
     return (
         <>
             {passwordModal && passwordModal}
             <div className="p-4 mb-4">
-                <Avatar avatar={profile?.data?.avatar} />
+                <Avatar avatar={String(profile?.data?.avatar)} />
 
                 <div className="flex justify-between gap-x-16 border-t py-4">
                     <FormProvider {...formMethods}>

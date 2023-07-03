@@ -1,21 +1,21 @@
 import { ReactElement } from 'react'
 
 import { IndustryLayout } from '@layouts'
-import { SubAdminApi, useIndustryProfileQuery } from '@queries'
-import { NextPageWithLayout } from '@types'
+import { useIndustryProfileQuery } from '@queries'
+import { Course, GetSectorsType, NextPageWithLayout } from '@types'
 
 import { EmptyData, LoadingAnimation, TechnicalError } from '@components'
 import { CourseRequirementsDetail } from '@partials/common'
 
-const getSectors = (courses: any) => {
+const getSectors = (courses: Course[]) => {
     if (!courses) return {}
-    const sectors = {}
-    courses?.forEach((c: any) => {
-        if ((sectors as any)[c?.sector?.name]) {
-            ;(sectors as any)[c?.sector?.name].push(c)
+    const sectors: GetSectorsType = {}
+    courses?.forEach((c: Course) => {
+        if (sectors[c?.sector?.name]) {
+            sectors[c?.sector?.name].push(c)
         } else {
-            ;(sectors as any)[c?.sector?.name] = []
-            ;(sectors as any)[c?.sector?.name].push(c)
+            sectors[c?.sector?.name] = []
+            sectors[c?.sector?.name].push(c)
         }
     })
     return sectors

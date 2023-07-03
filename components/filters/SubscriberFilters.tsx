@@ -1,9 +1,14 @@
 import { Select, TextInput } from '@components/inputs'
-import { SelectOption } from './types'
+import { OptionType, SubscriberFiltersType } from '@types'
 
 interface ItemFilterProps {
-    onFilterChange: Function
-    filter: any
+    onFilterChange: (values: SubscriberFiltersType) => void
+    filter: SubscriberFiltersType
+}
+
+export enum UnsubscribedByEnum {
+    Admin = 'admin',
+    User = 'user',
 }
 export const SubscriberFilters = ({
     onFilterChange,
@@ -15,8 +20,8 @@ export const SubscriberFilters = ({
     ]
 
     const unsubscribeByOptions = [
-        { label: 'Admin', value: 'admin' },
-        { label: 'User', value: 'user' },
+        { label: 'Admin', value: UnsubscribedByEnum.Admin },
+        { label: 'User', value: UnsubscribedByEnum.User },
     ]
     return (
         <div className="flex gap-x-2">
@@ -34,10 +39,10 @@ export const SubscriberFilters = ({
                 label={'Subscribed'}
                 value={filter['isSubscribed']}
                 defaultValue={isSubscribedOptions?.find(
-                    (subscribe: SelectOption) =>
+                    (subscribe: OptionType) =>
                         subscribe.value === filter?.isSubscribed
                 )}
-                onChange={(e: any) => {
+                onChange={(e: OptionType) => {
                     onFilterChange({
                         ...filter,
                         isSubscribed: e.value ? 'true' : 'false',
@@ -50,11 +55,14 @@ export const SubscriberFilters = ({
                 label={'Unsubscribed By'}
                 value={filter['unsubscribedBy']}
                 defaultValue={unsubscribeByOptions?.find(
-                    (unsubscribe: SelectOption) =>
+                    (unsubscribe: OptionType) =>
                         unsubscribe.value === filter?.unsubscribedBy
                 )}
-                onChange={(e: any) => {
-                    onFilterChange({ ...filter, unsubscribedBy: e.value })
+                onChange={(e: OptionType) => {
+                    onFilterChange({
+                        ...filter,
+                        unsubscribedBy: e.value as UnsubscribedByEnum,
+                    })
                 }}
                 options={unsubscribeByOptions}
             />

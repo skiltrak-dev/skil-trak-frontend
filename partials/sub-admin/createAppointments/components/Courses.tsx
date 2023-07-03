@@ -28,7 +28,7 @@ export const Courses = ({
                 options={courseOptions}
                 label={'Select Course'}
                 onlyValue
-                onChange={(e: SelectOption) => {
+                onChange={(e: any) => {
                     setSelectedCourse(Number(e?.value))
                 }}
             />

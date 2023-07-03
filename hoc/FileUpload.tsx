@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { ChangeEvent, useEffect, useState } from 'react'
 import { FileDrop } from 'react-file-drop'
 
 // Icons
@@ -43,7 +43,7 @@ export const isFileTypeSelectable = (fileType: string, types: string[]) => {
 }
 
 export type FileUploadProps = InputProps & {
-    acceptTypes?: typeof AcceptMimeTypes[number][]
+    acceptTypes?: (typeof AcceptMimeTypes)[number][]
     component?: any
     multiple?: boolean
     limit?: number
@@ -165,7 +165,6 @@ export const FileUpload = ({
     }
 
     const Components = component
-
 
     return (
         <div className="w-full">

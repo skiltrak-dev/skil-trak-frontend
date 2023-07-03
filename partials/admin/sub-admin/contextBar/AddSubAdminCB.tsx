@@ -48,8 +48,8 @@ export const AddSubAdminCB = ({
             // delete values.password
 
             update({
-                id: subAdmin?.id,
-                userId: subAdmin?.user?.id,
+                id: Number(subAdmin?.id),
+                userId: Number(subAdmin?.user?.id),
                 body: values,
             })
         } else {

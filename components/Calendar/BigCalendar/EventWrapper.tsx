@@ -1,5 +1,6 @@
 import { AppointmentViewModal } from '@components/Appointment/AppointmentModal'
 import { Portal } from '@components/Portal'
+import { Appointment } from '@types'
 import classNames from 'classnames'
 import { ReactElement, useState } from 'react'
 
@@ -67,7 +68,7 @@ export const EventWrapper = <T extends object>(event: any) => {
         setModal(null)
     }
 
-    const onClicked = (appointment: any) => {
+    const onClicked = (appointment: Appointment) => {
         setModal(
             <Portal>
                 <AppointmentViewModal

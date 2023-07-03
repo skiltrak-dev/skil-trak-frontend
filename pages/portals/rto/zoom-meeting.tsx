@@ -1,11 +1,9 @@
-import { AdminLayout, RtoLayout } from '@layouts'
+import { RtoLayout } from '@layouts'
 import { ZoomMeetingContainer } from '@partials/common/ZoomMeeting'
-import { ZoomJoinMeeting } from '@partials/common/ZoomMeeting/ZoomJoinMeeting'
 import { AdminApi } from '@queries'
 import { isBrowser } from '@utils'
-import dynamic from 'next/dynamic'
 
-import React, { ReactElement, useEffect, useState } from 'react'
+import { ReactElement, useEffect, useState } from 'react'
 
 const ZoomMeeting = () => {
     const [mounted, setMounted] = useState(false)

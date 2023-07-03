@@ -1,13 +1,13 @@
 import { Button, Typography } from '@components'
 import { PackageView } from '@partials/rto/components'
-import { OptionType, RtoFormData } from '@types'
+import { OptionType, RtoFormData, StudentFormType } from '@types'
 import { SignUpUtils } from '@utils'
 import moment from 'moment'
 import { useRouter } from 'next/router'
 
 export const StepReviewInfo = () => {
     const router = useRouter()
-    const formData: any = SignUpUtils.getValuesFromStorage()
+    const formData: StudentFormType = SignUpUtils.getValuesFromStorage()
 
     const onEditData = () => {
         SignUpUtils.setEditingMode(true)
@@ -214,12 +214,9 @@ export const StepReviewInfo = () => {
                                 {formData.sectors?.map((sector: OptionType) => (
                                     <div
                                         className="border-t pt-1"
-                                        key={sector.value}
+                                        key={Number(sector.value)}
                                     >
-                                        <Typography
-                                            key={sector.value}
-                                            variant={'label'}
-                                        >
+                                        <Typography variant={'label'}>
                                             {sector.label}
                                         </Typography>
                                     </div>
@@ -238,12 +235,9 @@ export const StepReviewInfo = () => {
                                 {formData.courses?.map((course: OptionType) => (
                                     <div
                                         className="border-t pt-1"
-                                        key={course.value}
+                                        key={Number(course.value)}
                                     >
-                                        <Typography
-                                            key={course.value}
-                                            variant={'label'}
-                                        >
+                                        <Typography variant={'label'}>
                                             {course.label}
                                         </Typography>
                                     </div>
@@ -273,18 +267,6 @@ export const StepReviewInfo = () => {
                                 </Typography>
                                 <Typography variant={'label'}>
                                     {formData.addressLine1 || '-'}
-                                </Typography>
-                            </div>
-
-                            <div>
-                                <Typography
-                                    variant={'muted'}
-                                    color={'text-gray-500'}
-                                >
-                                    Address Line 2
-                                </Typography>
-                                <Typography variant={'label'}>
-                                    {formData.addressLine2 || '-'}
                                 </Typography>
                             </div>
 

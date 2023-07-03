@@ -1,7 +1,7 @@
 import { ReactElement, useState, useEffect } from 'react'
 
 import { SubAdminLayout } from '@layouts'
-import { NextPageWithLayout } from '@types'
+import { NextPageWithLayout, SubadminWorkplaceFiltersType } from '@types'
 import {
     Card,
     Filter,
@@ -43,7 +43,9 @@ type Props = {}
 
 const Workplace: NextPageWithLayout = (props: Props) => {
     const [filterAction, setFilterAction] = useState(null)
-    const [filter, setFilter] = useState({})
+    const [filter, setFilter] = useState<SubadminWorkplaceFiltersType>(
+        {} as SubadminWorkplaceFiltersType
+    )
     const [page, setPage] = useState(1)
     const [itemPerPage, setItemPerPage] = useState(30)
     const [modal, setModal] = useState<any | null>(null)
@@ -154,14 +156,14 @@ const Workplace: NextPageWithLayout = (props: Props) => {
     return (
         <>
             {modal}
-            <SetDetaultQueryFilteres
+            <SetDetaultQueryFilteres<SubadminWorkplaceFiltersType>
                 filterKeys={filterKeys}
                 setFilter={setFilter}
             />
             <div>
                 <div>
                     <div className="flex justify-end mb-2">{filterAction}</div>
-                    <Filter
+                    <Filter<SubadminWorkplaceFiltersType>
                         component={WorkplaceFilters}
                         initialValues={filter}
                         setFilterAction={setFilterAction}

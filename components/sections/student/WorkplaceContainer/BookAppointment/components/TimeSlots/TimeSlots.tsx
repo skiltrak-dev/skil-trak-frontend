@@ -16,8 +16,8 @@ import { ChangeEvent, useEffect, useState } from 'react'
 import { RiRestTimeLine } from 'react-icons/ri'
 
 export interface selectedTimeType {
-    startTime: any
-    endTime: any
+    startTime?: Date | string
+    endTime?: Date | string
 }
 
 type Props = {
@@ -25,8 +25,8 @@ type Props = {
     appointmentWith?: string | null
     setSelectedDate: (date: Date) => void
     selectedDate: Date | null
-    setSelectedTime: Function
-    selectedTime: any
+    setSelectedTime: ({ startTime, endTime }: selectedTimeType) => void
+    selectedTime: selectedTimeType | null
     appointmentAvailability: any
     bookedAppointment?: any
     userAvailabilities?: any
@@ -162,10 +162,10 @@ export const TimeSlots = ({
                                 onChange={(
                                     e: ChangeEvent<HTMLInputElement>
                                 ) => {
-                                    setSelectedTime((selectedTime: any) => ({
+                                    setSelectedTime({
                                         ...selectedTime,
                                         startTime: e.target.value,
-                                    }))
+                                    })
                                 }}
                             />
                             <TextInput
@@ -175,12 +175,10 @@ export const TimeSlots = ({
                                 onChange={(
                                     e: ChangeEvent<HTMLInputElement>
                                 ) => {
-                                    setSelectedTime(
-                                        (selectedTime: selectedTimeType) => ({
-                                            ...selectedTime,
-                                            endTime: e.target.value,
-                                        })
-                                    )
+                                    setSelectedTime({
+                                        ...selectedTime,
+                                        endTime: e.target.value,
+                                    })
                                 }}
                             />
                         </div>

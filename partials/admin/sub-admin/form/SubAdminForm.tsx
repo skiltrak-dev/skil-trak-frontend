@@ -5,7 +5,7 @@ import {
     TextInput,
 } from '@components'
 import { yupResolver } from '@hookform/resolvers/yup'
-import { User } from '@types'
+import { SubAdmin, SubadminFromType } from '@types'
 import { onlyAlphabets } from '@utils'
 import { useEffect } from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
@@ -18,9 +18,9 @@ export const SubAdminForm = ({
     edit,
 }: {
     edit?: boolean
-    onSubmit: any
+    onSubmit: (values: SubadminFromType) => void
     result: any
-    subAdmin?: any
+    subAdmin?: SubAdmin
 }) => {
     const validationSchema = yup.object({
         // Profile Information
@@ -40,7 +40,7 @@ export const SubAdminForm = ({
         addressLine1: yup.string().required('Must provide address'),
     })
 
-    const formMethods = useForm({
+    const formMethods = useForm<SubadminFromType>({
         mode: 'all',
         resolver: yupResolver(validationSchema),
     })
@@ -60,9 +60,15 @@ export const SubAdminForm = ({
                 addressLine1: subAdmin?.addressLine1,
                 coordinatorId: subAdmin?.coordinatorId,
             }
-            for (let key in values) {
-                formMethods.setValue(key, values[key as keyof typeof values])
-            }
+            Object.entries(values)?.forEach(([key, value]) => {
+                formMethods.setValue(
+                    key as keyof SubadminFromType,
+                    value as string
+                )
+            })
+            // for (let key in values) {
+            //     formMethods.setValue(key, values[key as keyof typeof values])
+            // }
         }
     }, [subAdmin])
 

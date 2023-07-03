@@ -1,6 +1,6 @@
 import { InitialAvatar } from '@components'
 import { Industry } from '@types'
-import { queryToUrl } from '@utils'
+import { QueryType, queryToUrl } from '@utils'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { FaHandshake } from 'react-icons/fa'
@@ -8,7 +8,7 @@ import { MdEmail, MdPhoneIphone } from 'react-icons/md'
 
 export const IndustryCell = ({ industry }: { industry: Industry }) => {
     const router = useRouter()
-    const query = queryToUrl(router.query)
+    const query = queryToUrl(router.query as QueryType)
     return (
         <Link legacyBehavior href={`industry/${industry?.id}?tab=sectors`}>
             <a
