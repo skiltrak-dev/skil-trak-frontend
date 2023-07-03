@@ -4,7 +4,6 @@ import {
     CaseOfficerAssignedStudent,
     EmptyData,
     LoadingAnimation,
-    StudentStatusProgressCell,
     StudentSubAdmin,
     Table,
     TableAction,
@@ -16,21 +15,12 @@ import { ColumnDef } from '@tanstack/react-table'
 import { FaEdit, FaEye } from 'react-icons/fa'
 
 import { Student, UserStatus } from '@types'
+import { studentsListWorkplace } from '@utils'
 import { useRouter } from 'next/router'
 import { ReactElement, useState } from 'react'
 import { MdBlock } from 'react-icons/md'
-import {
-    IndustryCell,
-    ProgressCell,
-    SectorCell,
-    StudentCellInfo,
-} from './components'
+import { IndustryCell, SectorCell, StudentCellInfo } from './components'
 import { BlockModal } from './modals'
-import {
-    checkStudentStatus,
-    checkWorkplaceStatus,
-    studentsListWorkplace,
-} from '@utils'
 
 export const FilteredStudents = ({
     student,
@@ -61,7 +51,7 @@ export const FilteredStudents = ({
     const tableActionOptions: TableActionOption[] = [
         {
             text: 'View',
-            onClick: (student: any) => {
+            onClick: (student: StudentSubAdmin) => {
                 router.push(
                     `/portals/admin/student/${student?.id}?tab=overview`
                 )
@@ -70,8 +60,10 @@ export const FilteredStudents = ({
         },
         {
             text: 'Edit',
-            onClick: (row: any) => {
-                router.push(`/portals/admin/student/edit-student/${row?.id}`)
+            onClick: (student: StudentSubAdmin) => {
+                router.push(
+                    `/portals/admin/student/edit-student/${student?.id}`
+                )
             },
             Icon: FaEdit,
         },
@@ -167,7 +159,7 @@ export const FilteredStudents = ({
 
     const quickActionsElements = {
         id: 'id',
-        individual: (id: number) => (
+        individual: (id: StudentSubAdmin) => (
             <div className="flex gap-x-2">
                 <ActionButton Icon={FaEdit}>Edit</ActionButton>
                 <ActionButton>Sub Admins</ActionButton>
@@ -176,7 +168,7 @@ export const FilteredStudents = ({
                 </ActionButton>
             </div>
         ),
-        common: (ids: number[]) => (
+        common: (ids: StudentSubAdmin[]) => (
             <ActionButton Icon={MdBlock} variant="error">
                 Block
             </ActionButton>

@@ -1,7 +1,7 @@
 import { ReactElement, useEffect, useState } from 'react'
 //Layouts
 import { RtoLayout } from '@layouts'
-import { NextPageWithLayout, UserStatus } from '@types'
+import { NextPageWithLayout, StudentsFilterType, UserStatus } from '@types'
 
 //components
 import {
@@ -55,7 +55,9 @@ const RtoStudents: NextPageWithLayout = (props: Props) => {
     const contextBar = useContextBar()
 
     const [filterAction, setFilterAction] = useState(null)
-    const [filter, setFilter] = useState({})
+    const [filter, setFilter] = useState<StudentsFilterType>(
+        {} as StudentsFilterType
+    )
     const [page, setPage] = useState(1)
     const [itemPerPage, setItemPerPage] = useState(50)
     useEffect(() => {
@@ -225,7 +227,7 @@ const RtoStudents: NextPageWithLayout = (props: Props) => {
                         <div className="flex justify-end mb-2">
                             {filterAction}
                         </div>
-                        <Filter
+                        <Filter<StudentsFilterType>
                             component={StudentFilters}
                             initialValues={filter}
                             setFilterAction={setFilterAction}

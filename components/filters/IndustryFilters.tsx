@@ -4,13 +4,12 @@ import { statusOptions } from './statusOptions'
 
 // queries
 import { CommonApi } from '@queries'
+import { AdminIndustryFormFilter, OptionType, UserStatus } from '@types'
 import { SetQueryFilters } from './SetQueryFilters'
-import { SelectOption } from './types'
-import { OptionType } from '@types'
 
 interface ItemFilterProps {
-    onFilterChange: Function
-    filter: any
+    onFilterChange: (values: AdminIndustryFormFilter) => void
+    filter: AdminIndustryFormFilter
 }
 export const IndustryFilters = ({
     onFilterChange,
@@ -26,7 +25,7 @@ export const IndustryFilters = ({
 
     return (
         <>
-            <SetQueryFilters filter={filter} />
+            <SetQueryFilters<AdminIndustryFormFilter> filter={filter} />
             <div className="grid grid-cols-3 gap-x-3">
                 <TextInput
                     name="name"
@@ -65,7 +64,10 @@ export const IndustryFilters = ({
                     )}
                     placeholder={'Select Status...'}
                     onChange={(e: OptionType) => {
-                        onFilterChange({ ...filter, status: e?.value })
+                        onFilterChange({
+                            ...filter,
+                            status: e?.value as UserStatus,
+                        })
                     }}
                 />
                 <TextInput

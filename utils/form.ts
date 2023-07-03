@@ -4,7 +4,7 @@ export const getMethodsForInput = (
     name: string,
     formContext: any,
     rules: any,
-    onChange: (e: ChangeEvent<HTMLInputElement>) => any,
+    onChange: (e: ChangeEvent<HTMLInputElement>) => void,
     onBlur: (e: FocusEvent<HTMLInputElement>) => void
 ) => {
     let methods: any = {}

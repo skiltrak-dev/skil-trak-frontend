@@ -1,43 +1,33 @@
 import {
-    Button,
     ActionButton,
+    Button,
     Card,
+    CaseOfficerAssignedStudent,
     EmptyData,
-    Filter,
     LoadingAnimation,
-    RtoFilters,
+    StudentSubAdmin,
     Table,
     TableAction,
     TableActionOption,
     TechnicalError,
     Typography,
-    StudentStatusProgressCell,
-    CaseOfficerAssignedStudent,
-    StudentSubAdmin,
     UserCreatedAt,
 } from '@components'
 import { PageHeading } from '@components/headings'
 import { ColumnDef } from '@tanstack/react-table'
-import { FaEdit, FaEye, FaFileExport, FaFilter } from 'react-icons/fa'
+import { FaEdit, FaEye, FaFileExport } from 'react-icons/fa'
 
-import { AdminApi } from '@queries'
-import { MdBlock, MdEmail, MdPhoneIphone } from 'react-icons/md'
-import { ReactElement, useEffect, useState } from 'react'
-import { CourseDot, SectorCell, StudentCellInfo } from './components'
-import { RtoCellInfo } from '@partials/admin/rto/components'
-import { Student, UserStatus } from '@types'
-import { BlockModal, ArchiveModal } from './modals'
-import { useRouter } from 'next/router'
-import { useGetRtoStudentsQuery } from '@queries'
-import {
-    checkStudentStatus,
-    checkWorkplaceStatus,
-    studentsListWorkplace,
-} from '@utils'
-import { IndustryCell } from './components/IndustryCell'
-import { ProgressCell } from '@partials/admin/student/components'
-import { ChangeStudentStatusModal } from '@partials/sub-admin/students/modals'
 import { EditTimer } from '@components/StudentTimer/EditTimer'
+import { ChangeStudentStatusModal } from '@partials/sub-admin/students/modals'
+import { useGetRtoStudentsQuery } from '@queries'
+import { Student, UserStatus } from '@types'
+import { studentsListWorkplace } from '@utils'
+import { useRouter } from 'next/router'
+import { ReactElement, useEffect, useState } from 'react'
+import { MdBlock } from 'react-icons/md'
+import { SectorCell, StudentCellInfo } from './components'
+import { IndustryCell } from './components/IndustryCell'
+import { ArchiveModal, BlockModal } from './modals'
 
 export const ApprovedStudent = () => {
     const router = useRouter()
@@ -199,7 +189,7 @@ export const ApprovedStudent = () => {
 
     const quickActionsElements = {
         id: 'id',
-        individual: (id: number) => (
+        individual: (id: StudentSubAdmin) => (
             <div className="flex gap-x-2">
                 <ActionButton Icon={FaEdit}>Edit</ActionButton>
                 <ActionButton>Sub Admins</ActionButton>
@@ -208,7 +198,7 @@ export const ApprovedStudent = () => {
                 </ActionButton>
             </div>
         ),
-        common: (ids: number[]) => (
+        common: (ids: StudentSubAdmin[]) => (
             <ActionButton Icon={MdBlock} variant="error">
                 Block
             </ActionButton>

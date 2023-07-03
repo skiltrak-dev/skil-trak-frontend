@@ -4,7 +4,7 @@ export interface QueryType {
     [key: string]: string
 }
 
-export const getFilterQuery = ({
+export const getFilterQuery = <Type>({
     router,
     filterKeys,
 }: {
@@ -18,7 +18,7 @@ export const getFilterQuery = ({
     filteredData.forEach((q) => {
         delete query[q]
     })
-    return Object.keys(query)?.length > 0 ? query : {}
+    return Object.keys(query)?.length > 0 ? (query as Type | QueryType) : {}
 }
 
 export const queryToUrl = (query: QueryType) => {

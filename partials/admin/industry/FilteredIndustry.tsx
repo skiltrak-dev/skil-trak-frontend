@@ -253,7 +253,7 @@ export const FilteredIndustry = ({
 
     const quickActionsElements = {
         id: 'id',
-        individual: (id: number) => (
+        individual: (id: Industry) => (
             <div className="flex gap-x-2">
                 <ActionButton Icon={FaEdit}>Edit</ActionButton>
                 <ActionButton>Sub Admins</ActionButton>
@@ -262,7 +262,7 @@ export const FilteredIndustry = ({
                 </ActionButton>
             </div>
         ),
-        common: (ids: number[]) => (
+        common: (ids: Industry[]) => (
             <ActionButton Icon={MdBlock} variant="error">
                 Block
             </ActionButton>

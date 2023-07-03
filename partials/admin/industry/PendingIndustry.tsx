@@ -3,9 +3,7 @@ import {
     Button,
     Card,
     EmptyData,
-    Filter,
     LoadingAnimation,
-    RtoFilters,
     Table,
     TableAction,
     TableActionOption,
@@ -15,15 +13,15 @@ import { PageHeading } from '@components/headings'
 import { ColumnDef } from '@tanstack/react-table'
 import { FaEdit, FaEye, FaFileExport } from 'react-icons/fa'
 
+import { useActionModal } from '@hooks'
 import { AdminApi, commonApi } from '@queries'
 import { Industry } from '@types'
+import { useRouter } from 'next/router'
 import { ReactElement, useEffect, useState } from 'react'
+import { RiLockPasswordFill } from 'react-icons/ri'
 import { IndustryCell, SectorCell } from './components'
 import { useChangeStatus } from './hooks'
 import { AcceptModal, RejectModal } from './modals'
-import { useRouter } from 'next/router'
-import { useActionModal } from '@hooks'
-import { RiLockPasswordFill } from 'react-icons/ri'
 
 export const PendingIndustry = () => {
     const [modal, setModal] = useState<ReactElement | null>(null)
@@ -166,7 +164,7 @@ export const PendingIndustry = () => {
 
     const quickActionsElements = {
         id: 'id',
-        individual: (id: number) => (
+        individual: (id: Industry) => (
             <div className="flex gap-x-2">
                 <ActionButton variant="success" onClick={() => {}}>
                     Accept
@@ -176,7 +174,7 @@ export const PendingIndustry = () => {
                 </ActionButton>
             </div>
         ),
-        common: (ids: number[]) => (
+        common: (ids: Industry[]) => (
             <div className="flex gap-x-2">
                 <ActionButton
                     onClick={() => {

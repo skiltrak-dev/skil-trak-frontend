@@ -7,10 +7,11 @@ import { SetQueryFilters } from './SetQueryFilters'
 import { statusOptions } from './statusOptions'
 import { SelectOption } from './types'
 import { workplaceProgressOptions } from './StudentFilters'
+import { OptionType, SubAdminStudentsFilterType, UserStatus } from '@types'
 
 interface ItemFilterProps {
-    onFilterChange: Function
-    filter: any
+    onFilterChange: (values: SubAdminStudentsFilterType) => void
+    filter: SubAdminStudentsFilterType
 }
 export const SubAdminStudentFilters = ({
     onFilterChange,
@@ -38,7 +39,7 @@ export const SubAdminStudentFilters = ({
 
     return (
         <>
-            <SetQueryFilters filter={filter} />
+            <SetQueryFilters<SubAdminStudentsFilterType> filter={filter} />
             <div className="grid grid-cols-3 gap-x-3">
                 <TextInput
                     name="name"
@@ -85,8 +86,11 @@ export const SubAdminStudentFilters = ({
                     )}
                     options={statusOptions}
                     placeholder={'Select Sectors...'}
-                    onChange={(e: any) => {
-                        onFilterChange({ ...filter, status: e?.value })
+                    onChange={(e: OptionType) => {
+                        onFilterChange({
+                            ...filter,
+                            status: e?.value as UserStatus,
+                        })
                     }}
                 />
                 <Select

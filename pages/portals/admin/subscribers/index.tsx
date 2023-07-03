@@ -18,7 +18,12 @@ import { useContextBar, useNavbar } from '@hooks'
 import { AdminLayout } from '@layouts'
 import { AdminApi } from '@queries'
 import { ColumnDef } from '@tanstack/react-table'
-import { NextPageWithLayout, Subscriber, UnsubscribedBy } from '@types'
+import {
+    NextPageWithLayout,
+    Subscriber,
+    SubscriberFiltersType,
+    UnsubscribedBy,
+} from '@types'
 import { filterify } from '@utils'
 import { FaBan, FaCheck, FaFileExport, FaTimes, FaTrash } from 'react-icons/fa'
 import { UnsubscribeModal } from '@modals'
@@ -32,7 +37,9 @@ const Subscribers: NextPageWithLayout = () => {
     const [filterAction, setFilterAction] = useState(null)
     const [itemPerPage, setItemPerPage] = useState(50)
     const [page, setPage] = useState(1)
-    const [filter, setFilter] = useState({})
+    const [filter, setFilter] = useState<SubscriberFiltersType>(
+        {} as SubscriberFiltersType
+    )
     const { isLoading, data, isError } = AdminApi.Subscribers.useListQuery({
         search: filterify(filter),
         skip: itemPerPage * page - itemPerPage,
@@ -168,7 +175,7 @@ const Subscribers: NextPageWithLayout = () => {
                 </PageHeading>
 
                 {data && data?.data.length ? (
-                    <Filter
+                    <Filter<SubscriberFiltersType>
                         component={SubscriberFilters}
                         initialValues={filter}
                         setFilterAction={setFilterAction}

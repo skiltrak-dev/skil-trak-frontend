@@ -1,5 +1,10 @@
 import { ReactElement, useCallback, useEffect, useState } from 'react'
-import { NextPageWithLayout, UserCount, UserStatus } from '@types'
+import {
+    NextPageWithLayout,
+    SubAdminStudentsFilterType,
+    UserCount,
+    UserStatus,
+} from '@types'
 import debounce from 'lodash/debounce'
 
 //components
@@ -58,7 +63,9 @@ const Students: NextPageWithLayout = (props: Props) => {
     const { setContent } = useContextBar()
 
     const [filterAction, setFilterAction] = useState(null)
-    const [filter, setFilter] = useState({})
+    const [filter, setFilter] = useState<SubAdminStudentsFilterType>(
+        {} as SubAdminStudentsFilterType
+    )
     const [studentId, setStudentId] = useState<any | null>(null)
     const [studentIdValue, setStudentIdValue] = useState<string>('')
     const [page, setPage] = useState(1)
@@ -67,8 +74,11 @@ const Students: NextPageWithLayout = (props: Props) => {
     useEffect(() => {
         setPage(Number(router.query.page || 1))
         setItemPerPage(Number(router.query.pageSize || 50))
-        const query = getFilterQuery({ router, filterKeys })
-        setFilter(query)
+        const query = getFilterQuery<SubAdminStudentsFilterType>({
+            router,
+            filterKeys,
+        })
+        setFilter(query as SubAdminStudentsFilterType)
     }, [router])
 
     const count = SubAdminApi.Student.useCount()
@@ -184,8 +194,8 @@ const Students: NextPageWithLayout = (props: Props) => {
             </div>
 
             <div className="py-4">
-                <Filter
-                    setFilter={(f: any) => {
+                <Filter<SubAdminStudentsFilterType>
+                    setFilter={(f: SubAdminStudentsFilterType) => {
                         setStudentId(null)
                         setFilter(f)
                     }}

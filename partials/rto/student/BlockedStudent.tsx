@@ -4,10 +4,7 @@ import {
     Card,
     CaseOfficerAssignedStudent,
     EmptyData,
-    Filter,
     LoadingAnimation,
-    RtoFilters,
-    StudentStatusProgressCell,
     StudentSubAdmin,
     Table,
     TableAction,
@@ -17,26 +14,16 @@ import {
 } from '@components'
 import { PageHeading } from '@components/headings'
 import { ColumnDef } from '@tanstack/react-table'
-import { FaEdit, FaEye, FaFileExport, FaFilter, FaTrash } from 'react-icons/fa'
+import { FaEye, FaFileExport, FaTrash } from 'react-icons/fa'
 
 import { useGetRtoStudentsQuery } from '@queries'
-import { MdBlock, MdEmail, MdPhoneIphone } from 'react-icons/md'
+import { Student, UserStatus } from '@types'
+import { studentsListWorkplace } from '@utils'
+import { useRouter } from 'next/router'
 import { ReactElement, useState } from 'react'
 import { CgUnblock } from 'react-icons/cg'
-import {
-    IndustryCell,
-    ProgressCell,
-    SectorCell,
-    StudentCellInfo,
-} from './components'
-import { Student, UserStatus } from '@types'
+import { IndustryCell, SectorCell, StudentCellInfo } from './components'
 import { DeleteModal, UnblockModal } from './modals'
-import { useRouter } from 'next/router'
-import {
-    checkStudentStatus,
-    checkWorkplaceStatus,
-    studentsListWorkplace,
-} from '@utils'
 
 export const BlockedStudent = () => {
     const router = useRouter()
@@ -156,7 +143,7 @@ export const BlockedStudent = () => {
 
     const quickActionsElements = {
         id: 'id',
-        individual: (id: number) => (
+        individual: (id: StudentSubAdmin) => (
             <div className="flex gap-x-2">
                 <ActionButton>Sub Admins</ActionButton>
                 <ActionButton Icon={CgUnblock} variant="warning">
@@ -167,7 +154,7 @@ export const BlockedStudent = () => {
                 </ActionButton>
             </div>
         ),
-        common: (ids: number[]) => (
+        common: (ids: StudentSubAdmin[]) => (
             <div className="flex gap-x-2">
                 <ActionButton Icon={CgUnblock} variant="warning">
                     Unblock

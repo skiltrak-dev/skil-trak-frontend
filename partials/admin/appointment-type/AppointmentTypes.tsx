@@ -6,7 +6,6 @@ import {
     EmptyData,
     Filter,
     LoadingAnimation,
-    SectorFilters,
     Table,
     TableAction,
     TableActionOption,
@@ -14,12 +13,12 @@ import {
 } from '@components'
 import { PageHeading } from '@components/headings'
 import { ColumnDef } from '@tanstack/react-table'
-import { FaBook, FaEdit, FaFileExport, FaTrash, FaVideo } from 'react-icons/fa'
+import { FaEdit, FaFileExport, FaTrash, FaVideo } from 'react-icons/fa'
 
-import Image from 'next/image'
 import { useContextBar } from '@hooks'
 import { AdminApi } from '@queries'
-import { AppointmentType, Sector } from '@types'
+import { AppointmentType, AppointmentTypeFilterType } from '@types'
+import Image from 'next/image'
 import { useRouter } from 'next/router'
 import { ReactElement, useEffect, useState } from 'react'
 import { DeleteModal, RequirementModal } from './modals'
@@ -32,7 +31,9 @@ export const AppointmentTypes = () => {
     const [filterAction, setFilterAction] = useState(null)
     const [itemPerPage, setItemPerPage] = useState(50)
     const [page, setPage] = useState(1)
-    const [filter, setFilter] = useState({})
+    const [filter, setFilter] = useState<AppointmentTypeFilterType>(
+        {} as AppointmentTypeFilterType
+    )
     const { isLoading, data, isError } = AdminApi.AppointmentTypes.useList({
         search: `${JSON.stringify(filter)
             .replaceAll('{', '')
@@ -255,7 +256,7 @@ export const AppointmentTypes = () => {
                 </PageHeading>
 
                 {data && data?.data.length ? (
-                    <Filter
+                    <Filter<AppointmentTypeFilterType>
                         component={AppointmentTypeFilters}
                         initialValues={filter}
                         setFilterAction={setFilterAction}

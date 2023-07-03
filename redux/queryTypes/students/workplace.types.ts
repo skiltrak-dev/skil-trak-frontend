@@ -2,6 +2,14 @@ import { IndustrySubAdmin } from '@partials/sub-admin/Industries'
 import { Course, Student, SubAdmin, UserStatus } from '@types'
 import { WorkplaceCurrentStatus } from '@utils'
 
+export interface AdminWorkplaceCount {
+    studentProvided: number
+    requested: number
+    assigned: number
+    unAssigned: number
+    cancelled: number
+}
+
 export interface WorkplaceWorkIndustriesType {
     AgreementSigned: boolean
     AgreementSignedDate: string

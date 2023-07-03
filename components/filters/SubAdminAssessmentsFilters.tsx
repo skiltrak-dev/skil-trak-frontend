@@ -5,9 +5,10 @@ import { Result } from '@constants'
 import { CommonApi } from '@queries'
 import { SetQueryFilters } from './SetQueryFilters'
 import { SelectOption } from './types'
+import { Course, OptionType, Rto, SubAdminAssessmentsFiltersType } from '@types'
 interface ItemFilterProps {
-    onFilterChange: Function
-    filter: any
+    onFilterChange: (values: SubAdminAssessmentsFiltersType) => void
+    filter: SubAdminAssessmentsFiltersType
 }
 export const SubAdminAssessmentsFilters = ({
     onFilterChange,
@@ -17,12 +18,12 @@ export const SubAdminAssessmentsFilters = ({
     const getRtos = CommonApi.Filter.useRtos()
     const getCourses = CommonApi.Filter.useCourses()
 
-    const rtoOptions = getRtos?.data?.map((rto: any) => ({
+    const rtoOptions = getRtos?.data?.map((rto: Rto) => ({
         value: rto?.id,
         label: rto?.user?.name,
     }))
 
-    const coursesOptions = getCourses?.data?.map((course: any) => ({
+    const coursesOptions = getCourses?.data?.map((course: Course) => ({
         value: course?.id,
         label: course?.title,
     }))
@@ -48,7 +49,7 @@ export const SubAdminAssessmentsFilters = ({
 
     return (
         <>
-            <SetQueryFilters filter={filter} />
+            <SetQueryFilters<SubAdminAssessmentsFiltersType> filter={filter} />
             <div className="grid grid-cols-4 gap-x-3">
                 <TextInput
                     name="name"
@@ -96,8 +97,11 @@ export const SubAdminAssessmentsFilters = ({
                         (result: SelectOption) =>
                             result.value === filter?.result
                     )}
-                    onChange={(e: any) => {
-                        onFilterChange({ ...filter, result: e?.value })
+                    onChange={(e: SelectOption) => {
+                        onFilterChange({
+                            ...filter,
+                            result: e?.value as Result,
+                        })
                     }}
                 />
                 <Select
@@ -106,11 +110,10 @@ export const SubAdminAssessmentsFilters = ({
                     options={rtoOptions}
                     placeholder={'Select Search By Rto...'}
                     value={rtoOptions?.find(
-                        (rto: SelectOption) =>
-                            rto.value === Number(filter?.rtoId)
+                        (rto: OptionType) => rto.value === Number(filter?.rtoId)
                     )}
-                    onChange={(e: any) => {
-                        onFilterChange({ ...filter, rtoId: e?.value })
+                    onChange={(e: OptionType) => {
+                        onFilterChange({ ...filter, rtoId: Number(e?.value) })
                     }}
                     loading={getRtos.isLoading}
                     disabled={getRtos.isLoading}
@@ -121,11 +124,14 @@ export const SubAdminAssessmentsFilters = ({
                     options={coursesOptions}
                     placeholder={'Select Courses...'}
                     value={coursesOptions?.find(
-                        (course: SelectOption) =>
+                        (course: OptionType) =>
                             course.value === Number(filter?.courseId)
                     )}
-                    onChange={(e: any) => {
-                        onFilterChange({ ...filter, courseId: e?.value })
+                    onChange={(e: OptionType) => {
+                        onFilterChange({
+                            ...filter,
+                            courseId: Number(e?.value),
+                        })
                     }}
                     loading={getCourses.isLoading}
                     disabled={getCourses.isLoading}

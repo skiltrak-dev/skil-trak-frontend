@@ -85,7 +85,7 @@ export const RejectedRto = () => {
         },
     ]
 
-    const columns: ColumnDef<any>[] = [
+    const columns: ColumnDef<Rto>[] = [
         {
             accessorKey: 'user.name',
             cell: (info) => <RtoCellInfo rto={info.row.original} />,
@@ -159,7 +159,6 @@ export const RejectedRto = () => {
                     title={'Rejected RTOs'}
                     subtitle={'List of Rejected RTOs'}
                 >
-                    {filterAction}
                     {data && data?.data.length ? (
                         <Button
                             text="Export"
@@ -168,13 +167,6 @@ export const RejectedRto = () => {
                         />
                     ) : null}
                 </PageHeading>
-
-                <Filter
-                    component={RtoFilters}
-                    initialValues={filter}
-                    setFilterAction={setFilterAction}
-                    setFilter={setFilter}
-                />
 
                 <Card noPadding>
                     {isError && <TechnicalError />}

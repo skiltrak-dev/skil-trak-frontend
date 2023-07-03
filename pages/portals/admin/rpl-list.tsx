@@ -2,7 +2,13 @@ import { ReactElement, useEffect, useState } from 'react'
 import { ColumnDef } from '@tanstack/react-table'
 
 import { AdminLayout } from '@layouts'
-import { AppointmentType, Job, NextPageWithLayout } from '@types'
+import {
+    AppointmentType,
+    AppointmentTypeFilterType,
+    Job,
+    NextPageWithLayout,
+    Rpl,
+} from '@types'
 
 // query
 import { AdminApi } from '@queries'
@@ -39,7 +45,9 @@ const RPLList: NextPageWithLayout = (props: Props) => {
     const [filterAction, setFilterAction] = useState(null)
     const [itemPerPage, setItemPerPage] = useState(50)
     const [page, setPage] = useState(1)
-    const [filter, setFilter] = useState({})
+    const [filter, setFilter] = useState<AppointmentTypeFilterType>(
+        {} as AppointmentTypeFilterType
+    )
     const { isLoading, data, isError } = AdminApi.Rpl.useRplList({
         search: `${JSON.stringify(filter)
             .replaceAll('{', '')
@@ -68,7 +76,7 @@ const RPLList: NextPageWithLayout = (props: Props) => {
         },
     ]
 
-    const columns: ColumnDef<any>[] = [
+    const columns: ColumnDef<Rpl>[] = [
         {
             header: () => <span>Industry</span>,
             accessorKey: 'name',
@@ -141,7 +149,7 @@ const RPLList: NextPageWithLayout = (props: Props) => {
 
     const quickActionsElements = {
         id: 'id',
-        individual: (id: number) => (
+        individual: (id: Rpl) => (
             <div className="flex gap-x-2">
                 <ActionButton variant="success" onClick={() => {}}>
                     Accept
@@ -151,7 +159,7 @@ const RPLList: NextPageWithLayout = (props: Props) => {
                 </ActionButton>
             </div>
         ),
-        common: (ids: number[]) => (
+        common: (ids: Rpl[]) => (
             <ActionButton variant="error" onClick={() => {}}>
                 Reject
             </ActionButton>
@@ -176,7 +184,7 @@ const RPLList: NextPageWithLayout = (props: Props) => {
                     ) : null}
                 </PageHeading>
 
-                <Filter
+                <Filter<AppointmentTypeFilterType>
                     component={AppointmentTypeFilters}
                     initialValues={filter}
                     setFilterAction={setFilterAction}

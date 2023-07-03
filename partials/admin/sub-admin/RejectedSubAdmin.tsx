@@ -3,9 +3,7 @@ import {
     Button,
     Card,
     EmptyData,
-    Filter,
     LoadingAnimation,
-    RtoFilters,
     Table,
     TableAction,
     TableActionOption,
@@ -15,24 +13,22 @@ import { PageHeading } from '@components/headings'
 import { ColumnDef } from '@tanstack/react-table'
 import { FaEdit, FaEye, FaFileExport, FaTrash } from 'react-icons/fa'
 
+import { useActionModal } from '@hooks'
 import { AdminApi } from '@queries'
-import { Industry, SubAdmin, UserStatus } from '@types'
-import { ReactElement, useState, useEffect } from 'react'
+import { SubAdmin, UserStatus } from '@types'
+import { useRouter } from 'next/router'
+import { ReactElement, useEffect, useState } from 'react'
+import { RiLockPasswordFill } from 'react-icons/ri'
 import { SubAdminCell } from './components'
 import { AcceptModal, DeleteModal } from './modals'
-import { useRouter } from 'next/router'
-import { useActionModal } from '@hooks'
-import { RiLockPasswordFill } from 'react-icons/ri'
 
 export const RejectedSubAdmin = () => {
     const router = useRouter()
     const [changeStatusResult, setChangeStatusResult] = useState<any>({})
     const [modal, setModal] = useState<ReactElement | null>(null)
 
-    const [filterAction, setFilterAction] = useState(null)
     const [itemPerPage, setItemPerPage] = useState(50)
     const [page, setPage] = useState(1)
-    const [filter, setFilter] = useState({})
 
     useEffect(() => {
         setPage(Number(router.query.page || 1))
@@ -44,11 +40,7 @@ export const RejectedSubAdmin = () => {
 
     const { isLoading, data, isError, refetch } =
         AdminApi.SubAdmins.useListQuery({
-            search: `status:${UserStatus.Rejected},${JSON.stringify(filter)
-                .replaceAll('{', '')
-                .replaceAll('}', '')
-                .replaceAll('"', '')
-                .trim()}`,
+            search: `status:${UserStatus.Rejected}`,
             skip: itemPerPage * page - itemPerPage,
             limit: itemPerPage,
         })
@@ -177,7 +169,7 @@ export const RejectedSubAdmin = () => {
 
     const quickActionsElements = {
         id: 'id',
-        individual: (id: number) => (
+        individual: (id: SubAdmin) => (
             <div className="flex gap-x-2">
                 <ActionButton Icon={FaEdit}>Edit</ActionButton>
                 <ActionButton variant="success">Accept</ActionButton>
@@ -186,7 +178,7 @@ export const RejectedSubAdmin = () => {
                 </ActionButton>
             </div>
         ),
-        common: (ids: number[]) => (
+        common: (ids: SubAdmin[]) => (
             <div className="flex gap-x-2">
                 <ActionButton variant="success">Accept</ActionButton>
                 <ActionButton Icon={FaTrash} variant="error">
@@ -205,7 +197,6 @@ export const RejectedSubAdmin = () => {
                     title={'Rejected Sub Admin'}
                     subtitle={'List of Rejected Sub Admin'}
                 >
-                    {filterAction}
                     {data && data?.data.length ? (
                         <Button
                             text="Export"
@@ -214,13 +205,6 @@ export const RejectedSubAdmin = () => {
                         />
                     ) : null}
                 </PageHeading>
-
-                <Filter
-                    component={RtoFilters}
-                    initialValues={filter}
-                    setFilterAction={setFilterAction}
-                    setFilter={setFilter}
-                />
 
                 <Card noPadding>
                     {isError && <TechnicalError />}

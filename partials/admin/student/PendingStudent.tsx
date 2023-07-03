@@ -1,11 +1,9 @@
 import {
     ActionButton,
-    Button,
     Card,
     EmptyData,
-    Filter,
     LoadingAnimation,
-    RtoFilters,
+    StudentSubAdmin,
     Table,
     TableAction,
     TableActionOption,
@@ -14,21 +12,19 @@ import {
 } from '@components'
 import { PageHeading } from '@components/headings'
 import { ColumnDef } from '@tanstack/react-table'
-import { FaEdit, FaEye, FaFileExport, FaFilter } from 'react-icons/fa'
+import { FaEdit, FaEye } from 'react-icons/fa'
 
-import { AdminApi, commonApi } from '@queries'
-import { MdEmail, MdPhoneIphone } from 'react-icons/md'
-import { ReactElement, useEffect, useState } from 'react'
 import { useActionModal, useContextBar } from '@hooks'
-import { Rto, Student, UserStatus } from '@types'
-import { SectorCell, StudentCellInfo } from './components'
 import { RtoCellInfo } from '@partials/admin/rto/components'
-import { AcceptModal, RejectModal } from './modals'
-import { useChangeStatus } from './hooks'
-import { useRouter } from 'next/router'
-import { IndustryCell } from '../industry/components'
-import { RiLockPasswordFill } from 'react-icons/ri'
+import { AdminApi, commonApi } from '@queries'
+import { Student, UserStatus } from '@types'
 import moment from 'moment'
+import { useRouter } from 'next/router'
+import { ReactElement, useEffect, useState } from 'react'
+import { RiLockPasswordFill } from 'react-icons/ri'
+import { SectorCell, StudentCellInfo } from './components'
+import { useChangeStatus } from './hooks'
+import { AcceptModal, RejectModal } from './modals'
 
 export const PendingStudent = () => {
     const router = useRouter()
@@ -95,7 +91,7 @@ export const PendingStudent = () => {
         },
     ]
 
-    const columns: ColumnDef<any>[] = [
+    const columns: ColumnDef<StudentSubAdmin>[] = [
         {
             accessorKey: 'user.name',
             cell: (info) => {
@@ -176,7 +172,7 @@ export const PendingStudent = () => {
 
     const quickActionsElements = {
         id: 'id',
-        individual: (student: Student) => (
+        individual: (student: StudentSubAdmin) => (
             <div className="flex gap-x-2">
                 <ActionButton
                     variant="success"
@@ -196,7 +192,7 @@ export const PendingStudent = () => {
                 </ActionButton>
             </div>
         ),
-        common: (ids: number[]) => (
+        common: (ids: StudentSubAdmin[]) => (
             <div className="flex gap-x-2">
                 <ActionButton
                     onClick={() => {

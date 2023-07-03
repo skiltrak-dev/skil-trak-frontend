@@ -3,9 +3,7 @@ import {
     Button,
     Card,
     EmptyData,
-    Filter,
     LoadingAnimation,
-    RtoFilters,
     Table,
     TableAction,
     TableActionOption,
@@ -141,7 +139,7 @@ export const ArchivedIndustry = () => {
 
     const quickActionsElements = {
         id: 'id',
-        individual: (id: number) => (
+        individual: (id: Industry) => (
             <div className="flex gap-x-2">
                 <ActionButton Icon={MdUnarchive} variant="warning">
                     Unarchive
@@ -151,7 +149,7 @@ export const ArchivedIndustry = () => {
                 </ActionButton>
             </div>
         ),
-        common: (ids: number[]) => (
+        common: (ids: Industry[]) => (
             <div className="flex gap-x-2">
                 <ActionButton
                     onClick={() => {

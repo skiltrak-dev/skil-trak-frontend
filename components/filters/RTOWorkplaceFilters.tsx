@@ -5,7 +5,7 @@ import { CommonApi, RtoApi } from '@queries'
 
 import { SetQueryFilters } from './SetQueryFilters'
 import { SelectOption } from './types'
-import { OptionType } from '@types'
+import { OptionType, RTOWorkplaceFormFilter } from '@types'
 
 interface FilterPropType {
     studentId: string
@@ -18,8 +18,8 @@ interface FilterPropType {
 }
 
 interface ItemFilterProps {
-    onFilterChange: Function
-    filter: FilterPropType
+    onFilterChange: (values: RTOWorkplaceFormFilter) => void
+    filter: RTOWorkplaceFormFilter
 }
 export const RTOWorkplaceFilters = ({
     onFilterChange,
@@ -50,7 +50,7 @@ export const RTOWorkplaceFilters = ({
 
     return (
         <>
-            <SetQueryFilters<FilterPropType> filter={filter} />
+            <SetQueryFilters<RTOWorkplaceFormFilter> filter={filter} />
             <div className="grid grid-cols-4 gap-x-3">
                 <TextInput
                     name="studentId"
@@ -133,7 +133,10 @@ export const RTOWorkplaceFilters = ({
                             course.value === Number(filter?.courseId)
                     )}
                     onChange={(e: OptionType) => {
-                        onFilterChange({ ...filter, courseId: e?.value })
+                        onFilterChange({
+                            ...filter,
+                            courseId: Number(e?.value),
+                        })
                     }}
                     loading={courses.isLoading}
                     disabled={courses.isLoading}

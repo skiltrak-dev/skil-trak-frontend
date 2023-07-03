@@ -5,7 +5,7 @@ import { ReactElement, useEffect, useState } from 'react'
 // image
 //Layouts
 import { SubAdminLayout } from '@layouts'
-import { NextPageWithLayout, Rto } from '@types'
+import { NextPageWithLayout, Rto, SubAdminRtoFilterType } from '@types'
 
 import { FaEye } from 'react-icons/fa'
 
@@ -46,14 +46,19 @@ const RTOs: NextPageWithLayout = () => {
     const [filterAction, setFilterAction] = useState(null)
     const [itemPerPage, setItemPerPage] = useState(50)
     const [page, setPage] = useState(1)
-    const [filter, setFilter] = useState({})
+    const [filter, setFilter] = useState<SubAdminRtoFilterType>(
+        {} as SubAdminRtoFilterType
+    )
 
     const filteredDataLength = checkFilteredDataLength(filter)
     //filters
 
     useEffect(() => {
-        const query = getFilterQuery({ router, filterKeys: [] })
-        setFilter(query)
+        const query = getFilterQuery<SubAdminRtoFilterType>({
+            router,
+            filterKeys: [],
+        })
+        setFilter(query as SubAdminRtoFilterType)
     }, [router])
 
     const { isLoading, data, isError, isFetching } = useGetSubAdminRtosQuery({
@@ -181,7 +186,7 @@ const RTOs: NextPageWithLayout = () => {
                             {filterAction}
                         </div>
                     </div>
-                    <Filter
+                    <Filter<SubAdminRtoFilterType>
                         component={SubAdminRtoFilter}
                         initialValues={filter}
                         setFilterAction={setFilterAction}

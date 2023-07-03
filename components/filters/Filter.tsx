@@ -1,6 +1,6 @@
 import { Button } from '@components'
 import { Card } from '@components/cards'
-import { removeEmptyValues, setFilterValues } from '@utils'
+import { removeEmptyValues } from '@utils'
 import debounce from 'lodash/debounce'
 import { useRouter } from 'next/router'
 import { useCallback, useEffect, useState } from 'react'
@@ -8,20 +8,26 @@ import { FaFilter } from 'react-icons/fa'
 import { IoClose } from 'react-icons/io5'
 import { MdCancel } from 'react-icons/md'
 
-interface FilterProps {
-    component: any
-    initialValues: any
+interface FilterProps<FormFilterTypes> {
+    component: ({
+        onFilterChange,
+        filter,
+    }: {
+        onFilterChange: (values: FormFilterTypes) => void
+        filter: FormFilterTypes
+    }) => JSX.Element
+    initialValues: FormFilterTypes
     setFilterAction: Function
     setFilter: Function
     filterKeys?: string[] | undefined
 }
-export const Filter = ({
+export const Filter = <FormFilterTypes,>({
     component,
     initialValues,
     setFilterAction,
     setFilter,
     filterKeys,
-}: FilterProps) => {
+}: FilterProps<FormFilterTypes>) => {
     const router = useRouter()
 
     const [expanded, setExpanded] = useState(false)
@@ -41,7 +47,7 @@ export const Filter = ({
     const Component = component
 
     useEffect(() => {
-        if (Object.values(initialValues)?.length > 0) {
+        if (initialValues && Object.values(initialValues)?.length > 0) {
             setExpanded(true)
             setFilters(initialValues)
         }
@@ -66,13 +72,13 @@ export const Filter = ({
         []
     )
 
-    const onFilterChange = (filter: any) => {
+    const onFilterChange = (filter: FormFilterTypes) => {
         setFilters(filter)
         delayedSearch(filter)
     }
 
     const onFilterClear = () => {
-        setFilters({})
+        setFilters({} as FormFilterTypes)
         setFilter({})
     }
 
@@ -113,9 +119,9 @@ export const Filter = ({
                     />
                 </div>
                 <div className="flex flex-wrap gap-x-2">
-                    {Object.keys(filters).map(
-                        (key) =>
-                            filters[key] && (
+                    {Object.entries(filters).map(
+                        ([key, value]) =>
+                            (value as string) && (
                                 <div
                                     key={key}
                                     className="flex items-center justify-between border text-xs shadow rounded"
@@ -125,7 +131,7 @@ export const Filter = ({
                                             {key}:
                                         </span>{' '}
                                         <span className="font-medium">
-                                            {filters[key]}
+                                            {value as string}
                                         </span>
                                     </div>
                                     <span

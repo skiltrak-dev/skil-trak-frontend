@@ -1,14 +1,15 @@
 import { TextInput } from '@components/inputs'
 import { SetQueryFilters } from './SetQueryFilters'
+import { CourseFilterType } from '@types'
 
 interface ItemFilterProps {
-    onFilterChange: Function
-    filter: any
+    onFilterChange: (values: CourseFilterType) => void
+    filter: CourseFilterType
 }
 export const CourseFilters = ({ onFilterChange, filter }: ItemFilterProps) => {
     return (
         <>
-            <SetQueryFilters filter={filter} />
+            <SetQueryFilters<CourseFilterType> filter={filter} />
             <div className="flex gap-x-2">
                 <TextInput
                     name="code"

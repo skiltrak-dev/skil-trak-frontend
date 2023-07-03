@@ -154,7 +154,7 @@ export const FilteredSubAdmins = ({
 
     const quickActionsElements = {
         id: 'id',
-        individual: (id: number) => (
+        individual: (id: SubAdmin) => (
             <div className="flex gap-x-2">
                 <ActionButton Icon={FaEdit}>Edit</ActionButton>
                 <ActionButton>Sub Admins</ActionButton>
@@ -163,7 +163,7 @@ export const FilteredSubAdmins = ({
                 </ActionButton>
             </div>
         ),
-        common: (ids: number[]) => (
+        common: (ids: SubAdmin[]) => (
             <ActionButton Icon={MdBlock} variant="error">
                 Block
             </ActionButton>

@@ -3,11 +3,11 @@ import { CommonApi } from '@queries'
 import { SetQueryFilters } from './SetQueryFilters'
 import { statusOptions } from './statusOptions'
 import { SelectOption } from './types'
-import { OptionType } from '@types'
+import { OptionType, RTOFilterType, UserStatus } from '@types'
 
 interface ItemFilterProps {
-    onFilterChange: Function
-    filter: any
+    onFilterChange: (values: RTOFilterType) => void
+    filter: RTOFilterType
 }
 export const RtoFilters = ({ onFilterChange, filter }: ItemFilterProps) => {
     // query
@@ -20,7 +20,7 @@ export const RtoFilters = ({ onFilterChange, filter }: ItemFilterProps) => {
 
     return (
         <>
-            <SetQueryFilters filter={filter} />
+            <SetQueryFilters<RTOFilterType> filter={filter} />
             <div className="grid grid-cols-3 gap-x-3">
                 <TextInput
                     name="name"
@@ -59,7 +59,10 @@ export const RtoFilters = ({ onFilterChange, filter }: ItemFilterProps) => {
                         (status) => status.value === filter?.status
                     )}
                     onChange={(e: OptionType) => {
-                        onFilterChange({ ...filter, status: e?.value })
+                        onFilterChange({
+                            ...filter,
+                            status: e?.value as UserStatus,
+                        })
                     }}
                 />
                 <Select

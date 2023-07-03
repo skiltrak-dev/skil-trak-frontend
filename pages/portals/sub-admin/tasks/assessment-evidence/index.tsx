@@ -2,7 +2,7 @@ import { useRouter } from 'next/router'
 import { ReactElement, useEffect, useState } from 'react'
 //Layouts
 import { SubAdminLayout } from '@layouts'
-import { NextPageWithLayout } from '@types'
+import { NextPageWithLayout, SubAdminAssessmentsFiltersType } from '@types'
 
 //components
 import {
@@ -49,14 +49,19 @@ const AssessmentEvidence: NextPageWithLayout = (props: Props) => {
     const router = useRouter()
 
     const [filterAction, setFilterAction] = useState(null)
-    const [filter, setFilter] = useState({})
+    const [filter, setFilter] = useState<SubAdminAssessmentsFiltersType>(
+        {} as SubAdminAssessmentsFiltersType
+    )
     const [page, setPage] = useState(1)
     const [itemPerPage, setItemPerPage] = useState(50)
     const [modal, setModal] = useState<any | null>(null)
 
-    const query = getFilterQuery({ router, filterKeys })
+    const query = getFilterQuery<SubAdminAssessmentsFiltersType>({
+        router,
+        filterKeys,
+    })
     useEffect(() => {
-        setFilter(query)
+        setFilter(query as SubAdminAssessmentsFiltersType)
     }, [router])
 
     const count = useAssessmentCountQuery()
@@ -181,7 +186,7 @@ const AssessmentEvidence: NextPageWithLayout = (props: Props) => {
                 <div className="">{filterAction}</div>
             </div>
             <div className="py-4">
-                <Filter
+                <Filter<SubAdminAssessmentsFiltersType>
                     component={SubAdminAssessmentsFilters}
                     initialValues={filter}
                     setFilterAction={setFilterAction}

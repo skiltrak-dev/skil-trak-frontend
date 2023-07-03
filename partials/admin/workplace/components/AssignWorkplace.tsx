@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 
 // components
 import { Select, ShowErrorNotifications, Typography } from '@components'
@@ -7,10 +7,16 @@ import { Select, ShowErrorNotifications, Typography } from '@components'
 import { AdminApi } from '@queries'
 
 // utils
-import { ellipsisText } from '@utils'
 import { useNotification } from '@hooks'
+import { OptionType, SubAdmin } from '@types'
+import { ellipsisText } from '@utils'
+import { IWorkplaceIndustries } from 'redux/queryTypes'
 
-export const AssignWorkplace = ({ workplace }: { workplace: any }) => {
+export const AssignWorkplace = ({
+    workplace,
+}: {
+    workplace: IWorkplaceIndustries
+}) => {
     const { notification } = useNotification()
 
     const subadmins = AdminApi.Workplace.subadminForAssignWorkplace()
@@ -26,13 +32,16 @@ export const AssignWorkplace = ({ workplace }: { workplace: any }) => {
         }
     }, [assignSubAdminResult])
 
-    const subAdminOptions = subadmins?.data?.map((subAdmin: any) => ({
+    const subAdminOptions = subadmins?.data?.map((subAdmin: SubAdmin) => ({
         label: subAdmin?.user?.name,
         value: subAdmin?.id,
     }))
 
-    const onAssignSubAdmin = (e: any) => {
-        assignSubAdmin({ subadmin: e?.value, workplace: workplace?.id })
+    const onAssignSubAdmin = (e: OptionType) => {
+        assignSubAdmin({
+            subadmin: Number(e?.value),
+            workplace: Number(workplace?.id),
+        })
     }
     return (
         <div>
@@ -62,7 +71,7 @@ export const AssignWorkplace = ({ workplace }: { workplace: any }) => {
                     options={subAdminOptions}
                     loading={subadmins?.isLoading}
                     disabled={subadmins?.isLoading}
-                    onChange={(e: any) => {
+                    onChange={(e: OptionType) => {
                         onAssignSubAdmin(e)
                     }}
                 />

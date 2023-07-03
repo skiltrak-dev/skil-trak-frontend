@@ -147,7 +147,7 @@ export const ApprovedIndustry = () => {
 
     const quickActionsElements = {
         id: 'id',
-        individual: (id: number) => (
+        individual: (id: Industry) => (
             <div className="flex gap-x-2">
                 <ActionButton Icon={FaEdit}>Edit</ActionButton>
                 <ActionButton Icon={MdBlock} variant="error">
@@ -155,7 +155,7 @@ export const ApprovedIndustry = () => {
                 </ActionButton>
             </div>
         ),
-        common: (ids: number[]) => (
+        common: (ids: Industry[]) => (
             <ActionButton
                 onClick={() => {
                     const arrayOfIds = ids.map((id: any) => id?.user.id)

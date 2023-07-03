@@ -6,9 +6,7 @@ interface SetQueryFiltersProp<T> {
     filter: T
 }
 
-export const SetQueryFilters = <T extends {}>({
-    filter,
-}: SetQueryFiltersProp<T>) => {
+export const SetQueryFilters = <T,>({ filter }: SetQueryFiltersProp<T>) => {
     const router = useRouter()
     const queryUrl = setFilterValues<T>({ router, filter })
 

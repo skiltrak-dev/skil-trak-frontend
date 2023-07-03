@@ -1,7 +1,7 @@
 import { ReactElement, useEffect, useState } from 'react'
 // Layouts
 import { RtoLayout } from '@layouts'
-import { NextPageWithLayout } from '@types'
+import { NextPageWithLayout, RTOWorkplaceFormFilter } from '@types'
 //components
 import {
     Card,
@@ -41,7 +41,9 @@ const filterKeys = [
 const RtoWorkplaces: NextPageWithLayout = (props: Props) => {
     const router = useRouter()
     const [filterAction, setFilterAction] = useState(null)
-    const [filter, setFilter] = useState({})
+    const [filter, setFilter] = useState<RTOWorkplaceFormFilter>(
+        {} as RTOWorkplaceFormFilter
+    )
     const [itemPerPage, setItemPerPage] = useState(50)
     const [page, setPage] = useState(1)
 
@@ -198,7 +200,7 @@ const RtoWorkplaces: NextPageWithLayout = (props: Props) => {
                     />
                     {filterAction}
                 </div>
-                <Filter
+                <Filter<RTOWorkplaceFormFilter>
                     component={RTOWorkplaceFilters}
                     initialValues={filter}
                     filterKeys={filterKeys}

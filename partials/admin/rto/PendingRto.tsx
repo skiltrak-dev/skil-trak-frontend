@@ -81,7 +81,7 @@ export const PendingRto = () => {
         },
     ]
 
-    const columns: ColumnDef<any>[] = [
+    const columns: ColumnDef<Rto>[] = [
         {
             accessorKey: 'user.name',
             cell: (info) => <RtoCellInfo rto={info.row.original} />,
@@ -135,7 +135,7 @@ export const PendingRto = () => {
 
     const quickActionsElements = {
         id: 'id',
-        individual: (id: number) => (
+        individual: (id: Rto) => (
             <div className="flex gap-x-2">
                 <ActionButton variant="success" onClick={() => {}}>
                     Accept
@@ -145,7 +145,7 @@ export const PendingRto = () => {
                 </ActionButton>
             </div>
         ),
-        common: (ids: number[]) => (
+        common: (ids: Rto[]) => (
             <div className="flex gap-x-2">
                 <ActionButton
                     onClick={() => {

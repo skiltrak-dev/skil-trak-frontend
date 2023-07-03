@@ -68,7 +68,7 @@ export const CreateAppointments = () => {
 
     const queryUser = Object.keys(router?.query)[0]
     useEffect(() => {
-        if (query && roles.includes(queryUser)) {
+        if (query && roles.includes(queryUser as UserRoles)) {
             setUser(queryUser)
             const appointmentFor = AppointmentFor?.find(
                 (appointment) =>

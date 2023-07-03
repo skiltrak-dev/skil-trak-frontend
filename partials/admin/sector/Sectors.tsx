@@ -17,7 +17,7 @@ import { FaBook, FaEdit, FaFileExport, FaTrash } from 'react-icons/fa'
 
 import { useContextBar, useNavbar } from '@hooks'
 import { AdminApi } from '@queries'
-import { Sector } from '@types'
+import { Sector, SectorFilterTypes } from '@types'
 import { useRouter } from 'next/router'
 import { ReactElement, useEffect, useState } from 'react'
 import { DeleteModal } from './modals'
@@ -38,11 +38,13 @@ export const Sectors = () => {
     const [filterAction, setFilterAction] = useState(null)
     const [itemPerPage, setItemPerPage] = useState(50)
     const [page, setPage] = useState(1)
-    const [filter, setFilter] = useState({})
+    const [filter, setFilter] = useState<SectorFilterTypes>(
+        {} as SectorFilterTypes
+    )
 
     useEffect(() => {
-        const query = getFilterQuery({ router, filterKeys })
-        setFilter(query)
+        const query = getFilterQuery<SectorFilterTypes>({ router, filterKeys })
+        setFilter(query as SectorFilterTypes)
     }, [router])
 
     const { isLoading, data, isError } = AdminApi.Sectors.useListQuery({
@@ -171,7 +173,7 @@ export const Sectors = () => {
 
     const quickActionsElements = {
         id: 'id',
-        individual: (id: number) => (
+        individual: (id: Sector) => (
             <div className="flex gap-x-2">
                 <ActionButton variant="success" onClick={() => {}}>
                     Accept
@@ -181,7 +183,7 @@ export const Sectors = () => {
                 </ActionButton>
             </div>
         ),
-        common: (ids: number[]) => (
+        common: (ids: Sector[]) => (
             <ActionButton variant="error" onClick={() => {}}>
                 Reject
             </ActionButton>
@@ -211,7 +213,7 @@ export const Sectors = () => {
                     </>
                 </PageHeading>
 
-                <Filter
+                <Filter<SectorFilterTypes>
                     component={SectorFilters}
                     initialValues={filter}
                     setFilterAction={setFilterAction}

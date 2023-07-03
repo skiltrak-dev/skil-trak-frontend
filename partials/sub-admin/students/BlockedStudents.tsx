@@ -215,7 +215,7 @@ export const BlockedStudents = () => {
 
     const quickActionsElements = {
         id: 'id',
-        individual: (id: number) => (
+        individual: (id: StudentSubAdmin) => (
             <div className="flex gap-x-2">
                 <ActionButton>Sub Admins</ActionButton>
                 <ActionButton Icon={CgUnblock} variant="warning">
@@ -226,7 +226,7 @@ export const BlockedStudents = () => {
                 </ActionButton>
             </div>
         ),
-        common: (ids: any) => (
+        common: (ids: StudentSubAdmin[]) => (
             <div className="flex gap-x-2">
                 <ActionButton
                     Icon={FaTrash}

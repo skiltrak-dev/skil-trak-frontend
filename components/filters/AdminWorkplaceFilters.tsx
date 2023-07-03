@@ -3,14 +3,19 @@ import { Select, TextInput } from '@components/inputs'
 // query
 import { CommonApi } from '@queries'
 
-import { OptionType, SubAdmin } from '@types'
+import {
+    AdminWorkplaceFiltersType,
+    OptionType,
+    SubAdmin,
+    UserStatus,
+} from '@types'
 import { SetQueryFilters } from './SetQueryFilters'
 import { statusOptions } from './statusOptions'
 import { SelectOption } from './types'
 
 interface ItemFilterProps {
-    onFilterChange: Function
-    filter: any
+    onFilterChange: (values: AdminWorkplaceFiltersType) => void
+    filter: AdminWorkplaceFiltersType
 }
 export const AdminWorkplaceFilters = ({
     onFilterChange,
@@ -49,7 +54,7 @@ export const AdminWorkplaceFilters = ({
 
     return (
         <>
-            <SetQueryFilters filter={filter} />
+            <SetQueryFilters<AdminWorkplaceFiltersType> filter={filter} />
             <div className="grid grid-cols-4 gap-x-3">
                 <TextInput
                     name="studentId"
@@ -95,7 +100,10 @@ export const AdminWorkplaceFilters = ({
                     )}
                     placeholder={'Select Sectors...'}
                     onChange={(e: OptionType) => {
-                        onFilterChange({ ...filter, status: e?.value })
+                        onFilterChange({
+                            ...filter,
+                            status: e?.value as UserStatus,
+                        })
                     }}
                 />
 
@@ -109,7 +117,10 @@ export const AdminWorkplaceFilters = ({
                     )}
                     placeholder={'Search by Coordinator...'}
                     onChange={(e: OptionType) => {
-                        onFilterChange({ ...filter, subAdminId: e?.value })
+                        onFilterChange({
+                            ...filter,
+                            subAdminId: Number(e?.value),
+                        })
                     }}
                     loading={getCoordinators.isLoading}
                     disabled={getCoordinators.isLoading}
@@ -124,7 +135,7 @@ export const AdminWorkplaceFilters = ({
                     )}
                     placeholder={'Select Rto...'}
                     onChange={(e: OptionType) => {
-                        onFilterChange({ ...filter, rtoId: e?.value })
+                        onFilterChange({ ...filter, rtoId: Number(e?.value) })
                     }}
                     loading={getRtos.isLoading}
                     disabled={getRtos.isLoading}
@@ -140,7 +151,10 @@ export const AdminWorkplaceFilters = ({
                     )}
                     placeholder={'Select Industry...'}
                     onChange={(e: OptionType) => {
-                        onFilterChange({ ...filter, industryId: e?.value })
+                        onFilterChange({
+                            ...filter,
+                            industryId: Number(e?.value),
+                        })
                     }}
                     loading={getIndustries.isLoading}
                     disabled={getIndustries.isLoading}
@@ -156,7 +170,10 @@ export const AdminWorkplaceFilters = ({
                     )}
                     placeholder={'Select Courses...'}
                     onChange={(e: OptionType) => {
-                        onFilterChange({ ...filter, courseId: e?.value })
+                        onFilterChange({
+                            ...filter,
+                            courseId: Number(e?.value),
+                        })
                     }}
                     loading={getCourses.isLoading}
                     disabled={getCourses.isLoading}
