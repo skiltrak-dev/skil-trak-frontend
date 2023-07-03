@@ -1,20 +1,13 @@
 import { ReactElement, useEffect } from 'react'
 
 import { AdminLayout } from '@layouts'
-import { NextPageWithLayout } from '@types'
+import { AdminProfileFormType, NextPageWithLayout } from '@types'
 
 import * as yup from 'yup'
 
-import { getDate, onlyAlphabets } from '@utils'
+import { onlyAlphabets } from '@utils'
 
-import {
-    ActionButton,
-    Button,
-    Card,
-    TextInput,
-    Typography,
-    Avatar,
-} from '@components'
+import { Avatar, Button, TextInput } from '@components'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { FormProvider, useForm } from 'react-hook-form'
 
@@ -68,31 +61,38 @@ const MyProfile: NextPageWithLayout = () => {
             .required('Must provide email'),
     })
 
-    const formMethods = useForm({
+    const formMethods = useForm<AdminProfileFormType>({
         mode: 'all',
         resolver: yupResolver(validationSchema),
     })
 
     useEffect(() => {
         if (profile?.data && profile.isSuccess) {
-            const values = {
+            const values: AdminProfileFormType = {
                 name: profile?.data?.name,
                 email: profile?.data?.email,
             }
-            for (const key in values) {
-                formMethods.setValue(key, (values as any)[key])
-            }
+            Object.entries(values)?.forEach(([key, value]) => {
+                formMethods.setValue(key as keyof AdminProfileFormType, value)
+            })
+
+            // for (let key in values) {
+            //     formMethods.setValue(
+            //         key as keyof AdminProfileFormType,
+            //         (values as keyof typeof values)[key]
+            //     )
+            // }
         }
     }, [profile])
 
-    const onSubmit = (values: any) => {
+    const onSubmit = (values: AdminProfileFormType) => {
         updateProfile(values)
     }
     return (
         <>
             {passwordModal && passwordModal}
             <div className="p-4 mb-4">
-                <Avatar avatar={profile?.data?.avatar} />
+                <Avatar avatar={String(profile?.data?.avatar)} />
 
                 <div className="flex justify-between gap-x-16 border-t py-4">
                     <FormProvider {...formMethods}>

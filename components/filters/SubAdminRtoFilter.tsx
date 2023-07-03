@@ -2,12 +2,12 @@ import { Select, TextInput } from '@components/inputs'
 
 // queries
 import { CommonApi } from '@queries'
+import { OptionType, SubAdminRtoFilterType } from '@types'
 import { SetQueryFilters } from './SetQueryFilters'
-import { SelectOption } from './types'
 
 interface ItemFilterProps {
-    onFilterChange: Function
-    filter: any
+    onFilterChange: (values: SubAdminRtoFilterType) => void
+    filter: SubAdminRtoFilterType
 }
 export const SubAdminRtoFilter = ({
     onFilterChange,
@@ -23,7 +23,7 @@ export const SubAdminRtoFilter = ({
 
     return (
         <>
-            <SetQueryFilters filter={filter} />
+            <SetQueryFilters<SubAdminRtoFilterType> filter={filter} />
             <div className="grid grid-cols-3 gap-x-3">
                 <TextInput
                     name="name"
@@ -68,11 +68,14 @@ export const SubAdminRtoFilter = ({
                     options={coursesOptions}
                     placeholder={'Select Courses...'}
                     defaultValue={coursesOptions?.find(
-                        (course: SelectOption) =>
+                        (course: OptionType) =>
                             course.value === filter?.courseId
                     )}
-                    onChange={(e: any) => {
-                        onFilterChange({ ...filter, courseId: e?.value })
+                    onChange={(e: OptionType) => {
+                        onFilterChange({
+                            ...filter,
+                            courseId: Number(e?.value),
+                        })
                     }}
                     loading={getCourses.isLoading}
                     disabled={getCourses.isLoading}

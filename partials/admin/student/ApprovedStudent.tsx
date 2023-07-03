@@ -8,6 +8,7 @@ import {
     Table,
     TableAction,
     TableActionOption,
+    TableChildrenProps,
     TechnicalError,
     Typography,
 } from '@components'
@@ -17,7 +18,7 @@ import { FaEdit, FaEye } from 'react-icons/fa'
 
 import { RtoCellInfo } from '@partials/admin/rto/components'
 import { AdminApi } from '@queries'
-import { Student, UserStatus } from '@types'
+import { Industry, Student, UserStatus } from '@types'
 import { checkListLength, setLink, studentsListWorkplace } from '@utils'
 import { useRouter } from 'next/router'
 import { ReactElement, useEffect, useState } from 'react'
@@ -234,7 +235,9 @@ export const ApprovedStudent = () => {
             accessorKey: 'action',
             header: () => <span>Action</span>,
             cell: (info) => {
-                const length = checkListLength(data?.data)
+                const length = checkListLength<StudentSubAdmin>(
+                    data?.data as StudentSubAdmin[]
+                )
 
                 return (
                     <div className="flex gap-x-1 items-center">
@@ -251,38 +254,40 @@ export const ApprovedStudent = () => {
 
     const quickActionsElements = {
         id: 'id',
-        individual: (student: Student) => (
-            <div className="flex gap-x-2">
-                <ActionButton
-                    onClick={() => {
-                        router.push(
-                            `/portals/admin/student/${student?.id}?tab=overview`
-                        )
-                    }}
-                >
-                    View
-                </ActionButton>
-                <ActionButton
-                    Icon={FaEdit}
-                    onClick={() => {
-                        router.push(
-                            `/portals/admin/student/edit-student/${student?.id}`
-                        )
-                    }}
-                >
-                    Edit
-                </ActionButton>
-                <ActionButton
-                    Icon={MdBlock}
-                    variant="error"
-                    onClick={() => {
-                        onBlockClicked(student)
-                    }}
-                >
-                    Block
-                </ActionButton>
-            </div>
-        ),
+        individual: (student: Student) => {
+            return (
+                <div className="flex gap-x-2">
+                    <ActionButton
+                        onClick={() => {
+                            router.push(
+                                `/portals/admin/student/${student?.id}?tab=overview`
+                            )
+                        }}
+                    >
+                        View
+                    </ActionButton>
+                    <ActionButton
+                        Icon={FaEdit}
+                        onClick={() => {
+                            router.push(
+                                `/portals/admin/student/edit-student/${student?.id}`
+                            )
+                        }}
+                    >
+                        Edit
+                    </ActionButton>
+                    <ActionButton
+                        Icon={MdBlock}
+                        variant="error"
+                        onClick={() => {
+                            onBlockClicked(student)
+                        }}
+                    >
+                        Block
+                    </ActionButton>
+                </div>
+            )
+        },
         common: (student: Student[]) => (
             <ActionButton
                 onClick={() => {
@@ -321,21 +326,25 @@ export const ApprovedStudent = () => {
                                 pagination,
                                 pageSize,
                                 quickActions,
-                            }: any) => {
+                            }: TableChildrenProps) => {
                                 return (
                                     <div>
                                         <div className="p-6 mb-2 flex justify-between">
-                                            {pageSize(
-                                                itemPerPage,
-                                                setItemPerPage,
-                                                data?.data?.length
-                                            )}
+                                            {pageSize
+                                                ? pageSize(
+                                                      itemPerPage,
+                                                      setItemPerPage,
+                                                      data?.data?.length
+                                                  )
+                                                : null}
                                             <div className="flex gap-x-2">
                                                 {quickActions}
-                                                {pagination(
-                                                    data?.pagination,
-                                                    setPage
-                                                )}
+                                                {pagination
+                                                    ? pagination(
+                                                          data?.pagination,
+                                                          setPage
+                                                      )
+                                                    : null}
                                             </div>
                                         </div>
                                         <div className=" overflow-x-scroll remove-scrollbar">
@@ -345,17 +354,21 @@ export const ApprovedStudent = () => {
                                         </div>
                                         {data?.data?.length > 10 && (
                                             <div className="p-6 mb-2 flex justify-between">
-                                                {pageSize(
-                                                    itemPerPage,
-                                                    setItemPerPage,
-                                                    data?.data?.length
-                                                )}
+                                                {pageSize
+                                                    ? pageSize(
+                                                          itemPerPage,
+                                                          setItemPerPage,
+                                                          data?.data?.length
+                                                      )
+                                                    : null}
                                                 <div className="flex gap-x-2">
                                                     {quickActions}
-                                                    {pagination(
-                                                        data?.pagination,
-                                                        setPage
-                                                    )}
+                                                    {pagination
+                                                        ? pagination(
+                                                              data?.pagination,
+                                                              setPage
+                                                          )
+                                                        : null}
                                                 </div>
                                             </div>
                                         )}

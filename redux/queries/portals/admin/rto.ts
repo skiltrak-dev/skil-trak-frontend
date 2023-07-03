@@ -2,12 +2,18 @@ import { BaseQueryFn } from '@reduxjs/toolkit/dist/query/baseQueryTypes'
 import { EndpointBuilder } from '@reduxjs/toolkit/dist/query/endpointDefinitions'
 
 import {
-    UserCount,
-    PaginatedResponse,
-    Rto,
-    UserStatus,
+    AssessmentTools,
     Course,
+    ImportStudentFormType,
+    PaginatedResponse,
+    PaginationWithSearch,
+    RTOSubAdmin,
+    Rto,
     RtoStatsCount,
+    Student,
+    StudentFormQueryType,
+    UserCount,
+    UserStatus,
 } from '@types'
 
 const PREFIX = 'admin'
@@ -24,13 +30,11 @@ export const rtoEndpoints = (
         providesTags: ['RTOS'],
     }),
 
-    rtos: builder.query<PaginatedResponse<Rto>, any>({
-        query: (params: any) => {
-            return {
-                url: `${PREFIX}/rtos/list`,
-                params,
-            }
-        },
+    rtos: builder.query<PaginatedResponse<Rto>, PaginationWithSearch>({
+        query: (params) => ({
+            url: `${PREFIX}/rtos/list`,
+            params,
+        }),
         providesTags: ['RTOS'],
     }),
 
@@ -49,7 +53,7 @@ export const rtoEndpoints = (
     }),
 
     rtoAssessmentTools: builder.query<
-        any,
+        AssessmentTools[],
         { rto: number; course: number; status: string }
     >({
         query: ({ rto, course, status }) => ({
@@ -59,8 +63,8 @@ export const rtoEndpoints = (
         providesTags: ['RTOS'],
     }),
 
-    rtoRemove: builder.mutation({
-        query: (id: any) => ({
+    rtoRemove: builder.mutation<Rto, number>({
+        query: (id) => ({
             // url: `${PREFIX}/rto/remove/${id}`,
             url: `${PREFIX}/user/remove/${id}`,
             method: 'DELETE',
@@ -69,7 +73,7 @@ export const rtoEndpoints = (
     }),
 
     // RTO Portal
-    rtoProfileDetail: builder.query({
+    rtoProfileDetail: builder.query<Rto, void>({
         query: () => `rtos/profile/view`,
         providesTags: ['RTOS'],
     }),
@@ -85,42 +89,40 @@ export const rtoEndpoints = (
         },
         invalidatesTags: ['RTOS'],
     }),
-    rtoCreateAssessmentTools: builder.mutation<any, any | null>({
-        query: ({ body, id }: any) => {
-            return {
-                url: `${PREFIX}/rto/assessment-tool/create/${id}`,
-                method: 'POST',
-                body,
-            }
-        },
+    rtoCreateAssessmentTools: builder.mutation<
+        AssessmentTools,
+        { body: FormData; id: number }
+    >({
+        query: ({ body, id }) => ({
+            url: `${PREFIX}/rto/assessment-tool/create/${id}`,
+            method: 'POST',
+            body,
+        }),
         invalidatesTags: ['RTOS'],
     }),
-    rtoUpdateAssessmentTools: builder.mutation<any, any | null>({
-        query: ({ body, assessment }) => {
-            return {
-                url: `${PREFIX}/rto/assessment-tool/update/${assessment}`,
-                method: 'PATCH',
-                body: { title: body },
-            }
-        },
+    rtoUpdateAssessmentTools: builder.mutation<
+        AssessmentTools,
+        { body: FormData; assessment: number }
+    >({
+        query: ({ body, assessment }) => ({
+            url: `${PREFIX}/rto/assessment-tool/update/${assessment}`,
+            method: 'PATCH',
+            body: { title: body },
+        }),
         invalidatesTags: ['RTOS'],
     }),
-    rtoRemoveAssessmentTools: builder.mutation<any, any | null>({
-        query: (id: any) => {
-            return {
-                url: `${PREFIX}/rto/assessment-tool/remove/${id}`,
-                method: 'DELETE',
-            }
-        },
+    rtoRemoveAssessmentTools: builder.mutation<AssessmentTools, number>({
+        query: (id) => ({
+            url: `${PREFIX}/rto/assessment-tool/remove/${id}`,
+            method: 'DELETE',
+        }),
         invalidatesTags: ['RTOS'],
     }),
-    rtoAssessmentToolArchive: builder.mutation<any, any | null>({
-        query: (id: any) => {
-            return {
-                url: `${PREFIX}/rto/assessment-tool/archived/${id}`,
-                method: 'PATCH',
-            }
-        },
+    rtoAssessmentToolArchive: builder.mutation<AssessmentTools[], number>({
+        query: (id) => ({
+            url: `${PREFIX}/rto/assessment-tool/archived/${id}`,
+            method: 'PATCH',
+        }),
         invalidatesTags: ['RTOS'],
     }),
 
@@ -129,19 +131,23 @@ export const rtoEndpoints = (
         providesTags: ['RTOS'],
     }),
 
-    rtoAssignCourses: builder.mutation({
-        query: (body: any) => {
-            return {
-                url: `${PREFIX}/rtos/course/add`,
-                method: 'POST',
-                body,
-            }
-        },
+    rtoAssignCourses: builder.mutation<
+        Rto,
+        { user: number; courses: number[] }
+    >({
+        query: (body) => ({
+            url: `${PREFIX}/rtos/course/add`,
+            method: 'POST',
+            body,
+        }),
         invalidatesTags: ['RTOS'],
     }),
 
-    rtoUnassignCourse: builder.mutation({
-        query: (body: any) => ({
+    rtoUnassignCourse: builder.mutation<
+        Rto,
+        { rtoId: number; courseId: number }
+    >({
+        query: (body) => ({
             url: `${PREFIX}/rtos/course/delete/${body.courseId}`,
             params: { rto: body.rtoId },
             method: 'DELETE',
@@ -154,67 +160,81 @@ export const rtoEndpoints = (
         providesTags: ['RTOS'],
     }),
 
-    rtoProfileSubAdmins: builder.query<any, any>({
+    rtoProfileSubAdmins: builder.query<
+        PaginatedResponse<RTOSubAdmin>,
+        { skip: number; limit: number; id: number }
+    >({
         query: (params) => ({
-            url: `${PREFIX}/rto/subadmin/list/${params.id}`,
+            url: `${PREFIX}/rto/subadmin/list/${params?.id}`,
             params,
         }),
         providesTags: ['RTOS'],
     }),
 
-    rtoAssignSubAdmins: builder.mutation({
-        query: (body: any) => {
-            return {
-                url: `${PREFIX}/rtos/subadmin/assign`,
-                method: 'POST',
-                body,
-            }
-        },
+    rtoAssignSubAdmins: builder.mutation<
+        null,
+        { user: number; subAdmins: number[] }
+    >({
+        query: (body) => ({
+            url: `${PREFIX}/rtos/subadmin/assign`,
+            method: 'POST',
+            body,
+        }),
         invalidatesTags: ['RTOS'],
     }),
-    rtoImportStudents: builder.mutation<any, any>({
-        query: ({ id, body }: any) => {
-            return {
-                url: `${PREFIX}/students/import/${id}`,
-                method: 'POST',
-                body,
-            }
+    rtoImportStudents: builder.mutation<
+        {
+            created: Student[]
+            ignored: string[]
         },
+        { id: number; body: ImportStudentFormType }
+    >({
+        query: ({ id, body }) => ({
+            url: `${PREFIX}/students/import/${id}`,
+            method: 'POST',
+            body,
+        }),
         invalidatesTags: ['RTOS'],
     }),
-    rtoImportStudentExistingEmailCheck: builder.mutation<any, any>({
-        query: (body: any) => {
-            return {
-                url: `${PREFIX}/students/existing-emails`,
-                method: 'POST',
-                body,
-            }
-        },
+    rtoImportStudentExistingEmailCheck: builder.mutation<
+        any,
+        { emails: string[] }
+    >({
+        query: (body) => ({
+            url: `${PREFIX}/students/existing-emails`,
+            method: 'POST',
+            body,
+        }),
         invalidatesTags: ['RTOS'],
     }),
-    rtoAddStudent: builder.mutation({
-        query: ({ id, body }: any) => {
-            return {
-                url: `${PREFIX}/student/add/${id}`,
-                method: 'POST',
-                body,
-            }
-        },
+    rtoAddStudent: builder.mutation<
+        Student,
+        {
+            id: number
+            body: StudentFormQueryType
+        }
+    >({
+        query: ({ id, body }) => ({
+            url: `${PREFIX}/student/add/${id}`,
+            method: 'POST',
+            body,
+        }),
         invalidatesTags: ['RTOS'],
     }),
-    checkStudentEmail: builder.mutation<any, any>({
-        query: ({ body }: any) => {
-            return {
-                url: `${PREFIX}/email/find`,
-                method: 'POST',
-                body: { emails: body },
-            }
-        },
+    checkStudentEmail: builder.mutation<any, { body: string[] }>({
+        query: ({ body }) => ({
+            url: `${PREFIX}/email/find`,
+            method: 'POST',
+            body: { emails: body },
+        }),
         invalidatesTags: ['RTOS'],
     }),
 
-    rtoUnassignSubAdmins: builder.mutation({
-        query: (body: any) => ({
+    rtoUnassignSubAdmins: builder.mutation<
+        { message: string },
+        { rtoId: number; subAdmin: number }
+    >({
+        query: (body) => ({
             url: `${PREFIX}/rto/subadmin/remove/${body.rtoId}`,
             params: { subadmin: body.subAdmin },
             method: 'DELETE',

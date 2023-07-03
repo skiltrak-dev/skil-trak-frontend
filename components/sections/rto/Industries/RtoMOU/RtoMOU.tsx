@@ -263,7 +263,7 @@ export const RtoMOUContainer = () => {
                 {isLoading ? (
                     <LoadingAnimation height="h-[60vh]" />
                 ) : data && data?.data.length ? (
-                    <Table columns={columns} data={data.data}>
+                    <Table columns={columns} data={data?.data}>
                         {({
                             table,
                             pagination,

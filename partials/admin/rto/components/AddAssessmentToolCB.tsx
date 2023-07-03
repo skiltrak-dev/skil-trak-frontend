@@ -13,6 +13,8 @@ import { useGetSubAdminRTOCoursesQuery, AdminApi } from '@queries'
 import { useRouter } from 'next/router'
 import { UploadFile } from '@components/inputs/UploadFile'
 import { useContextBar, useNotification } from '@hooks'
+import { RtoAssessmentToolFormType } from '@types'
+import { omit } from 'lodash'
 type Props = {
     edit?: boolean
     assessment?: any
@@ -58,21 +60,27 @@ export const AddAssessmentToolCB = ({ edit, assessment }: Props) => {
         }
     }, [createResult, updateResult])
 
-    const methods = useForm({
+    const assessmentValues = {
+        title: assessment?.title,
+    }
+
+    const methods = useForm<RtoAssessmentToolFormType>({
         mode: 'all',
-        defaultValues: assessment,
+        defaultValues: assessmentValues,
     })
 
-    const onSubmit = async (values: any) => {
-        delete values.file
+    const onSubmit = async (values: RtoAssessmentToolFormType) => {
+        // delete values.file
+        const valuesWithoutFile = omit(values, 'file')
+
         const formData = new FormData()
         formData.append('file', fileData)
-        Object.keys(values).map((key) => {
-            formData.append(key, values[key])
+        Object.entries(valuesWithoutFile).map(([key, value]) => {
+            formData.append(key, value as string)
         })
         edit
             ? update({ body: formData, assessment: assessment?.id })
-            : create({ body: formData, id: String(rtoId) })
+            : create({ body: formData, id: Number(rtoId) })
     }
     return (
         <div>

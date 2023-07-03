@@ -10,6 +10,7 @@ import {
 
 // queries
 import { CommonApi } from '@queries'
+import { Appointment, PaginatedResponse } from '@types'
 import { useState } from 'react'
 
 export const PastAppointments = ({ userId }: { userId?: any }) => {
@@ -55,20 +56,10 @@ export const PastAppointments = ({ userId }: { userId?: any }) => {
                   pastAppointments.data?.data?.length ? (
                     <div className="flex flex-wrap justify-start gap-x-2 gap-y-2">
                         {pastAppointments.data?.data?.map(
-                            (pastAppointment: any, index: number) => (
+                            (pastAppointment: Appointment, index: number) => (
                                 <PastAppointmentCard
                                     key={index}
                                     appointment={pastAppointment}
-                                    time={pastAppointment.time}
-                                    totalMinutes={pastAppointment.totalMinutes}
-                                    name={pastAppointment.name}
-                                    imageUrl={
-                                        '/images/card-images/phone-image.png'
-                                    }
-                                    post={pastAppointment.post}
-                                    status={pastAppointment.status}
-                                    address={pastAppointment.address}
-                                    date={pastAppointment.date}
                                 />
                             )
                         )}

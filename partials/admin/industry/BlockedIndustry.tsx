@@ -3,9 +3,7 @@ import {
     Button,
     Card,
     EmptyData,
-    Filter,
     LoadingAnimation,
-    RtoFilters,
     Table,
     TableAction,
     TableActionOption,
@@ -17,11 +15,11 @@ import { FaEdit, FaEye, FaFileExport, FaTrash } from 'react-icons/fa'
 
 import { AdminApi, commonApi } from '@queries'
 import { Industry } from '@types'
+import { useRouter } from 'next/router'
 import { ReactElement, useEffect, useState } from 'react'
 import { CgUnblock } from 'react-icons/cg'
 import { IndustryCell, SectorCell } from './components'
 import { DeleteModal, UnblockModal } from './modals'
-import { useRouter } from 'next/router'
 
 // hooks
 import { useActionModal } from '@hooks'
@@ -163,7 +161,7 @@ export const BlockedIndustry = () => {
 
     const quickActionsElements = {
         id: 'id',
-        individual: (id: number) => (
+        individual: (id: Industry) => (
             <div className="flex gap-x-2">
                 <ActionButton>Sub Admins</ActionButton>
                 <ActionButton Icon={CgUnblock} variant="warning">
@@ -174,7 +172,7 @@ export const BlockedIndustry = () => {
                 </ActionButton>
             </div>
         ),
-        common: (ids: number[]) => (
+        common: (ids: Industry[]) => (
             <div className="flex gap-x-2">
                 <ActionButton
                     onClick={() => {

@@ -1,3 +1,9 @@
+import { Industry } from '@types'
+import {
+    IWorkplaceIndustries,
+    WorkplaceWorkIndustriesType,
+} from 'redux/queryTypes'
+
 export enum WorkplaceCurrentStatus {
     NotRequested = 'notRequested',
     Applied = 'applied',
@@ -50,20 +56,25 @@ export const checkStudentStatus = (studentStatus: string) => {
     return step + 1
 }
 
-export const getStudentWorkplaceAppliedIndustry = (industries: any) => {
-    return industries?.find((industry: any) => industry?.applied)
+export const getStudentWorkplaceAppliedIndustry = (
+    industries: WorkplaceWorkIndustriesType[]
+) => {
+    return industries?.find(
+        (industry: WorkplaceWorkIndustriesType) => industry?.applied
+    )
 }
 
-export const latestWorkplace = (workplace: any) => {
+export const latestWorkplace = (workplace: IWorkplaceIndustries[]) => {
     return workplace?.reduce(
-        (a: any, b: any) => (a?.createdAt > b?.createdAt ? a : b),
+        (a: IWorkplaceIndustries, b: IWorkplaceIndustries) =>
+            (a?.createdAt ?? 0) > (b?.createdAt ?? 0) ? a : b,
         {
             currentStatus: WorkplaceCurrentStatus.NotRequested,
         }
     )
 }
 
-export const activeWorkplace = (workplace: any) => {
+export const activeWorkplace = (workplace: IWorkplaceIndustries[]) => {
     return workplace?.filter(
         (wp: any) =>
             wp?.currentStatus !== WorkplaceCurrentStatus.Cancelled ||
@@ -73,13 +84,13 @@ export const activeWorkplace = (workplace: any) => {
     )
 }
 
-export const studentsListWorkplace = (workplace: any) => {
+export const studentsListWorkplace = (workplace: IWorkplaceIndustries[]) => {
     const activeWP = activeWorkplace(workplace)
 
     const latestWP = latestWorkplace(activeWP)
 
     const appliedIndustry = getStudentWorkplaceAppliedIndustry(
-        latestWP?.industries
+        latestWP?.industries as WorkplaceWorkIndustriesType[]
     )?.industry
 
     return appliedIndustry

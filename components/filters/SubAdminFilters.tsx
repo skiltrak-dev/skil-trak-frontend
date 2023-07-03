@@ -3,10 +3,11 @@ import { CommonApi } from '@queries'
 import { SetQueryFilters } from './SetQueryFilters'
 import { statusOptions } from './statusOptions'
 import { SelectOption } from './types'
+import { AdminSubadminFilter, Course, OptionType, UserStatus } from '@types'
 
 interface ItemFilterProps {
-    onFilterChange: Function
-    filter: any
+    onFilterChange: (values: AdminSubadminFilter) => void
+    filter: AdminSubadminFilter
 }
 
 export const SubAdminFilters = ({
@@ -16,14 +17,14 @@ export const SubAdminFilters = ({
     // query
     const getCourses = CommonApi.Filter.useCourses()
 
-    const coursesOptions = getCourses?.data?.map((course: any) => ({
+    const coursesOptions = getCourses?.data?.map((course: Course) => ({
         value: course?.id,
         label: course?.title,
     }))
 
     return (
         <>
-            <SetQueryFilters filter={filter} />
+            <SetQueryFilters<AdminSubadminFilter> filter={filter} />
             <div className="grid grid-cols-4 gap-x-3">
                 <TextInput
                     name="name"
@@ -48,12 +49,15 @@ export const SubAdminFilters = ({
                     label={'Status'}
                     name={'status'}
                     options={statusOptions}
-                    defaultValue={statusOptions?.find(
+                    value={statusOptions?.find(
                         (status) => status.value === filter?.status
                     )}
                     placeholder={'Select Sectors...'}
-                    onChange={(e: any) => {
-                        onFilterChange({ ...filter, status: e?.value })
+                    onChange={(e: OptionType) => {
+                        onFilterChange({
+                            ...filter,
+                            status: e?.value as UserStatus,
+                        })
                     }}
                 />
                 <Select
@@ -62,11 +66,14 @@ export const SubAdminFilters = ({
                     options={coursesOptions}
                     placeholder={'Select Courses...'}
                     defaultValue={coursesOptions?.find(
-                        (course: SelectOption) =>
+                        (course: OptionType) =>
                             course.value === filter?.courseId
                     )}
-                    onChange={(e: any) => {
-                        onFilterChange({ ...filter, courseId: e?.value })
+                    onChange={(e: OptionType) => {
+                        onFilterChange({
+                            ...filter,
+                            courseId: Number(e?.value),
+                        })
                     }}
                     loading={getCourses.isLoading}
                     disabled={getCourses.isLoading}

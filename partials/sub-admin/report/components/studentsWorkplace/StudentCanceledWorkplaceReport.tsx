@@ -1,4 +1,12 @@
-import { ActionButton, EmptyData, InitialAvatar, LoadingAnimation, Table, TechnicalError, Typography } from '@components'
+import {
+    ActionButton,
+    EmptyData,
+    InitialAvatar,
+    LoadingAnimation,
+    Table,
+    TechnicalError,
+    Typography,
+} from '@components'
 import { CourseDot } from '@partials/rto/student/components'
 import { RtoApi } from '@queries'
 import { ColumnDef } from '@tanstack/react-table'
@@ -9,19 +17,18 @@ import { FilterReport } from '../../FilterReport'
 import { ViewFullListReport } from '../../ViewFullListReport'
 import { useRouter } from 'next/router'
 
-
 type Props = {
-    startDate: any
-    endDate: any
-    setStartDate: any
-    setEndDate: any
+    startDate: Date
+    setStartDate: (startDate: Date) => void
+    endDate: Date
+    setEndDate: (endDate: Date) => void
 }
 
 export const StudentCancelledWorkplaceReport = ({
     setStartDate,
     setEndDate,
     startDate,
-    endDate
+    endDate,
 }: Props) => {
     const [itemPerPage, setItemPerPage] = useState(50)
     const [page, setPage] = useState(1)
@@ -34,7 +41,6 @@ export const StudentCancelledWorkplaceReport = ({
             limit: itemPerPage,
         })
 
-
     const columns: ColumnDef<any>[] = [
         {
             header: () => <span>Name</span>,
@@ -42,14 +48,18 @@ export const StudentCancelledWorkplaceReport = ({
             cell: (info: any) => {
                 const {
                     id,
-                    student: { user: { name, avatar } },
+                    student: {
+                        user: { name, avatar },
+                    },
                 } = info.row.original || {}
 
                 return (
                     <a className="flex items-center gap-x-2">
                         <InitialAvatar name={name} imageUrl={avatar} />
                         <div className="flex flex-col">
-                            <span>{info?.row?.original?.student?.studentId}</span>
+                            <span>
+                                {info?.row?.original?.student?.studentId}
+                            </span>
                             <span>{name}</span>
                         </div>
                     </a>
@@ -61,7 +71,9 @@ export const StudentCancelledWorkplaceReport = ({
             header: () => <span>Email</span>,
             cell: (info) => {
                 const {
-                    student: { user: { email } },
+                    student: {
+                        user: { email },
+                    },
                 } = info.row.original || {}
                 return <span>{email}</span>
             },
@@ -83,23 +95,26 @@ export const StudentCancelledWorkplaceReport = ({
                 // return info?.row?.original?.courses?.map((c: Course) => (
                 //     <CourseDot key={c?.id} course={c} />
                 // ))
-                return <span>{info?.row?.original?.courses[0]?.title || "N/A"}</span>
+                return (
+                    <span>
+                        {info?.row?.original?.courses[0]?.title || 'N/A'}
+                    </span>
+                )
             },
         },
     ]
-    const count = data?.data?.length;
+    const count = data?.data?.length
     return (
         <>
             <div className="flex justify-between">
                 <div className="">
                     <Typography variant="title" color="text-gray-400">
-                    Student Cancelled Workplace Request
+                        Student Cancelled Workplace Request
                     </Typography>
                     <Typography variant="h3">{count || 0}</Typography>
                 </div>
 
-
-                <div className='flex items-center gap-x-4'>
+                <div className="flex items-center gap-x-4">
                     <FilterReport
                         startDate={startDate}
                         setStartDate={setStartDate}
@@ -107,11 +122,16 @@ export const StudentCancelledWorkplaceReport = ({
                         setEndDate={setEndDate}
                     />
                     {/* <ViewFullListReport data={data} columns={columns} /> */}
-                    <ActionButton onClick={() => { router.push(`/portals/rto/report/${ReportOptionsEnum.CANCELLED_WORKPLACE_REQUEST}`) }} >
+                    <ActionButton
+                        onClick={() => {
+                            router.push(
+                                `/portals/rto/report/${ReportOptionsEnum.CANCELLED_WORKPLACE_REQUEST}`
+                            )
+                        }}
+                    >
                         View Full List
                     </ActionButton>
                 </div>
-
             </div>
             {isError && <TechnicalError />}
             {isLoading ? (

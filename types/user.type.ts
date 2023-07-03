@@ -1,6 +1,7 @@
-import { Course } from '@types'
+import { Course, Packages } from '@types'
 import { BaseResponse } from './base.type'
 import { Note } from './note.type'
+import { IWorkplaceIndustries } from 'redux/queryTypes'
 
 export enum StudentStatusEnum {
     ACTIVE = 'active',
@@ -27,6 +28,7 @@ export interface User extends BaseResponse {
     status: string
     password: string
     avatar: string | undefined
+    appointmentFor: any
 }
 
 export interface UserCount {
@@ -54,7 +56,7 @@ export interface Rto extends BaseResponse {
     addressLine2: string
     zipCode: string
     user: User
-    package: any
+    package: Packages
     courses: Course[]
     subadmin: SubAdmin[]
     students: Student[]
@@ -69,7 +71,7 @@ export interface Student extends BaseResponse {
     emergencyPerson: string
     called: boolean
     emergencyPersonPhone: string
-    industries: any
+    industries: Industry[]
     expiryDate: Date
     addressLine1: string
     addressLine2: string
@@ -82,7 +84,7 @@ export interface Student extends BaseResponse {
     studentStatus: StudentStatusEnum
     courses: Course[]
     assessmentEvidence: any[]
-    workplace: any
+    workplace: IWorkplaceIndustries[]
     callLog: CallLog[]
 
     gender: string
@@ -95,7 +97,7 @@ export interface SubAdmin extends BaseResponse {
     appointmentEligibility: boolean
     courses: Course[]
     coordinatorId: string
-    address: string
+    addressLine1: string
     createdBy: User
 }
 
@@ -133,10 +135,18 @@ export interface CallLog extends BaseResponse {
     isAnswered: boolean
 }
 export interface ApiCallResult {
-    isLoading: boolean
-    isSuccess: boolean
-    isFetching: boolean
-    isError: boolean
+    isLoading: any
+    isSuccess: any
+    isFetching: any
+    isError: any
     error: any
-    isUninitialized: boolean
+    isUninitialized: any
+    status: string
+    reset: () => void
+    originalArgs: any
+    fulfilledTimeStamp: any
+    requestId: any
+    data: any
+    endpointName: any
+    startedTimeStamp: any
 }

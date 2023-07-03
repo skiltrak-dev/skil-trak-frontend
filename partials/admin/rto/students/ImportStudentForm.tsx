@@ -3,7 +3,7 @@ import { BinaryFileUpload } from '@components/inputs/BinaryFileUpload'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useNotification } from '@hooks'
 import { AdminApi } from '@queries'
-import { Course } from '@types'
+import { Course, ImportStudentFormType } from '@types'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
@@ -11,7 +11,7 @@ import { read, utils } from 'xlsx'
 import * as yup from 'yup'
 
 interface FormProps {
-    onSubmit: any
+    onSubmit: (values: ImportStudentFormType) => void
     edit?: boolean
     initialValues?: any
     onStudentFound: Function
@@ -37,9 +37,7 @@ export const ImportStudentForm = ({
         if (!mount) setMount(true)
     }, [])
 
-    const sectors = AdminApi.Sectors.useListQuery({})
-
-    const courses = AdminApi.Courses.useListQuery({})
+    const courses = AdminApi.Courses.useListQuery(undefined)
     const [courseOptions, setCourseOptions] = useState<any>([])
 
     const onSectorSelect = (options: any) => {
@@ -130,6 +128,7 @@ export const ImportStudentForm = ({
                                     label={'Courses'}
                                     options={rtoCourses}
                                     multi
+                                    onlyValue
                                 />
                             </div>
                         </div>

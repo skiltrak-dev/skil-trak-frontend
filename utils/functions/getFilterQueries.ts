@@ -1,8 +1,14 @@
-export const getFilterQuery = ({
+import { NextRouter } from 'next/router'
+
+export interface QueryType {
+    [key: string]: string
+}
+
+export const getFilterQuery = <Type>({
     router,
     filterKeys,
 }: {
-    router: any
+    router: NextRouter
     filterKeys: string[]
 }) => {
     const query = { ...router.query }
@@ -12,27 +18,27 @@ export const getFilterQuery = ({
     filteredData.forEach((q) => {
         delete query[q]
     })
-    return Object.keys(query)?.length > 0 ? query : {}
+    return Object.keys(query)?.length > 0 ? (query as Type | QueryType) : {}
 }
 
-export const queryToUrl = (query: any) => {
+export const queryToUrl = (query: QueryType) => {
     return Object.entries(query)
         .map(([key, value]) => `${key}=${value}`)
         .join('&')
 }
 
-export const setFilterValues = ({
+export const setFilterValues = <T>({
     router,
     filter,
 }: {
-    router: any
-    filter: any
+    router: NextRouter
+    filter: T
 }) => {
-    let getValueQuery: any = {}
+    let getValueQuery: QueryType = {}
     const queryFilters = { ...router.query, ...filter }
     Object.entries(queryFilters)?.forEach(([key, value]) => {
         if (value) {
-            getValueQuery[key] = value
+            getValueQuery[key] = value as string
         }
     })
     const queryUrl = queryToUrl(getValueQuery)

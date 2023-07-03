@@ -1,12 +1,11 @@
 import { InitialAvatar } from '@components'
-import { Industry, SubAdmin } from '@types'
 import { setLink } from '@utils'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { AiFillStar } from 'react-icons/ai'
+import { FaHandshake } from 'react-icons/fa'
 import { MdEmail, MdPhoneIphone } from 'react-icons/md'
 import { IndustrySubAdmin } from '../AllIndustries'
-import { FaHandshake } from 'react-icons/fa'
 
 export const IndustryCellInfo = ({
     industry,

@@ -20,7 +20,7 @@ import {
     RejectedRto,
 } from '@partials'
 import { AdminApi } from '@queries'
-import { NextPageWithLayout, UserStatus } from '@types'
+import { NextPageWithLayout, RTOFilterType, UserStatus } from '@types'
 import { checkFilteredDataLength, getFilterQuery } from '@utils'
 import { useRouter } from 'next/router'
 
@@ -34,11 +34,11 @@ const RtoList: NextPageWithLayout = () => {
     const [filterAction, setFilterAction] = useState(null)
     const [itemPerPage, setItemPerPage] = useState(50)
     const [page, setPage] = useState(1)
-    const [filter, setFilter] = useState({})
+    const [filter, setFilter] = useState<RTOFilterType>({} as RTOFilterType)
 
     useEffect(() => {
-        const query = getFilterQuery({ router, filterKeys })
-        setFilter(query)
+        const query = getFilterQuery<RTOFilterType>({ router, filterKeys })
+        setFilter(query as RTOFilterType)
     }, [router])
 
     const filteredRtos = AdminApi.Rtos.useListQuery(
@@ -130,7 +130,7 @@ const RtoList: NextPageWithLayout = () => {
         <div>
             <div className="px-4">
                 <div className="flex justify-end mb-2">{filterAction}</div>
-                <Filter
+                <Filter<RTOFilterType>
                     component={RtoFilters}
                     initialValues={filter}
                     setFilterAction={setFilterAction}

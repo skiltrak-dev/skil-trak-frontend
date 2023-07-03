@@ -46,9 +46,9 @@ const BookAppointment: NextPageWithLayout = (props: Props) => {
     const studentTimeSlotes =
         CommonApi.Appointments.useAppointmentsAvailableSlots(
             {
-                id: type,
+                id: Number(type),
                 date: selectedDate?.toISOString(),
-                byUser: selectedCoordinator?.value,
+                byUser: Number(selectedCoordinator?.value),
                 forUser: getUserCredentials()?.id,
             },
             { skip: !type || !selectedDate || !selectedCoordinator }

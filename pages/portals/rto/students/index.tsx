@@ -1,7 +1,7 @@
 import { ReactElement, useEffect, useState } from 'react'
 //Layouts
 import { RtoLayout } from '@layouts'
-import { NextPageWithLayout, UserStatus } from '@types'
+import { NextPageWithLayout, StudentsFilterType, UserStatus } from '@types'
 
 //components
 import {
@@ -42,12 +42,22 @@ const filterKeys = [
 
 type Props = {}
 
+interface CountType {
+    pending: number
+    approved: number
+    rejected: number
+    blocked: number
+    archived: number
+}
+
 const RtoStudents: NextPageWithLayout = (props: Props) => {
     const router = useRouter()
     const contextBar = useContextBar()
 
     const [filterAction, setFilterAction] = useState(null)
-    const [filter, setFilter] = useState({})
+    const [filter, setFilter] = useState<StudentsFilterType>(
+        {} as StudentsFilterType
+    )
     const [page, setPage] = useState(1)
     const [itemPerPage, setItemPerPage] = useState(50)
     useEffect(() => {
@@ -69,7 +79,7 @@ const RtoStudents: NextPageWithLayout = (props: Props) => {
         { skip: !Object.keys(filter).length }
     )
 
-    const studentCount = getCountData(count?.data)
+    const studentCount = getCountData<{ [key: string]: number }>(count?.data)
 
     // ADD STUDENT JOY RIDE - START
     const joyride = useJoyRide()
@@ -217,7 +227,7 @@ const RtoStudents: NextPageWithLayout = (props: Props) => {
                         <div className="flex justify-end mb-2">
                             {filterAction}
                         </div>
-                        <Filter
+                        <Filter<StudentsFilterType>
                             component={StudentFilters}
                             initialValues={filter}
                             setFilterAction={setFilterAction}

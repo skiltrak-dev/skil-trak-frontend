@@ -1,8 +1,12 @@
-import { createContext, useContext, useState } from 'react'
+import { ReactNode, createContext, useContext, useState } from 'react'
 
 const SocketContext = createContext<any | null>(null)
 
-export const SocketListenerProvider = ({ children }: { children: any }) => {
+export const SocketListenerProvider = ({
+    children,
+}: {
+    children: ReactNode
+}) => {
     const [eventListener, seteventListener] = useState<{
         eventName: string
         eventListener: any

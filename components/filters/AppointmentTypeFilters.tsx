@@ -1,11 +1,11 @@
 import { Select, TextInput } from '@components/inputs'
-import { SetQueryFilters } from './SetQueryFilters'
-import { SelectOption } from './types'
 import { UserRoles } from '@constants'
+import { AppointmentTypeFilterType, OptionType } from '@types'
+import { SetQueryFilters } from './SetQueryFilters'
 
 interface ItemFilterProps {
-    onFilterChange: Function
-    filter: any
+    onFilterChange: (values: AppointmentTypeFilterType) => void
+    filter: AppointmentTypeFilterType
 }
 export const AppointmentTypeFilters = ({
     onFilterChange,
@@ -18,7 +18,7 @@ export const AppointmentTypeFilters = ({
     ]
     return (
         <>
-            <SetQueryFilters filter={filter} />
+            <SetQueryFilters<AppointmentTypeFilterType> filter={filter} />
             <div className="flex gap-x-2">
                 <TextInput
                     name="title"
@@ -31,11 +31,17 @@ export const AppointmentTypeFilters = ({
                 <Select
                     label={'Appointment For'}
                     name={'appointmentFor'}
-                    defaultValue={appointmentForOptions?.find(
-                        (appointment: SelectOption) =>
+                    value={appointmentForOptions?.find(
+                        (appointment: OptionType) =>
                             appointment.value === filter?.appintmentType
                     )}
                     options={appointmentForOptions}
+                    onChange={(e: OptionType) => {
+                        onFilterChange({
+                            ...filter,
+                            appintmentType: e.value as UserRoles,
+                        })
+                    }}
                 />
             </div>
         </>

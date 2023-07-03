@@ -3,15 +3,15 @@ import { debounce } from 'lodash'
 import { useRouter } from 'next/router'
 import React, { useCallback, useEffect } from 'react'
 
-export const SetDetaultQueryFilteres = ({
+export const SetDetaultQueryFilteres = <Type,>({
     filterKeys,
     setFilter,
 }: {
     filterKeys: string[]
-    setFilter: (query: any) => void
+    setFilter: (query: Type) => void
 }) => {
     const router = useRouter()
-    const query = getFilterQuery({ router, filterKeys })
+    const query = getFilterQuery<Type>({ router, filterKeys })
 
     const debounceValue = useCallback(
         debounce((query) => setFilter(removeEmptyValues(query)), 700),

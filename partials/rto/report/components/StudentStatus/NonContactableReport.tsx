@@ -17,10 +17,10 @@ import { FilterReport } from '../../FilterReport'
 import { UserRoles } from '@constants'
 import { Waypoint } from 'react-waypoint'
 type Props = {
-    startDate: any
-    endDate: any
-    setStartDate: any
-    setEndDate: any
+    startDate: Date
+    setStartDate: (startDate: Date) => void
+    endDate: Date
+    setEndDate: (endDate: Date) => void
     user?: number
 }
 
@@ -34,7 +34,6 @@ export const NonContactableReport = ({
     const [itemPerPage, setItemPerPage] = useState(50)
     const [page, setPage] = useState(1)
     const router = useRouter()
-
 
     const { data, isLoading, isError } =
         RtoApi.Students.useGetNotContactableStudents({

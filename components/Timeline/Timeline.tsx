@@ -1,11 +1,12 @@
 import moment from 'moment'
+import { ReactNode } from 'react'
 
 export const Timeline = ({
     updatedAt,
     children,
 }: {
     updatedAt: Date
-    children: any
+    children: ReactNode
 }) => {
     return (
         <div className="mb-2 flex items-center gap-x-2 relative -left-[15px] pt-4">

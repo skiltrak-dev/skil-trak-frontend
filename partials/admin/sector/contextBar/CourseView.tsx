@@ -9,6 +9,7 @@ import 'react-tabs/style/react-tabs.css'
 import { CourseFolders } from '../components'
 import { RequirementModal } from '../modals'
 import { TabsStyle } from './style'
+import { AssessmentEvidenceFolder } from 'types/assessment-evidence.type'
 
 export const CourseView = ({ course }: { course: Course }) => {
     const [modal, setModal] = useState<ReactElement | null>(null)

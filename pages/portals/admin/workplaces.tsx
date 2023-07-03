@@ -1,7 +1,7 @@
 import { ReactElement, useEffect, useState } from 'react'
 
 import { AdminLayout } from '@layouts'
-import { NextPageWithLayout } from '@types'
+import { AdminWorkplaceFiltersType, NextPageWithLayout } from '@types'
 
 import {
     AdminWorkplaceFilters,
@@ -16,7 +16,7 @@ import {
 import { AdminApi } from '@queries'
 
 // components
-import { EmptyData, LoadingAnimation, TechnicalError } from '@components'
+import { LoadingAnimation, TechnicalError } from '@components'
 import { useNavbar } from '@hooks'
 import {
     AdminFilteredWorkplace,
@@ -47,7 +47,9 @@ const Workplace: NextPageWithLayout = (props: Props) => {
     const router = useRouter()
 
     const [filterAction, setFilterAction] = useState(null)
-    const [filter, setFilter] = useState({})
+    const [filter, setFilter] = useState<AdminWorkplaceFiltersType>(
+        {} as AdminWorkplaceFiltersType
+    )
     const [page, setPage] = useState(1)
     const [itemPerPage, setItemPerPage] = useState(30)
     const navBar = useNavbar()
@@ -142,14 +144,14 @@ const Workplace: NextPageWithLayout = (props: Props) => {
 
     return (
         <>
-            <SetDetaultQueryFilteres
+            <SetDetaultQueryFilteres<AdminWorkplaceFiltersType>
                 filterKeys={filterKeys}
                 setFilter={setFilter}
             />
             <div className="p-3">
                 <div>
                     <div className="flex justify-end mb-2">{filterAction}</div>
-                    <Filter
+                    <Filter<AdminWorkplaceFiltersType>
                         component={AdminWorkplaceFilters}
                         initialValues={filter}
                         setFilterAction={setFilterAction}

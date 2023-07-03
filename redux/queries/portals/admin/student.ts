@@ -1,9 +1,13 @@
+import { StudentSubAdmin } from '@components'
 import { BaseQueryFn } from '@reduxjs/toolkit/dist/query/baseQueryTypes'
 import { EndpointBuilder } from '@reduxjs/toolkit/dist/query/endpointDefinitions'
 
 import {
+    Appointment,
     Course,
+    Folder,
     PaginatedResponse,
+    PaginationWithSearch,
     Student,
     UserCount,
     UserStatus,
@@ -23,8 +27,11 @@ export const studentEndpoints = (
             'BulkStatus',
         ],
     }),
-    students: builder.query<PaginatedResponse<any>, any>({
-        query: (params: any) => ({
+    students: builder.query<
+        PaginatedResponse<StudentSubAdmin>,
+        PaginationWithSearch
+    >({
+        query: (params) => ({
             url: `${PREFIX}students/list`,
             params,
         }),
@@ -39,8 +46,11 @@ export const studentEndpoints = (
         ],
     }),
 
-    filteredStudents: builder.query<PaginatedResponse<any>, any>({
-        query: (params: any) => {
+    filteredStudents: builder.query<
+        PaginatedResponse<Student>,
+        PaginationWithSearch
+    >({
+        query: (params) => {
             return {
                 url: `${PREFIX}students/filter`,
                 params,
@@ -64,7 +74,7 @@ export const studentEndpoints = (
         query: (id) => `${PREFIX}student/course/${id}`,
         providesTags: ['Students'],
     }),
-    studentRemove: builder.mutation({
+    studentRemove: builder.mutation<Student, number>({
         query: (id) => ({
             url: `${PREFIX}student/remove/${id}`,
             method: 'DELETE',
@@ -72,7 +82,13 @@ export const studentEndpoints = (
         invalidatesTags: ['Students'],
     }),
 
-    studentAssignCourses: builder.mutation({
+    studentAssignCourses: builder.mutation<
+        Student,
+        {
+            user: number
+            courses: number[]
+        }
+    >({
         query: (body) => ({
             url: `${PREFIX}student/course/assign`,
             method: 'POST',
@@ -82,7 +98,7 @@ export const studentEndpoints = (
     }),
 
     studentUnassignCourses: builder.mutation<
-        any,
+        Student,
         { id: number; courseId: number }
     >({
         query: (body) => ({
@@ -108,27 +124,14 @@ export const studentEndpoints = (
         invalidatesTags: ['Students'],
     }),
 
-    studentUpdate: builder.mutation({
-        query: ({ id, body }: any) => {
-            return {
-                url: `${PREFIX}students/update/${id}`,
-                method: 'PATCH',
-                body,
-            }
-        },
+    studentUpdate: builder.mutation<Student, { id: number; body: Student }>({
+        query: ({ id, body }) => ({
+            url: `${PREFIX}students/update/${id}`,
+            method: 'PATCH',
+            body,
+        }),
         invalidatesTags: ['Students'],
     }),
-    // bulkStudents: builder.mutation({
-    //     query: ({ ids, status }: any) => {
-    //         return {
-    //             url: `${PREFIX}user/status/update`,
-    //             method: 'PATCH',
-    //             params: { status: status },
-    //             body: { ids: ids },
-    //         }
-    //     },
-    //     invalidatesTags: ['Students'],
-    // }),
 
     studentsRequiredDocsDetail: builder.query<
         any,
@@ -140,13 +143,16 @@ export const studentEndpoints = (
         }),
         providesTags: ['Students'],
     }),
-    studentCourseDetail: builder.query<any, { id: number; studentId: number }>({
+    studentCourseDetail: builder.query<
+        Course,
+        { id: number; studentId: number }
+    >({
         query: ({ id, studentId }) =>
             `${PREFIX}student/course/docs/${studentId}/${id}`,
 
         providesTags: ['Students'],
     }),
-    studentUpcomingAppointments: builder.query<any, number>({
+    studentUpcomingAppointments: builder.query<Appointment[], number>({
         query: (id) => `${PREFIX}appointments/view/${id}`,
 
         providesTags: ['Students'],

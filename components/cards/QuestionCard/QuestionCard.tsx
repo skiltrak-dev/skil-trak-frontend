@@ -1,4 +1,6 @@
-export const QuestionCard = ({ children }: { children: any }) => {
+import { ReactNode } from "react"
+
+export const QuestionCard = ({ children }: { children: ReactNode }) => {
     return (
         <div
             className=" bg-white shadow-xl p-2 rounded-2xl bg-cover bg-left-top"

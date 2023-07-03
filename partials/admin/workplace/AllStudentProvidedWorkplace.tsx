@@ -12,6 +12,7 @@ import { AdminApi } from '@queries'
 import { useRouter } from 'next/router'
 import { useState, useEffect } from 'react'
 import { AdminWorkplaceRequest } from './components'
+import { IWorkplaceIndustries } from 'redux/queryTypes'
 
 export const AllStudentProvidedWorkplace = () => {
     const router = useRouter()
@@ -47,12 +48,14 @@ export const AllStudentProvidedWorkplace = () => {
             ) : subAdminWorkplace.data?.data &&
               subAdminWorkplace.data?.data?.length > 0 ? (
                 <div className="flex flex-col gap-y-2">
-                    {subAdminWorkplace?.data?.data?.map((workplace: any) => (
-                        <AdminWorkplaceRequest
-                            key={workplace?.id}
-                            workplace={workplace}
-                        />
-                    ))}
+                    {subAdminWorkplace?.data?.data?.map(
+                        (workplace: IWorkplaceIndustries) => (
+                            <AdminWorkplaceRequest
+                                key={workplace?.id}
+                                workplace={workplace}
+                            />
+                        )
+                    )}
                 </div>
             ) : (
                 !subAdminWorkplace.isError && (
@@ -62,19 +65,20 @@ export const AllStudentProvidedWorkplace = () => {
                     />
                 )
             )}
-            {subAdminWorkplace.data?.data?.length > 7 && (
-                <div className="flex items-center justify-between py-7">
-                    <PageSize
-                        itemPerPage={itemPerPage}
-                        setItemPerPage={setItemPerPage}
-                        records={subAdminWorkplace.data?.data?.length}
-                    />
-                    <Pagination
-                        pagination={subAdminWorkplace?.data?.pagination}
-                        setPage={setPage}
-                    />
-                </div>
-            )}
+            {subAdminWorkplace.data?.data &&
+                subAdminWorkplace.data?.data?.length > 7 && (
+                    <div className="flex items-center justify-between py-7">
+                        <PageSize
+                            itemPerPage={itemPerPage}
+                            setItemPerPage={setItemPerPage}
+                            records={subAdminWorkplace.data?.data?.length}
+                        />
+                        <Pagination
+                            pagination={subAdminWorkplace?.data?.pagination}
+                            setPage={setPage}
+                        />
+                    </div>
+                )}
         </div>
     )
 }

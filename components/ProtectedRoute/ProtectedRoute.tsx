@@ -1,9 +1,9 @@
-import React, { useEffect, useLayoutEffect, useState } from 'react'
+import React, { ReactNode, useEffect, useLayoutEffect, useState } from 'react'
 import { useRouter } from 'next/router'
 import { AuthUtils } from '@utils'
 import { UserRoles } from '@constants'
 
-export const ProtectedRoute = ({ children }: { children: any }) => {
+export const ProtectedRoute = ({ children }: { children: JSX.Element }) => {
     const [authorized, setAuthorized] = useState(false)
     const router = useRouter()
     const role = AuthUtils.getUserCredentials()?.role

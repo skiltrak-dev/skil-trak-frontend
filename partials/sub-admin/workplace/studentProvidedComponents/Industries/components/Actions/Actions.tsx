@@ -1,29 +1,26 @@
-import { useEffect, useState, ReactElement } from 'react'
-import moment from 'moment'
+import { ReactElement, useEffect, useState } from 'react'
 
 // components
-import { Typography, ShowErrorNotifications } from '@components'
+import { ShowErrorNotifications, Typography } from '@components'
 import { AfterPlacementActions } from '@partials/sub-admin/workplace/components/Industries/components/Actions/components'
 
 // query
-import {
-    useAgrementSignMutation,
-    useStartPlacementMutation,
-    useIndustryResponseMutation,
-    useUpdateWorkplaceStatusMutation,
-    useForwardWorkplaceToIndustryMutation,
-    useChangeCustomIndustryStatusMutation,
-} from '@queries'
 import { Button } from '@components/buttons'
 import { useNotification } from '@hooks'
+import { SignAgreement } from '@partials/sub-admin/workplace/components/Industries/components/Actions/components'
+import { PlacementStartedModal } from '@partials/sub-admin/workplace/modals'
+import { StudentProvidedForwardModal } from '@partials/sub-admin/workplace/modals/StudentProvidedForwardModal'
+import {
+    useChangeCustomIndustryStatusMutation,
+    useIndustryResponseMutation,
+    useUpdateWorkplaceStatusMutation,
+} from '@queries'
+import { Course, Student, UserStatus } from '@types'
 import { userStatus } from '@utils'
 import {
-    ForwardModal,
-    PlacementStartedModal,
-} from '@partials/sub-admin/workplace/modals'
-import { SignAgreement } from '@partials/sub-admin/workplace/components/Industries/components/Actions/components'
-import { UserStatus } from '@types'
-import { StudentProvidedForwardModal } from '@partials/sub-admin/workplace/modals/StudentProvidedForwardModal'
+    IWorkplaceIndustries,
+    WorkplaceWorkIndustriesType,
+} from 'redux/queryTypes'
 
 export const Actions = ({
     appliedIndustry,
@@ -31,7 +28,13 @@ export const Actions = ({
     workplace,
     folders,
     student,
-}: any) => {
+}: {
+    appliedIndustry: WorkplaceWorkIndustriesType
+    workplaceId: number
+    workplace: IWorkplaceIndustries
+    folders: any
+    student: Student
+}) => {
     const [actionStatus, setActionStatus] = useState<any | string>('')
     const [modal, setModal] = useState<ReactElement | null>(null)
 
@@ -173,10 +176,10 @@ export const Actions = ({
                                 course={workplace?.courses[0]}
                             /> */}
                             <SignAgreement
-                                studentId={workplace?.student?.id}
+                                studentId={Number(workplace?.student?.id)}
                                 appliedIndustryId={appliedIndustry?.id}
                                 student={student}
-                                course={workplace?.courses[0]}
+                                courses={workplace?.courses as Course[]}
                             />
                         </div>
                     )}

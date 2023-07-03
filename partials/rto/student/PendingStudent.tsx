@@ -4,6 +4,7 @@ import {
     Card,
     EmptyData,
     LoadingAnimation,
+    StudentSubAdmin,
     Table,
     TableAction,
     TableActionOption,
@@ -53,24 +54,24 @@ export const PendingStudent = () => {
     const tableActionOptions: TableActionOption[] = [
         {
             text: 'View',
-            onClick: (student: any) => {
+            onClick: (student: StudentSubAdmin) => {
                 router.push(`/portals/rto/students/${student.id}`)
             },
             Icon: FaEye,
         },
         {
             text: 'Approve',
-            onClick: (student: any) => onAcceptClicked(student),
+            onClick: (student: StudentSubAdmin) => onAcceptClicked(student),
             Icon: FaEye,
         },
         {
             text: 'Reject',
-            onClick: (student: any) => onRejectClicked(student),
+            onClick: (student: StudentSubAdmin) => onRejectClicked(student),
             Icon: FaEye,
         },
     ]
 
-    const columns: ColumnDef<any>[] = [
+    const columns: ColumnDef<StudentSubAdmin>[] = [
         {
             accessorKey: 'user.name',
             cell: (info) => {
@@ -107,7 +108,7 @@ export const PendingStudent = () => {
 
     const quickActionsElements = {
         id: 'id',
-        individual: (id: number) => (
+        individual: (id: StudentSubAdmin) => (
             <div className="flex gap-x-2">
                 <ActionButton variant="success" onClick={() => {}}>
                     Accept
@@ -117,7 +118,7 @@ export const PendingStudent = () => {
                 </ActionButton>
             </div>
         ),
-        common: (ids: number[]) => (
+        common: (ids: StudentSubAdmin[]) => (
             <ActionButton variant="error" onClick={() => {}}>
                 Reject
             </ActionButton>

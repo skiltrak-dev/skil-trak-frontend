@@ -8,21 +8,22 @@ import { FileUpload } from '@hoc'
 import { useNotification } from '@hooks'
 import { useAgrementSignMutation } from '@queries'
 import { UploadAgreement } from './UploadAgreement'
-import { Course } from '@types'
+import { Course, Student } from '@types'
 
 export const SignAgreement = ({
     studentId,
     appliedIndustryId,
     student,
-    course,
+    courses,
 }: {
-    studentId: any
-    appliedIndustryId: any
-    student: any
-    course: Course
+    studentId: number
+    appliedIndustryId: number
+    student: Student
+    courses: Course[]
 }) => {
     const { notification } = useNotification()
     const [agrementSign, agrementSignResult] = useAgrementSignMutation()
+
     useEffect(() => {
         if (agrementSignResult?.isSuccess) {
             notification.success({
@@ -32,7 +33,7 @@ export const SignAgreement = ({
         }
     }, [agrementSignResult])
 
-    const UploadAgreementFile = ({ name }: any) => {
+    const UploadAgreementFile = ({ name }: { name: string }) => {
         return (
             <UploadAgreement
                 name={name}
@@ -40,6 +41,8 @@ export const SignAgreement = ({
             />
         )
     }
+
+    const course = courses[0]
 
     return (
         <>

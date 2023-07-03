@@ -3,10 +3,9 @@ import {
     Button,
     Card,
     EmptyData,
-    Filter,
     LoadingAnimation,
-    RtoFilters,
     StudentStatusProgressCell,
+    StudentSubAdmin,
     Table,
     TableAction,
     TableActionOption,
@@ -15,34 +14,18 @@ import {
 } from '@components'
 import { PageHeading } from '@components/headings'
 import { ColumnDef } from '@tanstack/react-table'
-import { FaEdit, FaEye, FaFileExport, FaFilter, FaTrash } from 'react-icons/fa'
 import { Student, UserStatus } from '@types'
+import { FaEdit, FaEye, FaFileExport, FaTrash } from 'react-icons/fa'
 
-import { useGetRtoStudentsQuery } from '@queries'
-import {
-    MdBlock,
-    MdEmail,
-    MdPhoneIphone,
-    MdRestore,
-    MdUnarchive,
-} from 'react-icons/md'
-import { useState, ReactElement, useEffect } from 'react'
-import { CgUnblock } from 'react-icons/cg'
-import {
-    IndustryCell,
-    ProgressCell,
-    SectorCell,
-    StudentCellInfo,
-} from './components'
-import { useRouter } from 'next/router'
-import { DeleteModal, AcceptModal } from './modals'
-import {
-    checkStudentStatus,
-    checkWorkplaceStatus,
-    studentsListWorkplace,
-} from '@utils'
-import { ChangeStudentStatusModal } from '@partials/sub-admin/students/modals'
 import { EditTimer } from '@components/StudentTimer/EditTimer'
+import { ChangeStudentStatusModal } from '@partials/sub-admin/students/modals'
+import { useGetRtoStudentsQuery } from '@queries'
+import { checkStudentStatus, studentsListWorkplace } from '@utils'
+import { useRouter } from 'next/router'
+import { ReactElement, useEffect, useState } from 'react'
+import { MdUnarchive } from 'react-icons/md'
+import { IndustryCell, SectorCell, StudentCellInfo } from './components'
+import { DeleteModal } from './modals'
 
 export const ArchivedStudent = () => {
     const router = useRouter()
@@ -122,12 +105,10 @@ export const ArchivedStudent = () => {
         },
     ]
 
-    const columns: ColumnDef<Student>[] = [
+    const columns: ColumnDef<StudentSubAdmin>[] = [
         {
             accessorKey: 'user.name',
-            cell: (info) => {
-                return <StudentCellInfo student={info.row.original} />
-            },
+            cell: (info) => <StudentCellInfo student={info.row.original} />,
             header: () => <span>Student</span>,
         },
         {
@@ -167,9 +148,6 @@ export const ArchivedStudent = () => {
             accessorKey: 'progress',
             header: () => <span>Progress</span>,
             cell: ({ row }) => {
-                const workplace = row.original.workplace[0]
-                const industries = row.original?.industries
-                const steps = checkWorkplaceStatus(workplace?.currentStatus)
                 const studentStatus = checkStudentStatus(
                     row.original?.studentStatus
                 )
@@ -195,7 +173,7 @@ export const ArchivedStudent = () => {
 
     const quickActionsElements = {
         id: 'id',
-        individual: (id: number) => (
+        individual: (id: StudentSubAdmin) => (
             <div className="flex gap-x-2">
                 <ActionButton>Sub Admins</ActionButton>
                 <ActionButton Icon={MdUnarchive} variant="warning">
@@ -206,7 +184,7 @@ export const ArchivedStudent = () => {
                 </ActionButton>
             </div>
         ),
-        common: (ids: number[]) => (
+        common: (ids: StudentSubAdmin[]) => (
             <div className="flex gap-x-2">
                 <ActionButton Icon={MdUnarchive} variant="warning">
                     Unarchive

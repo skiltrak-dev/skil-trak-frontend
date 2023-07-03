@@ -3,33 +3,35 @@ import { PulseLoader } from 'react-spinners'
 
 //components
 import {
-    NoData,
+    AssessmentFolderCard,
+    AssessmentResponse,
+    Button,
     Checkbox,
-    PageTitle,
     CourseCard,
-    Typography,
     FinalResult,
     LoadingAnimation,
-    AssessmentResponse,
-    AssessmentFolderCard,
-    Button,
+    NoData,
     ShowErrorNotifications,
-    ActionButton,
+    Typography,
 } from '@components'
 import { Actions } from './components'
 
 // queries
+import { getDocType } from '@components/sections/student/AssessmentsContainer'
+import { UploadFile } from '@components/sections/student/AssessmentsContainer/AssessmentsEvidence/AssessmentFolderDetailX/UploadFile'
+import { Result } from '@constants'
+import { FileUpload } from '@hoc'
 import { useNotification } from '@hooks'
 import {
-    useGetAssessmentEvidenceDetailQuery,
-    useGetSubAdminStudentWorkplaceQuery,
-    useGetAssessmentResponseQuery,
-    useMaulallyReopenSubmissionRequestMutation,
-    useStudentAssessmentCoursesQuery,
-    useGetSubAdminStudentDetailQuery,
+    CommonApi,
     SubAdminApi,
     useGetAgrementFileQuery,
-    CommonApi,
+    useGetAssessmentEvidenceDetailQuery,
+    useGetAssessmentResponseQuery,
+    useGetSubAdminStudentDetailQuery,
+    useGetSubAdminStudentWorkplaceQuery,
+    useMaulallyReopenSubmissionRequestMutation,
+    useStudentAssessmentCoursesQuery,
 } from '@queries'
 import {
     WorkplaceCurrentStatus,
@@ -37,16 +39,11 @@ import {
     getCourseResult,
     getUserCredentials,
 } from '@utils'
-import { FileUpload } from '@hoc'
-import { UploadFile } from '@components/sections/student/AssessmentsContainer/AssessmentsEvidence/AssessmentFolderDetailX/UploadFile'
-import { getDocType } from '@components/sections/student/AssessmentsContainer'
+import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { AiFillDelete } from 'react-icons/ai'
-import { MdEdit } from 'react-icons/md'
-import Link from 'next/link'
 import { FaDownload } from 'react-icons/fa'
 import { SignAgreement } from '../workplace/components/Industries/components/Actions/components'
-import { Result } from '@constants'
 
 const AgreementFile = 'agreementFile'
 
@@ -54,8 +51,8 @@ export const ActiveAssessmentDetail = ({
     studentId,
     studentUserId,
 }: {
-    studentId: string | string[] | undefined
-    studentUserId: string | string[] | undefined
+    studentId: number
+    studentUserId: number
 }) => {
     const router = useRouter()
 
@@ -426,8 +423,8 @@ export const ActiveAssessmentDetail = ({
                                                     appliedIndustry?.id
                                                 }
                                                 student={studentProfile?.data}
-                                                course={
-                                                    latestWorkplace?.courses[0]
+                                                courses={
+                                                    latestWorkplace?.courses
                                                 }
                                             />
                                         ) : selectedFolder ? (

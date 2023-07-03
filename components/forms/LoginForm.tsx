@@ -1,14 +1,16 @@
 import { Button, LoadingAnimation, TextInput } from '@components'
 import { yupResolver } from '@hookform/resolvers/yup'
+import { ApiCallResult, LoginCredentials } from '@types'
 import Link from 'next/link'
-import { FormProvider, useForm } from 'react-hook-form'
+import { FormProvider, useForm, SubmitHandler } from 'react-hook-form'
+import { FieldValues } from 'react-hook-form/dist/types'
 import * as Yup from 'yup'
 
 export const LoginForm = ({
     onSubmit,
     result,
 }: {
-    onSubmit: any
+    onSubmit: SubmitHandler<LoginCredentials>
     result: any
 }) => {
     const validationSchema = Yup.object({
@@ -18,7 +20,7 @@ export const LoginForm = ({
         password: Yup.string().required('Password is required'),
     })
 
-    const methods = useForm({
+    const methods = useForm<LoginCredentials>({
         resolver: yupResolver(validationSchema),
         mode: 'all',
     })

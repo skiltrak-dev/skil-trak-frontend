@@ -5,6 +5,8 @@ import {
     Course,
     Industry,
     PaginatedResponse,
+    PaginationValues,
+    PaginationWithSearch,
     Student,
     UserCount,
     UserStatus,
@@ -14,7 +16,13 @@ const PREFIX = 'admin/'
 export const industryEndpoints = (
     builder: EndpointBuilder<BaseQueryFn, string, string>
 ) => ({
-    industryStatisticsCount: builder.query<any, number>({
+    industryStatisticsCount: builder.query<
+        {
+            capacity: number
+            count: number
+        },
+        number
+    >({
         query: (id) => `${PREFIX}industry/students/count/${id}`,
         providesTags: ['Industries'],
     }),
@@ -24,7 +32,7 @@ export const industryEndpoints = (
         providesTags: ['Industries'],
     }),
     industryAssignCourses: builder.mutation<
-        any,
+        Industry,
         { user: number; courses: number[] }
     >({
         query: (body) => ({
@@ -35,7 +43,7 @@ export const industryEndpoints = (
         invalidatesTags: ['Industries'],
     }),
     industryUnassignCourse: builder.mutation<
-        any,
+        Industry,
         { courseId: number; industryId: number }
     >({
         query: (body) => ({
@@ -49,18 +57,19 @@ export const industryEndpoints = (
         query: () => `${PREFIX}industries/list/count`,
         providesTags: ['Industries'],
     }),
-    industries: builder.query<PaginatedResponse<any>, any>({
-        query: (params: any) => {
-            return {
-                url: `${PREFIX}industries/list`,
-                params,
-            }
-        },
+    industries: builder.query<
+        PaginatedResponse<Industry>,
+        PaginationWithSearch
+    >({
+        query: (params) => ({
+            url: `${PREFIX}industries/list`,
+            params,
+        }),
         providesTags: ['Industries'],
     }),
 
     industryStatusChange: builder.mutation<
-        any,
+        Industry,
         { id: number; status: UserStatus }
     >({
         query: ({ id, status }) => ({
@@ -77,7 +86,7 @@ export const industryEndpoints = (
         providesTags: ['Industries'],
     }),
 
-    industryRemove: builder.mutation({
+    industryRemove: builder.mutation<Industry, number>({
         query: (id) => ({
             url: `${PREFIX}industry/remove/${id}`,
             method: 'DELETE',
@@ -85,7 +94,10 @@ export const industryEndpoints = (
         invalidatesTags: ['Industries'],
     }),
 
-    industryStudents: builder.query<PaginatedResponse<any>, any>({
+    industryStudents: builder.query<
+        PaginatedResponse<Student>,
+        { params: PaginationValues; industryId: number }
+    >({
         query: ({ params, industryId }) => ({
             url: `${PREFIX}industry/students/list/${industryId}`,
             params,

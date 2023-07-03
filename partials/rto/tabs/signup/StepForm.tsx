@@ -1,14 +1,14 @@
-import { IndicatorStep, StepIndicator } from '@components'
-import { UserRoles } from '@constants'
-import { RtoSignUpForm } from '@partials/rto/forms'
-import { SignUpUtils } from '@utils'
+import {
+    IndicatorChildrenPropType,
+    IndicatorStep,
+    StepIndicator,
+} from '@components'
 import { useRouter } from 'next/router'
-import { useEffect, useState } from 'react'
 import { StepAccountInfo } from './StepAccountInfo'
+import { StepCreate } from './StepCreate'
 import { StepNotificationMethod } from './StepNotificationMethod'
 import { StepPackageSelection } from './StepPackageSelection'
 import { StepReviewInfo } from './StepReviewInfo'
-import { StepCreate } from './StepCreate'
 
 export const StepForm = () => {
     const router = useRouter()
@@ -58,7 +58,7 @@ export const StepForm = () => {
                     currentStep={currentStep!!}
                     horizontal
                 >
-                    {({ steps, element }: any) => {
+                    {({ steps, element }: IndicatorChildrenPropType) => {
                         return (
                             <div>
                                 <div>{steps}</div>

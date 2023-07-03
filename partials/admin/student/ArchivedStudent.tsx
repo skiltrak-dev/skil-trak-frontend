@@ -4,9 +4,11 @@ import {
     EmptyData,
     LoadingAnimation,
     StudentStatusProgressCell,
+    StudentSubAdmin,
     Table,
     TableAction,
     TableActionOption,
+    TableChildrenProps,
     TechnicalError,
     Typography,
 } from '@components'
@@ -134,7 +136,7 @@ export const ArchivedStudent = () => {
         },
     ]
 
-    const columns: ColumnDef<Student>[] = [
+    const columns: ColumnDef<StudentSubAdmin>[] = [
         {
             accessorKey: 'user.name',
             cell: (info) => {
@@ -249,7 +251,7 @@ export const ArchivedStudent = () => {
 
     const quickActionsElements = {
         id: 'id',
-        individual: (student: Student) => (
+        individual: (student: StudentSubAdmin) => (
             <div className="flex gap-x-2">
                 <ActionButton
                     onClick={() => {
@@ -270,7 +272,7 @@ export const ArchivedStudent = () => {
                 </ActionButton>
             </div>
         ),
-        common: (ids: number[]) => (
+        common: (ids: StudentSubAdmin[]) => (
             <div className="flex gap-x-2">
                 <ActionButton
                     Icon={FaTrash}
@@ -312,21 +314,25 @@ export const ArchivedStudent = () => {
                                 pagination,
                                 pageSize,
                                 quickActions,
-                            }: any) => {
+                            }: TableChildrenProps) => {
                                 return (
                                     <div>
                                         <div className="p-6 mb-2 flex justify-between">
-                                            {pageSize(
-                                                itemPerPage,
-                                                setItemPerPage,
-                                                data?.data?.length
-                                            )}
+                                            {pageSize
+                                                ? pageSize(
+                                                      itemPerPage,
+                                                      setItemPerPage,
+                                                      data?.data?.length
+                                                  )
+                                                : null}
                                             <div className="flex gap-x-2">
                                                 {quickActions}
-                                                {pagination(
-                                                    data?.pagination,
-                                                    setPage
-                                                )}
+                                                {pagination
+                                                    ? pagination(
+                                                          data?.pagination,
+                                                          setPage
+                                                      )
+                                                    : null}
                                             </div>
                                         </div>
                                         <div className="px-6 overflow-x-auto remove-scrollbar">
@@ -334,17 +340,21 @@ export const ArchivedStudent = () => {
                                         </div>
                                         {data?.data?.length > 10 && (
                                             <div className="p-6 mb-2 flex justify-between">
-                                                {pageSize(
-                                                    itemPerPage,
-                                                    setItemPerPage,
-                                                    data?.data?.length
-                                                )}
+                                                {pageSize
+                                                    ? pageSize(
+                                                          itemPerPage,
+                                                          setItemPerPage,
+                                                          data?.data?.length
+                                                      )
+                                                    : null}
                                                 <div className="flex gap-x-2">
                                                     {quickActions}
-                                                    {pagination(
-                                                        data?.pagination,
-                                                        setPage
-                                                    )}
+                                                    {pagination
+                                                        ? pagination(
+                                                              data?.pagination,
+                                                              setPage
+                                                          )
+                                                        : null}
                                                 </div>
                                             </div>
                                         )}

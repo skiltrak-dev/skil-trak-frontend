@@ -1,0 +1,13 @@
+import { UserStatus } from 'types/user.type'
+
+export interface AdminWorkplaceFiltersType {
+    studentId: string
+    name: string
+    email: string
+    location: string
+    status: UserStatus
+    subAdminId: number
+    rtoId: number
+    industryId: number
+    courseId: number
+}

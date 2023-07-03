@@ -16,6 +16,7 @@ import {
     ContentState,
     convertFromHTML,
     convertToRaw,
+    EditorProps,
     EditorState,
 } from 'draft-js'
 import draftToHtml from 'draftjs-to-html'
@@ -40,7 +41,12 @@ import { CommonApi } from '@queries'
 import { useNotification } from 'hooks'
 import ClickAwayListener from 'react-click-away-listener'
 import { useRouter } from 'next/router'
+import { OptionType } from '@types'
 
+interface onSubmitType {
+    title: string
+    body: EditorState
+}
 export const CreateNote = ({
     action,
     receiverId,
@@ -154,15 +160,16 @@ export const CreateNote = ({
         }
     }, [templateValue, template])
 
-    const onSubmit = (values: any) => {
+    const onSubmit = (values: onSubmitType) => {
         setIsSendDraft(false)
         if (editing) {
             // updateNote({ ...values, postedFor: receiverId, id: editValues?.id })
         } else {
             if (values?.body) {
-                const body = draftToHtml(
-                    convertToRaw(values?.body.getCurrentContent())
-                )
+                // const body = draftToHtml(
+                //     convertToRaw(values?.body.getCurrentContent())
+                // )
+                const body = draftToHtmlText(values?.body)
                 createNote({ ...values, body, postedFor: receiverId })
             } else {
                 notification.error({
@@ -232,7 +239,7 @@ export const CreateNote = ({
                                 <Select
                                     name={'templates'}
                                     options={templates}
-                                    onChange={(e: any) => {
+                                    onChange={(e: OptionType) => {
                                         setTemplate(e?.value)
                                     }}
                                 />

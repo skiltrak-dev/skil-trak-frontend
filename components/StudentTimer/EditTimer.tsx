@@ -10,6 +10,11 @@ import { CommonApi } from '@queries'
 import { useNotification } from '@hooks'
 import { getDate } from '@utils'
 
+interface onSubmitType {
+    expiryDate: Date
+    comment: string
+}
+
 export const EditTimer = ({
     studentId,
     onCancel,
@@ -43,12 +48,12 @@ export const EditTimer = ({
         comment: Yup.string().required('Comment is required'),
     })
 
-    const methods = useForm({
+    const methods = useForm<onSubmitType>({
         resolver: yupResolver(validationSchema),
         mode: 'all',
     })
 
-    const onSubmit = (values: any) => {
+    const onSubmit = (values: onSubmitType) => {
         updateExpiryDate({ id: studentId, body: values })
     }
     return (

@@ -1,26 +1,26 @@
 import { ReactElement, useEffect, useState } from 'react'
 
 import {
-    TabNavigation,
-    TabProps,
     Button,
     Filter,
-    SubAdminFilters,
     LoadingAnimation,
+    SubAdminFilters,
+    TabNavigation,
+    TabProps,
     TechnicalError,
 } from '@components'
 import { useContextBar, useNavbar } from '@hooks'
 import { AdminLayout } from '@layouts'
 import {
-    ArchivedSubAdmin,
     ActiveSubAdmin,
+    ArchivedSubAdmin,
     FilteredSubAdmins,
 } from '@partials/admin/sub-admin'
-import { AdminApi } from '@queries'
-import { NextPageWithLayout, UserStatus } from '@types'
-import { useRouter } from 'next/router'
-import { checkFilteredDataLength, getFilterQuery } from '@utils'
 import { AddSubAdminCB } from '@partials/admin/sub-admin/contextBar'
+import { AdminApi } from '@queries'
+import { AdminSubadminFilter, NextPageWithLayout, UserStatus } from '@types'
+import { checkFilteredDataLength, getFilterQuery } from '@utils'
+import { useRouter } from 'next/router'
 
 const filterKeys = ['name', 'email', 'status', 'courseId']
 
@@ -33,11 +33,16 @@ const SubAdminList: NextPageWithLayout = () => {
     const [filterAction, setFilterAction] = useState(null)
     const [itemPerPage, setItemPerPage] = useState(50)
     const [page, setPage] = useState(1)
-    const [filter, setFilter] = useState({})
+    const [filter, setFilter] = useState<AdminSubadminFilter>(
+        {} as AdminSubadminFilter
+    )
 
     useEffect(() => {
-        const query = getFilterQuery({ router, filterKeys })
-        setFilter(query)
+        const query = getFilterQuery<AdminSubadminFilter>({
+            router,
+            filterKeys,
+        })
+        setFilter(query as AdminSubadminFilter)
     }, [router])
 
     const filteredSubAdmins = AdminApi.SubAdmins.useListQuery({
@@ -100,7 +105,7 @@ const SubAdminList: NextPageWithLayout = () => {
         <div>
             <div className="px-4">
                 <div className="flex justify-end mb-2">{filterAction}</div>
-                <Filter
+                <Filter<AdminSubadminFilter>
                     component={SubAdminFilters}
                     initialValues={filter}
                     setFilterAction={setFilterAction}

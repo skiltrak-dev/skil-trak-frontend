@@ -1,49 +1,54 @@
 import { BaseQueryFn } from '@reduxjs/toolkit/dist/query/baseQueryTypes'
 import { EndpointBuilder } from '@reduxjs/toolkit/dist/query/endpointDefinitions'
-import { AppointmentType, PaginatedResponse } from '@types'
+import {
+    AppointmentType,
+    PaginatedResponse,
+    PaginationWithSearch,
+} from '@types'
 
 const PREFIX = 'admin/'
 export const appointmentTypeEndpoints = (
-  builder: EndpointBuilder<BaseQueryFn, string, string>
+    builder: EndpointBuilder<BaseQueryFn, string, string>
 ) => ({
-  appointmentTypes: builder.query<PaginatedResponse<AppointmentType>, any>({
-    query: (params) => {
-      return {
-        url: `${PREFIX}appointment-type/list`,
-        params,
-      }
-    },
-    providesTags: ['AppointmentTypes'],
-  }),
-
-  appointmentTypeDetail: builder.query<AppointmentType, number>({
-    query: (id) => `${PREFIX}appointment-type/view/${id}`,
-    providesTags: ['AppointmentTypes'],
-  }),
-
-  appointmentTypeAdd: builder.mutation({
-    query: (body) => ({
-      url: `${PREFIX}appointment-type/add`,
-      method: 'POST',
-      body: body,
+    appointmentTypes: builder.query<
+        PaginatedResponse<AppointmentType>,
+        PaginationWithSearch
+    >({
+        query: (params) => ({
+            url: `${PREFIX}appointment-type/list`,
+            params,
+        }),
+        providesTags: ['AppointmentTypes'],
     }),
-    invalidatesTags: ['AppointmentTypes'],
-  }),
 
-  appointmentTypeUpdate: builder.mutation({
-    query: (body: any) => ({
-      url: `${PREFIX}appointment-type/update/${body.id}`,
-      method: 'PATCH',
-      body: body,
+    appointmentTypeDetail: builder.query<AppointmentType, number>({
+        query: (id) => `${PREFIX}appointment-type/view/${id}`,
+        providesTags: ['AppointmentTypes'],
     }),
-    invalidatesTags: ['AppointmentTypes'],
-  }),
 
-  appointmentTypeRemove: builder.mutation({
-    query: (id) => ({
-      url: `${PREFIX}appointment-type/remove/${id}`,
-      method: 'DELETE',
+    appointmentTypeAdd: builder.mutation<AppointmentType, AppointmentType>({
+        query: (body) => ({
+            url: `${PREFIX}appointment-type/add`,
+            method: 'POST',
+            body: body,
+        }),
+        invalidatesTags: ['AppointmentTypes'],
     }),
-    invalidatesTags: ['AppointmentTypes'],
-  }),
+
+    appointmentTypeUpdate: builder.mutation<AppointmentType, AppointmentType>({
+        query: (body) => ({
+            url: `${PREFIX}appointment-type/update/${body.id}`,
+            method: 'PATCH',
+            body: body,
+        }),
+        invalidatesTags: ['AppointmentTypes'],
+    }),
+
+    appointmentTypeRemove: builder.mutation<AppointmentType, number>({
+        query: (id) => ({
+            url: `${PREFIX}appointment-type/remove/${id}`,
+            method: 'DELETE',
+        }),
+        invalidatesTags: ['AppointmentTypes'],
+    }),
 })

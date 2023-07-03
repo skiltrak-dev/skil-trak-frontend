@@ -22,7 +22,7 @@ export const StudentProvidedForwardModal = ({
 }: {
     industry: any
     onCancel: Function
-    workplaceId: string
+    workplaceId: number
 }) => {
     // hooks
     const { notification } = useNotification()

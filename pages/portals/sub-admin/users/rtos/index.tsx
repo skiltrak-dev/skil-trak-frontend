@@ -2,25 +2,20 @@ import { useRouter } from 'next/router'
 import { ReactElement, useEffect, useState } from 'react'
 
 // Link
-import Link from 'next/link'
 // image
 //Layouts
 import { SubAdminLayout } from '@layouts'
-import { NextPageWithLayout, Rto } from '@types'
+import { NextPageWithLayout, Rto, SubAdminRtoFilterType } from '@types'
 
 import { FaEye } from 'react-icons/fa'
 
 //components
 import {
-    Button,
     Card,
     EmptyData,
     Filter,
-    InitialAvatar,
     LoadingAnimation,
     PageTitle,
-    RtoContextBarData,
-    SidebarCalendar,
     SubAdminRtoFilter,
     Table,
     TableAction,
@@ -34,11 +29,10 @@ import { useGetSubAdminRtosQuery } from '@queries'
 import { useActionModal, useContextBar } from '@hooks'
 
 import { SectorCell } from '@partials/admin/sub-admin'
-import { checkFilteredDataLength, getFilterQuery, setLink } from '@utils'
-import { MdEmail, MdPhoneIphone } from 'react-icons/md'
-import { RiLockPasswordFill } from 'react-icons/ri'
-import { ColumnDef } from '@tanstack/react-table'
 import { RTOCellInfo } from '@partials/sub-admin/rto/components'
+import { ColumnDef } from '@tanstack/react-table'
+import { checkFilteredDataLength, getFilterQuery, setLink } from '@utils'
+import { RiLockPasswordFill } from 'react-icons/ri'
 
 const RTOs: NextPageWithLayout = () => {
     const { setContent } = useContextBar()
@@ -52,14 +46,19 @@ const RTOs: NextPageWithLayout = () => {
     const [filterAction, setFilterAction] = useState(null)
     const [itemPerPage, setItemPerPage] = useState(50)
     const [page, setPage] = useState(1)
-    const [filter, setFilter] = useState({})
+    const [filter, setFilter] = useState<SubAdminRtoFilterType>(
+        {} as SubAdminRtoFilterType
+    )
 
     const filteredDataLength = checkFilteredDataLength(filter)
     //filters
 
     useEffect(() => {
-        const query = getFilterQuery({ router, filterKeys: [] })
-        setFilter(query)
+        const query = getFilterQuery<SubAdminRtoFilterType>({
+            router,
+            filterKeys: [],
+        })
+        setFilter(query as SubAdminRtoFilterType)
     }, [router])
 
     const { isLoading, data, isError, isFetching } = useGetSubAdminRtosQuery({
@@ -99,7 +98,11 @@ const RTOs: NextPageWithLayout = () => {
         },
     ]
 
-    const Columns: ColumnDef<Rto>[] = [
+    type RTOStudents = Rto & {
+        students: number
+    }
+
+    const Columns: ColumnDef<RTOStudents>[] = [
         {
             header: () => 'Name',
             accessorKey: 'user',
@@ -183,7 +186,7 @@ const RTOs: NextPageWithLayout = () => {
                             {filterAction}
                         </div>
                     </div>
-                    <Filter
+                    <Filter<SubAdminRtoFilterType>
                         component={SubAdminRtoFilter}
                         initialValues={filter}
                         setFilterAction={setFilterAction}

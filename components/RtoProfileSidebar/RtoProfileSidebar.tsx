@@ -7,6 +7,7 @@ import {
 import { NoData } from '@components/ActionAnimations'
 import { useActionModal } from '@hooks'
 import { CourseList } from '@partials/common'
+import { Course, GetSectorsType } from '@types'
 import { getUserCredentials } from '@utils'
 import { useRouter } from 'next/router'
 import { AiFillEdit } from 'react-icons/ai'
@@ -28,15 +29,15 @@ export const RtoProfileSidebar = ({ loading, data, rto }: any) => {
     // hooks
     const { onUpdatePassword, passwordModal } = useActionModal()
 
-    const getSectors = (courses: any) => {
+    const getSectors = (courses: Course[]) => {
         if (!courses) return {}
-        const sectors = {}
-        courses.forEach((c: any) => {
-            if ((sectors as any)[c.sector.name]) {
-                ;(sectors as any)[c.sector.name].push(c)
+        const sectors: GetSectorsType = {}
+        courses.forEach((c: Course) => {
+            if (sectors[c.sector.name]) {
+                sectors[c.sector.name].push(c)
             } else {
-                ;(sectors as any)[c.sector.name] = []
-                ;(sectors as any)[c.sector.name].push(c)
+                sectors[c.sector.name] = []
+                sectors[c.sector.name].push(c)
             }
         })
         return sectors

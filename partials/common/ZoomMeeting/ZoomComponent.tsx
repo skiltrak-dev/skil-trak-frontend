@@ -1,11 +1,11 @@
 import ZoomMtgEmbedded from '@zoomus/websdk/embedded'
 import { useEffect, useRef } from 'react'
 
-import { ZoomMtg } from '@zoomus/websdk'
-import { generateSignature } from './ZoomMeetingContainer'
-import { useRouter } from 'next/router'
+import { Appointment, User } from '@types'
 import { getUserCredentials } from '@utils'
-import { CommonApi } from '@queries'
+import { ZoomMtg } from '@zoomus/websdk'
+import { useRouter } from 'next/router'
+import { generateSignature } from './ZoomMeetingContainer'
 ZoomMtg.setZoomJSLib('https://source.zoom.us/2.13.0/lib', '/av')
 
 ZoomMtg.preLoadWasm()
@@ -18,8 +18,8 @@ const ZoomComponent = ({
     appointment,
     profile,
 }: {
-    appointment: any
-    profile: any
+    appointment: Appointment
+    profile: { user: User }
 }) => {
     const ref = useRef<any>()
 

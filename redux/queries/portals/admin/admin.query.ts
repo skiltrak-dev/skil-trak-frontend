@@ -31,7 +31,7 @@ export const adminApi = emptySplitApi.injectEndpoints({
             providesTags: ['Statistics'],
         }),
 
-        sendSMS: build.mutation<any, { number: number; message: string }>({
+        sendSMS: build.mutation<any, { number: string; message: string }>({
             query: (body) => ({
                 url: `${PREFIX}/sms/send`,
                 method: 'POST',

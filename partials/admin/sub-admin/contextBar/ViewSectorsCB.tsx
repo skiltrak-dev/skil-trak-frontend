@@ -2,7 +2,7 @@ import { NoData, Typography } from '@components'
 import { useContextBar, useNotification } from '@hooks'
 import { AdminApi } from '@queries'
 
-import { Course, SubAdmin } from '@types'
+import { Course, OptionType, SubAdmin } from '@types'
 import { useEffect } from 'react'
 import { AssignedCourse } from '../components'
 import { AssignSectorForm } from '../form'
@@ -35,7 +35,7 @@ export const ViewSectorsCB = ({ subAdmin }: { subAdmin: SubAdmin }) => {
         const { courses } = values
         await assignCourses({
             subadmin: subAdmin.id,
-            courses: courses.map((c: any) => c.value),
+            courses: courses.map((c: OptionType) => c.value),
         })
     }
 

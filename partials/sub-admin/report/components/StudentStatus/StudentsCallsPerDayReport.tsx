@@ -19,10 +19,10 @@ import { useRouter } from 'next/router'
 import { SubAdminReports } from 'types/sub-admin-reports.type'
 
 type Props = {
-    startDate: any
-    endDate: any
-    setStartDate: any
-    setEndDate: any
+    startDate: Date
+    setStartDate: (startDate: Date) => void
+    endDate: Date
+    setEndDate: (endDate: Date) => void
 }
 
 export const StudentsCallsPerDayReport = ({

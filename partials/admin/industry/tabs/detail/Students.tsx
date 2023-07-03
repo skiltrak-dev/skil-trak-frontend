@@ -165,7 +165,7 @@ export const Students = ({ industry }: { industry: Industry }) => {
         },
     ]
 
-    const columns: ColumnDef<any>[] = [
+    const columns: ColumnDef<Student>[] = [
         {
             accessorKey: 'user.name',
             cell: (info) => {

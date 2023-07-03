@@ -2,13 +2,12 @@
 import { MdCancel } from 'react-icons/md'
 
 // components
-import { Typography, Button } from '@components'
-import { MouseEventHandler } from 'react'
+import { ReactNode } from 'react'
 
 interface FileViewModalProps {
     title: string
     subtitle: string
-    children: any
+    children: ReactNode
     loading?: boolean
     onCancelButtonClick?: () => void
     url: string

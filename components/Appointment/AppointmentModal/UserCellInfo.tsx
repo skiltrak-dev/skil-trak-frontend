@@ -1,6 +1,7 @@
 import { InitialAvatar } from '@components/InitialAvatar'
 import { Typography } from '@components/Typography'
 import { UserRoles } from '@constants'
+import { Student, User } from '@types'
 import Link from 'next/link'
 import React from 'react'
 import {
@@ -10,9 +11,13 @@ import {
     FaPhone,
 } from 'react-icons/fa'
 
-export const UserCellInfo = ({ user }: any) => {
-    const profile = user
-        ? user[user['role'] === 'subadmin' ? 'coordinator' : user?.role]
+export const UserCellInfo = ({ user }: { user: User }) => {
+    const profile: any = user
+        ? user[
+              user?.role === 'subadmin'
+                  ? ('coordinator' as keyof typeof user)
+                  : (user?.role as keyof typeof user)
+          ]
         : {}
 
     const userProfile = user

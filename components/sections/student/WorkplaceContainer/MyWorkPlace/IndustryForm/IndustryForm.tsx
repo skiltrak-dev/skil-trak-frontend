@@ -19,6 +19,7 @@ import {
     Card,
 } from '@components'
 import { yupResolver } from '@hookform/resolvers/yup'
+import { Course, OptionType, Sector } from '@types'
 
 export const IndustryForm = ({
     addWorkplace,
@@ -38,7 +39,7 @@ export const IndustryForm = ({
     const sectorResponse = AuthApi.useSectors({})
     const [checkEmailExists, emailCheckResult] = AuthApi.useEmailCheck()
 
-    const [courseOptions, setCourseOptions] = useState([])
+    const [courseOptions, setCourseOptions] = useState<OptionType[]>([])
     const [courseLoading, setCourseLoading] = useState(false)
 
     const [storedData, setStoredData] = useState<any>(null)
@@ -56,14 +57,14 @@ export const IndustryForm = ({
         }, 300)()
     }
 
-    const onSectorChanged = (sectors: any) => {
+    const onSectorChanged = (sectors: OptionType) => {
         setCourseLoading(true)
 
         const sectorExisting = sectorResponse?.data?.find(
-            (sector: any) => sector.id === sectors?.value
+            (sector: Sector) => sector.id === sectors?.value
         )
-        const newCourseOptions: any = []
-        sectorExisting?.courses?.map((course: any) =>
+        const newCourseOptions: OptionType[] = []
+        sectorExisting?.courses?.map((course: Course) =>
             newCourseOptions.push({
                 label: course.title,
                 value: course.id,
@@ -127,7 +128,7 @@ export const IndustryForm = ({
             ),
     })
 
-    const sectorOptions = sectorResponse.data?.map((sector: any) => ({
+    const sectorOptions = sectorResponse.data?.map((sector: Sector) => ({
         label: sector.name,
         value: sector.id,
     }))

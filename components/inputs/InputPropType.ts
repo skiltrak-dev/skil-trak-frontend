@@ -1,4 +1,4 @@
-import { ReactElement } from "react";
+import { ChangeEvent, ReactElement } from "react";
 
 export type InputProps = {
 	id?: string;
@@ -10,7 +10,7 @@ export type InputProps = {
 
 	onBlur?: any;
 	rules?: any;
-	onChange?: any;
+	onChange?: any
 	value?: any;
 
 	loading?: boolean;

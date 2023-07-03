@@ -5,21 +5,21 @@ import { BiCheck } from 'react-icons/bi'
 
 // components
 import {
-    Typography,
-    Button,
-    TextInput,
-    ShowErrorNotifications,
     ActionButton,
+    Button,
+    ShowErrorNotifications,
+    TextInput,
+    Typography,
 } from '@components'
-import { IoClose, IoPencil } from 'react-icons/io5'
+import { IoClose } from 'react-icons/io5'
 
 // queries
 import { useUpdateSubAdminCourseDurationMutation } from '@queries'
+import { getCourseResult } from '@utils'
 import { useRouter } from 'next/router'
-import { getCourseResult, getDate } from '@utils'
 
-import { SubAdminApi } from '@queries'
 import { useNotification } from '@hooks'
+import { SubAdminApi } from '@queries'
 import moment from 'moment'
 import { BsPencilFill } from 'react-icons/bs'
 

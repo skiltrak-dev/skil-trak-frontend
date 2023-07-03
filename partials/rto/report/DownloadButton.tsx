@@ -1,19 +1,15 @@
-import React, { ReactElement, useEffect, useState } from 'react'
-import { IoMdDownload } from 'react-icons/io'
-import { AiFillPrinter } from 'react-icons/ai'
 import { Button } from '@components'
-import { MdKeyboardArrowDown, MdKeyboardArrowUp } from 'react-icons/md'
+import { ReactElement, useState } from 'react'
+import { IoMdDownload } from 'react-icons/io'
 import OutsideClickHandler from 'react-outside-click-handler'
-import { RtoApi } from '@queries'
 
-import Link from 'next/link'
 import { getUserCredentials } from '@utils'
 import { ReportListModal } from '../components/ReportListModal'
 type Props = {
-    setStartDate: any
-    startDate: any
-    endDate: any
-    setEndDate: any
+    startDate: Date
+    setStartDate: (startDate: Date) => void
+    endDate: Date
+    setEndDate: (endDate: Date) => void
 }
 
 export const DownloadButton = ({

@@ -8,20 +8,20 @@ import {
     Typography,
 } from '@components'
 
+import { CourseDot } from '@partials/rto/student/components'
 import { SubAdminApi } from '@queries'
 import { ColumnDef } from '@tanstack/react-table'
-import React, { useState } from 'react'
-import { FilterReport } from '../../FilterReport'
-import { CourseDot } from '@partials/rto/student/components'
 import { Course } from '@types'
 import { useRouter } from 'next/router'
+import { useState } from 'react'
 import { SubAdminReports } from 'types/sub-admin-reports.type'
+import { FilterReport } from '../../FilterReport'
 
 type Props = {
-    startDate: any
-    endDate: any
-    setStartDate: any
-    setEndDate: any
+    startDate: Date
+    setStartDate: (startDate: Date) => void
+    endDate: Date
+    setEndDate: (endDate: Date) => void
 }
 
 export const StudentsAssignedReport = ({

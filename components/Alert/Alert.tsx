@@ -6,12 +6,14 @@ import { useAlert } from '@hooks'
 import { Typography } from '@components'
 
 import { theme } from './theme'
+import { IconType } from 'react-icons'
 
 export const AlertType = {
     success: 'success',
     info: 'info',
     error: 'error',
     waning: 'warning',
+    undefined: undefined,
 }
 
 const VariantOptions = ['success', 'info', 'error', 'warning'] as const
@@ -21,8 +23,8 @@ export interface AlertProps {
     title: string
     description: string
     avatar?: string | undefined
-    icon?: any
-    variant?: typeof VariantOptions[number]
+    icon?: IconType
+    variant?: (typeof VariantOptions)[number]
     dismiss?: boolean
     autoDismiss?: boolean
 }

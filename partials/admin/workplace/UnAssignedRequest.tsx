@@ -65,19 +65,20 @@ export const UnAssignedRequest = () => {
                     />
                 )
             )}
-            {subAdminWorkplace.data?.data?.length > 7 && (
-                <div className="flex items-center justify-between">
-                    <PageSize
-                        itemPerPage={itemPerPage}
-                        setItemPerPage={setItemPerPage}
-                        records={subAdminWorkplace.data?.data?.length}
-                    />
-                    <Pagination
-                        pagination={subAdminWorkplace?.data?.pagination}
-                        setPage={setPage}
-                    />
-                </div>
-            )}
+            {subAdminWorkplace.data?.data &&
+                subAdminWorkplace.data?.data?.length > 7 && (
+                    <div className="flex items-center justify-between">
+                        <PageSize
+                            itemPerPage={itemPerPage}
+                            setItemPerPage={setItemPerPage}
+                            records={subAdminWorkplace.data?.data?.length}
+                        />
+                        <Pagination
+                            pagination={subAdminWorkplace?.data?.pagination}
+                            setPage={setPage}
+                        />
+                    </div>
+                )}
         </div>
     )
 }

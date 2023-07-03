@@ -3,14 +3,22 @@ import { Select, TextInput } from '@components/inputs'
 // query
 import { CommonApi } from '@queries'
 
+import {
+    Course,
+    Industry,
+    OptionType,
+    Rto,
+    StudentsFilterType,
+    UserStatus,
+} from '@types'
 import { AuthUtils, WorkplaceCurrentStatus } from '@utils'
 import { SetQueryFilters } from './SetQueryFilters'
 import { statusOptions } from './statusOptions'
 import { SelectOption } from './types'
 
 interface ItemFilterProps {
-    onFilterChange: Function
-    filter: any
+    onFilterChange: (values: StudentsFilterType) => void
+    filter: StudentsFilterType
 }
 
 export const workplaceProgressOptions = [
@@ -67,6 +75,7 @@ export const workplaceProgressOptions = [
         value: WorkplaceCurrentStatus.NoResponse,
     },
 ]
+
 export const StudentFilters = ({ onFilterChange, filter }: ItemFilterProps) => {
     // query
     const getIndustries = CommonApi.Filter.useIndustries()
@@ -74,24 +83,24 @@ export const StudentFilters = ({ onFilterChange, filter }: ItemFilterProps) => {
     const getCourses = CommonApi.Filter.useCourses()
     const getUserRole = AuthUtils.getUserCredentials()
 
-    const industryOptions = getIndustries?.data?.map((industry: any) => ({
+    const industryOptions = getIndustries?.data?.map((industry: Industry) => ({
         value: industry?.id,
         label: industry?.user?.name,
     }))
 
-    const rtoOptions = getRtos?.data?.map((rto: any) => ({
+    const rtoOptions = getRtos?.data?.map((rto: Rto) => ({
         value: rto?.id,
         label: rto?.user?.name,
     }))
 
-    const coursesOptions = getCourses?.data?.map((course: any) => ({
+    const coursesOptions = getCourses?.data?.map((course: Course) => ({
         value: course?.id,
         label: course?.title,
     }))
 
     return (
         <>
-            <SetQueryFilters filter={filter} />
+            <SetQueryFilters<StudentsFilterType> filter={filter} />
             <div className="grid grid-cols-3 gap-x-3">
                 <TextInput
                     name="name"
@@ -147,8 +156,11 @@ export const StudentFilters = ({ onFilterChange, filter }: ItemFilterProps) => {
                     )}
                     options={statusOptions}
                     placeholder={'Select Sectors...'}
-                    onChange={(e: SelectOption) => {
-                        onFilterChange({ ...filter, status: e?.value })
+                    onChange={(e: OptionType) => {
+                        onFilterChange({
+                            ...filter,
+                            status: e?.value as UserStatus,
+                        })
                     }}
                 />
                 {getUserRole?.role !== 'rto' && (
@@ -156,13 +168,16 @@ export const StudentFilters = ({ onFilterChange, filter }: ItemFilterProps) => {
                         label={'Search By Rto'}
                         name={'rtoId'}
                         value={rtoOptions?.find(
-                            (rto: SelectOption) =>
+                            (rto: OptionType) =>
                                 rto.value === Number(filter?.rtoId)
                         )}
                         options={rtoOptions}
                         placeholder={'Select Search By Rto...'}
-                        onChange={(e: SelectOption) => {
-                            onFilterChange({ ...filter, rtoId: e?.value })
+                        onChange={(e: OptionType) => {
+                            onFilterChange({
+                                ...filter,
+                                rtoId: Number(e?.value),
+                            })
                         }}
                         loading={getRtos.isLoading}
                         disabled={getRtos.isLoading}

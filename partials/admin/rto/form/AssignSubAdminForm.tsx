@@ -19,7 +19,7 @@ export const AssignSubAdminForm = ({
     onSubmit,
     initialValues,
 }: FormProps) => {
-    const subAdmins = AdminApi.SubAdmins.useListQuery({})
+    const subAdmins = AdminApi.SubAdmins.useListQuery(undefined)
 
     const validationSchema = yup.object({})
 

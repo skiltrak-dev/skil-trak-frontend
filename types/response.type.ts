@@ -11,3 +11,12 @@ export type PaginatedResponse<Type> = {
     data: Type[]
     pagination: Paginate
 }
+
+export type PaginationValues = {
+    skip: number
+    limit: number
+}
+
+export interface PaginationWithSearch extends PaginationValues {
+    search: string
+}

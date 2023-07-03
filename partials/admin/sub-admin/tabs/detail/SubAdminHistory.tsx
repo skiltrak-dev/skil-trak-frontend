@@ -16,8 +16,8 @@ export const SubAdminHistory = ({ subadmin }: { subadmin: number }) => {
     const [isCustomRange, setIsCustomRange] = useState<boolean>(false)
     const [filterType, setFilterType] = useState<string>(FilterType['7Days'])
     const [customRangeDate, setCustomRangeDate] = useState<{
-        startDate: any
-        endDate: any
+        startDate: Date | null
+        endDate: Date | null
     }>({
         startDate: null,
         endDate: null,

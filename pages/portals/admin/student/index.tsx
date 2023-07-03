@@ -22,7 +22,7 @@ import {
     RejectedStudent,
 } from '@partials/admin/student'
 import { AdminApi } from '@queries'
-import { NextPageWithLayout, UserStatus } from '@types'
+import { StudentsFilterType, NextPageWithLayout, UserStatus } from '@types'
 import { checkFilteredDataLength } from '@utils'
 import { useRouter } from 'next/router'
 
@@ -47,7 +47,9 @@ const StudentList: NextPageWithLayout = () => {
     const [filterAction, setFilterAction] = useState(null)
     const [studentId, setStudentId] = useState<any | null>(null)
     const [studentIdValue, setStudentIdValue] = useState<string>('')
-    const [filter, setFilter] = useState({})
+    const [filter, setFilter] = useState<StudentsFilterType>(
+        {} as StudentsFilterType
+    )
     const [page, setPage] = useState(1)
     const [itemPerPage, setItemPerPage] = useState(50)
 
@@ -166,8 +168,8 @@ const StudentList: NextPageWithLayout = () => {
                     </div>
                     <div className="flex-shrink-0">{filterAction}</div>
                 </div>
-                <Filter
-                    setFilter={(f: any) => {
+                <Filter<StudentsFilterType>
+                    setFilter={(f: StudentsFilterType) => {
                         setStudentId(null)
                         setFilter(f)
                     }}

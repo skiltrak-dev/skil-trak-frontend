@@ -1,8 +1,14 @@
 import { useRouter } from 'next/router'
 import { Tab, TabProps } from './Tab'
+import { ReactNode } from 'react'
+
+export interface TabNavigationChildrenProps {
+    header: ReactNode
+    element: ReactNode
+}
 
 interface TabNavigationProps {
-    children: any
+    children: ({ header, element }: TabNavigationChildrenProps) => JSX.Element
     tabs: TabProps[]
 }
 

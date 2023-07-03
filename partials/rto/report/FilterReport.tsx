@@ -1,20 +1,17 @@
-import React, { ReactElement, useEffect, useState } from 'react'
+import { Card } from '@components'
 import { CalendarStyles } from '@components/Calendar/style'
+import { useState } from 'react'
 import Calendar from 'react-calendar'
 import { AiTwotoneFilter } from 'react-icons/ai'
 import { RiTimerLine } from 'react-icons/ri'
-import { MdViewQuilt } from 'react-icons/md'
-import { MonthlyDropdown } from './MonthlyDropdown'
-import { AnnualDropdown } from './AnnualDropdown'
 import OutsideClickHandler from 'react-outside-click-handler'
-import { Card } from '@components'
-import { ReportListModal } from '../components/ReportListModal'
+import { AnnualDropdown } from './AnnualDropdown'
 
 type Props = {
-    startDate: any
-    setStartDate: any
-    endDate: any
-    setEndDate: any
+    startDate: Date
+    setStartDate: (startDate: Date) => void
+    endDate: Date
+    setEndDate: (endDate: Date) => void
 }
 
 export const FilterReport = ({

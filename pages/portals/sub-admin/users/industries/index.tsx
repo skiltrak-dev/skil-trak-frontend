@@ -1,7 +1,7 @@
 import { ReactElement, useEffect, useState } from 'react'
 //Layouts
 import { SubAdminLayout } from '@layouts'
-import { NextPageWithLayout, UserStatus } from '@types'
+import { NextPageWithLayout, SubadminIndustryFilter, UserStatus } from '@types'
 
 //components
 import {
@@ -43,7 +43,9 @@ const Industries: NextPageWithLayout = (props: Props) => {
     const [filterAction, setFilterAction] = useState(null)
     const [itemPerPage, setItemPerPage] = useState(50)
     const [page, setPage] = useState(1)
-    const [filter, setFilter] = useState({})
+    const [filter, setFilter] = useState<SubadminIndustryFilter>(
+        {} as SubadminIndustryFilter
+    )
 
     const router = useRouter()
 
@@ -150,13 +152,13 @@ const Industries: NextPageWithLayout = (props: Props) => {
     const filteredDataLength = checkFilteredDataLength(filter)
     return (
         <>
-            <SetDetaultQueryFilteres
+            <SetDetaultQueryFilteres<SubadminIndustryFilter>
                 filterKeys={filterKeys}
                 setFilter={setFilter}
             />
             <div className="px-4">
                 <div className="flex justify-end mb-2">{filterAction}</div>
-                <Filter
+                <Filter<SubadminIndustryFilter>
                     component={SubAdminIndustryFilter}
                     initialValues={filter}
                     setFilterAction={setFilterAction}

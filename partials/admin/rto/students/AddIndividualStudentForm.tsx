@@ -15,13 +15,13 @@ import { onlyAlphabets, SignUpUtils } from '@utils'
 import { FormProvider, useForm } from 'react-hook-form'
 import * as yup from 'yup'
 import { useState, useEffect } from 'react'
-import { Course } from '@types'
+import { Course, OptionType, Sector } from '@types'
 
 export const AddIndividualStudentForm = () => {
     const router = useRouter()
     const [isSuccess, setIsSuccess] = useState<boolean>(false)
     const [sectorOptions, setSectorOptions] = useState([])
-    const [courseOptions, setCourseOptions] = useState([])
+    const [courseOptions, setCourseOptions] = useState<OptionType[]>([])
     const [courseLoading, setCourseLoading] = useState(false)
     const [storedData, setStoredData] = useState<any>(null)
 
@@ -41,21 +41,21 @@ export const AddIndividualStudentForm = () => {
             : []
 
     // get sectors
-    const onSectorChanged = (sectors: any) => {
+    const onSectorChanged = (sectors: OptionType[]) => {
         setCourseLoading(true)
-        const filteredCourses = sectors.map((selectedSector: any) => {
+        const filteredCourses = sectors.map((selectedSector: OptionType) => {
             const sectorExisting = sectorResponse.data?.find(
-                (sector: any) => sector.id === selectedSector.value
+                (sector: Sector) => sector.id === selectedSector.value
             )
             if (sectorExisting && sectorExisting?.courses?.length) {
                 return sectorExisting.courses
             }
         })
 
-        const newCourseOptions: any = []
-        filteredCourses.map((courseList: any) => {
+        const newCourseOptions: OptionType[] = []
+        filteredCourses.map((courseList: Course[]) => {
             if (courseList && courseList.length) {
-                return courseList.map((course: any) =>
+                return courseList.map((course: Course) =>
                     newCourseOptions.push({
                         label: course.title,
                         value: course.id,

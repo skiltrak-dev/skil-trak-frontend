@@ -18,6 +18,7 @@ import {
 } from '@queries'
 import { useState } from 'react'
 import { PendingStudents, RecentAppointment } from '../../components'
+import { Appointment } from '@types'
 
 type Props = {
     rtoId: any

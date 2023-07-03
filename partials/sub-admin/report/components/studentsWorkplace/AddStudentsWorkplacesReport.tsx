@@ -16,12 +16,11 @@ import { FilterReport } from '../../FilterReport'
 import { Course, ReportOptionsEnum } from '@types'
 import { useRouter } from 'next/router'
 
-
 type Props = {
-    startDate: any
-    endDate: any
-    setStartDate: any
-    setEndDate: any
+    startDate: Date
+    setStartDate: (startDate: Date) => void
+    endDate: Date
+    setEndDate: (endDate: Date) => void
 }
 
 export const AddStudentsWorkplaceReport = ({
@@ -57,7 +56,9 @@ export const AddStudentsWorkplaceReport = ({
                     <a className="flex items-center gap-x-2">
                         <InitialAvatar name={name} imageUrl={avatar} />
                         <div className="flex flex-col">
-                            <span>{info?.row?.original?.student?.studentId}</span>
+                            <span>
+                                {info?.row?.original?.student?.studentId}
+                            </span>
                             <span>{name}</span>
                         </div>
                     </a>
@@ -93,7 +94,11 @@ export const AddStudentsWorkplaceReport = ({
                 // return info?.row?.original?.courses?.map((c: Course) => (
                 //     <CourseDot key={c?.id} course={c} />
                 // ))
-                return <span>{info?.row?.original?.courses[0]?.title || "N/A"}</span>
+                return (
+                    <span>
+                        {info?.row?.original?.courses[0]?.title || 'N/A'}
+                    </span>
+                )
             },
         },
     ]
@@ -103,7 +108,7 @@ export const AddStudentsWorkplaceReport = ({
             <div className="flex justify-between">
                 <div className="">
                     <Typography variant="title" color="text-gray-400">
-                       Add Students Workplaces
+                        Add Students Workplaces
                     </Typography>
                     <Typography variant="h3">{count || 0}</Typography>
                 </div>
@@ -116,7 +121,13 @@ export const AddStudentsWorkplaceReport = ({
                         setEndDate={setEndDate}
                     />
                     {/* <ViewFullListReport data={data} columns={columns} /> */}
-                    <ActionButton onClick={() => { router.push(`/portals/sub-admin/report/${ReportOptionsEnum.WORKPLACE_REQUEST}`) }} >
+                    <ActionButton
+                        onClick={() => {
+                            router.push(
+                                `/portals/sub-admin/report/${ReportOptionsEnum.WORKPLACE_REQUEST}`
+                            )
+                        }}
+                    >
                         View Full List
                     </ActionButton>
                 </div>

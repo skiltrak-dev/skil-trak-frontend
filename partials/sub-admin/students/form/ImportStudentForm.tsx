@@ -22,10 +22,10 @@ export const ImportStudentForm = ({
     onStudentFound,
     setEmailExistList,
 }: FormProps) => {
-    const sectors = AdminApi.Sectors.useListQuery({})
+    const sectors = AdminApi.Sectors.useListQuery(undefined)
     const [checkEmail, checkEmailResult] = AdminApi.Rtos.useCheckStudentEmail()
 
-    const courses = AdminApi.Courses.useListQuery({})
+    const courses = AdminApi.Courses.useListQuery(undefined)
     const [selectableCourses, setSelectableCourses] = useState<Course[]>([])
 
     // check if email already exists
@@ -108,9 +108,9 @@ export const ImportStudentForm = ({
                                         sectors.isLoading
                                             ? []
                                             : sectors.data?.data.map((s) => ({
-                                                label: s.name,
-                                                value: s.id,
-                                            }))
+                                                  label: s.name,
+                                                  value: s.id,
+                                              }))
                                     }
                                     onChange={(option: any) =>
                                         onSectorSelect(option)

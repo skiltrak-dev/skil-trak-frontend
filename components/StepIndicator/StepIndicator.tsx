@@ -1,5 +1,6 @@
 import classNames from 'classnames'
 import { Step } from './Step'
+import { ReactNode } from 'react'
 
 export interface IndicatorStep {
     label: string
@@ -9,8 +10,13 @@ export interface IndicatorStep {
     element?: any
 }
 
+export interface IndicatorChildrenPropType {
+    steps: ReactNode
+    element: ReactNode
+}
+
 interface StepIndicatorProps {
-    children?: any
+    children?: ({ steps, element }: IndicatorChildrenPropType) => JSX.Element
     currentStep: IndicatorStep
     steps: IndicatorStep[]
     fluid?: boolean

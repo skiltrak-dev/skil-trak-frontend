@@ -7,21 +7,18 @@ import {
     TechnicalError,
     Typography,
 } from '@components'
-import { CourseDot } from '@partials/rto/student/components'
 import { SubAdminApi } from '@queries'
 import { ColumnDef } from '@tanstack/react-table'
-import React, { useState } from 'react'
-import { FilterReport } from '../../FilterReport'
-import { ViewFullListReport } from '../../ViewFullListReport'
-import { Course, ReportOptionsEnum } from '@types'
 import { useRouter } from 'next/router'
+import { useState } from 'react'
 import { SubAdminReports } from 'types/sub-admin-reports.type'
+import { FilterReport } from '../../FilterReport'
 
 type Props = {
-    startDate: any
-    endDate: any
-    setStartDate: any
-    setEndDate: any
+    startDate: Date
+    setStartDate: (startDate: Date) => void
+    endDate: Date
+    setEndDate: (endDate: Date) => void
 }
 
 export const TerminatedWorkplaceReport = ({
@@ -57,7 +54,9 @@ export const TerminatedWorkplaceReport = ({
                     <a className="flex items-center gap-x-2">
                         <InitialAvatar name={name} imageUrl={avatar} />
                         <div className="flex flex-col">
-                            <span>{info?.row?.original?.student?.studentId}</span>
+                            <span>
+                                {info?.row?.original?.student?.studentId}
+                            </span>
                             <span>{name}</span>
                         </div>
                     </a>

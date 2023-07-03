@@ -1,6 +1,6 @@
 import { InitialAvatar } from '@components'
 import { Student } from '@types'
-import { queryToUrl, setLink } from '@utils'
+import { QueryType, queryToUrl, setLink } from '@utils'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { HiPhoneOutgoing } from 'react-icons/hi'
@@ -17,7 +17,7 @@ export const StudentCellInfo = ({
 }) => {
     const router = useRouter()
 
-    const query = queryToUrl(router?.query)
+    const query = queryToUrl(router?.query as QueryType)
 
     const callLog = student?.callLog?.reduce(
         (a: any, b: any) => (a?.createdAt > b?.createdAt ? a : b),

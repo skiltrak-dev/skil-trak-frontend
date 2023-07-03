@@ -1,11 +1,13 @@
-import { Button } from '@components/buttons'
 import { Typography } from '@components/Typography'
 import { useContextBar, useNotification } from '@hooks'
-import moment from 'moment'
 import { useEffect, useState } from 'react'
-import { BsDot } from 'react-icons/bs'
+import {
+    IWorkplaceIndustries,
+    WorkplaceWorkIndustriesType,
+} from 'redux/queryTypes'
 import { AddIndustryCB } from '../../contextBar'
-import { Actions, IndustryCard, SmallIndustryCard } from './components'
+import { Actions, IndustryCard } from './components'
+import { Student } from '@types'
 
 export const Industries = ({
     industries,
@@ -14,7 +16,14 @@ export const Industries = ({
     workplace,
     courseId,
     folders,
-}: any) => {
+}: {
+    industries: WorkplaceWorkIndustriesType[]
+    workplaceId: number
+    appliedIndustry: WorkplaceWorkIndustriesType
+    workplace: IWorkplaceIndustries
+    courseId: number
+    folders: any
+}) => {
     // const ii = industries.map((i) => i.industryResponse)
     // const industryResponse = ii.includes('rejected') || ii.includes('noResponse')
 
@@ -25,7 +34,7 @@ export const Industries = ({
     useEffect(() => {
         setSuggestedIndustries(
             industries
-                ?.filter((i: any) => !i.applied)
+                ?.filter((i: WorkplaceWorkIndustriesType) => !i.applied)
                 ?.slice(0, appliedIndustry ? 4 : 3)
         )
     }, [industries])
@@ -86,19 +95,21 @@ export const Industries = ({
                             workplaceId={workplaceId}
                             workplace={workplace}
                             folders={folders}
-                            student={workplace?.student}
+                            student={workplace?.student as Student}
                         />
                     )}
 
                 {appliedIndustry?.industryResponse !== 'approved' &&
-                    suggestedIndustries?.map((industry: any, i: number) => (
-                        <IndustryCard
-                            key={industry.id}
-                            industry={industry}
-                            appliedIndustry={appliedIndustry}
-                            workplace={workplace}
-                        />
-                    ))}
+                    suggestedIndustries?.map(
+                        (industry: WorkplaceWorkIndustriesType) => (
+                            <IndustryCard
+                                key={industry.id}
+                                industry={industry}
+                                appliedIndustry={appliedIndustry}
+                                workplace={workplace}
+                            />
+                        )
+                    )}
             </div>
         </div>
     )

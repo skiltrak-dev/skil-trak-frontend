@@ -146,9 +146,9 @@ export const ApprovedRto = () => {
                     <TableAction
                         options={tableActionOptions}
                         rowItem={row.original}
-                        lastIndex={checkListLength(data?.data)?.includes(
-                            row?.index
-                        )}
+                        lastIndex={checkListLength<Rto>(
+                            data?.data as Rto[]
+                        )?.includes(row?.index)}
                     />
                 </div>
             ),

@@ -1,8 +1,12 @@
 import { Typography } from '@components/Typography'
-import React from 'react'
 import { BsDot } from 'react-icons/bs'
+import { WorkplaceWorkIndustriesType } from 'redux/queryTypes'
 
-export const SmallIndustryCard = ({ industry }: any) => {
+export const SmallIndustryCard = ({
+    industry,
+}: {
+    industry: WorkplaceWorkIndustriesType
+}) => {
     return (
         <div className="w-fit bg-secondary py-1 px-2 rounded-lg flex justify-between items-center gap-x-2">
             <img

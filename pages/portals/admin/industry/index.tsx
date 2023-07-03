@@ -1,7 +1,6 @@
 import { ReactElement, useEffect, useState } from 'react'
 
 import {
-    Card,
     Filter,
     IndustryFilters,
     LoadingAnimation,
@@ -11,7 +10,7 @@ import {
 } from '@components'
 import { useContextBar, useNavbar } from '@hooks'
 import { AdminLayout } from '@layouts'
-import { NextPageWithLayout, UserStatus } from '@types'
+import { AdminIndustryFormFilter, NextPageWithLayout, UserStatus } from '@types'
 
 import {
     ApprovedIndustry,
@@ -22,7 +21,7 @@ import {
     RejectedIndustry,
 } from '@partials/admin/industry'
 import { AdminApi } from '@queries'
-import { checkFilteredDataLength, getFilterQuery } from '@utils'
+import { QueryType, checkFilteredDataLength, getFilterQuery } from '@utils'
 import { useRouter } from 'next/router'
 
 const filterKeys = [
@@ -43,11 +42,16 @@ const IndustryList: NextPageWithLayout = () => {
     const [filterAction, setFilterAction] = useState(null)
     const [itemPerPage, setItemPerPage] = useState(50)
     const [page, setPage] = useState(1)
-    const [filter, setFilter] = useState({})
+    const [filter, setFilter] = useState<AdminIndustryFormFilter>(
+        {} as AdminIndustryFormFilter
+    )
 
     useEffect(() => {
-        const query = getFilterQuery({ router, filterKeys })
-        setFilter(query)
+        const query = getFilterQuery<AdminIndustryFormFilter>({
+            router,
+            filterKeys,
+        })
+        setFilter(query as AdminIndustryFormFilter)
     }, [router])
 
     const filteredIndustries = AdminApi.Industries.useListQuery({
@@ -135,7 +139,7 @@ const IndustryList: NextPageWithLayout = () => {
         <div>
             <div className="px-4">
                 <div className="flex justify-end mb-2">{filterAction}</div>
-                <Filter
+                <Filter<AdminIndustryFormFilter>
                     component={IndustryFilters}
                     initialValues={filter}
                     setFilterAction={setFilterAction}

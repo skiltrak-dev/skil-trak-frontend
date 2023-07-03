@@ -64,7 +64,7 @@ const RtoStudentLists: NextPageWithLayout = () => {
 
         formData.append('file', file)
 
-        await importStudents({ id: Number(router.query.id), body: formData })
+        // await importStudents({ id: Number(router.query.id), body: formData })
     }
     const onColumnsChange = (columns: any) => {
         setColumnsToRead(columns)

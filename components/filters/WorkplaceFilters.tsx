@@ -1,16 +1,24 @@
-import { useEffect, useState } from 'react'
 import { Select, TextInput } from '@components/inputs'
+import { ChangeEvent } from 'react'
 
 // query
 import { CommonApi, useGetSubAdminRtosQuery } from '@queries'
 
-import { statusOptions } from './statusOptions'
 import { SetQueryFilters } from './SetQueryFilters'
+import { statusOptions } from './statusOptions'
 import { SelectOption } from './types'
+import {
+    Course,
+    Industry,
+    OptionType,
+    Rto,
+    SubadminWorkplaceFiltersType,
+    UserStatus,
+} from '@types'
 
 interface ItemFilterProps {
-    onFilterChange: Function
-    filter: any
+    onFilterChange: (values: SubadminWorkplaceFiltersType) => void
+    filter: SubadminWorkplaceFiltersType
 }
 export const WorkplaceFilters = ({
     onFilterChange,
@@ -21,19 +29,19 @@ export const WorkplaceFilters = ({
     const getCourses = CommonApi.Filter.useCourses()
     const getRtos = useGetSubAdminRtosQuery({})
 
-    const industryOptions = getIndustries?.data?.map((industry: any) => ({
+    const industryOptions = getIndustries?.data?.map((industry: Industry) => ({
         value: industry?.id,
         label: industry?.user?.name,
     }))
 
-    const coursesOptions = getCourses?.data?.map((course: any) => ({
+    const coursesOptions = getCourses?.data?.map((course: Course) => ({
         value: course?.id,
         label: course?.title,
     }))
 
     const rtoOptions =
         getRtos?.data?.data && getRtos?.data?.data?.length > 0
-            ? getRtos?.data?.data?.map((rto: any) => ({
+            ? getRtos?.data?.data?.map((rto: Rto) => ({
                   value: rto?.id,
                   label: rto?.user?.name,
               }))
@@ -41,14 +49,14 @@ export const WorkplaceFilters = ({
 
     return (
         <>
-            <SetQueryFilters filter={filter} />
+            <SetQueryFilters<SubadminWorkplaceFiltersType> filter={filter} />
             <div className="grid grid-cols-4 gap-x-3">
                 <TextInput
                     name="studentId"
                     label={'Student Id'}
                     value={filter?.studentId}
                     placeholder={'Search by Student Id Email ...'}
-                    onChange={(e: any) => {
+                    onChange={(e: ChangeEvent<HTMLInputElement>) => {
                         onFilterChange({ ...filter, studentId: e.target.value })
                     }}
                 />
@@ -80,8 +88,11 @@ export const WorkplaceFilters = ({
                         (status) => status.value === filter?.status
                     )}
                     placeholder={'Select Sectors...'}
-                    onChange={(e: any) => {
-                        onFilterChange({ ...filter, status: e?.value })
+                    onChange={(e: OptionType) => {
+                        onFilterChange({
+                            ...filter,
+                            status: e?.value as UserStatus,
+                        })
                     }}
                 />
                 <Select
@@ -89,12 +100,11 @@ export const WorkplaceFilters = ({
                     name={'rtoId'}
                     options={rtoOptions}
                     value={rtoOptions?.find(
-                        (rto: SelectOption) =>
-                            rto.value === Number(filter?.rtoId)
+                        (rto: OptionType) => rto.value === Number(filter?.rtoId)
                     )}
                     placeholder={'Select Rto...'}
-                    onChange={(e: any) => {
-                        onFilterChange({ ...filter, rtoId: e?.value })
+                    onChange={(e: OptionType) => {
+                        onFilterChange({ ...filter, rtoId: Number(e?.value) })
                     }}
                     loading={getRtos.isLoading}
                     disabled={getRtos.isLoading}
@@ -104,12 +114,15 @@ export const WorkplaceFilters = ({
                     name={'industryId'}
                     options={industryOptions}
                     value={industryOptions?.find(
-                        (industry: SelectOption) =>
+                        (industry: OptionType) =>
                             industry.value === Number(filter?.industryId)
                     )}
                     placeholder={'Select Industry...'}
-                    onChange={(e: any) => {
-                        onFilterChange({ ...filter, industryId: e?.value })
+                    onChange={(e: OptionType) => {
+                        onFilterChange({
+                            ...filter,
+                            industryId: Number(e?.value),
+                        })
                     }}
                     loading={getIndustries.isLoading}
                     disabled={getIndustries.isLoading}
@@ -120,12 +133,15 @@ export const WorkplaceFilters = ({
                     name={'courseId'}
                     options={coursesOptions}
                     value={coursesOptions?.find(
-                        (course: SelectOption) =>
+                        (course: OptionType) =>
                             course.value === Number(filter?.courseId)
                     )}
                     placeholder={'Select Courses...'}
-                    onChange={(e: any) => {
-                        onFilterChange({ ...filter, courseId: e?.value })
+                    onChange={(e: OptionType) => {
+                        onFilterChange({
+                            ...filter,
+                            courseId: Number(e?.value),
+                        })
                     }}
                     loading={getCourses.isLoading}
                     disabled={getCourses.isLoading}

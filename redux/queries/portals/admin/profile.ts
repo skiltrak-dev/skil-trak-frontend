@@ -1,15 +1,16 @@
 import { BaseQueryFn } from '@reduxjs/toolkit/dist/query/baseQueryTypes'
 import { EndpointBuilder } from '@reduxjs/toolkit/dist/query/endpointDefinitions'
+import { AdminProfileFormType, User } from '@types'
 
 const PREFIX = 'admin'
 export const profileEndpoints = (
     builder: EndpointBuilder<BaseQueryFn, string, string>
 ) => ({
-    getProfile: builder.query<any, void>({
+    getProfile: builder.query<User, void>({
         query: () => `${PREFIX}/profile/get`,
         providesTags: ['Profile'],
     }),
-    updateAdminProfile: builder.mutation<any, any>({
+    updateAdminProfile: builder.mutation<User, AdminProfileFormType>({
         query: (body) => ({
             url: `${PREFIX}/profile/update`,
             method: 'PATCH',

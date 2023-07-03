@@ -1,4 +1,4 @@
-import { TabNavigation, TabProps } from '@components'
+import { StudentSubAdmin, TabNavigation, TabProps } from '@components'
 import { Detail } from '@partials/sub-admin/assessmentEvidence'
 
 import { OverViewTab } from './OverviewTab'
@@ -10,12 +10,13 @@ import {
 } from '@partials/common'
 import { RequiredDocs } from './RequiredDocs'
 import { WorkplaceTab } from './WorkplaceTab'
+import { Student } from '@types'
 export const DetailTabs = ({
     id,
     student,
 }: {
     id: number | string | string[] | undefined
-    student: any
+    student: StudentSubAdmin
 }) => {
     const tabs: TabProps[] = [
         {
