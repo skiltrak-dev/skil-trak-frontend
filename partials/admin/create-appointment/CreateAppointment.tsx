@@ -1,33 +1,21 @@
 import {
     Button,
     Card,
-    LoadingAnimation,
-    SelectOption,
     ShowErrorNotifications,
     TextInput,
     Typography,
 } from '@components'
 import { TimeSlots } from '@components/sections'
+import { UserRoles } from '@constants'
 import { useNotification } from '@hooks'
 import { AppointmentType } from '@partials/appointmentType'
-import {
-    Arrow,
-    CreateAppointmentCard,
-    SearchedUserCard,
-    SearchUser,
-    SearchUserCard,
-} from '@partials/common'
-import {
-    useSearchUserByIdQuery,
-    useSubAdminCreateAppointmentMutation,
-    useUserAvailabilitiesQuery,
-    CommonApi,
-    useAvailabilityListQuery,
-} from '@queries'
+import { Arrow, CreateAppointmentCard, SearchUser } from '@partials/common'
+import { CommonApi, useAvailabilityListQuery } from '@queries'
 import { getUserCredentials } from '@utils'
 import { useRouter } from 'next/router'
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { AppointmentFor, AppointmentWithData, Courses } from './components'
+import { SubadminAvailabilitiesList } from '@types'
 
 export const CreateAppointmentContainer = () => {
     const router = useRouter()
@@ -38,7 +26,7 @@ export const CreateAppointmentContainer = () => {
         selectedAppointmentWith: '',
     })
 
-    const [user, setUser] = useState<string>('')
+    const [user, setUser] = useState<UserRoles>()
     const [slots, setSlots] = useState(true)
 
     const [selectedCourse, setSelectedCourse] = useState<number | null>(null)
@@ -55,7 +43,7 @@ export const CreateAppointmentContainer = () => {
     const [selectedDate, setSelectedDate] = useState<Date | null>(null)
     const [selectedTime, setSelectedTime] = useState<any | null>(null)
     const [note, setNote] = useState<any | null>(null)
-    const [appointmentTypeId, setAppointmentTypeId] = useState<string | null>(
+    const [appointmentTypeId, setAppointmentTypeId] = useState<number | null>(
         null
     )
 
@@ -64,7 +52,7 @@ export const CreateAppointmentContainer = () => {
     useEffect(() => {
         if (query) {
             const user = Object.keys(router?.query)[0]
-            setUser(user)
+            setUser(user as UserRoles)
             const appointmentFor = AppointmentFor?.find(
                 (appointment) => appointment?.text?.toLocaleLowerCase() === user
             )?.text
@@ -103,12 +91,9 @@ export const CreateAppointmentContainer = () => {
     )
     const [createAppointment, createAppointmentResult] =
         CommonApi.Appointments.createAppointment()
-    const availabilityList = useAvailabilityListQuery(
-        {},
-        {
-            skip: selectedPerson.selectedAppointmentWith !== 'Coordinator',
-        }
-    )
+    const availabilityList = useAvailabilityListQuery(undefined, {
+        skip: selectedPerson.selectedAppointmentWith !== 'Coordinator',
+    })
 
     useEffect(() => {
         setAppointmentWith(
@@ -222,7 +207,7 @@ export const CreateAppointmentContainer = () => {
                 </Card>
 
                 <SearchUser
-                    user={user}
+                    user={user as UserRoles}
                     query={query}
                     selectedUser={selectedUser}
                     selectedPerson={selectedPerson}
@@ -248,7 +233,9 @@ export const CreateAppointmentContainer = () => {
                             selectedDate={selectedDate}
                             setSelectedTime={setSelectedTime}
                             selectedTime={selectedTime}
-                            appointmentAvailability={availabilityList?.data}
+                            appointmentAvailability={
+                                availabilityList?.data as SubadminAvailabilitiesList[]
+                            }
                             userAvailabilities={timeSlots?.data}
                             loading={
                                 timeSlots?.isLoading || timeSlots?.isFetching

@@ -1,6 +1,6 @@
 import { Button } from '@components'
 import { Card } from '@components/cards'
-import { removeEmptyValues } from '@utils'
+import { QueryType, removeEmptyValues } from '@utils'
 import debounce from 'lodash/debounce'
 import { useRouter } from 'next/router'
 import { useCallback, useEffect, useState } from 'react'
@@ -18,7 +18,7 @@ interface FilterProps<FormFilterTypes> {
     }) => JSX.Element
     initialValues: FormFilterTypes
     setFilterAction: Function
-    setFilter: Function
+    setFilter: (values: FormFilterTypes) => void
     filterKeys?: string[] | undefined
 }
 export const Filter = <FormFilterTypes,>({
@@ -31,7 +31,9 @@ export const Filter = <FormFilterTypes,>({
     const router = useRouter()
 
     const [expanded, setExpanded] = useState(false)
-    const [filters, setFilters] = useState(initialValues)
+    const [filters, setFilters] = useState<FormFilterTypes>(
+        initialValues as FormFilterTypes
+    )
 
     // on Clear Filter
     const query = { ...router.query, page: 1, pageSize: 50 }
@@ -79,7 +81,7 @@ export const Filter = <FormFilterTypes,>({
 
     const onFilterClear = () => {
         setFilters({} as FormFilterTypes)
-        setFilter({})
+        setFilter({} as FormFilterTypes)
     }
 
     const onRemoveFilter = (key: string) => {
@@ -119,7 +121,7 @@ export const Filter = <FormFilterTypes,>({
                     />
                 </div>
                 <div className="flex flex-wrap gap-x-2">
-                    {Object.entries(filters).map(
+                    {Object.entries(filters as unknown as QueryType).map(
                         ([key, value]) =>
                             (value as string) && (
                                 <div

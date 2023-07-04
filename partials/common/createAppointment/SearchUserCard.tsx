@@ -79,7 +79,7 @@ export const SearchUserCard = ({
     }, [subAdminUsers])
 
     const delayedSearchFor = useCallback(
-        debounce((values: any) => {
+        debounce((values: string) => {
             setSearch(values)
         }, 700),
         []

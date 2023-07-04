@@ -95,7 +95,7 @@ export const ArchivedAssessmentDetail = ({
                     ? studentCourses?.data?.find(
                           (c: any) => c?.id === selectedCourse?.id
                       )
-                    : studentCourses?.data[0]
+                    : studentCourses?.data && studentCourses?.data[0]
             )
         }
     }, [studentCourses, manuallyReopenSubmissionResult])

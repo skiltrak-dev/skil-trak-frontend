@@ -6,7 +6,7 @@ interface PortalSelectButtonProps {
     link: string
     Icon: string
     children: ReactNode
-    onMouseEnter: Function
+    onMouseEnter: () => void
 }
 export const PortalSelectButton = ({
     link,

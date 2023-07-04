@@ -1,3 +1,4 @@
+import { AssessmentEvidenceFolder } from './assessment-evidence.type'
 import { BaseResponse } from './base.type'
 import { Folder } from './folder.type'
 
@@ -22,4 +23,9 @@ export interface Sector extends BaseResponse {
 
 export interface GetSectorsType {
     [key: string]: Course[]
+}
+
+export interface CourseDetailType extends Course {
+    assessmentEvidence: AssessmentEvidenceFolder[]
+    folder: Folder[]
 }

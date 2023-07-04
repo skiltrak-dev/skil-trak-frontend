@@ -1,37 +1,43 @@
+import { AppointmentUserEnum } from '@types'
+
 export const AppointmentFor = [
     {
-        text: 'RTO',
+        text: AppointmentUserEnum.RTO,
         icon: '/images/icons/rto.png',
     },
     {
-        text: 'Student',
+        text: AppointmentUserEnum.Student,
         icon: '/images/icons/students.png',
     },
     {
-        text: 'Industry',
+        text: AppointmentUserEnum.Industry,
         icon: '/images/icons/industry.png',
     },
 ]
 
 export const AppointmentWithData = [
     {
-        text: 'Self',
+        text: AppointmentUserEnum.Self,
         icon: '/images/icons/sub-admin.png',
-        type: ['RTO', 'Student', 'Industry'],
+        type: [
+            AppointmentUserEnum.RTO,
+            AppointmentUserEnum.Student,
+            AppointmentUserEnum.Industry,
+        ],
     },
     {
-        text: 'RTO',
+        text: AppointmentUserEnum.RTO,
         icon: '/images/icons/rto.png',
-        type: ['Industry'],
+        type: [AppointmentUserEnum.Industry],
     },
     {
-        text: 'Industry',
+        text: AppointmentUserEnum.Industry,
         icon: '/images/icons/industry.png',
-        type: ['RTO', 'Student'],
+        type: [AppointmentUserEnum.RTO, AppointmentUserEnum.Student],
     },
     {
-        text: 'Student',
+        text: AppointmentUserEnum.Student,
         icon: '/images/subAdmins/students.png',
-        type: ['Industry'],
+        type: [AppointmentUserEnum.Industry],
     },
 ]

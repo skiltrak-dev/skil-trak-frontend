@@ -1,5 +1,5 @@
 import { Button } from '@components/buttons'
-import { TimeSlots, selectedTimeType } from '@components/sections'
+import { TimeSlots } from '@components/sections'
 import { Typography } from '@components/Typography'
 import React, { useEffect, useState } from 'react'
 import { FaTimes } from 'react-icons/fa'
@@ -7,7 +7,11 @@ import { CommonApi } from '@queries'
 import { ShowErrorNotifications } from '@components/ShowErrorNotifications'
 import { useNotification } from '@hooks'
 import moment from 'moment'
-import { Appointment } from '@types'
+import {
+    Appointment,
+    SelectedTimeType,
+    SubadminAvailabilitiesList,
+} from '@types'
 
 export const RescheduleAppointmentModal = ({
     onCancel,
@@ -19,7 +23,7 @@ export const RescheduleAppointmentModal = ({
     const { notification } = useNotification()
 
     const [selectedDate, setSelectedDate] = useState<Date | null>(null)
-    const [selectedTime, setSelectedTime] = useState<selectedTimeType | null>(
+    const [selectedTime, setSelectedTime] = useState<SelectedTimeType | null>(
         null
     )
 
@@ -143,7 +147,9 @@ export const RescheduleAppointmentModal = ({
                             selectedDate={selectedDate}
                             setSelectedTime={setSelectedTime}
                             selectedTime={selectedTime}
-                            appointmentAvailability={[{}]}
+                            appointmentAvailability={
+                                [{}] as SubadminAvailabilitiesList[]
+                            }
                             userAvailabilities={timeSlots?.data}
                             loading={
                                 timeSlots?.isLoading || timeSlots?.isFetching

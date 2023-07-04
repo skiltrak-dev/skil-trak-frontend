@@ -8,6 +8,7 @@ import {
 import { RequiredStar } from '@components/inputs/components'
 import { Typography } from '@components/Typography'
 import { UserRoles } from '@constants'
+import { SelectedTimeType, SubadminAvailabilitiesList } from '@types'
 import { getUserCredentials } from '@utils'
 import moment from 'moment'
 import { ChangeEvent, useEffect, useState } from 'react'
@@ -15,19 +16,14 @@ import { ChangeEvent, useEffect, useState } from 'react'
 // queries
 import { RiRestTimeLine } from 'react-icons/ri'
 
-export interface selectedTimeType {
-    startTime?: Date | string
-    endTime?: Date | string
-}
-
 type Props = {
     subAdmin?: boolean
     appointmentWith?: string | null
     setSelectedDate: (date: Date) => void
     selectedDate: Date | null
-    setSelectedTime: ({ startTime, endTime }: selectedTimeType) => void
-    selectedTime: selectedTimeType | null
-    appointmentAvailability: any
+    setSelectedTime: ({ startTime, endTime }: SelectedTimeType) => void
+    selectedTime: SelectedTimeType | null
+    appointmentAvailability: SubadminAvailabilitiesList[]
     bookedAppointment?: any
     userAvailabilities?: any
     loading: boolean
@@ -83,7 +79,9 @@ export const TimeSlots = ({
     const [daysAvailability, setDaysAvailability] = useState(Array())
 
     useEffect(() => {
-        const available = appointmentAvailability?.map((a: any) => a?.name)
+        const available = appointmentAvailability?.map(
+            (a: SubadminAvailabilitiesList) => a?.name
+        )
 
         const daysId = days
             .filter((f) => available?.includes(f?.day))

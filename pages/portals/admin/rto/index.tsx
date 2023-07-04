@@ -1,12 +1,12 @@
 import { ReactElement, useEffect, useState } from 'react'
 
 import {
-    Card,
     Filter,
     LoadingAnimation,
+    RtoFilters,
+    SetDetaultQueryFilteres,
     TabNavigation,
     TabProps,
-    RtoFilters,
     TechnicalError,
 } from '@components'
 import { useNavbar } from '@hooks'
@@ -36,10 +36,7 @@ const RtoList: NextPageWithLayout = () => {
     const [page, setPage] = useState(1)
     const [filter, setFilter] = useState<RTOFilterType>({} as RTOFilterType)
 
-    useEffect(() => {
-        const query = getFilterQuery<RTOFilterType>({ router, filterKeys })
-        setFilter(query as RTOFilterType)
-    }, [router])
+    console.log({ filter })
 
     const filteredRtos = AdminApi.Rtos.useListQuery(
         {
@@ -128,6 +125,10 @@ const RtoList: NextPageWithLayout = () => {
 
     return (
         <div>
+            <SetDetaultQueryFilteres<RTOFilterType>
+                filterKeys={filterKeys}
+                setFilter={setFilter}
+            />
             <div className="px-4">
                 <div className="flex justify-end mb-2">{filterAction}</div>
                 <Filter<RTOFilterType>

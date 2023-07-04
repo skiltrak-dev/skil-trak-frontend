@@ -1,4 +1,4 @@
-export const getCountData = <CountType extends Record<string, unknown>>(
+export const getCountData = <CountType extends {}>(
     countNumber: CountType[]
 ) => {
     let counts: { [key: string]: number } = {}
@@ -7,5 +7,5 @@ export const getCountData = <CountType extends Record<string, unknown>>(
             counts[key] = value as number
         })
     )
-    return counts
+    return counts as CountType
 }

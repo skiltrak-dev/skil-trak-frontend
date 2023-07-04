@@ -1,7 +1,12 @@
 import { ActionButton, NoData, ShowErrorNotifications } from '@components'
 import { useNotification } from '@hooks'
 import { AdminApi } from '@queries'
-import { Course, Folder } from '@types'
+import {
+    AddFolderFormType,
+    Course,
+    FolderCategoryEnum,
+    TypeOptionsEnum,
+} from '@types'
 import { useEffect, useState } from 'react'
 import { CourseFolderForm } from '../../form'
 import { CourseFolder } from './CourseFolder'
@@ -13,13 +18,12 @@ export const CourseFolders = ({
 }: {
     course?: Course | undefined | null
     folders: any
-    category: 'IndustryCheck' | 'AssessmentEvidence'
+    category: FolderCategoryEnum
 }) => {
     const { notification } = useNotification()
     const [create, setCreate] = useState(false)
     const [addFolder, addFolderResult] = AdminApi.Folders.useCreate()
-    const [addIndustryCheck, addIndustryCheckResult] =
-        AdminApi.Folders.useIndustryChecklistAdd()
+
     const [addAssessmentEvidence, addAssessmentEvidenceResult] =
         AdminApi.Folders.useAssessMentEvidence()
 
@@ -29,9 +33,9 @@ export const CourseFolders = ({
 
     const getFoldersTitle = () => {
         switch (category) {
-            case 'IndustryCheck':
+            case FolderCategoryEnum.IndustryCheck:
                 return 'Industry Check'
-            case 'AssessmentEvidence':
+            case FolderCategoryEnum.AssessmentEvidence:
                 return 'Assessment Evidence'
         }
     }
@@ -58,17 +62,15 @@ export const CourseFolders = ({
         }
     }, [addAssessmentEvidenceResult])
 
-    const onSubmit = async (values: any) => {
-        category === 'IndustryCheck'
+    const onSubmit = async (values: AddFolderFormType) => {
+        category === FolderCategoryEnum.IndustryCheck
             ? await addFolder({
                   ...values,
-                  type: values.type.value,
-                  course: course?.id,
+                  course: Number(course?.id),
               })
             : addAssessmentEvidence({
                   ...values,
-                  type: values.type.value,
-                  course: course?.id,
+                  course: Number(course?.id),
               })
     }
 
@@ -106,13 +108,13 @@ export const CourseFolders = ({
                         initialValues={{
                             name: '',
                             capacity: 0,
-                            type: 'docs',
+                            type: TypeOptionsEnum.Documents,
                             category,
                             description: '',
                             isRequired: false,
                         }}
                         result={
-                            category === 'IndustryCheck'
+                            category === FolderCategoryEnum.IndustryCheck
                                 ? addFolderResult
                                 : addAssessmentEvidenceResult
                         }

@@ -12,50 +12,39 @@ import {
 } from '@components'
 import { PageHeading } from '@components/headings'
 import { ColumnDef } from '@tanstack/react-table'
-import { FaEdit, FaEye, FaFileExport } from 'react-icons/fa'
+import { FaEdit, FaEye, FaFileExport, FaTrash } from 'react-icons/fa'
 
-import { useActionModal, useContextBar } from '@hooks'
-import { AdminApi, commonApi } from '@queries'
+import { useActionModal } from '@hooks'
+import { AdminApi } from '@queries'
 import { SubAdmin, UserStatus } from '@types'
 import { useRouter } from 'next/router'
 import { ReactElement, useEffect, useState } from 'react'
-import { BsArchiveFill } from 'react-icons/bs'
 import { RiLockPasswordFill } from 'react-icons/ri'
 import { RtoCell, SectorCell, SubAdminCell } from './components'
-import { AddSubAdminCB, ViewRtosCB, ViewSectorsCB } from './contextBar'
-import { ArchiveModal, BlockModal } from './modals'
+import { AcceptModal, DeleteModal } from './modals'
 
-export const ActiveSubAdmin = () => {
-    const [modal, setModal] = useState<ReactElement | null>(null)
-    const [changeStatusResult, setChangeStatusResult] = useState<any>({})
+export const BlockedSubAdmin = () => {
     const router = useRouter()
-
-    const contextBar = useContextBar()
+    const [changeStatusResult, setChangeStatusResult] = useState<any>({})
+    const [modal, setModal] = useState<ReactElement | null>(null)
 
     const [itemPerPage, setItemPerPage] = useState(50)
     const [page, setPage] = useState(1)
 
     useEffect(() => {
-        setPage(Number(router.query?.page || 1))
-        setItemPerPage(Number(router.query?.pageSize || 50))
+        setPage(Number(router.query.page || 1))
+        setItemPerPage(Number(router.query.pageSize || 50))
     }, [router])
 
     // hooks
     const { passwordModal, onViewPassword } = useActionModal()
 
-    const { isLoading, isFetching, data, isError, refetch } =
-        AdminApi.SubAdmins.useListQuery(
-            {
-                search: `status:${UserStatus.Approved}`,
-                skip: itemPerPage * page - itemPerPage,
-                limit: itemPerPage,
-            },
-            {
-                refetchOnMountOrArgChange: true,
-            }
-        )
-    const [bulkAction, resultBulkAction] = commonApi.useBulkStatusMutation()
-
+    const { isLoading, data, isError, refetch } =
+        AdminApi.SubAdmins.useListQuery({
+            search: `status:${UserStatus.Blocked}`,
+            skip: itemPerPage * page - itemPerPage,
+            limit: itemPerPage,
+        })
     useEffect(() => {
         if (changeStatusResult.isSuccess) {
             refetch()
@@ -65,29 +54,22 @@ export const ActiveSubAdmin = () => {
     const onModalCancelClicked = () => {
         setModal(null)
     }
-    const onBlockedClicked = (subAdmin: SubAdmin) => {
+    const onAcceptClicked = (subAdmin: SubAdmin) => {
         setModal(
-            <BlockModal
+            <AcceptModal
                 subAdmin={subAdmin}
                 onCancel={() => onModalCancelClicked()}
             />
         )
     }
-
-    const onArchivedClicked = (subAdmin: SubAdmin) => {
+    const onDeleteClicked = (subAdmin: SubAdmin) => {
         setModal(
-            <ArchiveModal
-                item={subAdmin}
-                onCancel={() => onModalCancelClicked()}
+            <DeleteModal
                 setChangeStatusResult={setChangeStatusResult}
+                subAdmin={subAdmin}
+                onCancel={() => onModalCancelClicked()}
             />
         )
-    }
-
-    const onEditSubAdmin = (subAdmin: SubAdmin) => {
-        contextBar.setContent(<AddSubAdminCB edit subAdmin={subAdmin} />)
-        contextBar.setTitle('Edit SubAdmin')
-        contextBar.show()
     }
 
     const tableActionOptions: TableActionOption[] = [
@@ -101,25 +83,11 @@ export const ActiveSubAdmin = () => {
             Icon: FaEye,
         },
         {
-            text: 'Assign Courses',
-            onClick: (subAdmin: any) => {
-                contextBar.setTitle('Sectors & Courses')
-                contextBar.setContent(<ViewSectorsCB subAdmin={subAdmin} />)
-                contextBar.show()
-            },
-        },
-        {
-            text: 'Assign RTO',
-            onClick: (subAdmin: any) => {
-                contextBar.setTitle('Assigned RTOs')
-                contextBar.setContent(<ViewRtosCB subAdmin={subAdmin} />)
-                contextBar.show()
-            },
-        },
-        {
             text: 'Edit',
-            onClick: (subadmin: SubAdmin) => {
-                onEditSubAdmin(subadmin)
+            onClick: (student: any) => {
+                router.push(
+                    `/portals/admin/industry/edit-industry/${student.id}`
+                )
             },
             Icon: FaEdit,
         },
@@ -129,15 +97,19 @@ export const ActiveSubAdmin = () => {
             Icon: RiLockPasswordFill,
         },
         {
-            text: 'Block',
-            onClick: (subAdmin: SubAdmin) => onBlockedClicked(subAdmin),
-            Icon: BsArchiveFill,
-            color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
+            text: 'Un-Block',
+            onClick: (subAdmin: SubAdmin) => {
+                onAcceptClicked(subAdmin)
+            },
+            color: 'text-green-500 hover:bg-green-100 hover:border-green-200',
         },
+
         {
-            text: 'Archive',
-            onClick: (subAdmin: SubAdmin) => onArchivedClicked(subAdmin),
-            Icon: BsArchiveFill,
+            text: 'Delete',
+            onClick: (subAdmin: SubAdmin) => {
+                onDeleteClicked(subAdmin)
+            },
+            Icon: FaTrash,
             color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
         },
     ]
@@ -148,7 +120,7 @@ export const ActiveSubAdmin = () => {
             cell: (info) => {
                 return <SubAdminCell subAdmin={info.row.original} />
             },
-            header: () => <span>Sub Admin</span>,
+            header: () => <span>Name</span>,
         },
         {
             accessorKey: 'sector',
@@ -181,10 +153,12 @@ export const ActiveSubAdmin = () => {
             header: () => <span>Action</span>,
             cell: (info: any) => {
                 return (
-                    <TableAction
-                        options={tableActionOptions}
-                        rowItem={info.row.original}
-                    />
+                    <div className="flex gap-x-1 items-center">
+                        <TableAction
+                            options={tableActionOptions}
+                            rowItem={info.row.original}
+                        />
+                    </div>
                 )
             },
         },
@@ -194,24 +168,20 @@ export const ActiveSubAdmin = () => {
         id: 'id',
         individual: (id: SubAdmin) => (
             <div className="flex gap-x-2">
-                <ActionButton variant="success" onClick={() => {}}>
-                    Accept
-                </ActionButton>
-                <ActionButton variant="error" onClick={() => {}}>
-                    Reject
+                <ActionButton Icon={FaEdit}>Edit</ActionButton>
+                <ActionButton variant="success">Accept</ActionButton>
+                <ActionButton Icon={FaTrash} variant="error">
+                    Delete
                 </ActionButton>
             </div>
         ),
         common: (ids: SubAdmin[]) => (
-            <ActionButton
-                onClick={() => {
-                    const arrayOfIds = ids.map((id: any) => id?.user.id)
-                    bulkAction({ ids: arrayOfIds, status: 'archived' })
-                }}
-                variant="error"
-            >
-                Archive
-            </ActionButton>
+            <div className="flex gap-x-2">
+                <ActionButton variant="success">Accept</ActionButton>
+                <ActionButton Icon={FaTrash} variant="error">
+                    Delete
+                </ActionButton>
+            </div>
         ),
     }
 
@@ -221,8 +191,8 @@ export const ActiveSubAdmin = () => {
             {passwordModal && passwordModal}
             <div className="flex flex-col gap-y-4 mb-32">
                 <PageHeading
-                    title={'Active Sub Admin'}
-                    subtitle={'List of Active Sub Admin'}
+                    title={'Rejected Sub Admin'}
+                    subtitle={'List of Rejected Sub Admin'}
                 >
                     {data && data?.data.length ? (
                         <Button
@@ -235,7 +205,7 @@ export const ActiveSubAdmin = () => {
 
                 <Card noPadding>
                     {isError && <TechnicalError />}
-                    {isLoading || isFetching ? (
+                    {isLoading ? (
                         <LoadingAnimation height="h-[60vh]" />
                     ) : data && data?.data.length ? (
                         <Table
@@ -255,8 +225,7 @@ export const ActiveSubAdmin = () => {
                                         <div className="p-6 mb-2 flex justify-between">
                                             {pageSize(
                                                 itemPerPage,
-                                                setItemPerPage,
-                                                data?.data.length
+                                                setItemPerPage
                                             )}
                                             <div className="flex gap-x-2">
                                                 {quickActions}
@@ -274,8 +243,10 @@ export const ActiveSubAdmin = () => {
                     ) : (
                         !isError && (
                             <EmptyData
-                                title={'No Active SubAdmin!'}
-                                description={'You have no Active SubAdmin'}
+                                title={'No Rejected Sub Admin!'}
+                                description={
+                                    'You have not rejected any Sub Admin request yet'
+                                }
                                 height={'50vh'}
                             />
                         )

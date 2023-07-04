@@ -14,6 +14,7 @@ import { AdminLayout } from '@layouts'
 import {
     ActiveSubAdmin,
     ArchivedSubAdmin,
+    BlockedSubAdmin,
     FilteredSubAdmins,
 } from '@partials/admin/sub-admin'
 import { AddSubAdminCB } from '@partials/admin/sub-admin/contextBar'
@@ -56,6 +57,7 @@ const SubAdminList: NextPageWithLayout = () => {
     })
     const { isLoading, data } = AdminApi.SubAdmins.useCountQuery(undefined, {
         refetchOnFocus: true,
+        refetchOnMountOrArgChange: true,
     })
 
     useEffect(() => {
@@ -78,6 +80,18 @@ const SubAdminList: NextPageWithLayout = () => {
                 loading: isLoading,
             },
             element: <ActiveSubAdmin />,
+        },
+        {
+            label: 'Blocked',
+            href: {
+                pathname: 'sub-admin',
+                query: { tab: UserStatus.Blocked, page: 1, pageSize: 50 },
+            },
+            badge: {
+                text: data?.blocked,
+                loading: isLoading,
+            },
+            element: <BlockedSubAdmin />,
         },
         {
             label: 'Archived',

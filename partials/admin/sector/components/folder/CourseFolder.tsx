@@ -1,7 +1,7 @@
 import { ActionButton, ShowErrorNotifications } from '@components'
 import { useNotification } from '@hooks'
 import { AdminApi } from '@queries'
-import { Course, Folder } from '@types'
+import { AddFolderFormType, Course, Folder, FolderCategoryEnum } from '@types'
 import { useEffect, useState } from 'react'
 import { FaFolder, FaTrash } from 'react-icons/fa'
 import { CourseFolderForm } from '../../form'
@@ -36,18 +36,16 @@ export const CourseFolder = ({
     const [update, updateResult] = AdminApi.Folders.useUpdate()
     const [updateAssessment, updateAssessmentResult] =
         AdminApi.Folders.useAssessMentUpdate()
-    const onSubmit = async (values: any) => {
+    const onSubmit = async (values: AddFolderFormType) => {
         edit
             ? await updateAssessment({
-                  id: folder.id,
+                  id: Number(folder.id),
                   ...values,
-                  type: values.type.value,
                   course: course?.id,
               })
             : await update({
-                  id: folder.id,
+                  id: Number(folder.id),
                   ...values,
-                  type: values.type.value,
                   course: course?.id,
               })
     }
@@ -57,9 +55,9 @@ export const CourseFolder = ({
         AdminApi.Folders.useRemoveAssessment()
 
     const onDelete = async () => {
-        category === 'IndustryCheck'
-            ? await deleteFolder(folder.id)
-            : await deleteAssessment(folder.id)
+        category === FolderCategoryEnum.IndustryCheck
+            ? await deleteFolder(Number(folder.id))
+            : await deleteAssessment(Number(folder.id))
     }
 
     const onCancel = () => {
