@@ -1,15 +1,13 @@
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
-import { AuthUtils } from '@utils'
 import { courseEndpoints } from './course'
 import { industryEndpoints } from './industry'
 
-import { AdminStats } from '@types'
+import { AdminStats, SMSFormQueryType } from '@types'
+import { emptySplitApi } from '../empty.query'
 import { appointmentTypeEndpoints } from './appointment-type'
 import { documentsEndpoints } from './documents'
 import { folderEndpoints } from './folder'
+import { industryRplEndpoints } from './industyRpl'
 import { jobEndpoints } from './job'
-import { messagesEndpoints } from './messages'
-import { notesEndpoints } from './notes'
 import { profileEndpoints } from './profile'
 import { rtoEndpoints } from './rto'
 import { sectorEndpoints } from './sector'
@@ -18,8 +16,6 @@ import { subAdminEndpoints } from './sub-admin'
 import { subscriberEndpoints } from './subscribers'
 import { volunteerEndpoints } from './volunteer'
 import { workplaceEndpoints } from './workplace'
-import { industryRplEndpoints } from './industyRpl'
-import { emptySplitApi } from '../empty.query'
 
 const PREFIX = 'admin'
 
@@ -31,7 +27,10 @@ export const adminApi = emptySplitApi.injectEndpoints({
             providesTags: ['Statistics'],
         }),
 
-        sendSMS: build.mutation<any, { number: string; message: string }>({
+        sendSMS: build.mutation<
+            SMSFormQueryType,
+            { number: string; message: string }
+        >({
             query: (body) => ({
                 url: `${PREFIX}/sms/send`,
                 method: 'POST',
@@ -45,13 +44,11 @@ export const adminApi = emptySplitApi.injectEndpoints({
         ...jobEndpoints(build),
         ...sectorEndpoints(build),
         ...courseEndpoints(build),
-        ...notesEndpoints(build),
         ...folderEndpoints(build),
         ...profileEndpoints(build),
         ...subAdminEndpoints(build),
         ...industryEndpoints(build),
         ...workplaceEndpoints(build),
-        ...messagesEndpoints(build),
         ...volunteerEndpoints(build),
         ...documentsEndpoints(build),
         ...subscriberEndpoints(build),
@@ -178,10 +175,6 @@ const {
     useAllRequestedWorkplaceListQuery,
     useGetSubadminForAssignWorkplaceQuery,
     useAllStudentProvidedWorkplaceListQuery,
-
-    // -------Messages-------//
-    useGetAdminMessagesQuery,
-    useSendAdminMessageMutation,
 
     // ------ FOLDERS ------ //
     useFolderAddMutation,
@@ -336,11 +329,6 @@ export const AdminApi = {
         useAddMutation: useCourseAddMutation,
         useUpdateMutation: useCourseUpdateMutation,
         useRemoveMutation: useCourseRemoveMutation,
-    },
-
-    Messages: {
-        useList: useGetAdminMessagesQuery,
-        useSendMessage: useSendAdminMessageMutation,
     },
 
     Folders: {

@@ -16,8 +16,8 @@ export const useChangeStatus = () => {
         await changeStatus({ id: subAdmin.id, status: UserStatus.Rejected })
     }
 
-    const onBlock = async (subAdmin: SubAdmin) => {
-        await changeStatus({ id: subAdmin.id, status: UserStatus.Blocked })
+    const onBlock = async (user: User) => {
+        await changeStatus({ id: user?.id, status: UserStatus.Blocked })
     }
 
     return { onArchive, onAccept, onReject, onBlock, changeStatusResult }

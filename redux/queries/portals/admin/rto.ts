@@ -197,7 +197,7 @@ export const rtoEndpoints = (
         invalidatesTags: ['RTOS'],
     }),
     rtoImportStudentExistingEmailCheck: builder.mutation<
-        any,
+        { emails: string }[],
         { emails: string[] }
     >({
         query: (body) => ({

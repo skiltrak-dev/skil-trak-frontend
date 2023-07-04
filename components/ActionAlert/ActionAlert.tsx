@@ -11,7 +11,7 @@ export const ActionAlertType = {
 
 type SubAction = {
     text: string
-    onClick: Function
+    onClick: () => void
     loading?: boolean
 }
 
@@ -23,7 +23,7 @@ interface ActionAlertProps {
     primaryAction?: SubAction
     secondaryAction?: SubAction
     redirect?: string
-    variant?: typeof VariantOptions[number]
+    variant?: (typeof VariantOptions)[number]
 }
 
 const AlertAnimations = {

@@ -19,7 +19,7 @@ const getStatusComponent = ({
     animation: any
     title: string
     description: string
-    action?: { onClick: Function; text: string }
+    action?: { onClick: () => void; text: string }
 }) => {
     return (
         <div className="h-[50vh] flex items-center justify-center">

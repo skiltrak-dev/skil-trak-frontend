@@ -1,11 +1,8 @@
-import { Card, LoadingAnimation, Typography } from '@components'
-import { useSearchUserByIdQuery } from '@queries'
-import { useRouter } from 'next/router'
-import React, { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { SearchAppointmentForUser } from './SearchAppointmentForUser'
 import { SearchAppointmentWithUser } from './SearchAppointmentWithUser'
-import { SearchedUserCard } from './SearchedUserCard'
-import { SearchUserCard } from './SearchUserCard'
+import { UserRoles } from '@constants'
+import { SelectedPerson, SelectedUserType } from '@types'
 
 export const SearchUser = ({
     selectedPerson,
@@ -15,17 +12,11 @@ export const SearchUser = ({
     selectedUser,
     setSelectedPerson,
 }: {
-    selectedPerson: {
-        selectedAppointmentFor: string
-        selectedAppointmentWith: string
-    }
+    selectedPerson: SelectedPerson
     setSelectedUser: Function
-    user: string
+    user: UserRoles
     query: boolean
-    selectedUser: {
-        selectedAppointmentForUser: string
-        selectedAppointmentWithUser: string
-    }
+    selectedUser: SelectedUserType
     setSelectedPerson: Function
 }) => {
     const [studentIndustry, setStudentIndustry] = useState<number | null>(null)

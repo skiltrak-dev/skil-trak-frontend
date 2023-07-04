@@ -41,6 +41,5 @@ export const setFilterValues = <T>({
             getValueQuery[key] = value as string
         }
     })
-    const queryUrl = queryToUrl(getValueQuery)
-    return queryUrl
+    return queryToUrl(getValueQuery)
 }

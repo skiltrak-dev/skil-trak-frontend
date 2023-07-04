@@ -3,7 +3,7 @@ import { useRouter } from 'next/router'
 import moment from 'moment'
 
 import { RtoLayout } from '@layouts'
-import { NextPageWithLayout } from '@types'
+import { AppointmentUserEnum, NextPageWithLayout } from '@types'
 
 import { Form, TimeSlots } from '@components/sections'
 import { AppointmentType } from '@partials/appointmentType'
@@ -118,7 +118,7 @@ const CreateAppointments: NextPageWithLayout = (props: Props) => {
                 <form onSubmit={formMethods.handleSubmit(onSubmit)}>
                     <AppointmentType
                         setAppointmentTypeId={setType}
-                        appointmentFor={UserRoles.RTO}
+                        appointmentFor={AppointmentUserEnum.RTO}
                     />
                     <div className="grid grid-cols-3 items-center gap-x-5 mb-5">
                         <Select

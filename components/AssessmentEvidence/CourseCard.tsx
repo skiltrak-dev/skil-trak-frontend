@@ -6,7 +6,7 @@ type Props = {
     id?: string
     code: string
     title: string
-    onClick: Function
+    onClick: () => void
     coordinator?: string
     isActive: boolean | null
     selectedCourseId: string | null

@@ -1,5 +1,5 @@
 import { useRouter } from 'next/router'
-import { useEffect, useState } from 'react'
+import { ChangeEvent, ReactNode, useEffect, useState } from 'react'
 
 // components
 import {
@@ -17,43 +17,55 @@ import { getUserCredentials } from '@utils'
 import { AppointmentFor, AppointmentWithData, Courses } from './components'
 
 // query
+import { RequiredStar } from '@components/inputs/components'
 import { UserRoles } from '@constants'
 import { Arrow, CreateAppointmentCard, SearchUser } from '@partials/common'
 import { CommonApi, SubAdminApi, useAvailabilityListQuery } from '@queries'
-import { RequiredStar } from '@components/inputs/components'
+import {
+    AppointmentDataType,
+    AppointmentUserEnum,
+    SelectedPerson,
+    SelectedTimeType,
+    SelectedUserType,
+    SubadminAvailabilitiesList,
+} from '@types'
 
 export const CreateAppointments = () => {
     const router = useRouter()
     const query = Object.keys(router.query)?.length > 0
 
-    const [selectedPerson, setSelectedPerson] = useState<any | null>({
-        selectedAppointmentFor: 'RTO',
-        selectedAppointmentWith: '',
+    const [selectedPerson, setSelectedPerson] = useState<SelectedPerson>({
+        selectedAppointmentFor: AppointmentUserEnum.RTO,
+        selectedAppointmentWith: '' as AppointmentUserEnum,
     })
 
-    const [user, setUser] = useState<string>('')
-    const [modal, setModal] = useState<any | null>(null)
+    const [user, setUser] = useState<UserRoles>()
+    const [modal, setModal] = useState<ReactNode | null>(null)
 
     const [selectedCourse, setSelectedCourse] = useState<number | null>(null)
 
-    const [appointmentWith, setAppointmentWith] = useState<any | null>(null)
+    const [appointmentWith, setAppointmentWith] = useState<
+        AppointmentDataType[] | null
+    >(null)
 
     const [selectedAppointmentType, setSelectedAppointmentType] = useState<
         string | null
     >(null)
-    const [selectedUser, setSelectedUser] = useState<any | null>({
-        selectedAppointmentForUser: '',
-        selectedAppointmentWithUser: '',
+    const [selectedUser, setSelectedUser] = useState<SelectedUserType>({
+        selectedAppointmentForUser: null,
+        selectedAppointmentWithUser: null,
     })
     const [selectedDate, setSelectedDate] = useState<Date | null>(null)
-    const [selectedTime, setSelectedTime] = useState<any | null>(null)
-    const [note, setNote] = useState<any | null>(null)
-    const [appointmentTypeId, setAppointmentTypeId] = useState<string | null>(
+    const [selectedTime, setSelectedTime] = useState<SelectedTimeType | null>(
+        null
+    )
+    const [note, setNote] = useState<string>('')
+    const [appointmentTypeId, setAppointmentTypeId] = useState<number | null>(
         null
     )
     const [slots, setSlots] = useState(true)
 
-    // const [date, setDate] = useState<any | null>(selectedDate)
+    // const [date, setDate] = useState(selectedDate)
     // useEffect(() => {
     //     let date = selectedDate
     //     date?.setDate(date.getDate() + 1)
@@ -66,9 +78,9 @@ export const CreateAppointments = () => {
 
     const roles = [UserRoles.INDUSTRY, UserRoles.RTO, UserRoles.STUDENT]
 
-    const queryUser = Object.keys(router?.query)[0]
+    const queryUser = Object.keys(router?.query)[0] as UserRoles
     useEffect(() => {
-        if (query && roles.includes(queryUser as UserRoles)) {
+        if (query && roles.includes(queryUser)) {
             setUser(queryUser)
             const appointmentFor = AppointmentFor?.find(
                 (appointment) =>
@@ -76,7 +88,7 @@ export const CreateAppointments = () => {
             )?.text
             setSelectedPerson({
                 ...selectedPerson,
-                selectedAppointmentFor: appointmentFor,
+                selectedAppointmentFor: appointmentFor as AppointmentUserEnum,
             })
         }
     }, [router, query, queryUser])
@@ -133,8 +145,8 @@ export const CreateAppointments = () => {
         {
             id: Number(appointmentTypeId),
             date: selectedDate?.toISOString(),
-            forUser: selectedUser.selectedAppointmentForUser,
-            byUser: selectedUser.selectedAppointmentWithUser,
+            forUser: Number(selectedUser.selectedAppointmentForUser),
+            byUser: Number(selectedUser.selectedAppointmentWithUser),
         },
         {
             skip:
@@ -147,13 +159,10 @@ export const CreateAppointments = () => {
     )
     const [createAppointment, createAppointmentResult] =
         CommonApi.Appointments.createAppointment()
-    const availabilityList = useAvailabilityListQuery(
-        {},
-        {
-            skip: selectedPerson.selectedAppointmentWith !== 'Self',
-            refetchOnMountOrArgChange: true,
-        }
-    )
+    const availabilityList = useAvailabilityListQuery(undefined, {
+        skip: selectedPerson.selectedAppointmentWith !== 'Self',
+        refetchOnMountOrArgChange: true,
+    })
 
     const onCancel = () => {
         setModal(null)
@@ -189,10 +198,13 @@ export const CreateAppointments = () => {
     useEffect(() => {
         setAppointmentWith(
             AppointmentWithData.filter((f) =>
-                f.type.includes(selectedPerson.selectedAppointmentFor || '')
+                f.type.includes(
+                    selectedPerson.selectedAppointmentFor ||
+                        ('' as AppointmentUserEnum)
+                )
             )
         )
-        setSelectedPerson((person: any) => ({
+        setSelectedPerson((person: SelectedPerson) => ({
             ...person,
             selectedAppointmentWith: null,
         }))
@@ -227,13 +239,13 @@ export const CreateAppointments = () => {
             // let date = selectedDate
             // date?.setDate(date.getDate() + 1)
             createAppointment({
-                ...selectedTime,
-                date: selectedDate,
+                ...(selectedTime as any),
+                date: selectedDate as Date,
                 note,
-                type: appointmentTypeId,
-                course: selectedCourse,
-                appointmentFor: selectedUser.selectedAppointmentForUser,
-                appointmentBy: selectedUser.selectedAppointmentWithUser,
+                type: Number(appointmentTypeId),
+                course: Number(selectedCourse),
+                appointmentFor: Number(selectedUser.selectedAppointmentForUser),
+                appointmentBy: Number(selectedUser.selectedAppointmentWithUser),
             })
         } else {
             onShowModal()
@@ -297,7 +309,7 @@ export const CreateAppointments = () => {
                                 </div>
                             </div>
                             <div className="flex justify-between items-center gap-x-3">
-                                {appointmentWith?.map(({ text, icon }: any) => (
+                                {appointmentWith?.map(({ text, icon }) => (
                                     <CreateAppointmentCard
                                         key={text}
                                         text={text}
@@ -323,7 +335,7 @@ export const CreateAppointments = () => {
                 </Card>
 
                 <SearchUser
-                    user={user}
+                    user={user as UserRoles}
                     query={query}
                     selectedUser={selectedUser}
                     selectedPerson={selectedPerson}
@@ -335,7 +347,9 @@ export const CreateAppointments = () => {
                     <div className="flex justify-between items-center gap-x-3 w-full">
                         <AppointmentType
                             setAppointmentTypeId={setAppointmentTypeId}
-                            appointmentFor={selectedPerson.selectedAppointmentFor?.toLocaleLowerCase()}
+                            appointmentFor={
+                                selectedPerson.selectedAppointmentFor?.toLocaleLowerCase() as AppointmentUserEnum
+                            }
                         />
                     </div>
 
@@ -346,7 +360,9 @@ export const CreateAppointments = () => {
                             selectedDate={selectedDate}
                             setSelectedTime={setSelectedTime}
                             selectedTime={selectedTime}
-                            appointmentAvailability={availabilityList?.data}
+                            appointmentAvailability={
+                                availabilityList?.data as SubadminAvailabilitiesList[]
+                            }
                             userAvailabilities={timeSlots?.data}
                             removeAvailableSlots={{
                                 selectedPerson,
@@ -366,7 +382,7 @@ export const CreateAppointments = () => {
                         name="notes"
                         label={'Notes'}
                         placeholder={'Notes'}
-                        onChange={(e: any) => {
+                        onChange={(e: ChangeEvent<HTMLInputElement>) => {
                             setNote(e.target.value)
                         }}
                     />

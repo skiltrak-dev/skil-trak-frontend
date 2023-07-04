@@ -23,7 +23,7 @@ export const SearchAppointmentWithUser = ({
     const userData = useSearchUserByIdQuery(
         {
             search: studentIndustry,
-            role: 'industry',
+            role: UserRoles.INDUSTRY,
         },
         {
             skip:

@@ -11,9 +11,10 @@ import {
 } from '@queries'
 import { Card } from '@components/cards'
 import { UserRoles } from '@constants'
+import { AppointmentUserEnum, Course, OptionType, SubAdmin } from '@types'
 
 type Props = {
-    setType: Function
+    setType: (id: number) => void
     type: number | null
     selectedCoordinator: { label: string; value: number } | null
     setSelectedCoordinator: Function
@@ -30,9 +31,9 @@ export const Form = ({
     // const [appointmentTypeId, setAppointmentTypeId] = useState<number | null>(
     //     null
     // )
-    const [coordinatorsOptions, setCoordinatorsOptions] = useState<any | null>(
-        []
-    )
+    const [coordinatorsOptions, setCoordinatorsOptions] = useState<
+        OptionType[]
+    >([])
 
     const coordinators = useGetCoordinatorsForStudentQuery()
     const studentCourses = useGetStudentCoursesQuery()
@@ -40,15 +41,17 @@ export const Form = ({
     useEffect(() => {
         setSelectedCoordinator(null)
         if (coordinators.data && coordinators.isSuccess) {
-            const options = coordinators?.data?.map((coordinator: any) => ({
-                label: coordinator?.user?.name,
-                value: coordinator?.user?.id,
-            }))
+            const options = coordinators?.data?.map(
+                (coordinator: SubAdmin) => ({
+                    label: coordinator?.user?.name,
+                    value: coordinator?.user?.id,
+                })
+            )
             setCoordinatorsOptions(options)
         }
     }, [coordinators])
 
-    const coursesOptions = studentCourses?.data?.map((course: any) => ({
+    const coursesOptions = studentCourses?.data?.map((course: Course) => ({
         label: course.title,
         value: course.id,
     }))
@@ -58,7 +61,7 @@ export const Form = ({
             <Card>
                 <AppointmentType
                     setAppointmentTypeId={setType}
-                    appointmentFor={UserRoles.STUDENT}
+                    appointmentFor={AppointmentUserEnum.Student}
                 />
             </Card>
 
@@ -78,7 +81,7 @@ export const Form = ({
                         disabled={
                             !coordinatorsOptions || coordinators.isLoading
                         }
-                        onChange={(e: any) => {
+                        onChange={(e: OptionType) => {
                             setSelectedCoordinator(e)
                         }}
                         value={selectedCoordinator}
@@ -90,7 +93,7 @@ export const Form = ({
                         options={coursesOptions}
                         loading={studentCourses.isLoading}
                         disabled={studentCourses.isLoading}
-                        onChange={(e: any) => {
+                        onChange={(e: number) => {
                             setSelectedCourse(e)
                         }}
                         onlyValue

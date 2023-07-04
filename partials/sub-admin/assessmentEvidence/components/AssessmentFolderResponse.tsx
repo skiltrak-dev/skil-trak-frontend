@@ -26,6 +26,7 @@ import {
     FaChevronRight,
 } from 'react-icons/fa'
 import { DocumentsView } from '@hooks'
+import { AddCommentEnum } from '@types'
 
 export const AssessmentResponse = ({
     folder,
@@ -35,7 +36,7 @@ export const AssessmentResponse = ({
     result,
 }: any) => {
     const [comment, setComment] = useState<string>('')
-    const [commentType, setCommentType] = useState<string>('')
+    const [commentType, setCommentType] = useState<AddCommentEnum | null>(null)
 
     const [selected, setSelected] = useState<any>(null)
 
@@ -103,12 +104,12 @@ export const AssessmentResponse = ({
             if (getAssessmentResponse?.data?.comment) {
                 setComment(getAssessmentResponse?.data?.comment)
             }
-            if (commentType === 'approved') {
+            if (commentType === AddCommentEnum.Approved) {
                 setComment(
                     getAssessmentResponse?.data?.assessmentFolder
                         ?.positiveComment
                 )
-            } else if (commentType === 'rejected') {
+            } else if (commentType === AddCommentEnum.Rejected) {
                 setComment(
                     getAssessmentResponse?.data?.assessmentFolder
                         ?.negativeComment
@@ -205,12 +206,19 @@ export const AssessmentResponse = ({
                                     name={'type'}
                                     menuPlacement={'top'}
                                     options={[
-                                        { label: 'Approve', value: 'approved' },
-                                        { label: 'Reject', value: 'rejected' },
+                                        {
+                                            label: 'Approve',
+                                            value: AddCommentEnum.Approved,
+                                        },
+                                        {
+                                            label: 'Reject',
+                                            value: AddCommentEnum.Rejected,
+                                        },
                                     ]}
-                                    onChange={(e: any) => {
-                                        setCommentType(e?.value)
+                                    onChange={(e: AddCommentEnum) => {
+                                        setCommentType(e)
                                     }}
+                                    onlyValue
                                 />
                             </div>
                             <div className="col-span-2">
@@ -239,7 +247,7 @@ export const AssessmentResponse = ({
                                             getAssessmentResponse?.data
                                                 ?.assessmentFolder?.id,
                                         comment,
-                                        status: commentType,
+                                        status: commentType as AddCommentEnum,
                                         std: studentId,
                                         resultId: result?.id,
                                     })

@@ -5,6 +5,7 @@ import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import { SearchedUserCard } from './SearchedUserCard'
 import { SearchUserCard } from './SearchUserCard'
+import { UserRoles } from '@constants'
 
 export const SearchAppointmentForUser = ({
     user,
@@ -15,7 +16,7 @@ export const SearchAppointmentForUser = ({
     setStudentIndustry,
     setSelectedPerson,
 }: {
-    user: any
+    user: UserRoles
     setSelectedUser: Function
     selectedPerson: any
     selectedUser: any
@@ -30,12 +31,14 @@ export const SearchAppointmentForUser = ({
     const router = useRouter()
     const userData = useSearchUserByIdQuery(
         {
-            search: (router?.query as any)[user],
+            search: Number(router?.query[user]),
             role: user,
         },
         { skip: !user }
     )
     const industry =
+        userData?.data?.student?.workplace &&
+        userData?.data?.student?.workplace[0]?.industries &&
         userData?.data?.student?.workplace[0]?.industries[0]?.industry?.user?.id
 
     useEffect(() => {

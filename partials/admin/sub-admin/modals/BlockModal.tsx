@@ -17,7 +17,7 @@ export const BlockModal = ({
     const { onBlock, changeStatusResult } = useChangeStatus()
 
     const onConfirmClicked = async (subAdmin: SubAdmin) => {
-        await onBlock(subAdmin)
+        await onBlock(subAdmin?.user)
     }
 
     useEffect(() => {

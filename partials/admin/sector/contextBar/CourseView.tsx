@@ -1,7 +1,7 @@
 import { ActionButton, ContextBarLoading, Typography } from '@components'
 import { AdminApi } from '@queries'
 
-import { Course } from '@types'
+import { Course, Folder, FolderCategoryEnum } from '@types'
 import { ReactElement, useState } from 'react'
 
 import { Tab, TabList, TabPanel, Tabs } from 'react-tabs'
@@ -9,7 +9,6 @@ import 'react-tabs/style/react-tabs.css'
 import { CourseFolders } from '../components'
 import { RequirementModal } from '../modals'
 import { TabsStyle } from './style'
-import { AssessmentEvidenceFolder } from 'types/assessment-evidence.type'
 
 export const CourseView = ({ course }: { course: Course }) => {
     const [modal, setModal] = useState<ReactElement | null>(null)
@@ -77,10 +76,11 @@ export const CourseView = ({ course }: { course: Course }) => {
                             ) : (
                                 <CourseFolders
                                     course={courseDetail.data}
-                                    category="IndustryCheck"
+                                    category={FolderCategoryEnum.IndustryCheck}
                                     folders={courseDetail.data?.folders.filter(
-                                        (f: any) =>
-                                            f.category === 'IndustryCheck'
+                                        (f: Folder) =>
+                                            f.category ===
+                                            FolderCategoryEnum.IndustryCheck
                                     )}
                                 />
                             )}
@@ -91,7 +91,9 @@ export const CourseView = ({ course }: { course: Course }) => {
                             ) : (
                                 <CourseFolders
                                     course={courseDetail.data}
-                                    category="AssessmentEvidence"
+                                    category={
+                                        FolderCategoryEnum.AssessmentEvidence
+                                    }
                                     folders={
                                         courseDetail.data?.assessmentEvidence
                                     }

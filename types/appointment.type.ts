@@ -58,3 +58,40 @@ export interface GetAppointmentSlots {
     forUser: number
     byUser: number
 }
+
+export interface SubadminAvailabilitiesList extends BaseResponse {
+    id: number
+    name: string
+    openingTime: Date
+    closingTime: Date
+    user: User
+}
+
+export enum AppointmentUserEnum {
+    RTO = 'RTO',
+    Student = 'Student',
+    Industry = 'Industry',
+    Self = 'Self',
+    Coordinator = 'Coordinator',
+}
+
+export interface SelectedPerson {
+    selectedAppointmentFor: AppointmentUserEnum | null
+    selectedAppointmentWith: AppointmentUserEnum | null
+}
+
+export interface SelectedUserType {
+    selectedAppointmentForUser: number | null
+    selectedAppointmentWithUser: number | null
+}
+
+export interface AppointmentDataType {
+    text: AppointmentUserEnum
+    icon: string
+    type: AppointmentUserEnum[]
+}
+
+export interface SelectedTimeType {
+    startTime?: Date | string
+    endTime?: Date | string
+}

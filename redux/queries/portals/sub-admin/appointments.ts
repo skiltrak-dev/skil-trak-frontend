@@ -1,54 +1,65 @@
+import { UserRoles } from '@constants'
 import { BaseQueryFn } from '@reduxjs/toolkit/dist/query/baseQueryTypes'
 import { EndpointBuilder } from '@reduxjs/toolkit/dist/query/endpointDefinitions'
+import {
+    Industry,
+    PaginatedResponse,
+    Rto,
+    Student,
+    SubadminAvailabilitiesList,
+    User,
+} from '@types'
+import { IWorkplaceIndustries } from 'redux/queryTypes'
 
 const PREFIX = 'subadmin'
+
+interface Def extends Student {
+    workplace: IWorkplaceIndustries[]
+}
+
+interface Abc extends User {
+    student: Def
+    industry: Industry
+    rto: Rto
+}
 export const subAdminAppointmentspoints = (
     builder: EndpointBuilder<BaseQueryFn, string, string>
 ) => ({
     searchUser: builder.query<any, any | null>({
-        query: (params: any) => ({
+        query: (params) => ({
             url: `appointments/user/search`,
             params,
         }),
         providesTags: ['Appointment'],
     }),
-    searchSubAdminUsers: builder.query<any, any | null>({
-        query: (params: any) => ({
+    searchSubAdminUsers: builder.query<
+        PaginatedResponse<User>,
+        { search: string; role: UserRoles; skip: number; limit: number }
+    >({
+        query: (params) => ({
             url: `appointments/sub-admin/user/search`,
             params,
         }),
         providesTags: ['Appointment'],
     }),
-    userAvailabilities: builder.query<any, any | null>({
-        query: (params: any) => ({
+    userAvailabilities: builder.query<
+        any,
+        { date: Date; id: number; forUser: number; byUser: number }
+    >({
+        query: (params) => ({
             url: `subadmin/user/availabilities`,
             params,
         }),
         providesTags: ['Appointment'],
     }),
-    subAdminCreateAppointment: builder.mutation({
-        query: (body) => ({
-            url: `subadmin/appointment/create`,
-            method: 'POST',
-            body,
-        }),
-        invalidatesTags: ['Appointment'],
-    }),
-    getSubAdminAppointments: builder.query<any, any>({
-        query: (params) => ({
-            url: 'subadmin/my-appointments/view',
-            params,
-        }),
-        providesTags: ['Appointment'],
-    }),
-    searchUserById: builder.query<any, any>({
+    searchUserById: builder.query<Abc, { search: number; role: UserRoles }>({
         query: (params) => ({
             url: 'subadmin/user/find',
             params,
         }),
         providesTags: ['Appointment'],
     }),
-    availabilityList: builder.query<any, any>({
+    availabilityList: builder.query<SubadminAvailabilitiesList[], void>({
         query: () => 'subadmin/availabilities/list',
         providesTags: ['Appointment'],
     }),
