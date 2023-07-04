@@ -1,7 +1,7 @@
 import { ReactElement, useEffect } from 'react'
 
 import { AdminLayout } from '@layouts'
-import { NextPageWithLayout } from '@types'
+import { NextPageWithLayout, SMSFormType } from '@types'
 
 import {
     Button,
@@ -16,11 +16,6 @@ import { useNavbar, useNotification } from '@hooks'
 import { AdminApi } from '@queries'
 import { FormProvider, useForm } from 'react-hook-form'
 import * as yup from 'yup'
-
-interface onSubmitType {
-    number: string
-    message: string
-}
 
 const SMS: NextPageWithLayout = () => {
     const navBar = useNavbar()
@@ -49,12 +44,12 @@ const SMS: NextPageWithLayout = () => {
         message: yup.string().required('Message is required'),
     })
 
-    const methods = useForm<onSubmitType>({
+    const methods = useForm<SMSFormType>({
         resolver: yupResolver(validationSchema),
         mode: 'all',
     })
 
-    const onSubmit = (values: onSubmitType) => {
+    const onSubmit = (values: SMSFormType) => {
         sendSMS(values)
     }
     return (

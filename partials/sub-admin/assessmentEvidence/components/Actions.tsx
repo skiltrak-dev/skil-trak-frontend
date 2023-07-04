@@ -18,6 +18,7 @@ import { useNotification } from '@hooks'
 import { getUserCredentials } from '@utils'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { Result, UserRoles } from '@constants'
+import { AssessmentFinalCommentFormType } from '@types'
 
 export const Actions = ({
     result,
@@ -41,7 +42,7 @@ export const Actions = ({
         finalComment: Yup.string().required('Final Comment is Required'),
     })
 
-    const methods = useForm({
+    const methods = useForm<AssessmentFinalCommentFormType>({
         mode: 'all',
         resolver: yupResolver(validationSchema),
     })
@@ -140,7 +141,7 @@ export const Actions = ({
     //     }
     // }, [submitAssessmentEvidenceResult])
 
-    const onSubmit = (values: any) => {
+    const onSubmit = (values: AssessmentFinalCommentFormType) => {
         submitAssessmentEvidence({ id: result?.id, body: values })
     }
 

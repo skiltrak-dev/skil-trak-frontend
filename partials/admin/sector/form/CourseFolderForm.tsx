@@ -7,18 +7,20 @@ import {
     TextInput,
 } from '@components'
 import { yupResolver } from '@hookform/resolvers/yup'
-import { Folder } from '@types'
+import { AddFolderFormType, Folder, TypeOptionsEnum } from '@types'
 import { useEffect, useState } from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
 import * as yup from 'yup'
 
 interface CourseFolderFormProps {
     initialValues?: Folder
-    onSubmit: any
+    onSubmit: (values: AddFolderFormType) => void
     edit?: boolean
-    onCancel?: Function
+    onCancel?: () => void
     result: any
 }
+
+
 
 export const CourseFolderForm = ({
     onSubmit,
@@ -35,23 +37,21 @@ export const CourseFolderForm = ({
         }
     }, [initialValues])
 
-    console.log({ initialValues })
-
     const validationSchema = yup.object({
         name: yup.string().required('Name is required'),
         capacity: yup.number().required('Capacity is Required'),
     })
 
-    const methods = useForm({
+    const methods = useForm<AddFolderFormType>({
         resolver: yupResolver(validationSchema),
-        defaultValues: initialValues,
+        defaultValues: initialValues as AddFolderFormType,
         mode: 'all',
     })
 
     const typeOptions = [
-        { label: 'Documents', value: 'docs' },
-        { label: 'Images', value: 'images' },
-        { label: 'Videos', value: 'videos' },
+        { label: 'Documents', value: TypeOptionsEnum.Documents },
+        { label: 'Images', value: TypeOptionsEnum.Images },
+        { label: 'Videos', value: TypeOptionsEnum.Videos },
     ]
 
     return (
@@ -87,8 +87,9 @@ export const CourseFolderForm = ({
                             )}
                             options={typeOptions}
                             onChange={(e: any) => {
-                                setSelectedType(String(e?.value))
+                                setSelectedType(String(e))
                             }}
+                            onlyValue
                         />
 
                         <TextArea

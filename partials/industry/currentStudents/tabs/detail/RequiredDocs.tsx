@@ -2,25 +2,19 @@ import { useEffect, useState } from 'react'
 
 //components
 import {
+    AssessmentFolderCard,
+    AssessmentResponse,
     CourseCard,
     LoadingAnimation,
     NoData,
     Typography,
-    AssessmentFolderCard,
-    AssessmentResponse,
 } from '@components'
 
 // queries
-import { useNotification } from '@hooks'
 
-import {
-    useGetAssessmentEvidenceDetailQuery,
-    IndustryApi,
-    useGetAssessmentResponseQuery,
-    useStudentAssessmentCoursesQuery,
-} from '@queries'
-import { getUserCredentials } from '@utils'
+import { IndustryApi } from '@queries'
 import { Course } from '@types'
+import { getUserCredentials } from '@utils'
 
 export const RequiredDocs = ({
     studentId,

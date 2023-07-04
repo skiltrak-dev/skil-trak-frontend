@@ -1,15 +1,33 @@
 import { BaseQueryFn } from '@reduxjs/toolkit/dist/query/baseQueryTypes'
 import { EndpointBuilder } from '@reduxjs/toolkit/dist/query/endpointDefinitions'
+import {
+    AddCommentEnum,
+    AgreementFileType,
+    ArchiveAssessmentType,
+    AssessmentAddCommentType,
+    AssessmentCourseType,
+    AssessmentEvidenceDetailType,
+    AssessmentEvidenceResponse,
+    AssessmentEvidenceType,
+    AssessmentFinalCommentFormType,
+    AssessmentSubmissionsCount,
+    FileType,
+    PaginatedResponse,
+    PaginationWithSearch,
+} from '@types'
 
 const PREFIX = 'subadmin'
 export const assessmentEvidenceEndpoints = (
     builder: EndpointBuilder<BaseQueryFn, string, string>
 ) => ({
-    assessmentCount: builder.query<any, void>({
+    assessmentCount: builder.query<AssessmentSubmissionsCount[], void>({
         query: () => `${PREFIX}/students/assessment-evidence/count`,
         providesTags: ['AssessmentEvidence'],
     }),
-    getAssessmentEvidence: builder.query<any, any>({
+    getAssessmentEvidence: builder.query<
+        PaginatedResponse<AssessmentEvidenceType>,
+        PaginationWithSearch
+    >({
         query: (params) => ({
             url: `${PREFIX}/students/assessment-evidence/list-all`,
             params,
@@ -17,7 +35,7 @@ export const assessmentEvidenceEndpoints = (
         providesTags: ['AssessmentEvidence'],
     }),
     getAssessmentEvidenceDetail: builder.query<
-        any,
+        AssessmentEvidenceDetailType[],
         { courseId: number; studentId: number }
     >({
         query: ({ courseId, studentId }) =>
@@ -25,7 +43,7 @@ export const assessmentEvidenceEndpoints = (
         providesTags: ['AssessmentEvidence', 'Agreement', 'SubAdminWorkplace'],
     }),
     getArchivedAssessmentEvidenceDetail: builder.query<
-        any,
+        AssessmentEvidenceDetailType[],
         { courseId: number; studentId: number }
     >({
         query: ({ courseId, studentId }) =>
@@ -33,7 +51,7 @@ export const assessmentEvidenceEndpoints = (
         providesTags: ['AssessmentEvidence'],
     }),
     getAssessmentResponse: builder.query<
-        any,
+        AssessmentEvidenceResponse,
         { selectedFolder: number; student: number }
     >({
         query: ({ selectedFolder, student }) =>
@@ -41,7 +59,7 @@ export const assessmentEvidenceEndpoints = (
         providesTags: ['AssessmentEvidence', 'Agreement', 'SubAdminWorkplace'],
     }),
 
-    getAgrementFile: builder.query<any, { studentId: number }>({
+    getAgrementFile: builder.query<AgreementFileType, { studentId: number }>({
         query: ({ studentId }) =>
             `${PREFIX}/student/workplace-request/agreement/${studentId}`,
         providesTags: ['AssessmentEvidence'],
@@ -70,7 +88,7 @@ export const assessmentEvidenceEndpoints = (
     }),
 
     getArchivedAssessmentResponse: builder.query<
-        any,
+        AssessmentEvidenceResponse,
         { selectedFolder: number; student: number }
     >({
         query: ({ selectedFolder, student }) =>
@@ -78,12 +96,12 @@ export const assessmentEvidenceEndpoints = (
         providesTags: ['AssessmentEvidence'],
     }),
     addCommentOnAssessment: builder.mutation<
-        any,
+        AssessmentAddCommentType,
         {
             folderId: number
             resultId: number
             comment: string
-            status: any
+            status: AddCommentEnum
             std: number
             assessmentFolderId: number
         }
@@ -102,7 +120,10 @@ export const assessmentEvidenceEndpoints = (
         }),
         invalidatesTags: ['AssessmentEvidence', 'SubAdminStudents'],
     }),
-    submitAssessmentEvidence: builder.mutation<any, any>({
+    submitAssessmentEvidence: builder.mutation<
+        AssessmentEvidenceResponse,
+        { id: number; body: AssessmentFinalCommentFormType }
+    >({
         query: ({ id, body }) => ({
             url: `${PREFIX}/student/assessment-evidence/result/${id}`,
             method: 'PATCH',
@@ -110,21 +131,27 @@ export const assessmentEvidenceEndpoints = (
         }),
         invalidatesTags: ['AssessmentEvidence', 'SubAdminStudents'],
     }),
-    archiveAssessmentEvidence: builder.mutation<any, any>({
+    archiveAssessmentEvidence: builder.mutation<
+        ArchiveAssessmentType,
+        { id: number }
+    >({
         query: ({ id }) => ({
             url: `${PREFIX}/assessment-evidence/result/update-status/${id}`,
             method: 'PATCH',
         }),
         invalidatesTags: ['AssessmentEvidence', 'SubAdminStudents'],
     }),
-    deleteAssessmentEvidence: builder.mutation<any, any>({
+    deleteAssessmentEvidence: builder.mutation<
+        AssessmentEvidenceResponse,
+        { id: number }
+    >({
         query: ({ id }) => ({
             url: `${PREFIX}/assessment-evidence/result/remove/${id}`,
             method: 'DELETE',
         }),
         invalidatesTags: ['AssessmentEvidence', 'SubAdminStudents'],
     }),
-    studentAssessmentCourses: builder.query<any, number>({
+    studentAssessmentCourses: builder.query<AssessmentCourseType[], number>({
         query: (id) => `${PREFIX}/student/course/${id}`,
         providesTags: [
             'AssessmentEvidence',
@@ -133,14 +160,17 @@ export const assessmentEvidenceEndpoints = (
             'SubAdminWorkplace',
         ],
     }),
-    maulallyReopenSubmissionRequest: builder.mutation<any, number>({
+    maulallyReopenSubmissionRequest: builder.mutation<null, number>({
         query: (id) => ({
             url: `${PREFIX}/student/assessment-evidence/allow-submission/${id}`,
             method: 'PATCH',
         }),
         invalidatesTags: ['AssessmentEvidence', 'SubAdminStudents'],
     }),
-    uploadAssessmentDocs: builder.mutation<any, any>({
+    uploadAssessmentDocs: builder.mutation<
+        AssessmentEvidenceResponse,
+        { studentId: number; body: FormData; folderId: number }
+    >({
         query: ({ folderId, studentId, body }) => ({
             url: `${PREFIX}/assessment-evidence/response/${folderId}/${studentId}`,
             method: 'POST',
@@ -148,7 +178,7 @@ export const assessmentEvidenceEndpoints = (
         }),
         invalidatesTags: ['AssessmentEvidence', 'SubAdminStudents'],
     }),
-    archiveUploadedFile: builder.mutation<any, number>({
+    archiveUploadedFile: builder.mutation<FileType, number>({
         query: (fileId) => ({
             url: `subadmin/assessment-evidence/file/archive/${fileId}`,
             method: 'PATCH',

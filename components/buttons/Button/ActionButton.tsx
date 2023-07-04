@@ -1,6 +1,6 @@
 import { Tooltip } from '@components/Tooltip'
 import classNames from 'classnames'
-import { ReactNode } from 'react'
+import { ReactNode, MouseEvent } from 'react'
 import { IconType } from 'react-icons'
 import { PulseLoader } from 'react-spinners'
 
@@ -19,7 +19,7 @@ interface ButtonProps {
     variant?: (typeof VariantOptions)[number]
     Icon?: IconType
     children?: ReactNode
-    onClick?: Function
+    onClick?: (e: MouseEvent<HTMLElement>) => void
     disabled?: boolean
     loading?: boolean
     mini?: boolean
@@ -88,7 +88,7 @@ export const ActionButton = ({
             // onClick={() => {
             //     onClick && onClick()
             // }}
-            {...(!submit ? { onClick: () => onClick && onClick() } : {})}
+            {...(!submit ? { onClick: (e) => onClick && onClick(e) } : {})}
         >
             <div className="flex items-center justify-center gap-x-2">
                 {/* {mini ? (

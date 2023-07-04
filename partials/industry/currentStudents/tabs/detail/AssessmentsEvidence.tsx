@@ -1,19 +1,15 @@
 import {
+    AssessmentFolderCard,
+    AssessmentResponse,
     CourseCard,
     LoadingAnimation,
     NoData,
     Typography,
-    AssessmentFolderCard,
-    AssessmentResponse,
 } from '@components'
 import { useNotification } from '@hooks'
-import {
-    useStudentAssessmentCoursesQuery,
-    IndustryApi,
-    useGetAssessmentResponseQuery,
-} from '@queries'
+import { IndustryApi } from '@queries'
 import { getUserCredentials } from '@utils'
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 
 export const AssessmentsEvidence = ({
     studentId,

@@ -23,7 +23,7 @@ import { Result } from '@constants'
 import { useAddCommentOnAssessmentMutation } from '@queries'
 import moment from 'moment'
 import { DocumentsView, useNotification } from '@hooks'
-import { OptionType } from '@types'
+import { AddCommentEnum, OptionType } from '@types'
 
 export const AssessmentResponse = ({
     folder,
@@ -47,7 +47,7 @@ export const AssessmentResponse = ({
     editAssessment?: boolean
 }) => {
     const [comment, setComment] = useState<string>('')
-    const [commentType, setCommentType] = useState<SelectOption | null>(null)
+    const [commentType, setCommentType] = useState<AddCommentEnum | null>(null)
 
     const [selected, setSelected] = useState<any>(null)
 
@@ -145,12 +145,12 @@ export const AssessmentResponse = ({
             if (getAssessmentResponse?.data?.comment) {
                 setComment(getAssessmentResponse?.data?.comment)
             }
-            if (commentType?.value === 'approved') {
+            if (commentType === AddCommentEnum.Approved) {
                 setComment(
                     getAssessmentResponse?.data?.assessmentFolder
                         ?.positiveComment
                 )
-            } else if (commentType?.value === 'rejected') {
+            } else if (commentType === AddCommentEnum.Rejected) {
                 setComment(
                     getAssessmentResponse?.data?.assessmentFolder
                         ?.negativeComment
@@ -275,17 +275,18 @@ export const AssessmentResponse = ({
                                     options={[
                                         {
                                             label: 'Approve',
-                                            value: 'approved',
+                                            value: AddCommentEnum.Approved,
                                         },
                                         {
                                             label: 'Reject',
-                                            value: 'rejected',
+                                            value: AddCommentEnum.Rejected,
                                         },
                                     ]}
                                     value={commentType}
-                                    onChange={(e: OptionType) => {
+                                    onChange={(e: AddCommentEnum) => {
                                         setCommentType(e)
                                     }}
+                                    onlyValue
                                 />
                             </div>
                             <div className="col-span-2">
@@ -312,7 +313,7 @@ export const AssessmentResponse = ({
                                             getAssessmentResponse?.data?.id,
                                         comment,
                                         resultId: result?.id,
-                                        status: commentType?.value,
+                                        status: commentType as AddCommentEnum,
                                         assessmentFolderId:
                                             getAssessmentResponse?.data
                                                 ?.assessmentFolder?.id,
@@ -322,7 +323,7 @@ export const AssessmentResponse = ({
                                 loading={
                                     addCommentResult?.isLoading &&
                                     addCommentResult?.originalArgs?.status ===
-                                        'approved'
+                                        AddCommentEnum.Approved
                                 }
                                 disabled={addCommentResult?.isLoading}
                             />

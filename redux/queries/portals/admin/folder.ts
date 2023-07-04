@@ -1,11 +1,15 @@
 import { BaseQueryFn } from '@reduxjs/toolkit/dist/query/baseQueryTypes'
 import { EndpointBuilder } from '@reduxjs/toolkit/dist/query/endpointDefinitions'
+import { AddFolderFormQueryType, AddFolderQueryResponseType } from '@types'
 
 const PREFIX = 'admin/'
 export const folderEndpoints = (
     builder: EndpointBuilder<BaseQueryFn, string, string>
 ) => ({
-    folderAdd: builder.mutation({
+    folderAdd: builder.mutation<
+        AddFolderQueryResponseType,
+        AddFolderFormQueryType
+    >({
         query: (body) => ({
             url: `${PREFIX}folder/add`,
             method: 'POST',
@@ -14,7 +18,10 @@ export const folderEndpoints = (
         invalidatesTags: ['Folders', 'Courses'],
     }),
 
-    industryChecklistAdd: builder.mutation({
+    industryChecklistAdd: builder.mutation<
+        AddFolderQueryResponseType,
+        AddFolderFormQueryType
+    >({
         query: (body) => ({
             url: `${PREFIX}checklist/add`,
             method: 'POST',
@@ -23,7 +30,10 @@ export const folderEndpoints = (
         invalidatesTags: ['Folders', 'Courses'],
     }),
 
-    assessmentEvidenceAdd: builder.mutation({
+    assessmentEvidenceAdd: builder.mutation<
+        AddFolderQueryResponseType,
+        AddFolderFormQueryType
+    >({
         query: (body) => ({
             url: `${PREFIX}assessment-evidence/create`,
             method: 'POST',
@@ -32,8 +42,11 @@ export const folderEndpoints = (
         invalidatesTags: ['Folders', 'Courses'],
     }),
 
-    folderUpdate: builder.mutation({
-        query: (body: any) => ({
+    folderUpdate: builder.mutation<
+        AddFolderQueryResponseType,
+        AddFolderFormQueryType
+    >({
+        query: (body) => ({
             url: `${PREFIX}folder/update/${body.id}`,
             method: 'PATCH',
             body,
@@ -41,8 +54,11 @@ export const folderEndpoints = (
         invalidatesTags: ['Folders', 'Courses'],
     }),
 
-    assessmentEvidenceUpdate: builder.mutation({
-        query: (body: any) => ({
+    assessmentEvidenceUpdate: builder.mutation<
+        AddFolderQueryResponseType,
+        AddFolderFormQueryType
+    >({
+        query: (body) => ({
             url: `${PREFIX}assessment-evidence/update/${body.id}`,
             method: 'PATCH',
             body,
@@ -50,14 +66,14 @@ export const folderEndpoints = (
         invalidatesTags: ['Folders', 'Courses'],
     }),
 
-    folderRemove: builder.mutation({
+    folderRemove: builder.mutation<AddFolderFormQueryType, number>({
         query: (id) => ({
             url: `${PREFIX}folder/remove/${id}`,
             method: 'DELETE',
         }),
         invalidatesTags: ['Folders', 'Courses'],
     }),
-    removeAssessment: builder.mutation({
+    removeAssessment: builder.mutation<AddFolderFormQueryType, number>({
         query: (id) => ({
             url: `${PREFIX}assessment-evidence/remove/${id}`,
             method: 'DELETE',

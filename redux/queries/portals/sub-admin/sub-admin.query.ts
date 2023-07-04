@@ -213,8 +213,6 @@ export const {
     useAvailabilityListQuery,
     useSearchSubAdminUsersQuery,
     useUserAvailabilitiesQuery,
-    useGetSubAdminAppointmentsQuery,
-    useSubAdminCreateAppointmentMutation,
 
     // ---- RTO ---- //
     useSubadminRtoStatisticsCountQuery,
@@ -320,7 +318,7 @@ export const SubAdminApi = {
         useCompletePlacementMutation,
         useTerminatePlacementMutation,
         useGetMyStudentsWorkplacesQuery,
-        usePlacementStartedWorkplaces : useGetPlacementStartedWorkplacesQuery,
+        usePlacementStartedWorkplaces: useGetPlacementStartedWorkplacesQuery,
         useGetSubAdminWorkplacesQuery,
         useGetCancelledWorkplacesQuery,
         useGetSubAdminFilteredWorkplacesQuery,

@@ -152,7 +152,7 @@ export const ActiveAssessmentDetail = ({
                     : //   for subadmin portal assessment submission page
                     course
                     ? studentCourses?.data?.find((c: any) => c?.id == course)
-                    : studentCourses?.data[0]
+                    : studentCourses?.data && studentCourses?.data[0]
             )
         }
     }, [studentCourses, manuallyReopenSubmissionResult, course])

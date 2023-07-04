@@ -2,7 +2,11 @@ import { useRouter } from 'next/router'
 import { ReactElement, useEffect, useState } from 'react'
 //Layouts
 import { SubAdminLayout } from '@layouts'
-import { NextPageWithLayout, SubAdminAssessmentsFiltersType } from '@types'
+import {
+    AssessmentSubmissionsCount,
+    NextPageWithLayout,
+    SubAdminAssessmentsFiltersType,
+} from '@types'
 
 //components
 import {
@@ -108,7 +112,9 @@ const AssessmentEvidence: NextPageWithLayout = (props: Props) => {
         }
     }, [profile])
 
-    const assessMentCount = getCountData<{ [key: string]: number }>(count?.data)
+    const assessMentCount = getCountData<AssessmentSubmissionsCount>(
+        count?.data as AssessmentSubmissionsCount[]
+    )
 
     const tabs: TabProps[] = [
         {

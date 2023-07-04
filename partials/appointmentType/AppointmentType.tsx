@@ -7,10 +7,11 @@ import { NoData } from '@components'
 import { LoadingAnimation } from '@components/LoadingAnimation'
 import { CommonApi } from '@queries'
 import { RequiredStar } from '@components/inputs/components'
+import { AppointmentUserEnum } from '@types'
 
 type Props = {
-    setAppointmentTypeId: Function
-    appointmentFor: string
+    setAppointmentTypeId: (id: number) => void
+    appointmentFor: AppointmentUserEnum
 }
 
 export const AppointmentType = ({
@@ -19,14 +20,14 @@ export const AppointmentType = ({
 }: Props) => {
     const [selected, setSelected] = useState<string | null>(null)
     const appointmentTypes = CommonApi.Appointments.appointmentType(
-        appointmentFor,
+        appointmentFor.toLowerCase(),
         { skip: !appointmentFor }
     )
 
     useEffect(() => {
         if (appointmentTypes?.data && appointmentTypes?.data?.length) {
             setSelected(appointmentTypes?.data[0].title)
-            setAppointmentTypeId(appointmentTypes?.data[0]?.id)
+            setAppointmentTypeId(Number(appointmentTypes?.data[0]?.id))
         }
     }, [appointmentTypes?.data])
 

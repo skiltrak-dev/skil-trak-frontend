@@ -22,7 +22,7 @@ import {
     RejectedStudent,
 } from '@partials/admin/student'
 import { AdminApi } from '@queries'
-import { StudentsFilterType, NextPageWithLayout, UserStatus } from '@types'
+import { NextPageWithLayout, StudentsFilterType, UserStatus } from '@types'
 import { checkFilteredDataLength } from '@utils'
 import { useRouter } from 'next/router'
 
@@ -53,7 +53,9 @@ const StudentList: NextPageWithLayout = () => {
     const [page, setPage] = useState(1)
     const [itemPerPage, setItemPerPage] = useState(50)
 
-    const { isLoading, data } = AdminApi.Students.useCountQuery()
+    const { isLoading, data } = AdminApi.Students.useCountQuery(undefined, {
+        refetchOnMountOrArgChange: true,
+    })
     const filteredStudents = AdminApi.Students.useListQuery({
         search: `${JSON.stringify({ ...filter, ...studentId })
             .replaceAll('{', '')
@@ -149,7 +151,7 @@ const StudentList: NextPageWithLayout = () => {
 
     return (
         <div>
-            <SetDetaultQueryFilteres
+            <SetDetaultQueryFilteres<StudentsFilterType>
                 filterKeys={filterKeys}
                 setFilter={setFilter}
             />

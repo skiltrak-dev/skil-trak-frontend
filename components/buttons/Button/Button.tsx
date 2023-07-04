@@ -1,6 +1,6 @@
 import PuffLoader from 'react-spinners/PuffLoader'
 import { getTheme } from './theme'
-import { ReactNode } from 'react'
+import { ReactNode, MouseEvent } from 'react'
 import { IconType } from 'react-icons'
 
 export const ButtonType = {
@@ -28,7 +28,7 @@ interface ButtonProps {
     Icon?: IconType
     children?: ReactNode
     text?: string
-    onClick?: Function
+    onClick?: (e: MouseEvent<HTMLButtonElement>) => void
     disabled?: boolean
     rounded?: boolean
     loading?: boolean

@@ -3,7 +3,12 @@ import { useRouter } from 'next/router'
 import { ReactElement, useEffect, useState } from 'react'
 
 import { IndustryLayout } from '@layouts'
-import { Course, NextPageWithLayout, SubAdmin } from '@types'
+import {
+    AppointmentUserEnum,
+    Course,
+    NextPageWithLayout,
+    SubAdmin,
+} from '@types'
 
 import { Button, Select, ShowErrorNotifications, TextArea } from '@components'
 import { TimeSlots } from '@components/sections'
@@ -114,7 +119,7 @@ const BookAppointment: NextPageWithLayout = (props: Props) => {
                 <form onSubmit={formMethods.handleSubmit(onSubmit)}>
                     <AppointmentType
                         setAppointmentTypeId={setType}
-                        appointmentFor={UserRoles.INDUSTRY}
+                        appointmentFor={AppointmentUserEnum.Industry}
                     />
 
                     <div className="grid grid-cols-3 items-center gap-x-5 mb-5">

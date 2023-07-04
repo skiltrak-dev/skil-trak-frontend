@@ -4,7 +4,7 @@ type AssessmentCourseProps = {
     code: string
     name: string
     id: number
-    onClick: Function
+    onClick: () => void
     selectedCourseId: number | null
 }
 
