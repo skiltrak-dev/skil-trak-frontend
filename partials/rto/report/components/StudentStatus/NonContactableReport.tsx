@@ -55,7 +55,7 @@ export const NonContactableReport = ({
                         imageUrl={info?.row?.original?.user?.avatar}
                     />
                     <div className="flex flex-col">
-                        <span>{info?.row?.original?.id}</span>
+                        <span>{info?.row?.original?.studentId}</span>
                         <span>{info?.row?.original?.user?.name}</span>
                     </div>
                 </a>
@@ -86,7 +86,8 @@ export const NonContactableReport = ({
         },
     ]
     const count = data?.data?.length
-    console.log(data)
+    
+    
     return (
         <>
             <div className="flex justify-between items-start">
