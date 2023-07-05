@@ -102,7 +102,7 @@ export const WorkplaceRequest = ({
                     appliedIndustry?.isCompleted ? 'bg-gray-50' : ''
                 } bg-gray-100`}
             >
-                <div className="flex justify-between items-center pb-2.5 border-b border-dashed">
+                <div className="flex justify-between items-center flex-wrap gap-5 pb-2.5 border-b border-dashed">
                     <AssignToMe
                         workplace={workplace}
                         appliedIndustry={appliedIndustry}
@@ -156,17 +156,19 @@ export const WorkplaceRequest = ({
                     </div>
 
                     {/* Request Type Selection */}
-                    {workplace?.studentProvidedWorkplace ? (
-                        <RequestType
-                            appliedIndustry={appliedIndustry}
-                            workplace={workplace}
-                        />
-                    ) : workplace?.byExistingAbn ? (
-                        <RequestTypeAbn
-                            appliedIndustry={appliedIndustry}
-                            workplace={workplace}
-                        />
-                    ) : null}
+                    <div className="flex items-center justify-end">
+                        {workplace?.studentProvidedWorkplace ? (
+                            <RequestType
+                                appliedIndustry={appliedIndustry}
+                                workplace={workplace}
+                            />
+                        ) : workplace?.byExistingAbn ? (
+                            <RequestTypeAbn
+                                appliedIndustry={appliedIndustry}
+                                workplace={workplace}
+                            />
+                        ) : null}
+                    </div>
                 </div>
 
                 {/* Student Small Details */}

@@ -37,7 +37,15 @@ import {
 import { useRouter } from 'next/router'
 
 type Props = {}
-const filterKeys = ['name', 'email', 'phone', 'suburb', 'abn', 'courseId']
+const filterKeys = [
+    'name',
+    'email',
+    'phone',
+    'address',
+    'suburb',
+    'abn',
+    'courseId',
+]
 const Industries: NextPageWithLayout = (props: Props) => {
     const { setContent, hide, show } = useContextBar()
     const [filterAction, setFilterAction] = useState(null)
@@ -55,7 +63,7 @@ const Industries: NextPageWithLayout = (props: Props) => {
     }, [router])
 
     const filteredIndustries = useGetSubAdminIndustriesQuery({
-        search: `${JSON.stringify(filter)
+        search: `status:${UserStatus.Approved},${JSON.stringify(filter)
             .replaceAll('{', '')
             .replaceAll('}', '')
             .replaceAll('"', '')

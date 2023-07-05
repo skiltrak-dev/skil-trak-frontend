@@ -4,6 +4,7 @@ import {
     Filter,
     IndustryFilters,
     LoadingAnimation,
+    SetDetaultQueryFilteres,
     TabNavigation,
     TabProps,
     TechnicalError,
@@ -31,6 +32,7 @@ const filterKeys = [
     'phoneNumber',
     'industryId',
     'courseId',
+    'address',
 ]
 
 const IndustryList: NextPageWithLayout = () => {
@@ -137,6 +139,10 @@ const IndustryList: NextPageWithLayout = () => {
 
     return (
         <div>
+            <SetDetaultQueryFilteres<AdminIndustryFormFilter>
+                filterKeys={filterKeys}
+                setFilter={setFilter}
+            />
             <div className="px-4">
                 <div className="flex justify-end mb-2">{filterAction}</div>
                 <Filter<AdminIndustryFormFilter>

@@ -104,7 +104,7 @@ export const WorkplaceRequest = ({ workplace }: any) => {
                     appliedIndustry?.isCompleted ? 'bg-gray-50' : ''
                 } `}
             >
-                <div className="flex justify-between items-center pb-2.5 border-b border-dashed">
+                <div className="flex justify-between items-center flex-wrap gap-5 pb-2.5 border-b border-dashed">
                     <AssignToMe
                         workplace={workplace}
                         appliedIndustry={appliedIndustry}
@@ -148,7 +148,7 @@ export const WorkplaceRequest = ({ workplace }: any) => {
                     )}
 
                     {/* Request Type Selection */}
-                    <div className="flex items-center gap-x-2">
+                    <div className="flex items-center justify-end gap-x-2">
                         {appliedIndustry?.AgreementSigned && (
                             <Button
                                 variant={'info'}

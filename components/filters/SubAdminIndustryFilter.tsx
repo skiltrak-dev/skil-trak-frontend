@@ -64,11 +64,11 @@ export const SubAdminIndustryFilter = ({
                 />
                 <TextInput
                     label={'Address'}
-                    name={'suburb'}
-                    value={filter?.suburb}
+                    name={'address'}
+                    value={filter?.address}
                     placeholder={'Search By Address...'}
                     onChange={(e: any) => {
-                        onFilterChange({ ...filter, suburb: e.target.value })
+                        onFilterChange({ ...filter, address: e.target.value })
                     }}
                 />
                 <Select

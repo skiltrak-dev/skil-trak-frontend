@@ -155,7 +155,16 @@ const RtoDetail: NextPageWithLayout = () => {
                                 ) : null}
                             </div>
                         </div>
-                        <Button variant="dark">Summary Report</Button>
+                        {/* <Button
+                            variant="dark"
+                            onClick={() =>
+                                router.push(
+                                    `/portals/admin/rto/${rto?.data?.id}?tab=reports`
+                                )
+                            }
+                        >
+                            Summary Report
+                        </Button> */}
                         <ActionButton
                             Icon={FaArchive}
                             onClick={() => onArchiveClicked(rto?.data)}

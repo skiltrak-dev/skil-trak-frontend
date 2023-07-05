@@ -1,29 +1,29 @@
 import { ReactElement, useEffect, useState } from 'react'
 
-import { StudentLayout } from '@layouts'
-import { NextPageWithLayout, UserStatus } from '@types'
 import {
     ActionAlert,
-    ActionAlertType,
+    ActionButton,
     Card,
     LoadingAnimation,
-    Typography,
     StepIndicator,
-    ActionButton,
+    Typography,
 } from '@components'
 import { ShowErrorNotifications } from '@components/ShowErrorNotifications'
+import { StudentLayout } from '@layouts'
+import { NextPageWithLayout, UserStatus } from '@types'
 
 // query
-import {
-    useUpdateFindAbnMutation,
-    useAddWorkplaceMutation,
-    useCancelWorkplaceRequestMutation,
-    useGetWorkplaceIndustriesQuery,
-} from '@queries'
+import { MediaQueries, UserRoles } from '@constants'
 import { useNotification } from '@hooks'
 import { AddCustomIndustryForm, FindWorkplaceForm } from '@partials/common'
 import { AppliedIndustry, ExistingIndustryCard } from '@partials/student'
-import { MediaQueries } from '@constants'
+import {
+    useAddWorkplaceMutation,
+    useCancelWorkplaceRequestMutation,
+    useGetStudentCoursesQuery,
+    useGetWorkplaceIndustriesQuery,
+    useUpdateFindAbnMutation,
+} from '@queries'
 import { useMediaQuery } from 'react-responsive'
 
 type Props = {}
@@ -43,7 +43,7 @@ const HaveWorkplace: NextPageWithLayout = (props: Props) => {
     const workplace = useGetWorkplaceIndustriesQuery()
     const [findAbn, result] = useUpdateFindAbnMutation()
     const [addWorkplace, addWorkplaceResult] = useAddWorkplaceMutation()
-
+    const courses = useGetStudentCoursesQuery()
     const [cancelRequest, cancelRequestResult] =
         useCancelWorkplaceRequestMutation()
 
@@ -136,8 +136,8 @@ const HaveWorkplace: NextPageWithLayout = (props: Props) => {
     const onAddIndustry = (values: any) => {
         addWorkplace({
             ...values,
-            courses: [values?.courses?.value],
-            role: 'industry',
+            courses: [values?.courses],
+            role: UserRoles.INDUSTRY,
             password: 'NA',
         })
     }
@@ -191,6 +191,7 @@ const HaveWorkplace: NextPageWithLayout = (props: Props) => {
                                         result={addWorkplaceResult}
                                         industryABN={industryABN}
                                         setActive={setActive}
+                                        courses={courses?.data}
                                     />
                                 </div>
                             ) : (

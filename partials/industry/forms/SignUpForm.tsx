@@ -101,7 +101,7 @@ export const IndustrySignUpForm = ({ onSubmit }: { onSubmit: any }) => {
         courses: yup.array().min(1, 'Must select at least 1 course').required(),
 
         // Contact Person Information
-        contactPersonName: yup
+        contactPerson: yup
             .string()
             .matches(onlyAlphabets(), 'Must be a valid name'),
         contactPersonEmail: yup.string().email('Must be a valid email'),
@@ -248,7 +248,7 @@ export const IndustrySignUpForm = ({ onSubmit }: { onSubmit: any }) => {
                             />
                             <TextInput
                                 label={'Contact Person Name'}
-                                name={'contactPersonName'}
+                                name={'contactPerson'}
                                 placeholder={'Contact Person Name...'}
                                 validationIcons
                                 required

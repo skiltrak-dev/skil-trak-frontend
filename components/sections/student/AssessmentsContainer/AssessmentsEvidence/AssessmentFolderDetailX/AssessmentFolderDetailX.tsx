@@ -25,7 +25,7 @@ import {
 // hoc
 import { FileUpload } from '@hoc'
 import { Result } from '@constants'
-import { DocumentsView } from '@hooks'
+import { DocumentsView, useNotification } from '@hooks'
 
 type Props = {
     folder: any
@@ -59,6 +59,9 @@ export const AssessmentFolderDetailX = ({
     const { onFileClicked, documentsViewModal } = DocumentsView()
     // query
     // fetch files
+
+    const { notification } = useNotification()
+
     const getAssessmentResponse = useGetAssessmentsFolderDetailQuery(
         folder?.id,
         { skip: !folder }
@@ -144,16 +147,46 @@ export const AssessmentFolderDetailX = ({
                                     <FileUpload
                                         onChange={(docs: any) => {
                                             const formData = new FormData()
-                                            docs.forEach((doc: any) => {
+
+                                            const filteredDocs = [
+                                                ...docs,
+                                            ]?.filter((doc) => {
+                                                const docSize =
+                                                    doc?.size / 1024 / 1024
+                                                return docSize <= 50
+                                            })
+
+                                            if (
+                                                filteredDocs?.length <
+                                                docs?.length
+                                            ) {
+                                                notification.warning({
+                                                    title: 'Files Removed',
+                                                    description: `${
+                                                        docs?.length -
+                                                        filteredDocs?.length
+                                                    } ${
+                                                        docs?.length -
+                                                            filteredDocs?.length ===
+                                                        1
+                                                            ? 'File'
+                                                            : 'Files'
+                                                    } were Removed because its size was greater than 50mb, try to upload the file which has less then 50mb size`,
+                                                })
+                                            }
+                                            filteredDocs.forEach((doc: any) => {
                                                 formData.append(
                                                     `${folder?.name}`,
                                                     doc
                                                 )
                                             })
-                                            uploadDocs({
-                                                id: folder?.id,
-                                                body: formData,
-                                            })
+
+                                            if (filteredDocs?.length) {
+                                                uploadDocs({
+                                                    id: folder?.id,
+                                                    body: formData,
+                                                })
+                                            }
                                         }}
                                         name={folder?.name}
                                         component={

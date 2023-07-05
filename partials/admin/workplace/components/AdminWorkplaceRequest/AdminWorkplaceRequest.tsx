@@ -50,6 +50,8 @@ export const AdminWorkplaceRequest = ({ workplace }: Props) => {
         )
     }, [workplace])
 
+    console.log('workplace', workplace)
+
     useEffect(() => {
         if (assignCourseResult.isSuccess) {
             notification.success({
@@ -72,68 +74,85 @@ export const AdminWorkplaceRequest = ({ workplace }: Props) => {
     return (
         <div>
             <ShowErrorNotifications result={assignCourseResult} />
-            <Card>
-                <div className="grid grid-cols-4 gap-x-5 items-center pb-2.5 border-b border-dashed">
-                    <AssignWorkplace workplace={workplace} />
-                    <div className="flex items-center relative">
-                        <div className="flex items-center gap-x-2">
-                            {workplace?.student?.rto?.user && (
-                                <RtoCellInfo rto={workplace?.student?.rto} />
-                            )}
-                        </div>
-                    </div>
-                    {/*  */}
-                    {workplace?.courses && workplace?.courses?.length > 0 ? (
+            <Card noPadding>
+                <div
+                    className={`${
+                        workplace?.studentProvidedWorkplace ||
+                        workplace?.byExistingAbn
+                            ? 'bg-gray-100'
+                            : ''
+                    } p-4`}
+                >
+                    <div className="grid grid-cols-4 gap-x-5 items-center pb-2.5 border-b border-dashed">
+                        <AssignWorkplace workplace={workplace} />
                         <div className="flex items-center relative">
                             <div className="flex items-center gap-x-2">
-                                <RiBook2Fill className="text-gray-400 text-2xl" />
-                                <div>
-                                    <Typography color={'black'} variant={'xs'}>
-                                        {workplace?.courses[0]?.sector?.name}
-                                    </Typography>
-                                    <Typography variant={'muted'}>
-                                        <span className="break-all">
-                                            {workplace?.courses[0]?.code}{' '}
-                                        </span>
-                                        -{' '}
-                                        <span className="break-all">
-                                            {workplace?.courses[0]?.title}
-                                        </span>
-                                    </Typography>
-                                </div>
+                                {workplace?.student?.rto?.user && (
+                                    <RtoCellInfo
+                                        rto={workplace?.student?.rto}
+                                    />
+                                )}
                             </div>
                         </div>
-                    ) : (
-                        <Select
-                            label={'Course'}
-                            name={'course'}
-                            options={courseOptions}
-                            placeholder={'Select Course...'}
-                            onChange={(e: OptionType) => {
-                                if (e?.value) {
-                                    assignCourse({
-                                        courseId: Number(e?.value),
-                                        workplaceId: Number(workplace?.id),
-                                    })
-                                }
-                            }}
-                            loading={assignCourseResult.isLoading}
-                            disabled={assignCourseResult.isLoading}
+                        {/*  */}
+                        {workplace?.courses &&
+                        workplace?.courses?.length > 0 ? (
+                            <div className="flex items-center relative">
+                                <div className="flex items-center gap-x-2">
+                                    <RiBook2Fill className="text-gray-400 text-2xl" />
+                                    <div>
+                                        <Typography
+                                            color={'black'}
+                                            variant={'xs'}
+                                        >
+                                            {
+                                                workplace?.courses[0]?.sector
+                                                    ?.name
+                                            }
+                                        </Typography>
+                                        <Typography variant={'muted'}>
+                                            <span className="break-all">
+                                                {workplace?.courses[0]?.code}{' '}
+                                            </span>
+                                            -{' '}
+                                            <span className="break-all">
+                                                {workplace?.courses[0]?.title}
+                                            </span>
+                                        </Typography>
+                                    </div>
+                                </div>
+                            </div>
+                        ) : (
+                            <Select
+                                label={'Course'}
+                                name={'course'}
+                                options={courseOptions}
+                                placeholder={'Select Course...'}
+                                onChange={(e: OptionType) => {
+                                    if (e?.value) {
+                                        assignCourse({
+                                            courseId: Number(e?.value),
+                                            workplaceId: Number(workplace?.id),
+                                        })
+                                    }
+                                }}
+                                loading={assignCourseResult.isLoading}
+                                disabled={assignCourseResult.isLoading}
+                            />
+                        )}
+
+                        <ProgressCell
+                            step={steps > 14 ? 14 : steps < 1 ? 1 : steps}
                         />
-                    )}
+                    </div>
 
-                    <ProgressCell
-                        step={steps > 14 ? 14 : steps < 1 ? 1 : steps}
-                    />
-                </div>
+                    {/* Student Small Details */}
+                    <div className="mt-3 flex justify-between items-center">
+                        <StudentDetail data={workplace?.student} />
 
-                {/* Student Small Details */}
-                <div className="mt-3 flex justify-between items-center">
-                    <StudentDetail data={workplace?.student} />
-
-                    {/*  */}
-                    <div className="flex items-center gap-x-5">
-                        {/* <div className="flex flex-col items-end gap-y-1">
+                        {/*  */}
+                        <div className="flex items-center gap-x-5">
+                            {/* <div className="flex flex-col items-end gap-y-1">
                             <Typography variant={'small'}>
                                 <span className="bg-primary-light text-primary rounded-md p-1">
                                     Documents Pending
@@ -145,34 +164,37 @@ export const AdminWorkplaceRequest = ({ workplace }: Props) => {
                                 </span>
                             </Typography>
                         </div> */}
-                        <div>
-                            <Typography variant={'xs'}>Recieved On:</Typography>
-                            <Typography variant={'small'}>
-                                <span className="font-semibold">
-                                    {moment(
-                                        workplace?.createdAt,
-                                        'YYYY-MM-DD hh:mm:ss Z'
-                                    ).format('Do MMM, YYYY')}
-                                </span>{' '}
-                                Date
-                            </Typography>
+                            <div>
+                                <Typography variant={'xs'}>
+                                    Recieved On:
+                                </Typography>
+                                <Typography variant={'small'}>
+                                    <span className="font-semibold">
+                                        {moment(
+                                            workplace?.createdAt,
+                                            'YYYY-MM-DD hh:mm:ss Z'
+                                        ).format('Do MMM, YYYY')}
+                                    </span>{' '}
+                                    Date
+                                </Typography>
+                            </div>
                         </div>
                     </div>
-                </div>
 
-                {/* Industries and notes */}
-                <div className="grid grid-cols-2 gap-x-3 mt-4">
-                    {/* Industries */}
-                    <Industries
-                        appliedIndustry={appliedIndustry}
-                        industries={workplace?.industries}
-                        workplaceId={workplace?.id}
-                        workplace={workplace}
-                        admin
-                    />
+                    {/* Industries and notes */}
+                    <div className="grid grid-cols-2 gap-x-3 mt-4">
+                        {/* Industries */}
+                        <Industries
+                            appliedIndustry={appliedIndustry}
+                            industries={workplace?.industries}
+                            workplaceId={workplace?.id}
+                            workplace={workplace}
+                            admin
+                        />
 
-                    {/* Notes */}
-                    {/* <Notes /> */}
+                        {/* Notes */}
+                        {/* <Notes /> */}
+                    </div>
                 </div>
             </Card>
         </div>

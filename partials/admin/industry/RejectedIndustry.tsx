@@ -132,7 +132,7 @@ export const RejectedIndustry = () => {
         },
 
         {
-            accessorKey: 'suburb',
+            accessorKey: 'addressLine1',
             header: () => <span>Address</span>,
             cell: (info) => info.getValue(),
         },
