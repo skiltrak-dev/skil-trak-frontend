@@ -223,7 +223,11 @@ export const Select = ({
             <div className="w-full flex items-center relative">
                 {formContext
                     ? getControlledSelect()
-                    : getSimpleSelect(onChange, onBlur, defaultValue)}
+                    : getSimpleSelect(
+                          (event: any) => onChange(handleChange(event)),
+                          onBlur,
+                          defaultValue
+                      )}
                 {validationIcons && <ValidationIcon name={name} />}
             </div>
 
