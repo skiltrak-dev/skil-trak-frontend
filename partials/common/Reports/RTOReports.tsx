@@ -41,98 +41,153 @@ export const RTOReports = ({ user }: { user?: User }) => {
         )
     }
 
-    const reports = () => {
-        switch (reportType?.value) {
-            case ReportOptionsEnum.NON_CONTACTABLE:
-                return (
-                    <NonContactableReport
-                        setStartDate={setStartDate}
-                        setEndDate={setEndDate}
-                        startDate={startDate}
-                        endDate={endDate}
-                        user={user?.id}
-                    />
-                )
-            case ReportOptionsEnum.NEW_STUDENTS:
-                return (
-                    <NewStudentReport
-                        setStartDate={setStartDate}
-                        setEndDate={setEndDate}
-                        startDate={startDate}
-                        endDate={endDate}
-                        user={user?.id}
-                    />
-                )
-            case ReportOptionsEnum.CANCELLED_WORKPLACE_REQUEST:
-                return (
-                    <CancelledWorkplaceReport
-                        setStartDate={setStartDate}
-                        setEndDate={setEndDate}
-                        startDate={startDate}
-                        endDate={endDate}
-                        user={user?.id}
-                    />
-                )
-            case ReportOptionsEnum.BLOCKED_STUDENTS:
-                return <BlockedStudentsReport user={user?.id} />
-            case ReportOptionsEnum.ARCHIVED_STUDENTS:
-                return <ArchivedStudentsReport user={user?.id} />
-            case ReportOptionsEnum.WORKPLACE_REQUEST_COMPLETED:
-                return (
-                    <CompletedWorkplaceReport
-                        setStartDate={setStartDate}
-                        setEndDate={setEndDate}
-                        startDate={startDate}
-                        endDate={endDate}
-                        user={user?.id}
-                    />
-                )
-            case ReportOptionsEnum.WORKPLACE_REQUEST_TERMINATED:
-                return (
-                    <TerminatedWorkplaceReport
-                        setStartDate={setStartDate}
-                        setEndDate={setEndDate}
-                        startDate={startDate}
-                        endDate={endDate}
-                        user={user?.id}
-                    />
-                )
-            case ReportOptionsEnum.WORKPLACE_REQUEST:
-                return (
-                    <WorkplaceRequestReport
-                        setStartDate={setStartDate}
-                        setEndDate={setEndDate}
-                        startDate={startDate}
-                        endDate={endDate}
-                        user={user?.id}
-                    />
-                )
-            case ReportOptionsEnum.STUDENT_WITHOUT_WORKPLACE_REQUEST:
-                return <StudentsWithoutWorkplaceReport user={user?.id} />
-            case ReportOptionsEnum.APPOINTMENTS_REPORT:
-                return (
-                    <AppointmentsReport
-                        setStartDate={setStartDate}
-                        setEndDate={setEndDate}
-                        startDate={startDate}
-                        endDate={endDate}
-                        user={user?.id}
-                    />
-                )
-            case ReportOptionsEnum.REPORTED_STUDENTS:
-                return <ReportedStudents user={user?.id} />
-            default:
-                return (
-                    <NonContactableReport
-                        setStartDate={setStartDate}
-                        setEndDate={setEndDate}
-                        startDate={startDate}
-                        endDate={endDate}
-                        user={user?.id}
-                    />
-                )
-        }
-    }
+    // const reports = () => {
+    //     switch (reportType?.value) {
+    //         case ReportOptionsEnum.NON_CONTACTABLE:
+    //             return (
+    //                 <NonContactableReport
+    //                     setStartDate={setStartDate}
+    //                     setEndDate={setEndDate}
+    //                     startDate={startDate}
+    //                     endDate={endDate}
+    //                     user={user?.id}
+    //                 />
+    //             )
+    //         case ReportOptionsEnum.NEW_STUDENTS:
+    //             return (
+    //                 <NewStudentReport
+    //                     setStartDate={setStartDate}
+    //                     setEndDate={setEndDate}
+    //                     startDate={startDate}
+    //                     endDate={endDate}
+    //                     user={user?.id}
+    //                 />
+    //             )
+    //         case ReportOptionsEnum.CANCELLED_WORKPLACE_REQUEST:
+    //             return (
+    //                 <CancelledWorkplaceReport
+    //                     setStartDate={setStartDate}
+    //                     setEndDate={setEndDate}
+    //                     startDate={startDate}
+    //                     endDate={endDate}
+    //                     user={user?.id}
+    //                 />
+    //             )
+    //         case ReportOptionsEnum.BLOCKED_STUDENTS:
+    //             return <BlockedStudentsReport user={user?.id} />
+    //         case ReportOptionsEnum.ARCHIVED_STUDENTS:
+    //             return <ArchivedStudentsReport user={user?.id} />
+    //         case ReportOptionsEnum.WORKPLACE_REQUEST_COMPLETED:
+    //             return (
+    //                 <CompletedWorkplaceReport
+    //                     setStartDate={setStartDate}
+    //                     setEndDate={setEndDate}
+    //                     startDate={startDate}
+    //                     endDate={endDate}
+    //                     user={user?.id}
+    //                 />
+    //             )
+    //         case ReportOptionsEnum.WORKPLACE_REQUEST_TERMINATED:
+    //             return (
+    //                 <TerminatedWorkplaceReport
+    //                     setStartDate={setStartDate}
+    //                     setEndDate={setEndDate}
+    //                     startDate={startDate}
+    //                     endDate={endDate}
+    //                     user={user?.id}
+    //                 />
+    //             )
+    //         case ReportOptionsEnum.WORKPLACE_REQUEST:
+    //             return (
+    //                 <WorkplaceRequestReport
+    //                     setStartDate={setStartDate}
+    //                     setEndDate={setEndDate}
+    //                     startDate={startDate}
+    //                     endDate={endDate}
+    //                     user={user?.id}
+    //                 />
+    //             )
+    //         case ReportOptionsEnum.STUDENT_WITHOUT_WORKPLACE_REQUEST:
+    //             return <StudentsWithoutWorkplaceReport user={user?.id} />
+    //         case ReportOptionsEnum.APPOINTMENTS_REPORT:
+    //             return (
+    //                 <AppointmentsReport
+    //                     setStartDate={setStartDate}
+    //                     setEndDate={setEndDate}
+    //                     startDate={startDate}
+    //                     endDate={endDate}
+    //                     user={user?.id}
+    //                 />
+    //             )
+    //         case ReportOptionsEnum.REPORTED_STUDENTS:
+    //             return <ReportedStudents user={user?.id} />
+    //         default:
+    //             return (
+    //                 <NonContactableReport
+    //                     setStartDate={setStartDate}
+    //                     setEndDate={setEndDate}
+    //                     startDate={startDate}
+    //                     endDate={endDate}
+    //                     user={user?.id}
+    //                 />
+    //             )
+    //     }
+    // }
+    const reports = [
+        <NonContactableReport
+            setStartDate={setStartDate}
+            setEndDate={setEndDate}
+            startDate={startDate}
+            endDate={endDate}
+            user={user?.id}
+        />,
+        <NewStudentReport
+            setStartDate={setStartDate}
+            setEndDate={setEndDate}
+            startDate={startDate}
+            endDate={endDate}
+            user={user?.id}
+        />,
+        <CancelledWorkplaceReport
+            setStartDate={setStartDate}
+            setEndDate={setEndDate}
+            startDate={startDate}
+            endDate={endDate}
+            user={user?.id}
+        />,
+        <BlockedStudentsReport user={user?.id} />,
+        <ArchivedStudentsReport user={user?.id} />,
+        <CompletedWorkplaceReport
+            setStartDate={setStartDate}
+            setEndDate={setEndDate}
+            startDate={startDate}
+            endDate={endDate}
+            user={user?.id}
+        />,
+        <TerminatedWorkplaceReport
+            setStartDate={setStartDate}
+            setEndDate={setEndDate}
+            startDate={startDate}
+            endDate={endDate}
+            user={user?.id}
+        />,
+        <WorkplaceRequestReport
+            setStartDate={setStartDate}
+            setEndDate={setEndDate}
+            startDate={startDate}
+            endDate={endDate}
+            user={user?.id}
+        />,
+        <AppointmentsReport
+            setStartDate={setStartDate}
+            setEndDate={setEndDate}
+            startDate={startDate}
+            endDate={endDate}
+            user={user?.id}
+        />,
+        <StudentsWithoutWorkplaceReport user={user?.id} />,
+        <ReportedStudents user={user?.id} />,
+    ]
 
     return (
         <>
@@ -152,13 +207,17 @@ export const RTOReports = ({ user }: { user?: User }) => {
                     </span>
                 </Button>
             </div>
-            <div className="w-1/4">
+            {/* <div className="w-1/4">
                 <ReportType
                     reportType={reportType}
                     setReportType={setReportType}
                 />
+            </div> */}
+            <div className="flex flex-col gap-y-2">
+                {reports.map((report) => (
+                    <Card>{report}</Card>
+                ))}
             </div>
-            <Card>{reports()}</Card>
         </>
     )
 }

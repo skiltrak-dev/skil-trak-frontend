@@ -3,6 +3,7 @@ import {
   EmptyData,
   InitialAvatar,
   LoadingAnimation,
+  NoData,
   Table,
   TechnicalError,
   Typography,
@@ -104,10 +105,7 @@ export const WorkplaceRequestDetail = (props: Props) => {
         </Table>
       ) : (
         !isError && (
-          <EmptyData
-            title={'No Workplace Requests Found'}
-            description={'There is no New Workplace Request yet'}
-            height={'50vh'}
+          <NoData text='No Workplace Requests Found'
           />
         )
       )}

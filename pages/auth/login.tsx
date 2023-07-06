@@ -69,7 +69,6 @@ const Login: NextPage = () => {
         }
     }
 
-    console.log('loginResult', loginResult)
 
     useEffect(() => {
         if (loginResult.isSuccess) {

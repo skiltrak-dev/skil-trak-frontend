@@ -4,6 +4,7 @@ import {
     EmptyData,
     InitialAvatar,
     LoadingAnimation,
+    NoData,
     Table,
     TechnicalError,
     Typography,
@@ -18,7 +19,7 @@ import { FilterReport } from '../../FilterReport'
 import { ViewFullListReport } from '../../ViewFullListReport'
 import { useRouter } from 'next/router'
 import { UserRoles } from '@constants'
-
+import { Waypoint } from 'react-waypoint'
 type Props = {
     startDate: Date
     setStartDate: (startDate: Date) => void
@@ -34,17 +35,21 @@ export const CancelledWorkplaceReport = ({
     endDate,
     user,
 }: Props) => {
+    const [renderComponent, setRenderComponent] = useState(false)
     const [itemPerPage, setItemPerPage] = useState(50)
     const [page, setPage] = useState(1)
     const router = useRouter()
     const { data, isLoading, isError } =
-        RtoApi.Students.useCancelledWorkplaceReport({
-            user,
-            startDate: startDate.toISOString().slice(0, 10),
-            endDate: endDate.toISOString().slice(0, 10),
-            skip: itemPerPage * page - itemPerPage,
-            limit: itemPerPage,
-        })
+        RtoApi.Students.useCancelledWorkplaceReport(
+            {
+                user,
+                startDate: startDate.toISOString().slice(0, 10),
+                endDate: endDate.toISOString().slice(0, 10),
+                skip: itemPerPage * page - itemPerPage,
+                limit: itemPerPage,
+            },
+            { skip: !renderComponent }
+        )
 
     const columns: ColumnDef<any>[] = [
         {
@@ -108,90 +113,95 @@ export const CancelledWorkplaceReport = ({
         },
     ]
     const count = data?.data?.length
+    const handleEnter = () => {
+        setRenderComponent(true)
+    }
     return (
-        <>
-            <div className="flex justify-between">
-                <div className="">
-                    <Typography variant="title" color="text-gray-400">
-                        Cancelled Workplace Request
-                    </Typography>
-                    <Typography variant="h3">{count || 0}</Typography>
-                </div>
+        <Waypoint onEnter={handleEnter}>
+            <div>
+                <div className="flex justify-between">
+                    <div className="">
+                        <Typography variant="title" color="text-gray-400">
+                            Cancelled Workplace Request
+                        </Typography>
+                        <Typography variant="h3">{count || 0}</Typography>
+                    </div>
 
-                <div className="flex items-center gap-x-4">
-                    <FilterReport
-                        startDate={startDate}
-                        setStartDate={setStartDate}
-                        endDate={endDate}
-                        setEndDate={setEndDate}
-                    />
+                    <div className="flex items-center gap-x-4">
+                        <FilterReport
+                            startDate={startDate}
+                            setStartDate={setStartDate}
+                            endDate={endDate}
+                            setEndDate={setEndDate}
+                        />
 
-                    <AuthorizedUserComponent roles={[UserRoles.ADMIN]}>
-                        <ActionButton
-                            onClick={() => {
-                                router.push(
-                                    `/portals/admin/rto/${router.query?.id}/${ReportOptionsEnum.CANCELLED_WORKPLACE_REQUEST}`
-                                )
-                            }}
-                        >
-                            View Full List
-                        </ActionButton>
-                    </AuthorizedUserComponent>
-                    <AuthorizedUserComponent roles={[UserRoles.SUBADMIN]}>
-                        <ActionButton
-                            onClick={() => {
-                                router.push(
-                                    `/portals/sub-admin/users/rtos/${router.query?.id}/${ReportOptionsEnum.CANCELLED_WORKPLACE_REQUEST}`
-                                )
-                            }}
-                        >
-                            View Full List
-                        </ActionButton>
-                    </AuthorizedUserComponent>
-                    <AuthorizedUserComponent roles={[UserRoles.RTO]}>
-                        <ActionButton
-                            onClick={() => {
-                                router.push(
-                                    `/portals/rto/report/${ReportOptionsEnum.CANCELLED_WORKPLACE_REQUEST}`
-                                )
-                            }}
-                        >
-                            View Full List
-                        </ActionButton>
-                    </AuthorizedUserComponent>
+                        <AuthorizedUserComponent roles={[UserRoles.ADMIN]}>
+                            <ActionButton
+                                onClick={() => {
+                                    router.push(
+                                        `/portals/admin/rto/${router.query?.id}/${ReportOptionsEnum.CANCELLED_WORKPLACE_REQUEST}`
+                                    )
+                                }}
+                            >
+                                View Full List
+                            </ActionButton>
+                        </AuthorizedUserComponent>
+                        <AuthorizedUserComponent roles={[UserRoles.SUBADMIN]}>
+                            <ActionButton
+                                onClick={() => {
+                                    router.push(
+                                        `/portals/sub-admin/users/rtos/${router.query?.id}/${ReportOptionsEnum.CANCELLED_WORKPLACE_REQUEST}`
+                                    )
+                                }}
+                            >
+                                View Full List
+                            </ActionButton>
+                        </AuthorizedUserComponent>
+                        <AuthorizedUserComponent roles={[UserRoles.RTO]}>
+                            <ActionButton
+                                onClick={() => {
+                                    router.push(
+                                        `/portals/rto/report/${ReportOptionsEnum.CANCELLED_WORKPLACE_REQUEST}`
+                                    )
+                                }}
+                            >
+                                View Full List
+                            </ActionButton>
+                        </AuthorizedUserComponent>
+                    </div>
                 </div>
-            </div>
-            {isError && <TechnicalError />}
-            {isLoading ? (
-                <LoadingAnimation height="h-[60vh]" />
-            ) : data?.data && data?.data?.length ? (
-                <Table columns={columns} data={data?.data}>
-                    {({ table, pagination, pageSize, quickActions }: any) => {
-                        return (
-                            <div>
-                                <div className="p-6 mb-2 flex justify-between">
-                                    {pageSize(itemPerPage, setItemPerPage)}
-                                    <div className="flex gap-x-2">
-                                        {/* {quickActions} */}
-                                        {pagination(data?.pagination, setPage)}
+                {isError && <TechnicalError />}
+                {isLoading ? (
+                    <LoadingAnimation height="h-[60vh]" />
+                ) : data?.data && data?.data?.length ? (
+                    <Table columns={columns} data={data?.data}>
+                        {({
+                            table,
+                            pagination,
+                            pageSize,
+                            quickActions,
+                        }: any) => {
+                            return (
+                                <div>
+                                    <div className="p-6 mb-2 flex justify-between">
+                                        {pageSize(itemPerPage, setItemPerPage)}
+                                        <div className="flex gap-x-2">
+                                            {/* {quickActions} */}
+                                            {pagination(
+                                                data?.pagination,
+                                                setPage
+                                            )}
+                                        </div>
                                     </div>
+                                    <div className="px-6">{table}</div>
                                 </div>
-                                <div className="px-6">{table}</div>
-                            </div>
-                        )
-                    }}
-                </Table>
-            ) : (
-                !isError && (
-                    <EmptyData
-                        title={'No Cancelled Requests Found'}
-                        description={
-                            'There is no New Cancelled Workplace Request yet'
-                        }
-                        height={'50vh'}
-                    />
-                )
-            )}
-        </>
+                            )
+                        }}
+                    </Table>
+                ) : (
+                    !isError && <NoData text="No Cancelled Requests Found" />
+                )}
+            </div>
+        </Waypoint>
     )
 }
