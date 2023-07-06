@@ -30,7 +30,7 @@ export const ArchivedStudentsDetail = (props: Props) => {
                             imageUrl={info?.row?.original?.user?.avatar}
                         />
                         <div className="flex flex-col">
-                            <span>{info?.row?.original?.id}</span>
+                            <span>{info?.row?.original?.studentId}</span>
                             <span>{info?.row?.original?.user?.name}</span>
                         </div>
                     </a>
