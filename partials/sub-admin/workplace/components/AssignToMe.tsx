@@ -1,5 +1,11 @@
 // components
-import { Typography, Button, ShowErrorNotifications, Select } from '@components'
+import {
+    Typography,
+    Button,
+    ShowErrorNotifications,
+    Select,
+    AuthorizedUserComponent,
+} from '@components'
 import { useNotification } from '@hooks'
 
 import { AdminApi, SubAdminApi, useAssignToSubAdminMutation } from '@queries'
@@ -148,33 +154,60 @@ export const AssignToMe = ({ workplace, appliedIndustry }: any) => {
                     </div>
                 </div>
             ) : (
-                <Button
-                    variant={'dark'}
-                    text={'ASSIGN TO ME'}
-                    onClick={() => {
-                        if (appliedIndustry || true) {
-                            assignToMe({
-                                industry: appliedIndustry?.id,
-                                id: workplace?.id,
-                            })
-                        } else {
-                            notification.error({
-                                title: 'First Apply To Industry',
-                                description:
-                                    'Student Must apply to industry Before placing Coordinator or Coordinator also apply to industry on behalf of Student',
-                                autoDismiss: false,
-                            })
-                        }
-                    }}
-                    loading={assignToMeResult?.isLoading}
-                    disabled={
-                        assignToMeResult?.isLoading ||
-                        workplace?.currentStatus ===
-                            WorkplaceCurrentStatus.Cancelled ||
-                        assignToMeResult.isSuccess ||
-                        role !== UserRoles.SUBADMIN
-                    }
-                />
+                <>
+                    <AuthorizedUserComponent roles={[UserRoles.ADMIN]}>
+                        <Select
+                            label={'Sub Admin'}
+                            name={'subAdmin'}
+                            placeholder={'Select Sub Admin'}
+                            options={subAdminOptions}
+                            loading={
+                                subadmins?.isLoading ||
+                                assignToMeResult.isLoading
+                            }
+                            disabled={
+                                subadmins?.isLoading ||
+                                assignToMeResult.isLoading
+                            }
+                            onChange={(e: any) => {
+                                assignToMe({
+                                    industry: appliedIndustry?.id,
+                                    id: workplace?.id,
+                                    subAdmin: Number(e?.value),
+                                })
+                            }}
+                        />
+                    </AuthorizedUserComponent>
+                    <AuthorizedUserComponent roles={[UserRoles.SUBADMIN]}>
+                        <Button
+                            variant={'dark'}
+                            text={'ASSIGN TO ME'}
+                            onClick={() => {
+                                if (appliedIndustry || true) {
+                                    assignToMe({
+                                        industry: appliedIndustry?.id,
+                                        id: workplace?.id,
+                                    })
+                                } else {
+                                    notification.error({
+                                        title: 'First Apply To Industry',
+                                        description:
+                                            'Student Must apply to industry Before placing Coordinator or Coordinator also apply to industry on behalf of Student',
+                                        autoDismiss: false,
+                                    })
+                                }
+                            }}
+                            loading={assignToMeResult?.isLoading}
+                            disabled={
+                                assignToMeResult?.isLoading ||
+                                workplace?.currentStatus ===
+                                    WorkplaceCurrentStatus.Cancelled ||
+                                assignToMeResult.isSuccess ||
+                                role !== UserRoles.SUBADMIN
+                            }
+                        />
+                    </AuthorizedUserComponent>
+                </>
             )}
         </div>
     )

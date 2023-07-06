@@ -47,7 +47,7 @@ export const AssessmentResponse = ({
     editAssessment?: boolean
 }) => {
     const [comment, setComment] = useState<string>('')
-    const [commentType, setCommentType] = useState<AddCommentEnum | null>(null)
+    const [commentType, setCommentType] = useState<OptionType | null>(null)
 
     const [selected, setSelected] = useState<any>(null)
 
@@ -145,12 +145,12 @@ export const AssessmentResponse = ({
             if (getAssessmentResponse?.data?.comment) {
                 setComment(getAssessmentResponse?.data?.comment)
             }
-            if (commentType === AddCommentEnum.Approved) {
+            if (commentType?.value === AddCommentEnum.Approved) {
                 setComment(
                     getAssessmentResponse?.data?.assessmentFolder
                         ?.positiveComment
                 )
-            } else if (commentType === AddCommentEnum.Rejected) {
+            } else if (commentType?.value === AddCommentEnum.Rejected) {
                 setComment(
                     getAssessmentResponse?.data?.assessmentFolder
                         ?.negativeComment
@@ -283,10 +283,9 @@ export const AssessmentResponse = ({
                                         },
                                     ]}
                                     value={commentType}
-                                    onChange={(e: AddCommentEnum) => {
+                                    onChange={(e: OptionType) => {
                                         setCommentType(e)
                                     }}
-                                    onlyValue
                                 />
                             </div>
                             <div className="col-span-2">
@@ -313,7 +312,7 @@ export const AssessmentResponse = ({
                                             getAssessmentResponse?.data?.id,
                                         comment,
                                         resultId: result?.id,
-                                        status: commentType as AddCommentEnum,
+                                        status: commentType?.value as AddCommentEnum,
                                         assessmentFolderId:
                                             getAssessmentResponse?.data
                                                 ?.assessmentFolder?.id,

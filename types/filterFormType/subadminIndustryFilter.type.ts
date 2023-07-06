@@ -5,4 +5,5 @@ export interface SubadminIndustryFilter {
     abn: string
     suburb: string
     courseId: number
+    address: string
 }

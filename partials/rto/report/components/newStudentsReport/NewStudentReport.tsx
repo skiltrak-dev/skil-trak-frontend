@@ -49,6 +49,7 @@ export const NewStudentReport = ({
             header: () => <span>Name</span>,
             accessorKey: 'user',
             cell: (info: any) => {
+                console.log('info', info?.row?.original)
                 return (
                     <a className="flex items-center gap-x-2">
                         <InitialAvatar
@@ -56,7 +57,7 @@ export const NewStudentReport = ({
                             imageUrl={info?.row?.original?.user?.avatar}
                         />
                         <div className="flex flex-col">
-                            <span>{info?.row?.original?.id}</span>
+                            <span>{info?.row?.original?.studentId}</span>
                             <span>{info?.row?.original?.user?.name}</span>
                         </div>
                     </a>

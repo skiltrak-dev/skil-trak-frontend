@@ -50,6 +50,7 @@ export const CompletedWorkplaceReport = ({
                 const {
                     id,
                     student: {
+                        studentId,
                         user: { name, avatar },
                     },
                 } = info.row.original || {}
@@ -58,7 +59,7 @@ export const CompletedWorkplaceReport = ({
                     <a className="flex items-center gap-x-2">
                         <InitialAvatar name={name} imageUrl={avatar} />
                         <div className="flex flex-col">
-                            <span>{id}</span>
+                            <span>{studentId}</span>
                             <span>{name}</span>
                         </div>
                     </a>

@@ -13,6 +13,7 @@ import { isEmailValid, onlyAlphabets, SignUpUtils } from '@utils'
 import { Button, Checkbox, Select, TextInput, Card } from '@components'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { IoIosArrowRoundBack } from 'react-icons/io'
+import { Course } from '@types'
 
 export const AddCustomIndustryForm = ({
     setWorkplaceData,
@@ -20,12 +21,14 @@ export const AddCustomIndustryForm = ({
     industryABN,
     onSubmit,
     setActive,
+    courses,
 }: {
     setWorkplaceData?: any
     result: any
     industryABN: string | null
     onSubmit: any
     setActive: any
+    courses: Course[]
 }) => {
     const router = useRouter()
 
@@ -34,9 +37,10 @@ export const AddCustomIndustryForm = ({
     const sectorResponse = AuthApi.useSectors({})
     const [checkEmailExists, emailCheckResult] = AuthApi.useEmailCheck()
 
-    const [sectorOptions, setSectorOptions] = useState([])
-    const [courseOptions, setCourseOptions] = useState([])
-    const [courseLoading, setCourseLoading] = useState(false)
+    const courseOptions = courses?.map((course: Course) => ({
+        label: course?.title,
+        value: course?.id,
+    }))
 
     const [storedData, setStoredData] = useState<any>(null)
 
@@ -51,23 +55,6 @@ export const AddCustomIndustryForm = ({
                 setLastEnteredEmail(email)
             }
         }, 300)()
-    }
-
-    const onSectorChanged = (sectors: any) => {
-        setCourseLoading(true)
-
-        const sectorExisting = sectorResponse?.data?.find(
-            (sector: any) => sector.id === sectors?.value
-        )
-        const newCourseOptions: any = []
-        sectorExisting?.courses?.map((course: any) =>
-            newCourseOptions.push({
-                label: course.title,
-                value: course.id,
-            })
-        )
-        setCourseOptions(newCourseOptions)
-        setCourseLoading(false)
     }
 
     const validationSchema = yup.object({
@@ -103,27 +90,8 @@ export const AddCustomIndustryForm = ({
                 [true],
                 'Please check if you agree with our terms & policies'
             ),
-        sectors: yup.object().required(),
-        courses: yup.object().required(),
+        courses: yup.number().required(),
     })
-
-    useEffect(() => {
-        if (sectorResponse.data?.length) {
-            const options = sectorResponse.data?.map((sector: any) => ({
-                label: sector.name,
-                value: sector.id,
-            }))
-            setSectorOptions(options)
-        }
-    }, [sectorResponse?.data])
-
-    useEffect(() => {
-        if (SignUpUtils.getEditingMode()) {
-            const values = SignUpUtils.getValuesFromStorage()
-            setStoredData(values)
-            setCourseOptions(values.courses)
-        }
-    }, [])
 
     // useEffect For Email
     useEffect(() => {
@@ -222,34 +190,13 @@ export const AddCustomIndustryForm = ({
 
                         {/* Sector Information */}
 
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-x-3">
+                        <div className="grid grid-cols-1 gap-x-3">
                             <Select
-                                label={'Sector'}
-                                {...(storedData
-                                    ? {
-                                          defaultValue: storedData.sectors,
-                                      }
-                                    : {})}
-                                name={'sectors'}
-                                options={sectorOptions}
-                                placeholder={'Select Sectors...'}
-                                loading={sectorResponse.isLoading}
-                                onChange={onSectorChanged}
-                                validationIcons
-                            />
-
-                            <Select
-                                label={'Courses'}
+                                label={'Course'}
                                 name={'courses'}
-                                defaultValue={courseOptions}
                                 options={courseOptions}
-                                loading={courseLoading}
-                                disabled={
-                                    storedData
-                                        ? storedData?.courses?.length === 0
-                                        : courseOptions?.length === 0
-                                }
                                 validationIcons
+                                onlyValue
                             />
                         </div>
 
