@@ -33,7 +33,6 @@ const AdminDashboard: NextPageWithLayout = () => {
         return array
     }
 
-    console.log(divideValues(457))
 
     useEffect(() => {
         if (name === '') {
@@ -45,10 +44,8 @@ const AdminDashboard: NextPageWithLayout = () => {
         }
     }, [])
 
-    console.log((190 / 219) * 100)
 
     const width = `${(218 / 219) * 100}%`
-    console.log(width)
 
     return (
         <div className="flex flex-col gap-y-6 pb-8 px-6 pt-6 ">

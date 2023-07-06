@@ -36,7 +36,6 @@ const RtoList: NextPageWithLayout = () => {
     const [page, setPage] = useState(1)
     const [filter, setFilter] = useState<RTOFilterType>({} as RTOFilterType)
 
-    console.log({ filter })
 
     const filteredRtos = AdminApi.Rtos.useListQuery(
         {

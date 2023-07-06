@@ -3,6 +3,7 @@ import {
     EmptyData,
     InitialAvatar,
     LoadingAnimation,
+    NoData,
     Table,
     TechnicalError,
     Typography,
@@ -106,13 +107,7 @@ export const CancelledWorkplaceDetail = (props: Props) => {
                 </Table>
             ) : (
                 !isError && (
-                    <EmptyData
-                        title={'No Cancelled Requests Found'}
-                        description={
-                            'There is no New Cancelled Workplace Request yet'
-                        }
-                        height={'50vh'}
-                    />
+                    <NoData text='No Cancelled Requests Found'/>
                 )
             )}
         </>

@@ -1,4 +1,4 @@
-import { ActionButton, EmptyData, InitialAvatar, LoadingAnimation, Table, TechnicalError, Typography } from '@components'
+import { ActionButton, EmptyData, InitialAvatar, LoadingAnimation, NoData, Table, TechnicalError, Typography } from '@components'
 import { CourseDot } from '@partials/rto/student/components'
 import { RtoApi } from '@queries'
 import { ColumnDef } from '@tanstack/react-table'
@@ -79,13 +79,7 @@ export const StudentsWithoutWorkplaceDetail = (props: Props) => {
         </Table>
       ) : (
         !isError && (
-          <EmptyData
-            title={'No Without Workplace Students Found'}
-            description={
-              'There is no Without Workplace Students yet'
-            }
-            height={'50vh'}
-          />
+          <NoData text='No Without Workplace Students Found'/>
         )
       )}
     </>

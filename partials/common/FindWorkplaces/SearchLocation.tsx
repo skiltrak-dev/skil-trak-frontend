@@ -120,9 +120,6 @@ export const SearchLocation = () => {
         }
     }
 
-    // console.log('detailList', detailList)
-    // console.log('resultList', resultList)
-
     return (
         <>
             <div>
