@@ -1,9 +1,6 @@
-import { Button } from '@components/buttons'
 import { Typography } from '@components/Typography'
 import { useContextBar, useNotification } from '@hooks'
-import moment from 'moment'
 import { useEffect, useState } from 'react'
-import { BsDot } from 'react-icons/bs'
 import { AddIndustryCB } from '../../contextBar'
 import { Actions, IndustryCard, SmallIndustryCard } from './components'
 

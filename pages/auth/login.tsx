@@ -68,8 +68,6 @@ const Login: NextPage = () => {
                 break
         }
     }
-
-
     useEffect(() => {
         if (loginResult.isSuccess) {
             if (loginResult.data) {

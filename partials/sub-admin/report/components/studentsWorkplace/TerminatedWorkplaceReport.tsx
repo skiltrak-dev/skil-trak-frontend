@@ -106,7 +106,7 @@ export const TerminatedWorkplaceReport = ({
             <div className="flex justify-between">
                 <div className="">
                     <Typography variant="title" color="text-gray-400">
-                        Terminated Workplace
+                        Terminated Students
                     </Typography>
                     <Typography variant="h3">{count || 0}</Typography>
                 </div>
@@ -122,7 +122,7 @@ export const TerminatedWorkplaceReport = ({
                     <ActionButton
                         onClick={() => {
                             router.push(
-                                `/portals/sub-admin/report/${SubAdminReports.TERMINATED_WORKPLACE}`
+                                `/portals/sub-admin/report/${SubAdminReports.TERMINATED_STUDENTS}`
                             )
                         }}
                     >
@@ -153,9 +153,9 @@ export const TerminatedWorkplaceReport = ({
             ) : (
                 !isError && (
                     <EmptyData
-                        title={'No Terminated Workplace Requests Found'}
+                        title={'No Terminated Students Requests Found'}
                         description={
-                            'There is no New Terminated Workplace Workplace Request yet'
+                            'There is no New Terminated Students Request yet'
                         }
                         height={'50vh'}
                     />

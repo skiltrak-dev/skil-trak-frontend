@@ -242,6 +242,9 @@ export const {
     useGetSubAdminIndustriesProfileQuery,
     useAddToFavoriteMutation,
     useAddToPartnerMutation,
+    useIndustryCallLogMutation,
+    useGetIndustryCallLogQuery,
+    useIndustryAnsweredCallMutation,
 
     // --- REPORTS --- //
     useGetAssignedStudentsReportQuery,
@@ -297,8 +300,11 @@ export const SubAdminApi = {
         useStudentAnsweredCall: useStudentAnsweredCallMutation,
     },
     Industry: {
-        useStatusticsCount: useSubadminIndustryStatisticsCountQuery,
         useAddToPartner: useAddToPartnerMutation,
+        useIndustryCallLog: useIndustryCallLogMutation,
+        useGetIndustryCallLog: useGetIndustryCallLogQuery,
+        useIndustryAnsweredCall: useIndustryAnsweredCallMutation,
+        useStatusticsCount: useSubadminIndustryStatisticsCountQuery,
     },
     Rto: {
         useRtoStatsCount: useSubadminRtoStatisticsCountQuery,

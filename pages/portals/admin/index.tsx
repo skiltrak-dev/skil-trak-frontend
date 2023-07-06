@@ -32,8 +32,6 @@ const AdminDashboard: NextPageWithLayout = () => {
 
         return array
     }
-
-
     useEffect(() => {
         if (name === '') {
             if (credentials) {

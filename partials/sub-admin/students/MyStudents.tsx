@@ -21,7 +21,7 @@ import { StudentCellInfo } from './components'
 
 import { TechnicalError } from '@components/ActionAnimations/TechnicalError'
 import { useGetSubAdminMyStudentsQuery } from '@queries'
-import { Student } from '@types'
+import { Student, UserStatus } from '@types'
 import { ReactElement, useEffect, useState } from 'react'
 import { MdBlock } from 'react-icons/md'
 import { BlockModal, UnAssignStudentModal } from './modals'

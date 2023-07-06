@@ -36,7 +36,7 @@ const ReportType: NextPageWithLayout = () => {
     }, [rtoDetail, setContent])
     return (
         <div className="px-5 py-2">
-            <RTOReportType />
+            <RTOReportType rtoUser={Number(rtoDetail?.data?.user?.id)} />
         </div>
     )
 }

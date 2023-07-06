@@ -18,7 +18,8 @@ import { Course, ReportOptionsEnum } from '@types'
 type Props = {}
 
 export const TerminatedWorkplaceDetail = (props: Props) => {
-    const { data, isLoading, isError } = SubAdminApi.Reports.useTerminatedWorkplaceReport({})
+    const { data, isLoading, isError } =
+        SubAdminApi.Reports.useTerminatedWorkplaceReport({})
     const columns: ColumnDef<any>[] = [
         {
             header: () => <span>Name</span>,
@@ -35,7 +36,9 @@ export const TerminatedWorkplaceDetail = (props: Props) => {
                     <a className="flex items-center gap-x-2">
                         <InitialAvatar name={name} imageUrl={avatar} />
                         <div className="flex flex-col">
-                            <span>{info?.row?.original?.student?.studentId}</span>
+                            <span>
+                                {info?.row?.original?.student?.studentId}
+                            </span>
                             <span>{name}</span>
                         </div>
                     </a>
@@ -80,7 +83,7 @@ export const TerminatedWorkplaceDetail = (props: Props) => {
             <div className="flex justify-between">
                 <div className="">
                     <Typography variant="title" color="text-gray-400">
-                        Terminated Workplace
+                        Terminated Students
                     </Typography>
                     <Typography variant="h3">{count || 0}</Typography>
                 </div>
@@ -101,9 +104,9 @@ export const TerminatedWorkplaceDetail = (props: Props) => {
             ) : (
                 !isError && (
                     <EmptyData
-                        title={'No Terminated Workplace Requests Found'}
+                        title={'No Terminated Students Requests Found'}
                         description={
-                            'There is no New Terminated Workplace Workplace Request yet'
+                            'There is no New Terminated Students Request yet'
                         }
                         height={'50vh'}
                     />

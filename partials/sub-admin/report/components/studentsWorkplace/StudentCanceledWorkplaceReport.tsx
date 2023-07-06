@@ -109,7 +109,7 @@ export const StudentCancelledWorkplaceReport = ({
             <div className="flex justify-between">
                 <div className="">
                     <Typography variant="title" color="text-gray-400">
-                        Student Cancelled Workplace Request
+                        Cancelled Student Request
                     </Typography>
                     <Typography variant="h3">{count || 0}</Typography>
                 </div>
@@ -125,7 +125,7 @@ export const StudentCancelledWorkplaceReport = ({
                     <ActionButton
                         onClick={() => {
                             router.push(
-                                `/portals/rto/report/${ReportOptionsEnum.CANCELLED_WORKPLACE_REQUEST}`
+                                `/portals/rto/report/${ReportOptionsEnum.CANCELLED_STUDENTS}`
                             )
                         }}
                     >
@@ -158,7 +158,7 @@ export const StudentCancelledWorkplaceReport = ({
                     <EmptyData
                         title={'No Student Cancelled Requests Found'}
                         description={
-                            'There is no New Student Cancelled Workplace Request yet'
+                            'There is no New Student Cancelled Students yet'
                         }
                         height={'50vh'}
                     />

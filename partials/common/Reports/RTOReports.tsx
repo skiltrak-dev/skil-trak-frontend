@@ -156,7 +156,7 @@ export const RTOReports = ({ user }: { user?: User }) => {
             user={user?.id}
         />,
         <BlockedStudentsReport user={user?.id} />,
-        <ArchivedStudentsReport user={user?.id} />,
+        // <ArchivedStudentsReport user={user?.id} />,
         <CompletedWorkplaceReport
             setStartDate={setStartDate}
             setEndDate={setEndDate}

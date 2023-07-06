@@ -50,7 +50,6 @@ export const AdminWorkplaceRequest = ({ workplace }: Props) => {
         )
     }, [workplace])
 
-
     useEffect(() => {
         if (assignCourseResult.isSuccess) {
             notification.success({

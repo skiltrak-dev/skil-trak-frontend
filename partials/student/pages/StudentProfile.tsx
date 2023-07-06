@@ -97,10 +97,10 @@ export const StudentProfile = ({ noTitle }: { noTitle?: boolean }) => {
     useEffect(() => {
         if (notContactableResult.isSuccess) {
             notification.success({
-                title: data?.nonContactable ? 'Not Contactable' : 'Contactable',
+                title: data?.nonContactable ? 'Contactable' : 'Not Contactable',
                 description: data?.nonContactable
-                    ? 'Not Contactable'
-                    : 'Contactable',
+                    ? 'Contactable'
+                    : 'Not Contactable',
             })
         }
     }, [notContactableResult])
@@ -214,11 +214,11 @@ export const StudentProfile = ({ noTitle }: { noTitle?: boolean }) => {
                         <Button
                             text={
                                 data?.nonContactable
-                                    ? 'Not Contactable'
-                                    : 'Contactable'
+                                    ? 'Contactable'
+                                    : 'Not Contactable'
                             }
                             variant={
-                                data?.nonContactable ? 'info' : 'secondary'
+                                data?.nonContactable ? 'secondary' : 'info'
                             }
                             onClick={() => {
                                 notContactable(data?.id)
