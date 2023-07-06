@@ -22,12 +22,14 @@ import {
     IndustrySelection,
 } from '@partials/sub-admin/students'
 import {
+    SubAdminApi,
     useAddCustomIndustyForWorkplaceMutation,
     useFindByAbnWorkplaceMutation,
     useGetSubAdminStudentDetailQuery,
     useGetSubAdminStudentWorkplaceQuery,
     useSubAdminCancelStudentWorkplaceRequestMutation,
 } from '@queries'
+import { UserRoles } from '@constants'
 
 type Props = {}
 
@@ -48,6 +50,10 @@ const ProvideWorkplaceDetail: NextPageWithLayout = (props: Props) => {
         })
     const workplace = useGetSubAdminStudentWorkplaceQuery(Number(id), {
         skip: !id,
+    })
+    const courses = SubAdminApi.Student.useCourses(Number(id), {
+        skip: !id,
+        refetchOnMountOrArgChange: true,
     })
     const [findAbn, result] = useFindByAbnWorkplaceMutation()
     const [addWorkplace, addWorkplaceResult] =
@@ -153,8 +159,8 @@ const ProvideWorkplaceDetail: NextPageWithLayout = (props: Props) => {
             id: data?.user?.id,
             body: {
                 ...values,
-                courses: [values?.courses?.value],
-                role: 'industry',
+                courses: [values?.courses],
+                role: UserRoles.INDUSTRY,
                 password: 'NA',
             },
         })
@@ -209,6 +215,7 @@ const ProvideWorkplaceDetail: NextPageWithLayout = (props: Props) => {
                                         industryABN={industryABN}
                                         onSubmit={onIndustryAdd}
                                         setActive={setActive}
+                                        courses={courses?.data}
                                     />
                                 ))}
 

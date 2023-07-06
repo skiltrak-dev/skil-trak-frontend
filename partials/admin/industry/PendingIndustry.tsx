@@ -124,11 +124,10 @@ export const PendingIndustry = () => {
             },
         },
         {
-            accessorKey: 'suburb',
+            accessorKey: 'addressLine1',
             header: () => <span>Address</span>,
             cell: (info) => info.getValue(),
         },
-
         {
             accessorKey: 'action',
             header: () => <span>Action</span>,

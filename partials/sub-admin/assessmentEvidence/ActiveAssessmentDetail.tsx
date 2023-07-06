@@ -203,7 +203,24 @@ export const ActiveAssessmentDetail = ({
 
     const onUploadDocs = (docs: any) => {
         const formData = new FormData()
-        docs.forEach((doc: any) => {
+
+        const filteredDocs = [...docs]?.filter((doc) => {
+            const docSize = doc?.size / 1024 / 1024
+            return docSize <= 50
+        })
+
+        if (filteredDocs?.length < docs?.length) {
+            notification.warning({
+                title: 'Files Removed',
+                description: `${docs?.length - filteredDocs?.length} ${
+                    docs?.length - filteredDocs?.length === 1
+                        ? 'File was'
+                        : 'Files were'
+                } Removed because its size was greater than 50mb, try to upload the file which has less then 50mb size`,
+            })
+        }
+
+        filteredDocs.forEach((doc: any) => {
             formData.append(
                 selectedFolder?.id === AgreementFile
                     ? 'file'
@@ -212,11 +229,12 @@ export const ActiveAssessmentDetail = ({
             )
         })
 
-        uploadDocs({
-            studentId,
-            body: formData,
-            folderId: selectedFolder?.id,
-        })
+        if (filteredDocs?.length)
+            uploadDocs({
+                studentId,
+                body: formData,
+                folderId: selectedFolder?.id,
+            })
     }
 
     const onDownloadFiles = () => {
