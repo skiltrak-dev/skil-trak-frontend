@@ -2,7 +2,7 @@ import { useRouter } from 'next/router'
 import { ReactElement, useEffect, useState } from 'react'
 
 // Icons
-import { FaEye } from 'react-icons/fa'
+import { FaEye, FaPencilAlt } from 'react-icons/fa'
 
 // components
 import {
@@ -27,6 +27,7 @@ import { useActionModal } from '@hooks'
 
 export interface IndustrySubAdmin extends Industry {
     subAdmin: SubAdmin[]
+    callLog: any
 }
 
 export const AllIndustries = () => {
@@ -43,11 +44,16 @@ export const AllIndustries = () => {
         setItemPerPage(Number(router.query.pageSize || 50))
     }, [router])
 
-    const { isLoading, data, isError } = useGetSubAdminIndustriesQuery({
-        search: `status:${UserStatus.Approved}`,
-        skip: itemPerPage * page - itemPerPage,
-        limit: itemPerPage,
-    })
+    const { isLoading, data, isError } = useGetSubAdminIndustriesQuery(
+        {
+            search: `status:${UserStatus.Approved}`,
+            skip: itemPerPage * page - itemPerPage,
+            limit: itemPerPage,
+        },
+        {
+            refetchOnMountOrArgChange: true,
+        }
+    )
 
     const id = getUserCredentials()?.id
 
@@ -92,6 +98,15 @@ export const AllIndustries = () => {
                 Icon: FaEye,
             },
             {
+                text: 'Edit',
+                onClick: (industry: Industry) => {
+                    router.push(
+                        `/portals/sub-admin/users/industries/${industry?.id}/edit-profile`
+                    )
+                },
+                Icon: FaPencilAlt,
+            },
+            {
                 text: `${subAdmin ? 'Un Favourite' : 'Add Favourite'}`,
                 color: `${subAdmin ? 'text-error' : 'text-primary'}`,
                 onClick: (industry: Industry) =>
@@ -127,6 +142,7 @@ export const AllIndustries = () => {
                 <IndustryCellInfo
                     industry={row.original}
                     isFavorite={isFavorite}
+                    call
                 />
             ),
         },

@@ -19,7 +19,7 @@ import { getUserCredentials } from '@utils'
 import { useRouter } from 'next/router'
 import React, { useEffect } from 'react'
 
-export const RTOReportType = () => {
+export const RTOReportType = ({ rtoUser }: { rtoUser: number }) => {
     const router = useRouter()
     const { reportType } = router.query
     let title: string
@@ -42,29 +42,29 @@ export const RTOReportType = () => {
     const reports = () => {
         switch (reportType) {
             case ReportOptionsEnum.NON_CONTACTABLE:
-                return <NonContactableDetail />
+                return <NonContactableDetail rtoUser={rtoUser} />
             case ReportOptionsEnum.NEW_STUDENTS:
-                return <NewStudentsDetail />
-            case ReportOptionsEnum.CANCELLED_WORKPLACE_REQUEST:
-                return <CancelledWorkplaceDetail />
+                return <NewStudentsDetail rtoUser={rtoUser} />
+            case ReportOptionsEnum.CANCELLED_STUDENTS:
+                return <CancelledWorkplaceDetail rtoUser={rtoUser} />
             case ReportOptionsEnum.BLOCKED_STUDENTS:
-                return <BlockedStudentsDetail />
+                return <BlockedStudentsDetail rtoUser={rtoUser} />
             case ReportOptionsEnum.ARCHIVED_STUDENTS:
-                return <ArchivedStudentsDetail />
-            case ReportOptionsEnum.WORKPLACE_REQUEST_COMPLETED:
-                return <CompletedWorkplaceDetail />
-            case ReportOptionsEnum.WORKPLACE_REQUEST_TERMINATED:
-                return <TerminatedWorkplaceDetail />
+                return <ArchivedStudentsDetail rtoUser={rtoUser} />
+            case ReportOptionsEnum.STUDENTS_COMPLETED:
+                return <CompletedWorkplaceDetail rtoUser={rtoUser} />
+            case ReportOptionsEnum.STUDENTS_TERMINATED:
+                return <TerminatedWorkplaceDetail rtoUser={rtoUser} />
             case ReportOptionsEnum.WORKPLACE_REQUEST:
-                return <WorkplaceRequestDetail />
+                return <WorkplaceRequestDetail rtoUser={rtoUser} />
             case ReportOptionsEnum.STUDENT_WITHOUT_WORKPLACE_REQUEST:
-                return <StudentsWithoutWorkplaceDetail />
+                return <StudentsWithoutWorkplaceDetail rtoUser={rtoUser} />
             case ReportOptionsEnum.APPOINTMENTS_REPORT:
-                return <AppointmentsDetail />
+                return <AppointmentsDetail rtoUser={rtoUser} />
             case ReportOptionsEnum.REPORTED_STUDENTS:
-                return <ReportStudentsDetail />
+                return <ReportStudentsDetail rtoUser={rtoUser} />
             default:
-                return <NonContactableDetail />
+                return <NonContactableDetail rtoUser={rtoUser} />
         }
     }
     return (

@@ -34,15 +34,15 @@ const ReportType: NextPageWithLayout = () => {
                 return <NonContactableDetail />
             case ReportOptionsEnum.NEW_STUDENTS:
                 return <NewStudentsDetail />
-            case ReportOptionsEnum.CANCELLED_WORKPLACE_REQUEST:
+            case ReportOptionsEnum.CANCELLED_STUDENTS:
                 return <CancelledWorkplaceDetail />
             case ReportOptionsEnum.BLOCKED_STUDENTS:
                 return <BlockedStudentsDetail />
             case ReportOptionsEnum.ARCHIVED_STUDENTS:
                 return <ArchivedStudentsDetail />
-            case ReportOptionsEnum.WORKPLACE_REQUEST_COMPLETED:
+            case ReportOptionsEnum.STUDENTS_COMPLETED:
                 return <CompletedWorkplaceDetail />
-            case ReportOptionsEnum.WORKPLACE_REQUEST_TERMINATED:
+            case ReportOptionsEnum.STUDENTS_TERMINATED:
                 return <TerminatedWorkplaceDetail />
             case ReportOptionsEnum.WORKPLACE_REQUEST:
                 return <WorkplaceRequestDetail />

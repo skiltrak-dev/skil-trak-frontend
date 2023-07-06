@@ -7,13 +7,27 @@ import {
     TechnicalError,
     Typography,
 } from '@components'
+import { UserRoles } from '@constants'
 import { RtoApi } from '@queries'
 import { ColumnDef } from '@tanstack/react-table'
-type Props = {}
+import { getUserCredentials } from '@utils'
+type Props = {
+    rtoUser?: number
+}
 
-export const ArchivedStudentsDetail = (props: Props) => {
+export const ArchivedStudentsDetail = ({ rtoUser }: Props) => {
     const { data, isLoading, isError } =
-        RtoApi.Students.useArchivedStudentsReport({})
+        RtoApi.Students.useArchivedStudentsReport(
+            {
+                user: rtoUser,
+            },
+            {
+                skip:
+                    (getUserCredentials()?.role === UserRoles.ADMIN ||
+                        getUserCredentials()?.role === UserRoles.SUBADMIN) &&
+                    !rtoUser,
+            }
+        )
     const columns: ColumnDef<any>[] = [
         {
             header: () => <span>Name</span>,

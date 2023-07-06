@@ -26,16 +26,16 @@ export const ReportType = ({ reportType, setReportType }: Props) => {
             value: SubAdminReports.BOOK_APPOINTMENTS,
         },
         {
-            label: 'Terminated Workplace ',
-            value: SubAdminReports.TERMINATED_WORKPLACE,
+            label: 'Terminated Students ',
+            value: SubAdminReports.TERMINATED_STUDENTS,
         },
         {
-            label: 'Completed Workplace ',
-            value: SubAdminReports.COMPLETED_WORKPLACE,
+            label: 'Completed Students',
+            value: SubAdminReports.COMPLETED_STUDENTS,
         },
         {
-            label: 'Cancelled Workplace ',
-            value: SubAdminReports.CANCELLED_WORKPLACE,
+            label: 'Cancelled Students',
+            value: SubAdminReports.CANCELLED_STUDENTS,
         },
         {
             label: 'Placement Started ',

@@ -36,6 +36,7 @@ export const AllStudentProvidedWorkplace = () => {
                 <PageSize
                     itemPerPage={itemPerPage}
                     setItemPerPage={setItemPerPage}
+                    records={subAdminWorkplace?.data?.data?.length}
                 />
                 <Pagination
                     pagination={subAdminWorkplace?.data?.pagination}

@@ -8,17 +8,31 @@ import {
     TechnicalError,
     Typography,
 } from '@components'
+import { UserRoles } from '@constants'
 import { CourseDot } from '@partials/rto/student/components'
 import { RtoApi } from '@queries'
 import { ColumnDef } from '@tanstack/react-table'
 import { Course, ReportOptionsEnum } from '@types'
+import { getUserCredentials } from '@utils'
 import React, { useState } from 'react'
 
-type Props = {}
+type Props = {
+    rtoUser?: number
+}
 
-export const ReportStudentsDetail = (props: Props) => {
+export const ReportStudentsDetail = ({ rtoUser }: Props) => {
     const { data, isLoading, isError } =
-        RtoApi.Students.useReportedStudentsReport({})
+        RtoApi.Students.useReportedStudentsReport(
+            {
+                user: rtoUser,
+            },
+            {
+                skip:
+                    (getUserCredentials()?.role === UserRoles.ADMIN ||
+                        getUserCredentials()?.role === UserRoles.SUBADMIN) &&
+                    !rtoUser,
+            }
+        )
     const columns: ColumnDef<any>[] = [
         {
             header: () => <span>Name</span>,

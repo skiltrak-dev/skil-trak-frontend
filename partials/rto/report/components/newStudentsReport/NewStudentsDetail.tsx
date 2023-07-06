@@ -1,6 +1,4 @@
 import {
-    ActionButton,
-    EmptyData,
     InitialAvatar,
     LoadingAnimation,
     NoData,
@@ -8,19 +6,28 @@ import {
     TechnicalError,
     Typography,
 } from '@components'
-import { CourseDot } from '@partials/rto/student/components'
+import { UserRoles } from '@constants'
 import { RtoApi } from '@queries'
 import { ColumnDef } from '@tanstack/react-table'
-import React, { useState } from 'react'
-import { FilterReport } from '../../FilterReport'
-import { Course, ReportOptionsEnum } from '@types'
+import { getUserCredentials } from '@utils'
 
-type Props = {}
+type Props = {
+    rtoUser?: number
+}
 
-export const NewStudentsDetail = (props: Props) => {
+export const NewStudentsDetail = ({ rtoUser }: Props) => {
     const { data, isLoading, isError } = RtoApi.Students.useNewStudentsReport(
-        {}
+        {
+            user: rtoUser,
+        },
+        {
+            skip:
+                (getUserCredentials()?.role === UserRoles.ADMIN ||
+                    getUserCredentials()?.role === UserRoles.SUBADMIN) &&
+                !rtoUser,
+        }
     )
+    console.log({ data }, UserRoles.ADMIN && !rtoUser)
     const columns: ColumnDef<any>[] = [
         {
             header: () => <span>Name</span>,
@@ -46,6 +53,9 @@ export const NewStudentsDetail = (props: Props) => {
             accessorKey: 'email',
             header: () => <span>Email</span>,
             cell: (info) => {
+                const {
+                    user: { email },
+                } = info.row.original || {}
                 return <span>{info?.row?.original?.user?.email}</span>
             },
         },

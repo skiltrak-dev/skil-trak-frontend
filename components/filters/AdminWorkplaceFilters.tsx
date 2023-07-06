@@ -5,13 +5,17 @@ import { CommonApi } from '@queries'
 
 import {
     AdminWorkplaceFiltersType,
+    Course,
+    Industry,
     OptionType,
+    Rto,
     SubAdmin,
     UserStatus,
 } from '@types'
 import { SetQueryFilters } from './SetQueryFilters'
 import { statusOptions } from './statusOptions'
 import { SelectOption } from './types'
+import { ChangeEvent } from 'react'
 
 interface ItemFilterProps {
     onFilterChange: (values: AdminWorkplaceFiltersType) => void
@@ -27,12 +31,12 @@ export const AdminWorkplaceFilters = ({
     const getCoordinators = CommonApi.Appointments.allCoordinators()
     const getRtos = CommonApi.Filter.useRtos()
 
-    const industryOptions = getIndustries?.data?.map((industry: any) => ({
+    const industryOptions = getIndustries?.data?.map((industry: Industry) => ({
         value: industry?.id,
         label: industry?.user?.name,
     }))
 
-    const coursesOptions = getCourses?.data?.map((course: any) => ({
+    const coursesOptions = getCourses?.data?.map((course: Course) => ({
         value: course?.id,
         label: course?.title,
     }))
@@ -46,7 +50,7 @@ export const AdminWorkplaceFilters = ({
 
     const rtoOptions =
         getRtos?.data && getRtos?.data?.length > 0
-            ? getRtos?.data?.map((rto: any) => ({
+            ? getRtos?.data?.map((rto: Rto) => ({
                   value: rto?.id,
                   label: rto?.user?.name,
               }))
@@ -60,7 +64,8 @@ export const AdminWorkplaceFilters = ({
                     name="studentId"
                     label={'Student Id'}
                     placeholder={'Search by Student Id Email ...'}
-                    onChange={(e: any) => {
+                    value={filter?.studentId}
+                    onChange={(e: ChangeEvent<HTMLInputElement>) => {
                         onFilterChange({ ...filter, studentId: e.target.value })
                     }}
                 />
@@ -68,6 +73,7 @@ export const AdminWorkplaceFilters = ({
                     name="name"
                     label={'Student Name'}
                     placeholder={'Search by Student Name ...'}
+                    value={filter?.name}
                     onChange={(e: any) => {
                         onFilterChange({ ...filter, name: e.target.value })
                     }}
@@ -77,6 +83,7 @@ export const AdminWorkplaceFilters = ({
                     label={'Student Email'}
                     placeholder={'Search by Student Email ...'}
                     type={'email'}
+                    value={filter?.email}
                     onChange={(e: any) => {
                         onFilterChange({ ...filter, email: e.target.value })
                     }}
@@ -86,6 +93,7 @@ export const AdminWorkplaceFilters = ({
                     name="location"
                     label={'Location'}
                     placeholder={'Search by Location ...'}
+                    value={filter?.location}
                     onChange={(e: any) => {
                         onFilterChange({ ...filter, location: e.target.value })
                     }}
