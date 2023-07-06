@@ -1,4 +1,5 @@
 import { ChangeEvent, useEffect, useState } from 'react'
+import { Waypoint } from 'react-waypoint'
 
 // components
 import {

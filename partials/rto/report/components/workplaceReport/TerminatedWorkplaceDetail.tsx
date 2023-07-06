@@ -15,71 +15,61 @@ import React, { useState } from 'react'
 import { FilterReport } from '../../FilterReport'
 import { ViewFullListReport } from '../../ViewFullListReport'
 import { Course, ReportOptionsEnum } from '@types'
+import { getUserCredentials } from '@utils'
+import { UserRoles } from '@constants'
 
-type Props = {}
+type Props = {
+    rtoUser?: number
+}
 
-export const TerminatedWorkplaceDetail = (props: Props) => {
+export const TerminatedWorkplaceDetail = ({ rtoUser }: Props) => {
     const { data, isLoading, isError } =
-        RtoApi.Students.useTerminatedWorkplaceReport({})
+        RtoApi.Students.useTerminatedWorkplaceReport(
+            {
+                user: rtoUser,
+            },
+            {
+                skip:
+                    (getUserCredentials()?.role === UserRoles.ADMIN ||
+                        getUserCredentials()?.role === UserRoles.SUBADMIN) &&
+                    !rtoUser,
+            }
+        )
     const columns: ColumnDef<any>[] = [
         {
             header: () => <span>Name</span>,
             accessorKey: 'user',
-            cell: (info: any) => {
-                const {
-                    id,
-                    student: {
-                        studentId,
-                        user: { name, avatar },
-                    },
-                } = info.row.original || {}
-
-                return (
-                    <a className="flex items-center gap-x-2">
-                        <InitialAvatar name={name} imageUrl={avatar} />
-                        <div className="flex flex-col">
-                            <span>{studentId}</span>
-                            <span>{name}</span>
-                        </div>
-                    </a>
-                )
-            },
+            cell: (info: any) => (
+                <a className="flex items-center gap-x-2">
+                    {info.row.original?.user?.name && (
+                        <InitialAvatar
+                            name={info.row.original?.user?.name}
+                            imageUrl={info.row.original?.user?.avatar}
+                        />
+                    )}
+                    <div className="flex flex-col">
+                        <span>{info.row.original?.studentId}</span>
+                        <span>{info.row.original?.user?.name}</span>
+                    </div>
+                </a>
+            ),
         },
         {
             accessorKey: 'email',
             header: () => <span>Email</span>,
-            cell: (info) => {
-                const {
-                    student: {
-                        user: { email },
-                    },
-                } = info.row.original || {}
-                return <span>{email}</span>
-            },
+            cell: (info) => <span>{info.row.original?.user?.email}</span>,
         },
         {
             accessorKey: 'phone',
             header: () => <span>Phone</span>,
-            cell: (info) => {
-                const {
-                    student: { phone },
-                } = info.row.original || {}
-                return <span>{phone}</span>
-            },
+            cell: (info) => <span>{info.row.original?.phone}</span>,
         },
         {
             accessorKey: 'courses',
             header: () => <span>Courses</span>,
-            cell: (info) => {
-                // return info?.row?.original?.courses?.map((c: Course) => (
-                //   <CourseDot key={c?.id} course={c} />
-                // ))
-                return (
-                    <span>
-                        {info?.row?.original?.courses[0]?.title || 'N/A'}
-                    </span>
-                )
-            },
+            cell: (info) => (
+                <span>{info?.row?.original?.courses[0]?.title || 'N/A'}</span>
+            ),
         },
     ]
     const count = data?.data?.length
@@ -88,7 +78,7 @@ export const TerminatedWorkplaceDetail = (props: Props) => {
             <div className="flex justify-between">
                 <div className="">
                     <Typography variant="title" color="text-gray-400">
-                        Terminated Workplace
+                        Terminated Students
                     </Typography>
                     <Typography variant="h3">{count || 0}</Typography>
                 </div>
@@ -108,7 +98,7 @@ export const TerminatedWorkplaceDetail = (props: Props) => {
                 </Table>
             ) : (
                 !isError && (
-                    <NoData text="No Terminated Workplace Requests Found" />
+                    <NoData text="No Terminated Students Requests Found" />
                 )
             )}
         </>

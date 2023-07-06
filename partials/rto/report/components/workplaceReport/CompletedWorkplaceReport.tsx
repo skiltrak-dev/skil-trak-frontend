@@ -39,6 +39,7 @@ export const CompletedWorkplaceReport = ({
     const { data, isLoading, isError } =
         RtoApi.Students.useCompletedWorkplaceReport(
             {
+                user,
                 startDate: startDate.toISOString().slice(0, 10),
                 endDate: endDate.toISOString().slice(0, 10),
                 skip: itemPerPage * page - itemPerPage,
@@ -74,7 +75,6 @@ export const CompletedWorkplaceReport = ({
             accessorKey: 'email',
             header: () => <span>Email</span>,
             cell: (info) => {
-               
                 return <span>{info?.row?.original?.user?.email || 'N/A'}</span>
             },
         },
@@ -106,93 +106,101 @@ export const CompletedWorkplaceReport = ({
         setRenderComponent(true)
     }
     return (
-        <Waypoint onEnter={handleEnter}>
-            <div>
-                <div className="flex justify-between">
-                    <div className="">
-                        <Typography variant="title" color="text-gray-400">
-                            Completed Workplace
-                        </Typography>
-                        <Typography variant="h3">{count || 0}</Typography>
+        <>
+            <Waypoint onEnter={handleEnter}>
+                <div>
+                    <div className="flex justify-between">
+                        <div className="">
+                            <Typography variant="title" color="text-gray-400">
+                                Completed Students
+                            </Typography>
+                            <Typography variant="h3">{count || 0}</Typography>
+                        </div>
+
+                        <div className="flex items-center gap-x-4">
+                            <FilterReport
+                                startDate={startDate}
+                                setStartDate={setStartDate}
+                                endDate={endDate}
+                                setEndDate={setEndDate}
+                            />
+
+                            <AuthorizedUserComponent roles={[UserRoles.ADMIN]}>
+                                <ActionButton
+                                    onClick={() => {
+                                        router.push(
+                                            `/portals/admin/rto/${router.query?.id}/${ReportOptionsEnum.STUDENTS_COMPLETED}`
+                                        )
+                                    }}
+                                >
+                                    View Full List
+                                </ActionButton>
+                            </AuthorizedUserComponent>
+                            <AuthorizedUserComponent
+                                roles={[UserRoles.SUBADMIN]}
+                            >
+                                <ActionButton
+                                    onClick={() => {
+                                        router.push(
+                                            `/portals/sub-admin/users/rtos/${router.query?.id}/${ReportOptionsEnum.STUDENTS_COMPLETED}`
+                                        )
+                                    }}
+                                >
+                                    View Full List
+                                </ActionButton>
+                            </AuthorizedUserComponent>
+                            <AuthorizedUserComponent roles={[UserRoles.RTO]}>
+                                <ActionButton
+                                    onClick={() => {
+                                        router.push(
+                                            `/portals/rto/report/${ReportOptionsEnum.STUDENTS_COMPLETED}`
+                                        )
+                                    }}
+                                >
+                                    View Full List
+                                </ActionButton>
+                            </AuthorizedUserComponent>
+                        </div>
                     </div>
 
-                    <div className="flex items-center gap-x-4">
-                        <FilterReport
-                            startDate={startDate}
-                            setStartDate={setStartDate}
-                            endDate={endDate}
-                            setEndDate={setEndDate}
-                        />
-
-                        <AuthorizedUserComponent roles={[UserRoles.ADMIN]}>
-                            <ActionButton
-                                onClick={() => {
-                                    router.push(
-                                        `/portals/admin/rto/${router.query?.id}/${ReportOptionsEnum.WORKPLACE_REQUEST_COMPLETED}`
-                                    )
-                                }}
-                            >
-                                View Full List
-                            </ActionButton>
-                        </AuthorizedUserComponent>
-                        <AuthorizedUserComponent roles={[UserRoles.SUBADMIN]}>
-                            <ActionButton
-                                onClick={() => {
-                                    router.push(
-                                        `/portals/sub-admin/users/rtos/${router.query?.id}/${ReportOptionsEnum.WORKPLACE_REQUEST_COMPLETED}`
-                                    )
-                                }}
-                            >
-                                View Full List
-                            </ActionButton>
-                        </AuthorizedUserComponent>
-                        <AuthorizedUserComponent roles={[UserRoles.RTO]}>
-                            <ActionButton
-                                onClick={() => {
-                                    router.push(
-                                        `/portals/rto/report/${ReportOptionsEnum.WORKPLACE_REQUEST_COMPLETED}`
-                                    )
-                                }}
-                            >
-                                View Full List
-                            </ActionButton>
-                        </AuthorizedUserComponent>
-                    </div>
-                </div>
-                {isError && <TechnicalError />}
-                {isLoading ? (
-                    <LoadingAnimation height="h-[60vh]" />
-                ) : data?.data && data?.data?.length ? (
-                    <Table columns={columns} data={data?.data}>
-                        {({
-                            table,
-                            pagination,
-                            pageSize,
-                            quickActions,
-                        }: any) => {
-                            return (
-                                <div>
-                                    <div className="p-6 mb-2 flex justify-between">
-                                        {pageSize(itemPerPage, setItemPerPage)}
-                                        <div className="flex gap-x-2">
-                                            {/* {quickActions} */}
-                                            {pagination(
-                                                data?.pagination,
-                                                setPage
+                    {isError && <TechnicalError />}
+                    {isLoading ? (
+                        <LoadingAnimation height="h-[60vh]" />
+                    ) : data?.data && data?.data?.length ? (
+                        <Table columns={columns} data={data?.data}>
+                            {({
+                                table,
+                                pagination,
+                                pageSize,
+                                quickActions,
+                            }: any) => {
+                                return (
+                                    <div>
+                                        <div className="p-6 mb-2 flex justify-between">
+                                            {pageSize(
+                                                itemPerPage,
+                                                setItemPerPage
                                             )}
+                                            <div className="flex gap-x-2">
+                                                {/* {quickActions} */}
+                                                {pagination(
+                                                    data?.pagination,
+                                                    setPage
+                                                )}
+                                            </div>
                                         </div>
+                                        <div className="px-6">{table}</div>
                                     </div>
-                                    <div className="px-6">{table}</div>
-                                </div>
-                            )
-                        }}
-                    </Table>
-                ) : (
-                    !isError && (
-                        <NoData text='No Completed Workplace Requests Found'/>
-                    )
-                )}
-            </div>
-        </Waypoint>
+                                )
+                            }}
+                        </Table>
+                    ) : (
+                        !isError && (
+                            <NoData text="No Completed Workplace Requests Found" />
+                        )
+                    )}
+                </div>
+            </Waypoint>
+        </>
     )
 }

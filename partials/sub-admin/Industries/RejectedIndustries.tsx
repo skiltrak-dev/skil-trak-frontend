@@ -2,7 +2,7 @@ import { useRouter } from 'next/router'
 import { ReactElement, useEffect, useState } from 'react'
 
 // Icons
-import { FaEye } from 'react-icons/fa'
+import { FaEye, FaPencilAlt } from 'react-icons/fa'
 
 // components
 import {
@@ -86,6 +86,15 @@ export const RejectedIndustries = () => {
                 Icon: FaEye,
             },
             {
+                text: 'Edit',
+                onClick: (industry: Industry) => {
+                    router.push(
+                        `/portals/sub-admin/users/industries/${industry?.id}/edit-profile`
+                    )
+                },
+                Icon: FaPencilAlt,
+            },
+            {
                 text: `${subAdmin ? 'Un Favourite' : 'Add Favourite'}`,
                 color: `${subAdmin ? 'text-error' : 'text-primary'}`,
                 onClick: (industry: Industry) =>
@@ -115,6 +124,7 @@ export const RejectedIndustries = () => {
                 <IndustryCellInfo
                     industry={row.original}
                     isFavorite={isFavorite}
+                    call
                 />
             ),
         },

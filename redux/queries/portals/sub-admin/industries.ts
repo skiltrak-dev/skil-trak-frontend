@@ -1,3 +1,4 @@
+import { UserRoles } from '@constants'
 import { BaseQueryFn } from '@reduxjs/toolkit/dist/query/baseQueryTypes'
 import { EndpointBuilder } from '@reduxjs/toolkit/dist/query/endpointDefinitions'
 
@@ -63,4 +64,33 @@ export const subAdminIndustriesEndpoints = (
         }),
         invalidatesTags: ['SubAdminIndustries'],
     }),
+    industryCallLog: builder.mutation<
+        any,
+        { industry: number; receiver: UserRoles }
+    >({
+        query: ({ industry, receiver }) => ({
+            url: `call-log`,
+            method: 'POST',
+            params: { receiver },
+            body: { industry },
+        }),
+        invalidatesTags: ['SubAdminIndustries'],
+    }),
+    getIndustryCallLog: builder.query<any, number>({
+        query: (industryId) => ({
+            url: `call-log`,
+            params: { industryId },
+        }),
+        providesTags: ['SubAdminIndustries'],
+    }),
+    industryAnsweredCall: builder.mutation<any, { id: number; status: string }>(
+        {
+            query: ({ id, status }) => ({
+                url: `call-log/action/answered/${id}`,
+                method: 'PATCH',
+                params: { status },
+            }),
+            invalidatesTags: ['SubAdminIndustries'],
+        }
+    ),
 })

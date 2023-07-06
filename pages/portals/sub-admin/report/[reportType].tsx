@@ -42,11 +42,11 @@ const ReportType: NextPageWithLayout = () => {
                 return <StudentsCallsDetail />
             case SubAdminReports.BOOK_APPOINTMENTS:
                 return <AppointmentsDetail />
-            case SubAdminReports.TERMINATED_WORKPLACE:
+            case SubAdminReports.TERMINATED_STUDENTS:
                 return <TerminatedWorkplaceDetail />
-            case SubAdminReports.COMPLETED_WORKPLACE:
+            case SubAdminReports.COMPLETED_STUDENTS:
                 return <CompletedWorkplaceDetail />
-            case SubAdminReports.CANCELLED_WORKPLACE:
+            case SubAdminReports.CANCELLED_STUDENTS:
                 return <CancelledWorkplaceDetail />
             case SubAdminReports.PLACEMENT_STARTED:
                 return <PlacementStartedDetail />

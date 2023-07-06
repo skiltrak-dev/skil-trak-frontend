@@ -33,7 +33,6 @@ const Report: NextPageWithLayout = () => {
     weekEnd.setDate(weekEnd.getDate() - 6)
     const [startDate, setStartDate] = useState<any>(weekEnd)
     const [endDate, setEndDate] = useState<any>(new Date())
-    
 
     const [reportType, setReportType] = useState({
         label: 'Assigned Students',
@@ -90,7 +89,7 @@ const Report: NextPageWithLayout = () => {
                         setEndDate={setEndDate}
                     />
                 )
-            case SubAdminReports.TERMINATED_WORKPLACE:
+            case SubAdminReports.TERMINATED_STUDENTS:
                 return (
                     <TerminatedWorkplaceReport
                         startDate={startDate}
@@ -99,7 +98,7 @@ const Report: NextPageWithLayout = () => {
                         setEndDate={setEndDate}
                     />
                 )
-            case SubAdminReports.COMPLETED_WORKPLACE:
+            case SubAdminReports.COMPLETED_STUDENTS:
                 return (
                     <CompletedWorkplaceReport
                         startDate={startDate}
@@ -108,7 +107,7 @@ const Report: NextPageWithLayout = () => {
                         setEndDate={setEndDate}
                     />
                 )
-            case SubAdminReports.CANCELLED_WORKPLACE:
+            case SubAdminReports.CANCELLED_STUDENTS:
                 return (
                     <CancelledWorkplaceReport
                         startDate={startDate}

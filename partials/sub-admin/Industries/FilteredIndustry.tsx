@@ -13,7 +13,7 @@ import React, { ReactElement, useState } from 'react'
 import { IndustryCellInfo } from './components'
 //icons
 import { MdFavorite, MdFavoriteBorder } from 'react-icons/md'
-import { FaEye } from 'react-icons/fa'
+import { FaEye, FaPencilAlt } from 'react-icons/fa'
 import { AddToFavoriteModal } from './modals'
 import { getUserCredentials } from '@utils'
 import { IndustrySubAdmin } from './AllIndustries'
@@ -42,7 +42,7 @@ export const FilteredIndustry = ({
     const router = useRouter()
     const id = getUserCredentials()?.id
     const isFavorite = (subAdmin: SubAdmin[] | undefined) => {
-        return subAdmin?.find((subadmin: any) => subadmin?.user?.id === id)
+        return subAdmin?.find((subadmin: SubAdmin) => subadmin?.user?.id === id)
     }
     const tableActionOptions = (industry: IndustrySubAdmin) => {
         const onCancelClicked = () => {
@@ -68,6 +68,15 @@ export const FilteredIndustry = ({
                 Icon: FaEye,
             },
             {
+                text: 'Edit',
+                onClick: (industry: Industry) => {
+                    router.push(
+                        `/portals/sub-admin/users/industries/${industry?.id}/edit-profile`
+                    )
+                },
+                Icon: FaPencilAlt,
+            },
+            {
                 text: `${subAdmin ? 'Un Favourite' : 'Add Favourite'}`,
                 color: `${subAdmin ? 'text-error' : 'text-primary'}`,
                 onClick: (industry: Industry) =>
@@ -90,6 +99,7 @@ export const FilteredIndustry = ({
                 <IndustryCellInfo
                     industry={row.original}
                     isFavorite={isFavorite}
+                    call
                 />
             ),
         },

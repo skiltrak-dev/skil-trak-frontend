@@ -1,9 +1,4 @@
-import React from 'react'
-import { RtoApi } from '@queries'
-import { ColumnDef } from '@tanstack/react-table'
 import {
-    ActionButton,
-    EmptyData,
     InitialAvatar,
     LoadingAnimation,
     NoData,
@@ -11,13 +6,28 @@ import {
     TechnicalError,
     Typography,
 } from '@components'
-import { CourseDot } from '@partials/rto/student/components'
-import { Course } from '@types'
-type Props = {}
+import { UserRoles } from '@constants'
+import { RtoApi } from '@queries'
+import { ColumnDef } from '@tanstack/react-table'
+import { getUserCredentials } from '@utils'
+type Props = {
+    rtoUser?: number
+}
 
-export const NonContactableDetail = (props: Props) => {
+export const NonContactableDetail = ({ rtoUser }: Props) => {
     const { data, isLoading, isError } =
-        RtoApi.Students.useGetNotContactableStudents({})
+        RtoApi.Students.useGetNotContactableStudents(
+            {
+                user: rtoUser,
+            },
+            {
+                skip:
+                    (getUserCredentials()?.role === UserRoles.ADMIN ||
+                        getUserCredentials()?.role === UserRoles.SUBADMIN) &&
+                    !rtoUser,
+            }
+        )
+
     const columns: ColumnDef<any>[] = [
         {
             header: () => <span>Name</span>,
