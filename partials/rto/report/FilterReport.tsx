@@ -185,7 +185,11 @@ export const FilterReport = ({
                                 {dateRange
                                     ? dateRange
                                     : selectedFilter === 'Monthly'
-                                    ? `${month?.label} - ${year?.value}`
+                                    ? `${startDate
+                                          .toISOString()
+                                          .slice(0, 10)} to ${endDate
+                                          .toISOString()
+                                          .slice(0, 10)}`
                                     : selectedFilter === 'Annually'
                                     ? `${year?.value}`
                                     : selectedFilter}

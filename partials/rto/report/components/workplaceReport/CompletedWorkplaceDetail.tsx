@@ -3,6 +3,7 @@ import {
     EmptyData,
     InitialAvatar,
     LoadingAnimation,
+    NoData,
     Table,
     TechnicalError,
     Typography,
@@ -104,13 +105,7 @@ export const CompletedWorkplaceDetail = (props: Props) => {
                 </Table>
             ) : (
                 !isError && (
-                    <EmptyData
-                        title={'No Completed Workplace Requests Found'}
-                        description={
-                            'There is no New Completed Workplace Workplace Request yet'
-                        }
-                        height={'50vh'}
-                    />
+                    <NoData text="No Completed Workplace Requests Found" />
                 )
             )}
         </>

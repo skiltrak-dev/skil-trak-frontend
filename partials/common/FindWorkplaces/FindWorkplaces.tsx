@@ -3,10 +3,8 @@ import Image from 'next/image'
 import StarRatings from 'react-star-ratings'
 
 export const FindWorkplaces = ({ item, onClick }: any) => {
-    console.log('item', item)
 
     const photoUrl = item?.photos && item?.photos[0]?.getUrl()
-    console.log('photoUrl', photoUrl)
     return (
         // <a href={urlString} target="_/">
         <>

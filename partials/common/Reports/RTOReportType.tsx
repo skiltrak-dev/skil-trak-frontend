@@ -77,9 +77,9 @@ export const RTOReportType = () => {
                 </AuthorizedUserComponent>
 
                 {/* <DownloadButton /> */}
-                <div className="ml-auto">
+                {/* <div className="ml-auto">
                     <Button variant={'dark'} text={'Download'} />
-                </div>
+                </div> */}
             </div>
             <Card>{reports()}</Card>
         </>

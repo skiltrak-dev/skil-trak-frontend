@@ -2,6 +2,7 @@ import {
     EmptyData,
     InitialAvatar,
     LoadingAnimation,
+    NoData,
     Table,
     TechnicalError,
     Typography,
@@ -91,13 +92,7 @@ export const ArchivedStudentsDetail = (props: Props) => {
                 </Table>
             ) : (
                 !isError && (
-                    <EmptyData
-                        title={'No Archived Students Students Found'}
-                        description={
-                            'There is no any Archived Students Students yet'
-                        }
-                        height={'50vh'}
-                    />
+                    <NoData text="No Archived Students Students Found" />
                 )
             )}
         </>
