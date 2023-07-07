@@ -19,10 +19,10 @@ import { ReactElement, useState } from 'react'
 import { IoMdDownload } from 'react-icons/io'
 
 export const RTOReports = ({ user }: { user?: User }) => {
-    const monthEnd = new Date()
-    monthEnd.setDate(monthEnd.getDate() - 30)
-    const [startDate, setStartDate] = useState<Date>(monthEnd)
-    const [endDate, setEndDate] = useState<Date>(new Date())
+    // const monthEnd = new Date()
+    // monthEnd.setDate(monthEnd.getDate() - 30)
+    // const [startDate, setStartDate] = useState<Date>(monthEnd)
+    // const [endDate, setEndDate] = useState<Date>(new Date())
 
     const [reportType, setReportType] = useState({
         label: 'Non Contactable',
@@ -135,54 +135,54 @@ export const RTOReports = ({ user }: { user?: User }) => {
     // }
     const reports = [
         <NonContactableReport
-            setStartDate={setStartDate}
-            setEndDate={setEndDate}
-            startDate={startDate}
-            endDate={endDate}
+            // setStartDate={setStartDate}
+            // setEndDate={setEndDate}
+            // startDate={startDate}
+            // endDate={endDate}
             user={user?.id}
         />,
         <NewStudentReport
-            setStartDate={setStartDate}
-            setEndDate={setEndDate}
-            startDate={startDate}
-            endDate={endDate}
+            // setStartDate={setStartDate}
+            // setEndDate={setEndDate}
+            // startDate={startDate}
+            // endDate={endDate}
             user={user?.id}
         />,
         <CancelledWorkplaceReport
-            setStartDate={setStartDate}
-            setEndDate={setEndDate}
-            startDate={startDate}
-            endDate={endDate}
+            // setStartDate={setStartDate}
+            // setEndDate={setEndDate}
+            // startDate={startDate}
+            // endDate={endDate}
             user={user?.id}
         />,
         <BlockedStudentsReport user={user?.id} />,
         // <ArchivedStudentsReport user={user?.id} />,
         <CompletedWorkplaceReport
-            setStartDate={setStartDate}
-            setEndDate={setEndDate}
-            startDate={startDate}
-            endDate={endDate}
+            // setStartDate={setStartDate}
+            // setEndDate={setEndDate}
+            // startDate={startDate}
+            // endDate={endDate}
             user={user?.id}
         />,
         <TerminatedWorkplaceReport
-            setStartDate={setStartDate}
-            setEndDate={setEndDate}
-            startDate={startDate}
-            endDate={endDate}
+            // setStartDate={setStartDate}
+            // setEndDate={setEndDate}
+            // startDate={startDate}
+            // endDate={endDate}
             user={user?.id}
         />,
         <WorkplaceRequestReport
-            setStartDate={setStartDate}
-            setEndDate={setEndDate}
-            startDate={startDate}
-            endDate={endDate}
+            // setStartDate={setStartDate}
+            // setEndDate={setEndDate}
+            // startDate={startDate}
+            // endDate={endDate}
             user={user?.id}
         />,
         <AppointmentsReport
-            setStartDate={setStartDate}
-            setEndDate={setEndDate}
-            startDate={startDate}
-            endDate={endDate}
+            // setStartDate={setStartDate}
+            // setEndDate={setEndDate}
+            // startDate={startDate}
+            // endDate={endDate}
             user={user?.id}
         />,
         <StudentsWithoutWorkplaceReport user={user?.id} />,

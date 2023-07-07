@@ -77,12 +77,15 @@ export const StudentsWithoutWorkplaceReport = ({ user }: { user?: number }) => {
             },
         },
     ]
-    const count = data?.data?.length
+    const count = data?.pagination?.totalResult
     const handleEnter = () => {
         setRenderComponent(true)
     }
+    const handleLeave = () => {
+        setRenderComponent(false)
+    }
     return (
-        <Waypoint onEnter={handleEnter}>
+        <Waypoint onLeave={handleLeave} onEnter={handleEnter}>
             <div>
                 <div className="flex justify-between items-center">
                     <div className="">
