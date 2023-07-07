@@ -5,7 +5,7 @@ import { CommonApi } from '@queries'
 
 // query
 import { AdminApi } from '@queries'
-import { Course } from '@types'
+import { Course, OptionType } from '@types'
 import { Select, SelectOption } from '@components'
 
 export const Courses = ({
@@ -28,8 +28,8 @@ export const Courses = ({
                 options={courseOptions}
                 label={'Select Course'}
                 onlyValue
-                onChange={(e: any) => {
-                    setSelectedCourse(Number(e?.value))
+                onChange={(e: OptionType) => {
+                    setSelectedCourse(Number(e))
                 }}
             />
         </div>
