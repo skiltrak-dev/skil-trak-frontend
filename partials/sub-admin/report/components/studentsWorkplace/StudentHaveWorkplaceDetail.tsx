@@ -13,6 +13,7 @@ import { ColumnDef } from '@tanstack/react-table'
 import React, { useState } from 'react'
 
 import { useRouter } from 'next/router'
+import { Course } from '@types'
 
 export const StudentHaveWorkplaceDetail = () => {
     const router = useRouter()
@@ -23,62 +24,38 @@ export const StudentHaveWorkplaceDetail = () => {
         {
             header: () => <span>Name</span>,
             accessorKey: 'user',
-            cell: (info: any) => {
-                const {
-                    id,
-                    student: {
-                        user: { name, avatar },
-                    },
-                } = info.row.original || {}
-
-                return (
-                    <a className="flex items-center gap-x-2">
-                        <InitialAvatar name={name} imageUrl={avatar} />
-                        <div className="flex flex-col">
-                            <span>
-                                {info?.row?.original?.student?.studentId}
-                            </span>
-                            <span>{name}</span>
-                        </div>
-                    </a>
-                )
-            },
+            cell: (info: any) => (
+                <a className="flex items-center gap-x-2">
+                    {info.row.original?.user?.name && (
+                        <InitialAvatar
+                            name={info.row.original?.user?.name}
+                            imageUrl={info.row.original?.user?.avatar}
+                        />
+                    )}
+                    <div className="flex flex-col">
+                        <span>{info?.row?.original?.studentId}</span>
+                        <span>{info.row.original?.user?.name}</span>
+                    </div>
+                </a>
+            ),
         },
         {
             accessorKey: 'email',
             header: () => <span>Email</span>,
-            cell: (info) => {
-                const {
-                    student: {
-                        user: { email },
-                    },
-                } = info.row.original || {}
-                return <span>{email}</span>
-            },
+            cell: (info) => <span>{info.row.original?.user?.email}</span>,
         },
         {
             accessorKey: 'phone',
             header: () => <span>Phone</span>,
-            cell: (info) => {
-                const {
-                    student: { phone },
-                } = info.row.original || {}
-                return <span>{phone}</span>
-            },
+            cell: (info) => <span>{info.row.original?.phone}</span>,
         },
         {
             accessorKey: 'courses',
             header: () => <span>Courses</span>,
-            cell: (info) => {
-                // return info?.row?.original?.courses?.map((c: Course) => (
-                //     <CourseDot key={c?.id} course={c} />
-                // ))
-                return (
-                    <span>
-                        {info?.row?.original?.courses[0]?.title || 'N/A'}
-                    </span>
-                )
-            },
+            cell: (info) =>
+                info?.row?.original?.courses?.map((course: Course) => (
+                    <CourseDot course={course} />
+                )),
         },
     ]
     const count = data?.pagination?.totalResult

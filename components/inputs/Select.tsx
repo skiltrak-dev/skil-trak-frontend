@@ -184,7 +184,7 @@ export const Select = ({
                 onChange={onChange}
                 onBlur={onBlur}
                 placeholder={placeholder}
-                // {...(menuPlacement ? { menuPlacement } : {})}
+                {...(menuPlacement ? { menuPlacement } : {})}
             />
         )
     }

@@ -29,7 +29,7 @@ const filterKeys = [
     'name',
     'email',
     'status',
-    'phoneNumber',
+    'phone',
     'industryId',
     'courseId',
     'address',
@@ -47,14 +47,6 @@ const IndustryList: NextPageWithLayout = () => {
     const [filter, setFilter] = useState<AdminIndustryFormFilter>(
         {} as AdminIndustryFormFilter
     )
-
-    useEffect(() => {
-        const query = getFilterQuery<AdminIndustryFormFilter>({
-            router,
-            filterKeys,
-        })
-        setFilter(query as AdminIndustryFormFilter)
-    }, [router])
 
     const filteredIndustries = AdminApi.Industries.useListQuery({
         search: `${JSON.stringify(filter)

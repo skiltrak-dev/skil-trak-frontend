@@ -259,7 +259,7 @@ export const AssessmentFolderDetailX = ({
                                         file={file}
                                         filename={file.filename}
                                         fileUrl={file.file}
-                                        type={folder.type}
+                                        type={folder?.type}
                                         selected={selected?.id === file?.id}
                                         onClick={(file) => {
                                             setSelected(file)

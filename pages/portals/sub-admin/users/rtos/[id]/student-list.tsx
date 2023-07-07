@@ -44,7 +44,7 @@ const RtoStudentLists: NextPageWithLayout = () => {
             : []
 
     const onSubmit = async (values: any) => {
-        const courses = values?.courses?.map((c: any) => c.value)
+        // const courses = values?.courses?.map((c: any) => c.value)
 
         // const formData = new FormData()
         // courses?.forEach((c: any) => {
@@ -78,7 +78,7 @@ const RtoStudentLists: NextPageWithLayout = () => {
                 id: Number(router.query.id),
                 body: {
                     ...values,
-                    courses,
+                    // courses,
                     list,
                 },
             })
