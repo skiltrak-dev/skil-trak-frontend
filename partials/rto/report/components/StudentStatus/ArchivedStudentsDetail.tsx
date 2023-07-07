@@ -78,7 +78,7 @@ export const ArchivedStudentsDetail = ({ rtoUser }: Props) => {
             },
         },
     ]
-    const count = data?.data?.length
+    const count = data?.pagination?.totalResult
     return (
         <>
             <div className="flex justify-between items-center">

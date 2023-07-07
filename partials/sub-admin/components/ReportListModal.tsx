@@ -34,8 +34,9 @@ export const ReportListModal = ({ onClose }: any) => {
             const blob = new Blob([buffer], { type: 'application/pdf' })
             saveAs(blob, subAdminName)
             setIsPdfDownload(false)
+            onClose()
         }
-    }, [downloadAsPdf?.data, downloadAsPdf?.isSuccess])
+    }, [downloadAsPdf?.data, downloadAsPdf?.isSuccess, onClose])
 
     useEffect(() => {
         if (downloadAsPdf?.isError) {

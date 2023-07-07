@@ -12,13 +12,9 @@ import { SubAdminApi } from '@queries'
 import { ColumnDef } from '@tanstack/react-table'
 import React, { useState } from 'react'
 
-
 import { useRouter } from 'next/router'
 
-
-
 export const StudentHaveWorkplaceDetail = () => {
-
     const router = useRouter()
     const { data, isLoading, isError } =
         SubAdminApi.Reports.useStudentProvidedWorkplaceReport({})
@@ -39,7 +35,9 @@ export const StudentHaveWorkplaceDetail = () => {
                     <a className="flex items-center gap-x-2">
                         <InitialAvatar name={name} imageUrl={avatar} />
                         <div className="flex flex-col">
-                            <span>{info?.row?.original?.student?.studentId}</span>
+                            <span>
+                                {info?.row?.original?.student?.studentId}
+                            </span>
                             <span>{name}</span>
                         </div>
                     </a>
@@ -83,7 +81,7 @@ export const StudentHaveWorkplaceDetail = () => {
             },
         },
     ]
-    const count = data?.data?.length
+    const count = data?.pagination?.totalResult
     return (
         <>
             <div className="flex justify-between">
