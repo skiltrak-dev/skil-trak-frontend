@@ -57,7 +57,7 @@ const StudentDashboard: NextPageWithLayout = () => {
             <PortalQuestions />
 
             {/* Sector Card */}
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-3">
+            <div className="grid grid-cols-1 lg:grid-cols-3 items-start gap-3">
                 <div className="md:col-span-2">
                     <Card>
                         {/* Card Header */}

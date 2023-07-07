@@ -31,34 +31,37 @@ export const AppointmentsReport = ({
     startDate,
     endDate,
 }: Props) => {
+    let end = new Date(endDate)
+    end.setDate(end.getDate() + 1)
     const [itemPerPage, setItemPerPage] = useState(50)
     const [page, setPage] = useState(1)
     const router = useRouter()
     const { data, isLoading, isError } =
         SubAdminApi.Reports.useBookAppointmentsReport({
             startDate: startDate.toISOString().slice(0, 10),
-            endDate: endDate.toISOString().slice(0, 10),
+            endDate: end.toISOString().slice(0, 10),
             skip: itemPerPage * page - itemPerPage,
             limit: itemPerPage,
         })
 
     const columns: ColumnDef<any>[] = [
         {
-            header: () => <span>Appointment By</span>,
+            header: () => <span>Name</span>,
             accessorKey: 'appointmentBy',
             cell: (info: any) => {
                 return (
                     <a className="flex items-center gap-x-2">
-                        <InitialAvatar
-                            name={info?.row?.original?.appointmentBy?.name}
-                            imageUrl={
-                                info?.row?.original?.appointmentBy?.avatar
-                            }
-                        />
+                        {info?.row?.original?.user?.name && (
+                            <InitialAvatar
+                                name={info?.row?.original?.user?.name}
+                                imageUrl={info?.row?.original?.user?.avatar}
+                            />
+                        )}
                         <div className="flex flex-col">
                             {/* <span>{info?.row?.original?.appointmentBy?.studentId}</span> */}
+                            <span>{info.row.original?.studentId || 'N/A'}</span>
                             <span>
-                                {info.row.original.appointmentBy?.name || 'N/A'}
+                                {info.row.original?.user?.name || 'N/A'}
                             </span>
                             <span>
                                 {info.row.original.appointmentBy?.email}
@@ -68,34 +71,34 @@ export const AppointmentsReport = ({
                 )
             },
         },
-        {
-            accessorKey: 'appointmentFor',
-            header: () => <span>Appointment For</span>,
-            cell: (info) => {
-                // const { appointmentFor: { name, id, avatar } } = info.row.original;
-                return (
-                    <a className="flex items-center gap-x-2">
-                        <InitialAvatar
-                            name={
-                                info?.row?.original?.appointmentFor?.name ||
-                                'N/A'
-                            }
-                            imageUrl={info.row.original?.appointmentFor?.avatar}
-                        />
-                        <div className="flex flex-col">
-                            {/* <span>{info.row.original.appointmentFor?.studentId}</span> */}
-                            <span>
-                                {info.row.original.appointmentFor?.name ||
-                                    'N/A'}
-                            </span>
-                            <span>
-                                {info.row.original.appointmentFor?.email}
-                            </span>
-                        </div>
-                    </a>
-                )
-            },
-        },
+        // {
+        //     accessorKey: 'appointmentFor',
+        //     header: () => <span>Appointment For</span>,
+        //     cell: (info) => {
+        //         // const { appointmentFor: { name, id, avatar } } = info.row.original;
+        //         return (
+        //             <a className="flex items-center gap-x-2">
+        //                 <InitialAvatar
+        //                     name={
+        //                         info?.row?.original?.user?.appointmentFor?.[0]?.name ||
+        //                         'N/A'
+        //                     }
+        //                     imageUrl={info.row.original?.appointmentFor?.avatar}
+        //                 />
+        //                 <div className="flex flex-col">
+        //                     {/* <span>{info.row.original.appointmentFor?.studentId}</span> */}
+        //                     <span>
+        //                         {info.row.original.appointmentFor?.name ||
+        //                             'N/A'}
+        //                     </span>
+        //                     <span>
+        //                         {info.row.original.appointmentFor?.email}
+        //                     </span>
+        //                 </div>
+        //             </a>
+        //         )
+        //     },
+        // },
         // {
         //     accessorKey: 'email',
         //     header: () => <span>Email</span>,

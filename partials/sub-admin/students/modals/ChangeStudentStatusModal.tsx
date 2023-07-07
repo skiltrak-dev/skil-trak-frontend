@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import * as Yup from 'yup'
 
 import { Student, StudentStatusEnum } from '@types'
@@ -18,6 +18,12 @@ export const ChangeStudentStatusModal = ({
 }) => {
     const [changeCurrentStatus, changeCurrentStatusResult] =
         SubAdminApi.Student.changeCurrentStatus()
+
+    useEffect(() => {
+        if (changeCurrentStatusResult.isSuccess) {
+            onCancel()
+        }
+    }, [changeCurrentStatusResult])
 
     const validationSchema = Yup.object({
         status: Yup.string().required('Status is required!'),

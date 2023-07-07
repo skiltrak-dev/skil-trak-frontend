@@ -19,12 +19,12 @@ export const ReportType = ({ reportType, setReportType }: Props) => {
             value: SubAdminReports.STUDENT_HAVE_WORKPLACE,
         },
         { label: 'Active Students', value: SubAdminReports.ACTIVE_STUDENTS },
-        { label: 'Archive Students', value: SubAdminReports.ARCHIVED_STUDENTS },
+        // { label: 'Archive Students', value: SubAdminReports.ARCHIVED_STUDENTS },
         { label: 'Students Calls', value: SubAdminReports.STUDENTS_CALLS },
-        {
-            label: 'Book Appointments',
-            value: SubAdminReports.BOOK_APPOINTMENTS,
-        },
+        // {
+        //     label: 'Book Appointments',
+        //     value: SubAdminReports.BOOK_APPOINTMENTS,
+        // },
         {
             label: 'Terminated Students ',
             value: SubAdminReports.TERMINATED_STUDENTS,

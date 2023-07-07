@@ -4,4 +4,5 @@ export enum Result {
     NotCompetent = 'notCompetent',
     Competent = 'competent',
     ReOpened = 'reOpened',
+    Archived = 'archived',
 }
