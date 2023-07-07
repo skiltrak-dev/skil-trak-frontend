@@ -203,6 +203,8 @@ export const AssessmentFolderDetailX = ({
                                         multiple={folder?.capacity > 1}
                                     />
                                 ) : null
+
+                                
                             ) : (
                                 <div>
                                     {folder.isActive ? (
