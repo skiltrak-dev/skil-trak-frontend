@@ -11,13 +11,6 @@ import { SubAdminApi } from '@queries'
 import { ColumnDef } from '@tanstack/react-table'
 import React, { useState } from 'react'
 
-
-
-
-
-
-
-
 export const PlacementStartedDetail = () => {
     const { data, isLoading, isError } =
         SubAdminApi.Reports.useStudentWorkplaceStartedReport({})
@@ -38,7 +31,9 @@ export const PlacementStartedDetail = () => {
                     <a className="flex items-center gap-x-2">
                         <InitialAvatar name={name} imageUrl={avatar} />
                         <div className="flex flex-col">
-                            <span>{info?.row?.original?.student?.studentId}</span>
+                            <span>
+                                {info?.row?.original?.student?.studentId}
+                            </span>
                             <span>{name}</span>
                         </div>
                     </a>
@@ -82,7 +77,7 @@ export const PlacementStartedDetail = () => {
             },
         },
     ]
-    const count = data?.data?.length
+    const count = data?.pagination?.totalResult
     return (
         <>
             <div className="flex justify-between">
@@ -92,7 +87,6 @@ export const PlacementStartedDetail = () => {
                     </Typography>
                     <Typography variant="h3">{count || 0}</Typography>
                 </div>
-
             </div>
             {isError && <TechnicalError />}
             {isLoading ? (

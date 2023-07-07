@@ -62,7 +62,7 @@ export const StudentsAssignedDetail = (props: Props) => {
             },
         },
     ]
-    const count = data?.data?.length
+    const count = data?.pagination?.totalResult
     return (
         <>
             <div className="flex justify-between items-start">
@@ -108,9 +108,7 @@ export const StudentsAssignedDetail = (props: Props) => {
                 !isError && (
                     <EmptyData
                         title={'No Assigned Students Found'}
-                        description={
-                            'There is no any Assigned Students yet'
-                        }
+                        description={'There is no any Assigned Students yet'}
                         height={'50vh'}
                     />
                 )

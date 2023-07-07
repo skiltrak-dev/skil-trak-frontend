@@ -127,7 +127,7 @@ export const AppointmentsReport = ({
             header: () => <span>Date</span>,
         },
     ]
-    const count = data?.data?.length
+    const count = data?.pagination?.totalResult
     return (
         <>
             <div className="flex justify-between">
