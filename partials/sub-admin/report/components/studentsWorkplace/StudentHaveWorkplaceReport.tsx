@@ -30,13 +30,15 @@ export const StudentHaveWorkplaceReport = ({
     startDate,
     endDate,
 }: Props) => {
+    let end = new Date(endDate)
+    end.setDate(end.getDate() + 1)
     const [itemPerPage, setItemPerPage] = useState(50)
     const [page, setPage] = useState(1)
     const router = useRouter()
     const { data, isLoading, isError } =
         SubAdminApi.Reports.useStudentProvidedWorkplaceReport({
             startDate: startDate.toISOString().slice(0, 10),
-            endDate: endDate.toISOString().slice(0, 10),
+            endDate: end.toISOString().slice(0, 10),
             skip: itemPerPage * page - itemPerPage,
             limit: itemPerPage,
         })
@@ -45,61 +47,38 @@ export const StudentHaveWorkplaceReport = ({
         {
             header: () => <span>Name</span>,
             accessorKey: 'user',
-            cell: (info: any) => {
-                const {
-                    student: {
-                        user: { name, avatar, studentId },
-                    },
-                } = info.row.original || {}
-
-                return (
-                    <a className="flex items-center gap-x-2">
-                        <InitialAvatar name={name} imageUrl={avatar} />
-                        <div className="flex flex-col">
-                            <span>
-                                {info?.row?.original?.student?.studentId}
-                            </span>
-                            <span>{name}</span>
-                        </div>
-                    </a>
-                )
-            },
+            cell: (info: any) => (
+                <a className="flex items-center gap-x-2">
+                    {info.row.original?.user?.name && (
+                        <InitialAvatar
+                            name={info.row.original?.user?.name}
+                            imageUrl={info.row.original?.user?.avatar}
+                        />
+                    )}
+                    <div className="flex flex-col">
+                        <span>{info?.row?.original?.studentId}</span>
+                        <span>{info.row.original?.user?.name}</span>
+                    </div>
+                </a>
+            ),
         },
         {
             accessorKey: 'email',
             header: () => <span>Email</span>,
-            cell: (info) => {
-                const {
-                    student: {
-                        user: { email },
-                    },
-                } = info.row.original || {}
-                return <span>{email}</span>
-            },
+            cell: (info) => <span>{info.row.original?.user?.email}</span>,
         },
         {
             accessorKey: 'phone',
             header: () => <span>Phone</span>,
-            cell: (info) => {
-                const {
-                    student: { phone },
-                } = info.row.original || {}
-                return <span>{phone}</span>
-            },
+            cell: (info) => <span>{info.row.original?.phone}</span>,
         },
         {
             accessorKey: 'courses',
             header: () => <span>Courses</span>,
-            cell: (info) => {
-                // return info?.row?.original?.courses?.map((c: Course) => (
-                //     <CourseDot key={c?.id} course={c} />
-                // ))
-                return (
-                    <span>
-                        {info?.row?.original?.courses[0]?.title || 'N/A'}
-                    </span>
-                )
-            },
+            cell: (info) =>
+                info?.row?.original?.courses?.map((course: Course) => (
+                    <CourseDot course={course} />
+                )),
         },
     ]
     const count = data?.pagination?.totalResult

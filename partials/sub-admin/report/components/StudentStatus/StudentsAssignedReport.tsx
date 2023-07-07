@@ -30,16 +30,20 @@ export const StudentsAssignedReport = ({
     startDate,
     endDate,
 }: Props) => {
+    let end = new Date(endDate)
+    end.setDate(end.getDate() + 1)
     const [itemPerPage, setItemPerPage] = useState(50)
     const [page, setPage] = useState(1)
     const router = useRouter()
     const { data, isLoading, isError } =
         SubAdminApi.Reports.useAssignedStudents({
             startDate: startDate.toISOString().slice(0, 10),
-            endDate: endDate.toISOString().slice(0, 10),
+            endDate: end.toISOString().slice(0, 10),
             skip: itemPerPage * page - itemPerPage,
             limit: itemPerPage,
         })
+
+    console.log({ data })
 
     const columns: ColumnDef<any>[] = [
         {

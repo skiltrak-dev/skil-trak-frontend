@@ -69,8 +69,8 @@ const Report: NextPageWithLayout = () => {
                 )
             case SubAdminReports.ACTIVE_STUDENTS:
                 return <ActiveStudentsReport />
-            case SubAdminReports.ARCHIVED_STUDENTS:
-                return <ArchivedStudentsReport />
+            // case SubAdminReports.ARCHIVED_STUDENTS:
+            //     return <ArchivedStudentsReport />
             case SubAdminReports.STUDENTS_CALLS:
                 return (
                     <StudentsCallsPerDayReport
@@ -128,7 +128,14 @@ const Report: NextPageWithLayout = () => {
             case SubAdminReports.NO_WORKPLACE:
                 return <ActiveStudentsWithoutWorkplacesReport />
             default:
-                return null
+                return (
+                    <StudentsAssignedReport
+                        startDate={startDate}
+                        setStartDate={setStartDate}
+                        endDate={endDate}
+                        setEndDate={setEndDate}
+                    />
+                )
         }
     }
 
