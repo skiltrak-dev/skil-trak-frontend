@@ -167,11 +167,13 @@ export const PersonalInfoForm = ({
 
     // const { ref: preferableLocationRef, ...rest } =
     //     formMethods.register('preferableLocation')
+
     return (
         <div>
             <Typography variant={'label'} capitalize>
                 Please provide following information
             </Typography>
+
             <Card>
                 <FormProvider {...formMethods}>
                     <form onSubmit={formMethods.handleSubmit(onSubmit)}>

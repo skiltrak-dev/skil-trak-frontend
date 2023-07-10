@@ -34,31 +34,28 @@ const OptionLayout = {
     grid: `grid gap-x-4 gap-y-2`,
 }
 
-export const RadioGroup = (
-    {
-        id,
-        name,
-        label,
+export const RadioGroup = ({
+    id,
+    name,
+    label,
 
-        options,
+    options,
 
-        value,
-        rules,
-        onChange,
-        onBlur,
+    value,
+    rules,
+    onChange,
+    onBlur,
 
-        helpText,
-        tooltip,
+    helpText,
+    tooltip,
 
-        required,
-        disabled,
-        loading,
+    required,
+    disabled,
+    loading,
 
-        layout = 'row',
-        gridColumns = '3',
-    }: RadioGroupType,
-    ref: any
-) => {
+    layout = 'row',
+    gridColumns = '3',
+}: RadioGroupType) => {
     const getOptionsLayout = () => {
         let currentLayout = OptionLayout[layout]
         if (layout === 'grid') {

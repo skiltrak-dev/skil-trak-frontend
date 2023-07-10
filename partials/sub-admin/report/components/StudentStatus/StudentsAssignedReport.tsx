@@ -43,8 +43,6 @@ export const StudentsAssignedReport = ({
             limit: itemPerPage,
         })
 
-    console.log({ data })
-
     const columns: ColumnDef<any>[] = [
         {
             header: () => <span>Name</span>,

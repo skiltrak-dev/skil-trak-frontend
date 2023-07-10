@@ -1,5 +1,5 @@
 import { NextPageWithLayout } from '@types'
-import { ReactElement, useState } from 'react'
+import { ReactElement, useEffect, useState } from 'react'
 
 // layouts
 import { SubAdminLayout } from '@layouts'
@@ -25,6 +25,7 @@ import {
 } from '@partials/sub-admin/report/components/studentsWorkplace'
 import { IoMdDownload } from 'react-icons/io'
 import { SubAdminReports } from 'types/sub-admin-reports.type'
+import { useRouter } from 'next/router'
 
 // components
 
@@ -33,13 +34,17 @@ const Report: NextPageWithLayout = () => {
     weekEnd.setDate(weekEnd.getDate() - 6)
     const [startDate, setStartDate] = useState<any>(weekEnd)
     const [endDate, setEndDate] = useState<any>(new Date())
-
-    const [reportType, setReportType] = useState({
-        label: 'Assigned Students',
-        value: 'assigned-students',
-    })
-
     const [modal, setModal] = useState<ReactElement | null>(null)
+    const [reportType, setReportType] = useState<SubAdminReports>(
+        SubAdminReports.ASSIGNED_STUDENTS
+    )
+
+    const router = useRouter()
+    useEffect(() => {
+        router?.query?.report &&
+            setReportType(router?.query?.report as SubAdminReports)
+    }, [router])
+
     const onClose = () => {
         setModal(null)
     }
@@ -48,7 +53,7 @@ const Report: NextPageWithLayout = () => {
     }
 
     const reports = () => {
-        switch (reportType?.value) {
+        switch (reportType) {
             case SubAdminReports.ASSIGNED_STUDENTS:
                 return (
                     <StudentsAssignedReport
