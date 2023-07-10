@@ -38,7 +38,7 @@ export const NotificationItem = ({
                         !resultIsReadNotification.isSuccess && !isRead
                             ? 'text-blue-400'
                             : 'text-gray-500'
-                    } bg-gray-300 h-8 w-8 rounded-md flex items-center justify-center text-2xl mr-2`}
+                    } bg-gray-300 h-8 w-8 rounded-md flex items-center justify-center text-xl mr-2`}
                 >
                     <Icon />
                 </div>
@@ -54,7 +54,7 @@ export const NotificationItem = ({
                         !resultIsReadNotification.isSuccess && !isRead
                             ? 'text-blue-400'
                             : 'text-gray-500'
-                    } bg-gray-300 h-8 w-8 rounded-md flex items-center justify-center text-2xl mr-2`}
+                    } bg-gray-300 h-8 w-8 rounded-md flex items-center justify-center text-xl mr-2`}
                 >
                     <AiFillBell />
                 </div>
@@ -67,7 +67,7 @@ export const NotificationItem = ({
                         !resultIsReadNotification.isSuccess && !isRead
                             ? 'text-blue-400'
                             : 'text-gray-300'
-                    }`}
+                    } text-sm`}
                     dangerouslySetInnerHTML={{
                         __html: title.substring(0, 10),
                     }}
@@ -81,7 +81,7 @@ export const NotificationItem = ({
                         !resultIsReadNotification.isSuccess && !isRead
                             ? 'text-blue-400'
                             : 'text-gray-300'
-                    }`}
+                    } text-xs`}
                     dangerouslySetInnerHTML={{
                         __html: ellipsisText(description, 10),
                     }}

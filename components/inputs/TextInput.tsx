@@ -126,7 +126,7 @@ export const TextInput = ({
                         {...(placesSuggetions
                             ? {
                                   ref: (e: any) => {
-                                      formRef.ref(e)
+                                      formRef && formRef.ref(e)
                                       ref.current = e
                                   },
                               }

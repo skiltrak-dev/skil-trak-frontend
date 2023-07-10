@@ -200,11 +200,11 @@ export const AssessmentFolderDetailX = ({
                                                 ?.length || 0)
                                         }
                                         acceptTypes={getDocType(folder?.type)}
-                                        multiple={folder?.capacity > 1}
+                                        multiple
                                     />
                                 ) : null
 
-                                
+
                             ) : (
                                 <div>
                                     {folder.isActive ? (

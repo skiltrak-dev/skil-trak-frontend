@@ -1,5 +1,6 @@
 import { Card, Select } from '@components'
 import { ReportOptionsEnum } from '@types'
+import { useRouter } from 'next/router'
 import React from 'react'
 import { SubAdminReports } from 'types/sub-admin-reports.type'
 
@@ -9,6 +10,7 @@ type Props = {
 }
 
 export const ReportType = ({ reportType, setReportType }: Props) => {
+    const router = useRouter()
     const reportOptions = [
         {
             label: 'Assigned Students',
@@ -21,10 +23,10 @@ export const ReportType = ({ reportType, setReportType }: Props) => {
         { label: 'Active Students', value: SubAdminReports.ACTIVE_STUDENTS },
         // { label: 'Archive Students', value: SubAdminReports.ARCHIVED_STUDENTS },
         { label: 'Students Calls', value: SubAdminReports.STUDENTS_CALLS },
-        // {
-        //     label: 'Book Appointments',
-        //     value: SubAdminReports.BOOK_APPOINTMENTS,
-        // },
+        {
+            label: 'Book Appointments',
+            value: SubAdminReports.BOOK_APPOINTMENTS,
+        },
         {
             label: 'Terminated Students ',
             value: SubAdminReports.TERMINATED_STUDENTS,
@@ -52,11 +54,18 @@ export const ReportType = ({ reportType, setReportType }: Props) => {
             <Select
                 name="reportType"
                 label="Reports Type"
-                value={reportType}
+                value={reportOptions?.find(
+                    (report) => report?.value === reportType
+                )}
                 options={reportOptions}
                 onChange={(e: any) => {
+                    router.push({
+                        pathname: '/portals/sub-admin/report',
+                        query: { report: e },
+                    })
                     setReportType(e)
                 }}
+                onlyValue
             />
         </>
     )
