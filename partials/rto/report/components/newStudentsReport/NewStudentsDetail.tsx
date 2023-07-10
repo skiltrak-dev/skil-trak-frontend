@@ -27,7 +27,6 @@ export const NewStudentsDetail = ({ rtoUser }: Props) => {
                 !rtoUser,
         }
     )
-    console.log({ data }, UserRoles.ADMIN && !rtoUser)
     const columns: ColumnDef<any>[] = [
         {
             header: () => <span>Name</span>,

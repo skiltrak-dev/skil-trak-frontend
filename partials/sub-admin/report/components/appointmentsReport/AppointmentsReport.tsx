@@ -17,6 +17,7 @@ import { Course, ReportOptionsEnum } from '@types'
 import { ViewFullListReport } from '../../ViewFullListReport'
 import { useRouter } from 'next/router'
 import { SubAdminReports } from 'types/sub-admin-reports.type'
+import { UserRoles } from '@constants'
 
 type Props = {
     startDate: Date
@@ -46,22 +47,32 @@ export const AppointmentsReport = ({
 
     const columns: ColumnDef<any>[] = [
         {
-            header: () => <span>Name</span>,
+            header: () => <span>Appointment By</span>,
             accessorKey: 'appointmentBy',
             cell: (info: any) => {
                 return (
                     <a className="flex items-center gap-x-2">
-                        {info?.row?.original?.user?.name && (
+                        {info?.row?.original?.appointmentBy?.name && (
                             <InitialAvatar
-                                name={info?.row?.original?.user?.name}
-                                imageUrl={info?.row?.original?.user?.avatar}
+                                name={info?.row?.original?.appointmentBy?.name}
+                                imageUrl={
+                                    info?.row?.original?.appointmentBy?.avatar
+                                }
                             />
                         )}
                         <div className="flex flex-col">
-                            {/* <span>{info?.row?.original?.appointmentBy?.studentId}</span> */}
-                            <span>{info.row.original?.studentId || 'N/A'}</span>
+                            {info.row.original?.appointmentBy?.role ===
+                                UserRoles.STUDENT && (
+                                <span>
+                                    {
+                                        info.row.original?.appointmentBy
+                                            ?.student?.studentId
+                                    }
+                                </span>
+                            )}
                             <span>
-                                {info.row.original?.user?.name || 'N/A'}
+                                {info.row.original?.appointmentBy?.name ||
+                                    'N/A'}
                             </span>
                             <span>
                                 {info.row.original.appointmentBy?.email}
@@ -71,52 +82,51 @@ export const AppointmentsReport = ({
                 )
             },
         },
-        // {
-        //     accessorKey: 'appointmentFor',
-        //     header: () => <span>Appointment For</span>,
-        //     cell: (info) => {
-        //         // const { appointmentFor: { name, id, avatar } } = info.row.original;
-        //         return (
-        //             <a className="flex items-center gap-x-2">
-        //                 <InitialAvatar
-        //                     name={
-        //                         info?.row?.original?.user?.appointmentFor?.[0]?.name ||
-        //                         'N/A'
-        //                     }
-        //                     imageUrl={info.row.original?.appointmentFor?.avatar}
-        //                 />
-        //                 <div className="flex flex-col">
-        //                     {/* <span>{info.row.original.appointmentFor?.studentId}</span> */}
-        //                     <span>
-        //                         {info.row.original.appointmentFor?.name ||
-        //                             'N/A'}
-        //                     </span>
-        //                     <span>
-        //                         {info.row.original.appointmentFor?.email}
-        //                     </span>
-        //                 </div>
-        //             </a>
-        //         )
-        //     },
-        // },
-        // {
-        //     accessorKey: 'email',
-        //     header: () => <span>Email</span>,
-
-        // },
-        // {
-        //     accessorKey: 'phone',
-        //     header: () => <span>Phone</span>,
-        // },
-        // {
-        //     accessorKey: 'courses',
-        //     header: () => <span>Courses</span>,
-        //     cell: (info) => {
-        //         return info?.row?.original?.courses?.map((c: Course) => (
-        //     <CourseDot key={c?.id} course={c} />
-        //     ))
-        //     },
-        // },
+        {
+            accessorKey: 'appointmentFor',
+            header: () => <span>Appointment For</span>,
+            cell: (info) => {
+                console.log('kaka e leer', info.row.original?.appointmentFor)
+                // const { appointmentFor: { name, id, avatar } } = info.row.original;
+                return (
+                    <a className="flex items-center gap-x-2">
+                        <InitialAvatar
+                            name={
+                                info?.row?.original?.appointmentFor?.name ||
+                                'N/A'
+                            }
+                            imageUrl={info.row.original?.appointmentFor?.avatar}
+                        />
+                        <div className="flex flex-col">
+                            {info.row.original?.appointmentFor?.role ===
+                                UserRoles.STUDENT && (
+                                <span>
+                                    {
+                                        info.row.original?.appointmentFor
+                                            ?.student?.studentId
+                                    }
+                                </span>
+                            )}
+                            <span>
+                                {info.row.original.appointmentFor?.name ||
+                                    'N/A'}
+                            </span>
+                            <span>
+                                {info.row.original.appointmentFor?.email ||
+                                    'N/A'}
+                            </span>
+                        </div>
+                    </a>
+                )
+            },
+        },
+        {
+            accessorKey: 'courses',
+            header: () => <span>Course</span>,
+            cell: (info) => (
+                <span>{info.row.original.course?.title || 'N/A'}</span>
+            ),
+        },
         {
             accessorKey: 'startTime',
             header: () => <span>Start Time</span>,

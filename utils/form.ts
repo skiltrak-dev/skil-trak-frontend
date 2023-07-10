@@ -13,10 +13,13 @@ export const getMethodsForInput = (
             ...formContext.register(name, {
                 ...(rules ? { rules } : {}),
                 ...(onChange
-                    ? (e: ChangeEvent<HTMLInputElement>) => onChange(e)
+                    ? {
+                          onChange: (e: ChangeEvent<HTMLInputElement>) =>
+                              onChange(e),
+                      }
                     : {}),
                 ...(onBlur
-                    ? (e: FocusEvent<HTMLInputElement>) => onBlur(e)
+                    ? { onBlur: (e: FocusEvent<HTMLInputElement>) => onBlur(e) }
                     : {}),
             }),
         }

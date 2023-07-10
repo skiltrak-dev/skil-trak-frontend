@@ -15,30 +15,27 @@ export type RadioButtonProps = InputProps & {
     group?: boolean
 }
 
-export const RadioButton = (
-    {
-        id,
-        name,
-        label,
+export const RadioButton = ({
+    id,
+    name,
+    label,
 
-        defaultChecked,
+    defaultChecked,
 
-        helpText,
-        tooltip,
+    helpText,
+    tooltip,
 
-        value,
-        rules,
-        onChange,
-        onBlur,
+    value,
+    rules,
+    onChange,
+    onBlur,
 
-        loading,
-        required,
-        disabled,
+    loading,
+    required,
+    disabled,
 
-        group,
-    }: RadioButtonProps,
-    ref: any
-) => {
+    group,
+}: RadioButtonProps) => {
     const formContext = useFormContext()
 
     return (
