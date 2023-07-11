@@ -1,6 +1,4 @@
 import {
-    ActionButton,
-    EmptyData,
     InitialAvatar,
     LoadingAnimation,
     NoData,
@@ -9,12 +7,10 @@ import {
     Typography,
 } from '@components'
 import { UserRoles } from '@constants'
-import { CourseDot } from '@partials/rto/student/components'
 import { RtoApi } from '@queries'
 import { ColumnDef } from '@tanstack/react-table'
-import { Course, ReportOptionsEnum } from '@types'
 import { getUserCredentials } from '@utils'
-import React, { useState } from 'react'
+import { useState } from 'react'
 
 type Props = {
     rtoUser?: number
@@ -62,6 +58,39 @@ export const ReportStudentsDetail = ({ rtoUser }: Props) => {
         {
             accessorKey: 'phone',
             header: () => <span>Phone</span>,
+        },
+        {
+            accessorKey: 'reports',
+            header: () => <span>Comment</span>,
+            cell: (info) => (
+                <span>{info?.row?.original?.reports?.[0]?.comment}</span>
+            ),
+        },
+        {
+            accessorKey: 'industry',
+            header: () => <span>Industry</span>,
+            cell: (info) => (
+                <a className="flex items-center gap-x-2">
+                    <InitialAvatar
+                        name={
+                            info?.row?.original?.reports?.[0]?.industry?.user
+                                ?.name
+                        }
+                        imageUrl={
+                            info?.row?.original?.reports?.[0]?.industry?.user
+                                ?.avatar
+                        }
+                    />
+                    <div className="flex flex-col">
+                        <span>
+                            {
+                                info?.row?.original?.reports?.[0]?.industry
+                                    ?.user?.name
+                            }
+                        </span>
+                    </div>
+                </a>
+            ),
         },
         {
             accessorKey: 'courses',
