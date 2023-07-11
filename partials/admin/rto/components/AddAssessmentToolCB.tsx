@@ -28,7 +28,9 @@ export const AddAssessmentToolCB = ({ edit, assessment }: Props) => {
 
     const router = useRouter()
     const rtoId = router.query.id
-    const rtoCourses = useGetSubAdminRTOCoursesQuery(String(rtoId))
+    const rtoCourses = useGetSubAdminRTOCoursesQuery(Number(rtoId), {
+        skip: !rtoId,
+    })
     const [create, createResult] = AdminApi.Rtos.useCreateAssessmentTools()
     const [update, updateResult] = AdminApi.Rtos.useUpdateAssessmentTools()
     useEffect(() => {

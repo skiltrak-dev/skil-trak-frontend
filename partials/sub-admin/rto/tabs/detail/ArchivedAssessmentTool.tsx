@@ -34,7 +34,9 @@ export const ArchivedAssessmentTool = ({
     )
     const router = useRouter()
     const rtoId = router.query.id
-    const rtoCourses = useGetSubAdminRTOCoursesQuery(String(rtoId))
+    const rtoCourses = useGetSubAdminRTOCoursesQuery(Number(rtoId), {
+        skip: !rtoId,
+    })
 
     const getAssessmentTools = useGetRTOAssessmentToolsQuery(
         {

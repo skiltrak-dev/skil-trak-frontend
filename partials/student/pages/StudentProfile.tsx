@@ -37,7 +37,13 @@ import {
 import { AddWorkplace, DetailTabs } from '@partials/sub-admin/students'
 import { useActionModals } from '@partials/sub-admin/students/hooks/useActionModals'
 import { getLink, getUserCredentials } from '@utils'
-import { FaArchive, FaBan } from 'react-icons/fa'
+import {
+    FaArchive,
+    FaBan,
+    FaChevronDown,
+    FaFileImport,
+    FaUserGraduate,
+} from 'react-icons/fa'
 import { UserRoles } from '@constants'
 
 export const StudentProfile = ({ noTitle }: { noTitle?: boolean }) => {
@@ -46,6 +52,7 @@ export const StudentProfile = ({ noTitle }: { noTitle?: boolean }) => {
     const { id } = router.query
 
     const [isMouseMove, setIsMouseMove] = useState<any>(null)
+    const [showDropDown, setShowDropDown] = useState(false)
 
     useEffect(() => {
         window.addEventListener('mousemove', (e) => {
@@ -336,6 +343,72 @@ export const StudentProfile = ({ noTitle }: { noTitle?: boolean }) => {
                                         onViewPassword({ user: data?.user })
                                     }}
                                 />
+                                <AuthorizedUserComponent
+                                    roles={[UserRoles.RTO]}
+                                >
+                                    <div className="flex items-center gap-x-3">
+                                        <div
+                                            className="relative"
+                                            onMouseEnter={() =>
+                                                setShowDropDown(true)
+                                            }
+                                            onMouseLeave={() =>
+                                                setShowDropDown(false)
+                                            }
+                                        >
+                                            <Button>
+                                                <span
+                                                    id="add-students"
+                                                    className="flex items-center gap-x-2"
+                                                >
+                                                    <span>Add Students</span>
+                                                    <FaChevronDown />
+                                                </span>
+                                            </Button>
+
+                                            {showDropDown ? (
+                                                <ul className="bg-white shadow-xl rounded-xl overflow-hidden absolute">
+                                                    <li>
+                                                        <button
+                                                            onClick={() => {
+                                                                router.push(
+                                                                    '/portals/rto/students/import-students'
+                                                                )
+                                                            }}
+                                                            className="w-full flex items-center gap-x-2 text-sm px-2 py-2 hover:bg-gray-200"
+                                                        >
+                                                            <span className="text-gray-500">
+                                                                <FaFileImport />
+                                                            </span>
+                                                            <span className="whitespace-nowrap">
+                                                                {' '}
+                                                                Import Students
+                                                            </span>
+                                                        </button>
+                                                    </li>
+                                                    <li>
+                                                        <button
+                                                            onClick={() => {
+                                                                router.push(
+                                                                    '/portals/rto/students/add-individual-student'
+                                                                )
+                                                            }}
+                                                            className="w-full flex items-center gap-x-2 text-sm px-2 py-2 hover:bg-gray-200"
+                                                        >
+                                                            <span className="text-gray-500">
+                                                                <FaUserGraduate />
+                                                            </span>
+                                                            <span>
+                                                                {' '}
+                                                                Add Individual
+                                                            </span>
+                                                        </button>
+                                                    </li>
+                                                </ul>
+                                            ) : null}
+                                        </div>
+                                    </div>
+                                </AuthorizedUserComponent>
                                 <AuthorizedUserComponent
                                     roles={[
                                         UserRoles.ADMIN,
