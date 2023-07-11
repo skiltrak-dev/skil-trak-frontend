@@ -1,23 +1,11 @@
-import {
-    ActionButton,
-    BackButton,
-    EmptyData,
-    LoadingAnimation,
-    TechnicalError,
-} from '@components'
-
-import { DetailTabs, RtoStudentProfileCB } from '@partials/rto/student'
-
 import { useContextBar, useNavbar } from '@hooks'
 import { RtoLayout } from '@layouts'
 import { NextPageWithLayout } from '@types'
 import { useRouter } from 'next/router'
 import { ReactElement, useEffect, useState } from 'react'
 
-import { FaArchive, FaBan } from 'react-icons/fa'
-
-import { useGetRtoStudentProfileQuery } from '@queries'
 import { StudentProfile } from '@partials/student/pages'
+import { useGetRtoStudentProfileQuery } from '@queries'
 
 const Detail: NextPageWithLayout = () => {
     const router = useRouter()
