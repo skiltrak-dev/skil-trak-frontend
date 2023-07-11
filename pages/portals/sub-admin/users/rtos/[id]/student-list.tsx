@@ -29,7 +29,7 @@ const RtoStudentLists: NextPageWithLayout = () => {
     const [importStudents, importStudentsResult] =
         SubAdminApi.Rto.useImportStudentList()
     const rtoCourses = useGetSubAdminRTOCoursesQuery(
-        String(router?.query?.rtoId),
+        Number(router?.query?.rtoId),
         {
             skip: !router?.query?.id,
         }

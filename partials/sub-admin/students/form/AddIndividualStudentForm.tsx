@@ -8,8 +8,13 @@ import {
 } from '@components'
 import { UserRoles } from '@constants'
 import { yupResolver } from '@hookform/resolvers/yup'
-import { AdminApi, AuthApi, useGetSubAdminRTODetailQuery } from '@queries'
-import { OptionType, Sector } from '@types'
+import {
+    AdminApi,
+    AuthApi,
+    useGetSubAdminRTOCoursesQuery,
+    useGetSubAdminRTODetailQuery,
+} from '@queries'
+import { Course, OptionType, Sector } from '@types'
 import { SignUpUtils, onlyAlphabets } from '@utils'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
@@ -19,10 +24,6 @@ import * as yup from 'yup'
 export const AddIndividualStudentForm = () => {
     const router = useRouter()
     const [isSuccess, setIsSuccess] = useState<boolean>(false)
-    const [sectorOptions, setSectorOptions] = useState([])
-    const [courseOptions, setCourseOptions] = useState([])
-    const [courseLoading, setCourseLoading] = useState(false)
-    const [storedData, setStoredData] = useState<any>(null)
 
     const rtoDetail = useGetSubAdminRTODetailQuery(Number(router?.query?.id), {
         skip: !router?.query?.id,
@@ -30,51 +31,22 @@ export const AddIndividualStudentForm = () => {
     })
     const [addStudent, addStudentResult] = AdminApi.Rtos.useRtoAddStudent()
     // auth api to get sectors
-    const sectorResponse = AuthApi.useSectors({})
+    const rtoCourses = useGetSubAdminRTOCoursesQuery(
+        Number(router?.query?.id),
+        {
+            skip: !router?.query?.id,
+        }
+    )
 
     // get sectors
-    const onSectorChanged = (sectors: any) => {
-        setCourseLoading(true)
-        const filteredCourses = sectors.map((selectedSector: any) => {
-            const sectorExisting = sectorResponse.data?.find(
-                (sector: any) => sector.id === selectedSector.value
-            )
-            if (sectorExisting && sectorExisting?.courses?.length) {
-                return sectorExisting.courses
-            }
-        })
 
-        const newCourseOptions: any = []
-        filteredCourses.map((courseList: any) => {
-            if (courseList && courseList.length) {
-                return courseList.map((course: any) =>
-                    newCourseOptions.push({
-                        label: course.title,
-                        value: course.id,
-                    })
-                )
-            }
-        })
-
-        setCourseOptions(newCourseOptions)
-        setCourseLoading(false)
-    }
-    useEffect(() => {
-        if (sectorResponse.data?.length) {
-            const options = sectorResponse.data?.map((sector: Sector) => ({
-                label: sector.name,
-                value: sector.id,
-            }))
-            setSectorOptions(options)
-        }
-    }, [sectorResponse.data])
-    useEffect(() => {
-        if (SignUpUtils.getEditingMode()) {
-            const values = SignUpUtils.getValuesFromStorage()
-            setStoredData(values)
-            setCourseOptions(values.courses)
-        }
-    }, [])
+    const courseOptions =
+        rtoCourses.isSuccess && rtoCourses?.data && rtoCourses?.data?.length > 0
+            ? rtoCourses?.data?.map((course: Course) => ({
+                  label: course?.title,
+                  value: course?.id,
+              }))
+            : []
 
     const validationSchema = yup.object({
         // Profile Information
@@ -83,6 +55,8 @@ export const AddIndividualStudentForm = () => {
             .matches(onlyAlphabets(), 'Please enter valid name')
             .required('Must provide your name'),
         studentId: yup.string().required('Must provide your student Id'),
+        batch: yup.string().required('Must provide your Batch'),
+
         phone: yup.string().required('Must provide your phone number'),
 
         email: yup
@@ -178,6 +152,23 @@ export const AddIndividualStudentForm = () => {
                             />
 
                             <TextInput
+                                label={'Email'}
+                                type={'email'}
+                                name={'email'}
+                                placeholder={'Email...'}
+                                validationIcons
+                                required
+                            />
+
+                            <TextInput
+                                label={'Batch'}
+                                name={'batch'}
+                                placeholder={'Batch...'}
+                                validationIcons
+                                required
+                            />
+
+                            <TextInput
                                 label={'Phone No'}
                                 name={'phone'}
                                 placeholder={'Phone No...'}
@@ -193,32 +184,13 @@ export const AddIndividualStudentForm = () => {
                             </div>
 
                             <Select
-                                label={'Sector'}
-                                {...(storedData
-                                    ? {
-                                          defaultValue: storedData.sectors,
-                                      }
-                                    : {})}
-                                name={'sectors'}
-                                options={sectorOptions}
-                                placeholder={'Select Sectors...'}
-                                multi
-                                loading={sectorResponse.isLoading}
-                                onChange={onSectorChanged}
-                                validationIcons
-                            />
-                            <Select
                                 label={'Courses'}
                                 name={'courses'}
                                 defaultValue={courseOptions}
                                 options={courseOptions}
                                 multi
-                                loading={courseLoading}
-                                disabled={
-                                    storedData
-                                        ? storedData?.courses?.length === 0
-                                        : courseOptions?.length === 0
-                                }
+                                loading={rtoCourses.isLoading}
+                                disabled={rtoCourses.isLoading}
                                 validationIcons
                             />
                             <TextInput
@@ -230,16 +202,7 @@ export const AddIndividualStudentForm = () => {
                                 type="date"
                             />
                         </div>
-                        <div className="w-full grid grid-cols-1 gap-x-8">
-                            <TextInput
-                                label={'Email'}
-                                type={'email'}
-                                name={'email'}
-                                placeholder={'Email...'}
-                                validationIcons
-                                required
-                            />
-                        </div>
+
                         <Button
                             submit
                             text={'Add'}

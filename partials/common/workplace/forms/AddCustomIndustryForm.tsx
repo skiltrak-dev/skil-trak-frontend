@@ -1,19 +1,19 @@
-import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
+import { useEffect, useState } from 'react'
 
-import { FormProvider, useForm } from 'react-hook-form'
 import _debounce from 'lodash/debounce'
+import { FormProvider, useForm } from 'react-hook-form'
 import * as yup from 'yup'
 
 import { useNotification } from '@hooks'
 import { AuthApi } from '@queries'
 import { isEmailValid, onlyAlphabets, SignUpUtils } from '@utils'
 
-import { Button, Checkbox, Select, TextInput, Card } from '@components'
+import { Button, Card, Checkbox, Select, TextInput } from '@components'
 import { yupResolver } from '@hookform/resolvers/yup'
-import { IoIosArrowRoundBack } from 'react-icons/io'
 import { Course } from '@types'
+import { IoIosArrowRoundBack } from 'react-icons/io'
 
 export const AddCustomIndustryForm = ({
     setWorkplaceData,
@@ -74,7 +74,7 @@ export const AddCustomIndustryForm = ({
         phoneNumber: yup.string().required('Must provide phone number'),
 
         // Contact Person Information
-        contactPersonName: yup.string(),
+        contactPerson: yup.string(),
         contactPersonEmail: yup.string().email('Must be a valid email'),
         contactPersonNumber: yup.string(),
 
@@ -180,7 +180,7 @@ export const AddCustomIndustryForm = ({
                                 />
                                 <TextInput
                                     label={'Contact Person Name'}
-                                    name={'contactPersonName'}
+                                    name={'contactPerson'}
                                     placeholder={'Contact Person Name...'}
                                     validationIcons
                                     required

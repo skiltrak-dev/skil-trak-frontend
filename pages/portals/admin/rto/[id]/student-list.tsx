@@ -45,8 +45,6 @@ const RtoStudentLists: NextPageWithLayout = () => {
             : []
 
     const onSubmit = async (values: ImportStudentFormType) => {
-        // const courses = values?.courses?.map((c: OptionType) => c.value)
-
         // const formData = new FormData()
         // courses?.forEach((c: any) => {
         //     formData.append('courses[]', c)
@@ -87,7 +85,6 @@ const RtoStudentLists: NextPageWithLayout = () => {
                 id: Number(router.query.id),
                 body: {
                     ...values,
-                    // courses: courses as number[],
                     list,
                 },
             })
