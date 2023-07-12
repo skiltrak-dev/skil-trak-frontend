@@ -84,11 +84,13 @@ export const ExistinIndustryCard = ({
 
                 <div className="-mt-2 bg-secondary-dark py-2 px-4 rounded-lg flex justify-between items-center">
                     <div className="flex items-center gap-x-2">
-                        <InitialAvatar
-                            name={industry?.user?.name}
-                            imageUrl={industry?.user?.avatar}
-                            large
-                        />
+                        {industry?.user?.name && (
+                            <InitialAvatar
+                                name={industry?.user?.name}
+                                imageUrl={industry?.user?.avatar}
+                                large
+                            />
+                        )}
                         <div>
                             {/* <Typography variant={'muted'} color={'gray'}>
                         5km away

@@ -42,46 +42,8 @@ const AdminDashboard: NextPageWithLayout = () => {
         }
     }, [])
 
-    const obtainedSeconds = 106
-    const totalSeconds = 199
-
-    const width = `${(obtainedSeconds / totalSeconds) * 100}%`
-
     return (
         <div className="flex flex-col gap-y-6 pb-8 px-6 pt-6 ">
-            {/* <div className="w-full">
-                <div className="border rounded w-full h-8">
-                    <div
-                        className={`${width} h-full bg-gray-600 flex items-center`}
-                        style={{
-                            width,
-                        }}
-                    >
-                        <div className="w-full h-1.5 bg-gray-800"></div>
-                    </div>
-                </div>
-                <div className="flex justify-between w-full mt-3">
-                    {[...Array(totalSeconds)]?.map((num, i, originalArray) => (
-                        <div className="flex flex-col items-center relative">
-                            {i % 10 === 0 && (
-                                <span className="h-4 w-[0.5px] bg-gray-600"></span>
-                            )}
-                            {i % 5 === 0 && i % 10 !== 0 && (
-                                <span className="h-4 w-[0.5px] bg-gray-400"></span>
-                            )}
-                            <span className="text-[9px] absolute top-full">
-                                {i % 10 === 0 ? i : null}
-                            </span>
-                        </div>
-                    ))}
-                    <div className="flex flex-col items-center relative">
-                        <span className="h-4 w-[0.5PX] bg-gray-600"></span>
-                        <span className="text-[9px] absolute top-full">
-                            {totalSeconds}
-                        </span>
-                    </div>
-                </div>
-            </div> */}
             {/* Admin Welcome Message */}
             <div className="relative pt-6">
                 <div className="absolute right-8 -top-8">

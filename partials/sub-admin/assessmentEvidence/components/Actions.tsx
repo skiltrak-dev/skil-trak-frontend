@@ -1,5 +1,5 @@
-import { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
+import { useCallback, useEffect } from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
 import * as Yup from 'yup'
 
@@ -13,23 +13,24 @@ import {
 } from '@components'
 
 // query
-import { useSubmitAssessmentEvidenceMutation } from '@queries'
-import { useNotification } from '@hooks'
-import { getUserCredentials } from '@utils'
-import { yupResolver } from '@hookform/resolvers/yup'
 import { Result, UserRoles } from '@constants'
-import { AssessmentFinalCommentFormType } from '@types'
+import { yupResolver } from '@hookform/resolvers/yup'
+import { useNotification } from '@hooks'
+import { useSubmitAssessmentEvidenceMutation } from '@queries'
+import { AssessmentFinalCommentFormType, Course } from '@types'
+import { getUserCredentials } from '@utils'
 
 export const Actions = ({
     result,
+    course,
     studentId,
     setEditAssessment,
 }: {
-    studentId: number
     result: any
+    course: Course
+    studentId: number
     setEditAssessment: any
 }) => {
-    const [selectedResult, setSelectedResult] = useState<string>('')
     const pathname = useRouter()
     const { notification } = useNotification()
 
@@ -46,6 +47,22 @@ export const Actions = ({
         mode: 'all',
         resolver: yupResolver(validationSchema),
     })
+
+    const handleUpdate = useCallback((e: Result) => {
+        const finalComment = () => {
+            switch (e) {
+                case Result.Competent:
+                    return `Well done on successfully completing your placement with SkilTrak! You have met all the requirements of your practical component for unit ${course?.code} ${course?.title}. We are pleased to provide you with a Satisfactory result. `
+
+                case Result.NotCompetent:
+                    return `Thank you for submitting your placement documents for unit ${course?.code} ${course?.title}. However, there are still some sections that have missing/incorrect information. Please review your work and follow my feedback provided to assist you with your second submission. If you need any assistance, please contact us to book a Coaching Call. `
+
+                default:
+                    return ''
+            }
+        }
+        methods.setValue('finalComment', finalComment())
+    }, [])
 
     const role = getUserCredentials()?.role
 
@@ -164,9 +181,7 @@ export const Actions = ({
                             <Select
                                 label={'Result'}
                                 name={'result'}
-                                onChange={(e: any) => {
-                                    setSelectedResult(e?.value)
-                                }}
+                                onChange={handleUpdate}
                                 options={ResultOptions}
                                 menuPlacement={'top'}
                                 onlyValue
@@ -175,6 +190,7 @@ export const Actions = ({
                         <div className="col-span-2">
                             <TextArea
                                 label={'Comment'}
+                                rows={5}
                                 name={'finalComment'}
                                 placeholder={'Write Your Comment'}
                             />

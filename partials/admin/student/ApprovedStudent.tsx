@@ -18,7 +18,7 @@ import { FaEdit, FaEye } from 'react-icons/fa'
 
 import { RtoCellInfo } from '@partials/admin/rto/components'
 import { AdminApi } from '@queries'
-import { Industry, Student, UserStatus } from '@types'
+import { Student, UserStatus } from '@types'
 import { checkListLength, setLink, studentsListWorkplace } from '@utils'
 import { useRouter } from 'next/router'
 import { ReactElement, useEffect, useState } from 'react'
@@ -44,9 +44,6 @@ export const ApprovedStudent = () => {
 
     const [itemPerPage, setItemPerPage] = useState(50)
     const [page, setPage] = useState(1)
-    const [changeExpiryData, setChangeExpiryData] = useState(false)
-    const [statusSuccessResult, setStatusSuccessResult] =
-        useState<boolean>(false)
 
     useEffect(() => {
         setPage(Number(router.query.page || 1))
@@ -103,7 +100,6 @@ export const ApprovedStudent = () => {
                 studentId={student?.user?.id}
                 date={student?.expiryDate}
                 onCancel={onModalCancelClicked}
-                changeExpiryData={setChangeExpiryData}
             />
         )
     }

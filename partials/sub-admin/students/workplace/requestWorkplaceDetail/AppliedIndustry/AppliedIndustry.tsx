@@ -75,13 +75,19 @@ export const AppliedIndustry = ({
                     <div className="py-2 px-4 rounded-lg flex justify-between items-start">
                         <div>
                             <div className="flex items-center gap-x-2">
-                                <InitialAvatar
-                                    name={appliedIndustry?.industry?.user?.name}
-                                    imageUrl={
-                                        appliedIndustry?.industry?.user?.avatar
-                                    }
-                                    large
-                                />
+                                {appliedIndustry?.industry?.user?.name && (
+                                    <InitialAvatar
+                                        name={
+                                            appliedIndustry?.industry?.user
+                                                ?.name
+                                        }
+                                        imageUrl={
+                                            appliedIndustry?.industry?.user
+                                                ?.avatar
+                                        }
+                                        large
+                                    />
+                                )}
                                 <div>
                                     <Typography
                                         variant={'xs'}
@@ -115,12 +121,15 @@ export const AppliedIndustry = ({
                                 </p>
                                 {workplaceRequest?.assignedTo ? (
                                     <div className="flex items-center gap-x-2">
-                                        <InitialAvatar
-                                            name={
-                                                workplaceRequest?.assignedTo
-                                                    .user.name
-                                            }
-                                        />
+                                        {workplaceRequest?.assignedTo.user
+                                            .name && (
+                                            <InitialAvatar
+                                                name={
+                                                    workplaceRequest?.assignedTo
+                                                        .user.name
+                                                }
+                                            />
+                                        )}
                                         <span className="text-sm">
                                             {
                                                 workplaceRequest?.assignedTo

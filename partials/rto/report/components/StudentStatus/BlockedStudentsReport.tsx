@@ -37,10 +37,12 @@ export const BlockedStudentsReport = ({ user }: { user?: number }) => {
             cell: (info: any) => {
                 return (
                     <a className="flex items-center gap-x-2">
-                        <InitialAvatar
-                            name={info?.row?.original?.user?.name}
-                            imageUrl={info?.row?.original?.user?.avatar}
-                        />
+                        {info?.row?.original?.user?.name && (
+                            <InitialAvatar
+                                name={info?.row?.original?.user?.name}
+                                imageUrl={info?.row?.original?.user?.avatar}
+                            />
+                        )}
                         <div className="flex flex-col">
                             <span>{info?.row?.original?.studentId}</span>
                             <span>{info?.row?.original?.user?.name}</span>
