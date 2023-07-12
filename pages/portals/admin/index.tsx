@@ -42,8 +42,10 @@ const AdminDashboard: NextPageWithLayout = () => {
         }
     }, [])
 
+    const obtainedSeconds = 106
+    const totalSeconds = 199
 
-    const width = `${(218 / 219) * 100}%`
+    const width = `${(obtainedSeconds / totalSeconds) * 100}%`
 
     return (
         <div className="flex flex-col gap-y-6 pb-8 px-6 pt-6 ">
@@ -58,21 +60,25 @@ const AdminDashboard: NextPageWithLayout = () => {
                         <div className="w-full h-1.5 bg-gray-800"></div>
                     </div>
                 </div>
-                <div className="flex justify-between w-full">
-                    {[...Array(219 - 1)]?.map((num, i, originalArray) => (
-                        <div className="flex flex-col items-center">
+                <div className="flex justify-between w-full mt-3">
+                    {[...Array(totalSeconds)]?.map((num, i, originalArray) => (
+                        <div className="flex flex-col items-center relative">
                             {i % 10 === 0 && (
-                                <div className="h-6 w-0.5 bg-gray-600"></div>
+                                <span className="h-4 w-[0.5px] bg-gray-600"></span>
                             )}
                             {i % 5 === 0 && i % 10 !== 0 && (
-                                <div className="h-6 w-[1px] bg-gray-400"></div>
+                                <span className="h-4 w-[0.5px] bg-gray-400"></span>
                             )}
-                            <p>{i % 10 === 0 ? i : null}</p>
+                            <span className="text-[9px] absolute top-full">
+                                {i % 10 === 0 ? i : null}
+                            </span>
                         </div>
                     ))}
-                    <div className="flex flex-col items-center">
-                        <div className="h-6 w-0.5 bg-gray-700"></div>
-                        <p>{219}</p>
+                    <div className="flex flex-col items-center relative">
+                        <span className="h-4 w-[0.5PX] bg-gray-600"></span>
+                        <span className="text-[9px] absolute top-full">
+                            {totalSeconds}
+                        </span>
                     </div>
                 </div>
             </div> */}

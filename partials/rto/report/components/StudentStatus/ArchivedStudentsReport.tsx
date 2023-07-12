@@ -1,7 +1,6 @@
 import {
     ActionButton,
     AuthorizedUserComponent,
-    EmptyData,
     InitialAvatar,
     LoadingAnimation,
     NoData,
@@ -9,14 +8,12 @@ import {
     TechnicalError,
     Typography,
 } from '@components'
-import { CourseDot } from '@partials/rto/student/components'
-import React, { useState } from 'react'
+import { UserRoles } from '@constants'
 import { RtoApi } from '@queries'
 import { ColumnDef } from '@tanstack/react-table'
-import { Course, ReportOptionsEnum } from '@types'
-import { ViewFullListReport } from '../../ViewFullListReport'
+import { ReportOptionsEnum } from '@types'
 import { useRouter } from 'next/router'
-import { UserRoles } from '@constants'
+import { useState } from 'react'
 import { Waypoint } from 'react-waypoint'
 type Props = {
     user?: number

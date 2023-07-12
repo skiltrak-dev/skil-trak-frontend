@@ -1,7 +1,6 @@
 import {
     ActionButton,
     AuthorizedUserComponent,
-    EmptyData,
     InitialAvatar,
     LoadingAnimation,
     NoData,
@@ -16,16 +15,27 @@ import { ReportOptionsEnum } from '@types'
 import { useRouter } from 'next/router'
 import { useState } from 'react'
 import { Waypoint } from 'react-waypoint'
+import { FilterReport } from '../../FilterReport'
 
 export const ReportedStudents = ({ user }: { user?: number }) => {
     const [renderComponent, setRenderComponent] = useState(false)
     const [itemPerPage, setItemPerPage] = useState(50)
     const [page, setPage] = useState(1)
     const router = useRouter()
+    const monthEnd = new Date()
+    monthEnd.setDate(monthEnd.getDate() - 30)
+    const [startDate, setStartDate] = useState<Date>(monthEnd)
+    const [endDate, setEndDate] = useState<Date>(new Date())
+
+    let end = new Date(endDate)
+    end.setDate(end.getDate() + 1)
+
     const { data, isLoading, isError } =
         RtoApi.Students.useReportedStudentsReport(
             {
                 user,
+                startDate: startDate.toISOString().slice(0, 10),
+                endDate: end.toISOString().slice(0, 10),
                 skip: itemPerPage * page - itemPerPage,
                 limit: itemPerPage,
             },
@@ -54,13 +64,44 @@ export const ReportedStudents = ({ user }: { user?: number }) => {
         {
             accessorKey: 'email',
             header: () => <span>Email</span>,
-            cell: (info) => {
-                return <span>{info?.row?.original?.user?.email}</span>
-            },
+            cell: (info) => <span>{info?.row?.original?.user?.email}</span>,
         },
         {
             accessorKey: 'phone',
             header: () => <span>Phone</span>,
+        },
+        {
+            accessorKey: 'reports',
+            header: () => <span>Comment</span>,
+            cell: (info) => (
+                <span>{info?.row?.original?.reports?.[0]?.comment}</span>
+            ),
+        },
+        {
+            accessorKey: 'industry',
+            header: () => <span>Industry</span>,
+            cell: (info) => (
+                <a className="flex items-center gap-x-2">
+                    <InitialAvatar
+                        name={
+                            info?.row?.original?.reports?.[0]?.industry?.user
+                                ?.name
+                        }
+                        imageUrl={
+                            info?.row?.original?.reports?.[0]?.industry?.user
+                                ?.avatar
+                        }
+                    />
+                    <div className="flex flex-col">
+                        <span>
+                            {
+                                info?.row?.original?.reports?.[0]?.industry
+                                    ?.user?.name
+                            }
+                        </span>
+                    </div>
+                </a>
+            ),
         },
         {
             accessorKey: 'courses',
@@ -95,39 +136,47 @@ export const ReportedStudents = ({ user }: { user?: number }) => {
                         <Typography variant="h3">{count || 0}</Typography>
                     </div>
 
-                    <AuthorizedUserComponent roles={[UserRoles.ADMIN]}>
-                        <ActionButton
-                            onClick={() => {
-                                router.push(
-                                    `/portals/admin/rto/${router.query?.id}/${ReportOptionsEnum.REPORTED_STUDENTS}`
-                                )
-                            }}
-                        >
-                            View Full List
-                        </ActionButton>
-                    </AuthorizedUserComponent>
-                    <AuthorizedUserComponent roles={[UserRoles.SUBADMIN]}>
-                        <ActionButton
-                            onClick={() => {
-                                router.push(
-                                    `/portals/sub-admin/users/rtos/${router.query?.id}/${ReportOptionsEnum.REPORTED_STUDENTS}`
-                                )
-                            }}
-                        >
-                            View Full List
-                        </ActionButton>
-                    </AuthorizedUserComponent>
-                    <AuthorizedUserComponent roles={[UserRoles.RTO]}>
-                        <ActionButton
-                            onClick={() => {
-                                router.push(
-                                    `/portals/rto/report/${ReportOptionsEnum.REPORTED_STUDENTS}`
-                                )
-                            }}
-                        >
-                            View Full List
-                        </ActionButton>
-                    </AuthorizedUserComponent>
+                    <div className="flex items-center gap-x-4">
+                        <FilterReport
+                            startDate={startDate}
+                            setStartDate={setStartDate}
+                            endDate={endDate}
+                            setEndDate={setEndDate}
+                        />
+                        <AuthorizedUserComponent roles={[UserRoles.ADMIN]}>
+                            <ActionButton
+                                onClick={() => {
+                                    router.push(
+                                        `/portals/admin/rto/${router.query?.id}/${ReportOptionsEnum.REPORTED_STUDENTS}`
+                                    )
+                                }}
+                            >
+                                View Full List
+                            </ActionButton>
+                        </AuthorizedUserComponent>
+                        <AuthorizedUserComponent roles={[UserRoles.SUBADMIN]}>
+                            <ActionButton
+                                onClick={() => {
+                                    router.push(
+                                        `/portals/sub-admin/users/rtos/${router.query?.id}/${ReportOptionsEnum.REPORTED_STUDENTS}`
+                                    )
+                                }}
+                            >
+                                View Full List
+                            </ActionButton>
+                        </AuthorizedUserComponent>
+                        <AuthorizedUserComponent roles={[UserRoles.RTO]}>
+                            <ActionButton
+                                onClick={() => {
+                                    router.push(
+                                        `/portals/rto/report/${ReportOptionsEnum.REPORTED_STUDENTS}`
+                                    )
+                                }}
+                            >
+                                View Full List
+                            </ActionButton>
+                        </AuthorizedUserComponent>
+                    </div>
                 </div>
                 {isError && <TechnicalError />}
                 {isLoading ? (
