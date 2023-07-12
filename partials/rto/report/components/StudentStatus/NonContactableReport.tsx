@@ -1,7 +1,6 @@
 import {
     ActionButton,
     AuthorizedUserComponent,
-    EmptyData,
     InitialAvatar,
     LoadingAnimation,
     NoData,
@@ -9,14 +8,14 @@ import {
     TechnicalError,
     Typography,
 } from '@components'
+import { UserRoles } from '@constants'
 import { RtoApi } from '@queries'
 import { ColumnDef } from '@tanstack/react-table'
 import { ReportOptionsEnum } from '@types'
 import { useRouter } from 'next/router'
-import { useEffect, useState } from 'react'
-import { FilterReport } from '../../FilterReport'
-import { UserRoles } from '@constants'
+import { useState } from 'react'
 import { Waypoint } from 'react-waypoint'
+import { FilterReport } from '../../FilterReport'
 type Props = {
     // startDate: Date
     // setStartDate: (startDate: Date) => void
@@ -41,12 +40,15 @@ export const NonContactableReport = ({
     const [page, setPage] = useState(1)
     const router = useRouter()
 
+    let end = new Date(endDate)
+    end.setDate(end.getDate() + 1)
+
     const { data, isLoading, isError } =
         RtoApi.Students.useGetNotContactableStudents(
             {
                 user,
                 startDate: startDate.toISOString().slice(0, 10),
-                endDate: endDate.toISOString().slice(0, 10),
+                endDate: end.toISOString().slice(0, 10),
                 skip: itemPerPage * page - itemPerPage,
                 limit: itemPerPage,
             },

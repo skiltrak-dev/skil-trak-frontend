@@ -9,8 +9,8 @@ import { DownloadLoader } from './DownloadLoader'
 
 export const ReportListModal = ({ onClose }: any) => {
     const [filterReports, setFilterReports] = useState({
-        label: 'Weekly',
-        value: 'weekly',
+        label: 'Monthly',
+        value: 'monthly',
     })
     const [isPdfDownload, setIsPdfDownload] = useState<boolean>(false)
     const [startDate, setStartDate] = useState('')
@@ -89,7 +89,7 @@ export const ReportListModal = ({ onClose }: any) => {
                                             onChange={handleStartDateChange}
                                             disabled={
                                                 filterReports?.value ===
-                                                'weekly'
+                                                'monthly'
                                             }
                                             type="date"
                                         />
@@ -102,7 +102,7 @@ export const ReportListModal = ({ onClose }: any) => {
                                             onChange={handleEndDateChange}
                                             disabled={
                                                 filterReports?.value ===
-                                                'weekly'
+                                                'monthly'
                                             }
                                             type="date"
                                         />
