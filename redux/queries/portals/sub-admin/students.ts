@@ -1,6 +1,12 @@
 import { BaseQueryFn } from '@reduxjs/toolkit/dist/query/baseQueryTypes'
 import { EndpointBuilder } from '@reduxjs/toolkit/dist/query/endpointDefinitions'
-import { PaginatedResponse, Student, UserCount, UserStatus,StudentStatusEnum } from '@types'
+import {
+    PaginatedResponse,
+    Student,
+    UserCount,
+    UserStatus,
+    StudentStatusEnum,
+} from '@types'
 
 const PREFIX = 'subadmin'
 export const studentsEndpoints = (
@@ -380,6 +386,13 @@ export const studentsEndpoints = (
             url: `subadmin/add-another/workplace/${studentId}`,
             method: 'POST',
             body,
+        }),
+        invalidatesTags: ['Students', 'SubAdminStudents'],
+    }),
+    downloadStudentCSV: builder.mutation<any, void>({
+        query: () => ({
+            url: `subadmin/students/download/csv`,
+            method: 'POST',
         }),
         invalidatesTags: ['Students', 'SubAdminStudents'],
     }),

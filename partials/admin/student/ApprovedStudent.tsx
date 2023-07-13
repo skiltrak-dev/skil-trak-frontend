@@ -66,35 +66,35 @@ export const ApprovedStudent = () => {
     const onModalCancelClicked = useCallback(() => {
         setModal(null)
     }, [])
-    const onBlockClicked = useCallback((student: Student) => {
+    const onBlockClicked = (student: Student) => {
         setModal(<BlockModal item={student} onCancel={onModalCancelClicked} />)
-    }, [])
+    }
 
-    const onBlockMultiStudents = useCallback((student: Student[]) => {
+    const onBlockMultiStudents = (student: Student[]) => {
         setModal(
             <BlockMultiStudentsModal
                 onCancel={onModalCancelClicked}
                 student={student}
             />
         )
-    }, [])
+    }
 
-    const onArchiveClicked = useCallback((student: Student) => {
+    const onArchiveClicked = (student: Student) => {
         setModal(
             <ArchiveModal item={student} onCancel={onModalCancelClicked} />
         )
-    }, [])
+    }
 
-    const onChangeStatus = useCallback((student: Student) => {
+    const onChangeStatus = (student: Student) => {
         setModal(
             <ChangeStatusModal
                 student={student}
                 onCancel={onModalCancelClicked}
             />
         )
-    }, [])
+    }
 
-    const onDateClick = useCallback((student: Student) => {
+    const onDateClick = (student: Student) => {
         setModal(
             <EditTimer
                 studentId={student?.user?.id}
@@ -102,7 +102,7 @@ export const ApprovedStudent = () => {
                 onCancel={onModalCancelClicked}
             />
         )
-    }, [])
+    }
 
     const tableActionOptions: TableActionOption[] = [
         {

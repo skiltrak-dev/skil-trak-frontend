@@ -166,7 +166,7 @@ const routes: Route[] = [
     },
 ]
 
-export const AdminLayout = ({ children }: any) => {
+export const AdminLayout = ({ children }: { children: ReactNode }) => {
     return (
         <ProtectedRoute>
             <div className="flex w-full h-screen overflow-hidden bg-[#F9FAFB]">

@@ -227,6 +227,7 @@ const ProvideWorkplaceDetail: NextPageWithLayout = (props: Props) => {
                                             setActive={setActive}
                                             workplace={workplace}
                                             userId={data?.user?.id}
+                                            studentProvidedWorkplace
                                         />
                                     ) : workplaceData[0]?.industryStatus ===
                                       'rejected' ? (

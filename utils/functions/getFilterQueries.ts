@@ -21,11 +21,10 @@ export const getFilterQuery = <Type>({
     return Object.keys(query)?.length > 0 ? (query as Type | QueryType) : {}
 }
 
-export const queryToUrl = (query: QueryType) => {
-    return Object.entries(query)
+export const queryToUrl = (query: QueryType) =>
+    Object.entries(query)
         .map(([key, value]) => `${key}=${value}`)
         .join('&')
-}
 
 export const setFilterValues = <T>({
     router,
