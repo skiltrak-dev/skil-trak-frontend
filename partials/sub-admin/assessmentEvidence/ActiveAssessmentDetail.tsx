@@ -44,6 +44,7 @@ import { useRouter } from 'next/router'
 import { AiFillDelete } from 'react-icons/ai'
 import { FaDownload } from 'react-icons/fa'
 import { SignAgreement } from '../workplace/components/Industries/components/Actions/components'
+import { Student } from '@types'
 
 const AgreementFile = 'agreementFile'
 
@@ -629,6 +630,7 @@ export const ActiveAssessmentDetail = ({
                             studentId={studentId}
                             result={results}
                             setEditAssessment={setEditAssessment}
+                            course={selectedCourse}
                         />
                     )}
                     <FinalResult

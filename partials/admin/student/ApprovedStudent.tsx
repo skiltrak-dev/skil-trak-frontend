@@ -18,10 +18,10 @@ import { FaEdit, FaEye } from 'react-icons/fa'
 
 import { RtoCellInfo } from '@partials/admin/rto/components'
 import { AdminApi } from '@queries'
-import { Industry, Student, UserStatus } from '@types'
+import { Student, UserStatus } from '@types'
 import { checkListLength, setLink, studentsListWorkplace } from '@utils'
 import { useRouter } from 'next/router'
-import { ReactElement, useEffect, useState } from 'react'
+import { ReactElement, useCallback, useEffect, useState } from 'react'
 import { MdBlock } from 'react-icons/md'
 import { RiLockPasswordFill } from 'react-icons/ri'
 import { IndustryCell } from '../industry/components'
@@ -44,9 +44,6 @@ export const ApprovedStudent = () => {
 
     const [itemPerPage, setItemPerPage] = useState(50)
     const [page, setPage] = useState(1)
-    const [changeExpiryData, setChangeExpiryData] = useState(false)
-    const [statusSuccessResult, setStatusSuccessResult] =
-        useState<boolean>(false)
 
     useEffect(() => {
         setPage(Number(router.query.page || 1))
@@ -66,47 +63,46 @@ export const ApprovedStudent = () => {
             { refetchOnMountOrArgChange: true }
         )
 
-    const onModalCancelClicked = () => {
+    const onModalCancelClicked = useCallback(() => {
         setModal(null)
-    }
-    const onBlockClicked = (student: Student) => {
+    }, [])
+    const onBlockClicked = useCallback((student: Student) => {
         setModal(<BlockModal item={student} onCancel={onModalCancelClicked} />)
-    }
+    }, [])
 
-    const onBlockMultiStudents = (student: Student[]) => {
+    const onBlockMultiStudents = useCallback((student: Student[]) => {
         setModal(
             <BlockMultiStudentsModal
                 onCancel={onModalCancelClicked}
                 student={student}
             />
         )
-    }
+    }, [])
 
-    const onArchiveClicked = (student: Student) => {
+    const onArchiveClicked = useCallback((student: Student) => {
         setModal(
             <ArchiveModal item={student} onCancel={onModalCancelClicked} />
         )
-    }
+    }, [])
 
-    const onChangeStatus = (student: Student) => {
+    const onChangeStatus = useCallback((student: Student) => {
         setModal(
             <ChangeStatusModal
                 student={student}
                 onCancel={onModalCancelClicked}
             />
         )
-    }
+    }, [])
 
-    const onDateClick = (student: Student) => {
+    const onDateClick = useCallback((student: Student) => {
         setModal(
             <EditTimer
                 studentId={student?.user?.id}
                 date={student?.expiryDate}
                 onCancel={onModalCancelClicked}
-                changeExpiryData={setChangeExpiryData}
             />
         )
-    }
+    }, [])
 
     const tableActionOptions: TableActionOption[] = [
         {

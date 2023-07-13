@@ -1,6 +1,6 @@
 import { BaseQueryFn } from '@reduxjs/toolkit/dist/query/baseQueryTypes'
 import { EndpointBuilder } from '@reduxjs/toolkit/dist/query/endpointDefinitions'
-import { Course, RtoStatsCount } from '@types'
+import { Course, Rto, RtoStatsCount } from '@types'
 
 const PREFIX = 'subadmin'
 export const subAdminRtoEndpoints = (
@@ -15,6 +15,10 @@ export const subAdminRtoEndpoints = (
             url: `${PREFIX}/rtos/list`,
             params,
         }),
+        providesTags: ['SubAdminRtos'],
+    }),
+    getSubAdminRtosFilterList: builder.query<Rto[], void>({
+        query: () => `${PREFIX}/rtos/filter-list`,
         providesTags: ['SubAdminRtos'],
     }),
     getSubAdminRTODetail: builder.query<any, number>({

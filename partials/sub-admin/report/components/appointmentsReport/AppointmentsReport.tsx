@@ -85,40 +85,33 @@ export const AppointmentsReport = ({
         {
             accessorKey: 'appointmentFor',
             header: () => <span>Appointment For</span>,
-            cell: (info) => {
-                console.log('kaka e leer', info.row.original?.appointmentFor)
-                // const { appointmentFor: { name, id, avatar } } = info.row.original;
-                return (
-                    <a className="flex items-center gap-x-2">
-                        <InitialAvatar
-                            name={
-                                info?.row?.original?.appointmentFor?.name ||
-                                'N/A'
-                            }
-                            imageUrl={info.row.original?.appointmentFor?.avatar}
-                        />
-                        <div className="flex flex-col">
-                            {info.row.original?.appointmentFor?.role ===
-                                UserRoles.STUDENT && (
-                                <span>
-                                    {
-                                        info.row.original?.appointmentFor
-                                            ?.student?.studentId
-                                    }
-                                </span>
-                            )}
+            cell: (info) => (
+                <a className="flex items-center gap-x-2">
+                    <InitialAvatar
+                        name={
+                            info?.row?.original?.appointmentFor?.name || 'N/A'
+                        }
+                        imageUrl={info.row.original?.appointmentFor?.avatar}
+                    />
+                    <div className="flex flex-col">
+                        {info.row.original?.appointmentFor?.role ===
+                            UserRoles.STUDENT && (
                             <span>
-                                {info.row.original.appointmentFor?.name ||
-                                    'N/A'}
+                                {
+                                    info.row.original?.appointmentFor?.student
+                                        ?.studentId
+                                }
                             </span>
-                            <span>
-                                {info.row.original.appointmentFor?.email ||
-                                    'N/A'}
-                            </span>
-                        </div>
-                    </a>
-                )
-            },
+                        )}
+                        <span>
+                            {info.row.original.appointmentFor?.name || 'N/A'}
+                        </span>
+                        <span>
+                            {info.row.original.appointmentFor?.email || 'N/A'}
+                        </span>
+                    </div>
+                </a>
+            ),
         },
         {
             accessorKey: 'courses',
