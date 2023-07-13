@@ -114,6 +114,13 @@ const SubAdminTasks: NextPageWithLayout = () => {
                 loading: statistics.isLoading,
             },
         },
+        {
+            title: 'My Student Report',
+            description: 'My Student Report',
+            link: 'tasks/my-students-report',
+            animation: Animations.Student.Appointments.AssessmentEvidence,
+            id: 'my-student-report',
+        },
     ]
 
     // WORKPLACE JOY RIDE - END

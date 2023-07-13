@@ -19,6 +19,7 @@ type Props = {
     workplaceCancelRequest: any
     workplaceRequest: any
     studentAdded?: boolean
+    studentProvidedWorkplace?: boolean
 }
 
 export const AppliedIndustry = ({
@@ -28,6 +29,7 @@ export const AppliedIndustry = ({
     workplaceCancelRequest,
     workplaceRequest,
     studentAdded,
+    studentProvidedWorkplace,
 }: Props) => {
     const getNextStep = () => {
         switch (status) {
@@ -145,7 +147,9 @@ export const AppliedIndustry = ({
                             </div>
                         </div>
 
-                        <div>{getNextStep()}</div>
+                        {!studentProvidedWorkplace && (
+                            <div>{getNextStep()}</div>
+                        )}
                     </div>
 
                     {workplaceCancelRequest(true)}

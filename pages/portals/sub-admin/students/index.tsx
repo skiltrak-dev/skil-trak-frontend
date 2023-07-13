@@ -22,6 +22,8 @@ import {
     TabNavigation,
     TabProps,
     TextInput,
+    TableAction,
+    TableActionOption,
 } from '@components'
 import {
     AllStudents,
@@ -41,8 +43,14 @@ import { useContextBar } from '@hooks'
 
 //Layouts
 import { SubAdminLayout } from '@layouts'
-import { checkFilteredDataLength, getCountData, getFilterQuery } from '@utils'
+import {
+    checkFilteredDataLength,
+    getCountData,
+    getFilterQuery,
+    getUserCredentials,
+} from '@utils'
 import { useRouter } from 'next/router'
+import { FaEye } from 'react-icons/fa'
 
 type Props = {}
 
@@ -100,6 +108,8 @@ const Students: NextPageWithLayout = (props: Props) => {
             }).length,
         }
     )
+    const [downloadCSV, downloadCSVResult] =
+        SubAdminApi.Student.useDownloadStudentCSV()
 
     const studentCount = getCountData<{ [key: string]: number }>(count?.data)
 
@@ -167,6 +177,10 @@ const Students: NextPageWithLayout = (props: Props) => {
         []
     )
 
+    // SubAdminApi
+    // Student
+    // useDownloadStudentCSV
+
     const filteredDataLength = checkFilteredDataLength({
         ...filter,
         ...(studentId?.studentId ? studentId : {}),
@@ -190,6 +204,22 @@ const Students: NextPageWithLayout = (props: Props) => {
                         />
                     </div>
                     <div className="flex-shrink-0">{filterAction}</div>
+                    {/* <div>
+                        <a
+                            href={`${
+                                process.env.NEXT_PUBLIC_END_POINT
+                            }/subadmin/students/download/csv/${
+                                getUserCredentials()?.id
+                            }`}
+                            target="_blank"
+                        >
+                            <Button
+                                text={'Export as CSV'}
+                                variant={'action'}
+                                // onClick={() => downloadCSV()}
+                            />
+                        </a>
+                    </div> */}
                 </div>
             </div>
 

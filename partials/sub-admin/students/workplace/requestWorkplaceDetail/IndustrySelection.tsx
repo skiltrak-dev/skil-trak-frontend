@@ -20,10 +20,12 @@ export const IndustrySelection = ({
     setActive,
     userId,
     workplace,
+    studentProvidedWorkplace,
 }: {
     setActive: Function
     userId: number
     workplace: any
+    studentProvidedWorkplace?: boolean
 }) => {
     const [industries, setIndustries] = useState<any | null>([])
     const [noRespondedIndustries, setNoRespondedIndustries] = useState<
@@ -99,6 +101,7 @@ export const IndustrySelection = ({
                     setIndustrySelection={setIndustrySelection}
                     status={workplaceIndustries?.currentStatus}
                     workplaceRequest={workplaceIndustries}
+                    studentProvidedWorkplace={studentProvidedWorkplace}
                 />
             )}
 
