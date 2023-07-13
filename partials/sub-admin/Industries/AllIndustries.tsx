@@ -162,18 +162,18 @@ export const AllIndustries = () => {
                 )
             },
         },
-        {
-            header: () => 'Enrolled Students',
-            accessorKey: 'students',
-            cell: ({ row }: any) => {
-                const { enrolledStudents } = row.original
-                return (
-                    <Typography variant={'muted'} color={'gray'}>
-                        {enrolledStudents}
-                    </Typography>
-                )
-            },
-        },
+        // {
+        //     header: () => 'Enrolled Students',
+        //     accessorKey: 'students',
+        //     cell: ({ row }: any) => {
+        //         const { enrolledStudents } = row.original
+        //         return (
+        //             <Typography variant={'muted'} color={'gray'}>
+        //                 {enrolledStudents}
+        //             </Typography>
+        //         )
+        //     },
+        // },
         {
             header: () => 'Contact Person',
             accessorKey: 'contactPersonNumber',

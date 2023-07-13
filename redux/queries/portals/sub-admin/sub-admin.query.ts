@@ -174,6 +174,7 @@ export const {
     useStudentCallLogMutation,
     useGetStudentCallLogQuery,
     useStudentAnsweredCallMutation,
+    useDownloadStudentCSVMutation,
 
     // -- COUNT -- //
     useSubadminStatisticsQuery,
@@ -299,6 +300,7 @@ export const SubAdminApi = {
         useStudentCallLog: useStudentCallLogMutation,
         useGetStudentCallLog: useGetStudentCallLogQuery,
         useStudentAnsweredCall: useStudentAnsweredCallMutation,
+        useDownloadStudentCSV: useDownloadStudentCSVMutation,
     },
     Industry: {
         useAddToPartner: useAddToPartnerMutation,

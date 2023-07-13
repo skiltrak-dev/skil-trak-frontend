@@ -120,20 +120,20 @@ export const FavoriteIndustries = () => {
                 )
             },
         },
-        {
-            header: () => 'Enrolled Students',
-            accessorKey: 'enrolledStudents',
-            cell: ({ row }: any) => {
-                const { enrolledStudents } = row.original
-                return (
-                    <div className="flex justify-center">
-                        <Typography variant={'muted'} color={'gray'}>
-                            {enrolledStudents}
-                        </Typography>
-                    </div>
-                )
-            },
-        },
+        // {
+        //     header: () => 'Enrolled Students',
+        //     accessorKey: 'enrolledStudents',
+        //     cell: ({ row }: any) => {
+        //         const { enrolledStudents } = row.original
+        //         return (
+        //             <div className="flex justify-center">
+        //                 <Typography variant={'muted'} color={'gray'}>
+        //                     {enrolledStudents}
+        //                 </Typography>
+        //             </div>
+        //         )
+        //     },
+        // },
         {
             header: () => 'Contact Person',
             accessorKey: 'contactPersonNumber',

@@ -79,12 +79,6 @@ export const StudentProfile = ({ noTitle }: { noTitle?: boolean }) => {
         SubAdminApi.Student.useNotContactable()
     const { passwordModal, onViewPassword } = useActionModal()
 
-    // useEffect(() => {
-    //     if (studentExpiryDate) {
-    //         refetch()
-    //     }
-    // }, [studentExpiryDate])
-
     // hooks
     const navBar = useNavbar()
     const {
@@ -302,12 +296,12 @@ export const StudentProfile = ({ noTitle }: { noTitle?: boolean }) => {
                             link={
                                 role === 'admin'
                                     ? getLink('student') ||
-                                      '/portals/admin/student?tab=active&page=1&pageSize=50'
+                                      'portals/admin/student?tab=active&page=1&pageSize=50'
                                     : role === 'subadmin'
                                     ? getLink('subadmin-student') ||
-                                      '/portals/sub-admin/students?tab=all'
+                                      'portals/sub-admin/students?tab=all'
                                     : role === 'rto'
-                                    ? '/portals/rto/students?tab=active'
+                                    ? 'portals/rto/students?tab=active'
                                     : '#'
                             }
                             text="Students"
