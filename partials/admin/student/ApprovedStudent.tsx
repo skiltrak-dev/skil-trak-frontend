@@ -21,7 +21,7 @@ import { AdminApi } from '@queries'
 import { Student, UserStatus } from '@types'
 import { checkListLength, setLink, studentsListWorkplace } from '@utils'
 import { useRouter } from 'next/router'
-import { ReactElement, useEffect, useState } from 'react'
+import { ReactElement, useCallback, useEffect, useState } from 'react'
 import { MdBlock } from 'react-icons/md'
 import { RiLockPasswordFill } from 'react-icons/ri'
 import { IndustryCell } from '../industry/components'
@@ -63,38 +63,38 @@ export const ApprovedStudent = () => {
             { refetchOnMountOrArgChange: true }
         )
 
-    const onModalCancelClicked = () => {
+    const onModalCancelClicked = useCallback(() => {
         setModal(null)
-    }
-    const onBlockClicked = (student: Student) => {
+    }, [])
+    const onBlockClicked = useCallback((student: Student) => {
         setModal(<BlockModal item={student} onCancel={onModalCancelClicked} />)
-    }
+    }, [])
 
-    const onBlockMultiStudents = (student: Student[]) => {
+    const onBlockMultiStudents = useCallback((student: Student[]) => {
         setModal(
             <BlockMultiStudentsModal
                 onCancel={onModalCancelClicked}
                 student={student}
             />
         )
-    }
+    }, [])
 
-    const onArchiveClicked = (student: Student) => {
+    const onArchiveClicked = useCallback((student: Student) => {
         setModal(
             <ArchiveModal item={student} onCancel={onModalCancelClicked} />
         )
-    }
+    }, [])
 
-    const onChangeStatus = (student: Student) => {
+    const onChangeStatus = useCallback((student: Student) => {
         setModal(
             <ChangeStatusModal
                 student={student}
                 onCancel={onModalCancelClicked}
             />
         )
-    }
+    }, [])
 
-    const onDateClick = (student: Student) => {
+    const onDateClick = useCallback((student: Student) => {
         setModal(
             <EditTimer
                 studentId={student?.user?.id}
@@ -102,7 +102,7 @@ export const ApprovedStudent = () => {
                 onCancel={onModalCancelClicked}
             />
         )
-    }
+    }, [])
 
     const tableActionOptions: TableActionOption[] = [
         {
