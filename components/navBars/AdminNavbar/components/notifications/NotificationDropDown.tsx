@@ -37,7 +37,6 @@ export const NotificationDropDown = ({
         }
         return userRole
     }
-    // console.log('getRole', getRole?.role)
     return (
         <div
             className={`absolute top-10 overflow-scroll -right-5 z-40 bg-white w-80 transition-all rounded-lg remove-scrollbar ${

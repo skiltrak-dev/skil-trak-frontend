@@ -136,7 +136,9 @@ export const RejectedStudents = () => {
 
                 return (
                     <div className="flex gap-x-2 items-center">
-                        <InitialAvatar name={rto.user.name} small />
+                        {rto.user.name && (
+                            <InitialAvatar name={rto.user.name} small />
+                        )}
                         {rto.user.name}
                     </div>
                 )

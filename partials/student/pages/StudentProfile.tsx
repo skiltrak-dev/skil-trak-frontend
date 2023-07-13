@@ -55,14 +55,9 @@ export const StudentProfile = ({ noTitle }: { noTitle?: boolean }) => {
     const [showDropDown, setShowDropDown] = useState(false)
 
     useEffect(() => {
-        window.addEventListener('mousemove', (e) => {
-            setIsMouseMove(true)
-        })
-
+        window.addEventListener('mousemove', () => setIsMouseMove(true))
         return () => {
-            window.removeEventListener('mousemove', (e) => {
-                setIsMouseMove(false)
-            })
+            window.removeEventListener('mousemove', () => setIsMouseMove(false))
         }
     }, [])
 

@@ -2,7 +2,7 @@ import { Select, TextInput } from '@components/inputs'
 
 // query
 import { Result } from '@constants'
-import { CommonApi } from '@queries'
+import { CommonApi, SubAdminApi } from '@queries'
 import { SetQueryFilters } from './SetQueryFilters'
 import { SelectOption } from './types'
 import { Course, OptionType, Rto, SubAdminAssessmentsFiltersType } from '@types'
@@ -15,7 +15,7 @@ export const SubAdminAssessmentsFilters = ({
     filter,
 }: ItemFilterProps) => {
     // query
-    const getRtos = CommonApi.Filter.useRtos()
+    const getRtos = SubAdminApi.Rto.useRtosFilterList()
     const getCourses = CommonApi.Filter.useCourses()
 
     const rtoOptions = getRtos?.data?.map((rto: Rto) => ({

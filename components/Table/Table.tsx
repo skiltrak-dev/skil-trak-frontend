@@ -159,6 +159,8 @@ export const Table = <Type,>({
         onRowSelectionChange: setRowSelection,
     }
 
+    // const memoizedData = useMemo(() => data, [data])
+
     // Create Table
     const table = useReactTable({
         data,

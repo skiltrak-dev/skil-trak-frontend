@@ -110,13 +110,17 @@ export const WorkplaceRequest = ({
 
                     <div className="flex items-center relative">
                         <div className="flex items-center gap-x-2">
-                            <InitialAvatar
-                                name={
-                                    workplace?.student?.rto?.user
-                                        ?.name as string
-                                }
-                                imageUrl={workplace?.student?.rto?.user?.avatar}
-                            />
+                            {workplace?.student?.rto?.user?.name && (
+                                <InitialAvatar
+                                    name={
+                                        workplace?.student?.rto?.user
+                                            ?.name as string
+                                    }
+                                    imageUrl={
+                                        workplace?.student?.rto?.user?.avatar
+                                    }
+                                />
+                            )}
                             <div>
                                 <Typography color={'black'} variant={'small'}>
                                     {workplace?.student?.rto?.user?.name}

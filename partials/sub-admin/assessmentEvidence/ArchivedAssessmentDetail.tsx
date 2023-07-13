@@ -3,38 +3,31 @@ import { PulseLoader } from 'react-spinners'
 
 //components
 import {
-    NoData,
-    Checkbox,
-    PageTitle,
+    AssessmentFolderCard,
+    AssessmentResponse,
+    Button,
     CourseCard,
-    Typography,
     FinalResult,
     LoadingAnimation,
-    AssessmentResponse,
-    AssessmentFolderCard,
-    Button,
+    NoData,
     ShowErrorNotifications,
-    ActionButton,
+    Typography,
 } from '@components'
-import { Actions } from './components'
 
 // queries
+import { UploadFile } from '@components/sections/student/AssessmentsContainer/AssessmentsEvidence/AssessmentFolderDetailX/UploadFile'
+import { Result } from '@constants'
 import { useNotification } from '@hooks'
 import {
+    SubAdminApi,
     useGetArchivedAssessmentEvidenceDetailQuery,
     useGetArchivedAssessmentResponseQuery,
     useMaulallyReopenSubmissionRequestMutation,
     useStudentAssessmentCoursesQuery,
-    SubAdminApi,
 } from '@queries'
 import { ellipsisText, getCourseResult, getUserCredentials } from '@utils'
-import { FileUpload } from '@hoc'
-import { UploadFile } from '@components/sections/student/AssessmentsContainer/AssessmentsEvidence/AssessmentFolderDetailX/UploadFile'
-import { getDocType } from '@components/sections/student/AssessmentsContainer'
 import { useRouter } from 'next/router'
 import { AiFillDelete } from 'react-icons/ai'
-import { MdEdit } from 'react-icons/md'
-import { Result } from '@constants'
 
 export const ArchivedAssessmentDetail = ({
     studentId,

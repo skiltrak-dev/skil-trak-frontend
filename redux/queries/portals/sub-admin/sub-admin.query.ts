@@ -217,6 +217,7 @@ export const {
     // ---- RTO ---- //
     useSubadminRtoStatisticsCountQuery,
     useSubadminRtoImportStudentsMutation,
+    useGetSubAdminRtosFilterListQuery,
     useGetSubAdminRtosQuery,
     useGetSubAdminRTODetailQuery,
     useGetSubAdminRTOCoursesQuery,
@@ -309,6 +310,7 @@ export const SubAdminApi = {
     Rto: {
         useRtoStatsCount: useSubadminRtoStatisticsCountQuery,
         useImportStudentList: useSubadminRtoImportStudentsMutation,
+        useRtosFilterList: useGetSubAdminRtosFilterListQuery,
     },
     Workplace: {
         count: useWorkplaceCountQuery,

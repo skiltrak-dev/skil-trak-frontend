@@ -29,11 +29,13 @@ export const ApplyForWorkplace = ({
             className={`${BACKGROUNDS[index]} p-2 rounded-lg flex justify-between items-center`}
         >
             <div className="flex items-center gap-x-2 px-3">
-                <InitialAvatar
-                    name={industry?.industry?.user?.name}
-                    imageUrl={industry?.industry?.user?.avatar}
-                    large
-                />
+                {industry?.industry?.user?.name && (
+                    <InitialAvatar
+                        name={industry?.industry?.user?.name}
+                        imageUrl={industry?.industry?.user?.avatar}
+                        large
+                    />
+                )}
                 <div>
                     <Typography variant={'muted'} color={'text-gray-500'}>
                         {Number(industry?.distance)?.toFixed(2)} km Away

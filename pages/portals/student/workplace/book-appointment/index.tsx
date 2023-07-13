@@ -96,12 +96,12 @@ const BookAppointment: NextPageWithLayout = (props: Props) => {
 
     const onSubmit = (values: any) => {
         const time = moment(selectedTime, ['h:mm A']).format('HH:mm')
-        let date = selectedDate
-        date?.setDate(date.getDate() + 1)
+        // let date = selectedDate
+        // date?.setDate(date.getDate() + 1)
         createAppointment({
             ...values,
             type,
-            date,
+            date: selectedDate,
             ...selectedTime,
             coordinator: values.coordinator.value,
             appointmentFor: values.coordinator.value,
