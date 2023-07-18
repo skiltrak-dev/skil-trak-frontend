@@ -61,7 +61,6 @@ const SubAdminDashboard: NextPageWithLayout = () => {
         skip: 0,
         limit: 50,
     })
-    console.log({ studentList })
     const contextBar = useContextBar()
     const [credentials, setCredentials] = useState<any>(null)
 

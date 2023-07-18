@@ -18,8 +18,6 @@ export const TabNavigation = ({ children, tabs }: TabNavigationProps) => {
 
     const currentTab = tabs.find((tab) => query.tab === tab?.href?.query?.tab)
 
-    console.log({ tabs })
-
     return children({
         header: (
             <div className="max-w-7xl custom-scrollbar overflow-auto">

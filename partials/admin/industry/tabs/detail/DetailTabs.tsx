@@ -18,7 +18,6 @@ export const DetailTabs = ({
     id?: number | string | string[] | undefined
     industry: any
 }) => {
-    console.log('Inner', id)
     const [tabs, setTabs] = useState<TabProps[]>([
         {
             label: 'Sectors',

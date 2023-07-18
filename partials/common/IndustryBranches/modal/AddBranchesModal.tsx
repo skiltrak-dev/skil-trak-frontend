@@ -66,10 +66,6 @@ export const AddBranchesModal = ({
                         : 'Make Head Office'
                 }
                 onConfirmClick={() => {
-                    console.log({
-                        headquarter: selectedIndustry,
-                        branch: Number(router?.query?.id),
-                    })
                     makeHeadquarter({
                         branch:
                             type === BranchOrHeadofficeType.Branch

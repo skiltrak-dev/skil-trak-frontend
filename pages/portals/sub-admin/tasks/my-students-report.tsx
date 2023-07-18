@@ -181,26 +181,6 @@ const MyStudentsReport: NextPageWithLayout = () => {
                         <Button
                             text={'Download'}
                             variant={'dark'}
-                            onClick={() => {
-                                console.log(
-                                    `${
-                                        process.env.NEXT_PUBLIC_END_POINT
-                                    }/subadmin/students/download/csv/${
-                                        getUserCredentials()?.id
-                                    }?${queryToUrl(
-                                        removeEmptyValues({
-                                            ...formValues,
-                                            startDate:
-                                                moment(startDate).format(
-                                                    'YYYY-MM-DD'
-                                                ),
-                                            endDate: moment(endDate)
-                                                .add(1, 'days')
-                                                .format('YYYY-MM-DD'),
-                                        })
-                                    )}`
-                                )
-                            }}
                         />
                     </a>
                 </div>
