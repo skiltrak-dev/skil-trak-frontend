@@ -24,7 +24,7 @@ import { FigureCard } from '@components/sections/subAdmin/components/Cards/Figur
 import { AuthUtils } from '@utils'
 
 import { ImportantDocuments } from '@partials/student/components'
-import { SubAdminApi } from '@queries'
+import { SubAdminApi, useGetSubAdminIndustryStudentsQuery } from '@queries'
 import { CallBackProps } from 'react-joyride'
 import { useRouter } from 'next/router'
 
@@ -56,6 +56,12 @@ const getSectors = (courses: any) => {
 }
 
 const SubAdminDashboard: NextPageWithLayout = () => {
+    const studentList = useGetSubAdminIndustryStudentsQuery({
+        industry: 198,
+        skip: 0,
+        limit: 50,
+    })
+    console.log({ studentList })
     const contextBar = useContextBar()
     const [credentials, setCredentials] = useState<any>(null)
 

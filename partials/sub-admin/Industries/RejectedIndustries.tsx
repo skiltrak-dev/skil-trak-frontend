@@ -72,48 +72,38 @@ export const RejectedIndustries = () => {
         return subAdmin?.find((subadmin: any) => subadmin?.user?.id === id)
     }
 
-    const tableActionOptions = (industry: IndustrySubAdmin) => {
-        const subAdmin = isFavorite(industry?.subAdmin)
-        return [
-            {
-                text: 'View',
-                onClick: (industry: Industry) => {
-                    router.push(
-                        `/portals/sub-admin/users/industries/${industry.id}`
-                    )
-                    setLink('subadmin-industries', router)
-                },
-                Icon: FaEye,
+    const tableActionOptions = [
+        {
+            text: 'View',
+            onClick: (industry: Industry) => {
+                router.push(
+                    `/portals/sub-admin/users/industries/${industry.id}`
+                )
+                setLink('subadmin-industries', router)
             },
-            {
-                text: 'Edit',
-                onClick: (industry: Industry) => {
-                    router.push(
-                        `/portals/sub-admin/users/industries/${industry?.id}/edit-profile`
-                    )
-                },
-                Icon: FaPencilAlt,
+            Icon: FaEye,
+        },
+        {
+            text: 'Edit',
+            onClick: (industry: Industry) => {
+                router.push(
+                    `/portals/sub-admin/users/industries/${industry?.id}/edit-profile`
+                )
             },
-            {
-                text: `${subAdmin ? 'Un Favourite' : 'Add Favourite'}`,
-                color: `${subAdmin ? 'text-error' : 'text-primary'}`,
-                onClick: (industry: Industry) =>
-                    onAddToFavoriteClicked(industry),
-                Icon: subAdmin ? MdFavorite : MdFavoriteBorder,
-            },
-            {
-                text: `Un Reject`,
-                color: 'text-primary',
-                onClick: (industry: Industry) => onUnRejectClicked(industry),
-                Icon: AiFillCheckCircle,
-            },
-            {
-                text: 'View Password',
-                onClick: (industry: Industry) => onViewPassword(industry),
-                Icon: RiLockPasswordFill,
-            },
-        ]
-    }
+            Icon: FaPencilAlt,
+        },
+        {
+            text: `Un Reject`,
+            color: 'text-primary',
+            onClick: (industry: Industry) => onUnRejectClicked(industry),
+            Icon: AiFillCheckCircle,
+        },
+        {
+            text: 'View Password',
+            onClick: (industry: Industry) => onViewPassword(industry),
+            Icon: RiLockPasswordFill,
+        },
+    ]
 
     const Columns = [
         {
@@ -171,10 +161,12 @@ export const RejectedIndustries = () => {
         {
             header: () => 'Action',
             accessorKey: 'Action',
-            cell: ({ row }: any) => {
-                const actions = tableActionOptions(row.original)
-                return <TableAction options={actions} rowItem={row.original} />
-            },
+            cell: ({ row }: any) => (
+                <TableAction
+                    options={tableActionOptions}
+                    rowItem={row.original}
+                />
+            ),
         },
     ]
 

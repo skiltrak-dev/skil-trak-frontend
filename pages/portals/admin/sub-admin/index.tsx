@@ -4,6 +4,7 @@ import {
     Button,
     Filter,
     LoadingAnimation,
+    SetDetaultQueryFilteres,
     SubAdminFilters,
     TabNavigation,
     TabProps,
@@ -20,14 +21,11 @@ import {
 import { AddSubAdminCB } from '@partials/admin/sub-admin/contextBar'
 import { AdminApi } from '@queries'
 import { AdminSubadminFilter, NextPageWithLayout, UserStatus } from '@types'
-import { checkFilteredDataLength, getFilterQuery } from '@utils'
-import { useRouter } from 'next/router'
+import { checkFilteredDataLength, removeSpecialCharactersString } from '@utils'
 
 const filterKeys = ['name', 'email', 'status', 'courseId']
 
 const SubAdminList: NextPageWithLayout = () => {
-    const router = useRouter()
-
     const navBar = useNavbar()
     const contextBar = useContextBar()
 
@@ -37,14 +35,6 @@ const SubAdminList: NextPageWithLayout = () => {
     const [filter, setFilter] = useState<AdminSubadminFilter>(
         {} as AdminSubadminFilter
     )
-
-    useEffect(() => {
-        const query = getFilterQuery<AdminSubadminFilter>({
-            router,
-            filterKeys,
-        })
-        setFilter(query as AdminSubadminFilter)
-    }, [router])
 
     const filteredSubAdmins = AdminApi.SubAdmins.useListQuery({
         search: `${JSON.stringify(filter)
@@ -117,6 +107,10 @@ const SubAdminList: NextPageWithLayout = () => {
 
     return (
         <div>
+            <SetDetaultQueryFilteres<AdminSubadminFilter>
+                filterKeys={filterKeys}
+                setFilter={setFilter}
+            />
             <div className="px-4">
                 <div className="flex justify-end mb-2">{filterAction}</div>
                 <Filter<AdminSubadminFilter>

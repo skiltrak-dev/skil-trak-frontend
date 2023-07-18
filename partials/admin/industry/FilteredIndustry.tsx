@@ -225,7 +225,14 @@ export const FilteredIndustry = ({
         {
             accessorKey: 'addressLine1',
             header: () => <span>Address</span>,
-            cell: (info) => info.getValue(),
+            cell: (info) => (
+                <div>
+                    <Typography variant={'label'}>
+                        {info.row.original?.addressLine1},{' '}
+                        {info.row.original?.suburb}
+                    </Typography>
+                </div>
+            ),
         },
 
         {

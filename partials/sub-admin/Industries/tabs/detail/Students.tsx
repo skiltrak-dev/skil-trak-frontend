@@ -30,25 +30,20 @@ import { StudentCellInfo } from '@partials/sub-admin/students'
 import { AssignStudentModal } from '@partials/sub-admin/students/modals'
 
 type Props = {
-    data: any
+    itemPerPage: number
+    setItemPerPage: (value: number) => void
+    setPage: (value: number) => void
+    student: any
 }
-export const Students = ({ data }: Props) => {
+export const Students = ({
+    student,
+    itemPerPage,
+    setItemPerPage,
+    setPage,
+}: Props) => {
     const router = useRouter()
-
     const [modal, setModal] = useState<ReactElement | null>(null)
 
-    // const [filterAction, setFilterAction] = useState(null)
-    const [itemPerPage, setItemPerPage] = useState(50)
-    const [page, setPage] = useState(1)
-    // const [filter, setFilter] = useState({})
-    // const { isLoading, data, isError } = useGetSubAdminStudentsQuery({
-    //   skip: itemPerPage * page - itemPerPage,
-    //   limit: itemPerPage,
-    // })
-    // const { id } = router.query
-
-    // const { data, isLoading, isError, isSuccess } =
-    //   useGetSubAdminIndustryStudentsQuery(String(id), { skip: !id })
     // WORKPLACE JOY RIDE - Start
     const joyride = useJoyRide()
 
@@ -68,7 +63,7 @@ export const Students = ({ data }: Props) => {
         setModal(
             <AssignStudentModal
                 student={student}
-                onCancel={() => onModalCancelClicked()}
+                onCancel={onModalCancelClicked}
             />
         )
     }
@@ -156,17 +151,18 @@ export const Students = ({ data }: Props) => {
             },
         },
     ]
+
     return (
         <div>
             {modal && modal}
-            {data?.isError && <TechnicalError />}
+            {student?.isError && <TechnicalError />}
             <Card noPadding>
-                {data?.isLoading ? (
+                {student?.isLoading ? (
                     <LoadingAnimation height="h-[60vh]" />
-                ) : data && data?.data?.length ? (
+                ) : student?.data?.data && student?.data?.data?.length ? (
                     <Table
                         columns={Columns}
-                        data={data?.data}
+                        data={student?.data?.data}
                         // quickActions={quickActionsElements}
                         enableRowSelection
                     >
@@ -179,11 +175,15 @@ export const Students = ({ data }: Props) => {
                             return (
                                 <div>
                                     <div className="p-6 mb-2 flex justify-between">
-                                        {pageSize(itemPerPage, setItemPerPage)}
+                                        {pageSize(
+                                            itemPerPage,
+                                            setItemPerPage,
+                                            student?.data?.data?.length
+                                        )}
                                         <div className="flex gap-x-2">
                                             {quickActions}
                                             {pagination(
-                                                data?.pagination,
+                                                student?.data?.pagination,
                                                 setPage
                                             )}
                                         </div>
@@ -196,7 +196,7 @@ export const Students = ({ data }: Props) => {
                         }}
                     </Table>
                 ) : (
-                    !data?.isError && (
+                    !student?.isError && (
                         <EmptyData
                             title={'No Students'}
                             description={

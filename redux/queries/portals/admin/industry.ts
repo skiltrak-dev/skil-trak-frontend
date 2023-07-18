@@ -83,7 +83,7 @@ export const industryEndpoints = (
 
     industryDetail: builder.query<Industry, number>({
         query: (id) => `${PREFIX}industries/${id}`,
-        providesTags: ['Industries'],
+        providesTags: ['Industries', 'SubAdminIndustries'],
     }),
 
     industryRemove: builder.mutation<Industry, number>({

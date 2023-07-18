@@ -1,12 +1,12 @@
 import { InitialAvatar } from '@components'
+import { ErrorBoundary } from '@components/ErrorBoundary/ErrorBoundary'
 import { Student } from '@types'
 import { QueryType, queryToUrl, setLink } from '@utils'
+import moment from 'moment'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-import { HiPhoneOutgoing } from 'react-icons/hi'
-import { MdEmail } from 'react-icons/md'
-import moment from 'moment'
 import { ImPhone, ImPhoneHangUp } from 'react-icons/im'
+import { MdEmail } from 'react-icons/md'
 
 export const StudentCellInfo = ({
     student,
@@ -50,12 +50,14 @@ export const StudentCellInfo = ({
                 className="flex items-center gap-x-2"
             >
                 <div className="">
-                    {student?.user?.name && (
-                        <InitialAvatar
-                            name={student?.user?.name}
-                            imageUrl={student?.user?.avatar}
-                        />
-                    )}
+                    <ErrorBoundary>
+                        {student?.user?.name && (
+                            <InitialAvatar
+                                name={student?.user?.name}
+                                imageUrl={student?.user?.avatar}
+                            />
+                        )}
+                    </ErrorBoundary>
                 </div>
                 <div>
                     <div className="flex items-center gap-x-2">

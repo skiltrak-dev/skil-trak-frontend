@@ -16,7 +16,9 @@ export const TabNavigation = ({ children, tabs }: TabNavigationProps) => {
     const router = useRouter()
     const { query } = router
 
-    const currentTab = tabs.find((tab) => query.tab === tab.href.query.tab)
+    const currentTab = tabs.find((tab) => query.tab === tab?.href?.query?.tab)
+
+    console.log({ tabs })
 
     return children({
         header: (
@@ -28,7 +30,7 @@ export const TabNavigation = ({ children, tabs }: TabNavigationProps) => {
                             label={tab.label}
                             href={tab.href}
                             badge={tab.badge}
-                            active={query.tab === tab.href.query.tab}
+                            active={query.tab === tab?.href?.query?.tab}
                             element={tab.element}
                         />
                     ))}

@@ -36,14 +36,16 @@ export const subAdminIndustriesEndpoints = (
                 params: { id },
             }
         },
-        providesTags: ['SubAdminIndustries'],
+        providesTags: ['SubAdminIndustries', 'Industries'],
     }),
-    getSubAdminIndustryStudents: builder.query<any, string>({
-        query: (id) => {
-            return {
-                url: `${PREFIX}/industry/students/list/${id}`,
-            }
-        },
+    getSubAdminIndustryStudents: builder.query<
+        any,
+        { industry: number; skip: number; limit: number }
+    >({
+        query: ({ industry, ...params }) => ({
+            url: `${PREFIX}/industry/students/list/${industry}`,
+            params,
+        }),
         providesTags: ['SubAdminIndustries'],
     }),
     addToFavorite: builder.mutation<any, number>({
@@ -93,4 +95,36 @@ export const subAdminIndustriesEndpoints = (
             invalidatesTags: ['SubAdminIndustries'],
         }
     ),
+
+    makeIndustryHeadquarter: builder.mutation<
+        any,
+        { headQuarter: number; branch: number }
+    >({
+        query: (body) => ({
+            url: `${PREFIX}/industry/branches/add`,
+            method: 'PATCH',
+            body,
+        }),
+        invalidatesTags: ['SubAdminIndustries'],
+    }),
+
+    removeIndustryBranch: builder.mutation<any, { branch: number }>({
+        query: (body) => ({
+            url: `${PREFIX}/industry/branches/remove`,
+            method: 'DELETE',
+            body,
+        }),
+        invalidatesTags: ['SubAdminIndustries'],
+    }),
+
+    getIndustryBranches: builder.query<
+        any,
+        { id: number; skip: number; limit: number }
+    >({
+        query: ({ id, ...params }) => ({
+            url: `${PREFIX}/industry/branches/list/${id}`,
+            params,
+        }),
+        providesTags: ['SubAdminIndustries'],
+    }),
 })
