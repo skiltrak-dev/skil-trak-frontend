@@ -247,6 +247,9 @@ export const {
     useIndustryCallLogMutation,
     useGetIndustryCallLogQuery,
     useIndustryAnsweredCallMutation,
+    useMakeIndustryHeadquarterMutation,
+    useGetIndustryBranchesQuery,
+    useRemoveIndustryBranchMutation,
 
     // --- REPORTS --- //
     useGetAssignedStudentsReportQuery,
@@ -306,8 +309,11 @@ export const SubAdminApi = {
         useAddToPartner: useAddToPartnerMutation,
         useIndustryCallLog: useIndustryCallLogMutation,
         useGetIndustryCallLog: useGetIndustryCallLogQuery,
+        useGetIndustryBranches: useGetIndustryBranchesQuery,
         useIndustryAnsweredCall: useIndustryAnsweredCallMutation,
+        useRemoveIndustryBranch: useRemoveIndustryBranchMutation,
         useStatusticsCount: useSubadminIndustryStatisticsCountQuery,
+        useMakeIndustryHeadquarter: useMakeIndustryHeadquarterMutation,
     },
     Rto: {
         useRtoStatsCount: useSubadminRtoStatisticsCountQuery,

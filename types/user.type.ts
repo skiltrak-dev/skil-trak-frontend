@@ -112,6 +112,7 @@ export interface Industry extends BaseResponse {
     isPartner: boolean
     studentCapacity: number | null
     courses: Course[]
+    branches: Industry[]
 
     addressLine1: string
     addressLine2: string
@@ -120,6 +121,7 @@ export interface Industry extends BaseResponse {
     zipCode: string
     user: User
     location: string
+    headQuarter: Industry
 }
 
 export interface ContactPerson extends BaseResponse {

@@ -6,6 +6,7 @@ import { CalendarStyles } from '@components/Calendar/style'
 import Calendar from 'react-calendar'
 import { FilterType } from 'pages/portals/sub-admin/history'
 import { debounce } from 'lodash'
+import { BiFilterAlt } from 'react-icons/bi'
 
 export const HistoryFilters = ({
     filterType,
@@ -41,6 +42,7 @@ export const HistoryFilters = ({
                 placeholder={'Search History...'}
                 onChange={(e: any) => delayedSearch(e.target.value)}
             />
+
             <Typography>
                 <span className="font-semibold whitespace-pre mt-1.5 block">
                     <Badge

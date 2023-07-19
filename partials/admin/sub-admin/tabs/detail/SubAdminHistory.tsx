@@ -14,7 +14,9 @@ export const SubAdminHistory = ({ subadmin }: { subadmin: number }) => {
     const [itemPerPage, setItemPerPage] = useState(50)
     const [page, setPage] = useState(1)
     const [isCustomRange, setIsCustomRange] = useState<boolean>(false)
-    const [filterType, setFilterType] = useState<string>(FilterType['7Days'])
+    const [filterType, setFilterType] = useState<FilterType>(
+        FilterType['7Days']
+    )
     const [customRangeDate, setCustomRangeDate] = useState<{
         startDate: Date | null
         endDate: Date | null
@@ -68,7 +70,13 @@ export const SubAdminHistory = ({ subadmin }: { subadmin: number }) => {
                 <LoadingAnimation />
             ) : data?.data && data?.data?.length > 0 ? (
                 dates?.map((date: Date, i: number) => (
-                    <HistoryDates history={data?.data} date={date} />
+                    <HistoryDates
+                        history={data?.data}
+                        date={date}
+                        subadmin={subadmin}
+                        customRangeDate={customRangeDate}
+                        filterType={filterType}
+                    />
                 ))
             ) : (
                 !isError && (

@@ -1,5 +1,5 @@
 import {
-    ActionButton,
+    AuthorizedUserComponent,
     Button,
     Card,
     EmptyData,
@@ -8,25 +8,41 @@ import {
     TableAction,
     TableActionOption,
     TechnicalError,
-    Typography,
 } from '@components'
 import { PageHeading } from '@components/headings'
 import { ColumnDef } from '@tanstack/react-table'
-import { FaEdit, FaEye, FaFileExport } from 'react-icons/fa'
+import { FaEye, FaFileExport, FaRemoveFormat, FaUser } from 'react-icons/fa'
 
-import { AdminApi, commonApi } from '@queries'
-import { Industry, UserStatus } from '@types'
+import { SubAdminApi } from '@queries'
+import { Industry } from '@types'
 import { useRouter } from 'next/router'
-import { ReactElement, useEffect, useRef, useState } from 'react'
-import { MdBlock } from 'react-icons/md'
-import { IndustryCell, SectorCell } from './components'
-import { BlockModal } from './modals'
+import { ReactElement, useRef, useState } from 'react'
 
 // hooks
-import { useActionModal } from '@hooks'
-import { RiLockPasswordFill } from 'react-icons/ri'
+import {
+    AddBranchesModal,
+    RemoveBranchModal,
+} from '@partials/common/IndustryBranches/modal'
+import { UserRoles } from '@constants'
+import { IndustryCell } from '@partials/admin/industry/components'
+import {
+    IndustryCellInfo,
+    IndustrySubAdmin,
+} from '@partials/sub-admin/Industries'
+import { getUserCredentials } from '@utils'
 
-export const ApprovedIndustry = () => {
+export enum BranchOrHeadofficeType {
+    HeadOffice = 'headOffice',
+    Branch = 'branch',
+}
+
+export const BranchesIndustries = ({
+    industry,
+    industries,
+}: {
+    industry: Industry
+    industries: Industry[]
+}) => {
     const selectInputRef = useRef()
 
     const [modal, setModal] = useState<ReactElement | null>(null)
@@ -34,29 +50,32 @@ export const ApprovedIndustry = () => {
     const [itemPerPage, setItemPerPage] = useState(50)
     const [page, setPage] = useState(1)
 
-    // hooks
-    const { passwordModal, onViewPassword } = useActionModal()
-
-    useEffect(() => {
-        setPage(Number(router.query.page || 1))
-        setItemPerPage(Number(router.query.pageSize || 50))
-    }, [router])
-
-    const { isLoading, data, isError } = AdminApi.Industries.useListQuery({
-        search: `status:${UserStatus.Approved}`,
-        skip: itemPerPage * page - itemPerPage,
-        limit: itemPerPage,
-    })
-    const [bulkAction, resultBulkAction] = commonApi.useBulkStatusMutation()
+    const { isLoading, data, isError } =
+        SubAdminApi.Industry.useGetIndustryBranches({
+            id: industry?.id,
+            skip: itemPerPage * page - itemPerPage,
+            limit: itemPerPage,
+        })
 
     const onModalCancelClicked = () => {
         setModal(null)
     }
-    const onBlockClicked = (industry: Industry) => {
+
+    const onRemoveBranch = (industry: Industry) => {
         setModal(
-            <BlockModal
+            <RemoveBranchModal
                 industry={industry}
-                onCancel={() => onModalCancelClicked()}
+                onCancel={onModalCancelClicked}
+            />
+        )
+    }
+
+    const onAddBranches = () => {
+        setModal(
+            <AddBranchesModal
+                onCancel={onModalCancelClicked}
+                type={BranchOrHeadofficeType.Branch}
+                industries={industries}
             />
         )
     }
@@ -72,22 +91,24 @@ export const ApprovedIndustry = () => {
             Icon: FaEye,
         },
         {
-            text: 'Edit',
-            onClick: (row: any) => {
-                router.push(`/portals/admin/industry/edit-industry/${row.id}`)
+            text: 'Students',
+            onClick: (industry: Industry) => {
+                getUserCredentials()?.role === UserRoles.ADMIN
+                    ? router.push(
+                          `/portals/admin/industry/${industry?.id}?tab=students`
+                      )
+                    : getUserCredentials()?.role === UserRoles.SUBADMIN
+                    ? router.push(
+                          `/portals/sub-admin/users/industries/${industry?.id}?tab=students`
+                      )
+                    : ''
             },
-            Icon: FaEdit,
+            Icon: FaUser,
         },
         {
-            text: 'View Password',
-            onClick: (industry: Industry) => onViewPassword(industry),
-            Icon: RiLockPasswordFill,
-        },
-        {
-            text: 'Block',
-            onClick: (industry: Industry) => onBlockClicked(industry),
-            Icon: MdBlock,
-            color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
+            text: 'Remove Branch',
+            onClick: (industry: Industry) => onRemoveBranch(industry),
+            Icon: FaRemoveFormat,
         },
     ]
 
@@ -95,7 +116,18 @@ export const ApprovedIndustry = () => {
         {
             accessorKey: 'user.name',
             cell: (info) => {
-                return <IndustryCell industry={info.row.original} />
+                return (
+                    <>
+                        <AuthorizedUserComponent roles={[UserRoles.ADMIN]}>
+                            <IndustryCell industry={info.row.original} />
+                        </AuthorizedUserComponent>
+                        <AuthorizedUserComponent roles={[UserRoles.SUBADMIN]}>
+                            <IndustryCellInfo
+                                industry={info.row.original as IndustrySubAdmin}
+                            />
+                        </AuthorizedUserComponent>
+                    </>
+                )
             },
             header: () => <span>Industry</span>,
         },
@@ -118,23 +150,9 @@ export const ApprovedIndustry = () => {
             },
         },
         {
-            accessorKey: 'sectors',
-            header: () => <span>Sectors</span>,
-            cell: (info) => {
-                return <SectorCell industry={info.row.original} />
-            },
-        },
-        {
             accessorKey: 'addressLine1',
             header: () => <span>Address</span>,
-            cell: (info) => (
-                <div>
-                    <Typography variant={'label'}>
-                        {info.row.original?.addressLine1},{' '}
-                        {info.row.original?.suburb}
-                    </Typography>
-                </div>
-            ),
+            cell: (info) => info.getValue(),
         },
 
         {
@@ -153,46 +171,20 @@ export const ApprovedIndustry = () => {
         },
     ]
 
-    const quickActionsElements = {
-        id: 'id',
-        individual: (id: Industry) => (
-            <div className="flex gap-x-2">
-                <ActionButton Icon={FaEdit}>Edit</ActionButton>
-                <ActionButton Icon={MdBlock} variant="error">
-                    Block
-                </ActionButton>
-            </div>
-        ),
-        common: (ids: Industry[]) => (
-            <ActionButton
-                onClick={() => {
-                    const arrayOfIds = ids.map((id: any) => id?.user.id)
-                    bulkAction({ ids: arrayOfIds, status: 'blocked' })
-                }}
-                Icon={MdBlock}
-                variant="error"
-            >
-                Block
-            </ActionButton>
-        ),
-    }
-
     return (
         <>
             {modal && modal}
-            {passwordModal && passwordModal}
             <div className="flex flex-col gap-y-4 mb-32">
                 <PageHeading
-                    title={'Approved Industries'}
-                    subtitle={'List of Approved Industries'}
+                    title={'Industry Branches'}
+                    subtitle={'List of Industry Branches'}
                 >
-                    {data && data?.data.length ? (
-                        <Button
-                            text="Export"
-                            variant="action"
-                            Icon={FaFileExport}
-                        />
-                    ) : null}
+                    <Button
+                        text="Add Branches"
+                        variant="info"
+                        Icon={FaFileExport}
+                        onClick={onAddBranches}
+                    />
                 </PageHeading>
 
                 <Card noPadding>
@@ -200,12 +192,7 @@ export const ApprovedIndustry = () => {
                     {isLoading ? (
                         <LoadingAnimation height="h-[60vh]" />
                     ) : data && data?.data?.length ? (
-                        <Table
-                            columns={columns}
-                            data={data.data}
-                            quickActions={quickActionsElements}
-                            enableRowSelection
-                        >
+                        <Table columns={columns} data={data.data}>
                             {({
                                 table,
                                 pagination,
@@ -250,10 +237,8 @@ export const ApprovedIndustry = () => {
                     ) : (
                         !isError && (
                             <EmptyData
-                                title={'No Approved Industry!'}
-                                description={
-                                    'You have not approved any Industry request yet'
-                                }
+                                title={'No Industry Branches!'}
+                                description={'There is no Industry Branches'}
                                 height={'50vh'}
                             />
                         )

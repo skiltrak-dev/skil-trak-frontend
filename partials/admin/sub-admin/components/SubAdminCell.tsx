@@ -11,7 +11,7 @@ export const SubAdminCell = ({ subAdmin }: { subAdmin: SubAdmin }) => {
     return (
         <Link
             legacyBehavior
-            href={`/portals/admin/sub-admin/${subAdmin?.id}?tab=notes`}
+            href={`/portals/admin/sub-admin/${subAdmin?.id}?tab=history`}
         >
             <a
                 onClick={() => {

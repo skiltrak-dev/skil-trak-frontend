@@ -224,7 +224,7 @@ const Detail: NextPageWithLayout = () => {
         <>
             {passwordModal}
             {industry.isError && <TechnicalError />}
-            {industry.isLoading ? (
+            {industry.isLoading || industry?.isFetching ? (
                 <LoadingAnimation height={'h-[70vh]'} />
             ) : industry.data ? (
                 <div className="p-6 flex flex-col gap-y-4">
@@ -254,8 +254,8 @@ const Detail: NextPageWithLayout = () => {
                         />
                     </div>
 
-                    <DetailTabs id={router.query.id} industry={industry} />
                     <PinnedNotes id={industry?.data?.user?.id} />
+                    <DetailTabs id={router.query.id} industry={industry} />
                 </div>
             ) : (
                 !industry.isError &&
