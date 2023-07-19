@@ -1,30 +1,17 @@
-import { NextPageWithLayout, UserStatus } from '@types'
+import { NextPageWithLayout } from '@types'
 import { ReactElement, useState } from 'react'
-import { CalendarStyles } from '@components/Calendar/style'
-import Calendar from 'react-calendar'
 
 // layouts
 import {
-    Button,
-    Card,
     EmptyData,
     LoadingAnimation,
     PageTitle,
-    Table,
     TechnicalError,
-    Timeline,
-    Typography,
-    UserCreatedAt,
 } from '@components'
 import { SubAdminLayout } from '@layouts'
-import { CommonApi, SubAdminApi } from '@queries'
-import { ColumnDef } from '@tanstack/react-table'
-import { getCommonDates, getDate } from '@utils'
-import moment from 'moment'
-import OutsideClickHandler from 'react-outside-click-handler'
-import { HistoryCard, HistoryDates, HistoryFilters } from '@partials/common'
-// components
-
+import { HistoryDates, HistoryFilters } from '@partials/common'
+import { CommonApi } from '@queries'
+import { getCommonDates } from '@utils'
 export enum FilterType {
     Today = 'today',
     '7Days' = '7days',
@@ -61,8 +48,6 @@ const SubAdminHistory: NextPageWithLayout = () => {
                     ? { last7days: undefined }
                     : ''),
                 search: `status:${searchedValue}`,
-                // skip: itemPerPage * page - itemPerPage,
-                // limit: itemPerPage,
             },
             {
                 refetchOnMountOrArgChange: true,
@@ -75,6 +60,7 @@ const SubAdminHistory: NextPageWithLayout = () => {
         <div>
             <div className="flex justify-between items-center">
                 <PageTitle title={'History'} navigateBack />
+
                 <HistoryFilters
                     filterType={filterType}
                     isCustomRange={isCustomRange}
@@ -93,8 +79,10 @@ const SubAdminHistory: NextPageWithLayout = () => {
                 dates?.map((date: Date, i: number) => (
                     <HistoryDates
                         key={String(date)}
-                        history={data?.data}
                         date={date}
+                        history={data?.data}
+                        filterType={filterType}
+                        customRangeDate={customRangeDate}
                     />
                 ))
             ) : (
