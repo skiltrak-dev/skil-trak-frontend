@@ -12,6 +12,7 @@ import { SubAdminLayout } from '@layouts'
 import { HistoryDates, HistoryFilters } from '@partials/common'
 import { CommonApi } from '@queries'
 import { getCommonDates } from '@utils'
+import moment from 'moment'
 export enum FilterType {
     Today = 'today',
     '7Days' = '7days',
@@ -41,8 +42,12 @@ const SubAdminHistory: NextPageWithLayout = () => {
                     ? { currentDate: 1 }
                     : filterType === FilterType.Range
                     ? {
-                          startDate: customRangeDate?.startDate?.toISOString(),
-                          endDate: customRangeDate?.endDate?.toISOString(),
+                          startDate: moment(customRangeDate?.startDate)
+                              .add(1, 'days')
+                              ?.toISOString(),
+                          endDate: moment(customRangeDate?.endDate)
+                              .add(1, 'days')
+                              ?.toISOString(),
                       }
                     : filterType === FilterType['7Days']
                     ? { last7days: undefined }
@@ -50,6 +55,9 @@ const SubAdminHistory: NextPageWithLayout = () => {
                 search: `status:${searchedValue}`,
             },
             {
+                skip:
+                    filterType === FilterType.Range &&
+                    (!customRangeDate?.startDate || !customRangeDate?.endDate),
                 refetchOnMountOrArgChange: true,
             }
         )

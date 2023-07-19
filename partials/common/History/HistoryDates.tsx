@@ -29,15 +29,24 @@ export const HistoryDates = ({
                 ? { currentDate: 1 }
                 : filterType === FilterType.Range
                 ? {
-                      startDate: customRangeDate?.startDate?.toISOString(),
-                      endDate: customRangeDate?.endDate?.toISOString(),
+                      startDate: moment(customRangeDate?.startDate)
+                          .add(1, 'days')
+                          ?.toISOString(),
+                      endDate: moment(customRangeDate?.endDate)
+                          .add(1, 'days')
+                          ?.toISOString(),
                   }
                 : filterType === FilterType['7Days']
                 ? { last7days: undefined }
                 : ''),
             user: subadmin,
         },
-        { refetchOnMountOrArgChange: true }
+        {
+            skip:
+                filterType === FilterType.Range &&
+                (!customRangeDate?.startDate || !customRangeDate?.endDate),
+            refetchOnMountOrArgChange: true,
+        }
     )
     return (
         <>
@@ -58,7 +67,7 @@ export const HistoryDates = ({
                 <FigureCard
                     count={count?.data?.callsMadeToIndustry}
                     title={'Calls Made to Industry'}
-                    imageUrl={'/images/history/call-made.png'}
+                    imageUrl={'/images/history/industry-call.png'}
                 />
                 <FigureCard
                     count={count?.data?.notes}
