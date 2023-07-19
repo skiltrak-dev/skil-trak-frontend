@@ -10,6 +10,7 @@ import { FigureCard } from '@components/sections/subAdmin'
 import {
     AllCommunicationTab,
     AppointmentTab,
+    BranchesIndustries,
     MailsTab,
     NotesTab,
     Supervisor,
@@ -18,12 +19,21 @@ import { Industry } from '@types'
 import { IndustryProfileOverview } from './IndustryProfileOverview'
 import { Students } from './Students'
 import { SubAdminApi, useGetSubAdminIndustryStudentsQuery } from '@queries'
+import { useEffect, useState } from 'react'
+import { useRouter } from 'next/router'
 export const DetailTabs = ({ industry }: { industry: Industry }) => {
+    const router = useRouter()
+
+    const [itemPerPage, setItemPerPage] = useState<number>(50)
+    const [page, setPage] = useState<number>(1)
+
     const studentList = useGetSubAdminIndustryStudentsQuery(
-        String(industry?.id),
         {
-            skip: !industry?.id,
-        }
+            industry: Number(router.query.id),
+            skip: itemPerPage * page - itemPerPage,
+            limit: itemPerPage,
+        },
+        { skip: !router.query.id }
     )
 
     const industryStatsCount = SubAdminApi.Industry.useStatusticsCount(
@@ -31,7 +41,7 @@ export const DetailTabs = ({ industry }: { industry: Industry }) => {
         { skip: !industry?.user?.id }
     )
 
-    const studentCount = studentList?.data?.data.length
+    const studentCount = studentList?.data?.data?.length
 
     const events: CalendarEvent[] = [
         {
@@ -50,7 +60,8 @@ export const DetailTabs = ({ industry }: { industry: Industry }) => {
             priority: 'low',
         },
     ]
-    const tabs: TabProps[] = [
+
+    let tabs: TabProps[] = [
         {
             label: 'Overview',
             href: {
@@ -72,7 +83,14 @@ export const DetailTabs = ({ industry }: { industry: Industry }) => {
                 query: { tab: 'students' },
             },
             badge: { text: studentCount, color: 'text-error-500' },
-            element: <Students data={studentList.data} />,
+            element: (
+                <Students
+                    student={studentList}
+                    itemPerPage={itemPerPage}
+                    setItemPerPage={setItemPerPage}
+                    setPage={setPage}
+                />
+            ),
         },
         {
             label: 'Appointments',
@@ -114,9 +132,26 @@ export const DetailTabs = ({ industry }: { industry: Industry }) => {
         },
     ]
 
+    const branches = {
+        label: 'Branches',
+        href: { query: { tab: 'branches', id: Number(industry?.id) } },
+        element: (
+            <BranchesIndustries
+                industry={industry}
+                industries={industry?.branches}
+            />
+        ),
+    }
+
     return (
         <div>
-            <TabNavigation tabs={tabs}>
+            <TabNavigation
+                tabs={[
+                    ...(industry?.branches?.length > 0
+                        ? [...tabs, branches]
+                        : tabs),
+                ]}
+            >
                 {({ header, element }: any) => {
                     return (
                         <div>

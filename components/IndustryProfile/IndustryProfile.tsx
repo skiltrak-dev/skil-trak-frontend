@@ -11,13 +11,13 @@ import { ShowErrorNotifications } from '@components/ShowErrorNotifications'
 import { ActionButton } from '@components/buttons'
 import { UserRoles } from '@constants'
 import { useActionModal, useNotification } from '@hooks'
-import { CourseList } from '@partials/common'
+import { BranchOrHeadofficeType, CourseList } from '@partials/common'
 import { AddToPartnerModal } from '@partials/sub-admin/Industries/modals/AddToPartnerModal'
 import { SubAdminApi } from '@queries'
 import { getUserCredentials } from '@utils'
 import { useRouter } from 'next/router'
 import { Fragment, ReactNode, useEffect, useState } from 'react'
-import { BsUnlockFill } from 'react-icons/bs'
+import { BsFillBuildingFill, BsUnlockFill } from 'react-icons/bs'
 import { FaAddressCard, FaRegHandshake } from 'react-icons/fa'
 import { GiBackwardTime } from 'react-icons/gi'
 import { IoLocation } from 'react-icons/io5'
@@ -27,6 +27,10 @@ import { Course, GetSectorsType, Industry } from '@types'
 import { IoMdEye } from 'react-icons/io'
 import { Tooltip } from '@components/Tooltip'
 import { IndustryCallLogModal } from '@partials/sub-admin/Industries'
+import {
+    MakeHeadQuarterModal,
+    RemoveBranchModal,
+} from '../../partials/common/IndustryBranches/modal'
 
 type Props = {
     data: Industry
@@ -104,6 +108,30 @@ export const IndustryProfile = ({ data }: Props) => {
                 industryId={data?.id}
                 onCancel={onCancelClicked}
             />
+        )
+    }
+
+    const onMakeHeadeQuarter = () => {
+        setModal(
+            <MakeHeadQuarterModal
+                onCancel={onCancelClicked}
+                type={BranchOrHeadofficeType.HeadOffice}
+            />
+        )
+    }
+
+    const onMakeBranch = () => {
+        setModal(
+            <MakeHeadQuarterModal
+                onCancel={onCancelClicked}
+                type={BranchOrHeadofficeType.Branch}
+            />
+        )
+    }
+
+    const onRemoveBranch = () => {
+        setModal(
+            <RemoveBranchModal industry={data} onCancel={onCancelClicked} />
         )
     }
     return (
@@ -273,58 +301,141 @@ export const IndustryProfile = ({ data }: Props) => {
                     </div>
                 </div>
                 {/* Is Partner */}
-                <Typography variant={'small'} color={'text-gray-500'}>
-                    Partnership
-                </Typography>
-                <div className="flex justify-around items-center divide-x border-t border-b">
-                    <div className="p-2">
-                        <div className="flex items-center gap-x-2">
-                            <FaRegHandshake className="text-gray-400" />
-                            <Typography
-                                variant={'small'}
-                                color={'text-gray-400'}
-                            >
-                                Partner
-                            </Typography>
-                        </div>
-                        <div className="text-center">
-                            <Typography variant={'small'} color={'text-black'}>
-                                {data?.isPartner === false
-                                    ? 'No'
-                                    : 'Yes' || 'N/A'}
-                                <AuthorizedUserComponent
-                                    roles={[UserRoles.SUBADMIN]}
-                                >
-                                    <div>
-                                        -{' '}
-                                        {data?.isPartner ? (
-                                            <span
-                                                className="text-info cursor-pointer"
-                                                onClick={() => {
-                                                    if (
-                                                        !addToPartnerResult.isLoading
-                                                    ) {
-                                                        onRemovePartner()
-                                                    }
-                                                }}
-                                            >
-                                                Remove Partner{' '}
-                                                {addToPartnerResult.isLoading && (
-                                                    <PulseLoader size={3} />
+
+                <div className="w-full">
+                    {' '}
+                    <Typography variant={'small'} color={'text-gray-500'}>
+                        Partnership
+                    </Typography>
+                    <div className="grid grid-cols-2 border-b border-t py-1.5">
+                        <div className="flex justify-around items-center divide-x ">
+                            <div className="p-2">
+                                <div className="flex items-center gap-x-2">
+                                    <FaRegHandshake className="text-gray-400" />
+                                    <Typography
+                                        variant={'small'}
+                                        color={'text-gray-400'}
+                                    >
+                                        Partner
+                                    </Typography>
+                                </div>
+                                <div className="text-center">
+                                    <Typography
+                                        variant={'small'}
+                                        color={'text-black'}
+                                    >
+                                        {data?.isPartner === false
+                                            ? 'No'
+                                            : 'Yes' || 'N/A'}
+                                        <AuthorizedUserComponent
+                                            roles={[UserRoles.SUBADMIN]}
+                                        >
+                                            <div>
+                                                -{' '}
+                                                {data?.isPartner ? (
+                                                    <span
+                                                        className="text-info cursor-pointer"
+                                                        onClick={() => {
+                                                            if (
+                                                                !addToPartnerResult.isLoading
+                                                            ) {
+                                                                onRemovePartner()
+                                                            }
+                                                        }}
+                                                    >
+                                                        Remove Partner{' '}
+                                                        {addToPartnerResult.isLoading && (
+                                                            <PulseLoader
+                                                                size={3}
+                                                            />
+                                                        )}
+                                                    </span>
+                                                ) : (
+                                                    <span
+                                                        className="text-info cursor-pointer"
+                                                        onClick={onAddPartner}
+                                                    >
+                                                        Make Partner
+                                                    </span>
                                                 )}
-                                            </span>
-                                        ) : (
-                                            <span
-                                                className="text-info cursor-pointer"
-                                                onClick={onAddPartner}
-                                            >
-                                                Make Partner
-                                            </span>
-                                        )}
-                                    </div>
-                                </AuthorizedUserComponent>
-                            </Typography>
+                                            </div>
+                                        </AuthorizedUserComponent>
+                                    </Typography>
+                                </div>
+                            </div>
                         </div>
+                        {!data?.branches?.length && (
+                            <div>
+                                <div className="flex items-center gap-x-2">
+                                    <BsFillBuildingFill className="text-gray-400" />
+                                    <Typography
+                                        variant={'small'}
+                                        color={'text-gray-400'}
+                                    >
+                                        HeadOffice
+                                    </Typography>
+                                </div>
+
+                                {data?.headQuarter ? (
+                                    <>
+                                        <div>
+                                            <Typography variant={'small'}>
+                                                {data?.headQuarter?.user?.name}
+                                            </Typography>
+                                        </div>
+                                        <div className="flex gap-x-2 items-center">
+                                            <div
+                                                className="cursor-pointer"
+                                                onClick={onMakeHeadeQuarter}
+                                            >
+                                                <Typography
+                                                    variant={'small'}
+                                                    color={'text-info'}
+                                                >
+                                                    Change
+                                                </Typography>
+                                            </div>
+                                            <div
+                                                className="cursor-pointer"
+                                                onClick={onRemoveBranch}
+                                            >
+                                                <Typography
+                                                    variant={'small'}
+                                                    color={'text-info'}
+                                                >
+                                                    Remove
+                                                </Typography>
+                                            </div>
+                                        </div>
+                                    </>
+                                ) : (
+                                    <>
+                                        <div
+                                            className="cursor-pointer"
+                                            onClick={onMakeHeadeQuarter}
+                                        >
+                                            <Typography
+                                                variant={'small'}
+                                                color={'text-info'}
+                                            >
+                                                Make HeadOffice
+                                            </Typography>
+                                        </div>
+                                        <div
+                                            className="cursor-pointer"
+                                            onClick={onMakeBranch}
+                                        >
+                                            <Typography
+                                                variant={'small'}
+                                                color={'text-info'}
+                                            >
+                                                Add Branch
+                                            </Typography>
+                                        </div>
+                                    </>
+                                )}
+                            </div>
+                        )}
                     </div>
                 </div>
 
@@ -335,10 +446,10 @@ export const IndustryProfile = ({ data }: Props) => {
                             <span className="text-gray-300">
                                 <IoLocation />
                             </span>
-                            <p className="text-sm font-medium">
+                            <Typography variant={'small'} color={'text-black'}>
                                 {data?.addressLine1}, {data?.addressLine2},{' '}
                                 {data?.state}, {data?.suburb}
-                            </p>
+                            </Typography>
                         </div>
                         <div className="text-gray-400 text-[11px] -mt-0.5 text-center">
                             Address

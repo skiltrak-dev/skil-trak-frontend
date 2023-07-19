@@ -12,6 +12,11 @@ export const DetailTabs = ({
 }) => {
     const tabs: TabProps[] = [
         {
+            label: 'History',
+            href: { query: { tab: 'history', id } },
+            element: <SubAdminHistory subadmin={subAdmin?.user?.id} />,
+        },
+        {
             label: 'Notes',
             href: { query: { tab: 'notes', id } },
             element: <NotesTab user={subAdmin?.user} />,
@@ -30,11 +35,6 @@ export const DetailTabs = ({
             label: 'View Summary',
             href: { query: { tab: 'view-summary', id } },
             element: <ViewSummary user={subAdmin?.user} />,
-        },
-        {
-            label: 'History',
-            href: { query: { tab: 'history', id } },
-            element: <SubAdminHistory subadmin={subAdmin?.user?.id} />,
         },
     ]
 

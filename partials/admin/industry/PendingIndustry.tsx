@@ -8,6 +8,7 @@ import {
     TableAction,
     TableActionOption,
     TechnicalError,
+    Typography,
 } from '@components'
 import { PageHeading } from '@components/headings'
 import { ColumnDef } from '@tanstack/react-table'
@@ -126,7 +127,14 @@ export const PendingIndustry = () => {
         {
             accessorKey: 'addressLine1',
             header: () => <span>Address</span>,
-            cell: (info) => info.getValue(),
+            cell: (info) => (
+                <div>
+                    <Typography variant={'label'}>
+                        {info.row.original?.addressLine1},{' '}
+                        {info.row.original?.suburb}
+                    </Typography>
+                </div>
+            ),
         },
         {
             accessorKey: 'action',

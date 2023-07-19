@@ -10,13 +10,12 @@ import {
     TechnicalError,
     Typography,
 } from '@components'
-import { PageHeading } from '@components/headings'
 import { ColumnDef } from '@tanstack/react-table'
 import { FaEdit, FaEye } from 'react-icons/fa'
 
 import { RtoCellInfo } from '@partials/admin/rto/components'
 import { AdminApi } from '@queries'
-import { Industry, Student, UserStatus } from '@types'
+import { Industry, Student } from '@types'
 import {
     WorkplaceCurrentStatus,
     checkStudentStatus,
@@ -31,10 +30,8 @@ import { RiLockPasswordFill } from 'react-icons/ri'
 // hooks
 import { EditTimer } from '@components/StudentTimer/EditTimer'
 import { useActionModal } from '@hooks'
-import moment from 'moment'
 import {
     ProgressCell,
-    SectorCell,
     StudentCellInfo,
 } from '@partials/admin/student/components'
 import {
@@ -43,6 +40,7 @@ import {
     BlockMultiStudentsModal,
     ChangeStatusModal,
 } from '@partials/admin/student/modals'
+import moment from 'moment'
 
 export const Students = ({ industry }: { industry: Industry }) => {
     const router = useRouter()

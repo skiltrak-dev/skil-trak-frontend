@@ -10,3 +10,6 @@ export const removeEmptyValues = (data: any) => {
     }
     return data
 }
+
+export const removeSpecialCharactersString = (text: string) =>
+    text?.replace(/'/g, '')

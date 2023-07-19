@@ -1,9 +1,4 @@
-import '../styles/globals.css'
-import type { AppProps } from 'next/app'
-import { useEffect } from 'react'
-import { Provider } from 'react-redux'
-
-import { applyTheme, getCurrentTheme, Theme } from '@theme'
+import { ErrorBoundaryContext } from 'react-use-error-boundary'
 import {
     AlertProvider,
     ContextBarProvider,
@@ -11,18 +6,22 @@ import {
     NavbarProvider,
     NotificationProvider,
     SocketListenerProvider,
-    useActionModal,
 } from '@hooks'
+import { Theme, applyTheme, getCurrentTheme } from '@theme'
+import type { AppProps } from 'next/app'
+import { useEffect } from 'react'
+import { Provider } from 'react-redux'
+import '../styles/globals.css'
 
-import { store } from '../redux/store'
 import { NextPageWithLayout } from '@types'
+import { store } from '../redux/store'
 
 import { HeadWrapper } from '@layouts'
 
+import { Socket } from '@components'
 import 'swiper/css/bundle'
 import 'swiper/css/navigation'
 import 'swiper/css/pagination'
-import { Socket } from '@components'
 
 type AppPropsWithLayout = AppProps & {
     Component: NextPageWithLayout
@@ -38,26 +37,28 @@ const MyApp = ({ Component, pageProps }: AppPropsWithLayout) => {
 
     return (
         <Provider store={store}>
-            <JoyRideProvider>
-                <AlertProvider>
-                    <NotificationProvider>
-                        <NavbarProvider>
-                            <ContextBarProvider>
-                                {/* <Component {...pageProps} /> */}
-                                <SocketListenerProvider>
-                                    <Socket>
-                                        <HeadWrapper>
-                                            {getLayout(
-                                                <Component {...pageProps} />
-                                            )}
-                                        </HeadWrapper>
-                                    </Socket>
-                                </SocketListenerProvider>
-                            </ContextBarProvider>
-                        </NavbarProvider>
-                    </NotificationProvider>
-                </AlertProvider>
-            </JoyRideProvider>
+            <ErrorBoundaryContext>
+                <JoyRideProvider>
+                    <AlertProvider>
+                        <NotificationProvider>
+                            <NavbarProvider>
+                                <ContextBarProvider>
+                                    {/* <Component {...pageProps} /> */}
+                                    <SocketListenerProvider>
+                                        <Socket>
+                                            <HeadWrapper>
+                                                {getLayout(
+                                                    <Component {...pageProps} />
+                                                )}
+                                            </HeadWrapper>
+                                        </Socket>
+                                    </SocketListenerProvider>
+                                </ContextBarProvider>
+                            </NavbarProvider>
+                        </NotificationProvider>
+                    </AlertProvider>
+                </JoyRideProvider>
+            </ErrorBoundaryContext>
         </Provider>
     )
 }

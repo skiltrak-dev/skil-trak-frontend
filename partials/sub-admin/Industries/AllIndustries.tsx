@@ -154,10 +154,10 @@ export const AllIndustries = () => {
             header: () => 'Address',
             accessorKey: 'address',
             cell: ({ row }: any) => {
-                const { addressLine1, addressLine2 } = row.original
+                const { addressLine1, suburb } = row.original
                 return (
                     <Typography variant={'label'} color={'black'}>
-                        {addressLine1}, {addressLine2}
+                        {addressLine1}, {suburb}
                     </Typography>
                 )
             },

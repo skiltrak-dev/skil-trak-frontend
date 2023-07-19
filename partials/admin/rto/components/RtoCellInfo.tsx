@@ -9,7 +9,7 @@ export const RtoCellInfo = ({ rto, short }: { rto: Rto; short?: boolean }) => {
     const router = useRouter()
     const query = queryToUrl(router.query as QueryType)
     return (
-        <Link legacyBehavior href={`rto/${rto?.id}?tab=sectors`}>
+        <Link legacyBehavior href={`/portals/admin/rto/${rto?.id}?tab=sectors`}>
             <a
                 onClick={() => {
                     sessionStorage.setItem('rto', `${router.pathname}?${query}`)

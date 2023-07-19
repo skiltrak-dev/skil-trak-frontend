@@ -86,6 +86,24 @@ export const commonApi = emptySplitApi.injectEndpoints({
             providesTags: ['RecentActivities'],
         }),
 
+        getRecentActivitiesCount: build.query<
+            any,
+            {
+                search?: string
+                currentDate?: number
+                startDate?: string
+                endDate?: string
+                last7days?: any
+                user?: number
+            }
+        >({
+            query: (params) => ({
+                url: `subadmin/activity-logger/count`,
+                params,
+            }),
+            providesTags: ['RecentActivities'],
+        }),
+
         changeUserStatus: build.mutation<
             any,
             { id: number; status: UserStatus }
@@ -190,6 +208,7 @@ const {
     useBulkStatusMutation,
     // ------ Recent Activities ------ //
     useGetRecentActivitiesQuery,
+    useGetRecentActivitiesCountQuery,
 
     // ---- DOCUMENTS ---- //
     useGetCommonDocumentsQuery,
@@ -307,6 +326,7 @@ export const CommonApi = {
     },
     RecentActivities: {
         useRecentActivities: useGetRecentActivitiesQuery,
+        useRecentActivitiesCount: useGetRecentActivitiesCountQuery,
     },
     User: {
         changeUserStatus: useChangeUserStatusMutation,
