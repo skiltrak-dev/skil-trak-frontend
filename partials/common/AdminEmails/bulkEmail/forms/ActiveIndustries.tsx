@@ -1,11 +1,9 @@
 import {
     Button,
-    Card,
     Checkbox,
     InputContentEditor,
     Select,
     ShowErrorNotifications,
-    TextArea,
     TextInput,
     draftToHtmlText,
     htmlToDraftText,
@@ -16,14 +14,7 @@ import { Attachment } from '@partials/common/Notifications'
 import { CommonApi } from '@queries'
 import { useEffect, useState } from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
-import { BulkEmailEditor } from '../components'
-import draftToHtml from 'draftjs-to-html'
-import {
-    ContentState,
-    EditorState,
-    convertFromHTML,
-    convertToRaw,
-} from 'draft-js'
+import { useIndustriesOptions } from '../hooks'
 
 export const ActiveIndustries = () => {
     const { notification } = useNotification()
@@ -36,6 +27,8 @@ export const ActiveIndustries = () => {
     const [selectAll, setSelectAll] = useState<any | null>(null)
     const [isChecked, setIsChecked] = useState(false)
 
+    const { industryOptions, industriesResponse } = useIndustriesOptions()
+
     const checkAllIndustries = () => {
         if (isChecked) {
             setSelectAll(null)
@@ -46,7 +39,7 @@ export const ActiveIndustries = () => {
         }
     }
     const [storedData, setStoredData] = useState<any>(null)
-    const industriesResponse = CommonApi.Industries.useIndustriesList()
+
     const [sendBulkEmail, resultSendBulkEmail] =
         CommonApi.Messages.useSendBulkMail()
 
@@ -66,12 +59,7 @@ export const ActiveIndustries = () => {
         setTemplateBody(template?.content)
         setTemplateSubject(template?.subject)
     }
-    const industryOptions = industriesResponse.data?.length
-        ? industriesResponse?.data?.map((industry: any) => ({
-              label: `${industry?.user?.name} ${industry?.abn}`,
-              value: industry?.id,
-          }))
-        : []
+
     const getIndustriesIds = selectAll?.map((industry: any) => industry?.value)
     const industriesIds = getIndustriesIds?.map((industryId: any) => {
         const industry = industriesResponse?.data?.find(

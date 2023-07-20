@@ -144,6 +144,7 @@ const {
     // ------ Industry ------ //
     useGetAllIndustriesQuery,
     useAllGetIndustriesListQuery,
+    useGetBulkEmailSubadminIndustriesQuery,
 
     useGetAllRtosQuery,
     useGetFilterSubAdminRtosQuery,
@@ -184,6 +185,8 @@ const {
     useSendBulkMailMutation,
     useUpdateEmailDraftMutation,
     useSearchBulkMailStudentsQuery,
+    useSearchBulkMailSubadminRTOsQuery,
+    useSearchBulkMailSubadminStudentsQuery,
     useCreateNewDraftMutation,
     useRemoveDraftMutation,
 
@@ -217,6 +220,7 @@ const {
     useChangeUserStatusMutation,
     // ---- COURSE ---- //
     useGetCoursesListQuery,
+    useGetSubadminCoursesListQuery,
 
     // ---- AGREEMENT ---- //
     useViewSignedAgreementQuery,
@@ -266,9 +270,11 @@ export const CommonApi = {
     },
     Industries: {
         useIndustriesList: useAllGetIndustriesListQuery,
+        bulkEmailSubadminIndustries: useGetBulkEmailSubadminIndustriesQuery,
     },
     Courses: {
         useCoursesList: useGetCoursesListQuery,
+        subadminCoursesList: useGetSubadminCoursesListQuery,
     },
 
     Notes: {
@@ -300,6 +306,8 @@ export const CommonApi = {
         useSendBulkMail: useSendBulkMailMutation,
         useSearchBulkMailStudents: useSearchBulkMailStudentsQuery,
         useCreateDraft: useCreateNewDraftMutation,
+        bulkMailSubadminStudents: useSearchBulkMailSubadminStudentsQuery,
+        bulkMailSubadminRTOs: useSearchBulkMailSubadminRTOsQuery,
         useRemoveDraft: useRemoveDraftMutation,
         useUpdateEmailDraft: useUpdateEmailDraftMutation,
     },

@@ -12,4 +12,8 @@ export const coursesEndpoints = (
         query: () => `shared/courses/list`,
         providesTags: ['Course'],
     }),
+    getSubadminCoursesList: builder.query<any, void>({
+        query: () => `subadmin/courses/list`,
+        providesTags: ['Course'],
+    }),
 })

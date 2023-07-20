@@ -37,7 +37,7 @@ export const IndustryCellInfo = ({
     return (
         <Link
             legacyBehavior
-            href={`/portals/sub-admin/users/industries/${industry?.id}?tab=overview`}
+            href={`/portals/sub-admin/users/industries/${industry?.id}?tab=students`}
         >
             <a
                 className="flex items-center gap-x-2"
