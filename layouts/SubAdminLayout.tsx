@@ -5,7 +5,7 @@ import {
     SubAdminNavbar,
 } from '@components'
 import { useJoyRide } from '@hooks'
-import { ReactNode, useEffect, useState } from 'react'
+import React, { ReactNode, useEffect, useState } from 'react'
 import Joyride from 'react-joyride'
 import { UserLayout } from './UserLayout'
 
@@ -23,7 +23,7 @@ export const SubAdminLayout = ({
     useEffect(() => {
         setMounted(true)
     }, [])
-
+    // const MemoNavbar = React.memo(SubAdminNavbar)
     return (
         <UserLayout>
             <>
