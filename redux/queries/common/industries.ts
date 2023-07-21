@@ -13,4 +13,8 @@ export const industriesEndpoints = (
         query: () => `shared/industries/list`,
         providesTags: ['Industry'],
     }),
+    getBulkEmailSubadminIndustries: builder.query<any, void>({
+        query: () => `subadmin/industries/courses/all`,
+        providesTags: ['Industry'],
+    }),
 })

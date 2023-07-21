@@ -1,11 +1,9 @@
 import {
     Button,
-    Card,
     Checkbox,
     InputContentEditor,
     Select,
     ShowErrorNotifications,
-    TextArea,
     TextInput,
     draftToHtmlText,
     htmlToDraftText,
@@ -16,14 +14,7 @@ import { Attachment } from '@partials/common/Notifications'
 import { CommonApi } from '@queries'
 import { useEffect, useState } from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
-import { BulkEmailEditor } from '../components'
-import draftToHtml from 'draftjs-to-html'
-import {
-    ContentState,
-    EditorState,
-    convertFromHTML,
-    convertToRaw,
-} from 'draft-js'
+import { useRtoOptions } from '../hooks'
 
 export const ActiveRtos = () => {
     const { notification } = useNotification()
@@ -36,6 +27,8 @@ export const ActiveRtos = () => {
     const [selectAll, setSelectAll] = useState<any | null>(null)
     const [isChecked, setIsChecked] = useState(false)
 
+    const { rtoOptions, rtoResponse } = useRtoOptions()
+
     const checkAllRtos = () => {
         if (isChecked) {
             setSelectAll(null)
@@ -46,7 +39,6 @@ export const ActiveRtos = () => {
         }
     }
 
-    const rtoResponse = CommonApi.Rtos.useRtosList()
     const [sendBulkEmail, resultSendBulkEmail] =
         CommonApi.Messages.useSendBulkMail()
     const getTemplates = CommonApi.Messages.useAllTemplates()
@@ -65,12 +57,6 @@ export const ActiveRtos = () => {
         setTemplateBody(template?.content)
         setTemplateSubject(template?.subject)
     }
-    const rtoOptions = rtoResponse.data?.length
-        ? rtoResponse?.data?.map((rto: any) => ({
-              label: `${rto.user.name} ${rto?.rtoCode}`,
-              value: rto.id,
-          }))
-        : []
 
     const getRtosIds = selectAll?.map((rto: any) => rto?.value)
     const RtosIds = getRtosIds?.map((rtoId: any) => {

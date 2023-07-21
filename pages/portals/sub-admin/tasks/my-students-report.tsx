@@ -181,10 +181,7 @@ const MyStudentsReport: NextPageWithLayout = () => {
                         rel="noreferrer"
                     >
                         {' '}
-                        <Button
-                            text={'Download'}
-                            variant={'dark'}
-                        />
+                        <Button text={'Download'} variant={'dark'} />
                     </a>
                 </div>
             </div>

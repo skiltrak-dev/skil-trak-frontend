@@ -1,32 +1,28 @@
 import {
     Button,
     Checkbox,
-    ContentEditor,
     InputContentEditor,
     Select,
     ShowErrorNotifications,
-    TextArea,
     TextInput,
     draftToHtmlText,
     htmlToDraftText,
 } from '@components'
 import { FileUpload } from '@hoc'
+import { yupResolver } from '@hookform/resolvers/yup'
 import { useNotification } from '@hooks'
 import { Attachment } from '@partials/common/Notifications'
 import { CommonApi } from '@queries'
 import { useEffect, useState } from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
-import { ToStudentCard } from '../components/ToStudentCard'
-import { BulkEmailEditor } from '../components'
-import {
-    ContentState,
-    EditorState,
-    convertFromHTML,
-    convertToRaw,
-} from 'draft-js'
 import * as yup from 'yup'
-import draftToHtml from 'draftjs-to-html'
-import { yupResolver } from '@hookform/resolvers/yup'
+import { ToStudentCard } from '../components/ToStudentCard'
+import {
+    useCoursesOptions,
+    useIndustriesOptions,
+    useRtoOptions,
+    useStudentsOptions,
+} from '../hooks'
 type Props = {
     selectedUser: any
     setSelectedUser: any
@@ -61,40 +57,25 @@ export const ActiveStudents = ({
         .map((industry: any) => industry.value)
         .join(',')
 
-    const [sendBulkEmail, resultSendBulkEmail] =
-        CommonApi.Messages.useSendBulkMail()
-
     const isWithWorkplace =
         selectedStudent === 'With Workplace'
             ? 1
             : selectedStudent === 'Without Workplace'
             ? 2
             : undefined
-    // rtos list, industries list, courses list
-    const rtoResponse = CommonApi.Rtos.useRtosList()
-    const industriesResponse = CommonApi.Industries.useIndustriesList()
-    const coursesResponse = CommonApi.Courses.useCoursesList()
 
-    //all ids
-    const industriesIds = industriesResponse?.data?.map(
-        (industry: any) => industry?.id
-    )
-    const coursesIds = coursesResponse?.data?.map((course: any) => course?.id)
-    const rtosIds = rtoResponse.data?.map((rto: any) => rto?.id)
-    //students list
-    const bulkMailStudentsResponse =
-        CommonApi.Messages.useSearchBulkMailStudents({
-            courses: getCourseIds || undefined,
-            rtos: getRtoIds || undefined,
-            industries: getIndustriesIds || undefined,
-            workplace: isWithWorkplace,
-        })
-    const studentsOptions = bulkMailStudentsResponse.data?.length
-        ? bulkMailStudentsResponse?.data?.map((student: any) => ({
-              label: `${student?.user?.name} ${student?.studentId}`,
-              value: student?.id,
-          }))
-        : []
+    const { studentsOptions, bulkMailStudentsResponse } = useStudentsOptions({
+        getCourseIds,
+        getRtoIds,
+        getIndustriesIds,
+        isWithWorkplace,
+    })
+    const { rtoOptions } = useRtoOptions()
+    const { coursesOptions } = useCoursesOptions()
+    const { industryOptions } = useIndustriesOptions()
+
+    const [sendBulkEmail, resultSendBulkEmail] =
+        CommonApi.Messages.useSendBulkMail()
 
     const checkAllStudents = () => {
         if (isChecked) {
@@ -105,25 +86,6 @@ export const ActiveStudents = ({
             setIsChecked(true)
         }
     }
-    // select all students
-
-    // Rtos List
-
-    const rtoOptions = rtoResponse.data?.length
-        ? rtoResponse?.data?.map((rto: any) => ({
-              label: rto?.user?.name,
-              value: rto?.id,
-          }))
-        : []
-
-    //industries list
-
-    const industryOptions = industriesResponse.data?.length
-        ? industriesResponse?.data?.map((rto: any) => ({
-              label: rto?.user?.name,
-              value: rto?.id,
-          }))
-        : []
 
     // Templates List
     const getTemplates = CommonApi.Messages.useAllTemplates()
@@ -142,13 +104,6 @@ export const ActiveStudents = ({
         setTemplateSubject(template?.subject)
     }
     // Courses List
-
-    const coursesOptions = coursesResponse.data?.length
-        ? coursesResponse?.data?.map((course: any) => ({
-              label: course?.title,
-              value: course?.id,
-          }))
-        : []
 
     const getStudentIds = selectAll?.map((student: any) => student?.value)
     const studentsIds =
