@@ -13,7 +13,7 @@ import { CalendarStyles } from '@components/Calendar/style'
 import Calendar from 'react-calendar'
 
 import { CommonApi } from '@queries'
-import { NextPageWithLayout } from '@types'
+import { NextPageWithLayout, OptionType } from '@types'
 import OutsideClickHandler from 'react-outside-click-handler'
 import { RiTimerLine } from 'react-icons/ri'
 import {
@@ -62,10 +62,10 @@ const MyStudentsReport: NextPageWithLayout = () => {
         label: course?.title,
     }))
 
-    const handleFormChange = (e: any, name: string) => {
+    const handleFormChange = (e: OptionType[], name: string) => {
         setFormValues({
             ...formValues,
-            [name]: e?.value,
+            [name]: e?.map(({ value }: OptionType) => value)?.join('.'),
         })
     }
 
@@ -82,6 +82,7 @@ const MyStudentsReport: NextPageWithLayout = () => {
                     }}
                     loading={getRtos.isLoading}
                     disabled={getRtos.isLoading}
+                    multi
                 />
 
                 <Select
@@ -94,6 +95,7 @@ const MyStudentsReport: NextPageWithLayout = () => {
                     }}
                     loading={getCourses.isLoading}
                     disabled={getCourses.isLoading}
+                    multi
                 />
                 <div>
                     <Typography variant={'label'}>Enter Range</Typography>
@@ -156,6 +158,7 @@ const MyStudentsReport: NextPageWithLayout = () => {
                     onChange={(e: any) => {
                         handleFormChange(e, 'currentStatus')
                     }}
+                    multi
                 />
                 <div></div>
                 <div className="flex justify-end items-center">
