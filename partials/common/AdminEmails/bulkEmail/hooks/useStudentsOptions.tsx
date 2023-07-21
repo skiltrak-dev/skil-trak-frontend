@@ -28,8 +28,8 @@ export const useStudentsOptions = ({
         { skip: role !== UserRoles.ADMIN }
     )
 
-    // const subadminStudents = CommonApi.Messages.bulkMailSubadminStudents(
-    const subadminStudents = CommonApi.Messages.useSearchBulkMailStudents(
+    // const subadminStudents = CommonApi.Messages.useSearchBulkMailStudents(
+    const subadminStudents = CommonApi.Messages.bulkMailSubadminStudents(
         {
             courses: getCourseIds || undefined,
             rtos: getRtoIds || undefined,
