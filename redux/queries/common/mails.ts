@@ -211,6 +211,22 @@ export const mailsEndpoints = (
         providesTags: ['Mails'],
     }),
 
+    searchBulkMailSubadminStudents: builder.query<any, any>({
+        query: (params) => ({
+            url: `subadmin/bulk-email/students/list`,
+            params,
+        }),
+        providesTags: ['Mails'],
+    }),
+
+    searchBulkMailSubadminRTOs: builder.query<any, any>({
+        query: (params) => ({
+            url: `subadmin/bulk-email/rtos/list`,
+            params,
+        }),
+        providesTags: ['Mails'],
+    }),
+
     // sendMessage: builder.mutation<any, any>({
     //     queryFn: (chatMessageContent: string) => {
     //         const socket = getSocket()
