@@ -13,8 +13,8 @@ export type PaginatedResponse<Type> = {
 }
 
 export type PaginationValues = {
-    skip: number
-    limit: number
+    skip?: number
+    limit?: number
 }
 
 export interface PaginationWithSearch extends PaginationValues {
