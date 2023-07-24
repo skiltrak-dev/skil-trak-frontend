@@ -11,6 +11,7 @@ import {
     AppointmentTab,
 } from '@partials/common'
 import { RTOReports } from '@partials/common/Reports'
+import { RtoStudentsAssessmentGallery } from '@partials/common/RtoStudentsAssessmentGallery'
 
 export const DetailTabs = ({
     id,
@@ -61,6 +62,11 @@ export const DetailTabs = ({
             label: 'Reports',
             href: { query: { tab: 'reports', id } },
             element: <RTOReports user={rto?.data?.user} />,
+        },
+        {
+            label: 'Gallery',
+            href: { query: { tab: 'gallery', id } },
+            element: <RtoStudentsAssessmentGallery />,
         },
         {
             label: 'Mails',

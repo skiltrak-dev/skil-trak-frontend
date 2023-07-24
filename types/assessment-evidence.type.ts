@@ -50,6 +50,7 @@ export interface FileType extends BaseResponse {
     filename: string
     isArchived: boolean
     skiltrakId: number
+    type: any
 }
 
 export interface StudentResponseType extends BaseResponse {

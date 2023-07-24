@@ -3,6 +3,7 @@ import { useContextBar, useNotification } from '@hooks'
 import { useEffect, useState } from 'react'
 import { AddIndustryCB } from '../../contextBar'
 import { Actions, IndustryCard, SmallIndustryCard } from './components'
+import { WorkplaceCurrentStatus } from '@utils'
 
 export const Industries = ({
     admin,
@@ -107,27 +108,39 @@ export const Industries = ({
                                     Other Suggested Industries
                                 </Typography>
                                 <div className="flex items-center flex-wrap gap-2">
-                                    {suggestedIndustries?.map(
-                                        (industry: any, i: number) => (
+                                    {suggestedIndustries
+                                        ?.filter(
+                                            (industry: any) =>
+                                                industry?.industryResponse !==
+                                                    WorkplaceCurrentStatus.Rejected &&
+                                                industry?.industryResponse !==
+                                                    WorkplaceCurrentStatus.NoResponse
+                                        )
+                                        ?.map((industry: any, i: number) => (
                                             <SmallIndustryCard
                                                 key={industry?.id}
                                                 industry={industry}
                                             />
-                                        )
-                                    )}
+                                        ))}
                                 </div>
                             </>
                         ) : (
-                            suggestedIndustries?.map(
-                                (industry: any, i: number) => (
+                            suggestedIndustries
+                                ?.filter(
+                                    (industry: any) =>
+                                        industry?.industryResponse !==
+                                            WorkplaceCurrentStatus.Rejected &&
+                                        industry?.industryResponse !==
+                                            WorkplaceCurrentStatus.NoResponse
+                                )
+                                ?.map((industry: any, i: number) => (
                                     <IndustryCard
                                         key={industry.id}
                                         industry={industry}
                                         appliedIndustry={appliedIndustry}
                                         workplace={workplace}
                                     />
-                                )
-                            )
+                                ))
                         )
                     ) : (
                         'No Industry Found'
