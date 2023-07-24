@@ -103,6 +103,25 @@ export const commonApi = emptySplitApi.injectEndpoints({
             }),
             providesTags: ['RecentActivities'],
         }),
+        getIndustryRecentActivities: build.query<
+            any,
+            {
+                search?: string
+                currentDate?: number
+                startDate?: string
+                endDate?: string
+                last7days?: any
+                skip?: number
+                limit?: number
+                id?: number
+            }
+        >({
+            query: ({id, ...params }) => ({
+                url: `shared/industry/history/${id}`,
+                params,
+            }),
+            providesTags: ['RecentActivities'],
+        }),
 
         changeUserStatus: build.mutation<
             any,
@@ -212,6 +231,7 @@ const {
     // ------ Recent Activities ------ //
     useGetRecentActivitiesQuery,
     useGetRecentActivitiesCountQuery,
+    useGetIndustryRecentActivitiesQuery,
 
     // ---- DOCUMENTS ---- //
     useGetCommonDocumentsQuery,
@@ -335,6 +355,7 @@ export const CommonApi = {
     RecentActivities: {
         useRecentActivities: useGetRecentActivitiesQuery,
         useRecentActivitiesCount: useGetRecentActivitiesCountQuery,
+        useIndustryRecentActivities: useGetIndustryRecentActivitiesQuery,
     },
     User: {
         changeUserStatus: useChangeUserStatusMutation,
