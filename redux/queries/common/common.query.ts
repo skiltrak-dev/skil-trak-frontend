@@ -13,6 +13,7 @@ import { UserStatus } from '@types'
 import { agreementsEndpoints } from './agreement'
 import { draftEndpoints } from './draft'
 import { ticketEndpoints } from './ticket.query'
+import { studentAssessmentGalleryEndpoints } from './studentAssessmentGallery'
 
 export const commonApi = emptySplitApi.injectEndpoints({
     // ---------- COMMON ENDPOINTS ---------- //
@@ -103,6 +104,25 @@ export const commonApi = emptySplitApi.injectEndpoints({
             }),
             providesTags: ['RecentActivities'],
         }),
+        getIndustryRecentActivities: build.query<
+            any,
+            {
+                search?: string
+                currentDate?: number
+                startDate?: string
+                endDate?: string
+                last7days?: any
+                skip?: number
+                limit?: number
+                id?: number
+            }
+        >({
+            query: ({id, ...params }) => ({
+                url: `shared/industry/history/${id}`,
+                params,
+            }),
+            providesTags: ['RecentActivities'],
+        }),
 
         changeUserStatus: build.mutation<
             any,
@@ -129,6 +149,7 @@ export const commonApi = emptySplitApi.injectEndpoints({
         ...notificationsEndpoints(build),
         ...allCommunicationEndpoints(build),
         ...changeProfileImageEndpoints(build),
+        ...studentAssessmentGalleryEndpoints(build),
     }),
     // overrideExisting: true,
 })
@@ -212,6 +233,7 @@ const {
     // ------ Recent Activities ------ //
     useGetRecentActivitiesQuery,
     useGetRecentActivitiesCountQuery,
+    useGetIndustryRecentActivitiesQuery,
 
     // ---- DOCUMENTS ---- //
     useGetCommonDocumentsQuery,
@@ -240,6 +262,11 @@ const {
     useGetTicketDetailQuery,
     useGetTicketRepliesQuery,
     useSeenTicketReplyMutation,
+
+    // ----- STUDENTASSESSMENTFILES ----- //
+    useGalleryFileViewDetailQuery,
+    useGetAllRtoGalleryStudentsQuery,
+    useGetAllStudentAssessmentFilesQuery,
 } = commonApi
 
 export const CommonApi = {
@@ -335,6 +362,7 @@ export const CommonApi = {
     RecentActivities: {
         useRecentActivities: useGetRecentActivitiesQuery,
         useRecentActivitiesCount: useGetRecentActivitiesCountQuery,
+        useIndustryRecentActivities: useGetIndustryRecentActivitiesQuery,
     },
     User: {
         changeUserStatus: useChangeUserStatusMutation,
@@ -358,5 +386,10 @@ export const CommonApi = {
         useCreateTicket: useCreateTicketMutation,
         useGetTicketReplies: useGetTicketRepliesQuery,
         useSeenTicketReply: useSeenTicketReplyMutation,
+    },
+    StudentAssessmentFiles: {
+        useGalleryFileViewDetail: useGalleryFileViewDetailQuery,
+        useGetAllRtoGalleryStudents: useGetAllRtoGalleryStudentsQuery,
+        useAllStudentAssessmentFiles: useGetAllStudentAssessmentFilesQuery,
     },
 }

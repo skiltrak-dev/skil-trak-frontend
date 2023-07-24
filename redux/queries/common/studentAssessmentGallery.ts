@@ -1,0 +1,25 @@
+import { BaseQueryFn } from '@reduxjs/toolkit/dist/query/baseQueryTypes'
+import { EndpointBuilder } from '@reduxjs/toolkit/dist/query/endpointDefinitions'
+
+export const studentAssessmentGalleryEndpoints = (
+    builder: EndpointBuilder<BaseQueryFn, string, string>
+) => ({
+    getAllRtoGalleryStudents: builder.query<
+        any,
+        { id: number; search: string }
+    >({
+        query: ({ id, search }) => ({
+            url: `shared/rto/students/${id}`,
+            params: { search },
+        }),
+        providesTags: ['RTO'],
+    }),
+    getAllStudentAssessmentFiles: builder.query<any, number>({
+        query: (id) => `shared/student/files/${id}`,
+        providesTags: ['RTO'],
+    }),
+    galleryFileViewDetail: builder.query<any, number>({
+        query: (id) => `shared/student/file/view/${id}`,
+        providesTags: ['RTO'],
+    }),
+})

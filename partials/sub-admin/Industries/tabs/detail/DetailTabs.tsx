@@ -21,6 +21,7 @@ import { Students } from './Students'
 import { SubAdminApi, useGetSubAdminIndustryStudentsQuery } from '@queries'
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
+import { IndustryHistory } from './IndustryHistory'
 export const DetailTabs = ({ industry }: { industry: Industry }) => {
     const router = useRouter()
 
@@ -75,6 +76,11 @@ export const DetailTabs = ({ industry }: { industry: Industry }) => {
             label: 'Supervisors',
             href: { query: { tab: 'supervisors', id: industry?.id } },
             element: <Supervisor industry={industry} />,
+        },
+        {
+            label: 'History',
+            href: { query: { tab: 'history', id: industry?.id } },
+            element: <IndustryHistory industry={industry?.user?.id} />,
         },
         {
             label: 'Students',

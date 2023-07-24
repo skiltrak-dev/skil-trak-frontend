@@ -22,7 +22,7 @@ export const HistoryDates = ({
 }) => {
     const yesterday = new Date()
     yesterday.setDate(yesterday.getDate() - 1)
-
+    console.log('history', history)
     return (
         <>
             <div className="relative p-4 pt-6 rounded-md w-full mt-6 mb-2">

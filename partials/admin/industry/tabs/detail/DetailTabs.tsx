@@ -10,6 +10,7 @@ import {
 import { SectorsTab } from './SectorsTab'
 import { Students } from './Students'
 import { useEffect, useState } from 'react'
+import { IndustryHistory } from './IndustryHistory'
 
 export const DetailTabs = ({
     id,
@@ -18,6 +19,7 @@ export const DetailTabs = ({
     id?: number | string | string[] | undefined
     industry: any
 }) => {
+    console.log("industry", industry)
     const [tabs, setTabs] = useState<TabProps[]>([
         {
             label: 'Sectors',
@@ -25,10 +27,16 @@ export const DetailTabs = ({
             element: <SectorsTab industry={industry} />,
         },
         {
+            label: 'History',
+            href: { query: { tab: 'history', id } },
+            element: <IndustryHistory industry={industry?.data?.user?.id}/>,
+        },
+        {
             label: 'Supervisors',
             href: { query: { tab: 'supervisors', id } },
             element: <Supervisor industry={industry?.data} />,
         },
+        
         {
             label: 'Students',
             href: { query: { tab: 'students', id } },
