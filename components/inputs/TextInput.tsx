@@ -35,7 +35,11 @@ export type TextInputProps = InputProps & {
     placeholder?: string
     min?: string
     max?: string
-    placesSuggetions?: boolean
+    onPlaceSuggetions?: {
+        placesSuggetions: boolean
+        setIsPlaceSelected: (value: boolean) => void
+    }
+    placesSuggetions?: any
 }
 
 export const TextInput = ({
@@ -58,11 +62,11 @@ export const TextInput = ({
     required = false,
     disabled = false,
     validationIcons = false,
-
     placesSuggetions,
 
     min,
     max,
+    onPlaceSuggetions,
 }: TextInputProps) => {
     const [passwordType, setPasswordType] = useState<string | null>(
         type || null
@@ -76,7 +80,9 @@ export const TextInput = ({
 
     const { ref }: any = usePlacesWidget({
         apiKey: process.env.NEXT_PUBLIC_MAP_KEY,
-        onPlaceSelected: (place) => {},
+        onPlaceSelected: (place) => {
+            onPlaceSuggetions?.setIsPlaceSelected(true)
+        },
         options: {
             // types: ['(suburbs)'],
             componentRestrictions: {
@@ -123,7 +129,8 @@ export const TextInput = ({
                             onBlur
                         )}
                         {...(value ? { value } : {})}
-                        {...(placesSuggetions
+                        {...(onPlaceSuggetions?.placesSuggetions ||
+                        placesSuggetions
                             ? {
                                   ref: (e: any) => {
                                       formRef && formRef.ref(e)

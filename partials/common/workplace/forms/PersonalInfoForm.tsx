@@ -17,6 +17,7 @@ import { usePlacesWidget } from 'react-google-autocomplete'
 import { InputErrorMessage, RequiredStar } from '@components/inputs/components'
 import { Course } from '@types'
 import { Card, Typography } from 'components'
+import { useNotification } from '@hooks'
 
 type PersonalInfoProps = {
     onSubmit: any
@@ -35,6 +36,9 @@ export const PersonalInfoForm = ({
 
     const [work, setWork] = useState<string>('')
     const [qualification, setQualification] = useState<string>('')
+    const [isPlaceSelected, setIsPlaceSelected] = useState<boolean>(false)
+
+    const { notification } = useNotification()
 
     useEffect(() => {
         if (
@@ -168,6 +172,17 @@ export const PersonalInfoForm = ({
     // const { ref: preferableLocationRef, ...rest } =
     //     formMethods.register('preferableLocation')
 
+    const handleSubmit = (values: any) => {
+        if (isPlaceSelected) {
+            onSubmit(values)
+        } else {
+            notification.warning({
+                title: 'Select on the suggested locations',
+                description: 'Select on the suggestions below location',
+            })
+        }
+    }
+
     return (
         <div>
             <Typography variant={'label'} capitalize>
@@ -176,7 +191,7 @@ export const PersonalInfoForm = ({
 
             <Card>
                 <FormProvider {...formMethods}>
-                    <form onSubmit={formMethods.handleSubmit(onSubmit)}>
+                    <form onSubmit={formMethods.handleSubmit(handleSubmit)}>
                         <div>
                             <Select
                                 id="courses"
@@ -273,7 +288,13 @@ export const PersonalInfoForm = ({
                                 id={'map'}
                                 required
                                 placeholder="Where would you want to locate your self? (Suburb)"
-                                placesSuggetions
+                                onBlur={() => {
+                                    setIsPlaceSelected(false)
+                                }}
+                                onPlaceSuggetions={{
+                                    placesSuggetions: true,
+                                    setIsPlaceSelected,
+                                }}
                             />
 
                             {/* <div className="flex justify-between items-center mb-1">

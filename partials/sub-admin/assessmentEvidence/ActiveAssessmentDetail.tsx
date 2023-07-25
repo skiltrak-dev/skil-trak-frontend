@@ -207,7 +207,7 @@ export const ActiveAssessmentDetail = ({
 
         const filteredDocs = [...docs]?.filter((doc) => {
             const docSize = doc?.size / 1024 / 1024
-            return docSize <= 50
+            return docSize <= 75
         })
 
         if (filteredDocs?.length < docs?.length) {

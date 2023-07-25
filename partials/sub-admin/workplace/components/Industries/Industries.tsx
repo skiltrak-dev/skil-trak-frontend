@@ -23,9 +23,8 @@ export const Industries = ({
     )
     useEffect(() => {
         setSuggestedIndustries(
-            industries
-                ?.filter((i: any) => !i.applied)
-                ?.slice(0, appliedIndustry ? 3 : 4)
+            industries?.filter((i: any) => !i.applied)
+            // ?.slice(0, appliedIndustry ? 3 : 4)
         )
     }, [industries, appliedIndustry])
 
@@ -116,6 +115,7 @@ export const Industries = ({
                                                 industry?.industryResponse !==
                                                     WorkplaceCurrentStatus.NoResponse
                                         )
+                                        ?.reverse()
                                         ?.map((industry: any, i: number) => (
                                             <SmallIndustryCard
                                                 key={industry?.id}
@@ -133,6 +133,7 @@ export const Industries = ({
                                         industry?.industryResponse !==
                                             WorkplaceCurrentStatus.NoResponse
                                 )
+                                ?.reverse()
                                 ?.map((industry: any, i: number) => (
                                     <IndustryCard
                                         key={industry.id}
