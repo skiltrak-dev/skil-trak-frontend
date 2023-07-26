@@ -42,6 +42,21 @@ export const RTOProfileEditForm = ({
     const [courseOptions, setCourseOptions] = useState([])
     const [courseDefaultOptions, setCourseDefaultOptions] = useState([])
 
+    const [isPlaceSelected, setIsPlaceSelected] = useState<{
+        isFocused: boolean
+        isAddressSelected: boolean
+    }>({
+        isFocused: false,
+        isAddressSelected: false,
+    })
+    const [isSuburbSelected, setIsSuburbSelected] = useState<{
+        isFocused: boolean
+        isSuburbSelected: boolean
+    }>({
+        isFocused: false,
+        isSuburbSelected: false,
+    })
+
     const { notification } = useNotification()
 
     const sectorOptions = sectorResponse?.data
@@ -192,6 +207,31 @@ export const RTOProfileEditForm = ({
         }
     }, [profile, sectorResponse])
 
+    const handleSubmit = (values: any) => {
+        if (!isPlaceSelected.isFocused && !isSuburbSelected.isFocused) {
+            onSubmit(values)
+        }
+        if (
+            (isPlaceSelected.isFocused && isPlaceSelected.isAddressSelected) ||
+            (isSuburbSelected.isFocused && isSuburbSelected.isSuburbSelected)
+        ) {
+            console.log('true2')
+            onSubmit(values)
+        }
+        if (!isPlaceSelected.isFocused) {
+            notification.warning({
+                title: 'Select the address from dropdown',
+                description: 'Select the address from dropdown',
+            })
+        }
+        if (!isSuburbSelected.isFocused) {
+            notification.warning({
+                title: 'Select the Suburb from dropdown',
+                description: 'Select the Suburb from dropdown',
+            })
+        }
+    }
+
     return (
         <>
             {profile.isError && <TechnicalError />}
@@ -206,7 +246,7 @@ export const RTOProfileEditForm = ({
                                 <form
                                     className="flex flex-col gap-y-4"
                                     onSubmit={formMethods.handleSubmit(
-                                        onSubmit
+                                        handleSubmit
                                     )}
                                 >
                                     {/* Personal Information */}
@@ -340,7 +380,28 @@ export const RTOProfileEditForm = ({
                                                     'Your Address Line 1...'
                                                 }
                                                 validationIcons
-                                                placesSuggetions
+                                                onPlaceSuggetions={{
+                                                    placesSuggetions: true,
+                                                    setIsPlaceSelected: (
+                                                        value: boolean
+                                                    ) => {
+                                                        setIsPlaceSelected(
+                                                            (
+                                                                isPlaceSelected: any
+                                                            ) => ({
+                                                                ...isPlaceSelected,
+                                                                isAddressSelected:
+                                                                    value,
+                                                            })
+                                                        )
+                                                    },
+                                                }}
+                                                onFocus={(e: any) => {
+                                                    setIsPlaceSelected({
+                                                        ...isPlaceSelected,
+                                                        isFocused: true,
+                                                    })
+                                                }}
                                             />
                                         </div>
 
@@ -350,7 +411,11 @@ export const RTOProfileEditForm = ({
                                                 name={'suburb'}
                                                 placeholder={'Suburb...'}
                                                 validationIcons
-                                                placesSuggetions
+                                                onPlaceSuggetions={{
+                                                    placesSuggetions: true,
+                                                    setIsPlaceSelected:
+                                                        setIsSuburbSelected,
+                                                }}
                                             />
 
                                             <TextInput

@@ -1,7 +1,8 @@
-import { useFormContext } from 'react-hook-form'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { usePlacesWidget } from 'react-google-autocomplete'
+import { useFormContext } from 'react-hook-form'
 
+import { Typography } from '@components'
 import {
     HelpText,
     LoadingSpinner,
@@ -9,7 +10,6 @@ import {
     Tooltip,
     ValidationIcon,
 } from './components'
-import { Typography } from '@components'
 
 import { getMethodsForInput } from '@utils'
 
@@ -37,9 +37,10 @@ export type TextInputProps = InputProps & {
     max?: string
     onPlaceSuggetions?: {
         placesSuggetions: boolean
-        setIsPlaceSelected: (value: boolean) => void
+        setIsPlaceSelected: any //(value: boolean) => void
     }
     placesSuggetions?: any
+    onFocus?: any
 }
 
 export const TextInput = ({
@@ -67,6 +68,7 @@ export const TextInput = ({
     min,
     max,
     onPlaceSuggetions,
+    onFocus,
 }: TextInputProps) => {
     const [passwordType, setPasswordType] = useState<string | null>(
         type || null
@@ -81,6 +83,7 @@ export const TextInput = ({
     const { ref }: any = usePlacesWidget({
         apiKey: process.env.NEXT_PUBLIC_MAP_KEY,
         onPlaceSelected: (place) => {
+            console.log('Inner Console')
             onPlaceSuggetions?.setIsPlaceSelected(true)
         },
         options: {
@@ -94,6 +97,10 @@ export const TextInput = ({
     // const { ref: preferableLocationRef, ...rest } = formContext.register(name)
 
     const formRef = formContext && formContext.register(name)
+
+    // useEffect(() => {
+    //     formContext.setFocus(name)
+    // }, [])
 
     return (
         <div className="w-full mb-2">
@@ -126,8 +133,12 @@ export const TextInput = ({
                             formContext,
                             rules,
                             onChange,
-                            onBlur
+                            onBlur,
+                            // onFocus
                         )}
+                        onFocus={(e) => {
+                            onFocus && onFocus(e)
+                        }}
                         {...(value ? { value } : {})}
                         {...(onPlaceSuggetions?.placesSuggetions ||
                         placesSuggetions

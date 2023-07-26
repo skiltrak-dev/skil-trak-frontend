@@ -31,7 +31,9 @@ import {
     BlockedStudents,
     FilteredStudents,
     MyStudents,
+    NonContactableStudents,
     PendingStudents,
+    PlacementStartedStudents,
     RejectedStudents,
 } from '@partials/sub-admin/students'
 
@@ -140,6 +142,30 @@ const Students: NextPageWithLayout = (props: Props) => {
             },
             href: { pathname: 'students', query: { tab: 'my-students' } },
             element: <MyStudents />,
+        },
+        {
+            label: 'Non Contactable Students',
+            badge: {
+                text: studentCount?.myStudents,
+                loading: count.isLoading,
+            },
+            href: {
+                pathname: 'students',
+                query: { tab: 'non-contactable-students' },
+            },
+            element: <NonContactableStudents />,
+        },
+        {
+            label: 'Placement Started Students',
+            badge: {
+                text: studentCount?.myStudents,
+                loading: count.isLoading,
+            },
+            href: {
+                pathname: 'students',
+                query: { tab: 'placement-started-students' },
+            },
+            element: <PlacementStartedStudents />,
         },
         {
             label: 'Rejected',
