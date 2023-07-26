@@ -71,6 +71,22 @@ export const studentsEndpoints = (
         providesTags: ['SubAdminStudents'],
     }),
 
+    getSubAdminNonContactableStudents: builder.query<any, any>({
+        query: (params) => ({
+            url: `${PREFIX}/students/list/not-contactable`,
+            params,
+        }),
+        providesTags: ['SubAdminStudents'],
+    }),
+
+    getPlacementStartedStudents: builder.query<any, any>({
+        query: (params) => ({
+            url: `${PREFIX}/students/list/placement-started`,
+            params,
+        }),
+        providesTags: ['SubAdminStudents'],
+    }),
+
     updateSubAdminCourseDuration: builder.mutation<any, any | null>({
         query: ({ id, body }) => ({
             url: `${PREFIX}/student/course/timing/${id}`,

@@ -1,3 +1,5 @@
+import download from 'downloadjs'
+import JSZip from 'jszip'
 import { useEffect, useState } from 'react'
 import { PulseLoader } from 'react-spinners'
 
@@ -39,12 +41,10 @@ import {
     getCourseResult,
     getUserCredentials,
 } from '@utils'
-import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { AiFillDelete } from 'react-icons/ai'
 import { FaDownload } from 'react-icons/fa'
 import { SignAgreement } from '../workplace/components/Industries/components/Actions/components'
-import { Student } from '@types'
 
 const AgreementFile = 'agreementFile'
 
@@ -135,8 +135,62 @@ export const ActiveAssessmentDetail = ({
     }, [selectedCourse])
 
     useEffect(() => {
+        console.log('Saad KHan Saad Khan')
         if (downloadFilesResult.isSuccess) {
-            router.push(downloadFilesResult?.data?.url)
+            // router.push(downloadFilesResult?.data?.url)
+            const abc = async () => {
+                const zip = new JSZip()
+                const img = new Image()
+
+                // Replace this with the actual image files you want to include in the zip
+                // const imageUrls = [
+                //     'https://images.unsplash.com/photo-1531403009284-440f080d1e12?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1740&q=80',
+                //     'https://images.unsplash.com/photo-1523289333742-be1143f6b766?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTB8fGNvdXJzZXxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=800&q=60',
+                //     // Add more image URLs here
+                // ]
+
+                console.log(
+                    'downloadFilesResult?.data',
+                    downloadFilesResult?.data?.filter((url: string) => {
+                        let ttt = true
+                        img.onerror = () => {
+                            ttt = false
+                            // The image is available, you can perform any action here.
+                        }
+                        return ttt && url
+                    })
+                )
+
+                // Fetch the images and add them to the zip
+                const fetchPromises =
+                    downloadFilesResult?.data &&
+                    downloadFilesResult?.data?.length > 0 &&
+                    downloadFilesResult?.data
+                        ?.filter((url: string) => {
+                            let isFileWorking = true
+                            img.onerror = () => {
+                                isFileWorking = false
+                                // The image is available, you can perform any action here.
+                            }
+                            return isFileWorking && url
+                        })
+                        ?.map(async (url: string, index: number) => {
+                            const response = await fetch(url)
+                            if (response) {
+                                const arrayBuffer = await response.arrayBuffer()
+                                zip.file(`image${index + 1}.jpg`, arrayBuffer)
+                            }
+                        })
+
+                await Promise.all(fetchPromises)
+
+                // Generate the zip file
+                const content = await zip.generateAsync({ type: 'blob' })
+                console.log({ content })
+                // Download the zip file
+                download(content, 'images_folder')
+            }
+            abc()
         }
     }, [downloadFilesResult])
 
@@ -207,7 +261,7 @@ export const ActiveAssessmentDetail = ({
 
         const filteredDocs = [...docs]?.filter((doc) => {
             const docSize = doc?.size / 1024 / 1024
-            return docSize <= 50
+            return docSize <= 75
         })
 
         if (filteredDocs?.length < docs?.length) {
@@ -280,6 +334,14 @@ export const ActiveAssessmentDetail = ({
             <ShowErrorNotifications result={uploadDocsResult} />
             <ShowErrorNotifications result={archiveFileResult} />
             <ShowErrorNotifications result={downloadFilesResult} />
+            {/* {downloadFilesResult?.isSuccess && (
+                <Image
+                    src={downloadFilesResult?.data?.[0]}
+                    alt={''}
+                    width={50}
+                    height={50}
+                />
+            )} */}
             <div className="flex justify-between items-center mb-6">
                 {/* <div>
                     {!selectedCourse?.results?.length && (
@@ -405,14 +467,15 @@ export const ActiveAssessmentDetail = ({
                                     {results?.assessor?.name || 'Not Assessesd'}
                                 </span>
                             </Typography>
-                            {/* <Button
+                            <Button
                                 text={'Download Files'}
                                 variant={'action'}
                                 loading={downloadFilesResult.isLoading}
                                 disabled={downloadFilesResult.isLoading}
                                 Icon={FaDownload}
-                            /> */}
-                            <Link
+                                onClick={onDownloadFiles}
+                            />
+                            {/* <Link
                                 className="text-xs font-medium uppercase transition-all duration-300 rounded-md border px-4 py-2 shadow focus:outline-none focus:ring-4 bg-white text-dark hover:bg-secondary-dark border-transparent ring-primary-light"
                                 href={`${
                                     process.env.NEXT_PUBLIC_END_POINT
@@ -427,7 +490,7 @@ export const ActiveAssessmentDetail = ({
                                     <FaDownload />
                                     <span>Download Files</span>
                                 </div>
-                            </Link>
+                            </Link> */}
                             <div className="flex items-center gap-x-2 mb-1">
                                 <div>
                                     {selectedFolder &&

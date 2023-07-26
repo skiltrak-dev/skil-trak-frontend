@@ -1,7 +1,8 @@
-import { useFormContext } from 'react-hook-form'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { usePlacesWidget } from 'react-google-autocomplete'
+import { useFormContext } from 'react-hook-form'
 
+import { Typography } from '@components'
 import {
     HelpText,
     LoadingSpinner,
@@ -9,7 +10,6 @@ import {
     Tooltip,
     ValidationIcon,
 } from './components'
-import { Typography } from '@components'
 
 import { getMethodsForInput } from '@utils'
 
@@ -35,7 +35,12 @@ export type TextInputProps = InputProps & {
     placeholder?: string
     min?: string
     max?: string
-    placesSuggetions?: boolean
+    onPlaceSuggetions?: {
+        placesSuggetions: boolean
+        setIsPlaceSelected: any //(value: boolean) => void
+    }
+    placesSuggetions?: any
+    onFocus?: any
 }
 
 export const TextInput = ({
@@ -58,11 +63,12 @@ export const TextInput = ({
     required = false,
     disabled = false,
     validationIcons = false,
-
     placesSuggetions,
 
     min,
     max,
+    onPlaceSuggetions,
+    onFocus,
 }: TextInputProps) => {
     const [passwordType, setPasswordType] = useState<string | null>(
         type || null
@@ -76,7 +82,10 @@ export const TextInput = ({
 
     const { ref }: any = usePlacesWidget({
         apiKey: process.env.NEXT_PUBLIC_MAP_KEY,
-        onPlaceSelected: (place) => {},
+        onPlaceSelected: (place) => {
+            console.log('Inner Console')
+            onPlaceSuggetions?.setIsPlaceSelected(true)
+        },
         options: {
             // types: ['(suburbs)'],
             componentRestrictions: {
@@ -88,6 +97,10 @@ export const TextInput = ({
     // const { ref: preferableLocationRef, ...rest } = formContext.register(name)
 
     const formRef = formContext && formContext.register(name)
+
+    // useEffect(() => {
+    //     formContext.setFocus(name)
+    // }, [])
 
     return (
         <div className="w-full mb-2">
@@ -120,10 +133,15 @@ export const TextInput = ({
                             formContext,
                             rules,
                             onChange,
-                            onBlur
+                            onBlur,
+                            // onFocus
                         )}
+                        onFocus={(e) => {
+                            onFocus && onFocus(e)
+                        }}
                         {...(value ? { value } : {})}
-                        {...(placesSuggetions
+                        {...(onPlaceSuggetions?.placesSuggetions ||
+                        placesSuggetions
                             ? {
                                   ref: (e: any) => {
                                       formRef && formRef.ref(e)

@@ -1,5 +1,6 @@
 import {
     ActionButton,
+    Badge,
     Button,
     Card,
     CourseFilters,
@@ -18,7 +19,7 @@ import { FaEdit, FaEye, FaFileExport, FaTrash } from 'react-icons/fa'
 import { useContextBar, useNavbar } from '@hooks'
 import { AdminApi } from '@queries'
 import { Course, CourseFilterType } from '@types'
-import { getFilterQuery } from '@utils'
+import { getFilterQuery, isDateWithinLast7Days } from '@utils'
 import { useRouter } from 'next/router'
 import { ReactElement, useEffect, useState } from 'react'
 import { CourseView } from './contextBar'
@@ -121,7 +122,10 @@ export const Courses = () => {
                                 {info.row.original.code}
                             </p>
                             <p className="font-semibold">
-                                {info.row.original.title}
+                                {info.row.original.title}{' '}
+                                {isDateWithinLast7Days(
+                                    info.row.original?.createdAt as Date
+                                ) && <Badge text={'New'} variant={'info'} />}
                             </p>
                         </div>
 
