@@ -5,16 +5,16 @@ const nextConfig = {
     images: {
         unoptimized: true,
         domains: [
-            'images.unsplash.com',
-            'loremflickr.com',
-            'picsum.photos',
+            'skiltrak.org',
             'placeimg.com',
-            'skiltrak-dev.s3.amazonaws.com',
+            'picsum.photos',
+            'loremflickr.com',
             'skiltrak.com.au',
             'www.skiltrak.com.au',
-            'skiltrak-dev.s3.ap-southeast-2.amazonaws.com',
+            'images.unsplash.com',
             'hivedinn.s3.amazonaws.com',
-            'skiltrak.org',
+            'skiltrak-dev.s3.amazonaws.com',
+            'skiltrak-dev.s3.ap-southeast-2.amazonaws.com',
         ],
     },
 }
