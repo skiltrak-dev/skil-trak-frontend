@@ -17,7 +17,7 @@ export const useIndustriesOptions = () => {
         CommonApi.Industries.bulkEmailSubadminIndustries(undefined, {
             skip: role !== UserRoles.SUBADMIN,
         })
-
+console.log("subadminCoursesResponse", subadminCoursesResponse)
     useEffect(() => {
         if (role === UserRoles.ADMIN) {
             setIndustriesResponse(adminCoursesResponse)
@@ -32,7 +32,7 @@ export const useIndustriesOptions = () => {
 
     const industryOptions = industriesResponse?.data?.length
         ? industriesResponse?.data?.map((industry: any) => ({
-              label: `${industry?.user?.name} ${industry?.abn}`,
+              label: `${industry?.businessName} ${industry?.abn}`,
               value: industry?.id,
           }))
         : []

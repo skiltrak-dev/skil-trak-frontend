@@ -26,9 +26,12 @@ export const MapDetail = ({
     selectedBox,
     setSelectedBox,
     selectedLocation,
+    setVisibleMarkers,
+    visibleMarkers,
 }: any) => {
     const [map, setMap] = useState<any>(null)
     const [showInfoBox, setShowInfoBox] = useState<any>(false)
+    // const [visibleMarkers, setVisibleMarkers] = useState<any[]>([])
 
     const { isLoaded } = useJsApiLoader({
         id: 'google-map-script',
@@ -56,6 +59,22 @@ export const MapDetail = ({
     //     []
     // )
 
+    // const onBoundChange = () => {
+    //     setSelectedBox(null)
+    //     setShowInfoBox(false)
+    //     let industries: any = []
+    //     latLngLocation?.forEach((location: any) => {
+    //         const bound = map?.getBounds()?.contains({
+    //             lat: Number(location?.lat),
+    //             lng: Number(location?.lng),
+    //         })
+    //         if (bound) {
+    //             industries.push(location?.place_id)
+    //         }
+    //     })
+    //     // debounceValue(industries)
+    //     industries = []
+    // }
     const onBoundChange = () => {
         setSelectedBox(null)
         setShowInfoBox(false)
@@ -66,10 +85,10 @@ export const MapDetail = ({
                 lng: Number(location?.lng),
             })
             if (bound) {
-                industries.push(location?.place_id)
+                industries.push(location)
             }
         })
-        // debounceValue(industries)
+        setVisibleMarkers(industries)
         industries = []
     }
 
@@ -86,6 +105,7 @@ export const MapDetail = ({
             'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m', // so you must have m1.png, m2.png, m3.png, m4.png, m5.png and m6.png in that folder
     }
 
+
     return isLoaded ? (
         <GoogleMap
             mapContainerStyle={containerStyle}
@@ -97,7 +117,7 @@ export const MapDetail = ({
         >
             <MarkerClusterer options={clusterOptions}>
                 {(clusterer) =>
-                    latLngLocation?.map((location: any, i: any) => {
+                    visibleMarkers?.map((location: any, i: any) => {
                         return (
                             <div className="relative">
                                 <Marker

@@ -43,8 +43,8 @@ export const IndustryHistory = ({ industry }: { industry: number }) => {
                     ? { last7days: undefined }
                     : ''),
                 id: industry,
-                skip: itemPerPage * page - itemPerPage,
-                limit: itemPerPage,
+                // skip: itemPerPage * page - itemPerPage,
+                // limit: itemPerPage,
                 // search: `status:${searchedValue}`,
             },
             {
