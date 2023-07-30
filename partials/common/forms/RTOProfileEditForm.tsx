@@ -215,7 +215,6 @@ export const RTOProfileEditForm = ({
             (isPlaceSelected.isFocused && isPlaceSelected.isAddressSelected) ||
             (isSuburbSelected.isFocused && isSuburbSelected.isSuburbSelected)
         ) {
-            console.log('true2')
             onSubmit(values)
         }
         if (!isPlaceSelected.isFocused) {

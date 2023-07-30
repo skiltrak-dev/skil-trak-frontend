@@ -83,7 +83,6 @@ export const TextInput = ({
     const { ref }: any = usePlacesWidget({
         apiKey: process.env.NEXT_PUBLIC_MAP_KEY,
         onPlaceSelected: (place) => {
-            console.log('Inner Console')
             onPlaceSuggetions?.setIsPlaceSelected(true)
         },
         options: {

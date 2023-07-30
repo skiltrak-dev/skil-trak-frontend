@@ -5,14 +5,14 @@ import { PulseLoader } from 'react-spinners'
 
 //components
 import {
-    AssessmentFolderCard,
-    AssessmentResponse,
+    NoData,
     Button,
     Checkbox,
     CourseCard,
     FinalResult,
     LoadingAnimation,
-    NoData,
+    AssessmentResponse,
+    AssessmentFolderCard,
     ShowErrorNotifications,
     Typography,
 } from '@components'
@@ -135,31 +135,16 @@ export const ActiveAssessmentDetail = ({
     }, [selectedCourse])
 
     useEffect(() => {
-        console.log('Saad KHan Saad Khan')
         if (downloadFilesResult.isSuccess) {
+            notification.success({
+                title: 'Download in progress',
+                description:
+                    'Your files are archiving, it may take a while to download your files',
+            })
             // router.push(downloadFilesResult?.data?.url)
-            const abc = async () => {
+            const downloadAssessmentAllFiles = async () => {
                 const zip = new JSZip()
                 const img = new Image()
-
-                // Replace this with the actual image files you want to include in the zip
-                // const imageUrls = [
-                //     'https://images.unsplash.com/photo-1531403009284-440f080d1e12?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1740&q=80',
-                //     'https://images.unsplash.com/photo-1523289333742-be1143f6b766?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTB8fGNvdXJzZXxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=800&q=60',
-                //     // Add more image URLs here
-                // ]
-
-                console.log(
-                    'downloadFilesResult?.data',
-                    downloadFilesResult?.data?.filter((url: string) => {
-                        let ttt = true
-                        img.onerror = () => {
-                            ttt = false
-                            // The image is available, you can perform any action here.
-                        }
-                        return ttt && url
-                    })
-                )
 
                 // Fetch the images and add them to the zip
                 const fetchPromises =
@@ -176,9 +161,11 @@ export const ActiveAssessmentDetail = ({
                         })
                         ?.map(async (url: string, index: number) => {
                             const response = await fetch(url)
+                            const fileName = url?.split('/')?.reverse()?.[0]
+                            console.log({ fileName })
                             if (response) {
                                 const arrayBuffer = await response.arrayBuffer()
-                                zip.file(`image${index + 1}.jpg`, arrayBuffer)
+                                zip.file(`${fileName}`, arrayBuffer)
                             }
                         })
 
@@ -186,11 +173,13 @@ export const ActiveAssessmentDetail = ({
 
                 // Generate the zip file
                 const content = await zip.generateAsync({ type: 'blob' })
-                console.log({ content })
                 // Download the zip file
-                download(content, 'images_folder')
+                download(
+                    content,
+                    `${studentProfile?.data?.user?.name} Assessment Files`
+                )
             }
-            abc()
+            downloadAssessmentAllFiles()
         }
     }, [downloadFilesResult])
 
