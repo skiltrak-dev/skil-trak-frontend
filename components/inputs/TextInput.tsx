@@ -132,7 +132,7 @@ export const TextInput = ({
                             formContext,
                             rules,
                             onChange,
-                            onBlur,
+                            onBlur
                             // onFocus
                         )}
                         onFocus={(e) => {

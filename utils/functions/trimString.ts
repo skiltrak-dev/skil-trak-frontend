@@ -12,4 +12,4 @@ export const trimString = (data: any) => {
     return values
 }
 
-export const trimText = (text: string) => text?.replace(/\s\s+/g, ' ')?.trim()
+export const trimText = (text: string) => text?.replace(/\\t|\s+/g, '')?.trim()

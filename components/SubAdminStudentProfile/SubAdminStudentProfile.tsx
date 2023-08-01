@@ -177,7 +177,7 @@ export const SubAdminStudentProfile = ({ student }: { student: any }) => {
                                     })
                                     notification.success({
                                         title: 'Cpoied',
-                                        description: 'Phone Num Copied',
+                                        description: 'Phone Number Copied',
                                     })
                                 }}
                             >
