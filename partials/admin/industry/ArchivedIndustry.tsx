@@ -51,7 +51,7 @@ export const ArchivedIndustry = () => {
             text: 'View',
             onClick: (industry: any) => {
                 router.push(
-                    `/portals/admin/industry/${industry.id}?tab=sectors`
+                    `/portals/admin/industry/${industry.id}?tab=students`
                 )
             },
             Icon: FaEye,

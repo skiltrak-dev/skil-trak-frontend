@@ -2,6 +2,7 @@ import { ReactNode, createContext, useContext, useState } from 'react'
 
 import { Alert, AlertProps, AlertType } from '@components'
 import { useRouter } from 'next/router'
+import { useAutoLogout } from './useAutoLogout'
 
 export type AlertObjectType = {
     success: (props: AlertProps) => void

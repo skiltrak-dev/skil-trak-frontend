@@ -1,22 +1,13 @@
 import type { NextPage } from 'next'
+import {
+    CircularProgressbarWithChildren,
+    buildStyles,
+} from 'react-circular-progressbar'
+import 'react-circular-progressbar/dist/styles.css'
 
-import { Button, Card, Checkbox, Navbar, Table } from '@components'
-import {
-    createColumnHelper,
-    flexRender,
-    useReactTable,
-    getCoreRowModel,
-    ColumnDef,
-} from '@tanstack/react-table'
-import {
-    HTMLProps,
-    ReactElement,
-    ReactNode,
-    useEffect,
-    useMemo,
-    useRef,
-    useState,
-} from 'react'
+import { Button, Card, Navbar, Table } from '@components'
+import { ColumnDef } from '@tanstack/react-table'
+import { useEffect, useState } from 'react'
 
 // Define your row shape
 type Person = {
@@ -172,9 +163,85 @@ const TablePage: NextPage = () => {
 
     const width = `${(obtainedSeconds / totalSeconds) * 100}%`
 
+    const percentage = 75
+    const strokeWidth = 10
+    const circleRadius = 50
+
+    const [offset, setOffset] = useState(0)
+
+    useEffect(() => {
+        const progress = percentage / 100
+        const circumference = 2 * Math.PI * circleRadius
+        const progressOffset = circumference * (1 - progress)
+        setOffset(progressOffset)
+    }, [percentage, circleRadius])
+
+    const [timer, settimer] = useState(null)
+    const [abcde, setabcde] = useState(2000)
+
+    useEffect(() => {
+        let time: any = null
+        time = setTimeout(() => {
+            console.log('Saad Khan')
+        }, abcde)
+        console.log('abcde', abcde)
+
+        return () => {
+            clearTimeout(time)
+        }
+    }, [abcde])
+
+    console.log({ abcde })
+
     return (
         <div>
+            <div
+                onClick={() => {
+                    setabcde((preVal) =>
+                        preVal <= 2000 ? 2000 : preVal + 0.001
+                    )
+                }}
+            >
+                Saad
+            </div>
             <Navbar />
+            <div style={{ width: '200px' }}>
+                <CircularProgressbarWithChildren
+                    value={percentage}
+                    strokeWidth={5}
+                    styles={buildStyles({
+                        pathColor: 'blue',
+                        trailColor: 'orange',
+                        // strokeLinecap: 'butt',
+                    })}
+                    // text={`${percentage}%`}
+                >
+                    <div className="w-3/4">
+                        <CircularProgressbarWithChildren
+                            value={percentage}
+                            strokeWidth={7}
+                            // text={`${percentage}%`}
+                        >
+                            <div className="w-[70%]">
+                                <CircularProgressbarWithChildren
+                                    value={percentage}
+                                    strokeWidth={8.5}
+                                    // text={`${percentage}%`}
+                                >
+                                    <div className="w-3/5">
+                                        <CircularProgressbarWithChildren
+                                            value={percentage}
+                                            strokeWidth={10}
+
+                                            // text={`${percentage}%`}
+                                        ></CircularProgressbarWithChildren>
+                                    </div>
+                                </CircularProgressbarWithChildren>
+                            </div>
+                        </CircularProgressbarWithChildren>
+                    </div>
+                </CircularProgressbarWithChildren>
+            </div>
             <div className="flex flex-col gap-y-6 pb-8 px-6 pt-6 ">
                 <div className="w-full">
                     <div className="border rounded w-full h-8">

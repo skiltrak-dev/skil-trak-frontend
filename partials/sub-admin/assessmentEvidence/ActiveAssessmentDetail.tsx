@@ -162,7 +162,6 @@ export const ActiveAssessmentDetail = ({
                         ?.map(async (url: string, index: number) => {
                             const response = await fetch(url)
                             const fileName = url?.split('/')?.reverse()?.[0]
-                            console.log({ fileName })
                             if (response) {
                                 const arrayBuffer = await response.arrayBuffer()
                                 zip.file(`${fileName}`, arrayBuffer)
@@ -173,9 +172,12 @@ export const ActiveAssessmentDetail = ({
 
                 // Generate the zip file
                 const content = await zip.generateAsync({ type: 'blob' })
+
+                const strMimeType = 'application/zip'
+                const blob = new Blob([content], { type: strMimeType })
                 // Download the zip file
                 download(
-                    content,
+                    blob,
                     `${studentProfile?.data?.user?.name} Assessment Files`
                 )
             }
@@ -317,7 +319,7 @@ export const ActiveAssessmentDetail = ({
             </div>
         )
     }
-
+    console.log({ results })
     return (
         <div className="mb-10">
             <ShowErrorNotifications result={uploadDocsResult} />
@@ -480,55 +482,60 @@ export const ActiveAssessmentDetail = ({
                                     <span>Download Files</span>
                                 </div>
                             </Link> */}
-                            <div className="flex items-center gap-x-2 mb-1">
-                                <div>
-                                    {selectedFolder &&
-                                        results !== Result.NotSubmitted &&
-                                        (selectedFolder?.id ===
-                                        AgreementFile ? (
-                                            <SignAgreement
-                                                studentId={
-                                                    studentProfile?.data?.id
-                                                }
-                                                appliedIndustryId={
-                                                    appliedIndustry?.id
-                                                }
-                                                student={studentProfile?.data}
-                                                courses={
-                                                    latestWorkplace?.courses
-                                                }
-                                            />
-                                        ) : selectedFolder ? (
-                                            <FileUpload
-                                                onChange={onUploadDocs}
-                                                name={'folder?.name'}
-                                                component={AddFileButton}
-                                                multiple
-                                                limit={
-                                                    selectedFolder?.id ===
-                                                    AgreementFile
-                                                        ? 10
-                                                        : Number(
-                                                              selectedFolder?.capacity
-                                                          ) -
-                                                          Number(
-                                                              selectedFolder
-                                                                  ?.studentResponse
-                                                                  ?.length > 0
-                                                                  ? selectedFolder
-                                                                        ?.studentResponse[0]
-                                                                        ?.files
-                                                                        ?.length
-                                                                  : 0
-                                                          )
-                                                }
-                                                acceptTypes={getDocType(
-                                                    selectedFolder?.type
-                                                )}
-                                            />
-                                        ) : null)}
+                            {results?.result !== Result.Competent && (
+                                <div className="flex items-center gap-x-2 mb-1">
+                                    <div>
+                                        {selectedFolder &&
+                                            results !== Result.NotSubmitted &&
+                                            (selectedFolder?.id ===
+                                            AgreementFile ? (
+                                                <SignAgreement
+                                                    studentId={
+                                                        studentProfile?.data?.id
+                                                    }
+                                                    appliedIndustryId={
+                                                        appliedIndustry?.id
+                                                    }
+                                                    student={
+                                                        studentProfile?.data
+                                                    }
+                                                    courses={
+                                                        latestWorkplace?.courses
+                                                    }
+                                                />
+                                            ) : selectedFolder ? (
+                                                <FileUpload
+                                                    onChange={onUploadDocs}
+                                                    name={'folder?.name'}
+                                                    component={AddFileButton}
+                                                    multiple
+                                                    limit={
+                                                        selectedFolder?.id ===
+                                                        AgreementFile
+                                                            ? 10
+                                                            : Number(
+                                                                  selectedFolder?.capacity
+                                                              ) -
+                                                              Number(
+                                                                  selectedFolder
+                                                                      ?.studentResponse
+                                                                      ?.length >
+                                                                      0
+                                                                      ? selectedFolder
+                                                                            ?.studentResponse[0]
+                                                                            ?.files
+                                                                            ?.length
+                                                                      : 0
+                                                              )
+                                                    }
+                                                    acceptTypes={getDocType(
+                                                        selectedFolder?.type
+                                                    )}
+                                                />
+                                            ) : null)}
+                                    </div>
                                 </div>
-                            </div>
+                            )}
                         </div>
                     </div>
                     {/*  */}

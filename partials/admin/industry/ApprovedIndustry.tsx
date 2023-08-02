@@ -66,7 +66,7 @@ export const ApprovedIndustry = () => {
             text: 'View',
             onClick: (industry: any) => {
                 router.push(
-                    `/portals/admin/industry/${industry.id}?tab=sectors`
+                    `/portals/admin/industry/${industry.id}?tab=students`
                 )
             },
             Icon: FaEye,
@@ -186,7 +186,7 @@ export const ApprovedIndustry = () => {
                     title={'Approved Industries'}
                     subtitle={'List of Approved Industries'}
                 >
-                    {data && data?.data.length ? (
+                    {data && data?.data?.length ? (
                         <Button
                             text="Export"
                             variant="action"

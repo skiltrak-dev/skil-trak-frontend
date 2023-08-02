@@ -14,11 +14,13 @@ export const StudentTimer = ({
     date,
     studentStatus,
     changeExpiryData,
+    oldExpiry,
 }: {
     studentId: number | undefined
     date: Date
     studentStatus: string
     changeExpiryData?: any
+    oldExpiry: Date | null
 }) => {
     const [modal, setModal] = useState<ReactElement | null>(null)
     const [mounted, setMounted] = useState(false)
@@ -52,7 +54,10 @@ export const StudentTimer = ({
                         Click To Re-Activate
                     </button>
                     <Typography variant={'small'} color={'text-white'}>
-                        Expired on {moment(date).format('MMM Do YYYY')}
+                        Expired on{' '}
+                        {moment(oldExpiry ? oldExpiry : date).format(
+                            'MMM Do YYYY'
+                        )}
                     </Typography>
                 </div>
             )
@@ -88,6 +93,19 @@ export const StudentTimer = ({
             {mounted ? (
                 // <div className='bg-gray-700 text-white py-1 px-2 rounded-md'>
                 <div className="flex items-center justify-center gap-x-3">
+                    {oldExpiry && (
+                        <div className="flex flex-col gap-y-1">
+                            <Typography
+                                variant={'muted'}
+                                color={'text-gray-500'}
+                            >
+                                Expires on (Extended)
+                            </Typography>
+                            <Typography variant={'label'}>
+                                {moment(date).format('Do MMM YYYY')}
+                            </Typography>
+                        </div>
+                    )}
                     <div className="relative group">
                         <Countdown date={date} renderer={countDownRendered} />
                         <div className="group-hover:block hidden text-xs whitespace-nowrap shadow-lg text-gray-100 bg-gray-700 px-2 py-1 rounded-md absolute z-10 right-0">
@@ -99,7 +117,9 @@ export const StudentTimer = ({
                             Expires on
                         </Typography>
                         <Typography variant={'label'}>
-                            {moment(date).format('Do MMM YYYY')}
+                            {moment(oldExpiry ? oldExpiry : date).format(
+                                'Do MMM YYYY'
+                            )}
                         </Typography>
                     </div>
                     <AuthorizedUserComponent

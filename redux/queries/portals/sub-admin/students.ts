@@ -3,9 +3,8 @@ import { EndpointBuilder } from '@reduxjs/toolkit/dist/query/endpointDefinitions
 import {
     PaginatedResponse,
     Student,
-    UserCount,
-    UserStatus,
     StudentStatusEnum,
+    UserStatus,
 } from '@types'
 
 const PREFIX = 'subadmin'

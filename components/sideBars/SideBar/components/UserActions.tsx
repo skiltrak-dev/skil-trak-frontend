@@ -11,8 +11,8 @@ import { SideBarItem } from '@components/sideBars/SideBarItem'
 
 import Image from 'next/image'
 import { useDispatch } from 'react-redux'
-import { adminApi, commonApi } from '@queries'
-import { useContextBar } from '@hooks'
+import { adminApi, commonApi, CommonApi } from '@queries'
+import { LogoutType, useContextBar } from '@hooks'
 
 export const UserActions = () => {
     const router = useRouter()
@@ -21,6 +21,8 @@ export const UserActions = () => {
 
     const contextBar = useContextBar()
     const dispatch = useDispatch()
+
+    const [logoutActivity] = CommonApi.LogoutActivity.perFormAcivityOnLogout()
 
     useEffect(() => {
         if (!credentials) {
@@ -41,7 +43,10 @@ export const UserActions = () => {
         },
         {
             text: 'Log Out',
-            onClick: () => {
+            onClick: async () => {
+                if (AuthUtils.getToken()) {
+                    await logoutActivity({})
+                }
                 AuthUtils.logout(router)
                 contextBar.setContent(null)
                 contextBar.setTitle(null)
