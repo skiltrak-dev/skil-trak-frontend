@@ -7,7 +7,7 @@ import * as yup from 'yup'
 
 import { onlyAlphabets } from '@utils'
 
-import { Avatar, Button, TextInput } from '@components'
+import { Avatar, Button, ShowErrorNotifications, TextInput } from '@components'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { FormProvider, useForm } from 'react-hook-form'
 
@@ -91,6 +91,7 @@ const MyProfile: NextPageWithLayout = () => {
     return (
         <>
             {passwordModal && passwordModal}
+            <ShowErrorNotifications result={updateProfileResult} />
             <div className="p-4 mb-4">
                 <Avatar avatar={String(profile?.data?.avatar)} />
 

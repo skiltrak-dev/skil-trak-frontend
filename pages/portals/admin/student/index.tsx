@@ -14,6 +14,7 @@ import {
 import { useContextBar, useNavbar } from '@hooks'
 import { AdminLayout } from '@layouts'
 import {
+    AllStudentsReport,
     ApprovedStudent,
     ArchivedStudent,
     BlockedStudent,
@@ -134,6 +135,14 @@ const StudentList: NextPageWithLayout = () => {
                 loading: isLoading,
             },
             element: <ArchivedStudent />,
+        },
+        {
+            label: 'All Students Report',
+            href: {
+                pathname: 'student',
+                query: { tab: 'all-students-report' },
+            },
+            element: <AllStudentsReport />,
         },
     ]
 

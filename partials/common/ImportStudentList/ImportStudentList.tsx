@@ -8,6 +8,7 @@ import { PageHeading } from '@components/headings'
 import { ImportStudentForm, SpecifyColumns } from '@partials/admin/rto/students'
 import { AdminApi } from '@queries'
 import { ImportStudentFormType } from '@types'
+import { trimText } from '@utils'
 
 export const ImportStudentList = ({
     onSubmit,
@@ -57,7 +58,7 @@ export const ImportStudentList = ({
         setFoundStudents(students)
         setStudentList(students)
 
-        const mails = students.map((std: any) => std.email)
+        const mails = students.map((std: any) => trimText(std.email))
         checkMails({
             emails: mails,
         })
