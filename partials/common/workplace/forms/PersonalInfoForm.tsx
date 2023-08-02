@@ -38,6 +38,8 @@ export const PersonalInfoForm = ({
     const [qualification, setQualification] = useState<string>('')
     const [isPlaceSelected, setIsPlaceSelected] = useState<boolean>(false)
 
+    console.log({isPlaceSelected})
+
     const { notification } = useNotification()
 
     useEffect(() => {
@@ -173,14 +175,15 @@ export const PersonalInfoForm = ({
     //     formMethods.register('preferableLocation')
 
     const handleSubmit = (values: any) => {
-        if (isPlaceSelected) {
-            onSubmit(values)
-        } else {
-            notification.warning({
-                title: 'Select on the suggested locations',
-                description: 'Select on the suggestions below location',
-            })
-        }
+        // if (isPlaceSelected) {
+        //     onSubmit(values)
+        // } else {
+        //     notification.warning({
+        //         title: 'Select on the suggested locations',
+        //         description: 'Select on the suggestions below location',
+        //     })
+        // }
+        onSubmit(values)
     }
 
     return (

@@ -50,6 +50,8 @@ export const StudentProfileForm = ({
         ...sectorDefaultOptions,
     ])
 
+    console.log({ courseValues })
+
     const sectorOptions = sectorResponse?.data
         ? sectorResponse.data?.map((sector: any) => ({
               label: sector.name,
@@ -73,7 +75,7 @@ export const StudentProfileForm = ({
     useEffect(() => {
         if (courses.isSuccess && courses?.data?.length > 0) {
             const courseAddedOptions = courses?.data?.map((course: any) => ({
-                label: course?.title,
+                label: `${course?.title} ${course?.code}`,
                 value: course?.id,
             }))
             setCourseValues(courseAddedOptions)
@@ -136,7 +138,7 @@ export const StudentProfileForm = ({
             if (courseList && courseList.length) {
                 return courseList.map((course: any) =>
                     newCourseOptions.push({
-                        label: course.title,
+                        label: `${course?.title} ${course?.code}`,
                         value: course.id,
                     })
                 )

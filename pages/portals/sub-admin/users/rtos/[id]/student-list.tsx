@@ -11,6 +11,7 @@ import {
     useGetSubAdminRTOCoursesQuery,
     useGetSubAdminRTODetailQuery,
 } from '@queries'
+import { trimText } from '@utils'
 
 const RtoStudentLists: NextPageWithLayout = () => {
     const { notification } = useNotification()
@@ -79,7 +80,10 @@ const RtoStudentLists: NextPageWithLayout = () => {
                 body: {
                     ...values,
                     // courses,
-                    list,
+                    list: list?.map((o: any) => ({
+                        ...o,
+                        email: trimText(o?.email),
+                    })),
                 },
             })
         }

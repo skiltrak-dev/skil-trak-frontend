@@ -246,7 +246,7 @@ export const IndustryProfile = ({ data }: Props) => {
                                             })
                                             notification.success({
                                                 title: 'Cpoied',
-                                                description: 'Phone Num Copied',
+                                                description: 'Phone Number Copied',
                                             })
                                         }}
                                     >
