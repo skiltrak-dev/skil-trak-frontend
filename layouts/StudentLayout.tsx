@@ -134,6 +134,7 @@ export const StudentLayout = ({ pageTitle, children }: StudentLayoutProps) => {
                                         studentStatus={
                                             profile.data?.user?.studentStatus
                                         }
+                                        oldExpiry={profile?.data?.oldExpiry}
                                     />
                                 )}
                             </div>

@@ -43,23 +43,33 @@ export const StudentTimer = ({
     }) => {
         if (completed) {
             return (
-                <div className="bg-red-500 rounded-md py-2 px-4">
-                    <p className="text-sm font-semibold text-red-50">
-                        Your account is expired
-                    </p>
-                    <button
-                        onClick={onDateClick}
-                        className="text-xs font-medium text-red-200 hover:text-white"
-                    >
-                        Click To Re-Activate
-                    </button>
-                    <Typography variant={'small'} color={'text-white'}>
-                        Expired on{' '}
-                        {moment(oldExpiry ? oldExpiry : date).format(
-                            'MMM Do YYYY'
-                        )}
-                    </Typography>
-                </div>
+                <>
+                    <div className="bg-red-500 rounded-md py-2 px-4">
+                        <p className="text-sm font-semibold text-red-50">
+                            Your account is expired
+                        </p>
+                        <AuthorizedUserComponent
+                            roles={[
+                                UserRoles.ADMIN,
+                                UserRoles.SUBADMIN,
+                                UserRoles.RTO,
+                            ]}
+                        >
+                            <button
+                                onClick={onDateClick}
+                                className="text-xs font-medium text-red-200 hover:text-white"
+                            >
+                                Click To Re-Activate
+                            </button>
+                        </AuthorizedUserComponent>
+                        <Typography variant={'small'} color={'text-white'}>
+                            Expired on{' '}
+                            {moment(oldExpiry ? oldExpiry : date).format(
+                                'MMM Do YYYY'
+                            )}
+                        </Typography>
+                    </div>
+                </>
             )
         } else {
             return (

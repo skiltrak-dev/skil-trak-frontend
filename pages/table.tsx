@@ -8,6 +8,7 @@ import 'react-circular-progressbar/dist/styles.css'
 import { Button, Card, Navbar, Table } from '@components'
 import { ColumnDef } from '@tanstack/react-table'
 import { useEffect, useState } from 'react'
+import { Link } from 'react-scroll'
 
 // Define your row shape
 type Person = {
@@ -193,8 +194,57 @@ const TablePage: NextPage = () => {
 
     console.log({ abcde })
 
+    const Sidebar = () => {
+        return (
+            <div>
+                <ul className="grid fixed top-0 grid-cols-5 gap-5">
+                    {[...Array(60)].map((item, index) => (
+                        <li key={index}>
+                            <Link
+                                to={`detail-${index}`}
+                                smooth={true}
+                                duration={1000}
+                                offset={-100}
+                            >
+                                <div className="cursor-pointer w-10 h-10 flex justify-center items-center text-white font-bold rounded-full bg-green-600">
+                                    {index}
+                                </div>
+                            </Link>
+                        </li>
+                    ))}
+                </ul>
+            </div>
+        )
+    }
+
+    const MainContent = () => {
+        return (
+            <div>
+                {[...Array(60)].map((item, index) => (
+                    <div key={index} id={`detail-${index}`}>
+                        {/* Display your data here */}
+                        <p>ID: {index}</p>
+                        <p>A: </p>
+                    </div>
+                ))}
+            </div>
+        )
+    }
+
+    const App = () => {
+        return (
+            <div className="grid grid-cols-4">
+                <Sidebar />
+                <div className="col-span-3">
+                    <MainContent />
+                </div>
+            </div>
+        )
+    }
+
     return (
         <div>
+            <App />
             <div
                 onClick={() => {
                     setabcde((preVal) =>
