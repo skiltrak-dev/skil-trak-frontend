@@ -5,9 +5,10 @@ import { MdLogout } from 'react-icons/md'
 import { useDispatch } from 'react-redux'
 
 import { UserRoles } from '@constants'
-import { useContextBar, useJoyRide } from '@hooks'
+import { LogoutType, useContextBar, useJoyRide } from '@hooks'
 import {
     commonApi,
+    CommonApi,
     industryApi,
     rtoApi,
     studentApi,
@@ -29,6 +30,8 @@ export const ProfileOptionsDropDown = ({
     const contextBar = useContextBar()
     //  EDIT PROFILE JOY RIDE
     const joyride = useJoyRide()
+
+    const [logoutActivity] = CommonApi.LogoutActivity.perFormAcivityOnLogout()
     useEffect(() => {
         if (joyride.state.tourActive) {
             setTimeout(() => {
@@ -64,7 +67,10 @@ export const ProfileOptionsDropDown = ({
                     <p className="text-sm text-gray-600 font-medium">Profile</p>
                 </li>
                 <li
-                    onClick={() => {
+                    onClick={async () => {
+                        if (AuthUtils.getToken()) {
+                            await logoutActivity({})
+                        }
                         AuthUtils.logout(router)
                         contextBar.setContent(null)
                         contextBar.setTitle(null)

@@ -1,22 +1,14 @@
 import type { NextPage } from 'next'
+import {
+    CircularProgressbarWithChildren,
+    buildStyles,
+} from 'react-circular-progressbar'
+import 'react-circular-progressbar/dist/styles.css'
 
-import { Button, Card, Checkbox, Navbar, Table } from '@components'
-import {
-    createColumnHelper,
-    flexRender,
-    useReactTable,
-    getCoreRowModel,
-    ColumnDef,
-} from '@tanstack/react-table'
-import {
-    HTMLProps,
-    ReactElement,
-    ReactNode,
-    useEffect,
-    useMemo,
-    useRef,
-    useState,
-} from 'react'
+import { Button, Card, Navbar, Table } from '@components'
+import { ColumnDef } from '@tanstack/react-table'
+import { useEffect, useState } from 'react'
+import { Link } from 'react-scroll'
 
 // Define your row shape
 type Person = {
@@ -172,9 +164,134 @@ const TablePage: NextPage = () => {
 
     const width = `${(obtainedSeconds / totalSeconds) * 100}%`
 
+    const percentage = 75
+    const strokeWidth = 10
+    const circleRadius = 50
+
+    const [offset, setOffset] = useState(0)
+
+    useEffect(() => {
+        const progress = percentage / 100
+        const circumference = 2 * Math.PI * circleRadius
+        const progressOffset = circumference * (1 - progress)
+        setOffset(progressOffset)
+    }, [percentage, circleRadius])
+
+    const [timer, settimer] = useState(null)
+    const [abcde, setabcde] = useState(2000)
+
+    useEffect(() => {
+        let time: any = null
+        time = setTimeout(() => {
+            console.log('Saad Khan')
+        }, abcde)
+        console.log('abcde', abcde)
+
+        return () => {
+            clearTimeout(time)
+        }
+    }, [abcde])
+
+    console.log({ abcde })
+
+    const Sidebar = () => {
+        return (
+            <div>
+                <ul className="grid fixed top-0 grid-cols-5 gap-5">
+                    {[...Array(60)].map((item, index) => (
+                        <li key={index}>
+                            <Link
+                                to={`detail-${index}`}
+                                smooth={true}
+                                duration={1000}
+                                offset={-100}
+                            >
+                                <div className="cursor-pointer w-10 h-10 flex justify-center items-center text-white font-bold rounded-full bg-green-600">
+                                    {index}
+                                </div>
+                            </Link>
+                        </li>
+                    ))}
+                </ul>
+            </div>
+        )
+    }
+
+    const MainContent = () => {
+        return (
+            <div>
+                {[...Array(60)].map((item, index) => (
+                    <div key={index} id={`detail-${index}`}>
+                        {/* Display your data here */}
+                        <p>ID: {index}</p>
+                        <p>A: </p>
+                    </div>
+                ))}
+            </div>
+        )
+    }
+
+    const App = () => {
+        return (
+            <div className="grid grid-cols-4">
+                <Sidebar />
+                <div className="col-span-3">
+                    <MainContent />
+                </div>
+            </div>
+        )
+    }
+
     return (
         <div>
+            <App />
+            <div
+                onClick={() => {
+                    setabcde((preVal) =>
+                        preVal <= 2000 ? 2000 : preVal + 0.001
+                    )
+                }}
+            >
+                Saad
+            </div>
             <Navbar />
+            <div style={{ width: '200px' }}>
+                <CircularProgressbarWithChildren
+                    value={percentage}
+                    strokeWidth={5}
+                    styles={buildStyles({
+                        pathColor: 'blue',
+                        trailColor: 'orange',
+                        // strokeLinecap: 'butt',
+                    })}
+                    // text={`${percentage}%`}
+                >
+                    <div className="w-3/4">
+                        <CircularProgressbarWithChildren
+                            value={percentage}
+                            strokeWidth={7}
+                            // text={`${percentage}%`}
+                        >
+                            <div className="w-[70%]">
+                                <CircularProgressbarWithChildren
+                                    value={percentage}
+                                    strokeWidth={8.5}
+                                    // text={`${percentage}%`}
+                                >
+                                    <div className="w-3/5">
+                                        <CircularProgressbarWithChildren
+                                            value={percentage}
+                                            strokeWidth={10}
+
+                                            // text={`${percentage}%`}
+                                        ></CircularProgressbarWithChildren>
+                                    </div>
+                                </CircularProgressbarWithChildren>
+                            </div>
+                        </CircularProgressbarWithChildren>
+                    </div>
+                </CircularProgressbarWithChildren>
+            </div>
             <div className="flex flex-col gap-y-6 pb-8 px-6 pt-6 ">
                 <div className="w-full">
                     <div className="border rounded w-full h-8">

@@ -14,6 +14,7 @@ import { agreementsEndpoints } from './agreement'
 import { draftEndpoints } from './draft'
 import { ticketEndpoints } from './ticket.query'
 import { studentAssessmentGalleryEndpoints } from './studentAssessmentGallery'
+import { LogoutType } from '@hooks'
 
 export const commonApi = emptySplitApi.injectEndpoints({
     // ---------- COMMON ENDPOINTS ---------- //
@@ -87,6 +88,17 @@ export const commonApi = emptySplitApi.injectEndpoints({
             providesTags: ['RecentActivities'],
         }),
 
+        perFormAcivityOnLogout: build.mutation<
+            any,
+            { type?: LogoutType | undefined }
+        >({
+            query: (body) => ({
+                url: 'auth/log/out',
+                method: 'POST',
+                body,
+            }),
+        }),
+
         getRecentActivitiesCount: build.query<
             any,
             {
@@ -117,7 +129,7 @@ export const commonApi = emptySplitApi.injectEndpoints({
                 id?: number
             }
         >({
-            query: ({id, ...params }) => ({
+            query: ({ id, ...params }) => ({
                 url: `shared/industry/history/${id}`,
                 params,
             }),
@@ -155,6 +167,8 @@ export const commonApi = emptySplitApi.injectEndpoints({
 })
 
 const {
+    usePerFormAcivityOnLogoutMutation,
+
     useDownloadAssessmentToolQuery,
     useBulkUserRemoveMutation,
 
@@ -270,6 +284,9 @@ const {
 } = commonApi
 
 export const CommonApi = {
+    LogoutActivity: {
+        perFormAcivityOnLogout: usePerFormAcivityOnLogoutMutation,
+    },
     SearchPlaces: {
         useGetSerchedPlaces: useGetSerchedPlacesQuery,
     },

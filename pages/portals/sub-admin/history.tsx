@@ -142,6 +142,11 @@ const SubAdminHistory: NextPageWithLayout = () => {
                             title={'Notes Added'}
                             imageUrl={'/images/history/notes-added.png'}
                         />
+                        <FigureCard
+                            count={count?.data?.studentProfileViewed}
+                            title={'Student Profile Viewed'}
+                            imageUrl={'/images/history/student-profile.png'}
+                        />
                     </div>
                 )
             )}

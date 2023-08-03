@@ -1,6 +1,6 @@
-import { ErrorBoundaryContext } from 'react-use-error-boundary'
 import {
     AlertProvider,
+    AutoLogoutProvider,
     ContextBarProvider,
     JoyRideProvider,
     NavbarProvider,
@@ -11,6 +11,7 @@ import { Theme, applyTheme, getCurrentTheme } from '@theme'
 import type { AppProps } from 'next/app'
 import { useEffect } from 'react'
 import { Provider } from 'react-redux'
+import { ErrorBoundaryContext } from 'react-use-error-boundary'
 import '../styles/globals.css'
 
 import { NextPageWithLayout } from '@types'
@@ -37,28 +38,32 @@ const MyApp = ({ Component, pageProps }: AppPropsWithLayout) => {
 
     return (
         <Provider store={store}>
-            <ErrorBoundaryContext>
-                <JoyRideProvider>
-                    <AlertProvider>
-                        <NotificationProvider>
-                            <NavbarProvider>
-                                <ContextBarProvider>
-                                    {/* <Component {...pageProps} /> */}
-                                    <SocketListenerProvider>
-                                        <Socket>
-                                            <HeadWrapper>
-                                                {getLayout(
-                                                    <Component {...pageProps} />
-                                                )}
-                                            </HeadWrapper>
-                                        </Socket>
-                                    </SocketListenerProvider>
-                                </ContextBarProvider>
-                            </NavbarProvider>
-                        </NotificationProvider>
-                    </AlertProvider>
-                </JoyRideProvider>
-            </ErrorBoundaryContext>
+            <AutoLogoutProvider>
+                <ErrorBoundaryContext>
+                    <JoyRideProvider>
+                        <AlertProvider>
+                            <NotificationProvider>
+                                <NavbarProvider>
+                                    <ContextBarProvider>
+                                        {/* <Component {...pageProps} /> */}
+                                        <SocketListenerProvider>
+                                            <Socket>
+                                                <HeadWrapper>
+                                                    {getLayout(
+                                                        <Component
+                                                            {...pageProps}
+                                                        />
+                                                    )}
+                                                </HeadWrapper>
+                                            </Socket>
+                                        </SocketListenerProvider>
+                                    </ContextBarProvider>
+                                </NavbarProvider>
+                            </NotificationProvider>
+                        </AlertProvider>
+                    </JoyRideProvider>
+                </ErrorBoundaryContext>
+            </AutoLogoutProvider>
         </Provider>
     )
 }

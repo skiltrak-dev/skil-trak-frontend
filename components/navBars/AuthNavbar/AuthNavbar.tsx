@@ -1,4 +1,5 @@
 import { useRouter } from 'next/router'
+import { CommonApi } from '@queries'
 
 import { AiFillHome } from 'react-icons/ai'
 import { Button } from '@components'
@@ -8,7 +9,7 @@ import { HeaderLogo } from '../NavbarLogo'
 import { NavItem } from '../NavItem'
 
 import { AuthTypeOptions } from '@layouts'
-import { useContextBar } from '@hooks'
+import { LogoutType, useContextBar } from '@hooks'
 
 interface AuthHeaderProps {
     type: (typeof AuthTypeOptions)[number]
@@ -18,7 +19,12 @@ export const AuthNavbar = ({ type }: AuthHeaderProps) => {
     const router = useRouter()
     const contextBar = useContextBar()
 
-    const onLogOut = () => {
+    const [logoutActivity] = CommonApi.LogoutActivity.perFormAcivityOnLogout()
+
+    const onLogOut = async () => {
+        if (AuthUtils.getToken()) {
+            await logoutActivity({})
+        }
         AuthUtils.logout(router)
         contextBar.setContent(null)
         contextBar.setTitle(null)
