@@ -1,16 +1,15 @@
 import { StudentSubAdmin, TabNavigation, TabProps } from '@components'
 import { Detail } from '@partials/sub-admin/assessmentEvidence'
 
-import { OverViewTab } from './OverviewTab'
 import {
     AllCommunicationTab,
-    NotesTab,
-    MailsTab,
     AppointmentTab,
+    MailsTab,
+    NotesTab,
 } from '@partials/common'
+import { OverViewTab } from './OverviewTab'
 import { RequiredDocs } from './RequiredDocs'
 import { WorkplaceTab } from './WorkplaceTab'
-import { Student } from '@types'
 export const DetailTabs = ({
     id,
     student,

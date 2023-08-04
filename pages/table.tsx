@@ -192,8 +192,6 @@ const TablePage: NextPage = () => {
         }
     }, [abcde])
 
-    console.log({ abcde })
-
     const Sidebar = () => {
         return (
             <div>

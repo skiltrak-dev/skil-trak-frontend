@@ -108,7 +108,10 @@ export const emptySplitApi = createApi({
     baseQuery: fetchBaseQuery({
         baseUrl: `${process.env.NEXT_PUBLIC_END_POINT}/`,
         prepareHeaders: (headers, { getState }) => {
-            const token = AuthUtils.getToken()
+            // const token = AuthUtils.getToken()
+            const token = AuthUtils.token()
+            console.log('token', token)
+
             if (token) {
                 headers.set('authorization', `Bearer ${token}`)
             }

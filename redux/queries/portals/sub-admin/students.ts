@@ -149,6 +149,15 @@ export const studentsEndpoints = (
         providesTags: ['SubAdminStudents', 'SubAdminWorkplace'],
     }),
 
+    getSubAdminStudentWorkplaceHistory: builder.query<any, { student: number }>(
+        {
+            query: ({ student }) => ({
+                url: `subadmin/activity-logger/view-by-object-id/${student}`,
+            }),
+            providesTags: ['SubAdminStudents', 'SubAdminWorkplace'],
+        }
+    ),
+
     assignStudentsToSubAdmin: builder.mutation<any, number>({
         query: (id) => ({
             url: `${PREFIX}/student/assign-subadmin/${id}`,

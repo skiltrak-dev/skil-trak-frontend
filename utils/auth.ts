@@ -21,22 +21,35 @@ export const setToken = (token: string) => {
     }
 }
 
+export const setTokenToSession = (token: string) => {
+    if (isBrowser()) {
+        sessionStorage.setItem(KEYS.TOKEN, token)
+    }
+}
 export const getToken = () => {
     if (isBrowser()) {
         return localStorage.getItem(KEYS.TOKEN)
     }
 }
 
+export const getTokenFromSession = () => {
+    if (isBrowser()) {
+        return sessionStorage.getItem(KEYS.TOKEN)
+    }
+}
+
+const token = () => getToken() || getTokenFromSession()
 export const getUserCredentials: any = () => {
-    const token = getToken()
-    if (token) {
-        return jwt(token)
+    const tokenData = token()
+    if (tokenData) {
+        return jwt(tokenData)
     }
     return null
 }
 
 export const isAuthenticated = () => {
-    return getToken() !== null
+    const tokenData = token()
+    return tokenData !== null
 }
 
 export const logout = (router: any) => {
@@ -52,9 +65,11 @@ export const logout = (router: any) => {
 }
 
 export const AuthUtils = {
+    token,
     setToken,
     getToken,
     getUserCredentials,
     isAuthenticated,
     logout,
+    setTokenToSession,
 }

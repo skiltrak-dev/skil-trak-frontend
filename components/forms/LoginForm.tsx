@@ -1,6 +1,7 @@
-import { Button, LoadingAnimation, TextInput } from '@components'
+import { Button, Checkbox, LoadingAnimation, TextInput } from '@components'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { ApiCallResult, LoginCredentials } from '@types'
+import moment from 'moment'
 import Link from 'next/link'
 import { FormProvider, useForm, SubmitHandler } from 'react-hook-form'
 import { FieldValues } from 'react-hook-form/dist/types'
@@ -57,6 +58,8 @@ export const LoginForm = ({
                         validationIcons
                         required
                     />
+
+                    <Checkbox name={'remember'} label={'Remember Me'} />
                 </div>
 
                 <div className="mt-4 flex items-center justify-between">

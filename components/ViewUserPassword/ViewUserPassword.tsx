@@ -1,31 +1,54 @@
-import { Modal, Typography } from '@components'
+import { LoadingAnimation, Modal, NoData, Typography } from '@components'
+import { CommonApi } from '@queries'
 import React, { useState } from 'react'
 
 export const ViewUserPassword = ({
-    password,
     name,
     onCancel,
+    user,
 }: {
-    password: string
     name: string
     onCancel: Function
+    user: number
 }) => {
     const [copiedPassword, setCopiedPassword] = useState<string | null>(null)
+
+    const getUserPassword = CommonApi.ViewPassword.getUserPassword(user, {
+        skip: !user,
+    })
 
     return (
         <div>
             <Modal
                 title={`${name} Account Password`}
                 subtitle={'Here is password'}
-                
                 onConfirmClick={() => {
-                    navigator.clipboard.writeText(password)
-                    setCopiedPassword(password)
+                    navigator.clipboard.writeText(
+                        getUserPassword?.data?.password
+                    )
+                    setCopiedPassword(getUserPassword?.data?.password)
                 }}
                 onCancelClick={onCancel}
                 confirmText={copiedPassword ? 'Copied' : 'Copy'}
             >
-                <Typography>{password}</Typography>
+                {getUserPassword.isError && (
+                    <NoData
+                        text={
+                            'Somr technical Issue, Close Modal and Try again.'
+                        }
+                    />
+                )}
+                {getUserPassword.isLoading ? (
+                    <LoadingAnimation size={60} />
+                ) : getUserPassword.data?.password ? (
+                    <Typography>{getUserPassword?.data?.password}</Typography>
+                ) : (
+                    <NoData
+                        text={
+                            'There is no password for this User, Create a new password from update password in edit profile'
+                        }
+                    />
+                )}
             </Modal>
         </div>
     )
