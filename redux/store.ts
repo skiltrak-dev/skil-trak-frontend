@@ -10,6 +10,7 @@ import {
     stripeApi,
     subAdminApi,
     studentApi,
+    refreshTokenApi,
 } from '@queries'
 
 export const store = configureStore({
@@ -18,6 +19,7 @@ export const store = configureStore({
         [authApi.reducerPath]: authApi.reducer,
         [industryApi.reducerPath]: industryApi.reducer,
         [commonApi.reducerPath]: commonApi.reducer,
+        [refreshTokenApi.reducerPath]: commonApi.reducer,
         [adminApi.reducerPath]: adminApi.reducer,
         [studentApi.reducerPath]: studentApi.reducer,
         [rtoApi.reducerPath]: rtoApi.reducer,
@@ -33,7 +35,7 @@ export const store = configureStore({
             commonApi.middleware,
             adminApi.middleware,
             studentApi.middleware,
-
+            refreshTokenApi.middleware,
             rtoApi.middleware,
             subAdminApi.middleware,
             stripeApi.middleware,

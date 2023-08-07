@@ -3,6 +3,7 @@ import { isBrowser } from './browser-supported'
 
 const KEYS = {
     TOKEN: 'user-token',
+    REFRESHTOKEN: 'refresh-token',
 }
 
 type UserCredentials = {
@@ -21,6 +22,18 @@ export const setToken = (token: string) => {
     }
 }
 
+export const setRefreshToken = (token: string) => {
+    if (isBrowser()) {
+        localStorage.setItem(KEYS.REFRESHTOKEN, token)
+    }
+}
+
+export const setRefreshTokenToSessionStorage = (token: string) => {
+    if (isBrowser()) {
+        sessionStorage.setItem(KEYS.REFRESHTOKEN, token)
+    }
+}
+
 export const setTokenToSession = (token: string) => {
     if (isBrowser()) {
         sessionStorage.setItem(KEYS.TOKEN, token)
@@ -32,13 +45,26 @@ export const getToken = () => {
     }
 }
 
+export const getRefreshToken = () => {
+    if (isBrowser()) {
+        return localStorage.getItem(KEYS.REFRESHTOKEN)
+    }
+}
+
 export const getTokenFromSession = () => {
     if (isBrowser()) {
         return sessionStorage.getItem(KEYS.TOKEN)
     }
 }
 
+export const getRefreshTokenFromSession = () => {
+    if (isBrowser()) {
+        return sessionStorage.getItem(KEYS.REFRESHTOKEN)
+    }
+}
+
 const token = () => getToken() || getTokenFromSession()
+const refreshToken = () => getRefreshToken() || getRefreshTokenFromSession()
 export const getUserCredentials: any = () => {
     const tokenData = token()
     if (tokenData) {
@@ -68,7 +94,12 @@ export const AuthUtils = {
     token,
     setToken,
     getToken,
+    refreshToken,
     getUserCredentials,
+    setRefreshToken,
+    setRefreshTokenToSessionStorage,
+    getRefreshToken,
+    getRefreshTokenFromSession,
     isAuthenticated,
     logout,
     setTokenToSession,

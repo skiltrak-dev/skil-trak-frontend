@@ -15,7 +15,7 @@ import { Animations } from '@animations'
 import { AuthLayout } from '@layouts'
 import { AuthApi } from '@queries'
 import { LoginCredentials, StatusType, UserStatus } from '@types'
-import { AuthUtils } from '@utils'
+import { AuthUtils, isBrowser } from '@utils'
 import { UserRoles } from '@constants'
 
 const Login: NextPage = () => {
@@ -71,9 +71,19 @@ const Login: NextPage = () => {
     useEffect(() => {
         if (loginResult.isSuccess) {
             if (loginResult.data) {
-                rememberLogin
-                    ? AuthUtils.setToken(loginResult.data.access_token)
-                    : AuthUtils.setTokenToSession(loginResult.data.access_token)
+                if (rememberLogin) {
+                    AuthUtils.setToken(loginResult.data.access_token)
+                    AuthUtils.setRefreshToken(loginResult.data.refreshToken)
+                    if (isBrowser()) {
+                        localStorage.setItem('rememberMe', 'true')
+                    }
+                } else {
+                    AuthUtils.setTokenToSession(loginResult.data.access_token)
+                    AuthUtils.setRefreshTokenToSessionStorage(
+                        loginResult.data.refreshToken
+                    )
+                }
+
                 onLogin(loginResult.data.status, loginResult.data?.role)
             }
         }
