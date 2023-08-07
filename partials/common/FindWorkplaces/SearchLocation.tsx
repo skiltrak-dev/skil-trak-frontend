@@ -131,7 +131,6 @@ export const SearchLocation = () => {
 
     // const handleSelectChange = (selectedOption: any) => {
     //     setSelectedCourse(selectedOption?.label || '')
-    //     console.log('selectedOption', selectedOption)
     // }
     return (
         <>

@@ -110,7 +110,6 @@ export const emptySplitApi = createApi({
         prepareHeaders: (headers, { getState }) => {
             // const token = AuthUtils.getToken()
             const token = AuthUtils.token()
-            console.log('token', token)
 
             if (token) {
                 headers.set('authorization', `Bearer ${token}`)

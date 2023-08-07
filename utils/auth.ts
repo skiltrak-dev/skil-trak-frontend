@@ -52,7 +52,7 @@ export const isAuthenticated = () => {
     return tokenData !== null
 }
 
-export const logout = (router: any) => {
+export const logout = (router?: any) => {
     if (isBrowser()) {
         localStorage.clear()
         sessionStorage.clear()

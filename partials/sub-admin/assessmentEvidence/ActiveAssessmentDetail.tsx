@@ -319,7 +319,6 @@ export const ActiveAssessmentDetail = ({
             </div>
         )
     }
-    console.log({ results })
     return (
         <div className="mb-10">
             <ShowErrorNotifications result={uploadDocsResult} />

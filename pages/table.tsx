@@ -3,7 +3,9 @@ import {
     CircularProgressbarWithChildren,
     buildStyles,
 } from 'react-circular-progressbar'
+
 import 'react-circular-progressbar/dist/styles.css'
+// import ReactRichEditor from 'react-rich-text-editor'
 
 import { Button, Card, Navbar, Table } from '@components'
 import { ColumnDef } from '@tanstack/react-table'
@@ -180,18 +182,6 @@ const TablePage: NextPage = () => {
     const [timer, settimer] = useState(null)
     const [abcde, setabcde] = useState(2000)
 
-    useEffect(() => {
-        let time: any = null
-        time = setTimeout(() => {
-            console.log('Saad Khan')
-        }, abcde)
-        console.log('abcde', abcde)
-
-        return () => {
-            clearTimeout(time)
-        }
-    }, [abcde])
-
     const Sidebar = () => {
         return (
             <div>
@@ -243,6 +233,7 @@ const TablePage: NextPage = () => {
     return (
         <div>
             <App />
+            {/* <ReactRichEditor height={200} /> */}
             <div
                 onClick={() => {
                     setabcde((preVal) =>

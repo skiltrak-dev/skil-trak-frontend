@@ -80,6 +80,7 @@ const Login: NextPage = () => {
     }, [loginResult.isSuccess])
 
     const onSubmit = async (values: LoginCredentials) => {
+        AuthUtils.logout()
         setRememberLogin(values?.remember as boolean)
         await login(values)
     }
