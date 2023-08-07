@@ -1,26 +1,6 @@
-import React from 'react'
 import { SiteLayout } from '@layouts'
 import Image from 'next/image'
-import { FeatureCard } from '../components/site/FeatureCard'
-import { css } from '@emotion/react'
 
-import {
-    FaUserGraduate,
-    FaVideo,
-    FaFileSignature,
-    FaTicketAlt,
-    FaRegCalendarAlt,
-    FaMobileAlt,
-    FaStream,
-    FaUsers,
-    FaUserFriends,
-    FaChartBar,
-    FaRegCreditCard,
-} from 'react-icons/fa'
-
-import { IoMdChatbubbles, IoMdTime } from 'react-icons/io'
-import { VscScreenNormal } from 'react-icons/vsc'
-import { MdTimelapse } from 'react-icons/md'
 import { BsArrowRightCircle } from 'react-icons/bs'
 
 const TERMS = [
@@ -216,11 +196,13 @@ You agree and acknowledge that JK Connections PTY LTD can vary theSubscription F
         subsections: [
             {
                 section: '15.1. Compulsory:',
-                text: 'If a dispute arises out of or relates to the Terms, either party may not commence any Tribunal or Court proceedings in relation to the dispute, unless the following clauses have been complied with (except where urgent interlocutory relief is sought).',
+                text:
+                    'If a dispute arises out of or relates to the Terms, either party may not commence any Tribunal or Court proceedings in relation to the dispute, unless the following clauses have been complied with (except where urgent interlocutory relief is sought).',
             },
             {
                 section: '15.2. Notice:',
-                text: "A party to the Terms claiming a dispute ('Dispute') has arisen under the Terms, must give written notice to the other party detailing the nature of the dispute, the desired outcome and the action required to settle the Dispute.",
+                text:
+                    "A party to the Terms claiming a dispute ('Dispute') has arisen under the Terms, must give written notice to the other party detailing the nature of the dispute, the desired outcome and the action required to settle the Dispute.",
             },
             {
                 section: '15.3. Resolution:',

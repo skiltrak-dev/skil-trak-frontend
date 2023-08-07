@@ -15,7 +15,7 @@ export const useActionModal = () => {
     const onViewPassword = (item: any) => {
         setPasswordModal(
             <ViewUserPassword
-                password={item?.user?.password}
+                user={item?.user?.id}
                 name={item?.user?.name}
                 onCancel={onModalCancelClicked}
             />

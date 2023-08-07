@@ -50,8 +50,6 @@ export const StudentProfileForm = ({
         ...sectorDefaultOptions,
     ])
 
-    console.log({ courseValues })
-
     const sectorOptions = sectorResponse?.data
         ? sectorResponse.data?.map((sector: any) => ({
               label: sector.name,

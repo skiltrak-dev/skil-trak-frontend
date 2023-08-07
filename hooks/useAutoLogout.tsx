@@ -1,5 +1,5 @@
 import { CommonApi } from '@queries'
-import { AuthUtils } from '@utils'
+import { AuthUtils, isBrowser } from '@utils'
 import { useRouter } from 'next/router'
 import React, {
     ReactElement,
@@ -31,22 +31,56 @@ export const AutoLogoutProvider = ({
 }) => {
     const router = useRouter()
     const seconds = 10 * 60 * 1000
-    // const seconds = 16000
+    // const seconds = 2 * 60 * 1000
     const [isUserActive, setIsUserActive] = useState(seconds)
 
     const [logoutActivity, logoutActivityResult] =
         CommonApi.LogoutActivity.perFormAcivityOnLogout()
 
+    // useEffect(() => {
+    //     let time: any = null
+
+    //     if (isUserActive > 0) {
+    //         time = setInterval(() => {
+    //             setIsUserActive(isUserActive - 1000)
+    //         }, 101000)
+    //     }
+    //     return () => {
+    //         clearInterval(time)
+    //     }
+    // }, [isUserActive])
+
+    // useEffect(() => {
+    //     let time: any = null
+    //     time = setTimeout(async () => {
+    //         if (AuthUtils.getToken()) {
+    //             await logoutActivity({ type: LogoutType.Auto })
+    //         }
+    //         AuthUtils.logout(router)
+    //         setIsUserActive(0)
+    //     }, isUserActive)
+
+    //     return () => {
+    //         clearTimeout(time)
+    //     }
+    // }, [isUserActive])
+
     useEffect(() => {
         let time: any = null
 
+        const intervalTime = 101000
+
         if (isUserActive > 0) {
-            time = setTimeout(() => {
-                setIsUserActive(isUserActive - 1000)
-            }, 100000)
+            time = setInterval(() => {
+                setIsUserActive(isUserActive - intervalTime)
+            }, intervalTime)
         }
+        isBrowser()
+            ? localStorage.setItem('autoLogout', String(isUserActive))
+            : ''
+        broadcastData(isUserActive)
         return () => {
-            clearTimeout(time)
+            clearInterval(time)
         }
     }, [isUserActive])
 
@@ -65,6 +99,24 @@ export const AutoLogoutProvider = ({
         }
     }, [isUserActive])
 
+    const broadcastData = (data: any) => {
+        const channel = new BroadcastChannel('sharedDataChannel')
+        channel.postMessage(data)
+    }
+
+    useEffect(() => {
+        const handleIncomingMessage = (e: any) => {
+            setIsUserActive(e?.data)
+        }
+
+        const channel = new BroadcastChannel('sharedDataChannel')
+        channel.addEventListener('message', handleIncomingMessage)
+
+        return () => {
+            channel.removeEventListener('message', handleIncomingMessage)
+        }
+    }, [])
+
     const value = {
         isUserActive,
         setIsUserActive,
@@ -74,9 +126,8 @@ export const AutoLogoutProvider = ({
         <AutoLogoutContext.Provider value={value}>
             <div
                 onClick={() => {
-                    console.log('Saad Khan')
                     setIsUserActive((preval) =>
-                        preval <= seconds ? seconds : 1 + 0.1
+                        preval <= seconds ? seconds : seconds + 0.1
                     )
                 }}
             >

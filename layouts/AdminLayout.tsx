@@ -2,12 +2,12 @@ import { ReactElement, ReactNode } from 'react'
 
 // components
 import {
-    AdminNavbar,
-    ContextBar,
-    DisplayAlerts,
-    DisplayNotifications,
-    ProtectedRoute,
     SideBar,
+    ContextBar,
+    AdminNavbar,
+    DisplayAlerts,
+    ProtectedRoute,
+    DisplayNotifications,
 } from '@components'
 import { IconType } from 'react-icons'
 

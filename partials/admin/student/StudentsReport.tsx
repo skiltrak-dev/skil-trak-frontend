@@ -158,7 +158,16 @@ export const AllStudentsReport = () => {
                     }}
                     multi
                 />
-                <div></div>
+                <Select
+                    name={'fieldsName'}
+                    label={'Fields Name'}
+                    options={[
+                        {
+                            label: 'name',
+                            value: 'name',
+                        },
+                    ]}
+                />
                 <div className="flex justify-end items-center">
                     <a
                         href={`${

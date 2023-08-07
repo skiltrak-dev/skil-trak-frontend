@@ -79,6 +79,7 @@ export const commonApi = emptySplitApi.injectEndpoints({
                 skip?: number
                 limit?: number
                 coordinator?: number
+                objectId?: number
             }
         >({
             query: (params) => ({
@@ -149,6 +150,11 @@ export const commonApi = emptySplitApi.injectEndpoints({
             invalidatesTags: ['User'],
         }),
 
+        getUserPassword: build.query<any, number>({
+            query: (id) => `auth/view/password/${id}`,
+            providesTags: ['User'],
+        }),
+
         ...rtosEndpoints(build),
         ...draftEndpoints(build),
         ...notesEndpoints(build),
@@ -167,6 +173,8 @@ export const commonApi = emptySplitApi.injectEndpoints({
 })
 
 const {
+    useGetUserPasswordQuery,
+
     usePerFormAcivityOnLogoutMutation,
 
     useDownloadAssessmentToolQuery,
@@ -284,6 +292,9 @@ const {
 } = commonApi
 
 export const CommonApi = {
+    ViewPassword: {
+        getUserPassword: useGetUserPasswordQuery,
+    },
     LogoutActivity: {
         perFormAcivityOnLogout: usePerFormAcivityOnLogoutMutation,
     },

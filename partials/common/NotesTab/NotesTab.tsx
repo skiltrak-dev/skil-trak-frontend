@@ -5,7 +5,6 @@ import { CreateNote, EmptyData, LoadingAnimation, Note } from '@components'
 
 // query
 import { CommonApi } from '@queries'
-import { NotesCard } from '@components/sections/subAdmin'
 
 export const NotesTab = ({ user }: { user: any }) => {
     const [editValues, setEditValues] = useState(null)
