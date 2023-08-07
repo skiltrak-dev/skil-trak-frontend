@@ -3,9 +3,8 @@ import { EndpointBuilder } from '@reduxjs/toolkit/dist/query/endpointDefinitions
 import {
     PaginatedResponse,
     Student,
-    UserCount,
-    UserStatus,
     StudentStatusEnum,
+    UserStatus,
 } from '@types'
 
 const PREFIX = 'subadmin'
@@ -149,6 +148,15 @@ export const studentsEndpoints = (
         query: (id) => `${PREFIX}/student/workplace-request/${id}`,
         providesTags: ['SubAdminStudents', 'SubAdminWorkplace'],
     }),
+
+    getSubAdminStudentWorkplaceHistory: builder.query<any, { student: number }>(
+        {
+            query: ({ student }) => ({
+                url: `subadmin/activity-logger/view-by-object-id/${student}`,
+            }),
+            providesTags: ['SubAdminStudents', 'SubAdminWorkplace'],
+        }
+    ),
 
     assignStudentsToSubAdmin: builder.mutation<any, number>({
         query: (id) => ({

@@ -17,7 +17,6 @@ export const useIndustriesOptions = () => {
         CommonApi.Industries.bulkEmailSubadminIndustries(undefined, {
             skip: role !== UserRoles.SUBADMIN,
         })
-console.log("subadminCoursesResponse", subadminCoursesResponse)
     useEffect(() => {
         if (role === UserRoles.ADMIN) {
             setIndustriesResponse(adminCoursesResponse)

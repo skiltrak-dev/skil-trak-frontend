@@ -14,11 +14,13 @@ export const StudentTimer = ({
     date,
     studentStatus,
     changeExpiryData,
+    oldExpiry,
 }: {
     studentId: number | undefined
     date: Date
     studentStatus: string
     changeExpiryData?: any
+    oldExpiry: Date | null
 }) => {
     const [modal, setModal] = useState<ReactElement | null>(null)
     const [mounted, setMounted] = useState(false)
@@ -41,20 +43,33 @@ export const StudentTimer = ({
     }) => {
         if (completed) {
             return (
-                <div className="bg-red-500 rounded-md py-2 px-4">
-                    <p className="text-sm font-semibold text-red-50">
-                        Your account is expired
-                    </p>
-                    <button
-                        onClick={onDateClick}
-                        className="text-xs font-medium text-red-200 hover:text-white"
-                    >
-                        Click To Re-Activate
-                    </button>
-                    <Typography variant={'small'} color={'text-white'}>
-                        Expired on {moment(date).format('MMM Do YYYY')}
-                    </Typography>
-                </div>
+                <>
+                    <div className="bg-red-500 rounded-md py-2 px-4">
+                        <p className="text-sm font-semibold text-red-50">
+                            Your account is expired
+                        </p>
+                        <AuthorizedUserComponent
+                            roles={[
+                                UserRoles.ADMIN,
+                                UserRoles.SUBADMIN,
+                                UserRoles.RTO,
+                            ]}
+                        >
+                            <button
+                                onClick={onDateClick}
+                                className="text-xs font-medium text-red-200 hover:text-white"
+                            >
+                                Click To Re-Activate
+                            </button>
+                        </AuthorizedUserComponent>
+                        <Typography variant={'small'} color={'text-white'}>
+                            Expired on{' '}
+                            {moment(oldExpiry ? oldExpiry : date).format(
+                                'MMM Do YYYY'
+                            )}
+                        </Typography>
+                    </div>
+                </>
             )
         } else {
             return (
@@ -88,6 +103,19 @@ export const StudentTimer = ({
             {mounted ? (
                 // <div className='bg-gray-700 text-white py-1 px-2 rounded-md'>
                 <div className="flex items-center justify-center gap-x-3">
+                    {oldExpiry && (
+                        <div className="flex flex-col gap-y-1">
+                            <Typography
+                                variant={'muted'}
+                                color={'text-gray-500'}
+                            >
+                                Expires on (Extended)
+                            </Typography>
+                            <Typography variant={'label'}>
+                                {moment(date).format('Do MMM YYYY')}
+                            </Typography>
+                        </div>
+                    )}
                     <div className="relative group">
                         <Countdown date={date} renderer={countDownRendered} />
                         <div className="group-hover:block hidden text-xs whitespace-nowrap shadow-lg text-gray-100 bg-gray-700 px-2 py-1 rounded-md absolute z-10 right-0">
@@ -99,7 +127,9 @@ export const StudentTimer = ({
                             Expires on
                         </Typography>
                         <Typography variant={'label'}>
-                            {moment(date).format('Do MMM YYYY')}
+                            {moment(oldExpiry ? oldExpiry : date).format(
+                                'Do MMM YYYY'
+                            )}
                         </Typography>
                     </div>
                     <AuthorizedUserComponent

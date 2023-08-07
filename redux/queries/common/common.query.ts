@@ -14,6 +14,7 @@ import { agreementsEndpoints } from './agreement'
 import { draftEndpoints } from './draft'
 import { ticketEndpoints } from './ticket.query'
 import { studentAssessmentGalleryEndpoints } from './studentAssessmentGallery'
+import { LogoutType } from '@hooks'
 
 export const commonApi = emptySplitApi.injectEndpoints({
     // ---------- COMMON ENDPOINTS ---------- //
@@ -78,6 +79,7 @@ export const commonApi = emptySplitApi.injectEndpoints({
                 skip?: number
                 limit?: number
                 coordinator?: number
+                objectId?: number
             }
         >({
             query: (params) => ({
@@ -85,6 +87,17 @@ export const commonApi = emptySplitApi.injectEndpoints({
                 params,
             }),
             providesTags: ['RecentActivities'],
+        }),
+
+        perFormAcivityOnLogout: build.mutation<
+            any,
+            { type?: LogoutType | undefined }
+        >({
+            query: (body) => ({
+                url: 'auth/log/out',
+                method: 'POST',
+                body,
+            }),
         }),
 
         getRecentActivitiesCount: build.query<
@@ -117,7 +130,7 @@ export const commonApi = emptySplitApi.injectEndpoints({
                 id?: number
             }
         >({
-            query: ({id, ...params }) => ({
+            query: ({ id, ...params }) => ({
                 url: `shared/industry/history/${id}`,
                 params,
             }),
@@ -135,6 +148,11 @@ export const commonApi = emptySplitApi.injectEndpoints({
                 body: { status },
             }),
             invalidatesTags: ['User'],
+        }),
+
+        getUserPassword: build.query<any, number>({
+            query: (id) => `auth/view/password/${id}`,
+            providesTags: ['User'],
         }),
 
         ...rtosEndpoints(build),
@@ -155,6 +173,10 @@ export const commonApi = emptySplitApi.injectEndpoints({
 })
 
 const {
+    useGetUserPasswordQuery,
+
+    usePerFormAcivityOnLogoutMutation,
+
     useDownloadAssessmentToolQuery,
     useBulkUserRemoveMutation,
 
@@ -270,6 +292,12 @@ const {
 } = commonApi
 
 export const CommonApi = {
+    ViewPassword: {
+        getUserPassword: useGetUserPasswordQuery,
+    },
+    LogoutActivity: {
+        perFormAcivityOnLogout: usePerFormAcivityOnLogoutMutation,
+    },
     SearchPlaces: {
         useGetSerchedPlaces: useGetSerchedPlacesQuery,
     },

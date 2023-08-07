@@ -3,7 +3,6 @@ import { useEffect, useState } from 'react'
 import type { NextPage } from 'next'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-import { SubmitHandler } from 'react-hook-form'
 
 import {
     AccountStatus,
@@ -17,6 +16,7 @@ import { AuthLayout } from '@layouts'
 import { AuthApi } from '@queries'
 import { LoginCredentials, StatusType, UserStatus } from '@types'
 import { AuthUtils } from '@utils'
+import { UserRoles } from '@constants'
 
 const Login: NextPage = () => {
     const router = useRouter()
@@ -27,29 +27,29 @@ const Login: NextPage = () => {
     const [rejected, setRejected] = useState(false)
     const [archived, setArchived] = useState(false)
     const [blocked, setBlocked] = useState(false)
+    const [rememberLogin, setRememberLogin] = useState<boolean>(false)
 
     const nextDestination = (role: string) => {
         switch (role) {
-            case 'admin':
+            case UserRoles.ADMIN:
                 router.push('/portals/admin')
                 break
-            case 'industry':
+            case UserRoles.INDUSTRY:
                 router.push('/portals/industry')
                 break
-            case 'rto':
+            case UserRoles.RTO:
                 router.push('/portals/rto')
                 break
-            case 'student':
+            case UserRoles.STUDENT:
                 router.push('/portals/student')
                 break
-            case 'subadmin':
+            case UserRoles.SUBADMIN:
                 router.push('/portals/sub-admin')
                 break
         }
     }
 
-    const onLogin = (status: StatusType) => {
-        const role = AuthUtils.getUserCredentials().role
+    const onLogin = (status: StatusType, role: UserRoles) => {
         switch (status) {
             case UserStatus.Pending:
                 setRequested(true)
@@ -71,13 +71,17 @@ const Login: NextPage = () => {
     useEffect(() => {
         if (loginResult.isSuccess) {
             if (loginResult.data) {
-                AuthUtils.setToken(loginResult.data.access_token)
-                onLogin(loginResult.data.status)
+                rememberLogin
+                    ? AuthUtils.setToken(loginResult.data.access_token)
+                    : AuthUtils.setTokenToSession(loginResult.data.access_token)
+                onLogin(loginResult.data.status, loginResult.data?.role)
             }
         }
     }, [loginResult.isSuccess])
 
     const onSubmit = async (values: LoginCredentials) => {
+        AuthUtils.logout()
+        setRememberLogin(values?.remember as boolean)
         await login(values)
     }
 

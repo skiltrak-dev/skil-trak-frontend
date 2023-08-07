@@ -38,8 +38,6 @@ export const PersonalInfoForm = ({
     const [qualification, setQualification] = useState<string>('')
     const [isPlaceSelected, setIsPlaceSelected] = useState<boolean>(false)
 
-    console.log({isPlaceSelected})
-
     const { notification } = useNotification()
 
     useEffect(() => {

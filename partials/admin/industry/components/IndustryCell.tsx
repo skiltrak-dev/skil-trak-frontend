@@ -12,7 +12,7 @@ export const IndustryCell = ({ industry }: { industry: Industry }) => {
     return (
         <Link
             legacyBehavior
-            href={`/portals/admin/industry/${industry?.id}?tab=sectors`}
+            href={`/portals/admin/industry/${industry?.id}?tab=students`}
         >
             <a
                 onClick={() => {
