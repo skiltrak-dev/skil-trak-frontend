@@ -101,10 +101,8 @@ export const InputContentEditor = ({
     //     imgUrls.push(match[1])
     // }
 
-    // console.log(imgUrls)
     // const cleanedString = inputString.replace(imgTagRegex, '')
 
-    // console.log(cleanedString)
 
     return (
         <div>
