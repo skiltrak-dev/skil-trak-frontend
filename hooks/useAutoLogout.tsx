@@ -45,14 +45,35 @@ export const AutoLogoutProvider = ({
 
     const onCancelClicked = () => setModal(null)
 
+    const getExpAndCurrTime = () => {
+        const timestamp = moment().valueOf()
+        const expTime = AuthUtils.getUserCredentials()?.exp * 1000
+
+        const expireTime = moment(expTime)
+        const currentTime = moment(timestamp)
+
+        return { expireTime, currentTime, expTime, timestamp }
+    }
+
     useEffect(() => {
         let time: any = null
 
-        const intervalTime = 250000
+        if (AuthUtils.isAuthenticated()) {
+            const { expireTime, currentTime, expTime, timestamp } =
+                getExpAndCurrTime()
 
-        time = setInterval(() => {
-            refreshToken()
-        }, intervalTime)
+            const intervalTime = expTime - 1000 * 50 - timestamp
+
+            if (intervalTime < 0 && currentTime.isBefore(expireTime)) {
+                refreshToken()
+            }
+
+            if (intervalTime && intervalTime > 0) {
+                time = setInterval(() => {
+                    refreshToken()
+                }, intervalTime)
+            }
+        }
 
         return () => {
             clearInterval(time)
@@ -62,12 +83,8 @@ export const AutoLogoutProvider = ({
     useEffect(() => {
         if (AuthUtils.isAuthenticated()) {
             // Get the timestamp in milliseconds
-            const timestamp = moment().valueOf()
 
-            const expireTime = moment(
-                AuthUtils.getUserCredentials()?.exp * 1000
-            )
-            const currentTime = moment(timestamp)
+            const { expireTime, currentTime } = getExpAndCurrTime()
 
             if (expireTime.isBefore(currentTime)) {
                 setModal(<SessionExpireModal onCancel={onCancelClicked} />)
@@ -101,21 +118,23 @@ export const AutoLogoutProvider = ({
     useEffect(() => {
         let time: any = null
 
-        const intervalTime = 101000
+        if (AuthUtils.isAuthenticated()) {
+            const intervalTime = 101000
 
-        if (isUserActive > 0) {
-            time = setInterval(() => {
-                setIsUserActive(isUserActive - intervalTime)
-            }, intervalTime)
+            if (isUserActive > 0) {
+                time = setInterval(() => {
+                    setIsUserActive(isUserActive - intervalTime)
+                }, intervalTime)
+            }
+            isBrowser()
+                ? localStorage.setItem('autoLogout', String(isUserActive))
+                : ''
+            broadcastData(isUserActive)
         }
-        isBrowser()
-            ? localStorage.setItem('autoLogout', String(isUserActive))
-            : ''
-        broadcastData(isUserActive)
         return () => {
             clearInterval(time)
         }
-    }, [isUserActive])
+    }, [isUserActive, router])
 
     useEffect(() => {
         let time: any = null
@@ -153,6 +172,12 @@ export const AutoLogoutProvider = ({
         }
     }, [])
 
+    const onEventOccur = () => {
+        setIsUserActive((preval) =>
+            preval <= seconds ? seconds : seconds + 0.1
+        )
+    }
+
     const value = {
         isUserActive,
         setIsUserActive,
@@ -163,9 +188,10 @@ export const AutoLogoutProvider = ({
             {modal}
             <div
                 onClick={() => {
-                    setIsUserActive((preval) =>
-                        preval <= seconds ? seconds : seconds + 0.1
-                    )
+                    onEventOccur()
+                }}
+                onKeyDown={() => {
+                    onEventOccur()
                 }}
             >
                 {children}
