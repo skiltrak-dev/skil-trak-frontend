@@ -16,7 +16,7 @@ import {
     ShowErrorNotifications,
     Typography,
 } from '@components'
-import { Actions } from './components'
+import { Actions, SubmitSubmissionForAssessment } from './components'
 
 // queries
 import { getDocType } from '@components/sections/student/AssessmentsContainer'
@@ -319,6 +319,10 @@ export const ActiveAssessmentDetail = ({
             </div>
         )
     }
+
+    const isFilesUploaded = getFolders?.data?.every(
+        (f: any) => f?.studentResponse[0]?.files?.length > 0
+    )
     return (
         <div className="mb-10">
             <ShowErrorNotifications result={uploadDocsResult} />
@@ -538,16 +542,55 @@ export const ActiveAssessmentDetail = ({
                         </div>
                     </div>
                     {/*  */}
-                    <div className="p-2">
-                        <Typography variant={'small'} color={'text-gray-700'}>
-                            Selected Course
-                        </Typography>
-                        <Typography variant={'label'}>
-                            {/* {selectedFolder?.name ||
+                    <div className="flex justify-between items-center">
+                        <div className="p-2">
+                            <Typography
+                                variant={'small'}
+                                color={'text-gray-700'}
+                            >
+                                Selected Course
+                            </Typography>
+                            <Typography variant={'label'}>
+                                {/* {selectedFolder?.name ||
                                         'No Folder Selected'} */}
-                            {ellipsisText(selectedCourse?.title, 30) ||
-                                'None Selected'}
-                        </Typography>
+                                {ellipsisText(selectedCourse?.title, 30) ||
+                                    'None Selected'}
+                            </Typography>
+                        </div>
+                        <div>
+                            {isFilesUploaded &&
+                            getFolders?.data &&
+                            getFolders?.data?.length > 0 ? (
+                                selectedCourse?.results?.length > 0 ? (
+                                    results?.totalSubmission < 3 ? (
+                                        (results?.result === Result.ReOpened ||
+                                            results?.result ===
+                                                Result.NotCompetent) && (
+                                            <SubmitSubmissionForAssessment
+                                                selectedCourseId={
+                                                    selectedCourse?.id
+                                                }
+                                                student={studentProfile?.data}
+                                            />
+                                        )
+                                    ) : (
+                                        results?.isManualSubmission && (
+                                            <SubmitSubmissionForAssessment
+                                                selectedCourseId={
+                                                    selectedCourse?.id
+                                                }
+                                                student={studentProfile?.data}
+                                            />
+                                        )
+                                    )
+                                ) : (
+                                    <SubmitSubmissionForAssessment
+                                        selectedCourseId={selectedCourse?.id}
+                                        student={studentProfile?.data}
+                                    />
+                                )
+                            ) : null}
+                        </div>
                     </div>
                     <div className="grid grid-cols-3 h-[450px]">
                         <div className="border border-gray-300 border-r-transparent h-[inherit] overflow-hidden">

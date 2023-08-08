@@ -33,11 +33,16 @@ export const studentAssessmentEvidenceEndpoints = (
         invalidatesTags: ['StudentAssessmentEvidence'],
     }),
     submitStudentAssessment: builder.mutation({
-        query: ({ body, id }) => ({
+        query: ({ body, id, student }) => ({
             url: `${PREFIX}/assessment-evidence/submit/${id}`,
+            params: { student },
             method: 'POST',
             body,
         }),
-        invalidatesTags: ['StudentAssessmentEvidence'],
+        invalidatesTags: [
+            'StudentAssessmentEvidence',
+            'AssessmentEvidence',
+            'SubAdminStudents',
+        ],
     }),
 })
