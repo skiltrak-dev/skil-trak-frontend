@@ -62,7 +62,7 @@ export const AutoLogoutProvider = ({
             const { expireTime, currentTime, expTime, timestamp } =
                 getExpAndCurrTime()
 
-            const intervalTime = expTime - 1000 * 50 - timestamp
+            const intervalTime = expTime - 1000 * 60 - timestamp
 
             if (intervalTime < 0 && currentTime.isBefore(expireTime)) {
                 refreshToken()
@@ -78,7 +78,7 @@ export const AutoLogoutProvider = ({
         return () => {
             clearInterval(time)
         }
-    }, [])
+    }, [router])
 
     useEffect(() => {
         if (AuthUtils.isAuthenticated()) {
