@@ -62,7 +62,7 @@ export const AutoLogoutProvider = ({
             const { expireTime, currentTime, expTime, timestamp } =
                 getExpAndCurrTime()
 
-            const intervalTime = expTime - 1000 * 288 - timestamp
+            const intervalTime = expTime - 1000 * 60 - timestamp
 
             if (intervalTime < 0 && currentTime.isBefore(expireTime)) {
                 refreshToken()
