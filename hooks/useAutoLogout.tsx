@@ -1,5 +1,6 @@
-import { CommonApi } from '@queries'
+import { CommonApi, useRefreshTokenMutation } from '@queries'
 import { AuthUtils, isBrowser } from '@utils'
+import axios from 'axios'
 import { useRouter } from 'next/router'
 import React, {
     ReactElement,
@@ -9,6 +10,8 @@ import React, {
     useState,
 } from 'react'
 import { createContext } from 'react'
+import moment from 'moment'
+import { SessionExpireModal } from '@components'
 
 // utils
 
@@ -33,37 +36,67 @@ export const AutoLogoutProvider = ({
     const seconds = 10 * 60 * 1000
     // const seconds = 2 * 60 * 1000
     const [isUserActive, setIsUserActive] = useState(seconds)
+    const [modal, setModal] = useState<ReactNode | null>(null)
 
     const [logoutActivity, logoutActivityResult] =
         CommonApi.LogoutActivity.perFormAcivityOnLogout()
 
-    // useEffect(() => {
-    //     let time: any = null
+    const [refreshToken, refreshTokenResult] = useRefreshTokenMutation()
 
-    //     if (isUserActive > 0) {
-    //         time = setInterval(() => {
-    //             setIsUserActive(isUserActive - 1000)
-    //         }, 101000)
-    //     }
-    //     return () => {
-    //         clearInterval(time)
-    //     }
-    // }, [isUserActive])
+    const onCancelClicked = () => setModal(null)
 
-    // useEffect(() => {
-    //     let time: any = null
-    //     time = setTimeout(async () => {
-    //         if (AuthUtils.getToken()) {
-    //             await logoutActivity({ type: LogoutType.Auto })
-    //         }
-    //         AuthUtils.logout(router)
-    //         setIsUserActive(0)
-    //     }, isUserActive)
+    useEffect(() => {
+        let time: any = null
 
-    //     return () => {
-    //         clearTimeout(time)
-    //     }
-    // }, [isUserActive])
+        const intervalTime = 250000
+
+        time = setInterval(() => {
+            refreshToken()
+        }, intervalTime)
+
+        return () => {
+            clearInterval(time)
+        }
+    }, [])
+
+    useEffect(() => {
+        if (AuthUtils.isAuthenticated()) {
+            // Get the timestamp in milliseconds
+            const timestamp = moment().valueOf()
+
+            const expireTime = moment(
+                AuthUtils.getUserCredentials()?.exp * 1000
+            )
+            const currentTime = moment(timestamp)
+
+            if (expireTime.isBefore(currentTime)) {
+                setModal(<SessionExpireModal onCancel={onCancelClicked} />)
+            }
+        }
+    }, [router])
+
+    useEffect(() => {
+        if (refreshTokenResult.isSuccess) {
+            if (refreshTokenResult.data) {
+                if (isBrowser()) {
+                    const rememberLogin = localStorage.getItem('rememberMe')
+                    if (rememberLogin) {
+                        AuthUtils.setToken(refreshTokenResult.data.access_token)
+                        AuthUtils.setRefreshToken(
+                            refreshTokenResult.data.refreshToken
+                        )
+                    } else {
+                        AuthUtils.setTokenToSession(
+                            refreshTokenResult.data.access_token
+                        )
+                        AuthUtils.setRefreshTokenToSessionStorage(
+                            refreshTokenResult.data.refreshToken
+                        )
+                    }
+                }
+            }
+        }
+    }, [refreshTokenResult.isSuccess])
 
     useEffect(() => {
         let time: any = null
@@ -86,13 +119,16 @@ export const AutoLogoutProvider = ({
 
     useEffect(() => {
         let time: any = null
-        time = setTimeout(async () => {
-            if (AuthUtils.getToken()) {
-                await logoutActivity({ type: LogoutType.Auto })
-            }
-            AuthUtils.logout(router)
-            setIsUserActive(0)
-        }, isUserActive)
+        if (AuthUtils.isAuthenticated()) {
+            time = setTimeout(async () => {
+                if (AuthUtils.getToken()) {
+                    await logoutActivity({ type: LogoutType.Auto })
+                }
+                setModal(<SessionExpireModal onCancel={onCancelClicked} />)
+                AuthUtils.logout()
+                setIsUserActive(0)
+            }, isUserActive)
+        }
 
         return () => {
             clearTimeout(time)
@@ -124,6 +160,7 @@ export const AutoLogoutProvider = ({
 
     return (
         <AutoLogoutContext.Provider value={value}>
+            {modal}
             <div
                 onClick={() => {
                     setIsUserActive((preval) =>
