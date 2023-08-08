@@ -33,7 +33,7 @@ export const AutoLogoutProvider = ({
     children: ReactElement | ReactNode
 }) => {
     const router = useRouter()
-    const seconds = 10 * 60 * 1000
+    const seconds = 20 * 60 * 1000
     // const seconds = 2 * 60 * 1000
     const [isUserActive, setIsUserActive] = useState(seconds)
     const [modal, setModal] = useState<ReactNode | null>(null)
