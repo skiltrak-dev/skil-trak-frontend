@@ -43,11 +43,13 @@ export const ViewUserPassword = ({
                 ) : getUserPassword.data?.password ? (
                     <Typography>{getUserPassword?.data?.password}</Typography>
                 ) : (
-                    <NoData
-                        text={
-                            'There is no password for this User, Create a new password from update password in edit profile'
-                        }
-                    />
+                    !getUserPassword.isError && (
+                        <NoData
+                            text={
+                                'There is no password for this User, Create a new password from update password in edit profile'
+                            }
+                        />
+                    )
                 )}
             </Modal>
         </div>
