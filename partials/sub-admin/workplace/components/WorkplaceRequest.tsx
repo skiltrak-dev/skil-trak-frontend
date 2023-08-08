@@ -1,44 +1,41 @@
-import moment from 'moment'
-
 // Icons
 import { RiBook2Fill } from 'react-icons/ri'
 // components
 import {
-    Card,
-    Typography,
-    Button,
     ActionButton,
+    Button,
+    Card,
     Select,
     ShowErrorNotifications,
+    Typography,
 } from '@components'
 
 // utils
-import { WorkplaceCurrentStatus, ellipsisText, userStatus } from '@utils'
+import { WorkplaceCurrentStatus, ellipsisText } from '@utils'
 
 // hooks
 import { GetFolders } from '../hooks'
 
 // query
+import { useContextBar, useNotification } from '@hooks'
+import { ViewAgreement } from '@partials/common'
 import {
     SubAdminApi,
-    useAssignToSubAdminMutation,
     useCancelWorkplaceStatusMutation,
     useGetWorkplaceFoldersQuery,
 } from '@queries'
+import { Course } from '@types'
 import { useEffect, useState } from 'react'
-import { useContextBar, useNotification } from '@hooks'
+import { Waypoint } from 'react-waypoint'
 import { AssignToMe } from './AssignToMe'
-import { RequestType } from './RequestType'
-import { StudentDetail } from './StudentDetail'
-import { WorkplaceFolders } from './WorkplaceFolders'
+import { Availability } from './Availability'
 import { Industries } from './Industries'
 import { Notes } from './Notes'
-import { SmallDetail } from './smallDetail'
+import { RequestType } from './RequestType'
 import { RtoDetail } from './RtoDetail'
-import { Availability } from './Availability'
-import { Course } from '@types'
-import { ViewAgreement } from '@partials/common'
-import { Waypoint } from 'react-waypoint'
+import { StudentDetail } from './StudentDetail'
+import { WorkplaceFolders } from './WorkplaceFolders'
+import { SmallDetail } from './smallDetail'
 
 export const WPStatusForCancelButon = [
     WorkplaceCurrentStatus.Applied,
