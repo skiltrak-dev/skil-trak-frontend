@@ -78,6 +78,8 @@ export interface Student extends BaseResponse {
     suburb: string
     state: string
     zipCode: string
+    oldExpiry: Date
+    nonContactable: boolean
     user: User
     rto: Rto
     location: string

@@ -1,13 +1,10 @@
 import { ActionModal } from '@components'
 import { useAlert, useNotification } from '@hooks'
-import { AdminApi } from '@queries'
-import { Student, SubAdmin, Subscriber } from '@types'
+import { Student, SubAdmin } from '@types'
 import { useEffect } from 'react'
-import { FaBan } from 'react-icons/fa'
 import { HiCheckBadge } from 'react-icons/hi2'
 
 // query
-import { useAssignStudentsToSubAdminMutation } from '@queries'
 import { useChangeStatus } from '../hooks'
 
 interface StudentSubadmin extends Student {

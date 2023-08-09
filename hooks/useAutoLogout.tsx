@@ -69,9 +69,42 @@ export const AutoLogoutProvider = ({
                 !refreshTokenResult.isLoading
             ) {
                 time = setInterval(() => {
-                    console.log({ intervalTime })
+                    console.log(
+                        '1',
+                        intervalTime,
+                        timestamp && moment(timestamp).format('YYYY-MM-DD')
+                    )
                     refreshToken()
                 }, intervalTime)
+            }
+        }
+
+        return () => {
+            clearInterval(time)
+        }
+    }, [router, AuthUtils.getUserCredentials(), getExpAndCurrTime()])
+
+    useEffect(() => {
+        let time: any = null
+
+        if (AuthUtils.isAuthenticated()) {
+            const { expTime, timestamp } = getExpAndCurrTime()
+
+            const secondIntervalTime = expTime - 1000 * 100 - timestamp
+
+            if (
+                secondIntervalTime &&
+                secondIntervalTime > 0 &&
+                !refreshTokenResult.isLoading
+            ) {
+                time = setInterval(() => {
+                    console.log(
+                        '2',
+                        secondIntervalTime,
+                        timestamp && moment(timestamp).format('YYYY-MM-DD')
+                    )
+                    refreshToken()
+                }, secondIntervalTime)
             }
         }
 
@@ -204,6 +237,9 @@ export const AutoLogoutProvider = ({
                     onEventOccur()
                 }}
                 onKeyDown={() => {
+                    onEventOccur()
+                }}
+                onMouseMove={() => {
                     onEventOccur()
                 }}
             >

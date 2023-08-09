@@ -25,6 +25,7 @@ import { Student, UserStatus } from '@types'
 import { useEffect, useState } from 'react'
 import { MdBlock } from 'react-icons/md'
 import {
+    AddToNonContactableStudents,
     AssignStudentModal,
     BlockModal,
     ChangeStudentStatusModal,
@@ -106,6 +107,15 @@ export const AllStudents = () => {
         )
     }
 
+    const onNonContactableStudents = (student: Student) => {
+        setModal(
+            <AddToNonContactableStudents
+                student={student}
+                onCancel={() => onModalCancelClicked()}
+            />
+        )
+    }
+
     const onChangeStatus = (student: Student) => {
         setModal(
             <ChangeStudentStatusModal
@@ -164,6 +174,14 @@ export const AllStudents = () => {
                 Icon: MdBlock,
             },
             {
+                text: student?.nonContactable
+                    ? 'Add to Contactable'
+                    : 'Add to Not Contactable',
+                onClick: (student: Student) =>
+                    onNonContactableStudents(student),
+                Icon: MdBlock,
+            },
+            {
                 text: 'Interview',
                 onClick: (student: Student) => onInterviewClicked(student),
                 Icon: FaUsers,
@@ -196,8 +214,8 @@ export const AllStudents = () => {
         {
             header: () => 'Name',
             accessorKey: 'user',
-            cell: ({ row }: any) => {
-                return <StudentCellInfo student={row.original} call />
+            cell: (info) => {
+                return <StudentCellInfo student={info.row.original} call />
             },
         },
         {
@@ -250,7 +268,7 @@ export const AllStudents = () => {
         {
             header: () => 'Action',
             accessorKey: 'Action',
-            cell: ({ row }: any) => {
+            cell: ({ row }) => {
                 const tableActionOption = tableActionOptions(row.original)
                 return (
                     <TableAction
