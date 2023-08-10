@@ -41,6 +41,22 @@ export const TaskPrimaryActions = [
         animation: Animations.Industry.MyTasks.AvailableShift,
         id: 'available-shifts',
     },
+    {
+        link: 'tasks/branches',
+        title: 'Branches',
+        description: 'branches',
+        // image: null, //"./images/dashboardbtn.png",
+        animation: Animations.Industry.MyTasks.AvailableShift,
+        id: 'branches',
+    },
+    {
+        link: 'tasks/head-quarters',
+        title: 'Head Quarters',
+        description: 'Head Quarters',
+        // image: null, //"./images/dashboardbtn.png",
+        animation: Animations.Industry.MyTasks.AvailableShift,
+        id: 'head-quarters',
+    },
 ]
 
 export const TasksContainer = () => {
