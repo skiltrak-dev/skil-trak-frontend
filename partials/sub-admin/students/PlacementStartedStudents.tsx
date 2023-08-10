@@ -6,7 +6,6 @@ import { FaEye } from 'react-icons/fa'
 // components
 import {
     Card,
-    CaseOfficerAssignedStudent,
     EmptyData,
     InitialAvatar,
     LoadingAnimation,
@@ -20,8 +19,8 @@ import {
 import { StudentCellInfo } from './components'
 
 import { TechnicalError } from '@components/ActionAnimations/TechnicalError'
-import { SubAdminApi, useGetSubAdminMyStudentsQuery } from '@queries'
-import { Student, StudentStatusEnum, UserStatus } from '@types'
+import { SubAdminApi } from '@queries'
+import { Student, UserStatus } from '@types'
 import { ReactElement, useEffect, useState } from 'react'
 import { MdBlock } from 'react-icons/md'
 import { BlockModal, UnAssignStudentModal } from './modals'

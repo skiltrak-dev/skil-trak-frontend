@@ -12,7 +12,7 @@ import {
 } from '@components'
 import { ShowErrorNotifications } from '@components/ShowErrorNotifications'
 import { SubAdminLayout } from '@layouts'
-import { NextPageWithLayout } from '@types'
+import { NextPageWithLayout, UserStatus } from '@types'
 
 // query
 import { useNotification } from '@hooks'
@@ -222,15 +222,15 @@ const ProvideWorkplaceDetail: NextPageWithLayout = (props: Props) => {
                             {active === 3 && (
                                 <>
                                     {workplaceData[0]?.industryStatus ===
-                                    'approved' ? (
+                                    UserStatus.Approved ? (
                                         <IndustrySelection
                                             setActive={setActive}
                                             workplace={workplace}
-                                            userId={data?.user?.id}
+                                            userId={Number(data?.user?.id)}
                                             studentProvidedWorkplace
                                         />
                                     ) : workplaceData[0]?.industryStatus ===
-                                      'rejected' ? (
+                                      UserStatus.Rejected ? (
                                         <Card>
                                             <div className="px-5 py-16 border-2 border-dashed border-gray-600 flex justify-center">
                                                 <Typography

@@ -96,9 +96,7 @@ export const UpdateDetails = ({
             rto,
             courses,
             workplace,
-            result,
             assessmentEvidence,
-            password,
             updatedAt,
             createdAt,
             ...rest

@@ -12,13 +12,11 @@ import { AuthorizedUserComponent } from '@components/AuthorizedUserComponent'
 export const StudentTimer = ({
     studentId,
     date,
-    studentStatus,
     changeExpiryData,
     oldExpiry,
 }: {
     studentId: number | undefined
     date: Date
-    studentStatus: string
     changeExpiryData?: any
     oldExpiry: Date | null
 }) => {

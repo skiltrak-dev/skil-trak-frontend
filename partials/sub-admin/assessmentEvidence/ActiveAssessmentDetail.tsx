@@ -320,7 +320,7 @@ export const ActiveAssessmentDetail = ({
         )
     }
 
-    const isFilesUploaded = getFolders?.data?.every(
+    const isFilesUploaded = getFolders?.data?.some(
         (f: any) => f?.studentResponse[0]?.files?.length > 0
     )
     return (
@@ -493,9 +493,9 @@ export const ActiveAssessmentDetail = ({
                                             (selectedFolder?.id ===
                                             AgreementFile ? (
                                                 <SignAgreement
-                                                    studentId={
+                                                    studentId={Number(
                                                         studentProfile?.data?.id
-                                                    }
+                                                    )}
                                                     appliedIndustryId={
                                                         appliedIndustry?.id
                                                     }

@@ -14,6 +14,7 @@ import {
     LoadingAnimation,
     PageTitle,
     ShowErrorNotifications,
+    StudentSubAdmin,
     StudentTimer,
     SubAdminStudentProfile,
     TechnicalError,
@@ -320,9 +321,6 @@ export const StudentProfile = ({ noTitle }: { noTitle?: boolean }) => {
                                         studentId={data?.user?.id}
                                         date={data?.expiryDate}
                                         oldExpiry={data?.oldExpiry}
-                                        studentStatus={
-                                            data?.user?.studentStatus
-                                        }
                                     />
                                 </div>
                             </div>
@@ -416,10 +414,13 @@ export const StudentProfile = ({ noTitle }: { noTitle?: boolean }) => {
                 {isLoading ? (
                     <LoadingAnimation height={'h-[60vh]'} />
                 ) : data && !isError ? (
-                    <DetailTabs student={data} id={data?.id} />
+                    <DetailTabs
+                        student={data as StudentSubAdmin}
+                        id={data?.id}
+                    />
                 ) : (
                     !isError &&
-                    data?.isSuccess && (
+                    isSuccess && (
                         <EmptyData
                             title={'Student Not found'}
                             description={'Student Does not exist!'}
