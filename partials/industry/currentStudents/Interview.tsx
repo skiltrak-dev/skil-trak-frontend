@@ -21,7 +21,7 @@ import { LoadingAnimation } from '@components/LoadingAnimation'
 
 export const Interview = () => {
     // query
-    const industryWorkplace = useGetIndustryWorkplaceQuery()
+    const industryWorkplace = useGetIndustryWorkplaceQuery({})
 
     return (
         <>

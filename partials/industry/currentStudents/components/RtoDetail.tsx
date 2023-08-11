@@ -11,7 +11,8 @@ export const RtoDetail = ({ rto }: { rto: any }) => {
                 />
                 <div>
                     <Typography color={'black'} variant={'small'}>
-                        {rto?.user?.name}
+                        {rto?.user?.name}{' '}
+                        <span className="uppercase">({rto?.user?.role})</span>
                     </Typography>
                     <div className="flex flex-col gap-y-1">
                         <Typography variant={'muted'} color={'text-gray-400'}>
