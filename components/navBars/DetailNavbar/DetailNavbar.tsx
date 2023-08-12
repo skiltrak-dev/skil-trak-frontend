@@ -73,6 +73,7 @@ export const DetailNavbar = () => {
                         </a>
                     </Link>
                 </AuthorizedUserComponent>
+
                 <OutsideClickHandler
                     onOutsideClick={() => {
                         setMessagesExpanded(false)

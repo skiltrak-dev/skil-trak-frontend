@@ -855,6 +855,11 @@ export const IndustryDashboardContainer = () => {
             contextBar.setContent(<ViewProfileCB />)
             contextBar.show(false)
         }
+
+        return () => {
+            contextBar.setContent(null)
+            contextBar.hide()
+        }
     }, [isMobile])
 
     useEffect(() => {

@@ -9,7 +9,7 @@ export const SubmitSubmissionForAssessment = ({
     student,
 }: {
     selectedCourseId: number
-    student: Student
+    student: Student | undefined
 }) => {
     const { notification } = useNotification()
     const [submitAssessment, submitAssessmentResult] =

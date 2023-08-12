@@ -131,9 +131,6 @@ export const StudentLayout = ({ pageTitle, children }: StudentLayoutProps) => {
                                     <StudentTimer
                                         studentId={profile.data?.user?.id}
                                         date={profile.data?.expiryDate}
-                                        studentStatus={
-                                            profile.data?.user?.studentStatus
-                                        }
                                         oldExpiry={profile?.data?.oldExpiry}
                                     />
                                 )}

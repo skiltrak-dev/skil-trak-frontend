@@ -122,7 +122,7 @@ const RequestWorkplaceDetail: NextPageWithLayout = (props: Props) => {
                                     <Availability
                                         setActive={setActive}
                                         personalInfoData={personalInfoData}
-                                        userId={data?.user?.id}
+                                        userId={Number(data?.user?.id)}
                                         setAvailabilities={setAvailabilities}
                                         availabilities={availabilities}
                                     />
@@ -132,7 +132,7 @@ const RequestWorkplaceDetail: NextPageWithLayout = (props: Props) => {
                                     <IndustrySelection
                                         setActive={setActive}
                                         workplace={workplace}
-                                        userId={data?.user?.id}
+                                        userId={Number(data?.user?.id)}
                                     />
                                 )}
                             </div>

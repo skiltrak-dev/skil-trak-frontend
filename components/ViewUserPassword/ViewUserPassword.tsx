@@ -15,6 +15,7 @@ export const ViewUserPassword = ({
 
     const getUserPassword = CommonApi.ViewPassword.getUserPassword(user, {
         skip: !user,
+        refetchOnMountOrArgChange: true,
     })
 
     return (
@@ -34,7 +35,7 @@ export const ViewUserPassword = ({
                 {getUserPassword.isError && (
                     <NoData
                         text={
-                            'Somr technical Issue, Close Modal and Try again.'
+                            'Some technical Issue, Close Modal and Try again.'
                         }
                     />
                 )}

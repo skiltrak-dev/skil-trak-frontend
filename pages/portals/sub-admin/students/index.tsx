@@ -1,29 +1,21 @@
-import { ReactElement, useCallback, useEffect, useState } from 'react'
 import {
     NextPageWithLayout,
     SubAdminStudentsFilterType,
-    UserCount,
     UserStatus,
 } from '@types'
 import debounce from 'lodash/debounce'
+import { ReactElement, useCallback, useEffect, useState } from 'react'
 
 //components
 import {
-    Button,
-    Card,
     Filter,
     LoadingAnimation,
     PageTitle,
-    RtoContextBarData,
-    SidebarCalendar,
-    StudentFilters,
-    TechnicalError,
     SubAdminStudentFilters,
     TabNavigation,
     TabProps,
+    TechnicalError,
     TextInput,
-    TableAction,
-    TableActionOption,
 } from '@components'
 import {
     AllStudents,
@@ -45,14 +37,8 @@ import { useContextBar } from '@hooks'
 
 //Layouts
 import { SubAdminLayout } from '@layouts'
-import {
-    checkFilteredDataLength,
-    getCountData,
-    getFilterQuery,
-    getUserCredentials,
-} from '@utils'
+import { checkFilteredDataLength, getCountData, getFilterQuery } from '@utils'
 import { useRouter } from 'next/router'
-import { FaEye } from 'react-icons/fa'
 
 type Props = {}
 
@@ -146,7 +132,7 @@ const Students: NextPageWithLayout = (props: Props) => {
         {
             label: 'Non Contactable Students',
             badge: {
-                text: studentCount?.myStudents,
+                text: studentCount?.contContactable,
                 loading: count.isLoading,
             },
             href: {
@@ -158,7 +144,7 @@ const Students: NextPageWithLayout = (props: Props) => {
         {
             label: 'Placement Started Students',
             badge: {
-                text: studentCount?.myStudents,
+                text: studentCount?.placementStarted,
                 loading: count.isLoading,
             },
             href: {

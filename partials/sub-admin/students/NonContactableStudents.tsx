@@ -24,7 +24,11 @@ import { SubAdminApi, useGetSubAdminMyStudentsQuery } from '@queries'
 import { Student, UserStatus } from '@types'
 import { ReactElement, useEffect, useState } from 'react'
 import { MdBlock } from 'react-icons/md'
-import { BlockModal, UnAssignStudentModal } from './modals'
+import {
+    AddToNonContactableStudents,
+    BlockModal,
+    UnAssignStudentModal,
+} from './modals'
 
 import { useActionModal } from '@hooks'
 import { SectorCell } from '@partials/admin/student/components'
@@ -72,6 +76,15 @@ export const NonContactableStudents = () => {
         )
     }
 
+    const onNonContactableStudents = (student: Student) => {
+        setModal(
+            <AddToNonContactableStudents
+                student={student}
+                onCancel={() => onModalCancelClicked()}
+            />
+        )
+    }
+
     const tableActionOptions: TableActionOption[] = [
         {
             text: 'View',
@@ -82,6 +95,11 @@ export const NonContactableStudents = () => {
                 setLink('subadmin-student', router)
             },
             Icon: FaEye,
+        },
+        {
+            text: 'Add to Contactable',
+            onClick: (student: Student) => onNonContactableStudents(student),
+            Icon: MdBlock,
         },
         {
             text: 'View Password',

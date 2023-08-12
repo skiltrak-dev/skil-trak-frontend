@@ -40,7 +40,7 @@ export const AddIndustryCB = ({
     const [customIndustriesOptions, setCustomIndustriesOptions] = useState<
         any | null
     >([])
-    const [selectedCustomIndustry, setSelectedCustomIndustry] = useState(false)
+    const [selectedCustomIndustry, setSelectedCustomIndustry] = useState(null)
     const { notification } = useNotification()
     const { setTitle, hide, setContent } = useContextBar()
 
@@ -111,7 +111,10 @@ export const AddIndustryCB = ({
                             })
                         }}
                         loading={addExistingIndustryResult?.isLoading}
-                        disabled={addExistingIndustryResult?.isLoading}
+                        disabled={
+                            addExistingIndustryResult?.isLoading ||
+                            !selectedCustomIndustry
+                        }
                     />
                 </div>
             ) : (

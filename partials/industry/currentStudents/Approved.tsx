@@ -2,27 +2,23 @@ import {
     Card,
     EmptyData,
     InitialAvatar,
-    StudentStatusProgressCell,
     Table,
     TableAction,
     TableActionOption,
     TechnicalError,
     Typography,
 } from '@components'
-import { useState } from 'react'
-import { StudentCellInfo } from './components'
+import { useEffect, useState } from 'react'
+import { IndustryDetail, StudentCellInfo } from './components'
 
 // query
-import { PageHeading } from '@components/headings'
 import { LoadingAnimation } from '@components/LoadingAnimation'
-import { ProgressCell } from '@partials/admin/student/components'
+import { PageHeading } from '@components/headings'
 import { useGetIndustryWorkplaceQuery } from '@queries'
 import { ColumnDef } from '@tanstack/react-table'
-import { checkStudentStatus, checkWorkplaceStatus } from '@utils'
-import { FaEye } from 'react-icons/fa'
-import { UserStatus } from '@types'
-import { MdEmail } from 'react-icons/md'
 import { useRouter } from 'next/router'
+import { FaEye } from 'react-icons/fa'
+import { MdEmail } from 'react-icons/md'
 
 export const Approved = () => {
     const [page, setPage] = useState(1)
@@ -30,8 +26,19 @@ export const Approved = () => {
 
     const router = useRouter()
 
+    useEffect(() => {
+        setPage(Number(router.query.page || 1))
+        setItemPerPage(Number(router.query.pageSize || 50))
+    }, [router])
+
     // query
-    const industryWorkplace = useGetIndustryWorkplaceQuery()
+    const industryWorkplace = useGetIndustryWorkplaceQuery(
+        {
+            skip: itemPerPage * page - itemPerPage,
+            limit: itemPerPage,
+        },
+        { refetchOnMountOrArgChange: true }
+    )
 
     const tableActionOptions: TableActionOption[] = [
         {
@@ -85,6 +92,19 @@ export const Approved = () => {
                 )
             },
         },
+        {
+            accessorKey: 'industry',
+            header: () => <span>Industry</span>,
+            cell: (info) => {
+                const rto = info.row.original?.student?.rto
+                return (
+                    <IndustryDetail
+                        industry={info.row.original?.industries?.[0]?.industry}
+                    />
+                )
+            },
+        },
+
         {
             accessorKey: 'sectors',
             header: () => <span>Course</span>,

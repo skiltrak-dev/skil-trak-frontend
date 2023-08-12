@@ -13,7 +13,6 @@ import {
     StudentSubAdmin,
     Table,
     TableAction,
-    TableActionOption,
     Typography,
     UserCreatedAt,
 } from '@components'
@@ -21,10 +20,14 @@ import { StudentCellInfo } from './components'
 
 import { TechnicalError } from '@components/ActionAnimations/TechnicalError'
 import { useGetSubAdminMyStudentsQuery } from '@queries'
-import { Student, UserStatus } from '@types'
+import { Student } from '@types'
 import { ReactElement, useEffect, useState } from 'react'
 import { MdBlock } from 'react-icons/md'
-import { BlockModal, UnAssignStudentModal } from './modals'
+import {
+    AddToNonContactableStudents,
+    BlockModal,
+    UnAssignStudentModal,
+} from './modals'
 
 import { useActionModal } from '@hooks'
 import { SectorCell } from '@partials/admin/student/components'
@@ -72,35 +75,54 @@ export const MyStudents = () => {
         )
     }
 
-    const tableActionOptions: TableActionOption[] = [
-        {
-            text: 'View',
-            onClick: (student: Student) => {
-                router.push(
-                    `/portals/sub-admin/students/${student.id}?tab=overview`
-                )
-                setLink('subadmin-student', router)
+    const onNonContactableStudents = (student: Student) => {
+        setModal(
+            <AddToNonContactableStudents
+                student={student}
+                onCancel={() => onModalCancelClicked()}
+            />
+        )
+    }
+
+    const tableActionOptions = (student: any) => {
+        return [
+            {
+                text: 'View',
+                onClick: (student: Student) => {
+                    router.push(
+                        `/portals/sub-admin/students/${student.id}?tab=overview`
+                    )
+                    setLink('subadmin-student', router)
+                },
+                Icon: FaEye,
             },
-            Icon: FaEye,
-        },
-        {
-            text: 'View Password',
-            onClick: (student: Student) => onViewPassword(student),
-            Icon: RiLockPasswordFill,
-        },
-        {
-            text: 'Block',
-            onClick: (student: Student) => onBlockClicked(student),
-            Icon: MdBlock,
-            color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
-        },
-        {
-            text: 'Un Assign',
-            onClick: (student: Student) => onAssignStudentClicked(student),
-            Icon: MdBlock,
-            color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
-        },
-    ]
+            {
+                text: 'View Password',
+                onClick: (student: Student) => onViewPassword(student),
+                Icon: RiLockPasswordFill,
+            },
+            {
+                text: student?.nonContactable
+                    ? 'Add to Contactable'
+                    : 'Add to Not Contactable',
+                onClick: (student: Student) =>
+                    onNonContactableStudents(student),
+                Icon: MdBlock,
+            },
+            {
+                text: 'Un Assign',
+                onClick: (student: Student) => onAssignStudentClicked(student),
+                Icon: MdBlock,
+                color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
+            },
+            {
+                text: 'Block',
+                onClick: (student: Student) => onBlockClicked(student),
+                Icon: MdBlock,
+                color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
+            },
+        ]
+    }
 
     const Columns: ColumnDef<StudentSubAdmin>[] = [
         {
@@ -173,9 +195,10 @@ export const MyStudents = () => {
             header: () => 'Action',
             accessorKey: 'Action',
             cell: ({ row }: any) => {
+                const tableActionOption = tableActionOptions(row.original)
                 return (
                     <TableAction
-                        options={tableActionOptions}
+                        options={tableActionOption}
                         rowItem={row.original}
                     />
                 )
