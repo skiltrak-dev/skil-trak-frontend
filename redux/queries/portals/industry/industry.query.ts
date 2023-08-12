@@ -17,6 +17,8 @@ import { studentsEndpoints } from './students'
 import { volunteerEndpoints } from './volunteer'
 import { workplaceEndpoints } from './workplace'
 import { supervisorsEndpoints } from './supervisors'
+import { branchesEndpoints } from './branches'
+import { headQuarterEndpoints } from './head-quarter'
 
 export const industryApi = emptySplitApi.injectEndpoints({
     // export const industryApi = createApi({
@@ -63,21 +65,23 @@ export const industryApi = emptySplitApi.injectEndpoints({
             invalidatesTags: ['Industries'],
         }),
 
+        ...mouEndpoints(build),
+        ...jobEndpoints(build),
+        ...rplEndpoints(build),
         ...coursesEndpoints(build),
+        ...messageEndpoints(build),
         ...foldersEndpoints(build),
         ...employeeEndpoints(build),
         ...studentsEndpoints(build),
-        ...employeeTaskEndpoints(build),
-        ...availableShiftsEndpoints(build),
-        ...appointmentsEndpoints(build),
-        ...mouEndpoints(build),
-        ...jobEndpoints(build),
+        ...branchesEndpoints(build),
         ...workplaceEndpoints(build),
-        ...messageEndpoints(build),
-        ...notificationsEndpoints(build),
-        ...rplEndpoints(build),
         ...volunteerEndpoints(build),
         ...supervisorsEndpoints(build),
+        ...headQuarterEndpoints(build),
+        ...employeeTaskEndpoints(build),
+        ...appointmentsEndpoints(build),
+        ...notificationsEndpoints(build),
+        ...availableShiftsEndpoints(build),
     }),
     // overrideExisting: true,
 })
@@ -200,6 +204,12 @@ export const {
     useAddSupervisorMutation,
     useEditSupervisorMutation,
     useRemoveSupervisorMutation,
+
+    // ----- BRANCHES ----- //
+    useGetBranchesQuery,
+
+    // ----- HEADQUARTER ----- //
+    useGetIndustryHeadQuarterQuery,
 } = industryApi
 
 export const IndustryApi = {
@@ -320,5 +330,11 @@ export const IndustryApi = {
         addSupervisor: useAddSupervisorMutation,
         editSupervisor: useEditSupervisorMutation,
         removeSupervisor: useRemoveSupervisorMutation,
+    },
+    Branches: {
+        useBranchesList: useGetBranchesQuery,
+    },
+    HeadQuarter: {
+        useHeadQuarterList: useGetIndustryHeadQuarterQuery,
     },
 }

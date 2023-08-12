@@ -1,16 +1,23 @@
 import { BaseQueryFn } from '@reduxjs/toolkit/dist/query/baseQueryTypes'
 import { EndpointBuilder } from '@reduxjs/toolkit/dist/query/endpointDefinitions'
+import { PaginationValues } from '@types'
 
 const PREFIX = 'industries'
 export const workplaceEndpoints = (
     builder: EndpointBuilder<BaseQueryFn, string, string>
 ) => ({
-    getIndustryPendingWorkplace: builder.query<any, void>({
-        query: () => `${PREFIX}/workplace-request/pending/list`,
+    getIndustryPendingWorkplace: builder.query<any, PaginationValues>({
+        query: (params) => ({
+            url: `${PREFIX}/workplace-request/pending/list`,
+            params,
+        }),
         providesTags: ['IndustryWorkplace'],
     }),
-    getIndustryWorkplace: builder.query<any, void>({
-        query: () => `${PREFIX}/workplace-request/approved/list`,
+    getIndustryWorkplace: builder.query<any, PaginationValues>({
+        query: (params) => ({
+            url: `${PREFIX}/workplace-request/approved/list`,
+            params,
+        }),
         providesTags: ['IndustryWorkplace'],
     }),
     getIndustryWorkplaceDetail: builder.query<any, number>({

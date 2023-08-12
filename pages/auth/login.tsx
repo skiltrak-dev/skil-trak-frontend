@@ -28,23 +28,43 @@ const Login: NextPage = () => {
     const [archived, setArchived] = useState(false)
     const [blocked, setBlocked] = useState(false)
     const [rememberLogin, setRememberLogin] = useState<boolean>(false)
+    const [autoLogoutUrl, setAutoLogoutUrl] = useState<{
+        url: URL | null
+        role: string | null | undefined
+    }>({
+        url: null,
+        role: '',
+    })
+
+    const chkRoleAndUrl = (role: string) =>
+        autoLogoutUrl.url && autoLogoutUrl.role === role
 
     const nextDestination = (role: string) => {
         switch (role) {
             case UserRoles.ADMIN:
-                router.push('/portals/admin')
+                chkRoleAndUrl(role)
+                    ? router.push(autoLogoutUrl.url as URL)
+                    : router.push('/portals/admin')
                 break
             case UserRoles.INDUSTRY:
-                router.push('/portals/industry')
+                chkRoleAndUrl(role)
+                    ? router.push(autoLogoutUrl.url as URL)
+                    : router.push('/portals/industry')
                 break
             case UserRoles.RTO:
-                router.push('/portals/rto')
+                chkRoleAndUrl(role)
+                    ? router.push(autoLogoutUrl.url as URL)
+                    : router.push('/portals/rto')
                 break
             case UserRoles.STUDENT:
-                router.push('/portals/student')
+                chkRoleAndUrl(role)
+                    ? router.push(autoLogoutUrl.url as URL)
+                    : router.push('/portals/student')
                 break
             case UserRoles.SUBADMIN:
-                router.push('/portals/sub-admin')
+                chkRoleAndUrl(role)
+                    ? router.push(autoLogoutUrl.url as URL)
+                    : router.push('/portals/sub-admin')
                 break
         }
     }
@@ -90,6 +110,14 @@ const Login: NextPage = () => {
     }, [loginResult.isSuccess])
 
     const onSubmit = async (values: LoginCredentials) => {
+        if (isBrowser()) {
+            const autoLogoutUrl = localStorage.getItem('autoLogoutPath')
+            const role = autoLogoutUrl?.split('/')[2]
+            setAutoLogoutUrl({
+                url: localStorage.getItem('autoLogoutPath') as any,
+                role,
+            })
+        }
         AuthUtils.logout()
         setRememberLogin(values?.remember as boolean)
         await login(values)

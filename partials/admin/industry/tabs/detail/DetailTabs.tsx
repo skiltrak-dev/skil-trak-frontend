@@ -28,14 +28,14 @@ export const DetailTabs = ({
         {
             label: 'History',
             href: { query: { tab: 'history', id } },
-            element: <IndustryHistory industry={industry?.data?.user?.id}/>,
+            element: <IndustryHistory industry={industry?.data?.user?.id} />,
         },
         {
             label: 'Supervisors',
             href: { query: { tab: 'supervisors', id } },
             element: <Supervisor industry={industry?.data} />,
         },
-        
+
         {
             label: 'Students',
             href: { query: { tab: 'students', id } },
@@ -63,29 +63,40 @@ export const DetailTabs = ({
         },
     ])
 
-    useEffect(() => {
-        if (industry?.data?.branches && industry?.data?.branches?.length > 0) {
-            let industryTabs = [...tabs]
-            industryTabs?.splice(4, 0, {
-                label: 'Branches',
-                href: { query: { tab: 'branches', id } },
-                element: (
-                    <BranchesIndustries
-                        industry={industry?.data}
-                        industries={industry?.data?.branches}
-                    />
-                ),
-            })
-            const filteredIndustryTabs = tabs?.some(
-                (tab) => tab?.label === 'Branches'
-            )
-            !filteredIndustryTabs && setTabs(industryTabs)
-        }
-    }, [industry])
+    // useEffect(() => {
+    //     if (industry?.data?.branches && industry?.data?.branches?.length > 0) {
+    //         let industryTabs = [...tabs]
+    //         industryTabs?.splice(4, 0, {
+    //             label: 'Branches',
+    //             href: { query: { tab: 'branches', id } },
+    //             element: (
+    //                 <BranchesIndustries
+    //                     industry={industry?.data}
+    //                     industries={industry?.data?.branches}
+    //                 />
+    //             ),
+    //         })
+    //         const filteredIndustryTabs = tabs?.some(
+    //             (tab) => tab?.label === 'Branches'
+    //         )
+    //         !filteredIndustryTabs && setTabs(industryTabs)
+    //     }
+    // }, [industry])
+
+    const Branches = {
+        label: 'Branches',
+        href: { query: { tab: 'branches', id } },
+        element: (
+            <BranchesIndustries
+                industry={industry?.data}
+                industries={industry?.data?.branches}
+            />
+        ),
+    }
 
     return (
         <div>
-            <TabNavigation tabs={tabs}>
+            <TabNavigation tabs={[...tabs, Branches]}>
                 {({ header, element }: any) => {
                     return (
                         <div>

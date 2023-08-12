@@ -12,6 +12,8 @@ import { RtoDetail } from '../RtoDetail'
 import { CourseDetail } from '../CourseDetail'
 import { Folders } from '../Folders'
 import { SmallDetail } from '../smallDetail'
+import { IndustryCell } from '@partials/industry/components'
+import { IndustryDetail } from '../IndustryDetail'
 
 export const CurrentStudentCard = ({ workplace }: any) => {
     const [industry, setIndustry] = useState<any | null>(null)
@@ -40,6 +42,8 @@ export const CurrentStudentCard = ({ workplace }: any) => {
                         </Typography>
                     </div>
                     <RtoDetail rto={workplace?.student?.rto} />
+
+                    <IndustryDetail industry={industry?.industry} />
                 </div>
 
                 {/*  */}
