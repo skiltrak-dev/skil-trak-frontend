@@ -59,8 +59,10 @@ const Detail: NextPageWithLayout = () => {
     }, [industry.data])
     useEffect(() => {
         if (industry.isSuccess) {
-            contextBar.setContent(<IndustryProfile data={industry.data} />)
-            contextBar.show(false)
+            if (industry?.data) {
+                contextBar.setContent(<IndustryProfile data={industry.data} />)
+                contextBar.show(false)
+            }
             const showAlert = () => {
                 switch (industry.data?.user?.status) {
                     case UserStatus.Pending:

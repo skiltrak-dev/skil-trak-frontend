@@ -5,7 +5,7 @@ import { IndustryLayout } from '@layouts'
 import { NextPageWithLayout, UserStatus } from '@types'
 
 import { TabNavigation, TabProps } from '@components/TabNavigation'
-import { PendingStudents, Approved } from '@partials/industry'
+import { PendingStudents, Approved, IndustryStudentsLayout } from '@partials/industry'
 
 const CurrentStudents: NextPageWithLayout = () => {
     const router = useRouter()
@@ -52,7 +52,7 @@ const CurrentStudents: NextPageWithLayout = () => {
 }
 
 CurrentStudents.getLayout = (page: ReactElement) => {
-    return <IndustryLayout>{page}</IndustryLayout>
+    return <IndustryStudentsLayout>{page}</IndustryStudentsLayout>
 }
 
 export default CurrentStudents

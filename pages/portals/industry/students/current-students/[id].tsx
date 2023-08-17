@@ -7,7 +7,7 @@ import { NextPageWithLayout } from '@types'
 import { IndustryApi } from '@queries'
 import { useRouter } from 'next/router'
 import { EmptyData, LoadingAnimation, TechnicalError } from '@components'
-import { DetailTabs } from '@partials/industry'
+import { DetailTabs, IndustryStudentsLayout } from '@partials/industry'
 import { Actions } from '@partials/industry/currentStudents/components/Actions'
 
 const StudentDetail: NextPageWithLayout = () => {
@@ -48,9 +48,9 @@ const StudentDetail: NextPageWithLayout = () => {
 
 StudentDetail.getLayout = (page: ReactElement) => {
     return (
-        <IndustryLayout pageTitle={{ title: 'Student Detail' }}>
+        <IndustryStudentsLayout pageTitle={{ title: 'Student Detail' }}>
             {page}
-        </IndustryLayout>
+        </IndustryStudentsLayout>
     )
 }
 

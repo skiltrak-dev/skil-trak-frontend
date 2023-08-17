@@ -12,9 +12,9 @@ export const NotesTab = ({ user }: { user: any }) => {
     const notes = CommonApi.Notes.useList(user?.id, { skip: !user })
 
     return (
-        <div className={`flex gap-x-2.5 w-full mt-2 mb-32`}>
+        <div className={`grid grid-cols-3 gap-x-2.5 w-full mt-2 mb-32`}>
             <div
-                className={`flex flex-col gap-y-2.5 h-full w-full bg-gray-50 rounded-lg p-2`}
+                className={`col-span-2 flex flex-col gap-y-2.5 h-full w-full bg-gray-50 rounded-lg p-2`}
             >
                 {notes?.isLoading ? (
                     <div className="flex justify-center items-center h-full">
@@ -33,7 +33,8 @@ export const NotesTab = ({ user }: { user: any }) => {
                     />
                 )}
             </div>
-            <div className={`w-3/5 flex-shrink`}>
+            {/* <div className={`w-3/5 flex-shrink`}> */}
+            <div className={``}>
                 <CreateNote
                     receiverId={Number(user?.id)}
                     editValues={editValues}

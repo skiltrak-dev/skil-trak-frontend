@@ -1,6 +1,7 @@
 import { Badge } from '@components/Badge'
 import { Typography } from '@components/Typography'
 import { Result } from '@constants'
+import moment from 'moment'
 
 type Props = {
     id?: string
@@ -25,6 +26,7 @@ export const CourseCard = ({
     course,
     result,
 }: Props) => {
+    console.log({ result })
     const getResultBadge = () => {
         switch (result?.result) {
             case Result.Competent:
@@ -57,7 +59,21 @@ export const CourseCard = ({
                             {code}
                         </Typography>
                     </div>
-                    {result && getResultBadge()}
+                    {result && (
+                        <div>
+                            <div>{getResultBadge()}</div>
+                            {result?.result !== Result.NotSubmitted && (
+                                <Typography
+                                    variant={'xs'}
+                                    color={'text-gray-600'}
+                                >
+                                    {moment(result?.createdAt).format(
+                                        'Do MMM YYYY'
+                                    )}
+                                </Typography>
+                            )}
+                        </div>
+                    )}
                 </div>
                 <div>
                     <div>

@@ -1,18 +1,14 @@
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
-import { AuthUtils } from '@utils'
-
-import { AdminStats, ContactPerson, PaginatedResponse, Rto } from '@types'
-import { studentEndpoints } from './student'
-import { contactPersonEndpoints } from './contactPerson'
-import { coordinatorEndpoints } from './coordinator'
-import { profileEndpoints } from './profile'
+import { emptySplitApi } from '../empty.query'
 import { appointmentsEndpoints } from './appointments'
 import { assessmentToolsEndpoints } from './assessmentTools'
+import { contactPersonEndpoints } from './contactPerson'
+import { coordinatorEndpoints } from './coordinator'
 import { coursesEndpoints } from './courses'
 import { industriesEndpoints } from './industries'
 import { mouEndpoints } from './mou'
+import { profileEndpoints } from './profile'
+import { studentEndpoints } from './student'
 import { workplaceEndpoints } from './workplace'
-import { emptySplitApi } from '../empty.query'
 
 export const rtoApi = emptySplitApi.injectEndpoints({
     // export const rtoApi = createApi({

@@ -44,6 +44,8 @@ export const JobDetail = (props: Props) => {
                                             data?.avatar ||
                                             'https://placeimg.com/100/10/any'
                                         }
+                                        width="0"
+                                        height="0"
                                         alt=""
                                     />
                                 </div>
@@ -65,7 +67,9 @@ export const JobDetail = (props: Props) => {
                                         </div>
                                         <div className="">
                                             <ApplyNowButton
+                                                job={data}
                                                 onClick={() => {}}
+                                                id={data?.id}
                                                 savedJob={data?.savedJobs
                                                     ?.map(({ id }: any) => id)
                                                     .includes(5)}
@@ -168,7 +172,7 @@ export const JobDetail = (props: Props) => {
                                             >
                                                 {moment(
                                                     data?.createdAt,
-                                                    'YYYYMMDD'
+                                                    'YYYYMMDDhhmmss'
                                                 ).fromNow()}
                                             </Typography>
                                         </div>
