@@ -171,6 +171,7 @@ export const {
     useRemoveJobMutation,
     useGetJobDetailQuery,
     useGetIndustryJobsQuery,
+    useGetJobAppliedUserQuery,
     useJobChangeStatusMutation,
     useGetBrowseCandidatesQuery,
 
@@ -297,6 +298,7 @@ export const IndustryApi = {
         useRemoveJobMutation,
         useGetJobDetailQuery,
         useGetIndustryJobsQuery,
+        useAppliedUser: useGetJobAppliedUserQuery,
         useJobChangeStatusMutation,
         useGetBrowseCandidatesQuery,
     },

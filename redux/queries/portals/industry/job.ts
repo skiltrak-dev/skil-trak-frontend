@@ -64,4 +64,13 @@ export const jobEndpoints = (
         },
         providesTags: ['Job'],
     }),
+    getJobAppliedUser: builder.query<any, any>({
+        query: ({ id, ...params }: any) => {
+            return {
+                url: `${PREFIX}/job-applications/list/${id}`,
+                params,
+            }
+        },
+        providesTags: ['Job'],
+    }),
 })

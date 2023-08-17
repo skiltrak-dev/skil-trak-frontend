@@ -132,6 +132,23 @@ export const AdvertisedJobsContainer = () => {
             },
         },
         {
+            header: () => 'Applied Students',
+            accessorKey: 'applications',
+            cell: ({ row }: any) => {
+                return (
+                    <Button
+                        text={`${row.original?.applications} Students`}
+                        variant={'info'}
+                        onClick={() => {
+                            router.push(
+                                `/portals/industry/jobs/view-applicants/${row.original?.id}`
+                            )
+                        }}
+                    />
+                )
+            },
+        },
+        {
             header: () => 'Action',
             accessorKey: 'Action',
             cell: ({ row }: any) => {
@@ -165,10 +182,14 @@ export const AdvertisedJobsContainer = () => {
         <div>
             {modal}
             <div className="flex flex-col md:flex-row md:justify-between md:items-center pb-4">
-
-                <BackButton link={'/portals/industry/jobs'} text={'Back To Jobs'} />
-                <div id="advertise-new-job" className="flex items-center gap-x-2">
-                
+                <BackButton
+                    link={'/portals/industry/jobs'}
+                    text={'Back To Jobs'}
+                />
+                <div
+                    id="advertise-new-job"
+                    className="flex items-center gap-x-2"
+                >
                     {filterActionButton && filterActionButton}
                     <Button
                         variant={'dark'}
