@@ -72,12 +72,12 @@ export const IndustryNavbar = () => {
                         <li>
                             <Link
                                 legacyBehavior
-                                href="/portals/industry/students"
+                                href="/portals/industry/students/current-students?tab=pending"
                             >
                                 <a
                                     className={`${
                                         router.pathname ==
-                                        '/portals/industry/students'
+                                        '/portals/industry/students/current-students'
                                             ? 'bg-orange-100 text-orange-700'
                                             : 'text-slate-700'
                                     } ${defaultClasses} hover:bg-orange-100 hover:text-orange-700`}

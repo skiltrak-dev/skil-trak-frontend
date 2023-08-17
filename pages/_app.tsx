@@ -46,17 +46,15 @@ const MyApp = ({ Component, pageProps }: AppPropsWithLayout) => {
                                 <NavbarProvider>
                                     <ContextBarProvider>
                                         {/* <Component {...pageProps} /> */}
-                                        <SocketListenerProvider>
-                                            <Socket>
-                                                <HeadWrapper>
-                                                    {getLayout(
-                                                        <Component
-                                                            {...pageProps}
-                                                        />
-                                                    )}
-                                                </HeadWrapper>
-                                            </Socket>
-                                        </SocketListenerProvider>
+                                        {/* <SocketListenerProvider>
+                                            <Socket> */}
+                                        <HeadWrapper>
+                                            {getLayout(
+                                                <Component {...pageProps} />
+                                            )}
+                                        </HeadWrapper>
+                                        {/* </Socket>
+                                        </SocketListenerProvider> */}
                                     </ContextBarProvider>
                                 </NavbarProvider>
                             </NotificationProvider>

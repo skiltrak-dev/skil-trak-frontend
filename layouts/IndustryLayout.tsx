@@ -1,14 +1,12 @@
-import { useState, ReactElement, ReactNode, useEffect } from 'react'
 import { useRouter } from 'next/router'
-import Joyride, { CallBackProps } from 'react-joyride'
+import { ReactElement, ReactNode, useEffect, useState } from 'react'
+import Joyride from 'react-joyride'
 // components
 import {
-    PageTitle,
-    Modal,
-    IndustryNavbar,
-    PageTitleProps,
-    Typography,
     DisplayAlerts,
+    IndustryNavbar,
+    PageTitle,
+    PageTitleProps,
     RedirectUnApprovedUsers,
 } from '@components'
 
@@ -16,9 +14,9 @@ import {
 import { UserLayout } from './UserLayout'
 
 // utils
-import { AuthUtils } from '@utils'
 import { useAlert, useJoyRide } from '@hooks'
 import { UserStatus } from '@types'
+import { AuthUtils } from '@utils'
 
 const getRoutePath = `/portals/industry`
 

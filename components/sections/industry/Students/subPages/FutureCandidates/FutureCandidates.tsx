@@ -21,7 +21,7 @@ const Colors = ThemeColors
 
 export const FutureCandidatesContainer = () => {
     const router = useRouter()
-    const { setContent, show } = useContextBar()
+    const { setContent, show, hide } = useContextBar()
     const [queryFilters, setQueryFilters] = useState({})
     const [filterActionButton, setFilterActionButton] = useState(null)
 
@@ -32,6 +32,10 @@ export const FutureCandidatesContainer = () => {
             </>
         )
         show(false)
+        return () => {
+            setContent(null)
+            hide()
+        }
     }, [setContent])
     //
 
@@ -54,22 +58,21 @@ export const FutureCandidatesContainer = () => {
             Header: 'Student Name',
             accessor: 'name',
             Cell: ({ row }: any) => {
-                const { name, email, image } = row.original.user
                 return (
                     <div className="flex items-center relative">
                         <div className="flex items-center gap-x-2">
                             <img
                                 className="rounded-full w-7 h-7"
-                                src={image}
-                                alt={name}
+                                src={row.original?.user?.image}
+                                alt={row.original?.user?.name}
                             />
                             <div>
                                 <Typography color={'black'}>
                                     {' '}
-                                    {name}{' '}
+                                    {row.original?.user?.name}{' '}
                                 </Typography>
                                 <Typography variant={'muted'} color={'gray'}>
-                                    {email}
+                                    {row.original?.user?.email}
                                 </Typography>
                             </div>
                         </div>
@@ -93,24 +96,22 @@ export const FutureCandidatesContainer = () => {
             Header: 'RTO',
             accessor: 'rto',
             Cell: ({ row }: any) => {
-                const {
-                    user: { name, email, image },
-                } = row.original.rto
+                const rto = row.original?.rto
                 return (
                     <div className="flex items-center relative">
                         <div className="flex items-center gap-x-2">
                             <img
                                 className="rounded-full w-7 h-7"
-                                src={image}
-                                alt={name}
+                                src={rto?.user?.image}
+                                alt={rto?.user?.name}
                             />
                             <div>
                                 <Typography color={'black'}>
                                     {' '}
-                                    {name}{' '}
+                                    {rto?.user?.name}{' '}
                                 </Typography>
                                 <Typography variant={'muted'} color={'gray'}>
-                                    {email}
+                                    {rto?.user?.email}
                                 </Typography>
                             </div>
                         </div>

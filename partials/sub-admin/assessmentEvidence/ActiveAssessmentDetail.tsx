@@ -2,6 +2,8 @@ import download from 'downloadjs'
 import JSZip from 'jszip'
 import { useEffect, useState } from 'react'
 import { PulseLoader } from 'react-spinners'
+import BeatLoader from 'react-spinners/BeatLoader'
+import PuffLoader from 'react-spinners/PuffLoader'
 
 //components
 import {
@@ -36,6 +38,7 @@ import {
     useStudentAssessmentCoursesQuery,
 } from '@queries'
 import {
+    ThemeColors,
     WorkplaceCurrentStatus,
     ellipsisText,
     getCourseResult,
@@ -45,6 +48,7 @@ import { useRouter } from 'next/router'
 import { AiFillDelete } from 'react-icons/ai'
 import { FaDownload } from 'react-icons/fa'
 import { SignAgreement } from '../workplace/components/Industries/components/Actions/components'
+import { MdOutlineKeyboardArrowDown } from 'react-icons/md'
 
 const AgreementFile = 'agreementFile'
 
@@ -63,6 +67,10 @@ export const ActiveAssessmentDetail = ({
     const [selectedFolder, setSelectedFolder] = useState<any | null>(null)
     const [manualReOpen, setManualReOpen] = useState<boolean>(false)
     const [editAssessment, setEditAssessment] = useState<boolean>(false)
+    const [isAssessmentDownloading, setIsAssessmentDownloading] =
+        useState<boolean>(false)
+    const [minimizeDownloading, setMinimizeDownloading] =
+        useState<boolean>(false)
 
     const results = getCourseResult(selectedCourse?.results)
 
@@ -136,13 +144,10 @@ export const ActiveAssessmentDetail = ({
 
     useEffect(() => {
         if (downloadFilesResult.isSuccess) {
-            notification.success({
-                title: 'Download in progress',
-                description:
-                    'Your files are archiving, it may take a while to download your files',
-            })
             // router.push(downloadFilesResult?.data?.url)
             const downloadAssessmentAllFiles = async () => {
+                setIsAssessmentDownloading(true)
+
                 const zip = new JSZip()
                 const img = new Image()
 
@@ -171,15 +176,24 @@ export const ActiveAssessmentDetail = ({
                 await Promise.all(fetchPromises)
 
                 // Generate the zip file
-                const content = await zip.generateAsync({ type: 'blob' })
+                try {
+                    const content = await zip.generateAsync({ type: 'blob' })
 
-                const strMimeType = 'application/zip'
-                const blob = new Blob([content], { type: strMimeType })
-                // Download the zip file
-                download(
-                    blob,
-                    `${studentProfile?.data?.user?.name} Assessment Files`
-                )
+                    const strMimeType = 'application/zip'
+                    const blob = new Blob([content], { type: strMimeType })
+                    // Download the zip file
+                    download(
+                        blob,
+                        `${studentProfile?.data?.user?.name} Assessment Files`
+                    )
+                } catch (err) {
+                } finally {
+                    setIsAssessmentDownloading(false)
+                    notification.success({
+                        title: 'Successfully Downloaded',
+                        description: 'Documents Downloading Successfully',
+                    })
+                }
             }
             downloadAssessmentAllFiles()
         }
@@ -323,11 +337,46 @@ export const ActiveAssessmentDetail = ({
     const isFilesUploaded = getFolders?.data?.some(
         (f: any) => f?.studentResponse[0]?.files?.length > 0
     )
+
     return (
         <div className="mb-10">
             <ShowErrorNotifications result={uploadDocsResult} />
             <ShowErrorNotifications result={archiveFileResult} />
             <ShowErrorNotifications result={downloadFilesResult} />
+
+            {isAssessmentDownloading && (
+                <div className="w-96 fixed bottom-0 right-6 rounded-t-xl bg-success z-50 border border-primary">
+                    <div className="px-4 py-1.5 flex justify-between items-center">
+                        <Typography variant={'label'} color={'text-white'}>
+                            Preparing Download
+                        </Typography>
+                        <MdOutlineKeyboardArrowDown
+                            size={23}
+                            onClick={() => {
+                                setMinimizeDownloading(!minimizeDownloading)
+                            }}
+                            className={`${
+                                minimizeDownloading ? 'rotate-180' : ''
+                            } transition-all`}
+                        />
+                    </div>
+                    <div
+                        className={`bg-white  ${
+                            minimizeDownloading
+                                ? 'h-0 px-0 py-0 overflow-hidden'
+                                : 'px-4 py-2.5'
+                        } transition-all`}
+                    >
+                        <div className="flex justify-between items-center">
+                            <Typography variant={'label'} color={'text-black'}>
+                                Files Downloading
+                            </Typography>
+                            <PuffLoader size={20} />
+                        </div>
+                    </div>
+                </div>
+            )}
+
             {/* {downloadFilesResult?.isSuccess && (
                 <Image
                     src={downloadFilesResult?.data?.[0]}
@@ -462,13 +511,30 @@ export const ActiveAssessmentDetail = ({
                                 </span>
                             </Typography>
                             <Button
-                                text={'Download Files'}
+                                text={''}
                                 variant={'action'}
-                                loading={downloadFilesResult.isLoading}
-                                disabled={downloadFilesResult.isLoading}
-                                Icon={FaDownload}
+                                disabled={
+                                    downloadFilesResult.isLoading ||
+                                    isAssessmentDownloading
+                                }
+                                {...(!downloadFilesResult.isLoading &&
+                                !isAssessmentDownloading
+                                    ? { Icon: FaDownload }
+                                    : {})}
                                 onClick={onDownloadFiles}
-                            />
+                            >
+                                {downloadFilesResult.isLoading ||
+                                isAssessmentDownloading ? (
+                                    <div className=" flex items-center justify-center">
+                                        <BeatLoader
+                                            size={13}
+                                            color={ThemeColors.primary.DEFAULT}
+                                        />
+                                    </div>
+                                ) : (
+                                    'Download Files '
+                                )}
+                            </Button>
                             {/* <Link
                                 className="text-xs font-medium uppercase transition-all duration-300 rounded-md border px-4 py-2 shadow focus:outline-none focus:ring-4 bg-white text-dark hover:bg-secondary-dark border-transparent ring-primary-light"
                                 href={`${
@@ -558,6 +624,10 @@ export const ActiveAssessmentDetail = ({
                             </Typography>
                         </div>
                         <div>
+                            {/* <SubmitSubmissionForAssessment
+                                selectedCourseId={selectedCourse?.id}
+                                student={studentProfile?.data}
+                            /> */}
                             {isFilesUploaded &&
                             getFolders?.data &&
                             getFolders?.data?.length > 0 ? (

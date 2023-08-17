@@ -20,7 +20,7 @@ import { useContextBar, useNotification } from 'hooks'
 import { useRouter } from 'next/router'
 
 export const RequestAVolunteerStudent = () => {
-    const { setContent, show } = useContextBar()
+    const { setContent, show, hide } = useContextBar()
     const router = useRouter()
 
     // query
@@ -34,6 +34,10 @@ export const RequestAVolunteerStudent = () => {
             </>
         )
         show(false)
+        return () => {
+            setContent(null)
+            hide()
+        }
     }, [setContent])
 
     const onVolunteer = () => {
@@ -54,7 +58,10 @@ export const RequestAVolunteerStudent = () => {
                 </Card>
             ) : (
                 <>
-                    <BackButton link={'/portals/industry/students'} text={'Back To Dashboard'} />
+                    <BackButton
+                        link={'/portals/industry/students'}
+                        text={'Back To Dashboard'}
+                    />
 
                     {/* Data */}
                     <DocumentView title={'Request A Volunteer Student'}>

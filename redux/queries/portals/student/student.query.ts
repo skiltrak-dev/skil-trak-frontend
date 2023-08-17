@@ -60,9 +60,10 @@ export const {
     useUpdateStudentProfileMutation,
 
     // ----- JOB ----- //
+    useSaveJobMutation,
+    useApplyForJobMutation,
     useGetStudentJobsQuery,
     useGetStudentJobDetailQuery,
-    useSaveJobMutation,
 
     // ---- WORKPLACE ---- //
     useGetStudentIndustriesQuery,
@@ -79,7 +80,7 @@ export const {
     useApplyWorkplaceWithAbnIndustryMutation,
 } = studentApi
 
-const StudentApi = {
+export const StudentApi = {
     Profile: {
         useGetStudentProfileDetailQuery,
         useUpdateStudentProfileMutation,
@@ -113,6 +114,7 @@ const StudentApi = {
         useGetStudentJobsQuery,
         useGetStudentJobDetailQuery,
         useSaveJobMutation,
+        useApplyJob: useApplyForJobMutation,
     },
     Workplace: {
         useGetStudentIndustriesQuery,

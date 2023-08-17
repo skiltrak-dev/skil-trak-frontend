@@ -22,6 +22,7 @@ import { useNotification } from '@hooks'
 import { UserRoles } from '@constants'
 import { CommonApi, useIndustryProfileQuery } from '@queries'
 import { getUserCredentials } from '@utils'
+import { IndustryStudentsLayout } from '@partials/industry'
 
 type Props = {}
 
@@ -183,7 +184,7 @@ const BookAppointment: NextPageWithLayout = (props: Props) => {
     )
 }
 BookAppointment.getLayout = (page: ReactElement) => {
-    return <IndustryLayout>{page}</IndustryLayout>
+    return <IndustryStudentsLayout>{page}</IndustryStudentsLayout>
 }
 
 export default BookAppointment

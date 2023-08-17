@@ -325,7 +325,9 @@ export const AssessmentResponse = ({
                                     addCommentResult?.originalArgs?.status ===
                                         AddCommentEnum.Approved
                                 }
-                                disabled={addCommentResult?.isLoading}
+                                disabled={
+                                    addCommentResult?.isLoading || !comment
+                                }
                             />
                         </div>
                     </div>
