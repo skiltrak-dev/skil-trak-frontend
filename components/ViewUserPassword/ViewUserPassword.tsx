@@ -1,6 +1,6 @@
 import { LoadingAnimation, Modal, NoData, Typography } from '@components'
 import { CommonApi } from '@queries'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
 export const ViewUserPassword = ({
     name,
@@ -18,6 +18,14 @@ export const ViewUserPassword = ({
         refetchOnMountOrArgChange: true,
     })
 
+    useEffect(() => {
+        if (copiedPassword) {
+            setTimeout(() => {
+                setCopiedPassword(null)
+            }, 3000)
+        }
+    }, [copiedPassword])
+
     return (
         <div>
             <Modal
@@ -31,6 +39,7 @@ export const ViewUserPassword = ({
                 }}
                 onCancelClick={onCancel}
                 confirmText={copiedPassword ? 'Copied' : 'Copy'}
+                disabled={!getUserPassword.isSuccess}
             >
                 {getUserPassword.isError && (
                     <NoData

@@ -15,6 +15,9 @@ export const Portal = ({ children }: PortalProps) => {
     }, [])
 
     return mounted && ref.current
-        ? createPortal(<div>{children}</div>, ref.current)
+        ? createPortal(
+              <div style={{ zIndex: 99999 }}>{children}</div>,
+              ref.current
+          )
         : null
 }

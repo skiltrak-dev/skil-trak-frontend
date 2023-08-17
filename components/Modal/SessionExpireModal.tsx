@@ -5,6 +5,7 @@ import { AuthUtils, isBrowser } from '@utils'
 import { AiFillWarning } from 'react-icons/ai'
 import { CommonApi } from '@queries'
 import { LogoutType } from '@hooks'
+import { Portal } from '@components/Portal'
 
 export const SessionExpireModal = ({ onCancel }: { onCancel: () => void }) => {
     const router = useRouter()
@@ -14,25 +15,30 @@ export const SessionExpireModal = ({ onCancel }: { onCancel: () => void }) => {
 
     return (
         <div>
-            <Modal
-                title={'Session Expire'}
-                subtitle={'Session Expire'}
-                onConfirmClick={async () => {
-                    if (AuthUtils.getToken()) {
-                        await logoutActivity({ type: LogoutType.Auto })
-                    }
-                    AuthUtils.logout(router)
-                    if (isBrowser()) {
-                        localStorage.setItem('autoLogoutPath', router?.asPath)
-                    }
-                    onCancel()
-                }}
-                onCancelClick={() => {}}
-                confirmText={'Login'}
-                titleIcon={AiFillWarning}
-            >
-                Your Session is Expired, Please Login Again
-            </Modal>
+            <Portal>
+                <Modal
+                    title={'Session Expire'}
+                    subtitle={'Session Expire'}
+                    onConfirmClick={async () => {
+                        if (AuthUtils.getToken()) {
+                            await logoutActivity({ type: LogoutType.Auto })
+                        }
+                        AuthUtils.logout(router)
+                        if (isBrowser()) {
+                            localStorage.setItem(
+                                'autoLogoutPath',
+                                router?.asPath
+                            )
+                        }
+                        onCancel()
+                    }}
+                    onCancelClick={() => {}}
+                    confirmText={'Login'}
+                    titleIcon={AiFillWarning}
+                >
+                    Your Session is Expired, Please Login Again
+                </Modal>
+            </Portal>
         </div>
     )
 }

@@ -1,5 +1,6 @@
 import { FutureCandidatesContainer } from '@components/sections'
 import { IndustryLayout } from '@layouts'
+import { IndustryStudentsLayout } from '@partials/industry'
 import { NextPageWithLayout } from '@types'
 import { useRouter } from 'next/router'
 import { ReactElement } from 'react'
@@ -16,7 +17,7 @@ const FutureCandidates: NextPageWithLayout = () => {
 }
 
 FutureCandidates.getLayout = (page: ReactElement) => {
-    return <IndustryLayout>{page}</IndustryLayout>
+    return <IndustryStudentsLayout>{page}</IndustryStudentsLayout>
 }
 
 export default FutureCandidates

@@ -2,7 +2,7 @@ import { IndustryLayout } from '@layouts'
 import { NextPageWithLayout } from '@types'
 import { useRouter } from 'next/router'
 import { ReactElement } from 'react'
-import { StudentsContainer } from '@partials/industry'
+import { IndustryStudentsLayout, StudentsContainer } from '@partials/industry'
 
 const Students: NextPageWithLayout = () => {
     const router = useRouter()
@@ -16,7 +16,7 @@ const Students: NextPageWithLayout = () => {
 }
 
 Students.getLayout = (page: ReactElement) => {
-    return <IndustryLayout>{page}</IndustryLayout>
+    return <IndustryStudentsLayout>{page}</IndustryStudentsLayout>
 }
 
 export default Students

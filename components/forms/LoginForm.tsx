@@ -1,10 +1,8 @@
 import { Button, Checkbox, LoadingAnimation, TextInput } from '@components'
 import { yupResolver } from '@hookform/resolvers/yup'
-import { ApiCallResult, LoginCredentials } from '@types'
-import moment from 'moment'
+import { LoginCredentials } from '@types'
 import Link from 'next/link'
-import { FormProvider, useForm, SubmitHandler } from 'react-hook-form'
-import { FieldValues } from 'react-hook-form/dist/types'
+import { FormProvider, SubmitHandler, useForm } from 'react-hook-form'
 import * as Yup from 'yup'
 
 export const LoginForm = ({

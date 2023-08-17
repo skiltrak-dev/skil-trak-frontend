@@ -19,10 +19,18 @@ export const studentJobEndpoints = (
         query: (id: string) => `${PREFIX}/jobs/view/${id}`,
         providesTags: ['StudentJobs'],
     }),
-    saveJob: builder.mutation({
+    saveJob: builder.mutation<any, number>({
         query: (id) => ({
             url: `${PREFIX}/jobs/save/${id}`,
             method: 'POST',
+        }),
+        invalidatesTags: ['StudentJobs'],
+    }),
+    applyForJob: builder.mutation<any, any>({
+        query: ({ id, body }) => ({
+            url: `${PREFIX}/job/apply/${id}`,
+            method: 'POST',
+            body,
         }),
         invalidatesTags: ['StudentJobs'],
     }),

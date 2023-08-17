@@ -42,7 +42,10 @@ export const Modal = ({
 
     return (
         <div className="bg-[#00000050] w-full h-screen flex items-center justify-center fixed top-0 left-0 z-40">
-            <div className="bg-white rounded-2xl flex flex-col justify-between shadow-md min-w-[450px]">
+            <div
+                className="bg-white rounded-2xl flex flex-col justify-between shadow-md min-w-[450px]"
+                style={{ zIndex: 99999 }}
+            >
                 <div className="px-4 py-2 border-b border-secondary-dark flex justify-between items-center">
                     <div>
                         <div className="flex items-center gap-x-2">

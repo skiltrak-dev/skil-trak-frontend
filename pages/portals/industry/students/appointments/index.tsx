@@ -6,6 +6,7 @@ import { Typography, Button } from '@components'
 import { useRouter } from 'next/router'
 import { UpcomingAppointments, PastAppointments } from '@partials/common'
 import { useJoyRide } from '@hooks'
+import { IndustryStudentsLayout } from '@partials/industry'
 
 const Appointments: NextPageWithLayout = () => {
     const router = useRouter()
@@ -43,7 +44,7 @@ const Appointments: NextPageWithLayout = () => {
 }
 
 Appointments.getLayout = (page: ReactElement) => {
-    return <IndustryLayout>{page}</IndustryLayout>
+    return <IndustryStudentsLayout>{page}</IndustryStudentsLayout>
 }
 
 export default Appointments
