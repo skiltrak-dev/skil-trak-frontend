@@ -149,7 +149,12 @@ export const ActiveAssessmentDetail = ({
                 setIsAssessmentDownloading(true)
 
                 const zip = new JSZip()
-                const img = new Image()
+                // const img = new Image()
+
+                console.log(
+                    ' downloadFilesResult?.data',
+                    downloadFilesResult?.data
+                )
 
                 // Fetch the images and add them to the zip
                 const fetchPromises =
@@ -157,14 +162,18 @@ export const ActiveAssessmentDetail = ({
                     downloadFilesResult?.data?.length > 0 &&
                     downloadFilesResult?.data
                         ?.filter((url: string) => {
+                            const img = new Image()
                             let isFileWorking = true
+
                             img.onerror = () => {
+                                console.log('error Inner')
                                 isFileWorking = false
                                 // The image is available, you can perform any action here.
                             }
                             return isFileWorking && url
                         })
                         ?.map(async (url: string, index: number) => {
+                            console.log({ url })
                             const response = await fetch(url)
                             const fileName = url?.split('/')?.reverse()?.[0]
                             if (response) {

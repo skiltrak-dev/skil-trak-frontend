@@ -34,4 +34,8 @@ export const studentJobEndpoints = (
         }),
         invalidatesTags: ['StudentJobs'],
     }),
+    getStudentUploadedResume: builder.query<any, void>({
+        query: () => `${PREFIX}/applications/find-last`,
+        providesTags: ['StudentJobs'],
+    }),
 })

@@ -1,7 +1,8 @@
+import { LoadingAnimation } from '@components/LoadingAnimation'
 import { Modal } from '@components/Modal'
 import { PdfViewer } from '@components/PdfViewer'
 import { ShowErrorNotifications } from '@components/ShowErrorNotifications'
-import { UploadFile } from '@components/inputs'
+import { TextArea, UploadFile } from '@components/inputs'
 import { FileUpload } from '@hoc'
 import { useNotification } from '@hooks'
 import { StudentApi } from '@queries'
@@ -16,12 +17,23 @@ export const ApplyJobModal = ({
     onCancel: () => void
 }) => {
     const [resume, setResume] = useState<any>(null)
+    const [coverLetter, setCoverLetter] = useState<any>(null)
     const [selectedResume, setSelectedResume] = useState<boolean>(false)
     const [file, setFile] = useState<File | null>(null)
+    const [newResumeUploaded, setNewResumeUploaded] = useState<boolean>(false)
 
     const { notification } = useNotification()
 
+    const getJobResume = StudentApi.Job.useGetStudentUploadedResume()
     const [applyForJob, applyForJobResult] = StudentApi.Job.useApplyJob()
+
+    useEffect(() => {
+        if (getJobResume.isSuccess) {
+            setResume(getJobResume?.data?.resume)
+            setCoverLetter(getJobResume?.data?.cover_latter)
+            setSelectedResume(true)
+        }
+    }, [getJobResume])
 
     useEffect(() => {
         if (applyForJobResult.isSuccess) {
@@ -36,8 +48,11 @@ export const ApplyJobModal = ({
     const onApplyJob = () => {
         const formData = new FormData()
 
-        formData.append('resume', file as File)
-        formData.append('cover_letter', '')
+        formData.append(
+            'resume',
+            getJobResume?.data && !newResumeUploaded ? resume : (file as File)
+        )
+        formData.append('cover_latter', coverLetter)
 
         applyForJob({ id, body: formData })
     }
@@ -58,69 +73,87 @@ export const ApplyJobModal = ({
                 }
                 loading={applyForJobResult.isLoading}
             >
-                <div className={`relative`}>
-                    <div className={`max-h-[70vh] overflow-auto  `}>
-                        {resume ? (
-                            <div
-                                className={`border-4 cursor-pointer ${
-                                    resume && selectedResume
-                                        ? 'border-info'
-                                        : ''
-                                } rounded-2xl overflow-hidden relative `}
-                                onClick={() => {
-                                    setSelectedResume(!selectedResume)
+                {getJobResume.isLoading ? (
+                    <LoadingAnimation />
+                ) : (
+                    <div className={`relative`}>
+                        <div className={`max-h-[70vh] overflow-auto  `}>
+                            <TextArea
+                                name="coverletter"
+                                rows={6}
+                                value={coverLetter}
+                                label={'Cover Letter (Optional)'}
+                                placeholder="Cover Letter "
+                                onChange={(e: any) => {
+                                    setCoverLetter(e.target.value)
                                 }}
-                            >
-                                <div
-                                    className={`absolute top-2 right-2 z-50 ${
-                                        resume && selectedResume
-                                            ? 'text-info'
-                                            : 'text-secondary-dark'
-                                    }`}
-                                >
-                                    <AiFillCheckCircle size={25} />
-                                </div>
-                                <PdfViewer file={resume} />
-                            </div>
-                        ) : (
-                            <FileUpload
-                                label={'Upload your Resume'}
-                                required
-                                onChange={(doc: File) => {
-                                    setFile(doc)
-                                    setResume(URL.createObjectURL(doc))
-                                    setSelectedResume(true)
-                                }}
-                                name={'resume'}
-                                component={UploadFile}
-                                // multiple
-                                limit={Number(1111111111)}
+                                helpText={
+                                    'Your Cover Letter Provides an opertunity to highlight you experiance and achivements'
+                                }
                             />
+                            {resume ? (
+                                <div
+                                    className={`border-4 cursor-pointer ${
+                                        resume && selectedResume
+                                            ? 'border-info'
+                                            : ''
+                                    } rounded-2xl overflow-hidden relative `}
+                                    onClick={() => {
+                                        setSelectedResume(!selectedResume)
+                                    }}
+                                >
+                                    <div
+                                        className={`absolute top-2 right-2 z-50 ${
+                                            resume && selectedResume
+                                                ? 'text-info'
+                                                : 'text-secondary-dark'
+                                        }`}
+                                    >
+                                        <AiFillCheckCircle size={25} />
+                                    </div>
+                                    <PdfViewer file={resume} />
+                                </div>
+                            ) : (
+                                <FileUpload
+                                    label={'Upload your Resume'}
+                                    required
+                                    onChange={(doc: File) => {
+                                        setFile(doc)
+                                        setResume(URL.createObjectURL(doc))
+                                        setSelectedResume(true)
+                                    }}
+                                    name={'resume'}
+                                    component={UploadFile}
+                                    // multiple
+                                    limit={Number(1111111111)}
+                                />
+                            )}
+                        </div>
+                        {resume && (
+                            <div className="absolute bottom-2 w-full px-10">
+                                <label
+                                    htmlFor="replaceResume"
+                                    className="w-full py-3 flex items-center justify-center rounded-lg bg-info hover:bg-info-light text-white shadow-lg text-xs font-semibold cursor-pointer"
+                                >
+                                    Replace Resume
+                                </label>
+                                <input
+                                    type="file"
+                                    className="hidden"
+                                    name="replaceResume"
+                                    id="replaceResume"
+                                    onChange={(e: any) => {
+                                        const file = e.target.files[0]
+                                        setFile(file)
+                                        setResume(URL.createObjectURL(file))
+                                        setSelectedResume(true)
+                                        setNewResumeUploaded(true)
+                                    }}
+                                />
+                            </div>
                         )}
                     </div>
-                    {resume && (
-                        <div className="absolute bottom-2 w-full px-10">
-                            <label
-                                htmlFor="replaceResume"
-                                className="w-full py-3 flex items-center justify-center rounded-lg bg-info hover:bg-info-light text-white shadow-lg text-xs font-semibold cursor-pointer"
-                            >
-                                Replace Resume
-                            </label>
-                            <input
-                                type="file"
-                                className="hidden"
-                                name="replaceResume"
-                                id="replaceResume"
-                                onChange={(e: any) => {
-                                    const file = e.target.files[0]
-                                    setFile(file)
-                                    setResume(URL.createObjectURL(file))
-                                    setSelectedResume(true)
-                                }}
-                            />
-                        </div>
-                    )}
-                </div>
+                )}
             </Modal>
         </div>
     )
