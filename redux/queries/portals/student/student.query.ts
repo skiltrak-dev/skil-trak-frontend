@@ -64,6 +64,7 @@ export const {
     useApplyForJobMutation,
     useGetStudentJobsQuery,
     useGetStudentJobDetailQuery,
+    useGetStudentUploadedResumeQuery,
 
     // ---- WORKPLACE ---- //
     useGetStudentIndustriesQuery,
@@ -115,6 +116,7 @@ export const StudentApi = {
         useGetStudentJobDetailQuery,
         useSaveJobMutation,
         useApplyJob: useApplyForJobMutation,
+        useGetStudentUploadedResume: useGetStudentUploadedResumeQuery,
     },
     Workplace: {
         useGetStudentIndustriesQuery,

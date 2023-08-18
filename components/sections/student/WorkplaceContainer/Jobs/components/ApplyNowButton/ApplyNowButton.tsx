@@ -42,12 +42,12 @@ export const ApplyNowButton = ({ job, onClick, savedJob, id }: Props) => {
                 </div>
                 <div
                     className={`${
-                        job?.applications
-                            ? 'bg-secondary-light cursor-not-allowed'
+                        job?.applications && job?.applications?.length > 0
+                            ? 'bg-info-light cursor-not-allowed'
                             : 'bg-[#D3F3C6] cursor-pointer'
                     }  rounded py-1.5 px-4 `}
                     onClick={() => {
-                        if (!job?.applications) {
+                        if (!job?.applications?.length) {
                             onApplyJob()
                         }
                     }}
@@ -55,12 +55,14 @@ export const ApplyNowButton = ({ job, onClick, savedJob, id }: Props) => {
                     {/*  */}
                     <p
                         className={`${
-                            job?.applications
-                                ? 'text-secondary-dark'
+                            job?.applications && job?.applications?.length > 0
+                                ? 'text-white'
                                 : 'text-[#30AF22]'
                         }  font-medium text-xs text-center whitespace-nowrap`}
                     >
-                        APPLY NOW
+                        {job?.applications && job?.applications?.length > 0
+                            ? 'Applied'
+                            : 'Apply Now'}
                     </p>
                 </div>
             </div>
