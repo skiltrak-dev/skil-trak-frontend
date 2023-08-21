@@ -1,7 +1,9 @@
-import { useSaveJobMutation } from '@queries'
-import { ReactNode, useState } from 'react'
+import { useNotification } from '@hooks'
 import { AiFillHeart } from 'react-icons/ai'
+import { useSaveJobMutation } from '@queries'
 import { ApplyJobModal } from '../ApplyJobModal'
+import { ReactNode, useEffect, useState } from 'react'
+import { ShowErrorNotifications } from '@components/ShowErrorNotifications'
 
 type Props = {
     onClick?: any
@@ -14,7 +16,29 @@ export const ApplyNowButton = ({ job, onClick, savedJob, id }: Props) => {
     const [isSaved, setIsSaved] = useState('')
     const [modal, setModal] = useState<ReactNode | null>(null)
 
+    const { notification } = useNotification()
+
     const [saveJob, saveHobResult] = useSaveJobMutation()
+
+    useEffect(() => {
+        if (saveHobResult.isSuccess) {
+            if (job?.students?.length > 0) {
+                notification.success({
+                    title: 'Job Un-Saved',
+                    description: 'Job Un-Saved Successfully',
+                })
+            } else {
+                notification.success({
+                    title: 'Job Saved',
+                    description: 'Job Saved Successfully',
+                })
+            }
+        }
+    }, [saveHobResult])
+
+    const onSaveJob = (id: number) => {
+        saveJob(id)
+    }
 
     const onCancel = () => setModal(null)
 
@@ -24,19 +48,24 @@ export const ApplyNowButton = ({ job, onClick, savedJob, id }: Props) => {
     return (
         <div>
             {modal}
+            <ShowErrorNotifications result={saveHobResult} />
             <div className="flex gap-x-2 items-center">
                 <div
                     onClick={() => {
-                        saveJob(id)
+                        onSaveJob(id)
                         onClick()
                     }}
                     className={`py-[6px] px-2 ${
-                        savedJob ? 'bg-red-600' : 'bg-white border'
+                        job?.students?.length > 0
+                            ? 'bg-red-600'
+                            : 'bg-white border'
                     } rounded cursor-pointer`}
                 >
                     <AiFillHeart
                         className={`${
-                            savedJob ? 'text-white' : 'text-red-600'
+                            job?.students?.length > 0
+                                ? 'text-white'
+                                : 'text-red-600'
                         }`}
                     />
                 </div>

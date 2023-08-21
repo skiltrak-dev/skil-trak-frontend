@@ -51,6 +51,7 @@ const StudentList: NextPageWithLayout = () => {
     const [filter, setFilter] = useState<StudentsFilterType>(
         {} as StudentsFilterType
     )
+
     const [page, setPage] = useState(1)
     const [itemPerPage, setItemPerPage] = useState(50)
 

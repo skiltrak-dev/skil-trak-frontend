@@ -25,7 +25,7 @@ import { getDocType } from '@components/sections/student/AssessmentsContainer'
 import { UploadFile } from '@components/sections/student/AssessmentsContainer/AssessmentsEvidence/AssessmentFolderDetailX/UploadFile'
 import { Result } from '@constants'
 import { FileUpload } from '@hoc'
-import { useNotification } from '@hooks'
+import { useDownloadAssessment, useNotification } from '@hooks'
 import {
     CommonApi,
     SubAdminApi,
@@ -67,10 +67,8 @@ export const ActiveAssessmentDetail = ({
     const [selectedFolder, setSelectedFolder] = useState<any | null>(null)
     const [manualReOpen, setManualReOpen] = useState<boolean>(false)
     const [editAssessment, setEditAssessment] = useState<boolean>(false)
-    const [isAssessmentDownloading, setIsAssessmentDownloading] =
-        useState<boolean>(false)
-    const [minimizeDownloading, setMinimizeDownloading] =
-        useState<boolean>(false)
+    const { isAssessmentDownloading, setIsAssessmentDownloading } =
+        useDownloadAssessment()
 
     const results = getCourseResult(selectedCourse?.results)
 
@@ -148,13 +146,13 @@ export const ActiveAssessmentDetail = ({
             const downloadAssessmentAllFiles = async () => {
                 setIsAssessmentDownloading(true)
 
+                const files = [...downloadFilesResult?.data]
+                files?.splice(5, 4)
+
+                console.log({ files: downloadFilesResult?.data })
+
                 const zip = new JSZip()
                 // const img = new Image()
-
-                console.log(
-                    ' downloadFilesResult?.data',
-                    downloadFilesResult?.data
-                )
 
                 // Fetch the images and add them to the zip
                 const fetchPromises =
@@ -163,6 +161,7 @@ export const ActiveAssessmentDetail = ({
                     downloadFilesResult?.data
                         ?.filter((url: string) => {
                             const img = new Image()
+                            img.src = url
                             let isFileWorking = true
 
                             img.onerror = () => {
@@ -170,10 +169,22 @@ export const ActiveAssessmentDetail = ({
                                 isFileWorking = false
                                 // The image is available, you can perform any action here.
                             }
-                            return isFileWorking && url
+
+                            if (isFileWorking && url) {
+                                return url
+                            }
                         })
                         ?.map(async (url: string, index: number) => {
                             console.log({ url })
+                            // const img = new Image()
+                            // let isFileWorking = true
+
+                            // img.onerror = () => {
+                            //     console.log('error Inner')
+                            //     isFileWorking = false
+                            //     // The image is available, you can perform any action here.
+                            // }
+
                             const response = await fetch(url)
                             const fileName = url?.split('/')?.reverse()?.[0]
                             if (response) {
@@ -353,39 +364,6 @@ export const ActiveAssessmentDetail = ({
             <ShowErrorNotifications result={archiveFileResult} />
             <ShowErrorNotifications result={downloadFilesResult} />
 
-            {isAssessmentDownloading && (
-                <div className="w-96 fixed bottom-0 right-6 rounded-t-xl bg-success z-50 border border-primary">
-                    <div className="px-4 py-1.5 flex justify-between items-center">
-                        <Typography variant={'label'} color={'text-white'}>
-                            Preparing Download
-                        </Typography>
-                        <MdOutlineKeyboardArrowDown
-                            size={23}
-                            onClick={() => {
-                                setMinimizeDownloading(!minimizeDownloading)
-                            }}
-                            className={`${
-                                minimizeDownloading ? 'rotate-180' : ''
-                            } transition-all`}
-                        />
-                    </div>
-                    <div
-                        className={`bg-white  ${
-                            minimizeDownloading
-                                ? 'h-0 px-0 py-0 overflow-hidden'
-                                : 'px-4 py-2.5'
-                        } transition-all`}
-                    >
-                        <div className="flex justify-between items-center">
-                            <Typography variant={'label'} color={'text-black'}>
-                                Files Downloading
-                            </Typography>
-                            <PuffLoader size={20} />
-                        </div>
-                    </div>
-                </div>
-            )}
-
             {/* {downloadFilesResult?.isSuccess && (
                 <Image
                     src={downloadFilesResult?.data?.[0]}
@@ -507,7 +485,7 @@ export const ActiveAssessmentDetail = ({
                             <span className="font-bold text-black">
                                 Assessment Submission
                             </span>{' '}
-                            - Submission #{results?.totalSubmission}
+                            - Submission #{results?.totalSubmission || 0}
                         </Typography>
                         <div className="flex items-center gap-x-1">
                             <Typography
@@ -634,11 +612,10 @@ export const ActiveAssessmentDetail = ({
                         </div>
                         <div>
                             {/* <SubmitSubmissionForAssessment
-                                selectedCourseId={selectedCourse?.id}
                                 student={studentProfile?.data}
+                                selectedCourseId={selectedCourse?.id}
                             /> */}
-                            {isFilesUploaded &&
-                            getFolders?.data &&
+                            {getFolders?.data &&
                             getFolders?.data?.length > 0 ? (
                                 selectedCourse?.results?.length > 0 ? (
                                     results?.totalSubmission < 3 ? (
