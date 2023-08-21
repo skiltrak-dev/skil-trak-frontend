@@ -37,6 +37,7 @@ export const {
     useGetJobsQuery,
     useGetStudentTimeSlotesQuery,
     useGetStudentAppointmentsQuery,
+    useGetStudentFavoriteJobsQuery,
     useCreateStudentAppointmentMutation,
 
     useGetCoordinatorsForStudentQuery,
@@ -93,8 +94,8 @@ export const StudentApi = {
         useGetJobsQuery,
         useGetStudentTimeSlotesQuery,
         useGetStudentAppointmentsQuery,
+        studentFavoriteJobs: useGetStudentFavoriteJobsQuery,
         useCreateStudentAppointmentMutation,
-
         useGetCoordinatorsForStudentQuery,
         useGetStudentPastAppointmentsQuery,
         useGetCoordinatorsAvailabilityQuery,

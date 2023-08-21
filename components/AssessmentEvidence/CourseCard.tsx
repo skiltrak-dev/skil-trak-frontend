@@ -26,7 +26,6 @@ export const CourseCard = ({
     course,
     result,
 }: Props) => {
-    console.log({ result })
     const getResultBadge = () => {
         switch (result?.result) {
             case Result.Competent:

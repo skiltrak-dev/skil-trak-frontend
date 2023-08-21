@@ -38,4 +38,8 @@ export const studentJobEndpoints = (
         query: () => `${PREFIX}/applications/find-last`,
         providesTags: ['StudentJobs'],
     }),
+    getStudentFavoriteJobs: builder.query<any, void>({
+        query: () => `${PREFIX}/jobs/favorite/list`,
+        providesTags: ['StudentJobs'],
+    }),
 })

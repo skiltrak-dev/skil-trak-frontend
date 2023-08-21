@@ -19,7 +19,6 @@ type Props = {
 }
 
 export const JobCard = ({ savedJobs, job }: Props) => {
-    console.log('Hello bro')
     return (
         <>
             <div className="my-3 bg-white border rounded-2xl shadow-sm">
@@ -65,7 +64,6 @@ export const JobCard = ({ savedJobs, job }: Props) => {
                             onClick={() => {
                                 // saveJob(id)
 
-                                console.log('Saad Khan')
                             }}
                             id={job?.id}
                             job={job}
