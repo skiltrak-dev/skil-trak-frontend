@@ -64,7 +64,6 @@ export const JobCard = ({ savedJobs, job }: Props) => {
                             onClick={() => {
                                 // saveJob(id)
 
-                                console.log('Saad Khan')
                             }}
                             id={job?.id}
                             job={job}

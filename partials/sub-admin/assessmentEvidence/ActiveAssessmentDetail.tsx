@@ -149,8 +149,6 @@ export const ActiveAssessmentDetail = ({
                 const files = [...downloadFilesResult?.data]
                 files?.splice(5, 4)
 
-                console.log({ files: downloadFilesResult?.data })
-
                 const zip = new JSZip()
                 // const img = new Image()
 
@@ -165,7 +163,6 @@ export const ActiveAssessmentDetail = ({
                             let isFileWorking = true
 
                             img.onerror = () => {
-                                console.log('error Inner')
                                 isFileWorking = false
                                 // The image is available, you can perform any action here.
                             }
@@ -175,16 +172,6 @@ export const ActiveAssessmentDetail = ({
                             }
                         })
                         ?.map(async (url: string, index: number) => {
-                            console.log({ url })
-                            // const img = new Image()
-                            // let isFileWorking = true
-
-                            // img.onerror = () => {
-                            //     console.log('error Inner')
-                            //     isFileWorking = false
-                            //     // The image is available, you can perform any action here.
-                            // }
-
                             const response = await fetch(url)
                             const fileName = url?.split('/')?.reverse()?.[0]
                             if (response) {
