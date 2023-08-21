@@ -21,6 +21,7 @@ import {
     Table,
     Card,
     LoadingAnimation,
+    ActionButton,
 } from '@components'
 import { JobsFilter } from './components'
 
@@ -136,15 +137,22 @@ export const AdvertisedJobsContainer = () => {
             accessorKey: 'applications',
             cell: ({ row }: any) => {
                 return (
-                    <Button
-                        text={`${row.original?.applications} Students`}
-                        variant={'info'}
-                        onClick={() => {
-                            router.push(
-                                `/portals/industry/jobs/view-applicants/${row.original?.id}`
-                            )
-                        }}
-                    />
+                    <div className="flex flex-col items-start">
+                        <Typography variant={'label'}>
+                            {row.original?.applications} Applicants
+                        </Typography>
+                        <ActionButton
+                            variant={'info'}
+                            simple
+                            onClick={() => {
+                                router.push(
+                                    `/portals/industry/jobs/view-applicants/${row.original?.id}`
+                                )
+                            }}
+                        >
+                            View
+                        </ActionButton>
+                    </div>
                 )
             },
         },

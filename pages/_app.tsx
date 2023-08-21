@@ -2,6 +2,7 @@ import {
     AlertProvider,
     AutoLogoutProvider,
     ContextBarProvider,
+    DownloadAssessmentProvider,
     JoyRideProvider,
     NavbarProvider,
     NotificationProvider,
@@ -41,24 +42,28 @@ const MyApp = ({ Component, pageProps }: AppPropsWithLayout) => {
             <AutoLogoutProvider>
                 <ErrorBoundaryContext>
                     <JoyRideProvider>
-                        <AlertProvider>
-                            <NotificationProvider>
-                                <NavbarProvider>
-                                    <ContextBarProvider>
-                                        {/* <Component {...pageProps} /> */}
-                                        {/* <SocketListenerProvider>
-                                            <Socket> */}
-                                        <HeadWrapper>
-                                            {getLayout(
-                                                <Component {...pageProps} />
-                                            )}
-                                        </HeadWrapper>
-                                        {/* </Socket>
-                                        </SocketListenerProvider> */}
-                                    </ContextBarProvider>
-                                </NavbarProvider>
-                            </NotificationProvider>
-                        </AlertProvider>
+                        <DownloadAssessmentProvider>
+                            <AlertProvider>
+                                <NotificationProvider>
+                                    <NavbarProvider>
+                                        <ContextBarProvider>
+                                            {/* <Component {...pageProps} /> */}
+                                            <SocketListenerProvider>
+                                                <Socket>
+                                                    <HeadWrapper>
+                                                        {getLayout(
+                                                            <Component
+                                                                {...pageProps}
+                                                            />
+                                                        )}
+                                                    </HeadWrapper>
+                                                </Socket>
+                                            </SocketListenerProvider>
+                                        </ContextBarProvider>
+                                    </NavbarProvider>
+                                </NotificationProvider>
+                            </AlertProvider>
+                        </DownloadAssessmentProvider>
                     </JoyRideProvider>
                 </ErrorBoundaryContext>
             </AutoLogoutProvider>

@@ -62,7 +62,7 @@ export const StudentNavbar = () => {
                     <li>
                         <Link
                             legacyBehavior
-                            href="/portals/student/workplace/jobs"
+                            href="/portals/student/workplace/jobs?tab=jobs"
                         >
                             <a
                                 className={`${

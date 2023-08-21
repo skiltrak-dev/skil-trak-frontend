@@ -53,45 +53,41 @@ export const TableAction = ({
                     }}
                 >
                     {options?.map((option, idx) => (
-                        <>
-                            <li
-                                className={`${
-                                    option.color
-                                        ? option.color
-                                        : 'text-gray-700 hover:bg-gray-100'
-                                } text-xs cursor-pointer px-4 py-2 font-medium border-b whitespace-nowrap ${
-                                    idx === 0 ? 'rounded-t-xl' : ''
-                                } ${
-                                    idx === options.length - 1
-                                        ? 'rounded-b-xl'
-                                        : ''
-                                } flex items-center gap-x-1`}
-                                onClick={() => option.onClick(rowItem)}
-                                key={idx}
-                            >
-                                {option.Icon && (
-                                    <span
-                                        className={`${
-                                            option.color
-                                                ? option.color
-                                                : 'text-gray-400'
-                                        }`}
-                                    >
-                                        <option.Icon />
-                                    </span>
-                                )}
-                                <div
-                                    className="break-all"
-                                    style={{
-                                        overflow: 'hidden',
-                                        whiteSpace: 'nowrap',
-                                        textOverflow: 'ellipsis',
-                                    }}
+                        <li
+                            className={`${
+                                option.color
+                                    ? option.color
+                                    : 'text-gray-700 hover:bg-gray-100'
+                            } text-xs cursor-pointer px-4 py-2 font-medium border-b whitespace-nowrap ${
+                                idx === 0 ? 'rounded-t-xl' : ''
+                            } ${
+                                idx === options.length - 1 ? 'rounded-b-xl' : ''
+                            } flex items-center gap-x-1`}
+                            onClick={() => option.onClick(rowItem)}
+                            key={idx}
+                        >
+                            {option.Icon && (
+                                <span
+                                    className={`${
+                                        option.color
+                                            ? option.color
+                                            : 'text-gray-400'
+                                    }`}
                                 >
-                                    {option.text}
-                                </div>
-                            </li>
-                        </>
+                                    <option.Icon />
+                                </span>
+                            )}
+                            <div
+                                className="break-all"
+                                style={{
+                                    overflow: 'hidden',
+                                    whiteSpace: 'nowrap',
+                                    textOverflow: 'ellipsis',
+                                }}
+                            >
+                                {option.text}
+                            </div>
+                        </li>
                     ))}
                 </ul>
             )}

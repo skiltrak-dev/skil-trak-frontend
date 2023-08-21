@@ -35,6 +35,8 @@ const filterKeys = [
     'address',
 ]
 
+const removeFilterKeysToUrl = ['name']
+
 const IndustryList: NextPageWithLayout = () => {
     const router = useRouter()
 
@@ -143,6 +145,7 @@ const IndustryList: NextPageWithLayout = () => {
                     setFilterAction={setFilterAction}
                     setFilter={setFilter}
                     filterKeys={filterKeys}
+                    removeFilterKeysToUrl={removeFilterKeysToUrl}
                 />
             </div>
             {filteredDataLength && filteredIndustries.isError && (

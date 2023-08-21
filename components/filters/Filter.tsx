@@ -12,14 +12,17 @@ interface FilterProps<FormFilterTypes> {
     component: ({
         onFilterChange,
         filter,
+        removeFilterKeysToUrl,
     }: {
         onFilterChange: (values: FormFilterTypes) => void
         filter: FormFilterTypes
+        removeFilterKeysToUrl?: any
     }) => JSX.Element
     initialValues: FormFilterTypes
     setFilterAction: Function
     setFilter: (values: FormFilterTypes) => void
     filterKeys?: string[] | undefined
+    removeFilterKeysToUrl?: string[] | undefined
 }
 export const Filter = <FormFilterTypes,>({
     component,
@@ -27,6 +30,7 @@ export const Filter = <FormFilterTypes,>({
     setFilterAction,
     setFilter,
     filterKeys,
+    removeFilterKeysToUrl,
 }: FilterProps<FormFilterTypes>) => {
     const router = useRouter()
 
@@ -118,6 +122,7 @@ export const Filter = <FormFilterTypes,>({
                     <Component
                         onFilterChange={onFilterChange}
                         filter={filters}
+                        removeFilterKeysToUrl={removeFilterKeysToUrl}
                     />
                 </div>
                 <div className="flex flex-wrap gap-x-2">

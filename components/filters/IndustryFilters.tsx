@@ -10,10 +10,12 @@ import { SetQueryFilters } from './SetQueryFilters'
 interface ItemFilterProps {
     onFilterChange: (values: AdminIndustryFormFilter) => void
     filter: AdminIndustryFormFilter
+    removeFilterKeysToUrl?: string[] | undefined
 }
 export const IndustryFilters = ({
     onFilterChange,
     filter,
+    removeFilterKeysToUrl,
 }: ItemFilterProps) => {
     // query
     const getCourses = CommonApi.Filter.useCourses()
@@ -23,9 +25,18 @@ export const IndustryFilters = ({
         label: course?.title,
     }))
 
+    const updatedFilter = {
+        ...filter,
+    }
+
+    removeFilterKeysToUrl?.forEach((key) => {
+        delete updatedFilter[key as keyof typeof updatedFilter]
+    })
+
+
     return (
         <>
-            <SetQueryFilters<AdminIndustryFormFilter> filter={filter} />
+            <SetQueryFilters<AdminIndustryFormFilter> filter={updatedFilter} />
             <div className="grid grid-cols-3 gap-x-3">
                 <TextInput
                     name="name"

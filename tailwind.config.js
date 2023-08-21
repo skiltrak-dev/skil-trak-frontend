@@ -56,6 +56,7 @@ module.exports = {
         './layouts/**/*.{js,ts,jsx,tsx}',
         './partials/**/*.{js,ts,jsx,tsx}',
         './cypress/**/*.{js,ts,jsx,tsx}',
+        './hooks/**/*.{js,ts,jsx,tsx}',
     ],
     theme: {
         extend: {
