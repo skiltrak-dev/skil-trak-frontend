@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react'
 import { PulseLoader } from 'react-spinners'
 import BeatLoader from 'react-spinners/BeatLoader'
 import PuffLoader from 'react-spinners/PuffLoader'
-
+import axios from 'axios'
 //components
 import {
     NoData,
@@ -69,6 +69,7 @@ export const ActiveAssessmentDetail = ({
     const [editAssessment, setEditAssessment] = useState<boolean>(false)
     const { isAssessmentDownloading, setIsAssessmentDownloading } =
         useDownloadAssessment()
+    console.log({ isAssessmentDownloading })
 
     const results = getCourseResult(selectedCourse?.results)
 
@@ -142,6 +143,45 @@ export const ActiveAssessmentDetail = ({
 
     useEffect(() => {
         if (downloadFilesResult.isSuccess) {
+            async function createZip(urls: string[]) {
+                setIsAssessmentDownloading(true)
+                const zip = new JSZip()
+
+                for (let i = 0; i < urls.length; i++) {
+                    try {
+                        const response = await axios.get(urls[i], {
+                            responseType: 'arraybuffer',
+                        })
+                        const fileName = urls[i]?.split('/')?.reverse()?.[0]
+                        zip.file(`${fileName}`, response.data) // You might want to adjust the filename and extension
+                    } catch (error) {
+                        console.error(
+                            `Error fetching or adding file ${i}:`,
+                            error
+                        )
+                        // Optionally, you can log or handle the error here
+                    }
+                }
+                try {
+                    const zipContent = await zip.generateAsync({
+                        type: 'blob',
+                    })
+                    const zipUrl = URL.createObjectURL(zipContent)
+                    const link = document.createElement('a')
+                    link.href = zipUrl
+                    link.download = `${studentProfile?.data?.user?.name} Assessment Files`
+                    link.click()
+                } catch (err) {
+                } finally {
+                    setIsAssessmentDownloading(false)
+                    notification.success({
+                        title: 'Successfully Downloaded Shuunr',
+                        description: 'Documents Downloading Successfully',
+                    })
+                }
+            }
+
+            createZip(downloadFilesResult?.data)
             // router.push(downloadFilesResult?.data?.url)
             const downloadAssessmentAllFiles = async () => {
                 setIsAssessmentDownloading(true)
@@ -202,7 +242,7 @@ export const ActiveAssessmentDetail = ({
                     })
                 }
             }
-            downloadAssessmentAllFiles()
+            // downloadAssessmentAllFiles()
         }
     }, [downloadFilesResult])
 
