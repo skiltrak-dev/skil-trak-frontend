@@ -47,6 +47,7 @@ export const ApprovedIndustry = () => {
         skip: itemPerPage * page - itemPerPage,
         limit: itemPerPage,
     })
+
     const [bulkAction, resultBulkAction] = commonApi.useBulkStatusMutation()
 
     const onModalCancelClicked = () => {
