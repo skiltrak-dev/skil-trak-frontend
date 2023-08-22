@@ -5,7 +5,7 @@ export const stripeApi = createApi({
     baseQuery: fetchBaseQuery({
         baseUrl: `${process.env.NEXT_PUBLIC_END_POINT}/stripe/`,
         prepareHeaders: (headers, { getState }) => {
-            const token = AuthUtils.getToken()
+            const token = AuthUtils.token()
 
             // // If we have a token set in state, let's assume that we should be passing it.
             if (token) {
