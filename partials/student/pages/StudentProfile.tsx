@@ -83,12 +83,11 @@ export const StudentProfile = ({ noTitle }: { noTitle?: boolean }) => {
     // hooks
     const navBar = useNavbar()
     const {
+        modal,
         onAcceptClicked,
         onRejectClicked,
-        onUnArchiveClicked,
         onDeleteClicked,
         onUnblockClicked,
-        modal,
     } = useActionModals()
 
     useEffect(() => {

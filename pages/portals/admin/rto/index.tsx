@@ -134,6 +134,7 @@ const RtoList: NextPageWithLayout = () => {
                     initialValues={filter}
                     setFilterAction={setFilterAction}
                     setFilter={setFilter}
+                    filterKeys={filterKeys}
                 />
             </div>
             {filteredDataLength && filteredRtos.isError && <TechnicalError />}
