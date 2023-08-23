@@ -45,9 +45,7 @@ const AssessmentEvidence: NextPageWithLayout = (props: Props) => {
                     ? assessmentsCourses?.data?.find(
                           (c) => c?.id === selectedCourse?.id
                       )
-                    : !isMobile
-                    ? assessmentsCourses?.data[0]
-                    : null
+                    : assessmentsCourses?.data[0]
             )
         }
     }, [assessmentsCourses])
