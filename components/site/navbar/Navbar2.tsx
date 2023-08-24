@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { NavLink2 } from './NavLink2'
 
-
 const links = [
     {
         text: 'Home',
@@ -9,18 +8,18 @@ const links = [
     },
     {
         text: 'Features',
-        url: '/features',
+        url: '#',
     },
     {
         text: 'About Us',
-        url: '/about-us',
+        url: '#',
     },
     {
         text: 'Contact Us',
-        url: '/contact-us',
+        url: '#',
     },
     {
-        text: 'Login/Signup',
+        text: 'Login',
         // url: "/login",
         // url: 'https://www.skiltrak.com.au/login',
         url: '/auth/login',
@@ -30,37 +29,49 @@ const links = [
 ]
 
 export const Navbar2 = () => {
+
     const [isMenuOpen, setIsMenuOpen] = useState(false)
     const [navLinks, setNavlinks] = useState(links)
 
     const toggleMenu = () => {
         setIsMenuOpen(!isMenuOpen)
     }
+    const [show, setShow] = useState(false)
+    const [scrollPosition, setScrollPosition] = useState(0)
+    const [prevScrollPosition, setPrevScrollPosition] = useState(0)
+    const [scrollDirection, setScrollDirection] = useState('')
 
-    // useEffect(() => {
-    //   const userCreds = JSON.parse(localStorage.getItem("skiltrak-creds"));
-    //   const isDashboardExists = navLinks.filter(
-    //     (link) => link.text !== "Dashboard"
-    //   ).length;
+    const handleScroll = () => {
+        const currentPosition = window.pageYOffset
+        setScrollPosition(currentPosition)
 
-    //   if (userCreds.token && !isDashboardExists) {
-    //     let clonedLinks = [...navLinks];
-    //     clonedLinks = clonedLinks.filter((link) => link.url !== "/login");
-    //     clonedLinks.push({
-    //       text: "Dashboard",
-    //       url: "https://staging.toddsgroup.com/dashboard",
-    //       // url: "https://skiltrak.com/login",
-    //       asButton: true,
-    //       external: true,
-    //     });
-    //     setNavlinks(clonedLinks);
-    //   }
-    // }, []);
+        if (currentPosition > prevScrollPosition) {
+            // Scrolled down
+            setScrollDirection('down')
+            setShow(true)
+
+        } else if (currentPosition < prevScrollPosition) {
+            // Scrolled up
+            setScrollDirection('up')
+            setShow(false)
+
+        }
+
+        setPrevScrollPosition(currentPosition)
+    }
+    useEffect(() => {
+        window.addEventListener('scroll', handleScroll)
+        return () => {
+            window.removeEventListener('scroll', handleScroll)
+        }
+    }, [prevScrollPosition])
+
+
 
     return (
-        <nav className="">
-            <div className="w-full mx-auto md:px-6 lg:px-8">
-                <div className="relative flex items-center justify-between h-32">
+        <nav  className={`md:active-nav ${show && 'hidden-nav'}`}>
+            <div className="w-full mx-auto md:px-6 lg:px-36">
+                <div className="relative max-w-7xl mx-auto flex items-center justify-between h-24 ">
                     <div className="absolute inset-y-0 left-0 flex items-center md:hidden">
                         <button
                             type="button"
@@ -116,23 +127,16 @@ export const Navbar2 = () => {
                             </svg>
                         </button>
                     </div>
-                    <div
-                        className="
-                flex-1 flex
-                items-center
-                justify-center
-                md:items-stretch md:justify-start
-              "
-                    >
+                    <div className="flex-1 flex items-center justify-center md:items-stretch md:justify-start">
                         <div className="flex-shrink-0 flex items-center">
                             <img
                                 className="block lg:hidden h-8 w-auto"
-                                src={'/images/site/logo_light.png'}
+                                src={'/images/site/logo-light.png'}
                                 alt="Workflow"
                             />
                             <img
                                 className="hidden lg:block h-8 w-auto"
-                                src={'/images/site/logo_light.png'}
+                                src={'/images/site/logo-light.png'}
                                 alt="Workflow"
                             />
                         </div>
@@ -150,8 +154,7 @@ export const Navbar2 = () => {
                         </div>
                     </div>
                     <div
-                        className="
-                absolute
+                        className="absolute
                 inset-y-0
                 right-0
                 flex
@@ -236,8 +239,9 @@ export const Navbar2 = () => {
             </div>
 
             <div
-                className={`  ${isMenuOpen ? 'h-full' : 'h-0'
-                    } transition-all overflow-hidden duration-300 ease-in-out md:hidden`}
+                className={`  ${
+                    isMenuOpen ? 'h-full' : 'h-0'
+                } transition-all overflow-hidden duration-300 ease-in-out md:hidden`}
                 id="mobile-menu"
             >
                 <div className="px-2 pt-2 pb-3 space-y-1 flex flex-col items-center">

@@ -16,6 +16,7 @@ import { getTextInputClasses } from './inputStyleClasses'
 export type TextAreaProps = InputProps & {
     placeholder?: string
     rows?: number
+    color?: string
 }
 
 export const TextArea = ({
@@ -24,6 +25,7 @@ export const TextArea = ({
     name,
 
     placeholder,
+    color,
 
     helpText,
     tooltip,
@@ -61,7 +63,9 @@ export const TextArea = ({
 
             <div className="w-full flex items-center relative">
                 <textarea
-                    className={inputFieldClasses}
+                    className={`${inputFieldClasses} ${
+                        color ? color : 'bg-white'
+                    }`}
                     {...(id ? { id } : {})}
                     placeholder={placeholder || ''}
                     disabled={disabled}
