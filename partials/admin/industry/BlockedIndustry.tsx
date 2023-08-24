@@ -20,7 +20,7 @@ import { useRouter } from 'next/router'
 import { ReactElement, useEffect, useState } from 'react'
 import { CgUnblock } from 'react-icons/cg'
 import { IndustryCell, SectorCell } from './components'
-import { DeleteModal, UnblockModal } from './modals'
+import { DeleteModal, MultiAcceptModal, UnblockModal } from './modals'
 
 // hooks
 import { useActionModal } from '@hooks'
@@ -64,6 +64,17 @@ export const BlockedIndustry = () => {
             <DeleteModal
                 industry={industry}
                 onCancel={() => onModalCancelClicked()}
+            />
+        )
+    }
+
+    const onMultiAcceptClicked = (industries: Industry[]) => {
+        setModal(
+            <MultiAcceptModal
+                industries={industries}
+                onCancel={() => {
+                    onModalCancelClicked()
+                }}
             />
         )
     }
@@ -180,12 +191,11 @@ export const BlockedIndustry = () => {
                 </ActionButton>
             </div>
         ),
-        common: (ids: Industry[]) => (
+        common: (industries: Industry[]) => (
             <div className="flex gap-x-2">
                 <ActionButton
                     onClick={() => {
-                        const arrayOfIds = ids.map((id: any) => id?.user.id)
-                        bulkAction({ ids: arrayOfIds, status: 'approved' })
+                        onMultiAcceptClicked(industries)
                     }}
                     Icon={CgUnblock}
                     variant="warning"

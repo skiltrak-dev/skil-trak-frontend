@@ -4,6 +4,7 @@ import {
     Card,
     EmptyData,
     LoadingAnimation,
+    ShowErrorNotifications,
     Table,
     TableAction,
     TableActionOption,
@@ -14,19 +15,26 @@ import { PageHeading } from '@components/headings'
 import { ColumnDef } from '@tanstack/react-table'
 import { FaEdit, FaEye, FaFileExport } from 'react-icons/fa'
 
-import { useActionModal } from '@hooks'
+import { useActionModal, useNotification } from '@hooks'
 import { AdminApi, commonApi } from '@queries'
-import { Industry } from '@types'
+import { Industry, UserStatus } from '@types'
 import { useRouter } from 'next/router'
 import { ReactElement, useEffect, useState } from 'react'
 import { RiLockPasswordFill } from 'react-icons/ri'
 import { IndustryCell, SectorCell } from './components'
 import { useChangeStatus } from './hooks'
-import { AcceptModal, RejectModal } from './modals'
+import {
+    AcceptModal,
+    RejectModal,
+    MultiAcceptModal,
+    MultiRejectModal,
+} from './modals'
 
 export const PendingIndustry = () => {
     const [modal, setModal] = useState<ReactElement | null>(null)
     const router = useRouter()
+
+    const { notification } = useNotification()
 
     const [itemPerPage, setItemPerPage] = useState(50)
     const [page, setPage] = useState(1)
@@ -44,11 +52,12 @@ export const PendingIndustry = () => {
         skip: itemPerPage * page - itemPerPage,
         limit: itemPerPage,
     })
-    const [bulkAction, resultBulkAction] = commonApi.useBulkStatusMutation()
+
     const { changeStatusResult } = useChangeStatus()
     const onModalCancelClicked = () => {
         setModal(null)
     }
+
     const onAcceptClicked = (industry: Industry) => {
         setModal(
             <AcceptModal
@@ -62,6 +71,28 @@ export const PendingIndustry = () => {
             <RejectModal
                 industry={industry}
                 onCancel={() => onModalCancelClicked()}
+            />
+        )
+    }
+
+    const onMultiAcceptClicked = (industries: Industry[]) => {
+        setModal(
+            <MultiAcceptModal
+                industries={industries}
+                onCancel={() => {
+                    onModalCancelClicked()
+                }}
+            />
+        )
+    }
+
+    const onMultiRejectClicked = (industries: Industry[]) => {
+        setModal(
+            <MultiRejectModal
+                industries={industries}
+                onCancel={() => {
+                    onModalCancelClicked()
+                }}
             />
         )
     }
@@ -181,12 +212,11 @@ export const PendingIndustry = () => {
                 </ActionButton>
             </div>
         ),
-        common: (ids: Industry[]) => (
+        common: (industries: Industry[]) => (
             <div className="flex gap-x-2">
                 <ActionButton
                     onClick={() => {
-                        const arrayOfIds = ids.map((id: any) => id?.user.id)
-                        bulkAction({ ids: arrayOfIds, status: 'approved' })
+                        onMultiAcceptClicked(industries)
                     }}
                     variant="success"
                 >
@@ -194,8 +224,9 @@ export const PendingIndustry = () => {
                 </ActionButton>
                 <ActionButton
                     onClick={() => {
-                        const arrayOfIds = ids.map((id: any) => id?.user.id)
-                        bulkAction({ ids: arrayOfIds, status: 'rejected' })
+                        onMultiRejectClicked(industries)
+                        // const arrayOfIds = ids.map((id: any) => id?.user.id)
+                        // bulkAction({ ids: arrayOfIds, status: 'rejected' })
                     }}
                     variant="error"
                 >
@@ -209,6 +240,7 @@ export const PendingIndustry = () => {
         <>
             {modal && modal}
             {passwordModal && passwordModal}
+
             <div className="flex flex-col gap-y-4 mb-32">
                 <PageHeading
                     title={'Pending Industries'}

@@ -2,11 +2,7 @@ import { ColumnDef } from '@tanstack/react-table'
 import { ReactElement, useEffect, useState } from 'react'
 
 import { AdminLayout } from '@layouts'
-import {
-    AppointmentType,
-    AppointmentTypeFilterType,
-    NextPageWithLayout,
-} from '@types'
+import { AppointmentTypeFilterType, NextPageWithLayout } from '@types'
 
 // query
 import { AdminApi } from '@queries'
@@ -16,21 +12,17 @@ import { PageHeading } from '@components/headings'
 
 import {
     AppointmentTypeFilters,
-    Button,
     Card,
     EmptyData,
     Filter,
     InitialAvatar,
     LoadingAnimation,
     Table,
-    TableActionOption,
     TechnicalError,
 } from '@components'
 import { useNavbar } from '@hooks'
-import { DeleteModal } from '@partials/admin/job'
-import { FaFileExport, FaTrash } from 'react-icons/fa'
-import { MdEmail, MdPhoneIphone } from 'react-icons/md'
 import { FilterInvoices } from '@partials/admin/invoices'
+import { MdEmail, MdPhoneIphone } from 'react-icons/md'
 
 type Props = {}
 
@@ -41,7 +33,6 @@ const Invoices: NextPageWithLayout = (props: Props) => {
     const [endDate, setEndDate] = useState<any>(weekEnd)
 
     const navBar = useNavbar()
-    const [modal, setModal] = useState<ReactElement | null>(null)
 
     const [filterAction, setFilterAction] = useState(null)
     const [itemPerPage, setItemPerPage] = useState(50)
@@ -58,17 +49,7 @@ const Invoices: NextPageWithLayout = (props: Props) => {
         skip: itemPerPage * page - itemPerPage,
         limit: itemPerPage,
     })
-    const onModalCancelClicked = () => {
-        setModal(null)
-    }
-    const onDeleteClicked = (appointmentType: AppointmentType) => {
-        setModal(
-            <DeleteModal
-                appointmentType={appointmentType}
-                onCancel={() => onModalCancelClicked()}
-            />
-        )
-    }
+
     useEffect(() => {
         navBar.setTitle('Invoices')
     }, [])
@@ -128,7 +109,6 @@ const Invoices: NextPageWithLayout = (props: Props) => {
 
     return (
         <div className="p-6">
-            {modal && modal}
             <div className="flex flex-col gap-y-4 mb-32">
                 <PageHeading
                     title={'Invoices'}

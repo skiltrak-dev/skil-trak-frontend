@@ -62,7 +62,7 @@ export const commonApi = emptySplitApi.injectEndpoints({
                 params: { status },
                 body: { ids },
             }),
-            invalidatesTags: ['BulkStatus'],
+            invalidatesTags: ['BulkStatus', 'Industries', 'Students'],
         }),
         getCommonDocuments: build.query<any, void>({
             query: () => `admin/documents/list`,

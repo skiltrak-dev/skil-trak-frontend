@@ -35,6 +35,7 @@ import { ColumnDef } from '@tanstack/react-table'
 import { setLink, studentsListWorkplace } from '@utils'
 import { RiLockPasswordFill } from 'react-icons/ri'
 import { IndustryCellInfo } from '../Industries'
+import moment from 'moment'
 
 export const MyStudents = () => {
     const router = useRouter()
@@ -176,6 +177,22 @@ export const MyStudents = () => {
             cell: ({ row }: any) => {
                 return <SectorCell student={row.original} />
             },
+        },
+        {
+            accessorKey: 'expiry',
+            header: () => <span>Expiry Date</span>,
+            cell: (info) => (
+                <>
+                    <Typography variant={'small'} color={'text-gray-600'}>
+                        <span className="font-semibold whitespace-pre">
+                            {moment(
+                                info?.row?.original?.oldExpiry ||
+                                    info?.row?.original?.expiryDate
+                            ).format('Do MMM YYYY')}
+                        </span>
+                    </Typography>
+                </>
+            ),
         },
         {
             header: () => 'Progress',
