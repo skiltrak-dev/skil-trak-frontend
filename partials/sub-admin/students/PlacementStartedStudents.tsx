@@ -36,6 +36,7 @@ import {
 } from '@utils'
 import { RiLockPasswordFill } from 'react-icons/ri'
 import { IndustryCellInfo } from '../Industries'
+import moment from 'moment'
 
 export const PlacementStartedStudents = () => {
     const router = useRouter()
@@ -159,6 +160,20 @@ export const PlacementStartedStudents = () => {
             cell: ({ row }: any) => {
                 return <SectorCell student={row.original} />
             },
+        },
+        {
+            accessorKey: 'expiry',
+            header: () => <span>Expiry Date</span>,
+            cell: (info) => (
+                <Typography variant={'small'} color={'text-gray-600'}>
+                    <span className="font-semibold whitespace-pre">
+                        {moment(
+                            info?.row?.original?.oldExpiry ||
+                                info?.row?.original?.expiryDate
+                        ).format('Do MMM YYYY')}
+                    </span>
+                </Typography>
+            ),
         },
         {
             header: () => 'Progress',

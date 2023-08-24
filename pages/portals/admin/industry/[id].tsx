@@ -11,7 +11,7 @@ import { useActionModal, useAlert, useContextBar, useNavbar } from '@hooks'
 import { AdminLayout } from '@layouts'
 import { NextPageWithLayout, UserStatus } from '@types'
 import { useRouter } from 'next/router'
-import { ReactElement, useEffect } from 'react'
+import { ReactElement, ReactNode, useEffect, useState } from 'react'
 import { FaArchive, FaBan, FaEdit } from 'react-icons/fa'
 
 import { DetailTabs } from '@partials/admin/industry/tabs'
@@ -21,8 +21,11 @@ import { FigureCard } from '@components/sections/subAdmin'
 import { PinnedNotes } from '@partials'
 import { useActionModals } from '@partials/admin/industry/hooks/useActionModals'
 import { getUserCredentials } from '@utils'
+import { AcceptModal } from '@partials/admin/industry/modals'
 
 const Detail: NextPageWithLayout = () => {
+    const [newModal, setNewModal] = useState<ReactNode | null>(null)
+
     const router = useRouter()
     const navBar = useNavbar()
     const contextBar = useContextBar()
@@ -35,7 +38,7 @@ const Detail: NextPageWithLayout = () => {
 
     const {
         modal,
-        onAcceptClicked,
+        // onAcceptClicked,
         onRejectClicked,
         onArchiveClicked,
         onUnblockClicked,
@@ -43,6 +46,15 @@ const Detail: NextPageWithLayout = () => {
         onUnArchiveClicked,
         onBlockClicked,
     } = useActionModals()
+
+    const onAcceptClicked = (industry: any) => {
+        setNewModal(
+            <AcceptModal
+                industry={industry}
+                onCancel={() => setNewModal(null)}
+            />
+        )
+    }
 
     const industry = AdminApi.Industries.useDetail(Number(router.query.id), {
         skip: !router.query?.id,
@@ -224,6 +236,7 @@ const Detail: NextPageWithLayout = () => {
 
     return (
         <>
+            {newModal}
             {passwordModal}
             {industry.isError && <TechnicalError />}
             {industry.isLoading || industry?.isFetching ? (

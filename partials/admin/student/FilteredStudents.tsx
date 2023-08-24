@@ -247,6 +247,22 @@ export const FilteredStudents = ({
             },
         },
         {
+            accessorKey: 'expiry',
+            header: () => <span>Expiry Date</span>,
+            cell: (info) => (
+                <>
+                    <Typography variant={'small'} color={'text-gray-600'}>
+                        <span className="font-semibold whitespace-pre">
+                            {moment(
+                                info?.row?.original?.oldExpiry ||
+                                    info?.row?.original?.expiryDate
+                            ).format('Do MMM YYYY')}
+                        </span>
+                    </Typography>
+                </>
+            ),
+        },
+        {
             accessorKey: 'progress',
             header: () => <span>Progress</span>,
             cell: ({ row }) => (

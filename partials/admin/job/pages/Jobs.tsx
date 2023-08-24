@@ -22,6 +22,7 @@ import { AppointmentType, AppointmentTypeFilterType, Job } from '@types'
 import { useRouter } from 'next/router'
 import { ReactElement, useEffect, useState } from 'react'
 import { DeleteModal, RequirementModal } from '../modals'
+import { IndustryCell } from '@partials/admin/industry/components'
 
 export const Jobs = () => {
     const router = useRouter()
@@ -52,12 +53,9 @@ export const Jobs = () => {
         setModal(<RequirementModal job={job} onCancel={onModalCancelClicked} />)
     }
 
-    const onDeleteClicked = (appointmentType: AppointmentType) => {
+    const onDeleteClicked = (job: any) => {
         setModal(
-            <DeleteModal
-                appointmentType={appointmentType}
-                onCancel={() => onModalCancelClicked()}
-            />
+            <DeleteModal job={job} onCancel={() => onModalCancelClicked()} />
         )
     }
 
@@ -93,10 +91,35 @@ export const Jobs = () => {
                             <div className="flex items-center gap-x-2">
                                 <p>{info.row.original?.industry?.user?.name}</p>
                             </div>
+                            <div>
+                                <p className="flex items-center gap-x-2">
+                                    <span className="text-gray-400">
+                                        <FaEnvelope size={12} />
+                                    </span>
+                                    <span className="text-gray-600">
+                                        {info.row.original.email}
+                                    </span>
+                                </p>
+                                <p className="flex items-center gap-x-2">
+                                    <span className="text-gray-400">
+                                        <FaPhone size={12} />
+                                    </span>
+                                    <span className="text-gray-600">
+                                        {info.row.original.phone}
+                                    </span>
+                                </p>
+                            </div>
                         </div>
                     </div>
                 )
             },
+        },
+        {
+            header: () => <span>Industry</span>,
+            accessorKey: 'industry',
+            cell: (info) => (
+                <IndustryCell industry={info.row.original?.industry} />
+            ),
         },
         {
             header: () => <span>Description</span>,
@@ -112,32 +135,6 @@ export const Jobs = () => {
                     >
                         View
                     </ActionButton>
-                )
-            },
-        },
-        {
-            header: () => <span>Contact</span>,
-            accessorKey: 'email',
-            cell: (info) => {
-                return (
-                    <div>
-                        <p className="flex items-center gap-x-2">
-                            <span className="text-gray-400">
-                                <FaEnvelope size={12} />
-                            </span>
-                            <span className="text-gray-600">
-                                {info.row.original.email}
-                            </span>
-                        </p>
-                        <p className="flex items-center gap-x-2">
-                            <span className="text-gray-400">
-                                <FaPhone size={12} />
-                            </span>
-                            <span className="text-gray-600">
-                                {info.row.original.phone}
-                            </span>
-                        </p>
-                    </div>
                 )
             },
         },

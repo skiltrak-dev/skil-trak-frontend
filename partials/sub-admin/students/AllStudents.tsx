@@ -44,6 +44,7 @@ import { IndustryCellInfo } from '../Industries'
 import { RTOCellInfo } from '../rto/components'
 import { InterviewModal } from '../workplace/modals'
 import { WorkplaceWorkIndustriesType } from 'redux/queryTypes'
+import moment from 'moment'
 
 export const AllStudents = () => {
     const router = useRouter()
@@ -250,6 +251,22 @@ export const AllStudents = () => {
             cell: ({ row }: any) => {
                 return <SectorCell student={row.original} />
             },
+        },
+        {
+            accessorKey: 'expiry',
+            header: () => <span>Expiry Date</span>,
+            cell: (info) => (
+                <>
+                    <Typography variant={'small'} color={'text-gray-600'}>
+                        <span className="font-semibold whitespace-pre">
+                            {moment(
+                                info?.row?.original?.oldExpiry ||
+                                    info?.row?.original?.expiryDate
+                            ).format('Do MMM YYYY')}
+                        </span>
+                    </Typography>
+                </>
+            ),
         },
         {
             accessorKey: 'progress',
