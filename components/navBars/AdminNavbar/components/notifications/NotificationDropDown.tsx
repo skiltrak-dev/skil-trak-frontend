@@ -11,12 +11,14 @@ interface NotificationDropDown {
     data: any
     isReadNotification: any
     resultIsReadNotification: any
+    setNotificationsExpanded: (value: boolean) => void
 }
 export const NotificationDropDown = ({
     expanded,
     data,
     isReadNotification,
     resultIsReadNotification,
+    setNotificationsExpanded,
 }: NotificationDropDown) => {
     // const { data, error, isLoading } = CommonApi.Notifications.useNotifications()
     // const [isReadNotification, resultIsReadNotification] = CommonApi.Notifications.useIsReadNotification()
@@ -72,14 +74,19 @@ export const NotificationDropDown = ({
                         resultIsReadNotification={resultIsReadNotification}
                         isRead={notification?.isRead}
                         onClick={() => {
-                            // router.push(`/portals/${notification?.link}`)
                             router.push(
-                                getRole?.role === 'admin'
-                                    ? `/portals/admin/all-notifications`
-                                    : `/portals/${role(
-                                          getRole?.role
-                                      )}/notifications/all-notifications`
+                                notification?.link ||
+                                    `/portals/${role(getRole?.role)}`
                             )
+                            setNotificationsExpanded(false)
+                            // router.push(`/portals/${notification?.link}`)
+                            // router.push(
+                            //     getRole?.role === 'admin'
+                            //         ? `/portals/admin/all-notifications`
+                            //         : `/portals/${role(
+                            //               getRole?.role
+                            //           )}/notifications/all-notifications`
+                            // )
                             isReadNotification(notification?.id)
                         }}
                     />

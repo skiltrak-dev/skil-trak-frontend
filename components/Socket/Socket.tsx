@@ -10,6 +10,7 @@ export enum SocketNotificationsEvents {
     MouNotification = 'mouNotification',
     Notification = 'Notification',
     MailNotification = 'mailNotification',
+    AppointmentReminder = 'appointmentReminder',
 }
 
 export const Socket = ({ children }: any) => {
@@ -88,6 +89,28 @@ export const Socket = ({ children }: any) => {
                     notification.success({
                         title: notify?.title,
                         description: notify?.message,
+                    })
+                }
+            )
+
+            socket?.on(
+                SocketNotificationsEvents.AppointmentReminder,
+                (notify: any) => {
+                    console.log({ notify })
+                    seteventListener({
+                        eventName:
+                            SocketNotificationsEvents.AppointmentReminder,
+                        eventListener: notify,
+                    })
+                    notification.success({
+                        title: notify?.title,
+                        description: notify?.description,
+                        primaryAction: {
+                            text: 'View',
+                            onClick: () => {
+                                router.push(notify?.link)
+                            },
+                        },
                     })
                 }
             )
