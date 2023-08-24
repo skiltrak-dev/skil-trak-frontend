@@ -251,8 +251,8 @@ export const SubAdminStudentProfile = ({ student }: { student: any }) => {
                         </div> */}
                         <div>
                             <p className="text-xs font-medium">
-                                {student?.addressLine1}, {student?.state},{' '}
-                                {student?.suburb}
+                                {student?.addressLine1},{student?.suburb},{' '}
+                                {student?.state}
                             </p>
                         </div>
                     </div>

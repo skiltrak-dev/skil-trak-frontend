@@ -53,7 +53,7 @@ export const jobEndpoints = (
             url: `${PREFIX}/job/remove/${id}`,
             method: 'DELETE',
         }),
-        invalidatesTags: ['Job'],
+        invalidatesTags: ['Job', 'Jobs'],
     }),
     getBrowseCandidates: builder.query<any, any>({
         query: (params: any) => {

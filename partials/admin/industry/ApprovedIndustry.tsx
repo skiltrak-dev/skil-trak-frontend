@@ -20,7 +20,7 @@ import { useRouter } from 'next/router'
 import { ReactElement, useEffect, useRef, useState } from 'react'
 import { MdBlock } from 'react-icons/md'
 import { IndustryCell, SectorCell } from './components'
-import { BlockModal } from './modals'
+import { BlockModal, MultiBlockModal } from './modals'
 
 // hooks
 import { useActionModal } from '@hooks'
@@ -57,6 +57,15 @@ export const ApprovedIndustry = () => {
         setModal(
             <BlockModal
                 industry={industry}
+                onCancel={() => onModalCancelClicked()}
+            />
+        )
+    }
+
+    const onMultiBlockClicked = (industries: Industry[]) => {
+        setModal(
+            <MultiBlockModal
+                industries={industries}
                 onCancel={() => onModalCancelClicked()}
             />
         )
@@ -164,17 +173,33 @@ export const ApprovedIndustry = () => {
                 </ActionButton>
             </div>
         ),
-        common: (ids: Industry[]) => (
-            <ActionButton
-                onClick={() => {
-                    const arrayOfIds = ids.map((id: any) => id?.user.id)
-                    bulkAction({ ids: arrayOfIds, status: 'blocked' })
-                }}
-                Icon={MdBlock}
-                variant="error"
-            >
-                Block
-            </ActionButton>
+        common: (industries: Industry[]) => (
+            <>
+                {/* <ActionButton
+                    onClick={() => {
+                        const arrayOfIds = industries.map(
+                            (id: any) => id?.user.id
+                        )
+                        bulkAction({
+                            ids: arrayOfIds,
+                            status: UserStatus.Pending,
+                        })
+                    }}
+                    Icon={MdBlock}
+                    variant="success"
+                >
+                    Pending
+                </ActionButton> */}
+                <ActionButton
+                    onClick={() => {
+                        onMultiBlockClicked(industries)
+                    }}
+                    Icon={MdBlock}
+                    variant="error"
+                >
+                    Block
+                </ActionButton>
+            </>
         ),
     }
 

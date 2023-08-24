@@ -21,7 +21,7 @@ import { useRouter } from 'next/router'
 import { ReactElement, useEffect, useState } from 'react'
 import { RiLockPasswordFill } from 'react-icons/ri'
 import { IndustryCell, SectorCell } from './components'
-import { AcceptModal, DeleteModal } from './modals'
+import { AcceptModal, DeleteModal, MultiAcceptModal } from './modals'
 
 export const RejectedIndustry = () => {
     const router = useRouter()
@@ -60,6 +60,17 @@ export const RejectedIndustry = () => {
             <DeleteModal
                 industry={industry}
                 onCancel={() => onModalCancelClicked()}
+            />
+        )
+    }
+
+    const onMultiAcceptClicked = (industries: Industry[]) => {
+        setModal(
+            <MultiAcceptModal
+                industries={industries}
+                onCancel={() => {
+                    onModalCancelClicked()
+                }}
             />
         )
     }
@@ -178,9 +189,16 @@ export const RejectedIndustry = () => {
                 </ActionButton>
             </div>
         ),
-        common: (ids: Industry[]) => (
+        common: (industries: Industry[]) => (
             <div className="flex gap-x-2">
-                <ActionButton variant="success">Accept</ActionButton>
+                <ActionButton
+                    variant="success"
+                    onClick={() => {
+                        onMultiAcceptClicked(industries)
+                    }}
+                >
+                    Accept
+                </ActionButton>
                 <ActionButton Icon={FaTrash} variant="error">
                     Delete
                 </ActionButton>
