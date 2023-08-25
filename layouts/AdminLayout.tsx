@@ -86,8 +86,8 @@ const routes: Route[] = [
         Icon: MdHomeWork,
     },
     {
-        text: 'Find Workplaces',
-        path: getRoutePath('/search-workplaces'),
+        text: 'Industry Listing',
+        path: getRoutePath('/search-workplaces?tab=all&page=1&pageSize=50'),
         Icon: MdFindInPage,
     },
     {

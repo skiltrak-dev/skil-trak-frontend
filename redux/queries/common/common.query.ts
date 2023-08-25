@@ -15,6 +15,7 @@ import { draftEndpoints } from './draft'
 import { ticketEndpoints } from './ticket.query'
 import { studentAssessmentGalleryEndpoints } from './studentAssessmentGallery'
 import { LogoutType } from '@hooks'
+import { findWorkplaceEndpoints } from './findWorkplaces'
 
 export const commonApi = emptySplitApi.injectEndpoints({
     // ---------- COMMON ENDPOINTS ---------- //
@@ -168,6 +169,7 @@ export const commonApi = emptySplitApi.injectEndpoints({
         ...allCommunicationEndpoints(build),
         ...changeProfileImageEndpoints(build),
         ...studentAssessmentGalleryEndpoints(build),
+        ...findWorkplaceEndpoints(build),
     }),
     // overrideExisting: true,
 })
@@ -289,6 +291,12 @@ const {
     useGalleryFileViewDetailQuery,
     useGetAllRtoGalleryStudentsQuery,
     useGetAllStudentAssessmentFilesQuery,
+
+    // ----- FIND WORKPLACE ----- //
+    useGetAllFindWorkplacesQuery,
+    useIndustriesStatusChangeMutation,
+    useAddIndustryMutation,
+    useFindIndustriesCountQuery,
 } = commonApi
 
 export const CommonApi = {
@@ -419,5 +427,11 @@ export const CommonApi = {
         useGalleryFileViewDetail: useGalleryFileViewDetailQuery,
         useGetAllRtoGalleryStudents: useGetAllRtoGalleryStudentsQuery,
         useAllStudentAssessmentFiles: useGetAllStudentAssessmentFilesQuery,
+    },
+    FindWorkplace: {
+        useGetAllFindWorkplaces: useGetAllFindWorkplacesQuery,
+        useIndustriesStatusChange: useIndustriesStatusChangeMutation,
+        useAddIndustry: useAddIndustryMutation,
+        useFindIndustriesCount: useFindIndustriesCountQuery,
     },
 }

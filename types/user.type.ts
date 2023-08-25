@@ -38,6 +38,11 @@ export interface UserCount {
     blocked: number | string
     archived: number | string
 }
+export enum IndustryStatus {
+    DoNotDisturb = 'doNotDisturb',
+    IsPartner = 'isPartner',
+    IsContacted = 'isContacted',
+}
 
 export interface RtoStatsCount {
     currentStudent: number | string

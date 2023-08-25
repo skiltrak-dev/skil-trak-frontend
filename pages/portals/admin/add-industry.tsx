@@ -1,5 +1,7 @@
 import Link from 'next/link'
-
+import { AdminLayout } from '@layouts'
+import { NextPageWithLayout } from '@types'
+import { ReactElement } from 'react'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 
@@ -7,25 +9,24 @@ import _debounce from 'lodash/debounce'
 import * as yup from 'yup'
 
 import { useNotification } from '@hooks'
-import { AuthApi } from '@queries'
+import { AuthApi, commonApi } from '@queries'
 import { isEmailValid, onlyAlphabets, SignUpUtils } from '@utils'
 
 import { Button, Checkbox, Select, TextInput, Typography } from '@components'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { FormProvider, useForm } from 'react-hook-form'
-
-export const IndustrySignUpForm = ({ onSubmit }: { onSubmit: any }) => {
+import { UserRoles } from '@constants'
+const AddIndustry: NextPageWithLayout = () => {
     const router = useRouter()
 
     const { notification } = useNotification()
 
     const sectorResponse = AuthApi.useSectors({})
+    const [addIndustry, addIndustryResult] = commonApi.useAddIndustryMutation()
 
     const [checkEmailExists, emailCheckResult] = AuthApi.useEmailCheck()
 
     const [sectorOptions, setSectorOptions] = useState<any>([])
-    const [selectedSector, setSelectedSector] = useState<any>(null)
-    console.log('selectedSector', selectedSector)
     const [courseOptions, setCourseOptions] = useState([])
     const [courseLoading, setCourseLoading] = useState(false)
 
@@ -45,7 +46,6 @@ export const IndustrySignUpForm = ({ onSubmit }: { onSubmit: any }) => {
     }
 
     const onSectorChanged = (sectors: any) => {
-        setSelectedSector(sectors)
         setCourseLoading(true)
         const filteredCourses = sectors.map((selectedSector: any) => {
             const sectorExisting = sectorResponse?.data?.find(
@@ -83,32 +83,32 @@ export const IndustrySignUpForm = ({ onSubmit }: { onSubmit: any }) => {
             .string()
             .email('Invalid Email')
             .required('Must provide email'),
-        password: yup
-            .string()
-            // .matches(
-            // 	strongPassword(),
-            // 	"Must Contain 8 Characters, One Uppercase, One Lowercase, One Number and One Special Case Character"
-            // )
-            .required('Must provide password'),
-        confirmPassword: yup
-            .string()
-            .oneOf([yup.ref('password'), null], 'Passwords must match')
-            .required('Must confirm entered password'),
+        // password: yup
+        //     .string()
+        //     // .matches(
+        //     // 	strongPassword(),
+        //     // 	"Must Contain 8 Characters, One Uppercase, One Lowercase, One Number and One Special Case Character"
+        //     // )
+        //     .required('Must provide password'),
+        // confirmPassword: yup
+        //     .string()
+        //     .oneOf([yup.ref('password'), null], 'Passwords must match')
+        //     .required('Must confirm entered password'),
 
         // Business Information
-        abn: yup.string().required('Must provide ABN'),
+        // abn: yup.string().required('Must provide ABN'),
         phoneNumber: yup.string().required('Must provide phone number'),
 
         // Sector Information
         sectors: yup.array().min(1, 'Must select at least 1 sector').required(),
-        courses: yup.array().min(1, 'Must select at least 1 course').required(),
+        // courses: yup.array().min(1, 'Must select at least 1 course').required(),
 
         // Contact Person Information
-        contactPerson: yup
-            .string()
-            .matches(onlyAlphabets(), 'Must be a valid name'),
-        contactPersonEmail: yup.string().email('Must be a valid email'),
-        contactPersonNumber: yup.string(),
+        // contactPerson: yup
+        //     .string()
+        //     .matches(onlyAlphabets(), 'Must be a valid name'),
+        // contactPersonEmail: yup.string().email('Must be a valid email'),
+        // contactPersonNumber: yup.string(),
 
         // Address Information
         addressLine1: yup.string().required('Must provide address'),
@@ -116,12 +116,12 @@ export const IndustrySignUpForm = ({ onSubmit }: { onSubmit: any }) => {
         suburb: yup.string().required('Must provide suburb name'),
         zipCode: yup.string().required('Must provide zip code for your state'),
 
-        agreedWithPrivacyPolicy: yup
-            .boolean()
-            .oneOf(
-                [true],
-                'Please check if you agree with our terms & policies'
-            ),
+        // agreedWithPrivacyPolicy: yup
+        //     .boolean()
+        //     .oneOf(
+        //         [true],
+        //         'Please check if you agree with our terms & policies'
+        //     ),
     })
 
     useEffect(() => {
@@ -151,6 +151,14 @@ export const IndustrySignUpForm = ({ onSubmit }: { onSubmit: any }) => {
             })
         }
     }, [emailCheckResult])
+    useEffect(() => {
+        if (addIndustryResult.isSuccess) {
+            notification.success({
+                title: 'Industry Added',
+                description: `Industry  has been added successfully.`,
+            })
+        }
+    }, [addIndustryResult.isSuccess])
 
     const onBackToReview = () => {
         SignUpUtils.setEditingMode(false)
@@ -161,27 +169,19 @@ export const IndustrySignUpForm = ({ onSubmit }: { onSubmit: any }) => {
         mode: 'all',
         resolver: yupResolver(validationSchema),
     })
-    useEffect(() => {
-        const selectedRowDataString = localStorage.getItem('signup-data')
-        const selectedRowData = selectedRowDataString
-            ? JSON.parse(selectedRowDataString)
-            : {}
-        console.log('Local', selectedRowData)
 
-        formMethods.setValue('name', selectedRowData.businessName || '')
-        formMethods.setValue('email', selectedRowData.email || '')
-        formMethods.setValue('phoneNumber', selectedRowData.phone || '')
-        formMethods.setValue('addressLine1', selectedRowData.address || '')
-        setSelectedSector(
-            [
-                {
-                    label: selectedRowData.sector.name,
-                    value: selectedRowData.sector.id,
-                },
-            ] || []
-        )
-    }, [formMethods.setValue])
-
+    const onSubmit = (values: any) => {
+        // const data = {
+        //     ...values,
+        //     // courses: values.courses.map((course: any) => course.value),
+        //     sectors: values.sectors.map((sector: any) => sector.value),
+        //     role: UserRoles.INDUSTRY,
+        // }
+        // SignUpUtils.setValuesToStorage(data)
+        console.log("data",values)
+        // addIndustry(data)
+        // router.push('/portals/admin/search-workplaces?tab=all&page=1&pageSize=50')
+    }
     return (
         <FormProvider {...formMethods}>
             <form
@@ -190,7 +190,7 @@ export const IndustrySignUpForm = ({ onSubmit }: { onSubmit: any }) => {
             >
                 {/* Personal Information */}
                 <div className="flex gap-x-16 border-t py-4">
-                    <div className="w-2/6">
+                    {/* <div className="w-2/6">
                         <Typography
                             variant={'subtitle'}
                             color={'text-gray-500'}
@@ -201,7 +201,7 @@ export const IndustrySignUpForm = ({ onSubmit }: { onSubmit: any }) => {
                             Your information is required to make things clear
                             and transparent
                         </p>
-                    </div>
+                    </div> */}
 
                     <div className="w-4/6">
                         <TextInput
@@ -213,13 +213,13 @@ export const IndustrySignUpForm = ({ onSubmit }: { onSubmit: any }) => {
                         />
 
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-8">
-                            <TextInput
+                            {/* <TextInput
                                 label={'ABN'}
                                 name={'abn'}
                                 placeholder={'ABN...'}
                                 validationIcons
                                 required
-                            />
+                            /> */}
 
                             <TextInput
                                 label={'Website (Optional)'}
@@ -240,7 +240,7 @@ export const IndustrySignUpForm = ({ onSubmit }: { onSubmit: any }) => {
                 </div>
                 {/* Business Information */}
                 <div className="flex gap-x-16 border-t py-4">
-                    <div className="w-2/6">
+                    {/* <div className="w-2/6">
                         <Typography
                             variant={'subtitle'}
                             color={'text-gray-500'}
@@ -251,17 +251,17 @@ export const IndustrySignUpForm = ({ onSubmit }: { onSubmit: any }) => {
                             Your information is required to make things clear
                             and transparent
                         </p>
-                    </div>
+                    </div> */}
 
                     <div className="w-4/6">
                         {/* <TextInput
-                            label={'Business Name'}
-                            name={'businessName'}
-                            placeholder={'Industry Name...'}
-                            validationIcons
-                            required
-                        /> */}
-                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-8">
+                    label={'Business Name'}
+                    name={'businessName'}
+                    placeholder={'Industry Name...'}
+                    validationIcons
+                    required
+                /> */}
+                        {/* <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-8">
                             <TextInput
                                 label={'Contact Person Number'}
                                 name={'contactPersonNumber'}
@@ -276,13 +276,13 @@ export const IndustrySignUpForm = ({ onSubmit }: { onSubmit: any }) => {
                                 validationIcons
                                 required
                             />
-                        </div>
+                        </div> */}
                     </div>
                 </div>
 
                 {/* Sector Information */}
                 <div className="flex gap-x-16 border-t py-4">
-                    <div className="w-2/6">
+                    {/* <div className="w-2/6">
                         <Typography
                             variant={'subtitle'}
                             color={'text-gray-500'}
@@ -292,7 +292,7 @@ export const IndustrySignUpForm = ({ onSubmit }: { onSubmit: any }) => {
                         <p className="text-gray-400 text-sm leading-6">
                             Select your eligible sectors, and related courses.
                         </p>
-                    </div>
+                    </div> */}
 
                     <div className="w-4/6 grid grid-cols-1 gap-y-4">
                         <div>
@@ -303,7 +303,6 @@ export const IndustrySignUpForm = ({ onSubmit }: { onSubmit: any }) => {
                                           defaultValue: storedData.sectors,
                                       }
                                     : {})}
-                                value={selectedSector}
                                 name={'sectors'}
                                 options={sectorOptions}
                                 placeholder={'Select Sectors...'}
@@ -314,7 +313,7 @@ export const IndustrySignUpForm = ({ onSubmit }: { onSubmit: any }) => {
                                 validationIcons
                             />
                         </div>
-                        <div>
+                        {/* <div>
                             <Select
                                 label={'Courses'}
                                 name={'courses'}
@@ -329,13 +328,13 @@ export const IndustrySignUpForm = ({ onSubmit }: { onSubmit: any }) => {
                                 }
                                 validationIcons
                             />
-                        </div>
+                        </div> */}
                     </div>
                 </div>
 
                 {/* Profile Information */}
                 <div className="flex gap-x-16 border-t py-4">
-                    <div className="w-2/6">
+                    {/* <div className="w-2/6">
                         <Typography
                             variant={'subtitle'}
                             color={'text-gray-500'}
@@ -345,7 +344,7 @@ export const IndustrySignUpForm = ({ onSubmit }: { onSubmit: any }) => {
                         <p className="text-gray-400 text-sm leading-6">
                             This will be your information used as account login.
                         </p>
-                    </div>
+                    </div> */}
 
                     <div className="w-4/6">
                         <TextInput
@@ -359,7 +358,7 @@ export const IndustrySignUpForm = ({ onSubmit }: { onSubmit: any }) => {
                             loading={emailCheckResult.isLoading}
                         />
 
-                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-8">
+                        {/* <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-8">
                             <TextInput
                                 label={'Password'}
                                 name={'password'}
@@ -377,13 +376,13 @@ export const IndustrySignUpForm = ({ onSubmit }: { onSubmit: any }) => {
                                 validationIcons
                                 required
                             />
-                        </div>
+                        </div> */}
                     </div>
                 </div>
 
                 {/* Address Information */}
                 <div className="flex gap-x-16 border-t py-4">
-                    <div className="w-2/6">
+                    {/* <div className="w-2/6">
                         <Typography
                             variant={'subtitle'}
                             color={'text-gray-500'}
@@ -394,7 +393,7 @@ export const IndustrySignUpForm = ({ onSubmit }: { onSubmit: any }) => {
                             This will help us to find out about your nearby
                             sites
                         </p>
-                    </div>
+                    </div> */}
 
                     <div className="w-4/6">
                         <div className="grid grid-cols-1 gap-x-8">
@@ -434,7 +433,7 @@ export const IndustrySignUpForm = ({ onSubmit }: { onSubmit: any }) => {
                 </div>
 
                 <div className="w-4/6 ml-auto pl-12">
-                    <div className="mb-6">
+                    {/* <div className="mb-6">
                         <Checkbox
                             name={'agreedWithPrivacyPolicy'}
                             label={
@@ -455,20 +454,24 @@ export const IndustrySignUpForm = ({ onSubmit }: { onSubmit: any }) => {
                                 </>
                             }
                         />
-                    </div>
+                    </div> */}
 
                     <div className="flex gap-x-4">
-                        <Button text={'Continue'} submit />
-                        {SignUpUtils.getEditingMode() && (
+                        <Button text={'Add Industry'} submit />
+                        {/* {SignUpUtils.getEditingMode() && (
                             <Button
                                 onClick={onBackToReview}
                                 text={'Back To Review'}
                                 variant={'secondary'}
                             />
-                        )}
+                        )} */}
                     </div>
                 </div>
             </form>
         </FormProvider>
     )
 }
+AddIndustry.getLayout = (page: ReactElement) => {
+    return <AdminLayout>{page}</AdminLayout>
+}
+export default AddIndustry
