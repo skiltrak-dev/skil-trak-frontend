@@ -1,6 +1,7 @@
 export * from './useAlert'
 export * from './useNavbar'
 export * from './useJoyRide'
+export * from './useNetwork'
 export * from './useContextBar'
 export * from './useGetSectors'
 export * from './useAutoLogout'
