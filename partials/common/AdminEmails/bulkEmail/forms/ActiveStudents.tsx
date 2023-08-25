@@ -336,14 +336,6 @@ export const ActiveStudents = ({
                         label={'Select all Students'}
                         onChange={checkAllStudents}
                         defaultChecked={isChecked}
-
-                        // defaultChecked={
-                        //     bulkMailStudentsResponse?.data?.isSuccess &&
-                        //     bulkMailStudentsResponse?.data?.length ===
-                        //         selectAll?.length
-                        //         ? true
-                        //         : false
-                        // }
                     />
 
                     <Select
