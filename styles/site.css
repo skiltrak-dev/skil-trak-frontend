@@ -3,4 +3,243 @@
     width: 4px;
     height: 4px;
 }
+/* .site-map{
+    background-image: url("/images/site/map.png");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    height: 100vh;
+    width: 100%;
+    position: absolute;
+    z-index: 10;
+} */
+.jumbo-bg {
+    background: linear-gradient(90deg, #0a56b0 0%, rgba(52, 91, 135, 0) 100%);
+}
+.footer-bg {
+    background: linear-gradient(180deg, #0d3958 0%, #072337 100%);
+}
+/* .jumbo-image-1 {
+    background-image: url('/images/site/scrolling-image-12.png');
+    background-repeat: repeat;
+    background-size: contain;
+    background-position: center;
+    width: 100%;
+    height: 100vh;
+} */
+.map-bg {
+    background: linear-gradient(180deg, #d6e7ef 0%, #8fbed2 100%);
+}
 
+.cloud-1 {
+    background-image: url('/images/site/cloud-1.png');
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center;
+    height: 150px;
+    width: 150px;
+    opacity: 0;
+    animation: animatedBackground 20s linear 3s infinite;
+    animation-duration: 20s;
+    animation-timing-function: linear;
+    animation-delay: 3s;
+    animation-iteration-count: infinite;
+    animation-direction: normal;
+    animation-fill-mode: none;
+    animation-play-state: running;
+    animation-name: animatedBackground;
+    animation-timeline: auto;
+}
+
+.cloud-2 {
+    background-image: url('/images/site/cloud-2.png');
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center;
+    height: 150px;
+    width: 150px;
+    opacity: 0;
+    animation: animatedBackground 25s linear 5s infinite;
+    animation-duration: 25s;
+    animation-timing-function: linear;
+    animation-delay: 5s;
+    animation-iteration-count: infinite;
+    animation-direction: normal;
+    animation-fill-mode: none;
+    animation-play-state: running;
+    animation-name: animatedBackground;
+    animation-timeline: auto;
+}
+
+.cloud-3 {
+    background-image: url('/images/site/cloud-3.png');
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center;
+    height: 150px;
+    width: 150px;
+    opacity: 0;
+    animation: animatedBackground 15s linear 5s infinite;
+    animation-duration: 15s;
+    animation-timing-function: linear;
+    animation-delay: 5s;
+    animation-iteration-count: infinite;
+    animation-direction: normal;
+    animation-fill-mode: none;
+    animation-play-state: running;
+    animation-name: animatedBackground;
+    animation-timeline: auto;
+}
+/* 
+.cloud-4 {
+    background-image: url('/images/site/cloud-4.png');
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center;
+    height: 100px;
+    width: 100px;
+    animation: animatedBackground 55s linear infinite;
+}
+.cloud-5 {
+    background-image: url('/images/site/cloud-5.png');
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center;
+    height: 100px;
+    width: 100px;
+    animation: animatedBackground 70s linear infinite;
+}
+.cloud-6 {
+    background-image: url('/images/site/cloud-3.png');
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center;
+    height: 100px;
+    width: 100px;
+    animation: animatedBackground 80s linear infinite;
+} */
+
+@keyframes animatedBackground {
+    /* 0% {
+        background-position: 0 0;
+    }
+    100% {
+        background-position: calc(100% + 100px) 0;
+    } */
+    0% {
+      -webkit-transform: translateX(0px);
+      -moz-transform: translateX(0px);
+      transform: translateX(0px);
+      opacity: 0;
+  }
+  20% {
+      opacity: 1;
+  }
+  60% {
+      opacity: 1;
+  }
+
+  75%,
+  100% {
+      -webkit-transform: translateX(100px);
+      -moz-transform: translateX(100px);
+      transform: translateX(100px);
+      opacity: 0;
+  }
+}
+
+
+
+/* .coverage .map-container .map-image {
+    position: absolute;
+}
+.cloud-anim-1 {
+    opacity: 0;
+    animation: cloud 20s linear 3s infinite;
+    animation-duration: 20s;
+    animation-timing-function: linear;
+    animation-delay: 3s;
+    animation-iteration-count: infinite;
+    animation-direction: normal;
+    animation-fill-mode: none;
+    animation-play-state: running;
+    animation-name: cloud;
+    animation-timeline: auto;
+}
+
+.cloud-anim-2 {
+    opacity: 0;
+    animation: cloud 25s linear 5s infinite;
+    animation-duration: 25s;
+    animation-timing-function: linear;
+    animation-delay: 5s;
+    animation-iteration-count: infinite;
+    animation-direction: normal;
+    animation-fill-mode: none;
+    animation-play-state: running;
+    animation-name: cloud;
+    animation-timeline: auto;
+}
+.cloud-anim-3 {
+    opacity: 0;
+    animation: cloud 15s linear 5s infinite;
+    animation-duration: 15s;
+    animation-timing-function: linear;
+    animation-delay: 5s;
+    animation-iteration-count: infinite;
+    animation-direction: normal;
+    animation-fill-mode: none;
+    animation-play-state: running;
+    animation-name: cloud;
+    animation-timeline: auto;
+}
+.cloud-anim-4 {
+    opacity: 0;
+    animation: cloud 30s linear 5s infinite;
+    animation-duration: 30s;
+    animation-timing-function: linear;
+    animation-delay: 5s;
+    animation-iteration-count: infinite;
+    animation-direction: normal;
+    animation-fill-mode: none;
+    animation-play-state: running;
+    animation-name: cloud;
+    animation-timeline: auto;
+    animation-range-start: normal;
+    animation-range-end: normal;
+}
+.img-fluid {
+    max-width: 100%;
+    height: auto;
+}
+img {
+    vertical-align: middle;
+    border-style: none;
+}
+
+img {
+    overflow-clip-margin: content-box;
+    overflow: clip;
+}
+@keyframes cloud {
+    0% {
+        -webkit-transform: translateX(0px);
+        -moz-transform: translateX(0px);
+        transform: translateX(0px);
+        opacity: 0;
+    }
+    20% {
+        opacity: 1;
+    }
+    60% {
+        opacity: 1;
+    }
+
+    75%,
+    100% {
+        -webkit-transform: translateX(100px);
+        -moz-transform: translateX(100px);
+        transform: translateX(100px);
+        opacity: 0;
+    }
+} */

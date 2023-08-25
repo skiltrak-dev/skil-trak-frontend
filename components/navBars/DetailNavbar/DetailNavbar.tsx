@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { HeaderLogo } from '../NavbarLogo'
 
 // Icons
@@ -20,8 +20,11 @@ import { BsFillTicketDetailedFill } from 'react-icons/bs'
 import { useMediaQuery } from 'react-responsive'
 import { ProfileOptionsDropDown } from './components'
 import { ProfileOptionButton } from './components/profileOption/ProfileOptionButton'
+import { useSocketListener } from '@hooks'
 export const DetailNavbar = () => {
     const router = useRouter()
+
+    const { eventListener } = useSocketListener()
 
     const isMobile = useMediaQuery(MediaQueries.Mobile)
     const data = CommonApi.Notifications.useNotifications({
@@ -39,9 +42,16 @@ export const DetailNavbar = () => {
     const [messagesExpanded, setMessagesExpanded] = useState(false)
     const [notificationsExpanded, setNotificationsExpanded] = useState(false)
     const [profileOptionsExpanded, setProfileOptionsExpanded] = useState(false)
+
+    useEffect(() => {
+        if (eventListener) {
+            data.refetch()
+        }
+    }, [eventListener])
+
     // filter over data to get only unread notifications
     const unreadNotifications = data?.data?.data?.filter(
-        (notification: any) => notification?.isRead === false
+        (notification: any) => !notification?.isRead
     )
     const count = unreadNotifications?.length
 
@@ -118,6 +128,9 @@ export const DetailNavbar = () => {
                             data={data?.data}
                             isReadNotification={isReadNotification}
                             resultIsReadNotification={resultIsReadNotification}
+                            setNotificationsExpanded={(value: boolean) => {
+                                setNotificationsExpanded(value)
+                            }}
                         />
                     </div>
                 </OutsideClickHandler>

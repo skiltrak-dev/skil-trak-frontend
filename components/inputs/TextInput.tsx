@@ -41,6 +41,7 @@ export type TextInputProps = InputProps & {
     }
     placesSuggetions?: any
     onFocus?: any
+    color?: string
 }
 
 export const TextInput = ({
@@ -64,6 +65,7 @@ export const TextInput = ({
     disabled = false,
     validationIcons = false,
     placesSuggetions,
+    color,
 
     min,
     max,
@@ -104,7 +106,7 @@ export const TextInput = ({
     return (
         <div className="w-full mb-2">
             {label && (
-                <div className="flex justify-between items-center mb-1">
+                <div className={`flex justify-between items-center mb-1`}>
                     <div>
                         <Typography variant={'label'} htmlFor={id}>
                             {label}
@@ -118,7 +120,9 @@ export const TextInput = ({
             <div className="w-full">
                 <div className="relative">
                     <input
-                        className={inputFieldClasses}
+                        className={`${inputFieldClasses} ${
+                            color ? color : 'bg-white'
+                        }`}
                         {...(id ? { id } : {})}
                         {...formRef}
                         type={passwordType || type}

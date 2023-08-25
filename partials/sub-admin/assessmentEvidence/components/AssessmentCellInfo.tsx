@@ -21,8 +21,9 @@ export const AssessmentCellInfo = ({ item }: { item: any }) => {
                 <Link
                     legacyBehavior
                     href={{
-                        pathname: `/portals/sub-admin/tasks/assessment-evidence/${item?.student?.id}/${item?.student?.user?.id}`,
+                        pathname: `/portals/sub-admin/students/${item?.student?.id}`,
                         query: {
+                            tab: 'submissions',
                             course: item?.course?.id,
                         },
                     }}

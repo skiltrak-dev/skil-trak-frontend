@@ -121,6 +121,7 @@ export const AdminNavbar = () => {
                             data={data?.data}
                             isReadNotification={isReadNotification}
                             resultIsReadNotification={resultIsReadNotification}
+                            setNotificationsExpanded={setNotificationsExpanded}
                         />
                     </div>
                 </OutsideClickHandler>

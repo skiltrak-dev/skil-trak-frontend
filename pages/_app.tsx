@@ -5,6 +5,7 @@ import {
     DownloadAssessmentProvider,
     JoyRideProvider,
     NavbarProvider,
+    NetworkProvider,
     NotificationProvider,
     SocketListenerProvider,
 } from '@hooks'
@@ -50,13 +51,15 @@ const MyApp = ({ Component, pageProps }: AppPropsWithLayout) => {
                                             {/* <Component {...pageProps} /> */}
                                             <SocketListenerProvider>
                                                 <Socket>
-                                                    <HeadWrapper>
-                                                        {getLayout(
-                                                            <Component
-                                                                {...pageProps}
-                                                            />
-                                                        )}
-                                                    </HeadWrapper>
+                                                    <NetworkProvider>
+                                                        <HeadWrapper>
+                                                            {getLayout(
+                                                                <Component
+                                                                    {...pageProps}
+                                                                />
+                                                            )}
+                                                        </HeadWrapper>
+                                                    </NetworkProvider>
                                                 </Socket>
                                             </SocketListenerProvider>
                                         </ContextBarProvider>

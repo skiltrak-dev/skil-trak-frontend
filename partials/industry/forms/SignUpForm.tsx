@@ -24,6 +24,8 @@ export const IndustrySignUpForm = ({ onSubmit }: { onSubmit: any }) => {
     const [checkEmailExists, emailCheckResult] = AuthApi.useEmailCheck()
 
     const [sectorOptions, setSectorOptions] = useState<any>([])
+    const [selectedSector, setSelectedSector] = useState<any>(null)
+    console.log('selectedSector', selectedSector)
     const [courseOptions, setCourseOptions] = useState([])
     const [courseLoading, setCourseLoading] = useState(false)
 
@@ -43,6 +45,7 @@ export const IndustrySignUpForm = ({ onSubmit }: { onSubmit: any }) => {
     }
 
     const onSectorChanged = (sectors: any) => {
+        setSelectedSector(sectors)
         setCourseLoading(true)
         const filteredCourses = sectors.map((selectedSector: any) => {
             const sectorExisting = sectorResponse?.data?.find(
@@ -158,6 +161,26 @@ export const IndustrySignUpForm = ({ onSubmit }: { onSubmit: any }) => {
         mode: 'all',
         resolver: yupResolver(validationSchema),
     })
+    useEffect(() => {
+        const selectedRowDataString = localStorage.getItem('signup-data')
+        const selectedRowData = selectedRowDataString
+            ? JSON.parse(selectedRowDataString)
+            : {}
+        console.log('Local', selectedRowData)
+
+        formMethods.setValue('name', selectedRowData.businessName || '')
+        formMethods.setValue('email', selectedRowData.email || '')
+        formMethods.setValue('phoneNumber', selectedRowData.phone || '')
+        formMethods.setValue('addressLine1', selectedRowData.address || '')
+        setSelectedSector(
+            [
+                {
+                    label: selectedRowData.sector.name,
+                    value: selectedRowData.sector.id,
+                },
+            ] || []
+        )
+    }, [formMethods.setValue])
 
     return (
         <FormProvider {...formMethods}>
@@ -280,6 +303,7 @@ export const IndustrySignUpForm = ({ onSubmit }: { onSubmit: any }) => {
                                           defaultValue: storedData.sectors,
                                       }
                                     : {})}
+                                value={selectedSector}
                                 name={'sectors'}
                                 options={sectorOptions}
                                 placeholder={'Select Sectors...'}

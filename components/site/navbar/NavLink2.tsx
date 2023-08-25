@@ -4,8 +4,11 @@ import Link from 'next/link'
 import { css, jsx } from '@emotion/react'
 
 import { Button2 } from '../Button2'
+import { Button } from '@components/buttons'
+import { useRouter } from 'next/router'
 
 export const NavLink2 = ({ to, text, asButton = false, external }: any) => {
+    const router = useRouter()
     const linkCSS = css`
         &:after {
             content: '';
@@ -31,7 +34,7 @@ export const NavLink2 = ({ to, text, asButton = false, external }: any) => {
     mx-6
     text-sm
     uppercase
-    font-medium
+    font-bold
     relative
     transition
     duration-300
@@ -42,11 +45,18 @@ export const NavLink2 = ({ to, text, asButton = false, external }: any) => {
     const getLink = () => {
         if (asButton) {
             return (
-                <Button2
-                    asLink={!external}
-                    to={to}
+                // <Button2
+                //     asLink={!external}
+                //     to={to}
+                //     text={text}
+                //     external={external}
+                // />
+                <Button
                     text={text}
-                    external={external}
+                    variant="primary"
+                    onClick={() => {
+                        router.push('/auth/login')
+                    }}
                 />
             )
         } else if (external) {

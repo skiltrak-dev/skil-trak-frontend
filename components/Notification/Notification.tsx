@@ -41,7 +41,7 @@ export interface NotificationProps {
     primaryAction?: SubAction
     secondaryAction?: SubAction
     autoDismiss?: boolean
-    variant?: typeof VariantOptions[number]
+    variant?: (typeof VariantOptions)[number]
     icon?: any
     avatar?: string
 }
@@ -145,8 +145,10 @@ export const Notification = ({
                             <span
                                 className="cursor-pointer"
                                 onClick={() => {
-                                    if (primaryAction.onClick)
+                                    if (primaryAction.onClick) {
                                         primaryAction.onClick()
+                                        onDismiss()
+                                    }
                                 }}
                             >
                                 <Typography
@@ -162,8 +164,10 @@ export const Notification = ({
                             <span
                                 className="cursor-pointer"
                                 onClick={() => {
-                                    if (secondaryAction.onClick)
+                                    if (secondaryAction.onClick) {
                                         secondaryAction.onClick()
+                                        onDismiss()
+                                    }
                                 }}
                             >
                                 <Typography
