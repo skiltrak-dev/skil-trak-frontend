@@ -1,11 +1,14 @@
 import { InitialAvatar } from '@components'
 import { Student } from '@types'
+import { setLink } from '@utils'
 import Image from 'next/image'
 import Link from 'next/link'
+import { useRouter } from 'next/router'
 import { FaEnvelope, FaPhone } from 'react-icons/fa'
 import { MdEmail, MdPhoneIphone } from 'react-icons/md'
 
 export const AssessmentCellInfo = ({ item }: { item: any }) => {
+    const router = useRouter()
     return (
         <div className="flex items-center relative">
             <div className="flex items-center gap-x-2">
@@ -28,7 +31,11 @@ export const AssessmentCellInfo = ({ item }: { item: any }) => {
                         },
                     }}
                 >
-                    <a>
+                    <a
+                        onClick={() => {
+                            setLink('subadmin-student', router)
+                        }}
+                    >
                         <div className="flex items-center gap-x-2">
                             <p className={'text-xs text-gray-500'}>
                                 {item?.student?.studentId}
