@@ -1,4 +1,4 @@
-import { ReactElement, useState } from 'react'
+import { ReactElement, useEffect, useState } from 'react'
 // Layouts
 import { StudentLayout } from '@layouts'
 // Types
@@ -17,14 +17,19 @@ import moment from 'moment'
 import { GoDotFill } from 'react-icons/go'
 import { CommonApi } from '@queries'
 import { ellipsisText } from '@utils'
+import { useSocketListener } from '@hooks'
 
 const SubAdminAllNotifications: NextPageWithLayout = () => {
     const [page, setPage] = useState(1)
     const [itemPerPage, setItemPerPage] = useState(50)
+
+    const { eventListener } = useSocketListener()
+
     const {
         data: notifications,
         isError,
         isLoading,
+        refetch,
     } = CommonApi.Notifications.useNotifications({
         skip: itemPerPage * page - itemPerPage,
         limit: itemPerPage,
@@ -32,14 +37,19 @@ const SubAdminAllNotifications: NextPageWithLayout = () => {
     const [readNotifications, resultReadNotifications] =
         CommonApi.Notifications.useIsReadNotification()
 
+    useEffect(() => {
+        if (eventListener) {
+            refetch()
+        }
+    }, [eventListener])
+
     return (
         <Card>
             {isError && <TechnicalError />}
             {!isLoading ? (
                 <>
                     <div className="flex flex-col">
-                        {notifications?.length > 0 ||
-                        notifications?.length > 0 ? (
+                        {notifications?.data?.length > 0 ? (
                             <>
                                 <div className="flex items-center justify-between mb-4">
                                     <PageSize
@@ -51,7 +61,7 @@ const SubAdminAllNotifications: NextPageWithLayout = () => {
                                         setPage={setPage}
                                     />
                                 </div>
-                                {notifications?.map(
+                                {notifications?.data?.map(
                                     (notification: any, i: any) => (
                                         <div
                                             key={notification.id}

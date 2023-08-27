@@ -11,6 +11,7 @@ export enum SocketNotificationsEvents {
     Notification = 'Notification',
     MailNotification = 'mailNotification',
     AppointmentReminder = 'appointmentReminder',
+    ExpiryReminder = 'expiryReminder',
 }
 
 export const Socket = ({ children }: any) => {
@@ -111,6 +112,21 @@ export const Socket = ({ children }: any) => {
                                 router.push(notify?.link)
                             },
                         },
+                    })
+                }
+            )
+
+            socket?.on(
+                SocketNotificationsEvents.ExpiryReminder,
+                (notify: any) => {
+                    console.log({ notify })
+                    seteventListener({
+                        eventName: SocketNotificationsEvents.ExpiryReminder,
+                        eventListener: notify,
+                    })
+                    notification.success({
+                        title: notify?.title,
+                        description: notify?.description,
                     })
                 }
             )
