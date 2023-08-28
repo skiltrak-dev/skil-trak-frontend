@@ -8,7 +8,6 @@ import {
     TechnicalError,
 } from '@components'
 import { WorkplaceRequest } from './components'
-import { WorkplaceRequest as StudentProvidedWorkplace } from './studentProvidedComponents'
 
 // query
 import { useGetSubAdminWorkplacesQuery } from '@queries'

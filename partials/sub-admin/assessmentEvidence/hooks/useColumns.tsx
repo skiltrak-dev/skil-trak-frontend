@@ -22,6 +22,7 @@ import { ReactElement, useState } from 'react'
 import { BsArchiveFill } from 'react-icons/bs'
 import { AiFillDelete } from 'react-icons/ai'
 import { Result } from '@constants'
+import { setLink } from '@utils'
 
 export const useColumns = () => {
     const router = useRouter()
@@ -44,11 +45,13 @@ export const useColumns = () => {
                 text: 'View',
                 onClick: (item: any) => {
                     router.push({
-                        pathname: `/portals/sub-admin/students/${item?.student?.id}?tab=submissions`,
+                        pathname: `/portals/sub-admin/students/${item?.student?.id}`,
                         query: {
+                            tab: 'submissions',
                             course: item?.course?.id,
                         },
                     })
+                    setLink('subadmin-student', router)
                 },
                 Icon: FaEye,
             },
