@@ -15,11 +15,11 @@ import { ColumnDef } from '@tanstack/react-table'
 import { FaEdit, FaEye, FaFileExport, FaHandshake } from 'react-icons/fa'
 
 import { AdminApi, commonApi } from '@queries'
-import { Industry, UserStatus } from '@types'
+import { Industry, IndustryStatus, UserStatus } from '@types'
 import { useRouter } from 'next/router'
 import { ReactElement, useEffect, useRef, useState } from 'react'
-import { MdBlock, MdCall } from 'react-icons/md'
-import {FiLogIn} from 'react-icons/fi'
+import { MdBlock, MdCall, MdOutlineFavorite } from 'react-icons/md'
+import { FiLogIn } from 'react-icons/fi'
 // import { IndustryCell, SectorCell } from './components'
 // import { BlockModal } from './modals'
 
@@ -28,8 +28,9 @@ import { useActionModal } from '@hooks'
 import { RiLockPasswordFill } from 'react-icons/ri'
 import { FcCancel } from 'react-icons/fc'
 import { DoNotDisturbModal } from '../DoNotDisturbModal'
-import { IsContactedModal } from '../IsContactedModal'
-import { IsPartnerModal } from '../IsPartnerModal'
+import { DefaultModal } from '../DefaultModal'
+import { FavoriteModal } from '../FavoriteModal'
+import { AiFillCheckCircle, AiFillWarning } from 'react-icons/ai'
 
 export const ActiveIndustries = () => {
     const selectInputRef = useRef()
@@ -70,7 +71,7 @@ export const ActiveIndustries = () => {
     }
     const onIsContactedClicked = (industry: Industry) => {
         setModal(
-            <IsContactedModal
+            <DefaultModal
                 industry={industry}
                 onCancel={() => onModalCancelClicked()}
             />
@@ -78,7 +79,7 @@ export const ActiveIndustries = () => {
     }
     const onIsPartnerClicked = (industry: Industry) => {
         setModal(
-            <IsPartnerModal
+            <FavoriteModal
                 industry={industry}
                 onCancel={() => onModalCancelClicked()}
             />
@@ -86,43 +87,38 @@ export const ActiveIndustries = () => {
     }
 
     const tableActionOptions = (industry: any) => {
-        const stored = localStorage.setItem('signup-data', JSON.stringify(industry));
-        console.log("stored", stored)
+        const stored = localStorage.setItem(
+            'signup-data',
+            JSON.stringify(industry)
+        )
         return [
-            // {
-            //     text: !industry.isContacted
-            //         ? 'Is Contacted'
-            //         : 'Make Not Contactable',
-            //     onClick: (industry: Industry) => onIsContactedClicked(industry),
-            //     Icon: !industry.isContacted ? MdCall : MdBlock,
-            //     color: `${
-            //         !industry.isContacted
-            //             ? 'text-green-500 hover:bg-green-100 hover:border-green-200'
-            //             : 'text-red-500 hover:bg-red-100 hover:border-red-200'
-            //     }`,
-            // },
-            // {
-            //     text: !industry.isPartner ? 'Is Partner' : 'Make Not Partner',
-            //     onClick: (industry: Industry) => onIsPartnerClicked(industry),
-            //     Icon: FaHandshake,
-            //     color: 'text-orange-500 hover:bg-orange-100 hover:border-orange-200',
-            // },
-            // {
-            //     text: !industry.doNotDisturb
-            //         ? 'Do Not Disturb'
-            //         : 'Remove Do Not Disturb',
-            //     onClick: (industry: Industry) =>
-            //         onDoNotDisturbClicked(industry),
-            //     Icon: MdBlock,
-            //     color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
-            // },
+            {
+                text: 'Default',
+                onClick: (industry: Industry) => onIsContactedClicked(industry),
+                Icon: AiFillCheckCircle,
+                color: `'text-green-500 hover:bg-green-100 hover:border-green-200'`,
+            },
+            {
+                text: 'Favorite',
+                onClick: (industry: Industry) => onIsPartnerClicked(industry),
+                Icon: MdOutlineFavorite,
+                color: 'text-orange-500 hover:bg-orange-100 hover:border-orange-200',
+            },
+            {
+                text: 'Do Not Disturb',
+                onClick: (industry: Industry) =>
+                    onDoNotDisturbClicked(industry),
+                Icon: AiFillWarning,
+                color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
+            },
             {
                 text: 'SignUp',
                 onClick: (industry: any) => {
-                    localStorage.setItem('signup-data', JSON.stringify(industry));
-                    router.push(
-                        `/auth/signup/industry?step=account-info`
+                    localStorage.setItem(
+                        'signup-data',
+                        JSON.stringify(industry)
                     )
+                    router.push(`/auth/signup/industry?step=account-info`)
                 },
                 Icon: FiLogIn,
             },
@@ -146,12 +142,12 @@ export const ActiveIndustries = () => {
             header: () => <span>Email</span>,
         },
         {
-            accessorKey: "phone",
-            header: () => <span>Phone</span>
+            accessorKey: 'phone',
+            header: () => <span>Phone</span>,
         },
         {
-            accessorKey: "address",
-            header: () => <span>Address</span>
+            accessorKey: 'address',
+            header: () => <span>Address</span>,
         },
         // {
         //     accessorKey: 'isContacted',
@@ -202,6 +198,34 @@ export const ActiveIndustries = () => {
         //         return <SectorCell industry={info.row.original} />
         //     },
         // },
+        {
+            accessorKey: 'status',
+            header: () => <span>Status</span>,
+            cell: (info) => {
+                return (
+                    <div>
+                        {info.row.original.status ===
+                        IndustryStatus.FAVOURITE ? (
+                            <div className="rounded-lg flex items-center gap-x-3">
+                                <p className="text-orange-500 font-semibold">Favorite</p>
+                                <MdOutlineFavorite className="text-orange-500" />
+                            </div>
+                        ) : info.row.original.status ===
+                          IndustryStatus.DO_NOT_DISTURB ? (
+                            <div className="rounded-lg flex items-center gap-x-2">
+                                <p className="text-red-500 font-semibold">Do Not Disturb</p>
+                                <AiFillWarning className="text-red-500 text-lg" />
+                            </div>
+                        ) : (
+                            <div className="flex items-center gap-x-2">
+                                {/* <p className="">Default</p> */}
+                                {/* <AiFillCheckCircle className="text-green-500" /> */}
+                            </div>
+                        )}
+                    </div>
+                )
+            },
+        },
         {
             accessorKey: 'action',
             header: () => <span>Action</span>,

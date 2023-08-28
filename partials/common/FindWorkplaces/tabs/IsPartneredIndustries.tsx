@@ -27,8 +27,8 @@ import { useActionModal } from '@hooks'
 import { RiLockPasswordFill } from 'react-icons/ri'
 import { FcCancel } from 'react-icons/fc'
 import { DoNotDisturbModal } from '../DoNotDisturbModal'
-import { IsContactedModal } from '../IsContactedModal'
-import { IsPartnerModal } from '../IsPartnerModal'
+import { IsContactedModal } from '../DefaultModal'
+import { IsPartnerModal } from '../FavoriteModal'
 
 export const IsPartneredIndustries = () => {
     const selectInputRef = useRef()

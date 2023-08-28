@@ -16,31 +16,26 @@ export const DoNotDisturbModal = ({
     const [changeStatus, changeStatusResult] =
         commonApi.useIndustriesStatusChangeMutation()
 
+
     const onConfirmClicked = async (industry: any) => {
         await changeStatus({
             id: industry.id,
-            column: IndustryStatus.DoNotDisturb,
+            status: IndustryStatus.DO_NOT_DISTURB,
         })
     }
 
     useEffect(() => {
         if (changeStatusResult.isSuccess) {
             alert.error({
-                title: `Industry "${
-                    !industry?.doNotDisturb
-                        ? 'Do Not Disturb'
-                        : 'Remove Do Not Disturb'
-                }"`,
-                description: `Industry "${industry?.user?.name}" has been "${
-                    !industry?.doNotDisturb ? 'added to' : 'removed from'
-                }" do not disturb.`,
+                title: `Industry is do not disturb`,
+                description: `Industry "${industry?.businessName}" has been do not disturb.`,
             })
             onCancel()
         }
         if (changeStatusResult.isError) {
             notification.error({
                 title: 'Request Failed',
-                description: `Your request for do not disturb Industry was failed`,
+                description: `Your request for "${industry?.businessName}" do not disturb Industry was failed`,
             })
         }
     }, [changeStatusResult])
@@ -50,15 +45,13 @@ export const DoNotDisturbModal = ({
             Icon={FaBan}
             variant="error"
             title="Are you sure!"
-            description={`You are about "${
-                !industry?.doNotDisturb
-                    ? 'to do not disturb'
-                    : 'remove from do not disturb'
-            }" <em>"${industry?.user?.name}"</em>. Do you wish to continue?`}
+            description={`You are about 'to do not disturb'
+                    
+            }" <em>"${industry?.businessName}"</em>. Do you wish to continue?`}
             onConfirm={onConfirmClicked}
             onCancel={onCancel}
             input
-            inputKey={industry?.user?.email}
+            inputKey={industry?.email}
             actionObject={industry}
             loading={changeStatusResult.isLoading}
         />

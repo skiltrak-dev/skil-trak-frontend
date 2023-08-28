@@ -155,6 +155,13 @@ export const commonApi = emptySplitApi.injectEndpoints({
             query: (id) => `auth/view/password/${id}`,
             providesTags: ['User'],
         }),
+        contactUs: build.mutation<any, any>({
+            query: (body) => ({
+                url: 'website-messages/create',
+                method: 'POST',
+                body,
+            }),
+        }),
 
         ...rtosEndpoints(build),
         ...draftEndpoints(build),
@@ -181,6 +188,7 @@ const {
 
     useDownloadAssessmentToolQuery,
     useBulkUserRemoveMutation,
+    useContactUsMutation,
 
     useGetSerchedPlacesQuery,
     // ---- EXPIRY DATE ---- //
@@ -373,6 +381,7 @@ export const CommonApi = {
         bulkMailSubadminRTOs: useSearchBulkMailSubadminRTOsQuery,
         useRemoveDraft: useRemoveDraftMutation,
         useUpdateEmailDraft: useUpdateEmailDraftMutation,
+        useContactUs: useContactUsMutation,
     },
     Appointments: {
         appointmentType: useGetAppointmentsTypesQuery,

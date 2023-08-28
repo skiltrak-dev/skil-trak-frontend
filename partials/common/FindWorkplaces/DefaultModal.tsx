@@ -4,7 +4,8 @@ import { Industry, UserStatus, IndustryStatus } from '@types'
 import { useEffect } from 'react'
 import { MdCall } from 'react-icons/md'
 import { commonApi } from '@queries'
-export const IsContactedModal = ({
+import { AiFillCheckCircle } from 'react-icons/ai'
+export const DefaultModal = ({
     industry,
     onCancel,
 }: {
@@ -19,50 +20,36 @@ export const IsContactedModal = ({
     const onConfirmClicked = async (industry: any) => {
         await changeStatus({
             id: industry?.id,
-            column: IndustryStatus?.IsContacted,
+            status: IndustryStatus?.DEFAULT,
         })
     }
 
     useEffect(() => {
         if (changeStatusResult.isSuccess) {
             alert.error({
-                title: `Industry ${
-                    !industry.isContacted
-                        ? 'is Contacted'
-                        : 'Make Not Contactable'
-                }`,
-                description: `Industry "${industry?.user?.name}" has been ${
-                    !industry.isContacted
-                        ? 'to is Contacted'
-                        : 'Make Not Contactable'
-                }.`,
+                title: `Industry is default`,
+                description: `Industry "${industry?.businessName}" has been default.`,
             })
             onCancel()
         }
         if (changeStatusResult.isError) {
             notification.error({
                 title: 'Request Failed',
-                description: `Your request for ${
-                    !industry.isContacted
-                        ? 'to is Contacted'
-                        : 'Make Not Contactable'
-                } Industry was failed`,
+                description: `Your request for "${industry?.businessName}" Industry was failed`,
             })
         }
     }, [changeStatusResult])
 
     return (
         <ActionModal
-            Icon={MdCall}
+            Icon={AiFillCheckCircle}
             variant="primary"
             title="Are you sure!"
-            description={`You are about to ${
-                !industry?.isContacted ? 'is Contacted' : 'Make Not Contactable'
-            } <em>"${industry?.user?.name}"</em>. Do you wish to continue?`}
+            description={`You are about to default <em>"${industry?.businessName}"</em>. Do you wish to continue?`}
             onConfirm={onConfirmClicked}
             onCancel={onCancel}
             input
-            inputKey={industry?.user?.email}
+            inputKey={industry?.email}
             actionObject={industry}
             loading={changeStatusResult.isLoading}
         />

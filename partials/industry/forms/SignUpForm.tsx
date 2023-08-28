@@ -47,7 +47,7 @@ export const IndustrySignUpForm = ({ onSubmit }: { onSubmit: any }) => {
     const onSectorChanged = (sectors: any) => {
         setSelectedSector(sectors)
         setCourseLoading(true)
-        const filteredCourses = sectors.map((selectedSector: any) => {
+        const filteredCourses = sectors?.map((selectedSector: any) => {
             const sectorExisting = sectorResponse?.data?.find(
                 (sector: any) => sector.id === selectedSector.value
             )
@@ -123,12 +123,12 @@ export const IndustrySignUpForm = ({ onSubmit }: { onSubmit: any }) => {
                 'Please check if you agree with our terms & policies'
             ),
     })
-
+   
     useEffect(() => {
         if (sectorResponse.data?.length) {
             const options = sectorResponse.data?.map((sector: any) => ({
-                label: sector.name,
-                value: sector.id,
+                label: sector?.name,
+                value: sector?.id,
             }))
             setSectorOptions(options)
         }
@@ -162,25 +162,44 @@ export const IndustrySignUpForm = ({ onSubmit }: { onSubmit: any }) => {
         resolver: yupResolver(validationSchema),
     })
     useEffect(() => {
-        const selectedRowDataString = localStorage.getItem('signup-data')
+        const selectedRowDataString = localStorage?.getItem('signup-data')
         const selectedRowData = selectedRowDataString
             ? JSON.parse(selectedRowDataString)
             : {}
         console.log('Local', selectedRowData)
 
-        formMethods.setValue('name', selectedRowData.businessName || '')
-        formMethods.setValue('email', selectedRowData.email || '')
-        formMethods.setValue('phoneNumber', selectedRowData.phone || '')
-        formMethods.setValue('addressLine1', selectedRowData.address || '')
+        formMethods.setValue('name', selectedRowData?.businessName || '')
+        formMethods.setValue('email', selectedRowData?.email || '')
+        formMethods.setValue('phoneNumber', selectedRowData?.phone || '')
+        formMethods.setValue('addressLine1', selectedRowData?.address || '')
         setSelectedSector(
-            [
-                {
-                    label: selectedRowData.sector.name,
-                    value: selectedRowData.sector.id,
-                },
-            ] || []
+            selectedRowData?.sector
+                ? [
+                      {
+                          label: selectedRowData?.sector?.name,
+                          value: selectedRowData?.sector?.id,
+                      },
+                  ]
+                : null
         )
     }, [formMethods.setValue])
+    useEffect(() => {
+        const selectedRowDataString = localStorage?.getItem('signup-data');
+        const selectedRowData = selectedRowDataString
+            ? JSON.parse(selectedRowDataString)
+            : {};
+
+        if (selectedRowData?.sectors) {
+            setSelectedSector(selectedRowData.sectors);
+            onSectorChanged(selectedRowData.sectors);
+        }
+    }, []);
+
+    useEffect(() => {
+        if (selectedSector) {
+            onSectorChanged(selectedSector);
+        }
+    }, [selectedSector]);
 
     return (
         <FormProvider {...formMethods}>
@@ -322,11 +341,12 @@ export const IndustrySignUpForm = ({ onSubmit }: { onSubmit: any }) => {
                                 options={courseOptions}
                                 multi
                                 loading={courseLoading}
-                                disabled={
-                                    storedData
-                                        ? storedData?.courses?.length === 0
-                                        : courseOptions?.length === 0
-                                }
+                                // disabled={
+                                //     storedData
+                                //         ? storedData?.courses?.length === 0
+                                //         : courseOptions?.length === 0
+                                // }
+                                disabled={courseOptions.length === 0}
                                 validationIcons
                             />
                         </div>
