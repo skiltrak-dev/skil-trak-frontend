@@ -22,6 +22,8 @@ import { IoMdChatbubbles, IoMdTime } from 'react-icons/io'
 import { VscScreenNormal } from 'react-icons/vsc'
 import { MdTimelapse } from 'react-icons/md'
 import { NextPage } from 'next'
+import { KeyFeatures } from '@components/site/KeyFeatures'
+import { Typography } from '@components'
 
 const features = [
     {
@@ -137,42 +139,45 @@ const features = [
     },
 ]
 
+const bgColors = [
+    '#FFFAEF',
+    '#F3F8FC',
+    '#E8F8F4',
+    '#FDF7F6',
+    '#FBFBFC',
+    '#EFFAFD',
+]
+
 const Page: NextPage = () => {
     return (
         <SiteLayout title={'Features'}>
-            <div>
-                <div className="relative">
-                    <Image
-                        src={'/images/site/features_hero.png'}
-                        alt=""
-                        height={0}
-                        width={0}
-                        sizes={'100vw'}
-                        className="w-full"
-                    />
-                    <div className="bg-black w-full h-full absolute top-0 left-0 opacity-60 z-0"></div>
-                    <div className="text-white absolute top-2/4 w-11/12 md:w-3/5 left-2/4 transform -translate-x-2/4 -translate-y-2/4">
-                        <h3 className="font-bold text-2xl md:text-6xl text-center">
-                            SKILTRAK FEATURES
-                        </h3>
-                        <p className="text-md md:text-2xl text-center mt-4">
-                            We have knowledgeable and friendly professionals
-                            available to schedule an appointment or answer any
-                            questions you may have in relation to Work Placement
-                            . Call us today!
-                        </p>
-                    </div>
+            <div className="h-96 bg-gradient-to-r from-[#0a56b0] to-[rgba(52, 91, 135, 0)] w-full">
+                <div className="h-full max-w-3xl mx-auto flex flex-col justify-center items-center">
+                    <Typography variant={'h1'} color="text-white">
+                        SKILTRAK FEATURES
+                    </Typography>
+                    <Typography
+                        variant={'subtitle'}
+                        color={'text-white'}
+                        center
+                    >
+                        We have knowledgeable and friendly professionals
+                        available to schedule an appointment or answer any
+                        questions you may have in relation to Work Placement .
+                        Call us today!
+                    </Typography>
                 </div>
             </div>
 
-            <div className="w-11/12 my-4 mx-auto">
-                <div className="flex flex-col sm:flex-row flex-wrap justify-center">
+            <div className="max-w-7xl 2xl:max-w-screen-3xl my-4 mx-auto">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-4 justify-center px-5">
                     {features.map((feature, i) => (
-                        <FeatureCard
+                        <KeyFeatures
                             key={i}
                             icon={feature.icon}
-                            name={feature.name}
-                            description={feature.description}
+                            title={feature.name}
+                            content={feature.description}
+                            color={`bg-[${bgColors[i % bgColors?.length]}]`}
                         />
                     ))}
                 </div>

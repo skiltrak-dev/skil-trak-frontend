@@ -1,17 +1,16 @@
+import { SessionExpireModal } from '@components'
 import { CommonApi, useRefreshTokenMutation } from '@queries'
 import { AuthUtils, isBrowser } from '@utils'
-import axios from 'axios'
+import moment from 'moment'
 import { useRouter } from 'next/router'
-import React, {
+import {
     ReactElement,
     ReactNode,
+    createContext,
     useContext,
     useEffect,
     useState,
 } from 'react'
-import { createContext } from 'react'
-import moment from 'moment'
-import { SessionExpireModal } from '@components'
 
 // utils
 
@@ -55,10 +54,12 @@ export const AutoLogoutProvider = ({
         return { expireTime, currentTime, expTime, timestamp }
     }
 
+    const path = router.asPath?.split('/')
+
     useEffect(() => {
         let time: any = null
 
-        if (AuthUtils.isAuthenticated()) {
+        if (AuthUtils.isAuthenticated() && path?.includes('portals')) {
             const { expTime, timestamp } = getExpAndCurrTime()
 
             const intervalTime = expTime - 1000 * 250 - timestamp
@@ -87,7 +88,7 @@ export const AutoLogoutProvider = ({
     useEffect(() => {
         let time: any = null
 
-        if (AuthUtils.isAuthenticated()) {
+        if (AuthUtils.isAuthenticated() && path?.includes('portals')) {
             const { expTime, timestamp } = getExpAndCurrTime()
 
             const secondIntervalTime = expTime - 1000 * 100 - timestamp
@@ -127,7 +128,7 @@ export const AutoLogoutProvider = ({
     }, [])
 
     useEffect(() => {
-        if (AuthUtils.isAuthenticated()) {
+        if (AuthUtils.isAuthenticated() && path?.includes('portals')) {
             // Get the timestamp in milliseconds
 
             const { expireTime, currentTime } = getExpAndCurrTime()

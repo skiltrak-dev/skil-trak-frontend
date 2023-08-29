@@ -5,6 +5,8 @@ import { Footer } from '../components/site/Footer'
 
 import TawkMessengerReact from '@tawk.to/tawk-messenger-react'
 import { useRef } from 'react'
+import { Navbar2 } from '@components/site/navbar/Navbar2'
+import { Footer3 } from '@components/site/Footer3'
 
 export const SiteLayout = ({ children, title }: any) => {
     const tawkMessengerRef = useRef<any>()
@@ -16,9 +18,9 @@ export const SiteLayout = ({ children, title }: any) => {
     return (
         <div>
             <title>Home | SkilTrak</title>
-            <Header />
+            <Navbar2 />
             <main>{children}</main>
-            <Footer />
+            <Footer3 />
             <TawkMessengerReact
                 propertyId={'61b1f52ec82c976b71c091e2'}
                 widgetId={'1fmfibg61'}

@@ -9,6 +9,7 @@ export const OurPackage = ({
     price,
     manage,
     textColor,
+    onClick,
 }: any) => {
     return (
         <>
@@ -17,27 +18,34 @@ export const OurPackage = ({
                     <MdHomeWork className="text-white" />
                 </div>
                 <div className="flex flex-col gap-y-[72px]">
-                <div className="">
-                    <Typography variant="body" color="text-white">
-                        {content}
-                    </Typography>
-                    <Typography variant="xs" color="text-white">
-                        {manage}
-                    </Typography>
-                </div>
-                <div className="">
-                    <Typography variant="muted" color={textColor}>
-                        {price}
-                    </Typography>
-                    <div className="mt-2">
-                        <Button
-                            variant="primary"
-                            text="Start With This Package"
-                        />
+                    <div className="">
+                        <Typography variant="body" color="text-white">
+                            {content}
+                        </Typography>
+                        <Typography variant="xs" color="text-white">
+                            {manage}
+                        </Typography>
+                    </div>
+                    <div className="">
+                        <Typography variant="muted" color={textColor}>
+                            {price}
+                        </Typography>
+                        <div className="mt-2">
+                            <Button
+                                variant="primary"
+                                text="Start With This Package"
+                            />
+                        </div>
                     </div>
                 </div>
-                </div>
-                <a href="#" className="group flex items-center justify-end mt-20">
+                <div
+                    className="group flex items-center justify-end mt-20"
+                    onClick={() => {
+                        if (onClick) {
+                            onClick()
+                        }
+                    }}
+                >
                     <div className="">
                         <Typography variant="muted" color="text-white">
                             View Details
@@ -49,7 +57,7 @@ export const OurPackage = ({
                     <div className="mt-2 pl-2 group-hover:translate-x-4 transition-transform duration-300 ease-in-out">
                         <AiOutlineArrowRight className="text-white" />
                     </div>
-                </a>
+                </div>
             </div>
         </>
     )

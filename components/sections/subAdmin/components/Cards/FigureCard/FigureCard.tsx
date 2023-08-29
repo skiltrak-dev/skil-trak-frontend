@@ -11,6 +11,7 @@ type FigureCardProps = {
     title: string
     loading?: boolean
     link?: string
+    onClick?: () => void
 }
 
 export const FigureCard = ({
@@ -18,11 +19,19 @@ export const FigureCard = ({
     count,
     title,
     loading,
-    link = '/#',
+    link,
+    onClick,
 }: FigureCardProps) => {
     return (
-        <Link legacyBehavior href={link || '/#'}>
-            <a className="w-full">
+        <Link legacyBehavior href={link || ''}>
+            <a
+                className="w-full"
+                onClick={() => {
+                    if (onClick) {
+                        onClick()
+                    }
+                }}
+            >
                 <Card>
                     <div className="flex justify-between">
                         {imageUrl && (

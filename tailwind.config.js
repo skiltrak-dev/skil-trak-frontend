@@ -49,6 +49,10 @@ const colors = {
     },
 }
 
+const maxWidth = {
+    'screen-3xl': '1800px',
+}
+
 module.exports = {
     content: [
         './pages/**/*.{js,ts,jsx,tsx}',
@@ -60,6 +64,9 @@ module.exports = {
     ],
     theme: {
         extend: {
+            maxWidth: {
+                ...maxWidth,
+            },
             colors: {
                 ...colors,
             },

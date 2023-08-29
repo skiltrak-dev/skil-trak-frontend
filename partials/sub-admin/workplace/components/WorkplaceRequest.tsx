@@ -182,7 +182,7 @@ export const WorkplaceRequest = ({ workplace }: any) => {
                         </div>
 
                         {/* Student Small Details */}
-                        <div className="mt-3 flex justify-between items-center">
+                        <div className="mt-3 flex flex-col md:flex-row gap-y-5 justify-between items-center">
                             <StudentDetail data={workplace?.student} />
 
                             {/*  */}
@@ -195,7 +195,7 @@ export const WorkplaceRequest = ({ workplace }: any) => {
                         </div>
 
                         {/*  */}
-                        <div className="w-full flex justify-between items-center">
+                        <div className="w-full flex flex-col md:flex-row justify-between items-center">
                             {workplace?.currentWork &&
                                 workplace?.currentQualification && (
                                     <SmallDetail
@@ -220,7 +220,7 @@ export const WorkplaceRequest = ({ workplace }: any) => {
                         </div>
 
                         {/* Industries and notes */}
-                        <div className="grid grid-cols-2 gap-x-3 mt-4">
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-x-3 mt-4">
                             {/* Industries */}
                             <div>
                                 <Industries

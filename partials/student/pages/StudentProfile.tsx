@@ -290,7 +290,7 @@ export const StudentProfile = ({ noTitle }: { noTitle?: boolean }) => {
             {passwordModal}
             <ShowErrorNotifications result={notContactableResult} />
             <div className="mb-16">
-                <div className="flex justify-between flex-col xl:flex-row xl:items-end mb-4">
+                <div className="flex justify-between flex-col xl:flex-row flex-wrap xl:items-end mb-4">
                     <div>
                         <BackButton
                             link={
@@ -313,7 +313,7 @@ export const StudentProfile = ({ noTitle }: { noTitle?: boolean }) => {
                         )}
                     </div>
                     {isSuccess && data && (
-                        <div className="flex flex-col items-end gap-y-2">
+                        <div className="flex flex-col items-end gap-y-2 ml-auto">
                             <div className="flex items-center gap-x-1">
                                 <div className="pl-4 flex items-center gap-x-5">
                                     <StudentTimer
