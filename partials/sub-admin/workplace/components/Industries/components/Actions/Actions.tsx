@@ -143,7 +143,7 @@ export const Actions = ({
                                     </span>
                                 </Typography>
                             </div>
-                            <div className="flex items-center gap-2">
+                            <div className="flex flex-wrap items-center gap-2">
                                 <div className="flex-shrink-0">
                                     {!student?.user?.appointmentFor?.length && (
                                         <Button

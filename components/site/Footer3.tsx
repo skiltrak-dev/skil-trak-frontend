@@ -61,18 +61,21 @@ export const Footer3 = () => {
                             <a
                                 href="https://www.facebook.com/skiltrak.com.au"
                                 target="_blank"
+                                rel="noreferrer"
                             >
                                 <PiFacebookLogoLight className="text-[#F6910F] text-3xl" />
                             </a>
                             <a
                                 href="https://www.instagram.com/skiltrak/"
                                 target="_blank"
+                                rel="noreferrer"
                             >
                                 <PiInstagramLogoLight className="text-[#F6910F] text-3xl" />
                             </a>
                             <a
                                 href="https://www.linkedin.com/company/skiltrak"
                                 target="_blank"
+                                rel="noreferrer"
                             >
                                 <PiLinkedinLogoLight className="text-[#F6910F] text-3xl" />
                             </a>

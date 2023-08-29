@@ -27,8 +27,8 @@ import { useActionModal } from '@hooks'
 import { RiLockPasswordFill } from 'react-icons/ri'
 import { FcCancel } from 'react-icons/fc'
 import { DoNotDisturbModal } from '../DoNotDisturbModal'
-import { IsContactedModal } from '../DefaultModal'
-import { IsPartnerModal } from '../FavoriteModal'
+import { DefaultModal } from '../DefaultModal'
+import { FavoriteModal } from '../FavoriteModal'
 
 export const IsContactedIndustries = () => {
     const selectInputRef = useRef()
@@ -69,7 +69,7 @@ export const IsContactedIndustries = () => {
     }
     const onIsContactedClicked = (industry: Industry) => {
         setModal(
-            <IsContactedModal
+            <DefaultModal
                 industry={industry}
                 onCancel={() => onModalCancelClicked()}
             />
@@ -77,7 +77,7 @@ export const IsContactedIndustries = () => {
     }
     const onIsPartnerClicked = (industry: Industry) => {
         setModal(
-            <IsPartnerModal
+            <FavoriteModal
                 industry={industry}
                 onCancel={() => onModalCancelClicked()}
             />

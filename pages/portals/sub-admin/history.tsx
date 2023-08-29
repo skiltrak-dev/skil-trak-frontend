@@ -3,6 +3,7 @@ import { ReactElement, useState } from 'react'
 
 // layouts
 import {
+    Button,
     EmptyData,
     LoadingAnimation,
     NoData,
@@ -37,6 +38,9 @@ const SubAdminHistory: NextPageWithLayout = () => {
         endDate: null,
     })
     const [searchedValue, setSearchedValue] = useState<string>('')
+    const [target, setTarget] = useState<string>('')
+
+    console.log({ target })
 
     const { data, isError, isLoading, isFetching } =
         CommonApi.RecentActivities.useRecentActivities(
@@ -55,7 +59,11 @@ const SubAdminHistory: NextPageWithLayout = () => {
                     : filterType === FilterType['7Days']
                     ? { last7days: undefined }
                     : ''),
-                search: `status:${searchedValue}`,
+                search: `${JSON.stringify({ target, status: searchedValue })
+                    .replaceAll('{', '')
+                    .replaceAll('}', '')
+                    .replaceAll('"', '')
+                    .trim()}`,
             },
             {
                 skip:
@@ -81,6 +89,11 @@ const SubAdminHistory: NextPageWithLayout = () => {
                 : filterType === FilterType['7Days']
                 ? { last7days: undefined }
                 : ''),
+            search: `${JSON.stringify({ target })
+                .replaceAll('{', '')
+                .replaceAll('}', '')
+                .replaceAll('"', '')
+                .trim()}`,
         },
         {
             skip:
@@ -131,25 +144,47 @@ const SubAdminHistory: NextPageWithLayout = () => {
                             count={count?.data?.callsMadeToStudent}
                             title={'Calls Made to Students'}
                             imageUrl={'/images/history/call-made.png'}
+                            onClick={() => {
+                                setTarget('call made to  student')
+                            }}
                         />
                         <FigureCard
                             count={count?.data?.callsMadeToIndustry}
                             title={'Calls Made to Industry'}
                             imageUrl={'/images/history/industry-call.png'}
+                            onClick={() => {
+                                setTarget('call made to  industry')
+                            }}
                         />
                         <FigureCard
                             count={count?.data?.notes}
                             title={'Notes Added'}
                             imageUrl={'/images/history/notes-added.png'}
+                            onClick={() => {
+                                setTarget('Note Added for')
+                            }}
                         />
                         <FigureCard
                             count={count?.data?.studentProfileViewed}
                             title={'Student Profile Viewed'}
                             imageUrl={'/images/history/student-profile.png'}
+                            onClick={() => {
+                                setTarget(' Profile Viewed')
+                            }}
                         />
                     </div>
                 )
             )}
+            <div className="mt-3 flex justify-end">
+                <Button
+                    text={'Clear Filter'}
+                    variant="action"
+                    onClick={() => {
+                        setTarget('')
+                    }}
+                    disabled={!target}
+                />
+            </div>
 
             {isError && <TechnicalError />}
             {isLoading || isFetching ? (

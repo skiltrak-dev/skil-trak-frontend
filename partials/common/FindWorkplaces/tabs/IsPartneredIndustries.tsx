@@ -12,10 +12,10 @@ import {
 } from '@components'
 import { PageHeading } from '@components/headings'
 import { ColumnDef } from '@tanstack/react-table'
-import { FaEdit, FaEye, FaFileExport, FaHandshake } from 'react-icons/fa'
+import { FaEdit, FaFileExport, FaHandshake } from 'react-icons/fa'
 
-import { AdminApi, commonApi } from '@queries'
-import { Industry, UserStatus } from '@types'
+import { commonApi } from '@queries'
+import { Industry } from '@types'
 import { useRouter } from 'next/router'
 import { ReactElement, useEffect, useRef, useState } from 'react'
 import { MdBlock, MdCall } from 'react-icons/md'
@@ -24,11 +24,8 @@ import { MdBlock, MdCall } from 'react-icons/md'
 
 // hooks
 import { useActionModal } from '@hooks'
-import { RiLockPasswordFill } from 'react-icons/ri'
 import { FcCancel } from 'react-icons/fc'
 import { DoNotDisturbModal } from '../DoNotDisturbModal'
-import { IsContactedModal } from '../DefaultModal'
-import { IsPartnerModal } from '../FavoriteModal'
 
 export const IsPartneredIndustries = () => {
     const selectInputRef = useRef()
@@ -67,21 +64,14 @@ export const IsPartneredIndustries = () => {
             />
         )
     }
-    const onIsContactedClicked = (industry: Industry) => {
-        setModal(
-            <IsContactedModal
-                industry={industry}
-                onCancel={() => onModalCancelClicked()}
-            />
-        )
-    }
+
     const onIsPartnerClicked = (industry: Industry) => {
-        setModal(
-            <IsPartnerModal
-                industry={industry}
-                onCancel={() => onModalCancelClicked()}
-            />
-        )
+        // setModal(
+        //     <IsPartnerModal
+        //         industry={industry}
+        //         onCancel={() => onModalCancelClicked()}
+        //     />
+        // )
     }
 
     const tableActionOptions: TableActionOption[] = [

@@ -12,8 +12,8 @@ html {
     font-size: 16px;
 }
 
-.pac-container:after{
-    content:none !important;
+.pac-container:after {
+    content: none !important;
 }
 
 /* .custom-scrollbar {
@@ -337,14 +337,14 @@ tr[aria-hidden] td {
 
 
 
-.active-nav{
+.active-nav {
     height: 4rem;
     width: 100%;
     position: fixed;
     top: 0px;
     transition: 0.3s linear;
     display: flex;
-    justify-content:stretch;
+    justify-content: stretch;
     align-items: center;
     background-color: #FFFFFF;
     border-bottom: 1px solid rgba(0, 0, 0, .1);
@@ -352,7 +352,8 @@ tr[aria-hidden] td {
     box-shadow: 0 2px 5px -1px rgba(0, 0, 0, .08);
     /* padding: 0 7%; */
 }
-.hidden-nav{
+
+.hidden-nav {
     height: 4rem;
     width: 100%;
     z-index: 40;
