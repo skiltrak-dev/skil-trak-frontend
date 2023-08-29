@@ -1,5 +1,5 @@
 export * from './components'
-export * from './detail'
+export * from './Detail'
 export * from './CompetentAssessment'
 export * from './NonCompetentAssessment'
 export * from './PendingAssessment'

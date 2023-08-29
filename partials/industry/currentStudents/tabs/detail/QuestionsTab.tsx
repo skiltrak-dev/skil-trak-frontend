@@ -1,6 +1,6 @@
 import { NoData } from '@components'
 import React from 'react'
-import { SmallDetail } from '../../components/smallDetail'
+import { SmallDetail } from '../../components/SmallDetail'
 
 export const QuestionsTab = ({ workplace }: { workplace: any }) => {
     return (
