@@ -23,12 +23,12 @@ export const findWorkplaceEndpoints = (
     }),
     industriesStatusChange: builder.mutation<
         Industry,
-        { id: number; column: string }
+        { id: number; status: string }
     >({
-        query: ({ id, column }) => ({
-            url: `industries/status-change/${id}`,
+        query: ({ id, status }) => ({
+            url: `futureindustries/status-update/${id}`,
             method: 'PATCH',
-            params: { column },
+            body: { status },
         }),
         invalidatesTags: ['Industries'],
     }),

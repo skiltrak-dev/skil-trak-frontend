@@ -22,6 +22,11 @@ import {
     PiFacebookLogoLight,
 } from 'react-icons/pi'
 import { Navbar2 } from '@components/site/navbar'
+import { ContactUs } from '@components/site/ContactUs'
+import { Footer3 } from '@components/site/Footer3'
+import { BiSolidDownArrow } from 'react-icons/bi'
+import { HiLocationMarker } from 'react-icons/hi'
+import Link from 'next/link'
 
 const Home3: NextPage = () => {
     const [scrollPosition, setScrollPosition] = useState(0)
@@ -180,8 +185,11 @@ const Home3: NextPage = () => {
                             alt="hero image"
                         /> */}
                         <div className="flex overflow-hidden">
-                            <div className="rotate-12" style={redDivStyle}>
-                                <Image
+                            <div
+                                className="bg-red-500 h-96 w-96"
+                                style={redDivStyle}
+                            >
+                                {/* <Image
                                     className=""
                                     src="/images/site/scrolling-image-11.png"
                                     layout="responsive"
@@ -190,10 +198,13 @@ const Home3: NextPage = () => {
                                     width={100}
                                     height={100}
                                     alt="hero image"
-                                />
+                                /> */}
                             </div>
-                            <div className="rotate-45" style={blackDivStyle}>
-                                <Image
+                            <div
+                                className="bg-green-500 h-96 w-96"
+                                style={blackDivStyle}
+                            >
+                                {/* <Image
                                     className=""
                                     src="/images/site/scrolling-image-12.png"
                                     layout="responsive"
@@ -202,7 +213,7 @@ const Home3: NextPage = () => {
                                     width={100}
                                     height={100}
                                     alt="hero image"
-                                />
+                                /> */}
                                 {/* <div className='jumbo-image-1'></div> */}
                             </div>
                         </div>
@@ -211,6 +222,7 @@ const Home3: NextPage = () => {
                 </div>
             </div>
 
+            
             {/* Key Features */}
             <div className="w-full flex justify-center px-4">
                 <Typography variant="h2">
@@ -234,9 +246,9 @@ const Home3: NextPage = () => {
 
             {/* Student Placement Management System */}
             <div className="bg-[#EFF5FF]  mt-16">
-                <div className="max-w-7xl mx-auto flex flex-col md:flex-row gap-y-2 md:justify-between md:gap-x-12">
-                    <div className="pl-20 md:pl-36 py-20">
-                        <div className="relative border rounded-full w-[230px] h-[230px] md:w-[520px] md:h-[520px] p-4">
+                <div className="max-w-7xl mx-auto block md:flex md:justify-between md:gap-x-12">
+                    <div className="pl-0 md:pl-36 py-0 md:py-20">
+                        <div className="md:block hidden relative border rounded-full w-[230px] h-[230px] md:w-[520px] md:h-[520px] p-4">
                             <div className="border rounded-full w-[200px] h-[200px] md:w-[480px] md:h-[480px] p-4"></div>
                             <div className="absolute md:w-auto w-36 left-24 -top-6 md:top-0 md:left-[270px]">
                                 <Image
@@ -260,7 +272,7 @@ const Home3: NextPage = () => {
                             </div>
                         </div>
                     </div>
-                    <div className="px-4 md:px-0 md:pr-36 py-2 md:py-20">
+                    <div className="px-4 md:px-0 md:pr-36 py-8 md:py-20">
                         <div className="mb-5">
                             <Typography variant="h3">
                                 Student Placement Management System
@@ -297,7 +309,7 @@ const Home3: NextPage = () => {
             <div className=" mt-16 mb-4 flex justify-center">
                 <Typography variant="h2">Our Packages</Typography>
             </div>
-            <div className="max-w-7xl mx-auto flex flex-col md:flex-row gap-y-8 md:gap-x-12 md:justify-center items-center px-4 md:px-36">
+            <div className="max-w-7xl mx-auto flex flex-col md:flex-row gap-y-3 md:gap-x-12 md:justify-center items-center px-0 md:px-36">
                 {packages.map((pack, index) => (
                     <OurPackage
                         key={index}
@@ -317,7 +329,7 @@ const Home3: NextPage = () => {
                     </div>
                     <div className="relative">
                         <Image
-                            className=""
+                            className="md:block hidden"
                             src="/images/site/threads.png"
                             layout="responsive"
                             objectFit="contain"
@@ -325,7 +337,17 @@ const Home3: NextPage = () => {
                             height={100}
                             alt="Map"
                         />
-                        <div className="absolute top-1.5 h-80 w-[900px] left-[11.6rem]">
+                        {/* Mobile view */}
+                        <Image
+                            className="md:hidden block"
+                            src="/images/site/threads-mob.png"
+                            layout="responsive"
+                            objectFit="contain"
+                            width={100}
+                            height={100}
+                            alt="Partners"
+                        />
+                        <div className="md:block hidden absolute top-1.5 h-80 w-[900px] left-[11.6rem]">
                             <Image
                                 className=""
                                 src="/images/site/partners.png"
@@ -336,41 +358,141 @@ const Home3: NextPage = () => {
                                 alt="Partners"
                             />
                         </div>
+                        {/* Mobile view */}
+                        <div className="md:hidden block px-3 absolute w-[380px] h-[340px] top-[2.5rem] left-3">
+                            <Image
+                                src="/images/site/partners-mob.png"
+                                layout="responsive"
+                                objectFit="contain"
+                                width={100}
+                                height={100}
+                                alt="threads"
+                            />
+                        </div>
                     </div>
                 </div>
             </div>
             {/* Map */}
-            <div className={` map-bg px-[140px] py-[72px]`}>
+            <div className={`map-bg px-4 py-8 md:px-[140px] md:py-[72px]`}>
                 <div className="mb-8 flex justify-center">
-                    <Typography variant="h2">
+                    <h2 className="font-bold md:text-4xl text-2xl">
                         We operate in following states
-                    </Typography>
+                    </h2>
                 </div>
-                {/* Mobile View */}
-                <div></div>
+
                 {/* Desktop View */}
-                <div className="relative  md:block hidden mx-auto max-w-7xl">
-                    <Image
-                        className=""
-                        src="/images/site/map.png"
-                        layout="responsive"
-                        objectFit="contain"
-                        width={100}
-                        height={100}
-                        alt="Map"
-                    />
-                    <div className="cloud-1 z-30 absolute top-10 left-56"></div>
-                    <div className="cloud-2 z-30 absolute top-20 left-1/2 "></div>
-                    <div className="cloud-1 z-30 absolute top-44 left-40"></div>
-                    <div className="cloud-3 z-30 absolute top-56 left-1/3"></div>
-                    <div className="cloud-3 z-30 absolute top-56 left-3/4"></div>
-                    <div className="cloud-2 z-30 absolute top-80 left-2/3 "></div>
-                    {/* <div className="w-full cloud-4 z-30 absolute top-72 "></div>
-                    <div className="w-full cloud-5 z-30 absolute top-80 "></div>
-                    <div className="w-full cloud-6 z-30 absolute top-96 left-0"></div> */}
-                    
-                    <div className="absolute">
-                         
+                <div className=" mx-auto max-w-7xl">
+                    <div className="relative w-96 h-[300px] md:w-[1024px] md:h-[668px] ">
+                        <Image
+                            className="w-full h-full"
+                            src="/images/site/map.png"
+                            layout="responsive"
+                            objectFit="contain"
+                            width={100}
+                            height={100}
+                            alt="Map"
+                        />
+                        <div className="cloud-1 hidden md:block z-30 absolute top-5 left-56"></div>
+                        <div className="cloud-2 hidden md:block z-30 absolute top-28 left-1/2 "></div>
+                        <div className="cloud-1 hidden md:block z-30 absolute top-52 left-40"></div>
+                        <div className="cloud-3 hidden md:block z-30 absolute top-64 left-1/3"></div>
+                        <div className="cloud-3 hidden md:block z-30 absolute top-56 left-3/4"></div>
+                        <div className="cloud-2 hidden md:block z-30 absolute top-[22rem] left-2/3 "></div>
+
+                        <Link
+                            href={'#'}
+                            className="z-40 absolute hover:text-white group top-16 right-16 md:top-24 md:right-48 "
+                        >
+                            <div className="bg-white  group-hover:bg-[#F7910F] hover:text-white px-1 md:px-2 py-0.5 md:py-1 flex items-center gap-x-1 md:gap-x-2">
+                                <HiLocationMarker className="hover:text-white text-xs md:text-[16px]" />
+                                <p className="text-xs md:text-[16px]">
+                                    Queens Land
+                                </p>
+                            </div>
+                            <BiSolidDownArrow className="text-white md:w-auto w-full md:text-left text-right group-hover:text-[#F7910F] text-xs md:text-2xl ml-11 md:ml-0 mt-0.5 md:mt-2" />
+                        </Link>
+                        <Link
+                            href={'#'}
+                            className="z-40 absolute group top-4 left-44 md:top-[8rem] md:left-[23.5rem] "
+                        >
+                            <div className="bg-white group-hover:bg-[#F7910F] hover:text-white px-1 md:px-2 py-0.5 md:py-1 flex items-center gap-x-1 md:gap-x-2">
+                                <HiLocationMarker className="hover:text-white text-xs md:text-[16px]" />
+                                <p className="text-xs md:text-[16px]">
+                                    Northern Territory
+                                </p>
+                            </div>
+                            <BiSolidDownArrow className="text-white group-hover:text-[#F7910F] text-lg md:text-2xl mt-0.5 md:mt-2" />
+                        </Link>
+                        <Link
+                            href={'#'}
+                            className="z-40 absolute group top-[8.5rem] left-24 md:top-[17rem] md:left-[26.5rem] "
+                        >
+                            <BiSolidDownArrow className="ml-16 md:ml-0 rotate-180 w-full text-right text-white md:hidden block group-hover:text-[#F7910F] text-xs mb-0.5" />
+                            <div className="bg-white group-hover:bg-[#F7910F] hover:text-white px-1 md:px-2 py-0.5 md:py-1 flex items-center gap-x-1 md:gap-x-2">
+                                <HiLocationMarker className="hover:text-white text-xs md:text-[16px]" />
+                                <p className="text-xs md:text-[16px]">
+                                    Southern Australia
+                                </p>
+                            </div>
+                            <BiSolidDownArrow className="text-white hidden md:block group-hover:text-[#F7910F] text-2xl mt-2" />
+                        </Link>
+                        <Link
+                            href={'#'}
+                            className="z-40 absolute group top-[4.8rem] left-14 md:top-[13.5rem] md:left-[11rem] "
+                        >
+                            <div className="bg-white group-hover:bg-[#F7910F] hover:text-white px-1 md:px-2 py-0.5 md:py-1 flex items-center gap-x-1 md:gap-x-2">
+                                <HiLocationMarker className="hover:text-white text-xs md:text-[16px] " />
+                                <p className="text-xs md:text-[16px]">
+                                    Western Australia
+                                </p>
+                            </div>
+                            <BiSolidDownArrow className="text-white group-hover:text-[#F7910F] text-xs md:text-2xl mt-0.5 md:mt-2" />
+                        </Link>
+                        <Link
+                            href={'#'}
+                            className="z-40 absolute group top-[6.5rem] right-10 md:top-[14.5rem] md:right-4"
+                        >
+                            <div className="bg-white group-hover:bg-[#F7910F] hover:text-white px-1 md:px-2 py-0.5 md:py-1 flex items-center gap-x-1 md:gap-x-2">
+                                <HiLocationMarker className="hover:text-white text-xs md:text-[16px]" />
+                                <p className="text-xs md:text-[16px]">
+                                    New South Wales
+                                </p>
+                            </div>
+                            <BiSolidDownArrow className="text-white w-full text-right md:text-left md:w-auto group-hover:text-[#F7910F] text-xs md:text-2xl mt-0.5 md:mt-2" />
+                        </Link>
+                        <Link
+                            href={'#'}
+                            className="z-40 absolute group top-36 right-16 md:top-[22.8rem] md:right-[11.3rem]"
+                        >
+                            <div className="bg-white group-hover:bg-[#F7910F] hover:text-white px-1 md:px-2 py-0.5 md:py-1 flex items-center gap-x-1 md:gap-x-2">
+                                <HiLocationMarker className="hover:text-white text-xs md:text-[16px]" />
+                                <p className="text-xs md:text-[16px]">
+                                    Victoria
+                                </p>
+                            </div>
+                            <BiSolidDownArrow className="text-white group-hover:text-[#F7910F] text-xs md:text-2xl mt-0.5 md:mt-2" />
+                        </Link>
+                        <Link
+                            href={'#'}
+                            className="z-40 absolute group top-[12.6rem] right-[6rem] md:top-[31.2rem] md:right-[8.5rem]"
+                        >
+                            <div className="bg-white hidden group-hover:bg-[#F7910F] hover:text-white px-1 md:px-2 py-0.5 md:py-1 md:flex items-center gap-x-1 md:gap-x-2">
+                                <HiLocationMarker className="hover:text-white " />
+                                <p className="text-xs md:text-[16px]">
+                                    Tasmania
+                                </p>
+                            </div>
+                            <BiSolidDownArrow className="text-white hidden md:block group-hover:text-[#F7910F] text-2xl mt-2" />
+                            <div className="flex items-center md:hidden ">
+                                <div className="bg-white group-hover:bg-[#F7910F] hover:text-white px-1 md:px-2 py-0.5 md:py-1 flex items-center gap-x-1 md:gap-x-2">
+                                    <HiLocationMarker className="hover:text-white " />
+                                    <p className="text-xs md:text-[16px]">
+                                        Tasmania
+                                    </p>
+                                </div>
+                                <BiSolidDownArrow className="text-white -rotate-90 group-hover:text-[#F7910F] text-xs md:text-2xl mt-0 md:mt-2" />
+                            </div>
+                        </Link>
                     </div>
                 </div>
             </div>
@@ -410,216 +532,10 @@ const Home3: NextPage = () => {
                 </div>
             </div>
             {/* Lets Talk */}
-            <div className="md:p-36 px-4 py-8 mt-10 md:mt-0">
-                <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center gap-y-10 md:gap-x-20 md:justify-between">
-                    <div className="md:w-2/3 w-full">
-                        <div className="mb-2">
-                            <Typography variant="h1">Lets Talk</Typography>
-                        </div>
-                        <div>
-                            <Typography variant="h4">
-                                Tell us about you!
-                            </Typography>
-                        </div>
-                        <div className="flex flex-col md:flex-row md:items-center gap-y-4 md:gap-x-20 mt-4">
-                            <div className="flex items-center gap-x-4">
-                                <div className="p-4 rounded-2xl bg-[#F1DBC6]">
-                                    <FaPhoneAlt />
-                                </div>
-                                <div>
-                                    <Typography variant="label">
-                                        Call us at
-                                    </Typography>
-                                    <Typography
-                                        variant="subtitle"
-                                        color="text-[#EA9037]"
-                                    >
-                                        03-9363-6378
-                                    </Typography>
-                                </div>
-                            </div>
-                            <div className="flex items-center gap-x-4">
-                                <div className="p-4 rounded-2xl bg-[#F1DBC6]">
-                                    <MdOutlineAlternateEmail />
-                                </div>
-                                <div>
-                                    <Typography variant="label">
-                                        Mail us at
-                                    </Typography>
-                                    <Typography
-                                        variant="subtitle"
-                                        color="text-[#EA9037]"
-                                    >
-                                        info@skiltrak.com.au
-                                    </Typography>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div className="md:w-1/3 w-full">
-                        <div className="mb-3">
-                            <Typography variant="h4">
-                                Send Us A Message
-                            </Typography>
-                        </div>
-                        {/* <Form onSubmit={() => {}}> */}
-                        <div className="flex flex-col w-full">
-                            <TextInput
-                                color="bg-[#F1DBC6] bg-opacity-25"
-                                name="name"
-                                placeholder="Name"
-                            />
-                            <TextInput
-                                color="bg-[#F1DBC6] bg-opacity-25"
-                                name="email"
-                                placeholder="Email"
-                            />
-                            <TextInput
-                                color="bg-[#F1DBC6] bg-opacity-25"
-                                name="subject"
-                                placeholder="Subject"
-                            />
-                            <Typography variant="label">
-                                Tell us about your query
-                            </Typography>
-                            <TextArea
-                                color="bg-[#F1DBC6] bg-opacity-25"
-                                rows={5}
-                                name="message"
-                                placeholder="Message"
-                            />
-                        </div>
-                        {/* </Form> */}
-                    </div>
-                </div>
-            </div>
+            <ContactUs />
 
             {/*  Footer */}
-            <div className="w-full h-4 bg-[#F6910F]"></div>
-            <div className="md:px-36 px-4 py-4 md:py-[72px] footer-bg">
-                <div className="max-w-7xl mx-auto gap-y-4 grid grid-cols-1 md:grid-cols-3">
-                    <div className="flex flex-col items-center md:block">
-                        <Image
-                            className="mb-8"
-                            src="/images/site/skiltrak-logo.png"
-                            width={100}
-                            height={100}
-                            alt="logo"
-                        />
-                        <div className="flex flex-col items-center md:items-start gap-y-4">
-                            <a
-                                href="tel:03-9363-6378"
-                                className="flex items-center gap-x-4"
-                            >
-                                <div>
-                                    <FiPhone className="text-[#F6910F]" />
-                                </div>
-                                <div className="cursor-pointer text-sm font-medium text-[#AEAEAE]">
-                                    03-9363-6378
-                                </div>
-                            </a>
-
-                            <a
-                                href="mailto:info@skiltrak.com.au"
-                                className="flex items-center gap-x-4"
-                            >
-                                <div>
-                                    <MdOutlineAlternateEmail className="text-[#F6910F]" />
-                                </div>
-                                <div className="cursor-pointer text-sm font-medium text-[#AEAEAE]">
-                                    info@skiltrak.com.au
-                                </div>
-                            </a>
-                            <div className="flex items-center gap-x-4">
-                                <div>
-                                    <IoLocationOutline className="text-[#F6910F]" />
-                                </div>
-                                <div className="cursor-pointer text-sm font-medium text-[#AEAEAE]">
-                                    Melbourne, Vic, Australia 3000
-                                </div>
-                            </div>
-                        </div>
-                        <div className="flex items-center gap-x-6 mt-8">
-                            <a href="#">
-                                <PiFacebookLogoLight className="text-[#F6910F] text-3xl" />
-                            </a>
-                            <a href="#">
-                                <PiInstagramLogoLight className="text-[#F6910F] text-3xl" />
-                            </a>
-                            <a href="#">
-                                <PiLinkedinLogoLight className="text-[#F6910F] text-3xl" />
-                            </a>
-                        </div>
-                    </div>
-                    <div className="flex flex-col items-center gap-y-8">
-                        <Typography variant="title" color="text-[#F6910F]">
-                            Quick Links
-                        </Typography>
-                        <div className="flex items-center flex-col gap-y-4">
-                            <a href="#">
-                                <Typography
-                                    variant="body"
-                                    color="text-[#AEAEAE]"
-                                >
-                                    Home
-                                </Typography>
-                            </a>
-                            <a href="#">
-                                <Typography
-                                    variant="body"
-                                    color="text-[#AEAEAE]"
-                                >
-                                    Features
-                                </Typography>
-                            </a>
-                            <a href="#">
-                                <Typography
-                                    variant="body"
-                                    color="text-[#AEAEAE]"
-                                >
-                                    Contact Us
-                                </Typography>
-                            </a>
-                            <a href="#">
-                                <Typography
-                                    variant="body"
-                                    color="text-[#AEAEAE]"
-                                >
-                                    Abouts
-                                </Typography>
-                            </a>
-                        </div>
-                    </div>
-                    <div className="flex flex-col items-center gap-y-8">
-                        <Typography variant="label" color="text-[#F6910F]">
-                            JOIN THE JOURNEY OF PASSION AND FULFILMENT
-                        </Typography>
-                        <div className="ml-3">
-                            <Typography variant="small" color="text-white">
-                                An easy approach to the industry with a
-                                professional team that has been put together to
-                                lead you to your career goals. SkilTrak prepares
-                                you from the beginning of your job path, from
-                                the design of a strong CV, interview tips and
-                                role plays to your first day in the industry.
-                            </Typography>
-                        </div>
-                    </div>
-                </div>
-                <div className="max-w-7xl mx-auto  border-t border-[#F6910F] my-8"></div>
-                <div className="max-w-7xl mx-auto  flex flex-col md:flex-row md:justify-between items-center">
-                    <div>
-                        <Typography variant="xs" color="text-[#AEAEAE]">
-                            All Rights Reserved - 2023
-                        </Typography>
-                    </div>
-                    <div>
-                        <a href="#" className="text-[#AEAEAE] text-xs">
-                            Terms & Conditions
-                        </a>
-                    </div>
-                </div>
-            </div>
+            <Footer3 />
         </div>
     )
 }

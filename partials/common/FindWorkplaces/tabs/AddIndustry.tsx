@@ -12,7 +12,14 @@ import { useNotification } from '@hooks'
 import { AuthApi, commonApi } from '@queries'
 import { isEmailValid, onlyAlphabets, SignUpUtils } from '@utils'
 
-import { Button, Checkbox, Select, TextInput, Typography } from '@components'
+import {
+    Button,
+    Checkbox,
+    Select,
+    TextInput,
+    Typography,
+    ShowErrorNotifications,
+} from '@components'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { FormProvider, useForm } from 'react-hook-form'
 import { UserRoles } from '@constants'
@@ -174,85 +181,93 @@ export const AddIndustry = () => {
         // router.push('/portals/admin/search-workplaces?tab=all&page=1&pageSize=50')
     }
     return (
-        <FormProvider {...formMethods}>
-            <form
-                className="flex ml-12 flex-col gap-y-4"
-                onSubmit={formMethods.handleSubmit(onSubmit)}
-            >
-                <div className="">
-                    <div className="w-4/6">
-                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-8">
-                            <TextInput
-                                label={'Name'}
-                                name={'businessName'}
-                                placeholder={'Industry Name...'}
-                                validationIcons
-                                required
-                            />
+        <>
+            <ShowErrorNotifications result={addIndustryResult} />
+            <FormProvider {...formMethods}>
+                <form
+                    className="flex ml-12 flex-col gap-y-4"
+                    onSubmit={formMethods.handleSubmit(onSubmit)}
+                >
+                    <div className="">
+                        <div className="w-4/6">
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-8">
+                                <TextInput
+                                    label={'Name'}
+                                    name={'businessName'}
+                                    placeholder={'Industry Name...'}
+                                    validationIcons
+                                    required
+                                />
 
-                            <TextInput
-                                label={'Website (Optional)'}
-                                name={'website'}
-                                placeholder={'Website Url...'}
-                                validationIcons
-                            />
-                            <TextInput
-                                label={'Email'}
-                                name={'email'}
-                                type={'email'}
-                                placeholder={'Your Email...'}
-                                validationIcons
-                                required
-                                onBlur={onEmailChange}
-                                loading={emailCheckResult.isLoading}
-                            />
+                                <TextInput
+                                    label={'Website (Optional)'}
+                                    name={'website'}
+                                    placeholder={'Website Url...'}
+                                    validationIcons
+                                />
+                                <TextInput
+                                    label={'Email'}
+                                    name={'email'}
+                                    type={'email'}
+                                    placeholder={'Your Email...'}
+                                    validationIcons
+                                    required
+                                    onBlur={onEmailChange}
+                                    loading={emailCheckResult.isLoading}
+                                />
 
+                                <TextInput
+                                    label={'Phone Number'}
+                                    name={'phone'}
+                                    placeholder={'Your phone number...'}
+                                    validationIcons
+                                    required
+                                />
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* Sector Information */}
+                    <div className="flex gap-x-16 border-t py-4">
+                        <div className="w-4/6 grid grid-cols-2 gap-x-8 gap-y-4">
+                            <div>
+                                <Select
+                                    label={'Sector'}
+                                    //  {...(storedData
+                                    //      ? {
+                                    //            defaultValue: storedData.sectors,
+                                    //        }
+                                    //      : {})}
+                                    name={'sector'}
+                                    options={sectorOptions}
+                                    placeholder={'Select Sectors...'}
+                                    loading={sectorResponse.isLoading}
+                                    onChange={onSectorChanged}
+                                    validationIcons
+                                />
+                            </div>
                             <TextInput
-                                label={'Phone Number'}
-                                name={'phone'}
-                                placeholder={'Your phone number...'}
+                                label={'Address'}
+                                name={'address'}
+                                placeholder={'Your Address Line 1...'}
                                 validationIcons
-                                required
+                                placesSuggetions
                             />
                         </div>
                     </div>
-                </div>
 
-                {/* Sector Information */}
-                <div className="flex gap-x-16 border-t py-4">
-                    <div className="w-4/6 grid grid-cols-2 gap-x-8 gap-y-4">
-                        <div>
-                            <Select
-                                label={'Sector'}
-                                //  {...(storedData
-                                //      ? {
-                                //            defaultValue: storedData.sectors,
-                                //        }
-                                //      : {})}
-                                name={'sector'}
-                                options={sectorOptions}
-                                placeholder={'Select Sectors...'}
-                                loading={sectorResponse.isLoading}
-                                onChange={onSectorChanged}
-                                validationIcons
+                    <div className="w-1/2 pl-12">
+                        <div className="flex justify-center">
+                            <Button
+                                text={'Add Industry'}
+                                submit
+                                disabled={addIndustryResult?.isLoading}
+                                loading={addIndustryResult?.isLoading}
                             />
                         </div>
-                        <TextInput
-                            label={'Address'}
-                            name={'address'}
-                            placeholder={'Your Address Line 1...'}
-                            validationIcons
-                            placesSuggetions
-                        />
                     </div>
-                </div>
-
-                <div className="w-1/2 pl-12">
-                    <div className="flex justify-center">
-                        <Button text={'Add Industry'} submit />
-                    </div>
-                </div>
-            </form>
-        </FormProvider>
+                </form>
+            </FormProvider>
+        </>
     )
 }
