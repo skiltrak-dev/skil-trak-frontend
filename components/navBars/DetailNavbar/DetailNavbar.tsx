@@ -95,7 +95,7 @@ export const DetailNavbar = () => {
                             count={mailCount?.count || 0}
                             max={9}
                             onClick={() => setMessagesExpanded(true)}
-                            text={'Messages'}
+                            text={'E-mails'}
                         />
 
                         <MessageDropDown

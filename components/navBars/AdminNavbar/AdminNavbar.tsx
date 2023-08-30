@@ -88,7 +88,7 @@ export const AdminNavbar = () => {
                             onClick={() =>
                                 setMessagesExpanded(!messagesExpanded)
                             }
-                            text={'Messages'}
+                            text={'E-mails'}
                         />
 
                         <MessageDropDown
