@@ -32,7 +32,7 @@ export const PersonalInfoForm = ({
     courses,
     personalInfoData,
 }: PersonalInfoProps) => {
-    const [selectedCourse, setselectedCourse] = useState<any>(null)
+    const [selectedCourse, setSelectedCourse] = useState<any>(null)
 
     const [work, setWork] = useState<string>('')
     const [qualification, setQualification] = useState<string>('')
@@ -40,17 +40,21 @@ export const PersonalInfoForm = ({
 
     const { notification } = useNotification()
 
+    console.log('selectedCourse', selectedCourse, courses)
+
     useEffect(() => {
         if (
-            personalInfoData?.courses &&
-            courses?.data &&
-            courses?.data?.length > 0
+            personalInfoData?.courses ||
+            (courses?.data && courses?.data?.length > 0)
         ) {
-            const course = courses?.data?.find(
+            const courseData = courses?.data?.find(
                 (course: Course) =>
                     course?.id === Number(personalInfoData?.courses)
             )
-            setselectedCourse({
+
+            const course = courseData || courses?.data?.[0]
+            console.log({ course })
+            setSelectedCourse({
                 label: course?.title,
                 value: course?.id,
             })
@@ -201,7 +205,7 @@ export const PersonalInfoForm = ({
                                 label="Course"
                                 value={selectedCourse}
                                 onChange={(e: any) => {
-                                    setselectedCourse(e)
+                                    setSelectedCourse(e)
                                 }}
                                 options={coursesOptions}
                                 loading={courses.isLoading}

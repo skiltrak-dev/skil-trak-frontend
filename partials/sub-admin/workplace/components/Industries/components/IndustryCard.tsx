@@ -80,7 +80,7 @@ export const IndustryCard = ({
         <>
             {modal}
             <ShowErrorNotifications result={applyForWorkplaceResult} />
-            <div className="bg-secondary py-1 px-2 rounded-lg flex justify-between items-center">
+            <div className="bg-secondary py-1 px-2 rounded-lg flex flex-col lg:flex-row justify-between lg:items-center">
                 <Link
                     href={
                         role === UserRoles.ADMIN
@@ -115,7 +115,7 @@ export const IndustryCard = ({
                         </Typography>
                     </div>
                 </Link>
-                <div className="flex items-center gap-x-2">
+                <div className="flex items-center gap-x-2 ml-auto">
                     {applied && (
                         <div className="flex justify-end gap-x-2 top-0 right-0">
                             {/* <ActionButton

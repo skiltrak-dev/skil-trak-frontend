@@ -39,9 +39,9 @@ export interface UserCount {
     archived: number | string
 }
 export enum IndustryStatus {
-    DoNotDisturb = 'doNotDisturb',
-    IsPartner = 'isPartner',
-    IsContacted = 'isContacted',
+    DEFAULT = 'default',
+    FAVOURITE = 'favourite',
+    DO_NOT_DISTURB = 'doNotDisturb',
 }
 
 export interface RtoStatsCount {

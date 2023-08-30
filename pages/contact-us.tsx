@@ -7,12 +7,16 @@ import {
     FaLinkedinIn,
     FaTwitter,
     FaInstagram,
+    FaPhoneAlt,
 } from 'react-icons/fa'
 
 import { FcPhoneAndroid, FcAddressBook, FcFeedback } from 'react-icons/fc'
 
 import { Heading } from '../components/site/Heading'
 import { Button } from '../components/site/Button'
+import { TextArea, TextInput, Typography } from '@components'
+import { MdOutlineAlternateEmail } from 'react-icons/md'
+import { ContactUs } from '@components/site/ContactUs'
 
 const Page = ({ location }: any) => {
     const [scrollTo, setScrollTo] = useState(location?.state?.scorllToForm)
@@ -37,7 +41,7 @@ const Page = ({ location }: any) => {
 
     return (
         <SiteLayout title={'Features'}>
-            <div>
+            {/* <div>
                 <div className="relative">
                     <Image
                         src={'/images/site/features_hero.png'}
@@ -60,9 +64,25 @@ const Page = ({ location }: any) => {
                         </p>
                     </div>
                 </div>
+            </div> */}
+            <div className="h-96 bg-gradient-to-r from-[#0a56b0] to-[rgba(52, 91, 135, 0)] w-full">
+                <div className="h-full max-w-3xl mx-auto flex flex-col justify-center items-center">
+                    <Typography variant={'h1'} color="text-white">
+                        GET IN TOUCH WITH SKILTRAK
+                    </Typography>
+                    <Typography
+                        variant={'subtitle'}
+                        color={'text-white'}
+                        center
+                    >
+                        We have knowledgeable and friendly professionals
+                        available to schedule an appointment or answer any
+                        questions you may have in relation to Work Placement .
+                        Call us today!
+                    </Typography>
+                </div>
             </div>
-
-            <div className="w-11/12 md:w-8/12 mx-auto my-16">
+            {/* <div className="w-11/12 md:w-8/12 mx-auto my-16">
                 <div className="flex flex-col md:flex-row justify-between">
                     <div className="w-full md:w-6/12">
                         <Heading text={'Get in Touch with us!'} />
@@ -224,7 +244,8 @@ const Page = ({ location }: any) => {
                         <a href="#">info@skiltrak.com.au</a>
                     </div>
                 </div>
-            </div>
+            </div> */}
+            <ContactUs />
 
             <div className="map w-full h-60 mx-auto bg-white">
                 <iframe

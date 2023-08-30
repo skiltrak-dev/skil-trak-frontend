@@ -8,15 +8,15 @@ const links = [
     },
     {
         text: 'Features',
-        url: '#',
+        url: '/features',
     },
     {
         text: 'About Us',
-        url: '#',
+        url: '/about-us',
     },
     {
         text: 'Contact Us',
-        url: '#',
+        url: '/contact-us',
     },
     {
         text: 'Login',
@@ -29,7 +29,6 @@ const links = [
 ]
 
 export const Navbar2 = () => {
-
     const [isMenuOpen, setIsMenuOpen] = useState(false)
     const [navLinks, setNavlinks] = useState(links)
 
@@ -49,12 +48,10 @@ export const Navbar2 = () => {
             // Scrolled down
             setScrollDirection('down')
             setShow(true)
-
         } else if (currentPosition < prevScrollPosition) {
             // Scrolled up
             setScrollDirection('up')
             setShow(false)
-
         }
 
         setPrevScrollPosition(currentPosition)
@@ -66,10 +63,8 @@ export const Navbar2 = () => {
         }
     }, [prevScrollPosition])
 
-
-
     return (
-        <nav  className={`md:active-nav ${show && 'hidden-nav'}`}>
+        <nav className={`md:active-nav ${show && 'hidden-nav'}`}>
             <div className="w-full mx-auto md:px-6 lg:px-36">
                 <div className="relative max-w-7xl mx-auto flex items-center justify-between h-24 ">
                     <div className="absolute inset-y-0 left-0 flex items-center md:hidden">

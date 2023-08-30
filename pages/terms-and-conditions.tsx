@@ -1,3 +1,4 @@
+import { Typography } from '@components'
 import { SiteLayout } from '@layouts'
 import Image from 'next/image'
 
@@ -196,13 +197,11 @@ You agree and acknowledge that JK Connections PTY LTD can vary theSubscription F
         subsections: [
             {
                 section: '15.1. Compulsory:',
-                text:
-                    'If a dispute arises out of or relates to the Terms, either party may not commence any Tribunal or Court proceedings in relation to the dispute, unless the following clauses have been complied with (except where urgent interlocutory relief is sought).',
+                text: 'If a dispute arises out of or relates to the Terms, either party may not commence any Tribunal or Court proceedings in relation to the dispute, unless the following clauses have been complied with (except where urgent interlocutory relief is sought).',
             },
             {
                 section: '15.2. Notice:',
-                text:
-                    "A party to the Terms claiming a dispute ('Dispute') has arisen under the Terms, must give written notice to the other party detailing the nature of the dispute, the desired outcome and the action required to settle the Dispute.",
+                text: "A party to the Terms claiming a dispute ('Dispute') has arisen under the Terms, must give written notice to the other party detailing the nature of the dispute, the desired outcome and the action required to settle the Dispute.",
             },
             {
                 section: '15.3. Resolution:',
@@ -244,30 +243,33 @@ You agree and acknowledge that JK Connections PTY LTD can vary theSubscription F
     },
 ]
 
+const bgColors = [
+    'bg-[#FFFAEF]',
+    'bg-[#F3F8FC]',
+    'bg-[#E8F8F4]',
+    'bg-[#FDF7F6]',
+    'bg-[#FBFBFC]',
+    'bg-[#EFFAFD]',
+]
+
 const Page = () => {
     return (
         <SiteLayout title={'Terms & Conditions'}>
-            <div>
-                <div className="relative">
-                    <Image
-                        src={'../images/features_hero.png'}
-                        alt=""
-                        width={0}
-                        height={0}
-                        className="w-full"
-                    />
-                    <div className="bg-black w-full h-full absolute top-0 left-0 opacity-60 z-0"></div>
-                    <div className="text-white absolute top-2/4 w-11/12 md:w-3/5 left-2/4 transform -translate-x-2/4 -translate-y-2/4">
-                        <h3 className="font-bold text-2xl md:text-6xl text-center">
-                            TERMS &amp; Conditions
-                        </h3>
-                        <p className="text-md md:text-2xl text-center mt-4">
-                            We have knowledgeable and friendly professionals
-                            available to schedule an appointment or answer any
-                            questions you may have in relation to Work Placement
-                            . Call us today!
-                        </p>
-                    </div>
+            <div className="h-96 bg-gradient-to-r from-[#0a56b0] to-[rgba(52, 91, 135, 0)] w-full">
+                <div className="h-full max-w-3xl mx-auto flex flex-col justify-center items-center">
+                    <Typography variant={'h1'} color="text-white">
+                        TERMS & Conditions
+                    </Typography>
+                    <Typography
+                        variant={'subtitle'}
+                        color={'text-white'}
+                        center
+                    >
+                        We have knowledgeable and friendly professionals
+                        available to schedule an appointment or answer any
+                        questions you may have in relation to Work Placement .
+                        Call us today!
+                    </Typography>
                 </div>
             </div>
 
@@ -275,8 +277,28 @@ const Page = () => {
                 {TERMS.map((t, k) => (
                     <div key={k}>
                         <div className="flex items-center font-semibold text-2xl text-theme-primary mt-4">
-                            <BsArrowRightCircle className="mr-2" />
-                            <h3>{t.section}</h3>
+                            <div className="flex flex-col gap-y-2">
+                                <Typography variant={'title'}>
+                                    {t?.section}
+                                </Typography>
+
+                                {t.text && (
+                                    <div
+                                        className={`${
+                                            bgColors[k % bgColors?.length]
+                                        } p-5 rounded-md shadow border border-gray-200`}
+                                    >
+                                        <Typography variant={'label'}>
+                                            <p
+                                                className="text-gray-600 mt-2"
+                                                dangerouslySetInnerHTML={{
+                                                    __html: t.text,
+                                                }}
+                                            ></p>
+                                        </Typography>
+                                    </div>
+                                )}
+                            </div>
                         </div>
 
                         {t.subsections &&
@@ -287,21 +309,24 @@ const Page = () => {
                                         <h3>{ss.section}</h3>
                                     </div>
 
-                                    <p
-                                        dangerouslySetInnerHTML={{
-                                            __html: ss.text,
-                                        }}
-                                        className="text-secondary mt-1"
-                                    ></p>
+                                    {ss?.text && (
+                                        <div
+                                            className={`${
+                                                bgColors[k % bgColors?.length]
+                                            } p-5 rounded-md shadow border border-gray-200`}
+                                        >
+                                            <Typography variant={'label'}>
+                                                <p
+                                                    className="text-gray-600 mt-2"
+                                                    dangerouslySetInnerHTML={{
+                                                        __html: ss?.text,
+                                                    }}
+                                                ></p>
+                                            </Typography>
+                                        </div>
+                                    )}
                                 </div>
                             ))}
-
-                        {t.text && (
-                            <p
-                                className="text-secondary mt-2"
-                                dangerouslySetInnerHTML={{ __html: t.text }}
-                            ></p>
-                        )}
                     </div>
                 ))}
 

@@ -207,22 +207,24 @@ const PrivacyPolicy: NextPage = () => {
     const columnDivisible = isMobile ? 1 : isTablet ? 2 : 3
     return (
         <SiteLayout title="Privacy Policy">
-            <div className="bg-gray-100 py-10">
-                <Typography variant={'h3'} center>
-                    Privacy Notice
-                </Typography>
-                <div className="max-w-3xl mx-auto mt-5 px-2 xl:px-0">
-                    <Typography center color={'text-gray-600'}>
-                        <span className="text-base md:text-lg font-light">
-                            In our User Privacy Notice we have compiled all
-                            essential information about our handling of your
-                            personal data and your corresponding rights. This
-                            User Privacy Notice is effective from March 24,
-                            2023.
-                        </span>
+            <div className="h-96 bg-gradient-to-r from-[#0a56b0] to-[rgba(52, 91, 135, 0)] w-full">
+                <div className="h-full max-w-3xl mx-auto flex flex-col justify-center items-center">
+                    <Typography variant={'h1'} color="text-white">
+                        Privacy Notice
+                    </Typography>
+                    <Typography
+                        variant={'subtitle'}
+                        color={'text-white'}
+                        center
+                    >
+                        In our User Privacy Notice we have compiled all
+                        essential information about our handling of your
+                        personal data and your corresponding rights. This User
+                        Privacy Notice is effective from March 24, 2023.
                     </Typography>
                 </div>
-
+            </div>
+            <div className="bg-gray-100 py-10">
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 max-w-6xl mx-auto mt-10 px-2 xl:px-0">
                     {privacyData?.map((privacy, i) => (
                         <>
@@ -249,25 +251,29 @@ const PrivacyPolicy: NextPage = () => {
                                     </div>
                                 </Typography>
                             </div>
-                            {first === i + 1 && (
-                                <div
-                                    className={`h-auto p-10 w-full transition-all col-start-1 col-span-1 sm:col-span-2 md:col-span-3 bg-white relative`}
-                                    style={{
-                                        gridRowStart: Math.ceil(
-                                            (i + 1) / columnDivisible + 1
-                                        ),
+                            {/* {first === i + 1 && ( */}
+                            <div
+                                className={`${
+                                    first === i + 1
+                                        ? 'h-auto text-[14px]'
+                                        : 'h-0 text-[1px] hidden'
+                                } overflow-hidden p-10 w-full transition-all col-start-1 col-span-1 sm:col-span-2 md:col-span-3 bg-white relative`}
+                                style={{
+                                    gridRowStart: Math.ceil(
+                                        (i + 1) / columnDivisible + 1
+                                    ),
+                                }}
+                            >
+                                <FaTimes
+                                    className="absolute top-5 right-5 cursor-pointer text-xl"
+                                    onClick={() => {
+                                        setfirst(null)
                                     }}
-                                >
-                                    <FaTimes
-                                        className="absolute top-5 right-5 cursor-pointer text-xl"
-                                        onClick={() => {
-                                            setfirst(null)
-                                        }}
-                                    />
-                                    {i}
-                                    {privacy.description}
-                                </div>
-                            )}
+                                />
+                                {i}
+                                {privacy.description}
+                            </div>
+                            {/* )} */}
                             {/* <div
                             className={`${
                                 first === i
