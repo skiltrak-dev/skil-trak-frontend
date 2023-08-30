@@ -18,6 +18,7 @@ import {
     TextInput,
 } from '@components'
 import {
+    AgreementPendingStudents,
     AllStudents,
     ArchivedStudents,
     BlockedStudents,
@@ -128,6 +129,15 @@ const Students: NextPageWithLayout = (props: Props) => {
             },
             href: { pathname: 'students', query: { tab: 'my-students' } },
             element: <MyStudents />,
+        },
+        {
+            label: 'Agreement Pending',
+            // badge: {
+            //     text: studentCount?.myStudents,
+            //     loading: count.isLoading,
+            // },
+            href: { pathname: 'students', query: { tab: 'agreement-pending' } },
+            element: <AgreementPendingStudents />,
         },
         {
             label: 'Non Contactable Students',

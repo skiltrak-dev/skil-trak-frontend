@@ -47,6 +47,8 @@ export const Availability = ({
         })
     }
 
+    console.log({ workplaceRequestResult })
+
     return (
         <div>
             <ShowErrorNotifications result={workplaceRequestResult} />

@@ -28,6 +28,8 @@ export const AssignSectorForm = ({
     const courses = AdminApi.Courses.useListQuery(undefined)
     const [selectableCourses, setSelectableCourses] = useState<Course[]>([])
 
+    console.log({ selectableCourses })
+
     const onSectorSelect = (options: any) => {
         const currentSelectedSectors = options.map(
             (opt: OptionType) => opt.value
@@ -45,11 +47,11 @@ export const AssignSectorForm = ({
 
         const getAssignedCourses = Object.values(sectorsWithCourses)
             ?.flat()
-            ?.map((c: any) => c?.title)
+            ?.map((c: any) => c?.code)
 
         setSelectableCourses(
             currentSelectableCourses?.filter(
-                (f) => !getAssignedCourses?.includes(f?.title)
+                (f) => !getAssignedCourses?.includes(f?.code)
             )
         )
     }

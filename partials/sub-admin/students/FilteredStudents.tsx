@@ -32,6 +32,7 @@ import { IndustryCellInfo, IndustrySubAdmin } from '../Industries'
 import { InterviewModal } from '../workplace/modals'
 import { StudentCellInfo } from './components'
 import {
+    AddToNonContactableStudents,
     AssignStudentModal,
     BlockModal,
     ChangeStudentStatusModal,
@@ -61,6 +62,15 @@ export const FilteredStudents = ({
     const onAssignStudentClicked = (student: Student) => {
         setModal(
             <AssignStudentModal
+                student={student}
+                onCancel={() => onModalCancelClicked()}
+            />
+        )
+    }
+
+    const onNonContactableStudents = (student: Student) => {
+        setModal(
+            <AddToNonContactableStudents
                 student={student}
                 onCancel={() => onModalCancelClicked()}
             />
@@ -111,6 +121,14 @@ export const FilteredStudents = ({
             {
                 text: student?.subadmin ? 'Un Assign' : 'Assign to me',
                 onClick: (student: Student) => onAssignStudentClicked(student),
+                Icon: MdBlock,
+            },
+            {
+                text: student?.nonContactable
+                    ? 'Add to Contactable'
+                    : 'Add to Not Contactable',
+                onClick: (student: Student) =>
+                    onNonContactableStudents(student),
                 Icon: MdBlock,
             },
             {
