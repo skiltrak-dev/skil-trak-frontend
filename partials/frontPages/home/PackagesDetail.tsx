@@ -63,7 +63,7 @@ export const PackagesDetail = ({ onClick }: { onClick: () => void }) => {
     ]
     return (
         <div className="max-w-7xl mx-auto mt-10">
-            <div className="flex ">
+            <div className="flex flex-col md:flex-row md:items-start items-center">
                 <div>
                     <div className="flex flex-col gap-y-2.5">
                         <Typography variant={'small'}>

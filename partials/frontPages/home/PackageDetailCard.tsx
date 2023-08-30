@@ -31,7 +31,7 @@ export const PackageDetailCard = ({ onClick }: { onClick: () => void }) => {
                     </div>
                 </div>
             </div>
-            <div className="flex justify-between items-center">
+            <div className="flex justify-between items-center cursor-pointer">
                 <div
                     onClick={() => {
                         if (onClick) {
