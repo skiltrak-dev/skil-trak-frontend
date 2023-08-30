@@ -35,7 +35,7 @@ import { RequestType } from './RequestType'
 import { RtoDetail } from './RtoDetail'
 import { StudentDetail } from './StudentDetail'
 import { WorkplaceFolders } from './WorkplaceFolders'
-import { SmallDetail } from './smallDetail'
+import { SmallDetail } from './SmallDetail'
 
 export const WPStatusForCancelButon = [
     WorkplaceCurrentStatus.Applied,
