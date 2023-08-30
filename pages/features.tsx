@@ -22,8 +22,8 @@ import { IoMdChatbubbles, IoMdTime } from 'react-icons/io'
 import { VscScreenNormal } from 'react-icons/vsc'
 import { MdTimelapse } from 'react-icons/md'
 import { NextPage } from 'next'
-import { KeyFeatures } from '@components/site/KeyFeatures'
 import { Typography } from '@components'
+import { KeyFeatureCard } from '@components/site/keyFeatures'
 
 const features = [
     {
@@ -172,7 +172,7 @@ const Page: NextPage = () => {
             <div className="max-w-7xl 2xl:max-w-screen-3xl my-4 mx-auto">
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-4 justify-center px-5">
                     {features.map((feature, i) => (
-                        <KeyFeatures
+                        <KeyFeatureCard
                             key={i}
                             icon={feature.icon}
                             title={feature.name}

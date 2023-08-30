@@ -127,28 +127,26 @@
         background-position: calc(100% + 100px) 0;
     } */
     0% {
-      -webkit-transform: translateX(0px);
-      -moz-transform: translateX(0px);
-      transform: translateX(0px);
-      opacity: 0;
-  }
-  20% {
-      opacity: 1;
-  }
-  60% {
-      opacity: 1;
-  }
+        -webkit-transform: translateX(0px);
+        -moz-transform: translateX(0px);
+        transform: translateX(0px);
+        opacity: 0;
+    }
+    20% {
+        opacity: 1;
+    }
+    60% {
+        opacity: 1;
+    }
 
-  75%,
-  100% {
-      -webkit-transform: translateX(100px);
-      -moz-transform: translateX(100px);
-      transform: translateX(100px);
-      opacity: 0;
-  }
+    75%,
+    100% {
+        -webkit-transform: translateX(100px);
+        -moz-transform: translateX(100px);
+        transform: translateX(100px);
+        opacity: 0;
+    }
 }
-
-
 
 /* .coverage .map-container .map-image {
     position: absolute;
@@ -243,3 +241,48 @@ img {
         opacity: 0;
     }
 } */
+
+/* Student Placement Management system */
+.big-ellipse-clr {
+    border: 1px solid rgba(80, 161, 235, 0.25);
+}
+
+
+/* @keyframes orbit {
+    from {
+      transform: rotate(0deg) translateX(260px) rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg) translateX(260px) rotate(-360deg);
+    }
+  }
+  
+  .ellipse {
+    position: absolute;
+    animation: orbit 10s linear infinite;
+    top: 20% !important;
+    left: 50%;
+   transform: translate(-50%, -50%); 
+  } */
+
+  /* @keyframes orbit {
+    from {
+      transform: rotate(0deg) translateX(260px) rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg) translateX(260px) rotate(-360deg);
+    }
+  }
+  
+  .ellipse {
+    position: absolute;
+    animation: orbit 10s linear infinite;
+    top: 50% !important;
+    left: -50px !important;
+  } */
+  
+  
+  
+  
+  
+

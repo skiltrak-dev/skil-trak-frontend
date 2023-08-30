@@ -1,7 +1,7 @@
 import { Typography } from '@components/Typography'
-import { FaUserClock } from 'react-icons/fa'
 
-export const KeyFeatures = ({ icon, title, content, color }: any) => {
+
+export const KeyFeatureCard = ({ icon, title, content, color }: any) => {
     return (
         <>
             <div className={`${color} rounded-xl p-6`}>
