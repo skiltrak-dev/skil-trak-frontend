@@ -11,7 +11,7 @@ import { Actions } from '../Actions'
 import { RtoDetail } from '../RtoDetail'
 import { CourseDetail } from '../CourseDetail'
 import { Folders } from '../Folders'
-import { SmallDetail } from '../smallDetail'
+import { SmallDetail } from '../SmallDetail'
 import { IndustryCell } from '@partials/industry/components'
 import { IndustryDetail } from '../IndustryDetail'
 
