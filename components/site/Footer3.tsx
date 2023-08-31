@@ -144,9 +144,9 @@ export const Footer3 = () => {
                         </Typography>
                     </div>
                     <div>
-                        <a href="#" className="text-[#AEAEAE] text-xs">
+                        <Link href="/terms-and-conditions" className="text-[#AEAEAE] text-xs">
                             Terms & Conditions
-                        </a>
+                        </Link>
                     </div>
                 </div>
             </div>

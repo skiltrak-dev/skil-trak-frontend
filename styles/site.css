@@ -127,28 +127,26 @@
         background-position: calc(100% + 100px) 0;
     } */
     0% {
-      -webkit-transform: translateX(0px);
-      -moz-transform: translateX(0px);
-      transform: translateX(0px);
-      opacity: 0;
-  }
-  20% {
-      opacity: 1;
-  }
-  60% {
-      opacity: 1;
-  }
+        -webkit-transform: translateX(0px);
+        -moz-transform: translateX(0px);
+        transform: translateX(0px);
+        opacity: 0;
+    }
+    20% {
+        opacity: 1;
+    }
+    60% {
+        opacity: 1;
+    }
 
-  75%,
-  100% {
-      -webkit-transform: translateX(100px);
-      -moz-transform: translateX(100px);
-      transform: translateX(100px);
-      opacity: 0;
-  }
+    75%,
+    100% {
+        -webkit-transform: translateX(100px);
+        -moz-transform: translateX(100px);
+        transform: translateX(100px);
+        opacity: 0;
+    }
 }
-
-
 
 /* .coverage .map-container .map-image {
     position: absolute;
@@ -243,3 +241,110 @@ img {
         opacity: 0;
     }
 } */
+
+/* Student Placement Management system */
+.big-ellipse-clr {
+    border: 1px solid rgba(80, 161, 235, 0.25);
+}
+
+
+
+ @keyframes orbit {
+    from {
+      transform: rotate(0deg) translateX(230px) translateY(100px) rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg) translateX(230px) translateY(100px) rotate(-360deg);
+    }
+  }
+
+  @keyframes orbit2 {
+    from {
+      transform: rotate(0deg) translateY(260px) rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg) translateY(260px) rotate(-360deg);
+    }
+  }
+  @keyframes orbit3 {
+    from {
+       transform: rotate(0deg) translateX(-250px) translateY(90px) rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg) translateX(-250px) translateY(90px) rotate(-360deg);
+    }
+  }
+   @keyframes orbit4 {
+    from {
+      transform: rotate(0deg) translateY(-260px) rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg) translateY(-260px) rotate(-360deg);
+    }
+  }
+  @keyframes orbit5 {
+    from {
+       transform:  rotate(0deg) translateX(220px) translateY(-130px) rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg) translateX(220px) translateY(-130px) rotate(-360deg);
+    }
+  }
+ 
+ @keyframes orbit6 {
+    from {
+     transform: rotate(0deg) translateX(-220px) translateY(-130px) rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg) translateX(-220px) translateY(-130px) rotate(-360deg);
+    }
+  }
+  .ellipse {
+    position: absolute;
+    animation: orbit 30s linear infinite;
+    /* transform: rotate(0deg) translateX(230px) translateY(100px) rotate(0deg); */
+    top: 50% !important;
+    left: -50px !important;
+  }
+
+  .ellipse2 {
+    position: absolute;
+    animation: orbit2 30s linear infinite;
+    /* transform: rotate(0deg) translateY(220px) rotate(0deg); */
+    top: 50% !important;
+    left: -50px !important;
+  }
+    .ellipse3 {
+    position: absolute;
+    animation: orbit3 30s linear infinite;
+    /* transform: rotate(0deg) translateX(-230px) translateY(80px) rotate(0deg); */
+    top: 50% !important;
+    left: -50px !important;
+  }
+ .ellipse4 {
+    position: absolute;
+    animation: orbit4 30s linear infinite;
+    /* transform: rotate(0deg) translateY(-260px) rotate(0deg); */
+    top: 50% !important;
+    left: -50px !important;
+  }
+  .ellipse5 {
+    position: absolute;
+    animation: orbit5 30s linear infinite;
+    /* transform: rotate(0deg) translateX(220px) translateY(-130px) rotate(0deg); */
+    top: 50% !important;
+    left: -50px !important;
+  } 
+  .ellipse6 {
+    position: absolute;
+    animation: orbit6 30s linear infinite;
+    /* transform: rotate(0deg) translateX(-220px) translateY(-130px) rotate(0deg); */
+    top: 50% !important;
+    left: -50px !important;
+  }
+  
+  
+  
+  
+  
+

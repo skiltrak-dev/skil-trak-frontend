@@ -1,0 +1,53 @@
+import { Typography } from '@components/Typography'
+import { Button } from '@components/buttons'
+import Image from 'next/image'
+import { useRouter } from 'next/router'
+
+export const GetStartedWithUs = () => {
+    const router = useRouter()
+    return (
+        <div className="md:px-36 px-4 py-8 md:py-20 bg-[#192A65]">
+            <div className="max-w-7xl mx-auto gap-y-4 flex flex-col-reverse md:flex-row items-center md:gap-x-20 md:justify-between">
+                <div className="w-full md:w-2/4">
+                    <Image
+                        src="/images/site/get-started-with-us.png"
+                        layout="responsive"
+                        objectFit="contain"
+                        width={100}
+                        height={100}
+                        alt="get-started-with-us"
+                    />
+                </div>
+                <div className="md:w-2/4 w-full flex flex-col gap-y-4">
+                    <div className="">
+                        <Typography variant="h3" color="text-white">
+                            Get Started With Us
+                        </Typography>
+                    </div>
+                    <div>
+                        <Typography variant="body" color="text-white">
+                            Request a demo or create your account right away to
+                            get started. We are just one click away
+                        </Typography>
+                    </div>
+                    <div className="flex items-center gap-x-2">
+                        <Button
+                            onClick={() => {
+                                router.push('/auth/signup')
+                            }}
+                            outline
+                            text="Sign up"
+                        />
+                        <Button
+                            onClick={() => {
+                                router.push('/auth/login')
+                            }}
+                            variant="primary"
+                            text="Request a demo"
+                        />
+                    </div>
+                </div>
+            </div>
+        </div>
+    )
+}

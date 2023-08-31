@@ -39,7 +39,7 @@ export const OurPackage = ({
                     </div>
                 </div>
                 <div
-                    className="group flex items-center justify-end mt-20"
+                    className="group flex items-center cursor-pointer justify-end mt-20"
                     onClick={() => {
                         if (onClick) {
                             onClick()

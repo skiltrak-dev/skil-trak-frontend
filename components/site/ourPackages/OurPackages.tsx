@@ -1,0 +1,87 @@
+import { Typography } from '@components/Typography'
+import { PackagesDetail } from '@partials/frontPages'
+import { useEffect, useState } from 'react'
+import { OurPackage } from './OurPackage'
+
+export const OurPackages = () => {
+    const [selectedPackage, setSelectedPackage] = useState(-1)
+    const [isDone, setIsDone] = useState<boolean>(false)
+
+    useEffect(() => {
+        if (selectedPackage > 0) {
+            console.log('Shunnr')
+            setTimeout(() => {
+                setIsDone(true)
+            }, 1000)
+        } else {
+            setTimeout(() => {
+                setIsDone(false)
+            }, 1000)
+        }
+    }, [selectedPackage])
+    const packages = [
+        {
+            content: 'Placement Management Portal',
+            manage: 'Do it yourself',
+            price: 'From $7/month (Per User)',
+            color: 'bg-gradient-to-b from-[#094D8C] to-[#06345E]',
+            textColor: 'text-[#6BB8FF]',
+        },
+        {
+            content: 'The Startup Package',
+            manage: 'We Get It Going',
+            price: 'From $175/student',
+            color: 'bg-gradient-to-b from-[#EC8D12] to-[#E95616]',
+            textColor: 'text-[#F9AE97]',
+        },
+        {
+            content: 'The Complete Package',
+            manage: 'We Do It All',
+            price: 'From $375/student Applies for STI courses only',
+            color: 'bg-gradient-to-b from-[#094D8C] to-[#06345E]',
+            textColor: 'text-[#6BB8FF]',
+        },
+    ]
+
+    return (
+        <>
+            <div className=" mt-16 mb-4 flex justify-center">
+                <Typography variant="h2">Our Packages</Typography>
+            </div>
+
+            <div
+                className={`${
+                    selectedPackage > 0 ? 'opacity-100 delay-1000' : 'opacity-0'
+                } transition-all duration-1000 ${!isDone ? 'hidden' : 'block'}`}
+            >
+                <PackagesDetail
+                    onClick={() => {
+                        setSelectedPackage(-1)
+                    }}
+                />
+            </div>
+
+            <div
+                className={`${
+                    selectedPackage > 0 ? 'opacity-0' : 'opacity-100 delay-1000'
+                } ${
+                    isDone ? 'hidden' : 'block'
+                } transition-all duration-1000 max-w-7xl mx-auto flex flex-col md:flex-row gap-y-8 md:gap-x-12 md:justify-center items-center px-4 md:px-36`}
+            >
+                {packages.map((pack, index) => (
+                    <OurPackage
+                        key={index}
+                        content={pack.content}
+                        manage={pack.manage}
+                        price={pack.price}
+                        color={pack.color}
+                        textColor={pack.textColor}
+                        onClick={() => {
+                            setSelectedPackage(index + 1)
+                        }}
+                    />
+                ))}
+            </div>
+        </>
+    )
+}
