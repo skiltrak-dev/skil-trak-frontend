@@ -97,7 +97,6 @@ export const Socket = ({ children }: any) => {
             socket?.on(
                 SocketNotificationsEvents.AppointmentReminder,
                 (notify: any) => {
-                    console.log({ notify })
                     seteventListener({
                         eventName:
                             SocketNotificationsEvents.AppointmentReminder,
@@ -119,7 +118,6 @@ export const Socket = ({ children }: any) => {
             socket?.on(
                 SocketNotificationsEvents.ExpiryReminder,
                 (notify: any) => {
-                    console.log({ notify })
                     seteventListener({
                         eventName: SocketNotificationsEvents.ExpiryReminder,
                         eventListener: notify,

@@ -40,8 +40,6 @@ const SubAdminHistory: NextPageWithLayout = () => {
     const [searchedValue, setSearchedValue] = useState<string>('')
     const [target, setTarget] = useState<string>('')
 
-    console.log({ target })
-
     const { data, isError, isLoading, isFetching } =
         CommonApi.RecentActivities.useRecentActivities(
             {

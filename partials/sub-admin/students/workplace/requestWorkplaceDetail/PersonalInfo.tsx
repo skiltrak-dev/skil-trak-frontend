@@ -22,7 +22,6 @@ export const PersonalInfo = ({
     })
 
     const onSubmit = (values: any) => {
-        console.log({ values })
         setPersonalInfoData({
             ...values,
             courses: values?.courses?.value,
