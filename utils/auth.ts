@@ -1,5 +1,6 @@
 import jwt from 'jwt-decode'
 import { isBrowser } from './browser-supported'
+import { UserStatus } from '@types'
 
 const KEYS = {
     TOKEN: 'user-token',
@@ -11,7 +12,7 @@ type UserCredentials = {
     role: 'admin' | 'subadmin' | 'rto' | 'student' | 'industry'
     id: number
     email: string
-    status: 'approved' | 'rejected' | 'pending'
+    status: UserStatus.Approved | UserStatus.Rejected | UserStatus.Pending
     avatar: string | null
     name: string
 }
