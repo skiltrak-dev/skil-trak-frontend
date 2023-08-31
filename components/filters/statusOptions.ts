@@ -1,6 +1,6 @@
 import { UserStatus } from '@types'
 
-export const statusOptions = [
+export const StatusOptions = [
     {
         label: 'Approved',
         value: UserStatus.Approved,

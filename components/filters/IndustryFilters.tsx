@@ -1,6 +1,6 @@
 import { Select, TextInput } from '@components/inputs'
 
-import { statusOptions } from './statusOptions'
+import { StatusOptions } from './StatusOptions'
 
 // queries
 import { CommonApi } from '@queries'
@@ -32,7 +32,6 @@ export const IndustryFilters = ({
     removeFilterKeysToUrl?.forEach((key) => {
         delete updatedFilter[key as keyof typeof updatedFilter]
     })
-
 
     return (
         <>
@@ -69,8 +68,8 @@ export const IndustryFilters = ({
                 <Select
                     label={'Status'}
                     name={'status'}
-                    options={statusOptions}
-                    defaultValue={statusOptions?.find(
+                    options={StatusOptions}
+                    defaultValue={StatusOptions?.find(
                         (status) => status.value === filter?.status
                     )}
                     placeholder={'Select Status...'}

@@ -13,7 +13,7 @@ import {
     UserStatus,
 } from '@types'
 import { SetQueryFilters } from './SetQueryFilters'
-import { statusOptions } from './statusOptions'
+import { StatusOptions } from './StatusOptions'
 import { SelectOption } from './types'
 import { ChangeEvent } from 'react'
 
@@ -102,8 +102,8 @@ export const AdminWorkplaceFilters = ({
                 <Select
                     label={'Status'}
                     name={'status'}
-                    options={statusOptions}
-                    value={statusOptions?.find(
+                    options={StatusOptions}
+                    value={StatusOptions?.find(
                         (status) => status.value === filter.status
                     )}
                     placeholder={'Select Sectors...'}
