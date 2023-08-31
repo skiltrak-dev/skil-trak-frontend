@@ -13,7 +13,7 @@ import {
 } from '@types'
 import { AuthUtils, WorkplaceCurrentStatus } from '@utils'
 import { SetQueryFilters } from './SetQueryFilters'
-import { statusOptions } from './statusOptions'
+import { StatusOptions } from './StatusOptions'
 import { SelectOption } from './types'
 
 interface ItemFilterProps {
@@ -151,10 +151,10 @@ export const StudentFilters = ({ onFilterChange, filter }: ItemFilterProps) => {
                 <Select
                     label={'Status'}
                     name={'status'}
-                    value={statusOptions.find(
+                    value={StatusOptions.find(
                         (status) => status.value === filter?.status
                     )}
-                    options={statusOptions}
+                    options={StatusOptions}
                     placeholder={'Select Sectors...'}
                     onChange={(e: OptionType) => {
                         onFilterChange({

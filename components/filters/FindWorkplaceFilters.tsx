@@ -1,7 +1,7 @@
 import { Select, TextInput } from '@components/inputs'
 import { AuthApi, CommonApi } from '@queries'
 import { SetQueryFilters } from './SetQueryFilters'
-import { statusOptions } from './statusOptions'
+import { StatusOptions } from './StatusOptions'
 import { SelectOption } from './types'
 import { FindWorkplaceFilter } from '@types'
 import { useEffect, useState } from 'react'
@@ -46,7 +46,6 @@ export const FindWorkplaceFilters = ({
             setSectorOptions(options)
         }
     }, [sectorResponse?.data])
-    
 
     return (
         <>
@@ -58,7 +57,10 @@ export const FindWorkplaceFilters = ({
                     placeholder={'Search by Industry Name ...'}
                     value={filter?.businessName}
                     onChange={(e: any) => {
-                        onFilterChange({ ...filter, businessName: e.target.value })
+                        onFilterChange({
+                            ...filter,
+                            businessName: e.target.value,
+                        })
                     }}
                 />
                 <TextInput

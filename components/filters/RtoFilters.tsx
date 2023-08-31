@@ -1,7 +1,7 @@
 import { Select, TextInput } from '@components/inputs'
 import { CommonApi } from '@queries'
 import { SetQueryFilters } from './SetQueryFilters'
-import { statusOptions } from './statusOptions'
+import { StatusOptions } from './StatusOptions'
 import { SelectOption } from './types'
 import { OptionType, RTOFilterType, UserStatus } from '@types'
 
@@ -53,9 +53,9 @@ export const RtoFilters = ({ onFilterChange, filter }: ItemFilterProps) => {
                 <Select
                     label={'Status'}
                     name={'status'}
-                    options={statusOptions}
+                    options={StatusOptions}
                     placeholder={'Select Status...'}
-                    defaultValue={statusOptions.find(
+                    defaultValue={StatusOptions.find(
                         (status) => status.value === filter?.status
                     )}
                     onChange={(e: OptionType) => {

@@ -1,7 +1,7 @@
 import { Select, TextInput } from '@components/inputs'
 import { CommonApi } from '@queries'
 import { SetQueryFilters } from './SetQueryFilters'
-import { statusOptions } from './statusOptions'
+import { StatusOptions } from './StatusOptions'
 import { SelectOption } from './types'
 import { AdminSubadminFilter, Course, OptionType, UserStatus } from '@types'
 
@@ -48,8 +48,8 @@ export const SubAdminFilters = ({
                 <Select
                     label={'Status'}
                     name={'status'}
-                    options={statusOptions}
-                    value={statusOptions?.find(
+                    options={StatusOptions}
+                    value={StatusOptions?.find(
                         (status) => status.value === filter?.status
                     )}
                     placeholder={'Select Sectors...'}
