@@ -3,6 +3,9 @@ import Image from 'next/image'
 import { Ellipse } from './Ellipse'
 import { HiOutlineStatusOnline } from 'react-icons/hi'
 import { TbBulbFilled } from 'react-icons/tb'
+import { BsRecordCircle, BsStars } from 'react-icons/bs'
+import { FaConnectdevelop } from 'react-icons/fa'
+import { VscWorkspaceTrusted } from 'react-icons/vsc'
 
 export const StudentPlacementManagement = () => {
     const studentPlacement = [
@@ -36,35 +39,35 @@ export const StudentPlacementManagement = () => {
 
                         <div className={`absolute ellipse -top-2 left-2`}>
                             <Ellipse
-                                Icon={HiOutlineStatusOnline}
+                                Icon={FaConnectdevelop}
                                 text="Connect"
                             />
                         </div>
-                        <div className={`absolute ellipse top-12 left-32`}>
+                        <div className={`absolute ellipse2 top-12 left-32`}>
                             <Ellipse
-                                Icon={HiOutlineStatusOnline}
+                                Icon={BsStars}
                                 text="Efficient"
                             />
                         </div>
-                        <div className={`absolute ellipse top-40 left-48`}>
+                         <div className={`absolute ellipse3 top-40 left-48`}>
                             <Ellipse
-                                Icon={HiOutlineStatusOnline}
+                                Icon={BsRecordCircle}
                                 text="Record"
                             />
                         </div>
-                        <div className={`absolute ellipse top-72 left-52`}>
+                        <div className={`absolute ellipse4 top-72 left-52`}>
                             <Ellipse
                                 Icon={HiOutlineStatusOnline}
                                 text="Online"
                             />
                         </div>
-                        <div className={`absolute ellipse top-[25rem] left-36`}>
+                        <div className={`absolute ellipse5 top-[25rem] left-36`}>
                             <Ellipse
-                                Icon={HiOutlineStatusOnline}
+                                Icon={VscWorkspaceTrusted}
                                 text="Trust"
                             />
                         </div>
-                        <div className={`absolute ellipse top-[29rem] left-9`}>
+                        <div className={`absolute ellipse6 top-[29rem] left-9`}>
                             <Ellipse
                                 Icon={HiOutlineStatusOnline}
                                 text="Paperless"
