@@ -177,7 +177,6 @@ export const AddIndustry = () => {
         }
         SignUpUtils.setValuesToStorage(values)
         addIndustry(data)
-        // console.log('data', data)
         // router.push('/portals/admin/search-workplaces?tab=all&page=1&pageSize=50')
     }
     return (

@@ -38,16 +38,18 @@ const Loading = () => {
 }
 
 export const getDocType = (type: string) => {
+    const docs = ['pdf', 'document']
+    const images = ['jpg', 'png', 'jpeg', 'JPG', 'jfif', 'webp']
+    const videos = ['mp4', 'mkv', 'avi', 'mpeg', 'quicktime', 'mov']
     switch (type) {
         case 'docs':
-            return ['pdf', 'document']
+            return docs
         case 'images':
-            return ['jpg', 'png', 'jpeg', 'JPG', 'jfif']
+            return images
         case 'video':
-            return ['mp4', 'mkv', 'avi', 'mpeg', 'quicktime', 'mov']
-
+            return videos
         default:
-            return ['pdf', 'jpg', 'png', 'jpeg', 'mp4']
+            return [...docs, ...images, ...videos]
     }
 }
 
@@ -203,8 +205,6 @@ export const AssessmentFolderDetailX = ({
                                         multiple
                                     />
                                 ) : null
-
-
                             ) : (
                                 <div>
                                     {folder.isActive ? (

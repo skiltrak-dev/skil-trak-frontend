@@ -1,5 +1,6 @@
 import { Typography } from '@components/Typography'
 import { Button } from '@components/buttons'
+import { useRouter } from 'next/router'
 import { AiOutlineArrowRight } from 'react-icons/ai'
 import { MdHomeWork } from 'react-icons/md'
 
@@ -11,6 +12,7 @@ export const OurPackage = ({
     textColor,
     onClick,
 }: any) => {
+    const router = useRouter()
     return (
         <>
             <div className={`${color} rounded-2xl p-12 h-[450px] w-80 md:w-96`}>
@@ -34,6 +36,12 @@ export const OurPackage = ({
                             <Button
                                 variant="primary"
                                 text="Start With This Package"
+                                onClick={() =>
+                                    router.push({
+                                        pathname: '/auth/signup/rto',
+                                        query: { step: 'account-info' },
+                                    })
+                                }
                             />
                         </div>
                     </div>

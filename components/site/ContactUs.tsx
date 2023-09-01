@@ -41,7 +41,6 @@ export const ContactUs = () => {
     }, [sendUsQueryResult.isSuccess])
     const onSubmit = (data: any) => {
         sendUsQuery(data)
-        console.log(data)
     }
     return (
         <div className="md:p-36 px-4 py-8 mt-10 md:mt-0">
