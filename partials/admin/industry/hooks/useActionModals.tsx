@@ -16,7 +16,6 @@ export const useActionModals = () => {
     const [modal, setModal] = useState<ReactElement | null>(null)
 
     const onModalCancelClicked = () => {
-        console.log('null')
         setModal(null)
     }
     const onAcceptClicked = (industry: Industry | undefined | null) => {

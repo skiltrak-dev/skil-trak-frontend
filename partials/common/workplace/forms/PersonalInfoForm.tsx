@@ -39,9 +39,6 @@ export const PersonalInfoForm = ({
     const [isPlaceSelected, setIsPlaceSelected] = useState<boolean>(false)
 
     const { notification } = useNotification()
-
-    console.log('selectedCourse', selectedCourse, courses)
-
     useEffect(() => {
         if (
             personalInfoData?.courses ||
@@ -53,7 +50,6 @@ export const PersonalInfoForm = ({
             )
 
             const course = courseData || courses?.data?.[0]
-            console.log({ course })
             setSelectedCourse({
                 label: course?.title,
                 value: course?.id,

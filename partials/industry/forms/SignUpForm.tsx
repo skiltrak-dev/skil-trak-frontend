@@ -25,7 +25,6 @@ export const IndustrySignUpForm = ({ onSubmit }: { onSubmit: any }) => {
 
     const [sectorOptions, setSectorOptions] = useState<any>([])
     const [selectedSector, setSelectedSector] = useState<any>(null)
-    console.log('selectedSector', selectedSector)
     const [courseOptions, setCourseOptions] = useState([])
     const [courseLoading, setCourseLoading] = useState(false)
 
@@ -166,7 +165,6 @@ export const IndustrySignUpForm = ({ onSubmit }: { onSubmit: any }) => {
         const selectedRowData = selectedRowDataString
             ? JSON.parse(selectedRowDataString)
             : {}
-        console.log('Local', selectedRowData)
 
         formMethods.setValue('name', selectedRowData?.businessName || '')
         formMethods.setValue('email', selectedRowData?.email || '')

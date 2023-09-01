@@ -178,7 +178,6 @@ const AddIndustry: NextPageWithLayout = () => {
         //     role: UserRoles.INDUSTRY,
         // }
         // SignUpUtils.setValuesToStorage(data)
-        console.log("data",values)
         // addIndustry(data)
         // router.push('/portals/admin/search-workplaces?tab=all&page=1&pageSize=50')
     }
