@@ -1,4 +1,3 @@
-import { Industry } from '@types'
 import {
     IWorkplaceIndustries,
     WorkplaceWorkIndustriesType,

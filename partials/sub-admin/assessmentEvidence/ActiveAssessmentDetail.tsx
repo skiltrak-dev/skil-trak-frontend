@@ -69,7 +69,6 @@ export const ActiveAssessmentDetail = ({
     const [editAssessment, setEditAssessment] = useState<boolean>(false)
     const { isAssessmentDownloading, setIsAssessmentDownloading } =
         useDownloadAssessment()
-    console.log({ isAssessmentDownloading })
 
     const results = getCourseResult(selectedCourse?.results)
 
