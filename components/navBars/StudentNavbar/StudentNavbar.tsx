@@ -200,25 +200,6 @@ export const StudentNavbar = () => {
                             </a>
                         </Link>
                     </li>
-
-                    {/* <li>
-                <Link legacyBehavior href="/portals/student/notifications">
-                    <a
-                        className={`${
-                            router.pathname == '/portals/student/notifications'
-                                ? 'bg-blue-100 text-blue-700'
-                                : 'text-slate-700'
-                        } ${defaultClasses} hover:bg-blue-100 hover:text-blue-700`}
-                    >
-                        <span>
-                            <MdNotifications />
-                        </span>
-                        <span className="text-sm font-semibold">
-                            Notifications
-                        </span>
-                    </a>
-                </Link>
-            </li> */}
                 </ul>
             </Mobile>
         </>

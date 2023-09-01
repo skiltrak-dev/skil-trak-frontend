@@ -27,7 +27,7 @@ export const DocumentsView = () => {
         // setSelected(file)
 
         if (
-            ['jpg', 'jpeg', 'png', 'jfif', 'heiv'].includes(
+            ['jpg', 'jpeg', 'png', 'jfif', 'heiv', 'JPG', 'webp'].includes(
                 file?.extension?.toLowerCase()
             )
         ) {

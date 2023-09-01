@@ -125,7 +125,7 @@ export const StudentLayout = ({ pageTitle, children }: StudentLayoutProps) => {
                     <StudentContextBar />
                     <div className="px-4 mb-32 md:px-16">
                         <div className="mb-6">
-                            <div className="flex justify-between items-center">
+                            <div className="flex justify-between">
                                 <StudentNavbar />
                                 {profile.data?.expiryDate && (
                                     <StudentTimer

@@ -122,7 +122,7 @@ export const IndustrySignUpForm = ({ onSubmit }: { onSubmit: any }) => {
                 'Please check if you agree with our terms & policies'
             ),
     })
-   
+
     useEffect(() => {
         if (sectorResponse.data?.length) {
             const options = sectorResponse.data?.map((sector: any) => ({
@@ -160,8 +160,8 @@ export const IndustrySignUpForm = ({ onSubmit }: { onSubmit: any }) => {
         mode: 'all',
         resolver: yupResolver(validationSchema),
     })
+    const selectedRowDataString = localStorage?.getItem('signup-data')
     useEffect(() => {
-        const selectedRowDataString = localStorage?.getItem('signup-data')
         const selectedRowData = selectedRowDataString
             ? JSON.parse(selectedRowDataString)
             : {}
@@ -178,26 +178,25 @@ export const IndustrySignUpForm = ({ onSubmit }: { onSubmit: any }) => {
                           value: selectedRowData?.sector?.id,
                       },
                   ]
-                : null
+                : []
         )
-    }, [formMethods.setValue])
+    }, [formMethods.setValue, selectedRowDataString])
     useEffect(() => {
-        const selectedRowDataString = localStorage?.getItem('signup-data');
         const selectedRowData = selectedRowDataString
             ? JSON.parse(selectedRowDataString)
-            : {};
+            : {}
 
         if (selectedRowData?.sectors) {
-            setSelectedSector(selectedRowData.sectors);
-            onSectorChanged(selectedRowData.sectors);
+            setSelectedSector(selectedRowData.sectors)
+            onSectorChanged(selectedRowData.sectors)
         }
-    }, []);
+    }, [selectedRowDataString])
 
     useEffect(() => {
         if (selectedSector) {
-            onSectorChanged(selectedSector);
+            onSectorChanged(selectedSector)
         }
-    }, [selectedSector]);
+    }, [selectedSector])
 
     return (
         <FormProvider {...formMethods}>

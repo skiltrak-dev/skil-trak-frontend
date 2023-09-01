@@ -62,6 +62,25 @@ export const DetailNavbar = () => {
             </div>
 
             <div className="flex items-center gap-x-4 md:gap-x-8">
+                <AuthorizedUserComponent roles={[UserRoles.STUDENT]}>
+                    <Link legacyBehavior href={'/portals/student/history'}>
+                        <a
+                            className={` ${
+                                router.pathname === '/portals/student/history'
+                                    ? 'bg-green-100 text-green-700'
+                                    : 'text-slate-700'
+                            } transition-all duration-300 px-4 py-2 flex gap-x-2 items-center rounded-md hover:bg-green-100 hover:text-green-700`}
+                        >
+                            <span>
+                                <BsFillTicketDetailedFill />
+                            </span>
+                            <span className="text-sm font-semibold">
+                                History
+                            </span>
+                        </a>
+                    </Link>
+                </AuthorizedUserComponent>
+
                 <AuthorizedUserComponent roles={[UserRoles.SUBADMIN]}>
                     <Link
                         legacyBehavior
