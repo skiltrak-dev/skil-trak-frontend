@@ -34,7 +34,7 @@ export const NavLink2 = ({ to, text, asButton = false, external }: any) => {
     mx-6
     text-sm
     uppercase
-    font-bold
+    font-semibold
     relative
     transition
     duration-300
