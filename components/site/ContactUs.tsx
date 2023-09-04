@@ -43,16 +43,17 @@ export const ContactUs = () => {
         sendUsQuery(data)
     }
     return (
-        <div className="md:p-36 px-4 py-8 mt-10 md:mt-0">
+        <div className="md:p-24 px-4 py-8 mt-10 md:mt-0">
             <ShowErrorNotifications result={sendUsQueryResult} />
             <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center gap-y-10 md:gap-x-20 md:justify-between">
                 <div className="md:w-2/3 w-full">
                     <div className="mb-2">
-                        <Typography variant="h1">Lets Talk</Typography>
+                        <h2 className="text-[64px] font-bold">Lets Talk</h2>
+                        <p className="text-[48px] font-medium">
+                            Tell us about you!
+                        </p>
                     </div>
-                    <div>
-                        <Typography variant="h4">Tell us about you!</Typography>
-                    </div>
+
                     <div className="flex flex-col md:flex-row md:items-center gap-y-4 md:gap-x-20 mt-4">
                         <div className="flex items-center gap-x-4">
                             <div className="p-4 rounded-2xl bg-[#F1DBC6]">
