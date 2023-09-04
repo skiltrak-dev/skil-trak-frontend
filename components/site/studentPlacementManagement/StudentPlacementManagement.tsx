@@ -1,33 +1,33 @@
-import { Typography } from '@components/Typography'
 import Image from 'next/image'
-import { Ellipse } from './Ellipse'
-import { HiOutlineStatusOnline } from 'react-icons/hi'
-import { TbBulbFilled } from 'react-icons/tb'
 import { BsRecordCircle, BsStars } from 'react-icons/bs'
 import { FaConnectdevelop } from 'react-icons/fa'
+import { GiPapers } from 'react-icons/gi'
+import { HiOutlineStatusOnline } from 'react-icons/hi'
+import { TbBulbFilled } from 'react-icons/tb'
 import { VscWorkspaceTrusted } from 'react-icons/vsc'
+import { Ellipse } from './Ellipse'
 
 export const StudentPlacementManagement = () => {
     const studentPlacement = [
         {
             title: 'Trust us with your student placement at Skiltrak',
-            content: `Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc aliquam nibh in diam dictum mattis. Sed eget posuere tellus, sit amet luctus mi.`,
+            content: `Entrust us with your student placement at Skiltrak, where our dedicated team ensures you find the ideal academic institution and program for a successful educational journey.`,
         },
         {
             title: 'Get surrounded by an encouraging and supportive team',
-            content: `Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc aliquam nibh in diam dictum mattis. Sed eget posuere tellus, sit amet luctus mi.`,
+            content: `Experience the warmth and support of our encouraging team, surrounding you with unwavering positivity.`,
         },
         {
             title: 'Receive our Student Placement Management Platform',
-            content: `Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc aliquam nibh in diam dictum mattis. Sed eget posuere tellus, sit amet luctus mi.`,
+            content: `Embrace our Student Placement Management Platform, designed to streamline and enhance your student placement experience.`,
         },
         {
             title: 'Track your student placement progress',
-            content: `Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc aliquam nibh in diam dictum mattis. Sed eget posuere tellus, sit amet luctus mi.`,
+            content: `Effortlessly monitor your student placement progress with our intuitive tracking system.`,
         },
         {
             title: 'Create industry partners along the way',
-            content: `Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc aliquam nibh in diam dictum mattis. Sed eget posuere tellus, sit amet luctus mi.`,
+            content: `Forge valuable industry partnerships along your journey with us, opening doors to endless opportunities.`,
         },
     ]
     return (
@@ -38,22 +38,13 @@ export const StudentPlacementManagement = () => {
                         <div className="border rounded-full big-ellipse-clr w-[200px] h-[200px] md:w-[480px] md:h-[480px] p-4"></div>
 
                         <div className={`absolute ellipse -top-2 left-2`}>
-                            <Ellipse
-                                Icon={FaConnectdevelop}
-                                text="Connect"
-                            />
+                            <Ellipse Icon={FaConnectdevelop} text="Connect" />
                         </div>
                         <div className={`absolute ellipse2 top-12 left-32`}>
-                            <Ellipse
-                                Icon={BsStars}
-                                text="Efficient"
-                            />
+                            <Ellipse Icon={BsStars} text="Efficient" />
                         </div>
-                         <div className={`absolute ellipse3 top-40 left-48`}>
-                            <Ellipse
-                                Icon={BsRecordCircle}
-                                text="Record"
-                            />
+                        <div className={`absolute ellipse3 top-40 left-48`}>
+                            <Ellipse Icon={BsRecordCircle} text="Record" />
                         </div>
                         <div className={`absolute ellipse4 top-72 left-52`}>
                             <Ellipse
@@ -61,15 +52,14 @@ export const StudentPlacementManagement = () => {
                                 text="Online"
                             />
                         </div>
-                        <div className={`absolute ellipse5 top-[25rem] left-36`}>
-                            <Ellipse
-                                Icon={VscWorkspaceTrusted}
-                                text="Trust"
-                            />
+                        <div
+                            className={`absolute ellipse5 top-[25rem] left-36`}
+                        >
+                            <Ellipse Icon={VscWorkspaceTrusted} text="Trust" />
                         </div>
                         <div className={`absolute ellipse6 top-[29rem] left-9`}>
                             <Ellipse
-                                Icon={HiOutlineStatusOnline}
+                                Icon={GiPapers}
                                 text="Paperless"
                             />
                         </div>
@@ -87,35 +77,28 @@ export const StudentPlacementManagement = () => {
                         </div>
                     </div>
                 </div>
-                <div className="px-4 md:px-0 md:pr-36 py-8 md:py-20">
+                <div className="px-4 md:px-0 py-8 md:py-20">
                     <div className="mb-5">
-                        <Typography variant="h3">
+                        <h2 className="text-3xl font-bold">
                             Student Placement Management System
-                        </Typography>
+                        </h2>
                     </div>
-                    <div>
-                        {studentPlacement.map((placement, index) => (
-                            <>
-                                <div className="flex gap-x-2">
-                                    <TbBulbFilled className="text-[#F7910F] text-lg" />
-                                    <Typography
-                                        variant="label"
-                                        color={'text-[#F7910F]'}
-                                    >
-                                        {placement.title}
-                                    </Typography>
-                                </div>
-                                <div className="md:ml-7 ml-4">
-                                    <Typography
-                                        variant="body"
-                                        color={'text-[#6B7280]'}
-                                    >
-                                        {placement.content}
-                                    </Typography>
-                                </div>
-                            </>
-                        ))}
-                    </div>
+
+                    {studentPlacement.map((placement, index) => (
+                        <div className='mb-4'>
+                            <div className="flex gap-x-2">
+                                <TbBulbFilled className="text-[#F7910F] text-lg " />
+                                <p className="text-[#F7910F] text-md font-medium">
+                                    {placement.title}
+                                </p>
+                            </div>
+                            <div className="md:ml-7 ml-4">
+                                <p className="text-sm text-[#6B7280]">
+                                    {placement.content}
+                                </p>
+                            </div>
+                        </div>
+                    ))}
                 </div>
             </div>
         </div>
