@@ -51,10 +51,11 @@ export const JumboSection = () => {
                         </p>
                     </div>
                     <div>
-                        <Button
+                        {/* <Button
                             variant="primary"
                             text="Get Started with your portal"
-                        />
+
+                        /> */}
                     </div>
                 </div>
 
