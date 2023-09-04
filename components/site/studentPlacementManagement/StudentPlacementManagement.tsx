@@ -31,7 +31,7 @@ export const StudentPlacementManagement = () => {
         },
     ]
     return (
-        <div className="bg-[#EFF5FF]  mt-16">
+        <div className="bg-[#EFF5FF] mt-0 md:mt-16">
             <div className="max-w-7xl mx-auto block md:flex md:justify-between md:gap-x-12">
                 <div className="pl-0 md:pl-36 py-0 md:py-20">
                     <div className="md:block  hidden relative border big-ellipse-clr rounded-full w-[520px] h-[520px] p-4">
@@ -58,10 +58,7 @@ export const StudentPlacementManagement = () => {
                             <Ellipse Icon={VscWorkspaceTrusted} text="Trust" />
                         </div>
                         <div className={`absolute ellipse6 top-[29rem] left-9`}>
-                            <Ellipse
-                                Icon={GiPapers}
-                                text="Paperless"
-                            />
+                            <Ellipse Icon={GiPapers} text="Paperless" />
                         </div>
 
                         <div className="absolute w-72 md:w-auto top-0 -left-20">
@@ -79,20 +76,20 @@ export const StudentPlacementManagement = () => {
                 </div>
                 <div className="px-4 md:px-0 py-8 md:py-20">
                     <div className="mb-5">
-                        <h2 className="text-3xl font-bold">
+                        <h2 className="text-[28px] md:text-3xl font-bold">
                             Student Placement Management System
                         </h2>
                     </div>
 
                     {studentPlacement.map((placement, index) => (
-                        <div className='mb-4'>
+                        <div key={index} className="mb-4">
                             <div className="flex gap-x-2">
-                                <TbBulbFilled className="text-[#F7910F] text-lg " />
-                                <p className="text-[#F7910F] text-md font-medium">
+                                <TbBulbFilled className="text-[#F7910F] text-base md:text-lg " />
+                                <p className="text-[#F7910F] text-base font-semibold">
                                     {placement.title}
                                 </p>
                             </div>
-                            <div className="md:ml-7 ml-4">
+                            <div className="md:ml-7 ml-6">
                                 <p className="text-sm text-[#6B7280]">
                                     {placement.content}
                                 </p>

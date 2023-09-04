@@ -43,8 +43,8 @@ export const OurPackages = () => {
     }, [selectedPackage])
 
     return (
-        <>
-            <div className=" mt-16 mb-4 flex justify-center">
+        <div className="py-8 px-4 md:py-[72px]">
+            <div className="flex justify-center mb-4">
                 <Typography variant="h2">Our Packages</Typography>
             </div>
 
@@ -69,7 +69,7 @@ export const OurPackages = () => {
                     selectedPackage > 0 ? 'opacity-0' : 'opacity-100 delay-1000'
                 } ${
                     isDone ? 'hidden' : 'block'
-                } transition-all duration-1000 max-w-7xl mx-auto flex flex-col md:flex-row gap-y-8 md:gap-x-12 md:justify-center items-center px-4 md:px-36`}
+                } transition-all duration-1000 max-w-7xl mx-auto flex flex-col md:flex-row gap-y-8 md:gap-x-12 md:justify-center md:items-center px-0 md:px-36`}
             >
                 {SkiltrakPackages.map((pack, index) => (
                     <OurPackage
@@ -85,6 +85,6 @@ export const OurPackages = () => {
                     />
                 ))}
             </div>
-        </>
+        </div>
     )
 }

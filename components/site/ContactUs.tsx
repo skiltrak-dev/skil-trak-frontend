@@ -10,7 +10,7 @@ import { CommonApi } from '@queries'
 import { useEffect } from 'react'
 import { useNotification } from '@hooks'
 import { ShowErrorNotifications } from '@components/ShowErrorNotifications'
-export const ContactUs = () => {
+export const ContactUs = ({ contactUsRef }: any) => {
     const { notification } = useNotification()
     const [sendUsQuery, sendUsQueryResult] = CommonApi.Messages.useContactUs()
     const validationSchema = yup.object({
@@ -43,13 +43,15 @@ export const ContactUs = () => {
         sendUsQuery(data)
     }
     return (
-        <div className="md:p-24 px-4 py-8 mt-10 md:mt-0">
+        <div  ref={contactUsRef} className="md:p-24 px-4 py-8">
             <ShowErrorNotifications result={sendUsQueryResult} />
             <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center gap-y-10 md:gap-x-20 md:justify-between">
                 <div className="md:w-2/3 w-full">
                     <div className="mb-2">
-                        <h2 className="text-[64px] font-bold">Lets Talk</h2>
-                        <p className="text-[48px] font-medium">
+                        <h2 className="md:text-[64px] text-5xl  font-bold">
+                            Lets Talk
+                        </h2>
+                        <p className="md:text-[48px] text-3xl font-medium">
                             Tell us about you!
                         </p>
                     </div>

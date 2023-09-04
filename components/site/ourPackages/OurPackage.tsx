@@ -15,7 +15,7 @@ export const OurPackage = ({
     const router = useRouter()
     return (
         <>
-            <div className={`${color} rounded-2xl p-12 h-[450px] w-80 md:w-96`}>
+            <div className={`${color} rounded-2xl p-12 h-[450px] w-auto md:w-96`}>
                 <div className="text-3xl mb-6 md:mb-10">
                     <MdHomeWork className="text-white" />
                 </div>

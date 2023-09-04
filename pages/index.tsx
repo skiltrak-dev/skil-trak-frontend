@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { NextPage } from 'next'
 import Image from 'next/image'
 // Components
@@ -16,6 +16,7 @@ import { KeyFeatures } from '@components/site/keyFeatures'
 import { JumboSection } from '@components/site/JumboSection'
 
 const Home3: NextPage = () => {
+    const contactUsRef = useRef(null)
     return (
         <div>
             <Navbar2 />
@@ -32,9 +33,9 @@ const Home3: NextPage = () => {
             {/* We Operate in the Following States */}
             <WeOperate />
             {/* Get Started With Us */}
-            <GetStartedWithUs />
+            <GetStartedWithUs contactUsRef={contactUsRef} />
             {/* Lets Talk */}
-            <ContactUs />
+            <ContactUs contactUsRef={contactUsRef} />
             {/*  Footer */}
             <Footer3 />
         </div>
