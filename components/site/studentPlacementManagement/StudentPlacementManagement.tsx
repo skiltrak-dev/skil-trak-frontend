@@ -85,7 +85,7 @@ export const StudentPlacementManagement = () => {
                     </div>
 
                     {studentPlacement.map((placement, index) => (
-                        <div className='mb-4'>
+                        <div className='mb-4' key={index}>
                             <div className="flex gap-x-2">
                                 <TbBulbFilled className="text-[#F7910F] text-lg " />
                                 <p className="text-[#F7910F] text-md font-medium">
