@@ -13,7 +13,7 @@ export const WeOperate = () => {
             </div>
 
             {/* Desktop View */}
-            <div className=" mx-auto max-w-7xl">
+            <div className=" mx-auto max-w-7xl ">
                 <div className="relative w-96 h-[300px] md:w-[1024px] md:h-[668px] ">
                     <Image
                         className="w-full h-full"
@@ -35,7 +35,7 @@ export const WeOperate = () => {
                         href={
                             'https://www.google.com/maps/place/Queensland,+Australia/@-18.8511163,135.0927291,5z/data=!3m1!4b1!4m6!3m5!1s0x6bd4df247a62dcfd:0xf5f2d0227612be99!8m2!3d-22.575197!4d144.0847926!16zL20vMGczOWg?entry=ttu'
                         }
-                        className="z-40 absolute hover:text-white group top-16 right-16 md:top-24 md:right-48 "
+                        className="z-40 absolute hover:text-white group top-16 right-16 md:top-24 md:right-[13%] "
                     >
                         <div className="bg-white  group-hover:bg-[#F7910F] hover:text-white px-1 md:px-2 py-0.5 md:py-1 flex items-center gap-x-1 md:gap-x-2">
                             <HiLocationMarker className="hover:text-white text-xs md:text-[16px]" />
@@ -49,7 +49,7 @@ export const WeOperate = () => {
                         href={
                             'https://www.google.com/maps/place/Northern+Territory,+Australia/@-18.1830844,122.8162297,5z/data=!3m1!4b1!4m6!3m5!1s0x2b5172c2e6f3190f:0x2775!8m2!3d-19.4914108!4d132.5509603!16zL20vMDVmZjY?entry=ttu'
                         }
-                        className="z-40 absolute group top-4 left-44 md:top-[8rem] md:left-[23.5rem] "
+                        className="z-40 absolute group top-4 left-44 md:top-[11%] md:left-[46%] "
                     >
                         <div className="bg-white group-hover:bg-[#F7910F] hover:text-white px-1 md:px-2 py-0.5 md:py-1 flex items-center gap-x-1 md:gap-x-2">
                             <HiLocationMarker className="hover:text-white text-xs md:text-[16px]" />
@@ -63,7 +63,7 @@ export const WeOperate = () => {
                         href={
                             'https://www.google.com/maps/place/South+Australia,+Australia/@-31.5843508,124.3613065,5z/data=!3m1!4b1!4m6!3m5!1s0x6aa7589e5be8c7f3:0xdb7e79993dfad0d8!8m2!3d-30.0002315!4d136.2091547!16zL20vMDZtdHE?entry=ttu'
                         }
-                        className="z-40 absolute group top-[8.5rem] left-24 md:top-[17rem] md:left-[26.5rem] "
+                        className="z-40 absolute group top-[8.5rem] left-24 md:top-[44%] md:left-[47%] "
                     >
                         <BiSolidDownArrow className="ml-16 md:ml-0 rotate-180 w-full text-right text-white md:hidden block group-hover:text-[#F7910F] text-xs mb-0.5" />
                         <div className="bg-white group-hover:bg-[#F7910F] hover:text-white px-1 md:px-2 py-0.5 md:py-1 flex items-center gap-x-1 md:gap-x-2">
@@ -78,7 +78,7 @@ export const WeOperate = () => {
                         href={
                             'https://www.google.com/maps/place/Western+Australia,+Australia/@-24.0384057,110.2938342,5z/data=!3m1!4b1!4m6!3m5!1s0x2a392a2e89f384d1:0x6e0e4adf3200a399!8m2!3d-27.6728168!4d121.6283098!16zL20vMDg0N3E?entry=ttu'
                         }
-                        className="z-40 absolute group top-[4.8rem] left-14 md:top-[13.5rem] md:left-[11rem] "
+                        className="z-40 absolute group top-[4.8rem] left-14 md:top-[32%] md:left-[12%] "
                     >
                         <div className="bg-white group-hover:bg-[#F7910F] hover:text-white px-1 md:px-2 py-0.5 md:py-1 flex items-center gap-x-1 md:gap-x-2">
                             <HiLocationMarker className="hover:text-white text-xs md:text-[16px] " />
@@ -92,7 +92,7 @@ export const WeOperate = () => {
                         href={
                             'https://www.google.com/maps/place/New+South+Wales,+Australia/@-32.3802907,139.4146106,5z/data=!3m1!4b1!4m6!3m5!1s0x6b0dcb74f75e4b0d:0x1780af1122c49f2d!8m2!3d-31.2532183!4d146.921099!16zL20vMDVmbHk?entry=ttu'
                         }
-                        className="z-40 absolute group top-[6.5rem] right-10 md:top-[14.5rem] md:right-4"
+                        className="z-40 absolute group top-[6.5rem] right-10 md:top-[45%] md:right-[-4%]"
                     >
                         <div className="bg-white group-hover:bg-[#F7910F] hover:text-white px-1 md:px-2 py-0.5 md:py-1 flex items-center gap-x-1 md:gap-x-2">
                             <HiLocationMarker className="hover:text-white text-xs md:text-[16px]" />
@@ -106,7 +106,7 @@ export const WeOperate = () => {
                         href={
                             'https://www.google.com/maps/place/Victoria,+Australia/@-36.2443251,143.4996593,6.25z/data=!4m6!3m5!1s0x6ad4314b7e18954f:0x5a4efce2be829534!8m2!3d-36.9847807!4d143.3906074!16zL20vMGNoZ3Iy?entry=ttu'
                         }
-                        className="z-40 absolute group top-36 right-16 md:top-[22.8rem] md:right-[11.3rem]"
+                        className="z-40 absolute group bottom-36 right-16 md:bottom-[31%] md:right-[20%]"
                     >
                         <div className="bg-white group-hover:bg-[#F7910F] hover:text-white px-1 md:px-2 py-0.5 md:py-1 flex items-center gap-x-1 md:gap-x-2">
                             <HiLocationMarker className="hover:text-white text-xs md:text-[16px]" />
@@ -118,7 +118,7 @@ export const WeOperate = () => {
                         href={
                             'https://www.google.com/maps/place/Tasmania,+Australia/@-41.405173,141.4311049,6z/data=!4m6!3m5!1s0xaa7aed277e34facf:0x2a8fa5dd29404064!8m2!3d-42.0409059!4d146.8087323!16zL20vMDdjZng?entry=ttu'
                         }
-                        className="z-40 absolute group top-[12.6rem] right-[6rem] md:top-[31.2rem] md:right-[8.5rem]"
+                        className="z-40 absolute group bottom-[12.6rem] right-[6rem] md:bottom-[13%] md:right-[10%]"
                     >
                         <div className="bg-white hidden group-hover:bg-[#F7910F] hover:text-white px-1 md:px-2 py-0.5 md:py-1 md:flex items-center gap-x-1 md:gap-x-2">
                             <HiLocationMarker className="hover:text-white " />

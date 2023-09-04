@@ -28,7 +28,7 @@ const links = [
     },
 ]
 
-export const Navbar2 = () => {
+export function Navbar2() {
     const [isMenuOpen, setIsMenuOpen] = useState(false)
     const [navLinks, setNavlinks] = useState(links)
 
@@ -64,7 +64,8 @@ export const Navbar2 = () => {
     }, [prevScrollPosition])
 
     return (
-        <nav className={`md:active-nav ${show && 'hidden-nav'}`}>
+        // <nav className={`md:active-nav ${show && 'hidden-nav'}`}>
+        <nav>
             <div className="w-full mx-auto md:px-6 lg:px-36">
                 <div className="relative max-w-7xl mx-auto flex items-center justify-between h-24 ">
                     <div className="absolute inset-y-0 left-0 flex items-center md:hidden">
@@ -122,19 +123,22 @@ export const Navbar2 = () => {
                             </svg>
                         </button>
                     </div>
-                    <div className="flex-1 flex items-center justify-center md:items-stretch md:justify-start">
+                    <div className="flex-1 flex items-center justify-center md:items-end md:justify-start">
+                        {/* Logo */}
                         <div className="flex-shrink-0 flex items-center">
                             <img
                                 className="block lg:hidden h-8 w-auto"
                                 src={'/images/site/logo-light.png'}
-                                alt="Workflow"
+                                alt="Skiltrak Logo"
                             />
                             <img
-                                className="hidden lg:block h-8 w-auto"
+                                className="hidden lg:block h-12 w-auto"
                                 src={'/images/site/logo-light.png'}
-                                alt="Workflow"
+                                alt="Skiltrak Logo"
                             />
                         </div>
+
+                        {/* Nav Links */}
                         <div className="hidden md:block md:ml-auto">
                             <div className="flex md:items-center">
                                 {navLinks.map((link, i) => (

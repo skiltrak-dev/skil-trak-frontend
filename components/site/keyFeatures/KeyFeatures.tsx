@@ -9,42 +9,87 @@ import { Button } from '@components/buttons'
 
 export const KeyFeatures = () => {
     const router = useRouter()
+    // const features = [
+    //     {
+    //         icon: <MdOutlinePolyline />,
+    //         title: 'Automated Allocation',
+    //         content: `A hassle-free process offered by Skiltrak students accounts are automatically`,
+    //         color: 'bg-[#FFFAEF]',
+    //     },
+    //     {
+    //         icon: <RiComputerFill />,
+    //         title: 'Automated Allocation',
+    //         content: `A hassle-free process offered by Skiltrak students accounts are automatically`,
+    //         color: 'bg-[#F3F8FC]',
+    //     },
+    //     {
+    //         icon: <FaUserClock />,
+    //         title: 'Automated Allocation',
+    //         content: `A hassle-free process offered by Skiltrak students accounts are automatically`,
+    //         color: 'bg-[#E8F8F4]',
+    //     },
+    //     {
+    //         icon: <FaFileSignature />,
+    //         title: 'Automated Allocation',
+    //         content: `A hassle-free process offered by Skiltrak students accounts are automatically`,
+    //         color: 'bg-[#FDF7F6]',
+    //     },
+    //     {
+    //         icon: <AiFillSchedule />,
+    //         title: 'Automated Allocation',
+    //         content: `A hassle-free process offered by Skiltrak students accounts are automatically`,
+    //         color: 'bg-[#FBFBFC]',
+    //     },
+    //     {
+    //         icon: <MdAttachEmail />,
+    //         title: 'Automated Allocation',
+    //         content: `A hassle-free process offered by Skiltrak students accounts are automatically`,
+    //         color: 'bg-[#EFFAFD]',
+    //     },
+    // ]
+
     const features = [
         {
             icon: <MdOutlinePolyline />,
-            title: 'Automated Allocation',
-            content: `A hassle-free process offered by Skiltrak students accounts are automatically`,
+            title: 'Bulk Students Accounts',
+            content: `A hassle-free process offered by Skiltrak students accounts are automatically ...`,
             color: 'bg-[#FFFAEF]',
+            link: 'bulk-students-accounts',
         },
         {
             icon: <RiComputerFill />,
-            title: 'Automated Allocation',
-            content: `A hassle-free process offered by Skiltrak students accounts are automatically`,
+            title: 'Save Time With Automation',
+            content: `Save time with dynamic rules and automate repetitive tasks such as auto account ...`,
             color: 'bg-[#F3F8FC]',
+            link: 'save-time-with-automation',
         },
         {
             icon: <FaUserClock />,
-            title: 'Automated Allocation',
-            content: `A hassle-free process offered by Skiltrak students accounts are automatically`,
+            title: 'Progress Tracing',
+            content: `In working toward achieving competencies, students in placement can view their ...`,
             color: 'bg-[#E8F8F4]',
-        },
-        {
-            icon: <FaFileSignature />,
-            title: 'Automated Allocation',
-            content: `A hassle-free process offered by Skiltrak students accounts are automatically`,
-            color: 'bg-[#FDF7F6]',
+            link: 'progress-tracing',
         },
         {
             icon: <AiFillSchedule />,
-            title: 'Automated Allocation',
-            content: `A hassle-free process offered by Skiltrak students accounts are automatically`,
+            title: 'Work Schedule',
+            content: `SkilTrak Workplace desktop, tablet and mobile app easily enable learners to locate ...`,
+            color: 'bg-[#FDF7F6]',
+            link: 'work-schedule',
+        },
+        {
+            icon: <FaFileSignature />,
+            title: 'E-Sign System',
+            content: `It's easier than ever to sign all your most important documents without the hassle ...`,
             color: 'bg-[#FBFBFC]',
+            link: 'e-sign',
         },
         {
             icon: <MdAttachEmail />,
-            title: 'Automated Allocation',
-            content: `A hassle-free process offered by Skiltrak students accounts are automatically`,
+            title: 'Enhanced Communication',
+            content: `Learners can access discussions, notifications, emails and information about ...`,
             color: 'bg-[#EFFAFD]',
+            link: 'enhanced-communication',
         },
     ]
     return (
@@ -62,6 +107,7 @@ export const KeyFeatures = () => {
                         title={feature.title}
                         content={feature.content}
                         color={feature.color}
+                        link={feature.link}
                     />
                 ))}
             </div>

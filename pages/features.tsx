@@ -29,22 +29,19 @@ const features = [
     {
         icon: <FaUserGraduate />,
         name: 'Bulk Students Accounts Creating',
-        description: `A hassle-free process offered by Skiltrak – students accounts are 
-            automatically generated from the RTO’s student list, accessible 
-            by RTO, students and Industry.`,
+        description: `A hassle-free process offered by Skiltrak – students accounts are automatically generated from the RTO’s student list, accessible by RTO, students and Industry.`,
+        id: 'bulk-students-accounts',
     },
     {
         icon: <FaVideo />,
         name: 'Video Conferencing',
-        description: `Video conferencing offers all the benefits that come with face-to-
-    face communication, without the cost of commuting or traveling. 
-    For RTOs, this means no hiccups in communication for students 
-    in work placements regardless of travel capability or safety 
-    restrictions. `,
+        description: `Video conferencing offers all the benefits that come with face-to-face communication, without the cost of commuting or traveling. For RTOs, this means no hiccups in communication for students in work placements regardless of travel capability or safety restrictions. `,
+        id: '',
     },
     {
         icon: <FaFileSignature />,
         name: 'E-Sign System',
+        id: 'e-sign',
         description: `It's easier than ever to sign all your most important documents 
     without the hassle of a printer, scanner, or fax machine. Legally 
     binding electronic signatures empower you to sign documents
@@ -54,24 +51,28 @@ const features = [
     {
         icon: <FaTicketAlt />,
         name: 'Ticket System',
+        id: 'ticket-system',
         description: `A ticketing system to ensure your urgent requests are actioned 
     promptly and efficiently. This feature is available to RTOs, and Industries.`,
     },
     {
         icon: <FaRegCalendarAlt />,
         name: 'Appointment Bookings',
+        id: 'appointment-bookings',
         description: `Give students, RTO and industries, the freedom to book a virtual or 
     in-person appointments online from their portal.`,
     },
     {
         icon: <FaMobileAlt />,
         name: 'SkilTrak App',
+        id: 'skiltrak-app',
         description: `Improve how you connect and take Skiltrak with you, 
     wherever you go.`,
     },
     {
         icon: <FaStream />,
         name: 'Streamline & Online Learning',
+        id: 'streamline-learning',
         description: `Assign your Coordinator, schedule induction classes, book 
     appointments and monitor your students’ progress with our shared 
     content portal.  All our assessment tools are available online for 
@@ -82,6 +83,7 @@ const features = [
     {
         icon: <IoMdChatbubbles />,
         name: 'Manage Compliance',
+        id: 'manage-compliance',
         description: `All your RTO compliance requirements are available from a simple 
     click request. Visit our Compliance section for more information or 
     book an appointment with a Skiltrak consultant via your RTO portal.`,
@@ -89,6 +91,7 @@ const features = [
     {
         icon: <FaUsers />,
         name: 'Enhanced Communication',
+        id: 'enhanced-communication',
         description: `Learners can access discussions, notifications, emails and 
     information about workplaces etc. All parties can communicate 
     through their skiltrak accounts, all communications recorded on 
@@ -97,12 +100,14 @@ const features = [
     {
         icon: <FaUserFriends />,
         name: 'Access To Volunteer Students',
+        id: '',
         description: `Industry partners will receive automated placement application 
     from active students in the closest areas.`,
     },
     {
         icon: <FaChartBar />,
         name: 'Progress Tracing ',
+        id: 'progress-tracing',
         description: `In working toward achieving competencies, students in placement 
     can view their progress and access their profile to view results. The 
     same applies to the RTO via RTO portal.`,
@@ -110,12 +115,14 @@ const features = [
     {
         icon: <IoMdTime />,
         name: 'Work Schedule',
+        id: 'work-schedule',
         description: `Creating work schedule online is a great way of control the 
     student WBT progress.`,
     },
     {
         icon: <VscScreenNormal />,
         name: 'Intuitive Use',
+        id: 'intuitive-use',
         description: `SkilTrak Workplace desktop, tablet and mobile app easily enable 
     learners to locate their learning programs, create viewing 
     preferences, review due dates, track their progress and complete 
@@ -124,6 +131,7 @@ const features = [
     {
         icon: <MdTimelapse />,
         name: 'Save Time With Automation',
+        id: 'save-time-with-automation',
         description: `Save time with dynamic rules and automate repetitive tasks such 
     as auto account creation or reminder emails plus Skiltrak allows to 
     motivate and keep track of your students with automated push 
@@ -133,6 +141,7 @@ const features = [
     {
         icon: <FaRegCreditCard />,
         name: 'Paid Jobs Advertisements',
+        id: '',
         description: `Industry partners are able to advertise paid jobs through Skiltrak 
     allowing students to apply directly. Students will be notified 
     through push notifications.`,
@@ -178,6 +187,7 @@ const Page: NextPage = () => {
                             title={feature.name}
                             content={feature.description}
                             color={`bg-[${bgColors[i % bgColors?.length]}]`}
+                            link={feature.id}
                         />
                     ))}
                 </div>

@@ -1,3 +1,36 @@
+/* Features Page */
+.feat-card {
+    position: relative;
+}
+
+.feat-card:before,
+.feat-card:after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 13px;
+    border: 2px solid rgba(200, 200, 200, 0.7);
+    border-color: inherit;
+    filter: blur(0);
+    transform-origin: 50%;
+    z-index: -1;
+}
+
+.feat-card:hover::before,
+.feat-card:hover::after {
+    border-color: transparent;
+    filter: blur(2px);
+    transform: scale(1.2);
+    transition: 1000ms transform ease, 2100ms blur ease, 900ms border-color ease;
+}
+.feat-card:hover::after {
+    transition-delay: 100ms;
+}
+
+/* Others */
 .swiperPaginationBullet {
     background-color: white;
     width: 4px;
@@ -247,104 +280,102 @@ img {
     border: 1px solid rgba(80, 161, 235, 0.25);
 }
 
+@keyframes orbit {
+    from {
+        transform: rotate(0deg) translateX(230px) translateY(100px) rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg) translateX(230px) translateY(100px)
+            rotate(-360deg);
+    }
+}
 
+@keyframes orbit2 {
+    from {
+        transform: rotate(0deg) translateY(260px) rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg) translateY(260px) rotate(-360deg);
+    }
+}
+@keyframes orbit3 {
+    from {
+        transform: rotate(0deg) translateX(-250px) translateY(90px) rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg) translateX(-250px) translateY(90px)
+            rotate(-360deg);
+    }
+}
+@keyframes orbit4 {
+    from {
+        transform: rotate(0deg) translateY(-260px) rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg) translateY(-260px) rotate(-360deg);
+    }
+}
+@keyframes orbit5 {
+    from {
+        transform: rotate(0deg) translateX(220px) translateY(-130px)
+            rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg) translateX(220px) translateY(-130px)
+            rotate(-360deg);
+    }
+}
 
- @keyframes orbit {
+@keyframes orbit6 {
     from {
-      transform: rotate(0deg) translateX(230px) translateY(100px) rotate(0deg);
+        transform: rotate(0deg) translateX(-220px) translateY(-130px)
+            rotate(0deg);
     }
     to {
-      transform: rotate(360deg) translateX(230px) translateY(100px) rotate(-360deg);
+        transform: rotate(360deg) translateX(-220px) translateY(-130px)
+            rotate(-360deg);
     }
-  }
-
-  @keyframes orbit2 {
-    from {
-      transform: rotate(0deg) translateY(260px) rotate(0deg);
-    }
-    to {
-      transform: rotate(360deg) translateY(260px) rotate(-360deg);
-    }
-  }
-  @keyframes orbit3 {
-    from {
-       transform: rotate(0deg) translateX(-250px) translateY(90px) rotate(0deg);
-    }
-    to {
-      transform: rotate(360deg) translateX(-250px) translateY(90px) rotate(-360deg);
-    }
-  }
-   @keyframes orbit4 {
-    from {
-      transform: rotate(0deg) translateY(-260px) rotate(0deg);
-    }
-    to {
-      transform: rotate(360deg) translateY(-260px) rotate(-360deg);
-    }
-  }
-  @keyframes orbit5 {
-    from {
-       transform:  rotate(0deg) translateX(220px) translateY(-130px) rotate(0deg);
-    }
-    to {
-      transform: rotate(360deg) translateX(220px) translateY(-130px) rotate(-360deg);
-    }
-  }
- 
- @keyframes orbit6 {
-    from {
-     transform: rotate(0deg) translateX(-220px) translateY(-130px) rotate(0deg);
-    }
-    to {
-      transform: rotate(360deg) translateX(-220px) translateY(-130px) rotate(-360deg);
-    }
-  }
-  .ellipse {
+}
+.ellipse {
     position: absolute;
     animation: orbit 30s linear infinite;
     /* transform: rotate(0deg) translateX(230px) translateY(100px) rotate(0deg); */
     top: 50% !important;
     left: -50px !important;
-  }
+}
 
-  .ellipse2 {
+.ellipse2 {
     position: absolute;
     animation: orbit2 30s linear infinite;
     /* transform: rotate(0deg) translateY(220px) rotate(0deg); */
     top: 50% !important;
     left: -50px !important;
-  }
-    .ellipse3 {
+}
+.ellipse3 {
     position: absolute;
     animation: orbit3 30s linear infinite;
     /* transform: rotate(0deg) translateX(-230px) translateY(80px) rotate(0deg); */
     top: 50% !important;
     left: -50px !important;
-  }
- .ellipse4 {
+}
+.ellipse4 {
     position: absolute;
     animation: orbit4 30s linear infinite;
     /* transform: rotate(0deg) translateY(-260px) rotate(0deg); */
     top: 50% !important;
     left: -50px !important;
-  }
-  .ellipse5 {
+}
+.ellipse5 {
     position: absolute;
     animation: orbit5 30s linear infinite;
     /* transform: rotate(0deg) translateX(220px) translateY(-130px) rotate(0deg); */
     top: 50% !important;
     left: -50px !important;
-  } 
-  .ellipse6 {
+}
+.ellipse6 {
     position: absolute;
     animation: orbit6 30s linear infinite;
     /* transform: rotate(0deg) translateX(-220px) translateY(-130px) rotate(0deg); */
     top: 50% !important;
     left: -50px !important;
-  }
-  
-  
-  
-  
-  
-
+}

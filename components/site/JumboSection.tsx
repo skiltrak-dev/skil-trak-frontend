@@ -1,6 +1,7 @@
 import { Typography } from '@components/Typography'
 import { Button } from '@components/buttons'
 import { useEffect, useState } from 'react'
+import Image from 'next/image'
 
 export const JumboSection = () => {
     const [scrollPosition, setScrollPosition] = useState(0)
@@ -19,92 +20,160 @@ export const JumboSection = () => {
     }, [])
 
     const redDivStyle = {
-        transform: `translate(-${scrollPosition / 5}px, ${
-            scrollPosition / 5
-        }px)`,
+        transform: `translateY(${scrollPosition / 3}px)`,
         transition: 'transform 0.3s ease-out',
     }
 
     const blackDivStyle = {
-        transform: `translate(${scrollPosition / 5}px, -${
-            scrollPosition / 5
-        }px)`,
+        transform: `translateY(-${scrollPosition / 3}px)`,
         transition: 'transform 0.3s ease-out',
     }
     return (
         <div className="jumbo-bg mb-20">
-            <div className="flex-col flex md:flex-row">
+            <div className="flex-col flex md:flex-row h-[450px] overflow-hidden">
+                {/* Text */}
                 <div className="w-full py-16 p-16 flex flex-col gap-y-4">
                     <div>
-                        <Typography variant="h1" color="text-white">
+                        <h1 className="font-bold text-4xl text-white mb-8">
                             SKILTRAK, Your Student Placement Partner
-                        </Typography>
+                        </h1>
                     </div>
                     <div>
-                        <Typography variant="h4" color="text-[#5C90CE]">
+                        <h2 className="font-medium text-2xl text-[#add4f9] mb-4">
                             Create industry partners. Keep track of students
                             placement progress.
-                        </Typography>
+                        </h2>
                     </div>
                     <div>
-                        <Typography variant="body" color="text-[#B1CAE7]">
+                        <p className="text-md text-[#c1d7ef] mb-4">
                             A user-friendly placement platform. No hassle, no
                             documentation missing . Be innovative and efficient.
-                        </Typography>
+                        </p>
                     </div>
                     <div>
-                        <Button
+                        {/* <Button
                             variant="primary"
                             text="Get Started with your portal"
-                        />
+
+                        /> */}
                     </div>
                 </div>
-                <div className="md:block hidden w-full relative">
-                    {/* <div className="absolute top-0 left-0 inset-0 bg-gradient-to-t from-[#345B87] via-transparent to-transparent bg-opacity-90"></div> */}
-                    {/* <Image
-                            className=""
-                            src="/images/site/scrolling-image-1.png"
-                            layout="responsive"
-                            objectFit="none"
-                            objectPosition="center"
-                            width={100}
-                            height={100}
-                            alt="hero image"
-                        /> */}
-                    <div className="flex overflow-hidden">
-                        <div
-                            className="bg-red-500 h-96 w-96"
-                            style={redDivStyle}
-                        >
-                            {/* <Image
-                                    className=""
-                                    src="/images/site/scrolling-image-11.png"
-                                    layout="responsive"
-                                    objectFit="contain"
-                                    objectPosition="center"
-                                    width={100}
-                                    height={100}
-                                    alt="hero image"
-                                /> */}
+
+                {/* Image Animation */}
+                <div className="relative md:block hidden w-full">
+                    <div className="absolute scale-150 opacity-10 top-0 right-0">
+                        <div className="flex gap-4 rotate-[15deg]">
+                            {/* Image Scroll 2 */}
+                            <div className="" style={blackDivStyle}>
+                                <div className="relative w-80 h-[180px] bg-blue-400 rounded-md overflow-hidden mb-2"></div>
+                                <div className="relative w-80 h-[180px] rounded-md overflow-hidden mb-2">
+                                    <Image
+                                        className="bg-cover"
+                                        src="/images/jumbo/student-mock.png"
+                                        sizes="100vw"
+                                        fill
+                                        alt="Hero Image Skiltrak Student Portal"
+                                    />
+                                </div>
+
+                                <div className="relative w-80 h-[180px] bg-blue-400 rounded-md overflow-hidden mb-2"></div>
+                                <div className="relative w-80 h-[180px] rounded-md overflow-hidden mb-2">
+                                    <Image
+                                        className="bg-cover"
+                                        src="/images/jumbo/student-mock.png"
+                                        sizes="100vw"
+                                        fill
+                                        alt="Hero Image Skiltrak Student Portal"
+                                    />
+                                </div>
+                            </div>
+
+                            {/* Image Scroll 1 */}
+                            <div className="" style={redDivStyle}>
+                                <div className="relative w-80 h-[180px] rounded-md overflow-hidden mb-2">
+                                    <Image
+                                        className="bg-cover"
+                                        src="/images/jumbo/student-mock.png"
+                                        sizes="100vw"
+                                        fill
+                                        alt="Hero Image Skiltrak Student Portal"
+                                    />
+                                </div>
+
+                                <div className="relative w-80 h-[180px] bg-blue-400 rounded-md overflow-hidden mb-2"></div>
+
+                                <div className="relative w-80 h-[180px] rounded-md overflow-hidden mb-2">
+                                    <Image
+                                        className="bg-cover"
+                                        src="/images/jumbo/student-mock.png"
+                                        sizes="100vw"
+                                        fill
+                                        alt="Hero Image Skiltrak Student Portal"
+                                    />
+                                </div>
+
+                                <div className="relative w-80 h-[180px] bg-blue-400 rounded-md overflow-hidden mb-2"></div>
+                            </div>
                         </div>
-                        <div
-                            className="bg-green-500 h-96 w-96"
-                            style={blackDivStyle}
-                        >
-                            {/* <Image
-                                    className=""
-                                    src="/images/site/scrolling-image-12.png"
-                                    layout="responsive"
-                                    objectFit="contain"
-                                    objectPosition="center"
-                                    width={100}
-                                    height={100}
-                                    alt="hero image"
-                                /> */}
-                            {/* <div className='jumbo-image-1'></div> */}
-                        </div>
+                        {/* <div className="absolute h-80 top-0 left-0 inset-0 bg-gradient-to-t from-transparent via-transparent to-[#345B87] bg-opacity-90"></div> */}
                     </div>
-                    {/* <div className="absolute h-80 top-0 left-0 inset-0 bg-gradient-to-t from-transparent via-transparent to-[#345B87] bg-opacity-90"></div> */}
+
+                    <div className="">
+                        <div className="flex gap-4 rotate-[15deg]">
+                            {/* Image Scroll 1 */}
+                            <div className="" style={redDivStyle}>
+                                <div className="relative w-80 h-[180px] rounded-md overflow-hidden mb-2">
+                                    <Image
+                                        className="bg-cover"
+                                        src="/images/jumbo/student-mock.png"
+                                        sizes="100vw"
+                                        fill
+                                        alt="Hero Image Skiltrak Student Portal"
+                                    />
+                                </div>
+
+                                <div className="relative w-80 h-[180px] bg-blue-400 rounded-md overflow-hidden mb-2"></div>
+
+                                <div className="relative w-80 h-[180px] rounded-md overflow-hidden mb-2">
+                                    <Image
+                                        className="bg-cover"
+                                        src="/images/jumbo/student-mock.png"
+                                        sizes="100vw"
+                                        fill
+                                        alt="Hero Image Skiltrak Student Portal"
+                                    />
+                                </div>
+
+                                <div className="relative w-80 h-[180px] bg-blue-400 rounded-md overflow-hidden mb-2"></div>
+                            </div>
+
+                            {/* Image Scroll 2 */}
+                            <div className="" style={blackDivStyle}>
+                                <div className="relative w-80 h-[180px] bg-blue-400 rounded-md overflow-hidden mb-2"></div>
+                                <div className="relative w-80 h-[180px] rounded-md overflow-hidden mb-2">
+                                    <Image
+                                        className="bg-cover"
+                                        src="/images/jumbo/student-mock.png"
+                                        sizes="100vw"
+                                        fill
+                                        alt="Hero Image Skiltrak Student Portal"
+                                    />
+                                </div>
+
+                                <div className="relative w-80 h-[180px] bg-blue-400 rounded-md overflow-hidden mb-2"></div>
+                                <div className="relative w-80 h-[180px] rounded-md overflow-hidden mb-2">
+                                    <Image
+                                        className="bg-cover"
+                                        src="/images/jumbo/student-mock.png"
+                                        sizes="100vw"
+                                        fill
+                                        alt="Hero Image Skiltrak Student Portal"
+                                    />
+                                </div>
+                            </div>
+                        </div>
+                        {/* <div className="absolute h-80 top-0 left-0 inset-0 bg-gradient-to-t from-transparent via-transparent to-[#345B87] bg-opacity-90"></div> */}
+                    </div>
                 </div>
             </div>
         </div>
