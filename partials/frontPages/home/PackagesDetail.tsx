@@ -142,30 +142,24 @@ export const PackagesDetail = ({
     const currentPackage = SkiltrakPackages[selectedPackage - 1]
     const nextPackage = SkiltrakPackages[selectedPackage]
 
-
     return (
-        <div className="max-w-7xl mx-auto mt-10">
-            <div className="grid grid-cols-1 md:grid-cols-4 md:items-start items-center">
-                <div className="col-span-3">
-                    <div className="flex flex-col gap-y-2.5">
-                        <Typography variant={'small'}>
-                            Package Detail
-                        </Typography>
-                        <Typography variant={'h3'}>
+        // <div className="max-w-7xl mx-auto mt-10">
+        <div className="w-full mx-auto mt-10 bg-slate-100">
+            {/* <div className="grid grid-cols-1 md:grid-cols-4 md:items-start items-center"> */}
+            <div className="flex justify-between">
+                <div className="px-16 py-4">
+                    <div className="flex flex-col ">
+                        <p className="text-xs text-slate-500">Package Detail</p>
+                        <h3 className="text-3xl font-semibold">
                             {currentPackage?.content}
-                        </Typography>
-                        <Typography variant={'title'}>
-                            {currentPackage?.manage}
-                        </Typography>
-                        <Typography>{currentPackage?.manage}</Typography>
+                        </h3>
+                        <p className="text-lg">{currentPackage?.manage}</p>
                     </div>
 
                     <div className="mt-6">
-                        <Typography variant={'subtitle'}>
-                            Included Features:
-                        </Typography>
+                        <p className={'font-semibold'}>Included Features:</p>
 
-                        <div className="mt-2.5 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-7 gap-y-10">
+                        <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-x-4 gap-y-8">
                             {Packages.map((packageDetail, index) => (
                                 <div
                                     key={index}
@@ -180,48 +174,49 @@ export const PackagesDetail = ({
                                                 : ''
                                         } `}
                                     />
-                                    <Typography
-                                        variant={'subtitle'}
-                                        color={
+                                    <p
+                                        className={`text-sm ${
                                             packageDetail.packageType.includes(
                                                 currentPackage?.content
                                             )
                                                 ? 'text-black'
                                                 : 'text-[#D9D9D9]'
-                                        }
+                                        }`}
                                     >
                                         {packageDetail?.text}
-                                    </Typography>
+                                    </p>
                                 </div>
                             ))}
                         </div>
                     </div>
                 </div>
-                <PackageDetailCard
-                    currentPackage={currentPackage}
-                    onClick={onClick}
-                    goBack={() => {
-                        setSelectedPackage(-1)
-                    }}
-                    {...(previousPackage
-                        ? {
-                              previousPackage: () =>
-                                  setSelectedPackage(
-                                      (selectedPackage: number) =>
-                                          selectedPackage - 1
-                                  ),
-                          }
-                        : {})}
-                    {...(nextPackage
-                        ? {
-                              nextPackage: () =>
-                                  setSelectedPackage(
-                                      (selectedPackage: number) =>
-                                          selectedPackage + 1
-                                  ),
-                          }
-                        : {})}
-                />
+                <div className="">
+                    <PackageDetailCard
+                        currentPackage={currentPackage}
+                        onClick={onClick}
+                        goBack={() => {
+                            setSelectedPackage(-1)
+                        }}
+                        {...(previousPackage
+                            ? {
+                                  previousPackage: () =>
+                                      setSelectedPackage(
+                                          (selectedPackage: number) =>
+                                              selectedPackage - 1
+                                      ),
+                              }
+                            : {})}
+                        {...(nextPackage
+                            ? {
+                                  nextPackage: () =>
+                                      setSelectedPackage(
+                                          (selectedPackage: number) =>
+                                              selectedPackage + 1
+                                      ),
+                              }
+                            : {})}
+                    />
+                </div>
             </div>
         </div>
     )
