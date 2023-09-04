@@ -68,6 +68,8 @@ const HaveWorkplace: NextPageWithLayout = (props: Props) => {
         }
     }, [workplace])
 
+    console.log({ workplaceData })
+
     useEffect(() => {
         if (!result.data && result.isSuccess) {
             setIndustryNotFound(true)
@@ -221,6 +223,7 @@ const HaveWorkplace: NextPageWithLayout = (props: Props) => {
                                         status={workplaceData?.currentStatus}
                                         workplaceRequest={workplaceData}
                                         studentAdded
+                                        course={workplaceData?.courses[0]}
                                     />
                                 ) : workplaceData?.industryStatus ===
                                   'rejected' ? (
