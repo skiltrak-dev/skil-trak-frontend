@@ -1,10 +1,11 @@
-import { Typography } from "@components/Typography"
-import Image from "next/image"
+import { Typography } from '@components/Typography'
+import Image from 'next/image'
 
 export const OurPartners = () => {
     return (
         <div className="py-20">
-            <div className="max-w-7xl mx-auto">
+            {/* <div className="max-w-7xl mx-auto"> */}
+            <div className="w-full">
                 <div className="mb-8 flex justify-center">
                     <Typography variant="h2">Our Partners</Typography>
                 </div>
@@ -28,18 +29,8 @@ export const OurPartners = () => {
                         height={100}
                         alt="Partners"
                     />
-                    <div className="w-16 h-16 md:w-24 md:h-24  absolute top-36 left-40 md:top-16  md:left-[26.8rem]">
-                        <Image
-                            className="rounded-full"
-                            src="/images/site/partners/p14.png"
-                            layout="responsive"
-                            objectFit="contain"
-                            width={100}
-                            height={100}
-                            alt="Partners"
-                        />
-                    </div>
-                    <div className="md:w-20 w-16 absolute left-10 top-20 md:top-8 md:left-44">
+
+                    <div className="md:w-20 w-16 absolute left-10 top-20 md:top-[12%] md:left-[14%]">
                         <Image
                             className="rounded-full"
                             src="/images/site/partners/p12.png"
@@ -50,7 +41,18 @@ export const OurPartners = () => {
                             alt="Partners"
                         />
                     </div>
-                    <div className="md:w-[7rem] md:h-[7.5rem] w-24 h-24  absolute top-[10.7rem] left-4 md:top-[11.8rem]  md:left-[14.9rem]">
+                    <div className="w-16 h-16 md:w-24 md:h-24  absolute top-36 left-40 md:top-[18%] md:left-[34%]">
+                        <Image
+                            className="rounded-full"
+                            src="/images/site/partners/p14.png"
+                            layout="responsive"
+                            objectFit="contain"
+                            width={100}
+                            height={100}
+                            alt="Partners"
+                        />
+                    </div>
+                    <div className="md:w-[7rem] md:h-[7.5rem] w-24 h-24  absolute top-[10.7rem] left-4 md:top-[50%]  md:left-[19%]">
                         <Image
                             className="rounded-full"
                             src="/images/site/partners/p15.png"
@@ -105,7 +107,7 @@ export const OurPartners = () => {
                             alt="Partners"
                         />
                     </div>
-                    <div className="w-36 md:w-56 absolute top-80 left-16 md:top-56 md:left-[32rem]">
+                    <div className="w-36 md:w-56 absolute top-80 left-16 md:top-[59%] md:left-[42%]">
                         <Image
                             className=""
                             src="/images/site/partners/p16.png"
