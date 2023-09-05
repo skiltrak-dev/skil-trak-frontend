@@ -1,7 +1,7 @@
-import { Typography } from '@components/Typography'
-import { PackagesDetail } from '@partials/frontPages'
 import { useEffect, useState } from 'react'
 import { OurPackage } from './OurPackage'
+import { Typography } from '@components/Typography'
+import { PackagesDetail } from '@partials/frontPages'
 
 export const SkiltrakPackages = [
     {
