@@ -72,9 +72,10 @@ export const workplaceEndpoints = (
         invalidatesTags: ['Workplace'],
     }),
     uploadAgreement: builder.mutation({
-        query: ({ appliedIndustryId, body }) => ({
+        query: ({ appliedIndustryId, course, body }) => ({
             url: `${PREFIX}/sign/agreement/${appliedIndustryId}`,
             method: 'POST',
+            params: { course },
             body,
         }),
         invalidatesTags: ['Workplace'],

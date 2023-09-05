@@ -1,23 +1,20 @@
-import React from 'react'
-import { Typography } from '@components'
-import { PackageDetailCard } from './PackageDetailCard'
 import { SkiltrakPackages } from '@components/site/ourPackages'
+import { PackageDetailCard } from './PackageDetailCard'
+
+export const packageTypes = {
+    PlacementManagement: 'Placement Management Portal',
+    StartupPackage: 'The Startup Package',
+    CompletePackage: 'The Complete Package',
+}
 
 export const PackagesDetail = ({
-    onClick,
     selectedPackage,
     setSelectedPackage,
 }: {
-    onClick: () => void
-    selectedPackage: any
+    selectedPackage: number
     setSelectedPackage: (val: any) => void
 }) => {
-    const packageTypes = {
-        PlacementManagement: 'Placement Management Portal',
-        StartupPackage: 'The Startup Package',
-        CompletePackage: 'The Complete Package',
-    }
-    const Packages = [
+    const packagesFeatures = [
         {
             text: 'Student Progress Tracking',
             packageType: [packageTypes.PlacementManagement],
@@ -138,9 +135,18 @@ export const PackagesDetail = ({
         },
     ]
 
-    const previousPackage = SkiltrakPackages[selectedPackage - 2]
+    const onGoBack = () => {
+        setSelectedPackage(-1)
+    }
+
+    const onPrevious = () => {
+        setSelectedPackage((selectedPackage: number) => selectedPackage - 1)
+    }
+    const onNext = () => {
+        setSelectedPackage((selectedPackage: number) => selectedPackage + 1)
+    }
+
     const currentPackage = SkiltrakPackages[selectedPackage - 1]
-    const nextPackage = SkiltrakPackages[selectedPackage]
 
     return (
         // <div className="max-w-7xl mx-auto mt-10">
@@ -151,16 +157,16 @@ export const PackagesDetail = ({
                     <div className="flex flex-col ">
                         <p className="text-xs text-slate-500">Package Detail</p>
                         <h3 className="text-3xl font-semibold">
-                            {currentPackage?.content}
+                            {currentPackage?.title}
                         </h3>
-                        <p className="text-lg">{currentPackage?.manage}</p>
+                        <p className="text-lg">{currentPackage?.tagline}</p>
                     </div>
 
                     <div className="mt-6">
                         <p className={'font-semibold'}>Included Features:</p>
 
                         <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-x-4 gap-y-8">
-                            {Packages.map((packageDetail, index) => (
+                            {packagesFeatures.map((packageDetail, index) => (
                                 <div
                                     key={index}
                                     className="flex flex-col gap-y-2"
@@ -168,7 +174,7 @@ export const PackagesDetail = ({
                                     <div
                                         className={`w-7 ${
                                             packageDetail.packageType.includes(
-                                                currentPackage?.content
+                                                currentPackage?.title
                                             )
                                                 ? 'border-t-4 border-[#D9D9D9]'
                                                 : ''
@@ -177,7 +183,7 @@ export const PackagesDetail = ({
                                     <p
                                         className={`text-sm ${
                                             packageDetail.packageType.includes(
-                                                currentPackage?.content
+                                                currentPackage?.tagline
                                             )
                                                 ? 'text-black'
                                                 : 'text-[#D9D9D9]'
@@ -192,29 +198,10 @@ export const PackagesDetail = ({
                 </div>
                 <div className="">
                     <PackageDetailCard
+                        onNext={onNext}
+                        goBack={onGoBack}
+                        onPrevious={onPrevious}
                         currentPackage={currentPackage}
-                        onClick={onClick}
-                        goBack={() => {
-                            setSelectedPackage(-1)
-                        }}
-                        {...(previousPackage
-                            ? {
-                                  previousPackage: () =>
-                                      setSelectedPackage(
-                                          (selectedPackage: number) =>
-                                              selectedPackage - 1
-                                      ),
-                              }
-                            : {})}
-                        {...(nextPackage
-                            ? {
-                                  nextPackage: () =>
-                                      setSelectedPackage(
-                                          (selectedPackage: number) =>
-                                              selectedPackage + 1
-                                      ),
-                              }
-                            : {})}
                     />
                 </div>
             </div>

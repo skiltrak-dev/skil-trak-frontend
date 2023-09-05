@@ -48,7 +48,7 @@ export const MyWorkplace = ({ student }: { student: StudentSubAdmin }) => {
 
     useEffect(() => {
         if (student?.industries && student?.industries?.length > 0) {
-            setIndustry(student?.industries[0])
+            setIndustry(student?.industries?.[0])
         }
         if (!student?.industries?.length) {
             setIndustry({})

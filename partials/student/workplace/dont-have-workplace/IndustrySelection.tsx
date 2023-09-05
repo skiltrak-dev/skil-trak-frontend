@@ -1,18 +1,14 @@
-import React, { useEffect, useState } from 'react'
-import moment from 'moment'
+import { useEffect, useState } from 'react'
 
 // components
-import { Typography, Card, LoadingAnimation, ActionButton } from '@components'
+import { ActionButton, Card, LoadingAnimation, Typography } from '@components'
 
-import {
-    useCancelWorkplaceRequestMutation,
-    useApplyForWorkplaceMutation,
-} from '@queries'
-import { AppliedIndustry } from './AppliedIndustry'
-import { ApplyForWorkplace, VerifyStudentDocs } from './components'
 import { IndustryNotResponded } from '@partials/common'
 import { RejectedIndustries } from '@partials/common/workplace/components/dontHaveWorkplace/RejectedIndustries'
+import { useCancelWorkplaceRequestMutation } from '@queries'
 import { WorkplaceCurrentStatus } from '@utils'
+import { AppliedIndustry } from './AppliedIndustry'
+import { ApplyForWorkplace, VerifyStudentDocs } from './components'
 
 export const IndustrySelection = ({
     setActive,
@@ -119,6 +115,7 @@ export const IndustrySelection = ({
                         setIndustrySelection={setIndustrySelection}
                         status={workplaceIndustries?.currentStatus}
                         workplaceRequest={workplaceIndustries}
+                        course={workplace?.data?.courses?.[0]}
                     />
                 </>
             )}
