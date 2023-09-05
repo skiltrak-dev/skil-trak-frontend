@@ -140,6 +140,7 @@ export const AdminWorkplaceRequest = ({ workplace }: Props) => {
                         )}
 
                         <ProgressCell
+                            appliedIndustry={appliedIndustry}
                             step={steps > 14 ? 14 : steps < 1 ? 1 : steps}
                         />
                     </div>

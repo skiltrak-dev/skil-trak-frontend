@@ -5,10 +5,10 @@ import { AiOutlineArrowRight } from 'react-icons/ai'
 import { MdHomeWork } from 'react-icons/md'
 
 export const OurPackage = ({
-    content,
+    title,
     color,
     price,
-    manage,
+    tagline,
     textColor,
     onClick,
 }: any) => {
@@ -22,16 +22,16 @@ export const OurPackage = ({
                 <div className="flex flex-col gap-y-[72px]">
                     <div className="">
                         <Typography variant="body" color="text-white">
-                            {content}
+                            {title}
                         </Typography>
                         <Typography variant="xs" color="text-white">
-                            {manage}
+                            {tagline}
                         </Typography>
                     </div>
                     <div className="">
-                        <Typography variant="muted" color={textColor}>
+                        {/* <Typography variant="muted" color={textColor}>
                             {price}
-                        </Typography>
+                        </Typography> */}
                         <div className="mt-2">
                             <Button
                                 variant="primary"

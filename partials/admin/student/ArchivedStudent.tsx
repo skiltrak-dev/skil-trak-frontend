@@ -184,7 +184,7 @@ export const ArchivedStudent = () => {
             header: () => <span>Expiry Date</span>,
             cell: (info) => (
                 <>
-                    <Typography variant={'small'} color={'text-gray-600'}>
+                    <Typography variant={'small'} color={'text-primary'}>
                         <span className="font-semibold whitespace-pre">
                             {moment(
                                 info?.row?.original?.oldExpiry ||

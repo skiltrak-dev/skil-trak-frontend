@@ -19,7 +19,12 @@ import { FaEdit, FaEye } from 'react-icons/fa'
 import { RtoCellInfo } from '@partials/admin/rto/components'
 import { AdminApi } from '@queries'
 import { Student, UserStatus } from '@types'
-import { checkListLength, setLink, studentsListWorkplace } from '@utils'
+import {
+    calculateRemainingDays,
+    checkListLength,
+    setLink,
+    studentsListWorkplace,
+} from '@utils'
 import { useRouter } from 'next/router'
 import { ReactElement, useCallback, useEffect, useState } from 'react'
 import { MdBlock } from 'react-icons/md'
@@ -37,6 +42,7 @@ import {
 import { EditTimer } from '@components/StudentTimer/EditTimer'
 import { useActionModal } from '@hooks'
 import moment from 'moment'
+import { AiOutlineWarning } from 'react-icons/ai'
 
 export const ApprovedStudent = () => {
     const router = useRouter()
@@ -199,18 +205,30 @@ export const ApprovedStudent = () => {
         {
             accessorKey: 'expiry',
             header: () => <span>Expiry Date</span>,
-            cell: (info) => (
-                <>
-                    <Typography variant={'small'} color={'text-gray-600'}>
-                        <span className="font-semibold whitespace-pre">
-                            {moment(
-                                info?.row?.original?.oldExpiry ||
-                                    info?.row?.original?.expiryDate
-                            ).format('Do MMM YYYY')}
-                        </span>
-                    </Typography>
-                </>
-            ),
+            cell: (info) => {
+                const remainingDays = calculateRemainingDays(
+                    info?.row?.original?.expiryDate
+                )
+                return (
+                    <div className="flex items-center gap-x-2">
+                        {remainingDays < 20 && (
+                            <AiOutlineWarning className="text-primary" />
+                        )}
+                        <Typography
+                            variant={'small'}
+                            color={
+                                remainingDays < 20
+                                    ? 'text-primary'
+                                    : 'text-success-dark'
+                            }
+                        >
+                            <span className="font-semibold whitespace-pre">
+                                {remainingDays} Days left
+                            </span>
+                        </Typography>
+                    </div>
+                )
+            },
         },
         {
             accessorKey: 'progress',

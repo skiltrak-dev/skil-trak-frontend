@@ -30,13 +30,16 @@ import { ProgressCell, SectorCell } from '@partials/admin/student/components'
 import { ColumnDef } from '@tanstack/react-table'
 import {
     WorkplaceCurrentStatus,
+    calculateRemainingDays,
     checkWorkplaceStatus,
+    getStudentWorkplaceAppliedIndustry,
     setLink,
     studentsListWorkplace,
 } from '@utils'
 import { RiLockPasswordFill } from 'react-icons/ri'
 import { IndustryCellInfo } from '../Industries'
 import moment from 'moment'
+import { AiOutlineWarning } from 'react-icons/ai'
 
 export const PlacementStartedStudents = () => {
     const router = useRouter()
@@ -164,16 +167,30 @@ export const PlacementStartedStudents = () => {
         {
             accessorKey: 'expiry',
             header: () => <span>Expiry Date</span>,
-            cell: (info) => (
-                <Typography variant={'small'} color={'text-gray-600'}>
-                    <span className="font-semibold whitespace-pre">
-                        {moment(
-                            info?.row?.original?.oldExpiry ||
-                                info?.row?.original?.expiryDate
-                        ).format('Do MMM YYYY')}
-                    </span>
-                </Typography>
-            ),
+            cell: (info) => {
+                const remainingDays = calculateRemainingDays(
+                    info?.row?.original?.expiryDate
+                )
+                return (
+                    <div className="flex items-center gap-x-2">
+                        {remainingDays < 20 && (
+                            <AiOutlineWarning className="text-primary" />
+                        )}
+                        <Typography
+                            variant={'small'}
+                            color={
+                                remainingDays < 20
+                                    ? 'text-primary'
+                                    : 'text-success-dark'
+                            }
+                        >
+                            <span className="font-semibold whitespace-pre">
+                                {remainingDays} Days left
+                            </span>
+                        </Typography>
+                    </div>
+                )
+            },
         },
         {
             header: () => 'Progress',
@@ -186,9 +203,13 @@ export const PlacementStartedStudents = () => {
                     }
                 )
                 const steps = checkWorkplaceStatus(workplace?.currentStatus)
+                const appliedIndustry = getStudentWorkplaceAppliedIndustry(
+                    workplace?.industries
+                )
                 return (
                     <ProgressCell
                         studentId={row.original?.id}
+                        appliedIndustry={appliedIndustry}
                         step={steps > 14 ? 14 : steps < 1 ? 1 : steps}
                     />
                 )

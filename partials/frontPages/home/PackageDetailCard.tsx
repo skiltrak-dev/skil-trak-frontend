@@ -5,16 +5,14 @@ import { IoIosArrowRoundBack } from 'react-icons/io'
 import { MdHomeWork } from 'react-icons/md'
 
 export const PackageDetailCard = ({
-    onClick,
-    nextPackage,
-    previousPackage,
+    onNext,
+    onPrevious,
     currentPackage,
     goBack,
 }: {
     currentPackage: any
-    nextPackage?: any
-    onClick: () => void
-    previousPackage?: any
+    onNext?: any
+    onPrevious?: any
     goBack?: () => void
 }) => {
     const router = useRouter()
@@ -24,6 +22,9 @@ export const PackageDetailCard = ({
     const Icon = (
         <IoIosArrowRoundBack className="transition-all inline-flex text-base group-hover:-translate-x-1" />
     )
+
+    console.log('currentPackage', currentPackage?.title)
+
     return (
         <div
             className={`${currentPackage?.color} p-12 flex flex-col justify-center w-80 md:w-96 h-full`}
@@ -38,16 +39,16 @@ export const PackageDetailCard = ({
             <div className="flex flex-col gap-y-16">
                 <div className="">
                     <Typography variant="title" color="text-white">
-                        {currentPackage?.content}
+                        {currentPackage?.title}
                     </Typography>
                     <Typography variant="subtitle" color="text-white">
-                        Do it yourself
+                        {currentPackage?.tagline}
                     </Typography>
                 </div>
                 <div className="">
-                    <Typography variant="title" color={'text-[#6BB8FF]'}>
+                    {/* <Typography variant="title" color={'text-[#6BB8FF]'}>
                         {currentPackage?.price}
-                    </Typography>
+                    </Typography> */}
                     <div className="mt-2">
                         <div
                             onClick={() =>
@@ -65,13 +66,13 @@ export const PackageDetailCard = ({
             </div>
             <div
                 className={`flex justify-between items-center ${
-                    previousPackage ? 'cursor-pointer' : ''
+                    currentPackage?.prevButton ? 'cursor-pointer' : ''
                 }`}
             >
                 <div
                     onClick={() => {
-                        if (previousPackage) {
-                            previousPackage()
+                        if (currentPackage?.prevButton) {
+                            onPrevious()
                         }
                     }}
                     className="group flex items-center mt-20"
@@ -79,7 +80,7 @@ export const PackageDetailCard = ({
                     <div className="mt-2  group-hover:-translate-x-3 transition-transform duration-300 ease-in-out">
                         <AiOutlineArrowRight
                             className={`${
-                                previousPackage
+                                currentPackage?.prevButton
                                     ? 'text-white'
                                     : 'text-[#ffffff60]'
                             } rotate-180`}
@@ -89,17 +90,17 @@ export const PackageDetailCard = ({
                         <Typography
                             variant="muted"
                             color={
-                                previousPackage
+                                currentPackage?.prevButton
                                     ? 'text-white'
                                     : 'text-[#ffffff60]'
                             }
                         >
-                            View Details
+                            {currentPackage?.prevButton}
                         </Typography>
                         <Typography
                             variant="xs"
                             color={
-                                previousPackage
+                                currentPackage?.prevButton
                                     ? 'text-white'
                                     : 'text-[#ffffff60]'
                             }
@@ -111,11 +112,11 @@ export const PackageDetailCard = ({
 
                 <div
                     className={`group flex items-center mt-20 ${
-                        nextPackage ? 'cursor-pointer' : ''
+                        onNext ? 'cursor-pointer' : ''
                     }`}
                     onClick={() => {
-                        if (nextPackage) {
-                            nextPackage()
+                        if (currentPackage?.nextButton) {
+                            onNext()
                         }
                     }}
                 >
@@ -123,15 +124,19 @@ export const PackageDetailCard = ({
                         <Typography
                             variant="muted"
                             color={
-                                nextPackage ? 'text-white' : 'text-[#ffffff60]'
+                                currentPackage?.nextButton
+                                    ? 'text-white'
+                                    : 'text-[#ffffff60]'
                             }
                         >
-                            View Details
+                            {currentPackage?.nextButton}
                         </Typography>
                         <Typography
                             variant="xs"
                             color={
-                                nextPackage ? 'text-white' : 'text-[#ffffff60]'
+                                currentPackage?.nextButton
+                                    ? 'text-white'
+                                    : 'text-[#ffffff60]'
                             }
                         >
                             Package
@@ -140,7 +145,9 @@ export const PackageDetailCard = ({
                     <div className="mt-2 pl-2 group-hover:translate-x-3 transition-transform duration-300 ease-in-out">
                         <AiOutlineArrowRight
                             className={
-                                nextPackage ? 'text-white' : 'text-[#ffffff60]'
+                                currentPackage?.nextButton
+                                    ? 'text-white'
+                                    : 'text-[#ffffff60]'
                             }
                         />
                     </div>

@@ -20,6 +20,7 @@ import {
     WorkplaceCurrentStatus,
     checkStudentStatus,
     checkWorkplaceStatus,
+    getStudentWorkplaceAppliedIndustry,
     setLink,
 } from '@utils'
 import { useRouter } from 'next/router'
@@ -193,6 +194,9 @@ export const Students = ({ industry }: { industry: Industry }) => {
                 const studentStatus = checkStudentStatus(
                     row.original?.studentStatus
                 )
+                const appliedIndustry = getStudentWorkplaceAppliedIndustry(
+                    workplace?.industries
+                )
 
                 return industries?.length > 0 ? (
                     <StudentStatusProgressCell
@@ -204,6 +208,7 @@ export const Students = ({ industry }: { industry: Industry }) => {
                         studentId={row.original?.id}
                         step={steps > 14 ? 14 : steps < 1 ? 1 : steps}
                         assigned={workplace?.assignedTo}
+                        appliedIndustry={appliedIndustry}
                     />
                 )
             },
