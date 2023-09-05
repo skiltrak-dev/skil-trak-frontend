@@ -29,9 +29,9 @@ export const OurPackage = ({
                         </Typography>
                     </div>
                     <div className="">
-                        <Typography variant="muted" color={textColor}>
+                        {/* <Typography variant="muted" color={textColor}>
                             {price}
-                        </Typography>
+                        </Typography> */}
                         <div className="mt-2">
                             <Button
                                 variant="primary"

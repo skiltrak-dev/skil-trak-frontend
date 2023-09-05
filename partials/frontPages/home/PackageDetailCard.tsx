@@ -46,9 +46,9 @@ export const PackageDetailCard = ({
                     </Typography>
                 </div>
                 <div className="">
-                    <Typography variant="title" color={'text-[#6BB8FF]'}>
+                    {/* <Typography variant="title" color={'text-[#6BB8FF]'}>
                         {currentPackage?.price}
-                    </Typography>
+                    </Typography> */}
                     <div className="mt-2">
                         <div
                             onClick={() =>

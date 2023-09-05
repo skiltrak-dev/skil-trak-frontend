@@ -31,6 +31,7 @@ import { ColumnDef } from '@tanstack/react-table'
 import {
     WorkplaceCurrentStatus,
     checkWorkplaceStatus,
+    getStudentWorkplaceAppliedIndustry,
     setLink,
     studentsListWorkplace,
 } from '@utils'
@@ -186,9 +187,13 @@ export const AgreementPendingStudents = () => {
                     }
                 )
                 const steps = checkWorkplaceStatus(workplace?.currentStatus)
+                const appliedIndustry = getStudentWorkplaceAppliedIndustry(
+                    workplace?.industries
+                )
                 return (
                     <ProgressCell
                         studentId={row.original?.id}
+                        appliedIndustry={appliedIndustry}
                         step={steps > 14 ? 14 : steps < 1 ? 1 : steps}
                     />
                 )

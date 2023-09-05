@@ -212,6 +212,7 @@ export const ArchivedStudents = () => {
                 // )
             },
         },
+        
         {
             accessorKey: 'createdAt',
             header: () => <span>Created At</span>,
