@@ -93,13 +93,13 @@ export const KeyFeatures = () => {
         },
     ]
     return (
-        <>
+        <div className=' py-6 px-4 md:px-36'>
             <div className="w-full flex justify-center px-4">
                 <Typography variant="h2">
                     Key features and benefits of SkilTrak
                 </Typography>
             </div>
-            <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-y-2 md:gap-3 my-4 px-4 md:px-36">
+            <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-y-2 md:gap-3">
                 {features.map((feature, index) => (
                     <KeyFeatureCard
                         key={index}
@@ -120,6 +120,6 @@ export const KeyFeatures = () => {
                     text="View all features"
                 />
             </div>
-        </>
+        </div>
     )
 }

@@ -29,23 +29,23 @@ export const JumboSection = () => {
         transition: 'transform 0.3s ease-out',
     }
     return (
-        <div className="jumbo-bg mb-20">
+        <div className="jumbo-bg mb-0 md:mb-20">
             <div className="flex-col flex md:flex-row h-[450px] overflow-hidden">
                 {/* Text */}
-                <div className="w-full py-16 p-16 flex flex-col gap-y-4">
+                <div className="w-full px-6 py-8 md:py-16 md:p-16 flex flex-col gap-y-6">
                     <div>
-                        <h1 className="font-bold text-4xl text-white mb-8">
+                        <h1 className="font-bold text-3xl md:text-4xl text-white">
                             SKILTRAK, Your Student Placement Partner
                         </h1>
                     </div>
                     <div>
-                        <h2 className="font-medium text-2xl text-[#add4f9] mb-4">
+                        <h2 className="font-medium text-2xl text-[#add4f9]">
                             Create industry partners. Keep track of students
                             placement progress.
                         </h2>
                     </div>
                     <div>
-                        <p className="text-md text-[#c1d7ef] mb-4">
+                        <p className="text-[#c1d7ef]">
                             A user-friendly placement platform. No hassle, no
                             documentation missing . Be innovative and efficient.
                         </p>
