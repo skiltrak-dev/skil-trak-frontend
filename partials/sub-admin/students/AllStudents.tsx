@@ -261,7 +261,7 @@ export const AllStudents = () => {
                 const remainingDays = calculateRemainingDays(
                     info?.row?.original?.expiryDate
                 )
-                return (
+                return !info?.row?.original?.expiryDate ? (
                     <div className="flex items-center gap-x-2">
                         {remainingDays < 20 && (
                             <AiOutlineWarning className="text-primary" />
@@ -279,6 +279,10 @@ export const AllStudents = () => {
                             </span>
                         </Typography>
                     </div>
+                ) : (
+                    <Typography variant="muted" color={'text-error-dark'}>
+                        Expiry Date Not Provided
+                    </Typography>
                 )
             },
         },

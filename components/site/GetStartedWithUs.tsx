@@ -3,11 +3,11 @@ import { Button } from '@components/buttons'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
 
-export const GetStartedWithUs = () => {
+export const GetStartedWithUs = ({ contactUsRef }: any) => {
     const router = useRouter()
     return (
-        <div className="md:px-36 px-4 py-8 md:py-20 bg-[#192A65]">
-            <div className="max-w-7xl mx-auto gap-y-4 flex flex-col-reverse md:flex-row items-center md:gap-x-20 md:justify-between">
+        <div className="md:px-36 px-8 py-8 md:py-20 bg-[#192A65]">
+            <div className="max-w-7xl mx-auto gap-y-12 flex flex-col-reverse md:flex-row items-center md:gap-x-20 md:justify-between">
                 <div className="w-full md:w-3/4 relative">
                     <div className="w-full h-80 bg-orange-500 rounded-md absolute top-0 rotate-0 z-0"></div>
                     <div className="w-full h-80 bg-blue-300 rounded-md absolute top-0 rotate-1 z-10"></div>
@@ -43,7 +43,9 @@ export const GetStartedWithUs = () => {
                         />
                         <Button
                             onClick={() => {
-                                router.push('/auth/login')
+                                contactUsRef.current.scrollIntoView({
+                                    behavior: 'smooth',
+                                })
                             }}
                             variant="primary"
                             text="Request a demo"

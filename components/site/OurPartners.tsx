@@ -3,7 +3,7 @@ import Image from 'next/image'
 
 export const OurPartners = () => {
     return (
-        <div className="py-20">
+        <div className="py-8 md:py-[72px]">
             {/* <div className="max-w-7xl mx-auto"> */}
             <div className="w-full">
                 <div className="mb-8 flex justify-center">
