@@ -17,35 +17,67 @@ export const PackagesDetail = ({
     const packagesFeatures = [
         {
             text: 'Student Progress Tracking',
-            packageType: [packageTypes.PlacementManagement],
+            packageType: [
+                packageTypes.PlacementManagement,
+                packageTypes.StartupPackage,
+                packageTypes.CompletePackage,
+            ],
         },
         {
             text: 'Mapped WBT assessment tools available',
-            packageType: [packageTypes.PlacementManagement],
+            packageType: [
+                packageTypes.PlacementManagement,
+                packageTypes.StartupPackage,
+                packageTypes.CompletePackage,
+            ],
         },
         {
             text: 'Online appointment booking',
-            packageType: [packageTypes.PlacementManagement],
+            packageType: [
+                packageTypes.PlacementManagement,
+                packageTypes.StartupPackage,
+                packageTypes.CompletePackage,
+            ],
         },
         {
             text: 'Innovative way to track and monitor your work placement units',
-            packageType: [packageTypes.PlacementManagement],
+            packageType: [
+                packageTypes.PlacementManagement,
+                packageTypes.StartupPackage,
+                packageTypes.CompletePackage,
+            ],
         },
         {
             text: 'Stay compliant and liaise directly with Industry partners',
-            packageType: [packageTypes.PlacementManagement],
+            packageType: [
+                packageTypes.PlacementManagement,
+                packageTypes.StartupPackage,
+                packageTypes.CompletePackage,
+            ],
         },
         {
             text: 'SMS/LMS to assist your everyday business needs',
-            packageType: [packageTypes.PlacementManagement],
+            packageType: [
+                packageTypes.PlacementManagement,
+                packageTypes.StartupPackage,
+                packageTypes.CompletePackage,
+            ],
         },
         {
             text: 'Workplaces automatically assigned as per students&apos; location',
-            packageType: [packageTypes.PlacementManagement],
+            packageType: [
+                packageTypes.PlacementManagement,
+                packageTypes.StartupPackage,
+                packageTypes.CompletePackage,
+            ],
         },
         {
             text: 'Video conference with recording available',
-            packageType: [packageTypes.PlacementManagement],
+            packageType: [
+                packageTypes.PlacementManagement,
+                packageTypes.StartupPackage,
+                packageTypes.CompletePackage,
+            ],
         },
         {
             text: 'Skiltrak LMS portal featuring all services',
@@ -98,11 +130,17 @@ export const PackagesDetail = ({
         },
         {
             text: 'Liaison between students',
-            packageType: [packageTypes.StartupPackage],
+            packageType: [
+                packageTypes.StartupPackage,
+                packageTypes.CompletePackage,
+            ],
         },
         {
             text: 'RTO and industry',
-            packageType: [packageTypes.StartupPackage],
+            packageType: [
+                packageTypes.StartupPackage,
+                packageTypes.CompletePackage,
+            ],
         },
 
         {
@@ -183,7 +221,7 @@ export const PackagesDetail = ({
                                     <p
                                         className={`text-sm ${
                                             packageDetail.packageType.includes(
-                                                currentPackage?.tagline
+                                                currentPackage?.title
                                             )
                                                 ? 'text-black'
                                                 : 'text-[#D9D9D9]'

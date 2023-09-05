@@ -17,7 +17,7 @@ import { FaEdit, FaEye, FaTrash } from 'react-icons/fa'
 import { useActionModal } from '@hooks'
 import { RtoCellInfo } from '@partials/admin/rto/components'
 import { Student, UserStatus } from '@types'
-import { studentsListWorkplace } from '@utils'
+import { calculateRemainingDays, studentsListWorkplace } from '@utils'
 import moment from 'moment'
 import { useRouter } from 'next/router'
 import { ReactElement, useState } from 'react'
@@ -35,6 +35,7 @@ import {
     RejectModal,
     UnblockModal,
 } from './modals'
+import { AiOutlineWarning } from 'react-icons/ai'
 
 interface StatusTableActionOption extends TableActionOption {
     status: string[]
@@ -249,18 +250,30 @@ export const FilteredStudents = ({
         {
             accessorKey: 'expiry',
             header: () => <span>Expiry Date</span>,
-            cell: (info) => (
-                <>
-                    <Typography variant={'small'} color={'text-gray-600'}>
-                        <span className="font-semibold whitespace-pre">
-                            {moment(
-                                info?.row?.original?.oldExpiry ||
-                                    info?.row?.original?.expiryDate
-                            ).format('Do MMM YYYY')}
-                        </span>
-                    </Typography>
-                </>
-            ),
+            cell: (info) => {
+                const remainingDays = calculateRemainingDays(
+                    info?.row?.original?.expiryDate
+                )
+                return (
+                    <div className="flex items-center gap-x-2">
+                        {remainingDays < 20 && (
+                            <AiOutlineWarning className="text-primary" />
+                        )}
+                        <Typography
+                            variant={'small'}
+                            color={
+                                remainingDays < 20
+                                    ? 'text-primary'
+                                    : 'text-success-dark'
+                            }
+                        >
+                            <span className="font-semibold whitespace-pre">
+                                {remainingDays} Days left
+                            </span>
+                        </Typography>
+                    </div>
+                )
+            },
         },
         {
             accessorKey: 'progress',

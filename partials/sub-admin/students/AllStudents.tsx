@@ -35,6 +35,7 @@ import { EditTimer } from '@components/StudentTimer/EditTimer'
 import { SectorCell } from '@partials/admin/student/components'
 import { ColumnDef } from '@tanstack/react-table'
 import {
+    calculateRemainingDays,
     getStudentWorkplaceAppliedIndustry,
     setLink,
     studentsListWorkplace,
@@ -45,6 +46,7 @@ import { RTOCellInfo } from '../rto/components'
 import { InterviewModal } from '../workplace/modals'
 import { WorkplaceWorkIndustriesType } from 'redux/queryTypes'
 import moment from 'moment'
+import { AiOutlineWarning } from 'react-icons/ai'
 
 export const AllStudents = () => {
     const router = useRouter()
@@ -255,18 +257,30 @@ export const AllStudents = () => {
         {
             accessorKey: 'expiry',
             header: () => <span>Expiry Date</span>,
-            cell: (info) => (
-                <>
-                    <Typography variant={'small'} color={'text-gray-600'}>
-                        <span className="font-semibold whitespace-pre">
-                            {moment(
-                                info?.row?.original?.oldExpiry ||
-                                    info?.row?.original?.expiryDate
-                            ).format('Do MMM YYYY')}
-                        </span>
-                    </Typography>
-                </>
-            ),
+            cell: (info) => {
+                const remainingDays = calculateRemainingDays(
+                    info?.row?.original?.expiryDate
+                )
+                return (
+                    <div className="flex items-center gap-x-2">
+                        {remainingDays < 20 && (
+                            <AiOutlineWarning className="text-primary" />
+                        )}
+                        <Typography
+                            variant={'small'}
+                            color={
+                                remainingDays < 20
+                                    ? 'text-primary'
+                                    : 'text-success-dark'
+                            }
+                        >
+                            <span className="font-semibold whitespace-pre">
+                                {remainingDays} Days left
+                            </span>
+                        </Typography>
+                    </div>
+                )
+            },
         },
         {
             accessorKey: 'progress',
