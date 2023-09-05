@@ -11,11 +11,14 @@ import { MdCloudUpload } from 'react-icons/md'
 import { UploadAgreement } from './UploadAgreement'
 import { useUploadAgreementMutation } from '@queries'
 import { useNotification } from '@hooks'
+import { Course } from '@types'
 
 export const StepSignAgreement = ({
     appliedIndustryId,
+    course,
 }: {
     appliedIndustryId: any
+    course: Course
 }) => {
     const { notification } = useNotification()
     const [agreementSign, agreementSignResult] = useUploadAgreementMutation()
@@ -54,6 +57,7 @@ export const StepSignAgreement = ({
                             if (doc.type === 'application/pdf') {
                                 agreementSign({
                                     appliedIndustryId,
+                                    course: course?.id,
                                     body: formData,
                                 })
                             } else {

@@ -1,19 +1,18 @@
+
 import { useEffect, useRef, useState } from 'react'
 import { NextPage } from 'next'
-import Image from 'next/image'
 // Components
-import { Button, Typography } from '@components'
 // site components
 import { ContactUs } from '@components/site/ContactUs'
 import { Footer3 } from '@components/site/Footer3'
-import { Navbar2 } from '@components/site/navbar'
+import { GetStartedWithUs } from '@components/site/GetStartedWithUs'
+import { JumboSection } from '@components/site/JumboSection'
 import { OurPartners } from '@components/site/OurPartners'
 import { WeOperate } from '@components/site/WeOperate'
-import { GetStartedWithUs } from '@components/site/GetStartedWithUs'
-import { StudentPlacementManagement } from '@components/site/studentPlacementManagement'
-import { OurPackages } from '@components/site/ourPackages'
 import { KeyFeatures } from '@components/site/keyFeatures'
-import { JumboSection } from '@components/site/JumboSection'
+import { Navbar2 } from '@components/site/navbar'
+import { OurPackages } from '@components/site/ourPackages'
+import { StudentPlacementManagement } from '@components/site/studentPlacementManagement'
 
 const Home3: NextPage = () => {
     const contactUsRef = useRef(null)

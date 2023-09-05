@@ -5,6 +5,7 @@ import {
     WorkplaceCurrentStatus,
     checkStudentStatus,
     checkWorkplaceStatus,
+    getStudentWorkplaceAppliedIndustry,
 } from '@utils'
 import React from 'react'
 
@@ -26,6 +27,9 @@ export const CaseOfficerAssignedStudent = ({
     const industries = student?.industries
     const steps = checkWorkplaceStatus(workplace?.currentStatus)
     const studentStatus = checkStudentStatus(student?.studentStatus)
+    const appliedIndustry = getStudentWorkplaceAppliedIndustry(
+        workplace?.industries
+    )
 
     return industries?.length > 0 ? (
         <StudentStatusProgressCell
@@ -34,18 +38,21 @@ export const CaseOfficerAssignedStudent = ({
         />
     ) : student?.workplace && student?.workplace?.length > 0 ? (
         <ProgressCell
+            appliedIndustry={appliedIndustry}
             studentId={student?.id}
             assigned={student?.subadmin || workplace?.assignedTo}
             step={steps > 14 ? 14 : steps < 1 ? 1 : steps}
         />
     ) : student?.subadmin ? (
         <ProgressCell
+            appliedIndustry={appliedIndustry}
             studentId={student?.id}
             step={3}
             assigned={student?.subadmin || workplace?.assignedTo}
         />
     ) : (
         <ProgressCell
+            appliedIndustry={appliedIndustry}
             studentId={student?.id}
             step={1}
             assigned={student?.subadmin || workplace?.assignedTo}

@@ -1,19 +1,17 @@
-import React, { useEffect, useState } from 'react'
-import moment from 'moment'
+import { useEffect, useState } from 'react'
 // import { ApplyForWorkplaceIndustry } from './ApplyForWorkplaceIndustry'
 
 // components
-import { Typography, Card, LoadingAnimation, ActionButton } from '@components'
+import { ActionButton, Card, LoadingAnimation, Typography } from '@components'
 
+import { IndustryNotResponded } from '@partials/common'
 import {
     useSubAdminCancelStudentWorkplaceRequestMutation,
-    useApplyForWorkplaceMutation,
-    useSubAdminRequestIndustryWorkplaceMutation,
+    useSubAdminRequestIndustryWorkplaceMutation
 } from '@queries'
-import { ApplyForWorkplace, VerifyStudentDocs } from './components'
-import { AppliedIndustry } from './AppliedIndustry'
-import { IndustryNotResponded } from '@partials/common'
 import { getStudentWorkplaceAppliedIndustry } from '@utils'
+import { AppliedIndustry } from './AppliedIndustry'
+import { ApplyForWorkplace, VerifyStudentDocs } from './components'
 // import { IndustryNotResponded } from './IndustryNotResponded'
 
 export const IndustrySelection = ({

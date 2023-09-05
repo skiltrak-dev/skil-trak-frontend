@@ -13,6 +13,7 @@ import {
     StepPlacementStarted,
 } from '@partials/common'
 import { StepSignAgreement } from './StepSignAgreement'
+import { Course } from '@types'
 
 type Props = {
     status: any
@@ -21,6 +22,7 @@ type Props = {
     workplaceCancelRequest: any
     workplaceRequest: any
     studentAdded?: boolean
+    course: Course
 }
 
 export const AppliedIndustry = ({
@@ -30,6 +32,7 @@ export const AppliedIndustry = ({
     workplaceCancelRequest,
     workplaceRequest,
     studentAdded,
+    course,
 }: Props) => {
     const getNextStep = () => {
         switch (status) {
@@ -49,6 +52,7 @@ export const AppliedIndustry = ({
                 return (
                     <StepSignAgreement
                         appliedIndustryId={appliedIndustry?.id}
+                        course={course}
                     />
                 )
             case 'AgreementSigned':
