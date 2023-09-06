@@ -337,5 +337,12 @@ const Page = () => {
         </SiteLayout>
     )
 }
+export async function getStaticProps() {
+    return {
+        props: {
+            data: [],
+        },
+    }
+}
 
 export default Page

@@ -13,7 +13,7 @@ import {
 import { SubAdminLayout } from '@layouts'
 import { HistoryDates, HistoryFilters } from '@partials/common'
 import { CommonApi } from '@queries'
-import { getCommonDates, getUserCredentials } from '@utils'
+import { getCommonDates, getUserCredentials, removeEmptyValues } from '@utils'
 import moment from 'moment'
 import { FigureCard } from '@components/sections/subAdmin'
 import { UserRoles } from '@constants'
@@ -57,7 +57,9 @@ const SubAdminHistory: NextPageWithLayout = () => {
                     : filterType === FilterType['7Days']
                     ? { last7days: undefined }
                     : ''),
-                search: `${JSON.stringify({ target, status: searchedValue })
+                search: `${JSON.stringify(
+                    removeEmptyValues({ target, status: searchedValue })
+                )
                     .replaceAll('{', '')
                     .replaceAll('}', '')
                     .replaceAll('"', '')

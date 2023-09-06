@@ -258,4 +258,12 @@ const Page = ({ location }: any) => {
     )
 }
 
+export async function getStaticProps() {
+    return {
+        props: {
+            data: [],
+        },
+    }
+}
+
 export default Page

@@ -162,12 +162,6 @@ export const ProgressCell = ({
             WorkplaceRequestProgress()['9-PlacementStarted'].status,
     })
 
-    const onCancelModal = () => {
-        setModal(null)
-    }
-
-    console.log('appliedIndustry', appliedIndustry)
-
     const onProgressClicked = (studentId: number | undefined) => {
         contextBar.setContent(<ChangeWorkplaceStatus studentId={studentId} />)
         contextBar.show()

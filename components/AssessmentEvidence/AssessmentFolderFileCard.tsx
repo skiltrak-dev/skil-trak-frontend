@@ -125,6 +125,8 @@ export const AssessmentFolderFileCard = ({
                                     sizes="100vw"
                                     fill
                                     className="bg-cover"
+                                    blurDataURL={'/images/blur_image.png'}
+                                    placeholder="blur"
                                 />
                             </div>
                         )}
