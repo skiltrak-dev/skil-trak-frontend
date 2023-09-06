@@ -32,7 +32,8 @@ export const SkiltrakPackages = [
 ]
 export const OurPackages = () => {
     const [selectedPackage, setSelectedPackage] = useState(-1)
-    const [isSelectedPackage, setIsSelectedPackage] = useState<boolean>(false) //
+    const [isSelectedPackage, setIsSelectedPackage] = useState<boolean>(false)//
+
 
     useEffect(() => {
         if (selectedPackage > 0) {
