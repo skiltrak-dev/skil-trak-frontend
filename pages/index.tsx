@@ -1,3 +1,5 @@
+
+import { useEffect, useRef, useState } from 'react'
 import { NextPage } from 'next'
 // Components
 // site components
@@ -13,6 +15,7 @@ import { OurPackages } from '@components/site/ourPackages'
 import { StudentPlacementManagement } from '@components/site/studentPlacementManagement'
 
 const Home3: NextPage = () => {
+    const contactUsRef = useRef(null)
     return (
         <div>
             <Navbar2 />
@@ -29,9 +32,9 @@ const Home3: NextPage = () => {
             {/* We Operate in the Following States */}
             <WeOperate />
             {/* Get Started With Us */}
-            <GetStartedWithUs />
+            <GetStartedWithUs contactUsRef={contactUsRef} />
             {/* Lets Talk */}
-            <ContactUs />
+            <ContactUs contactUsRef={contactUsRef} />
             {/*  Footer */}
             <Footer3 />
         </div>
