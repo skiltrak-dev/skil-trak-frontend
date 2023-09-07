@@ -4,6 +4,7 @@ import {
     CaseOfficerAssignedStudent,
     EmptyData,
     LoadingAnimation,
+    StudentExpiryDaysLeft,
     StudentSubAdmin,
     Table,
     TableAction,
@@ -158,6 +159,15 @@ export const BlockedStudent = () => {
             cell: (info) => {
                 return <SectorCell student={info.row.original} />
             },
+        },
+        {
+            accessorKey: 'expiry',
+            header: () => <span>Expiry Date</span>,
+            cell: (info) => (
+                <StudentExpiryDaysLeft
+                    expiryDate={info.row.original?.expiryDate}
+                />
+            ),
         },
         {
             accessorKey: 'progress',

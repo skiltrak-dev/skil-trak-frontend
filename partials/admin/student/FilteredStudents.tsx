@@ -4,6 +4,7 @@ import {
     CaseOfficerAssignedStudent,
     EmptyData,
     LoadingAnimation,
+    StudentExpiryDaysLeft,
     StudentSubAdmin,
     Table,
     TableAction,
@@ -250,36 +251,11 @@ export const FilteredStudents = ({
         {
             accessorKey: 'expiry',
             header: () => <span>Expiry Date</span>,
-            cell: (info) => {
-                const remainingDays = calculateRemainingDays(
-                    info?.row?.original?.expiryDate
-                )
-                return info?.row?.original?.expiryDate ? (
-                    <div className="flex items-center gap-x-2">
-                        {remainingDays < 20 && (
-                            <AiOutlineWarning className="text-primary" />
-                        )}
-                        <Typography
-                            variant={'small'}
-                            color={
-                                remainingDays < 20
-                                    ? 'text-primary'
-                                    : 'text-success-dark'
-                            }
-                        >
-                            <span className="font-semibold whitespace-pre">
-                                {remainingDays} Days left
-                            </span>
-                        </Typography>
-                    </div>
-                ) : (
-                    <Typography variant="muted" color={'text-error-dark'}>
-                        <span className="font-semibold">
-                            Expiry Date Not Provided
-                        </span>
-                    </Typography>
-                )
-            },
+            cell: (info) => (
+                <StudentExpiryDaysLeft
+                    expiryDate={info.row.original?.expiryDate}
+                />
+            ),
         },
         {
             accessorKey: 'progress',

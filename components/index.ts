@@ -30,6 +30,7 @@ export * from './UserCreatedAt'
 export * from './UserCardRole'
 export * from './CaseOfficerAssignedStudent'
 export * from './AuthorizedUserComponent'
+export * from './StudentExpiryDaysLeft'
 
 // export * from './Pagination'
 export * from './PopUp'

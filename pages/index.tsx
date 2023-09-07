@@ -1,6 +1,5 @@
-
-import { useEffect, useRef, useState } from 'react'
 import { NextPage } from 'next'
+import { useRef } from 'react'
 // Components
 // site components
 import { ContactUs } from '@components/site/ContactUs'
@@ -14,7 +13,7 @@ import { Navbar2 } from '@components/site/navbar'
 import { OurPackages } from '@components/site/ourPackages'
 import { StudentPlacementManagement } from '@components/site/studentPlacementManagement'
 
-const Home3: NextPage = () => {
+const Home3: NextPage = ({ data }: any) => {
     const contactUsRef = useRef(null)
     return (
         <div>
@@ -40,4 +39,13 @@ const Home3: NextPage = () => {
         </div>
     )
 }
+
+export async function getStaticProps() {
+    return {
+        props: {
+            data: [],
+        },
+    }
+}
+
 export default Home3
