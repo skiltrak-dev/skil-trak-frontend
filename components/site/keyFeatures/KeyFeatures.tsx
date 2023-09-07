@@ -94,7 +94,7 @@ export const KeyFeatures = () => {
     ]
     return (
         <div className=' py-6 px-4 md:px-36'>
-            <div className="w-full flex justify-center px-4">
+            <div className="w-full flex justify-center px-4 mb-4">
                 <Typography variant="h2">
                     Key features and benefits of SkilTrak
                 </Typography>
