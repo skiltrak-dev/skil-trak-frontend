@@ -9,21 +9,36 @@ export const StudentExpiryDaysLeft = ({ expiryDate }: { expiryDate: Date }) => {
     return expiryDate ? (
         <div className="relative group">
             <div className="flex items-center gap-x-2">
-                {remainingDays < 20 && (
-                    <AiOutlineWarning className="text-primary" />
+                {remainingDays > 0 ? (
+                    <>
+                        {remainingDays < 20 && (
+                            <AiOutlineWarning className="text-primary" />
+                        )}
+                        <Typography
+                            variant={'small'}
+                            color={
+                                remainingDays < 20
+                                    ? 'text-primary'
+                                    : 'text-success-dark'
+                            }
+                        >
+                            <span className="font-semibold whitespace-pre">
+                                {remainingDays} Days left
+                            </span>
+                        </Typography>
+                    </>
+                ) : (
+                    <div>
+                        <Typography variant={'badge'} color={'text-black'}>
+                            Expired On
+                        </Typography>
+                        <Typography variant={'small'} color={'text-primary'}>
+                            <span className="font-semibold whitespace-pre">
+                                {moment(expiryDate).format('Do MMM YYYY')}
+                            </span>
+                        </Typography>
+                    </div>
                 )}
-                <Typography
-                    variant={'small'}
-                    color={
-                        remainingDays < 20
-                            ? 'text-primary'
-                            : 'text-success-dark'
-                    }
-                >
-                    <span className="font-semibold whitespace-pre">
-                        {remainingDays} Days left
-                    </span>
-                </Typography>
             </div>
             <div className="group-hover:block hidden text-xs whitespace-nowrap shadow-lg text-gray-100 bg-gray-700 px-2 py-1 rounded-md absolute z-10 right-0">
                 Expires At {moment(expiryDate).format('DD MMMM, YYYY')}
