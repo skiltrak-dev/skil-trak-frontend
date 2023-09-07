@@ -10,6 +10,7 @@ import { UserRoles } from '@constants'
 import { useNotification } from '@hooks'
 import { CommonApi } from '@queries'
 import { getUserCredentials } from '@utils'
+import Image from 'next/image'
 import { useRouter } from 'next/router'
 import { ReactElement, useState } from 'react'
 
@@ -88,7 +89,10 @@ export const RtoContextBarData = (props: Props) => {
                                 extension.toLowerCase()
                             ) ? (
                                 <div className="min-w-[650px] max-w-[70vw] max-h-[500px] overflow-auto">
-                                    <img
+                                    <Image
+                                        width={0}
+                                        height={0}
+                                        sizes="100vw 100vh"
                                         src={document?.file}
                                         alt=""
                                         className="w-[inherit] h-full object-contain"

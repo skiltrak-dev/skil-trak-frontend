@@ -39,6 +39,8 @@ export const ImportantDocumentCard = ({
                         width={90}
                         height={80}
                         className="w-full h-full rounded-lg"
+                        blurDataURL={'/images/blur_image.png'}
+                        placeholder="blur"
                     />
                 </div>
                 <div>

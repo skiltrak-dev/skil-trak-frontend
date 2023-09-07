@@ -26,6 +26,7 @@ import { ReactElement, useEffect, useState } from 'react'
 import { MdUnarchive } from 'react-icons/md'
 import { IndustryCell, SectorCell, StudentCellInfo } from './components'
 import { DeleteModal } from './modals'
+import moment from 'moment'
 
 export const ArchivedStudent = () => {
     const router = useRouter()
@@ -143,6 +144,22 @@ export const ArchivedStudent = () => {
             cell: (info) => {
                 return <SectorCell student={info.row.original} />
             },
+        },
+        {
+            accessorKey: 'expiry',
+            header: () => <span>Expiry Date</span>,
+            cell: (info) => (
+                <>
+                    <Typography variant={'small'} color={'text-primary'}>
+                        <span className="font-semibold whitespace-pre">
+                            {moment(
+                                info?.row?.original?.oldExpiry ||
+                                    info?.row?.original?.expiryDate
+                            ).format('Do MMM YYYY')}
+                        </span>
+                    </Typography>
+                </>
+            ),
         },
         {
             accessorKey: 'progress',

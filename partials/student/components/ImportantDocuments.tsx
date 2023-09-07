@@ -12,6 +12,7 @@ import { CommonApi } from '@queries'
 import { ReactElement, useState } from 'react'
 import { useNotification } from '@hooks'
 import { ellipsisText } from '@utils'
+import Image from 'next/image'
 
 export const ImportantDocuments = ({
     sidebar,
@@ -70,10 +71,15 @@ export const ImportantDocuments = ({
                             extension.toLowerCase()
                         ) ? (
                             <div className="min-w-[650px] max-w-[70vw] max-h-[500px] overflow-auto">
-                                <img
+                                <Image
+                                    width={0}
+                                    height={0}
+                                    sizes="100vw 100vh"
                                     src={document?.file}
                                     alt=""
                                     className="w-[inherit] h-full object-contain"
+                                    blurDataURL={'/images/blur_image.png'}
+                                    placeholder="blur"
                                 />
                             </div>
                         ) : ['mp4', 'mkv', 'avi', 'mpeg'].includes(

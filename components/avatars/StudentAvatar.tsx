@@ -33,6 +33,8 @@ export const StudentAvatar = ({
                     height={80}
                     className="rounded-full"
                     alt=""
+                    blurDataURL={'/images/blur_image.png'}
+                    placeholder="blur"
                 />
             ) : (
                 <div className="h-24 w-24 flex items-center justify-center bg-gray-100 rounded-full">

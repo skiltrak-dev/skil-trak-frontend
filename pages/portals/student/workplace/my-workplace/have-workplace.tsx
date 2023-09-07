@@ -68,8 +68,6 @@ const HaveWorkplace: NextPageWithLayout = (props: Props) => {
         }
     }, [workplace])
 
-    console.log({ workplaceData })
-
     useEffect(() => {
         if (!result.data && result.isSuccess) {
             setIndustryNotFound(true)

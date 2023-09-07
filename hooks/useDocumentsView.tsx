@@ -1,4 +1,5 @@
 import { FileViewModal, PdfViewModal, VideoPlayModal } from '@components'
+import Image from 'next/image'
 import React, { ReactElement, useState } from 'react'
 
 export const DocumentsView = () => {
@@ -17,7 +18,16 @@ export const DocumentsView = () => {
                 onCancelButtonClick={onModalCancel}
             >
                 <div className="max-w-[650px] relative">
-                    <img src={file?.file} alt="" className="max-w-full" />
+                    <Image
+                        width={0}
+                        height={0}
+                        sizes="100vw 100vh"
+                        src={file?.file}
+                        alt=""
+                        className="w-full h-full"
+                        blurDataURL={'/images/blur_image.png'}
+                        placeholder="blur"
+                    />
                 </div>
             </FileViewModal>
         )
