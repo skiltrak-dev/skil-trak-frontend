@@ -6,6 +6,7 @@ import { HiOutlineStatusOnline } from 'react-icons/hi'
 import { TbBulbFilled } from 'react-icons/tb'
 import { VscWorkspaceTrusted } from 'react-icons/vsc'
 import { Ellipse } from './Ellipse'
+import { EllipseMob } from './EllipseMob'
 
 export const StudentPlacementManagement = () => {
     const studentPlacement = [
@@ -32,36 +33,60 @@ export const StudentPlacementManagement = () => {
     ]
     return (
         <div className="bg-[#EFF5FF] mt-0 md:mt-16">
-            <div className="max-w-7xl mx-auto block md:flex md:justify-between md:gap-x-12">
-                <div className="pl-0 md:pl-36 py-0 md:py-20">
-                    <div className="md:block  hidden relative border big-ellipse-clr rounded-full w-[520px] h-[520px] p-4">
-                        <div className="border rounded-full big-ellipse-clr w-[200px] h-[200px] md:w-[480px] md:h-[480px] p-4"></div>
+            <div className="max-w-7xl mx-auto flex-col-reverse flex md:flex-row md:justify-between md:gap-x-12">
+                <div className="pl-0 md:pl-36 py-8 md:py-20 mx-auto">
+                    <div className=" relative border big-ellipse-clr rounded-full w-[220px] h-[220px] md:w-[520px] md:h-[520px] p-2 md:p-4">
+                        <div className="border rounded-full big-ellipse-clr w-[200px] h-[200px] md:w-[480px] md:h-[480px] p-2 md:p-4"></div>
 
-                        <div className={`absolute ellipse -top-2 left-2`}>
+                        {/* Mobile View */}
+                        <div className={`absolute md:hidden block mob-ellipse top-2 left-0`}>
+                            <EllipseMob Icon={FaConnectdevelop} text="Connect" />
+                        </div>
+                        <div className={`absolute md:hidden block mob-ellipse2 top-12 left-32`}>
+                            <EllipseMob Icon={BsStars} text="Efficient" />
+                        </div>
+                        <div className={`absolute md:hidden block mob-ellipse3 top-40 left-48`}>
+                            <EllipseMob Icon={BsRecordCircle} text="Record" />
+                        </div>
+                        <div className={`absolute md:hidden block mob-ellipse4 top-72 left-52`}>
+                            <EllipseMob
+                                Icon={HiOutlineStatusOnline}
+                                text="Online"
+                            />
+                        </div>
+                        <div
+                            className={`absolute md:hidden block mob-ellipse5 top-[25rem] left-36`}
+                        >
+                            <EllipseMob Icon={VscWorkspaceTrusted} text="Trust" />
+                        </div>
+                        <div className={`absolute md:hidden block mob-ellipse6 top-[29rem] left-9`}>
+                            <EllipseMob Icon={GiPapers} text="Paperless" />
+                        </div>
+                        <div className={`absolute hidden md:block ellipse -top-2 left-2`}>
                             <Ellipse Icon={FaConnectdevelop} text="Connect" />
                         </div>
-                        <div className={`absolute ellipse2 top-12 left-32`}>
+                        <div className={`absolute hidden md:block ellipse2 top-12 left-32`}>
                             <Ellipse Icon={BsStars} text="Efficient" />
                         </div>
-                        <div className={`absolute ellipse3 top-40 left-48`}>
+                        <div className={`absolute hidden md:block ellipse3 top-40 left-48`}>
                             <Ellipse Icon={BsRecordCircle} text="Record" />
                         </div>
-                        <div className={`absolute ellipse4 top-72 left-52`}>
+                        <div className={`absolute hidden md:block ellipse4 top-72 left-52`}>
                             <Ellipse
                                 Icon={HiOutlineStatusOnline}
                                 text="Online"
                             />
                         </div>
                         <div
-                            className={`absolute ellipse5 top-[25rem] left-36`}
+                            className={`absolute hidden md:block ellipse5 top-[25rem] left-36`}
                         >
                             <Ellipse Icon={VscWorkspaceTrusted} text="Trust" />
                         </div>
-                        <div className={`absolute ellipse6 top-[29rem] left-9`}>
+                        <div className={`absolute hidden md:block ellipse6 top-[29rem] left-9`}>
                             <Ellipse Icon={GiPapers} text="Paperless" />
                         </div>
 
-                        <div className="absolute w-72 md:w-auto top-0 -left-20 ">
+                        <div className="absolute w-60 md:w-auto -left-12 top-0 md:-left-20">
                             <Image
                                 className="animate-float"
                                 src="/images/site/student-placement.png"
@@ -78,7 +103,7 @@ export const StudentPlacementManagement = () => {
                         </div>
                     </div>
                 </div>
-                <div className="px-4 md:px-0 py-8 md:py-20">
+                <div className="px-4 md:px-0 pb-0 pt-8 md:py-20">
                     <div className="mb-5">
                         <h2 className="text-[28px] md:text-3xl font-bold">
                             Student Placement Management System
