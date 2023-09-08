@@ -13,14 +13,15 @@ export const OurPackage = ({
     onClick,
 }: any) => {
     const router = useRouter()
+    
     return (
         <>
-            <div className={`${color} rounded-2xl p-12 h-[450px] w-auto md:w-96`}>
+            <div className={`${color} rounded-2xl p-12 h-[450px] w-full md:w-96`}>
                 <div className="text-3xl mb-6 md:mb-10">
                     <MdHomeWork className="text-white" />
                 </div>
                 <div className="flex flex-col gap-y-[72px]">
-                    <div className="">
+                    <div className="h-12 ">
                         <Typography variant="body" color="text-white">
                             {title}
                         </Typography>
