@@ -18,6 +18,8 @@ export const GetStartedWithUs = ({ contactUsRef }: any) => {
                             sizes="100vw"
                             fill
                             alt="get-started-with-us"
+                            placeholder="blur"
+                            blurDataURL={'/images/get-started-with-us-blur.png'}
                         />
                     </div>
                 </div>
