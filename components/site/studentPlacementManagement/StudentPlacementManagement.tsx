@@ -61,7 +61,7 @@ export const StudentPlacementManagement = () => {
                             <Ellipse Icon={GiPapers} text="Paperless" />
                         </div>
 
-                        <div className="absolute w-72 md:w-auto top-0 -left-20">
+                        <div className="absolute w-72 md:w-auto top-0 -left-20 ">
                             <Image
                                 className="animate-float"
                                 src="/images/site/student-placement.png"
@@ -70,6 +70,10 @@ export const StudentPlacementManagement = () => {
                                 width={100}
                                 height={100}
                                 alt="hero image"
+                                blurDataURL={
+                                    '/images/student-placement-blur.png'
+                                }
+                                placeholder="blur"
                             />
                         </div>
                     </div>
@@ -82,8 +86,7 @@ export const StudentPlacementManagement = () => {
                     </div>
 
                     {studentPlacement.map((placement, index) => (
-
-                        <div className='mb-4' key={index}>
+                        <div className="mb-4" key={index}>
                             <div className="flex gap-x-2">
                                 <TbBulbFilled className="text-[#F7910F] text-base md:text-lg " />
                                 <p className="text-[#F7910F] text-base font-semibold">
