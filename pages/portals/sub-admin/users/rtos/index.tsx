@@ -52,13 +52,14 @@ const RTOs: NextPageWithLayout = () => {
 
     const filteredDataLength = checkFilteredDataLength(filter)
     //filters
-
     useEffect(() => {
         const query = getFilterQuery<SubAdminRtoFilterType>({
             router,
             filterKeys: [],
         })
         setFilter(query as SubAdminRtoFilterType)
+        setPage(Number(router.query.page || 1))
+        setItemPerPage(Number(router.query.pageSize || 50))
     }, [router])
 
     const { isLoading, data, isError, isFetching } = useGetSubAdminRtosQuery({
@@ -216,7 +217,8 @@ const RTOs: NextPageWithLayout = () => {
                                         <div className="p-6 mb-2 flex justify-between">
                                             {pageSize(
                                                 itemPerPage,
-                                                setItemPerPage
+                                                setItemPerPage,
+                                                data?.data?.length
                                             )}
                                             <div className="flex gap-x-2">
                                                 {quickActions}
