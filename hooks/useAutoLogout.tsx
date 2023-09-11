@@ -62,7 +62,9 @@ export const AutoLogoutProvider = ({
         if (AuthUtils.isAuthenticated() && path?.includes('portals')) {
             const { expTime, timestamp } = getExpAndCurrTime()
 
-            const intervalTime = expTime - 1000 * 250 - timestamp
+            const intervalTime = expTime - 1000 * 1770 - timestamp
+
+            console.log({ intervalTime })
 
             if (
                 intervalTime &&
@@ -91,7 +93,9 @@ export const AutoLogoutProvider = ({
         if (AuthUtils.isAuthenticated() && path?.includes('portals')) {
             const { expTime, timestamp } = getExpAndCurrTime()
 
-            const secondIntervalTime = expTime - 1000 * 100 - timestamp
+            const secondIntervalTime = expTime - 1000 * 1725 - timestamp
+
+            console.log({ secondIntervalTime })
 
             if (
                 secondIntervalTime &&
@@ -117,7 +121,7 @@ export const AutoLogoutProvider = ({
     useEffect(() => {
         const { expireTime, currentTime, expTime, timestamp } =
             getExpAndCurrTime()
-        const intervalTime = expTime - 1000 * 250 - timestamp
+        const intervalTime = expTime - 1000 * 1500 - timestamp
         if (
             intervalTime < 0 &&
             currentTime.isBefore(expireTime) &&
@@ -150,6 +154,7 @@ export const AutoLogoutProvider = ({
                             refreshTokenResult.data.refreshToken
                         )
                     } else {
+                        console.log({ rememberLogin })
                         AuthUtils.setTokenToSession(
                             refreshTokenResult.data.access_token
                         )
@@ -166,7 +171,7 @@ export const AutoLogoutProvider = ({
         let time: any = null
 
         if (AuthUtils.isAuthenticated()) {
-            const intervalTime = 101000
+            const intervalTime = 31 * 1000
 
             if (isUserActive > 0) {
                 time = setInterval(() => {

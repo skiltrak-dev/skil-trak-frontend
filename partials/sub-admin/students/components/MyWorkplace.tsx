@@ -5,14 +5,24 @@ import { FaMapMarkerAlt } from 'react-icons/fa'
 import { IoBriefcase } from 'react-icons/io5'
 
 //queries
-import { LoadingAnimation, StudentSubAdmin, WorkplaceAvatar } from '@components'
+import {
+    Badge,
+    LoadingAnimation,
+    StudentSubAdmin,
+    Typography,
+    WorkplaceAvatar,
+} from '@components'
 import { ActionButton } from '@components/buttons'
 import { UserRoles } from '@constants'
 import { useContextBar } from '@hooks'
 import { RemoveIndustryModal } from '@partials/sub-admin/workplace/modals'
 import { useGetSubAdminStudentWorkplaceQuery } from '@queries'
 import { UserStatus } from '@types'
-import { WorkplaceCurrentStatus, getUserCredentials } from '@utils'
+import {
+    WorkplaceCurrentStatus,
+    getStudentWorkplaceAppliedIndustry,
+    getUserCredentials,
+} from '@utils'
 import { ReactElement, useEffect, useState } from 'react'
 import { MdDelete } from 'react-icons/md'
 import { AddSecondWPCB } from '../contextBar'
@@ -23,12 +33,10 @@ export const MyWorkplace = ({ student }: { student: StudentSubAdmin }) => {
     const [currentStatus, setCurrentStatus] = useState<string | null>(null)
 
     const pathname = useRouter()
-    const profileId = pathname.query.profileId
 
-    const [workplaceIndustries, setWorkplaceIndustries] = useState<any>([])
     const [isSecondWorkplaceView, setSsSecondWorkplaceView] =
         useState<boolean>(false)
-    const [industry, setIndustry] = useState<any>({})
+    const [wpIndustry, setWpIndustry] = useState<any>({})
 
     const workplace = useGetSubAdminStudentWorkplaceQuery(student?.id, {
         skip: !student?.id,
@@ -42,35 +50,14 @@ export const MyWorkplace = ({ student }: { student: StudentSubAdmin }) => {
             workplace.data &&
             workplace?.data?.length > 0
         ) {
+            setWpIndustry(workplace.data?.[0])
             setCurrentStatus(workplace.data[0]?.currentStatus)
         }
     }, [workplace])
 
-    useEffect(() => {
-        if (student?.industries && student?.industries?.length > 0) {
-            setIndustry(student?.industries?.[0])
-        }
-        if (!student?.industries?.length) {
-            setIndustry({})
-        }
-    }, [student?.industries])
-
-    useEffect(() => {
-        if (
-            workplace.isSuccess &&
-            workplace?.data &&
-            workplace?.data?.length > 0
-        ) {
-            setWorkplaceIndustries(workplace?.data[0])
-        }
-    }, [workplace])
-
-    // const filteredData = myWorkplace?.workplace.filter(
-    //     (item: any) => !item.isCancelled
-    // )
+    const wp = getStudentWorkplaceAppliedIndustry(wpIndustry?.industries)
 
     const role = getUserCredentials()?.role
-    const status = getUserCredentials()?.status
 
     const onCancelClicked = () => {
         setModal(null)
@@ -115,7 +102,7 @@ export const MyWorkplace = ({ student }: { student: StudentSubAdmin }) => {
         )
     }
 
-    const noWorkplace = () => {
+    const NoWorkplace = () => {
         return (
             <>
                 <WorkplaceStatusData
@@ -136,7 +123,7 @@ export const MyWorkplace = ({ student }: { student: StudentSubAdmin }) => {
     const workplaceStatus = () => {
         switch (currentStatus) {
             case WorkplaceCurrentStatus.NotRequested:
-                return noWorkplace()
+                return NoWorkplace()
             case WorkplaceCurrentStatus.Applied:
                 return (
                     <WorkplaceStatusData
@@ -268,16 +255,9 @@ export const MyWorkplace = ({ student }: { student: StudentSubAdmin }) => {
                     />
                 )
             default:
-                return noWorkplace()
+                return NoWorkplace()
         }
     }
-
-    const industryByWorkplace =
-        workplace?.data &&
-        workplace?.data?.length > 0 &&
-        workplace?.data[0]?.industries?.find(
-            (ind: any) => ind?.industry?.id === industry?.id
-        )
 
     return (
         <Card fullHeight>
@@ -294,25 +274,23 @@ export const MyWorkplace = ({ student }: { student: StudentSubAdmin }) => {
 
                 {/* Action */}
                 <div className="flex justify-between gap-x-1">
-                    {Object.keys(industry)?.length > 0 && (
+                    {wp && (
                         <ActionButton
                             mini
                             Icon={MdDelete}
                             variant={'error'}
                             title={'Delete Industry'}
-                            onClick={() =>
-                                onDeleteIndustry(industryByWorkplace)
-                            }
+                            onClick={() => onDeleteIndustry(wp)}
                         />
                     )}
-                    {role !== 'rto' && Object.keys(industry)?.length > 0 ? (
+                    {role !== 'rto' && wp ? (
                         <ActionButton
                             variant="success"
                             onClick={() => {
                                 pathname.push(
                                     role === 'admin'
-                                        ? `/portals/admin/industry/${industry?.id}?tab=sectors`
-                                        : `/portals/sub-admin/users/industries/${industry?.id}?tab=overview`
+                                        ? `/portals/admin/industry/${wp?.industry?.id}?tab=sectors`
+                                        : `/portals/sub-admin/users/industries/${wp?.industry?.id}?tab=overview`
                                 )
                             }}
                         >
@@ -320,13 +298,13 @@ export const MyWorkplace = ({ student }: { student: StudentSubAdmin }) => {
                         </ActionButton>
                     ) : null}
 
-                    {role !== 'rto' && student?.industries?.length > 1 ? (
+                    {role !== 'rto' && workplace?.data?.length > 1 ? (
                         <ActionButton
                             variant={'link'}
                             onClick={() => {
                                 isSecondWorkplaceView
-                                    ? setIndustry(student?.industries[0])
-                                    : setIndustry(student?.industries[1])
+                                    ? setWpIndustry(workplace?.data?.[0])
+                                    : setWpIndustry(workplace?.data?.[1])
                                 setSsSecondWorkplaceView(!isSecondWorkplaceView)
                             }}
                         >
@@ -335,7 +313,7 @@ export const MyWorkplace = ({ student }: { student: StudentSubAdmin }) => {
                                 : 'View Second'}
                         </ActionButton>
                     ) : null}
-                    {role !== 'rto' && student?.industries?.length === 1 ? (
+                    {role !== 'rto' && wp && workplace?.data?.length === 1 ? (
                         <ActionButton
                             variant={'link'}
                             onClick={() => {
@@ -351,19 +329,26 @@ export const MyWorkplace = ({ student }: { student: StudentSubAdmin }) => {
                 </div>
             </div>
             {/* Card Body */}
-            {Object.keys(industry)?.length > 0 ? (
-                <div key={industry?.id} className="mt-4">
+            {wp ? (
+                <div key={wp?.industry?.id} className="mt-4">
                     <div className="flex gap-x-6 mb-4">
                         <div className="flex-shrink-0">
                             <WorkplaceAvatar />
                         </div>
                         <div>
                             <div>
-                                <p className="font-medium">
-                                    {industry?.user?.name}
-                                </p>
+                                <div className="flex justify-between items-center gap-x-2">
+                                    <p className="font-medium">
+                                        {wp?.industry?.user?.name}
+                                    </p>
+
+                                    <Badge
+                                        variant={'primary'}
+                                        text={String(currentStatus)}
+                                    />
+                                </div>
                                 <p className="text-slate-400 text-sm">
-                                    {industry?.user?.email}
+                                    {wp?.industry?.user?.email}
                                 </p>
                             </div>
                             <div>
@@ -373,10 +358,10 @@ export const MyWorkplace = ({ student }: { student: StudentSubAdmin }) => {
                                             <FaMapMarkerAlt size={14} />
                                         </span>
                                         <span className="text-xs">
-                                            {industry?.addressLine1},{' '}
-                                            {industry?.addressLine2},{' '}
-                                            {industry?.state},{' '}
-                                            {industry?.suburb}{' '}
+                                            {wp?.industry?.addressLine1},{' '}
+                                            {wp?.industry?.addressLine2},{' '}
+                                            {wp?.industry?.state},{' '}
+                                            {wp?.industry?.suburb}{' '}
                                         </span>
                                     </div>
                                 </div>
@@ -388,10 +373,13 @@ export const MyWorkplace = ({ student }: { student: StudentSubAdmin }) => {
                                     <div className="flex justify-between gap-x-4">
                                         <div>
                                             <p className="font-medium text-sm">
-                                                {industry?.contactPerson}
+                                                {wp?.industry?.contactPerson}
                                             </p>
                                             <p className="text-xs font-medium text-slate-400">
-                                                {industry?.contactPersonNumber}
+                                                {
+                                                    wp?.industry
+                                                        ?.contactPersonNumber
+                                                }
                                             </p>
                                         </div>
                                     </div>

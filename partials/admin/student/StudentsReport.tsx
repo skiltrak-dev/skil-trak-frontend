@@ -12,7 +12,7 @@ import { CalendarStyles } from '@components/Calendar/style'
 import Calendar from 'react-calendar'
 
 import { CommonApi } from '@queries'
-import { OptionType } from '@types'
+import { OptionType, UserStatus } from '@types'
 import {
     WorkplaceCurrentStatus,
     getUserCredentials,
@@ -22,6 +22,7 @@ import {
 import moment from 'moment'
 import { RiTimerLine } from 'react-icons/ri'
 import OutsideClickHandler from 'react-outside-click-handler'
+import { StatusOptions } from '@components/filters/StatusOptions'
 
 export const AllStudentsReport = () => {
     const weekEnd = new Date()
@@ -29,7 +30,10 @@ export const AllStudentsReport = () => {
     const [startDate, setStartDate] = useState<any>(weekEnd)
     const [endDate, setEndDate] = useState<any>(new Date())
     const [showCalendars, setShowCalendars] = useState<boolean>(false)
-    const [dateRange, setDateRange] = useState<any>('')
+    const [dateRange, setDateRange] = useState<any>({
+        startDate: '',
+        endDate: '',
+    })
     const [formValues, setFormValues] = useState<{
         rtoId: number | null
         courseId: number | null
@@ -42,9 +46,10 @@ export const AllStudentsReport = () => {
 
     useEffect(() => {
         const date = new Date()
-        setDateRange(
-            `${date.toLocaleDateString()} - ${weekEnd.toLocaleDateString()}`
-        )
+        setDateRange({
+            startDate: weekEnd.toLocaleDateString(),
+            endDate: date.toLocaleDateString(),
+        })
     }, [])
 
     const getRtos = CommonApi.Filter.useRtos()
@@ -106,7 +111,11 @@ export const AllStudentsReport = () => {
                                 className="flex cursor-pointer items-center gap-x-2 bg-gray-100 px-4 py-2 rounded"
                             >
                                 <RiTimerLine className="text-gray-400 " />
-                                <button>{dateRange ? dateRange : null}</button>
+                                <button>
+                                    {dateRange
+                                        ? `${dateRange?.startDate} - ${dateRange?.endDate}`
+                                        : null}
+                                </button>
                             </div>
                             {showCalendars && (
                                 <div className="absolute top-10 right-0 min-w-[600px] calendars-container z-20">
@@ -116,9 +125,11 @@ export const AllStudentsReport = () => {
                                                 <Calendar
                                                     onChange={(date: Date) => {
                                                         setStartDate(date)
-                                                        setDateRange(
-                                                            `${date.toLocaleDateString()} - ${weekEnd.toLocaleDateString()}`
-                                                        )
+                                                        setDateRange({
+                                                            ...dateRange,
+                                                            startDate:
+                                                                date.toLocaleDateString(),
+                                                        })
                                                     }}
                                                     value={startDate}
                                                 />
@@ -133,9 +144,11 @@ export const AllStudentsReport = () => {
                                                                 30
                                                         )
                                                         setEndDate(date)
-                                                        setDateRange(
-                                                            `${startDate.toLocaleDateString()} - ${date.toLocaleDateString()}`
-                                                        )
+                                                        setDateRange({
+                                                            ...dateRange,
+                                                            endDate:
+                                                                date.toLocaleDateString(),
+                                                        })
                                                     }}
                                                     value={endDate}
                                                 />
@@ -159,15 +172,16 @@ export const AllStudentsReport = () => {
                     multi
                 />
                 <Select
-                    name={'fieldsName'}
-                    label={'Fields Name'}
-                    options={[
-                        {
-                            label: 'name',
-                            value: 'name',
-                        },
-                    ]}
+                    label={'User Status'}
+                    name={'status'}
+                    options={StatusOptions}
+                    placeholder={'Select Sectors...'}
+                    multi
+                    onChange={(e: OptionType[]) => {
+                        handleFormChange(e, 'status')
+                    }}
                 />
+
                 <div className="flex justify-end items-center">
                     <a
                         href={`${
