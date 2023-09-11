@@ -379,7 +379,108 @@ img {
     top: 50% !important;
     left: -50px !important;
 }
+/* Mobile View Ellipses */
+.mob-ellipse {
+    position: absolute;
+    animation: mobOrbit 30s linear infinite;
+    /* transform: rotate(0deg) translateX(100px) translateY(40px) rotate(0deg); */
+    top: 50% !important;
+    left: -80% !important;
+}
+.mob-ellipse2 {
+    position: absolute;
+    animation: mobOrbit2 30s linear infinite;
+    /* transform: rotate(0deg) translateX(90px) translateY(-50px) rotate(0deg); */
+    top: 50% !important;
+    left: -80% !important;
+}
+.mob-ellipse3 {
+    position: absolute;
+    animation: mobOrbit3 30s linear infinite;
+    /* transform: rotate(0deg) translateX(10px) translateY(-110px) rotate(0deg); */
+    top: 50% !important;
+    left: -80% !important;
+}
+.mob-ellipse4 {
+    position: absolute;
+    animation: mobOrbit4 30s linear infinite;
+    /* transform: rotate(0deg) translateX(-90px) translateY(-60px) rotate(0deg); */
+     top: 50% !important;
+    left: -80% !important;
+}
+.mob-ellipse5 {
+    position: absolute;
+    animation: mobOrbit5 30s linear infinite;
+    /* transform: rotate(0deg) translateX(-90px) translateY(30px) rotate(0deg); */
+     top: 50% !important;
+    left: -80% !important;
+}
+.mob-ellipse6 {
+    position: absolute;
+    animation: mobOrbit6 30s linear infinite;
+    /* transform: rotate(0deg) translateX(5px) translateY(90px) rotate(0deg); */
+     top: 50% !important;
+    left: -80% !important;
+}
 
+/* Key Frames */
+@keyframes mobOrbit {
+    from {
+        transform: rotate(0deg) translateX(100px) translateY(40px) rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg) translateX(100px) translateY(40px)
+            rotate(-360deg);
+    }
+}
+
+@keyframes mobOrbit2 {
+    from {
+        transform: rotate(0deg) translateX(90px) translateY(-50px) rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg) translateX(90px) translateY(-50px) rotate(-360deg);
+    }
+}
+@keyframes mobOrbit3 {
+    from {
+        transform: rotate(0deg) translateX(10px) translateY(-110px) rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg) translateX(10px) translateY(-110px)
+            rotate(-360deg);
+    }
+}
+@keyframes mobOrbit4 {
+    from {
+        transform: rotate(0deg) translateX(-90px) translateY(-60px) rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg) translateX(-90px) translateY(-60px) rotate(-360deg);
+    }
+}
+@keyframes mobOrbit5 {
+    from {
+        transform: rotate(0deg) translateX(-100px) translateY(30px)
+            rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg) translateX(-100px) translateY(30px)
+            rotate(-360deg);
+    }
+}
+
+@keyframes mobOrbit6 {
+    from {
+        transform: rotate(0deg) translateX(5px) translateY(90px)
+            rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg) translateX(5px) translateY(90px)
+            rotate(-360deg);
+    }
+}
+/* Mobile view ellipse end */
 /* Water Waves */
 .waves {
     position: relative;

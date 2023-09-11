@@ -30,7 +30,7 @@ export const OurPartners = () => {
                         alt="Partners"
                     />
 
-                    <div className="md:w-20 w-16 absolute left-10 top-20 md:top-[12%] md:left-[14%]">
+                    <div className="md:w-20 w-12 absolute left-[10%] top-[20%] md:top-[12%] md:left-[14%]">
                         <Image
                             className="rounded-full"
                             src="/images/site/partners/p12.png"
@@ -41,7 +41,7 @@ export const OurPartners = () => {
                             alt="Partners"
                         />
                     </div>
-                    <div className="w-16 h-16 md:w-24 md:h-24  absolute top-36 left-40 md:top-[18%] md:left-[34%]">
+                    <div className="w-12 h-12 md:w-24 md:h-24  absolute top-[38%] left-[40%] md:top-[18%] md:left-[34%]">
                         <Image
                             className="rounded-full"
                             src="/images/site/partners/p14.png"
@@ -52,7 +52,7 @@ export const OurPartners = () => {
                             alt="Partners"
                         />
                     </div>
-                    <div className="md:w-[7rem] md:h-[7.5rem] w-24 h-24  absolute top-[10.7rem] left-4 md:top-[50%]  md:left-[19%]">
+                    <div className="md:w-[7rem] md:h-[7.5rem] w-[4.5rem] h-[4.5rem]  absolute top-[44%] left-[6%] md:top-[50%]  md:left-[19%]">
                         <Image
                             className="rounded-full"
                             src="/images/site/partners/p15.png"
@@ -63,7 +63,7 @@ export const OurPartners = () => {
                             alt="Partners"
                         />
                     </div>
-                    <div className="md:w-36 w-20 absolute top-40 right-10 md:top-0  md:right-[31rem]">
+                    <div className="md:w-36 w-14 absolute top-[42%] right-8 md:top-0  md:right-[31rem]">
                         <Image
                             className=""
                             src="/images/site/partners/p4.png"
@@ -74,7 +74,7 @@ export const OurPartners = () => {
                             alt="Partners"
                         />
                     </div>
-                    <div className="md:w-56 w-36 absolute top-20 md:top-7 right-4 md:right-48">
+                    <div className="md:w-56 w-24 absolute top-20 md:top-7 right-4 md:right-48">
                         <Image
                             className=""
                             src="/images/site/partners/p10.png"
@@ -85,7 +85,7 @@ export const OurPartners = () => {
                             alt="Partners"
                         />
                     </div>
-                    <div className="md:w-24 md:h-24 w-20 h-20  absolute top-64 right-24 md:top-48  md:right-72">
+                    <div className="md:w-24 md:h-24 w-14 h-14  absolute top-[65%] right-[25%] md:top-48  md:right-72">
                         <Image
                             className="rounded-full"
                             src="/images/site/partners/p1.png"
@@ -96,7 +96,7 @@ export const OurPartners = () => {
                             alt="Partners"
                         />
                     </div>
-                    <div className="md:w-32 w-20 absolute top-10 right-48 md:top-32  md:right-[27rem]">
+                    <div className="md:w-32 w-16 absolute top-8 right-36 md:top-32  md:right-[27rem]">
                         <Image
                             className=""
                             src="/images/site/partners/p6.png"
@@ -107,7 +107,7 @@ export const OurPartners = () => {
                             alt="Partners"
                         />
                     </div>
-                    <div className="w-36 md:w-56 absolute top-80 left-16 md:top-[59%] md:left-[42%]">
+                    <div className="w-28 md:w-56 absolute top-[82%] left-16 md:top-[59%] md:left-[42%]">
                         <Image
                             className=""
                             src="/images/site/partners/p16.png"
