@@ -1,4 +1,9 @@
-import { EmptyData, LoadingAnimation, TechnicalError } from '@components'
+import {
+    EmptyData,
+    LoadingAnimation,
+    TechnicalError,
+    Typography,
+} from '@components'
 import { HistoryDates, HistoryFilters } from '@partials/common'
 import { CommonApi, SubAdminApi } from '@queries'
 import { getCommonDates } from '@utils'
@@ -32,18 +37,9 @@ export const WorkplaceHistory = () => {
     const dates = getCommonDates(workplaceHistory?.data)
     return (
         <>
-            {/* <div className="mt-4">
-                <HistoryFilters
-                    filterType={filterType}
-                    isCustomRange={isCustomRange}
-                    setFilterType={setFilterType}
-                    customRangeDate={customRangeDate}
-                    setIsCustomRange={setIsCustomRange}
-                    setSearchedValue={setSearchedValue}
-                    setCustomRangeDate={setCustomRangeDate}
-                />
-            </div> */}
-
+            <div className="mt-5">
+                <Typography variant='title'>Workplace History</Typography>
+            </div>
             {workplaceHistory.isError && <TechnicalError />}
             {workplaceHistory.isLoading || workplaceHistory.isFetching ? (
                 <LoadingAnimation />

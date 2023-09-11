@@ -36,7 +36,7 @@ const SubAdminDetail: NextPageWithLayout = () => {
     const contextBar = useContextBar()
 
     const [modal, setModal] = useState<ReactElement | null>(null)
-    const { passwordModal, onViewPassword } = useActionModal()
+    const { passwordModal, onUpdatePassword, onViewPassword } = useActionModal()
 
     const { data, isLoading, isError, refetch } =
         AdminApi.SubAdmins.useRtoProfile(Number(router.query.id), {
@@ -104,6 +104,12 @@ const SubAdminDetail: NextPageWithLayout = () => {
                                     })
                                 }}
                             />
+                            <div>
+                                <Button
+                                    text={'Update Password'}
+                                    onClick={() => onUpdatePassword(data)}
+                                />
+                            </div>
                             <ActionButton
                                 Icon={FaArchive}
                                 onClick={() => onArchivedClicked(data)}

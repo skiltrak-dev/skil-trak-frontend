@@ -27,16 +27,16 @@ export const PackageDetailCard = ({
 
     return (
         <div
-            className={`${currentPackage?.color} p-12 flex flex-col justify-center w-80 md:w-96 h-full`}
+            className={`${currentPackage?.color} px-8 py-4 md:p-12 flex flex-col justify-center w-full lg:w-96 h-full`}
         >
             <div className={classes} onClick={goBack}>
                 {Icon}
                 <span className="ml-2">{'Back'}</span>
             </div>
-            <div className="mb-6 md:mb-10">
+            <div className="mb-4 md:mb-10">
                 <MdHomeWork className="text-white" size={55} />
             </div>
-            <div className="flex flex-col gap-y-16">
+            <div className="flex flex-col gap-y-8 md:gap-y-16">
                 <div className="">
                     <Typography variant="title" color="text-white">
                         {currentPackage?.title}
@@ -65,7 +65,7 @@ export const PackageDetailCard = ({
                 </div>
             </div>
             <div
-                className={`flex justify-between items-center ${
+                className={`flex justify-between items-center mt-12 md:mt-20 ${
                     currentPackage?.prevButton ? 'cursor-pointer' : ''
                 }`}
             >
@@ -75,7 +75,7 @@ export const PackageDetailCard = ({
                             onPrevious()
                         }
                     }}
-                    className="group flex items-center mt-20"
+                    className="group flex items-center"
                 >
                     <div className="mt-2  group-hover:-translate-x-3 transition-transform duration-300 ease-in-out">
                         <AiOutlineArrowRight
@@ -111,7 +111,7 @@ export const PackageDetailCard = ({
                 </div>
 
                 <div
-                    className={`group flex items-center mt-20 ${
+                    className={`group flex items-center ${
                         onNext ? 'cursor-pointer' : ''
                     }`}
                     onClick={() => {
