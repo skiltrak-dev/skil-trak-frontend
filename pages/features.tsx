@@ -160,7 +160,7 @@ const bgColors = [
 const Page: NextPage = () => {
     return (
         <SiteLayout title={'Features'}>
-            <div className="h-96 bg-gradient-to-r from-[#0a56b0] to-[rgba(52, 91, 135, 0)] w-full">
+            <div className="h-96 jumbo-bg w-full">
                 <div className="h-full max-w-3xl mx-auto flex flex-col justify-center items-center">
                     <Typography variant={'h1'} color="text-white">
                         SKILTRAK FEATURES
