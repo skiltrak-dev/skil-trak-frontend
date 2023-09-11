@@ -16,13 +16,9 @@ export const OurPackage = ({
     
     return (
         <>
-<<<<<<< Updated upstream
-            <div className={`${color} rounded-2xl p-12 h-[450px] w-full md:w-96`}>
-=======
             <div
                 className={`${color} rounded-2xl p-12 h-[450px] w-full md:w-96`}
             >
->>>>>>> Stashed changes
                 <div className="text-3xl mb-6 md:mb-10">
                     <MdHomeWork className="text-white" />
                 </div>
