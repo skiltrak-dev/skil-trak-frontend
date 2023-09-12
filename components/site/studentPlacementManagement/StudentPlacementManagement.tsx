@@ -33,7 +33,7 @@ export const StudentPlacementManagement = () => {
     ]
     return (
         <div className="bg-[#EFF5FF] mt-0 md:mt-16">
-            <div className="max-w-7xl mx-auto flex-col-reverse flex md:flex-row md:justify-between md:gap-x-12">
+            <div className="max-w-7xl mx-auto flex-col flex md:flex-row md:justify-between md:gap-x-12">
                 <div className="pl-0 md:pl-36 py-8 md:py-20 mx-auto">
                     <div className=" relative border big-ellipse-clr rounded-full w-[220px] h-[220px] md:w-[520px] md:h-[520px] p-2 md:p-4">
                         <div className="border rounded-full big-ellipse-clr w-[200px] h-[200px] md:w-[480px] md:h-[480px] p-2 md:p-4"></div>

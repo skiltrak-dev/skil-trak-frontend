@@ -9,11 +9,12 @@ export const GetStartedWithUs = ({ contactUsRef }: any) => {
         <div className="md:px-36 px-8 py-8 md:py-20 bg-[#192A65]">
             <div className="max-w-7xl mx-auto gap-y-12 flex flex-col-reverse md:flex-row items-center md:gap-x-20 md:justify-between">
                 <div className="w-full md:w-3/4 relative">
-                    <div className="w-full h-80 bg-orange-500 rounded-md absolute top-0 rotate-0 z-0"></div>
-                    <div className="w-full h-80 bg-blue-300 rounded-md absolute top-0 rotate-1 z-10"></div>
-                    <div className="w-full h-80 bg-blue-500 rounded-md absolute top-0 z-20 rotate-3"></div>
-                    <div className="relative w-full h-80 rounded-md overflow-hidden rotate-6 z-30">
+                    <div className="w-full h-44 md:h-80 bg-orange-500 rounded-md absolute top-0 rotate-0 z-0"></div>
+                    <div className="w-full h-44 md:h-80 bg-blue-300 rounded-md absolute top-0 rotate-1 z-10"></div>
+                    <div className="w-full h-44 md:h-80 bg-blue-500 rounded-md absolute top-0 z-20 rotate-3"></div>
+                    <div className="relative h-44 w-full md:h-80 rounded-md overflow-hidden rotate-6 z-30">
                         <Image
+                            className=""
                             src="/images/site/get-started-with-us.jpg"
                             sizes="100vw"
                             fill
