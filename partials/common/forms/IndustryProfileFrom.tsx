@@ -25,6 +25,7 @@ import { UserRoles } from '@constants'
 import { AuthApi } from '@queries'
 import { Course } from '@types'
 import { useRouter } from 'next/router'
+import { CourseSelectOption } from '@utils'
 
 export const IndustryProfileFrom = ({
     result,
@@ -63,8 +64,9 @@ export const IndustryProfileFrom = ({
         if (profile.isSuccess && profile?.data?.courses?.length > 0) {
             const courseAddedOptions = profile?.data?.courses?.map(
                 (course: any) => ({
-                    label: course?.title,
+                    item: course,
                     value: course?.id,
+                    label: course?.title,
                 })
             )
             setCourseValues(courseAddedOptions)
@@ -135,8 +137,9 @@ export const IndustryProfileFrom = ({
             if (courseList && courseList.length) {
                 return courseList.map((course: any) =>
                     newCourseOptions.push({
-                        label: course.title,
+                        item: course,
                         value: course.id,
+                        label: course.title,
                     })
                 )
             }
@@ -393,6 +396,9 @@ export const IndustryProfileFrom = ({
                                         onChange={(e: any) => {
                                             setCourseValues(e)
                                         }}
+                                        components={{
+                                            Option: CourseSelectOption,
+                                        }}
                                     />
                                 )}
                                 {!courseOptions?.length && (
@@ -406,6 +412,9 @@ export const IndustryProfileFrom = ({
                                         validationIcons
                                         onChange={(e: any) => {
                                             setCourseValues(e)
+                                        }}
+                                        components={{
+                                            Option: CourseSelectOption,
                                         }}
                                     />
                                 )}

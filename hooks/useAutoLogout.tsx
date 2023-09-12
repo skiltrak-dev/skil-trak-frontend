@@ -85,7 +85,12 @@ export const AutoLogoutProvider = ({
         return () => {
             clearInterval(time)
         }
-    }, [router, AuthUtils.getUserCredentials(), getExpAndCurrTime()])
+    }, [
+        router,
+        AuthUtils.getUserCredentials(),
+        getExpAndCurrTime(),
+        refreshTokenResult,
+    ])
 
     useEffect(() => {
         let time: any = null
@@ -116,7 +121,7 @@ export const AutoLogoutProvider = ({
         return () => {
             clearInterval(time)
         }
-    }, [router, AuthUtils.getUserCredentials()])
+    }, [router, AuthUtils.getUserCredentials(), refreshTokenResult])
 
     useEffect(() => {
         const { expireTime, currentTime, expTime, timestamp } =

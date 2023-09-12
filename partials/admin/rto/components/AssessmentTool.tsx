@@ -78,13 +78,13 @@ export const AssessmentTool = ({ rto, actions, setAssessmentView }: any) => {
                                 />
                             ))}
 
-                            <AssessmentCourse
+                            {/* <AssessmentCourse
                                 code={'-'}
                                 name={'Miscellaneous'}
                                 id={0}
                                 onClick={() => setSelectedCourseId(-1)}
                                 selectedCourseId={selectedCourseId}
-                            />
+                            /> */}
                         </>
                     ) : (
                         <></>

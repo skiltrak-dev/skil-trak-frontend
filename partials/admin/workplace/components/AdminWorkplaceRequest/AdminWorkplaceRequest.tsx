@@ -18,7 +18,7 @@ import {
 
 import { AdminApi } from '@queries'
 import { Course, OptionType } from '@types'
-import { checkWorkplaceStatus } from '@utils'
+import { CourseSelectOption, checkWorkplaceStatus } from '@utils'
 import moment from 'moment'
 import { useEffect, useState } from 'react'
 import { RiBook2Fill } from 'react-icons/ri'
@@ -64,8 +64,9 @@ export const AdminWorkplaceRequest = ({ workplace }: Props) => {
     const courseOptions =
         workplace?.student?.courses && workplace?.student?.courses?.length > 0
             ? workplace?.student?.courses?.map((course: Course) => ({
-                  label: course?.title,
+                  item: course,
                   value: course?.id,
+                  label: course?.title,
               }))
             : []
 
@@ -134,6 +135,7 @@ export const AdminWorkplaceRequest = ({ workplace }: Props) => {
                                         })
                                     }
                                 }}
+                                components={{ Option: CourseSelectOption }}
                                 loading={assignCourseResult.isLoading}
                                 disabled={assignCourseResult.isLoading}
                             />
