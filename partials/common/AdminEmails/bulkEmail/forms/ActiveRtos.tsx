@@ -176,11 +176,9 @@ export const ActiveRtos = () => {
                     <Select
                         label={'Select Email Template'}
                         name={'template'}
-                        // defaultValue={courseOptions}
                         value={templateValue}
                         options={templateOptions}
                         placeholder="Select Email Template"
-                        // loading={courseLoading}
                         onChange={(e: any) => {
                             setTemplate(e.label)
                             setTemplateId(e.value)

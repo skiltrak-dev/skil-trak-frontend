@@ -179,11 +179,9 @@ export const ActiveIndustries = () => {
                     <Select
                         label={'Select Email Template'}
                         name={'template'}
-                        // defaultValue={courseOptions}
                         options={templateOptions}
                         placeholder="Select Email Template"
                         value={templateValue}
-                        // loading={courseLoading}
                         onChange={(e: any) => {
                             setTemplate(e.label)
                             setTemplateId(e.value)

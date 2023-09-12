@@ -8,7 +8,12 @@ import * as yup from 'yup'
 
 import { useNotification } from '@hooks'
 import { AuthApi } from '@queries'
-import { isEmailValid, onlyAlphabets, SignUpUtils } from '@utils'
+import {
+    CourseSelectOption,
+    isEmailValid,
+    onlyAlphabets,
+    SignUpUtils,
+} from '@utils'
 
 import { Button, Card, Checkbox, Select, TextInput } from '@components'
 import { yupResolver } from '@hookform/resolvers/yup'
@@ -34,12 +39,12 @@ export const AddCustomIndustryForm = ({
 
     const { notification } = useNotification()
 
-    const sectorResponse = AuthApi.useSectors({})
     const [checkEmailExists, emailCheckResult] = AuthApi.useEmailCheck()
 
     const courseOptions = courses?.map((course: Course) => ({
-        label: course?.title,
+        item: course,
         value: course?.id,
+        label: course?.title,
     }))
 
     const [storedData, setStoredData] = useState<any>(null)
@@ -197,6 +202,9 @@ export const AddCustomIndustryForm = ({
                                 options={courseOptions}
                                 validationIcons
                                 onlyValue
+                                components={{
+                                    Option: CourseSelectOption,
+                                }}
                             />
                         </div>
 

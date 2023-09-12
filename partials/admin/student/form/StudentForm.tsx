@@ -8,7 +8,12 @@ import * as yup from 'yup'
 
 import { useNotification } from '@hooks'
 import { AuthApi, AdminApi } from '@queries'
-import { isEmailValid, onlyAlphabets, SignUpUtils } from '@utils'
+import {
+    CourseSelectOption,
+    isEmailValid,
+    onlyAlphabets,
+    SignUpUtils,
+} from '@utils'
 
 import { Button, Checkbox, Select, TextInput, Typography } from '@components'
 import { FormProvider, useForm } from 'react-hook-form'
@@ -57,8 +62,9 @@ export const StudentForm = ({ onSubmit }: { onSubmit: any }) => {
             if (courseList && courseList.length) {
                 return courseList.map((course: any) =>
                     newCourseOptions.push({
-                        label: course.title,
+                        item: course,
                         value: course.id,
+                        label: course.title,
                     })
                 )
             }
@@ -297,6 +303,7 @@ export const StudentForm = ({ onSubmit }: { onSubmit: any }) => {
                                     : courseOptions?.length === 0
                             }
                             validationIcons
+                            components={{ Option: CourseSelectOption }}
                         />
                     </div>
                 </div>

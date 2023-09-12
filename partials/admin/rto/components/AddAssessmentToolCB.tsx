@@ -15,10 +15,12 @@ import { UploadFile } from '@components/inputs/UploadFile'
 import { useContextBar, useNotification } from '@hooks'
 import { RtoAssessmentToolFormType } from '@types'
 import { omit } from 'lodash'
+import { CourseSelectOption } from '@utils'
 type Props = {
     edit?: boolean
     assessment?: any
 }
+
 export const AddAssessmentToolCB = ({ edit, assessment }: Props) => {
     const [coursesOptions, setCoursesOptions] = useState<any | null>([])
     const [fileData, setFileData] = useState<any | null>([])
@@ -38,6 +40,7 @@ export const AddAssessmentToolCB = ({ edit, assessment }: Props) => {
             const options = rtoCourses?.data?.map((course: any) => ({
                 label: course.title,
                 value: course.id,
+                item: course,
             }))
             setCoursesOptions(options)
         }
@@ -120,6 +123,7 @@ export const AddAssessmentToolCB = ({ edit, assessment }: Props) => {
                                 loading={rtoCourses.isLoading}
                                 disabled={rtoCourses.isLoading}
                                 onlyValue
+                                components={{ Option: CourseSelectOption }}
                             />
                         )}
                         <TextInput

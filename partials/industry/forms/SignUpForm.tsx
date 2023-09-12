@@ -8,7 +8,12 @@ import * as yup from 'yup'
 
 import { useNotification } from '@hooks'
 import { AuthApi } from '@queries'
-import { isEmailValid, onlyAlphabets, SignUpUtils } from '@utils'
+import {
+    CourseSelectOption,
+    isEmailValid,
+    onlyAlphabets,
+    SignUpUtils,
+} from '@utils'
 
 import { Button, Checkbox, Select, TextInput, Typography } from '@components'
 import { yupResolver } from '@hookform/resolvers/yup'
@@ -60,8 +65,9 @@ export const IndustrySignUpForm = ({ onSubmit }: { onSubmit: any }) => {
             if (courseList && courseList.length) {
                 return courseList.map((course: any) =>
                     newCourseOptions.push({
-                        label: course.title,
+                        item: course,
                         value: course.id,
+                        label: course.title,
                     })
                 )
             }
@@ -338,11 +344,9 @@ export const IndustrySignUpForm = ({ onSubmit }: { onSubmit: any }) => {
                                 options={courseOptions}
                                 multi
                                 loading={courseLoading}
-                                // disabled={
-                                //     storedData
-                                //         ? storedData?.courses?.length === 0
-                                //         : courseOptions?.length === 0
-                                // }
+                                components={{
+                                    Option: CourseSelectOption,
+                                }}
                                 disabled={courseOptions.length === 0}
                                 validationIcons
                             />

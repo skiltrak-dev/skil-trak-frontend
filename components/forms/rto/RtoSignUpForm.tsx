@@ -7,7 +7,12 @@ import * as yup from 'yup'
 
 import { useNotification } from '@hooks'
 import { AuthApi } from '@queries'
-import { isEmailValid, onlyAlphabets, SignUpUtils } from '@utils'
+import {
+    CourseSelectOption,
+    isEmailValid,
+    onlyAlphabets,
+    SignUpUtils,
+} from '@utils'
 
 import { Button, Checkbox, Select, TextInput, Typography } from '@components'
 import { yupResolver } from '@hookform/resolvers/yup'
@@ -63,6 +68,7 @@ export const RtoSignUpForm = ({
                     newCourseOptions.push({
                         label: course.title,
                         value: course.id,
+                        item: course,
                     })
                 )
             }
@@ -262,6 +268,7 @@ export const RtoSignUpForm = ({
                                         : courseOptions?.length === 0
                                 }
                                 validationIcons
+                                components={{ Option: CourseSelectOption }}
                             />
                         </div>
                     </div>

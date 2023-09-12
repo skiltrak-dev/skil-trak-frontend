@@ -87,13 +87,13 @@ export const StudentAssessmentTools = ({ role, actions }: Props) => {
                                             selectedCourseId={selectedCourseId}
                                         />
                                     ))}
-                                    <AssessmentCourse
+                                    {/* <AssessmentCourse
                                         code={'-'}
                                         name={'Miscellaneous'}
                                         id={0}
                                         onClick={() => setSelectedCourseId(-1)}
                                         selectedCourseId={selectedCourseId?.id}
-                                    />
+                                    /> */}
                                 </>
                             )}
                         </div>

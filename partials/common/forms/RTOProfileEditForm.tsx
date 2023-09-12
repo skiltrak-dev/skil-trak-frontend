@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 
 import * as yup from 'yup'
 
-import { onlyAlphabets } from '@utils'
+import { CourseSelectOption, onlyAlphabets } from '@utils'
 
 import {
     Button,
@@ -121,8 +121,9 @@ export const RTOProfileEditForm = ({
             if (courseList && courseList.length) {
                 return courseList.map((course: any) =>
                     newCourseOptions.push({
-                        label: course.title,
+                        item: course,
                         value: course.id,
+                        label: course.title,
                     })
                 )
             }
@@ -350,6 +351,9 @@ export const RTOProfileEditForm = ({
                                                             0
                                                         }
                                                         validationIcons
+                                                        components={{
+                                                            Option: CourseSelectOption,
+                                                        }}
                                                     />
                                                 )}
                                             {!courseOptions?.length && (
@@ -364,6 +368,9 @@ export const RTOProfileEditForm = ({
                                                         0
                                                     }
                                                     validationIcons
+                                                    components={{
+                                                        Option: CourseSelectOption,
+                                                    }}
                                                 />
                                             )}
                                         </div>
