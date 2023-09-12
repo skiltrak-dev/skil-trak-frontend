@@ -17,7 +17,6 @@ import { getUserCredentials } from '@utils'
 
 export const IndustryNavbar = () => {
     const router = useRouter()
-    const status = getUserCredentials()?.status
 
     const defaultClasses = classNames({
         'transition-all duration-300 px-4 py-2 flex flex-col md:flex-row gap-x-2 items-center rounded-md':
@@ -100,7 +99,7 @@ export const IndustryNavbar = () => {
                                 <a
                                     className={`${
                                         router.pathname ==
-                                        '/portals/industry/jobs'
+                                        '/portals/industry/supervisors'
                                             ? 'bg-green-100 text-green-700'
                                             : 'text-slate-700'
                                     } ${defaultClasses} hover:bg-green-100 hover:text-green-700`}

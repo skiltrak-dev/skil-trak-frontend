@@ -259,11 +259,8 @@ export const ActiveStudents = ({
                         <Select
                             label={'Search by RTO'}
                             name={'rtos'}
-                            // defaultValue={courseOptions}
-                            // value={courseValues}
                             options={rtoOptions}
                             multi
-                            // loading={courseLoading}
                             onChange={(e: any) => {
                                 setRtoIds(e)
                             }}
@@ -272,11 +269,8 @@ export const ActiveStudents = ({
                             <Select
                                 label={'Search by Industry'}
                                 name={'industries'}
-                                // defaultValue={courseOptions}
-                                // value={courseValues}
                                 options={industryOptions}
                                 multi
-                                // loading={courseLoading}
                                 onChange={(e: any) => {
                                     setIndustryIds(e)
                                 }}
@@ -307,8 +301,6 @@ export const ActiveStudents = ({
                         <Select
                             label={'Search by Course'}
                             name={'course'}
-                            // defaultValue={courseOptions}
-                            // value={courseValues}
                             options={coursesOptions}
                             multi
                             // loading={courseLoading}
@@ -341,11 +333,8 @@ export const ActiveStudents = ({
                     <Select
                         label={'Select Email Template'}
                         name={'template'}
-                        // defaultValue={courseOptions}
-                        // value={courseValues}
                         options={templateOptions}
                         placeholder="Select Email Template"
-                        // loading={courseLoading}
                         value={templateValue}
                         onChange={(e: any) => {
                             setTemplate(e?.label)

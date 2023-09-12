@@ -5,7 +5,7 @@ import { FormProvider, useForm } from 'react-hook-form'
 import { Select, Button } from '@components'
 import { useGetIndustrySectorsQuery } from '@queries'
 import { useEffect, useState } from 'react'
-import { SignUpUtils } from '@utils'
+import { CourseSelectOption, SignUpUtils } from '@utils'
 export const BrowseCandidateForm = ({ setCourseId }: any) => {
     const sectorResponse = useGetIndustrySectorsQuery()
     const [sectorOptions, setSectorOptions] = useState([])
@@ -28,8 +28,9 @@ export const BrowseCandidateForm = ({ setCourseId }: any) => {
             if (courseList && courseList.length) {
                 return courseList.map((course: any) =>
                     newCourseOptions.push({
-                        label: course.title,
+                        item: course,
                         value: course.id,
+                        label: course.title,
                     })
                 )
             }
@@ -94,6 +95,9 @@ export const BrowseCandidateForm = ({ setCourseId }: any) => {
                             validationIcons
                             onChange={(values: any) => {
                                 setCourseId(values?.value)
+                            }}
+                            components={{
+                                Option: CourseSelectOption,
                             }}
                         />
                     </div>

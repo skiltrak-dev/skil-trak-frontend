@@ -76,13 +76,13 @@ export const AssessmentTools = ({
                                 />
                             </>
                         ))}
-                        <AssessmentCourse
+                        {/* <AssessmentCourse
                             code={'-'}
                             name={'Miscellaneous'}
                             id={-1}
                             onClick={() => setSelectedCourseId(-1)}
-                            selectedCourseId={selectedCourseId}
-                        />
+                            selectedCourseId={selectedCourseId} 
+                        />*/}
                     </div>
                     <div className="w-[75%]">
                         <div className="flex justify-end gap-x-2.5 p-4">

@@ -8,7 +8,12 @@ import * as yup from 'yup'
 
 import { useNotification } from '@hooks'
 import { AuthApi } from '@queries'
-import { isEmailValid, onlyAlphabets, SignUpUtils } from '@utils'
+import {
+    CourseSelectOption,
+    isEmailValid,
+    onlyAlphabets,
+    SignUpUtils,
+} from '@utils'
 
 import { Button, Checkbox, Select, TextInput, Typography } from '@components'
 import { FormProvider, useForm } from 'react-hook-form'
@@ -61,6 +66,7 @@ export const RtoForm = ({ onSubmit }: { onSubmit: any }) => {
                     newCourseOptions.push({
                         label: course.title,
                         value: course.id,
+                        item: course,
                     })
                 )
             }
@@ -300,6 +306,7 @@ export const RtoForm = ({ onSubmit }: { onSubmit: any }) => {
                                     : courseOptions?.length === 0
                             }
                             validationIcons
+                            components={{ Option: CourseSelectOption }}
                         />
                     </div>
                 </div>

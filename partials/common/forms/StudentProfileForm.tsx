@@ -16,7 +16,7 @@ import {
 } from '@components'
 
 // utils
-import { getDate, isBrowser, onlyAlphabets } from '@utils'
+import { CourseSelectOption, getDate, isBrowser, onlyAlphabets } from '@utils'
 import { AuthApi } from '@queries'
 import { Course, Sector } from '@types'
 import { useActionModal, useNotification } from '@hooks'
@@ -73,8 +73,9 @@ export const StudentProfileForm = ({
     useEffect(() => {
         if (courses.isSuccess && courses?.data?.length > 0) {
             const courseAddedOptions = courses?.data?.map((course: any) => ({
-                label: `${course?.title} ${course?.code}`,
+                item: course,
                 value: course?.id,
+                label: `${course?.title} ${course?.code}`,
             }))
             setCourseValues(courseAddedOptions)
             setCourseOptions(courseAddedOptions)
@@ -136,8 +137,9 @@ export const StudentProfileForm = ({
             if (courseList && courseList.length) {
                 return courseList.map((course: any) =>
                     newCourseOptions.push({
-                        label: `${course?.title} ${course?.code}`,
+                        item: course,
                         value: course.id,
+                        label: `${course?.title} ${course?.code}`,
                     })
                 )
             }
@@ -450,15 +452,14 @@ export const StudentProfileForm = ({
                                                 }
                                                 options={courseOptions}
                                                 multi
-                                                // disabled={
-                                                //     courseOptions?.length === 0
-                                                // }
                                                 validationIcons
                                                 onChange={(e: any) => {
                                                     setCourseValues(e)
                                                 }}
                                                 disabled={student}
-                                                // onlyValue
+                                                components={{
+                                                    Option: CourseSelectOption,
+                                                }}
                                             />
                                         )}
                                     {!courseOptions?.length && (
@@ -468,9 +469,9 @@ export const StudentProfileForm = ({
                                             options={courseOptions}
                                             value={courseValues}
                                             multi
-                                            // disabled={
-                                            //     courseOptions?.length === 0
-                                            // }
+                                            components={{
+                                                Option: CourseSelectOption,
+                                            }}
                                             onChange={(e: any) => {
                                                 setCourseValues(e)
                                             }}

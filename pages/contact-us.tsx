@@ -65,11 +65,13 @@ const Page = ({ location }: any) => {
                     </div>
                 </div>
             </div> */}
-            <div className="h-96 bg-gradient-to-r from-[#0a56b0] to-[rgba(52, 91, 135, 0)] w-full">
-                <div className="h-full max-w-3xl mx-auto flex flex-col justify-center items-center">
-                    <Typography variant={'h1'} color="text-white">
-                        GET IN TOUCH WITH SKILTRAK
-                    </Typography>
+            <div className="h-96 jumbo-bg w-full">
+                <div className="h-full max-w-3xl mx-auto flex flex-col gap-y-1 justify-center items-center">
+                    <div className='text-center'>
+                        <Typography variant={'h1'} color="text-white">
+                            GET IN TOUCH WITH SKILTRAK
+                        </Typography>
+                    </div>
                     <Typography
                         variant={'subtitle'}
                         color={'text-white'}
