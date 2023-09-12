@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { NavLink2 } from './NavLink2'
+import { Button } from '@components/buttons'
+import { useRouter } from 'next/router'
 
 const links = [
     {
@@ -31,6 +33,7 @@ const links = [
 export function Navbar2() {
     const [isMenuOpen, setIsMenuOpen] = useState(false)
     const [navLinks, setNavlinks] = useState(links)
+    const router = useRouter()
 
     const toggleMenu = () => {
         setIsMenuOpen(!isMenuOpen)
@@ -68,62 +71,7 @@ export function Navbar2() {
         <nav>
             <div className="w-full mx-auto md:px-6 lg:px-36">
                 <div className="relative max-w-7xl mx-auto flex items-center justify-between h-24 ">
-                    <div className="absolute inset-y-0 left-0 flex items-center md:hidden">
-                        <button
-                            type="button"
-                            onClick={toggleMenu}
-                            className="
-                                    inline-flex
-                                    items-center
-                                    justify-center
-                                    p-2
-                                    rounded-md
-                                    text-gray-400
-                                    hover:text-white hover:bg-amber-500 
-                                    focus:outline-none
-                                    focus:ring-2
-                                    focus:ring-inset
-                                    focus:ring-white
-                                    "
-                            aria-controls="mobile-menu"
-                            aria-expanded="false"
-                        >
-                            <span className="sr-only">Open main menu</span>
-
-                            <svg
-                                className="block h-6 w-6"
-                                xmlns="http://www.w3.org/2000/svg"
-                                fill="none"
-                                viewBox="0 0 24 24"
-                                stroke="currentColor"
-                                aria-hidden="true"
-                            >
-                                <path
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                    strokeWidth="2"
-                                    d="M4 6h16M4 12h16M4 18h16"
-                                />
-                            </svg>
-
-                            <svg
-                                className="hidden h-6 w-6"
-                                xmlns="http://www.w3.org/2000/svg"
-                                fill="none"
-                                viewBox="0 0 24 24"
-                                stroke="currentColor"
-                                aria-hidden="true"
-                            >
-                                <path
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                    strokeWidth="2"
-                                    d="M6 18L18 6M6 6l12 12"
-                                />
-                            </svg>
-                        </button>
-                    </div>
-                    <div className="flex-1 flex items-center justify-center md:items-end md:justify-start">
+                    <div className="px-4 md:px-0 flex-1 flex items-center justify-between md:items-end md:justify-start">
                         {/* Logo */}
                         <div className="flex-shrink-0 flex items-center">
                             <img
@@ -136,6 +84,74 @@ export function Navbar2() {
                                 src={'/images/site/logo-light.png'}
                                 alt="Skiltrak Logo"
                             />
+                        </div>
+                        <div className="absolute inset-y-0 right-0 flex items-center md:hidden">
+                            <div className="">
+                                <button
+                                    type="button"
+                                    onClick={toggleMenu}
+                                    className="
+                                    inline-flex
+                                    items-center
+                                    justify-center
+                                    p-2
+                                    rounded-md
+                                    text-gray-400
+                                    hover:text-white hover:bg-amber-500 
+                                    focus:outline-none
+                                    focus:ring-2
+                                    focus:ring-inset
+                                    focus:ring-white
+                                    "
+                                    aria-controls="mobile-menu"
+                                    aria-expanded="false"
+                                >
+                                    <span className="sr-only">
+                                        Open main menu
+                                    </span>
+
+                                    <svg
+                                        className="block h-6 w-6"
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        fill="none"
+                                        viewBox="0 0 24 24"
+                                        stroke="currentColor"
+                                        aria-hidden="true"
+                                    >
+                                        <path
+                                            strokeLinecap="round"
+                                            strokeLinejoin="round"
+                                            strokeWidth="2"
+                                            d="M4 6h16M4 12h16M4 18h16"
+                                        />
+                                    </svg>
+
+                                    <svg
+                                        className="hidden h-6 w-6"
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        fill="none"
+                                        viewBox="0 0 24 24"
+                                        stroke="currentColor"
+                                        aria-hidden="true"
+                                    >
+                                        <path
+                                            strokeLinecap="round"
+                                            strokeLinejoin="round"
+                                            strokeWidth="2"
+                                            d="M6 18L18 6M6 6l12 12"
+                                        />
+                                    </svg>
+                                </button>
+                            </div>
+                            <div className="pr-4">
+                                <Button
+                                    text={'Login'}
+                                    variant="primary"
+                                    onClick={() => {
+                                        router.push('/auth/login')
+                                    }}
+                                />
+                            </div>
                         </div>
 
                         {/* Nav Links */}

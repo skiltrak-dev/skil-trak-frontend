@@ -27,16 +27,31 @@ export const PackageDetailCard = ({
 
     return (
         <div
-            className={`${currentPackage?.color} px-8 py-4 md:p-12 flex flex-col justify-center w-full lg:w-96 h-full`}
+            className={`${currentPackage?.color} p-4 md:p-12 flex flex-col justify-center w-full lg:w-96 h-full`}
         >
             <div className={classes} onClick={goBack}>
                 {Icon}
                 <span className="ml-2">{'Back'}</span>
             </div>
-            <div className="mb-4 md:mb-10">
+            {/* Mobile view */}
+            <div className="flex items-center gap-x-4 md:hidden ">
+                <div className="">
+                    <MdHomeWork className="text-white" size={32} />
+                </div>
+                <div className="">
+                    <Typography variant="title" color="text-white">
+                        {currentPackage?.title}
+                    </Typography>
+                    <Typography variant="subtitle" color="text-white">
+                        {currentPackage?.tagline}
+                    </Typography>
+                </div>
+            </div>
+            {/* Mobile view end */}
+            <div className="mb-4 md:mb-10 md:block hidden">
                 <MdHomeWork className="text-white" size={55} />
             </div>
-            <div className="flex flex-col gap-y-8 md:gap-y-16">
+            <div className="md:flex md:flex-col hidden gap-y-8 md:gap-y-16 ">
                 <div className="">
                     <Typography variant="title" color="text-white">
                         {currentPackage?.title}

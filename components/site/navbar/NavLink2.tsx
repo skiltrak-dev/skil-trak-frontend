@@ -51,13 +51,15 @@ export const NavLink2 = ({ to, text, asButton = false, external }: any) => {
                 //     text={text}
                 //     external={external}
                 // />
-                <Button
-                    text={text}
-                    variant="primary"
-                    onClick={() => {
-                        router.push('/auth/login')
-                    }}
-                />
+                <div className="md:inline-block hidden">
+                    <Button
+                        text={text}
+                        variant="primary"
+                        onClick={() => {
+                            router.push('/auth/login')
+                        }}
+                    />
+                </div>
             )
         } else if (external) {
             return (

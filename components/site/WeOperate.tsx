@@ -37,7 +37,7 @@ export const WeOperate = () => {
                                 href={
                                     'https://www.google.com/maps/place/Queensland,+Australia/@-18.8511163,135.0927291,5z/data=!3m1!4b1!4m6!3m5!1s0x6bd4df247a62dcfd:0xf5f2d0227612be99!8m2!3d-22.575197!4d144.0847926!16zL20vMGczOWg?entry=ttu'
                                 }
-                                className="z-40 absolute hover:text-white group top-10 right-[4.3rem] md:top-20 md:right-[12%] "
+                                className="z-40 md:w-auto w-[4.5rem] absolute hover:text-white group top-10 right-[4.3rem] md:top-20 md:right-[12%] "
                             >
                                 <BiSolidDownArrow className="md:hidden block rotate-180 text-white md:w-auto w-full md:text-left text-right group-hover:text-[#F7910F] text-[8px] md:text-2xl ml-8 md:ml-0 mt-0.5 md:mt-2" />
                                 <div className="bg-white  group-hover:bg-[#F7910F] hover:text-white px-0.5 md:px-2 py-0.5 md:py-1 flex items-center gap-x-1 md:gap-x-2">
@@ -66,7 +66,7 @@ export const WeOperate = () => {
                                 href={
                                     'https://www.google.com/maps/place/South+Australia,+Australia/@-31.5843508,124.3613065,5z/data=!3m1!4b1!4m6!3m5!1s0x6aa7589e5be8c7f3:0xdb7e79993dfad0d8!8m2!3d-30.0002315!4d136.2091547!16zL20vMDZtdHE?entry=ttu'
                                 }
-                                className="z-40 absolute group top-[5.8rem] left-12 md:top-[52%] md:left-[47%] "
+                                className="z-40 md:w-auto w-[5.7rem] absolute group top-[5.8rem] left-12 md:top-[52%] md:left-[47%] "
                             >
                                 <BiSolidDownArrow className="ml-[2.6rem] md:ml-0 rotate-180 w-full text-right text-white md:hidden block group-hover:text-[#F7910F] text-[8px] mb-0.5" />
                                 <div className="bg-white group-hover:bg-[#F7910F] hover:text-white px-0.5 md:px-2 py-0.5 md:py-1 flex items-center gap-x-1 md:gap-x-2">
@@ -95,7 +95,7 @@ export const WeOperate = () => {
                                 href={
                                     'https://www.google.com/maps/place/New+South+Wales,+Australia/@-32.3802907,139.4146106,5z/data=!3m1!4b1!4m6!3m5!1s0x6b0dcb74f75e4b0d:0x1780af1122c49f2d!8m2!3d-31.2532183!4d146.921099!16zL20vMDVmbHk?entry=ttu'
                                 }
-                                className="z-40 absolute group top-[4.5rem] right-0 md:top-[54%] md:-right-4"
+                                className="z-40 md:w-auto w-[5.5rem] absolute group top-[4.5rem] right-0 md:top-[54%] md:-right-4"
                             >
                                 <div className="bg-white group-hover:bg-[#F7910F] hover:text-white px-0.5 md:px-2 py-0.5 md:py-1 flex items-center gap-x-1 md:gap-x-2">
                                     <HiLocationMarker className="hover:text-white text-[8px] md:text-xs" />
@@ -113,7 +113,9 @@ export const WeOperate = () => {
                             >
                                 <div className="bg-white group-hover:bg-[#F7910F] hover:text-white px-0.5 md:px-2 py-0.5 md:py-1 flex items-center gap-x-1 md:gap-x-2">
                                     <HiLocationMarker className="hover:text-white text-[8px] md:text-xs" />
-                                    <p className="text-[8px] md:text-xs">Victoria</p>
+                                    <p className="text-[8px] md:text-xs">
+                                        Victoria
+                                    </p>
                                 </div>
                                 <BiSolidDownArrow className="text-white group-hover:text-[#F7910F] text-[8px] md:text-xs mt-0.5 md:mt-1" />
                             </Link>
@@ -131,9 +133,7 @@ export const WeOperate = () => {
                                 <div className="flex items-center md:hidden ">
                                     <div className="bg-white group-hover:bg-[#F7910F] hover:text-white px-0.5 md:px-2 py-0.5 md:py-1 flex items-center gap-x-1 md:gap-x-2">
                                         <HiLocationMarker className="hover:text-white text-[8px] " />
-                                        <p className="text-[8px]">
-                                            Tasmania
-                                        </p>
+                                        <p className="text-[8px]">Tasmania</p>
                                     </div>
                                     <BiSolidDownArrow className="text-white -rotate-90 group-hover:text-[#F7910F] text-[8px] md:text-2xl mt-0 md:mt-2" />
                                 </div>

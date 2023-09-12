@@ -1,5 +1,6 @@
 import { SkiltrakPackages } from '@components/site/ourPackages'
 import { PackageDetailCard } from './PackageDetailCard'
+import { useRouter } from 'next/router'
 
 export const packageTypes = {
     PlacementManagement: 'Placement Management Portal',
@@ -14,6 +15,7 @@ export const PackagesDetail = ({
     selectedPackage: number
     setSelectedPackage: (val: any) => void
 }) => {
+    const router = useRouter()
     const packagesFeatures = [
         {
             text: 'Student Progress Tracking',
@@ -190,11 +192,26 @@ export const PackagesDetail = ({
         // <div className="max-w-7xl mx-auto mt-10">
         <div className="w-full mx-auto mt-10 bg-slate-100">
             {/* <div className="grid grid-cols-1 md:grid-cols-4 md:items-start items-center"> */}
-            <div className="w-full flex flex-col lg:flex-row justify-between">
-                <div className="px-16 py-4 order-2 lg:order-1">
+            <div className="w-full flex flex-col-reverse lg:flex-row  md:justify-between fixed inset-0 z-50 bg-white md:relative">
+                <div className="px-16 py-4 order-2 lg:order-1 overflow-y-auto h-[60vh] md:overflow-y-none md:h-auto">
                     <div className="flex flex-col ">
-                        <p className="text-xs text-slate-500">Package Detail</p>
-                        <h3 className="text-3xl font-semibold">
+                        <div className='flex items-center gap-x-4 justify-between mb-3'>
+                            <p className="text-xs text-slate-500">
+                                Package Detail
+                            </p>
+                            <div
+                                onClick={() =>
+                                    router.push({
+                                        pathname: '/auth/signup/rto',
+                                        query: { step: 'account-info' },
+                                    })
+                                }
+                                className="md:hidden inline-block px-4 py-2 cursor-pointer rounded-lg bg-[#97CCFD] text-[#094D8C] text-xs"
+                            >
+                                Start With This Package
+                            </div>
+                        </div>
+                        <h3 className="md:text-3xl text-2xl font-semibold">
                             {currentPackage?.title}
                         </h3>
                         <p className="text-lg">{currentPackage?.tagline}</p>
@@ -203,7 +220,7 @@ export const PackagesDetail = ({
                     <div className="mt-6">
                         <p className={'font-semibold'}>Included Features:</p>
 
-                        <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-x-4 gap-y-8">
+                        <div className="mt-4 grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-x-4 gap-y-8">
                             {packagesFeatures.map((packageDetail, index) => (
                                 <div
                                     key={index}
