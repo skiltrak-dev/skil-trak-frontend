@@ -22,6 +22,9 @@ export const CourseDot = ({ course }: { course: Course }) => {
                 <p className="text-[11px] text-slate-300 whitespace-nowrap">
                     {course?.sector?.name}
                 </p>
+                <p className="text-[10px] font-medium text-slate-200 whitespace-nowrap">
+                    {course?.code}
+                </p>
                 <p className="text-xs font-medium text-slate-200 whitespace-nowrap">
                     {course?.title}
                 </p>

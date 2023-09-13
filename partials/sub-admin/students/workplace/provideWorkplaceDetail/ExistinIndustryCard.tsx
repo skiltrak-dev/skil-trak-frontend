@@ -15,6 +15,7 @@ import {
     useApplyWorkplaceOnExistingIndustryMutation,
 } from '@queries'
 import { Course } from '@types'
+import { CourseSelectOption } from '@utils'
 
 export const ExistinIndustryCard = ({
     industry,
@@ -45,6 +46,7 @@ export const ExistinIndustryCard = ({
     const courseOptions =
         courses?.data && courses?.data?.length > 0
             ? courses?.data?.map((course: Course) => ({
+                  item: course,
                   value: course?.id,
                   label: course?.title,
               }))
@@ -78,6 +80,9 @@ export const ExistinIndustryCard = ({
                         loading={courses.isLoading}
                         onChange={(e: any) => {
                             setselectedCourse(e?.value)
+                        }}
+                        components={{
+                            Option: CourseSelectOption,
                         }}
                     />
                 </div>

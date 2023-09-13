@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
 import * as yup from 'yup'
 import _debounce from 'lodash/debounce'
-import { isEmailValid } from '@utils'
+import { CourseSelectOption, isEmailValid } from '@utils'
 
 import { AuthApi, SubAdminApi } from '@queries'
 import { yupResolver } from '@hookform/resolvers/yup'
@@ -12,8 +12,10 @@ import { UserRoles } from '@constants'
 
 export const AddSecondWorkplaceForm = ({
     studentId,
+    studentUserId,
 }: {
     studentId: number
+    studentUserId: number
 }) => {
     const [lastEnteredEmail, setLastEnteredEmail] = useState('')
     const [sectorOptions, setSectorOptions] = useState([])
@@ -66,8 +68,9 @@ export const AddSecondWorkplaceForm = ({
         const newCourseOptions: any = []
         sectorExisting?.courses?.map((course: any) =>
             newCourseOptions.push({
-                label: course.title,
+                item: course,
                 value: course.id,
+                label: course.title,
             })
         )
         setCourseOptions(newCourseOptions)
@@ -104,7 +107,7 @@ export const AddSecondWorkplaceForm = ({
     })
     const formMethods = useForm({
         mode: 'all',
-        // resolver: yupResolver(validationSchema),
+        resolver: yupResolver(validationSchema),
     })
 
     const onSubmit = (values: any) => {
@@ -112,7 +115,7 @@ export const AddSecondWorkplaceForm = ({
             ...values,
             courses: [values?.course],
             role: UserRoles.INDUSTRY,
-            studentId,
+            studentId: studentUserId,
             password: 'N/A',
         })
     }
@@ -171,11 +174,6 @@ export const AddSecondWorkplaceForm = ({
                     {/* Sector Information */}
                     <Select
                         label={'Sector'}
-                        // {...(storedData
-                        //     ? {
-                        //           defaultValue: storedData.sectors,
-                        //       }
-                        //     : {})}
                         name={'sectors'}
                         options={sectorOptions}
                         placeholder={'Select Sectors...'}
@@ -191,11 +189,9 @@ export const AddSecondWorkplaceForm = ({
                         options={courseOptions}
                         loading={courseLoading}
                         onlyValue
-                        // disabled={
-                        //     storedData
-                        //         ? storedData?.courses?.length === 0
-                        //         : courseOptions?.length === 0
-                        // }
+                        components={{
+                            Option: CourseSelectOption,
+                        }}
                         validationIcons
                     />
 

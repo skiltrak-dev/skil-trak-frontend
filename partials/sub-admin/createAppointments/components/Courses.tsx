@@ -1,12 +1,10 @@
-import React from 'react'
-
 // query
 import { CommonApi } from '@queries'
 
 // query
-import { AdminApi } from '@queries'
+import { Select } from '@components'
 import { Course, OptionType } from '@types'
-import { Select, SelectOption } from '@components'
+import { CourseSelectOption } from '@utils'
 
 export const Courses = ({
     setSelectedCourse,
@@ -16,8 +14,9 @@ export const Courses = ({
     const { data, isSuccess } = CommonApi.Filter.useCourses()
     const courseOptions = isSuccess
         ? data?.map((course: Course) => ({
-              label: course?.title,
+              item: course,
               value: course?.id,
+              label: course?.title,
           }))
         : []
     return (
@@ -30,6 +29,9 @@ export const Courses = ({
                 onlyValue
                 onChange={(e: OptionType) => {
                     setSelectedCourse(Number(e))
+                }}
+                components={{
+                    Option: CourseSelectOption,
                 }}
             />
         </div>

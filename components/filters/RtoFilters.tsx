@@ -4,6 +4,7 @@ import { SetQueryFilters } from './SetQueryFilters'
 import { StatusOptions } from './StatusOptions'
 import { SelectOption } from './types'
 import { OptionType, RTOFilterType, UserStatus } from '@types'
+import { CourseSelectOption } from '@utils'
 
 interface ItemFilterProps {
     onFilterChange: (values: RTOFilterType) => void
@@ -14,6 +15,7 @@ export const RtoFilters = ({ onFilterChange, filter }: ItemFilterProps) => {
     const getCourses = CommonApi.Filter.useCourses()
 
     const coursesOptions = getCourses?.data?.map((course: any) => ({
+        item: course,
         value: course?.id,
         label: course?.title,
     }))
@@ -79,6 +81,9 @@ export const RtoFilters = ({ onFilterChange, filter }: ItemFilterProps) => {
                     }}
                     loading={getCourses.isLoading}
                     disabled={getCourses.isLoading}
+                    components={{
+                        Option: CourseSelectOption,
+                    }}
                 />
             </div>
         </>

@@ -66,11 +66,7 @@ export const AutoLogoutProvider = ({
 
             console.log({ intervalTime })
 
-            if (
-                intervalTime &&
-                intervalTime > 0 &&
-                !refreshTokenResult.isLoading
-            ) {
+            if (timestamp < expTime && !refreshTokenResult.isLoading) {
                 time = setInterval(() => {
                     console.log(
                         '1',
@@ -78,7 +74,7 @@ export const AutoLogoutProvider = ({
                         timestamp && moment(timestamp).format('YYYY-MM-DD')
                     )
                     refreshToken()
-                }, intervalTime)
+                }, 30 * 1000)
             }
         }
 

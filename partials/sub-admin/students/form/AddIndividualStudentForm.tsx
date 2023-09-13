@@ -15,7 +15,7 @@ import {
     useGetSubAdminRTODetailQuery,
 } from '@queries'
 import { Course, OptionType, Sector } from '@types'
-import { SignUpUtils, onlyAlphabets } from '@utils'
+import { CourseSelectOption, SignUpUtils, onlyAlphabets } from '@utils'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
@@ -43,8 +43,9 @@ export const AddIndividualStudentForm = () => {
     const courseOptions =
         rtoCourses.isSuccess && rtoCourses?.data && rtoCourses?.data?.length > 0
             ? rtoCourses?.data?.map((course: Course) => ({
-                  label: course?.title,
+                  item: course,
                   value: course?.id,
+                  label: course?.title,
               }))
             : []
 
@@ -192,6 +193,9 @@ export const AddIndividualStudentForm = () => {
                                 loading={rtoCourses.isLoading}
                                 disabled={rtoCourses.isLoading}
                                 validationIcons
+                                components={{
+                                    Option: CourseSelectOption,
+                                }}
                             />
                             <TextInput
                                 label={'Expiry Date'}

@@ -6,6 +6,7 @@ import { CommonApi, RtoApi } from '@queries'
 import { SetQueryFilters } from './SetQueryFilters'
 import { SelectOption } from './types'
 import { OptionType, RTOWorkplaceFormFilter } from '@types'
+import { CourseSelectOption } from '@utils'
 
 interface FilterPropType {
     studentId: string
@@ -36,6 +37,7 @@ export const RTOWorkplaceFilters = ({
     }))
 
     const coursesOptions = courses?.data?.courses?.map((course: any) => ({
+        item: course,
         value: course?.id,
         label: course?.title,
     }))
@@ -140,6 +142,9 @@ export const RTOWorkplaceFilters = ({
                     }}
                     loading={courses.isLoading}
                     disabled={courses.isLoading}
+                    components={{
+                        Option: CourseSelectOption,
+                    }}
                 />
             </div>
         </>

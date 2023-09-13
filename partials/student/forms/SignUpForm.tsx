@@ -9,7 +9,13 @@ import * as yup from 'yup'
 
 import { useNotification } from '@hooks'
 import { AuthApi } from '@queries'
-import { getDate, isEmailValid, onlyAlphabets, SignUpUtils } from '@utils'
+import {
+    CourseSelectOption,
+    getDate,
+    isEmailValid,
+    onlyAlphabets,
+    SignUpUtils,
+} from '@utils'
 
 import {
     Button,
@@ -88,8 +94,9 @@ export const StudentSignUpForm = ({
             if (courseList && courseList.length) {
                 return courseList.map((course: any) =>
                     newCourseOptions.push({
-                        label: course.title,
+                        item: course,
                         value: course.id,
+                        label: course.title,
                     })
                 )
             }
@@ -374,6 +381,9 @@ export const StudentSignUpForm = ({
                                 }}
                                 multi
                                 validationIcons
+                                components={{
+                                    Option: CourseSelectOption,
+                                }}
                             />
                         </div>
                     </div>

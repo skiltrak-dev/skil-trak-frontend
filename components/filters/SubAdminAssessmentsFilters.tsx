@@ -6,6 +6,7 @@ import { CommonApi, SubAdminApi } from '@queries'
 import { SetQueryFilters } from './SetQueryFilters'
 import { SelectOption } from './types'
 import { Course, OptionType, Rto, SubAdminAssessmentsFiltersType } from '@types'
+import { CourseSelectOption } from '@utils'
 interface ItemFilterProps {
     onFilterChange: (values: SubAdminAssessmentsFiltersType) => void
     filter: SubAdminAssessmentsFiltersType
@@ -24,6 +25,7 @@ export const SubAdminAssessmentsFilters = ({
     }))
 
     const coursesOptions = getCourses?.data?.map((course: Course) => ({
+        item: course,
         value: course?.id,
         label: course?.title,
     }))
@@ -132,6 +134,9 @@ export const SubAdminAssessmentsFilters = ({
                             ...filter,
                             courseId: Number(e?.value),
                         })
+                    }}
+                    components={{
+                        Option: CourseSelectOption,
                     }}
                     loading={getCourses.isLoading}
                     disabled={getCourses.isLoading}
