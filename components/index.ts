@@ -76,7 +76,7 @@ export * from './Badge'
 export * from './InitialAvatar'
 
 export * from './TabNavigation'
-export * from './Filters'
+export * from './filtersx'
 export * from './Table'
 export * from './cards'
 
