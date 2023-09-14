@@ -1,10 +1,9 @@
 import { Select, TextInput } from '@components/inputs'
 import { CommonApi } from '@queries'
-import { SetQueryFilters } from './SetQueryFilters'
-import { StatusOptions } from './StatusOptions'
-import { SelectOption } from './types'
 import { OptionType, RTOFilterType, UserStatus } from '@types'
 import { CourseSelectOption } from '@utils'
+import { SetQueryFilters } from './SetQueryFilters'
+import { StatusOptions } from './StatusOptions'
 
 interface ItemFilterProps {
     onFilterChange: (values: RTOFilterType) => void
