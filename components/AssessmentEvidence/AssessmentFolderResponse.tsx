@@ -1,5 +1,4 @@
 import { ChangeEvent, useEffect, useState } from 'react'
-import { Waypoint } from 'react-waypoint'
 
 // components
 import {
@@ -8,12 +7,9 @@ import {
     FileViewModal,
     LoadingAnimation,
     NoData,
-    PdfViewModal,
     Select,
-    SelectOption,
     ShowErrorNotifications,
     Typography,
-    VideoPlayModal,
 } from '@components'
 
 import { Button } from '@components/buttons'
@@ -21,10 +17,10 @@ import { TextInput } from '@components/inputs'
 
 // query
 import { Result } from '@constants'
-import { useAddCommentOnAssessmentMutation } from '@queries'
-import moment from 'moment'
 import { DocumentsView, useNotification } from '@hooks'
+import { useAddCommentOnAssessmentMutation } from '@queries'
 import { AddCommentEnum, OptionType } from '@types'
+import moment from 'moment'
 
 export const AssessmentResponse = ({
     folder,

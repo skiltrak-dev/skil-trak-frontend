@@ -29,6 +29,7 @@ import { AddSecondWPCB } from '../contextBar'
 import { AddWorkplace } from './AddWorkplace'
 
 export const MyWorkplace = ({ student }: { student: StudentSubAdmin }) => {
+    console.log({ student })
     const [modal, setModal] = useState<ReactElement | null>(null)
     const [currentStatus, setCurrentStatus] = useState<string | null>(null)
 
@@ -52,6 +53,16 @@ export const MyWorkplace = ({ student }: { student: StudentSubAdmin }) => {
         ) {
             setWpIndustry(workplace.data?.[0])
             setCurrentStatus(workplace.data[0]?.currentStatus)
+        } else if (student?.industries && student?.industries?.length > 0) {
+            setWpIndustry({
+                currentStatus: WorkplaceCurrentStatus.PlacementStarted,
+                industries: [
+                    {
+                        applied: true,
+                        industry: student?.industries?.[0],
+                    },
+                ],
+            })
         }
     }, [workplace])
 
@@ -276,7 +287,7 @@ export const MyWorkplace = ({ student }: { student: StudentSubAdmin }) => {
 
                 {/* Action */}
                 <div className="flex justify-between gap-x-1">
-                    {wp && (
+                    {wp && workplace?.data?.length > 0 && (
                         <ActionButton
                             mini
                             Icon={MdDelete}
@@ -315,7 +326,9 @@ export const MyWorkplace = ({ student }: { student: StudentSubAdmin }) => {
                                 : 'View Second'}
                         </ActionButton>
                     ) : null}
-                    {role !== 'rto' && workplace?.data?.length === 1 ? (
+                    {role !== 'rto' &&
+                    (workplace?.data?.length === 1 ||
+                        student?.industries?.length === 1) ? (
                         <ActionButton
                             variant={'link'}
                             onClick={() => {
