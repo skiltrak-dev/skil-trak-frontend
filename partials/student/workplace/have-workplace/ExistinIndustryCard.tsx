@@ -8,6 +8,7 @@ import {
 } from '@queries'
 import { useNotification } from '@hooks'
 import { Course } from '@types'
+import { CourseSelectOption } from '@utils'
 
 export const ExistingIndustryCard = ({
     industry,
@@ -32,6 +33,7 @@ export const ExistingIndustryCard = ({
     const courseOptions =
         data?.courses && data?.courses?.length > 0
             ? data?.courses?.map((course: Course) => ({
+                  item: course,
                   value: course?.id,
                   label: course?.title,
               }))
@@ -64,6 +66,9 @@ export const ExistingIndustryCard = ({
                         loading={isLoading}
                         onChange={(e: any) => {
                             setselectedCourse(e?.value)
+                        }}
+                        components={{
+                            Option: CourseSelectOption,
                         }}
                     />
                 </div>

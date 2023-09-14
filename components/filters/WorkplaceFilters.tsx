@@ -35,6 +35,7 @@ export const WorkplaceFilters = ({
     }))
 
     const coursesOptions = getCourses?.data?.map((course: Course) => ({
+        item: course,
         value: course?.id,
         label: course?.title,
     }))

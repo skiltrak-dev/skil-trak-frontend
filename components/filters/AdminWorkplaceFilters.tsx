@@ -16,6 +16,7 @@ import { SetQueryFilters } from './SetQueryFilters'
 import { StatusOptions } from './StatusOptions'
 import { SelectOption } from './types'
 import { ChangeEvent } from 'react'
+import { CourseSelectOption } from '@utils'
 
 interface ItemFilterProps {
     onFilterChange: (values: AdminWorkplaceFiltersType) => void
@@ -37,6 +38,7 @@ export const AdminWorkplaceFilters = ({
     }))
 
     const coursesOptions = getCourses?.data?.map((course: Course) => ({
+        item: course,
         value: course?.id,
         label: course?.title,
     }))
@@ -184,6 +186,9 @@ export const AdminWorkplaceFilters = ({
                         })
                     }}
                     loading={getCourses.isLoading}
+                    components={{
+                        Option: CourseSelectOption,
+                    }}
                     disabled={getCourses.isLoading}
                 />
             </div>

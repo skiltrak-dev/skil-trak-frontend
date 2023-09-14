@@ -11,7 +11,7 @@ import {
     StudentsFilterType,
     UserStatus,
 } from '@types'
-import { AuthUtils, WorkplaceCurrentStatus } from '@utils'
+import { AuthUtils, CourseSelectOption, WorkplaceCurrentStatus } from '@utils'
 import { SetQueryFilters } from './SetQueryFilters'
 import { StatusOptions } from './StatusOptions'
 import { SelectOption } from './types'
@@ -94,6 +94,7 @@ export const StudentFilters = ({ onFilterChange, filter }: ItemFilterProps) => {
     }))
 
     const coursesOptions = getCourses?.data?.map((course: Course) => ({
+        item: course,
         value: course?.id,
         label: course?.title,
     }))
@@ -213,6 +214,9 @@ export const StudentFilters = ({ onFilterChange, filter }: ItemFilterProps) => {
                     }}
                     loading={getCourses.isLoading}
                     disabled={getCourses.isLoading}
+                    components={{
+                        Option: CourseSelectOption,
+                    }}
                 />
                 <Select
                     label={'Search by Progress'}

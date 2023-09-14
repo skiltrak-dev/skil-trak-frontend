@@ -6,6 +6,7 @@ import { StatusOptions } from './StatusOptions'
 import { CommonApi } from '@queries'
 import { AdminIndustryFormFilter, OptionType, UserStatus } from '@types'
 import { SetQueryFilters } from './SetQueryFilters'
+import { CourseSelectOption } from '@utils'
 
 interface ItemFilterProps {
     onFilterChange: (values: AdminIndustryFormFilter) => void
@@ -21,6 +22,7 @@ export const IndustryFilters = ({
     const getCourses = CommonApi.Filter.useCourses()
 
     const coursesOptions = getCourses?.data?.map((course: any) => ({
+        item: course,
         value: course?.id,
         label: course?.title,
     }))
@@ -106,6 +108,9 @@ export const IndustryFilters = ({
                     }}
                     loading={getCourses.isLoading}
                     disabled={getCourses.isLoading}
+                    components={{
+                        Option: CourseSelectOption,
+                    }}
                 />
             </div>
         </>

@@ -17,12 +17,8 @@ export const FindWorkplaceFilters = ({
 }: ItemFilterProps) => {
     const sectorResponse = AuthApi.useSectors({})
     const [sectorOptions, setSectorOptions] = useState<any>([])
-    const [courseOptions, setCourseOptions] = useState([])
-    const [courseLoading, setCourseLoading] = useState(false)
 
     const onSectorChanged = (sectors: any) => {
-        setCourseLoading(true)
-
         const sectorExisting = sectorResponse?.data?.find((sector: any) => {
             sector.name === sectors?.value
         })
@@ -33,8 +29,6 @@ export const FindWorkplaceFilters = ({
                 value: course.id,
             })
         )
-        setCourseOptions(newCourseOptions)
-        setCourseLoading(false)
     }
 
     useEffect(() => {

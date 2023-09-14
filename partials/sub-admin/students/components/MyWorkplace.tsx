@@ -63,6 +63,8 @@ export const MyWorkplace = ({ student }: { student: StudentSubAdmin }) => {
         setModal(null)
     }
 
+    console.log({ wpIndustry })
+
     const onDeleteIndustry = (industry: any) => {
         setModal(
             <RemoveIndustryModal
@@ -121,7 +123,7 @@ export const MyWorkplace = ({ student }: { student: StudentSubAdmin }) => {
     }
 
     const workplaceStatus = () => {
-        switch (currentStatus) {
+        switch (wpIndustry?.currentStatus) {
             case WorkplaceCurrentStatus.NotRequested:
                 return NoWorkplace()
             case WorkplaceCurrentStatus.Applied:
@@ -313,12 +315,15 @@ export const MyWorkplace = ({ student }: { student: StudentSubAdmin }) => {
                                 : 'View Second'}
                         </ActionButton>
                     ) : null}
-                    {role !== 'rto' && wp && workplace?.data?.length === 1 ? (
+                    {role !== 'rto' && workplace?.data?.length === 1 ? (
                         <ActionButton
                             variant={'link'}
                             onClick={() => {
                                 contextBar.setContent(
-                                    <AddSecondWPCB studentId={student?.id} />
+                                    <AddSecondWPCB
+                                        studentId={student?.id}
+                                        studentUserId={student?.user?.id}
+                                    />
                                 )
                                 contextBar.show(false)
                             }}
@@ -344,7 +349,7 @@ export const MyWorkplace = ({ student }: { student: StudentSubAdmin }) => {
 
                                     <Badge
                                         variant={'primary'}
-                                        text={String(currentStatus)}
+                                        text={String(wpIndustry?.currentStatus)}
                                     />
                                 </div>
                                 <p className="text-slate-400 text-sm">

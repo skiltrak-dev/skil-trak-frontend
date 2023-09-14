@@ -1,22 +1,23 @@
 import Link from 'next/link'
-import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 
-import { Form, Formik } from 'formik'
 import _debounce from 'lodash/debounce'
 import * as yup from 'yup'
 
 import { useNotification } from '@hooks'
-import { AuthApi, AdminApi } from '@queries'
-import { isEmailValid, onlyAlphabets, SignUpUtils } from '@utils'
+import { AuthApi } from '@queries'
+import {
+    CourseSelectOption,
+    SignUpUtils,
+    isEmailValid,
+    onlyAlphabets,
+} from '@utils'
 
-import { Button, Checkbox, Select, TextInput, Typography } from '@components'
-import { FormProvider, useForm } from 'react-hook-form'
+import { Button, Checkbox, Select, TextInput } from '@components'
 import { yupResolver } from '@hookform/resolvers/yup'
+import { FormProvider, useForm } from 'react-hook-form'
 
 export const StudentForm = ({ onSubmit }: { onSubmit: any }) => {
-    const router = useRouter()
-
     const { notification } = useNotification()
 
     const sectorResponse = AuthApi.useSectors({})
@@ -57,8 +58,9 @@ export const StudentForm = ({ onSubmit }: { onSubmit: any }) => {
             if (courseList && courseList.length) {
                 return courseList.map((course: any) =>
                     newCourseOptions.push({
-                        label: course.title,
+                        item: course,
                         value: course.id,
+                        label: course.title,
                     })
                 )
             }
@@ -297,6 +299,9 @@ export const StudentForm = ({ onSubmit }: { onSubmit: any }) => {
                                     : courseOptions?.length === 0
                             }
                             validationIcons
+                            components={{
+                                Option: CourseSelectOption,
+                            }}
                         />
                     </div>
                 </div>

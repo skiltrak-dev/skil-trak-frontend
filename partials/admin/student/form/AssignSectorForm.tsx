@@ -2,6 +2,7 @@ import { Button, Select, TextArea, TextInput, Typography } from '@components'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { AdminApi } from '@queries'
 import { Course, Sector } from '@types'
+import { CourseSelectOption } from '@utils'
 import React, { useRef, useState } from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
 import * as yup from 'yup'
@@ -98,10 +99,14 @@ export const AssignSectorForm = ({
                         name={'courses'}
                         label={'Courses'}
                         options={selectableCourses.map((c) => ({
-                            label: c.title,
+                            item: c,
                             value: c.id,
+                            label: c.title,
                         }))}
                         multi
+                        components={{
+                            Option: CourseSelectOption,
+                        }}
                     />
 
                     <div className="flex">

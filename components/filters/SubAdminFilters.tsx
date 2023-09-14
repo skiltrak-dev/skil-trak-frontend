@@ -4,6 +4,7 @@ import { SetQueryFilters } from './SetQueryFilters'
 import { StatusOptions } from './StatusOptions'
 import { SelectOption } from './types'
 import { AdminSubadminFilter, Course, OptionType, UserStatus } from '@types'
+import { CourseSelectOption } from '@utils'
 
 interface ItemFilterProps {
     onFilterChange: (values: AdminSubadminFilter) => void
@@ -18,6 +19,7 @@ export const SubAdminFilters = ({
     const getCourses = CommonApi.Filter.useCourses()
 
     const coursesOptions = getCourses?.data?.map((course: Course) => ({
+        item: course,
         value: course?.id,
         label: course?.title,
     }))
@@ -74,6 +76,9 @@ export const SubAdminFilters = ({
                             ...filter,
                             courseId: Number(e?.value),
                         })
+                    }}
+                    components={{
+                        Option: CourseSelectOption,
                     }}
                     loading={getCourses.isLoading}
                     disabled={getCourses.isLoading}

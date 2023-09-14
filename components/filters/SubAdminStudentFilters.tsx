@@ -33,6 +33,7 @@ export const SubAdminStudentFilters = ({
     }))
 
     const coursesOptions = getCourses?.data?.map((course: any) => ({
+        item: course,
         value: course?.id,
         label: course?.title,
     }))

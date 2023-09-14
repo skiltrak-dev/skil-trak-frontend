@@ -7,7 +7,12 @@ import * as yup from 'yup'
 
 import { useContextBar, useNotification } from '@hooks'
 import { AuthApi, useAddCustomIndustryMutation } from '@queries'
-import { isEmailValid, onlyAlphabets, SignUpUtils } from '@utils'
+import {
+    CourseSelectOption,
+    isEmailValid,
+    onlyAlphabets,
+    SignUpUtils,
+} from '@utils'
 
 import {
     Button,
@@ -56,8 +61,9 @@ export const AddCustomIndustryForm = ({ workplaceId }: any) => {
         const newCourseOptions: any = []
         sectorExisting?.courses?.map((course: any) =>
             newCourseOptions.push({
-                label: course.title,
+                item: course,
                 value: course.id,
+                label: course.title,
             })
         )
         setCourseOptions(newCourseOptions)
@@ -289,6 +295,9 @@ export const AddCustomIndustryForm = ({ workplaceId }: any) => {
                                 : courseOptions?.length === 0
                         }
                         validationIcons
+                        components={{
+                            Option: CourseSelectOption,
+                        }}
                     />
 
                     {/* Profile Information */}
