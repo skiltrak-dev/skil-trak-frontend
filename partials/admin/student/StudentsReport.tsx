@@ -7,6 +7,7 @@ import {
     Select,
     Typography,
     workplaceProgressOptions,
+    StatusOptions,
 } from '@components'
 import { CalendarStyles } from '@components/Calendar/style'
 import Calendar from 'react-calendar'
@@ -22,7 +23,6 @@ import {
 import moment from 'moment'
 import { RiTimerLine } from 'react-icons/ri'
 import OutsideClickHandler from 'react-outside-click-handler'
-import { StatusOptions } from '@components/filters/StatusOptions'
 
 export const AllStudentsReport = () => {
     const weekEnd = new Date()
