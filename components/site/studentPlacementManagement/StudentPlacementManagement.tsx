@@ -89,7 +89,7 @@ export const StudentPlacementManagement = () => {
                         <div className="absolute w-60 md:w-auto -left-12 top-0 md:-left-20">
                             <Image
                                 className="animate-float"
-                                src="/images/site/student-placement.png"
+                                src="/images/site/student-placement.webp"
                                 layout="responsive"
                                 objectFit="contain"
                                 width={100}
