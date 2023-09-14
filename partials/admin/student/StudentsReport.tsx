@@ -22,7 +22,7 @@ import {
 import moment from 'moment'
 import { RiTimerLine } from 'react-icons/ri'
 import OutsideClickHandler from 'react-outside-click-handler'
-import { StatusOptions } from '@components/Filters/StatusOptions'
+import { StatusOptions } from '@components/filters/StatusOptions'
 
 export const AllStudentsReport = () => {
     const weekEnd = new Date()
