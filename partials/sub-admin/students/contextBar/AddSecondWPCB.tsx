@@ -4,8 +4,15 @@ import { useShowExistingIndustriesQuery, SubAdminApi } from '@queries'
 import { Course } from '@types'
 import React, { useEffect, useState } from 'react'
 import { AddSecondWorkplaceForm } from '../form'
+import { CourseSelectOption } from '@utils'
 
-export const AddSecondWPCB = ({ studentId }: { studentId: number }) => {
+export const AddSecondWPCB = ({
+    studentId,
+    studentUserId,
+}: {
+    studentId: number
+    studentUserId: number
+}) => {
     const [isAddCustomIndustry, setIsAddCustomIndustry] = useState(false)
     const [customIndustriesOptions, setCustomIndustriesOptions] = useState<
         any | null
@@ -40,6 +47,7 @@ export const AddSecondWPCB = ({ studentId }: { studentId: number }) => {
     }, [addSecondWorkplaceResult])
 
     const courseOptions = courses?.data?.map((c: Course) => ({
+        item: c,
         value: c?.id,
         label: c?.title,
     }))
@@ -86,6 +94,9 @@ export const AddSecondWPCB = ({ studentId }: { studentId: number }) => {
                             onChange(e, 'courseId')
                         }}
                         validationIcons
+                        components={{
+                            Option: CourseSelectOption,
+                        }}
                     />
                     <Select
                         label={'Industries'}
@@ -107,7 +118,10 @@ export const AddSecondWPCB = ({ studentId }: { studentId: number }) => {
                     />
                 </div>
             ) : (
-                <AddSecondWorkplaceForm studentId={studentId} />
+                <AddSecondWorkplaceForm
+                    studentId={studentId}
+                    studentUserId={studentUserId}
+                />
             )}
         </div>
     )

@@ -17,6 +17,7 @@ export const SubAdminIndustryFilter = ({
     const getCourses = CommonApi.Filter.useCourses()
 
     const coursesOptions = getCourses?.data?.map((course: any) => ({
+        item: course,
         value: course?.id,
         label: course?.title,
     }))

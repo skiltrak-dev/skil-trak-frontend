@@ -11,7 +11,11 @@ import {
 } from '@components'
 
 // utils
-import { WorkplaceCurrentStatus, ellipsisText } from '@utils'
+import {
+    CourseSelectOption,
+    WorkplaceCurrentStatus,
+    ellipsisText,
+} from '@utils'
 
 // hooks
 import { GetFolders } from '../hooks'
@@ -90,8 +94,9 @@ export const WorkplaceRequest = ({ workplace }: any) => {
     const courseOptions =
         workplace?.student?.courses?.length > 0
             ? workplace?.student?.courses?.map((course: Course) => ({
-                  label: course?.title,
+                  item: course,
                   value: course?.id,
+                  label: course?.title,
               }))
             : []
 
@@ -151,6 +156,9 @@ export const WorkplaceRequest = ({ workplace }: any) => {
                                                 workplaceId: workplace?.id,
                                             })
                                         }
+                                    }}
+                                    components={{
+                                        Option: CourseSelectOption,
                                     }}
                                     loading={assignCourseResult.isLoading}
                                     disabled={assignCourseResult.isLoading}
