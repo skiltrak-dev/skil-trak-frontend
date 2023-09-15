@@ -87,7 +87,7 @@ export const StepNotificationMethod = () => {
 
             {/* Notification Selection */}
             <div className="flex flex-col gap-y-12 items-start w-60 mt-8">
-                <div className="w-full flex gap-x-16">
+                <div className="w-full flex flex-col md:flex-row gap-x-16 gap-y-8">
                     {NotificationTypes.map((link) => (
                         <NotificationMethodButton
                             key={link.type}

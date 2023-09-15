@@ -1,9 +1,8 @@
 import { useRouter } from 'next/router'
 
-import { UserRoles } from '@constants'
 import { RtoSignUpForm } from '@partials/rto/forms'
-import { SignUpUtils } from '@utils'
 import { RtoFormData } from '@types'
+import { SignUpUtils } from '@utils'
 
 export const StepAccountInfo = () => {
     const router = useRouter()

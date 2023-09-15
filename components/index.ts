@@ -53,6 +53,7 @@ export * from './CreaetNote'
 export * from './StudentStatusProgressCell'
 export * from './ProtectedRoute'
 export * from './RedirectUnApprovedUsers'
+export * from './SectorCourseStudentCount'
 
 // Forms
 export * from './forms'

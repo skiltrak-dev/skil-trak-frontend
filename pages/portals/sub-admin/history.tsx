@@ -7,7 +7,9 @@ import {
     EmptyData,
     LoadingAnimation,
     NoData,
+    PageSize,
     PageTitle,
+    Pagination,
     TechnicalError,
 } from '@components'
 import { SubAdminLayout } from '@layouts'
@@ -24,7 +26,7 @@ export enum FilterType {
 }
 
 const SubAdminHistory: NextPageWithLayout = () => {
-    const [itemPerPage, setItemPerPage] = useState(50)
+    const [itemPerPage, setItemPerPage] = useState(100)
     const [page, setPage] = useState(1)
     const [isCustomRange, setIsCustomRange] = useState<boolean>(false)
     const [filterType, setFilterType] = useState<FilterType>(
@@ -64,6 +66,8 @@ const SubAdminHistory: NextPageWithLayout = () => {
                     .replaceAll('}', '')
                     .replaceAll('"', '')
                     .trim()}`,
+                skip: itemPerPage * page - itemPerPage,
+                limit: itemPerPage,
             },
             {
                 skip:
@@ -184,6 +188,15 @@ const SubAdminHistory: NextPageWithLayout = () => {
                     }}
                     disabled={!target}
                 />
+            </div>
+
+            <div className="flex items-center justify-between">
+                <PageSize
+                    itemPerPage={itemPerPage}
+                    setItemPerPage={setItemPerPage}
+                    records={data?.data?.length}
+                />
+                <Pagination pagination={data?.pagination} setPage={setPage} />
             </div>
 
             {isError && <TechnicalError />}

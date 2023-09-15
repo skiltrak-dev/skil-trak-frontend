@@ -42,7 +42,7 @@ const SignUp: NextPage = () => {
                     </Typography>
                 </div>
                 <div className="flex mt-8">
-                    <div className="flex flex-col items-center justify-center gap-y-6 border-r px-16 mr-16 border-secondary-dark">
+                    <div className="flex flex-col items-center justify-center gap-y-6 lg:border-r pb-10 lg:pb-0 lg:px-16 lg:mr-16 border-secondary-dark">
                         {PortalTypeOptions.map(
                             ({ text, link, Icon }, index) => (
                                 <PortalSelectButton
@@ -67,12 +67,12 @@ const SignUp: NextPage = () => {
                             </Typography>
                         </div>
                     </div>
-                    <div>
-                        {/* <PortalDetail
+                    {/* <div>
+                        <PortalDetail
                             text={selectedPortal.text}
                             videoUrl={selectedPortal.videoUrl}
-                        /> */}
-                    </div>
+                        />
+                    </div> */}
                 </div>
             </div>
         </AuthLayout>

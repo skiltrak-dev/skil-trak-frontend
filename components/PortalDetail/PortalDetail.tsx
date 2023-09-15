@@ -18,7 +18,7 @@ export const PortalDetail = ({
                 <span className="text-primary capitalize">{text}</span> on
                 SkilTrak
             </p>
-            <div className="w-full h-96 rounded-lg overflow-hidden mt-4 bg-secondary">
+            <div className="w-full h-48 rounded-lg overflow-hidden mt-4 bg-secondary">
                 <VideoPreview url={videoUrl} />
             </div>
         </div>

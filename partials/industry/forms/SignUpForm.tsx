@@ -211,8 +211,8 @@ export const IndustrySignUpForm = ({ onSubmit }: { onSubmit: any }) => {
                 onSubmit={formMethods.handleSubmit(onSubmit)}
             >
                 {/* Personal Information */}
-                <div className="flex gap-x-16 border-t py-4">
-                    <div className="w-2/6">
+                <div className="flex flex-col lg:flex-row gap-x-16 border-t py-4">
+                    <div className="w-full lg:w-2/6">
                         <Typography
                             variant={'subtitle'}
                             color={'text-gray-500'}
@@ -225,7 +225,7 @@ export const IndustrySignUpForm = ({ onSubmit }: { onSubmit: any }) => {
                         </p>
                     </div>
 
-                    <div className="w-4/6">
+                    <div className="w-full lg:w-4/6">
                         <TextInput
                             label={'Name'}
                             name={'name'}
@@ -261,8 +261,8 @@ export const IndustrySignUpForm = ({ onSubmit }: { onSubmit: any }) => {
                     </div>
                 </div>
                 {/* Business Information */}
-                <div className="flex gap-x-16 border-t py-4">
-                    <div className="w-2/6">
+                <div className="flex flex-col lg:flex-row gap-x-16 border-t py-4">
+                    <div className="w-full lg:w-2/6">
                         <Typography
                             variant={'subtitle'}
                             color={'text-gray-500'}
@@ -275,7 +275,7 @@ export const IndustrySignUpForm = ({ onSubmit }: { onSubmit: any }) => {
                         </p>
                     </div>
 
-                    <div className="w-4/6">
+                    <div className="w-full lg:w-4/6">
                         {/* <TextInput
                             label={'Business Name'}
                             name={'businessName'}
@@ -303,8 +303,8 @@ export const IndustrySignUpForm = ({ onSubmit }: { onSubmit: any }) => {
                 </div>
 
                 {/* Sector Information */}
-                <div className="flex gap-x-16 border-t py-4">
-                    <div className="w-2/6">
+                <div className="flex flex-col lg:flex-row gap-x-16 border-t py-4">
+                    <div className="w-full lg:w-2/6">
                         <Typography
                             variant={'subtitle'}
                             color={'text-gray-500'}
@@ -316,7 +316,7 @@ export const IndustrySignUpForm = ({ onSubmit }: { onSubmit: any }) => {
                         </p>
                     </div>
 
-                    <div className="w-4/6 grid grid-cols-1 gap-y-4">
+                    <div className="w-full lg:w-4/6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-1 2xl:grid-cols-2 gap-4">
                         <div>
                             <Select
                                 label={'Sector'}
@@ -355,8 +355,8 @@ export const IndustrySignUpForm = ({ onSubmit }: { onSubmit: any }) => {
                 </div>
 
                 {/* Profile Information */}
-                <div className="flex gap-x-16 border-t py-4">
-                    <div className="w-2/6">
+                <div className="flex flex-col lg:flex-row gap-x-16 border-t py-4">
+                    <div className="w-full lg:w-2/6">
                         <Typography
                             variant={'subtitle'}
                             color={'text-gray-500'}
@@ -368,7 +368,7 @@ export const IndustrySignUpForm = ({ onSubmit }: { onSubmit: any }) => {
                         </p>
                     </div>
 
-                    <div className="w-4/6">
+                    <div className="w-full lg:w-4/6">
                         <TextInput
                             label={'Email'}
                             name={'email'}
@@ -403,8 +403,8 @@ export const IndustrySignUpForm = ({ onSubmit }: { onSubmit: any }) => {
                 </div>
 
                 {/* Address Information */}
-                <div className="flex gap-x-16 border-t py-4">
-                    <div className="w-2/6">
+                <div className="flex flex-col lg:flex-row gap-x-16 border-t lg:py-4 pt-4 lg:pt-0">
+                    <div className="w-full lg:w-2/6">
                         <Typography
                             variant={'subtitle'}
                             color={'text-gray-500'}
@@ -417,7 +417,7 @@ export const IndustrySignUpForm = ({ onSubmit }: { onSubmit: any }) => {
                         </p>
                     </div>
 
-                    <div className="w-4/6">
+                    <div className="w-full lg:w-4/6">
                         <div className="grid grid-cols-1 gap-x-8">
                             <TextInput
                                 label={'Address Line 1'}
@@ -454,7 +454,7 @@ export const IndustrySignUpForm = ({ onSubmit }: { onSubmit: any }) => {
                     </div>
                 </div>
 
-                <div className="w-4/6 ml-auto pl-12">
+                <div className="w-full lg:w-4/6 lg:ml-auto lg:pl-12">
                     <div className="mb-6">
                         <Checkbox
                             name={'agreedWithPrivacyPolicy'}

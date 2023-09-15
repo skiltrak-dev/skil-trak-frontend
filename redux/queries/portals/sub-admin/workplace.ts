@@ -234,4 +234,9 @@ export const workplaceEndpoints = (
         }),
         invalidatesTags: ['SubAdminWorkplace'],
     }),
+    viewMoreIndustries: builder.query<any, number>({
+        query: (workplaceId) =>
+            `students/workplace-requests/other/find-industry/${workplaceId}`,
+        providesTags: ['SubAdminWorkplace'],
+    }),
 })

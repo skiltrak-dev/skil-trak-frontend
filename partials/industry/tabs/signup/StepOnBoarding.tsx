@@ -1,35 +1,15 @@
 import { Animations } from '@animations'
 import {
-    ActionButton,
-    AuthBreadCrumb,
     Button,
-    NotificationMethodButton,
-    TextInput,
-    Typography,
+    TextInput
 } from '@components'
+import { OnBoardingLink } from '@partials/industry/components'
 import { SignUpUtils } from '@utils'
 import { useRouter } from 'next/router'
-import { useEffect, useState } from 'react'
-import { BiMailSend } from 'react-icons/bi'
+import { useState } from 'react'
 import { MdOutlineTextsms } from 'react-icons/md'
 import { RiMailSendLine } from 'react-icons/ri'
-import { TbMessageDots } from 'react-icons/tb'
-import { OnBoardingLink } from '@partials/industry/components'
 
-// const NotificationTypes = [
-//   {
-//     text: 'Via Email',
-//     Icon: RiMailSendLine,
-//     animation: Animations.Auth.SignUp.CommunicationMethod.ViaEmail,
-//     type: 'email',
-//   },
-//   {
-//     text: 'Via SMS',
-//     Icon: MdOutlineTextsms,
-//     animation: Animations.Auth.SignUp.CommunicationMethod.ViaSMS,
-//     type: 'sms',
-//   },
-// ]
 const UsageType = [
     {
         text: 'I want to use it once',
@@ -55,12 +35,6 @@ export const StepOnBoarding = () => {
     const [studentCapacity, setStudentCapacity] = useState()
     const [selected, setSelected] = useState<any>()
 
-    // useEffect(() => {
-    //     if (!signUpValues) {
-    //         router.push({ query: { step: 'notification-method' } })
-    //     }
-    // }, [])
-
     const onSubmit = () => {
         const values = SignUpUtils.getValuesFromStorage()
 
@@ -75,16 +49,6 @@ export const StepOnBoarding = () => {
             }
         }
     }
-
-    // const getSelected = (type: string) => {
-    //   switch (type) {
-    //     case 'once':
-    //       return onceSelected
-    //     case 'partner':
-    //       return partner
-    //   }
-    //   return false
-    // }
 
     const onSelect = (type: string) => {
         setSelected(type)
@@ -137,36 +101,6 @@ export const StepOnBoarding = () => {
                     text={'Continue'}
                 />
             </div>
-
-            {/* Notification Selection */}
-            {/* <div className="flex flex-col gap-y-4 items-start w-60 mt-8"> */}
-            {/* <div className="w-full flex gap-x-16">
-          {NotificationTypes.map((link) => (
-            <NotificationMethodButton
-              key={link.type}
-              value={link.type}
-              text={link.text}
-              selected={getSelected(link.type)}
-              onClick={() => onSelect(link.type)}
-              animation={link.animation}
-            />
-          ))}
-        </div> */}
-            {/* {
-          UsageType.map((link) => (
-            <ActionButton onClick={() => onSelect(link.type)} variant='light' Icon={link.Icon}>
-              {link.text}
-            </ActionButton>
-          ))
-        } */}
-
-            {/* <Button
-          variant={'primary'}
-          onClick={onSubmit}
-          disabled={!onceSelected && !partner}
-          text={'Continue'}
-        /> */}
-            {/* </div> */}
         </div>
     )
 }
