@@ -31,8 +31,8 @@ const StudentProgress = {
         image: 'placement-started.png',
     },
     '4-Cancelled': {
-        status: 'Cancelled',
-        description: 'cancelled',
+        status: 'Placement Cancelled',
+        description: 'placement cancelled',
         color: 'text-error',
         image: 'placement-cancelled.png',
     },

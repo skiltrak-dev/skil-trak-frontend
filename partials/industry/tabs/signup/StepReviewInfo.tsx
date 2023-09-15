@@ -35,7 +35,7 @@ export const StepReviewInfo = () => {
 
             <div>
                 <div className="w-full pb-10 lg:pr-10">
-                    <div className="flex gap-x-6">
+                    <div className="flex flex-col md:flex-row gap-x-6">
                         {/* RTO Information */}
                         <div className="flex-grow">
                             <div className="border-b border-secondary-dark mt-8">
@@ -47,7 +47,7 @@ export const StepReviewInfo = () => {
                                 </Typography>
                             </div>
 
-                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 w-full md:max-w-lg mt-4">
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 w-full md:max-w-lg mt-4">
                                 <div>
                                     <Typography
                                         variant={'muted'}

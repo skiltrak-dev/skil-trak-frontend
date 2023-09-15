@@ -1,9 +1,10 @@
 import { Typography } from '@components/Typography'
 import { useContextBar, useNotification } from '@hooks'
-import { useEffect, useState } from 'react'
-import { AddIndustryCB } from '../../contextBar'
-import { Actions, IndustryCard, SmallIndustryCard } from './components'
 import { WorkplaceCurrentStatus } from '@utils'
+import { ReactElement, useEffect, useState } from 'react'
+import { AddIndustryCB } from '../../contextBar'
+import { ViewMoreIndustriesModal } from '../../modals'
+import { Actions, IndustryCard, SmallIndustryCard } from './components'
 
 export const Industries = ({
     admin,
@@ -21,6 +22,7 @@ export const Industries = ({
     const [suggestedIndustries, setSuggestedIndustries] = useState<any | null>(
         null
     )
+    const [modal, setModal] = useState<ReactElement | null>(null)
     useEffect(() => {
         setSuggestedIndustries(
             industries?.filter((i: any) => !i.applied)
@@ -28,44 +30,82 @@ export const Industries = ({
         )
     }, [industries, appliedIndustry])
 
+    const onCancelClicked = () => setModal(null)
+
+    const onViewMoreIndustries = () => {
+        setModal(
+            <ViewMoreIndustriesModal
+                onCancel={onCancelClicked}
+                workplaceId={workplace?.id}
+                title={'View More Industries'}
+                subtitle={'View More Industries'}
+            />
+        )
+    }
+
     const { setContent, show } = useContextBar()
     const { notification } = useNotification()
 
     return (
         <div>
+            {modal}
             <div className="flex justify-between">
                 <Typography variant={'xs'} color={'text-gray-400'}>
                     Suggested Industries
                 </Typography>
-                <Typography
-                    variant={'small'}
-                    color={'text-info'}
-                    // color={appliedIndustry ? 'text-gray-300' : 'text-info'}
-                >
-                    <span
-                        className="font-semibold cursor-pointer"
-                        onClick={() => {
-                            if (!appliedIndustry) {
-                                setContent(
-                                    <AddIndustryCB
-                                        studentId={workplace?.student?.id}
-                                        workplaceId={workplace?.id}
-                                        courseId={courseId}
-                                    />
-                                )
-                                show()
-                            } else {
-                                notification.warning({
-                                    title: 'Already Applied',
-                                    description:
-                                        'Student have already applied to industry',
-                                })
-                            }
-                        }}
+                <div className="flex items-center gap-x-3">
+                    <Typography
+                        variant={'small'}
+                        color={'text-info'}
+                        // color={appliedIndustry ? 'text-gray-300' : 'text-info'}
                     >
-                        + Add Industry
-                    </span>
-                </Typography>
+                        <span
+                            className="font-semibold cursor-pointer"
+                            onClick={() => {
+                                if (!appliedIndustry) {
+                                    onViewMoreIndustries()
+                                } else {
+                                    notification.warning({
+                                        title: 'Already Applied',
+                                        description:
+                                            'Student have already applied to industry',
+                                    })
+                                }
+                            }}
+                        >
+                            View More Industry
+                        </span>
+                    </Typography>
+                    <Typography
+                        variant={'small'}
+                        color={'text-info'}
+                        // color={appliedIndustry ? 'text-gray-300' : 'text-info'}
+                    >
+                        <span
+                            className="font-semibold cursor-pointer"
+                            onClick={() => {
+                                if (!appliedIndustry) {
+                                    setContent(
+                                        <AddIndustryCB
+                                            studentId={workplace?.student?.id}
+                                            workplaceId={workplace?.id}
+                                            courseId={courseId}
+                                        />
+                                    )
+                                    show()
+                                } else {
+                                    notification.warning({
+                                        title: 'Already Applied',
+                                        description:
+                                            'Student have already applied to industry',
+                                    })
+                                }
+                            }}
+                        >
+                            + Add Industry
+                        </span>
+                    </Typography>
+                </div>
             </div>
 
             {/* industries List */}
