@@ -31,10 +31,19 @@ export const CaseOfficerAssignedStudent = ({
         workplace?.industries
     )
 
+    console.log({
+        workplace:
+            workplace?.currentStatus === WorkplaceCurrentStatus.Cancelled,
+    })
+
     return industries?.length > 0 ? (
         <StudentStatusProgressCell
             studentId={student?.id}
-            step={studentStatus}
+            step={
+                workplace?.currentStatus === WorkplaceCurrentStatus.Cancelled
+                    ? 4
+                    : studentStatus
+            }
         />
     ) : student?.workplace && student?.workplace?.length > 0 ? (
         <ProgressCell

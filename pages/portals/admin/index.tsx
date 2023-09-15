@@ -7,9 +7,16 @@ import { AdminApi } from '@queries'
 import { NextPageWithLayout } from '@types'
 import { AuthUtils } from '@utils'
 import { format } from 'date-fns'
+import { SectorCourseStudentCount, Typography } from '@components'
+import StackGrid, { transitions } from 'react-stack-grid'
+import { useMediaQuery } from 'react-responsive'
+const { scaleDown } = transitions
 
 const AdminDashboard: NextPageWithLayout = () => {
     const navBar = useNavbar()
+
+    const isTablet = useMediaQuery({ maxWidth: 1080 })
+    const isMobile = useMediaQuery({ maxWidth: 767 })
 
     const [name, setName] = useState('')
     const credentials = AuthUtils.getUserCredentials()
@@ -132,6 +139,30 @@ const AdminDashboard: NextPageWithLayout = () => {
                     /> */}
                 </div>
             </div>
+
+            {/* <Typography>
+                <span className="font-semibold">Sectors & Courses</span>
+            </Typography>
+
+            <StackGrid
+                columnWidth={isMobile ? '100%' : isTablet ? '50%' : '33%'}
+                gutterWidth={11}
+                gutterHeight={11}
+                appear={scaleDown.appear}
+                appeared={scaleDown.appeared}
+                enter={scaleDown.enter}
+                entered={scaleDown.entered}
+                leaved={scaleDown.leaved}
+            >
+                {[...Array(9)].map((_, i) => (
+                    <SectorCourseStudentCount
+                        imageUrl="/images/icons/rto.png"
+                        loading={false}
+                        index={i}
+                        key={i}
+                    />
+                ))}
+            </StackGrid> */}
         </div>
     )
 }

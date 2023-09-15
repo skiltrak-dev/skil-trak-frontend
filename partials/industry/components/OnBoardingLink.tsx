@@ -38,9 +38,9 @@ export const OnBoardingLink = ({
                 selected ? 'border-primary' : 'border-transparent'
             }`}
         >
-            {/* <div>
+            <div>
                 <Lottie options={animationOptions} height={90} width={90} />
-            </div> */}
+            </div>
             <Typography variant={'subtitle'} color={'info'}>
                 {text}
             </Typography>

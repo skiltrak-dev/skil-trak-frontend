@@ -95,8 +95,8 @@ const WorkplaceRequestProgress = (appliedIndustry?: any) => {
             date: appliedIndustry?.placementStartedDate,
         },
         '10-PlacementCancelled': {
-            status: 'Placement Cancelled',
-            description: 'placement-cancelled',
+            status: 'Cancelled',
+            description: 'cancelled',
             color: 'text-error',
             image: 'placement-cancelled.png',
             date: appliedIndustry?.cancelledDate,

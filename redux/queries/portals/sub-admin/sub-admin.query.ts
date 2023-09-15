@@ -107,6 +107,7 @@ export const {
     // ------ WORKPLACE------ //
     useWorkplaceCountQuery,
     useAgrementSignMutation,
+    useViewMoreIndustriesQuery,
 
     useAssignSubadminWorkplaceCourseMutation,
     useStartPlacementMutation,
@@ -328,6 +329,7 @@ export const SubAdminApi = {
     },
     Workplace: {
         count: useWorkplaceCountQuery,
+        useViewMoreIndustries: useViewMoreIndustriesQuery,
         assignCourse: useAssignSubadminWorkplaceCourseMutation,
         AgreementSign: useAgrementSignMutation,
         removeAppliedIndustry: useRemoveAppliedIndustryMutation,
