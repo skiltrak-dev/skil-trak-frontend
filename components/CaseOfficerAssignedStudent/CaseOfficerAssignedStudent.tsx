@@ -31,11 +31,6 @@ export const CaseOfficerAssignedStudent = ({
         workplace?.industries
     )
 
-    console.log({
-        workplace:
-            workplace?.currentStatus === WorkplaceCurrentStatus.Cancelled,
-    })
-
     return industries?.length > 0 ? (
         <StudentStatusProgressCell
             studentId={student?.id}

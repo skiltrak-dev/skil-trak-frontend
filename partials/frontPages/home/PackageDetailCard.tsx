@@ -23,8 +23,6 @@ export const PackageDetailCard = ({
         <IoIosArrowRoundBack className="transition-all inline-flex text-base group-hover:-translate-x-1" />
     )
 
-    console.log('currentPackage', currentPackage?.title)
-
     return (
         <div
             className={`${currentPackage?.color} p-4 md:p-12 flex flex-col justify-center w-full lg:w-96 h-full`}
