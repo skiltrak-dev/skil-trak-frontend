@@ -29,7 +29,6 @@ import { AddSecondWPCB } from '../contextBar'
 import { AddWorkplace } from './AddWorkplace'
 
 export const MyWorkplace = ({ student }: { student: StudentSubAdmin }) => {
-    console.log({ student })
     const [modal, setModal] = useState<ReactElement | null>(null)
     const [currentStatus, setCurrentStatus] = useState<string | null>(null)
 
@@ -73,8 +72,6 @@ export const MyWorkplace = ({ student }: { student: StudentSubAdmin }) => {
     const onCancelClicked = () => {
         setModal(null)
     }
-
-    console.log({ wpIndustry })
 
     const onDeleteIndustry = (industry: any) => {
         setModal(
