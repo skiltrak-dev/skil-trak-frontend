@@ -17,4 +17,15 @@ export const industriesEndpoints = (
         query: () => `subadmin/industries/courses/all`,
         providesTags: ['Industry'],
     }),
+    getAllAdvertisedJobs: builder.query<any, any>({
+        query: ({ industry }) => ({
+            url: `jobs/list`,
+            params: { industry },
+        }),
+        providesTags: ['Industry'],
+    }),
+    getAdvertisedJobDetail: builder.query<any, any>({
+        query: (id) => `jobs/view-related/${id}`,
+        providesTags: ['Industry'],
+    }),
 })

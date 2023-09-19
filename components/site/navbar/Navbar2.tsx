@@ -68,9 +68,9 @@ export function Navbar2() {
 
     return (
         // <nav className={`md:active-nav ${show && 'hidden-nav'}`}>
-        <nav>
-            <div className="w-full mx-auto md:px-6 lg:px-36">
-                <div className="relative max-w-7xl mx-auto flex items-center justify-between h-24 ">
+        <nav className='shadow-sm border-b'>
+            <div className="w-full mx-auto md:px-6 lg:px-[140px]">
+                <div className="relative max-w-7xl mx-auto flex items-center justify-between h-20 ">
                     <div className="px-4 md:px-0 flex-1 flex items-center justify-between md:items-end md:justify-start">
                         {/* Logo */}
                         <div className="flex-shrink-0 flex items-center">
