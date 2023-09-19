@@ -39,6 +39,11 @@ export const adminApi = emptySplitApi.injectEndpoints({
             invalidatesTags: ['SMS'],
         }),
 
+        sectorsStudentsCount: build.query<any, void>({
+            query: () => `${PREFIX}/sectors/count`,
+            providesTags: ['Statistics'],
+        }),
+
         ...rtoEndpoints(build),
         ...studentEndpoints(build),
         ...jobEndpoints(build),
@@ -62,6 +67,7 @@ const {
     // ------ ADMIN ------ //
     useStatisticsQuery,
     useGetProfileQuery,
+    useSectorsStudentsCountQuery,
     useUpdateAdminProfileMutation,
 
     // ------ RTO ------ //
@@ -212,6 +218,7 @@ export const AdminApi = {
         useCount: useStatisticsQuery,
         useProfile: useGetProfileQuery,
         useUpdateProfile: useUpdateAdminProfileMutation,
+        useSectorsStudentsCount: useSectorsStudentsCountQuery,
     },
     Rtos: {
         useCountQuery: useRtoCountQuery,

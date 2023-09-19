@@ -1,5 +1,7 @@
 import { useRouter } from 'next/router'
-import { ReactElement, useEffect, useState } from 'react'
+import debounce from 'lodash/debounce'
+import { ReactElement, useCallback, useEffect, useState } from 'react'
+
 //Layouts
 import { SubAdminLayout } from '@layouts'
 import {
@@ -19,6 +21,7 @@ import {
     TabNavigation,
     TabProps,
     TechnicalError,
+    TextInput,
 } from '@components'
 // queries
 import {
@@ -34,7 +37,7 @@ import {
     useAssessmentCountQuery,
     useGetAssessmentEvidenceQuery,
 } from '@queries'
-import { getCountData, getFilterQuery } from '@utils'
+import { checkFilteredDataLength, getCountData, getFilterQuery } from '@utils'
 import { Result } from '@constants'
 
 type Props = {}
@@ -59,6 +62,10 @@ const AssessmentEvidence: NextPageWithLayout = (props: Props) => {
     const [page, setPage] = useState(1)
     const [itemPerPage, setItemPerPage] = useState(50)
     const [modal, setModal] = useState<any | null>(null)
+    const [studentId, setStudentId] = useState<any | null>(null)
+    const [studentIdValue, setStudentIdValue] = useState<string>('')
+    const [studentName, setStudentName] = useState<any | null>(null)
+    const [studentNameValue, setStudentNameValue] = useState<string>('')
 
     const query = getFilterQuery<SubAdminAssessmentsFiltersType>({
         router,
@@ -74,7 +81,11 @@ const AssessmentEvidence: NextPageWithLayout = (props: Props) => {
     })
     const filteredAssessments = useGetAssessmentEvidenceQuery(
         {
-            search: `${JSON.stringify(filter)
+            search: `${JSON.stringify({
+                ...filter,
+                ...studentId,
+                ...studentName,
+            })
                 .replaceAll('{', '')
                 .replaceAll('}', '')
                 .replaceAll('"', '')
@@ -179,6 +190,26 @@ const AssessmentEvidence: NextPageWithLayout = (props: Props) => {
         },
     ]
 
+    const delayedSearch = useCallback(
+        debounce((value) => {
+            setStudentId({ studentId: value })
+        }, 700),
+        []
+    )
+
+    const delayedNameSearch = useCallback(
+        debounce((value) => {
+            setStudentName({ name: value })
+        }, 700),
+        []
+    )
+
+    const filteredDataLength = checkFilteredDataLength({
+        ...filter,
+        ...(studentId?.studentId ? studentId : {}),
+        ...(studentName?.name ? studentName : {}),
+    })
+
     return (
         <>
             {modal}
@@ -188,8 +219,31 @@ const AssessmentEvidence: NextPageWithLayout = (props: Props) => {
                     backTitle={'Back'}
                     navigateBack
                 />
-
-                <div className="">{filterAction}</div>
+                <div className="flex justify-end gap-x-2 mb-2">
+                    <div className="w-60">
+                        <TextInput
+                            name={'name'}
+                            placeholder={'Search by Student Name'}
+                            value={studentNameValue}
+                            onChange={(e: any) => {
+                                setStudentNameValue(e.target.value)
+                                delayedNameSearch(e.target.value)
+                            }}
+                        />
+                    </div>
+                    <div>
+                        <TextInput
+                            name={'studentId'}
+                            placeholder={'Search by Student Id'}
+                            value={studentIdValue}
+                            onChange={(e: any) => {
+                                setStudentIdValue(e.target.value)
+                                delayedSearch(e.target.value)
+                            }}
+                        />
+                    </div>
+                    <div className="flex-shrink-0">{filterAction}</div>
+                </div>
             </div>
             <div className="py-4">
                 <Filter<SubAdminAssessmentsFiltersType>
@@ -201,37 +255,36 @@ const AssessmentEvidence: NextPageWithLayout = (props: Props) => {
                 />
             </div>
 
-            <div>
-                {filteredAssessments.isError && <TechnicalError />}
-                {filteredAssessments.isLoading ? (
-                    <div className="px-4 mt-4">
-                        <Card>
-                            <LoadingAnimation />
-                        </Card>
-                    </div>
-                ) : Object.keys(filter).length &&
-                  filteredAssessments.isSuccess ? (
-                    <FilteredAssessments
-                        setPage={setPage}
-                        itemPerPage={itemPerPage}
-                        assessments={filteredAssessments}
-                        setItemPerPage={setItemPerPage}
-                    />
+            {filteredDataLength && filteredAssessments.isError && (
+                <TechnicalError />
+            )}
+            {filteredDataLength ? (
+                filteredAssessments.isLoading ? (
+                    <LoadingAnimation />
                 ) : (
-                    !filteredAssessments.isError && (
-                        <TabNavigation tabs={tabs}>
-                            {({ header, element }: any) => {
-                                return (
-                                    <div>
-                                        <div>{header}</div>
-                                        <div className="p-4">{element}</div>
-                                    </div>
-                                )
-                            }}
-                        </TabNavigation>
+                    filteredAssessments.isSuccess && (
+                        <FilteredAssessments
+                            setPage={setPage}
+                            itemPerPage={itemPerPage}
+                            assessments={filteredAssessments}
+                            setItemPerPage={setItemPerPage}
+                        />
                     )
-                )}
-            </div>
+                )
+            ) : null}
+
+            {!filteredDataLength && (
+                <TabNavigation tabs={tabs}>
+                    {({ header, element }: any) => {
+                        return (
+                            <div>
+                                <div>{header}</div>
+                                <div className="p-4">{element}</div>
+                            </div>
+                        )
+                    }}
+                </TabNavigation>
+            )}
         </>
     )
 }

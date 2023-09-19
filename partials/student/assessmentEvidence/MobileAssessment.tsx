@@ -195,10 +195,18 @@ export const MobileAssessment = ({
                         results?.isManualSubmission) &&
                     (results?.result === Result.ReOpened ||
                         results?.result === Result.NotCompetent) ? (
-                        <Actions selectedCourseId={selectedCourse?.id} />
+                        <Actions
+                            selectedCourseId={selectedCourse?.id}
+                            results={results}
+                            isFilesUploaded={isFilesUploaded}
+                        />
                     ) : null
                 ) : (
-                    <Actions selectedCourseId={selectedCourse?.id} />
+                    <Actions
+                        selectedCourseId={selectedCourse?.id}
+                        results={results}
+                        isFilesUploaded={isFilesUploaded}
+                    />
                 )
             ) : null}
 

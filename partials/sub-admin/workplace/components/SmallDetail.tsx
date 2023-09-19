@@ -15,7 +15,7 @@ export const SmallDetail = ({
                         Current Qualification
                     </Typography>
                     <Typography variant={'label'} color={'text-gray-700'}>
-                        {currentQualification}
+                        {currentQualification || 'N/A'}
                     </Typography>
                 </div>
                 <div>
@@ -23,7 +23,7 @@ export const SmallDetail = ({
                         Current Work
                     </Typography>
                     <Typography variant={'label'} color={'text-gray-700'}>
-                        {currentWork}
+                        {currentWork || 'N/A'}
                     </Typography>
                 </div>
                 <div>

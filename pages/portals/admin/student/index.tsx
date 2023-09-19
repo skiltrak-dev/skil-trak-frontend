@@ -48,6 +48,8 @@ const StudentList: NextPageWithLayout = () => {
     const [filterAction, setFilterAction] = useState(null)
     const [studentId, setStudentId] = useState<any | null>(null)
     const [studentIdValue, setStudentIdValue] = useState<string>('')
+    const [studentName, setStudentName] = useState<any | null>(null)
+    const [studentNameValue, setStudentNameValue] = useState<string>('')
     const [filter, setFilter] = useState<StudentsFilterType>(
         {} as StudentsFilterType
     )
@@ -59,7 +61,7 @@ const StudentList: NextPageWithLayout = () => {
         refetchOnMountOrArgChange: true,
     })
     const filteredStudents = AdminApi.Students.useListQuery({
-        search: `${JSON.stringify({ ...filter, ...studentId })
+        search: `${JSON.stringify({ ...filter, ...studentId, ...studentName })
             .replaceAll('{', '')
             .replaceAll('}', '')
             .replaceAll('"', '')
@@ -154,9 +156,17 @@ const StudentList: NextPageWithLayout = () => {
         []
     )
 
+    const delayedNameSearch = useCallback(
+        debounce((value) => {
+            setStudentName({ name: value })
+        }, 700),
+        []
+    )
+
     const filteredDataLength = checkFilteredDataLength({
         ...filter,
         ...(studentId?.studentId ? studentId : {}),
+        ...(studentName?.name ? studentName : {}),
     })
 
     return (
@@ -167,6 +177,17 @@ const StudentList: NextPageWithLayout = () => {
             />
             <div className="px-4">
                 <div className="flex justify-end gap-x-2 mb-2">
+                    <div className="w-60">
+                        <TextInput
+                            name={'name'}
+                            placeholder={'Search by Student Name'}
+                            value={studentNameValue}
+                            onChange={(e: any) => {
+                                setStudentNameValue(e.target.value)
+                                delayedNameSearch(e.target.value)
+                            }}
+                        />
+                    </div>
                     <div>
                         <TextInput
                             name={'studentId'}

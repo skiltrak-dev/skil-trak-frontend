@@ -1,4 +1,4 @@
-import { Modal, Select, ShowErrorNotifications } from '@components'
+import { Modal, Select, ShowErrorNotifications, TextArea } from '@components'
 import { useEffect, useState } from 'react'
 
 // query
@@ -70,23 +70,17 @@ export const ReportModal = ({ onCancel, workIndustry, student }: any) => {
                 confirmText={'Add Report'}
                 loading={addReportResult?.isLoading}
             >
-                {/* <TextInput
-                name={'subject'}
-                placeholder={'Add Feedback Subject'}
-                onChange={onChange}
-            />
-            <TextArea
-                name={'comment'}
-                placeholder={'Add Feedback'}
-                rows={9}
-                onChange={onChange}
-            /> */}
                 <Select
                     name={'comment'}
                     options={reportOptions}
                     onChange={(e: any) => {
                         setSelectedReport(e?.value)
                     }}
+                />
+                <TextArea
+                    name={'comment'}
+                    placeholder={'Add Feedback'}
+                    rows={6}
                 />
             </Modal>
         </>

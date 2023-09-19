@@ -7,6 +7,7 @@ import { getCourseResult, getUserCredentials } from '@utils'
 
 export const DesktopAssessment = ({
     result,
+    results,
     selectedFolder,
     selectedCourse,
     setSelectedCourse,
@@ -16,6 +17,7 @@ export const DesktopAssessment = ({
     isFilesUploaded,
 }: {
     result: any
+    results: any
     selectedFolder: any
     selectedCourse: any
     assessmentsCourses: any
@@ -25,7 +27,11 @@ export const DesktopAssessment = ({
     isFilesUploaded: any
 }) => {
     const assessmentActions = () => (
-        <Actions selectedCourseId={selectedCourse?.id} />
+        <Actions
+            selectedCourseId={selectedCourse?.id}
+            isFilesUploaded={isFilesUploaded}
+            results={results}
+        />
     )
     return (
         <div>

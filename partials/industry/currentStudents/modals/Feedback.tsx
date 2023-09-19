@@ -1,4 +1,4 @@
-import { Modal, Select, ShowErrorNotifications } from '@components'
+import { Modal, Select, ShowErrorNotifications, TextArea } from '@components'
 import { useEffect, useState } from 'react'
 
 // query
@@ -72,17 +72,6 @@ export const Feedback = ({ onCancel, workIndustry, student }: any) => {
                 confirmText={'Add Feedback'}
                 loading={addFeedBackResult?.isLoading}
             >
-                {/* <TextInput
-                name={'subject'}
-                placeholder={'Add Feedback Subject'}
-                onChange={onChange}
-            />
-            <TextArea
-                name={'comment'}
-                placeholder={'Add Feedback'}
-                rows={9}
-                onChange={onChange}
-            /> */}
                 <Select
                     name={'comment'}
                     options={feedBackOptions}
@@ -90,6 +79,11 @@ export const Feedback = ({ onCancel, workIndustry, student }: any) => {
                         setSelectedFeedback(e?.value)
                     }}
                 />
+                <TextArea
+                    name={'comment'}
+                    placeholder={'Add Feedback'}
+                    rows={6}
+                />{' '}
             </Modal>
         </>
     )

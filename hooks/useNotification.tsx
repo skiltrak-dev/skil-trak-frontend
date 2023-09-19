@@ -48,8 +48,8 @@ export const NotificationProvider = ({ children }: { children: ReactNode }) => {
         icon,
         avatar,
     }: NotificationProps) => {
-        setNotification([
-            ...notifications,
+        setNotification((prevNotifications: NotificationProps[]) => [
+            ...prevNotifications,
             {
                 id: lastId,
                 element: (

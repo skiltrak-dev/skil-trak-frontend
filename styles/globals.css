@@ -364,3 +364,8 @@ tr[aria-hidden] td {
     transition: 0.3s linear;
 
 }
+
+.unordered-list {
+    list-style: inside;
+    list-style-type: disc !important;
+}

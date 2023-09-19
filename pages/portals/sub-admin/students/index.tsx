@@ -65,6 +65,8 @@ const Students: NextPageWithLayout = (props: Props) => {
     )
     const [studentId, setStudentId] = useState<any | null>(null)
     const [studentIdValue, setStudentIdValue] = useState<string>('')
+    const [studentName, setStudentName] = useState<any | null>(null)
+    const [studentNameValue, setStudentNameValue] = useState<string>('')
     const [page, setPage] = useState(1)
     const [itemPerPage, setItemPerPage] = useState(50)
 
@@ -82,7 +84,11 @@ const Students: NextPageWithLayout = (props: Props) => {
 
     const filteredStudents = useGetSubAdminStudentsQuery(
         {
-            search: `${JSON.stringify({ ...filter, ...studentId })
+            search: `${JSON.stringify({
+                ...filter,
+                ...studentId,
+                ...studentName,
+            })
                 .replaceAll('{', '')
                 .replaceAll('}', '')
                 .replaceAll('"', '')
@@ -94,6 +100,7 @@ const Students: NextPageWithLayout = (props: Props) => {
             skip: !Object.keys({
                 ...filter,
                 ...(studentId?.studentId ? studentId : {}),
+                ...(studentName?.name ? studentName : {}),
             }).length,
         }
     )
@@ -192,6 +199,13 @@ const Students: NextPageWithLayout = (props: Props) => {
         },
     ]
 
+    const delayedNameSearch = useCallback(
+        debounce((value) => {
+            setStudentName({ name: value })
+        }, 700),
+        []
+    )
+
     const delayedSearch = useCallback(
         debounce((value) => {
             setStudentId({ studentId: value })
@@ -206,6 +220,7 @@ const Students: NextPageWithLayout = (props: Props) => {
     const filteredDataLength = checkFilteredDataLength({
         ...filter,
         ...(studentId?.studentId ? studentId : {}),
+        ...(studentName?.name ? studentName : {}),
     })
 
     return (
@@ -214,6 +229,17 @@ const Students: NextPageWithLayout = (props: Props) => {
                 <PageTitle title={'Students'} backTitle={'Users'} />
 
                 <div className="flex gap-x-2">
+                    <div className="w-60">
+                        <TextInput
+                            name={'name'}
+                            placeholder={'Search by Student Name'}
+                            value={studentNameValue}
+                            onChange={(e: any) => {
+                                setStudentNameValue(e.target.value)
+                                delayedNameSearch(e.target.value)
+                            }}
+                        />
+                    </div>
                     <div>
                         <TextInput
                             name={'studentId'}
