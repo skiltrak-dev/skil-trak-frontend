@@ -135,9 +135,7 @@ export const AutoLogoutProvider = ({
     useEffect(() => {
         if (AuthUtils.isAuthenticated() && path?.includes('portals')) {
             // Get the timestamp in milliseconds
-
             const { expireTime, currentTime } = getExpAndCurrTime()
-
             if (expireTime.isBefore(currentTime)) {
                 setModal(<SessionExpireModal onCancel={onCancelClicked} />)
             }

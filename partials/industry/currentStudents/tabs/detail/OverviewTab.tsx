@@ -11,6 +11,8 @@ import { CommonApi } from '@queries'
 import { CourseList, RecentAppointment } from '@partials/common'
 import { SectorCard } from '@partials/admin/components'
 import { NoData, Typography } from '@components'
+import { AssessmentsEvidence } from './AssessmentsEvidence'
+import { RequiredDocs } from './RequiredDocs'
 
 type StudentsProfileOverviewProps = {
     student: any
@@ -41,6 +43,25 @@ export const OverViewTab = ({ workplace }: { workplace: any }) => {
                         ...workplace?.courses[0]?.sector,
                         courses: workplace?.courses,
                     }}
+                />
+            </div>
+            <div className="my-6 border-t border-b">
+                <Typography variant="title">Student Submissions</Typography>
+                <AssessmentsEvidence
+                    studentId={workplace?.student?.id}
+                    studentUserId={workplace?.student?.user?.id}
+                    courses={workplace?.courses}
+                />
+            </div>
+            <div className="border-t pt-4">
+                <Typography variant="title">
+                    Student Industry Response
+                </Typography>
+
+                <RequiredDocs
+                    studentId={workplace?.student?.id}
+                    studentUserId={workplace?.student?.user?.id}
+                    courses={workplace?.courses}
                 />
             </div>
         </div>

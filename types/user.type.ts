@@ -75,6 +75,7 @@ export interface Student extends BaseResponse {
     dob: Date
     emergencyPerson: string
     called: boolean
+    batch: string
     emergencyPersonPhone: string
     industries: Industry[]
     expiryDate: Date

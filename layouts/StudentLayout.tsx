@@ -108,7 +108,12 @@ export const StudentLayout = ({ pageTitle, children }: StudentLayoutProps) => {
 
     useEffect(() => {
         if (profileCompletion && profileCompletion < 100) {
-            setModal(<ProfileModal profileCompletion={profileCompletion} />)
+            setModal(
+                <ProfileModal
+                    profileCompletion={profileCompletion}
+                    keys={keys}
+                />
+            )
         } else {
             setModal(null)
         }

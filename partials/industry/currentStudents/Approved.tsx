@@ -1,7 +1,9 @@
 import {
+    ActionButton,
     Card,
     EmptyData,
     InitialAvatar,
+    StudentStatusProgressCell,
     Table,
     TableAction,
     TableActionOption,
@@ -14,11 +16,22 @@ import { IndustryDetail, StudentCellInfo } from './components'
 // query
 import { LoadingAnimation } from '@components/LoadingAnimation'
 import { PageHeading } from '@components/headings'
-import { useGetIndustryWorkplaceQuery } from '@queries'
+import {
+    useGetIndustryWorkplaceQuery,
+    useWorkplaceActionsMutation,
+} from '@queries'
 import { ColumnDef } from '@tanstack/react-table'
 import { useRouter } from 'next/router'
 import { FaEye } from 'react-icons/fa'
 import { MdEmail } from 'react-icons/md'
+import {
+    WorkplaceCurrentStatus,
+    checkStudentStatus,
+    checkWorkplaceStatus,
+    getStudentWorkplaceAppliedIndustry,
+} from '@utils'
+import { UserStatus } from '@types'
+import { ProgressCell } from '@partials/admin/student/components'
 
 export const Approved = () => {
     const [page, setPage] = useState(1)
@@ -39,6 +52,8 @@ export const Approved = () => {
         },
         { refetchOnMountOrArgChange: true }
     )
+    const [workplaceActions, workplaceActionsResult] =
+        useWorkplaceActionsMutation()
 
     const tableActionOptions: TableActionOption[] = [
         {
@@ -52,6 +67,20 @@ export const Approved = () => {
             Icon: FaEye,
         },
     ]
+
+    const onApproveClicked = (industry: any) => {
+        workplaceActions({
+            id: industry.id,
+            status: UserStatus.Approved,
+        })
+    }
+
+    const onRejectClicked = (industry: any) => {
+        workplaceActions({
+            id: industry.id,
+            status: UserStatus.Rejected,
+        })
+    }
 
     const columns: ColumnDef<any>[] = [
         {
@@ -119,28 +148,72 @@ export const Approved = () => {
                 </div>
             ),
         },
-        // {
-        //     accessorKey: 'progress',
-        //     header: () => <span>Progress</span>,
-        //     cell: ({ row }) => {
-        //         const steps = checkWorkplaceStatus(row.original?.currentStatus)
-        //         const studentStatus = checkStudentStatus(
-        //             row.original?.studentStatus
-        //         )
-
-        //         return (
-        //             <ProgressCell
-        //                 step={steps > 14 ? 14 : steps < 1 ? 1 : steps}
-        //             />
-        //         )
-        //     },
-        // },
+        {
+            accessorKey: 'progress',
+            header: () => <span>Progress</span>,
+            cell: ({ row }) => {
+                const workplace = row.original
+                const studentStatus = checkStudentStatus(
+                    row.original?.student?.studentStatus
+                )
+                const appliedIndustry = getStudentWorkplaceAppliedIndustry(
+                    workplace?.industries
+                )
+                const steps = checkWorkplaceStatus(workplace?.currentStatus)
+                return workplace?.currentStatus ===
+                    WorkplaceCurrentStatus.PlacementStarted ? (
+                    <StudentStatusProgressCell
+                        studentId={row.original?.student?.id}
+                        step={
+                            workplace?.currentStatus ===
+                            WorkplaceCurrentStatus.Cancelled
+                                ? 4
+                                : studentStatus
+                        }
+                    />
+                ) : (
+                    <ProgressCell
+                        appliedIndustry={appliedIndustry}
+                        studentId={row.original?.student?.id}
+                        step={steps > 14 ? 14 : steps < 1 ? 1 : steps}
+                    />
+                )
+            },
+        },
         {
             accessorKey: 'action',
             header: () => <span>Action</span>,
             cell: (info) => {
+                const appliedIndustry = getStudentWorkplaceAppliedIndustry(
+                    info.row.original?.industries
+                )
                 return (
                     <div className="flex gap-x-1 items-center">
+                        {appliedIndustry &&
+                        !appliedIndustry?.industryResponse ? (
+                            <>
+                                <ActionButton
+                                    variant="success"
+                                    onClick={() => {
+                                        onApproveClicked(appliedIndustry)
+                                    }}
+                                    loading={workplaceActionsResult?.isLoading}
+                                    disabled={workplaceActionsResult?.isLoading}
+                                >
+                                    Accept
+                                </ActionButton>
+                                <ActionButton
+                                    variant="error"
+                                    onClick={() => {
+                                        onRejectClicked(appliedIndustry)
+                                    }}
+                                    loading={workplaceActionsResult?.isLoading}
+                                    disabled={workplaceActionsResult?.isLoading}
+                                >
+                                    Reject
+                                </ActionButton>
+                            </>
+                        ) : null}
                         <TableAction
                             options={tableActionOptions}
                             rowItem={info.row.original}
